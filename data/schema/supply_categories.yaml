@@ -1,0 +1,102 @@
+# Supply-chain category tree (DevLog-003 D52). Source: DevLog/research/2026-10-20-supply-chain-taxonomy.md section 1
+# (labels as written there, abbreviated only where the report lists vendor examples). Ids: top level A..K, children
+# <letter><n>, grandchildren <child>.<n>; the parent of a node is its id prefix. Ids are immutable once data uses them.
+version: 1
+
+categories:
+  - {id: A, label: Platform materials and substrates}
+  - {id: A1, parent: A, label: "SOI wafers (220 nm / 2 um BOX, float-zone, Photonics-SOI)"}
+  - {id: A2, parent: A, label: Thin-film ferroelectric on insulator}
+  - {id: A2.1, parent: A2, label: "LNOI (x/z-cut, MgO-doped)"}
+  - {id: A2.2, parent: A2, label: LTOI}
+  - {id: A2.3, parent: A2, label: LN-on-sapphire}
+  - {id: A2.4, parent: A2, label: BTO-on-insulator / BTO-on-SOI / BTO on SiN}
+  - {id: A3, parent: A, label: "III-V substrates and epi (InP, GaAs; MBE/MOCVD epi services)"}
+  - {id: A4, parent: A, label: "EO organics and LC (OEO chromophores, ferroelectric nematic LC)"}
+  - {id: A5, parent: A, label: "2D materials (CVD graphene, hBN)"}
+  - {id: A6, parent: A, label: "Single-crystal oxide substrates (GdScO3, LSAT, SrTiO3)"}
+  - {id: A7, parent: A, label: "Glass substrates / glass cores / glass waveguide wafers (alkali-free, ion-exchange glass)"}
+
+  - {id: B, label: PIC foundries and MPW access}
+  - {id: B1, parent: B, label: "SiPh 200/300 mm (passive + active, Ge PD, MRM/MZM)"}
+  - {id: B2, parent: B, label: "SiN (LPCVD / Damascene)"}
+  - {id: B3, parent: B, label: TFLN / TFLT foundry and PDK}
+  - {id: B4, parent: B, label: InP generic integration}
+  - {id: B5, parent: B, label: "BTO / OEO / hybrid post-processing service (foundry wafer + BEOL material)"}
+  - {id: B6, parent: B, label: MPW brokers and aggregators}
+  - {id: B7, parent: B, label: Shared cleanrooms}
+  - {id: B8, parent: B, label: "OSAT / advanced-packaging foundries (CoWoS, EMIB, fan-out)"}
+
+  - {id: C, label: Lasers and active III-V components}
+  - {id: C1, parent: C, label: "DFB/DBR/EML/EA-DFB die and arrays (incl. membrane, heterogeneous)"}
+  - {id: C2, parent: C, label: "SOA-integrated DFB, high-power CW sources for ELS"}
+  - {id: C3, parent: C, label: ELS / ELSFP modules and TOSAs}
+  - {id: C4, parent: C, label: "Comb sources (QD comb lasers, Kerr microcombs)"}
+  - {id: C5, parent: C, label: "Hybrid/heterogeneous laser integration routes (flip-chip, micro-transfer printing, monolithic nano-ridge)"}
+  - {id: C6, parent: C, label: "Narrow-linewidth and micro-integrated laser modules (ECDL-MOPA, VHBG)"}
+  - {id: C7, parent: C, label: "Commercial discrete EO modulators used as references (bulk LN)"}
+
+  - {id: D, label: "Fiber, fiber arrays, connectors, optical I/O"}
+  - {id: D1, parent: D, label: "Fiber: SMF, PMF, UHNA, HNLF, multicore, hollow-core"}
+  - {id: D2, parent: D, label: "Lensed fiber, fiber arrays, FAU, V-groove attach"}
+  - {id: D3, parent: D, label: "MT ferrules, MPO/MTP, blindmate and detachable connectors"}
+  - {id: D4, parent: D, label: "Glass waveguide fan-out, glass optical bridges, micro-optics/metalenses"}
+  - {id: D5, parent: D, label: Fusion splicers and fiber processing}
+
+  - {id: E, label: Packaging materials}
+  - {id: E1, parent: E, label: "Optical adhesives (UV, hybrid UV+thermal, index-matching)"}
+  - {id: E2, parent: E, label: Structural/lid adhesives}
+  - {id: E3, parent: E, label: "Underfill (CUF, NCF, MUF)"}
+  - {id: E4, parent: E, label: "Build-up dielectric and laminates (ABF, BCB/Cyclotene, Megtron-class)"}
+  - {id: E5, parent: E, label: "Solder, flux, sinter"}
+  - {id: E6, parent: E, label: EMC/mold}
+  - {id: E7, parent: E, label: TIM}
+  - {id: E8, parent: E, label: Glass cores and interposers}
+
+  - {id: F, label: Packaging and assembly equipment}
+  - {id: F1, parent: F, label: "Photonic active alignment / assembly cells, hexapods"}
+  - {id: F2, parent: F, label: "Die and flip-chip bonders (TCB, Au-Au thermocompression)"}
+  - {id: F3, parent: F, label: Wire bonders}
+  - {id: F4, parent: F, label: Photonic wire bonding / 2PP writers}
+  - {id: F5, parent: F, label: Micro-transfer printing}
+  - {id: F6, parent: F, label: Dispensing and UV curing}
+  - {id: F7, parent: F, label: Molding}
+  - {id: F8, parent: F, label: Wafer bonding / debonding}
+  - {id: F9, parent: F, label: Reflow and plating}
+
+  - {id: G, label: Fab tools and consumables}
+  - {id: G1, parent: G, label: EBL}
+  - {id: G2, parent: G, label: "Optical lithography (DUV stepper, maskless, contact)"}
+  - {id: G3, parent: G, label: Dry etch / ion milling}
+  - {id: G4, parent: G, label: "Deposition (PECVD/HDP, ALD, evaporation, sputter)"}
+  - {id: G5, parent: G, label: Dicing / grinding / CMP / polishing}
+  - {id: G6, parent: G, label: Resists}
+  - {id: G7, parent: G, label: "Metrology (ellipsometry, AFM, SEM/FIB/TEM, XRD, confocal, X-ray CT, SAT)"}
+
+  - {id: H, label: Characterization and test instruments}
+  - {id: H1, parent: H, label: Tunable lasers / CW sources}
+  - {id: H2, parent: H, label: OSA}
+  - {id: H3, parent: H, label: Optical power meters}
+  - {id: H4, parent: H, label: Photodetectors / O-E modules / photoreceivers}
+  - {id: H5, parent: H, label: "LCA and VNA (incl. mmWave extenders)"}
+  - {id: H6, parent: H, label: AWG / DAC / BERT}
+  - {id: H7, parent: H, label: "Oscilloscopes (real-time, sampling DCA)"}
+  - {id: H8, parent: H, label: "RF amplifiers, drivers, bias tees, MUX"}
+  - {id: H9, parent: H, label: RF probes and probe stations}
+  - {id: H10, parent: H, label: "Optical amplifiers (EDFA, PDFA, SOA)"}
+  - {id: H11, parent: H, label: "Filters, polarization control and analysis"}
+  - {id: H12, parent: H, label: SMU / DC supplies / parameter analyzers}
+  - {id: H13, parent: H, label: Positioners and stages}
+  - {id: H14, parent: H, label: Cryogenics}
+  - {id: H15, parent: H, label: Single-photon detection and time tagging}
+  - {id: H16, parent: H, label: OFDR / reflectometry}
+  - {id: H17, parent: H, label: "Laser and TEC controllers, lock-ins, signal generators"}
+
+  - {id: I, label: Reliability and qualification}
+  - {id: I1, parent: I, label: "Standards (Telcordia, MIL-STD, ESCC, JEDEC, IPC, AEC, IEC, TIA, ASTM, ISO)"}
+  - {id: I2, parent: I, label: "Test types and conditions (TC, DH, HTS/LTS, uHAST, MSL precon, shock/vibration, die shear, radiation)"}
+  - {id: I3, parent: I, label: "Test equipment (shear testers, chambers, gamma sources, X-ray/SAT)"}
+
+  - {id: J, label: "Design and simulation software (EDA/PDK flows, FDTD/FEM/RF solvers)"}
+
+  - {id: K, label: "Standards bodies / MSAs and interface specs (OIF ELSFP IA, OIF CPO FD, CMIS, IEEE 802.3, UCIe)"}

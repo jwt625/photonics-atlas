@@ -1,0 +1,87 @@
+# Schema for the component atlas tables (data/components/*.csv). Loaded together with registry.schema.yaml by
+# scripts/validate_db.py. v1 2026-10-20 (DevLog-002, decisions D30-D40). Parameter rules: component_parameters.yaml.
+#
+# Rules (binding, in addition to registry rules (a)-(h)):
+#   (c1) One component row per physical design in a source; operating points are metric conditions (D32).
+#   (c2) Every metric row has basis and locator; `eo:` locators are "p.N" pages of the EO text.md plus Fig./Table (D36).
+#   (c3) Loss positive dB; suppression quantities (crosstalk, isolation, extinction) positive dB magnitudes (D33).
+#   (c4) Values the source cites from earlier work are not entered; empty = not reported.
+#   (c5) Bounds: qualifier lt|gt|le|ge|approx; ranges value..value_max (D37).
+#   (c6) Pilot rules (DevLog-002 D41-D50): scope per_component for one instance of an on-chip component (cascade or
+#        reference structure divided out); loopback_half for half of a two-coupler measurement; basis measured for a
+#        direct test-structure measurement, derived for arithmetic on the source's own measurements, author_estimate
+#        for anything resting on an assumed or cited input or of unstated origin, specification for datasheet values;
+#        every component row has at least one performance metric; platform = stack guiding light in the component.
+version: 1
+
+patterns:
+  component_id: "^cmp_[a-z0-9]+(_[a-z0-9]+)*$"
+  metric_id: "^cmp_[a-z0-9]+(_[a-z0-9]+)*-m[0-9]+$"
+  locator: "^(p\\.~?[0-9]+|pNA|n/a)"
+
+enums:
+  row_kind: [fabricated, design]
+  platform: [lnoi_rib, lnoi_loaded_sin, lnoi_loaded_si, ltoi_rib, ltoi_loaded_sin, bto_on_si, bto_on_sin, bto_on_oxide_substrate, soi_slot, soi_rib, soi_strip, sin, inp, algaas, plasmonic_mim, suspended_lnoi, lnos_rib, lnoi_loaded_oxide, lnoi_strip, soi, si_sin_multilayer, sion, silica, ge_silica, al2o3, gaas, suspended_gaas, polymer, glass, inp_membrane, other]
+  scope: [per_component, per_coupler, per_facet, per_interface, loopback_half, fiber_to_fiber, on_chip_excess, device_total, de_embedded, unspecified]
+  basis: [measured, simulated, derived, author_estimate, design_target, extracted_from_figure, specification]
+  method: [cutback, reference_structure, loopback, loss_breakdown, ring_extraction, ofdr, wafer_prober, direct, unspecified]
+  qualifier: [lt, gt, le, ge, approx]
+  statistic: [single, best, mean, median, range, wafer_map, typical, std]
+  polarization: [te, tm, both, unpolarized, unspecified]
+  ref_plane: [chip, on_chip, fiber, module, unspecified]
+  band: [unspecified, uv, visible, nir_below_o, o_band, e_band, s_band, c_band, l_band, u_band, cl_band, nir_above_u, mid_ir, other]
+
+tables:
+  components:
+    path: data/components/components.csv
+    built: true
+    key: [component_id]
+    columns:
+      - {name: component_id, type: str, pattern: component_id, required: true}
+      - {name: source_id, type: fk, ref: sources.source_id, required: true}
+      - {name: class, type: str, required: true, desc: "class.subtype from component_parameters.yaml"}
+      - {name: label, type: str, required: true, desc: "short human label, e.g. 'TE GC, 220 nm SOI'"}
+      - {name: row_kind, type: enum, enum: row_kind, required: true}
+      - {name: host_device_ids, type: list, required: false, desc: "EO atlas device_ids (<paper_id>-<label>) the component is part of or measured for; all of them when it serves several EO rows"}
+      - {name: platform, type: enum, enum: platform, required: false}
+      - {name: core_material, type: str, required: false, desc: "free text, e.g. LiNbO3 x-cut 600 nm, Si 220 nm, Si3N4 400 nm"}
+      - {name: cladding, type: str, required: false}
+      - {name: fab_org_ids, type: list, fk: organizations.org_id, required: false, desc: "org the source states fabricated this component (foundry, company, MPW service)"}
+      - {name: facility_org_ids, type: list, fk: organizations.org_id, required: false, desc: "shared facility where the work was performed or whose use / fabrication support is acknowledged (not generic thanks)"}
+      - {name: process_name, type: str, required: false, desc: "PDK / process as stated"}
+      - {name: test_structure, type: bool, required: false, desc: "true when measured on a dedicated test structure"}
+      - {name: tags, type: list, required: false}
+      - {name: verified_on, type: pdate, required: true}
+      - {name: notes, type: str, required: false}
+
+  component_metrics:
+    path: data/components/component_metrics.csv
+    built: true
+    key: [metric_id]
+    columns:
+      - {name: metric_id, type: str, pattern: metric_id, required: true}
+      - {name: component_id, type: fk, ref: components.component_id, required: true}
+      - {name: parameter, type: str, required: true, desc: "parameter name in component_parameters.yaml"}
+      - {name: value, type: float, required: true}
+      - {name: value_max, type: float, required: false, desc: "upper end of a reported range"}
+      - {name: unit, type: str, required: true, desc: "must equal the parameter's unit"}
+      - {name: qualifier, type: enum, enum: qualifier, required: false}
+      - {name: statistic, type: enum, enum: statistic, required: false}
+      - {name: n_samples, type: int, pattern: nonneg_int, required: false}
+      - {name: wavelength_nm, type: float, required: false}
+      - {name: wavelength_max_nm, type: float, required: false, desc: "upper end when the value holds over a wavelength range"}
+      - {name: band, type: enum, enum: band, required: false, desc: "unspecified = the source states no wavelength (note required)"}
+      - {name: wavelength_inferred, type: bool, required: false, desc: "true when wavelength_nm / band is inferred (operating band of the device, plot axis) rather than stated with the value; reason in notes"}
+      - {name: polarization, type: enum, enum: polarization, required: false}
+      - {name: mode, type: str, required: false, desc: "TE0, LP11, ..."}
+      - {name: temperature_k, type: float, required: false}
+      - {name: bias_v, type: float, required: false}
+      - {name: ref_plane, type: enum, enum: ref_plane, required: false}
+      - {name: scope, type: enum, enum: scope, required: false, desc: "required for scope: required parameters"}
+      - {name: includes, type: str, required: false}
+      - {name: excludes, type: str, required: false}
+      - {name: condition, type: str, required: false, desc: "other stated conditions (fiber type, drive current, detuning, ...)"}
+      - {name: method, type: enum, enum: method, required: false}
+      - {name: basis, type: enum, enum: basis, required: true}
+      - {name: locator, type: str, pattern: locator, required: true}
+      - {name: notes, type: str, required: false}

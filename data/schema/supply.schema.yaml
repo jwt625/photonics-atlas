@@ -1,0 +1,165 @@
+# Schema for the supply-chain atlas tables (data/supply/*.csv). Loaded with registry.schema.yaml and
+# components.schema.yaml by scripts/validate_db.py. v1 2026-10-20 (DevLog-003, decisions D51-D60; reliability_tests
+# measurand / variant / qualifier / scope columns added 2026-10-20 by the D60 amendment after the fresh-context audit).
+# Category tree: data/schema/supply_categories.yaml. Table rules: src/photonics_atlas/rules_supply.py.
+#
+# Rules (binding, in addition to registry rules (a)-(h)):
+#   (s1) Facts and locators only: no verbatim text from non-open-access sources in any cell (D53).
+#   (s2) Every fact row has a basis and a locator. Locators are page form (p.N / p.~N / pNA + figure, table or section)
+#        or, for paper-level fields imported from a sibling atlas that carry no page, an atlas anchor
+#        eo-atlas:<file>.csv#<id>/<column> or pk-atlas:<file>.csv#<id> (D55).
+#   (s3) Category ids exist in supply_categories.yaml; a top-level id only when the source states no subcategory (D52).
+#   (s4) Roles allow only certain top-level categories (D54); a product's org and category bind its usage rows.
+#   (s5) Process rows are per-source observations; identity between them is never asserted without a source (D58).
+#   (s6) Standards are designation-level rows; the cited revision, method or condition stays in the citing row (D59).
+version: 1
+
+patterns:
+  supply_product_id: "^product_[a-z0-9]+(_[a-z0-9]+)*-[a-z0-9]+([._-][a-z0-9]+)*$"
+  supply_usage_id: "^use_[a-z0-9]+(_[a-z0-9]+)*$"
+  supply_spec_id: "^product_[a-z0-9_.-]+-s[0-9]+$"
+  supply_process_id: "^proc_[a-z0-9]+(_[a-z0-9]+)*$"
+  supply_standard_id: "^std_[a-z0-9]+(_[a-z0-9]+)*$"
+  supply_test_id: "^rt_[a-z0-9]+(_[a-z0-9]+)*$"
+  supply_category_id: "^[A-K]([0-9]+(\\.[0-9]+)?)?$"
+  supply_locator: "^(p\\.~?[0-9]+|pNA|(eo|pk)-atlas:[a-z_]+\\.csv#\\S+$)"
+  supply_page_locator: "^(p\\.~?[0-9]+|pNA)"
+  supply_atlas_ref: "^(eo|pk)-atlas:[a-z_]+\\.csv#\\S+$"
+
+enums:
+  supply_usage_role: [fabrication, facility_use, mpw_access, post_processing, wafer_supply, material_supply, fab_tool, test_instrument, packaging_material, assembly_tool, fiber_component, laser_source, software, standard_reference]
+  supply_basis: [stated, inferred_from_model]
+  supply_extraction: [atlas_import, manual, auto_regex, auto_sentence]
+  supply_product_status: [active, discontinued, unknown]
+  supply_spec_basis: [datasheet_spec, datasheet_typical, stated_in_paper, measured, derived]
+  supply_platform: [siph, sin, si_sin, tfln, tflt, inp, bto, oeo_hybrid, plasmonic_organic, sige_bicmos, cmos, other]
+  supply_access_route: [mpw, mpw_via_broker, dedicated_run, unspecified]
+  supply_standard_access: [free, free_registration, paywalled, unknown]
+  # test_type = the stress (or the test procedure when no stress is stated); measurand = what the row measures (D60).
+  supply_test_type: [temperature_cycling, thermal_shock, high_temp_storage, low_temp_storage, damp_heat, temp_humidity_bias, hast, uhast, msl_preconditioning, reflow, mechanical_shock, vibration, drop, die_shear, adhesion, thermal_resistance, optical_loss, leak, warpage, other]
+  supply_test_measurand: [optical_loss, electrical_resistance, die_shear, adhesion, thermal_resistance, warpage, leak]
+  supply_test_result: [pass, fail, partial, na]
+  supply_test_basis: [measured, simulated, design_target, derived, author_estimate, stated, unspecified]
+  supply_test_statistic: [single, mean, min, max, range, percentile, other]
+
+tables:
+  products:
+    path: data/supply/products.csv
+    built: true
+    key: [product_id]
+    columns:
+      - {name: product_id, type: str, pattern: supply_product_id, required: true, desc: "product_<org slug>-<model slug> (org slug = org_id without org_), immutable (D8)"}
+      - {name: org_id, type: fk, ref: organizations.org_id, required: true, desc: "vendor as of the source; renames/acquisitions are org_events"}
+      - {name: category_id, type: str, pattern: supply_category_id, required: true}
+      - {name: model, type: str, required: true, desc: "model / part number as the vendor writes it"}
+      - {name: product_line, type: str, required: false}
+      - {name: status, type: enum, enum: supply_product_status, required: true, desc: "unknown unless a vendor source states it"}
+      - {name: datasheet_source_id, type: fk, ref: sources.source_id, required: false, desc: "ds: source of the datasheet (later tranche)"}
+      - {name: verified_on, type: pdate, required: true}
+      - {name: notes, type: str, required: false}
+
+  product_usage:
+    path: data/supply/product_usage.csv
+    built: true
+    key: [usage_id]
+    columns:
+      - {name: usage_id, type: str, pattern: supply_usage_id, required: true, desc: "use_<source slug>_<org slug>_<role>[_<product slug>] (D53)"}
+      - {name: source_id, type: fk, ref: sources.source_id, required: true}
+      - {name: org_id, type: fk, ref: organizations.org_id, required: true}
+      - {name: product_id, type: fk, ref: products.product_id, required: false, desc: "empty when no model is stated"}
+      - {name: category_id, type: str, pattern: supply_category_id, required: true}
+      - {name: role, type: enum, enum: supply_usage_role, required: true}
+      - {name: stated_spec, type: str, required: false, desc: "short factual paraphrase of what the source states (<= 120 chars; no quotes for restricted sources)"}
+      - {name: locator, type: str, pattern: supply_locator, required: true}
+      - {name: extraction, type: enum, enum: supply_extraction, required: true}
+      - {name: basis, type: enum, enum: supply_basis, required: true}
+      - {name: verified_on, type: pdate, required: true, desc: "atlas_import rows: verified_on of the sibling atlas record"}
+      - {name: notes, type: str, required: false}
+
+  product_specs:
+    path: data/supply/product_specs.csv
+    built: true
+    key: [spec_id]
+    columns:
+      - {name: spec_id, type: str, pattern: supply_spec_id, required: true, desc: "<product_id>-s<N>"}
+      - {name: product_id, type: fk, ref: products.product_id, required: true}
+      - {name: parameter, type: str, required: true}
+      - {name: value, type: float, required: false}
+      - {name: value_max, type: float, required: false}
+      - {name: value_text, type: str, required: false, desc: "non-numeric spec (standard compliance, connector type)"}
+      - {name: unit, type: str, required: false}
+      - {name: qualifier, type: enum, enum: qualifier, required: false}
+      - {name: condition, type: str, required: false, desc: "wavelength, temperature, frequency, ... as stated"}
+      - {name: basis, type: enum, enum: supply_spec_basis, required: true}
+      - {name: source_id, type: fk, ref: sources.source_id, required: true}
+      - {name: locator, type: str, pattern: supply_page_locator, required: true}
+      - {name: verified_on, type: pdate, required: true}
+      - {name: notes, type: str, required: false}
+
+  foundry_processes:
+    path: data/supply/foundry_processes.csv
+    built: true
+    key: [process_id]
+    columns:
+      - {name: process_id, type: str, pattern: supply_process_id, required: true, desc: "proc_<org slug>_<source slug>; one row per (org, source) observation (D58)"}
+      - {name: org_id, type: fk, ref: organizations.org_id, required: true}
+      - {name: process_name, type: str, required: true, desc: "process / platform as the source names or describes it (short)"}
+      - {name: platform, type: enum, enum: supply_platform, required: false}
+      - {name: wafer_mm, type: int, required: false}
+      - {name: pdk_name, type: str, required: false, desc: "named PDK or platform only"}
+      - {name: pdk_open, type: bool, required: false, desc: "true when the source states the PDK is open / open-source"}
+      - {name: access_route, type: enum, enum: supply_access_route, required: false}
+      - {name: broker_org_id, type: fk, ref: organizations.org_id, required: false}
+      - {name: source_id, type: fk, ref: sources.source_id, required: true}
+      - {name: locator, type: str, pattern: supply_locator, required: true}
+      - {name: extraction, type: enum, enum: supply_extraction, required: true}
+      - {name: basis, type: enum, enum: supply_basis, required: true}
+      - {name: verified_on, type: pdate, required: true}
+      - {name: notes, type: str, required: false}
+
+  standards:
+    path: data/supply/standards.csv
+    built: true
+    key: [standard_id]
+    columns:
+      - {name: standard_id, type: str, pattern: supply_standard_id, required: true, desc: "std_<designation slug> without revision letter (D59)"}
+      - {name: designation, type: str, required: true, desc: "document number without revision, e.g. JESD22-A104"}
+      - {name: body_org_id, type: fk, ref: organizations.org_id, required: false, desc: "issuing body when it is a registry org"}
+      - {name: title, type: str, required: false, desc: "only from a source that states it"}
+      - {name: edition, type: str, required: false, desc: "empty = designation-level row covering every revision"}
+      - {name: scope, type: str, required: false, desc: "only from a source that states it"}
+      - {name: access, type: enum, enum: supply_standard_access, required: true}
+      - {name: notes, type: str, required: false}
+
+  reliability_tests:
+    path: data/supply/reliability_tests.csv
+    built: true
+    key: [test_id]
+    columns:
+      - {name: test_id, type: str, pattern: supply_test_id, required: true, desc: "rt_<source corpus>_<native metric id slug> (D60)"}
+      - {name: source_id, type: fk, ref: sources.source_id, required: true}
+      - {name: tv_ref, type: str, required: false, desc: "test vehicle id in the source atlas (PK tv_id)"}
+      - {name: parameter, type: str, required: true, desc: "as recorded by the source atlas"}
+      - {name: variant, type: str, required: false, desc: "PK variant (device / sample / lot variant) as recorded by the source atlas"}
+      - {name: test_type, type: enum, enum: supply_test_type, required: true, desc: "stress type (keyword table STRESS_TYPES in scripts/build_supply_seed.py on parameter, then condition, then printed standard; preconditioning clauses split off), else the measurement test type (D60)"}
+      - {name: measurand, type: enum, enum: supply_test_measurand, required: false, desc: "what is measured, from the parameter (keyword table MEASURANDS); empty when none or more than one match (D60)"}
+      - {name: standard_ids, type: list, fk: standards.standard_id, required: false, desc: "standards the printed string names by designation"}
+      - {name: standard_printed, type: str, required: true, desc: "test_standard string as recorded by the source atlas"}
+      - {name: condition, type: str, required: false}
+      - {name: t_min_c, type: float, required: false}
+      - {name: t_max_c, type: float, required: false}
+      - {name: temp_c, type: float, required: false, desc: "single stress temperature (storage, humidity tests)"}
+      - {name: rh_pct, type: float, required: false}
+      - {name: value, type: float, required: false, desc: "as recorded by the source atlas, sign as printed (negative IL is not flipped; component tables store loss positive, D33)"}
+      - {name: qualifier, type: enum, enum: qualifier, required: false, desc: "from the PK qualifiers token value:<q>"}
+      - {name: value_text, type: str, required: false}
+      - {name: unit, type: str, required: false}
+      - {name: statistic, type: enum, enum: supply_test_statistic, required: false}
+      - {name: n_samples, type: int, pattern: nonneg_int, required: false}
+      - {name: pass_criterion, type: str, required: false}
+      - {name: result, type: enum, enum: supply_test_result, required: false}
+      - {name: scope, type: str, required: false, desc: "PK scope (what the value covers) as recorded by the source atlas"}
+      - {name: locator, type: str, pattern: supply_page_locator, required: true}
+      - {name: atlas_ref, type: str, pattern: supply_atlas_ref, required: false, desc: "pk-atlas:metrics.csv#<metric_id> for imported rows"}
+      - {name: basis, type: enum, enum: supply_test_basis, required: true}
+      - {name: notes, type: str, required: false}

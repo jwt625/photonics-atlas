@@ -1,0 +1,90 @@
+# Schema for the people atlas tables (data/people/*.csv). Loaded together with registry.schema.yaml by
+# scripts/validate_db.py. v1 2026-10-20 (DevLog-004, decisions D61-D70); v2 2026-10-20 (audit corrections D90-D94:
+# people.visibility, lin_id source notes). Rule checks: photonics_atlas/rules_people.py.
+#
+# Rules (binding, in addition to registry rules (a)-(h)):
+#   (p1) Public professional sources only. A publication or conference affiliation is a dated active_on observation,
+#        never an employment interval (D10).
+#   (p2) person_id is immutable: LIN ids verbatim, otherwise person_<slug>. ORCID is a field and an xref, never the key.
+#   (p3) Never merge two people on romanized name alone; common family names need two discriminators (D63). Name-only
+#        candidate matches live only in the git-ignored data/_local/people/review_queue.csv; every observation of a
+#        person in that queue has visibility review (D64).
+#   (p4) Grades: paper-printed affiliation A (kind publication), OFC organizer metadata B (kind conference); public
+#        visibility needs grade A/B (D70).
+#   (p5) No e-mail addresses or other contact data in any cell. No LinkedIn-derived rows.
+#   (p6) Observations cite canonical sources only (no source with same_as): the 54 OFC 2026 papers in EO count once.
+#   (p7) No career claims in person rows: role, employer and move wording belong to the LIN claims layer (D93).
+version: 2
+
+patterns:
+  people_person_id: "^person_[a-z0-9]+(_[a-z0-9]+)*$"
+  people_orcid: "^[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{3}[0-9X]$"
+  people_obs_id: "^(eo|pk|ofc2026):[^\\s;#]+#a[0-9]+\\.[0-9]+(\\.[0-9]+)?$"
+
+enums:
+  people_research_status: [not_started, seed_unverified, in_research, validated, conflicted]
+  people_alias_type: [native_name, transliteration, alternate_spelling, common_name, former_name, printed_variant, abbreviated]
+  people_xref_scheme: [eo_person_id, lin_id, orcid, pk_name_key, ofc_name]
+  people_xref_basis: [origin, orcid, exact_name_shared_org, compatible_name_shared_org_coauthor, manual]
+  people_obs_kind: [publication, conference]
+  people_aff_role: [primary, additional, present_address]
+  people_visibility: [public, review]
+
+tables:
+  people:
+    path: data/people/people.csv
+    built: true
+    key: [person_id]
+    columns:
+      - {name: person_id, type: str, pattern: people_person_id, required: true, desc: "LIN id verbatim, else person_<slug of display name> (D65)"}
+      - {name: display_name, type: str, required: true}
+      - {name: orcid, type: str, pattern: people_orcid, required: false, desc: "from EO (Crossref author record); field, not key"}
+      - {name: disambiguator, type: str, required: false, desc: "curated non-career discriminator only (field, native-script name); no role, employer or move wording; LIN name_disambiguator is not copied (career claim, D93)"}
+      - {name: research_status, type: enum, enum: people_research_status, required: true, desc: "LIN value for LIN people; not_started otherwise; validated only for LIN people"}
+      - {name: visibility, type: enum, enum: people_visibility, required: true, desc: "derived (D94): public iff >= 1 public observation or a LIN A/B source, and not a LIN person whose sources are all below B"}
+      - {name: notes, type: str, required: false}
+
+  person_aliases:
+    path: data/people/person_aliases.csv
+    built: true
+    key: [person_id, alias]
+    columns:
+      - {name: person_id, type: fk, ref: people.person_id, required: true}
+      - {name: alias, type: str, required: true, desc: "name variant as printed or as LIN records it"}
+      - {name: alias_type, type: enum, enum: people_alias_type, required: true}
+      - {name: lang, type: str, required: false, desc: "BCP 47 tag (LIN language)"}
+      - {name: origin, type: enum, enum: origin, required: true}
+      - {name: notes, type: str, required: false}
+
+  person_xref:
+    path: data/people/person_xref.csv
+    built: true
+    key: [person_id, scheme, value]
+    columns:
+      - {name: person_id, type: fk, ref: people.person_id, required: true}
+      - {name: scheme, type: enum, enum: people_xref_scheme, required: true}
+      - {name: value, type: str, required: true, desc: "eo_person_id: EO person_id; lin_id; orcid; pk_name_key: folded name key; ofc_name: printed OFC name"}
+      - {name: basis, type: enum, enum: people_xref_basis, required: true, desc: "how the record joined the person (D63, D66); origin = seeded from this record; on scheme orcid rows basis orcid = the ORCID field as recorded (from the EO Crossref author record), not a join"}
+      - {name: grade, type: enum, enum: grade, required: true, desc: "origin: A eo/pk, B ofc, LIN best grade of the sources in notes; scheme orcid A; rule merges X; manual as reviewed"}
+      - {name: reviewed_on, type: pdate, required: false, desc: "required for basis manual"}
+      - {name: notes, type: str, required: false, desc: "lin_id rows: 'lin sources: <source_id>;...' (registry ids; the grade is checked against them)"}
+
+  affiliation_observations:
+    path: data/people/affiliation_observations.csv
+    built: true
+    key: [obs_id]
+    columns:
+      - {name: obs_id, type: str, pattern: people_obs_id, required: true, desc: "<source_id>#a<author_index>.<aff_order>[.<k> per org of a joint_printed string]"}
+      - {name: person_id, type: fk, ref: people.person_id, required: true}
+      - {name: printed_name, type: str, required: true, desc: "author name as printed in the input (D61)"}
+      - {name: org_id, type: fk, ref: organizations.org_id, required: false, desc: "registry org through the crosswalk; empty when unmapped"}
+      - {name: printed_org, type: str, required: false, desc: "the input's org string (EO/PK org_name, OFC affiliation text); empty only when the input is empty"}
+      - {name: unit, type: str, required: false}
+      - {name: country, type: str, pattern: country, required: false, desc: "as printed (EO/PK); site country, may differ from the registry org country (D29)"}
+      - {name: kind, type: enum, enum: people_obs_kind, required: true}
+      - {name: aff_role, type: enum, enum: people_aff_role, required: true}
+      - {name: active_on, type: pdate, required: true, desc: "publication / session date at its precision (D67); a point, never an interval"}
+      - {name: source_id, type: fk, ref: sources.source_id, required: true}
+      - {name: locator, type: str, required: true}
+      - {name: evidence_grade, type: enum, enum: grade, required: true}
+      - {name: visibility, type: enum, enum: people_visibility, required: true}
