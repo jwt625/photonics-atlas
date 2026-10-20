@@ -1,0 +1,46 @@
+# Audit patch ofc_04 (fresh-context audit 2026-10-20), main block plus coordinator-selected optional items (D80 / D81).
+components:
+  cmp_ofc2026_th2a37_soa_sac11b:
+    fab_org_ids: org_alphion
+    notes: Purchased device under test, vendor Alphion -> fab_org_ids org_alphion (D72 vendor of a purchased device under test; registry addition 2026-10-20). Second SOA (CIP Technologies SOA-S-OEC-1550)
+      used ahead of it in the dual-stage configuration has no stated metric. In the dual-stage case the ~7 dB PBE increase is said to match the unsaturated gain of SOA1 (p.~2 Sec. 3), inconsistent with
+      the 8 dB C1 gain (not entered). Gain vs input power curves at 200 / 300 mA in Fig. 1(d) (not read).
+    why: D72 vendor of a purchased DUT; org_alphion now in the registry
+  cmp_ofc2026_w3f5_crow_2nd_order:
+    notes: 'Narrowband drop-port filter extracting the optical carrier in a carrier-extracted self-coherent receiver; grating-coupler I/O. Racetrack coupling length Lc = 20 um (Fig. 1 caption). Closed-loop
+      JSAL wavelength tracking: single ring converges < 0.5 ms, dual ring < 2 ms (p.~2 Sec. 3; tracking_time_us not allowed for wdm); locking shown 1530-1565 nm at 5-nm steps without TEC and over 20-30
+      C for 10 h (p.~3 Sec. 3). Tracker EIC power 57 mW (electronics, not entered). Fabricating org not stated. FSR, 3-dB bandwidth, ER and Q come from one sentence citing [6] (earlier co-author journal
+      paper); entered as author_estimate because the figure is in this paper but its measurement origin is not stated.'
+    why: cited-work rule check (batch flag)
+metrics:
+  cmp_ofc2026_w3f5_crow_2nd_order-m1:
+    basis: author_estimate
+    notes: C band from the stated operating range (1530-1565 nm) (sentence carries citation [6], an earlier journal paper with a co-author of this work, J. Lightwave Technol. 2025; the paper does not say
+      the Fig. 1(b) spectrum was measured in this work).
+    why: value in a sentence carrying a citation, own measurement not stated -> author_estimate (or delete, Block B)
+  cmp_ofc2026_w3f5_crow_2nd_order-m2:
+    basis: author_estimate
+    notes: Fig. 1(b) is annotated FWHM; text says 3-dB bandwidth (sentence carries citation [6], an earlier journal paper with a co-author of this work, J. Lightwave Technol. 2025; the paper does not say
+      the Fig. 1(b) spectrum was measured in this work).
+    why: as m1
+  cmp_ofc2026_w3f5_crow_2nd_order-m3:
+    basis: author_estimate
+    notes: ER as stated, port not specified (sentence carries citation [6], an earlier journal paper with a co-author of this work, J. Lightwave Technol. 2025; the paper does not say the Fig. 1(b) spectrum
+      was measured in this work).
+    why: as m1
+  cmp_ofc2026_w3f5_crow_2nd_order-m4:
+    basis: author_estimate
+    notes: Unqualified Q 'beyond 150,000', stated as corresponding to the 1.26 GHz 3-dB bandwidth (sentence carries citation [6], an earlier journal paper with a co-author of this work, J. Lightwave Technol.
+      2025; the paper does not say the Fig. 1(b) spectrum was measured in this work); C band inferred.
+    why: inputs are author_estimate; same citation
+add_metrics:
+- metric_id: cmp_ofc2026_m1b2_qd_cpml_comb-m5
+  component_id: cmp_ofc2026_m1b2_qd_cpml_comb
+  parameter: repetition_rate_ghz
+  value: '50'
+  unit: GHz
+  condition: fundamental (cavity round-trip) repetition frequency of the 810-um cavity; the fourth-order CPML output pulse rate corresponds to the 200 GHz line spacing
+  basis: author_estimate
+  locator: p.~1 Sec. 2
+  notes: stated as corresponding to the cavity length; not a measured pulse rate
+  why: D77 miss (audit ofc_02-04 Block C)

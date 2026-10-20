@@ -1,0 +1,56 @@
+# Convention sweep D76 / D80 / D82 (subagent, 2026-10-20); applied after patch.yaml.
+components:
+  cmp_luan2026a_mmi_strip_slot:
+    platform: soi_slot
+    why: 'Rule 11: strip-to-slot converter guides light into the Si slot waveguide -> soi_slot (as the other strip-slot converters and the EO rows of the paper, soi_slot)'
+metrics:
+  cmp_boynton2020_air_tfln_interface-m1:
+    scope: per_component
+    why: 'D76: on-chip inter-layer / inter-material transitions are scope per_component (per_interface is chip-chip only); source p.11 Table 2 (simulated loss per element)'
+  cmp_boynton2020_vertical_coupler-m1:
+    scope: per_component
+    why: 'D76: on-chip inter-layer / inter-material transitions are scope per_component (per_interface is chip-chip only); source p.11 Table 2 (simulated loss per element)'
+  cmp_kohli2023_vdc_sin_bto-m1:
+    scope: per_component
+    why: 'D76: on-chip inter-layer / inter-material transitions are scope per_component (per_interface is chip-chip only); source p.4 Sec. IV.A (''0.75 dB per transition'')'
+  cmp_kohli2023_vdc_sin_bto-m2:
+    scope: per_component
+    why: 'D76: on-chip inter-layer / inter-material transitions are scope per_component (per_interface is chip-chip only); source p.4 Sec. IV.A (interlayer transition < 0.1 dB in simulation)'
+  cmp_niels2025a_coupon_transition-m1:
+    scope: per_component
+    notes: 1.8 +- 0.2 dB per facet on average over the chain configurations; abstract and conclusion repeat 1.8 dB 'Per facet' is the paper's word for one SiN to hybrid SiN-LN coupon edge (one on-chip transition),
+      so scope per_component (D76).
+    why: 'D76: on-chip inter-layer / inter-material transitions are scope per_component (per_interface is chip-chip only); source p.5 (''1.8 +- 0.2 dB per facet'' = per SiN / hybrid SiN-LN coupon edge,
+      Fig. 5(a))'
+  cmp_kim2025_racetrack_200um-m3:
+    basis: author_estimate
+    notes: 'authors convert Qi with alpha = 2 pi ng / (Qi lambda) x 10 log10(e); ng not stated; best individual result of the series; includes the bend sections of this racetrack Basis author_estimate (D76):
+      the Qi-to-loss relation uses ng, whose value is not stated.'
+    why: 'D76: Q-derived propagation loss with the group index not stated -> author_estimate; source p.5 (alpha = 2 pi ng / (Qi lambda) x 10 log10 e, ng given only as a symbol, no value in text or Table
+      S1 p.14)'
+  cmp_kim2025_ring_50um-m3:
+    basis: author_estimate
+    notes: 'given only in Table S1 (wavelength column 1520 nm); Qi-to-loss conversion as for the racetrack; includes bend loss of the 50 um ring Basis author_estimate (D76): the Qi-to-loss relation uses
+      ng, whose value is not stated.'
+    why: 'D76: Q-derived propagation loss with the group index not stated -> author_estimate; source p.5 (alpha = 2 pi ng / (Qi lambda) x 10 log10 e, ng given only as a symbol, no value in text or Table
+      S1 p.14)'
+  cmp_kim2025_wg_straight-m1:
+    basis: author_estimate
+    notes: 'paper wording ''estimate''; linear-fit extrapolation of Qi-derived loss versus straight-waveguide fraction; 7 to 35 resonances per device over 1520-1537.4 nm Basis author_estimate (D76): the
+      Qi-to-loss relation uses ng, whose value is not stated.'
+    why: 'D76: Q-derived propagation loss with the group index not stated -> author_estimate; source p.5 (alpha = 2 pi ng / (Qi lambda) x 10 log10 e, ng given only as a symbol, no value in text or Table
+      S1 p.14)'
+  cmp_kim2025_bend_50um-m1:
+    basis: author_estimate
+    notes: 'paper wording ''extracted as''; linear-fit extrapolation over the racetrack series Basis author_estimate (D76): the Qi-to-loss relation uses ng, whose value is not stated.'
+    why: 'D76: Q-derived propagation loss with the group index not stated -> author_estimate; source p.5 (alpha = 2 pi ng / (Qi lambda) x 10 log10 e, ng given only as a symbol, no value in text or Table
+      S1 p.14)'
+  cmp_kim2025_bend_200um-m1:
+    basis: author_estimate
+    notes: 'paper wording ''extracted as''; linear-fit extrapolation over the racetrack series Basis author_estimate (D76): the Qi-to-loss relation uses ng, whose value is not stated.'
+    why: 'D76: Q-derived propagation loss with the group index not stated -> author_estimate; source p.5 (alpha = 2 pi ng / (Qi lambda) x 10 log10 e, ng given only as a symbol, no value in text or Table
+      S1 p.14)'
+  cmp_kohli2023_ppc_150nm_slot-m2:
+    parameter: insertion_loss_db
+    notes: 3D FEM simulation of the converter total loss; wavelength not stated, C-band inferred Printed as 'excess loss' (p.4); entered as insertion_loss_db per D76.
+    why: 'D76: photonic-plasmonic converters use insertion_loss_db per_component (no ideal split); source p.4 Sec. IV.A (''simulated excess loss of approximately 1dB'')'

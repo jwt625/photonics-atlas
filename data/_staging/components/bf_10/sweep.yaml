@@ -1,0 +1,50 @@
+# Convention sweep D76 / D80 / D82 (subagent, 2026-10-20); applied after patch.yaml.
+metrics:
+  cmp_chen2026_ring_loss-m1:
+    basis: author_estimate
+    notes: 'Text: about 0.5 dB/cm from a Lorentz fit of the ring transmission; Fig. 2(c) caption: less than 0.5 dB/cm. Wavelength not stated; 1550 nm is the MZM operating wavelength. Basis author_estimate
+      (D76): loss computed by the authors from the fitted ring Q (''through calculation'', p.5); the Q is not stated and the stated group index 2.2 (p.5) is that of the MZM optical mode, so the conversion
+      inputs are not all stated.'
+    why: 'D76 / D44: loss computed from a ring fit is derived only when its inputs are stated; source p.4-5 (''Through calculation'', Lorentz fit): the ring Q is not printed and ng = 2.2 (p.5) is given
+      for the MZM optical mode in the velocity-matching paragraph -> author_estimate (supersedes the bf_10 audit''s derived)'
+  cmp_wang2024b_racetrack_2um_optical-m1:
+    basis: author_estimate
+    notes: 'Stated 5.6 dB/m converted to dB/cm; wavelength computed from the stated resonance at 209.358 THz. Basis author_estimate (D76): group index of the 2 um racetrack not stated (ng ~2.25 is given
+      for the MZM waveguide).'
+    why: 'D76: Q / kappa0-derived loss with the group index of the racetrack not stated -> author_estimate (as cai2025 / powell2024a: author_estimate wins over the dB/m to dB/cm conversion); source p.3
+      and Extended Data Fig. 1 (kappa0/2pi -> dB/m, no ng); the only ng (~2.25, p.5) is for the 1.2 um MZM waveguide'
+  cmp_wang2024b_racetrack_2um_optical-m2:
+    basis: author_estimate
+    notes: 'Stated 7.3 dB/m converted to dB/cm. Wavelength of the wafer map not stated. Basis author_estimate (D76): group index of the 2 um racetrack not stated (ng ~2.25 is given for the MZM waveguide).'
+    why: 'D76: Q / kappa0-derived loss with the group index of the racetrack not stated -> author_estimate (as cai2025 / powell2024a: author_estimate wins over the dB/m to dB/cm conversion); source p.3
+      and Extended Data Fig. 1 (kappa0/2pi -> dB/m, no ng); the only ng (~2.25, p.5) is for the 1.2 um MZM waveguide'
+  cmp_wang2024b_racetrack_2um_optical-m3:
+    basis: author_estimate
+    notes: 'Stated 0.4 dB/m converted to dB/cm; FEM thermal plus Kerr response fit. Not a total propagation loss. Fig. 2(d) labels the probe at 1545 nm; the pumped resonance wavelength is not stated. Basis
+      author_estimate (D76): group index of the 2 um racetrack not stated (ng ~2.25 is given for the MZM waveguide).'
+    why: 'D76: Q / kappa0-derived loss with the group index of the racetrack not stated -> author_estimate (as cai2025 / powell2024a: author_estimate wins over the dB/m to dB/cm conversion); source p.3
+      and Extended Data Fig. 1 (kappa0/2pi -> dB/m, no ng); the only ng (~2.25, p.5) is for the 1.2 um MZM waveguide'
+  cmp_wang2024b_racetrack_2um_acoustic-m1:
+    basis: author_estimate
+    notes: 'Stated 8.8 dB/m converted to dB/cm. Wavelength not stated. Basis author_estimate (D76): group index of the 2 um racetrack not stated (ng ~2.25 is given for the MZM waveguide).'
+    why: 'D76: Q / kappa0-derived loss with the group index of the racetrack not stated -> author_estimate (as cai2025 / powell2024a: author_estimate wins over the dB/m to dB/cm conversion); source p.3
+      and Extended Data Fig. 1 (kappa0/2pi -> dB/m, no ng); the only ng (~2.25, p.5) is for the 1.2 um MZM waveguide'
+  cmp_wang2024b_racetrack_2um_acoustic-m2:
+    basis: author_estimate
+    notes: 'Stated 17.1 dB/m converted to dB/cm. Number of fields in the mean not stated. Wavelength not stated. Basis author_estimate (D76): group index of the 2 um racetrack not stated (ng ~2.25 is given
+      for the MZM waveguide).'
+    why: 'D76: Q / kappa0-derived loss with the group index of the racetrack not stated -> author_estimate (as cai2025 / powell2024a: author_estimate wins over the dB/m to dB/cm conversion); source p.3
+      and Extended Data Fig. 1 (kappa0/2pi -> dB/m, no ng); the only ng (~2.25, p.5) is for the 1.2 um MZM waveguide'
+  cmp_celik2022_dc_5050-m1:
+    basis: author_estimate
+    notes: Stated as the design bandwidth ('designed to have'); not a measurement. Not stated as simulated (D82a).
+    why: 'D82a: performance value stated as the design, not stated as simulated / calculated -> author_estimate (design_target only for dimensions); source p.2 Sec. 2.1 (couplers ''designed to have'' 50
+      +/- 5 % over 765-787 nm)'
+  cmp_wang2024b_soliton_comb_81ghz-m1:
+    parameter: repetition_rate_ghz
+    notes: Repetition rate as stated (single soliton; equals the comb line spacing).
+    why: 'D82g: soliton comb repetition rate -> repetition_rate_ghz; source p.5 Fig. 4(a) caption (''pulse repetition rate, frep, of 81 GHz'')'
+  cmp_wang2024b_soliton_comb_30ghz-m1:
+    parameter: repetition_rate_ghz
+    notes: Repetition rate as stated (single soliton; equals the comb line spacing).
+    why: 'D82g: soliton comb repetition rate -> repetition_rate_ghz; source p.5 Fig. 4(b) caption (''soliton with a repetition rate of 30.1 GHz'')'

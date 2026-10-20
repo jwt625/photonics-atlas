@@ -1,0 +1,132 @@
+# D81 gap-fill (subagent, 2026-10-20); applied after patch.yaml and sweep.yaml. Coordinator dropped: cmp_ofc2026_th1d5_laser_trim_phase_shifter-m6 (D83: a 1000 h bake stability test of a permanent trim is not a retention time); cmp_ofc2026_m1g3_qd_dfb_memristor-m10 (D83: static current tuning (pm/mA) is not an FM efficiency)
+add_metrics:
+- metric_id: cmp_ofc2026_th3f6_mra_ge_apd-m5
+  component_id: cmp_ofc2026_th3f6_mra_ge_apd
+  parameter: avalanche_gain
+  value: '7.5'
+  unit: '1'
+  band: o_band
+  wavelength_inferred: 'true'
+  bias_v: '-6.1'
+  condition: near the ring resonance; gain = net photocurrent normalized to its maximum at -2.0 V (unity-gain point); APD input power estimated -20 dBm
+  method: direct
+  basis: measured
+  locator: p.~2 Sec. 2, Fig. 3(c)
+  notes: '''reached 7.5 at as low as -6.1 V''; abstract and conclusion repeat it (''up to 7.5''). O band from the on-resonance wavelength 1302.4 nm of the I-V (p.~2). Wafer-level gain shown only as a histogram
+    (Fig. 3(e)).'
+  why: 'D81 gap-fill: value listed as not entered in the batch report / component note; avalanche gain 7.5 (ofc_02)'
+- metric_id: cmp_ofc2026_th3f6_mra_ge_apd-m6
+  component_id: cmp_ofc2026_th3f6_mra_ge_apd
+  parameter: gbp_ghz
+  value: '165'
+  unit: GHz
+  bias_v: '-6.1'
+  condition: gain-bandwidth product 'extracted' for the device (Fig. 4(c)); S21 at -20 dBm input power
+  method: direct
+  basis: derived
+  locator: p.~3 Sec. 2, Fig. 4(c)
+  notes: 'Product of gain and bandwidth: equals 7.5 x 22 GHz at -6.1 V (bandwidth m2, gain m5); caption calls it the ''estimated GBP''.'
+  why: 'D81 gap-fill: value listed as not entered in the batch report / component note; GBP 165 GHz (ofc_02)'
+- metric_id: cmp_ofc2026_th3f6_mra_ge_apd-m7
+  component_id: cmp_ofc2026_th3f6_mra_ge_apd
+  parameter: gbp_ghz
+  value: '253'
+  unit: GHz
+  bias_v: '-6.5'
+  condition: gain-bandwidth product 'extracted' for the device (Fig. 4(c)); S21 at -20 dBm input power
+  method: direct
+  basis: derived
+  locator: p.~3 Sec. 2, Fig. 4(c)
+  notes: Paper's extracted GBP from gain and bandwidth (46 GHz at -6.5 V, m3); the gain at -6.5 V is not stated in the text.
+  why: 'D81 gap-fill: value listed as not entered in the batch report / component note; GBP 253 GHz (ofc_02)'
+- metric_id: cmp_ofc2026_th3f6_mra_ge_apd-m8
+  component_id: cmp_ofc2026_th3f6_mra_ge_apd
+  parameter: radius_um
+  value: '7'
+  unit: um
+  condition: microring radius (ring waveguide width 350 nm, m4)
+  basis: design_target
+  locator: p.~1 Sec. 2
+  notes: '''fabricated with a radius of 7 um'' (no SEM value).'
+  why: 'D81 gap-fill: value listed as not entered in the batch report / component note; R 7 um (radius_um now allowed for photodetector)'
+- metric_id: cmp_ofc2026_th3f6_mra_ge_apd-m9
+  component_id: cmp_ofc2026_th3f6_mra_ge_apd
+  parameter: fsr_nm
+  value: '9'
+  unit: nm
+  qualifier: approx
+  band: o_band
+  wavelength_inferred: 'true'
+  condition: resonance dips of the MRR with the Ge APD in the transmission spectrum
+  method: direct
+  basis: measured
+  locator: p.~1 Sec. 2, Fig. 1(c)
+  notes: '''free spectral range of ~9 nm''; O band from the 1302.4 nm resonance used for the I-V (p.~2).'
+  why: 'D81 gap-fill: value listed as not entered in the batch report / component note; FSR ~9 nm (fsr_nm now allowed for photodetector)'
+- metric_id: cmp_ofc2026_th1d4_fifo_4cf-m10
+  component_id: cmp_ofc2026_th1d4_fifo_4cf
+  parameter: crosstalk_db
+  value: '46.4'
+  unit: dB
+  qualifier: gt
+  wavelength_nm: '1310'
+  condition: inter-core crosstalk of the FI/FO device
+  method: direct
+  basis: measured
+  locator: p.~2 Sec. 2, Fig. 3(c)
+  notes: Printed '< -46.4 dB' (sign as printed); Sec. 1 (pNA) and Sec. 3 give it at 1310 nm.
+  why: 'D81 gap-fill: value listed as not entered in the batch report / component note; inter-core crosstalk (crosstalk_db now allowed for fiber_interface)'
+- metric_id: cmp_ofc2026_m1d2_two_section_dfb-m4
+  component_id: cmp_ofc2026_m1d2_two_section_dfb
+  parameter: fm_efficiency_ghz_per_ma
+  value: '1.45'
+  unit: GHz/mA
+  condition: section I biased 15 mA with 200 kHz triangular modulation, Ipp 2 mA; section II 200 mA; frequency excursion 2.9 GHz
+  method: direct
+  basis: derived
+  locator: p.~2 Sec. 3, Table 1
+  notes: 'Table 1 column Delta f / Ipp (2.9 GHz / 2 mA); conclusion: 20x the single-section value.'
+  why: 'D81 gap-fill: value listed as not entered in the batch report / component note; FM efficiency 1.45 GHz/mA (ofc_02)'
+- metric_id: cmp_ofc2026_m1d2_single_section_dfb_600um-m3
+  component_id: cmp_ofc2026_m1d2_single_section_dfb_600um
+  parameter: fm_efficiency_ghz_per_ma
+  value: '0.07'
+  unit: GHz/mA
+  condition: bias 150 mA with 200 kHz triangular modulation, Ipp 40 mA; frequency excursion 2.9 GHz
+  method: direct
+  basis: derived
+  locator: p.~2 Sec. 3, Table 1
+  notes: Table 1 column Delta f / Ipp (2.9 GHz / 40 mA, printed 0.07).
+  why: 'D81 gap-fill: value listed as not entered in the batch report / component note; FM efficiency 0.07 GHz/mA (ofc_02)'
+- metric_id: cmp_ofc2026_th1h1_dual_mode_dfb-m18
+  component_id: cmp_ofc2026_th1h1_dual_mode_dfb
+  parameter: period_nm
+  value: '240'
+  unit: nm
+  condition: DFB grating on the upper SCH layer, with a lambda/4 phase shift
+  basis: design_target
+  locator: p.~1 Sec. 2
+  notes: The 10 deg tilted end face gives the two modes different effective periods (p.~1 Sec. 2).
+  why: 'D81 gap-fill: value listed as not entered in the batch report / component note; grating period 240 nm (period_nm now allowed for laser)'
+- metric_id: cmp_ofc2026_th1h1_dual_mode_dfb-m19
+  component_id: cmp_ofc2026_th1h1_dual_mode_dfb
+  parameter: relaxation_oscillation_ghz
+  value: '1.85'
+  unit: GHz
+  condition: frequency of the RIN peak at 12 mA (threshold)
+  method: direct
+  basis: measured
+  locator: p.~3 Sec. 3, Fig. 4
+  notes: Temperature not restated for the RIN measurement.
+  why: 'D81 gap-fill: value listed as not entered in the batch report / component note; RO frequency 1.85 GHz (ofc_02)'
+- metric_id: cmp_ofc2026_th1h1_dual_mode_dfb-m20
+  component_id: cmp_ofc2026_th1h1_dual_mode_dfb
+  parameter: relaxation_oscillation_ghz
+  value: '12'
+  unit: GHz
+  condition: frequency of the RIN peak at 60 mA
+  method: direct
+  basis: measured
+  locator: p.~3 Sec. 3, Fig. 4
+  notes: Rises from 1.85 GHz at 12 mA; temperature not restated for the RIN measurement.
+  why: 'D81 gap-fill: value listed as not entered in the batch report / component note; RO frequency 12 GHz (ofc_02)'

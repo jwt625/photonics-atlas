@@ -1,0 +1,33 @@
+# Audit 3 (sweep + gap-fill audit, 2026-10-20); applied after patch.yaml, sweep.yaml, gapfill.yaml.
+metrics:
+  cmp_kim2025_racetrack_200um-m3:
+    notes: 'authors convert Qi with alpha = 2 pi ng / (Qi lambda) x 10 log10(e); ng not stated; best individual result of the series; includes the bend sections of this racetrack. Basis author_estimate
+      (D76): the Qi-to-loss relation uses ng, whose value is not stated.'
+    why: 'cosmetic: sweep note join lacked a sentence break (sweep bf_01 D76 op; content verified at p.5)'
+  cmp_kim2025_ring_50um-m3:
+    notes: 'given only in Table S1 (wavelength column 1520 nm); Qi-to-loss conversion as for the racetrack; includes bend loss of the 50 um ring. Basis author_estimate (D76): the Qi-to-loss relation uses
+      ng, whose value is not stated.'
+    why: 'cosmetic: sweep note join lacked a sentence break (sweep bf_01 D76 op; content verified at p.5)'
+  cmp_kim2025_wg_straight-m1:
+    notes: 'paper wording ''estimate''; linear-fit extrapolation of Qi-derived loss versus straight-waveguide fraction; 7 to 35 resonances per device over 1520-1537.4 nm. Basis author_estimate (D76): the
+      Qi-to-loss relation uses ng, whose value is not stated.'
+    why: 'cosmetic: sweep note join lacked a sentence break (sweep bf_01 D76 op; content verified at p.5)'
+  cmp_kim2025_bend_50um-m1:
+    notes: 'paper wording ''extracted as''; linear-fit extrapolation over the racetrack series. Basis author_estimate (D76): the Qi-to-loss relation uses ng, whose value is not stated.'
+    why: 'cosmetic: sweep note join lacked a sentence break (sweep bf_01 D76 op; content verified at p.5)'
+  cmp_kim2025_bend_200um-m1:
+    notes: 'paper wording ''extracted as''; linear-fit extrapolation over the racetrack series. Basis author_estimate (D76): the Qi-to-loss relation uses ng, whose value is not stated.'
+    why: 'cosmetic: sweep note join lacked a sentence break (sweep bf_01 D76 op; content verified at p.5)'
+  cmp_niels2025a_coupon_transition-m1:
+    notes: 1.8 +- 0.2 dB per facet on average over the chain configurations; abstract and conclusion repeat 1.8 dB. 'Per facet' is the paper's word for one SiN to hybrid SiN-LN coupon edge (one on-chip
+      transition), so scope per_component (D76).
+    why: 'cosmetic: sweep note join lacked a sentence break (source p.5 / p.1 verified)'
+  cmp_kohli2023_ppc_150nm_slot-m2:
+    notes: 3D FEM simulation of the converter total loss (p.3 'total loss'); wavelength not stated, C-band inferred. Printed as 'excess loss' (p.4); entered as insertion_loss_db per D76.
+    why: 'cosmetic: sweep note join; p.3 Sec. II.A prints ''total loss ... approximately 1dB in a 3D FEM simulation'', p.4 ''simulated excess loss of approximately 1dB'''
+  cmp_liu2023_mode_demux_dualcore-m1:
+    parameter: insertion_loss_db
+    notes: eigenmode-expansion simulation; span taken from the Fig. 2(a) wavelength axis (text layer), the value is not tied to one wavelength in the text. Printed as 'low excess loss of ~0.05 dB' (p.4);
+      entered as insertion_loss_db per D76 (mode (de)multiplexer, no ideal split)
+    why: 'D76 missed by the sweep: mode converters (class mode_converter, incl. mdm_mux) use insertion_loss_db per_component; source p.4 (''The mode (de)multiplexer has a low excess loss of ~0.05 dB'',
+      calculated, Fig. 2(a)); only mode_converter row still on excess_loss_db'

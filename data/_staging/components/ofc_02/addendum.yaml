@@ -1,0 +1,50 @@
+# Audit 3 (sweep + gap-fill audit, 2026-10-20); applied after patch.yaml, sweep.yaml, gapfill.yaml.
+components:
+  cmp_ofc2026_th3f6_mra_ge_apd:
+    notes: 'All fabrication on the Samsung Foundry 300-mm SiPh platform (p.~1 Sec. 2). Ring radius 7 um and ring FSR ~9 nm (p.~1) entered as radius_um / fsr_nm (m8, m9; D81 allowances). Avalanche gain 7.5
+      at -6.1 V (unity gain defined at -2.0 V, Fig. 3(c)) and GBP 165 GHz at -6.1 V / 253 GHz at -6.5 V (Fig. 4(c)) entered (m5-m7, D81). Not entered (no registry parameter): on-resonance photocurrent 30x
+      off-resonance; author crosstalk estimate ~10 dB. Dark current and gain uniformity shown only as wafer histograms (Fig. 3(d)-(e), no values in text). Ge footprint ''sub-um2''. An MMI tap before the
+      device gives a reference output.'
+    why: 'Stale note (D81 gap-fill / registry): gain, GBP, radius and FSR are now rows m5-m9 (ofc_02 gapfill)'
+  cmp_ofc2026_th1d4_fifo_4cf:
+    notes: 'Packaged by UV-glue bonding of the FA and 4CF. Written with the authors'' self-developed fs-laser direct-writing equipment (515 nm, 1 MHz, SLM beam shaping, 40x NA 0.65 objective), single scan
+      up to 30 mm/s. Authors at Shenzhen University and Shenzhen Photonics Valley Technology Co., Ltd; fabricating org not unambiguous, fab_org_ids empty. Inter-core crosstalk < -46.4 dB entered as crosstalk_db
+      (m10, D81). Not entered: packaging-added loss ~0.1 dB (equals post- minus pre-packaging mean); high-order-mode added loss 0.03 dB (0.07 %) from a 10 km vs 1 m fiber comparison (no parameter); mode
+      field said to match SMF (no MFD value). 15 devices on one bar (60 waveguides) tested.'
+    why: 'Stale note (D81 gap-fill / registry): crosstalk_db m10 (ofc_02 gapfill)'
+  cmp_ofc2026_m1d2_two_section_dfb:
+    notes: 'Two 300-um sections electrically isolated by etching the ternary contact layer; asymmetric injection (section I modulated, section II 200 mA). Material system and lasing wavelength not stated.
+      Not entered (no registry parameter): FM response at 200 kHz, Ipp 2 mA (Table 1): excursion 2.9 GHz, nonlinearity 0.65 % up-ramp / 0.28 % down-ramp (80 % ROI); FM efficiency 1.45 GHz/mA entered as
+      fm_efficiency_ghz_per_ma (m4, D81). LiDAR accuracy 0.05 m / 0.7 km/h is a system result. Fabricating org not stated (authors at 3SP Technologies, Telecom Paris, Universite Laval).'
+    why: 'Stale note (D81 gap-fill / registry): fm_efficiency_ghz_per_ma m4 (ofc_02 gapfill; Table 1)'
+  cmp_ofc2026_m1d2_single_section_dfb_600um:
+    notes: 'Comparison device. FM efficiency 0.07 GHz/mA (Table 1) entered as fm_efficiency_ghz_per_ma (m3, D81). Table 1, no registry parameters: Ipp 40 mA, excursion 2.9 GHz, nonlinearity 4.10 % up /
+      4.76 % down. Material and wavelength not stated.'
+    why: 'Stale note (D81 gap-fill / registry): fm_efficiency_ghz_per_ma m3 (ofc_02 gapfill)'
+  cmp_ofc2026_th1h1_dual_mode_dfb:
+    notes: 'Chip 400 um wide x 1200 um long; end face near the grating diced at 10 deg to open two DBR transmission windows. Pigtailed TO-can; temperature set by a home-made cooler. Grating period 240 nm
+      entered as period_nm (m18, D81). P-I slope 37 -> 34.42 (21 -> 25 C) not entered in slope_efficiency_w_per_a: unit printed ''mA/W'', so the value cannot be placed in W/A without reinterpretation. Not
+      entered (no registry parameter): power-temperature slope 7.75e-2 mW/C, resistance 27.08 ohm, two-mode peak difference 20.5 -> 9.8 dB (12 -> 108 mA); sub-THz carrier -38 dBm, CNR 37 dB (UTC-PD system
+      result). Text cites Fig. 1(b)/1(c) for spectra and wavelengths; captions show Fig. 2(b)/2(c). Relaxation oscillation 1.85 / 12 GHz at 12 / 60 mA entered (m19, m20, D81). Fabricating org not stated
+      (authors at NICT and National Taiwan University).'
+    why: 'Stale note (D81 gap-fill / registry): period_nm m18 and relaxation_oscillation_ghz m19-m20 (ofc_02 gapfill)'
+  cmp_ofc2026_tu2j4_scl_mux_mosaic:
+    notes: 'EBL and dry etching; GC I/O; TE measured with tunable lasers; straight-waveguide transmission on the same chip subtracted. Optimized at 1470/1490/1510 (S), 1530/1550/1570 (C) and 1590/1610/1630
+      (L) nm. Measured DMUX spectra limited to >1495 nm by the GCs. ''We fabricated the designed device'' (p.~2 Sec. 2), but the authors span Hosei University, Sumitomo Electric Industries and PETRA, so
+      the fabricating org is not unambiguous (fab_org_ids empty, D72). ARIM (MEXT) support acknowledged under a grant (p.~3 Acknowledgement); ARIM is in the registry (org_advanced_research_infrastructure_for_materials_and_nanotechnology_in_japan),
+      not a facility_org_id: program / grant acknowledgement (D80c, also M4D.3, tanaka2026). Class wdm.other (D81 subtype); the 3 band ports (S, C, L) are in n_channels (m5).'
+    why: 'stale note: class is wdm.other and n_channels m5 exists (ofc_02 audit / D81), the sweep rewrote this note but kept the old class text; ''We fabricated'' is printed at p.~2 Sec. 2 (org ambiguous
+      across three affiliations)'
+  cmp_ofc2026_tu2j4_scl_mux_gap_filled:
+    notes: Redesigned from the first pattern (row cmp_ofc2026_tu2j4_scl_mux_mosaic) with 1-nm-spaced band-edge wavelengths (S 1525-1529, C 1530-1534 and 1566-1570, L 1571-1575 nm), alpha 0.3. Fabricated
+      (SEM, Fig. 3); measured DMUX spectra said to agree with the calculation, no measured number stated. Class wdm.other as for the first design (D81).
+    why: 'stale note: class set to wdm.other by the ofc_02 audit patch (D81)'
+  cmp_ofc2026_w2a15_bezier_uturn_design:
+    notes: U-turn fabricated in the printed QD lasers (p.~2 Sec. 3, Fig. 3); only a simulated loss is reported (D80e, row_kind fabricated). The U-turn concept is from the authors' earlier work [7].
+    why: 'cosmetic: sweep note join (lower-case sentence start)'
+  cmp_ofc2026_w3e3_twin_rtf_laser:
+    notes: 'Athermal fixed-wavelength operation over 20-70 C chip temperature with SLC switching (~25 switchings), ACT current 50 mA. Not entered (no registry parameter): frequency error within +/-2.5 GHz
+      (Fig. 4(b), 5), MZI-switch switching time 100 ns, phase-tuning LM interval ~0.2 nm; 64-Gbaud DP-QPSK BER <1e-7 is a system result. ''We developed'' the laser (pNA Abstract; p.~3 Conclusion) and all
+      authors are at NTT Device Innovation Center, but there is no fabrication statement, so fab_org_ids is empty (D80b).'
+    why: 'note contradicts the field: fab_org_ids was emptied by the ofc_02 audit patch (D80b) but the note still says org_ntt; source has only "We developed" (pNA Abstract, p.~3 Conclusion) and passive
+      "fabricated"'

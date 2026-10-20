@@ -1,0 +1,45 @@
+# Audit bf_01-03 (DevLog/audits/2026-10-20-p1-backfill-audit-bf01-03.md) corrections for bf_01.
+components:
+  cmp_kohli2023_gc_asi_overlay:
+    facility_org_ids: ''
+    notes: 'Fiber-to-SiN couplers of the plasmonic BTO MZM; design from earlier work (ref. 43). SiN layer from a foundry-produced platform (foundry not named in the text; co-authors affiliated with LIGENTEC and Lumiphase); BTO wafer-scale integrated after planarization (by whom not stated); BTO, a-Si and Au patterned in a BEOL process. BRNC cleanroom operations team thanked for help and support (p.6): staff thanks, not a facility (D72; same wording as kohli2025).'
+    why: 'audit: operations-team thanks are never facility_org_ids (D72)'
+  cmp_kohli2023_vdc_sin_bto:
+    facility_org_ids: ''
+    notes: 'Inter-layer transition from the SiN routing waveguide into the BTO access waveguide; the SiN continues underneath the BTO (p.3). SiN layer from a foundry-produced platform (foundry not named; co-authors affiliated with LIGENTEC and Lumiphase); BTO, a-Si and Au patterned in a BEOL process. BRNC cleanroom operations team thanked (p.6): staff thanks, not a facility (D72).'
+    why: 'audit: D72'
+  cmp_kohli2023_ppc_150nm_slot:
+    facility_org_ids: ''
+    notes: 'Two converters per phase shifter (in and out); excess over simulation attributed to fabrication defects in the metallization of the coupling section (p.4). The 0.5 dB/um plasmonic propagation loss is held in the EO row. BRNC cleanroom operations team thanked (p.6): staff thanks, not a facility (D72).'
+    why: 'audit: D72'
+  cmp_kim2025_racetrack_200um: {fab_org_ids: org_university_of_illinois_urbana_champaign, why: 'D72: first author performed the fabrication (contributions p.11); all authors UIUC'}
+  cmp_kim2025_ring_50um: {fab_org_ids: org_university_of_illinois_urbana_champaign, why: D72}
+  cmp_kim2025_wg_straight: {fab_org_ids: org_university_of_illinois_urbana_champaign, why: D72}
+  cmp_kim2025_bend_50um: {fab_org_ids: org_university_of_illinois_urbana_champaign, why: D72}
+  cmp_kim2025_bend_200um: {fab_org_ids: org_university_of_illinois_urbana_champaign, why: D72}
+  cmp_liu2023_wdm_mwg_4ch: {fab_org_ids: org_zhejiang_university, why: 'D72: authors designed and fabricated the chips (contributions); all ZJU'}
+  cmp_liu2023_mode_demux_dualcore: {fab_org_ids: org_zhejiang_university, why: D72}
+  cmp_liu2023_mwg_reflector_fp: {fab_org_ids: org_zhejiang_university, why: D72}
+  cmp_luan2026a_gc_2um: {fab_org_ids: org_technical_university_of_denmark, why: 'D72: first author led fabrication; all authors DTU Electro'}
+  cmp_luan2026a_gc_1550: {fab_org_ids: org_technical_university_of_denmark, why: D72}
+  cmp_luan2026a_mmi_strip_slot: {fab_org_ids: org_technical_university_of_denmark, why: D72}
+metrics:
+  cmp_boynton2020_passive_wg_test-m2:
+    basis: author_estimate
+    notes: 'simulated counterpart of the measured 7.75 dB, source sign -5.96 dB; equals 2 x 2.34 (fiber-chip interfaces) + 1.28 dB propagation, and the propagation term is cited to ref. [21] (Table 2), so the sum rests on a cited input; wavelength not stated, C-band inferred'
+    why: 'audit: rests on a cited input (D44)'
+  cmp_boynton2020_passive_wg_test-m1:
+    notes: '''Total Measured Insertion Loss'' column, source sign -7.75 dB; its simulated counterpart (5.96 dB) is two fiber-chip interfaces plus propagation, so fiber coupling is likely included, but the paper does not define the scope; wavelength not stated, C-band inferred'
+    why: 'audit: scope evidence noted'
+  cmp_kohli2023_ppc_150nm_slot-m1: {method: loss_breakdown, parameter: insertion_loss_db, scope: per_component, why: 'audit: from the p.4 loss breakdown; D76 converter loss = insertion_loss_db per_component'}
+delete_metrics:
+  - {id: cmp_kohli2023_ppc_150nm_slot-m4, why: 'audit: 150 nm slot = EO row kohli2023-a electrode_gap_um 0.15'}
+add_components:
+  - {component_id: cmp_kawahara2025_tin_heater, source_id: 'eo:kawahara2025', class: phase_shifter.thermo_optic, label: TiN bias heater on the Si PCW MZM, row_kind: fabricated,
+     host_device_ids: kawahara2025-a;kawahara2025-b, platform: soi, core_material: 'Si photonic-crystal waveguide phase shifter (p-n doped), 300-mm SOI process',
+     fab_org_ids: org_national_institute_of_advanced_industrial_science_and_technology, verified_on: '2026-10-20',
+     notes: 'On-chip TiN heater that sets the quadrature (pi/2) bias by heating the PCW (Fig. 3(g),(h), p.4). MZM chip fabricated in the AIST 300-mm SOI process (Sec. 4.A, p.4). Heater geometry and resistance not stated.', why: 'audit miss after v3'}
+add_metrics:
+  - {metric_id: cmp_kawahara2025_tin_heater-m1, component_id: cmp_kawahara2025_tin_heater, parameter: tuning_power_mw, value: '3.3', unit: mW, qualifier: le, band: unspecified, condition: 'heater power for the pi/2 (quadrature) bias of the MZM', method: direct, basis: measured, locator: 'p.4 Sec. 4.A; Fig. 3(h)', notes: 'at most 3.3 mW; wavelength not stated', why: 'audit miss (v3)'}
+  - {metric_id: cmp_liu2023_wdm_mwg_4ch-m10, component_id: cmp_liu2023_wdm_mwg_4ch, parameter: slsr_db, value: '35', unit: dB, qualifier: gt, condition: 'Gaussian-apodized MWG (b = 10), over a wide wavelength range', basis: simulated, locator: 'p.5; Fig. 2(c)', notes: 'theoretical SLSR of the individual MWGs (3D-FDTD)', why: 'v3 back-fill'}
+  - {metric_id: cmp_liu2023_wdm_mwg_4ch-m11, component_id: cmp_liu2023_wdm_mwg_4ch, parameter: reflectivity_pct, value: '99.5', unit: '%', statistic: best, wavelength_nm: '1531', wavelength_max_nm: '1591', condition: 'TE1-TE0 reflection of the individual MWGs at their central wavelengths 1531, 1551, 1571, 1591 nm', basis: simulated, locator: 'p.5; Fig. 2(c)', notes: '''as high as'' 99.5 % in 3D-FDTD', why: 'v3 back-fill'}

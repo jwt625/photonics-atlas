@@ -1,0 +1,50 @@
+# Audit patch bf_04 (fresh-context audit 2026-10-20). Block B (D72 own-org fab) is optional: apply only with a global decision.
+# Optional blocks B (D72 own-org fab, applied per D76) and C merged by the coordinator 2026-10-20.
+components:
+  cmp_shen2026_gaas_vernier_tunable:
+    class: laser.tunable
+    why: 'D71 subtype laser.tunable (widely tunable laser, Vernier rings); paper p.2 Sec. 3: two Vernier rings, >20 nm'
+  cmp_shen2026_gaas_dfb_1064:
+    class: laser.heterogeneous
+    why: 'consistency: GaAs gain bonded on TFLN with the grating in TFLN (p.1 Sec. 2) is a heterogeneous laser on a PIC, as aihara2026 and shamsansari2021 (laser.heterogeneous)'
+  cmp_hu2026a_mmi_tree_1x8:
+    notes: 'Bezier-bend routing. Measured maximum deviation among the eight normalized output powers 9.7 % (near-field CCD integration, 1550 nm, TE input; p.9 Sec. 4.1, Fig. 5(c)): a linear % spread, no
+      matching parameter (power_uniformity_db is dB), not entered. Inter-channel IL difference 1.36 dB entered as il_nonuniformity_db (whole channel path, see metric note).'
+    why: D71 il_nonuniformity_db now allowed for splitter
+  cmp_powell2024_gc_nir:
+    fab_org_ids: org_harvard_university
+    why: 'D72: ''we design and fabricate'' (p.1); all authors Harvard SEAS (p.1)'
+  cmp_powell2024_dc_5050:
+    fab_org_ids: org_harvard_university
+    why: D72, as above
+  cmp_powell2024_ring_239um:
+    fab_org_ids: org_harvard_university
+    why: D72, 'we fabricate grating-coupled ... micro-ring resonators' (p.2)
+  cmp_renaud2023_lensed_fiber_facet:
+    fab_org_ids: org_harvard_university
+    why: 'D72: author contributions ''D.R. fabricated devices'' (p.7), D.R. Harvard SEAS'
+metrics:
+  cmp_powell2024_dc_5050-m1:
+    basis: author_estimate
+    notes: Authors infer 49.5:50.5 from the measured 29.6 dB MZM ER (p.2 Sec. III); the inference rests on an assumed model (identical couplers, balanced arm loss), hence author_estimate (D44). Port (bar
+      or cross) not stated.
+    why: 'D44: result rests on an assumed input, not arithmetic on own measurements only'
+  cmp_powell2024_ring_239um-m5:
+    basis: derived
+    notes: Half of the stated 239 um diameter (p.2 Sec. III); computed value
+    why: 'skill workflow step 5: a radius computed from a diameter is derived'
+add_metrics:
+- metric_id: cmp_hu2026a_mmi_tree_1x8-m2
+  component_id: cmp_hu2026a_mmi_tree_1x8
+  parameter: il_nonuniformity_db
+  value: '1.36'
+  unit: dB
+  statistic: range
+  n_samples: '8'
+  wavelength_nm: '1550'
+  condition: max minus min fiber-to-fiber IL of the eight channels (input SSC, 1x8 tree, one MZM path, output SSC, UHNA7 fibers); bare chip, unchanged after DFB bonding
+  method: direct
+  basis: measured
+  locator: p.11 Sec. 4.3; Table 1; Fig. 8(b)
+  notes: Inter-channel IL difference of 15.19-16.55 dB; includes MZM-path and output-coupler variation, not the splitter alone
+  why: D71 parameter now fits a value the batch could not enter

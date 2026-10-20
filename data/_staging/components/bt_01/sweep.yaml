@@ -1,0 +1,26 @@
+# Convention sweep D76 / D80 / D82 (subagent, 2026-10-20); applied after patch.yaml.
+components:
+  cmp_sabatti2024_gc_fh:
+    fab_org_ids: ''
+    notes: 'Input and FH output grating couplers of the MZM + PPLN upconversion chip (EO rows sabatti2024-fh and -sh, one physical device). Value held only in the EO notes. All authors at ETH Zurich; the
+      Methods say only that the device "is fabricated" (passive, p.4) and the acknowledgements name facilities, so fab_org_ids is empty (D80b). Facility: acknowledged support for fabrication and characterization
+      from ScopeM and from the cleanroom facilities FIRST and BRNC "of ETH Zurich and IBM Ruschlikon" (p.4); IBM Research - Zurich is named as an owner of BRNC, not as a separate facility.'
+    why: 'D80b: fab_org_ids needs an explicit statement that the authors (or a named org) fabricated the component; passive ''fabricated'' / ''developed'' / all authors at one org do not qualify; source
+      p.4 Sec. A ''The device is fabricated on ...'' (passive), p.4 acknowledgements (facility support only)'
+  cmp_sabatti2024_gc_sh:
+    fab_org_ids: ''
+    notes: SH output grating coupler after the on-chip WDM (EO row sabatti2024-sh). Value held only in the EO notes. Fab (empty, D80b) and facility as for the FH grating coupler (p.4).
+    why: 'D80b: fab_org_ids needs an explicit statement that the authors (or a named org) fabricated the component; passive ''fabricated'' / ''developed'' / all authors at one org do not qualify; source
+      p.4 Sec. A ''The device is fabricated on ...'' (passive), p.4 acknowledgements (facility support only)'
+  cmp_sabatti2024_ppln_7mm:
+    fab_org_ids: ''
+    notes: One PPLN per MZI output; poling with 520 V pulses on Cr electrodes (p.4). Film-thickness variation of about 6 nm across the PPLN (Fig. 2(b)) broadens the phase matching (no parameter). The theoretical
+      normalized efficiency 4280 %/W/cm2 is cited ([21]) and the ideal full-device 2100 %/W is computed from it, not entered. Fab (empty, D80b) and facility as for the FH grating coupler (p.4).
+    why: 'D80b: fab_org_ids needs an explicit statement that the authors (or a named org) fabricated the component; passive ''fabricated'' / ''developed'' / all authors at one org do not qualify; source
+      p.4 Sec. A ''The device is fabricated on ...'' (passive), p.4 acknowledgements (facility support only)'
+metrics:
+  cmp_gaier2025_racetrack_comb-m2:
+    basis: author_estimate
+    notes: designed FSR ('designed', p.10), not stated as simulated (D82a); the comb drive at 123.2 GHz (4 FSR) and 307.9 GHz (10 FSR) is consistent with it
+    why: 'D82a: performance value stated as the design, not stated as simulated / calculated -> author_estimate (design_target only for dimensions); source p.10 (''a designed free-spectral range of the
+      cavity of 30.79 GHz''; no simulation stated; re-check of the bt audit''s simulated)'

@@ -1,0 +1,118 @@
+# Audit patch bt_03 (fresh-context audit 2026-10-20), main block plus optional blocks [] (D80 / D82 rulings).
+components:
+  cmp_chen2023_sl_wg_ng3p54:
+    notes: Coupled Bragg-resonator SL waveguide, W 0.4 um, P 20 periods per mirror, N 5-25 resonators (cut-back by N, Fig. 6(f)). The ng legend of Fig. 6(f) is not tied to a corrugation depth in the text;
+      the value matches the W 0.4 um bar for delta 0.20 um in Fig. 6(e) (curator matching). The ng 4.00 design (0.0133 dB/um) is held by EO row chen2023-a (133 dB/cm) and is not entered. Group index 3.54
+      from the FP-cavity test structures entered (D75). Fabricated by three co-authors at Zhejiang University (author contributions, p.9); x-cut LNOI wafer from NanoLN (supplier, a note). Separate passive
+      test structures, not the SL-MZM itself.
+    why: D75 group_index now available
+  cmp_chen2023_sl_wg_ng4p42:
+    notes: Coupled Bragg-resonator SL waveguide, W 0.4 um, P 20 periods per mirror, N 5-25 resonators (cut-back by N, Fig. 6(f)). The ng legend of Fig. 6(f) is not tied to a corrugation depth in the text;
+      the value matches the W 0.4 um bar for delta 0.28 um in Fig. 6(e) (curator matching). The ng 4.00 design (0.0133 dB/um) is held by EO row chen2023-a (133 dB/cm) and is not entered. Group index 4.42
+      from the FP-cavity test structures entered (D75). Fabricated by three co-authors at Zhejiang University (author contributions, p.9); x-cut LNOI wafer from NanoLN (supplier, a note). Separate passive
+      test structures, not the SL-MZM itself.
+    why: D75 group_index now available
+  cmp_chen2023_sl_wg_ng4p96:
+    notes: Coupled Bragg-resonator SL waveguide, W 0.4 um, P 20 periods per mirror, N 5-25 resonators (cut-back by N, Fig. 6(f)). The ng legend of Fig. 6(f) is not tied to a corrugation depth in the text;
+      the value matches the W 0.4 um bar for delta 0.32 um in Fig. 6(e) (curator matching). The ng 4.00 design (0.0133 dB/um) is held by EO row chen2023-a (133 dB/cm) and is not entered. Group index 4.96
+      from the FP-cavity test structures entered (D75). Fabricated by three co-authors at Zhejiang University (author contributions, p.9); x-cut LNOI wafer from NanoLN (supplier, a note). Separate passive
+      test structures, not the SL-MZM itself.
+    why: D75 group_index now available
+  cmp_chen2023_sl_wg_ng7p5:
+    notes: Highest-ng SL waveguide (ng about 7.5 from the FP-cavity FSR; 7.50 on p.2). W 0.2 um and delta 0.32 um from the tallest bar of Fig. 6(e); P 20, N 5 per the Fig. 6 caption. Group index and 3-dB
+      passband about 8 nm entered (D75). IL / BW3dB / ng bars for the other 11 W-delta combinations of Fig. 6(c)-(e) not read off. Fabricated by three co-authors at Zhejiang University (author contributions,
+      p.9); x-cut LNOI wafer from NanoLN (supplier, a note). Separate passive test structures, not the SL-MZM itself.
+    why: D75 group_index and bw_3db_nm for waveguide_platform now available
+  cmp_hou2024_ring_r40um:
+    notes: The two identical-design rings of EO row hou2024-a, entered as one design with the two individual values as ranges (n = 2). The p.8 'respectively' lists Q (20k, 25k) and power coupling (7.1,
+      4.5 %) without naming the rings; the EO row assigns them to ring 1, ring 2 in that order, which is consistent with ring 1 (ER 13 dB) being the broader single resonance (pair linewidth / 1.28) - curator
+      check, not stated. Ring-pair values (32 dB ER, 22 GHz linewidth) belong to the EO device and are not entered here. Fabrication org not stated (authors 'fabricated', affiliations not in the cached
+      text); LNOI from NanoLN.
+    why: D75 power_coupling_pct now entered; ring-order note updated after the consistency check
+add_metrics:
+- metric_id: cmp_chen2023_sl_wg_ng3p54-m2
+  component_id: cmp_chen2023_sl_wg_ng3p54
+  parameter: group_index
+  value: '3.54'
+  unit: '1'
+  band: cl_band
+  wavelength_inferred: 'true'
+  polarization: te
+  condition: FP-cavity test structure (SL waveguide between 20 extra Bragg gratings per side)
+  method: direct
+  basis: derived
+  locator: p.5 Sec. 3; p.6; p.7 Fig. 6(e),(f)
+  notes: ng = lambda^2 / (2 F L) from the measured FP-dip spacing (authors' formula, p.5); wavelength not stated, W 0.4 um passbands at about 1553-1582 nm (Fig. 6(a)).
+  why: D75 group_index (batch noted no parameter)
+- metric_id: cmp_chen2023_sl_wg_ng4p42-m2
+  component_id: cmp_chen2023_sl_wg_ng4p42
+  parameter: group_index
+  value: '4.42'
+  unit: '1'
+  band: cl_band
+  wavelength_inferred: 'true'
+  polarization: te
+  condition: FP-cavity test structure (SL waveguide between 20 extra Bragg gratings per side)
+  method: direct
+  basis: derived
+  locator: p.5 Sec. 3; p.6; p.7 Fig. 6(e),(f)
+  notes: ng = lambda^2 / (2 F L) from the measured FP-dip spacing (authors' formula, p.5); wavelength not stated, W 0.4 um passbands at about 1553-1582 nm (Fig. 6(a)).
+  why: D75 group_index (batch noted no parameter)
+- metric_id: cmp_chen2023_sl_wg_ng4p96-m2
+  component_id: cmp_chen2023_sl_wg_ng4p96
+  parameter: group_index
+  value: '4.96'
+  unit: '1'
+  band: cl_band
+  wavelength_inferred: 'true'
+  polarization: te
+  condition: FP-cavity test structure (SL waveguide between 20 extra Bragg gratings per side)
+  method: direct
+  basis: derived
+  locator: p.5 Sec. 3; p.6; p.7 Fig. 6(e),(f)
+  notes: ng = lambda^2 / (2 F L) from the measured FP-dip spacing (authors' formula, p.5); wavelength not stated, W 0.4 um passbands at about 1553-1582 nm (Fig. 6(a)).
+  why: D75 group_index (batch noted no parameter)
+- metric_id: cmp_chen2023_sl_wg_ng7p5-m2
+  component_id: cmp_chen2023_sl_wg_ng7p5
+  parameter: group_index
+  value: '7.5'
+  unit: '1'
+  qualifier: approx
+  band: c_band
+  wavelength_inferred: 'true'
+  polarization: te
+  condition: FP-cavity test structure; maximal ng of the fabricated SL waveguides
+  method: direct
+  basis: derived
+  locator: p.5 Sec. 3; p.2 Sec. 1; p.7 Fig. 6(e)
+  notes: Derived from the FP-cavity FSR (ng = lambda^2 / (2 F L), p.5); about 7.5 on p.5, 7.50 on p.2. Wavelength not stated; c_band inferred from the 1550 nm design centre (p.4).
+  why: D75 group_index (batch noted no parameter)
+- metric_id: cmp_chen2023_sl_wg_ng7p5-m3
+  component_id: cmp_chen2023_sl_wg_ng7p5
+  parameter: bw_3db_nm
+  value: '8'
+  unit: nm
+  qualifier: approx
+  band: c_band
+  wavelength_inferred: 'true'
+  polarization: te
+  condition: optical passband width BW3dB as defined in Sec. 2 (transmission within 3 dB of its peak inside the passband)
+  method: direct
+  basis: measured
+  locator: p.5 Sec. 3; p.1 abstract; p.7 Fig. 6(d)
+  notes: About 8 nm for the highest-ng SL waveguide; wavelength not stated, c_band inferred from the 1550 nm design centre (p.4).
+  why: D75 bw_3db_nm allowed for waveguide_platform (batch noted registry gap)
+- metric_id: cmp_hou2024_ring_r40um-m5
+  component_id: cmp_hou2024_ring_r40um
+  parameter: power_coupling_pct
+  value: '4.5'
+  value_max: '7.1'
+  unit: '%'
+  statistic: range
+  n_samples: '2'
+  condition: ring-to-bus power coupling of the two rings
+  method: ring_extraction
+  basis: derived
+  locator: p.8
+  notes: '"calculated as 7.1% and 4.5%" for the two rings (p.8); calculation model not stated; ring assignment as in the component note.'
+  why: D75 power_coupling_pct (batch noted it as a gap)

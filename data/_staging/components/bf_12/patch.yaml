@@ -1,0 +1,146 @@
+# Audit patch bf_12 (fresh-context audit 2026-10-20), main block only (optional Block B not applied).
+components:
+  cmp_kieninger2020_strip_slot_converter:
+    platform: soi_slot
+    why: 'cross-batch consistency: Si strip-to-slot converters are soi_slot in schwarzenberger2026, schwarzenberger2026a, wolf2018a, singer2025 (slot side guides the converted mode)'
+  cmp_kieninger2020_mmi:
+    label: Si 2x2 MMI splitter/combiner of the SOH MZMs, IME 200 mm SOI
+    notes: MMIs that split and combine the light of the MZM arms (p.2); 2x2 MMI (the cached text p.2 prints the multiplication sign as a Symbol-font private-use byte between the two 2s). Per-coupler attenuation
+      from 4, 8 and 12 concatenated MMIs accessed via GCs on each die (p.9). Fabricated at A*STAR IME (p.2).
+    why: 'port count verified: byte sequence between ''2'' and ''2'' on p.2 is the Symbol-font multiplication sign'
+  cmp_khalil2026_racetrack:
+    fab_org_ids: org_imec
+    notes: 'Optical cavity of the acousto-optic racetrack modulator of EO row khalil2026-a (critically coupled, p.6-7). The EO row holds FSR 0.781 nm and the 4.68 dB/cm modal loss (not re-entered); Qi and
+      linewidth are held there only in notes. Fab: A.U. fabricated the samples, H.C. assisted the fabrication and S.S.S. developed the wafer-bonding process in the fab (contributions, p.15); imec is the
+      affiliation common to all three (D72 as extended by D76); the Xplore cleanroom team is thanked for assistance (staff thanks, not entered).'
+    why: 'D72/D76: all fabricating contributors share imec (A.U. imec + Ghent, H.C. imec + KU Leuven, S.S.S. imec); contributions are on p.15, not p.10'
+metrics:
+  cmp_weigel2018_si_ln_adiabatic_transition-m1:
+    scope: per_component
+    why: 'D76: on-chip inter-layer transitions are per_component'
+  cmp_zhang2026b_microring-m3:
+    basis: author_estimate
+    notes: 'extracted from the ring Q (formula not stated); said to match the cutback loss (data not shown); O band inferred as for the Q rows; basis author_estimate (D76): Q-derived loss with the group
+      index not stated'
+    why: 'D76: Q-derived loss -> author_estimate when an input (ng) is not stated'
+  cmp_datta2024_bare_sin_ring-m2:
+    basis: author_estimate
+    notes: '+-0.38 dB/cm, corresponding to Q0 (conversion not stated); wavelength not stated; basis author_estimate (D76): Q-derived loss, group index not stated'
+    why: 'D76: Q-derived loss -> author_estimate when an input (ng) is not stated'
+  cmp_kieninger2020_gc-m5:
+    basis: measured
+    why: 'D76: per-element value from the source''s own linear cascade fit is a standard fit -> measured (as singer2025 / schwarzenberger2026 cascade rows)'
+  cmp_kieninger2020_gc-m6:
+    basis: measured
+    why: 'D76: per-element value from the source''s own linear cascade fit is a standard fit -> measured (as singer2025 / schwarzenberger2026 cascade rows)'
+  cmp_kieninger2020_gc-m7:
+    basis: measured
+    why: 'D76: per-element value from the source''s own linear cascade fit is a standard fit -> measured (as singer2025 / schwarzenberger2026 cascade rows)'
+  cmp_kieninger2020_gc-m8:
+    basis: measured
+    why: 'D76: per-element value from the source''s own linear cascade fit is a standard fit -> measured (as singer2025 / schwarzenberger2026 cascade rows)'
+  cmp_kieninger2020_mmi-m1:
+    basis: measured
+    why: 'D76: slope of the source''s own 4/8/12-MMI cascade fit -> measured (as singer2025 / schwarzenberger2026)'
+  cmp_kieninger2020_mmi-m2:
+    basis: measured
+    why: 'D76: slope of the source''s own 4/8/12-MMI cascade fit -> measured (as singer2025 / schwarzenberger2026)'
+  cmp_kieninger2020_mmi-m3:
+    basis: measured
+    why: 'D76: slope of the source''s own 4/8/12-MMI cascade fit -> measured (as singer2025 / schwarzenberger2026)'
+  cmp_kieninger2020_mmi-m4:
+    basis: measured
+    why: 'D76: slope of the source''s own 4/8/12-MMI cascade fit -> measured (as singer2025 / schwarzenberger2026)'
+  cmp_kieninger2020_strip_slot_converter-m1:
+    basis: measured
+    why: 'D76: slope of the source''s own converter-cascade fit -> measured'
+  cmp_chen2022_gc-m1:
+    includes: one GC
+    notes: The paper measured the GC on a reference structure of two GCs and a short straight waveguide but prints only the 8.2 dB device total and the deduced about 0.2 dB on-chip loss (p.7); (8.2 - 0.2)
+      / 2 = 4.0 dB per GC; peak-coupling wavelength not stated
+    why: includes text described the reference structure as the measured quantity; the arithmetic is on the device total
+add_components:
+- component_id: cmp_weigel2018_directional_coupler
+  source_id: eo:weigel2018
+  class: splitter.directional_coupler
+  label: Broadband single-mode Si directional coupler (MZM splitter / combiner), C-band
+  row_kind: fabricated
+  host_device_ids: weigel2018-a
+  platform: soi
+  core_material: Si 150 nm (thinned from 220 nm SOI); coupler geometry not stated
+  cladding: SiO2
+  fab_org_ids: ''
+  facility_org_ids: org_san_diego_nanotechnology_infrastructure
+  process_name: ''
+  test_structure: ''
+  tags: ''
+  verified_on: '2026-10-20'
+  notes: Splitter and combiner of the MZM in the SiP region outside the bonded LN (p.4); split ratio said to be accurate and repeatable from foundry processing (no number). Part of the 4.7 dB unexplained
+    MZM loss is 'likely' attributed to these couplers and tapers (p.6), no per-coupler value. Foundry not named in the text (ref. [4]); facility as for the other weigel2018 rows (p.16).
+- component_id: cmp_zhang2026b_mmi
+  source_id: eo:zhang2026b
+  class: splitter.mmi
+  label: TFLN MMI splitter / combiner of the MZMs, O-band, 8-inch wafer
+  row_kind: fabricated
+  host_device_ids: zhang2026b-a;zhang2026b-b;zhang2026b-c
+  platform: lnoi_rib
+  core_material: x-cut LiNbO3 350 nm, 200 nm rib, 150 nm slab (process geometry); MMI dimensions not stated
+  cladding: SiO2 1 um
+  fab_org_ids: ''
+  facility_org_ids: ''
+  process_name: ''
+  test_structure: ''
+  tags: ''
+  verified_on: '2026-10-20'
+  notes: MMI splitters of the MZMs (SEM Fig. 1(b)); the > 25 dB extinction of a typical unbalanced MZI is stated to show the designed MMIs are well fabricated (p.2). The EO rows hold no extinction ratio.
+    Fab org left empty (NSTIC / A*STAR IME dual affiliation), as for the other zhang2026b rows.
+add_metrics:
+- metric_id: cmp_weigel2018_directional_coupler-m1
+  component_id: cmp_weigel2018_directional_coupler
+  parameter: extinction_db
+  value: '15'
+  unit: dB
+  qualifier: gt
+  statistic: ''
+  wavelength_nm: '1525'
+  wavelength_max_nm: '1575'
+  band: ''
+  wavelength_inferred: ''
+  condition: extinction ratio enabled by the couplers throughout 1525-1575 nm (interferometer type not stated)
+  method: unspecified
+  basis: author_estimate
+  locator: p.4
+  notes: '''>15 dB'' over 1525-1575 nm as stated; how obtained not stated (origin not stated)'
+  why: 'miss: D74 extinction_db for splitter (weigel2018 is the D74 trigger paper; batch report lists it as not entered)'
+- metric_id: cmp_weigel2018_directional_coupler-m2
+  component_id: cmp_weigel2018_directional_coupler
+  parameter: extinction_db
+  value: '30'
+  unit: dB
+  qualifier: approx
+  statistic: best
+  wavelength_nm: ''
+  wavelength_max_nm: ''
+  band: c_band
+  wavelength_inferred: 'true'
+  condition: maximum extinction ratio enabled by the couplers (interferometer type not stated)
+  method: unspecified
+  basis: author_estimate
+  locator: p.4
+  notes: '''maximum ER of approximately 30 dB''; wavelength of the maximum not stated; origin not stated; band inferred from the 1525-1575 nm range stated in the same sentence'
+  why: 'miss: D74 extinction_db for splitter (weigel2018 is the D74 trigger paper; batch report lists it as not entered)'
+- metric_id: cmp_zhang2026b_mmi-m1
+  component_id: cmp_zhang2026b_mmi
+  parameter: extinction_db
+  value: '25'
+  unit: dB
+  qualifier: gt
+  wavelength_nm: '1295'
+  wavelength_max_nm: '1315'
+  wavelength_inferred: 'true'
+  condition: static extinction of a typical unbalanced MZI (MZI modulator, Fig. 2(c)) built from the MMIs
+  method: direct
+  basis: measured
+  locator: p.2 Sec. 3; Fig. 2(c)
+  notes: wavelength range read from the Fig. 2(c) axis (1295-1315 nm), not stated with the value
+  why: 'miss: D74 extinction_db for splitter (zhang2026b is a D74 trigger paper)'

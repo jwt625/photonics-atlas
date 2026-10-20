@@ -1,0 +1,7 @@
+# Audit 3 (sweep + gap-fill audit, 2026-10-20); applied after patch.yaml, sweep.yaml, gapfill.yaml.
+components:
+  cmp_oe2026_dfb_ld:
+    notes: Integrated DFB section of the EML of EO row oe2026-a (laser + two series EAMs). All authors at Sumitomo Electric Device Innovations; the paper shows 'the fabricated' EML (p.2, passive) without
+      saying who fabricated it, so fab_org_ids is empty (D80b). Laser data measured through the EA sections at 0 V EA bias, 55 C carrier, 100 mA (p.2). Laser forward voltage 1.4 V at 100 mA (0.1 V above
+      the authors single-ended EML) entered as forward_voltage_v (m5, D81). Output reference plane not stated (lensed fiber used in the PAM4 test).
+    why: 'Stale note (D81 gap-fill / registry): forward_voltage_v (D81) now holds the 1.4 V value (bt_04 gapfill m5; source p.2, Fig. 3(a))'

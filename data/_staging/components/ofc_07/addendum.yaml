@@ -1,0 +1,21 @@
+# Audit 3 (sweep + gap-fill audit, 2026-10-20); applied after patch.yaml, sweep.yaml, gapfill.yaml.
+components:
+  cmp_ofc2026_m4d5_membrane_dml_140um:
+    notes: Devices fabricated on separate wafers and micro-transfer-printed into a recess following the authors' previous process (p.~1 Sec. 2); all authors NTT, Inc. -> org_ntt (D72). Lasing wavelength
+      not stated. Relaxation oscillation ~12 GHz at 7.0 mA entered as relaxation_oscillation_ghz (m6, D81). InP-SiN taper coupling only simulated (<0.5 dB excess up to 0.5 um misalignment, 1.6-um SiN; Fig.
+      2(b)); not entered.
+    why: 'Stale note (D81 gap-fill / registry): relaxation_oscillation_ghz m6 (ofc_07 gapfill)'
+  cmp_ofc2026_w1b5_be_vcsel_940nm_metalens:
+    notes: 'All authors list Berxel Photonics (some with university co-affiliations) but the paper does not state who fabricated the device; fab_org_ids empty. Flip-chip bonded on a carrier for probe testing.
+      Metalens coupling tolerances (-3 dB: > +/-22 um lateral, 425 um longitudinal, OM2 MMF at 200 um) have no registry parameter; far-field 1/e2 cone 6-7 deg entered as beam_divergence_deg (m8, D81); no
+      metalens row. 940-nm vs 850-nm Tj (~40 K lower) not entered.'
+    why: 'Stale note (D81 gap-fill / registry): beam_divergence_deg m8 (ofc_07 gapfill)'
+  cmp_ofc2026_th4a3_oxide_vcsel_850nm_200g:
+    notes: Epitaxy grown in 'our MOCVD reactor' and processed in 'our process fab' (pNA Sec. 2); all authors Sony Semiconductor Solutions -> fab (D72). Lifetime > 10 years at 70 C / 8 mA (acceleration model,
+      N=29) has no registry parameter; forward voltage 2.6 / 2.5 V at 8 mA (25 / 70 C) entered as forward_voltage_v (m7, m8, D81). Abstract / conclusion '> 35 GHz from 25 to 80 C' summarizes the per-temperature
+      rows.
+    why: 'Stale note (D81 gap-fill / registry): forward_voltage_v m7-m8 (ofc_07 gapfill)'
+metrics:
+  cmp_ofc2026_th3f4_ge_pd_daie_3x4p5um-m15:
+    bias_v: '-2.5'
+    why: 'gap-fill imprecise: Fig. 2(c) caption (p.~2) gives the DAIE / traditional PD photocurrent-vs-power curves ''at the bias voltage of -2.5 V'' (same as the conventional-PD companion m9)'

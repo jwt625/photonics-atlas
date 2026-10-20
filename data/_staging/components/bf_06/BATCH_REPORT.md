@@ -1,0 +1,14 @@
+# Batch report bf_06 (2026-10-20)
+
+Transcribed by the coordinator. Dry-run 0 errors: 14 components, 22 metrics. Rows for 5 of 10 papers.
+
+- valdez2022 (3/11): 2x2 MMI (soi; 0.2 dB per_component measured on adjacent test MMIs; 1-dB BW > 50 nm; imbalance < 0.3 dB; design L/W); edge coupler 5.2 dB per_facet author_estimate (remainder of a breakdown with cited 0.8 / 0.6 dB/cm [57, 58] and assumed 0.1 dB per LN edge, although the paper says "measured"); LN-edge transition (~0.074 dB simulated at 1550 nm inferred, 0.1 dB assumed author_estimate, width 650 nm). Not entered: cited losses, 0.4 dB phase-shifter section (EO), damage above 150 mW (notes), simulated TPA penalties, adiabatic taper geometry. No fab stated; NanoLN wafer note.
+- lin2026a (4/6): TFLT waveguide 2 dB/cm at 780 nm by spiral cutback (7.2 dB/cm at 375 nm is in the EO row); facet taper 7.5 dB per_facet simulated (375 nm inferred), facet width 2.7 um; 1x2 MMI 3.25 dB measured (MMI-tree fit) and 3.11 dB simulated, entered as insertion_loss_db "includes intrinsic 3 dB split" (coordinator: conflicts with D43, to patch to excess loss); unpatterned 600 nm TFLT film 1.32 dB/cm at 443 nm (prism coupling; platform other, no host). Not entered: other Fig. 3(b) wavelengths (plot only), 0.14 dB phase-modulator loss (EO), 0.2 nm RMS roughness (no parameter).
+- li2026b (1/1): GC (imec ISIPP50G, fab org_imec per acknowledgment) 4.5 dB per_coupler author_estimate (link-budget term of unstated origin), 1563 nm inferred.
+- gupta2023 (3/3, fab Fraunhofer HHI): SSC 4 dB at 1550 nm TE scope unspecified ("with reference to fiber-fiber transmission"); butt joint passive-to-modulator MQW 1.5 dB; butt joint gain-to-modulator MQW ~0.2 dB; all author_estimate, C-band inferred. Not entered: DFB 10 dBm and PR PER > 16 dB (foundry catalog statements cited [4, 5]), kappa (no parameter), lumped passives ~1.5 dB, modulator MQW 4 dB (EO), PD ER limit.
+- wang2025 (2/2): TFLT GC 6 dB per_coupler; GC of the TFLN comparison modulator 7 dB per grating (no EO row); band unspecified, author_estimate. Not entered: GC power handling at 35 dBm input (not a GC result), MMI (design only).
+- wang2022a (1/1): PRC (polarization.psr, lnoi_rib) PER > 33 dB at 1550 nm on the packaged chip; facility org_center_of_micro_fabrication_and_characterization. SSC has no separate value (12 dB fiber-to-fiber in the EO row).
+- No rows: shawon2024 (assumed link parameters; heater time constant ~15 us vague), anjali2025 (Y-splitter 2.6 dB cited [29]), taki2024 (6.1 dB/cm in EO row; GCs no value), ogiso2020 (passive loss covered by EO; SSC cited; driver IC electronics).
+
+Judgment calls: row_kind fabricated for fabricated parts with only simulated values; wavelength_inferred when a platform band is used.
+Gaps: facility org CNCD (WNLO, HUST; wang2022a p.4) missing from the registry; thermal_time_constant_us (phase_shifter); kappa_per_cm (laser gratings, low priority).

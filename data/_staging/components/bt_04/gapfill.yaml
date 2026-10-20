@@ -1,0 +1,14 @@
+# D81 gap-fill (subagent, 2026-10-20); applied after patch.yaml and sweep.yaml. Coordinator dropped: cmp_ofc2026_th1d5_laser_trim_phase_shifter-m6 (D83: a 1000 h bake stability test of a permanent trim is not a retention time); cmp_ofc2026_m1g3_qd_dfb_memristor-m10 (D83: static current tuning (pm/mA) is not an FM efficiency)
+add_metrics:
+- metric_id: cmp_oe2026_dfb_ld-m5
+  component_id: cmp_oe2026_dfb_ld
+  parameter: forward_voltage_v
+  value: '1.4'
+  unit: V
+  temperature_k: '328.15'
+  condition: 100 mA laser current; 0 V EA bias; 55 C carrier
+  method: direct
+  basis: measured
+  locator: p.2 Sec. 3; Fig. 3(a)
+  notes: '''laser forward voltage at 100 mA is 1.4 V'', 0.1 V above the authors'' single-ended EML.'
+  why: 'D81 gap-fill: value listed as not entered in the batch report / component note; forward voltage 1.4 V (bt_04 report gap)'

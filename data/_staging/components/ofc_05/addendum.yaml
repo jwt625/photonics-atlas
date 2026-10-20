@@ -1,0 +1,13 @@
+# Audit 3 (sweep + gap-fill audit, 2026-10-20); applied after patch.yaml, sweep.yaml, gapfill.yaml.
+components:
+  cmp_ofc2026_th1f5_sin_coupled_ring_kerr_comb:
+    notes: Pumped by a CW laser at 1553.8 nm, 375 mW, through a lensed fiber; line powers calibrated to the bus waveguide. Pump-to-comb conversion efficiency 63.6 / 48.1 / 33.6 % for 300 / 200 / 100 GHz
+      (Table 1) entered as pump_to_comb_efficiency_pct (m14-m16, D81); main / auxiliary FSR 100 / 101.42 GHz entered as fsr_ghz (m17, m18, D81). AMC period 53 nm (spectral, not a grating period), GVD 46.2
+      ps2/km, bus-main gap 500 nm and main-auxiliary gap 450 nm not entered (no parameter; gap_nm not allowed for laser). Comb noise comparable to the pump (qualitative). 300-GHz lines ~3.7 / 8.6 dB above
+      the 200 / 100 GHz lines (Fig. 2(a)). Fabricating org not stated (Columbia University authors).
+    why: 'Stale note (D81 gap-fill / registry): pump_to_comb_efficiency_pct m14-m16 and fsr_ghz m17-m18 (ofc_05 gapfill)'
+  cmp_ofc2026_th3f8_ge_pd_61port_fan:
+    notes: 'Fabricated by AMF on an MPW (stated). Test structures: 3 ports through GCs (Fig. 3(a)); 31 ports through a 1x32 MMI splitter tree (Fig. 3(b)). Ge area 256 um2 (design). Maximum photocurrent
+      20.1 mA with the 31-port structure entered as saturation_photocurrent_ma (m6, D81). Previous 16-port PD values (0.82 A/W, 43 nA, 11.8 GHz) are prior work [7]. 100-port projection and area-scaled dark
+      currents are estimates (not entered).'
+    why: 'Stale note (D81 gap-fill / registry): saturation_photocurrent_ma m6 (ofc_05 gapfill)'

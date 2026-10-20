@@ -1,0 +1,12 @@
+# Convention sweep D76 / D80 / D82 (subagent, 2026-10-20); applied after patch.yaml.
+components:
+  cmp_tanaka2026_tops:
+    notes: 'Heaters along the Si waveguides set the phase in the IQ modulator (p.2). The paper does not say which device the Fig. 4 sweep was taken on, so host_device_ids is empty (candidate EO rows tanaka2026-a,
+      tanaka2026-b; row -a holds the value in notes). ER above 30 dB of the same sweep is an interferometer property (attributed to even 1x2 MMI splitting) and is not entered. Fabricating organization not
+      stated. ARIM (MEXT) program support acknowledged with a proposal number (p.3): a program / grant acknowledgement, not a facility_org_id (D80c); ARIM is in the registry as org_advanced_research_infrastructure_for_materials_and_nanotechnology_in_japan.'
+    why: 'D80c: ARIM is acknowledged as program support with a proposal number (p.3) -> not a facility_org_id; note corrected (ARIM is in the registry)'
+  cmp_ummethala2021_gc:
+    notes: Input and output GCs of the 1 mm CC-SOH MZM ummethala2021-a; authors fabricated the chip themselves (five-step e-beam process, Suppl. Sec. 1, p.9). Karlsruhe Nano Micro Facility (KNMF) is listed
+      among the funders in the funding statement (p.6); in the registry (org_karlsruhe_nano_micro_facility) but a funding-list acknowledgement is not a facility_org_id (D80c), so facility_org_ids is empty.
+      The 3 dB lumped loss of other passive Si structures (waveguides and MMIs) is not a single component and is not entered; strip-to-slot converter and MMI losses on p.5 are cited values.
+    why: 'D80c: KNMF is listed among the funders in the funding statement (p.6) -> program-level acknowledgement, not a facility_org_id; note corrected (KNMF is in the registry)'

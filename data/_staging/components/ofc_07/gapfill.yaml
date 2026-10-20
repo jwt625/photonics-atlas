@@ -1,0 +1,77 @@
+# D81 gap-fill (subagent, 2026-10-20); applied after patch.yaml and sweep.yaml. Coordinator dropped: cmp_ofc2026_th1d5_laser_trim_phase_shifter-m6 (D83: a 1000 h bake stability test of a permanent trim is not a retention time); cmp_ofc2026_m1g3_qd_dfb_memristor-m10 (D83: static current tuning (pm/mA) is not an FM efficiency)
+add_metrics:
+- metric_id: cmp_ofc2026_th4a3_oxide_vcsel_850nm_200g-m7
+  component_id: cmp_ofc2026_th4a3_oxide_vcsel_850nm_200g
+  parameter: forward_voltage_v
+  value: '2.6'
+  unit: V
+  temperature_k: '298.15'
+  condition: 8 mA; representative device
+  method: direct
+  basis: measured
+  locator: pNA Sec. 3, Fig. 1(a)
+  notes: '''the voltage at 8 mA was 2.6 V at 25 C'' (L-I-V).'
+  why: 'D81 gap-fill: value listed as not entered in the batch report / component note; forward voltage 2.6 V (ofc_07)'
+- metric_id: cmp_ofc2026_th4a3_oxide_vcsel_850nm_200g-m8
+  component_id: cmp_ofc2026_th4a3_oxide_vcsel_850nm_200g
+  parameter: forward_voltage_v
+  value: '2.5'
+  unit: V
+  temperature_k: '343.15'
+  condition: 8 mA; representative device
+  method: direct
+  basis: measured
+  locator: pNA Sec. 3, Fig. 1(a)
+  notes: '''2.5 V at 70 C'' (L-I-V).'
+  why: 'D81 gap-fill: value listed as not entered in the batch report / component note; forward voltage 2.5 V (ofc_07)'
+- metric_id: cmp_ofc2026_w1b5_be_vcsel_940nm_metalens-m8
+  component_id: cmp_ofc2026_w1b5_be_vcsel_940nm_metalens
+  parameter: beam_divergence_deg
+  value: '6'
+  value_max: '7'
+  unit: deg
+  qualifier: approx
+  condition: far-field emission cone at the 1/e2 level through the integrated HCG metalens; full or half angle not stated
+  method: direct
+  basis: measured
+  locator: p.~1 Sec. 2
+  notes: '''1/e2 of 6~7 deg'' from the far-field pattern; bias not stated.'
+  why: 'D81 gap-fill: value listed as not entered in the batch report / component note; far-field cone 6-7 deg (beam_divergence_deg)'
+- metric_id: cmp_ofc2026_th3f4_ge_pd_daie_3x4p5um-m15
+  component_id: cmp_ofc2026_th3f4_ge_pd_daie_3x4p5um
+  parameter: saturation_photocurrent_ma
+  value: '40'
+  unit: mA
+  qualifier: gt
+  wavelength_nm: '1550'
+  condition: DC saturation photocurrent; no saturation up to 40 mW on-chip input (GC loss excluded); input power limited by the EDFA and chip coupling loss
+  method: direct
+  basis: measured
+  locator: p.~1 Sec. 3, Fig. 2(b)-(c); pNA Sec. 1
+  notes: '''more than 40 mA''; conclusion repeats ''over 40 mA''. Lower bound set by the available input power.'
+  why: 'D81 gap-fill: value listed as not entered in the batch report / component note; saturation photocurrent > 40 mA (ofc_07)'
+- metric_id: cmp_ofc2026_th3f4_ge_pd_conventional_4p5x13p5um-m9
+  component_id: cmp_ofc2026_th3f4_ge_pd_conventional_4p5x13p5um
+  parameter: saturation_photocurrent_ma
+  value: '19'
+  unit: mA
+  wavelength_nm: '1550'
+  bias_v: '-2.5'
+  condition: maximum photocurrent at 40 mW input (GC loss excluded); photocurrent increases negligibly above 20 mW input
+  method: direct
+  basis: measured
+  locator: p.~1 Sec. 3, Fig. 2(c)
+  notes: '''maximum photocurrent of 19 mA'' of the conventional reference PD.'
+  why: 'D81 gap-fill: value listed as not entered in the batch report / component note; conventional PD max photocurrent 19 mA (ofc_07)'
+- metric_id: cmp_ofc2026_m4d5_membrane_dml_140um-m6
+  component_id: cmp_ofc2026_m4d5_membrane_dml_140um
+  parameter: relaxation_oscillation_ghz
+  value: '12'
+  unit: GHz
+  qualifier: approx
+  condition: DML bias 7.0 mA; from the E-O-E small-signal response of the DML + 82-mm SiN + membrane PD link; PD bias 3.0 V
+  method: direct
+  basis: measured
+  locator: p.~2 Sec. 3, Fig. 3(b)
+  notes: '''relaxation oscillation frequency of about 12 GHz''; temperature not stated for this measurement.'
+  why: 'D81 gap-fill: value listed as not entered in the batch report / component note; RO ~12 GHz (component note, ofc_07)'

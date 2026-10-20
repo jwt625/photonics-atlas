@@ -1,0 +1,33 @@
+# Convention sweep D76 / D80 / D82 (subagent, 2026-10-20); applied after patch.yaml.
+components:
+  cmp_wu2025_sin_edge_coupler:
+    platform: sin
+    why: 'D82f: edge coupler platform = layer at the fiber-facing facet (SiN inverse taper) -> sin; stack in core_material'
+  cmp_didier2026_wg_lnos_1p5um:
+    facility_org_ids: org_binnig_and_rohrer_nanotechnology_center;org_first_center_for_micro_and_nanoscience;org_scientific_center_for_optical_and_electron_microscopy
+    notes: 'Cutback with mid-IR grating couplers (GC details in Appendix C, not cached). Values at 4.0, 4.3 and 4.5 um are held by EO rows didier2026-a, -e, -f (not re-entered). Geometry held by the EO
+      rows. Fab orgs: cleanrooms acknowledged for fabrication support. Facility: ScopeM, BRNC and FIRST acknowledged for fabrication and characterization support (acknowledgements); IBM Ruschlikon named
+      there as the BRNC owner, not entered (D82c). Fab org not stated.'
+    why: 'D82c: IBM Ruschlikon is the owner of BRNC named in the facility statement, not a facility; ScopeM is named in the same statement and is in the registry; source p.9 acknowledgements (support for
+      fabrication and characterization from ScopeM, the BRNC and FIRST cleanroom facilities at ETH Zurich, and IBM Ruschlikon)'
+  cmp_didier2026_tops:
+    facility_org_ids: org_binnig_and_rohrer_nanotechnology_center;org_first_center_for_micro_and_nanoscience;org_scientific_center_for_optical_and_electron_microscopy
+    notes: 'Host MZM not identified. Heater-waveguide electrode gap 4 um (no phase-shifter gap parameter). Length conflicts: caption 1.34 mm vs Fig. 3(a) legend L = 0.22 cm, so not entered. Facility: ScopeM,
+      BRNC and FIRST acknowledged for fabrication and characterization support (acknowledgements); IBM Ruschlikon named there as the BRNC owner, not entered (D82c). Fab org not stated.'
+    why: 'D82c: IBM Ruschlikon is the owner of BRNC named in the facility statement, not a facility; ScopeM is named in the same statement and is in the registry; source p.9 acknowledgements (support for
+      fabrication and characterization from ScopeM, the BRNC and FIRST cleanroom facilities at ETH Zurich, and IBM Ruschlikon)'
+metrics:
+  cmp_wu2025_vac_si_tfln-m1:
+    scope: per_component
+    why: 'D76: on-chip inter-layer / inter-material transitions are scope per_component (per_interface is chip-chip only); source p.5 (VAC efficiency > 97 %, per coupler)'
+  cmp_wu2025_vac_si_tfln-m2:
+    scope: per_component
+    why: 'D76: on-chip inter-layer / inter-material transitions are scope per_component (per_interface is chip-chip only); source p.5 (''~0.11 dB per coupler'')'
+  cmp_wu2025_vac_si_sin-m1:
+    scope: per_component
+    why: 'D76: on-chip inter-layer / inter-material transitions are scope per_component (per_interface is chip-chip only); source p.5-6 (''0.06 dB per VAC coupler'')'
+  cmp_li2025b_gc_focusing-m1:
+    basis: derived
+    notes: Half of the two-GC test-structure loss, extracted by the authors assuming negligible waveguide loss (App. C, p.10); derived (D80a).
+    why: 'D80a: extraction from the two-GC / Y-splitter test structures under a stated assumption (waveguide loss negligible) is derived; source p.10 App. C (''Using these measurements (and the assumption
+      ...) we can extract the grating coupler insertion loss as ~7.0 dB'')'

@@ -1,0 +1,104 @@
+# Audit patch bf_08 (fresh-context audit 2026-10-20), main block plus coordinator-selected optional items (see DevLog/audits).
+components:
+  cmp_taghavi2024_strip_to_fls_converter:
+    row_kind: fabricated
+    notes: Converter at each end of the fabricated 500 um FLS phase shifters of the MZM taghavi2024-a/-b (one physical device); only a simulated efficiency is given (row kept fabricated as for other on-chip
+      parts with simulated-only values, e.g. cai2025 taper, weigel2018, boynton2020). Fabrication site not stated (authors EBL process; SiEPICfab is acknowledged as a funder only).
+    why: 'row_kind convention: component exists on the fabricated chip (18 of 25 merged simulated-only rows are fabricated)'
+metrics:
+  cmp_shen2024_ring_air_clad-m2:
+    basis: author_estimate
+    notes: Propagation loss labelled with the Q in Supp. Fig. S11 (authors conversion from the resonance; Q type, group index and extraction model not stated, D76); wavelength read from the panel axis (+/-0.1
+      nm); labels checked on page_22.png
+    why: 'D76: Q-derived loss with unstated inputs (ng, loaded vs intrinsic) -> author_estimate'
+  cmp_shen2024_ring_air_clad-m4:
+    basis: author_estimate
+    notes: Propagation loss labelled with the Q in Supp. Fig. S11 (authors conversion from the resonance; Q type, group index and extraction model not stated, D76); wavelength read from the panel axis (+/-0.1
+      nm); labels checked on page_22.png
+    why: 'D76: Q-derived loss with unstated inputs (ng, loaded vs intrinsic) -> author_estimate'
+  cmp_shen2024_ring_air_clad-m6:
+    basis: author_estimate
+    notes: Propagation loss labelled with the Q in Supp. Fig. S11 (authors conversion from the resonance; Q type, group index and extraction model not stated, D76); wavelength read from the panel axis (+/-0.1
+      nm); labels checked on page_22.png
+    why: 'D76: Q-derived loss with unstated inputs (ng, loaded vs intrinsic) -> author_estimate'
+  cmp_shen2024_ring_air_clad-m8:
+    basis: author_estimate
+    notes: Propagation loss labelled with the Q in Supp. Fig. S11 (authors conversion from the resonance; Q type, group index and extraction model not stated, D76); wavelength read from the panel axis (+/-0.1
+      nm); labels checked on page_22.png
+    why: 'D76: Q-derived loss with unstated inputs (ng, loaded vs intrinsic) -> author_estimate'
+  cmp_shen2024_ring_air_clad-m10:
+    basis: author_estimate
+    notes: Propagation loss labelled with the Q in Supp. Fig. S11 (authors conversion from the resonance; Q type, group index and extraction model not stated, D76); wavelength read from the panel axis (+/-0.1
+      nm); labels checked on page_22.png
+    why: 'D76: Q-derived loss with unstated inputs (ng, loaded vs intrinsic) -> author_estimate'
+  cmp_shen2024_ring_air_clad-m12:
+    basis: author_estimate
+    notes: Propagation loss labelled with the Q in Supp. Fig. S11 (authors conversion from the resonance; Q type, group index and extraction model not stated, D76); wavelength read from the panel axis (+/-0.1
+      nm); labels checked on page_22.png
+    why: 'D76: Q-derived loss with unstated inputs (ng, loaded vs intrinsic) -> author_estimate'
+  cmp_shen2024_ring_hsq_clad-m2:
+    basis: author_estimate
+    notes: Propagation loss labelled with the Q in Supp. Fig. S11 (authors conversion from the resonance; Q type, group index and extraction model not stated, D76); wavelength read from the panel axis (+/-0.1
+      nm); labels checked on page_22.png
+    why: 'D76: Q-derived loss with unstated inputs (ng, loaded vs intrinsic) -> author_estimate'
+  cmp_shen2024_ring_hsq_clad-m4:
+    basis: author_estimate
+    notes: Propagation loss labelled with the Q in Supp. Fig. S11 (authors conversion from the resonance; Q type, group index and extraction model not stated, D76); wavelength read from the panel axis (+/-0.1
+      nm); labels checked on page_22.png
+    why: 'D76: Q-derived loss with unstated inputs (ng, loaded vs intrinsic) -> author_estimate'
+  cmp_shen2024_ring_hsq_clad-m6:
+    basis: author_estimate
+    notes: Propagation loss labelled with the Q in Supp. Fig. S11 (authors conversion from the resonance; Q type, group index and extraction model not stated, D76); wavelength read from the panel axis (+/-0.1
+      nm); labels checked on page_22.png
+    why: 'D76: Q-derived loss with unstated inputs (ng, loaded vs intrinsic) -> author_estimate'
+  cmp_shen2024_ring_hsq_clad-m8:
+    basis: author_estimate
+    notes: Propagation loss labelled with the Q in Supp. Fig. S11 (authors conversion from the resonance; Q type, group index and extraction model not stated, D76); wavelength read from the panel axis (+/-0.1
+      nm); labels checked on page_22.png
+    why: 'D76: Q-derived loss with unstated inputs (ng, loaded vs intrinsic) -> author_estimate'
+  cmp_shen2024_ring_hsq_clad-m10:
+    basis: author_estimate
+    notes: Propagation loss labelled with the Q in Supp. Fig. S11 (authors conversion from the resonance; Q type, group index and extraction model not stated, D76); wavelength read from the panel axis (+/-0.1
+      nm); labels checked on page_22.png
+    why: 'D76: Q-derived loss with unstated inputs (ng, loaded vs intrinsic) -> author_estimate'
+  cmp_shen2024_ring_hsq_clad-m12:
+    basis: author_estimate
+    notes: Propagation loss labelled with the Q in Supp. Fig. S11 (authors conversion from the resonance; Q type, group index and extraction model not stated, D76); wavelength read from the panel axis (+/-0.1
+      nm); labels checked on page_22.png
+    why: 'D76: Q-derived loss with unstated inputs (ng, loaded vs intrinsic) -> author_estimate'
+  cmp_shen2024_gc_packaged-m1:
+    scope: per_coupler
+    notes: Stated directly as 6 dB/facet for the glued fibre-GC interfaces after cooldown (p.21 Supp. Sec. VII), consistent with half of the 12 dB coupling term of the 20 dB budget (p.6); how it was obtained
+      is not stated (origin not stated). Wavelength not stated.
+    why: 'value is stated per GC by the source, not halved by the batch: per_coupler (GC convention, as schwarzenberger2026a / xu2020)'
+  cmp_ulrich2025_pmma_sto_wg_w1700-m1:
+    locator: p.27-28 Supp. 7; p.28 Supp. Fig. 15(e)
+    why: section is Supplementary 7 (Optical loss measurement), not 6
+  cmp_ulrich2025_pmma_sto_wg_w1700-m2:
+    locator: p.27 Supp. 7
+    why: section label
+  cmp_ulrich2025_pmma_sto_wg_w1100-m1:
+    locator: p.27-28 Supp. 7; p.28 Supp. Fig. 15(e)
+    why: section is Supplementary 7 (Optical loss measurement), not 6
+  cmp_ulrich2025_pmma_sto_wg_w1100-m2:
+    locator: p.27 Supp. 7
+    why: section label
+add_metrics:
+- metric_id: cmp_theurer2026_dfb_soa-m5
+  component_id: cmp_theurer2026_dfb_soa
+  parameter: pitch_um
+  value: '375'
+  unit: um
+  basis: design_target
+  locator: p.1 Sec. 2
+  notes: EML array element pitch
+  why: D71 pitch_um for laser; audit Block B2
+- metric_id: cmp_theurer2026_dfb_soa-m6
+  component_id: cmp_theurer2026_dfb_soa
+  parameter: n_channels
+  value: '4'
+  unit: count
+  basis: design_target
+  locator: p.1 Sec. 2
+  notes: four EMLs in the array
+  why: D71 n_channels for laser; audit Block B2

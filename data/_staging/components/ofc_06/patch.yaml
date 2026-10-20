@@ -1,0 +1,41 @@
+# Audit patch ofc_06 (fresh-context audit 2026-10-20), main block only (optional Block B not applied: Table / Results values kept measured).
+components:
+  cmp_ofc2026_w4b1_faml_tower_sin:
+    fab_org_ids: org_tower_semiconductor
+    facility_org_ids: org_ubc_sbqmi_advanced_nanofabrication_facility
+    notes: 'PIC (SiN edge coupler and loopback) ''fabricated by Tower Semiconductor'' (pNA Sec. 2 intro) and supplied by Tower (acknowledgments) -> fab_org_ids org_tower_semiconductor. Lenses printed on
+      the fiber array and chip (passive voice, printing org not stated; all authors Dream Photonics, some also UBC): not entered as fab. UBC SBQMI Advanced Nanofabrication Facility acknowledged ''for supporting
+      this work'' (acknowledgments) -> facility_org_ids (facility-level support acknowledgement, not staff thanks; borderline). Reflow test 260 C, 30 s. Adaptive FaMLs on an ANT SiN chip (IL reduction 3.5
+      / 6.3 dB vs regular at 10 / 15 um offset, p.~2 Sec. 2) not entered: no absolute value and no parameter.'
+    why: registry now has org_tower_semiconductor and org_ubc_sbqmi_advanced_nanofabrication_facility; rule 12 / D42 (fabricated by X -> fab; facility support acknowledged -> facility)
+metrics:
+  cmp_ofc2026_w1b4_pd_array-m1:
+    basis: author_estimate
+    notes: '''3-dB bandwidth of the PD array is >26.5 GHz'' (p.~2 Sec. 2); no measurement described (measurement or part specification not stated): origin not stated (D76).'
+    why: 'D76: performance value of unstated origin -> author_estimate'
+  cmp_ofc2026_m4b2_vgc-m1:
+    basis: author_estimate
+    notes: O-band DWDM link (Sec. 1); no wavelength stated with the value; per-coupler scope implied, not stated. Stated as a platform property (p.~1 Sec. 2); how obtained not stated (D76).
+    why: 'D76: platform value of unstated origin -> author_estimate'
+  cmp_ofc2026_m4b2_vgc-m2:
+    basis: author_estimate
+    notes: '''~1.5x the signal spectrum''. O-band link (Sec. 1). How obtained not stated (D76).'
+    why: 'D76: platform value of unstated origin -> author_estimate'
+  cmp_ofc2026_m4b2_rx_mrr_filter-m1:
+    basis: author_estimate
+    why: 'D76: ''resulted in ... MRR Q of 4200'' (p.~1 Sec. 2), how obtained not stated -> author_estimate'
+  cmp_ofc2026_th2a20_pump_combiner-m1:
+    basis: author_estimate
+    notes: '''typical IL of ~0.2 dB'' on the signal path (p.~2 Sec. 3); not in Tab. 2 and no measurement stated (contrast the isolator, ''Measurements show''): origin not stated (D76). Signal wavelength
+      not stated (C+L amplifier).'
+    why: 'D76: performance value of unstated origin -> author_estimate'
+  cmp_ofc2026_th2a20_pump_combiner-m2:
+    basis: author_estimate
+    notes: Tab. 2 value; how obtained not stated (D76). Wavelength = 976-nm pump of the combiner (Sec. 3), not stated with the value.
+    why: 'D76: performance value of unstated origin -> author_estimate'
+  cmp_ofc2026_m1d4_sin_interlayer_taper-m1:
+    scope: per_component
+    why: 'D76: on-chip transitions scope per_component (''interlayer coupling loss'', one transition)'
+  cmp_ofc2026_m1d4_sin_interlayer_taper-m2:
+    scope: unspecified
+    why: D76 asks for a scope on transitions; 'total taper loss' per transition or pair not stated -> unspecified (note already says so)

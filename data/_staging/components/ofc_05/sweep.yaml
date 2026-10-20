@@ -1,0 +1,10 @@
+# Convention sweep D76 / D80 / D82 (subagent, 2026-10-20); applied after patch.yaml.
+components:
+  cmp_ofc2026_tu3j7_dd_ea_dfb_dfb:
+    fab_org_ids: ''
+    notes: Four devices with different lasing wavelengths entered as one design row (wavelengths as metric conditions). All authors Lumentum Japan; the paper says the device composition is the same as the
+      authors' conventional SE EA-DFB and that it was 'manufactured on SI-InP' (passive), without saying who fabricated it, so fab_org_ids is empty (D80b). EA-modulator data (3-dB EO bandwidth 74 GHz, 6-dB
+      90 GHz at 55 C and 100 mA; outer ER, TDECQ) belong to the EO atlas / link level, not entered. HTOL 2000 h at 100 C with power deviation < 2 % (no registry parameter). Longest wavelength 1323 nm is
+      1.5 nm short of the CWDM4 L3 lane.
+    why: 'D80b: fab_org_ids needs an explicit statement that the authors (or a named org) fabricated the component; passive ''fabricated'' / ''developed'' / all authors at one org do not qualify; source
+      p.~1 Sec. 2 (composition ''the same as our conventional'' SE EA-DFB = design statement; ''manufactured on SI-InP'' passive)'

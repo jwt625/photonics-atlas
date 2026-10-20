@@ -1,0 +1,15 @@
+# Convention sweep D76 / D80 / D82 (subagent, 2026-10-20); applied after patch.yaml.
+components:
+  cmp_li2026aa_ssc:
+    platform: sion
+    why: 'D82f: SSC platform = layer at the fiber-facing facet; source p.2 (SiON ridge waveguide interfaces the UHNA4 fiber at the chip edge) -> sion, full stack kept in core_material'
+metrics:
+  cmp_valdez2023_ln_edge_transition-m1:
+    scope: per_component
+    why: 'D76: on-chip inter-layer / inter-material transitions are scope per_component (per_interface is chip-chip only); source p.7 Sec. 3.2 (''0.1 dB of loss per LN edge'')'
+  cmp_kohli2025_vdc_sin_bto_cband-m1:
+    scope: per_component
+    why: 'D76: on-chip inter-layer / inter-material transitions are scope per_component (per_interface is chip-chip only); source p.3 (''0.14 dB/transition'' from cutback)'
+  cmp_li2022b_gc_532-m7:
+    basis: specification
+    why: 'Skill rule 4 / D82a: MFD of the fiber the coupler is designed for is a datasheet value -> specification; source p.2 (''the mode field diameter of the SM450 fiber for 532 nm'')'

@@ -1,0 +1,17 @@
+# D81 gap-fill (subagent, 2026-10-20); applied after patch.yaml and sweep.yaml. Coordinator dropped: cmp_ofc2026_th1d5_laser_trim_phase_shifter-m6 (D83: a 1000 h bake stability test of a permanent trim is not a retention time); cmp_ofc2026_m1g3_qd_dfb_memristor-m10 (D83: static current tuning (pm/mA) is not an FM efficiency)
+add_metrics:
+- metric_id: cmp_bankwitz2026_pdk_dc_2x2-m5
+  component_id: cmp_bankwitz2026_pdk_dc_2x2
+  parameter: split_ratio_pct
+  value: '4'
+  unit: '%'
+  statistic: std
+  n_samples: '3'
+  band: c_band
+  wavelength_inferred: 'true'
+  condition: majority-port split ratio over S1-S3 (nominal 50:50 design), companion of the 75 % mean (m4)
+  method: direct
+  basis: derived
+  locator: p.8 text below Fig. 3
+  notes: '''a standard deviation of 4 %'' stated with the mean 75/25 %; band inferred as for m4.'
+  why: 'D81 gap-fill: value listed as not entered in the batch report / component note; std 4 % (statistic std now exists)'

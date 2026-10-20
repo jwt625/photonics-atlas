@@ -1,0 +1,91 @@
+# D81 gap-fill (subagent, 2026-10-20); applied after patch.yaml and sweep.yaml. Coordinator dropped: cmp_ofc2026_th1d5_laser_trim_phase_shifter-m6 (D83: a 1000 h bake stability test of a permanent trim is not a retention time); cmp_ofc2026_m1g3_qd_dfb_memristor-m10 (D83: static current tuning (pm/mA) is not an FM efficiency)
+add_metrics:
+- metric_id: cmp_ofc2026_w3e4_mdm_mux_4ch-m5
+  component_id: cmp_ofc2026_w3e4_mdm_mux_4ch
+  parameter: insertion_loss_db
+  value: '0.15'
+  unit: dB
+  qualifier: lt
+  statistic: std
+  n_samples: '9'
+  wavelength_nm: '1550'
+  scope: unspecified
+  condition: standard deviation of the 1550 nm insertion loss over 9 chips across the 300-mm wafer, each of the four mode channels
+  method: direct
+  basis: measured
+  locator: p.~2 Sec. 3, Fig. 2(f)
+  notes: '''standard deviation of less than 0.15 dB for all four channels''; abstract / conclusion ''sigma < 0.15 dB''. Test configuration and de-embedding not stated (as m1).'
+  why: 'D81 gap-fill: value listed as not entered in the batch report / component note; IL std < 0.15 dB (statistic std now exists)'
+- metric_id: cmp_ofc2026_th3f2_apd_l10_oband-m12
+  component_id: cmp_ofc2026_th3f2_apd_l10_oband
+  parameter: breakdown_voltage_v
+  value: '-9.5'
+  unit: V
+  qualifier: approx
+  condition: DC I-V at 1310 nm
+  method: direct
+  basis: measured
+  locator: pNA Sec. 2, Fig. 2
+  notes: '''breakdown voltage V_br of around -9.5 V'', one statement for both APDs; breakdown criterion not stated.'
+  why: 'D81 gap-fill: value listed as not entered in the batch report / component note; breakdown ~-9.5 V (ofc_03)'
+- metric_id: cmp_ofc2026_th3f2_apd_l30_cband-m12
+  component_id: cmp_ofc2026_th3f2_apd_l30_cband
+  parameter: breakdown_voltage_v
+  value: '-9.5'
+  unit: V
+  qualifier: approx
+  condition: DC I-V at 1550 nm
+  method: direct
+  basis: measured
+  locator: pNA Sec. 2, Fig. 2
+  notes: '''breakdown voltage V_br of around -9.5 V'', one statement for both APDs; breakdown criterion not stated.'
+  why: 'D81 gap-fill: value listed as not entered in the batch report / component note; breakdown ~-9.5 V (ofc_03)'
+- metric_id: cmp_ofc2026_th1d5_laser_trim_phase_shifter-m3
+  component_id: cmp_ofc2026_th1d5_laser_trim_phase_shifter
+  parameter: phase_shift_pi
+  value: '1.24'
+  value_max: '3.50'
+  unit: pi
+  statistic: range
+  band: c_band
+  wavelength_inferred: 'true'
+  condition: permanent phase shift on single Si3N4 rings, set by the length of the laser-induced modification overlapping the ring
+  method: direct
+  basis: derived
+  locator: p.~3 Sec. 2
+  notes: Printed 3.9 to 11 rad, divided by pi. C band inferred (C-band test laser, filters targeted at 1550 nm).
+  why: 'D81 gap-fill: value listed as not entered in the batch report / component note; phase range 3.9-11 rad (phase_shift_pi)'
+- metric_id: cmp_ofc2026_th1d5_laser_trim_phase_shifter-m4
+  component_id: cmp_ofc2026_th1d5_laser_trim_phase_shifter
+  parameter: phase_shift_pi
+  value: '0.242'
+  unit: pi
+  wavelength_nm: '1550'
+  condition: trim applied to ring 1 of the double-ring Vernier filter to align its resonance to 1550 nm (0.08 dB added loss, m2)
+  method: direct
+  basis: derived
+  locator: p.~3 Sec. 2
+  notes: Printed 0.76 rad, divided by pi.
+  why: 'D81 gap-fill: value listed as not entered in the batch report / component note; double-ring trim 0.76 rad (phase_shift_pi)'
+- metric_id: cmp_ofc2026_th1d5_laser_trim_phase_shifter-m5
+  component_id: cmp_ofc2026_th1d5_laser_trim_phase_shifter
+  parameter: phase_shift_pi
+  value: '0.216'
+  unit: pi
+  wavelength_nm: '1550'
+  condition: trim applied to ring 2 of the double-ring Vernier filter to align its resonance to 1550 nm (0.08 dB added loss, m2)
+  method: direct
+  basis: derived
+  locator: p.~3 Sec. 2
+  notes: Printed 0.68 rad, divided by pi.
+  why: 'D81 gap-fill: value listed as not entered in the batch report / component note; double-ring trim 0.68 rad (phase_shift_pi)'
+- metric_id: cmp_ofc2026_th2a1_inp_soa_array-m12
+  component_id: cmp_ofc2026_th2a1_inp_soa_array
+  parameter: n_channels
+  value: '12'
+  unit: count
+  condition: U-shaped SOAs (active devices) on the array chip; 24 coupling facets
+  basis: design_target
+  locator: p.~2 Sec. 2
+  notes: '''forming 12 active devices and 24 coupling facets''.'
+  why: 'D81 gap-fill: value listed as not entered in the batch report / component note; 12 SOAs (n_channels now allowed for amplifier)'

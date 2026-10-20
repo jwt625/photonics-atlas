@@ -1,0 +1,97 @@
+# Audit patch bf_05 (fresh-context audit 2026-10-20). Block B (D72 own-org fab) is optional: apply only with a global decision.
+# 2026-10-20 14:18: witmer2020 facilities re-pointed to the time-correct SNSF / SNF orgs (audit bf_10-12 addendum).
+components:
+  cmp_witmer2020_gc_metasurface:
+    facility_org_ids: org_stanford_nano_shared_facilities;org_stanford_nanofabrication_facility
+    notes: Optical I/O of the EO converter chip (Fig. 1(a), Fig. 6(d,e)); design follows [46]. Angle-polished fibers, glued for cryogenic packaging. FWHM transmission band (about 40 nm, p.11) entered as
+      bw_fwhm_nm (not equated with a 3-dB width). Part of the work performed at SNSF and SNF (p.28), entered as the two pre-merger facility orgs (time-aware facility rule; org_nano_stanford is their 2026
+      merged successor), as for celik2022.
+    why: '''performed at'' SNSF and SNF (p.28); registry round 2 separates the pre-merger facilities; 2020 paper predates the 2026 merger'
+  cmp_witmer2020_fishbone_reflector:
+    facility_org_ids: org_stanford_nano_shared_facilities;org_stanford_nanofabrication_facility
+    why: same facility statement (p.28)
+  cmp_niels2026_tr_si_sin_ltoi:
+    fab_org_ids: org_imec;org_ghent_university
+    notes: Two transitions per MZM arm path (in, out). Si/SiN layers processed on the imec 200 mm pilot line (acknowledged for wafer fabrication, p.5); LiTaO3 membranes printed and hybrid devices fabricated
+      by authors at Ghent University-imec (author contributions, p.5; Methods p.7). Numbers from arXiv v1 (as in the EO row).
+    why: 'D72: M.N., T.Z., M.B. fabricated the hybrid devices (author contributions, p.5), Ghent University-imec'
+  cmp_saxena2023_mdm_heater:
+    notes: Heater embedded in the PDK microdisk modulator, operated up to 8 V per the PDK reference [20] (not entered). Rh, tuning efficiency and thermal time constant from Table I (extracted compact-model
+      parameters); the tuning efficiency is the slope of the fit to the measured resonance shift vs heater power (Fig. 8(b), 2.5153e-7 m/W).
+    why: D71 parameters tuning_efficiency_pm_per_mw, thermal_time_constant_us now entered
+  cmp_wang2024a_lensed_fiber_facet:
+    fab_org_ids: org_epfl
+    why: 'D72: author contributions name C.W. and J.Z. as device fabricators (p.6), both EPFL'
+metrics:
+  cmp_schwarzenberger2026a_gc_oband-m1:
+    basis: author_estimate
+    notes: Stated per GC in the setup description (p.4 Sec. III); how it was obtained is not stated (origin not stated, D44). Consistent with the about 9 dB total fiber-chip coupling loss (p.4). Band inferred
+      from operation near the 1326 nm GC peak.
+    why: 'D44: unstated origin -> author_estimate; consistency with bf_04 / bf_06 per-coupler values'
+  cmp_xu2020_gc_asi_ln-m1:
+    basis: author_estimate
+    notes: 3.4 dB per facet stated as the GC term subtracted from the measured fibre-to-fibre IL to give the on-chip loss (p.5); origin not stated (D44). Band inferred (C-band device).
+    why: 'D44: loss-budget term of unstated origin -> author_estimate'
+  cmp_wang2024a_lensed_fiber_facet-m1:
+    basis: author_estimate
+    notes: 'About 7 dB per facet (p.3); no fiber-to-fiber total or isolation method given: origin not stated (D44), as renaud2023 / pan2021.'
+    why: 'D44: unstated origin -> author_estimate'
+  cmp_wang2022_gc_soi-m1:
+    basis: author_estimate
+    notes: '7.2 dB stated for the two GCs together as a term of the 10.2 dB chip IL (p.3-4); halved (7.2 / 2); origin of the 7.2 dB not stated (D44); band inferred (paper: C-band operation)'
+    why: 'D44: arithmetic on a budget term of unstated origin -> author_estimate'
+  cmp_witmer2020_gc_metasurface-m1:
+    basis: author_estimate
+    notes: Typical peak efficiency around 30 % (p.11 Sec. 4.3); how it was obtained is not stated (D44). Band inferred (device resonances near 1558 nm).
+    why: 'D44: unstated origin (low priority, borderline)'
+  cmp_niels2026_mmi_1x2_pdk-m1:
+    includes: MMI splitter and combiner of the MZM
+    notes: 'Supp. Table II C1 ''MMI splitters'' 0.8 +/- 0.2 dB is the MMI share of the MZM loss: C1 + C2 (Si routing 3.0 dB) = the 3.8 dB PDK part of the MZM IL (p.3), so it covers both MMIs, not one. Measured
+      on process control structures on the same chip; wavelength inferred from the 1310 nm loss analysis.'
+    why: 'scope evidence: C1 + C2 = 3.8 dB (p.3, p.8); per-MMI split not stated, scope stays unspecified'
+add_metrics:
+- metric_id: cmp_witmer2020_gc_metasurface-m3
+  component_id: cmp_witmer2020_gc_metasurface
+  parameter: bw_fwhm_nm
+  value: '40'
+  unit: nm
+  qualifier: approx
+  band: c_band
+  wavelength_inferred: 'true'
+  condition: FWHM of the GC transmission band; angle-polished fiber
+  method: unspecified
+  basis: author_estimate
+  locator: p.11 Sec. 4.3
+  notes: Stated as an FWHM transmission band, not called 3 dB; how obtained not stated; band inferred (device resonances near 1558 nm)
+  why: D71 bw_fwhm_nm
+- metric_id: cmp_saxena2023_mdm_heater-m2
+  component_id: cmp_saxena2023_mdm_heater
+  parameter: tuning_efficiency_pm_per_mw
+  value: '251'
+  unit: pm/mW
+  condition: resonance shift vs heater power, unbiased resonance near 1566.7 nm
+  method: direct
+  basis: measured
+  locator: p.5 Table I; p.6 Fig. 8(b)
+  notes: Slope of the linear fit to the measured resonance shift vs heater power (2.5153e-7 m/W)
+  why: D71 tuning_efficiency_pm_per_mw
+- metric_id: cmp_saxena2023_mdm_heater-m3
+  component_id: cmp_saxena2023_mdm_heater
+  parameter: thermal_time_constant_us
+  value: '15'
+  unit: us
+  basis: author_estimate
+  locator: p.5 Table I
+  notes: Compact-model thermal time constant listed among the extracted parameters; how it was obtained is not stated (origin not stated)
+  why: D71 thermal_time_constant_us
+- metric_id: cmp_aihara2026_dfb_membrane_300um-m5
+  component_id: cmp_aihara2026_dfb_membrane_300um
+  parameter: power_consumption_w
+  value: '0.093'
+  unit: W
+  temperature_k: '328.15'
+  condition: laser electrical power at 43 mA injection (laser only), during the modulation experiment
+  basis: measured
+  locator: p.2 Sec. 3
+  notes: 93 mW as stated; temperature from the general statement that all measurements except the E-O response were at 55 C
+  why: D71 power_consumption_w

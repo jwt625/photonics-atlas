@@ -1,0 +1,234 @@
+# Audit patch ofc_pilot (fresh-context audit 2026-10-20), main block only (optional blocks not applied, D80).
+components:
+  cmp_ofc2026_w1b3_soa_dfb_1p8mm:
+    fab_org_ids: org_furukawa_electric
+    notes: Long-cavity SOA-integrated DFB-LD mounted on an AlN substrate (CoS); temperature sensed at the substrate bottom. Material system and lasing wavelength not stated in this paper. 'We newly design
+      and fabricate' (pNA Sec. 1); all authors Furukawa Electric; fab_org_ids = org_furukawa_electric (D72 own-org fabrication, D76).
+    why: 'D72/D76: authors ''design and fabricate'' the LD and the TOSA (pNA Sec. 1), all authors Furukawa Electric; replaces the pilot precedent'
+  cmp_ofc2026_w1b3_tosa_8ch:
+    fab_org_ids: org_furukawa_electric
+    notes: '8-channel TOSA (sub-assembly for ELSFP modules, not a full module): eight 1.8-mm SOA-integrated DFB-LDs junction-down on AlN at 1.2 mm pitch, lens-integrated optical isolators to PMF, back-facet
+      monitor PDs, FPC. Case temperature sensed at the TOSA substrate bottom. Wavelengths / channel grid not stated. TOSA size 22.5 x 13.0 x 3.3 mm cited from [5] (not entered). Simulated LD temperature
+      (37 C at 1000 mA, 25 C case; 870 mA max for 65 C LD at 55 C case, Fig. 4) has no registry parameter. ''We newly design and fabricate'' (pNA Sec. 1); all authors Furukawa Electric; fab_org_ids = org_furukawa_electric
+      (D72 own-org fabrication, D76).'
+    why: 'D72/D76: authors ''design and fabricate'' the LD and the TOSA (pNA Sec. 1), all authors Furukawa Electric; replaces the pilot precedent'
+  cmp_ofc2026_w3e1_soa_dfb_1p0mm:
+    fab_org_ids: org_furukawa_electric
+    notes: Designed for VHP ELSFP modules in air cooling; mounted on AlN, operating temperature sensed at the substrate bottom. Wavelength not stated. Earlier +21 dBm x 16-ch ELSFP with this LD is prior
+      work [3] (not entered). 'designed and fabricated' by the authors (all Furukawa Electric); fab_org_ids = org_furukawa_electric (D72 own-org fabrication, D76).
+    why: 'D72/D76: ''designed and fabricated'' (p.~1 Sec. 2; p.~2 Sec. 4), all authors Furukawa Electric'
+  cmp_ofc2026_w3e1_soa_dfb_1p8mm:
+    fab_org_ids: org_furukawa_electric
+    notes: Same 1.8-mm design family as OFC 2026 W1B.3 (same group); entered separately per source. Mounted on AlN, operating temperature sensed at the substrate bottom. Wavelength not stated. 'designed
+      and fabricated' by the authors (all Furukawa Electric); fab_org_ids = org_furukawa_electric (D72 own-org fabrication, D76).
+    why: 'D72/D76: ''designed and fabricated'' (p.~1 Sec. 2; p.~2 Sec. 4), all authors Furukawa Electric'
+  cmp_ofc2026_w3e1_elsfp_16ch:
+    fab_org_ids: org_furukawa_electric
+    notes: Two 8-ch TOSAs (LD variant used not stated), PCBA with regulator, MCU, temperature sensor and laser drivers (APC/ACC), blind-mate adaptor with two MT ferrules; PMF bend radius >7.5 mm [5]. PMF
+      slow axis aligned to the MT guide-hole line; rotational angle error <2 deg for all channels (Table 1; no registry parameter). 'designed and fabricated' by the authors (all Furukawa Electric); fab_org_ids
+      = org_furukawa_electric (D72 own-org fabrication, D76).
+    why: 'D72/D76: ''designed and fabricated'' (p.~1 Sec. 2; p.~2 Sec. 4), all authors Furukawa Electric'
+  cmp_ofc2026_w3e1_tosa_8ch_1p0mm:
+    fab_org_ids: org_furukawa_electric
+    notes: '8-ch TOSA, 22.5 x 13 x 3.3 mm; LDs on AlN at 1.2 mm pitch; PMF coupling via focusing-lens-attached isolators (row cmp_ofc2026_w3e1_lens_isolator_pmf_coupling). Case temperature sensed at the
+      TOSA substrate bottom. Wavelengths not stated. Simulated max allowable LD current 600 mA at 55 C case for LD <65 C (Fig. 3; no registry parameter). ''designed and fabricated'' by the authors (all
+      Furukawa Electric); fab_org_ids = org_furukawa_electric (D72: the TOSA assembly and PMF coupling process are described as the authors'' own, p.~1 Sec. 3; the companion paper W1B.3 states ''design
+      and fabricate'' for the same TOSA).'
+    why: 'D72/D76: authors'' own assembly (p.~1 Sec. 3), all authors Furukawa Electric; consistent with the LD / ELSFP rows'
+  cmp_ofc2026_w3e1_tosa_8ch_1p8mm:
+    fab_org_ids: org_furukawa_electric
+    notes: '8-ch TOSA, 22.5 x 13 x 3.3 mm; LDs on AlN at 1.2 mm pitch; PMF coupling via focusing-lens-attached isolators (row cmp_ofc2026_w3e1_lens_isolator_pmf_coupling). Case temperature sensed at the
+      TOSA substrate bottom. Wavelengths not stated. Simulated max allowable LD current 870 mA at 55 C case (Fig. 3; no registry parameter). ''designed and fabricated'' by the authors (all Furukawa Electric);
+      fab_org_ids = org_furukawa_electric (D72: the TOSA assembly and PMF coupling process are described as the authors'' own, p.~1 Sec. 3; the companion paper W1B.3 states ''design and fabricate'' for
+      the same TOSA).'
+    why: 'D72/D76: authors'' own assembly (p.~1 Sec. 3), all authors Furukawa Electric; consistent with the LD / ELSFP rows'
+  cmp_ofc2026_w3e1_lens_isolator_pmf_coupling:
+    fab_org_ids: org_furukawa_electric
+    notes: 'Parallel optical coupling system of both TOSA variants; axes aligned and PMF rotated to maximize coupling and PER, PMF fixed with adhesive. Isolation not stated. ''designed and fabricated''
+      by the authors (all Furukawa Electric); fab_org_ids = org_furukawa_electric (D72: the TOSA assembly and PMF coupling process are described as the authors'' own, p.~1 Sec. 3; the companion paper W1B.3
+      states ''design and fabricate'' for the same TOSA).'
+    why: 'D72/D76: authors'' own assembly (p.~1 Sec. 3), all authors Furukawa Electric; consistent with the LD / ELSFP rows'
+  cmp_ofc2026_w4e2_pcsel_200um:
+    notes: Chip 0.5 x 0.5 mm; 200-um electrode / mirror diameter. Air-hole diameters after regrowth typically 130 / 80 nm, depth >500 nm (Fig. 1(a); geometry not entered). Lasing wavelength not stated numerically
+      (O-band). Wavelength variation within +/-0.4 nm over 10 chips entered as wavelength_spread_nm (D71). Process described in Refs. [6,7]; fabricating org not stated. Sec. 1-3 precede the first page-image
+      reference, so most locators are pNA + Sec./Fig.
+    why: notes follow the D71 additions
+  cmp_ofc2026_w4e2_pcsel_2x2_array:
+    notes: Parallel drive; array devices 'not fully optimized'. Output-power deviation among the four single devices <0.50 dB at 2 A entered as power_uniformity_db (D71); array threshold about four times
+      a single device; array total power linear up to 3 A (current-source limit). Spacing variation below +/-15 GHz for single devices and the array, also at high injection (Fig. 4(d),(f); no registry parameter).
+      Abstract text prints '11 mm chip' (extraction artefact; Sec. 1 and 4 say 1 mm x 1 mm).
+    why: notes follow the D71 additions
+  cmp_ofc2026_th2a9_awg_16ch_1p6nm:
+    notes: Fabricated at 'China United Microelectronics Center (CUMEC)' (p.~2 Sec. 3). Overlapping AWG; 2-um arrayed waveguides with parabolic tapers joined by 0.45-um curved waveguides; 45 and 90 deg Euler
+      bends. Measured with an ASE source via TE GCs, SMF and OSA; central input port. 10-dB bandwidth 1.3 nm entered as bw_10db_nm (D71). Abstract footprint 540 x 590 um2 vs 550 x 590 um2 elsewhere. The
+      extract appends the poster (_page_4_ images), not used for locators.
+    why: notes follow the D71 addition
+  cmp_ofc2026_tu2d3_si_strip_wg:
+    notes: Samsung Foundry platform paper (Foundry Business, Samsung Electronics). Values from the Sec. 3 text, which summarizes Table 1 (Table 1 is an image, not read); statistic and test method not stated;
+      Sec. 3 calls Table 1 'experimentally characterized results' and the DRF / PD values 'measured' (basis measured stands).
+    why: 'coordinator flag (platform values of unstated origin): origin is stated as experimental (p.~1 Sec. 3); record the basis evidence'
+  cmp_ofc2026_tu2d3_sin_strip_wg:
+    notes: Samsung Foundry platform paper (Foundry Business, Samsung Electronics). Values from the Sec. 3 text, which summarizes Table 1 (Table 1 is an image, not read); statistic and test method not stated;
+      Sec. 3 calls Table 1 'experimentally characterized results' and the DRF / PD values 'measured' (basis measured stands).
+    why: 'coordinator flag (platform values of unstated origin): origin is stated as experimental (p.~1 Sec. 3); record the basis evidence'
+  cmp_ofc2026_tu2d3_si_rib_wg:
+    notes: Samsung Foundry platform paper (Foundry Business, Samsung Electronics). Values from the Sec. 3 text, which summarizes Table 1 (Table 1 is an image, not read); statistic and test method not stated;
+      Sec. 3 calls Table 1 'experimentally characterized results' and the DRF / PD values 'measured' (basis measured stands).
+    why: 'coordinator flag (platform values of unstated origin): origin is stated as experimental (p.~1 Sec. 3); record the basis evidence'
+  cmp_ofc2026_tu2d3_si_sin_transition:
+    notes: Samsung Foundry platform paper (Foundry Business, Samsung Electronics). Values from the Sec. 3 text, which summarizes Table 1 (Table 1 is an image, not read); statistic and test method not stated;
+      Sec. 3 calls Table 1 'experimentally characterized results' and the DRF / PD values 'measured' (basis measured stands).
+    why: 'coordinator flag (platform values of unstated origin): origin is stated as experimental (p.~1 Sec. 3); record the basis evidence'
+  cmp_ofc2026_tu2d3_gc_1d_si:
+    notes: Samsung Foundry platform paper (Foundry Business, Samsung Electronics). Values from the Sec. 3 text, which summarizes Table 1 (Table 1 is an image, not read); statistic and test method not stated;
+      Sec. 3 calls Table 1 'experimentally characterized results' and the DRF / PD values 'measured' (basis measured stands).
+    why: 'coordinator flag (platform values of unstated origin): origin is stated as experimental (p.~1 Sec. 3); record the basis evidence'
+  cmp_ofc2026_tu2d3_gc_2d_si:
+    notes: Samsung Foundry platform paper (Foundry Business, Samsung Electronics). Values from the Sec. 3 text, which summarizes Table 1 (Table 1 is an image, not read); statistic and test method not stated;
+      Sec. 3 calls Table 1 'experimentally characterized results' and the DRF / PD values 'measured' (basis measured stands).
+    why: 'coordinator flag (platform values of unstated origin): origin is stated as experimental (p.~1 Sec. 3); record the basis evidence'
+  cmp_ofc2026_tu2d3_gc_1d_sin:
+    notes: Samsung Foundry platform paper (Foundry Business, Samsung Electronics). Values from the Sec. 3 text, which summarizes Table 1 (Table 1 is an image, not read); statistic and test method not stated;
+      Sec. 3 calls Table 1 'experimentally characterized results' and the DRF / PD values 'measured' (basis measured stands).
+    why: 'coordinator flag (platform values of unstated origin): origin is stated as experimental (p.~1 Sec. 3); record the basis evidence'
+  cmp_ofc2026_tu2d3_drf:
+    notes: Samsung Foundry platform paper (Foundry Business, Samsung Electronics). Values from the Sec. 3 text, which summarizes Table 1 (Table 1 is an image, not read); statistic and test method not stated;
+      Sec. 3 calls Table 1 'experimentally characterized results' and the DRF / PD values 'measured' (basis measured stands). Ring layer (Si or SiN) not stated, platform left empty.
+    why: 'coordinator flag (platform values of unstated origin): origin is stated as experimental (p.~1 Sec. 3); record the basis evidence'
+  cmp_ofc2026_tu2d3_ge_hspd:
+    notes: Samsung Foundry platform paper (Foundry Business, Samsung Electronics). Values from the Sec. 3 text, which summarizes Table 1 (Table 1 is an image, not read); statistic and test method not stated;
+      Sec. 3 calls Table 1 'experimentally characterized results' and the DRF / PD values 'measured' (basis measured stands). Dark current and responsivity stated jointly for HSPD and mPD 'at -1 V'.
+    why: 'coordinator flag (platform values of unstated origin): origin is stated as experimental (p.~1 Sec. 3); record the basis evidence'
+  cmp_ofc2026_tu2d3_ge_mpd:
+    notes: Samsung Foundry platform paper (Foundry Business, Samsung Electronics). Values from the Sec. 3 text, which summarizes Table 1 (Table 1 is an image, not read); statistic and test method not stated;
+      Sec. 3 calls Table 1 'experimentally characterized results' and the DRF / PD values 'measured' (basis measured stands). Dark current and responsivity stated jointly for HSPD and mPD 'at -1 V'.
+    why: 'coordinator flag (platform values of unstated origin): origin is stated as experimental (p.~1 Sec. 3); record the basis evidence'
+  cmp_ofc2026_tu2d3_ge_apd:
+    notes: 'Samsung Foundry platform paper (Foundry Business, Samsung Electronics). Values from the Sec. 3 text, which summarizes Table 1 (Table 1 is an image, not read); statistic and test method not stated;
+      Sec. 3 calls Table 1 ''experimentally characterized results'' and the DRF / PD values ''measured'' (basis measured stands). Dark current ''about 1 uA'' not entered: bias not stated (dark_current_na
+      requires bias_v).'
+    why: 'coordinator flag (platform values of unstated origin): origin is stated as experimental (p.~1 Sec. 3); record the basis evidence'
+  cmp_ofc2026_w4b2_imc_sion:
+    fab_org_ids: org_university_of_california_berkeley
+    notes: Fabricated by the authors ('We present the design, simulation, and fabrication', pNA Sec. 1; process developed by the authors, p.~2 Sec. 3); all authors UC Berkeley -> fab_org_ids (D72/D76);
+      no facility named. Measured on IMC pairs with SiON-waveguide loopbacks (pre-dicing) against an SMF-28 FAU. Fabricated lens dimensions not stated. Lens roughness ~50 nm and profile error estimated
+      to add ~0.5 dB (author estimate, not entered). Sec. 1 (pNA) summary states 1.0 dB O-band / 1.4 dB C-band and PDL 0.3 / 0.1 dB; Sec. 4 states PDL 0.2 dB in the O-band.
+    why: D72/D76 own-org fabrication applies to universities; all authors UC Berkeley
+  cmp_ofc2026_m1b1_qd_soa:
+    notes: 'Off-the-shelf QD-SOA (p.~1 Sec. 3), the device under test in an 8-lambda, 400-GHz-grid DWDM CPO link; external to the optical engine, PM fiber at the input, isolators around it. Operated at
+      1.5 A pump and 60 C (Sec. 3: temperature; Fig. 2 caption: junction temperature). Power consumption 2.4 W entered as power_consumption_w (D71, author_estimate). Link results (9 dB Tx power reduction,
+      2.0 dB 8-lambda penalty) are system metrics, not entered. VPI model assumptions (6 mm, 150 ps) not entered.'
+    why: notes follow the D71 addition
+metrics:
+  cmp_ofc2026_w4e2_pcsel_2x2_array-m3:
+    locator: p.~2 Sec. 3, Fig. 4
+    why: 'rule 14 / D72: p.~N always with section or figure'
+  cmp_ofc2026_th2a9_awg_16ch_1p6nm-m6:
+    basis: author_estimate
+    notes: 'Design / nominal channel spacing (title, Sec. 1); a measured spacing is not stated. D76: design_target only for dimensions, a performance value of unstated measured origin is author_estimate'
+    why: 'D76: channel_spacing_nm is a performance parameter'
+  cmp_ofc2026_m1e2_cwdm4_demux-m6:
+    basis: author_estimate
+    notes: 'Design channel spacing (Delta L chosen for 20 nm, p.~2 Sec. 2); a measured spacing is not stated. D76: design_target only for dimensions'
+    why: 'D76: channel_spacing_nm is a performance parameter'
+  cmp_ofc2026_m1e2_mmi50-m1:
+    basis: author_estimate
+    notes: 'Nominal design K_MMI used in the demux (design method per [9]); the simulated spectral coupling ratio (Fig. 3) was not read. D76: design_target only for dimensions'
+    why: 'D76: split_ratio_pct is a performance parameter; design value of a performance quantity -> author_estimate'
+  cmp_ofc2026_m1e2_mmi81-m1:
+    basis: author_estimate
+    notes: 'Nominal design K_MMI used in the demux (design method per [9]); the simulated spectral coupling ratio (Fig. 3) was not read. D76: design_target only for dimensions'
+    why: 'D76: split_ratio_pct is a performance parameter; design value of a performance quantity -> author_estimate'
+  cmp_ofc2026_m1e2_mmi96-m1:
+    basis: author_estimate
+    notes: 'Nominal design K_MMI used in the demux (design method per [9]); the simulated spectral coupling ratio (Fig. 3) was not read. D76: design_target only for dimensions'
+    why: 'D76: split_ratio_pct is a performance parameter; design value of a performance quantity -> author_estimate'
+  cmp_ofc2026_tu2d3_si_sin_transition-m1:
+    scope: per_component
+    why: 'D76: on-chip transitions scope per_component'
+add_metrics:
+- metric_id: cmp_ofc2026_w1b3_tosa_8ch-m6
+  component_id: cmp_ofc2026_w1b3_tosa_8ch
+  parameter: pitch_um
+  value: '1200'
+  unit: um
+  condition: LD mounting pitch on the AlN substrate
+  basis: design_target
+  locator: p.~1 Sec. 3
+  notes: 1.2 mm pitch chosen to suppress thermal interference (as printed)
+  why: 'D71: pitch_um now allowed for laser (gap listed in the pilot report)'
+- metric_id: cmp_ofc2026_w3e1_tosa_8ch_1p0mm-m7
+  component_id: cmp_ofc2026_w3e1_tosa_8ch_1p0mm
+  parameter: pitch_um
+  value: '1200'
+  unit: um
+  condition: LD mounting pitch on the AlN substrate
+  basis: design_target
+  locator: p.~1 Sec. 3
+  notes: 1.2 mm pitch chosen to suppress thermal interference (as printed)
+  why: 'D71: pitch_um now allowed for laser (gap listed in the pilot report)'
+- metric_id: cmp_ofc2026_w3e1_tosa_8ch_1p8mm-m5
+  component_id: cmp_ofc2026_w3e1_tosa_8ch_1p8mm
+  parameter: pitch_um
+  value: '1200'
+  unit: um
+  condition: LD mounting pitch on the AlN substrate
+  basis: design_target
+  locator: p.~1 Sec. 3
+  notes: 1.2 mm pitch chosen to suppress thermal interference (as printed)
+  why: 'D71: pitch_um now allowed for laser (gap listed in the pilot report)'
+- metric_id: cmp_ofc2026_w4e2_pcsel_2x2_array-m4
+  component_id: cmp_ofc2026_w4e2_pcsel_2x2_array
+  parameter: power_uniformity_db
+  value: '0.50'
+  unit: dB
+  qualifier: lt
+  n_samples: '4'
+  band: o_band
+  wavelength_inferred: 'true'
+  temperature_k: '323.15'
+  condition: output-power deviation among the four single devices of the array design, 2 A, CW
+  method: direct
+  basis: measured
+  locator: p.~2 Sec. 3, Fig. 4(a)
+  notes: '''deviation in output power ... less than 0.50 dB at 2 A''; whether max-min is meant is not stated; 50 C from the Fig. 4 caption; O-band device'
+  why: D71 power_uniformity_db (was "no registry parameter")
+- metric_id: cmp_ofc2026_w4e2_pcsel_200um-m8
+  component_id: cmp_ofc2026_w4e2_pcsel_200um
+  parameter: wavelength_spread_nm
+  value: '0.4'
+  unit: nm
+  qualifier: le
+  n_samples: '10'
+  band: o_band
+  wavelength_inferred: 'true'
+  condition: lasing-wavelength variation over 10 chips of the same design (+/- value as printed)
+  method: direct
+  basis: measured
+  locator: pNA Sec. 3, Fig. 2(c)
+  notes: '''within +/-0.4 nm''; O-band device'
+  why: D71 wavelength_spread_nm (was "no registry parameter")
+- metric_id: cmp_ofc2026_th2a9_awg_16ch_1p6nm-m10
+  component_id: cmp_ofc2026_th2a9_awg_16ch_1p6nm
+  parameter: bw_10db_nm
+  value: '1.3'
+  unit: nm
+  band: c_band
+  wavelength_inferred: 'true'
+  polarization: te
+  condition: central channel
+  method: direct
+  basis: measured
+  locator: p.~2 Sec. 3, Fig. 3(b)
+  notes: Derived by the authors from the measured central-channel response, as the 1-dB width (m5). Band inferred from the poster plot axis (about 1530-1554 nm).
+  why: D71 bw_10db_nm (was "no registry parameter")
+- metric_id: cmp_ofc2026_m1b1_qd_soa-m6
+  component_id: cmp_ofc2026_m1b1_qd_soa
+  parameter: power_consumption_w
+  value: '2.4'
+  unit: W
+  condition: off-the-shelf QD-SOA as used in this work (operating point 1.5 A, 60 C assumed from Sec. 3, not stated with the value)
+  basis: author_estimate
+  locator: p.~3 Sec. 5
+  notes: Stated as the SOA power consumption; whether measured or a datasheet value is not stated (origin not stated, D76)
+  why: D71 power_consumption_w (was "no registry parameter")

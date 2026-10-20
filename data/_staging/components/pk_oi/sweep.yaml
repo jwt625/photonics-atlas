@@ -1,0 +1,26 @@
+# Convention sweep D76 / D80 / D82 (subagent, 2026-10-20); applied after patch.yaml.
+components:
+  cmp_ectc51846_2026_00106_smf_iox_butt:
+    fab_org_ids: ''
+    notes: 'Straight cut-back samples (1.25-12.5 mm), laser-singulated end faces. Conclusion: < 0.3 dB per facet. All authors Corning (Corning Optical Communication GmbH and Corning Research and Development,
+      p.1); waveguides ''were fabricated'' on 150 mm wafers (p.3, passive) and only staff are thanked, so fab_org_ids is empty (D80b). ofc2026:Th1D.3 (all authors Corning Research and Development) carries
+      org_corning_research_and_development as fab org on its own fabrication statement. Same group as ofc2026:Th1D.3 (cmp_ofc2026_th1d3_iox_facet_smf, < 0.3 dB per facet). PK: oi -a-o1/-a-o2.'
+    why: 'D80b: fab_org_ids needs an explicit statement that the authors (or a named org) fabricated the component; passive ''fabricated'' / ''developed'' / all authors at one org do not qualify; source
+      p.3 Sec. III (''Waveguides were fabricated on 150 mm wafer scale'', passive), acknowledgements (CPO program team, cleanroom and glass-melting staff); consistent with the pk_02 rows of this paper'
+  cmp_ectc51846_2026_00106_iox_fanout_16ch:
+    fab_org_ids: ''
+    notes: 'Two pitch converters and two bend designs (Euler, min. radius 6 mm, effective 11.5 mm; circular 9.9 mm) are described together; this paper does not map its loss values to a design explicitly,
+      so one row holds the family with the listing order in conditions (p.4). The same fan-outs and values (0.62 +/- 0.01 / 0.65 +/- 0.04 dB) are reported in ofc2026:Th1D.3, which assigns 0.62 dB to the
+      Euler and 0.65 dB to the circular fan-out (cmp_ofc2026_th1d3_fanout_euler / _circular); not duplicated here. Both papers print the equalized length as ~12.5 cm; with the stated 0.04 dB/cm and < 0.3
+      dB/facet that would exceed the measured total, so 12.5 mm (the longest cut-back sample) is likely meant (value kept as printed). Reference uniform-delta-n fan-outs and the ''up to 1.3 dB'' reduction
+      not entered. All IOX loss characterization at 1310 nm (p.3). Fab org empty as for the SMF-IOX row (D80b); ofc2026:Th1D.3 assigns org_corning_research_and_development (all its authors at Corning R&D;
+      this paper''s authors span Corning Optical Communication GmbH and Corning R&D). PK: oi -c-o1; metrics -c-m1..m6.'
+    why: 'D80b: fab_org_ids needs an explicit statement that the authors (or a named org) fabricated the component; passive ''fabricated'' / ''developed'' / all authors at one org do not qualify; source
+      p.3 Sec. III (passive fabrication), acknowledgements (staff only)'
+metrics:
+  cmp_ectc51687_2025_00284_transition_sin_sin-m1:
+    scope: per_component
+    why: 'D76: on-chip inter-layer / inter-material transitions are scope per_component (per_interface is chip-chip only); source p.4 Sec. III.E (SiN tip to SiN tip transition loss; scope was empty)'
+  cmp_ectc51687_2025_00284_transition_sin_si-m1:
+    scope: per_component
+    why: 'D76: on-chip inter-layer / inter-material transitions are scope per_component (per_interface is chip-chip only); source p.4 Sec. III.E (SiN tip to Si tip transition loss; scope was empty)'

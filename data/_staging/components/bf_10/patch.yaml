@@ -1,0 +1,265 @@
+# Audit patch bf_10 (fresh-context audit 2026-10-20), main block only (optional Block B not applied).
+components:
+  cmp_celik2022_ring_r120um:
+    facility_org_ids: org_stanford_nano_shared_facilities;org_stanford_nanofabrication_facility
+    notes: 'Ring at the 120 um minimum bend radius used across the chip, fabricated to bound losses (p.5). The 1.6 dB/cm derived from Q_i is held by EO row celik2022-a (not re-entered). Extraction model
+      and loaded Q not stated. Facility: part of the work performed at Stanford Nano Shared Facilities and Stanford Nanofabrication Facility (acknowledgments, p.8); both entered as the pre-merger facility
+      orgs printed in the paper (time-aware facility rule; org_nano_stanford is their 2026 merged successor). Fab org not set: authors at Stanford, Flux Photonics and NTT Research; who fabricated is not
+      stated.'
+    why: '''performed at'' SNSF and SNF (p.8) -> facility (D42); registry round 2 holds SNSF and SNF as separate time-aware orgs, the 2022 paper predates the 2026 merger'
+  cmp_celik2022_gc_780:
+    facility_org_ids: org_stanford_nano_shared_facilities;org_stanford_nanofabrication_facility
+    notes: 'I/O grating couplers of the 780 nm MZI; output GC described as focusing on-chip light into a collimated Gaussian beam (Fig. 1 caption). The 10 % figure is held only in the EO row notes. Background
+      ripple in Fig. 3(d) attributed to the GC response. Facility: part of the work performed at Stanford Nano Shared Facilities and Stanford Nanofabrication Facility (acknowledgments, p.8); both entered
+      as the pre-merger facility orgs printed in the paper (time-aware facility rule; org_nano_stanford is their 2026 merged successor). Fab org not set: authors at Stanford, Flux Photonics and NTT Research;
+      who fabricated is not stated.'
+    why: '''performed at'' SNSF and SNF (p.8) -> facility (D42); registry round 2 holds SNSF and SNF as separate time-aware orgs, the 2022 paper predates the 2026 merger'
+  cmp_celik2022_dc_5050:
+    facility_org_ids: org_stanford_nano_shared_facilities;org_stanford_nanofabrication_facility
+    notes: 'Beam splitter / combiner of the MZI (celik2022-a). Coupler length chosen by fabricating path-length-mismatched MZIs and picking the highest-contrast fringes (p.5); the fabricated split ratio
+      is not reported; the MZI static ER 27 dB is in the EO row. Facility: part of the work performed at Stanford Nano Shared Facilities and Stanford Nanofabrication Facility (acknowledgments, p.8); both
+      entered as the pre-merger facility orgs printed in the paper (time-aware facility rule; org_nano_stanford is their 2026 merged successor). Fab org not set: authors at Stanford, Flux Photonics and
+      NTT Research; who fabricated is not stated.'
+    why: '''performed at'' SNSF and SNF (p.8) -> facility (D42); registry round 2 holds SNSF and SNF as separate time-aware orgs, the 2022 paper predates the 2026 merger'
+  cmp_zhu2022_lensed_fiber_facet:
+    fab_org_ids: org_hyperlight
+    notes: 'Per-facet term of the 11 dB total insertion loss (EO row zhu2022-a); 0.5 dB/facet and 2.7 dB/m are projections cited to refs. 45-46 (not entered). Facility: device fabrication performed at Harvard
+      CNS (acknowledgments, p.6). Fab: L.H., C.R. and M.Z. fabricated the modulator (contributions, p.6), all three HyperLight Corporation (D72).'
+    why: 'D72: the three fabricating authors are all HyperLight (affiliation 4, p.1; contributions p.6); batch note ''not all at one organization'' is wrong'
+  cmp_wang2024b_racetrack_2um_optical:
+    fab_org_ids: org_epfl
+    notes: 'Optical-grade (unreduced) LTOI racetracks, wafer D101_LT_A2. Not part of the EO devices (MZMs use a 220 nm etch), so host empty. Losses are the authors'' conversions of comb-calibrated intrinsic
+      loss rates kappa0/2pi (26.8 MHz best device, 35.2 MHz best-field mean, field means 35.2-72.9 MHz; histogram mean 40.4 and median 36.4 MHz, Fig. 2c, not converted by the authors; entered as kappa_intrinsic_mhz,
+      D73). Sidewall almost 70 deg in the SEM cross-section (Fig. 1j). Samples fabricated in EPFL CMi and the IPHYS cleanroom (acknowledgments, p.9); LTOI wafers made at Shanghai Novel Si Integration Technology
+      (NSIT) and SIMIT-CAS (wafer supplier, a note). Fab: C.W. and Z.L. fabricated the devices (contributions, p.9), both EPFL-affiliated (C.W. also SIMIT), in the EPFL CMi / IPHYS cleanrooms (D72 as extended
+      by D76; wang2024a precedent).'
+    why: 'D72/D76: both fabricating authors (C.W., Z.L., p.9) share EPFL, samples fabricated in EPFL CMi and IPHYS (p.9); consistent with wang2024a (bf_05 audit)'
+  cmp_wang2024b_racetrack_2um_acoustic:
+    fab_org_ids: org_epfl
+    notes: 'Same racetrack design on LTOI made from reduced bulk wafers (sibling material, separate row). Field values 39-135 MHz in Extended Data Fig. 1(b) (one field damaged, NA) not converted by the
+      authors and not entered. Samples fabricated in EPFL CMi and the IPHYS cleanroom (acknowledgments, p.9); LTOI wafers made at Shanghai Novel Si Integration Technology (NSIT) and SIMIT-CAS (wafer supplier,
+      a note). Fab: C.W. and Z.L. fabricated the devices (contributions, p.9), both EPFL-affiliated (C.W. also SIMIT), in the EPFL CMi / IPHYS cleanrooms (D72 as extended by D76; wang2024a precedent).'
+    why: 'D72/D76: both fabricating authors (C.W., Z.L., p.9) share EPFL, samples fabricated in EPFL CMi and IPHYS (p.9); consistent with wang2024a (bf_05 audit)'
+  cmp_wang2024b_spiral_1p75um:
+    fab_org_ids: org_epfl
+    notes: 'Spiral D101_LT_A2_F2_C7_Spiral5, 5 x 2 mm footprint, OFDR loss extraction; group index 2.25 entered (D75); beta2 -163 fs2/mm (no matching parameter); 300 um long tapers at the facets (geometry
+      only). Minor defect at 3.36 m optical distance. Samples fabricated in EPFL CMi and the IPHYS cleanroom (acknowledgments, p.9); LTOI wafers made at Shanghai Novel Si Integration Technology (NSIT) and
+      SIMIT-CAS (wafer supplier, a note). Fab: C.W. and Z.L. fabricated the devices (contributions, p.9), both EPFL-affiliated (C.W. also SIMIT), in the EPFL CMi / IPHYS cleanrooms (D72 as extended by D76;
+      wang2024a precedent).'
+    why: 'D72/D76: both fabricating authors (C.W., Z.L., p.9) share EPFL, samples fabricated in EPFL CMi and IPHYS (p.9); consistent with wang2024a (bf_05 audit)'
+  cmp_wang2024b_lensed_fiber_facet:
+    fab_org_ids: org_epfl
+    notes: 'Coupling loss stated for the photorefraction test (uncladded LTOI and LNOI racetracks, 80 GHz FSR), identical for both samples; facet / taper design not stated. Not linked to the MZM rows (their
+      coupling loss is not reported). The uncladded LTOI and LNOI racetracks of this test are entered as cmp_wang2024b_racetrack_uncladded_ltoi / _lnoi (D73 rates). Samples fabricated in EPFL CMi and the
+      IPHYS cleanroom (acknowledgments, p.9); LTOI wafers made at Shanghai Novel Si Integration Technology (NSIT) and SIMIT-CAS (wafer supplier, a note). Fab: C.W. and Z.L. fabricated the devices (contributions,
+      p.9), both EPFL-affiliated (C.W. also SIMIT), in the EPFL CMi / IPHYS cleanrooms (D72 as extended by D76; wang2024a precedent).'
+    why: 'D72/D76: both fabricating authors (C.W., Z.L., p.9) share EPFL, samples fabricated in EPFL CMi and IPHYS (p.9); consistent with wang2024a (bf_05 audit)'
+  cmp_wang2024b_soliton_comb_81ghz:
+    fab_org_ids: org_epfl
+    notes: 'Device D101_LT_A2_F9_C4_02_WG6. Single soliton, sech2 spectrum with 4.9 THz 3 dB bandwidth (63 fs pulse); no comb-bandwidth parameter. Pumped with an ECDL plus EDFA at 90 mW on-chip using rapid
+      single-sideband tuning. Solitons formed in all ten tested devices oriented at 90 deg and in none of ten at 0 deg (Raman). Samples fabricated in EPFL CMi and the IPHYS cleanroom (acknowledgments, p.9);
+      LTOI wafers made at Shanghai Novel Si Integration Technology (NSIT) and SIMIT-CAS (wafer supplier, a note). Fab: C.W. and Z.L. fabricated the devices (contributions, p.9), both EPFL-affiliated (C.W.
+      also SIMIT), in the EPFL CMi / IPHYS cleanrooms (D72 as extended by D76; wang2024a precedent).'
+    why: 'D72/D76: both fabricating authors (C.W., Z.L., p.9) share EPFL, samples fabricated in EPFL CMi and IPHYS (p.9); consistent with wang2024a (bf_05 audit)'
+  cmp_wang2024b_soliton_comb_30ghz:
+    fab_org_ids: org_epfl
+    notes: 'Device D101_LT_A2_F3_C6_01_WG3. Single soliton 4.0 THz bandwidth (71 fs); three-soliton state on another device (F2_C4_01_WG3); beat-note phase noise -86 dBc/Hz at 10 kHz and -114 dBc/Hz at
+      1 MHz (no phase-noise parameter). Pumped with an ECDL plus EDFA at 90 mW on-chip using rapid single-sideband tuning. Solitons formed in all ten tested devices oriented at 90 deg and in none of ten
+      at 0 deg (Raman). Samples fabricated in EPFL CMi and the IPHYS cleanroom (acknowledgments, p.9); LTOI wafers made at Shanghai Novel Si Integration Technology (NSIT) and SIMIT-CAS (wafer supplier,
+      a note). Fab: C.W. and Z.L. fabricated the devices (contributions, p.9), both EPFL-affiliated (C.W. also SIMIT), in the EPFL CMi / IPHYS cleanrooms (D72 as extended by D76; wang2024a precedent).'
+    why: 'D72/D76: both fabricating authors (C.W., Z.L., p.9) share EPFL, samples fabricated in EPFL CMi and IPHYS (p.9); consistent with wang2024a (bf_05 audit)'
+metrics:
+  cmp_he2019_vac_si_ln-m1:
+    scope: per_component
+    why: 'D76: on-chip inter-layer transitions are per_component (per_interface is chip-chip only)'
+  cmp_he2019_vac_si_ln-m2:
+    scope: per_component
+    why: 'D76: on-chip inter-layer transitions are per_component (per_interface is chip-chip only)'
+  cmp_he2019_vac_si_ln-m3:
+    scope: per_component
+    why: 'D76: on-chip inter-layer transitions are per_component (per_interface is chip-chip only)'
+  cmp_chen2026_ring_loss-m1:
+    basis: derived
+    notes: 'Text: about 0.5 dB/cm from a Lorentz fit of the ring transmission; Fig. 2(c) caption: less than 0.5 dB/cm. Wavelength not stated; 1550 nm is the MZM operating wavelength. Basis derived (D76):
+      loss computed by the authors from the fitted ring Q (''through calculation'', p.5); Q not stated, group index 2.2 stated (p.5).'
+    why: 'D76: propagation loss computed from a ring fit is derived, not measured'
+add_components:
+- component_id: cmp_wang2024b_racetrack_uncladded_ltoi
+  source_id: eo:wang2024b
+  class: resonator.ring
+  label: Uncladded 2 um racetrack, 80 GHz FSR (LTOI photorefraction test)
+  row_kind: fabricated
+  host_device_ids: ''
+  platform: ltoi_rib
+  core_material: x-cut LiTaO3 film, 2 um x 0.5 um waveguide, 100 nm slab
+  cladding: none (uncladded)
+  fab_org_ids: org_epfl
+  facility_org_ids: org_center_of_micronanotechnology;org_epfl_institute_of_physics_cleanroom
+  process_name: ''
+  test_structure: 'true'
+  tags: ltoi;photorefraction;uncladded
+  verified_on: '2026-10-20'
+  notes: Device D101_LT_A2_F2_C3_02_WG2, the LTOI racetrack of the photorefractive-effect comparison (Methods p.8, Extended Data Fig. 3); loaded linewidth and rates from a frequency-comb-calibrated transmission
+    measurement; 50 % extinction (linear) and 6 dB per facet lensed-fiber coupling (entered on cmp_wang2024b_lensed_fiber_facet) as stated. Resonance wavelength not stated (CW pump, PDH locked). Fab and
+    facility as for the other wang2024b rows (p.9). Host empty (not an EO device row).
+- component_id: cmp_wang2024b_racetrack_uncladded_lnoi
+  source_id: eo:wang2024b
+  class: resonator.ring
+  label: Uncladded 2 um racetrack, 80 GHz FSR (LNOI photorefraction test)
+  row_kind: fabricated
+  host_device_ids: ''
+  platform: lnoi_rib
+  core_material: x-cut LiNbO3 film, 2 um x 0.5 um waveguide, 100 nm slab
+  cladding: none (uncladded)
+  fab_org_ids: org_epfl
+  facility_org_ids: org_center_of_micronanotechnology;org_epfl_institute_of_physics_cleanroom
+  process_name: ''
+  test_structure: 'true'
+  tags: lnoi;photorefraction;uncladded
+  verified_on: '2026-10-20'
+  notes: Device D101_LN_F2_C3_02_WG2, the LNOI racetrack of the photorefractive-effect comparison (Methods p.8, Extended Data Fig. 3); loaded linewidth and rates from a frequency-comb-calibrated transmission
+    measurement; 50 % extinction (linear) and 6 dB per facet lensed-fiber coupling (entered on cmp_wang2024b_lensed_fiber_facet) as stated. Resonance wavelength not stated (CW pump, PDH locked). Fab and
+    facility as for the other wang2024b rows (p.9). Host empty (not an EO device row).
+add_metrics:
+- metric_id: cmp_wang2024b_racetrack_uncladded_ltoi-m1
+  component_id: cmp_wang2024b_racetrack_uncladded_ltoi
+  parameter: linewidth_mhz
+  value: '150.8'
+  unit: MHz
+  band: unspecified
+  method: direct
+  basis: measured
+  locator: p.8 Methods (photorefractive effect comparison)
+  notes: loaded linewidth as stated; resonance wavelength not stated
+  why: 'miss: D73 rate parameters now exist (batch skipped the uncladded racetracks for lack of a loss-rate parameter)'
+- metric_id: cmp_wang2024b_racetrack_uncladded_ltoi-m2
+  component_id: cmp_wang2024b_racetrack_uncladded_ltoi
+  parameter: kappa_intrinsic_mhz
+  value: '18.8'
+  unit: MHz
+  band: unspecified
+  method: direct
+  basis: measured
+  locator: p.8 Methods (photorefractive effect comparison)
+  notes: kappa0/2pi from the authors' fit of the same transmission curve; coupling-regime assumption not stated; resonance wavelength not stated
+  why: 'miss: D73 rate parameters now exist (batch skipped the uncladded racetracks for lack of a loss-rate parameter)'
+- metric_id: cmp_wang2024b_racetrack_uncladded_ltoi-m3
+  component_id: cmp_wang2024b_racetrack_uncladded_ltoi
+  parameter: kappa_ext_mhz
+  value: '132'
+  unit: MHz
+  band: unspecified
+  method: direct
+  basis: measured
+  locator: p.8 Methods (photorefractive effect comparison)
+  notes: kappa_ex/2pi from the authors' fit; kappa0 + kappa_ex equals the loaded linewidth; resonance wavelength not stated
+  why: 'miss: D73 rate parameters now exist (batch skipped the uncladded racetracks for lack of a loss-rate parameter)'
+- metric_id: cmp_wang2024b_racetrack_uncladded_ltoi-m4
+  component_id: cmp_wang2024b_racetrack_uncladded_ltoi
+  parameter: fsr_ghz
+  value: '80'
+  unit: GHz
+  band: ''
+  method: ''
+  basis: author_estimate
+  locator: p.8 Methods (photorefractive effect comparison)
+  notes: '''same free spectral range of 80 GHz'' for both samples; origin (design or measured) not stated'
+  why: 'miss: D73 rate parameters now exist (batch skipped the uncladded racetracks for lack of a loss-rate parameter)'
+- metric_id: cmp_wang2024b_racetrack_uncladded_lnoi-m1
+  component_id: cmp_wang2024b_racetrack_uncladded_lnoi
+  parameter: linewidth_mhz
+  value: '265.4'
+  unit: MHz
+  band: unspecified
+  method: direct
+  basis: measured
+  locator: p.8 Methods (photorefractive effect comparison)
+  notes: loaded linewidth as stated; resonance wavelength not stated
+  why: 'miss: D73 rate parameters now exist (batch skipped the uncladded racetracks for lack of a loss-rate parameter)'
+- metric_id: cmp_wang2024b_racetrack_uncladded_lnoi-m2
+  component_id: cmp_wang2024b_racetrack_uncladded_lnoi
+  parameter: kappa_intrinsic_mhz
+  value: '33.4'
+  unit: MHz
+  band: unspecified
+  method: direct
+  basis: measured
+  locator: p.8 Methods (photorefractive effect comparison)
+  notes: kappa0/2pi from the authors' fit of the same transmission curve; coupling-regime assumption not stated; resonance wavelength not stated
+  why: 'miss: D73 rate parameters now exist (batch skipped the uncladded racetracks for lack of a loss-rate parameter)'
+- metric_id: cmp_wang2024b_racetrack_uncladded_lnoi-m3
+  component_id: cmp_wang2024b_racetrack_uncladded_lnoi
+  parameter: kappa_ext_mhz
+  value: '232'
+  unit: MHz
+  band: unspecified
+  method: direct
+  basis: measured
+  locator: p.8 Methods (photorefractive effect comparison)
+  notes: kappa_ex/2pi from the authors' fit; kappa0 + kappa_ex equals the loaded linewidth; resonance wavelength not stated
+  why: 'miss: D73 rate parameters now exist (batch skipped the uncladded racetracks for lack of a loss-rate parameter)'
+- metric_id: cmp_wang2024b_racetrack_uncladded_lnoi-m4
+  component_id: cmp_wang2024b_racetrack_uncladded_lnoi
+  parameter: fsr_ghz
+  value: '80'
+  unit: GHz
+  band: ''
+  method: ''
+  basis: author_estimate
+  locator: p.8 Methods (photorefractive effect comparison)
+  notes: '''same free spectral range of 80 GHz'' for both samples; origin (design or measured) not stated'
+  why: 'miss: D73 rate parameters now exist (batch skipped the uncladded racetracks for lack of a loss-rate parameter)'
+- metric_id: cmp_wang2024b_racetrack_2um_optical-m7
+  component_id: cmp_wang2024b_racetrack_2um_optical
+  parameter: kappa_intrinsic_mhz
+  value: '26.8'
+  unit: MHz
+  statistic: single
+  wavelength_nm: '1431.96'
+  band: ''
+  condition: device D101_LT_A2_F1_C4_02_WG4, resonance at 209.358 THz
+  method: direct
+  basis: measured
+  locator: p.3; Fig. 2(b)
+  notes: kappa0/2pi from the fit of Fig. 2(b); wavelength computed from 209.358 THz; same measurement as -m1 (5.6 dB/m)
+  why: 'miss: D73 kappa_intrinsic_mhz (histogram mean / median had no parameter in the batch)'
+- metric_id: cmp_wang2024b_racetrack_2um_optical-m8
+  component_id: cmp_wang2024b_racetrack_2um_optical
+  parameter: kappa_intrinsic_mhz
+  value: '40.4'
+  unit: MHz
+  statistic: mean
+  wavelength_nm: ''
+  band: unspecified
+  condition: histogram of fitted intrinsic loss rates of the optical racetracks
+  method: direct
+  basis: measured
+  locator: p.3 Fig. 2(c) caption
+  notes: number of resonators not stated; wavelength not stated; not converted to dB/m by the authors
+  why: 'miss: D73 kappa_intrinsic_mhz (histogram mean / median had no parameter in the batch)'
+- metric_id: cmp_wang2024b_racetrack_2um_optical-m9
+  component_id: cmp_wang2024b_racetrack_2um_optical
+  parameter: kappa_intrinsic_mhz
+  value: '36.4'
+  unit: MHz
+  statistic: median
+  wavelength_nm: ''
+  band: unspecified
+  condition: histogram of fitted intrinsic loss rates of the optical racetracks
+  method: direct
+  basis: measured
+  locator: p.3 Fig. 2(c) caption
+  notes: number of resonators not stated; wavelength not stated; not converted to dB/m by the authors
+  why: 'miss: D73 kappa_intrinsic_mhz (histogram mean / median had no parameter in the batch)'
+- metric_id: cmp_wang2024b_spiral_1p75um-m6
+  component_id: cmp_wang2024b_spiral_1p75um
+  parameter: group_index
+  value: '2.25'
+  unit: '1'
+  band: unspecified
+  condition: frequency-dependent group velocity of the 39 cm spiral from the OFDR facet reflections
+  method: ofdr
+  basis: measured
+  locator: p.11 Extended Data Fig. 2(f) caption
+  notes: ng = c / vg = 2.25 as printed; taper contribution neglected by the authors; wavelength span of the fit not stated
+  why: 'miss: D75 group_index for waveguide_platform'

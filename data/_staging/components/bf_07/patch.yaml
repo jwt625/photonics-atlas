@@ -1,0 +1,465 @@
+# Audit patch bf_07 (fresh-context audit 2026-10-20), main block plus coordinator-selected optional items (see DevLog/audits).
+components:
+  cmp_churaev2023_dimer_50ghz:
+    notes: 'Coupled-ring dimer for transduction schemes; zero-bias mode splitting 4.6 GHz (Fig. 4f, mode_splitting_ghz) and DC tuning about 30 MHz/V (EO effect; no EO atlas row; not entered, see audit Block
+      B). Facility: Si3N4 substrates fabricated in the EPFL CMi (acknowledgments, p.8); LNOI wafer (300 nm x-cut) from NanoLN (supplier, a note); BRNC operations team thanked for help and support only (not
+      entered).'
+    why: 'D72/D76 by author contributions p.8: fabricators at EPFL and IBM Research Europe (two orgs, niels2026 precedent); coordinator applied audit Block B2'
+    fab_org_ids: org_epfl;org_ibm_research_zurich
+  cmp_mohl2025_photonic_molecule:
+    notes: 'Optical resonator pair of the triply resonant transducer (device 2, EO row mohl2025-a). Intrinsic Q is in the EO row notes only, so entered here; FSR 218 GHz is already in the EO row (fsr_nm
+      1.87) and not re-entered. Room-temperature fit before cooldown also gives ring-ring detuning -2.2 GHz (Fig. 21; not entered); splitting 2mu = 2pi x 4.7 GHz entered as mode_splitting_ghz; intrinsic
+      loss rate roughly doubled after cooldown (p.26). Ring radius and gap not stated in the text. Fab: samples fabricated by the authors (contributions, p.11), all at IBM Research Europe, Zurich; facility:
+      all samples fabricated at BRNC (acknowledgments, p.11).'
+    why: D73 parameters now used
+  cmp_axline2026_racetrack_l500_s410:
+    notes: 'Photonic-molecule optical resonators of transducer device(s) 1 (Table B.1, p.16); design follows an earlier TFLN design (ref. 25). FSR is already in the EO rows (fsr_nm) and not re-entered.
+      Intrinsic (kappa_0) and external (kappa_ext) rates per supermode from Table B.1; minimum splitting from Table B.1 (origin not stated, author_estimate). Fab org not set: fabrication by the authors
+      (Miraex SA and EPFL affiliations; acknowledgments mention Miraex photonics platform), no fabricating org stated; LT-on-insulator stack from NanoLN (supplier, a note).'
+    why: D73 repoint and additions
+  cmp_axline2026_racetrack_l400_s410:
+    notes: 'Photonic-molecule optical resonators of transducer device(s) 2 (Table B.1, p.16); design follows an earlier TFLN design (ref. 25). FSR is already in the EO rows (fsr_nm) and not re-entered.
+      Intrinsic (kappa_0) and external (kappa_ext) rates per supermode from Table B.1; minimum splitting from Table B.1 (origin not stated, author_estimate). Fab org not set: fabrication by the authors
+      (Miraex SA and EPFL affiliations; acknowledgments mention Miraex photonics platform), no fabricating org stated; LT-on-insulator stack from NanoLN (supplier, a note).'
+    why: D73 repoint and additions
+  cmp_axline2026_racetrack_l350_s410:
+    notes: 'Photonic-molecule optical resonators of transducer device(s) 3 (Table B.1, p.16); design follows an earlier TFLN design (ref. 25). FSR is already in the EO rows (fsr_nm) and not re-entered.
+      Intrinsic (kappa_0) and external (kappa_ext) rates per supermode from Table B.1; minimum splitting from Table B.1 (origin not stated, author_estimate). Fab org not set: fabrication by the authors
+      (Miraex SA and EPFL affiliations; acknowledgments mention Miraex photonics platform), no fabricating org stated; LT-on-insulator stack from NanoLN (supplier, a note).'
+    why: D73 repoint and additions
+  cmp_axline2026_racetrack_l400_s470:
+    notes: 'Photonic-molecule optical resonators of transducer device(s) 4 (Table B.1, p.16); design follows an earlier TFLN design (ref. 25). FSR is already in the EO rows (fsr_nm) and not re-entered.
+      Intrinsic (kappa_0) and external (kappa_ext) rates per supermode from Table B.1; minimum splitting from Table B.1 (origin not stated, author_estimate). Fab org not set: fabrication by the authors
+      (Miraex SA and EPFL affiliations; acknowledgments mention Miraex photonics platform), no fabricating org stated; LT-on-insulator stack from NanoLN (supplier, a note).'
+    why: D73 repoint and additions
+  cmp_axline2026_racetrack_l350_s470:
+    notes: 'Photonic-molecule optical resonators of transducer device(s) 5, 6 (Table B.1, p.16); design follows an earlier TFLN design (ref. 25). FSR is already in the EO rows (fsr_nm) and not re-entered.
+      Intrinsic (kappa_0) and external (kappa_ext) rates per supermode from Table B.1; minimum splitting from Table B.1 (origin not stated, author_estimate). Fab org not set: fabrication by the authors
+      (Miraex SA and EPFL affiliations; acknowledgments mention Miraex photonics platform), no fabricating org stated; LT-on-insulator stack from NanoLN (supplier, a note).'
+    why: D73 repoint and additions
+  cmp_churaev2023_ln_taper_transition:
+    fab_org_ids: org_epfl;org_ibm_research_zurich
+    why: 'D72/D76 by author contributions p.8: fabricators at EPFL and IBM Research Europe (two orgs, niels2026 precedent); coordinator applied audit Block B2'
+  cmp_churaev2023_straight_transition:
+    fab_org_ids: org_epfl;org_ibm_research_zurich
+    why: 'D72/D76 by author contributions p.8: fabricators at EPFL and IBM Research Europe (two orgs, niels2026 precedent); coordinator applied audit Block B2'
+  cmp_churaev2023_si3n4_edge_coupler:
+    fab_org_ids: org_epfl;org_ibm_research_zurich
+    why: 'D72/D76 by author contributions p.8: fabricators at EPFL and IBM Research Europe (two orgs, niels2026 precedent); coordinator applied audit Block B2'
+  cmp_churaev2023_ring_100ghz:
+    fab_org_ids: org_epfl;org_ibm_research_zurich
+    why: 'D72/D76 by author contributions p.8: fabricators at EPFL and IBM Research Europe (two orgs, niels2026 precedent); coordinator applied audit Block B2'
+  cmp_churaev2023_ring_21ghz:
+    fab_org_ids: org_epfl;org_ibm_research_zurich
+    why: 'D72/D76 by author contributions p.8: fabricators at EPFL and IBM Research Europe (two orgs, niels2026 precedent); coordinator applied audit Block B2'
+  cmp_churaev2023_w_splitter:
+    fab_org_ids: org_epfl;org_ibm_research_zurich
+    why: 'D72/D76 by author contributions p.8: fabricators at EPFL and IBM Research Europe (two orgs, niels2026 precedent); coordinator applied audit Block B2'
+metrics:
+  cmp_churaev2023_ring_100ghz-m2:
+    parameter: kappa_intrinsic_mhz
+    wavelength_inferred: ''
+    condition: intrinsic loss rate kappa_0/2pi of the mode at 184 THz (Fig. 2(d) inset label kappa_0/2pi = 80 MHz)
+    notes: Inset of Fig. 2(d) labels kappa_0/2pi = 80 MHz, fitted with 500 MHz calibration sidebands; wavelength converted from the stated 184 THz (c/f, 1629.3 nm), so not inferred
+    why: 'D73: kappa_0/2pi is an intrinsic loss rate, not a loaded linewidth -> kappa_intrinsic_mhz; inset label checked on page_04.png; frequency stated with the value'
+  cmp_churaev2023_ring_21ghz-m2:
+    notes: 'Text: most probable linewidth per region; Fig. 2(e) caption: average linewidth; labels 45, 45, 65, 70, 80 MHz read from the figure (page_04.png). Linewidth type not stated; the two 45 MHz regions
+      carry the label 8.5 dB/m, the loss the paper ties to the intrinsic Q 4.5e6, and the Fig. 2(h) histograms are of kappa_0, so the labels may be intrinsic (not asserted). Wavelength span is the spectroscopy
+      range'
+    why: scope evidence for the open linewidth type (optional repoint in Block B)
+  cmp_churaev2023_dimer_50ghz-m2:
+    wavelength_inferred: ''
+    notes: Q_S annotated in Fig. 4(f) (page_06.png, exponent 10^6); unqualified Q entered as loaded; wavelength converted from the stated 193 THz axis offset (c/f)
+    why: 'frequency stated with the value: conversion, not inference'
+  cmp_churaev2023_dimer_50ghz-m3:
+    wavelength_inferred: ''
+    notes: Q_AS annotated in Fig. 4(f) (page_06.png, exponent 10^6); unqualified Q entered as loaded; wavelength converted from the stated 193 THz axis offset (c/f)
+    why: 'frequency stated with the value: conversion, not inference'
+  cmp_zhang2024_facet_lensed_fiber-m1:
+    basis: author_estimate
+    notes: Coupling loss about 5 dB per facet stated in the Methods setup description (p.12); how it was obtained is not stated (origin not stated, D44/D76); measurements in the telecom C band
+    why: 'D44/D76: per-facet value of unstated origin -> author_estimate (as wang2024a, wang2018, wang2026b)'
+  cmp_yin2026_facet_coupler-m1:
+    basis: author_estimate
+    notes: 6 dB per facet stated as the coupling loss compensated by the PDFA in the eye-diagram setup (p.3); origin not stated (D44/D76); wavelength not stated, O band from the device operating band
+    why: 'D44/D76: setup-description value of unstated origin -> author_estimate'
+  cmp_ogiso2024_dc_heater-m1:
+    basis: author_estimate
+    notes: Heater stated to have a half-wave shift power below 20 mW (p.1 Sec. 2); no measurement shown and origin not stated (D76); measurement wavelength not stated, C band from the PIC operation
+    why: 'D76: performance value of unstated design / measured origin -> author_estimate'
+  cmp_mohl2025_photonic_molecule-m2:
+    parameter: kappa_intrinsic_mhz
+    why: 'D73: kappa_0/2pi is an intrinsic loss rate, not a loaded linewidth -> kappa_intrinsic_mhz'
+  cmp_mohl2025_photonic_molecule-m3:
+    parameter: kappa_intrinsic_mhz
+    why: 'D73: kappa_0/2pi is an intrinsic loss rate, not a loaded linewidth -> kappa_intrinsic_mhz'
+  cmp_axline2026_racetrack_l500_s410-m1:
+    parameter: kappa_intrinsic_mhz
+    why: 'D73: kappa_0/2pi is an intrinsic loss rate, not a loaded linewidth -> kappa_intrinsic_mhz'
+  cmp_axline2026_racetrack_l500_s410-m2:
+    parameter: kappa_intrinsic_mhz
+    why: 'D73: kappa_0/2pi is an intrinsic loss rate, not a loaded linewidth -> kappa_intrinsic_mhz'
+  cmp_axline2026_racetrack_l400_s410-m1:
+    parameter: kappa_intrinsic_mhz
+    why: 'D73: kappa_0/2pi is an intrinsic loss rate, not a loaded linewidth -> kappa_intrinsic_mhz'
+  cmp_axline2026_racetrack_l400_s410-m2:
+    parameter: kappa_intrinsic_mhz
+    why: 'D73: kappa_0/2pi is an intrinsic loss rate, not a loaded linewidth -> kappa_intrinsic_mhz'
+  cmp_axline2026_racetrack_l350_s410-m1:
+    parameter: kappa_intrinsic_mhz
+    why: 'D73: kappa_0/2pi is an intrinsic loss rate, not a loaded linewidth -> kappa_intrinsic_mhz'
+  cmp_axline2026_racetrack_l350_s410-m2:
+    parameter: kappa_intrinsic_mhz
+    why: 'D73: kappa_0/2pi is an intrinsic loss rate, not a loaded linewidth -> kappa_intrinsic_mhz'
+  cmp_axline2026_racetrack_l400_s470-m1:
+    parameter: kappa_intrinsic_mhz
+    why: 'D73: kappa_0/2pi is an intrinsic loss rate, not a loaded linewidth -> kappa_intrinsic_mhz'
+  cmp_axline2026_racetrack_l400_s470-m2:
+    parameter: kappa_intrinsic_mhz
+    why: 'D73: kappa_0/2pi is an intrinsic loss rate, not a loaded linewidth -> kappa_intrinsic_mhz'
+  cmp_axline2026_racetrack_l350_s470-m1:
+    parameter: kappa_intrinsic_mhz
+    why: 'D73: kappa_0/2pi is an intrinsic loss rate, not a loaded linewidth -> kappa_intrinsic_mhz'
+  cmp_axline2026_racetrack_l350_s470-m2:
+    parameter: kappa_intrinsic_mhz
+    why: 'D73: kappa_0/2pi is an intrinsic loss rate, not a loaded linewidth -> kappa_intrinsic_mhz'
+  cmp_axline2026_racetrack_l350_s470-m3:
+    parameter: kappa_intrinsic_mhz
+    why: 'D73: kappa_0/2pi is an intrinsic loss rate, not a loaded linewidth -> kappa_intrinsic_mhz'
+  cmp_axline2026_racetrack_l350_s470-m4:
+    parameter: kappa_intrinsic_mhz
+    why: 'D73: kappa_0/2pi is an intrinsic loss rate, not a loaded linewidth -> kappa_intrinsic_mhz'
+  cmp_axline2026_witness_ring-m1:
+    parameter: kappa_intrinsic_mhz
+    why: 'D73: kappa_0/2pi is an intrinsic loss rate, not a loaded linewidth -> kappa_intrinsic_mhz'
+  cmp_axline2026_witness_ring-m2:
+    parameter: kappa_intrinsic_mhz
+    why: 'D73: kappa_0/2pi is an intrinsic loss rate, not a loaded linewidth -> kappa_intrinsic_mhz'
+  cmp_axline2026_transducer_resonators_stats-m1:
+    parameter: kappa_intrinsic_mhz
+    why: 'D73: kappa_0/2pi is an intrinsic loss rate, not a loaded linewidth -> kappa_intrinsic_mhz'
+  cmp_axline2026_transducer_resonators_stats-m2:
+    parameter: kappa_intrinsic_mhz
+    why: 'D73: kappa_0/2pi is an intrinsic loss rate, not a loaded linewidth -> kappa_intrinsic_mhz'
+  cmp_axline2026_transducer_resonators_stats-m3:
+    parameter: kappa_intrinsic_mhz
+    why: 'D73: kappa_0/2pi is an intrinsic loss rate, not a loaded linewidth -> kappa_intrinsic_mhz'
+  cmp_axline2026_transducer_resonators_stats-m4:
+    parameter: kappa_intrinsic_mhz
+    why: 'D73: kappa_0/2pi is an intrinsic loss rate, not a loaded linewidth -> kappa_intrinsic_mhz'
+  cmp_axline2026_tflt_rib_wg-m1:
+    basis: author_estimate
+    notes: '''equivalent propagation losses'' as low as 0.25 dB/cm from resonator loss rates (p.2); resonator, group index and conversion not stated (D76: Q-derived loss with an unstated input -> author_estimate);
+      C band from the 1550-1565 nm resonator measurements'
+    why: 'D76: loss from resonator rates with ng not stated -> author_estimate'
+add_metrics:
+- metric_id: cmp_churaev2023_ring_100ghz-m4
+  component_id: cmp_churaev2023_ring_100ghz
+  parameter: fsr_ghz
+  value: '102.5'
+  unit: GHz
+  condition: D1/2pi of the integrated-dispersion fit of the 100 GHz ring, 185-235 THz
+  method: direct
+  basis: measured
+  locator: p.4 Fig. 2(d)
+  notes: Measured FSR (D1/2pi) of the ring whose dispersion is shown; the nominal 100 GHz class stays in m3 (design_target)
+  why: 'miss: measured FSR printed in Fig. 2(d)'
+- metric_id: cmp_churaev2023_dimer_50ghz-m5
+  component_id: cmp_churaev2023_dimer_50ghz
+  parameter: mode_splitting_ghz
+  value: '4.6'
+  unit: GHz
+  wavelength_nm: '1553.3'
+  condition: zero-bias normal-mode splitting of the S and AS supermodes, no voltage applied (193 THz axis offset)
+  method: direct
+  basis: measured
+  locator: p.6 Fig. 4(f)
+  notes: Delta omega/2pi = 4.6 GHz annotated in Fig. 4(f); wavelength converted from 193 THz (c/f)
+  why: 'miss: D73 mode_splitting_ghz'
+- metric_id: cmp_liu2025b_rib_wg_1um-m3
+  component_id: cmp_liu2025b_rib_wg_1um
+  parameter: prop_loss_db_per_cm
+  value: '0.17'
+  value_max: '0.31'
+  unit: dB/cm
+  statistic: wafer_map
+  n_samples: '12'
+  wavelength_nm: '1550'
+  condition: 1 um wide rib, spiral cutback per reticle block (12 blocks of the 4-inch wafer)
+  method: cutback
+  basis: measured
+  locator: p.4 Fig. 3(a)
+  notes: Range of the 12 per-block labels of Fig. 3(a) (0.17-0.31 dB/cm); the text bound below 0.4 dB/cm stays in m1; the 0.2 dB/cm block of Fig. 3(d) is in the EO row
+  why: 'miss: per-block values printed in Fig. 3(a)'
+- metric_id: cmp_mohl2025_photonic_molecule-m4
+  component_id: cmp_mohl2025_photonic_molecule
+  parameter: mode_splitting_ghz
+  value: '4.7'
+  unit: GHz
+  wavelength_nm: '1603.5'
+  condition: coherent ring-ring coupling 2mu from the avoided crossing vs tuning voltage, room temperature after optical packaging
+  method: direct
+  basis: measured
+  locator: p.6 Fig. 2(f); p.29 Table V
+  notes: 2mu = 2pi x 4.7 GHz for the resonance pair at 1603.5 nm; the same value is used as a transduction-model parameter (Table V)
+  why: 'miss: D73 mode_splitting_ghz'
+- metric_id: cmp_mohl2025_photonic_molecule-m5
+  component_id: cmp_mohl2025_photonic_molecule
+  parameter: kappa_ext_mhz
+  value: '850'
+  unit: MHz
+  wavelength_nm: '1603.5'
+  wavelength_inferred: 'true'
+  condition: external coupling rate kappa_a,ex/2pi used in the transduction model (cryogenic operation)
+  method: unspecified
+  basis: author_estimate
+  locator: p.29 Table V
+  notes: 0.85 GHz system parameter of the transduction model; whether fitted or assumed not stated; wavelength of the transduction resonance pair assumed (as m3)
+  why: 'miss: D73 kappa_ext_mhz'
+- metric_id: cmp_axline2026_racetrack_l500_s410-m6
+  component_id: cmp_axline2026_racetrack_l500_s410
+  parameter: kappa_ext_mhz
+  value: '64.1'
+  unit: MHz
+  wavelength_nm: '1560.7'
+  mode: red (pump) supermode
+  condition: external (bus) coupling rate kappa_ext/2pi, device 1, near the operational splitting bias; device temperature 2.8 K at the operating point
+  method: direct
+  basis: measured
+  locator: p.16 Table B.1
+  notes: Fit value with uncertainty in the last digit(s) in Table B.1; wavelength is the device operating wavelength
+  why: 'miss: D73 kappa_ext_mhz'
+- metric_id: cmp_axline2026_racetrack_l500_s410-m7
+  component_id: cmp_axline2026_racetrack_l500_s410
+  parameter: kappa_ext_mhz
+  value: '15.5'
+  unit: MHz
+  wavelength_nm: '1560.7'
+  mode: blue (signal) supermode
+  condition: external (bus) coupling rate kappa_ext/2pi, device 1, near the operational splitting bias; device temperature 2.8 K at the operating point
+  method: direct
+  basis: measured
+  locator: p.16 Table B.1
+  notes: Fit value with uncertainty in the last digit(s) in Table B.1; wavelength is the device operating wavelength
+  why: 'miss: D73 kappa_ext_mhz'
+- metric_id: cmp_axline2026_racetrack_l400_s410-m6
+  component_id: cmp_axline2026_racetrack_l400_s410
+  parameter: kappa_ext_mhz
+  value: '19'
+  unit: MHz
+  wavelength_nm: '1562.74'
+  mode: red (pump) supermode
+  condition: external (bus) coupling rate kappa_ext/2pi, device 2, near the operational splitting bias; device temperature below 1 K at the operating point
+  method: direct
+  basis: measured
+  locator: p.16 Table B.1
+  notes: Fit value with uncertainty in the last digit(s) in Table B.1; wavelength is the device operating wavelength
+  why: 'miss: D73 kappa_ext_mhz'
+- metric_id: cmp_axline2026_racetrack_l400_s410-m7
+  component_id: cmp_axline2026_racetrack_l400_s410
+  parameter: kappa_ext_mhz
+  value: '49'
+  unit: MHz
+  wavelength_nm: '1562.74'
+  mode: blue (signal) supermode
+  condition: external (bus) coupling rate kappa_ext/2pi, device 2, near the operational splitting bias; device temperature below 1 K at the operating point
+  method: direct
+  basis: measured
+  locator: p.16 Table B.1
+  notes: Fit value with uncertainty in the last digit(s) in Table B.1; wavelength is the device operating wavelength
+  why: 'miss: D73 kappa_ext_mhz'
+- metric_id: cmp_axline2026_racetrack_l350_s410-m6
+  component_id: cmp_axline2026_racetrack_l350_s410
+  parameter: kappa_ext_mhz
+  value: '62'
+  unit: MHz
+  wavelength_nm: '1562'
+  mode: red (pump) supermode
+  condition: external (bus) coupling rate kappa_ext/2pi, device 3, near the operational splitting bias; device temperature below 1 K at the operating point
+  method: direct
+  basis: measured
+  locator: p.16 Table B.1
+  notes: Fit value with uncertainty in the last digit(s) in Table B.1; wavelength is the device operating wavelength
+  why: 'miss: D73 kappa_ext_mhz'
+- metric_id: cmp_axline2026_racetrack_l350_s410-m7
+  component_id: cmp_axline2026_racetrack_l350_s410
+  parameter: kappa_ext_mhz
+  value: '38'
+  unit: MHz
+  wavelength_nm: '1562'
+  mode: blue (signal) supermode
+  condition: external (bus) coupling rate kappa_ext/2pi, device 3, near the operational splitting bias; device temperature below 1 K at the operating point
+  method: direct
+  basis: measured
+  locator: p.16 Table B.1
+  notes: Fit value with uncertainty in the last digit(s) in Table B.1; wavelength is the device operating wavelength
+  why: 'miss: D73 kappa_ext_mhz'
+- metric_id: cmp_axline2026_racetrack_l400_s470-m6
+  component_id: cmp_axline2026_racetrack_l400_s470
+  parameter: kappa_ext_mhz
+  value: '94'
+  unit: MHz
+  wavelength_nm: '1560.77'
+  mode: red (pump) supermode
+  condition: external (bus) coupling rate kappa_ext/2pi, device 4, near the operational splitting bias; device temperature below 1 K at the operating point
+  method: direct
+  basis: measured
+  locator: p.16 Table B.1
+  notes: Fit value with uncertainty in the last digit(s) in Table B.1; wavelength is the device operating wavelength
+  why: 'miss: D73 kappa_ext_mhz'
+- metric_id: cmp_axline2026_racetrack_l400_s470-m7
+  component_id: cmp_axline2026_racetrack_l400_s470
+  parameter: kappa_ext_mhz
+  value: '19'
+  unit: MHz
+  wavelength_nm: '1560.77'
+  mode: blue (signal) supermode
+  condition: external (bus) coupling rate kappa_ext/2pi, device 4, near the operational splitting bias; device temperature below 1 K at the operating point
+  method: direct
+  basis: measured
+  locator: p.16 Table B.1
+  notes: Fit value with uncertainty in the last digit(s) in Table B.1; wavelength is the device operating wavelength
+  why: 'miss: D73 kappa_ext_mhz'
+- metric_id: cmp_axline2026_racetrack_l350_s470-m8
+  component_id: cmp_axline2026_racetrack_l350_s470
+  parameter: kappa_ext_mhz
+  value: '169'
+  unit: MHz
+  wavelength_nm: '1560.92'
+  mode: red (pump) supermode
+  condition: external (bus) coupling rate kappa_ext/2pi, device 5, near the operational splitting bias; device temperature below 1 K at the operating point
+  method: direct
+  basis: measured
+  locator: p.16 Table B.1
+  notes: Fit value with uncertainty in the last digit(s) in Table B.1; wavelength is the device operating wavelength
+  why: 'miss: D73 kappa_ext_mhz'
+- metric_id: cmp_axline2026_racetrack_l350_s470-m9
+  component_id: cmp_axline2026_racetrack_l350_s470
+  parameter: kappa_ext_mhz
+  value: '41'
+  unit: MHz
+  wavelength_nm: '1560.92'
+  mode: blue (signal) supermode
+  condition: external (bus) coupling rate kappa_ext/2pi, device 5, near the operational splitting bias; device temperature below 1 K at the operating point
+  method: direct
+  basis: measured
+  locator: p.16 Table B.1
+  notes: Fit value with uncertainty in the last digit(s) in Table B.1; wavelength is the device operating wavelength
+  why: 'miss: D73 kappa_ext_mhz'
+- metric_id: cmp_axline2026_racetrack_l350_s470-m10
+  component_id: cmp_axline2026_racetrack_l350_s470
+  parameter: kappa_ext_mhz
+  value: '90'
+  unit: MHz
+  wavelength_nm: '1560.96'
+  mode: red (pump) supermode
+  condition: external (bus) coupling rate kappa_ext/2pi, device 6, near the operational splitting bias; device temperature below 1 K at the operating point
+  method: direct
+  basis: measured
+  locator: p.16 Table B.1
+  notes: Fit value with uncertainty in the last digit(s) in Table B.1; wavelength is the device operating wavelength
+  why: 'miss: D73 kappa_ext_mhz'
+- metric_id: cmp_axline2026_racetrack_l350_s470-m11
+  component_id: cmp_axline2026_racetrack_l350_s470
+  parameter: kappa_ext_mhz
+  value: '31'
+  unit: MHz
+  wavelength_nm: '1560.96'
+  mode: blue (signal) supermode
+  condition: external (bus) coupling rate kappa_ext/2pi, device 6, near the operational splitting bias; device temperature below 1 K at the operating point
+  method: direct
+  basis: measured
+  locator: p.16 Table B.1
+  notes: Fit value with uncertainty in the last digit(s) in Table B.1; wavelength is the device operating wavelength
+  why: 'miss: D73 kappa_ext_mhz'
+- metric_id: cmp_axline2026_racetrack_l500_s410-m8
+  component_id: cmp_axline2026_racetrack_l500_s410
+  parameter: mode_splitting_ghz
+  value: '4.03'
+  unit: GHz
+  wavelength_nm: '1560.7'
+  condition: minimum (fully hybridized) supermode splitting, device 1
+  method: unspecified
+  basis: author_estimate
+  locator: p.16 Table B.1; p.4 Fig. 2(a,b)
+  notes: Listed under the design properties of Table B.1; Fig. 2(a,b) show the measured minimum-splitting point for device 1, but the origin of the tabulated values is not stated (D76); text range 3.4-6.2
+    GHz over all designs (p.4)
+  why: 'miss: D73 mode_splitting_ghz'
+- metric_id: cmp_axline2026_racetrack_l400_s410-m8
+  component_id: cmp_axline2026_racetrack_l400_s410
+  parameter: mode_splitting_ghz
+  value: '4.68'
+  unit: GHz
+  wavelength_nm: '1562.74'
+  condition: minimum (fully hybridized) supermode splitting, device 2
+  method: unspecified
+  basis: author_estimate
+  locator: p.16 Table B.1; p.4 Fig. 2(a,b)
+  notes: Listed under the design properties of Table B.1; Fig. 2(a,b) show the measured minimum-splitting point for device 1, but the origin of the tabulated values is not stated (D76); text range 3.4-6.2
+    GHz over all designs (p.4)
+  why: 'miss: D73 mode_splitting_ghz'
+- metric_id: cmp_axline2026_racetrack_l350_s410-m8
+  component_id: cmp_axline2026_racetrack_l350_s410
+  parameter: mode_splitting_ghz
+  value: '4.73'
+  unit: GHz
+  wavelength_nm: '1562'
+  condition: minimum (fully hybridized) supermode splitting, device 3
+  method: unspecified
+  basis: author_estimate
+  locator: p.16 Table B.1; p.4 Fig. 2(a,b)
+  notes: Listed under the design properties of Table B.1; Fig. 2(a,b) show the measured minimum-splitting point for device 1, but the origin of the tabulated values is not stated (D76); text range 3.4-6.2
+    GHz over all designs (p.4)
+  why: 'miss: D73 mode_splitting_ghz'
+- metric_id: cmp_axline2026_racetrack_l400_s470-m8
+  component_id: cmp_axline2026_racetrack_l400_s470
+  parameter: mode_splitting_ghz
+  value: '4.06'
+  unit: GHz
+  wavelength_nm: '1560.77'
+  condition: minimum (fully hybridized) supermode splitting, device 4
+  method: unspecified
+  basis: author_estimate
+  locator: p.16 Table B.1; p.4 Fig. 2(a,b)
+  notes: Listed under the design properties of Table B.1; Fig. 2(a,b) show the measured minimum-splitting point for device 1, but the origin of the tabulated values is not stated (D76); text range 3.4-6.2
+    GHz over all designs (p.4)
+  why: 'miss: D73 mode_splitting_ghz'
+- metric_id: cmp_axline2026_racetrack_l350_s470-m12
+  component_id: cmp_axline2026_racetrack_l350_s470
+  parameter: mode_splitting_ghz
+  value: '4.4'
+  unit: GHz
+  wavelength_nm: '1560.92'
+  condition: minimum (fully hybridized) supermode splitting, device 5
+  method: unspecified
+  basis: author_estimate
+  locator: p.16 Table B.1; p.4 Fig. 2(a,b)
+  notes: Listed under the design properties of Table B.1; Fig. 2(a,b) show the measured minimum-splitting point for device 1, but the origin of the tabulated values is not stated (D76); text range 3.4-6.2
+    GHz over all designs (p.4)
+  why: 'miss: D73 mode_splitting_ghz'
+- metric_id: cmp_axline2026_racetrack_l350_s470-m13
+  component_id: cmp_axline2026_racetrack_l350_s470
+  parameter: mode_splitting_ghz
+  value: '4.23'
+  unit: GHz
+  wavelength_nm: '1560.96'
+  condition: minimum (fully hybridized) supermode splitting, device 6
+  method: unspecified
+  basis: author_estimate
+  locator: p.16 Table B.1; p.4 Fig. 2(a,b)
+  notes: Listed under the design properties of Table B.1; Fig. 2(a,b) show the measured minimum-splitting point for device 1, but the origin of the tabulated values is not stated (D76); text range 3.4-6.2
+    GHz over all designs (p.4)
+  why: 'miss: D73 mode_splitting_ghz'
+- metric_id: cmp_churaev2023_dimer_50ghz-m6
+  component_id: cmp_churaev2023_dimer_50ghz
+  parameter: tuning_efficiency_pm_per_v
+  value: '0.24'
+  unit: pm/V
+  qualifier: approx
+  wavelength_nm: '1553.3'
+  condition: DC voltage on one ring, linear tuning of a single mode (around 30 MHz/V)
+  method: direct
+  basis: derived
+  locator: p.6 Fig. 4(g)
+  notes: 30 MHz/V converted with lambda^2/c at 1553.3 nm
+  why: D77 tuning_efficiency_pm_per_v; coordinator applied audit Block B3

@@ -1,0 +1,224 @@
+# D81 gap-fill (subagent, 2026-10-20); applied after patch.yaml and sweep.yaml. Coordinator dropped: cmp_ofc2026_th1d5_laser_trim_phase_shifter-m6 (D83: a 1000 h bake stability test of a permanent trim is not a retention time); cmp_ofc2026_m1g3_qd_dfb_memristor-m10 (D83: static current tuning (pm/mA) is not an FM efficiency)
+add_metrics:
+- metric_id: cmp_ectc51687_2025_00012_fau_vgroove_ssc-m13
+  component_id: cmp_ectc51687_2025_00012_fau_vgroove_ssc
+  parameter: insertion_loss_db
+  value: '0.38'
+  unit: dB
+  statistic: std
+  n_samples: '386'
+  band: unspecified
+  scope: loopback_half
+  includes: MTP-MT connection, PM fiber, optical adhesive, SSC and on-chip OIO loopback circuitry
+  condition: end of line, baseline lots (several chiplet wafers, assembly lots, FAU suppliers), active alignment
+  method: loopback
+  basis: measured
+  locator: p.2 Sec. III; p.3 Table I
+  notes: Std. dev. of the IL/facet companion to the mean of -m1 (printed -2.46 dB IL/facet); wavelength not stated.
+  why: 'D81 gap-fill: value listed as not entered in the batch report / component note; std of -m1 (statistic std now exists; pk_oi gap ''a std column'')'
+- metric_id: cmp_ectc51687_2025_00012_fau_vgroove_ssc-m14
+  component_id: cmp_ectc51687_2025_00012_fau_vgroove_ssc
+  parameter: insertion_loss_db
+  value: '0.34'
+  unit: dB
+  statistic: std
+  n_samples: '58'
+  band: unspecified
+  scope: loopback_half
+  includes: MTP-MT connection, PM fiber, optical adhesive, SSC and on-chip OIO loopback circuitry
+  condition: end of line, active alignment, concurrent DOE
+  method: loopback
+  basis: measured
+  locator: p.3 Sec. III; p.3 Table II
+  notes: Std. dev. of the IL/facet companion to the mean of -m2 (printed -2.50 dB IL/facet); wavelength not stated.
+  why: 'D81 gap-fill: value listed as not entered in the batch report / component note; std of -m2 (statistic std now exists; pk_oi gap ''a std column'')'
+- metric_id: cmp_ectc51687_2025_00012_fau_vgroove_ssc-m15
+  component_id: cmp_ectc51687_2025_00012_fau_vgroove_ssc
+  parameter: insertion_loss_db
+  value: '0.24'
+  unit: dB
+  statistic: std
+  n_samples: '10'
+  band: unspecified
+  scope: loopback_half
+  includes: MTP-MT connection, PM fiber, optical adhesive, SSC and on-chip OIO loopback circuitry
+  condition: end of line, passive alignment (V-groove force feedback), concurrent DOE
+  method: loopback
+  basis: measured
+  locator: p.3 Sec. III; p.3 Table II
+  notes: Std. dev. of the IL/facet companion to the mean of -m3 (printed -2.62 dB IL/facet); wavelength not stated.
+  why: 'D81 gap-fill: value listed as not entered in the batch report / component note; std of -m3 (statistic std now exists; pk_oi gap ''a std column'')'
+- metric_id: cmp_ectc51687_2025_00012_fau_vgroove_ssc-m16
+  component_id: cmp_ectc51687_2025_00012_fau_vgroove_ssc
+  parameter: insertion_loss_db
+  value: '0.25'
+  unit: dB
+  statistic: std
+  n_samples: '54'
+  band: unspecified
+  scope: loopback_half
+  includes: MTP-MT connection, PM fiber, optical adhesive, SSC and on-chip OIO loopback circuitry
+  condition: end of line, lab tester
+  method: loopback
+  basis: measured
+  locator: p.3 Table III
+  notes: Std. dev. of the IL/facet companion to the mean of -m4 (printed -2.46 dB IL/facet); wavelength not stated.
+  why: 'D81 gap-fill: value listed as not entered in the batch report / component note; std of -m4 (statistic std now exists; pk_oi gap ''a std column'')'
+- metric_id: cmp_ectc51687_2025_00012_fau_vgroove_ssc-m17
+  component_id: cmp_ectc51687_2025_00012_fau_vgroove_ssc
+  parameter: insertion_loss_db
+  value: '0.34'
+  unit: dB
+  statistic: std
+  n_samples: '54'
+  band: unspecified
+  scope: loopback_half
+  includes: MTP-MT connection, PM fiber, optical adhesive, SSC and on-chip OIO loopback circuitry
+  condition: end of line, HVM tester
+  method: loopback
+  basis: measured
+  locator: p.3 Table III
+  notes: Std. dev. of the IL/facet companion to the mean of -m5 (printed -2.43 dB IL/facet); wavelength not stated.
+  why: 'D81 gap-fill: value listed as not entered in the batch report / component note; std of -m5 (statistic std now exists; pk_oi gap ''a std column'')'
+- metric_id: cmp_ectc51687_2025_00012_fau_vgroove_ssc-m18
+  component_id: cmp_ectc51687_2025_00012_fau_vgroove_ssc
+  parameter: insertion_loss_db
+  value: '0.34'
+  unit: dB
+  statistic: std
+  n_samples: '110'
+  band: unspecified
+  scope: loopback_half
+  includes: MTP-MT connection, PM fiber, optical adhesive, SSC and on-chip OIO loopback circuitry
+  condition: end of line, standard FAU, thermal insulation on MT
+  method: loopback
+  basis: measured
+  locator: p.4 Table IV
+  notes: Std. dev. of the IL/facet companion to the mean of -m6 (printed -2.49 dB IL/facet); wavelength not stated.
+  why: 'D81 gap-fill: value listed as not entered in the batch report / component note; std of -m6 (statistic std now exists; pk_oi gap ''a std column'')'
+- metric_id: cmp_ectc51687_2025_00012_fau_vgroove_ssc-m19
+  component_id: cmp_ectc51687_2025_00012_fau_vgroove_ssc
+  parameter: insertion_loss_db
+  value: '0.43'
+  unit: dB
+  statistic: std
+  n_samples: '110'
+  band: unspecified
+  scope: loopback_half
+  includes: MTP-MT connection, PM fiber, optical adhesive, SSC and on-chip OIO loopback circuitry
+  condition: after 3x SAC reflow, standard FAU, thermal insulation on MT
+  method: loopback
+  basis: measured
+  locator: p.4 Table IV
+  notes: Std. dev. of the IL/facet companion to the mean of -m7 (printed -2.50 dB IL/facet); wavelength not stated.
+  why: 'D81 gap-fill: value listed as not entered in the batch report / component note; std of -m7 (statistic std now exists; pk_oi gap ''a std column'')'
+- metric_id: cmp_ectc51687_2025_00012_fau_vgroove_ssc-m20
+  component_id: cmp_ectc51687_2025_00012_fau_vgroove_ssc
+  parameter: insertion_loss_db
+  value: '0.34'
+  unit: dB
+  statistic: std
+  n_samples: '78'
+  band: unspecified
+  scope: loopback_half
+  includes: MTP-MT connection, PM fiber, optical adhesive, SSC and on-chip OIO loopback circuitry
+  condition: end of line, reflow-compatible FAU
+  method: loopback
+  basis: measured
+  locator: p.4 Table V
+  notes: Std. dev. of the IL/facet companion to the mean of -m8 (printed -2.39 dB IL/facet); wavelength not stated.
+  why: 'D81 gap-fill: value listed as not entered in the batch report / component note; std of -m8 (statistic std now exists; pk_oi gap ''a std column'')'
+- metric_id: cmp_ectc51687_2025_00012_fau_vgroove_ssc-m21
+  component_id: cmp_ectc51687_2025_00012_fau_vgroove_ssc
+  parameter: insertion_loss_db
+  value: '0.36'
+  unit: dB
+  statistic: std
+  n_samples: '78'
+  band: unspecified
+  scope: loopback_half
+  includes: MTP-MT connection, PM fiber, optical adhesive, SSC and on-chip OIO loopback circuitry
+  condition: after 3x SAC reflow, reflow-compatible FAU, no MT insulation
+  method: loopback
+  basis: measured
+  locator: p.4 Table V
+  notes: Std. dev. of the IL/facet companion to the mean of -m9 (printed -2.52 dB IL/facet); wavelength not stated.
+  why: 'D81 gap-fill: value listed as not entered in the batch report / component note; std of -m9 (statistic std now exists; pk_oi gap ''a std column'')'
+- metric_id: cmp_ectc51687_2025_00012_fau_vgroove_ssc-m22
+  component_id: cmp_ectc51687_2025_00012_fau_vgroove_ssc
+  parameter: insertion_loss_db
+  value: '0.47'
+  unit: dB
+  statistic: std
+  n_samples: '16'
+  band: unspecified
+  scope: loopback_half
+  includes: MTP-MT connection, PM fiber, optical adhesive, SSC and on-chip OIO loopback circuitry
+  condition: after 3x SAC reflow and TCB 1500 cycles (-55 to 125 C), reflow-compatible FAU
+  method: loopback
+  basis: measured
+  locator: p.4 Table VII; p.4 Table VI
+  notes: Std. dev. of the IL/facet companion to the mean of -m10 (printed -2.73 dB IL/facet); wavelength not stated.
+  why: 'D81 gap-fill: value listed as not entered in the batch report / component note; std of -m10 (statistic std now exists; pk_oi gap ''a std column'')'
+- metric_id: cmp_ectc51687_2025_00012_fau_vgroove_ssc-m23
+  component_id: cmp_ectc51687_2025_00012_fau_vgroove_ssc
+  parameter: insertion_loss_db
+  value: '3.69'
+  unit: dB
+  statistic: std
+  n_samples: '20'
+  band: unspecified
+  scope: loopback_half
+  includes: MTP-MT connection, PM fiber, optical adhesive, SSC and on-chip OIO loopback circuitry
+  condition: after 3x SAC reflow and uHAST 275 h (110 C, 85 %RH), reflow-compatible FAU
+  method: loopback
+  basis: measured
+  locator: p.4 Table VIII; p.4 Sec. V
+  notes: Std. dev. of the IL/facet companion to the mean of -m11 (printed -6.44 dB IL/facet); wavelength not stated.
+  why: 'D81 gap-fill: value listed as not entered in the batch report / component note; std of -m11 (statistic std now exists; pk_oi gap ''a std column'')'
+- metric_id: cmp_ectc51687_2025_00012_fau_vgroove_ssc-m24
+  component_id: cmp_ectc51687_2025_00012_fau_vgroove_ssc
+  parameter: insertion_loss_db
+  value: '0.40'
+  unit: dB
+  statistic: std
+  n_samples: '4'
+  band: unspecified
+  scope: loopback_half
+  includes: MTP-MT connection, PM fiber, optical adhesive, SSC and on-chip OIO loopback circuitry
+  condition: after 3x SAC reflow and HTS 1008 h (150 C), reflow-compatible FAU
+  method: loopback
+  basis: measured
+  locator: p.5 Table IX; p.4 Table VI
+  notes: Std. dev. of the IL/facet companion to the mean of -m12 (printed -2.86 dB IL/facet); wavelength not stated.
+  why: 'D81 gap-fill: value listed as not entered in the batch report / component note; std of -m12 (statistic std now exists; pk_oi gap ''a std column'')'
+- metric_id: cmp_ectc51687_2025_00284_ifau40_coi_edge-m2
+  component_id: cmp_ectc51687_2025_00284_ifau40_coi_edge
+  parameter: insertion_loss_db
+  value: '0.18'
+  unit: dB
+  statistic: std
+  band: o_band
+  wavelength_inferred: 'true'
+  scope: unspecified
+  condition: 40 fibers to 40 COI waveguides, active alignment
+  method: loopback
+  basis: measured
+  locator: p.3 Sec. III.A; p.3 Fig. 4
+  notes: '''sigma of 0.18 dB'' with the ~1.28 dB average loopback coupling loss (m1); per-loopback vs per-coupling scope not stated.'
+  why: 'D81 gap-fill: value listed as not entered in the batch report / component note; std of -m1 (statistic std now exists; pk_oi gap)'
+- metric_id: cmp_ectc51846_2026_00302_sle_vgroove_iox-m3
+  component_id: cmp_ectc51846_2026_00302_sle_vgroove_iox
+  parameter: insertion_loss_db
+  value: '0.019'
+  unit: dB
+  statistic: std
+  n_samples: '5'
+  wavelength_nm: '1550'
+  scope: fiber_to_fiber
+  includes: input fiber in V-groove, IOX waveguide, output fiber at the opposite facet
+  condition: index-matching oil at both facets
+  basis: measured
+  locator: p.3 Sec. III
+  notes: '''standard deviation of 0.019 dB'' of the 3.381 dB mean over 5 waveguides (m2).'
+  why: 'D81 gap-fill: value listed as not entered in the batch report / component note; std of -m2 (statistic std now exists; pk_oi gap)'

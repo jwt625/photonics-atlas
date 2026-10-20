@@ -1,0 +1,21 @@
+# Audit patch ofc_07 (fresh-context audit 2026-10-20), main block only (optional Block B not applied: Table / Results values kept measured).
+components:
+  cmp_ofc2026_w4e5_membrane_sel_la70um:
+    notes: 'Micro-transfer-printed onto a Si substrate (not a PIC). Fabrication by the authors (''we employed''), but authors span NTT, Inc. and Institute of Science Tokyo; fab_org_ids empty (D72 needs
+      one org). Simulated upward efficiency 91 % (Fig. 1(c)), bottom reflectance ~67 %, target MFD 9.2 um: not entered. Near-threshold slope efficiency 0.29 W/A entered (D77). MCEF 9.1 GHz/mA^0.5 and D-factor
+      7.1 GHz/mA^0.5 have no registry parameter. Lasing wavelength not stated (O band from title).'
+    why: D77 slope_efficiency_w_per_a now entered (m10)
+add_metrics:
+- metric_id: cmp_ofc2026_w4e5_membrane_sel_la70um-m10
+  component_id: cmp_ofc2026_w4e5_membrane_sel_la70um
+  parameter: slope_efficiency_w_per_a
+  value: '0.29'
+  unit: W/A
+  temperature_k: '298.15'
+  ref_plane: chip
+  condition: near threshold; upward surface emission into a large-area spatial PD (9.5-mm aperture ~5 mm above the SEL); stage 25 C
+  method: direct
+  basis: measured
+  locator: p.~1 Sec. 3, Fig. 2(a)
+  notes: Near-threshold slope efficiency from the L-I inset of Fig. 2(a); the 0.075 W/A comparison value is cited work [11] (not entered).
+  why: D77 slope_efficiency_w_per_a (miss)

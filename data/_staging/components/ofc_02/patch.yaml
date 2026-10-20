@@ -1,0 +1,84 @@
+# Audit patch ofc_02 (fresh-context audit 2026-10-20), main block plus coordinator-selected optional items (D80 / D81).
+components:
+  cmp_ofc2026_w2a15_qd_fp_uturn_mtp:
+    facility_org_ids: org_ucsb_nanofabrication_facility
+    notes: 'Coupons released from the native GaAs substrate and printed into etched recesses of a SiN-on-Si chip (150 nm LPCVD SiN on 5 um thermal SiO2, PECVD SiO2 cladding); recess Si RMS roughness 0.4
+      nm (AFM). Facet dielectric stack intended for ~30 % reflectivity. Simulated, not entered: dilute waveguide doubles modal area, >3 dB higher coupling at 0.5 um vertical misalignment, ~0.6 cm for 20
+      dB gain. LI at 20-70 C and spectra at 200-600 mA shown without numbers. Authors at UCSB and Tyndall; fabricating org not stated, fab_org_ids empty. ''A portion of this work was performed in the UCSB
+      Nanofabrication Facility'' (p.~3 Acknowledgements) -> facility_org_ids (registry addition 2026-10-20).'
+    why: rule 12 'performed in' a shared facility; org_ucsb_nanofabrication_facility now in the registry
+  cmp_ofc2026_w2a15_qd_sin_butt:
+    facility_org_ids: org_ucsb_nanofabrication_facility
+    why: same acknowledgement (p.~3); the butt interface is formed by the recess etch and printing of the same work
+  cmp_ofc2026_tu2j4_scl_mux_mosaic:
+    notes: 'EBL and dry etching; GC I/O; TE measured with tunable lasers; straight-waveguide transmission on the same chip subtracted. Optimized at 1470/1490/1510 (S), 1530/1550/1570 (C) and 1590/1610/1630
+      (L) nm. Measured DMUX spectra limited to >1495 nm by the GCs. Authors at Hosei University, Sumitomo Electric Industries and PETRA; fabricating org not stated. ARIM (MEXT) support acknowledged under
+      a grant (p.~3 Acknowledgement); ARIM is in the registry (org_advanced_research_infrastructure_for_materials_and_nanotechnology_in_japan), facility_org_ids left empty pending a global ruling on grant-level
+      ARIM acknowledgements (also M4D.3, tanaka2026). Class splitter.other: the wdm class has no subtype for an inverse-designed band MUX (registry gap; wdm.other proposed); 3 ports (S, C, L) not entered
+      as n_channels (not allowed for splitter).'
+    why: 'D81 subtype wdm.other: S/C/L band multiplexer (audit ofc_02-04 Block D)'
+    class: wdm.other
+  cmp_ofc2026_th1a4_cryo_vcsel_7um:
+    notes: Material system not stated. Cryogenic chamber, GSG probe, power by a calibrated large-area PD. Slope efficiency 1.18 W/A at I/Ith ~150 at 3 K entered as slope_efficiency_w_per_a (D77). The 5-um-aperture
+      device used for spectra (RMS width <0.6 nm at 2-20 mA, 3 K; Sec. 1 / Sec. 4 say <0.58 nm) and PAM-4 links (140 Gb/s at 20 K; 128 Gb/s at 3 / 40 K, TDECQ 2.67 / 3.1 dB) has no registry-parameter value
+      and is not a row. Fabricating org not stated (authors at National Taiwan University and UIUC).
+    why: D77 slope_efficiency_w_per_a now exists
+  cmp_ofc2026_th1h1_dual_mode_dfb:
+    notes: 'Chip 400 um wide x 1200 um long; end face near the grating diced at 10 deg to open two DBR transmission windows. Pigtailed TO-can; temperature set by a home-made cooler. Grating period 240 nm
+      (period_nm not allowed for laser). P-I slope 37 -> 34.42 (21 -> 25 C) not entered in slope_efficiency_w_per_a: unit printed ''mA/W'', so the value cannot be placed in W/A without reinterpretation.
+      Not entered (no registry parameter): power-temperature slope 7.75e-2 mW/C, resistance 27.08 ohm, two-mode peak difference 20.5 -> 9.8 dB (12 -> 108 mA), relaxation oscillation 1.85 -> 12 GHz (12 ->
+      60 mA); sub-THz carrier -38 dBm, CNR 37 dB (UTC-PD system result). Text cites Fig. 1(b)/1(c) for spectra and wavelengths; captions show Fig. 2(b)/2(c). Fabricating org not stated (authors at NICT
+      and National Taiwan University).'
+    why: D77 added slope_efficiency_w_per_a; the reason for not entering is the misprinted unit, not a missing parameter
+  cmp_ofc2026_w3e3_twin_rtf_laser:
+    fab_org_ids: ''
+    why: 'D80: D72 requires a statement that the authors fabricated the component; ''We developed'' / passive ''fabricated'' does not qualify (audit ofc_02-04 Block B)'
+  cmp_ofc2026_tu2j4_scl_mux_gap_filled:
+    class: wdm.other
+    why: 'D81 subtype wdm.other: S/C/L band multiplexer (audit ofc_02-04 Block D)'
+metrics:
+  cmp_ofc2026_tu2j4_scl_mux_gap_filled-m1:
+    basis: author_estimate
+    notes: '''average insertion loss is slightly increased to 5 dB'' (p.~3 Sec. 2): the sentence sits between the calculated-spectra and the measured-spectra statements and does not say which it refers
+      to (D76: performance value of unstated design / measured origin -> author_estimate). One value for three bands.'
+    why: D76 unstated design / measured origin -> author_estimate (was simulated)
+  cmp_ofc2026_m2d2_ctdc-m1:
+    basis: author_estimate
+    notes: 'Sec. 2 design text after PSO and thermal simulation; the paper does not say whether Fig. 1(b) is simulated or measured (D76: unstated design / measured origin -> author_estimate).'
+    why: D76 unstated origin (was simulated; J4)
+  cmp_ofc2026_m2d2_ctdc-m2:
+    basis: author_estimate
+    notes: Same Fig. 1(b) statement as the split-ratio row; simulated or measured not stated (D76).
+    why: D76 unstated origin (was simulated; J4)
+  cmp_ofc2026_m2d2_dln_4x4-m3:
+    basis: author_estimate
+    notes: '''on-chip propagation losses of below 1.5 dB for all the paths'' (p.~2 Sec. 3); the facet loss removed rests on the ~3 dB per facet stated without origin (row cmp_ofc2026_m2d2_fa_vertical_coupler-m1)
+      and the de-embedding method is not stated (rule 4: rests on a loss-budget term of unstated origin). Band: components stated to operate in the C band.'
+    why: 'rule 4 / D44: de-embedded with a facet-loss term of unstated origin -> author_estimate'
+  cmp_ofc2026_th1a4_cryo_vcsel_7um-m1:
+    locator: pNA Sec. 1; p.~1 Fig. 1(a)
+    notes: 91 mW at 3 K stated in the abstract and Sec. 1 (pNA) and Sec. 4 (p.~3); Sec. 2 (p.~1) gives only the 86-91 mW range over 3-40 K.
+    why: 'locator: the 3-K attribution is in Sec. 1 / abstract / summary, not in Sec. 2'
+add_metrics:
+- metric_id: cmp_ofc2026_th1a4_cryo_vcsel_7um-m3
+  component_id: cmp_ofc2026_th1a4_cryo_vcsel_7um
+  parameter: slope_efficiency_w_per_a
+  value: '1.18'
+  unit: W/A
+  temperature_k: '3'
+  ref_plane: chip
+  condition: 7-um aperture; at I/Ith ~150 with 91 mW output; power by a calibrated large-area PD
+  method: direct
+  basis: measured
+  locator: pNA Sec. 1; p.~1 Fig. 1(a)
+  notes: Stated by the authors as corresponding to the 91 mW at I/Ith ~150 (L-I of Fig. 1(a)); how the slope was taken is not shown.
+  why: 'miss: D77 slope_efficiency_w_per_a (known flag Th1A.4)'
+- metric_id: cmp_ofc2026_tu2j4_scl_mux_mosaic-m5
+  component_id: cmp_ofc2026_tu2j4_scl_mux_mosaic
+  parameter: n_channels
+  value: '3'
+  unit: count
+  basis: design_target
+  locator: pNA Sec. 2
+  notes: S, C and L band ports
+  why: audit ofc_02-04 Block D

@@ -1,0 +1,124 @@
+# Audit patch pk_oi (fresh-context audit 2026-10-20), main block plus coordinator-selected optional items (D80 / D81).
+components:
+  cmp_ectc51529_2024_00023_smf_iox_butt:
+    fab_org_ids: org_corning_research_and_development
+    notes: 'Cut-back samples of different length from one IOX wafer (350 C process). Model: initial delta-n 0.005, air cladding. Modeled lifetime coupling-loss increase (Table 2) not entered (no registry
+      parameter). All authors Corning Research and Development; glass made and IOX waveguides fabricated in this work (p.3 Sec. III-IV), so fab_org_ids per D72. PK: oi -a-o1, -d-o1.'
+    why: 'D72: all authors one org (Corning R&D, p.1) and the paper reports its own glass melting and IOX waveguide fabrication (p.3); same ruling as ofc2026:Th1D.3 rows'
+  cmp_ectc51529_2024_00229_mirror_pair_ssc_pwg:
+    fab_org_ids: org_national_institute_of_advanced_industrial_science_and_technology
+    notes: 'Optical re-distribution on a 26.0 x 16.5 mm SiPh die: ~2 mm Si waveguide, mirrors, ~7.8 mm polymer waveguide (p.4). Top mirror angle measured 46.7 deg vs 45 deg design; polymer waveguide 10.3
+      um x 8.4 um vs 8 um design (multimode) (p.5); no registry parameter for mirror angle. Mirrors and polymer layers fabricated by the authors (imprint stepper developed in this work, Sec. II-III); all
+      authors AIST, so fab_org_ids per D72; who fabricated the Si photonics die is not stated. Polymer cladding resist supplied by Nissan Chemical. 112 Gb/s PAM4 TDECQ is a link metric (not entered). PK:
+      oi -b-o1/-b-o2/-b-o3.'
+    why: 'D80: on-chip Si-to-polymer mirror coupling on one die is an inter-material transition (rule 10, D48); audit pk_oi B2'
+    class: waveguide_platform.transition
+  cmp_ectc51529_2024_00227_evc_sin_1p5mm:
+    fab_org_ids: org_imec
+    why: 'D72: all authors imec (p.1); PIC chiplets and interconnect wafer "co-designed and fabricated" (p.1 Abstract)'
+  cmp_ectc51529_2024_00227_evc_sin_1mm:
+    fab_org_ids: org_imec
+    why: same as the 1.5 mm sibling (p.1 Abstract)
+  cmp_ectc51529_2024_00227_evc_sin_0p5mm:
+    fab_org_ids: org_imec
+    why: same as the 1.5 mm sibling (p.1 Abstract)
+  cmp_ectc51909_2023_00324_pwg_smf_butt:
+    fab_org_ids: org_national_institute_of_advanced_industrial_science_and_technology
+    notes: 'Polymer waveguides on a glass-epoxy substrate (stand-in for the AOP substrate), fabricated by the authors'' lithography process; end facet exposed by a prototyping machine and dicing saw (p.2).
+      Both authors AIST, so fab_org_ids per D72. Sec. III uses 0.5 dB per facet (conflict with 0.45 kept). Propagation loss 0.4 dB/cm (p.2) deferred with the other waveguide-loss values. PK: oi -a-o1.'
+    why: 'D72: both authors AIST (p.1); polymer waveguide fabrication described as the work''s own process (p.2 Sec. II.B)'
+  cmp_ectc51846_2026_00106_smf_iox_butt:
+    fab_org_ids: org_corning
+    notes: 'Straight cut-back samples (1.25-12.5 mm), laser-singulated end faces. Conclusion: < 0.3 dB per facet. All authors Corning (Corning Optical Communication GmbH and Corning Research and Development,
+      p.1); waveguides fabricated on 150 mm wafers in this work (p.3), so fab_org_ids = parent org_corning per D72 (two subsidiaries among the authors). Same group as ofc2026:Th1D.3 (cmp_ofc2026_th1d3_iox_facet_smf,
+      < 0.3 dB per facet). PK: oi -a-o1/-a-o2.'
+    why: 'D72: all authors Corning, own fabrication (p.3 Sec. III); parent org because the authors are at two Corning subsidiaries; cross-note to the OFC row of the same platform'
+  cmp_ectc51846_2026_00106_iox_fanout_16ch:
+    fab_org_ids: org_corning
+    notes: 'Two pitch converters and two bend designs (Euler, min. radius 6 mm, effective 11.5 mm; circular 9.9 mm) are described together; this paper does not map its loss values to a design explicitly,
+      so one row holds the family with the listing order in conditions (p.4). The same fan-outs and values (0.62 +/- 0.01 / 0.65 +/- 0.04 dB) are reported in ofc2026:Th1D.3, which assigns 0.62 dB to the
+      Euler and 0.65 dB to the circular fan-out (cmp_ofc2026_th1d3_fanout_euler / _circular); not duplicated here. Both papers print the equalized length as ~12.5 cm; with the stated 0.04 dB/cm and < 0.3
+      dB/facet that would exceed the measured total, so 12.5 mm (the longest cut-back sample) is likely meant (value kept as printed). Reference uniform-delta-n fan-outs and the ''up to 1.3 dB'' reduction
+      not entered. All IOX loss characterization at 1310 nm (p.3). Fab org per D72 as for the SMF-IOX row. PK: oi -c-o1; metrics -c-m1..m6.'
+    why: D72 (as smf_iox_butt); cross-note to ofc2026:Th1D.3 (same devices reported twice, row kept as a family per rule 1); physics caveat on the printed 12.5 cm
+  cmp_ectc51909_2023_00048_dfb_trench_edge:
+    facility_org_ids: org_aim_photonics_test_assembly_and_packaging_facility
+    notes: 'Interposer wafers in the AIM Photonics process (modified MPW, p.3); packaging processes after wafer fabrication, including laser attach, completed at the AIM Photonics TAP facility (Rochester,
+      NY, p.3) on an ASM Amicra NANO bonder; vertical alignment by trench standoffs (p.3-4). Lateral alignment < 0.4 um observed; < 1 um stated as needed for sub-2 dB (not entered, no parameter). PK: oi
+      -b-o1.'
+    why: '"completed at the AIM Photonics TAP facility" (p.3) = work performed at a shared facility (rule 12); registry row org_aim_photonics_test_assembly_and_packaging_facility exists'
+  cmp_ectc51687_2025_00052_pic_pwg_ferrule_link:
+    notes: 'One link design used in the optics-first (OTV1) and optics-last (OTV1B) single-PIC modules and the 3-PIC module (assembly order is a metric condition). Adiabatic PIC-PWG coupling at 50 um pitch,
+      fan-out to 250 um at a pluggable ferrule to 12 standard SMF (p.3 Sec. V; p.8). Each CPO component designed by IBM and built by IBM or a trusted supplier (p.4), so fab_org_ids left empty. IL change
+      after JEDEC stress (Fig. 10b-d) not entered (no registry parameter). PK: oi -b-o1/-b-o2/-c-o1/-c-o2/-d-o1.'
+    why: records why D72 does not apply although all authors are IBM (p.4 "built by either IBM or with a trusted supplier")
+metrics:
+  cmp_ectc51909_2023_00230_gc_oband-m1:
+    locator: p.3 Sec. III.A
+    why: the PDK evaluation sentence is in Sec. III.A (CEA-Leti Silicon Photonics process flow, under III. PROCESS FLOW), not II.A (p.3); PK row has III.A
+  cmp_ectc51909_2023_00230_gc_oband-m2:
+    locator: p.3 Sec. III.A
+    why: same
+  cmp_ectc51909_2023_00230_gc_cband-m1:
+    locator: p.3 Sec. III.A
+    why: same
+  cmp_ectc51909_2023_00230_gc_cband-m2:
+    locator: p.3 Sec. III.A
+    why: same
+  cmp_ectc51687_2025_00052_pic_pwg_ferrule_link-m8:
+    basis: author_estimate
+    scope: unspecified
+    notes: Parametric target of the test-vehicle design ('< 2 to 2.5 dB' low insertion loss among key parametric targets, p.4 Sec. V.B), not a result; scope not stated with the target. O-band link.
+    why: 'D76: design_target only for dimensions (the only design_target loss row in the atlas); the target sentence states no scope'
+  cmp_ectc51687_2025_00014_vcbel_pair-m4:
+    basis: author_estimate
+    notes: MFD of the PIC edge coupler (3 um) as stated (p.3 Sec. II.B); design vs measured origin not stated (D76).
+    why: 'D76: performance-kind value of unstated design / measured origin -> author_estimate (design_target only for dimensions)'
+  cmp_ectc51687_2025_00014_vcbel_pair-m5:
+    basis: author_estimate
+    notes: MFD of the glass waveguide the VCBEL couples to (9 um; not a fiber) as stated (p.3 Sec. II.B); origin not stated (D76).
+    why: same (D76)
+  cmp_ectc51846_2026_00016_expanded_beam_lens-m4:
+    basis: author_estimate
+    notes: Stated as expanded to approximately 42 um by the 300 um ROC microlens (p.6); not shown as measured (D76).
+    why: 'D76: performance-kind mfd_chip_um of unstated origin -> author_estimate'
+  cmp_ectc51846_2026_00016_ec_fau_adhesive-m4:
+    qualifier: ge
+    notes: Text +/-1.1 um; Fig. 11 label '1dB >= +/-1.1um' (X and Z both transverse; y is propagation, Fig. 11 inset). Qualifier ge as for the lens row read from the same figure.
+    why: consistency with -expanded_beam_lens-m2 (both from the Fig. 11 '>=' labels, p.6); axes checked on the figure
+  cmp_ectc51846_2026_00106_iox_fanout_16ch-m2:
+    statistic: ''
+    notes: Printed as 0.62 +/- 0.01 dB; statistic and spread definition not stated; mapping of the two values to designs not explicit in this paper (ofc2026:Th1D.3 assigns 0.62 dB to the Euler fan-out).
+    why: '"0.62+/-0.01 dB" is not called a mean (p.4); OFC Th1D.3 rows leave statistic empty for the same values'
+  cmp_ectc51846_2026_00106_iox_fanout_16ch-m3:
+    statistic: ''
+    notes: Printed as 0.65 +/- 0.04 dB; statistic and spread definition not stated; mapping of the two values to designs not explicit in this paper (ofc2026:Th1D.3 assigns 0.65 dB to the circular fan-out).
+    why: same
+  cmp_ectc51909_2023_00324_molded_mt_connector-m2:
+    value: '0.8'
+    notes: Penalty spectrum read off Fig. 10 (+/-0.05 dB); minimum about 0.8 dB near 1305 nm, maximum about 1.75 dB near 1275 nm.
+    why: Fig. 10 (p.3) points reach about 0.8 dB near 1305 nm (checked on the 220 dpi render)
+  cmp_ectc51906_2022_00072_vgroove_metamaterial_ssc-m3:
+    band: ''
+    wavelength_nm: '1270'
+    wavelength_max_nm: '1330'
+    condition: damp heat 85 C / 85 %RH extension, readouts 250-2000 h (lines nearly flat); lognormal-fit 50 % line; IL spectrally averaged over 1270-1330 nm per polarization
+    why: stress-test IL was measured over 1270-1330 nm and arithmetically averaged per polarization (p.6 Sec. V.B); Fig. 6 is the DH extension of that test
+  cmp_ectc51906_2022_00072_vgroove_metamaterial_ssc-m4:
+    band: ''
+    wavelength_nm: '1270'
+    wavelength_max_nm: '1330'
+    condition: damp heat 85 C / 85 %RH extension, readouts 250-2000 h (lines nearly flat); lognormal-fit 50 % line; IL spectrally averaged over 1270-1330 nm per polarization
+    why: same (p.6 Sec. V.B)
+  cmp_ectc51687_2025_00284_transition_sin_sin-m1:
+    basis: measured
+    notes: Part-5 value (p.4 Sec. III.E); p.3 Sec. II.B states each part's loss was calibrated and measured; wavelength not stated, BOE is an O-band engine.
+    why: 'audit pk_oi B1: p.3 Sec. II.B covers all five parts'
+  cmp_ectc51687_2025_00284_transition_sin_si-m1:
+    basis: measured
+    notes: Part-5 value (p.4 Sec. III.E); p.3 Sec. II.B states each part's loss was calibrated and measured; wavelength not stated, BOE is an O-band engine.
+    why: 'audit pk_oi B1: p.3 Sec. II.B covers all five parts'
+  cmp_ectc51529_2024_00229_mirror_pair_ssc_pwg-m3:
+    parameter: transition_loss_db
+    scope: per_component
+    why: 'D80 / D76: transition loss of the on-chip mirror pair'

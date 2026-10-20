@@ -1,0 +1,80 @@
+# Audit patch ofc_09 (fresh-context audit 2026-10-20), main block plus coordinator-selected optional items (see DevLog/audits).
+components:
+  cmp_ofc2026_tu2d4_ge_pd:
+    class: photodetector.other
+    notes: 'STMicroelectronics PIC100G back-side integrated 300 mm SiPh platform (300 nm SOI / 200 nm BOX, wafer-bonded on HR carrier, reconstructed BOX > 5 um); the paper presents it as ST''s platform
+      (authors ST Crolles / Grenoble and CEA-Leti). Ge photodiode with a vertical single Si/Ge heterojunction (Sec. 2); the paper does not state how light is coupled into the Ge (waveguide-coupled not stated),
+      so the generic subtype other is used. O-band values at 25 C (Table 2). Text: bandwidth ''above 80GHz @-1V'' and dark current ''around 10nA''.'
+    why: 'flag check: Sec. 2-3 and Table 2 say only "Ge photodiodes" / "single heterojunction photodiode"; ge_waveguide is not stated (rule 1: no guess)'
+metrics:
+  cmp_ofc2026_th1d6_gesilica_ring_d1p5mm-m4:
+    notes: Fig. 2(d) caption labels the series 'broadband intrinsic Q measurements under weak-coupling conditions' and lists 566 M at 1064 nm; the text calls it the highest Q, obtained in the weakly undercoupled
+      regime to get the optimal intrinsic Q.
+    why: 'flag check: intrinsic is stated in the Fig. 2(d) caption (p.~2), not a judgment'
+  cmp_ofc2026_th1d6_gesilica_ring_d1p5mm-m7:
+    locator: p.~2 text, resonator design paragraph
+    why: 'D72 / D4: OFC locator must carry a section / figure / paragraph; was bare p.~2'
+  cmp_ofc2026_th1d6_gesilica_ring_d1p5mm-m8:
+    locator: p.~2 text, resonator design paragraph
+    why: 'D72 / D4: OFC locator must carry a section / figure / paragraph; was bare p.~2'
+delete_metrics:
+- id: cmp_ofc2026_th1d6_gesilica_ring_d1p5mm-m5
+  why: '> 100 M over 458-1550 nm is a summary of the per-wavelength intrinsic Q values listed in the Fig. 2(d) caption (now entered per wavelength, rule 7)'
+add_metrics:
+- metric_id: cmp_ofc2026_th1d6_gesilica_ring_d1p5mm-m9
+  component_id: cmp_ofc2026_th1d6_gesilica_ring_d1p5mm
+  parameter: q_intrinsic
+  value: '370000000'
+  unit: '1'
+  wavelength_nm: '1550'
+  condition: weakly undercoupled; broadband intrinsic-Q series
+  method: direct
+  basis: measured
+  locator: p.~2 Fig. 2(d) caption
+  notes: 370 M at 1550 nm in the weak-coupling series; differs from the 329 M of the typical (more strongly coupled) 1550 nm measurement in Fig. 2(c) (m1)
+  why: miss (Fig. 2(d) caption per-wavelength intrinsic Q)
+- metric_id: cmp_ofc2026_th1d6_gesilica_ring_d1p5mm-m10
+  component_id: cmp_ofc2026_th1d6_gesilica_ring_d1p5mm
+  parameter: q_intrinsic
+  value: '321000000'
+  unit: '1'
+  wavelength_nm: '780'
+  condition: weakly undercoupled; broadband intrinsic-Q series
+  method: direct
+  basis: measured
+  locator: p.~2 Fig. 2(d) caption
+  why: miss (Fig. 2(d) caption per-wavelength intrinsic Q)
+- metric_id: cmp_ofc2026_th1d6_gesilica_ring_d1p5mm-m11
+  component_id: cmp_ofc2026_th1d6_gesilica_ring_d1p5mm
+  parameter: q_intrinsic
+  value: '232000000'
+  unit: '1'
+  wavelength_nm: '685'
+  condition: weakly undercoupled; broadband intrinsic-Q series
+  method: direct
+  basis: measured
+  locator: p.~2 Fig. 2(d) caption
+  why: miss (Fig. 2(d) caption per-wavelength intrinsic Q)
+- metric_id: cmp_ofc2026_th1d6_gesilica_ring_d1p5mm-m12
+  component_id: cmp_ofc2026_th1d6_gesilica_ring_d1p5mm
+  parameter: q_intrinsic
+  value: '169000000'
+  unit: '1'
+  wavelength_nm: '532'
+  condition: weakly undercoupled; broadband intrinsic-Q series
+  method: direct
+  basis: measured
+  locator: p.~2 Fig. 2(d) caption
+  why: miss (Fig. 2(d) caption per-wavelength intrinsic Q)
+- metric_id: cmp_ofc2026_th1d6_gesilica_ring_d1p5mm-m13
+  component_id: cmp_ofc2026_th1d6_gesilica_ring_d1p5mm
+  parameter: q_intrinsic
+  value: '111000000'
+  unit: '1'
+  wavelength_nm: '458'
+  condition: weakly undercoupled; broadband intrinsic-Q series
+  method: direct
+  basis: measured
+  locator: p.~2 Fig. 2(d) caption
+  notes: text states Q above 100 million down to 458 nm
+  why: miss (Fig. 2(d) caption per-wavelength intrinsic Q)

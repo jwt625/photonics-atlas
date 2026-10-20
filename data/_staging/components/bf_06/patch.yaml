@@ -1,0 +1,104 @@
+# Audit patch bf_06 (fresh-context audit 2026-10-20). Block B (D72 own-org fab) and Block C (gupta2023 grating kappa) are optional.
+# Optional blocks B (D72 own-org fab, applied per D76) and C merged by the coordinator 2026-10-20.
+metrics:
+  cmp_lin2026a_mmi_1x2-m1:
+    parameter: excess_loss_db
+    value: '0.24'
+    includes: ''
+    basis: derived
+    notes: Reported 3.25 dB per MMI includes the intrinsic 3 dB split (p.8); excess = 3.25 - 10log10(2) = 0.24 dB (0.25 dB with a nominal 3 dB). Per MMI from the linear fit over the cascaded MMI tree (Fig.
+      3(c)); wavelength inferred from the 375 nm UV characterization context.
+    why: 'D43: a 1xN value below / including the ideal split is entered as excess_loss_db (reported minus ideal split, derived)'
+  cmp_lin2026a_mmi_1x2-m2:
+    parameter: excess_loss_db
+    value: '0.1'
+    includes: ''
+    notes: Simulated 3.11 dB per MMI including the 3 dB split (p.8); excess = 3.11 - 10log10(2) = 0.10 dB; quoted for comparison with the measured value.
+    why: D43, as m1 (basis stays simulated)
+  cmp_wang2025_gc_tfln_reference-m1:
+    polarization: te
+    why: reference modulator tested under identical conditions (p.3) to the TE-controlled setup (p.2)
+add_components:
+- component_id: cmp_shawon2024_tc_heater
+  source_id: eo:shawon2024
+  class: phase_shifter.thermo_optic
+  label: Microheater of the 2x2 thermo-optic MZI tunable couplers, AIM Photonics SiP
+  row_kind: fabricated
+  host_device_ids: shawon2024-a
+  platform: soi
+  core_material: Si 220 nm; interconnect strip waveguides 220 x 480 nm (heater-section waveguide not stated)
+  fab_org_ids: org_aim_photonics
+  process_name: AIM Photonics 300 mm Active PIC process
+  verified_on: '2026-10-20'
+  notes: Tunable couplers of the RAMZM are balanced MZI switches with a microheater on each arm (p.7 Sec. V-C). Only a thermal time constant 'on the order of' 15 us is stated; heater power and efficiency
+    not given. Chip fabricated in AIM Photonics (p.7, Fig. 15).
+  why: 'miss: D71 thermal_time_constant_us now fits the value the batch called vague'
+- component_id: cmp_gupta2023_dfb_grating
+  source_id: eo:gupta2023
+  class: laser.dfb
+  label: DFB grating (90 nm etch in the gain MQW), HHI generic InP platform
+  row_kind: fabricated
+  platform: inp
+  core_material: first-order complex-coupled grating etched 90 nm into the 8-QW InGaAsP gain stack
+  fab_org_ids: org_fraunhofer_heinrich_hertz_institute
+  process_name: HHI generic InP foundry (JePPIX MPW)
+  verified_on: '2026-10-20'
+  notes: Process-level value of the updated HHI stack (p.2 Sec. II); not tied to an EO row. DFB output power 10 dBm is a cited foundry statement [4], not entered.
+  why: D71 kappa_per_cm
+- component_id: cmp_gupta2023_dbr_grating
+  source_id: eo:gupta2023
+  class: reflector.bragg
+  label: DBR grating (60 nm etch in the phase-modulator MQW), HHI generic InP platform
+  row_kind: fabricated
+  platform: inp
+  core_material: grating etched 60 nm into the phase-modulator MQW
+  fab_org_ids: org_fraunhofer_heinrich_hertz_institute
+  process_name: HHI generic InP foundry (JePPIX MPW)
+  verified_on: '2026-10-20'
+  notes: Process-level value of the updated HHI stack (p.2 Sec. II); not tied to an EO row.
+  why: D71 kappa_per_cm
+add_metrics:
+- metric_id: cmp_shawon2024_tc_heater-m1
+  component_id: cmp_shawon2024_tc_heater
+  parameter: thermal_time_constant_us
+  value: '15'
+  unit: us
+  qualifier: approx
+  basis: author_estimate
+  locator: p.7 Sec. V-C
+  notes: Stated as on the order of 15 us; origin not stated
+  why: D71 thermal_time_constant_us
+- metric_id: cmp_gupta2023_dfb_grating-m1
+  component_id: cmp_gupta2023_dfb_grating
+  parameter: kappa_per_cm
+  value: '550'
+  unit: 1/cm
+  band: c_band
+  wavelength_inferred: 'true'
+  condition: first-order complex-coupled DFB grating over the C-band
+  basis: author_estimate
+  locator: p.2 Sec. II
+  notes: process value; origin not stated
+  why: D71
+- metric_id: cmp_gupta2023_dbr_grating-m1
+  component_id: cmp_gupta2023_dbr_grating
+  parameter: kappa_per_cm
+  value: '100'
+  unit: 1/cm
+  band: c_band
+  wavelength_inferred: 'true'
+  condition: DBR grating etched 60 nm into the phase-modulator MQW
+  basis: author_estimate
+  locator: p.2 Sec. II
+  notes: process value; origin not stated
+  why: D71
+components:
+  cmp_lin2026a_lt_waveguide:
+    fab_org_ids: org_ghent_university
+    why: 'D72: ''C.L. designed and fabricated the device'' (author contributions, p.14); all authors Ghent University-imec (p.1)'
+  cmp_lin2026a_facet_taper:
+    fab_org_ids: org_ghent_university
+    why: D72, as above
+  cmp_lin2026a_mmi_1x2:
+    fab_org_ids: org_ghent_university
+    why: D72, as above

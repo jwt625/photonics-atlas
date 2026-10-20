@@ -1,0 +1,103 @@
+# D81 gap-fill (subagent, 2026-10-20); applied after patch.yaml and sweep.yaml. Coordinator dropped: cmp_ofc2026_th1d5_laser_trim_phase_shifter-m6 (D83: a 1000 h bake stability test of a permanent trim is not a retention time); cmp_ofc2026_m1g3_qd_dfb_memristor-m10 (D83: static current tuning (pm/mA) is not an FM efficiency)
+add_metrics:
+- metric_id: cmp_ofc2026_m2d6_wss_2x2x2l-m8
+  component_id: cmp_ofc2026_m2d6_wss_2x2x2l
+  parameter: pdl_db
+  value: '0.409'
+  unit: dB
+  band: o_band
+  wavelength_inferred: 'true'
+  condition: path I1-O1; polarization controller triangular sweep 5 s, polarization analyzer 50,000 samples, PDL = 10log10(Pmax/Pmin)
+  method: direct
+  basis: measured
+  locator: p.~2 Sec. 3, Fig. 2(c)
+  notes: O-band device (title, abstract); no wavelength stated with the value. Fiber-to-fiber path incl. FAU coupling and PSRs.
+  why: 'D81 gap-fill: value listed as not entered in the batch report / component note; PDL I1-O1 (pdl_db now allowed for switch_fabric)'
+- metric_id: cmp_ofc2026_m2d6_wss_2x2x2l-m9
+  component_id: cmp_ofc2026_m2d6_wss_2x2x2l
+  parameter: pdl_db
+  value: '0.376'
+  unit: dB
+  band: o_band
+  wavelength_inferred: 'true'
+  condition: path I1-O2; polarization controller triangular sweep 5 s, polarization analyzer 50,000 samples, PDL = 10log10(Pmax/Pmin)
+  method: direct
+  basis: measured
+  locator: p.~2 Sec. 3, Fig. 2(c)
+  notes: O-band device (title, abstract); no wavelength stated with the value. Fiber-to-fiber path incl. FAU coupling and PSRs.
+  why: 'D81 gap-fill: value listed as not entered in the batch report / component note; PDL I1-O2 (pdl_db now allowed for switch_fabric)'
+- metric_id: cmp_ofc2026_m2d6_wss_2x2x2l-m10
+  component_id: cmp_ofc2026_m2d6_wss_2x2x2l
+  parameter: pdl_db
+  value: '0.440'
+  unit: dB
+  band: o_band
+  wavelength_inferred: 'true'
+  condition: path I2-O1; polarization controller triangular sweep 5 s, polarization analyzer 50,000 samples, PDL = 10log10(Pmax/Pmin)
+  method: direct
+  basis: measured
+  locator: p.~2 Sec. 3, Fig. 2(c)
+  notes: O-band device (title, abstract); no wavelength stated with the value. Fiber-to-fiber path incl. FAU coupling and PSRs.
+  why: 'D81 gap-fill: value listed as not entered in the batch report / component note; PDL I2-O1 (pdl_db now allowed for switch_fabric)'
+- metric_id: cmp_ofc2026_m2d6_wss_2x2x2l-m11
+  component_id: cmp_ofc2026_m2d6_wss_2x2x2l
+  parameter: pdl_db
+  value: '0.411'
+  unit: dB
+  band: o_band
+  wavelength_inferred: 'true'
+  condition: path I2-O2; polarization controller triangular sweep 5 s, polarization analyzer 50,000 samples, PDL = 10log10(Pmax/Pmin)
+  method: direct
+  basis: measured
+  locator: p.~2 Sec. 3, Fig. 2(c)
+  notes: O-band device (title, abstract); no wavelength stated with the value. Fiber-to-fiber path incl. FAU coupling and PSRs.
+  why: 'D81 gap-fill: value listed as not entered in the batch report / component note; PDL I2-O2 (pdl_db now allowed for switch_fabric)'
+- metric_id: cmp_ofc2026_m2d6_wss_2x2x2l-m12
+  component_id: cmp_ofc2026_m2d6_wss_2x2x2l
+  parameter: pdl_db
+  value: '0.41'
+  unit: dB
+  qualifier: approx
+  statistic: mean
+  n_samples: '4'
+  band: o_band
+  wavelength_inferred: 'true'
+  condition: average over the four input-output paths
+  method: direct
+  basis: measured
+  locator: p.~2 Sec. 3, Fig. 2(c); pNA Abstract
+  notes: '''average ~0.41 dB''; title ''PDL <= 0.5 dB''. O band from title / abstract.'
+  why: 'D81 gap-fill: value listed as not entered in the batch report / component note; average PDL (pdl_db now allowed for switch_fabric)'
+- metric_id: cmp_ofc2026_th2a20_mc_isolator-m2
+  component_id: cmp_ofc2026_th2a20_mc_isolator
+  parameter: il_nonuniformity_db
+  value: '0.2'
+  unit: dB
+  qualifier: le
+  condition: core-to-core IL variation, 4 cores
+  method: direct
+  basis: measured
+  locator: p.~2 Sec. 3, Tab. 2
+  notes: '''core-to-core IL variation <= 0.2 dB'' stated with the measured ~0.57 dB total IL (m1); wavelength not stated.'
+  why: 'D81 gap-fill: value listed as not entered in the batch report / component note; core-to-core variation (il_nonuniformity_db now allowed for nonreciprocal)'
+- metric_id: cmp_ofc2026_th2a20_mc_isolator-m3
+  component_id: cmp_ofc2026_th2a20_mc_isolator
+  parameter: n_channels
+  value: '4'
+  unit: count
+  condition: cores of the multicore isolator
+  basis: design_target
+  locator: pNA Sec. 1, Tab. 1; p.~2 Sec. 3
+  notes: '''4-core ISO'' (Tab. 1) for the uncoupled 4-core EDF.'
+  why: 'D81 gap-fill: value listed as not entered in the batch report / component note; 4 cores (n_channels now allowed for nonreciprocal)'
+- metric_id: cmp_ofc2026_m4b2_vgc-m3
+  component_id: cmp_ofc2026_m4b2_vgc
+  parameter: wavelength_spread_nm
+  value: '1.7'
+  unit: nm
+  qualifier: lt
+  condition: spread of the GC central wavelength within wafer and wafer-to-wafer (+/- value as printed)
+  basis: author_estimate
+  locator: p.~1 Sec. 2
+  notes: '''<+/-1.7 nm'', attributed to tight CD control; data set and method not stated (D76).'
+  why: 'D81 gap-fill: value listed as not entered in the batch report / component note; GC wavelength spread (wavelength_spread_nm now allowed for fiber_chip_coupler)'

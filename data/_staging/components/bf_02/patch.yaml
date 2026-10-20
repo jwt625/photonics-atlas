@@ -1,0 +1,16 @@
+# Audit bf_01-03 corrections for bf_02.
+components:
+  cmp_taghavi2026_pwb_edge:
+    class: fiber_chip_coupler.photonic_wire_bond
+    notes: 'Fiber-array (0-degree polish, 16 ch) to PIC I/O of the 58-modulator FN-LC demonstration PIC via photonic wire bonds to on-chip edge couplers (p.7, Fig. 5); PWBs written by the authors (writer is equipment). fab_org_ids = AMF for the on-chip edge couplers only. Not linked to an EO row: the ring data were taken with a fiber array on GCs.'
+    why: 'v3 subtype fiber_chip_coupler.photonic_wire_bond'
+metrics:
+  cmp_lu2020_y_junctions-m1: {polarization: tm, why: 'audit: TM0 operation (p.3, Fig. 1(e))'}
+  cmp_lu2020_edge_lensed_fiber-m1: {polarization: tm, why: 'audit: TM0 operation'}
+  cmp_taghavi2026_gc-m1:
+    basis: author_estimate
+    notes: 'About 10.5 dB per GC, quoted as a comparison to the PWB channels; how the per-GC value was obtained is not stated (origin not stated). Band inferred from the C-band ring resonance (about 1534.5 nm, Fig. 3(c)).'
+    why: 'audit: origin not stated (D44)'
+delete_metrics:
+  - {id: cmp_guo2026_wg_ridge_0p4um-m3, why: 'audit: duplicate of EO row guo2026-a sidewall_angle_deg 60'}
+  - {id: cmp_guo2026_wg_ridge_1um-m3, why: 'audit: same'}

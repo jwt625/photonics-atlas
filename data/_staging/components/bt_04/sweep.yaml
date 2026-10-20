@@ -1,0 +1,33 @@
+# Convention sweep D76 / D80 / D82 (subagent, 2026-10-20); applied after patch.yaml.
+components:
+  cmp_xu2022_prc:
+    platform: lnoi_rib
+    notes: 'Monolithic PRC combining two TE0 inputs (ports 1, 2) onto TE0 / TM0 of the output (port 3) of the DP-IQ modulator xu2022-a (p.2, Fig. 1(d),(e)). Values held only in the notes of the EO row.
+      PRC geometry and waveguide cross-section not stated; platform lnoi_rib taken from EO row xu2022-a (same TFLN-on-quartz process, D82e). Fab org not set: authors at Sun Yat-sen U., Huawei and Zhejiang
+      U., fabricating party not stated.'
+    why: 'D82e: cross-section not stated, same process as the EO row xu2022-a (lnoi_rib; p.2 rib 180 nm on 180 nm slab in the modulation region) -> lnoi_rib with a note'
+  cmp_xu2022_pi_edge_coupler:
+    platform: lnoi_rib
+    notes: Edge couplers of the DP-IQ modulator xu2022-a, held only in the notes of the EO row; part of the 6.8 dB fiber-to-fiber loss (EO column, not re-entered). Coupler geometry and waveguide cross-section
+      not stated; platform lnoi_rib taken from EO row xu2022-a (same TFLN-on-quartz process, D82e). Fab org not set (as for the PRC).
+    why: 'D82e: cross-section not stated, same process as the EO row xu2022-a (lnoi_rib; p.2 rib 180 nm on 180 nm slab in the modulation region) -> lnoi_rib with a note'
+  cmp_oe2026_dfb_ld:
+    fab_org_ids: ''
+    notes: 'Integrated DFB section of the EML of EO row oe2026-a (laser + two series EAMs). All authors at Sumitomo Electric Device Innovations; the paper shows ''the fabricated'' EML (p.2, passive) without
+      saying who fabricated it, so fab_org_ids is empty (D80b). Laser data measured through the EA sections at 0 V EA bias, 55 C carrier, 100 mA (p.2). Laser forward voltage 1.4 V at 100 mA (0.1 V above
+      the authors single-ended EML) not entered: no forward-voltage parameter. Output reference plane not stated (lensed fiber used in the PAM4 test).'
+    why: 'D80b: fab_org_ids needs an explicit statement that the authors (or a named org) fabricated the component; passive ''fabricated'' / ''developed'' / all authors at one org do not qualify; source
+      p.2 (''the fabricated differential EML'', passive; no authorial fabrication statement or acknowledgement)'
+  cmp_akazawa2026_si_hybrid_taper:
+    notes: 'Two tapers per phase-shifter section of EO row akazawa2026-a; the EO row includes them in its 0.56 dB section total (il_onchip_includes) but holds the per-taper value only as text. Taper geometry
+      and extraction method are in Supplementary Section IV, not in the cached source. Fab org U. Tokyo: the author contributions state that the first author (U. Tokyo) performed the III-V integration that
+      forms the hybrid taper (p.8); fabricator of the 300 mm SOI waveguides not stated (authors at U. Tokyo, AIST and Tohoku U.). Facility: part of the work conducted at the Takeda Sentanchi super cleanroom
+      (p.8 acknowledgments). Platform other: InGaAsP/Si hybrid has no enum value.'
+    why: 'note consistency (D80b check): fab_org_ids org_the_university_of_tokyo was set by the bt_04 patch on the author contribution ''T.A. performed the III-V integration onto the Si photonic circuits''
+      (p.8; T.A. at U. Tokyo), but the note still said ''Fab org not set'''
+  cmp_bhasker2026_cmbh_dfb:
+    notes: Integrated DFB section of EO row bhasker2026-a; all authors at Broadcom; the EML 'was fabricated on' SI-InP (p.1, passive) and the acknowledgement thanks Broadcom's Breinigsville operations team
+      for fab support (p.3), so fab_org_ids org_broadcom (D80b, borderline). Laser data measured with the modulator at 0 V, 55 C. Facet power is held only in the notes of the EO row. Output under modulation
+      6.5 dBm is an EML operating point (EO notes), not entered. L-I shows minimal roll-off to 150 mA (Fig. 3).
+    why: 'D80b check (kept, borderline): besides the passive ''fabricated on SI-InP'' (p.1), the acknowledgement thanks Broadcom''s Breinigsville operations team ''for fab support'' (p.3), naming the org''s
+      fab; note now cites it'

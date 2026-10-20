@@ -1,0 +1,29 @@
+# Convention sweep D76 / D80 / D82 (subagent, 2026-10-20); applied after patch.yaml.
+components:
+  cmp_falcone2026_gc_solgel_bto:
+    facility_org_ids: org_binnig_and_rohrer_nanotechnology_center;org_first_center_for_micro_and_nanoscience;org_scientific_center_for_optical_and_electron_microscopy
+    notes: 'GC design shared by the 700 C and 800 C devices; which anneal sample the 10 dB comes from is not stated. Fill factor limited below 50 % by shrinkage compensation (bound, not entered). Higher
+      loss than simulated attributed to shrinkage-induced dimension deviation (p.5). Fab: authors state three co-authors fabricated the devices (contributions, p.9), all authors ETH Zurich. Facility: ScopeM,
+      BRNC and the FIRST cleanroom thanked (p.9); all three entered (ScopeM added after registry round 5).'
+    why: 'D80c / registry: ScopeM is thanked with BRNC and FIRST in the same sentence (p.9 acknowledgements) and is now in the registry (org_scientific_center_for_optical_and_electron_microscopy)'
+  cmp_wolf2018a_gc:
+    notes: Input/output GCs of the 1.1 mm SOH MZM. Fabricated in a 248 nm DUV process at A*STAR IME (p.4); slot opening and EO material in an authors' backend step. Loss breakdown of this device generation
+      (Ge contamination of the slots, p.5). Wavelength about 1550 nm in the experiments (p.5-6). KNMF support acknowledged among funders (p.10); in the registry (org_karlsruhe_nano_micro_facility) but a
+      funding-list acknowledgement is not a facility_org_id (D80c), not entered.
+    why: 'D80c: KNMF is listed among the funders (p.10 funding statement) -> not a facility_org_id; note corrected (KNMF is in the registry)'
+  cmp_wolf2018a_mmi:
+    notes: Pair of MMIs of the MZM; the low static ER (14 dB) is attributed partly to MMI split deviation (no number). Fabricated in a 248 nm DUV process at A*STAR IME (p.4); slot opening and EO material
+      in an authors' backend step. Loss breakdown of this device generation (Ge contamination of the slots, p.5). Wavelength about 1550 nm in the experiments (p.5-6). KNMF support acknowledged among funders
+      (p.10); in the registry (org_karlsruhe_nano_micro_facility) but a funding-list acknowledgement is not a facility_org_id (D80c), not entered.
+    why: 'D80c: KNMF is listed among the funders (p.10 funding statement) -> not a facility_org_id; note corrected (KNMF is in the registry)'
+  cmp_wolf2018a_strip_slot_converter:
+    notes: Pair of strip-to-slot converters in the loss breakdown. On-chip waveguides (about 1 dB, length not stated) not entered. Fabricated in a 248 nm DUV process at A*STAR IME (p.4); slot opening and
+      EO material in an authors' backend step. Loss breakdown of this device generation (Ge contamination of the slots, p.5). Wavelength about 1550 nm in the experiments (p.5-6). KNMF support acknowledged
+      among funders (p.10); in the registry (org_karlsruhe_nano_micro_facility) but a funding-list acknowledgement is not a facility_org_id (D80c), not entered.
+    why: 'D80c: KNMF is listed among the funders (p.10 funding statement) -> not a facility_org_id; note corrected (KNMF is in the registry)'
+  cmp_xie2024_adddrop_ring:
+    notes: 'Over-coupled add-drop ring that selects one EO-comb line as the photonic LO, on the same mixer chip as MZM xie2024-a (p.2-3, p.6). Q, gap, radius and heater power not stated; measurement wavelength
+      not stated (EDFA-amplified Santec carrier). Selected-line suppression ratios 37.0 / 35.4 / 33.6 dB (Fig. 3(b)) depend on the comb line powers and are not entered. Fab: Methods passive (''Devices are
+      fabricated'', p.6); acknowledgement thanks CityU staff for help in device fabrication, so fab_org_ids CityU (D80b, borderline); stepper lithography and PECVD at HKUST NFF (facility, p.6).'
+    why: 'D80b check (kept, borderline): Methods are passive (''Devices are fabricated'', p.6) but the acknowledgement thanks two named CityU staff ''for their help in measurement and device fabrication''
+      (p.6); note now cites it'

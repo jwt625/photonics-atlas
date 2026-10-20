@@ -1,0 +1,8 @@
+# Convention sweep D76 / D80 / D82 (subagent, 2026-10-20); applied after patch.yaml.
+metrics:
+  cmp_rahman2025_sin1_ring-m2:
+    basis: author_estimate
+    notes: 'Inferred from the loaded Q at critical coupling; stated for the whole wafer; no significant change observed before vs after LN bonding and processing. Basis author_estimate (D76): group index
+      of the SiN1 ring not stated (the stated ng 2.0854 is the phase-shifter mode) and critical coupling is assumed.'
+    why: 'D76: Q-derived loss with an input not stated -> author_estimate; source p.4 Sec. IV-A (loss inferred from loaded Q ~1.2e6 at critical coupling); the only ng in the paper (2.0854, p.13 RF-fit assumptions)
+      belongs to the hybrid phase-shifter mode, not the SiN1 ring'

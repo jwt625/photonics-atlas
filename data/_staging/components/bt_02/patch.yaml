@@ -1,0 +1,64 @@
+# Audit patch bt_02 (fresh-context audit 2026-10-20), main block plus optional blocks [] (D80 / D82 rulings).
+components:
+  cmp_holzgrafe2020_photonic_molecule:
+    notes: Two evanescently coupled racetracks (bright and dark) forming the optical modes of the cavity EO microwave-optical transducer; the EO atlas has no device row for this paper, so the optical-resonator
+      figures are entered here (judgment call). Minimum mode splitting 3.1 GHz at the anticrossing and internal loss rate kappa_in/2pi about 130 MHz (basis of the Qi) entered with the D73 parameters. Racetrack
+      length and coupling gaps not stated; fabrication process cited to earlier work. Measurement temperature of the Fig. 1(c) spectrum not stated. Facility work performed in part at CNS (p.9).
+    why: D73 parameters mode_splitting_ghz and kappa_intrinsic_mhz now available
+  cmp_yue2025_gc:
+    core_material: Si 220 nm on 2 um BOX (SOI)
+    notes: Input/output GCs of the TFT and conventional Si MZMs, fabricated through AMF foundry services (p.11, p.16 Methods). SOI stack stated in Methods (p.16). Supplement sections S2-S4 cited for details
+      are not in the cached text. Doped-Si waveguide loss 4.2 dB/mm is held by the EO rows (42 dB/cm) and not re-entered.
+    why: Si 220 nm / 2 um BOX is stated in Methods p.16 (core_material said not stated)
+metrics:
+  cmp_shen2021_inverse_taper_ec-m1:
+    basis: author_estimate
+    notes: About 6 dB per facet at the 2 um wavelength (p.2); how it was obtained or isolated is not stated (origin not stated, D44).
+    why: 'D44 / D76: per-facet value of unstated origin -> author_estimate'
+  cmp_yu2026_dfb_1310-m1:
+    basis: author_estimate
+    notes: Output power in the TOSA component list (p.1 Sec. 2); vendor, datasheet status, drive current and reference plane not stated (origin not stated, D76).
+    why: 'D76: performance value of unstated origin -> author_estimate; specification needs a stated purchased part / datasheet value'
+  cmp_holzgrafe2020_gc_focusing-m1:
+    basis: author_estimate
+    notes: About 10 dB per GC (p.4, p.17); how obtained is not stated; calibration assumes symmetric input/output GC loss (p.16), coupler-to-coupler variation estimated below 0.4 dB. Wavelength not stated,
+      band inferred from the device optical modes near 1586 nm (Fig. 1(c)).
+    why: 'D44 / D76: per-coupler value of unstated origin, symmetric split assumed -> author_estimate'
+  cmp_xu2026b_edge_coupler-m1:
+    basis: author_estimate
+    notes: (12 - 2.4) / 2 from the stated about 12 dB fiber-to-fiber IL including 2.4 dB on-chip loss (p.2); origin of the 2.4 dB on-chip term not stated and equal facets assumed (D44). Wavelength from
+      the Vpi / IL paragraph at 1550 nm (C-band device).
+    why: 'D44: arithmetic on a budget term of unstated origin with an equal-facet assumption -> author_estimate (bf_05 wang2022 precedent)'
+  cmp_yue2025_gc-m1:
+    basis: author_estimate
+    notes: '"each grating coupler" about 4.8 dB (p.16 Methods); isolation method in the uncached supplement (S2-S4), origin not stated in the cached text (D44). Wavelength not stated, C band inferred from
+      the C-band laser of the setup.'
+    why: 'D44 / D76: per-coupler value of unstated origin -> author_estimate'
+add_metrics:
+- metric_id: cmp_holzgrafe2020_photonic_molecule-m3
+  component_id: cmp_holzgrafe2020_photonic_molecule
+  parameter: mode_splitting_ghz
+  value: '3.1'
+  unit: GHz
+  statistic: best
+  condition: minimum optical mode splitting at the anticrossing of bright and dark resonator modes, bias tuned
+  method: direct
+  basis: measured
+  locator: p.4 Sec. 2; Fig. 1(d)
+  notes: Minimum splitting observed while tuning the bias voltage (anticrossing, Fig. 1(d)).
+  why: D73 mode_splitting_ghz (batch noted it as not entered)
+- metric_id: cmp_holzgrafe2020_photonic_molecule-m4
+  component_id: cmp_holzgrafe2020_photonic_molecule
+  parameter: kappa_intrinsic_mhz
+  value: '130'
+  unit: MHz
+  qualifier: approx
+  wavelength_nm: '1586'
+  wavelength_inferred: 'true'
+  bias_v: '-20'
+  condition: pair of photonic-molecule modes, -20 V bias on the detuning capacitor
+  method: ring_extraction
+  basis: measured
+  locator: p.4 Sec. 2; Fig. 1(c)
+  notes: Internal loss rate kappa_in/2pi about 130 MHz (printed with a stray 2 pi factor); fit model not stated; wavelength from the Fig. 1(c) caption ('near 1586 nm').
+  why: D73 kappa_intrinsic_mhz (batch noted it as not entered)

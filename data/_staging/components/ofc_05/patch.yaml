@@ -1,0 +1,7 @@
+# Audit patch ofc_05 (fresh-context audit 2026-10-20), main block only (optional Block B not applied: Table / Results values kept measured).
+metrics:
+  cmp_ofc2026_m1c4_msc_mode_mux_3lp-m1:
+    includes: MMUX + 33.6 km MRC-FMF + MDEMUX (link value; mux pair not isolated)
+    notes: '''lower than -19 dB'' stored as 19 gt; link value including the 33.6-km FMF span (p.~2 Sec. 2, Fig. 2(c)). Kept as a conservative bound for the mux / demux pair: the pair alone cannot have more
+      inter-mode crosstalk than the link that contains it (power addition, no coherent cancellation assumed).'
+    why: 'scope of the only value made explicit in includes; row kept (see report: fiber passive parts are in scope as in ofc_06 Th2A.20, the bound is valid for the pair)'

@@ -1,0 +1,16 @@
+# Audit patch ofc_03 (fresh-context audit 2026-10-20), main block plus coordinator-selected optional items (D80 / D81).
+metrics:
+  cmp_ofc2026_th1d7_gesilica_ring_3mm-m3:
+    basis: author_estimate
+    notes: '0.08 dB/m stated as ''corresponding to'' the Q of 463M (p.~1), converted to dB/cm; group index not stated (D76: loss from Q with an unstated input -> author_estimate), as for Th1D.6.'
+    why: D76 Q-to-loss without stated ng -> author_estimate; consistency with cmp_ofc2026_th1d6_gesilica_ring_d1p5mm-m6
+  cmp_ofc2026_th1d7_gesilica_ring_3mm-m4:
+    basis: author_estimate
+    notes: '''sub-dB/m waveguide losses spanning the violet to telecom bands'' (p.~1, Fig. 1(b)), < 1 dB/m converted to dB/cm; range taken from the stated Q-measurement span 458-1550 nm; loss derivation
+      from Q and group index not stated (D76).'
+    why: D76 Q-to-loss without stated ng -> author_estimate
+  cmp_ofc2026_m1e1_mzi_coupled_mrr-m4:
+    basis: simulated
+    notes: 'FSR of the micro-ring assumed in the simulated comparison of Fig. 2(a,b) (p.~2 Sec. 2); a performance value, so not design_target (D76: design_target only for dimensions); the fabricated device
+      was built at the Fig. 2(a) operating point.'
+    why: 'D76: design_target only for dimensions; the 1.28 nm FSR is a simulation input / result'

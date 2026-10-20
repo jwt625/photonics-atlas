@@ -1,0 +1,271 @@
+# Coordinator patch after the P1 pilot audit (DevLog/audits/2026-10-20-p1-pilot-audit.md) and contract v2 (DevLog-002 D41-D50); second pass 2026-10-20 13:27 (stale notes, D49 parameters).
+rename_columns:
+  host_device_id: host_device_ids
+components:
+  cmp_valdez2023_mmi_cband:
+    host_device_ids: valdez2023-cn1;valdez2023-cn2;valdez2023-cw1;valdez2023-cw2
+    facility_org_ids: org_san_diego_nanotechnology_infrastructure
+    notes: '3-dB 2x2 MMI of the C-band hybrid Si/TFLN MZMs; the paper places it under the bonded LN film (p.3) but also says the MMIs are in the Si layer outside the bonded region (p.11): contradiction
+      kept. Facility: part of the work performed at SDNI (p.16).'
+    why: 'audit: host list, p.11 contradiction, facility rule'
+  cmp_valdez2023_mmi_oband:
+    host_device_ids: valdez2023-on1;valdez2023-on2;valdez2023-ow1;valdez2023-ow2
+    facility_org_ids: org_san_diego_nanotechnology_infrastructure
+    notes: '3-dB 2x2 MMI of the O-band hybrid Si/TFLN MZMs; the paper places it under the bonded LN film (p.3) but also says the MMIs are in the Si layer outside the bonded region (p.11): contradiction
+      kept. Facility: part of the work performed at SDNI (p.16).'
+    why: 'audit: host list, p.11 contradiction, facility rule'
+  cmp_valdez2023_edge_taper:
+    host_device_ids: valdez2023-cn1;valdez2023-cn2;valdez2023-cw1;valdez2023-cw2;valdez2023-on1;valdez2023-on2;valdez2023-ow1;valdez2023-ow2
+    facility_org_ids: org_san_diego_nanotechnology_infrastructure
+    why: host list; facility rule
+  cmp_valdez2023_ln_edge_transition:
+    host_device_ids: valdez2023-cn1;valdez2023-cn2;valdez2023-cw1;valdez2023-cw2;valdez2023-on1;valdez2023-on2;valdez2023-ow1;valdez2023-ow2
+    facility_org_ids: org_san_diego_nanotechnology_infrastructure
+    why: host list; facility rule
+  cmp_li2026aa_ssc:
+    host_device_ids: li2026aa-a;li2026aa-b;li2026aa-c;li2026aa-d;li2026aa-e;li2026aa-f;li2026aa-g;li2026aa-h
+    fab_org_ids: ''
+    facility_org_ids: org_center_of_optoelectronic_micro_and_nano_fabrication_and_characterizing_facility
+    why: host list (one physical device); acknowledged facility support -> facility (D47); notes updated after the host/facility migration; notes updated after the host/facility migration
+    notes: 'Edge coupler of the 9 mm broadband TFLN MZM (EO rows li2026aa-a to -h are one physical device at eight wavelengths; all eight listed in host_device_ids). Loss measured on a reference waveguide.
+      Loss peaks near 1510 nm and 2000 nm attributed to N-H absorption in PECVD SiON and a rise at 1370-1410 nm to O-H (p.4). Table 1 geometry: LN taper tip widths w1 = w2 = 0.2 um, widths w3 2.1, w4 0.8,
+      w5 5 um, SiON rib width w6 4.4 um, taper lengths s1-s3, SiON heights h1 3.2 um (rib) and h2 1 um (slab). UHNA4 MFD values are stated fiber properties (3.3 / 4.0 / 5.3 um at 1310 / 1550 / 2000 nm).
+      Facility: authors state two co-authors fabricated the modulator and thank the HUST/WNLO facility for device-fabrication support (p.9).'
+  cmp_li2026aa_adiabatic_splitter:
+    host_device_ids: li2026aa-a;li2026aa-b;li2026aa-c;li2026aa-d;li2026aa-e;li2026aa-f;li2026aa-g;li2026aa-h
+    fab_org_ids: ''
+    facility_org_ids: org_center_of_optoelectronic_micro_and_nano_fabrication_and_characterizing_facility
+    why: host list; facility rule; notes updated after the host/facility migration; notes updated after the host/facility migration
+    notes: 1x2 adiabatic splitter used twice in the 9 mm MZM (EO rows li2026aa-a to -h; all eight listed in host_device_ids). Design details are cited to the authors' earlier work (ref. 36) and not entered.
+      Loss measured on a 16-splitter cascade test structure. The modulator ER variation is attributed to splitter output imbalance from fabrication tolerance (no imbalance number given). Facility as for
+      the SSC (facility thanked for device-fabrication support, p.9).
+  cmp_kohli2025_gc_cband:
+    host_device_ids: kohli2025-mzm;kohli2025-iq
+    fab_org_ids: ''
+    notes: Grating couplers of the C-band MZ and IQ modulators on one chip. a-Si overlay deposited and etched in the authors' back-end process; SiN wafers from LIGENTEC (p.8-9).
+    why: 'audit: fab rule (wafer supplier is a note)'
+  cmp_kohli2025_vdc_sin_bto_cband:
+    host_device_ids: kohli2025-mzm;kohli2025-iq
+    fab_org_ids: ''
+    notes: Inter-layer coupler from the SiN routing layer (LIGENTEC wafers) to the BTO waveguide (BTO grown by Lumiphase), patterned by the authors (p.8-9).
+    why: fab rule
+  cmp_kohli2025_bto_waveguide_cband:
+    host_device_ids: kohli2025-mzm;kohli2025-iq
+    fab_org_ids: ''
+    why: fab rule (BTO growth by Lumiphase is a note; see VDC notes)
+  cmp_kohli2025_ppc_150nm_slot:
+    host_device_ids: kohli2025-mzm
+    fab_org_ids: ''
+    why: 'fab rule: converter patterned and metallized by the authors; BTO grown by Lumiphase'
+  cmp_kohli2025_ppc_100nm_slot:
+    host_device_ids: kohli2025-iq
+    fab_org_ids: ''
+    why: fab rule
+  cmp_berman2026_racetrack_249um:
+    fab_org_ids: ''
+    facility_org_ids: org_nufab_facility_of_the_nuance_center
+    why: '''made use of the NUFAB facility'' -> facility; notes updated after the host/facility migration; notes updated after the host/facility migration; notes updated after the host/facility migration'
+    notes: 'Representative near-critically-coupled racetrack of Fig. 1(c) (caption calls it a ring on the left panel and gives the racetrack geometry). Not stated to be the DC-tuned racetrack of EO row
+      berman2026-a, so host_device_id is empty. Ring sweep found critical coupling at a 0.85 um gap for a 1 um wide waveguide (bus widths 1-1.2 um, gaps 0.4-1.3 um); this racetrack''s own gap and width
+      are not stated. Q from Lorentzian fits (p.9); Qi extraction model not stated. Resonance linewidth annotated 2.5 pm in Fig. 1(c) (entered as linewidth_pm, not converted to a 3-dB width). Straight-waveguide
+      loss 0.447 dB/cm from the racetrack family (Fig. 1(d)) is already in EO row berman2026-a and not re-entered. Another racetrack with QL 250k (Fig. 4(e),(f)) has no stated geometry or wavelength and
+      is not entered. Facility: first author fabricated the devices (contributions, p.10) and the work used the NUFAB facility (acknowledgments, p.10); BTOI film from La Luce Cristallina (film supplier,
+      a note).'
+  cmp_berman2026_phc_highcontrast:
+    class: reflector.band_stop
+    fab_org_ids: ''
+    facility_org_ids: org_nufab_facility_of_the_nuance_center
+    why: 'audit: band-stop PhC is a reflector; facility rule; notes updated after the host/facility migration; notes updated after the host/facility migration; notes updated after the host/facility migration'
+    notes: '1-D PhC band-stop waveguide (class reflector.band_stop after the pilot audit). One row covers the three periods of Fig. 2(d) (415, 425, 430 nm, legend) because the contrast statement covers
+      the set. Unit-cell height 407 nm on a 200 nm slab as stated (text and caption agree here); hole taper at the waveguide-PhC interface. The wider period sweep of Fig. 2(e) (425-460 nm; text says 200
+      nm etch on 130 nm slab, caption says 210 nm on 110 nm, 400 cells) has only a qualitative result and is not entered. Simulated design (hx 300, hy 600 nm, period 445 nm, about 70 nm bandgap, Fig. 2(b),(c))
+      is not entered: no bandgap-width parameter. Facility: first author fabricated the devices (contributions, p.10) and the work used the NUFAB facility (acknowledgments, p.10); BTOI film from La Luce
+      Cristallina (film supplier, a note).'
+  cmp_berman2026_fp_600um_55cells:
+    fab_org_ids: ''
+    facility_org_ids: org_nufab_facility_of_the_nuance_center
+    why: facility rule; notes updated after the host/facility migration; notes updated after the host/facility migration
+    notes: 'Two 1-D PhC mirrors (unit-cell taper) on a straight waveguide. Finesse 50 (entered as finesse). Caption states a maximum 3 dB ''power penalty'' (undefined; not entered). Not linked to EO row
+      berman2026-b (600 um DC-tuned cavity; mirror count of that device not stated). Facility: first author fabricated the devices (contributions, p.10) and the work used the NUFAB facility (acknowledgments,
+      p.10); BTOI film from La Luce Cristallina (film supplier, a note).'
+  cmp_berman2026_fp_1mm_55cells:
+    fab_org_ids: ''
+    facility_org_ids: org_nufab_facility_of_the_nuance_center
+    why: facility rule; notes updated after the host/facility migration; notes updated after the host/facility migration
+    notes: 'Finesse 53 (entered as finesse). Caption states a ''power penalty'' of about 4.5 dB near the bandgap centre (undefined; not entered). Facility: first author fabricated the devices (contributions,
+      p.10) and the work used the NUFAB facility (acknowledgments, p.10); BTOI film from La Luce Cristallina (film supplier, a note).'
+  cmp_berman2026_fp_600um_70cells:
+    fab_org_ids: ''
+    facility_org_ids: org_nufab_facility_of_the_nuance_center
+    why: facility rule; notes updated after the host/facility migration; notes updated after the host/facility migration
+    notes: 'Highest-Q cavity design: finesse 67 (entered as finesse); 230k resonance chosen near the bandgap centre, linewidth annotated 6.7 pm in the Fig. 3(d) inset (entered as linewidth_pm). Not linked
+      to EO row berman2026-b (mirror count of the DC-tuned device not stated). Facility: first author fabricated the devices (contributions, p.10) and the work used the NUFAB facility (acknowledgments,
+      p.10); BTOI film from La Luce Cristallina (film supplier, a note).'
+  cmp_li2022b_gc_532:
+    host_device_ids: li2022b-a
+    why: column migration
+  cmp_li2022b_mmi_1x2_532:
+    host_device_ids: li2022b-a
+    why: column migration
+metrics:
+  cmp_valdez2023_mmi_cband-m1:
+    scope: per_component
+    basis: author_estimate
+    why: 'D43/D44: budget term of unstated origin; single-component scope'
+  cmp_valdez2023_mmi_oband-m1:
+    scope: per_component
+    basis: author_estimate
+    why: D43/D44
+  cmp_valdez2023_edge_taper-m1:
+    notes: Paper calls it estimated, per edge; remainder of a loss breakdown in which the feeder term rests on a cited 0.8 dB/cm [21] (p.7)
+    why: 'audit: cited input'
+  cmp_valdez2023_edge_taper-m2:
+    notes: Paper calls it estimated, per edge; remainder of a loss breakdown in which the feeder term rests on a cited 0.8 dB/cm [21] (p.7)
+    why: 'audit: cited input'
+  cmp_valdez2023_edge_taper-m5:
+    basis: specification
+    notes: nominal spot size of the lensed fiber the coupler is designed for (vendor value; diameter vs radius not stated)
+    why: D45 specification
+  cmp_valdez2023_ln_edge_transition-m1:
+    band: unspecified
+    basis: author_estimate
+    notes: about 0.1 dB per LN edge; stated once in the loss breakdown used for both the C- and O-band devices (p.7); origin of the number not stated
+    why: 'audit: no band specificity; unstated origin'
+  cmp_li2026aa_ssc-m18:
+    basis: specification
+    why: UHNA4 datasheet value
+  cmp_li2026aa_ssc-m19:
+    basis: specification
+    why: UHNA4 datasheet value
+  cmp_li2026aa_ssc-m20:
+    basis: specification
+    why: UHNA4 datasheet value
+  cmp_li2026aa_adiabatic_splitter-m1:
+    scope: per_component
+    method: reference_structure
+    basis: derived
+    why: cascade of 16 divided out (D43/D44)
+  cmp_li2026aa_adiabatic_splitter-m2:
+    scope: per_component
+    method: reference_structure
+    basis: derived
+    why: D43/D44
+  cmp_li2026aa_adiabatic_splitter-m3:
+    scope: per_component
+    method: reference_structure
+    basis: derived
+    why: D43/D44
+  cmp_kohli2025_vdc_sin_bto_cband-m3:
+    parameter: tip_width_nm
+    why: 'D48: taper geometry allowed for transitions'
+  cmp_kohli2025_vdc_sin_bto_cband-m4:
+    parameter: tip_width_nm
+    why: D48
+  cmp_kohli2025_ppc_150nm_slot-m1:
+    scope: per_component
+    why: D43
+  cmp_kohli2025_ppc_100nm_slot-m1:
+    scope: per_component
+    why: D43
+  cmp_berman2026_phc_highcontrast-m2:
+    condition: discrete set of periods 415, 425, 430 nm (Fig. 2(d) legend)
+    why: 'audit: discrete set'
+  cmp_berman2026_fp_600um_55cells-m1:
+    wavelength_inferred: 'true'
+    why: D46
+  cmp_berman2026_fp_600um_55cells-m2:
+    wavelength_inferred: 'true'
+    why: D46
+  cmp_berman2026_fp_1mm_55cells-m1:
+    wavelength_inferred: 'true'
+    why: D46
+  cmp_berman2026_fp_1mm_55cells-m2:
+    wavelength_inferred: 'true'
+    why: D46
+  cmp_berman2026_fp_600um_70cells-m1:
+    wavelength_inferred: 'true'
+    why: D46
+  cmp_li2022b_mmi_1x2_532-m1:
+    scope: per_component
+    why: D43
+delete_metrics:
+- id: cmp_valdez2023_ln_edge_transition-m2
+  why: duplicate band row of one stated value (audit)
+add_components:
+- component_id: cmp_berman2026_lensed_fiber_coupling
+  source_id: eo:berman2026
+  class: fiber_chip_coupler.edge
+  label: Cleaved-facet coupling with lensed fibers (all devices)
+  row_kind: fabricated
+  host_device_ids: berman2026-a;berman2026-b;berman2026-c
+  platform: bto_on_oxide_substrate
+  facility_org_ids: org_nufab_facility_of_the_nuance_center
+  verified_on: '2026-10-20'
+  notes: Fiber-to-fiber loss of the measurement setup on cleaved facets (p.9 Methods); held only in an EO note (audit miss).
+  why: audit miss B1
+add_metrics:
+- metric_id: cmp_berman2026_lensed_fiber_coupling-m1
+  component_id: cmp_berman2026_lensed_fiber_coupling
+  parameter: insertion_loss_db
+  value: '12'
+  unit: dB
+  qualifier: approx
+  statistic: typical
+  band: unspecified
+  scope: fiber_to_fiber
+  condition: lensed optical fibers, cleaved facets
+  method: direct
+  basis: measured
+  locator: p.9 Methods
+  notes: '''insertion loss typically is about 12 dB'' for all devices; wavelength not stated (devices operate in the C, L and U bands)'
+  why: audit miss B1
+- metric_id: cmp_berman2026_fp_600um_55cells-m4
+  component_id: cmp_berman2026_fp_600um_55cells
+  parameter: finesse
+  value: '50'
+  unit: '1'
+  locator: p.5 Fig. 3 caption; p.6
+  basis: measured
+  why: D49 parameter now available
+  method: direct
+- metric_id: cmp_berman2026_fp_1mm_55cells-m4
+  component_id: cmp_berman2026_fp_1mm_55cells
+  parameter: finesse
+  value: '53'
+  unit: '1'
+  locator: p.5 Fig. 3 caption; p.6
+  basis: measured
+  why: D49 parameter now available
+  method: direct
+- metric_id: cmp_berman2026_fp_600um_70cells-m5
+  component_id: cmp_berman2026_fp_600um_70cells
+  parameter: finesse
+  value: '67'
+  unit: '1'
+  locator: p.5 Fig. 3 caption; p.6
+  basis: measured
+  why: D49 parameter now available
+  method: direct
+- metric_id: cmp_berman2026_fp_600um_70cells-m6
+  component_id: cmp_berman2026_fp_600um_70cells
+  parameter: linewidth_pm
+  value: '6.7'
+  unit: pm
+  locator: p.5 Fig. 3(d) inset
+  basis: measured
+  why: D49 parameter now available
+  wavelength_nm: '1545.1'
+  wavelength_inferred: 'true'
+  method: direct
+  notes: linewidth annotated on the 230k resonance in the inset; wavelength read from the inset axis
+- metric_id: cmp_berman2026_racetrack_249um-m6
+  component_id: cmp_berman2026_racetrack_249um
+  parameter: linewidth_pm
+  value: '2.5'
+  unit: pm
+  locator: p.3 Fig. 1(c) inset
+  basis: measured
+  why: D49 parameter now available
+  wavelength_nm: '1534.14'
+  method: direct
+  notes: linewidth annotated on the Q_L 605k resonance

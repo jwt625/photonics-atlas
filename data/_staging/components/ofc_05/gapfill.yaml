@@ -1,0 +1,67 @@
+# D81 gap-fill (subagent, 2026-10-20); applied after patch.yaml and sweep.yaml. Coordinator dropped: cmp_ofc2026_th1d5_laser_trim_phase_shifter-m6 (D83: a 1000 h bake stability test of a permanent trim is not a retention time); cmp_ofc2026_m1g3_qd_dfb_memristor-m10 (D83: static current tuning (pm/mA) is not an FM efficiency)
+add_metrics:
+- metric_id: cmp_ofc2026_th1f5_sin_coupled_ring_kerr_comb-m14
+  component_id: cmp_ofc2026_th1f5_sin_coupled_ring_kerr_comb
+  parameter: pump_to_comb_efficiency_pct
+  value: '63.6'
+  unit: '%'
+  condition: 300-GHz comb state; pump 375 mW at 1553.8 nm via lensed fiber
+  method: direct
+  basis: measured
+  locator: p.~1 Sec. 1, Table 1
+  notes: '''pump-to-comb conversion efficiency'' (definition not detailed). Conclusion: ''>60%''.'
+  why: 'D81 gap-fill: value listed as not entered in the batch report / component note; pump-to-comb efficiency 63.6 % (ofc_05)'
+- metric_id: cmp_ofc2026_th1f5_sin_coupled_ring_kerr_comb-m15
+  component_id: cmp_ofc2026_th1f5_sin_coupled_ring_kerr_comb
+  parameter: pump_to_comb_efficiency_pct
+  value: '48.1'
+  unit: '%'
+  condition: 200-GHz comb state; pump 375 mW at 1553.8 nm via lensed fiber
+  method: direct
+  basis: measured
+  locator: p.~1 Sec. 1, Table 1
+  notes: '''pump-to-comb conversion efficiency'' (definition not detailed).'
+  why: 'D81 gap-fill: value listed as not entered in the batch report / component note; pump-to-comb efficiency 48.1 % (ofc_05)'
+- metric_id: cmp_ofc2026_th1f5_sin_coupled_ring_kerr_comb-m16
+  component_id: cmp_ofc2026_th1f5_sin_coupled_ring_kerr_comb
+  parameter: pump_to_comb_efficiency_pct
+  value: '33.6'
+  unit: '%'
+  condition: 100-GHz comb state; pump 375 mW at 1553.8 nm via lensed fiber
+  method: direct
+  basis: measured
+  locator: p.~1 Sec. 1, Table 1
+  notes: '''pump-to-comb conversion efficiency'' (definition not detailed).'
+  why: 'D81 gap-fill: value listed as not entered in the batch report / component note; pump-to-comb efficiency 33.6 % (ofc_05)'
+- metric_id: cmp_ofc2026_th1f5_sin_coupled_ring_kerr_comb-m17
+  component_id: cmp_ofc2026_th1f5_sin_coupled_ring_kerr_comb
+  parameter: fsr_ghz
+  value: '100'
+  unit: GHz
+  condition: main resonator
+  basis: author_estimate
+  locator: p.~1 Sec. 1
+  notes: Stated with the auxiliary FSR (AMC period 53 nm); whether design or measured not stated.
+  why: 'D81 gap-fill: value listed as not entered in the batch report / component note; main-ring FSR (fsr_ghz now allowed for laser)'
+- metric_id: cmp_ofc2026_th1f5_sin_coupled_ring_kerr_comb-m18
+  component_id: cmp_ofc2026_th1f5_sin_coupled_ring_kerr_comb
+  parameter: fsr_ghz
+  value: '101.42'
+  unit: GHz
+  condition: auxiliary resonator
+  basis: author_estimate
+  locator: p.~1 Sec. 1
+  notes: Stated with the main FSR (AMC period 53 nm); whether design or measured not stated.
+  why: 'D81 gap-fill: value listed as not entered in the batch report / component note; auxiliary-ring FSR (fsr_ghz now allowed for laser)'
+- metric_id: cmp_ofc2026_th3f8_ge_pd_61port_fan-m6
+  component_id: cmp_ofc2026_th3f8_ge_pd_61port_fan
+  parameter: saturation_photocurrent_ma
+  value: '20.1'
+  unit: mA
+  condition: maximum measured photocurrent, 31-port test structure (input split by a 1x32 MMI tree onto 31 ports); bias not stated
+  method: direct
+  basis: measured
+  locator: p.~2 Sec. 3, Fig. 4(b)
+  notes: '''maximum photocurrent is 20.1 mA'', more than twice the 3-port GC structure (Fig. 4(a)); whether saturation or the available input power set the maximum is not stated. Conclusion repeats 20.1
+    mA.'
+  why: 'D81 gap-fill: value listed as not entered in the batch report / component note; max photocurrent 20.1 mA (ofc_05)'

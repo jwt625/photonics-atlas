@@ -1,0 +1,13 @@
+# Convention sweep D76 / D80 / D82 (subagent, 2026-10-20); applied after patch.yaml.
+components:
+  cmp_ofc2026_w2a15_bezier_uturn_design:
+    row_kind: fabricated
+    notes: U-turn fabricated in the printed QD lasers (p.~2 Sec. 3, Fig. 3); only a simulated loss is reported (D80e, row_kind fabricated). the U-turn concept is from the authors' earlier work [7].
+    why: 'D80e: component exists on the fabricated chip -> fabricated even if only simulated values; source p.~2 Sec. 3 (''U-turn FP lasers were printed'' on Si and SiN, Fig. 3)'
+  cmp_ofc2026_tu2j4_scl_mux_mosaic:
+    notes: 'EBL and dry etching; GC I/O; TE measured with tunable lasers; straight-waveguide transmission on the same chip subtracted. Optimized at 1470/1490/1510 (S), 1530/1550/1570 (C) and 1590/1610/1630
+      (L) nm. Measured DMUX spectra limited to >1495 nm by the GCs. Authors at Hosei University, Sumitomo Electric Industries and PETRA; fabricating org not stated. ARIM (MEXT) support acknowledged under
+      a grant (p.~3 Acknowledgement); ARIM is in the registry (org_advanced_research_infrastructure_for_materials_and_nanotechnology_in_japan), not a facility_org_id: program / grant acknowledgement (D80c,
+      also M4D.3, tanaka2026). Class splitter.other: the wdm class has no subtype for an inverse-designed band MUX (registry gap; wdm.other proposed); 3 ports (S, C, L) not entered as n_channels (not allowed
+      for splitter).'
+    why: 'D80c ruling replaces the pending note: ARIM supported the work ''under Grant'' (p.~3 Acknowledgement) -> not a facility_org_id'

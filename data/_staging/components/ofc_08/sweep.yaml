@@ -1,0 +1,42 @@
+# Convention sweep D76 / D80 / D82 (subagent, 2026-10-20); applied after patch.yaml.
+components:
+  cmp_ofc2026_m4d3_ingaas_pd_test:
+    notes: 'InP-on-Si platform by chip-on-wafer hydrophilic direct bonding, substrate removal and InP processing on the SOI wafer. Fabricator not stated beyond ''our platform''; authors span five organizations,
+      so fab_org_ids left empty. ARIM (JPMXP1224IT0013, a MEXT shared-facility program) support acknowledged in the funding sentence (p.~3 Sec. 5): program / grant acknowledgement, not a facility_org_id
+      (D80c).'
+    why: 'D80c: ARIM appears in the funding sentence with a program number (p.~3 Sec. 5, ''supported by NEDO ... and ARIM'') -> not a facility_org_id; note corrected (said ''-> facility_org_ids'' while
+      the field is empty)'
+  cmp_ofc2026_m4d3_si_90hybrid:
+    notes: 'InP-on-Si platform by chip-on-wafer hydrophilic direct bonding, substrate removal and InP processing on the SOI wafer. Fabricator not stated beyond ''our platform''; authors span five organizations,
+      so fab_org_ids left empty. ARIM (JPMXP1224IT0013, a MEXT shared-facility program) support acknowledged in the funding sentence (p.~3 Sec. 5): program / grant acknowledgement, not a facility_org_id
+      (D80c).'
+    why: 'D80c: ARIM appears in the funding sentence with a program number (p.~3 Sec. 5, ''supported by NEDO ... and ARIM'') -> not a facility_org_id; note corrected (said ''-> facility_org_ids'' while
+      the field is empty)'
+  cmp_ofc2026_m4d3_coherent_rx_pic:
+    notes: 'Insertion-loss-matched MMI-to-PD waveguides. I/Q channel responsivity imbalance within +/-0.8 dB over the L band (p.~2 Sec. 2, Fig. 3(b)) has no registry parameter. DP 100-GBaud 16-QAM OSNR
+      tolerance in the ICR comparable to the InP-PIC reference (system result). InP-on-Si platform by chip-on-wafer hydrophilic direct bonding, substrate removal and InP processing on the SOI wafer. Fabricator
+      not stated beyond ''our platform''; authors span five organizations, so fab_org_ids left empty. ARIM (JPMXP1224IT0013, a MEXT shared-facility program) support acknowledged in the funding sentence
+      (p.~3 Sec. 5): program / grant acknowledgement, not a facility_org_id (D80c).'
+    why: 'D80c: ARIM appears in the funding sentence with a program number (p.~3 Sec. 5, ''supported by NEDO ... and ARIM'') -> not a facility_org_id; note corrected (said ''-> facility_org_ids'' while
+      the field is empty)'
+  cmp_ofc2026_th1d3_fanout_euler:
+    notes: Fan-out for fiber-to-chip pitch conversion from 250 um; the paper has two fan-out sets (250 to 50 um with 8.2 mm S-bends, 250 to 127 um with 6 mm S-bends) and two bend designs (Euler, circular)
+      but does not state which bend design belongs to which set, so pitch and S-bend length are not entered per row. Minimum bend radius > 6 mm. 400 Gbit/s 4-lambda O-band PAM4 through the fan-out without
+      BER penalty (system result, not entered). All authors Corning Research and Development Corporation; the paper states the authors' design and fabrication (Ag/Na ion exchange at ~350 C in 150-mm wafers
+      of an optimized heat-resistant glass), so fab_org_ids = Corning R&D (D72). Cleanroom-operations thanks not entered. Th1D.3 prints the equalized total length as ~12.5 cm; with its own < 0.3 dB per
+      facet and 0.04 dB/cm that would exceed the measured total, so 12.5 mm (the longest cut-back sample of pk:ectc51846.2026.00106) fits the loss breakdown (value kept as printed in includes). Same fan-out
+      and value reported in pk:ectc51846.2026.00106 (cmp_ectc51846_2026_00106_iox_fanout_16ch, whose authors span Corning Optical Communication GmbH and Corning R&D; fab org empty there under D80b).
+    why: 'sweep item 10/11: same device reported twice (pk 00106 row carries the 12.5 cm vs 12.5 mm caveat); add the caveat and a cross-note; source p.~1 Sec. 2 (''~ 12.5 cm'', <0.3 dB per facet, 0.04 dB/cm)'
+  cmp_ofc2026_th1d3_fanout_circular:
+    notes: Circular bends with modal-overlap optimization by lateral offsets and diffusion-graded transitions. Mapping of bend design to pitch set (50 / 127 um) and S-bend length (8.2 / 6 mm) not stated,
+      so not entered per row. All authors Corning Research and Development Corporation; the paper states the authors' design and fabrication (Ag/Na ion exchange at ~350 C in 150-mm wafers of an optimized
+      heat-resistant glass), so fab_org_ids = Corning R&D (D72). Cleanroom-operations thanks not entered. Th1D.3 prints the equalized total length as ~12.5 cm; with its own < 0.3 dB per facet and 0.04 dB/cm
+      that would exceed the measured total, so 12.5 mm (the longest cut-back sample of pk:ectc51846.2026.00106) fits the loss breakdown (value kept as printed in includes). Same fan-out and value reported
+      in pk:ectc51846.2026.00106 (cmp_ectc51846_2026_00106_iox_fanout_16ch, whose authors span Corning Optical Communication GmbH and Corning R&D; fab org empty there under D80b).
+    why: 'sweep item 10/11: same device reported twice (pk 00106 row carries the 12.5 cm vs 12.5 mm caveat); add the caveat and a cross-note; source p.~1 Sec. 2 (''~ 12.5 cm'', <0.3 dB per facet, 0.04 dB/cm)'
+  cmp_ofc2026_th1d3_iox_facet_smf:
+    notes: Facet of the fan-out waveguides, designed single-mode and mode-matched to Corning SMF-28 Ultra at 1310 nm. All authors Corning Research and Development Corporation; the paper states the authors'
+      design and fabrication (Ag/Na ion exchange at ~350 C in 150-mm wafers of an optimized heat-resistant glass), so fab_org_ids = Corning R&D (D72). Cleanroom-operations thanks not entered. Same IOX facet
+      design reported in pk:ectc51846.2026.00106 (cmp_ectc51846_2026_00106_smf_iox_butt, 0.28 dB per facet by cut-back); fab org kept here per this paper's statement ('we increased the ion-exchange concentration',
+      p.~1 Sec. 2).
+    why: 'sweep item 10/11: cross-note to the same group''s pk 00106 facet row (< 0.3 dB per facet, 0.28 dB measured there)'

@@ -1,0 +1,55 @@
+# Audit patch bt_01 (fresh-context audit 2026-10-20), main block plus optional blocks ['B'] (D80 / D82 rulings).
+components:
+  cmp_okuda2026_bh_dfb:
+    fab_org_ids: ''
+    notes: Laser section of the EML okuda2026-a (values held only in the EO notes). All authors are at Mitsubishi Electric and describe the EML as their development ("developed", abstract p.1; "we report
+      the development", p.1), but the paper does not state who fabricated it, so fab_org_ids is empty (D72). Laser and EAM cathodes electrically isolated. LI measured in CoC with TEC at 55 C (p.2).
+    why: 'D72: no fabrication statement in the text (only "developed"); coordinator flag confirmed'
+  cmp_sabatti2024_gc_fh:
+    fab_org_ids: org_eth_zurich
+    facility_org_ids: org_first_center_for_micro_and_nanoscience;org_binnig_and_rohrer_nanotechnology_center;org_scientific_center_for_optical_and_electron_microscopy
+    notes: 'Input and FH output grating couplers of the MZM + PPLN upconversion chip (EO rows sabatti2024-fh and -sh, one physical device). Value held only in the EO notes. All authors at ETH Zurich (single
+      affiliation) and the Methods state the device "is fabricated" with the authors'' own process (passive voice, p.4) -> fab org ETH Zurich (D72 / D76, as for bhasker2026 / falcone2026). Facility: acknowledged
+      support for fabrication and characterization from ScopeM and from the cleanroom facilities FIRST and BRNC "of ETH Zurich and IBM Ruschlikon" (p.4); IBM Research - Zurich is named as an owner of BRNC,
+      not as a separate facility.'
+    why: 'p.4 acknowledgment is fabrication-support wording -> facility (rule 12); ScopeM now in the registry; IBM Ruschlikon names the BRNC host, not a facility (falcone2026 precedent: FIRST + BRNC, fab
+      ETH); D72 own-org fab'
+  cmp_sabatti2024_gc_sh:
+    host_device_ids: sabatti2024-fh;sabatti2024-sh
+    fab_org_ids: org_eth_zurich
+    facility_org_ids: org_first_center_for_micro_and_nanoscience;org_binnig_and_rohrer_nanotechnology_center;org_scientific_center_for_optical_and_electron_microscopy
+    notes: SH output grating coupler after the on-chip WDM (EO row sabatti2024-sh). Value held only in the EO notes. Fab and facility as for the FH grating coupler (p.4).
+    why: same as cmp_sabatti2024_gc_fh; D41 host ids = all rows of physical device sabatti2024-upconv
+  cmp_sabatti2024_ppln_7mm:
+    host_device_ids: sabatti2024-fh;sabatti2024-sh
+    fab_org_ids: org_eth_zurich
+    facility_org_ids: org_first_center_for_micro_and_nanoscience;org_binnig_and_rohrer_nanotechnology_center;org_scientific_center_for_optical_and_electron_microscopy
+    notes: One PPLN per MZI output; poling with 520 V pulses on Cr electrodes (p.4). Film-thickness variation of about 6 nm across the PPLN (Fig. 2(b)) broadens the phase matching (no parameter). The theoretical
+      normalized efficiency 4280 %/W/cm2 is cited ([21]) and the ideal full-device 2100 %/W is computed from it, not entered. Fab and facility as for the FH grating coupler (p.4).
+    why: same as cmp_sabatti2024_gc_fh; D41 host ids = all rows of physical device sabatti2024-upconv
+  cmp_gaier2025_butt_facet:
+    fab_org_ids: org_harvard_university
+    notes: Value held only in the EO notes of gaier2025-a. Facet / taper design not stated. Fab org Harvard (D72 / D76) - the three co-authors who fabricated the devices (A.S.-A., S.R., L.M.; contributions
+      p.20) share the Harvard SEAS affiliation (two also list DRS Daylight Solutions / TU Delft); the fabrication site itself is not named.
+    why: 'D72 / D76: authors state they fabricated the devices; Harvard SEAS is the one affiliation common to all three fabricators (powell2024 / renaud2023 precedent)'
+  cmp_gaier2025_racetrack_comb:
+    fab_org_ids: org_harvard_university
+    notes: Racetrack resonator used for triply resonant EO comb generation (comb spacing 123.2 GHz = 4 FSR and 307.9 GHz = 10 FSR, p.10-11); no EO device row exists for it, so host_device_ids is empty.
+      Under-coupled by design. Linewidth statistics over 256 resonances (Fig. S9(b), roughly 200-280 MHz axis) not entered. Racetrack length / bend radius not stated. Fab org as for the facet row (contributions
+      p.20).
+    why: same as cmp_gaier2025_butt_facet
+metrics:
+  cmp_gaier2025_butt_facet-m1:
+    basis: author_estimate
+    notes: Stated per facet with the butt coupling (p.5); how the per-facet value was obtained or isolated is not stated (origin not stated, D44).
+    why: 'D44 / D76: per-facet value of unstated origin -> author_estimate'
+  cmp_wang2026b_mrr_filter-m1:
+    basis: author_estimate
+    notes: Stated device property (p.6) without a method or spectrum; whether design or measured is not stated (origin not stated, D76).
+    why: 'D76: performance value of unstated design / measured origin -> author_estimate'
+  cmp_hillier2025_facet_lensed_fiber-m1:
+    polarization: te
+    why: polarization controller ensured TE input for the measurements described in the same paragraph (p.5 Sec. 3.1); already in condition
+  cmp_gaier2025_racetrack_comb-m2:
+    basis: simulated
+    why: D76 keeps design_target for dimensions; a designed FSR is a performance value of stated design origin

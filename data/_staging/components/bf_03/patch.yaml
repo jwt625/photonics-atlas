@@ -1,0 +1,19 @@
+# Audit bf_01-03 corrections for bf_03.
+components:
+  cmp_li2025a_slowlight_bragg:
+    notes: 'Slow-light phase-shifter waveguide of the 2.8 mm MZM li2025a-a (Np = 80 resonators of two apodized gratings joined by a pi-phase shift); loss measured on separate waveguides with Np = 10, 50 and 80. Values held only in the EO row notes. Class resonator.bragg kept after v3 (a cascade of Bragg resonators; waveguide_platform.slow_light is non-resonant). Fabrication details are in a supplement that is not in the local cache. Centre width w0 0.6 um is held by EO row li2025a-a (rib_width_nm).'
+    why: 'audit: stale class note; w0 duplicate removed'
+  cmp_montifiore2026_ring_493: {notes: 'The PZT ring modulator of EO row montifiore2026-c, critically coupled. Loaded Q 1.9M and 0.24 dB/cm are held by the EO row (not re-entered); notch ER 18.7 dB is the modulator ER (not entered); FWHM 324 MHz entered as linewidth_mhz. Fabricating organization not stated.', why: 'v3 back-fill linewidth_mhz'}
+  cmp_montifiore2026_ring_780: {notes: 'The PZT add-drop ring modulator of EO row montifiore2026-d, slightly under-coupled at 780 nm. Loaded Q 0.7M and 0.27 dB/cm are held by the EO row (not re-entered); ER 12.1 dB is the modulator ER (not entered); FWHM 539 MHz entered as linewidth_mhz. Fabricating organization not stated.', why: 'v3 back-fill'}
+  cmp_porto2026_dfb_array: {notes: 'Each DFB emits from both ends into two MZM channels. Fabricated by the Nokia authors (same process as their prior work, p.1, p.3). DFB RIN 0.4 % integrated over 0.1-18 GHz entered as rin_integrated_pct.', why: 'v3 back-fill'}
+  cmp_shamsansari2021_dfb_tfln_butt: {notes: 'Trench etched through cladding, LN and BOX at the horn tip; Ti/Pt/Au pad at the trench bottom serves as laser electrode and bonding pad. Facet sidewall angle sets the minimum laser-waveguide gap of about 500 nm (gap_nm). Simulated coupling loss vs gap and height offset only in Fig. 1(c) (not entered).', why: 'v3 back-fill gap_nm'}
+metrics:
+  cmp_porto2026_soa-m3: {temperature_k: '333.15', why: 'audit: NF stated in the 60 C DC characterization (Sec. 3)'}
+  cmp_rahman2025_sin1_ring-m3: {basis: author_estimate, why: 'D76: FSR of unstated design / measured origin'}
+delete_metrics:
+  - {id: cmp_li2025a_slowlight_bragg-m6, why: 'audit: duplicate of EO row li2025a-a rib_width_nm 600'}
+add_metrics:
+  - {metric_id: cmp_montifiore2026_ring_493-m3, component_id: cmp_montifiore2026_ring_493, parameter: linewidth_mhz, value: '324', unit: MHz, wavelength_nm: '493', method: direct, basis: measured, locator: 'p.5 Sec. 2', notes: 'FWHM linewidth as stated (loaded); EO row holds it only in notes', why: 'v3 back-fill'}
+  - {metric_id: cmp_montifiore2026_ring_780-m3, component_id: cmp_montifiore2026_ring_780, parameter: linewidth_mhz, value: '539', unit: MHz, wavelength_nm: '780', method: direct, basis: measured, locator: 'p.6 Sec. 2; Fig. 6', notes: 'FWHM linewidth as stated', why: 'v3 back-fill'}
+  - {metric_id: cmp_porto2026_dfb_array-m3, component_id: cmp_porto2026_dfb_array, parameter: rin_integrated_pct, value: '0.4', unit: '%', statistic: mean, band: o_band, wavelength_inferred: 'true', temperature_k: '333.15', condition: 'integrated 0.1-18 GHz; DFB 150 mA, SOA 100 mA, MZM at maximum transmission', method: direct, basis: measured, locator: 'p.2 Sec. 3', notes: 'average RIN through the SOA and MZM path; O-band PIC, wavelength not stated', why: 'v3 back-fill'}
+  - {metric_id: cmp_shamsansari2021_dfb_tfln_butt-m4, component_id: cmp_shamsansari2021_dfb_tfln_butt, parameter: gap_nm, value: '500', unit: nm, qualifier: approx, condition: 'minimum achievable laser-waveguide gap set by the ~85 deg trench sidewall', basis: author_estimate, locator: 'p.2', notes: 'authors infer the minimum gap from the SEM sidewall angle', why: 'v3 back-fill'}

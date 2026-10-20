@@ -1,0 +1,19 @@
+# Audit 3 (sweep + gap-fill audit, 2026-10-20); applied after patch.yaml, sweep.yaml, gapfill.yaml.
+components:
+  cmp_ofc2026_w4b5_dual_layer_2dgc_mdm:
+    notes: Symmetric 2DGC fed by four asymmetric directional couplers (TE0 / TE1), a 1x2 MMI and two thermo-optic phase shifters per branch pair; excites LP01, LP11a, LP11b, LP21b in x and y (8 channels,
+      entered as n_channels m14, D81). Phase shifters re-calibrated per wavelength, so measured spectra are discrete points. Fabricated via imec MPW on ISIPP50G (p.~2 Sec. 3). Measured values given for
+      x polarization only; y stated to be similar by symmetry (not entered). Comparison table Fig. 2(c) values of other works not entered.
+    why: 'Stale note (D81 gap-fill / registry): n_channels m14 (ofc_09 gapfill)'
+  cmp_ofc2026_th2a7_mems_ps_50nm_gap:
+    notes: 'Foundry-defined 230 nm waveguide-perturber gap reduced to 50 nm by an adhesion-latched comb-drive switch (V_set / V_reset); phase actuator pulls the waveguide away from the perturber. Implemented
+      on IMEC iSiPP50G (p.~1 Sec. 3); release post-processing by the authors (org not stated; KTH / Tyndall / imec author list) noted only. Tested in a length-unbalanced MZI (1540-1560 nm sweep). Entered
+      under D81: phase shift 0.05 pi (230 nm gap) and 1.01 pi (50 nm gap) (m4, m5), mechanical resonance 778 kHz (m6), gaps 50 / 230 nm (m7, m8), latched-state retention > 2 weeks (m9). Not entered (no
+      registry parameter): spring stiffness 3.71 N/m; shuttle 25 x 25 um2. Pi shift at 1555 nm ''with good linearity from 5 to 30 V'' (p.~3) not entered as v_pi_v (whether 30 V or the 25 V swing is meant
+      is ambiguous). Values 503 kHz / 175 nm gap / 50 um length belong to prior work [5].'
+    why: 'Stale note (D81 gap-fill / registry): phase_shift_pi, mech_resonance_khz, gap_nm, retention_time_s m4-m9 (ofc_09 gapfill)'
+  cmp_ofc2026_th2a8_metalens_pair_fau:
+    notes: 'All authors AuthenX Inc.; who fabricated the meta-lenses is not stated (fab_org_ids empty); PIC from an unnamed standard SiPh foundry with O-band GCs. FAU 12 x 3 = 36 channels (SMF + PMF), pitch
+      500 um (horizontal) x 250 um (vertical): FAU geometry, not entered. Half-divergence angle 1.2 deg (ISO 11146-1 method, p.~2 Sec. 2.3) entered as beam_divergence_deg (m4, D81). Measured, no registry
+      parameter: M2 1.2; mean polar angle 89.7 deg with 3 sigma 0.17 deg over 6 channels (p.~3 Sec. 3.2). Measured coupling loss not reported.'
+    why: 'Stale note (D81 gap-fill / registry): beam_divergence_deg m4 (ofc_09 gapfill)'

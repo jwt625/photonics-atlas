@@ -1,0 +1,25 @@
+# Audit patch bt_04 (fresh-context audit 2026-10-20), main block plus optional blocks ['B', 'C'] (D80 / D82 rulings).
+metrics:
+  cmp_hu2023_tin_heater-m1:
+    basis: author_estimate
+    notes: Stated as 'T-O efficiency' 0.1 nm/mW (p.3), unit-converted to pm/mW; how it was obtained is not stated (origin not stated, D76). Wavelength not attached to the value, ring resonance near 1310
+      nm (O-band) per the same paragraph.
+    why: 'D76: performance value of unstated design / measured origin -> author_estimate (the unit conversion alone does not make it derived)'
+  cmp_akazawa2026_mzi_mesh_4x4-m1:
+    wavelength_inferred: 'true'
+    notes: text channel crosstalk 'below -12 dB' (sign as printed). The measurement wavelength is not stated in the cached text (Methods p.8 names a tunable laser only); 1550 nm is the design wavelength
+      of the phase shifters (p.2, Fig. 1(e)).
+    why: 1550 nm is not stated for the circuit measurement -> wavelength_inferred (D46)
+  cmp_akazawa2026_si_hybrid_taper-m2:
+    condition: projection for a taper-tip width reduced to 150 nm after further process optimization
+    locator: p.3; p.7 Discussion; Supplementary Section IV (not in cache)
+    notes: Paper says reducing the taper-tip width to 150 nm 'is expected to' bring the loss below 0.01 dB per taper (p.7; p.3 'further optimization ... reduces') and total IL could fall to about 0.22 dB;
+      a projection, whether simulated is not stated in the main text (origin not stated).
+    why: the p.7 statement ties the value to a 150 nm tip width and frames it as expected; condition and locator completed
+components:
+  cmp_akazawa2026_si_hybrid_taper:
+    fab_org_ids: org_the_university_of_tokyo
+    why: 'D72: first author (U. Tokyo) performed the III-V integration that defines the hybrid taper (p.8)'
+  cmp_sayem2026a_ring_r80um:
+    platform: ltoi_rib
+    why: consistency with the EO rows of the same paper and with sayem2026b

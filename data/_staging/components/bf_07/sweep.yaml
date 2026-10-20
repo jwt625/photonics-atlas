@@ -1,0 +1,22 @@
+# Convention sweep D76 / D80 / D82 (subagent, 2026-10-20); applied after patch.yaml.
+components:
+  cmp_tatarczak2026_inp_bi_pd_tia:
+    fab_org_ids: ''
+    notes: 'Receiver component surveyed for 400 Gb/s per lane (Fig. 1d); not part of the diff-EML EO row, so host_device_ids is empty. Fab org empty (D80b): all authors at Coherent Corp. and the acknowledgments
+      thank Coherent teams working on the PDs, but no fabrication statement; Marvell acknowledged for TIA/PD interface collaboration (a note). PD responsivities 0.7 / 0.5 A/W are link-simulation assumptions
+      (p.3) and not entered; no dark current or capacitance stated.'
+    why: 'D80b: fab_org_ids needs an explicit statement that the authors (or a named org) fabricated the component; passive ''fabricated'' / ''developed'' / all authors at one org do not qualify; source
+      acknowledgements (thanks to Coherent teams ''working on'' EMLs, PDs, drivers: not a fabrication statement)'
+metrics:
+  cmp_churaev2023_ring_100ghz-m3:
+    basis: author_estimate
+    notes: nominal FSR class of the reticle design Nominal FSR of the reticle design (p.3), not stated as simulated (D82a).
+    why: 'D82a: performance value stated as the design, not stated as simulated / calculated -> author_estimate (design_target only for dimensions); source p.3 (reticle contents: rings with FSR 100 GHz)'
+  cmp_churaev2023_ring_21ghz-m3:
+    basis: author_estimate
+    notes: nominal FSR class; EO comb driven at 20.97 GHz (p.5) Nominal FSR of the reticle design (p.3), not stated as simulated (D82a).
+    why: 'D82a: performance value stated as the design, not stated as simulated / calculated -> author_estimate (design_target only for dimensions); source p.3 (reticle contents: rings with FSR 21 GHz)'
+  cmp_churaev2023_dimer_50ghz-m4:
+    basis: author_estimate
+    notes: nominal FSR of each ring of the dimer Nominal FSR of the reticle design (p.3), not stated as simulated (D82a).
+    why: 'D82a: performance value stated as the design, not stated as simulated / calculated -> author_estimate (design_target only for dimensions); source p.3 (reticle contents: rings with FSR 50 GHz)'

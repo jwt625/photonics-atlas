@@ -1,0 +1,6 @@
+# Convention sweep D76 / D80 / D82 (subagent, 2026-10-20); applied after patch.yaml.
+metrics:
+  cmp_ofc2026_m1g3_active_passive_transition-m1:
+    scope: per_component
+    why: 'D76: on-chip inter-layer / inter-material transitions are scope per_component (per_interface is chip-chip only); source p.~2 Sec. 2 (active-to-passive transition ''theoretically determined'' <
+      0.4 dB; scope was empty)'

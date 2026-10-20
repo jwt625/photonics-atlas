@@ -1,0 +1,99 @@
+# Audit patch bf_09 (fresh-context audit 2026-10-20), main block plus coordinator-selected optional items (see DevLog/audits).
+components:
+  cmp_cai2025_ring_2um:
+    notes: 'Ring for platform loss extraction by frequency-comb-assisted spectroscopy (Fig. 1(c)-(e)); not part of an EO device, so host_device_ids is empty. Intrinsic linewidth 72 MHz of the representative
+      resonance entered as kappa_intrinsic_mhz; the kappa_ex / kappa_0 histograms are not entered (statistics not stated). EO row cai2025-a holds the 14.2 dB/m only in its notes. Facility: EPFL CMi (p.8).'
+    why: 'D72/D76: author contributions p.8 name EPFL-affiliated fabricators, PICs fabricated in the EPFL CMi; audit Block B1'
+    fab_org_ids: org_epfl
+  cmp_powell2024a_racetrack:
+    fab_org_ids: org_harvard_university
+    notes: 'Loss-extraction racetrack, a different structure from the cladded MZM, so host_device_ids is empty (EO row powell2024a-a mentions it only in notes). Racetrack geometry not stated. Intrinsic
+      FWHM linewidth 47.2 MHz entered as kappa_intrinsic_mhz. Thermo-optic coefficient dn/dT 2.47e-5 per K measured on the racetrack not entered (no parameter). Fab: the authors design and fabricate the
+      devices (p.1), all at Harvard SEAS; facility: work performed in part at Harvard CNS (acknowledgments, p.3); film from NanoLN (supplier, a note).'
+    why: 'D72/D76: all authors Harvard, paper states the authors fabricated (as powell2024 in bf_04); D73 linewidth'
+  cmp_powell2024a_gc:
+    fab_org_ids: org_harvard_university
+    why: 'D72/D76: all authors at Harvard SEAS; "We design, fabricate" (p.1)'
+  cmp_powell2024a_dc_2x2:
+    fab_org_ids: org_harvard_university
+    why: 'D72/D76: all authors at Harvard SEAS; "We design, fabricate" (p.1)'
+  cmp_cai2025_edge_coupler:
+    fab_org_ids: org_epfl
+    why: 'D72/D76: author contributions p.8 name EPFL-affiliated fabricators, PICs fabricated in the EPFL CMi; audit Block B1'
+  cmp_cai2025_taper_sin_lt:
+    fab_org_ids: org_epfl
+    why: 'D72/D76: author contributions p.8 name EPFL-affiliated fabricators, PICs fabricated in the EPFL CMi; audit Block B1'
+  cmp_ummethala2021_gc:
+    fab_org_ids: org_karlsruhe_institute_of_technology
+    why: 'D72/D76: ''we fabricate'' (p.3, p.9), fabricating authors KIT; audit Block B2'
+metrics:
+  cmp_cai2025_ring_2um-m1:
+    basis: author_estimate
+    notes: Stated as about 14.2 dB/m (abstract and p.2), converted to dB/cm (/100); the authors derive it from the fitted 72 MHz intrinsic linewidth of a typical C-band TE resonance, group index of the
+      2 um ring not stated (D76). Includes ring bending loss (authors attribute the rise of kappa_0 with frequency to bending).
+    why: 'D76: Q/linewidth-derived loss with ng not stated -> author_estimate'
+  cmp_cai2025_ring_2um-m2:
+    basis: author_estimate
+    notes: FSR of the fitted ring as stated in the Fig. 1 caption; whether design or measured not stated (D76)
+    why: 'D76: FSR of unstated origin -> author_estimate'
+  cmp_cai2025_taper_sin_lt-m1:
+    scope: per_component
+    why: 'D76: on-chip transitions scope per_component'
+  cmp_tobing2026_ssc_sin_tfln-m1:
+    scope: per_component
+    why: 'D76: on-chip transitions scope per_component'
+  cmp_tobing2026_tfln_waveguide-m1:
+    basis: author_estimate
+    notes: Average 2.4 +/- 0.89 dB/cm (spread type not stated); extracted from TFLN ring resonators, conversion and group index not stated (D76); band inferred from the stated C/L-band wafer-scale characterization.
+    why: 'D76: ring-extracted loss with ng not stated -> author_estimate'
+  cmp_tobing2026_tfln_waveguide-m2:
+    basis: author_estimate
+    notes: Minimum of the wafer-scale distribution; extracted from TFLN ring resonators, conversion and group index not stated (D76); band inferred from the stated C/L-band wafer-scale characterization.
+    why: 'D76: ring-extracted loss with ng not stated -> author_estimate'
+  cmp_powell2024a_gc-m1:
+    basis: author_estimate
+    notes: 7.9 dB loss each (p.1 Sec. III); how obtained not stated (origin not stated, D44/D76); 1550 nm is the stated operating wavelength of the MZMs, not stated with the value.
+    why: 'D44/D76: per-coupler value of unstated origin -> author_estimate'
+  cmp_powell2024a_racetrack-m2:
+    basis: author_estimate
+    notes: Stated as 9 dB/m including bending loss, converted to dB/cm (/100); the authors give it as corresponding to Qi 4.04e6, group index not stated (D76).
+    why: 'D76: Q-derived loss with ng not stated -> author_estimate'
+  cmp_powell2024a_racetrack-m3:
+    basis: author_estimate
+    notes: Stated as 185 pm (converted to nm) for the measured racetrack; whether design or measured not stated (D76).
+    why: 'D76: FSR of unstated origin -> author_estimate'
+  cmp_yue2023_gc_smic-m1:
+    basis: author_estimate
+    notes: 4.1 dB each stated with the device description (p.9); how obtained not stated (origin not stated, D44/D76); C band inferred from the C-band tunable laser of the setup (no wavelength stated).
+    why: 'D44/D76: per-coupler value of unstated origin -> author_estimate'
+  cmp_yue2023_gc_amf-m1:
+    basis: author_estimate
+    notes: 3.8 dB each stated with the device description (p.12); how obtained not stated (origin not stated, D44/D76); C band inferred from the C-band tunable laser of the setup (no wavelength stated).
+    why: 'D44/D76: per-coupler value of unstated origin -> author_estimate'
+add_metrics:
+- metric_id: cmp_cai2025_ring_2um-m4
+  component_id: cmp_cai2025_ring_2um
+  parameter: kappa_intrinsic_mhz
+  value: '72'
+  unit: MHz
+  band: c_band
+  polarization: te
+  condition: representative TE resonance in the C band, fitted intrinsic linewidth kappa_0/2pi
+  method: direct
+  basis: measured
+  locator: p.2 Sec. II; p.3 Fig. 1(e)
+  notes: Fitted intrinsic linewidth of the representative resonance; exact wavelength not stated (C band stated)
+  why: 'miss: D73 kappa_intrinsic_mhz'
+- metric_id: cmp_powell2024a_racetrack-m4
+  component_id: cmp_powell2024a_racetrack
+  parameter: kappa_intrinsic_mhz
+  value: '47.2'
+  unit: MHz
+  wavelength_nm: '1550'
+  wavelength_inferred: 'true'
+  condition: FWHM linewidth corresponding to the intrinsic Q 4.04e6, uncladded racetrack
+  method: ring_extraction
+  basis: derived
+  locator: p.2 Sec. III
+  notes: 'Paper: intrinsic Q of 4.04 million corresponding to a FWHM linewidth of 47.2 MHz (conversion by the authors); wavelength not stated with the value (devices operate at 1550 nm)'
+  why: 'miss: D73 kappa_intrinsic_mhz (intrinsic-Q linewidth)'

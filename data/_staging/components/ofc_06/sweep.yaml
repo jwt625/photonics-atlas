@@ -1,0 +1,38 @@
+# Convention sweep D76 / D80 / D82 (subagent, 2026-10-20); applied after patch.yaml.
+components:
+  cmp_ofc2026_m1d4_sil_laser:
+    fab_org_ids: ''
+    notes: 'DFB coupled to the ULL ring (row cmp_ofc2026_m1d4_ull_sin_ring) through adiabatic tapers (row cmp_ofc2026_m1d4_sin_interlayer_taper); on-chip monitor PDs at ring through / drop ports and laser
+      back side; phase and ring heaters. Wafer-prober testing, GC output. Intrinsic linewidth only qualitative (''10 Hz regime'', ''a few hertz'', means ''tens of Hz''; Fig. 2(f-g)): not entered. Output
+      power estimated from PD photocurrent with assumed 80 % QE and 1 % tap (no value given). All authors Nexus Photonics; the paper calls the platform ''our heterogeneous platform'' (pNA Sec. 1) and describes
+      the fabrication steps in passive voice (p.~1 Sec. 2) without saying who fabricated the devices, so fab_org_ids is empty (D80b, borderline). Text refers to Figure 1(c-g) for panels captioned Fig. 2(c-g);
+      locators use Fig. 2.'
+    why: 'D80b: fab_org_ids needs an explicit statement that the authors (or a named org) fabricated the component; passive ''fabricated'' / ''developed'' / all authors at one org do not qualify; source
+      pNA Sec. 1 (''our heterogeneous platform'', ''we introduce a multi-layer SiN architecture'') and p.~1 Sec. 2 (fabrication steps in passive voice) - platform ownership, no statement that the authors
+      fabricated these devices (borderline, reported)'
+  cmp_ofc2026_m1d4_ull_sin_ring:
+    fab_org_ids: ''
+    notes: Q measured on the wafer prober via GCs at the ring add / drop ports, after laser fabrication. Extraction model not stated. All authors Nexus Photonics; the paper calls the platform 'our heterogeneous
+      platform' (pNA Sec. 1) and describes the fabrication steps in passive voice (p.~1 Sec. 2) without saying who fabricated the devices, so fab_org_ids is empty (D80b, borderline). Text refers to Figure
+      1(c-g) for panels captioned Fig. 2(c-g); locators use Fig. 2.
+    why: 'D80b: fab_org_ids needs an explicit statement that the authors (or a named org) fabricated the component; passive ''fabricated'' / ''developed'' / all authors at one org do not qualify; source
+      pNA Sec. 1 (''our heterogeneous platform'', ''we introduce a multi-layer SiN architecture'') and p.~1 Sec. 2 (fabrication steps in passive voice) - platform ownership, no statement that the authors
+      fabricated these devices (borderline, reported)'
+  cmp_ofc2026_m1d4_sin_interlayer_taper:
+    fab_org_ids: ''
+    notes: All authors Nexus Photonics; the paper calls the platform 'our heterogeneous platform' (pNA Sec. 1) and describes the fabrication steps in passive voice (p.~1 Sec. 2) without saying who fabricated
+      the devices, so fab_org_ids is empty (D80b, borderline). Text refers to Figure 1(c-g) for panels captioned Fig. 2(c-g); locators use Fig. 2.
+    why: 'D80b: fab_org_ids needs an explicit statement that the authors (or a named org) fabricated the component; passive ''fabricated'' / ''developed'' / all authors at one org do not qualify; source
+      pNA Sec. 1 (''our heterogeneous platform'', ''we introduce a multi-layer SiN architecture'') and p.~1 Sec. 2 (fabrication steps in passive voice) - platform ownership, no statement that the authors
+      fabricated these devices (borderline, reported)'
+metrics:
+  cmp_ofc2026_w4b1_faml_tower_sin-m3:
+    basis: author_estimate
+    notes: design MFD of the common expanded beam ('targeting', p.~2 Sec. 2); not stated as a simulated or measured result (D82a)
+    why: 'D82a: performance value stated as the design, not stated as simulated / calculated -> author_estimate (design_target only for dimensions); source p.~2 Sec. 2 (FaMLs ''targeting a 25 um MFD common
+      expanded beam''; Fig. 1(b) FDTD shows the lens, the 25 um is the target)'
+  cmp_ofc2026_m4b2_rx_mrr_filter-m2:
+    basis: author_estimate
+    notes: nine 200 GHz spaced wavelengths (link design); experiment ELS at 230 GHz (p.~2 Sec. 3) Design grid, not stated as simulated (D82a).
+    why: 'D82a: performance value stated as the design, not stated as simulated / calculated -> author_estimate (design_target only for dimensions); source p.~1 Fig. 1(b) caption (link with nine 200 GHz
+      spaced wavelengths)'

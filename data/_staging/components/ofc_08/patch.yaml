@@ -1,0 +1,49 @@
+# Audit patch ofc_08 (fresh-context audit 2026-10-20), main block plus coordinator-selected optional items (see DevLog/audits).
+# 2026-10-20 14:21: ARIM facility proposal reverted (D80).
+components:
+  cmp_ofc2026_tu3c2_dfb_array_8ch:
+    notes: DFB array is the device of the authors' earlier work [10]. Own measurements on this die (p.~2 Sec. 3, Fig. 3) are the locked 201 +/- 4 GHz spacing and the < 2 dB power variation (free-running
+      and after VOA equalization); the free-running 200 +/- 15 GHz spacing is stated in the sentence that cites [10] and called 'nominal' in the conclusion (basis author_estimate). Locking via per-laser
+      bias current, marker tones 25.3-46.5 kHz via inline Si p-i-n modulators, per-lambda VOA. No TEC or heat sink; control loop closed with external lock-in amplifiers. Locked spacing error stated as <2
+      % (derived, not entered). Absolute lasing wavelengths not stated. fab_org_ids from the acknowledgment of Intel Fab11x for chip fabrication (p.~3 Sec. 4).
+    why: 'flag check: only the free-running 200 +/- 15 GHz sits in a [10]-citing sentence and is called nominal (p.~3 conclusion); locked spacing, FSR and power variation are this paper''s results (Sec.
+      3 Measured Results)'
+  cmp_ofc2026_th1d3_bend_std_dn:
+    notes: Calculated comparison case for the standard (fiber-matched) waveguide (Fig. 2-A, calculated). Bend (radiation) loss coefficient entered in prop_loss_db_per_cm (dB per cm of bend; same use as
+      cmp_kim2025_bend_* curved-section loss per length). Design row, fab_org_ids empty. All authors Corning Research and Development Corporation. Cleanroom-operations thanks not entered.
+    why: notes claimed fab_org_ids = Corning R&D (D72) while the field is (correctly, design row) empty
+  cmp_ofc2026_m4d3_ingaas_pd_test:
+    facility_org_ids: ''
+    notes: InP-on-Si platform by chip-on-wafer hydrophilic direct bonding, substrate removal and InP processing on the SOI wafer. Fabricator not stated beyond 'our platform'; authors span five organizations,
+      so fab_org_ids left empty. ARIM (JPMXP1224IT0013, a MEXT shared-facility program) support acknowledged (p.~3 Sec. 5) -> facility_org_ids.
+    why: 'D80: ARIM is acknowledged as a grant-funded program (''supported ... under Grant JPMXP...''), not a facility where the work was performed; coordinator reverted the audit proposal'
+  cmp_ofc2026_m4d3_si_90hybrid:
+    facility_org_ids: ''
+    notes: InP-on-Si platform by chip-on-wafer hydrophilic direct bonding, substrate removal and InP processing on the SOI wafer. Fabricator not stated beyond 'our platform'; authors span five organizations,
+      so fab_org_ids left empty. ARIM (JPMXP1224IT0013, a MEXT shared-facility program) support acknowledged (p.~3 Sec. 5) -> facility_org_ids.
+    why: 'D80: ARIM is acknowledged as a grant-funded program (''supported ... under Grant JPMXP...''), not a facility where the work was performed; coordinator reverted the audit proposal'
+  cmp_ofc2026_m4d3_coherent_rx_pic:
+    facility_org_ids: ''
+    notes: Insertion-loss-matched MMI-to-PD waveguides. I/Q channel responsivity imbalance within +/-0.8 dB over the L band (p.~2 Sec. 2, Fig. 3(b)) has no registry parameter. DP 100-GBaud 16-QAM OSNR tolerance
+      in the ICR comparable to the InP-PIC reference (system result). InP-on-Si platform by chip-on-wafer hydrophilic direct bonding, substrate removal and InP processing on the SOI wafer. Fabricator not
+      stated beyond 'our platform'; authors span five organizations, so fab_org_ids left empty. ARIM (JPMXP1224IT0013, a MEXT shared-facility program) support acknowledged (p.~3 Sec. 5) -> facility_org_ids.
+    why: 'D80: ARIM is acknowledged as a grant-funded program (''supported ... under Grant JPMXP...''), not a facility where the work was performed; coordinator reverted the audit proposal'
+metrics:
+  cmp_ofc2026_tu3c2_dfb_array_8ch-m2:
+    basis: author_estimate
+    notes: Stated as 200 +/- 15 GHz in the sentence that introduces the array with reference [10] (p.~2 Sec. 3) and as 'nominal spacing' in the conclusion (p.~3); Fig. 2(a) / 3(c) show this die's free-running
+      spectrum but the number is presented as nominal. Spread kept in notes (no GHz spread parameter).
+    why: value in a citing sentence, called nominal -> not clearly this paper's measurement (D44 / citation rule)
+  cmp_ofc2026_th1d3_bend_local_dn-m1:
+    excludes: straight-waveguide background propagation loss (radiation loss only)
+    why: Fig. 2-A coefficient is the calculated bend (radiation) loss; the 0.04 dB/cm propagation loss is a separate term of the loss breakdown (p.~1 Sec. 2)
+  cmp_ofc2026_th1d3_bend_std_dn-m1:
+    excludes: straight-waveguide background propagation loss (radiation loss only)
+    why: same as bend_local_dn-m1
+  cmp_ofc2026_th4a7_bragg_mux_4ch-m4:
+    notes: Table 1 size 1.6 mm x 0.04 mm. Conflicts with the text (approximately 1400 um x 40 um, m5); both kept. The stated 15-fold reduction vs the CMZI (880,000 um2) matches the text value (15.7x), not
+      the table value (13.75x).
+    why: cross-reference the conflicting footprint row; consistency evidence (pNA Sec. 2, abstract)
+  cmp_ofc2026_th4a7_bragg_mux_4ch-m5:
+    notes: Text states approximately 1400 um x 40 um (with the 15-fold reduction vs the 880,000 um2 CMZI, consistent with this value); conflicts with Table 1 (1.6 mm x 0.04 mm, m4), both kept.
+    why: consistency evidence for the text value

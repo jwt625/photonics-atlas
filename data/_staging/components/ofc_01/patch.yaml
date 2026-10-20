@@ -1,0 +1,203 @@
+# Audit patch ofc_01 (fresh-context audit 2026-10-20), main block only (optional blocks not applied, D80).
+components:
+  cmp_ofc2026_th1g4_bse_vcsel_19ch:
+    notes: Designed for 940-1060 nm emission; measured emission wavelength not stated. Evaluated on ceramic interposers with RF probe access, uncooled benchtop. Slope efficiency ~0.5 W/A and fitted capacitance
+      < 0.2 pF entered (D77). 'First-batch BSE VCSEL chips and 19-core MCFs were fabricated' (passive, pNA Sec. 3); all authors LightXcelerate Inc. but the fabricating org is not stated, so fab_org_ids
+      left empty.
+    why: D77 slope_efficiency_w_per_a, capacitance_ff for laser
+  cmp_ofc2026_th1f6_er_sin_mll:
+    notes: 'Self-starting passive MLL, 12 lasers per 5 x 5 mm2 chip; pumped at 1480 nm. Si3N4 PICs ''fabricated in the EPFL Center of MicroNanoTechnology (CMi)'' (p.~3 acknowledgments) -> facility; authors
+      at EPFL and HZDR (Er ion implantation org not stated), so fab_org_ids empty. Entered per D77: mode-locking threshold 27.3 mW, 3-dB optical bandwidth up to 9.5 nm, 300 fs Gaussian pulse (from 424.7
+      fs ACF FWHM, after external compression), 46.9 fs timing jitter (10 kHz-10 MHz). Not entered (no parameter): comb-line drift std 8.0 MHz over 2 h; 0.4 mHz repetition-rate linewidth.'
+    why: notes follow the D77 additions
+  cmp_ofc2026_m2d1_agf_tops:
+    fab_org_ids: org_sitri
+    notes: 'Rectangular metal heater; no air trench or undercut; Bezier bends effective radius 5 um. Sinusoidal segments 100 um plus 40 um increments; 1.5 mm phase arm. Not entered: ''< 1 V for 2 pi'' (v_pi_v
+      is per pi); 60 nm optical bandwidth limited by the GC (no parameter). Manufactured with the SITRI 90 nm silicon photonics process (pNA Sec. 2); fab_org_ids org_sitri (registry addition, batch_6).'
+    why: 'rule 12: ''manufactured ... with the SITRI 90 nm process node'' (pNA Sec. 2) -> foundry; org_sitri now in the registry'
+  cmp_ofc2026_m2d1_mzi_1x2:
+    fab_org_ids: org_sitri
+    notes: Elementary unit of the 1x8 switch; TE grating-coupler I/O. Manufactured with the SITRI 90 nm silicon photonics process (pNA Sec. 2); fab_org_ids org_sitri (registry addition, batch_6).
+    why: 'rule 12: ''manufactured ... with the SITRI 90 nm process node'' (pNA Sec. 2) -> foundry; org_sitri now in the registry'
+  cmp_ofc2026_m2d1_switch_1x8:
+    fab_org_ids: org_sitri
+    notes: 'Each path: three phase shifters, three 1x2 MMIs and three 2x2 MMIs. Loss variation +/-0.34 dB across ports (D77 il_nonuniformity_db is max-min; whether +/-0.34 is the extreme half-spread is
+      not stated, not entered). Loss breakdown ~0.75 dB MMIs + 1.2 dB three phase shifters (p.~2 Sec. 3). 112 Gb/s PAM4 routing below HD-FEC (system result). Manufactured with the SITRI 90 nm silicon photonics
+      process (pNA Sec. 2); fab_org_ids org_sitri (registry addition, batch_6).'
+    why: 'rule 12: ''manufactured ... with the SITRI 90 nm process node'' (pNA Sec. 2) -> foundry; org_sitri now in the registry'
+  cmp_ofc2026_m2d1_agf_waveguide:
+    fab_org_ids: org_sitri
+    notes: 'Not entered: the 2 dB/cm ''sidewall roughness benchmark'' (cut-back) - whether it is this chip''s straight-waveguide loss is not stated (cf. [9]). Manufactured with the SITRI 90 nm silicon photonics
+      process (pNA Sec. 2); fab_org_ids org_sitri (registry addition, batch_6).'
+    why: 'rule 12: ''manufactured ... with the SITRI 90 nm process node'' (pNA Sec. 2) -> foundry; org_sitri now in the registry'
+  cmp_ofc2026_th1a3_cryo_vcsel_4p5um:
+    notes: 'All authors UIUC (''We have developed''); fabrication not explicitly attributed, so fab_org_ids empty. Slope efficiency 0.71 W/A entered (D77). Not entered (no parameter): single-mode up to
+      4 mA; carrier lifetime 12.4 ps, photon lifetime 2.76 ps (model extraction); threshold only as I/Ith ratios (1.1 at 1.4 mA, 1.6 at 2 mA); projected 100 GHz bandwidth (rate-equation projection).'
+    why: notes follow the D77 addition
+  cmp_ofc2026_th3c1_sin_awgr:
+    facility_org_ids: org_marvell_nanofabrication_laboratory;org_center_for_nano_micro_manufacturing
+    notes: 8x8, 16x16 and 32x32 AWGRs fabricated (Fig. 2); the quoted IL / crosstalk are stated once for the interposer AWGR and not attributed to a size. 'we designed and fabricated' / 'we applied this
+      technique to fabricate' (p.~1-2 Sec. 3); all authors UC Davis -> fab_org_ids. 'The devices were fabricated at' Marvell Nanofabrication Laboratory and Center for Nano-Micro Manufacturing (acknowledgements)
+      -> facility_org_ids (shared facilities where the work was performed, D42); the fabricating org is the authors' own (UC Davis, D72).
+    why: 'D42/D72: shared university cleanrooms where the authors fabricated the devices are facilities; registry ids now exist (batch_6)'
+  cmp_ofc2026_th3c1_uli_wg_hdpcvd:
+    facility_org_ids: org_marvell_nanofabrication_laboratory;org_center_for_nano_micro_manufacturing
+    notes: Mode field diameter ~6 um entered as mfd_chip_um (D77). Prior 0.59 dB ULI interposer coupling in LPCVD oxide is cited work [7] (not entered). 'we designed and fabricated' / 'we applied this technique
+      to fabricate' (p.~1-2 Sec. 3); all authors UC Davis -> fab_org_ids. 'The devices were fabricated at' Marvell Nanofabrication Laboratory and Center for Nano-Micro Manufacturing (acknowledgements) ->
+      facility_org_ids (shared facilities where the work was performed, D42); the fabricating org is the authors' own (UC Davis, D72).
+    why: 'D42/D72: shared university cleanrooms where the authors fabricated the devices are facilities; registry ids now exist (batch_6)'
+  cmp_ofc2026_th3c1_uli_2tx:
+    facility_org_ids: org_marvell_nanofabrication_laboratory;org_center_for_nano_micro_manufacturing
+    notes: Die alignment bonding with a Ficontec tool; scattering into the substrate through the BCB and at the die-interposer gap discussed (p.~2 Sec. 3). 'we designed and fabricated' / 'we applied this
+      technique to fabricate' (p.~1-2 Sec. 3); all authors UC Davis -> fab_org_ids. 'The devices were fabricated at' Marvell Nanofabrication Laboratory and Center for Nano-Micro Manufacturing (acknowledgements)
+      -> facility_org_ids (shared facilities where the work was performed, D42); the fabricating org is the authors' own (UC Davis, D72).
+    why: 'D42/D72: shared university cleanrooms where the authors fabricated the devices are facilities; registry ids now exist (batch_6)'
+  cmp_ofc2026_th3c1_uli_3tx:
+    facility_org_ids: org_marvell_nanofabrication_laboratory;org_center_for_nano_micro_manufacturing
+    notes: Die alignment bonding with a Ficontec tool; scattering into the substrate through the BCB and at the die-interposer gap discussed (p.~2 Sec. 3). 'we designed and fabricated' / 'we applied this
+      technique to fabricate' (p.~1-2 Sec. 3); all authors UC Davis -> fab_org_ids. 'The devices were fabricated at' Marvell Nanofabrication Laboratory and Center for Nano-Micro Manufacturing (acknowledgements)
+      -> facility_org_ids (shared facilities where the work was performed, D42); the fabricating org is the authors' own (UC Davis, D72).
+    why: 'D42/D72: shared university cleanrooms where the authors fabricated the devices are facilities; registry ids now exist (batch_6)'
+  cmp_ofc2026_th3c1_uli_4rx:
+    facility_org_ids: org_marvell_nanofabrication_laboratory;org_center_for_nano_micro_manufacturing
+    notes: Die alignment bonding with a Ficontec tool; scattering into the substrate through the BCB and at the die-interposer gap discussed (p.~2 Sec. 3). 'we designed and fabricated' / 'we applied this
+      technique to fabricate' (p.~1-2 Sec. 3); all authors UC Davis -> fab_org_ids. 'The devices were fabricated at' Marvell Nanofabrication Laboratory and Center for Nano-Micro Manufacturing (acknowledgements)
+      -> facility_org_ids (shared facilities where the work was performed, D42); the fabricating org is the authors' own (UC Davis, D72).
+    why: 'D42/D72: shared university cleanrooms where the authors fabricated the devices are facilities; registry ids now exist (batch_6)'
+  cmp_ofc2026_tu3c5_ta2o5_athermal_amzi:
+    facility_org_ids: org_sustech_core_research_facilities
+    notes: Single AMZI filter (one stage). Fabricating org not stated (platform refs [3,7]). Acknowledged 'assistance of SUSTech Core Research Facilities' -> facility_org_ids (facility-level support, not
+      staff thanks; borderline, D42). DC piezo tuning efficiency -36.9 pm/V (4.6 GHz/V at 1550 nm, 0-10 V) entered (D77).
+    why: 'D42: acknowledgment names the shared facility itself (org_sustech_core_research_facilities, batch_6); D77 tuning_efficiency_pm_per_v'
+metrics:
+  cmp_ofc2026_th1f6_er_sin_mll-m2:
+    parameter: repetition_rate_ghz
+    notes: Pulse repetition rate (also the comb line spacing).
+    why: D77 repetition_rate_ghz (repoint from channel_spacing_ghz)
+  cmp_ofc2026_m2d1_agf_waveguide-m1:
+    notes: An excess over straight-waveguide loss, not a total propagation loss. Band inferred from the 1520-1580 nm measurement sweep. The sentence ends 'consistent with prior results [9]'; the value is
+      reported in the authors' own cut-back characterization (p.~2 Sec. 3), so it is kept as own work (borderline, D76).
+    why: 'D76: value in a sentence carrying a citation; record why it is kept'
+  cmp_ofc2026_w3e7_inverted_pdown_pd-m3:
+    wavelength_nm: '1310'
+    condition: LCA 0.1-105 GHz plus heterodyne 90-230 GHz
+    why: 'wavelength stated with the value (p.~2 Sec. 3): use wavelength_nm, not condition text'
+  cmp_ofc2026_th1a3_cryo_vcsel_4p5um-m2:
+    basis: derived
+    notes: 'Intrinsic bandwidth of the device response extracted from the measured S11 / S21 with the UIUC Cryo-VCSEL microwave model [13] after SOLT calibration (p.~1 Sec. 3). D76: model-parameter extraction
+      -> derived.'
+    why: 'D76: ''intrinsic bandwidth ... extracted using the Cryo-VCSEL microwave model'' is a model extraction, not a direct S21 read'
+  cmp_ofc2026_th1a3_cryo_vcsel_4p5um-m3:
+    basis: derived
+    notes: 'Intrinsic bandwidth of the device response extracted from the measured S11 / S21 with the UIUC Cryo-VCSEL microwave model [13] after SOLT calibration (p.~1 Sec. 3). D76: model-parameter extraction
+      -> derived.'
+    why: 'D76: ''intrinsic bandwidth ... extracted using the Cryo-VCSEL microwave model'' is a model extraction, not a direct S21 read'
+  cmp_ofc2026_tu3c5_ta2o5_athermal_amzi-m1:
+    statistic: best
+    why: 'rule 7: ''as low as 1.98 pm/K'' -> statistic best'
+add_metrics:
+- metric_id: cmp_ofc2026_th1g4_bse_vcsel_19ch-m8
+  component_id: cmp_ofc2026_th1g4_bse_vcsel_19ch
+  parameter: slope_efficiency_w_per_a
+  value: '0.5'
+  unit: W/A
+  qualifier: approx
+  ref_plane: unspecified
+  condition: L-I curve up to 9 mA; uncooled benchtop
+  method: direct
+  basis: measured
+  locator: p.~3 Sec. 3, Fig. 2(c)
+  notes: '''roughly 0.5 W/A'' from the measured L-I-V (sentence starts at pNA)'
+  why: D77 slope_efficiency_w_per_a
+- metric_id: cmp_ofc2026_th1g4_bse_vcsel_19ch-m9
+  component_id: cmp_ofc2026_th1g4_bse_vcsel_19ch
+  parameter: capacitance_ff
+  value: '200'
+  unit: fF
+  qualifier: lt
+  condition: effective device capacitance from fits to the small-signal S21 data
+  basis: derived
+  locator: p.~3 Sec. 3, Fig. 2(d)
+  notes: '''below 0.2 pF'' (converted to fF); model / fit assumptions not stated (D76: model-parameter extraction -> derived)'
+  why: D77 capacitance_ff for laser
+- metric_id: cmp_ofc2026_th1f6_er_sin_mll-m6
+  component_id: cmp_ofc2026_th1f6_er_sin_mll
+  parameter: pump_threshold_mw
+  value: '27.3'
+  unit: mW
+  condition: pump power for stable mode locking (1480 nm pump; pump-recycling gratings); on-chip per Fig. 1(h) axis, not stated with the value
+  method: direct
+  basis: measured
+  locator: p.~2 Sec. 2, Fig. 1(h)
+  notes: mode-locking threshold, not a lasing threshold
+  why: D77 pump_threshold_mw
+- metric_id: cmp_ofc2026_th1f6_er_sin_mll-m7
+  component_id: cmp_ofc2026_th1f6_er_sin_mll
+  parameter: pulse_width_fs
+  value: '300'
+  unit: fs
+  condition: transform-limited FWHM after external pulse-shaper compression; Gaussian pulse assumed (ACF FWHM 424.7 fs)
+  basis: derived
+  locator: p.~2 Sec. 2, Fig. 1(g)
+  notes: '424.7 fs minimum ACF FWHM measured; 300 fs follows from the Gaussian-shape assumption (D76: extraction with a stated assumption -> derived); output pulses themselves are highly chirped'
+  why: D77 pulse_width_fs
+- metric_id: cmp_ofc2026_th1f6_er_sin_mll-m8
+  component_id: cmp_ofc2026_th1f6_er_sin_mll
+  parameter: timing_jitter_fs
+  value: '46.9'
+  unit: fs
+  condition: integrated 10 kHz-10 MHz from the SSB phase noise of the photodetected repetition-rate signal
+  method: direct
+  basis: measured
+  locator: p.~3 Sec. 3
+  why: D77 timing_jitter_fs
+- metric_id: cmp_ofc2026_th1f6_er_sin_mll-m9
+  component_id: cmp_ofc2026_th1f6_er_sin_mll
+  parameter: bw_3db_nm
+  value: '9.5'
+  unit: nm
+  qualifier: le
+  band: c_band
+  wavelength_inferred: 'true'
+  condition: 3-dB optical bandwidth of the output spectrum, mode-locked
+  method: direct
+  basis: measured
+  locator: p.~2 Sec. 2, Fig. 1(f)
+  notes: '''up to 9.5 nm''; band inferred from the 1550 nm CBG band'
+  why: D77 bw_3db_nm for laser
+- metric_id: cmp_ofc2026_th1a3_cryo_vcsel_4p5um-m8
+  component_id: cmp_ofc2026_th1a3_cryo_vcsel_4p5um
+  parameter: slope_efficiency_w_per_a
+  value: '0.71'
+  unit: W/A
+  temperature_k: '3'
+  ref_plane: unspecified
+  condition: maximum dL/dI of the L-I curve at 3 K
+  method: direct
+  basis: measured
+  locator: p.~1 Fig. 1(a) caption; pNA Sec. 1
+  notes: '''slope efficiency = 0.71 W/A'' (caption), ''maximum dL/dI ~ 0.71 W/A'' (Sec. 1); optical power with a NIST-calibrated PD'
+  why: D77 slope_efficiency_w_per_a
+- metric_id: cmp_ofc2026_th3c1_uli_wg_hdpcvd-m2
+  component_id: cmp_ofc2026_th3c1_uli_wg_hdpcvd
+  parameter: mfd_chip_um
+  value: '6'
+  unit: um
+  qualifier: approx
+  condition: mode field diameter of the ULI waveguide
+  basis: author_estimate
+  locator: p.~2 Sec. 3
+  notes: '''mode field diameter (~ 6 um) of the ULI waveguide''; how obtained not stated (D76); 1/e^2 definition not stated'
+  why: D77 mfd_chip_um for waveguide_platform
+- metric_id: cmp_ofc2026_tu3c5_ta2o5_athermal_amzi-m6
+  component_id: cmp_ofc2026_tu3c5_ta2o5_athermal_amzi
+  parameter: tuning_efficiency_pm_per_v
+  value: '-36.9'
+  unit: pm/V
+  wavelength_nm: '1550'
+  condition: DC PZT bias 0-10 V in 1 V steps, chip temperature stabilized; transition-wavelength linear fit
+  method: direct
+  basis: measured
+  locator: p.~2 Sec. 4, Fig. 3(b)
+  notes: Sign as printed (blueshift with increasing voltage); 4.6 GHz/V at 1550 nm
+  why: D77 tuning_efficiency_pm_per_v

@@ -1,0 +1,41 @@
+# Coordinator patch after the P1 pilot audit and contract v2 (DevLog-002 D41-D50).
+rename_columns: {host_device_id: host_device_ids}
+components:
+  cmp_li2025b_gc_focusing: {platform: suspended_gaas, notes: "Stand-alone test structure (two GCs 889 um apart) of the GC design used in the PeM-MZM li2025b-a.", why: "audit: platform; test-pair spacing moved from a pitch row"}
+  cmp_li2025b_y_splitter: {platform: suspended_gaas, why: "audit: platform"}
+  cmp_li2025b_racetrack: {platform: suspended_gaas, why: "audit: platform"}
+  cmp_liu2026d_ec_bg_expanding_taper: {platform: lnoi_strip, host_device_ids: "liu2026d-a;liu2026d-b;liu2026d-c;liu2026d-d", why: "fully etched strip (p.4); Design 1 rows"}
+  cmp_liu2026d_ec_or_expanding_taper: {platform: lnoi_strip, host_device_ids: "liu2026d-e;liu2026d-f", why: "Design 2 rows"}
+  cmp_liu2026d_ec_nir_inverse_taper: {platform: lnoi_strip, host_device_ids: "liu2026d-g;liu2026d-h", why: "Design 3 rows"}
+  cmp_liu2026d_mmi_1x2: {platform: lnoi_strip, host_device_ids: "liu2026d-a;liu2026d-b;liu2026d-c;liu2026d-d", why: platform; host list}
+  cmp_liu2026d_mmi_2x2: {platform: lnoi_strip, host_device_ids: "liu2026d-a;liu2026d-b;liu2026d-c;liu2026d-d", why: platform; host list}
+  cmp_liu2026d_tops_bg: {platform: lnoi_strip, host_device_ids: "liu2026d-a;liu2026d-b;liu2026d-c;liu2026d-d", why: platform; host list}
+  cmp_liu2026d_tops_or: {platform: lnoi_strip, host_device_ids: "liu2026d-e;liu2026d-f", why: platform; host list}
+  cmp_liu2026d_tops_nir: {platform: lnoi_strip, host_device_ids: "liu2026d-g;liu2026d-h", why: platform; host list}
+  cmp_wu2025_vac_si_tfln: {class: waveguide_platform.transition, platform: lnoi_loaded_si,
+    notes: "Two VACs per MZM wu2025-a. TFLN 1.5 um waveguide over the Si taper (no fine TFLN tip patterning, p.3, p.5). Fab org not set: Si layer from the CUMEC PDK, the TFLN BEOL processing site is not stated.", why: "audit: wrong note; on-chip transition class D48; hybrid platform"}
+  cmp_wu2025_ge_pd: {notes: "Characterized before and after TFLN bonding with nearly identical IV; responsivity curves read from the post-bonding trace; whether 55 nA and 47 / 56 GHz are pre- or post-bonding is not stated (p.8).", why: "audit: pre/post not stated"}
+  cmp_didier2026_wg_lnos_1p5um: {fab_org_ids: "", facility_org_ids: "org_binnig_and_rohrer_nanotechnology_center;org_first_center_for_micro_and_nanoscience;org_ibm_research_zurich", cladding: "", why: "acknowledged fabrication support -> facility (incl. IBM Research Zurich from the same sentence); cladding not stated"}
+  cmp_didier2026_tops: {fab_org_ids: "", facility_org_ids: "org_binnig_and_rohrer_nanotechnology_center;org_first_center_for_micro_and_nanoscience;org_ibm_research_zurich", cladding: "", why: same}
+metrics:
+  cmp_li2025b_gc_focusing-m1: {scope: loopback_half, why: "D43: half of a two-GC structure"}
+  cmp_li2025b_gc_focusing-m2: {scope: loopback_half, why: D43}
+  cmp_li2025b_gc_focusing-m3: {scope: loopback_half, why: D43}
+  cmp_li2025b_y_splitter-m1: {scope: per_component, why: D43}
+  cmp_li2025b_y_splitter-m2: {scope: per_component, why: D43}
+  cmp_li2025b_y_splitter-m3: {scope: per_component, why: D43}
+  cmp_hulyal2026_awg-m3: {wavelength_inferred: "true", why: D46}
+  cmp_hulyal2026_edge_taper-m1: {wavelength_inferred: "true", why: D46}
+  cmp_liu2026d_ec_bg_expanding_taper-m2: {basis: measured, why: "D44: per-facet value from the authors' measurement (p.4 'estimated', p.9 'measured')"}
+  cmp_liu2026d_ec_or_expanding_taper-m2: {basis: measured, why: D44}
+  cmp_liu2026d_ec_nir_inverse_taper-m3: {basis: measured, method: reference_structure, why: "D44: test-structure measurement"}
+  cmp_liu2026d_mmi_1x2-m1: {parameter: excess_loss_db, scope: per_component, basis: measured, method: reference_structure, why: "audit: below the ideal split -> excess loss; test structure"}
+  cmp_liu2026d_mmi_2x2-m1: {parameter: excess_loss_db, scope: per_component, basis: measured, method: reference_structure, why: same}
+  cmp_wu2025_vac_si_tfln-m1: {wavelength_inferred: "true", why: D46}
+  cmp_wu2025_vac_si_tfln-m2: {parameter: transition_loss_db, wavelength_inferred: "true", why: "D48: transition_loss_db for on-chip transitions"}
+  cmp_wu2025_vac_si_sin-m1: {wavelength_inferred: "true", statistic: best, why: "D46; 'as low as' -> best"}
+  cmp_wu2025_vac_si_sin-m2: {parameter: taper_length_um, why: D48}
+  cmp_wu2025_sin_edge_coupler-m1: {wavelength_inferred: "true", why: D46}
+  cmp_wu2025_si_tops-m1: {wavelength_inferred: "true", why: D46}
+delete_metrics:
+  - {id: cmp_li2025b_gc_focusing-m5, why: "audit: 889 um is the test-pair spacing, not a pitch (moved to notes)"}

@@ -1,0 +1,92 @@
+# D81 gap-fill (subagent, 2026-10-20); applied after patch.yaml and sweep.yaml. Coordinator dropped: cmp_ofc2026_th1d5_laser_trim_phase_shifter-m6 (D83: a 1000 h bake stability test of a permanent trim is not a retention time); cmp_ofc2026_m1g3_qd_dfb_memristor-m10 (D83: static current tuning (pm/mA) is not an FM efficiency)
+add_metrics:
+- metric_id: cmp_ofc2026_th2a7_mems_ps_50nm_gap-m4
+  component_id: cmp_ofc2026_th2a7_mems_ps_50nm_gap
+  parameter: phase_shift_pi
+  value: '0.05'
+  unit: pi
+  band: c_band
+  wavelength_inferred: 'true'
+  condition: as-fabricated 230 nm gap state; phase-actuator voltage (V_ps) sweep in the length-unbalanced MZI
+  method: direct
+  basis: measured
+  locator: p.~2 Sec. 3
+  notes: Text cites Fig. 2 for the phase sweep. C band from the 1540-1560 nm MZI sweep; V_ps range not stated.
+  why: 'D81 gap-fill: value listed as not entered in the batch report / component note; phase shift 0.05 pi (phase_shift_pi)'
+- metric_id: cmp_ofc2026_th2a7_mems_ps_50nm_gap-m5
+  component_id: cmp_ofc2026_th2a7_mems_ps_50nm_gap
+  parameter: phase_shift_pi
+  value: '1.01'
+  unit: pi
+  band: c_band
+  wavelength_inferred: 'true'
+  condition: 50 nm gap state set by the nonvolatile MEMS switch; phase-actuator voltage (V_ps) sweep in the length-unbalanced MZI
+  method: direct
+  basis: measured
+  locator: p.~2 Sec. 3
+  notes: Text cites Fig. 2 for the phase sweep; p.~3 adds a pi shift at 1555 nm 'from 5 to 30 V'. C band from the 1540-1560 nm MZI sweep.
+  why: 'D81 gap-fill: value listed as not entered in the batch report / component note; phase shift 1.01 pi (phase_shift_pi)'
+- metric_id: cmp_ofc2026_th2a7_mems_ps_50nm_gap-m6
+  component_id: cmp_ofc2026_th2a7_mems_ps_50nm_gap
+  parameter: mech_resonance_khz
+  value: '778'
+  unit: kHz
+  condition: 50 nm gap state; extracted from the measured frequency response
+  method: direct
+  basis: measured
+  locator: p.~2 Sec. 3, Fig. 3
+  notes: Extracted together with the 1.36 MHz -3 dB bandwidth (m1); text cites Fig. 3, the frequency-response caption is numbered Fig. 2. Raised from 503 kHz of prior work [5] by stiffer springs (3.71 N/m).
+  why: 'D81 gap-fill: value listed as not entered in the batch report / component note; mechanical resonance 778 kHz (mech_resonance_khz)'
+- metric_id: cmp_ofc2026_th2a7_mems_ps_50nm_gap-m7
+  component_id: cmp_ofc2026_th2a7_mems_ps_50nm_gap
+  parameter: gap_nm
+  value: '50'
+  unit: nm
+  condition: waveguide-perturber air gap in the latched (set) state of the nonvolatile MEMS switch
+  basis: design_target
+  locator: p.~1 Sec. 2
+  notes: Set by the mechanical stoppers; no SEM value.
+  why: 'D81 gap-fill: value listed as not entered in the batch report / component note; gap 50 nm (gap_nm now allowed for phase_shifter)'
+- metric_id: cmp_ofc2026_th2a7_mems_ps_50nm_gap-m8
+  component_id: cmp_ofc2026_th2a7_mems_ps_50nm_gap
+  parameter: gap_nm
+  value: '230'
+  unit: nm
+  condition: foundry-defined waveguide-perturber gap, as-fabricated (reset) state
+  basis: design_target
+  locator: p.~1 Sec. 2; pNA Abstract
+  notes: Starting gap of the iSiPP50G layout.
+  why: 'D81 gap-fill: value listed as not entered in the batch report / component note; gap 230 nm (gap_nm now allowed for phase_shifter)'
+- metric_id: cmp_ofc2026_th2a7_mems_ps_50nm_gap-m9
+  component_id: cmp_ofc2026_th2a7_mems_ps_50nm_gap
+  parameter: retention_time_s
+  value: '1209600'
+  unit: s
+  qualifier: gt
+  condition: latched 50 nm gap state retained after disconnecting the probes
+  method: direct
+  basis: derived
+  locator: p.~3 Sec. 3
+  notes: '''retention of the latched nonvolatile state for over two weeks'' converted to s (14 x 86400); observation still ongoing at writing.'
+  why: 'D81 gap-fill: value listed as not entered in the batch report / component note; retention > 2 weeks (retention_time_s)'
+- metric_id: cmp_ofc2026_w4b5_dual_layer_2dgc_mdm-m14
+  component_id: cmp_ofc2026_w4b5_dual_layer_2dgc_mdm
+  parameter: n_channels
+  value: '8'
+  unit: count
+  condition: LP channels LP01, LP11a, LP11b, LP21b in x and y polarization
+  basis: design_target
+  locator: pNA Sec. 2, Fig. 1(b)
+  notes: Measured spectra given for the x polarization only (4 channels); y stated similar by symmetry.
+  why: 'D81 gap-fill: value listed as not entered in the batch report / component note; 8 channels (n_channels now allowed for fiber_chip_coupler)'
+- metric_id: cmp_ofc2026_th2a8_metalens_pair_fau-m4
+  component_id: cmp_ofc2026_th2a8_metalens_pair_fau
+  parameter: beam_divergence_deg
+  value: '1.2'
+  unit: deg
+  condition: half-divergence angle of the meta-lens collimated beam (ISO 11146-1, camera scan along the axis); M2 1.2
+  method: direct
+  basis: measured
+  locator: p.~2 Sec. 2.3
+  notes: Whether the FAU-side or PIC-side meta-lens beam is reported is not stated (setup mounts 'the FAU or PIC').
+  why: 'D81 gap-fill: value listed as not entered in the batch report / component note; half-divergence 1.2 deg (beam_divergence_deg)'

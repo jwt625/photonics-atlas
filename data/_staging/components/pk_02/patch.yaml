@@ -1,0 +1,35 @@
+# Audit patch pk_02 (fresh-context audit 2026-10-20), main block only.
+components:
+  cmp_ectc51909_2023_00324_polymer_waveguide:
+    fab_org_ids: org_national_institute_of_advanced_industrial_science_and_technology
+    notes: 'AOP-substrate optical redistribution; end facets by dicing saw (p.2 Sec. II.B). Facet coupling 0.45 dB to SMF is in cmp_ectc51909_2023_00324_pwg_smf_butt (pk_oi). Polymer materials not named.
+      Waveguide fabrication is stated passively (p.2 Sec. II.B), but the authors state that the guiding ridges are patterned in the same lithography as the waveguide core so that ''we can easily fabricate''
+      them in position relative to the cores (p.3 Sec. II.B); both authors AIST, so fab_org_ids = AIST (D80b, borderline), as on the pk_oi facet row. PK: metrics -a-m1.'
+    why: 'D80b: active authors'' fabrication statement (p.3 Sec. II.B, ridge and core in one lithography), org unambiguous (both authors AIST, p.1); same physical waveguide as pk_oi cmp_ectc51909_2023_00324_pwg_smf_butt,
+      which carries AIST'
+  cmp_ectc51846_2026_00106_iox_straight_wg:
+    notes: 'Two-step thermal Ag / Na IOX waveguides in a fusion-draw compatible CPO glass, 150 mm x 0.7 mm wafers, laser-singulated end faces (p.3 Sec. III). fab_org_ids empty under D80(b) (passive ''fabricated'',
+      only staff thanked; all authors Corning), as the pk_oi rows of this paper after the convention sweep; ofc2026:Th1D.3 carries org_corning_research_and_development on its own fabrication statement.
+      Cut-back lengths 1.25 / 5 / 7.5 / 10 / 12.5 mm. Same platform as cmp_ofc2026_th1d3_iox_wg_straight (0.04 dB/cm loss-breakdown term). PK: metrics -a-m1, -a-m2.'
+    why: stale cross-note (pk_oi 00106 fab_org_ids removed by the convention sweep, sweep.yaml); OFC Th1D.3 cross-note
+  cmp_ectc51846_2026_00106_iox_bend_enhanced_dn:
+    notes: 'Two-step thermal Ag / Na IOX waveguides in a fusion-draw compatible CPO glass, 150 mm x 0.7 mm wafers, laser-singulated end faces (p.3 Sec. III). fab_org_ids empty under D80(b), as the pk_oi
+      rows of this paper after the convention sweep. 90-degree bend test devices used mask openings of 3, 4.5, 6 and 9 um; Fig. 6 shows fiber-to-fiber IL vs radius (measured and modelled), not entered (fiber-to-fiber
+      totals with couplings and straight sections). Which mask opening the dB/cm values refer to is not stated. Same bend design as cmp_ofc2026_th1d3_bend_local_dn (0.0123 dB/cm at R = 6 mm, calculated).
+      PK: metrics -b-m7, -c-m8.'
+    why: stale cross-note (pk_oi 00106 fab removed by the sweep); OFC Th1D.3 cross-note
+  cmp_ectc51846_2026_00106_iox_bend_uniform_dn:
+    notes: 'Two-step thermal Ag / Na IOX waveguides in a fusion-draw compatible CPO glass, 150 mm x 0.7 mm wafers, laser-singulated end faces (p.3 Sec. III). fab_org_ids empty under D80(b), as the pk_oi
+      rows of this paper after the convention sweep. Reference for the enhanced-delta-n bend; the abstract does not name the design behind the ''4 dB/cm'' (uniform low delta-n inferred from the abstract''s
+      contrast with the bend-enhanced design and from the uniform-delta-n fan-outs of p.4 Sec. III). Comparable calculated case in ofc2026:Th1D.3 (cmp_ofc2026_th1d3_bend_std_dn, 15 dB/cm at R = 6 mm). PK:
+      metrics -b-m8.'
+    why: label rests on an inference the notes did not state; stale cross-note; OFC Th1D.3 cross-note
+metrics:
+  cmp_ectc51846_2026_00106_iox_bend_uniform_dn-m1:
+    notes: abstract 'from 4 dB/cm'; derivation not stated; wavelength as for the paper's characterization. Not reproduced by Fig. 6 (p.3), where all four mask openings give about 1-1.5 dB fiber-to-fiber
+      per 90-degree bend device at R = 10 mm (a 4 dB/cm bend over a 1.57 cm arc would add about 6 dB), so the radius / design behind the 4 dB/cm is uncertain.
+    why: consistency check against Fig. 6 (p.3 render); basis author_estimate stays
+  cmp_ectc51846_2026_00106_iox_bend_enhanced_dn-m1:
+    notes: abstract bend loss 'reduced from 4 dB/cm to 0.01 dB/cm' at R = 10 mm; derivation (measured or modelled) not stated; Fig. 6 fiber-to-fiber totals do not resolve a 0.01 dB/cm coefficient, and the
+      same group's OFC paper calls its bend-loss coefficients calculated (Th1D.3 Fig. 2-A). 1310 nm = wavelength of all optical characterization in the paper.
+    why: supports author_estimate (origin not stated); context only

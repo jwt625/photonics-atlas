@@ -1,0 +1,21 @@
+# Audit 3 (sweep + gap-fill audit, 2026-10-20); applied after patch.yaml, sweep.yaml, gapfill.yaml.
+components:
+  cmp_ofc2026_m2d6_wss_2x2x2l:
+    notes: Input PSR splits into two TE branches (TE-1, TE-2), each with a CRR filter routing to output 1 or 2; branches matched in length and crossings and recombined by an output PSR. 1 x 3.8 mm2 die
+      wire-bonded to a PCB, FAU butt-coupled with index-matching epoxy (assembled in-house); one wavelength channel wire-bonded. Die 'fabricated in the GlobalFoundries 45SPCLO process' (p.~1 Sec. 2). PDL
+      per path 0.409 / 0.376 / 0.440 / 0.411 dB (avg ~0.41 dB, p.~2 Sec. 3, Fig. 2(c)) entered as pdl_db (m8-m12, D81). PSR / V-groove PDL <= 0.2 dB each is cited from [6] (not entered). Filter passband
+      on row cmp_ofc2026_m2d6_crr_filter.
+    why: 'Stale note (D81 gap-fill / registry): pdl_db m8-m12 (ofc_06 gapfill)'
+  cmp_ofc2026_m4b2_vgc:
+    notes: 'FAU coupled through a Si microlens and GCs (Fig. 1(d), from [3]). GC central-wavelength spread < +/- 1.7 nm within and across wafers (p.~1 Sec. 2) entered as wavelength_spread_nm (m3, D81).
+      65 nm SiPh PIC 3D-stacked on a 7 nm EIC by Cu-Cu hybrid bonding; platform described in [2]; foundry not named: fab_org_ids empty. Measurement method not described.'
+    why: 'Stale note (D81 gap-fill / registry): wavelength_spread_nm m3 (ofc_06 gapfill)'
+  cmp_ofc2026_th2a20_mc_isolator:
+    notes: 'Used in both C and L branches. Isolation not stated. Core-to-core IL variation <= 0.2 dB (Tab. 2) entered as il_nonuniformity_db (m2, D81); 4 cores as n_channels (m3). Multicore passive component
+      of a cladding-pumped C+L 4-core EDFA; ''we developed'' by the authors (Jinan University, IV-VI PIC Technology, FiberHome, China Unicom Research Institute, Sun Yat-sen University): fabricating org
+      not stated, fab_org_ids empty. The EDFA module is ''packaged by IV-VI PIC Technology'' (acknowledgments; note only). EDF: uncoupled 4-core SMF-type, 125 um cladding, 42.5 um core pitch.'
+    why: 'Stale note (D81 gap-fill / registry): il_nonuniformity_db m2 and n_channels m3 (ofc_06 gapfill)'
+metrics:
+  cmp_ofc2026_m4b2_rx_mrr_filter-m2:
+    notes: Nine 200 GHz spaced wavelengths (link design); experiment ELS at 230 GHz (p.~2 Sec. 3). Design grid, not stated as simulated (D82a).
+    why: 'cosmetic: sweep note join (source p.~1 Fig. 1(b) caption verified)'

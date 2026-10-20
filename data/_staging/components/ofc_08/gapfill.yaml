@@ -1,0 +1,49 @@
+# D81 gap-fill (subagent, 2026-10-20); applied after patch.yaml and sweep.yaml. Coordinator dropped: cmp_ofc2026_th1d5_laser_trim_phase_shifter-m6 (D83: a 1000 h bake stability test of a permanent trim is not a retention time); cmp_ofc2026_m1g3_qd_dfb_memristor-m10 (D83: static current tuning (pm/mA) is not an FM efficiency)
+add_components:
+- component_id: cmp_ofc2026_th2a6_ctf_graphene_ps
+  source_id: ofc2026:Th2A.6
+  class: phase_shifter.other
+  label: Non-volatile Si phase shifter, Al2O3/HfO2/Al2O3 charge-trap flash MOS stack with graphene electrode, in an MZI
+  row_kind: fabricated
+  core_material: Si phase-shifter arm of an MZI (wafer stack not stated); ALD Al2O3/HfO2/Al2O3 10/4/3 nm flash MOS stack; transferred graphene top electrode; Ti/Au 5/50 nm contacts
+  verified_on: '2026-10-20'
+  notes: 'Charge trapping in the HfO2 layer (write +6 V, erase -6 V) holds the optical phase without bias; graphene electrode kept transparent by Pauli blocking. Process steps described in passive voice
+    (boron implant, ALD, graphene transfer, RIE, lift-off; pNA Sec. 2), no fabricating org stated (authors at KIST and Hanyang University): fab_org_ids empty. C-V memory window ~1.69 V at 6 V write (p.~2
+    Sec. 3) and 4.9 nm ON/OFF resonance shift of the MZI (FSR 30 nm) have no phase_shifter parameter. Platform left empty (wafer stack not stated).'
+  why: 'D81 gap-fill: ofc_08 report ''Th2A.6: no rows (non-volatile phase shifter; no fitting parameter)''; phase_shift_pi and retention_time_s now exist'
+add_metrics:
+- metric_id: cmp_ofc2026_th2a29_qd_mrl_r25-m3
+  component_id: cmp_ofc2026_th2a29_qd_mrl_r25
+  parameter: radius_um
+  value: '25'
+  unit: um
+  basis: design_target
+  locator: pNA Sec. 2, Fig. 1(a)
+  notes: '''with radius of 25 um'' (no SEM value).'
+  why: 'D81 gap-fill: value listed as not entered in the batch report / component note; ring laser R 25 um (radius_um now allowed for laser)'
+- metric_id: cmp_ofc2026_th2a6_ctf_graphene_ps-m1
+  component_id: cmp_ofc2026_th2a6_ctf_graphene_ps
+  parameter: phase_shift_pi
+  value: '0.16'
+  unit: pi
+  band: c_band
+  wavelength_inferred: 'true'
+  condition: retained phase difference between the ON (after +6 V write) and OFF (after -6 V erase) states at zero bias; MZI with FSR 30 nm, resonance shift 4.9 nm
+  method: direct
+  basis: derived
+  locator: p.~2 Sec. 4, Fig. 3(c)
+  notes: Paper's conversion of the 4.9 nm shift; 4.9 / 30 = 0.163, so the printed value equals (shift / FSR) x pi (2 pi x shift / FSR would be ~0.33 pi; convention not stated). C band from the C-band tunable
+    laser.
+  why: 'D81 gap-fill: value listed as not entered in the batch report / component note; retained phase shift 0.16 pi (new component)'
+- metric_id: cmp_ofc2026_th2a6_ctf_graphene_ps-m2
+  component_id: cmp_ofc2026_th2a6_ctf_graphene_ps
+  parameter: retention_time_s
+  value: '16000'
+  unit: s
+  qualifier: ge
+  condition: write +6 V / erase -6 V then bias removed; resonance monitored at 800 s intervals; minimal variation in ON and OFF states
+  method: direct
+  basis: measured
+  locator: p.~3 Sec. 5, Fig. 4
+  notes: Measurement duration 'up to 16,000 seconds' (lower bound on retention).
+  why: 'D81 gap-fill: value listed as not entered in the batch report / component note; retention 16,000 s (new component)'

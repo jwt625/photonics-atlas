@@ -1,0 +1,39 @@
+# pk_02 audit addendum to pk_oi (2026-10-20) + coordinator D80b on 00227; applied after patch.yaml, sweep.yaml, gapfill.yaml.
+components:
+  cmp_ectc51529_2024_00023_smf_iox_butt:
+    fab_org_ids: ''
+    notes: 'Cut-back samples of different length from one IOX wafer (350 C process). Model: initial delta-n 0.005, air cladding. Modeled lifetime coupling-loss increase (Table 2) not entered (no registry
+      parameter). All authors Corning Research and Development; the authors made the glass (''We made a dry glass'', p.3 Sec. III; substrate material, note only), but the IOX waveguides ''were fabricated''
+      (p.3 Sec. IV, passive) and only named individuals are thanked, so fab_org_ids is empty (D80b), as for cmp_ectc51529_2024_00023_iox_waveguide (pk_02) and the 00106 rows. PK: oi -a-o1, -d-o1.'
+    why: 'D80b: passive waveguide fabrication (p.3 Sec. IV) and all authors at one org do not qualify; making the glass is a substrate supply (rule 12 note); consistency with the pk_02 row of the same waveguide
+      and the swept 00106 rows'
+  cmp_ectc51909_2023_00324_pwg_smf_butt:
+    notes: 'Polymer waveguides on a glass-epoxy substrate (stand-in for the AOP substrate) by optical lithography; end facet exposed by a prototyping machine and dicing saw (p.2 Sec. II.B). Waveguide fabrication
+      is passive on p.2, but the authors state the guiding ridges are made in the core lithography so that ''we can easily fabricate'' them in position (p.3 Sec. II.B); both authors AIST, so fab_org_ids
+      = AIST (D80b, borderline), as on cmp_ectc51909_2023_00324_polymer_waveguide (pk_02). Sec. III uses 0.5 dB per facet (conflict with 0.45 kept). Propagation loss 0.4 dB/cm is in cmp_ectc51909_2023_00324_polymer_waveguide.
+      PK: oi -a-o1.'
+    why: fab justification rewritten for D80b (all-authors-one-org alone no longer qualifies; active statement p.3 Sec. II.B); stale note (propagation loss now entered in pk_02)
+  cmp_ectc51909_2023_00009_spgc_oband:
+    notes: 'Fabricated on the 200 mm silicon platform at CEA-LETI (p.3). Measured after TSV processing at metal 1 level; no deviation vs end of active photonics (p.1). Rib / deep-rib waveguides, Ge PD and
+      PIN microring filter are in the pk_02 rows of this paper (cmp_ectc51909_2023_00009_*); PN ring modulator values (10 pm/V, Q ~20600) not entered (EO). PK: oi -a-o1.'
+    why: stale note (waveguide, PD and MRR values now entered in pk_02)
+  cmp_ectc51909_2023_00108_coupe2_ci_interface:
+    notes: 'Optical interface between the COUPE2.0 engine and the CI multi-layer waveguide layer; mechanism not disclosed. Platform/concept paper (no build details). The same 0.015 dB is also given for
+      transitions between adjacent CI waveguide layers (p.4, Table III), entered as cmp_ectc51909_2023_00108_ci_interlayer_transition (pk_02). PK: oi -a-o1.'
+    why: stale note (interlayer transition now entered in pk_02)
+  cmp_ectc51687_2025_00014_vcbel_pair:
+    notes: 'PIC (MZI switch) from a commercial MPW process (foundry not named, p.3); flip-chip TCB with stud bumps at 300 C; no lens deformation or significant loss increase after TCB (p.3, p.5). VCBELs
+      3D-printed by the authors (''we fabricated the VCBELs'', p.5 Sec. V.A), but the authors span Sumitomo Electric, FICT and Institute of Science Tokyo and the fabricating org is not stated, so fab_org_ids
+      empty. Excess loss < 0.1 dB at +/-3 um (p.4 Sec. IV.C) and the FDTD sidewall-roughness results (14 dB from air, 0.3 dB excess with resin at 2 um roughness, p.4 Sec. IV.B, Fig. 6) not entered (no excess-loss
+      / misalignment-penalty parameter for micro_optics; the air case is not the built configuration). Fresnel 2 x 0.2 dB (loss-budget estimate, p.5) and ideal 0.8 dB (cited [25]) not entered. Switch crosstalk
+      is in cmp_ectc51687_2025_00014_mzi_switch_pic (pk_02). PK: oi -a-o1.'
+    why: D80b record (active fabrication statement but three author orgs); locators for the values the pk_02 report listed; why none fits a registry parameter
+  cmp_ectc51529_2024_00227_evc_sin_1p5mm:
+    fab_org_ids: ''
+    why: 'D80b: ''PIC chiplets and an optical interconnect wafer were co-designed and fabricated'' (p.1) is passive; no statement of who fabricated (coordinator, after the pk_02 audit cross-batch note)'
+  cmp_ectc51529_2024_00227_evc_sin_1mm:
+    fab_org_ids: ''
+    why: 'D80b: ''PIC chiplets and an optical interconnect wafer were co-designed and fabricated'' (p.1) is passive; no statement of who fabricated (coordinator, after the pk_02 audit cross-batch note)'
+  cmp_ectc51529_2024_00227_evc_sin_0p5mm:
+    fab_org_ids: ''
+    why: 'D80b: ''PIC chiplets and an optical interconnect wafer were co-designed and fabricated'' (p.1) is passive; no statement of who fabricated (coordinator, after the pk_02 audit cross-batch note)'
