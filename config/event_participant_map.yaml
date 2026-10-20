@@ -1,0 +1,103 @@
+# Event participant names (as printed in the cited sources, data/_staging/org_events/{A,B,C}/events_proposed.csv)
+# -> registry org_id. Hand-curated 2026-10-20 (DevLog-001); name matching is not used for participants because
+# time-aware entities share normalized names (Coherent, Inc. vs Coherent Corp.; Broadcom Corporation vs Broadcom Inc.).
+# `create` is applied only when the org_id does not exist yet (name_basis cited_source, name as printed in the source,
+# org_type from the name's legal form, country empty: the sources were not read for it).
+# status of created orgs follows the sourced event (acquired target, renamed predecessor, merged).
+
+participants:
+  "1FINITY Inc.": {org: org_1finity}
+  "ADTRAN Holdings, Inc.": {org: org_adtran_holdings, create: {name: "ADTRAN Holdings, Inc.", org_type: company, status: active}}
+  "ADVA Optical Networking SE": {org: org_adva_optical_networking, create: {name: "ADVA Optical Networking SE", org_type: company, status: renamed}}
+  "Adtran Networks SE": {org: org_adtran_networks, create: {name: "Adtran Networks SE", org_type: company, status: active}}
+  "Adeia Inc.": {org: org_adeia}
+  "Agilent Technologies, Inc.": {org: org_agilent_technologies, create: {name: "Agilent Technologies, Inc.", org_type: company, status: active}}
+  "Alcatel": {org: org_alcatel, create: {name: "Alcatel", org_type: unknown, status: merged}}
+  "Alcatel-Lucent": {org: org_alcatel_lucent, create: {name: "Alcatel-Lucent", org_type: unknown, status: acquired}}
+  "Alcatel Lucent": {org: org_alcatel_lucent}
+  "Ando Electric": {org: org_ando_electric, create: {name: "Ando Electric", org_type: unknown, status: acquired}}
+  "Avago Technologies Limited": {org: org_avago_technologies, create: {name: "Avago Technologies Limited", org_type: company, status: acquired}}
+  "Bookham Technology plc": {org: org_bookham}
+  # Broadcom Corporation (pre-2016) and Broadcom Limited (2016-2018) are distinct from Broadcom Inc. (org_broadcom).
+  "Broadcom Corporation": {org: org_broadcom_corporation, create: {name: "Broadcom Corporation", org_type: company, status: acquired, no_name_match: true}}
+  "Broadcom Limited": {org: org_broadcom_limited, create: {name: "Broadcom Limited", org_type: company, status: historical, no_name_match: true}}
+  "Broadcom Inc.": {org: org_broadcom}
+  "Cascade Microtech, Inc.": {org: org_cascade_microtech, create: {name: "Cascade Microtech, Inc.", org_type: company, status: acquired}}
+  "Coherent Corp.": {org: org_coherent}
+  # The laser company acquired by II-VI in 2022; not Coherent Corp. (the renamed II-VI).
+  "Coherent, Inc.": {org: org_coherent_inc, create: {name: "Coherent, Inc.", org_type: company, status: acquired, no_name_match: true}}
+  "Dow Inc.": {org: org_dow, create: {name: "Dow Inc.", org_type: company, status: active}}
+  "DowDuPont Inc.": {org: org_dowdupont, create: {name: "DowDuPont Inc.", org_type: company, status: historical}}
+  "DuPont": {org: org_dupont}
+  "E. I. du Pont de Nemours and Company": {org: org_e_i_du_pont_de_nemours, create: {name: "E. I. du Pont de Nemours and Company", org_type: company, status: merged}}
+  "FormFactor, Inc.": {org: org_formfactor, create: {name: "FormFactor, Inc.", org_type: company, status: active}}
+  "Fujitsu Limited": {org: org_fujitsu, create: {name: "Fujitsu Limited", org_type: company, status: active}}
+  "Hewlett-Packard Company": {org: org_hewlett_packard, create: {name: "Hewlett-Packard Company", org_type: company, status: historical}}
+  "Hitachi Chemical Company, Ltd.": {org: org_hitachi_chemical, create: {name: "Hitachi Chemical Company, Ltd.", org_type: company, status: renamed}}
+  "II-VI Incorporated": {org: org_ii_vi}
+  "Infinera Corporation": {org: org_infinera}
+  "Institute of Science Tokyo": {org: org_institute_of_science_tokyo}
+  "JDS Uniphase Corporation": {org: org_jdsu}
+  "Keysight Technologies, Inc.": {org: org_keysight_technologies}
+  "Lucent Technologies Inc.": {org: org_lucent_technologies, create: {name: "Lucent Technologies Inc.", org_type: company, status: merged}}
+  "Lumentum Holdings Inc.": {org: org_lumentum}
+  "MKS Instruments, Inc.": {org: org_mks_instruments, create: {name: "MKS Instruments, Inc.", org_type: company, status: active}}
+  "NTT, Inc.": {org: org_ntt}
+  "New Focus": {org: org_new_focus, create: {name: "New Focus, Inc.", org_type: company, status: acquired}}
+  "New Focus, Inc.": {org: org_new_focus}
+  "Newport Corporation": {org: org_newport, create: {name: "Newport Corporation", org_type: company, status: acquired}}
+  "Nippon Telegraph and Telephone Corporation": {org: org_nippon_telegraph_and_telephone, create: {name: "Nippon Telegraph and Telephone Corporation", org_type: company, status: renamed}}
+  "Nokia Corporation": {org: org_nokia}
+  "Oclaro, Inc.": {org: org_oclaro}
+  "Osaka University": {org: org_osaka_university, create: {name: "Osaka University", org_type: university, status: renamed}}
+  "Qnity Electronics, Inc.": {org: org_qnity_electronics, create: {name: "Qnity Electronics, Inc.", org_type: company, status: active}}
+  "Raith GmbH": {org: org_raith, create: {name: "Raith GmbH", org_type: company, status: active}}
+  "Resonac Corporation": {org: org_resonac}
+  "Resonac Holdings Corporation": {org: org_resonac_holdings, create: {name: "Resonac Holdings Corporation", org_type: company, status: active}}
+  "Showa Denko K.K.": {org: org_showa_denko, create: {name: "Showa Denko K.K.", org_type: company, status: renamed}}
+  "Showa Denko Materials Co., Ltd.": {org: org_showa_denko_materials}
+  "The Dow Chemical Company": {org: org_the_dow_chemical_company, create: {name: "The Dow Chemical Company", org_type: company, status: active}}
+  "The University of Osaka": {org: org_the_university_of_osaka}
+  "Tokyo Institute of Technology": {org: org_tokyo_institute_of_technology}
+  "Tokyo Medical and Dental University": {org: org_tokyo_medical_and_dental_university, create: {name: "Tokyo Medical and Dental University", org_type: university, status: merged}}
+  "Viavi Solutions Inc.": {org: org_viavi_solutions, create: {name: "Viavi Solutions Inc.", org_type: company, status: active}}
+  "Vistec Lithography B.V.": {org: org_vistec_lithography, create: {name: "Vistec Lithography", org_type: unknown, status: acquired}}
+  "Vistec Lithography, Inc.": {org: org_vistec_lithography}
+  # Xperi Holding Corporation (renamed Adeia Inc. 2022-10-01) is not the PK org "Xperi" (printed "Xperi Corporation",
+  # a subsidiary) and not the spun-off Xperi Inc.; no sourced link between PK "Xperi" and these is recorded yet.
+  "Xperi Holding Corporation": {org: org_xperi_holding, create: {name: "Xperi Holding Corporation", org_type: company, status: renamed}}
+  "Xperi Inc.": {org: org_xperi_inc, create: {name: "Xperi Inc.", org_type: company, status: active, no_name_match: true}}
+  "Yokogawa": {org: org_yokogawa_electric, create: {name: "Yokogawa Electric Corporation", org_type: company, status: active}}
+
+# Participants dropped (detail not needed for org continuity; kept in the event notes):
+drop_participants:
+  - ["adtran_acquire_adva_2022", "ADTRAN, Inc."]          # holding-company merger step
+  - ["raith_acquire_vistec_lithography_2013", "Golden Gate Capital"]  # seller
+  - ["newport_acquire_new_focus_2009", "Oclaro, Inc."]  # seller (asset exchange); P0 data audit 4.5
+
+# Staged rows not promoted in P0 (reason):
+exclude_events:
+  cyclotene_line_dow_to_dupont: "product-line ownership, no sourced date; belongs to P2 products"
+  cyclotene_line_dupont_to_qnity: "product-line ownership, no sourced date; belongs to P2 products"
+  fujitsu_group_cos_to_1finity_2025: "planned transfer, completion not verified"
+  pavonia_rename_broadcom_limited: "no sourced date"
+  alcatel_rename_alcatel_lucent_2006: "no sourced date; the merger row records Alcatel-Lucent as the resulting org"
+
+# Role corrections (event key -> printed participant -> role).
+role_overrides:
+  # P0 data audit 4.2: the locator states Broadcom Limited (the new holding company) completed the acquisitions of
+  # Avago Technologies Limited and Broadcom Corporation.
+  avago_acquire_broadcom_2016:
+    "Broadcom Limited": acquirer
+    "Avago Technologies Limited": target
+    "Broadcom Corporation": target
+
+# Date decisions (D26): announced_on = first public announcement found; effective_on from the most primary source.
+date_overrides:
+  # Central university pages give "April 2025"; the day appears only on a sub-unit page.
+  osaka_university_rename_university_of_osaka: {effective_on: "2025-04"}
+  # Notice gives a planned 2025-07-01 subject to the AGM; the post-change source confirms July 2025 only.
+  ntt_rename_ntt_inc_2025: {effective_on: "2025-07"}
+  # P0 data audit 4.3 / 4.4: the announcement dates are not supported by the quoted locators; left empty.
+  nokia_acquire_alcatel_lucent_2016: {announced_on: ""}
+  xperi_holding_rename_adeia: {announced_on: ""}

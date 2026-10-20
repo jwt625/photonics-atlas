@@ -1,0 +1,40 @@
+# Coordinator corrections applied by scripts/merge_org_curation.py (reviewed 2026-10-20, DevLog-001).
+# rows: printed string -> fields replacing the batch decision. unify_ids: proposed id -> id to use.
+# orgs: field overrides on created orgs.
+rows:
+  # Batch 4 skipped it (two ROR records named Southeast University: CN 04ct4d772, BD 00cf0ab87; no OFC header text).
+  # Coordinator decision: CN, inferred from the OFC 2026 metadata co-affiliations of the same papers (Purple Mountain
+  # Laboratories, Nanjing University, Nanjing University of Information Science and Technology), all in Nanjing.
+  "Southeast University":
+    action: new_org
+    org_id: org_southeast_university
+    alias_type: ""
+    new_name: Southeast University
+    name_basis: ror
+    ror_id: https://ror.org/04ct4d772
+    org_type: university
+    country: CN
+    evidence: "ROR 04ct4d772; CN record chosen from OFC 2026 metadata co-affiliations (Purple Mountain Laboratories, Nanjing University, NUIST); inference, no header text"
+  # Header of W1A.7 says Lausanne (EPFL); elsewhere the bare string could mean ETH Zurich, so the alias is scoped.
+  "Swiss Federal Institute of Technology": {scope: ofc2026}
+  # Batch 4 mapped this to ZTE as a unit; the lab has its own ROR record (05cd55294, parent ZTE) and batch 1 created
+  # it from another printed variant, so both strings point to the lab (parent org_zte, see orgs below).
+  "State Key Laboratory of Mobile Network and Mobile Multimedia Technology":
+    {action: alias, org_id: org_state_key_laboratory_of_mobile_network_and_mobile_multimedia_technology, alias_type: printed_variant}
+  # P0 data audit 2.7 (config/registry_corrections.yaml): this string is the research institute, not the group. Without
+  # this row a re-run of the merge re-adds batch_3's unit_printed alias to the group (it did on 2026-10-20 14:05).
+  "Research Institute of China United Network Communications Co., Ltd.":
+    {action: alias, org_id: org_china_unicom_research_institute, alias_type: printed_variant}
+  # P0 data audit 2.8 (config/registry_corrections.yaml): header address Cambridge, UK -> the Cambridge lab, scoped.
+  "Toshiba Europe Ltd":
+    {action: alias, org_id: org_toshiba_europe_cambridge_research_laboratory, alias_type: printed_variant, scope: ofc2026}
+unify_ids:
+  # ROR-pass duplicate folded into the lineage org (DevLog-001).
+  org_yangtze_optical_fibre_and_cable_joint_stock: org_yofc
+orgs:
+  # Batch 3 left the parent empty because "Lightera" was curated in batch 2; the lab's own name states the host
+  # (same Somerset, NJ address in the OFC 2026 headers cited by both batches).
+  org_lightera_laboratories: {parent_org_id: org_lightera}
+  org_state_key_laboratory_of_mobile_network_and_mobile_multimedia_technology:
+    {name: State Key Laboratory of Mobile Networks and Mobile Multimedia Technology, name_basis: ror,
+     name_source: "https://ror.org/05cd55294", ror_id: "https://ror.org/05cd55294", parent_org_id: org_zte, country: CN, origin: ofc2026;ror}

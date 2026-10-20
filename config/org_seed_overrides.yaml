@@ -1,0 +1,46 @@
+# Manual clustering decisions for scripts/seed_org_registry.py (member refs: eo:<org_name>, pk:<org_name>, lin:<id>).
+# Reviewed 2026-10-20 (DevLog-001, seed review). Every entry states its reason.
+#
+# never_merge: pairs that share a normalized key or ROR id but are different organizations (or eras).
+#   (none needed: the only key conflict, lin:org_bell_labs vs lin:org_nokia_bell_labs, is already kept apart because
+#   two LIN orgs are never merged.)
+# Kept separate on purpose although the names are close (no shared key, listed for the record):
+#   lin:org_ligent vs eo:Ligent Technologies, Inc.  -- identity unverified (people report B.2)
+#   pk:Tokyo Institute of Technology vs eo:Institute of Science Tokyo  -- merger 2024 is an org_event (D20)
+#   eo:Sun Yat-sen University vs eo:National Sun Yat-sen University  -- different universities (CN vs TW)
+never_merge: []
+
+# force_merge: same organization, no shared key.
+force_merge:
+  # Same university, "The" prefix only; same ROR https://ror.org/04p491231.
+  - ["eo:The Pennsylvania State University", "pk:Pennsylvania State University"]
+  # EO row is the A*STAR IME (SG, parent A*STAR, ROR https://ror.org/009rw8n36; EO note "Named as A*Star Institute of
+  # Microelectronics"); PK and LIN carry the A*STAR-prefixed name.
+  - ["eo:Institute of Microelectronics", "pk:A*STAR Institute of Microelectronics"]
+
+# name_from: take the registry name from this member's input instead of the default EO > LIN > PK priority.
+name_from:
+  # "Institute of Microelectronics" alone is ambiguous with the CAS institute of the same name.
+  "eo:Institute of Microelectronics": lin
+
+# parents: child -> parent where the child's own name states the host organization and no input sets a parent.
+parents:
+  "lin:org_cornell_eastman_group": "eo:Cornell University"
+  "lin:org_ucf_creol": "eo:University of Central Florida"
+  "lin:org_ucsb_bowers_group": "eo:University of California, Santa Barbara"
+  "lin:org_ibm_watson": "pk:IBM"
+  "eo:Institute of Physics, Chinese Academy of Sciences": "pk:Chinese Academy of Sciences"
+  "eo:Institute of Semiconductors, Chinese Academy of Sciences": "pk:Chinese Academy of Sciences"
+  "eo:Suzhou Institute of Nano-Tech and Nano-Bionics, Chinese Academy of Sciences": "pk:Chinese Academy of Sciences"
+
+# alias_scope: alias -> corpora where it applies (D19). Strings that identify one org only inside one input.
+alias_scope:
+  # EO prints the A*STAR IME as "Institute of Microelectronics"; elsewhere the bare name is ambiguous (CAS IME).
+  "Institute of Microelectronics": eo
+
+# ror_ids: member -> ROR id when no input row carries it and the exact-name lookup misses it.
+ror_ids:
+  # LIN "Yangtze Optical Fibre and Cable" = ROR 017wqzq54 ("Yangtze Optical Fibre and Cable Joint Stock Limited
+  # Company"; same company, website en.yofc.com). Without it the ROR pass created a duplicate org (folded 2026-10-20,
+  # DevLog-001 / P0 code audit S4).
+  "lin:org_yofc": "https://ror.org/017wqzq54"

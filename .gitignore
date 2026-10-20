@@ -1,0 +1,30 @@
+# Local-only: caches, build output, logs, environments.
+.venv/
+node_modules/
+app/build/
+app/.svelte-kit/
+logs/
+cache/
+__pycache__/
+.ruff_cache/
+.mypy_cache/
+.pytest_cache/
+.env
+
+# Local-only: source text/figures and non-OA sources (rights are source-specific).
+references/*/text.md
+references/*/figures/
+references/_inbox/*
+
+# Local-only: research scratch scripts with machine-specific paths (DevLog-000).
+DevLog/research/scripts_2026-10-20/
+
+# Local-only: unredacted research copies with named derived career inferences (P0 audit 2026-10-20).
+DevLog/research/local/
+
+# Local-only: people review queue and derived transitions (name-only matches, grade X; never published).
+data/_local/
+
+# Local-only: agent session state.
+.claude/scheduled_tasks.lock
+.claude/settings.local.json

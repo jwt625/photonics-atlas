@@ -1,0 +1,162 @@
+# Curated corrections to registry rows, applied by scripts/apply_registry_corrections.py (idempotent, logged).
+# Every hand change to data/registry/*.csv goes here with its reason, so the registry can be rebuilt and reviewed.
+# orgs: org_id -> fields to set (and `why`). aliases: rows matched by (org_id, alias) -> fields to set.
+# add_aliases: []
+# Audit 2.2 ("Broadcom Corporation" in OFC 2026 routes to Broadcom Inc.): no alias needed. Its normalized key equals
+# Broadcom Inc.'s own name key, and the pre-2016 era org is no_name_match (D27), so the routing is by D27 design.
+
+# P0 data audit 6.4: orgs typed from a ROR "facility" record (research labs / centres) -> research_institute;
+# registry `facility` stays for shared fabs and cleanrooms (EO usage). EO-seeded facilities are not touched.
+orgs_retype_facility:
+  - org_china_academy_of_information_and_communications_technology  # China Academy of Information and Communications Technology; ROR types facility
+  - org_geoazur  # Géoazur; ROR types facility
+  - org_helmholtz_zentrum_dresden_rossendorf  # Helmholtz-Zentrum Dresden-Rossendorf; ROR types facility, funder
+  - org_iii_v_lab  # III V Lab; ROR types facility
+  - org_institut_de_physique_de_nice  # Institut de Physique de Nice; ROR types facility
+  - org_institut_de_recherche_en_informatique_et_systemes_aleatoires  # Institut de Recherche en Informatique et Systèmes Aléatoires; ROR types facility
+  - org_institute_of_integrated_research_institute_of_science_tokyo  # Institute of Integrated Research, Institute of Science Tokyo; ROR types facility
+  - org_istituto_nazionale_di_ricerca_metrologica  # Istituto Nazionale di Ricerca Metrologica; ROR types facility, funder
+  - org_joint_quantum_institute  # Joint Quantum Institute; ROR types facility, funder
+  - org_mit_lincoln_laboratory  # MIT Lincoln Laboratory; ROR types facility
+  - org_purple_mountain_laboratories  # Purple Mountain Laboratories; ROR types facility, funder
+  - org_technology_innovation_institute  # Technology Innovation Institute; ROR types facility
+  - org_tyndall_national_institute  # Tyndall National Institute; ROR types facility, funder
+  - org_ait_austrian_institute_of_technology  # AIT Austrian Institute of Technology GmbH; ROR types facility, funder
+  - org_energy_sciences_network  # Energy Sciences Network; ROR types facility
+  - org_fonctions_optiques_pour_les_technologies_de_linformation  # Fonctions Optiques pour les Technologies de l’information; ROR types facility
+  - org_foundation_for_research_and_technology_hellas  # Foundation for Research and Technology Hellas; ROR types facility, funder
+  - org_institute_of_computing_technology  # Institute of Computing Technology; ROR types facility
+  - org_institute_of_electronics_computer_and_telecommunication_engineering  # Institute of Electronics, Computer and Telecommunication Engineering; ROR types facility
+  - org_istituto_di_fotonica_e_nanotecnologie  # Istituto di Fotonica e Nanotecnologie; ROR types facility
+  - org_swiss_federal_institute_for_forest_snow_and_landscape_research  # Swiss Federal Institute for Forest, Snow and Landscape Research; ROR types facility, funder
+
+# orgs / aliases sections restored 2026-10-20 14:10 from logs/apply_registry_corrections_20261020T124803.jsonl (the
+# 12:48 edit of this file had dropped them; registry rows were unaffected). Broadcom Corporation add_alias omitted on
+# purpose (audit 2.2 note above).
+orgs:
+  org_1finity:
+    ror_id: ''
+    why: ROR/QID/website/founding of Fujitsu Telecom Networks removed (P0 data audit 6.2); founding = company-split effective date per the Fujitsu notice 2025-04-24
+    wikidata_qid: ''
+    website: ''
+    founded_on: '2025-07-01'
+  org_ciena:
+    country: US
+    why: 'D29: ROR https://ror.org/05w425588 country US (EO printed address CA)'
+  org_nokia:
+    country: FI
+    why: 'D29: ROR https://ror.org/04pkc8m17 country FI (EO printed address US)'
+  org_tokyo_institute_of_technology:
+    status: merged
+    why: event_tokyo_tech_tmdu_merger_science_tokyo (2024-10-01)
+  org_showa_denko_materials:
+    status: renamed
+    why: event_showa_denko_materials_rename_resonac (2023-01-01)
+  org_infinera:
+    status: acquired
+    why: event_nokia_acquire_infinera_2025 (2025-02-28); LIN status active predates it
+  org_telefonica_research_and_development:
+    status: historical
+    why: ROR record 03qgzzb04 inactive (successor record Telefonica Innovacion Digital); no sourced event yet
+  org_coherent_inc:
+    parent_org_id: org_coherent
+    why: survived as a wholly owned subsidiary of II-VI, renamed Coherent Corp. (event notes, group B sources)
+  org_newport:
+    parent_org_id: org_mks_instruments
+    why: acquired by MKS Instruments 2016-04-29 (event_mks_acquire_newport_2016)
+  org_lucent_technologies:
+    parent_org_id: org_alcatel_lucent
+    why: wholly owned subsidiary of Alcatel-Lucent per the cited 2006 sources (event notes)
+  org_avago_technologies:
+    parent_org_id: org_broadcom_limited
+    why: became a subsidiary of Broadcom Limited 2016-02-01 (event_avago_acquire_broadcom_2016 locator)
+  org_broadcom_corporation:
+    parent_org_id: org_broadcom_limited
+    why: became a subsidiary of Broadcom Limited 2016-02-01 (event locator)
+  org_broadcom_limited:
+    parent_org_id: org_broadcom
+    why: became a subsidiary of Broadcom Inc. 2018-04-04 (event_broadcom_redomicile_us_2018)
+  org_china_mobile_research_institute:
+    parent_org_id: org_china_mobile
+    why: ROR parent relation
+  org_fonctions_optiques_pour_les_technologies_de_linformation:
+    parent_org_id: org_universite_de_rennes
+    why: ROR parent relation
+  org_university_of_science_and_technology_of_china:
+    parent_org_id: org_chinese_academy_of_sciences
+    why: ROR parent relation
+  # Org curation round 2 report; verified offline in ROR v2.15-2026-10-20 (record 'AIM Photonics (United States)', US).
+  org_aim_photonics:
+    ror_id: https://ror.org/01cb8vz90
+    why: ROR record 01cb8vz90 matches the registry name (org curation round 2)
+aliases:
+- match:
+    org_id: org_china_united_network_communications_group
+    alias: Research Institute of China United Network Communications Co., Ltd.
+  set:
+    org_id: org_china_unicom_research_institute
+    alias_type: printed_variant
+  why: same institute as org_china_unicom_research_institute (P0 data audit 2.7)
+- match:
+    org_id: org_toshiba
+    alias: Toshiba Europe Ltd
+  set:
+    org_id: org_toshiba_europe_cambridge_research_laboratory
+    alias_type: printed_variant
+    scope: ofc2026
+  why: header address Cambridge, UK as in M2K.4 / W4K.5 (P0 data audit 2.8)
+- match:
+    org_id: org_university_of_southampton
+    alias: Optoelectronics Research Centre
+  set:
+    scope: ofc2026
+  why: header-specific (Th2A.55)
+- match:
+    org_id: org_shanghai_jiao_tong_university
+    alias: School of Information Science and Electronic Engineering
+  set:
+    scope: ofc2026
+  why: header-specific (W2A.32); the same school name exists elsewhere
+- match:
+    org_id: org_imec
+    alias: IDLab
+  set:
+    scope: ofc2026
+  why: header-specific (Th3F.2); IDLab also has a non-imec-Ghent site
+- match:
+    org_id: org_ghent_university
+    alias: IDLab
+  set:
+    scope: ofc2026
+  why: header-specific (Th3F.2)
+- match:
+    org_id: org_china_information_and_communication_technologies_group
+    alias: CICT
+  set:
+    scope: ofc2026
+  why: acronym resolved from OFC 2026 headers
+- match:
+    org_id: org_state_university_of_campinas
+    alias: Universidade Estadual de Campinas
+  set:
+    notes: 'batch_4: native name of the registry org (which carries ROR https://ror.org/04wffgt70 from EO)'
+  why: note claimed the registry row has no ror_id
+- match:
+    org_id: org_yofc
+    alias: State Key Laboratory of Optical Fiber and Cable Manufacture Technology, YOFC
+  set:
+    notes: 'batch_4: unit string of YOFC (org_yofc; the ROR-pass duplicate org was folded into it, DevLog-001)'
+  why: note cited the folded id
+- match:
+    org_id: org_yofc
+    alias: State Key Laboratory of Optical Fiber and Cable Manufacture Technology, Yangtze Optical Fibre and Cable (YOFC)
+  set:
+    notes: 'batch_4: unit string of YOFC (org_yofc; the ROR-pass duplicate org was folded into it, DevLog-001)'
+  why: note cited the folded id
+- match:
+    org_id: org_yofc
+    alias: Yangtze Optica Fibre and Cable Joint Stock Limited Company (YOFC)
+  set:
+    notes: 'batch_4: misspelled printed form of YOFC (org_yofc)'
+  why: note cited the folded id
+add_aliases: []
