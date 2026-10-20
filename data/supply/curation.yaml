@@ -1,0 +1,143 @@
+# Hand decisions for scripts/build_supply_seed.py (DevLog-003 D56-D58). Every entry cites the EO atlas text it rests
+# on (eo-modulator-atlas data/papers.csv columns foundry_or_fab, wafer_supplier, process_name). Nothing here comes
+# from memory: when a paper's record states no platform, the category stays top-level and no process row is written.
+version: 1
+
+# Roles that hold for an org in every EO foundry_or_fab row (D56). Facility orgs (registry org_type facility) are
+# facility_use / B7 without an entry.
+fab_org_roles:
+  org_cmc_microsystems: {role: mpw_access, category: B6, why: "geravand2025 process_name: multi-project wafer service of CMC Microsystems"}
+
+# B subcategory per (paper, org) for fabrication / post_processing rows (D56). Not listed -> category B + note.
+# Optional `note` is appended to the row's notes (e.g. why a row stays top-level B).
+fab_categories:
+  - {paper: chaudhury2024, org: org_applied_nanotools, category: B1, why: "220 nm SOI SiPh process"}
+  - {paper: geravand2025, org: org_amf, category: B1, why: "AMF standard process on 220 nm SOI"}
+  - {paper: gupta2023, org: org_fraunhofer_heinrich_hertz_institute, category: B4, why: "HHI generic InP foundry process"}
+  - {paper: han2023, org: org_compoundtek, category: B1, why: "standard 90 nm lithography SOI process"}
+  - {paper: hess2026, org: org_polariton, category: B5, why: "plasmonic PIC platform (silicon photonics with plasmonic-organic slot)"}
+  - {paper: horst2025, org: org_polariton, category: B5, why: "plasmonic PIC platform (silicon photonics with plasmonic-organic slot)"}
+  - {paper: hillier2025, org: org_smart_photonics, category: B4, why: "JePPIX generic InP platform"}
+  - {paper: hsu2024, org: org_intel, category: B1, why: "Intel 300 mm SOI silicon photonics process"}
+  - {paper: johnson2025, org: org_amf, category: B1, why: "AMF O-band GP v4.5 platform, 200 mm wafer run"}
+  - {paper: johnson2025, org: org_nlm_photonics, role: post_processing, category: B5, why: "SOH post-processing at die level by NLM Photonics"}
+  - {paper: kari2025, org: org_luxtelligence, category: B3, why: "Luxtelligence lnoi400 PDK (TFLN)"}
+  - {paper: kawahara2025, org: org_national_institute_of_advanced_industrial_science_and_technology, category: B1, why: "AIST 300 mm silicon-on-insulator process"}
+  - {paper: kieninger2020, org: org_astar_ime, category: B1, why: "UV lithography on 200 mm silicon-on-insulator wafers"}
+  - {paper: kohli2025, org: org_ligentec, category: B2, why: "process_name empty; same EO record, wafer_supplier: LIGENTEC (SiN wafers)"}
+  - {paper: kohli2025, org: org_lumiphase, role: post_processing, category: B5, why: "process_name empty; same EO record, wafer_supplier: Lumiphase (BTO growth and integration); audit 2026-10-20: growth / integration on LIGENTEC SiN wafers is a post-processing service (D54, D57)"}
+  - {paper: larocque2024, org: org_csem, category: B3, why: "CSEM TFLN multi-project fabrication run"}
+  - {paper: li2026b, org: org_imec, category: B1, why: "imec ISIPP50G PDK (silicon photonics)"}
+  - {paper: lin2026, org: org_imec, category: B1, why: "iSiPP200"}
+  - {paper: liu2026d, org: org_luxtelligence, category: B3, why: "x-cut TFLN strips, DUV lithography"}
+  - {paper: niels2026, org: org_imec, category: B1, why: "imec iSiPP200 Si/SiN platform"}
+  - {paper: qiu2026a, org: org_lumiphase, category: B5, why: "Lumiphase 200 mm BTO process"}
+  - {paper: rahman2025, org: org_ligentec, category: B2, why: "LIGENTEC LPCVD SiN1/SiN2 bilayer on 200 mm Si"}
+  - {paper: saxena2023, org: org_aim_photonics, category: B1, why: "AIM Photonics MPW run, 300 mm SOI"}
+  - {paper: shawon2024, org: org_aim_photonics, category: B1, why: "AIM Photonics 300 mm Active PIC process, 220 nm SOI"}
+  - {paper: shen2021, org: org_amf, category: B1, why: "AMF 220 nm SOI process"}
+  - {paper: singer2025, org: org_amf, category: B1, why: "AMF silicon photonics platform (8-inch wafer service)"}
+  - {paper: steckler2025, org: org_ihp_leibniz_institute_for_high_performance_microelectronics, category: B1, why: "IHP 200 mm SiGe BiCMOS pilot line with Ge-fin photonic process"}
+  - {paper: taghavi2026, org: org_amf, category: B1, why: "AMF DUV SOI process"}
+  - {paper: tiberi2026, org: org_cornerstone, category: B1, why: "selectively planarized 220 nm SOI (CORNERSTONE)"}
+  - {paper: valdez2023, org: org_sandia_national_laboratories, category: B, why: "audit 2026-10-20 #5", note: "paper credits Sandia staff with fabrication assistance (acknowledgements); the waveguide foundry is not named, so no B subcategory is attributed"}
+  - {paper: valdez2023a, org: org_sandia_national_laboratories, category: B, why: "audit 2026-10-20 #5", note: "paper credits Sandia staff with fabrication assistance (acknowledgements); the waveguide foundry is not named, so no B subcategory is attributed"}
+  - {paper: weigel2018, org: org_sandia_national_laboratories, category: B, why: "audit round 2 #7", note: "Sandia appears as an author affiliation; the paper states foundry processing of the Si photonic features (text p.4) but names no foundry, so no B subcategory is attributed"}
+  - {paper: boynton2020, org: org_sandia_national_laboratories, category: B, why: "audit round 2 #7", note: "a CMOS line is stated (EO process_name: Sandia MESA CMOS line); no B subcategory matches a CMOS line, so top-level B"}
+  - {paper: valdez2026, org: org_ligentec, category: B2, why: "Ligentec dual-layer LPCVD SiN PDK platform"}
+  - {paper: wang2022, org: org_chongqing_united_microelectronics_center, category: B1, why: "Si circuits in a CMOS SOI foundry run"}
+  - {paper: wang2026a, org: org_amf, category: B1, why: "AMF High-Performance platform (LPCVD SiN on 200 mm SOI)"}
+  - {paper: wu2025, org: org_chongqing_united_microelectronics_center, category: B1, why: "CUMEC 8-inch 130 nm Si/SiN photonics PDK on SOI"}
+  - {paper: yin2026, org: org_amf, category: B1, why: "220 nm silicon-on-insulator multi-wafer project (MPW)"}
+  - {paper: yue2023, org: org_amf, category: B1, why: "AMF SOI process"}
+  - {paper: yue2023, org: org_semiconductor_manufacturing_international, category: B1, why: "SMIC CMOS silicon photonics process"}
+  - {paper: zheng2026, org: org_imec, category: B1, why: "imec 200 mm Si/SiN wafers"}
+  - {paper: zhong2026, org: org_amf, category: B1, why: "AMF standard 220 nm SOI process"}
+
+# wafer_supplier cells the generic parser cannot split or would misread (D57): explicit (printed name, qualifier)
+# parts; qualifier = the stated fact only (goes to stated_spec); note = printed-form / locator remarks (goes to notes).
+wafer_parts:
+  cai2025:  # paper acknowledgements: LTOI wafers fabricated in NSIT and the SIMIT-CAS
+    - {printed: "Shanghai Novel Si Integration Technology", qualifier: "LTOI wafers", note: "printed abbreviation NSIT; EO cell locator words: acknowledgements"}
+    - {printed: "SIMIT-CAS", qualifier: "LTOI wafers", note: "EO cell locator words: acknowledgements"}
+  wang2024b:
+    - {printed: "Shanghai Novel Si Integration Technology", qualifier: "LTOI wafers", note: "printed abbreviation NSIT; EO cell locator words: acknowledgements"}
+    - {printed: "Shanghai Institute of Microsystem and Information Technology", qualifier: "LTOI wafers", note: "EO cell locator words: acknowledgements"}
+  # audit 2026-10-20 #35: parentheticals that are a legal name or a printed-form remark, not a stated spec
+  chen2024:
+    - {printed: "NanoLN", qualifier: "", note: "EO record: written NONOLN in the paper"}
+  rahman2025:
+    - {printed: "NanoLN", qualifier: "", note: "EO record adds the legal name Jinan Jingzheng Electronics Co., Ltd."}
+  weigel2018:
+    - {printed: "NanoLN", qualifier: "", note: "EO record adds the legal name Jinan Jingzheng Electronics Co. Ltd."}
+
+# Printed names that are aliases of an existing registry org (not new orgs): staged as kind alias requests with
+# alias_of_org_id; the coordinator applies registry changes (audit 2026-10-20 #34; applied in org curation round 2).
+alias_requests:
+  "SIMIT-CAS": {org: org_shanghai_institute_of_microsystem_and_information_technology, why: "alias of the registry SIMIT org (SIMIT + parent CAS suffix), printed in cai2025 acknowledgements; not a new org"}
+
+# Notes for staged org requests (audit 2026-10-20 #33): the 22 new-org request rows are 18 distinct orgs (NanoLN
+# printed 4 ways, Novel Si 2 ways); SIMIT-CAS is an alias request. Status resolved / open is set by the script from
+# the registry matcher (org curation round 2, 2026-10-20, resolved all but Shin-Etsu).
+request_notes:
+  "NanoLN": "distinct org; printed variants: NanoLN, China / NanoLN, Jinan / NanoLN, Jinan Jingzheng Electronics Co., Ltd."
+  "NanoLN, China": "printed variant of NanoLN (same org, not a separate org)"
+  "NanoLN, Jinan": "printed variant of NanoLN (same org, not a separate org)"
+  "NanoLN, Jinan Jingzheng Electronics Co., Ltd.": "printed variant of NanoLN (same org, not a separate org)"
+  "Shanghai Novel Si Integration Technology": "distinct org; printed variant: Novel Si Integration Technology"
+  "Novel Si Integration Technology": "printed variant of Shanghai Novel Si Integration Technology (same org, not a separate org)"
+  "Shin-Etsu": "still open: not added in org curation round 2 (2026-10-20); witmer2020 usage row appends once it is a registry org"
+
+# Category of an org's wafer_supplier rows when the cell's qualifier has no keyword (D57).
+wafer_org_defaults:
+  org_polaris_electro_optics: {category: A4, why: "EO process_name of taghavi2024 / taghavi2026: FN-LC PM-158 applied post-foundry"}
+  org_nlm_photonics: {category: A4, why: "EO process_name of karakida2026: OEO JRD1 (NLM Photonics)"}
+  org_soluxra: {category: A4, why: "witmer2020 EO process_name: SEO100C (Soluxra) spin-coated and poled; paper p.5 names SEO100C from Soluxra as the EO polymer (audit round 2 #2)"}
+
+# Category of one (paper, org) wafer_supplier row, checked before the qualifier keywords (D57 per-(paper, org) override).
+# basis goes to the row note; why stays here.
+wafer_categories:
+  - {paper: chen2024, org: org_jinan_jingzheng_electronics, category: A2.1, basis: "paper p.5 and EO process_name: x-cut TFLN wafer", why: "paper p.5: commercially available 4-inch x-cut TFLN wafer (NONOLN); no EO device rows (audit round 2 #5)"}
+
+# Process observations (D58). Fields copied only from the paper's EO process_name text; wafer_mm from "8-inch" is the
+# nominal 200 mm (noted). Attribution: the text names the org, or the org is the paper's only non-facility fab org.
+processes:
+  - {paper: saxena2023, org: org_aim_photonics, process_name: "AIM Photonics MPW run, AP SUNY PDK; 300 mm SOI, 220 nm Si, 193 nm immersion lithography", platform: siph, wafer_mm: 300, pdk_name: AP SUNY PDK, access_route: mpw}
+  - {paper: shawon2024, org: org_aim_photonics, process_name: "AIM Photonics 300 mm Active PIC process; 220 nm SOI", platform: siph, wafer_mm: 300}
+  - {paper: johnson2025, org: org_amf, process_name: "Advanced Micro Foundry O-band GP v4.5 platform, dedicated 200 mm wafer run", platform: siph, wafer_mm: 200, pdk_name: O-band GP v4.5, access_route: dedicated_run}
+  - {paper: geravand2025, org: org_amf, process_name: "Advanced Micro Foundry standard process on 220 nm SOI", platform: siph, access_route: mpw_via_broker, broker_org_id: org_cmc_microsystems}
+  - {paper: shen2021, org: org_amf, process_name: "Advanced Micro Foundry 220 nm SOI process with 2 um buried oxide", platform: siph}
+  - {paper: singer2025, org: org_amf, process_name: "Advanced Micro Foundry silicon photonics platform (8-inch wafer service) with silicon slot waveguides", platform: siph, wafer_mm: 200, notes: "wafer size stated as 8-inch"}
+  - {paper: taghavi2026, org: org_amf, process_name: "Advanced Micro Foundry DUV SOI process with 5 um oxide opening", platform: siph}
+  - {paper: wang2026a, org: org_amf, process_name: "Advanced Micro Foundry standard High-Performance platform (LPCVD SiN on 200 mm SOI)", platform: si_sin, wafer_mm: 200}
+  - {paper: yin2026, org: org_amf, process_name: "220 nm silicon-on-insulator multi-wafer project (MPW)", platform: siph, access_route: mpw, notes: "attributed: AMF is the paper's only fab org in EO"}
+  - {paper: yue2023, org: org_amf, process_name: "Advanced Micro Foundry SOI process (high-speed DDMZM)", platform: siph}
+  - {paper: zhong2026, org: org_amf, process_name: "Advanced Micro Foundry standard 220 nm SOI process (multi-project wafer)", platform: siph, access_route: mpw}
+  - {paper: yue2023, org: org_semiconductor_manufacturing_international, process_name: "SMIC CMOS silicon photonics process (low-speed DDMZM)", platform: siph}
+  - {paper: chaudhury2024, org: org_applied_nanotools, process_name: "220 nm SOI SiPh process (passive racetrack test chip)", platform: siph, notes: "attributed: Applied Nanotools is the paper's only fab org in EO"}
+  - {paper: gupta2023, org: org_fraunhofer_heinrich_hertz_institute, process_name: "Fraunhofer HHI generic InP foundry process, open-access multi-project wafer runs via JePPIX", platform: inp, access_route: mpw_via_broker, broker_printed: JePPIX}
+  - {paper: hillier2025, org: org_smart_photonics, process_name: "JePPIX generic InP platform (PDK) with MQW modulator layer stack", platform: inp, notes: "attributed: SMART Photonics is the paper's only fab org in EO"}
+  - {paper: han2023, org: org_compoundtek, process_name: "Standard 90 nm lithography SOI process, one-to-one 200 mm wafer run", platform: siph, wafer_mm: 200, access_route: dedicated_run, notes: "attributed: CompoundTek is the paper's only fab org in EO"}
+  - {paper: hess2026, org: org_polariton, process_name: "Polariton plasmonic PIC platform (silicon photonics with plasmonic-organic slot)", platform: plasmonic_organic}
+  - {paper: horst2025, org: org_polariton, process_name: "Polariton plasmonic PIC platform (silicon photonics with plasmonic-organic slot)", platform: plasmonic_organic}
+  - {paper: hsu2024, org: org_intel, process_name: "Intel 300 mm SOI silicon photonics process (passive ring)", platform: siph, wafer_mm: 300}
+  - {paper: johnson2025, org: org_nlm_photonics, process_name: "SOH post-processing (Selerion-HTX OEO deposition, ALD encapsulation, poling, crosslinking) at die level", platform: oeo_hybrid}
+  - {paper: kari2025, org: org_luxtelligence, process_name: "Luxtelligence lnoi400 open-source PDK", platform: tfln, pdk_name: lnoi400, pdk_open: true}
+  - {paper: liu2026d, org: org_luxtelligence, process_name: "DUV photolithography and Ar ion beam etch of 150 nm x-cut TFLN strips", platform: tfln, notes: "attributed: Luxtelligence is the paper's only fab org in EO"}
+  - {paper: kawahara2025, org: org_national_institute_of_advanced_industrial_science_and_technology, process_name: "AIST 300 mm silicon-on-insulator process (PCW MZM)", platform: siph, wafer_mm: 300}
+  - {paper: kawahara2025, org: org_ihp_leibniz_institute_for_high_performance_microelectronics, process_name: "IHP SG13G2 130 nm SiGe BiCMOS (driver)", platform: sige_bicmos, pdk_name: SG13G2, notes: "driver IC process; IHP is not in the EO foundry_or_fab of this paper"}
+  - {paper: kieninger2020, org: org_astar_ime, process_name: "UV lithography on 200 mm silicon-on-insulator wafers", platform: siph, wafer_mm: 200, notes: "attributed: Institute of Microelectronics is the paper's only fab org in EO"}
+  - {paper: wolf2018a, org: org_astar_ime, process_name: "248 nm deep-ultraviolet lithography", notes: "attributed: only fab org in EO; platform not stated in the EO record"}
+  - {paper: larocque2024, org: org_csem, process_name: "CSEM TFLN multi-project fabrication run", platform: tfln, access_route: mpw}
+  - {paper: li2026b, org: org_imec, process_name: "imec ISIPP50G PDK", platform: siph, pdk_name: ISIPP50G}
+  - {paper: lin2026, org: org_imec, process_name: "iSiPP200", platform: siph, pdk_name: iSiPP200, notes: "attributed: imec is the paper's only fab org in EO"}
+  - {paper: niels2026, org: org_imec, process_name: "imec iSiPP200 Si/SiN platform with micro-transfer-printed LiTaO3 membranes (back-end)", platform: si_sin, pdk_name: iSiPP200}
+  - {paper: zheng2026, org: org_imec, process_name: "imec 200 mm Si/SiN wafers (target of micro-transfer-printed TFLN coupons)", platform: si_sin, wafer_mm: 200}
+  - {paper: qiu2026a, org: org_lumiphase, process_name: "Lumiphase 200 mm BTO process", platform: bto, wafer_mm: 200}
+  - {paper: rahman2025, org: org_ligentec, process_name: "LIGENTEC LPCVD SiN1/SiN2 bilayer on 200 mm Si", platform: sin, wafer_mm: 200}
+  - {paper: valdez2026, org: org_ligentec, process_name: "Ligentec dual-layer LPCVD SiN PDK platform with wafer-to-wafer bonded LT film", platform: sin}
+  - {paper: steckler2025, org: org_ihp_leibniz_institute_for_high_performance_microelectronics, process_name: "IHP 200 mm SiGe BiCMOS pilot line, 248 nm DUV; Ge-fin process", platform: sige_bicmos, wafer_mm: 200}
+  - {paper: tiberi2026, org: org_cornerstone, process_name: "Selectively planarized 220 nm SOI (CORNERSTONE)", platform: siph}
+  - {paper: wang2022, org: org_chongqing_united_microelectronics_center, process_name: "Si circuits in a CMOS SOI foundry run", platform: siph, notes: "attributed: CUMEC is the paper's only fab org in EO"}
+  - {paper: wu2025, org: org_chongqing_united_microelectronics_center, process_name: "CUMEC 8-inch 130 nm Si/SiN photonics PDK on SOI (220 nm Si, 3 um BOX)", platform: si_sin, wafer_mm: 200, notes: "wafer size stated as 8-inch"}
+  - {paper: boynton2020, org: org_sandia_national_laboratories, process_name: "Sandia MESA CMOS line (Ti/TiN/Al CPW, HDP oxide with CMP, two PECVD SiNx layers)", platform: cmos}
