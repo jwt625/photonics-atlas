@@ -44,10 +44,30 @@ export interface Component {
 	source: { id: string; title: string; year: string; venue: string; url: string; access: string };
 	metrics: Metric[];
 }
+/** One layout template of data/schema/component_layouts.yaml (DevLog-005 D103, D107). */
+export interface LayoutTemplate {
+	label: string;
+	applies_to: string[];
+	top: { required: string[]; optional: string[] };
+	xsec: { required: string[]; optional: string[] };
+	primary: { parameter: string; scope?: string; better: 'lower' | 'higher' };
+}
+/** One row of data/components/component_showcase.csv (D105). */
+export interface ShowcaseRow {
+	component_id: string;
+	template: string;
+	role: string;
+	criterion?: string;
+	rank?: string;
+	rationale?: string;
+	selected_on?: string;
+}
 export interface ComponentsView {
 	generated_on: string;
 	classes: Record<string, { label: string; subtypes: Record<string, string> }>;
 	parameters: Record<string, { unit: string; kind: string; def: string }>;
+	layouts?: Record<string, LayoutTemplate>;
+	showcase?: ShowcaseRow[];
 	components: Component[];
 }
 

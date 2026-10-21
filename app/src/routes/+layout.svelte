@@ -13,6 +13,8 @@
 		{ href: '/', label: 'Dashboard' },
 		{ href: '/orgs', label: 'Organizations' },
 		{ href: '/components', label: 'Components' },
+		{ href: '/layout', label: 'Layouts' },
+		{ href: '/explore', label: 'Explore' },
 		{ href: '/about', label: 'About' }
 	];
 

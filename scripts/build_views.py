@@ -25,8 +25,9 @@ OUT_COMPONENTS = ROOT / "app" / "static" / "data" / "components.json"
 
 
 def build_components() -> dict[str, Any]:
-    """Component rows with their metric rows, source labels and org names (no source text)."""
-    from photonics_atlas.schema import load_parameters
+    """Component rows with their metric rows, source labels and org names (no source text), plus the layout templates
+    (component_layouts.yaml) and the showcase rows (component_showcase.csv) the layout viewer reads (DevLog-005)."""
+    from photonics_atlas.schema import load_layouts, load_parameters
 
     comp_dir = ROOT / "data" / "components"
     comps = read_csv(comp_dir / "components.csv")
@@ -34,6 +35,9 @@ def build_components() -> dict[str, Any]:
     src = {s["source_id"]: s for s in read_csv(REGISTRY / "sources.csv")}
     orgs = {o["org_id"]: o["name"] for o in read_csv(REGISTRY / "organizations.csv")}
     reg = load_parameters()
+    layouts = (load_layouts() or {}).get("templates", {})
+    show_path = comp_dir / "component_showcase.csv"
+    showcase = [{k: v for k, v in r.items() if v != ""} for r in read_csv(show_path)] if show_path.exists() else []
     by_comp: dict[str, list[dict[str, Any]]] = defaultdict(list)
     for m in mets:
         by_comp[m["component_id"]].append({k: v for k, v in m.items() if v != "" and k not in ("component_id",)})
@@ -61,6 +65,8 @@ def build_components() -> dict[str, Any]:
         "parameters": {
             k: {"unit": v["unit"], "kind": v["kind"], "def": v["def"]} for k, v in reg["parameters"].items()
         },
+        "layouts": layouts,
+        "showcase": showcase,
         "components": out,
     }
 
@@ -187,7 +193,10 @@ def main() -> int:
             log.info(f"wrote {OUT.relative_to(ROOT)} ({OUT.stat().st_size} bytes)")
             comp = build_components()
             OUT_COMPONENTS.write_text(json.dumps(comp, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
-            log.info(f"wrote {OUT_COMPONENTS.relative_to(ROOT)} ({len(comp['components'])} components)")
+            log.info(
+                f"wrote {OUT_COMPONENTS.relative_to(ROOT)} ({len(comp['components'])} components, "
+                f"{len(comp['layouts'])} layout templates, {len(comp['showcase'])} showcase rows)"
+            )
     return 0
 
 

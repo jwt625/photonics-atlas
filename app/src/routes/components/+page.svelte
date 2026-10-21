@@ -1,6 +1,9 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { comp, fmtValue, fmtWavelength, loadComponents, type Component, type Metric } from '../../lib/components.svelte';
+	import { link } from '../../lib/paths';
+	import LayoutViews from '../../lib/layout/LayoutViews.svelte';
+	import { templateFor } from '../../lib/layout/resolve';
 
 	let cls = $state('');
 	let param = $state('');
@@ -139,6 +142,10 @@
 					<dt>verified</dt><dd>{sel.verified_on}</dd>
 				</dl>
 				{#if sel.notes}<p class="muted">{sel.notes}</p>{/if}
+				{#if templateFor(sel.class, view.layouts)}
+					<h3 class="lay">Layout <a href={link('/layout') + '?id=' + encodeURIComponent(sel.component_id)} data-tip="Full-size top view, cross-section and dimension table">full view</a></h3>
+					<LayoutViews comp={sel} {view} compact />
+				{/if}
 				<h3>Values</h3>
 				<table class="t num">
 					<thead><tr><th>parameter</th><th class="r">value</th><th>unit</th><th>conditions</th><th>basis</th><th>loc</th></tr></thead>
@@ -183,6 +190,8 @@
 	.detail .t td { white-space: normal; }
 	.detail .t td:nth-child(4) { min-width: 140px; }
 	h2 { margin: 0 0 6px; font-size: 14px; }
+	h3.lay { display: flex; justify-content: space-between; }
+	h3.lay a { text-transform: none; letter-spacing: 0; font-weight: 400; }
 	h3 { margin: 10px 0 4px; font-size: 11px; color: var(--ink-3); font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; }
 	dl { display: grid; grid-template-columns: 80px 1fr; gap: 2px 8px; margin: 0; }
 	dt { color: var(--ink-3); }
