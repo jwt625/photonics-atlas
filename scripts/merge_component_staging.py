@@ -58,6 +58,9 @@ def main() -> int:
             cur["components"] = [c for c in cur["components"] if c["component_id"] not in new_ids]
             cur["component_metrics"] = [m for m in cur["component_metrics"] if m["component_id"] not in new_ids]
         merged = {t: [*cur[t], *staged[t]] for t in TABLES}
+        # Stable order (component id, then metric number) so a --replace re-merge does not reorder unrelated rows.
+        merged["components"].sort(key=lambda r: r["component_id"])
+        merged["component_metrics"].sort(key=lambda r: (r["component_id"], int(r["metric_id"].rsplit("-m", 1)[1])))
         with tempfile.TemporaryDirectory() as td:
             tmp = Path(td)
             shutil.copytree(ROOT / "data", tmp / "data")
