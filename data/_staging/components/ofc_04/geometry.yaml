@@ -1,0 +1,19 @@
+# Geometry pass for the layout viewer (DevLog-005 D102-D111, 2026-10-20; families couplers / passives / actives); applied after patch, sweep, gapfill, addendum.
+metrics:
+  cmp_ofc2026_th3f5_lateral_coupled_ge_pd-m4:
+    parameter: absorber_width_um
+    value: '0.5'
+    unit: um
+    basis: derived
+    notes: '''The width of Ge is designed as 500 nm''; unit conversion nm -> um, value differs from the printed number (D82d).'
+    why: 'D102 / contract v5 repoint: role-specific parameter for the Ge absorber (width_nm / length_um / core_thickness_nm are the Si waveguide or device)'
+add_metrics:
+- metric_id: cmp_ofc2026_m1e6_sin_ring_r75um-m8
+  component_id: cmp_ofc2026_m1e6_sin_ring_r75um
+  parameter: bus_width_nm
+  value: 840
+  unit: nm
+  basis: design_target
+  locator: p.~1 Sec. 2
+  notes: Light passes from the Si waveguide (450 x 220 nm2) into an 840 x 400 nm2 SiN waveguide that feeds the 2-bus MRR; the paper gives one waveguide width (840 nm) for the MRR.
+  why: 'DevLog-005 D106 geometry pass (passives): template dimension reported by the source'

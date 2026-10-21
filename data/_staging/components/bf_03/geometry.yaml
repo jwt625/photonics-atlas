@@ -1,0 +1,38 @@
+# Geometry pass for the layout viewer (DevLog-005 D102-D111, 2026-10-20; families couplers / passives / actives); applied after patch, sweep, gapfill, addendum.
+add_metrics:
+- metric_id: cmp_montifiore2026_ring_493-m4
+  component_id: cmp_montifiore2026_ring_493
+  parameter: width_nm
+  value: 2000
+  unit: nm
+  basis: design_target
+  locator: p.3 Sec. 2
+  notes: Si3N4 waveguide 2 um wide for the 493 nm and 532 nm devices (ring and bus not distinguished). Restates the geometry text of EO row montifiore2026-c (D106), verified at p.3.
+  why: 'DevLog-005 D106 geometry pass (passives): template dimension reported by the source'
+- metric_id: cmp_montifiore2026_ring_493-m5
+  component_id: cmp_montifiore2026_ring_493
+  parameter: core_thickness_nm
+  value: 20
+  unit: nm
+  basis: design_target
+  locator: p.3 Sec. 2
+  notes: Si3N4 core 20 nm thick (493 / 532 nm devices); SiO2 upper and lower cladding, thicknesses not stated. Restates EO row montifiore2026-c (D106).
+  why: 'DevLog-005 D106 geometry pass (passives): template dimension reported by the source'
+- metric_id: cmp_montifiore2026_ring_780-m4
+  component_id: cmp_montifiore2026_ring_780
+  parameter: width_nm
+  value: 900
+  unit: nm
+  basis: design_target
+  locator: p.3 Sec. 2
+  notes: Si3N4 waveguide 900 nm wide for the 780 nm devices (ring and buses not distinguished). Restates the geometry text of EO row montifiore2026-d (D106), verified at p.3.
+  why: 'DevLog-005 D106 geometry pass (passives): template dimension reported by the source'
+- metric_id: cmp_montifiore2026_ring_780-m5
+  component_id: cmp_montifiore2026_ring_780
+  parameter: core_thickness_nm
+  value: 120
+  unit: nm
+  basis: design_target
+  locator: p.3 Sec. 2
+  notes: Si3N4 core 120 nm thick (780 nm devices); cladding thicknesses not stated. Restates EO row montifiore2026-d (D106).
+  why: 'DevLog-005 D106 geometry pass (passives): template dimension reported by the source'

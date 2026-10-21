@@ -1,0 +1,283 @@
+# Geometry pass for the layout viewer (DevLog-005 D102-D111, 2026-10-20; families couplers / passives / actives); applied after patch, sweep, gapfill, addendum.
+components:
+  cmp_wu2025_vac_si_sin:
+    notes: Si tapered 450 to 160 nm, SiN widened 350 nm to 1 um (entered as lower_tip_width_nm, tip_width_nm, width_nm under contract v5; Si input width 450 nm has no lower-layer width parameter). Used
+      in the SiN edge-coupler path.
+    why: 'stale note: taper geometry parameters are allowed for waveguide_platform since contract v5 (D102) and are now entered'
+metrics:
+  cmp_wu2025_vac_si_tfln-m4:
+    parameter: lower_tip_width_nm
+    why: 'D102 role-specific geometry: the Si inverse taper is the lower layer under the bonded TFLN'
+add_metrics:
+- metric_id: cmp_wu2025_vac_si_sin-m3
+  component_id: cmp_wu2025_vac_si_sin
+  parameter: tip_width_nm
+  value: '350'
+  unit: nm
+  condition: SiN (upper layer) taper start width, widened 350 nm to 1 um
+  basis: design_target
+  locator: p.5 Interlayer and fiber-to-chip coupling
+  why: geometry pass couplers (DevLog-005 D106)
+- metric_id: cmp_wu2025_vac_si_sin-m4
+  component_id: cmp_wu2025_vac_si_sin
+  parameter: lower_tip_width_nm
+  value: '160'
+  unit: nm
+  condition: Si (lower layer) taper end, 450 nm to 160 nm
+  basis: design_target
+  locator: p.5 Interlayer and fiber-to-chip coupling
+  why: geometry pass couplers (DevLog-005 D106)
+- metric_id: cmp_wu2025_vac_si_sin-m5
+  component_id: cmp_wu2025_vac_si_sin
+  parameter: width_nm
+  value: '1000'
+  unit: nm
+  condition: SiN (upper layer) width after the taper
+  basis: design_target
+  locator: p.5 Interlayer and fiber-to-chip coupling
+  notes: Si input width 450 nm (no lower-layer width parameter).
+  why: geometry pass couplers (DevLog-005 D106)
+- metric_id: cmp_wu2025_vac_si_sin-m6
+  component_id: cmp_wu2025_vac_si_sin
+  parameter: core_thickness_nm
+  value: '220'
+  unit: nm
+  condition: Si top layer (lower)
+  basis: design_target
+  locator: p.11 Methods Fabrication
+  notes: 220 nm top Si of the CUMEC PDK SOI wafer.
+  why: geometry pass couplers (DevLog-005 D106)
+- metric_id: cmp_wu2025_vac_si_sin-m7
+  component_id: cmp_wu2025_vac_si_sin
+  parameter: layer2_thickness_nm
+  value: '300'
+  unit: nm
+  condition: SiN layer (upper)
+  basis: design_target
+  locator: p.11-12 Methods Fabrication
+  notes: SiN tapers fabricated on the SiO2 over the Si with a SiN thickness of 300 nm.
+  why: geometry pass couplers (DevLog-005 D106)
+- metric_id: cmp_wu2025_vac_si_sin-m8
+  component_id: cmp_wu2025_vac_si_sin
+  parameter: gap_nm
+  value: '180'
+  unit: nm
+  qualifier: approx
+  condition: SiO2 between the Si waveguide top and the SiN layer
+  basis: design_target
+  locator: p.11 Methods Fabrication
+  notes: '''~180 nm'' planarized SiO2 on top of the Si waveguides, on which the SiN is fabricated.'
+  why: geometry pass couplers (DevLog-005 D106)
+- metric_id: cmp_wu2025_vac_si_sin-m9
+  component_id: cmp_wu2025_vac_si_sin
+  parameter: box_thickness_um
+  value: '3'
+  unit: um
+  basis: design_target
+  locator: p.11 Methods Fabrication
+  notes: 3 um buried oxide of the SOI wafer.
+  why: geometry pass couplers (DevLog-005 D106)
+- metric_id: cmp_wu2025_vac_si_tfln-m6
+  component_id: cmp_wu2025_vac_si_tfln
+  parameter: core_thickness_nm
+  value: '220'
+  unit: nm
+  condition: Si top layer (lower)
+  basis: design_target
+  locator: p.11 Methods Fabrication
+  notes: 220 nm top Si of the CUMEC PDK SOI wafer.
+  why: geometry pass couplers (DevLog-005 D106)
+- metric_id: cmp_wu2025_vac_si_tfln-m7
+  component_id: cmp_wu2025_vac_si_tfln
+  parameter: layer2_thickness_nm
+  value: '500'
+  unit: nm
+  condition: bonded x-cut TFLN (upper)
+  basis: design_target
+  locator: p.12 Methods Fabrication
+  notes: '500 nm TFLN left after substrate removal. Cross-note: EO row wu2025-a eo_film_thickness_nm 500 (D106). Vertical Si-TFLN gap (85 nm BCB plus trench oxide) not stated as one value.'
+  why: geometry pass couplers (DevLog-005 D106)
+- metric_id: cmp_wu2025_vac_si_tfln-m8
+  component_id: cmp_wu2025_vac_si_tfln
+  parameter: box_thickness_um
+  value: '3'
+  unit: um
+  basis: design_target
+  locator: p.11 Methods Fabrication
+  notes: 3 um buried oxide of the SOI wafer.
+  why: geometry pass couplers (DevLog-005 D106)
+- metric_id: cmp_wu2025_sin_edge_coupler-m4
+  component_id: cmp_wu2025_sin_edge_coupler
+  parameter: width_nm
+  value: '1000'
+  unit: nm
+  condition: SiN waveguide width at the start of the inverse taper (1 um to 350 nm)
+  basis: design_target
+  locator: p.6 Interlayer and fiber-to-chip coupling
+  notes: Taper length not stated.
+  why: geometry pass couplers (DevLog-005 D106)
+- metric_id: cmp_liu2026d_ec_nir_inverse_taper-m5
+  component_id: cmp_liu2026d_ec_nir_inverse_taper
+  parameter: core_thickness_nm
+  value: '150'
+  unit: nm
+  condition: x-cut TFLN film, fully etched strip
+  basis: design_target
+  locator: p.4 Methods Design and Fabrication
+  notes: '150 nm TFLN layer. Cross-note: EO rows liu2026d-* hold the same value, verified at the locator (D106).'
+  why: geometry pass couplers (DevLog-005 D106)
+- metric_id: cmp_liu2026d_ec_nir_inverse_taper-m6
+  component_id: cmp_liu2026d_ec_nir_inverse_taper
+  parameter: box_thickness_um
+  value: '4.7'
+  unit: um
+  basis: design_target
+  locator: p.4 Methods Design and Fabrication
+  notes: '4.7 um BOX. Cross-note: EO rows liu2026d-* hold the same value, verified at the locator (D106).'
+  why: geometry pass couplers (DevLog-005 D106)
+- metric_id: cmp_liu2026d_ec_nir_inverse_taper-m7
+  component_id: cmp_liu2026d_ec_nir_inverse_taper
+  parameter: cladding_thickness_um
+  value: '1.6'
+  unit: um
+  basis: design_target
+  locator: p.4 Methods Design and Fabrication
+  notes: 1.6 um SiO2 cladding (patterned with shallow trenches for the metallization). Taper length and the width the taper starts from not stated.
+  why: geometry pass couplers (DevLog-005 D106)
+- metric_id: cmp_liu2026d_ec_or_expanding_taper-m4
+  component_id: cmp_liu2026d_ec_or_expanding_taper
+  parameter: core_thickness_nm
+  value: '150'
+  unit: nm
+  condition: x-cut TFLN film, fully etched strip
+  basis: design_target
+  locator: p.4 Methods Design and Fabrication
+  notes: '150 nm TFLN layer. Cross-note: EO rows liu2026d-* hold the same value, verified at the locator (D106).'
+  why: geometry pass couplers (DevLog-005 D106)
+- metric_id: cmp_liu2026d_ec_or_expanding_taper-m5
+  component_id: cmp_liu2026d_ec_or_expanding_taper
+  parameter: box_thickness_um
+  value: '4.7'
+  unit: um
+  basis: design_target
+  locator: p.4 Methods Design and Fabrication
+  notes: '4.7 um BOX. Cross-note: EO rows liu2026d-* hold the same value, verified at the locator (D106).'
+  why: geometry pass couplers (DevLog-005 D106)
+- metric_id: cmp_liu2026d_ec_or_expanding_taper-m6
+  component_id: cmp_liu2026d_ec_or_expanding_taper
+  parameter: cladding_thickness_um
+  value: '1.6'
+  unit: um
+  basis: design_target
+  locator: p.4 Methods Design and Fabrication
+  notes: 1.6 um SiO2 cladding (patterned with shallow trenches for the metallization). Taper length and the width the taper starts from not stated.
+  why: geometry pass couplers (DevLog-005 D106)
+- metric_id: cmp_liu2026d_ec_bg_expanding_taper-m6
+  component_id: cmp_liu2026d_ec_bg_expanding_taper
+  parameter: core_thickness_nm
+  value: '150'
+  unit: nm
+  condition: x-cut TFLN film, fully etched strip
+  basis: design_target
+  locator: p.4 Methods Design and Fabrication
+  notes: '150 nm TFLN layer. Cross-note: EO rows liu2026d-* hold the same value, verified at the locator (D106).'
+  why: geometry pass couplers (DevLog-005 D106)
+- metric_id: cmp_liu2026d_ec_bg_expanding_taper-m7
+  component_id: cmp_liu2026d_ec_bg_expanding_taper
+  parameter: box_thickness_um
+  value: '4.7'
+  unit: um
+  basis: design_target
+  locator: p.4 Methods Design and Fabrication
+  notes: '4.7 um BOX. Cross-note: EO rows liu2026d-* hold the same value, verified at the locator (D106).'
+  why: geometry pass couplers (DevLog-005 D106)
+- metric_id: cmp_liu2026d_ec_bg_expanding_taper-m8
+  component_id: cmp_liu2026d_ec_bg_expanding_taper
+  parameter: cladding_thickness_um
+  value: '1.6'
+  unit: um
+  basis: design_target
+  locator: p.4 Methods Design and Fabrication
+  notes: 1.6 um SiO2 cladding (patterned with shallow trenches for the metallization). Taper length and the width the taper starts from not stated.
+  why: geometry pass couplers (DevLog-005 D106)
+- metric_id: cmp_liu2026d_tops_bg-m9
+  component_id: cmp_liu2026d_tops_bg
+  parameter: core_thickness_nm
+  value: '150'
+  unit: nm
+  basis: design_target
+  locator: p.4 Methods Design and Fabrication; p.2 Fig. 1(d)
+  notes: 150 nm thick x-cut TFLN, fully etched strip. Restates eo_film_thickness_nm 150 of the EO rows (D106).
+  why: D106 geometry pass (actives, 2026-10-20)
+- metric_id: cmp_liu2026d_tops_bg-m10
+  component_id: cmp_liu2026d_tops_bg
+  parameter: box_thickness_um
+  value: '4.7'
+  unit: um
+  basis: design_target
+  locator: p.4 Methods Design and Fabrication; p.2 Fig. 1(d)
+  notes: 4.7 um BOX. Restates buffer_oxide_um 4.7 of the EO rows (D106).
+  why: D106 geometry pass (actives, 2026-10-20)
+- metric_id: cmp_liu2026d_tops_bg-m11
+  component_id: cmp_liu2026d_tops_bg
+  parameter: cladding_thickness_um
+  value: '1.6'
+  unit: um
+  basis: design_target
+  locator: p.4 Methods Design and Fabrication; p.2 Fig. 1(d)
+  notes: '''clad with 1.6 um of silicon dioxide'', patterned with shallow trenches for the metallization (heater sits in a trench). Restates the EO rows'' cladding text (D106).'
+  why: D106 geometry pass (actives, 2026-10-20)
+- metric_id: cmp_liu2026d_tops_or-m6
+  component_id: cmp_liu2026d_tops_or
+  parameter: core_thickness_nm
+  value: '150'
+  unit: nm
+  basis: design_target
+  locator: p.4 Methods Design and Fabrication; p.2 Fig. 1(d)
+  notes: 150 nm thick x-cut TFLN, fully etched strip. Restates eo_film_thickness_nm 150 of the EO rows (D106).
+  why: D106 geometry pass (actives, 2026-10-20)
+- metric_id: cmp_liu2026d_tops_or-m7
+  component_id: cmp_liu2026d_tops_or
+  parameter: box_thickness_um
+  value: '4.7'
+  unit: um
+  basis: design_target
+  locator: p.4 Methods Design and Fabrication; p.2 Fig. 1(d)
+  notes: 4.7 um BOX. Restates buffer_oxide_um 4.7 of the EO rows (D106).
+  why: D106 geometry pass (actives, 2026-10-20)
+- metric_id: cmp_liu2026d_tops_or-m8
+  component_id: cmp_liu2026d_tops_or
+  parameter: cladding_thickness_um
+  value: '1.6'
+  unit: um
+  basis: design_target
+  locator: p.4 Methods Design and Fabrication; p.2 Fig. 1(d)
+  notes: '''clad with 1.6 um of silicon dioxide'', patterned with shallow trenches for the metallization (heater sits in a trench). Restates the EO rows'' cladding text (D106).'
+  why: D106 geometry pass (actives, 2026-10-20)
+- metric_id: cmp_liu2026d_tops_nir-m5
+  component_id: cmp_liu2026d_tops_nir
+  parameter: core_thickness_nm
+  value: '150'
+  unit: nm
+  basis: design_target
+  locator: p.4 Methods Design and Fabrication; p.2 Fig. 1(d)
+  notes: 150 nm thick x-cut TFLN, fully etched strip. Restates eo_film_thickness_nm 150 of the EO rows (D106).
+  why: D106 geometry pass (actives, 2026-10-20)
+- metric_id: cmp_liu2026d_tops_nir-m6
+  component_id: cmp_liu2026d_tops_nir
+  parameter: box_thickness_um
+  value: '4.7'
+  unit: um
+  basis: design_target
+  locator: p.4 Methods Design and Fabrication; p.2 Fig. 1(d)
+  notes: 4.7 um BOX. Restates buffer_oxide_um 4.7 of the EO rows (D106).
+  why: D106 geometry pass (actives, 2026-10-20)
+- metric_id: cmp_liu2026d_tops_nir-m7
+  component_id: cmp_liu2026d_tops_nir
+  parameter: cladding_thickness_um
+  value: '1.6'
+  unit: um
+  basis: design_target
+  locator: p.4 Methods Design and Fabrication; p.2 Fig. 1(d)
+  notes: '''clad with 1.6 um of silicon dioxide'', patterned with shallow trenches for the metallization (heater sits in a trench). Restates the EO rows'' cladding text (D106).'
+  why: D106 geometry pass (actives, 2026-10-20)

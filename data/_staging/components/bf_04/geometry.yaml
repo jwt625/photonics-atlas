@@ -1,0 +1,28 @@
+# Geometry pass for the layout viewer (DevLog-005 D102-D111, 2026-10-20; families couplers / passives / actives); applied after patch, sweep, gapfill, addendum.
+metrics:
+  cmp_hu2026a_ssc_sion-m2:
+    parameter: overlay_width_um
+    value: '3'
+    unit: um
+    notes: SiON waveguide cross-section 3 um x 3 um designed to match the UHNA7 mode
+    why: 'D102 role-specific geometry: the 3 x 3 um SiON waveguide is the SSC overlay (value as printed in um)'
+  cmp_hu2026a_ssc_sion-m3:
+    parameter: overlay_thickness_um
+    value: '3'
+    unit: um
+    notes: SiON waveguide height (3 um x 3 um cross-section)
+    why: 'D102 role-specific geometry: the 3 x 3 um SiON waveguide is the SSC overlay (value as printed in um)'
+  cmp_hu2026a_mmi_1x2-m3:
+    parameter: mmi_width_um
+    value: 16
+    unit: um
+    notes: Multimode-region width 16 um (design).
+    why: 'D102: the MMI body dimension was stored in the generic width_nm / length_um, which the layout viewer reads as the access waveguide / device length; repointed to the role-specific parameter, value
+      as printed in um'
+  cmp_hu2026a_mmi_1x2-m4:
+    parameter: mmi_length_um
+    value: 195.4
+    unit: um
+    notes: Multimode-region length 195.4 um (design).
+    why: 'D102: the MMI body dimension was stored in the generic width_nm / length_um, which the layout viewer reads as the access waveguide / device length; repointed to the role-specific parameter, value
+      as printed in um'

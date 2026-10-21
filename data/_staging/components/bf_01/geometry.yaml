@@ -1,0 +1,44 @@
+# Geometry pass for the layout viewer (DevLog-005 D102-D111, 2026-10-20; families couplers / passives / actives); applied after patch, sweep, gapfill, addendum.
+metrics:
+  cmp_boynton2020_mmi_2x2-m2:
+    parameter: mmi_length_um
+    value: 330
+    unit: um
+    notes: MMI 3 dB coupler 330 um x 12 um (length).
+    why: 'D102: the MMI body dimension was stored in the generic width_nm / length_um, which the layout viewer reads as the access waveguide / device length; repointed to the role-specific parameter, value
+      as printed in um'
+  cmp_boynton2020_mmi_2x2-m3:
+    parameter: mmi_width_um
+    value: 12
+    unit: um
+    notes: MMI slab width 12 um (330 um x 12 um).
+    why: 'D102: the MMI body dimension was stored in the generic width_nm / length_um, which the layout viewer reads as the access waveguide / device length; repointed to the role-specific parameter, value
+      as printed in um'
+add_metrics:
+- metric_id: cmp_boynton2020_mmi_2x2-m4
+  component_id: cmp_boynton2020_mmi_2x2
+  parameter: port_width_um
+  value: 4
+  unit: um
+  basis: design_target
+  locator: p.7
+  notes: Waveguide tapers from 1.2 um to 4 um into the MMI slab.
+  why: 'DevLog-005 D106 geometry pass (passives): template dimension reported by the source'
+- metric_id: cmp_boynton2020_mmi_2x2-m5
+  component_id: cmp_boynton2020_mmi_2x2
+  parameter: width_nm
+  value: 1200
+  unit: nm
+  basis: design_target
+  locator: p.7
+  notes: Access waveguide width 1.2 um at the start of the tapers into the MMI slab.
+  why: 'DevLog-005 D106 geometry pass (passives): template dimension reported by the source'
+- metric_id: cmp_boynton2020_mmi_2x2-m6
+  component_id: cmp_boynton2020_mmi_2x2
+  parameter: core_thickness_nm
+  value: 300
+  unit: nm
+  basis: design_target
+  locator: p.4 Modulator design and fabrication
+  notes: 300 nm Si-rich PECVD SiNx bottom waveguide layer (n 2.11 at 1546 nm), in which the MMIs are fabricated.
+  why: 'DevLog-005 D106 geometry pass (passives): template dimension reported by the source'

@@ -1,0 +1,132 @@
+# Geometry pass for the layout viewer (DevLog-005 D102-D111, 2026-10-20; families couplers / passives / actives); applied after patch, sweep, gapfill, addendum.
+metrics:
+  cmp_larocque2024_dc_michelson-m3:
+    parameter: coupling_length_um
+    notes: Nominal coupling length l0 of the directional coupler.
+    why: 'D102: the source defines l0 as the coupling length of the directional coupler; repointed from the generic length_um to the role-specific coupling_length_um'
+  cmp_liu2026a_ge_pd-m5:
+    parameter: absorber_width_um
+    value: '0.55'
+    unit: um
+    basis: derived
+    notes: Ge region width printed as 550 nm (optimized by simulation, design value); unit conversion nm -> um, value differs from the printed number (D82d).
+    why: 'D102 / contract v5 repoint: role-specific parameter for the Ge absorber (width_nm / length_um / core_thickness_nm are the Si waveguide or device)'
+  cmp_liu2026a_ge_pd-m6:
+    parameter: absorber_length_um
+    notes: Ge region length 30 um (optimized by simulation, design value).
+    why: 'D102 / contract v5 repoint: role-specific parameter for the Ge absorber (width_nm / length_um / core_thickness_nm are the Si waveguide or device)'
+  cmp_liu2026a_ge_pd-m7:
+    parameter: absorber_thickness_nm
+    notes: Ge thickness 'controlled to about 300 nm' (two-step epitaxy on recessed Si; recess depth not stated).
+    why: 'D102 / contract v5 repoint: role-specific parameter for the Ge absorber (width_nm / length_um / core_thickness_nm are the Si waveguide or device)'
+  cmp_steckler2025_gesi_fin_pd_w100-m7:
+    parameter: absorber_width_um
+    value: '0.1'
+    unit: um
+    basis: derived
+    notes: GeSi fin width printed as 100 nm, as designed in the etch-mask layout; unit conversion nm -> um, value differs from the printed number (D82d).
+    why: 'D102 / contract v5 repoint: role-specific parameter for the Ge absorber (width_nm / length_um / core_thickness_nm are the Si waveguide or device)'
+  cmp_steckler2025_gesi_fin_pd_w100-m8:
+    parameter: absorber_length_um
+    notes: GeSi fin PD length 10 um.
+    why: 'D102 / contract v5 repoint: role-specific parameter for the Ge absorber (width_nm / length_um / core_thickness_nm are the Si waveguide or device)'
+  cmp_steckler2025_gesi_fin_pd_w150-m7:
+    parameter: absorber_width_um
+    value: '0.15'
+    unit: um
+    basis: derived
+    notes: GeSi fin width printed as 150 nm, as designed in the etch-mask layout; unit conversion nm -> um, value differs from the printed number (D82d).
+    why: 'D102 / contract v5 repoint: role-specific parameter for the Ge absorber (width_nm / length_um / core_thickness_nm are the Si waveguide or device)'
+  cmp_steckler2025_gesi_fin_pd_w150-m8:
+    parameter: absorber_length_um
+    notes: GeSi fin PD length 10 um.
+    why: 'D102 / contract v5 repoint: role-specific parameter for the Ge absorber (width_nm / length_um / core_thickness_nm are the Si waveguide or device)'
+  cmp_steckler2025_gesi_fin_pd_w200-m6:
+    parameter: absorber_width_um
+    value: '0.2'
+    unit: um
+    basis: derived
+    notes: GeSi fin width printed as 200 nm, as designed in the etch-mask layout; unit conversion nm -> um, value differs from the printed number (D82d).
+    why: 'D102 / contract v5 repoint: role-specific parameter for the Ge absorber (width_nm / length_um / core_thickness_nm are the Si waveguide or device)'
+  cmp_steckler2025_gesi_fin_pd_w200-m7:
+    parameter: absorber_length_um
+    notes: GeSi fin PD length 10 um.
+    why: 'D102 / contract v5 repoint: role-specific parameter for the Ge absorber (width_nm / length_um / core_thickness_nm are the Si waveguide or device)'
+  cmp_steckler2025_gesi_fin_pd_w250-m9:
+    parameter: absorber_width_um
+    value: '0.25'
+    unit: um
+    basis: derived
+    notes: GeSi fin width printed as 250 nm, as designed in the etch-mask layout; unit conversion nm -> um, value differs from the printed number (D82d).
+    why: 'D102 / contract v5 repoint: role-specific parameter for the Ge absorber (width_nm / length_um / core_thickness_nm are the Si waveguide or device)'
+  cmp_steckler2025_gesi_fin_pd_w250-m10:
+    parameter: absorber_length_um
+    notes: GeSi fin PD length 10 um.
+    why: 'D102 / contract v5 repoint: role-specific parameter for the Ge absorber (width_nm / length_um / core_thickness_nm are the Si waveguide or device)'
+  cmp_steckler2025_gesi_fin_pd_w300-m7:
+    parameter: absorber_width_um
+    value: '0.3'
+    unit: um
+    basis: derived
+    notes: GeSi fin width printed as 300 nm, as designed in the etch-mask layout; unit conversion nm -> um, value differs from the printed number (D82d).
+    why: 'D102 / contract v5 repoint: role-specific parameter for the Ge absorber (width_nm / length_um / core_thickness_nm are the Si waveguide or device)'
+  cmp_steckler2025_gesi_fin_pd_w300-m8:
+    parameter: absorber_length_um
+    notes: GeSi fin PD length 10 um.
+    why: 'D102 / contract v5 repoint: role-specific parameter for the Ge absorber (width_nm / length_um / core_thickness_nm are the Si waveguide or device)'
+add_metrics:
+- metric_id: cmp_larocque2024_dc_michelson-m5
+  component_id: cmp_larocque2024_dc_michelson
+  parameter: core_thickness_nm
+  value: 600
+  unit: nm
+  basis: design_target
+  locator: p.6 Methods (Device Fabrication)
+  notes: 600 nm x-cut TFLN on insulator wafer (NanoLN), CSEM MPW run, chip-wide. Restates eo_film_thickness_nm of EO row larocque2024-a (D106).
+  why: 'DevLog-005 D106 geometry pass (passives): template dimension reported by the source'
+- metric_id: cmp_larocque2024_dc_michelson-m6
+  component_id: cmp_larocque2024_dc_michelson
+  parameter: etch_depth_nm
+  value: 400
+  unit: nm
+  basis: design_target
+  locator: p.6 Methods (Device Fabrication)
+  notes: Etch configured to remove 400 nm of LN, chip-wide. Restates EO row larocque2024-a (D106).
+  why: 'DevLog-005 D106 geometry pass (passives): template dimension reported by the source'
+- metric_id: cmp_larocque2024_dc_michelson-m7
+  component_id: cmp_larocque2024_dc_michelson
+  parameter: slab_thickness_nm
+  value: 200
+  unit: nm
+  basis: derived
+  locator: p.6 Methods (Device Fabrication)
+  notes: 600 nm film - 400 nm etch = 200 nm; slab thickness not printed. Same value as slab_thickness_nm of EO row larocque2024-a (D106).
+  why: 'DevLog-005 D106 geometry pass (passives): template dimension reported by the source'
+- metric_id: cmp_larocque2024_dc_michelson-m8
+  component_id: cmp_larocque2024_dc_michelson
+  parameter: sidewall_angle_deg
+  value: 55
+  unit: deg
+  basis: derived
+  locator: p.6 Methods (Device Fabrication)
+  notes: 'Printed as a 35 deg sidewall angle with respect to the chip normal (waveguides in general); converted to the registry convention (angle to the film plane): 90 - 35 = 55. The 17 deg value applies
+    only inside the PhC mirror gaps.'
+  why: 'DevLog-005 D106 geometry pass (passives): template dimension reported by the source'
+- metric_id: cmp_liu2026a_ge_pd-m8
+  component_id: cmp_liu2026a_ge_pd
+  parameter: core_thickness_nm
+  value: '220'
+  unit: nm
+  basis: design_target
+  locator: p.2 Sec. 2; p.2 Sec. 2.2
+  notes: 'Si waveguide layer: 220 nm top Si of the SOI wafer; the Ge bottom is embedded into the 220 nm Si layer. Restates eo_film_thickness_nm 220 of EO rows liu2026a-a/-b (D106, verified at the locator).'
+  why: D106 geometry pass (actives, 2026-10-20)
+- metric_id: cmp_liu2026a_ge_pd-m9
+  component_id: cmp_liu2026a_ge_pd
+  parameter: box_thickness_um
+  value: '2'
+  unit: um
+  basis: design_target
+  locator: p.2 Sec. 2
+  notes: 2 um buried oxide of the SOI wafer (MRM and Ge-PD platform). Restates buffer_oxide_um 2 of EO rows liu2026a-a/-b (D106).
+  why: D106 geometry pass (actives, 2026-10-20)

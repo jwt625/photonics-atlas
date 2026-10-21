@@ -1,0 +1,179 @@
+# Geometry pass for the layout viewer (DevLog-005 D102-D111, 2026-10-20; families couplers / passives / actives); applied after patch, sweep, gapfill, addendum.
+add_metrics:
+- metric_id: cmp_guo2026_gc_532-m7
+  component_id: cmp_guo2026_gc_532
+  parameter: core_thickness_nm
+  value: '200'
+  unit: nm
+  condition: x-cut TFLT film
+  basis: design_target
+  locator: p.13 Methods Device fabrication
+  notes: '200 nm TFLT layer. Cross-note: same value as EO row guo2026-a, verified at the locator (D106).'
+  why: geometry pass couplers (DevLog-005 D106)
+- metric_id: cmp_guo2026_gc_532-m8
+  component_id: cmp_guo2026_gc_532
+  parameter: etch_depth_nm
+  value: '100'
+  unit: nm
+  basis: design_target
+  locator: p.13 Methods Device fabrication
+  notes: 'GCs, waveguides and MMIs defined and etched in the same ICP step to a 100 nm ridge height (half the film); Fig. 2(b) sketches the grating as partially etched. Cross-note: same value as EO row
+    guo2026-a, verified at the locator (D106).'
+  why: geometry pass couplers (DevLog-005 D106)
+- metric_id: cmp_guo2026_gc_532-m9
+  component_id: cmp_guo2026_gc_532
+  parameter: box_thickness_um
+  value: '3'
+  unit: um
+  basis: design_target
+  locator: p.13 Methods Device fabrication
+  notes: '3 um buried oxide of the LTOI wafer. Cross-note: same value as EO row guo2026-a, verified at the locator (D106).'
+  why: geometry pass couplers (DevLog-005 D106)
+- metric_id: cmp_guo2026_gc_532-m10
+  component_id: cmp_guo2026_gc_532
+  parameter: cladding_thickness_um
+  value: '0.8'
+  unit: um
+  basis: design_target
+  locator: p.13 Methods Device fabrication
+  notes: '800 nm PECVD SiO2 over the device; removal above the GC not stated. Cross-note: same value as EO row guo2026-a, verified at the locator (D106).'
+  why: geometry pass couplers (DevLog-005 D106)
+- metric_id: cmp_guo2026_gc_532-m11
+  component_id: cmp_guo2026_gc_532
+  parameter: width_nm
+  value: '400'
+  unit: nm
+  condition: access waveguide width at the narrow end of the inverse taper after the GC (5 um to 0.4 um)
+  basis: design_target
+  locator: p.4 Device design
+  notes: Taper length and grating length / width not stated.
+  why: geometry pass couplers (DevLog-005 D106)
+- metric_id: cmp_guo2026_wg_ridge_1um-m3
+  component_id: cmp_guo2026_wg_ridge_1um
+  parameter: core_thickness_nm
+  value: '200'
+  unit: nm
+  condition: x-cut TFLT film
+  basis: design_target
+  locator: p.13 Methods Device fabrication
+  notes: 'Cross-note: same value as EO row guo2026-a, verified at the locator (D106).'
+  why: geometry pass couplers (DevLog-005 D106)
+- metric_id: cmp_guo2026_wg_ridge_1um-m4
+  component_id: cmp_guo2026_wg_ridge_1um
+  parameter: etch_depth_nm
+  value: '100'
+  unit: nm
+  basis: design_target
+  locator: p.13 Methods Device fabrication
+  notes: '100 nm ridge height, half the film thickness. Cross-note: same value as EO row guo2026-a, verified at the locator (D106).'
+  why: geometry pass couplers (DevLog-005 D106)
+- metric_id: cmp_guo2026_wg_ridge_1um-m5
+  component_id: cmp_guo2026_wg_ridge_1um
+  parameter: box_thickness_um
+  value: '3'
+  unit: um
+  basis: design_target
+  locator: p.13 Methods Device fabrication
+  notes: 'Cross-note: same value as EO row guo2026-a, verified at the locator (D106).'
+  why: geometry pass couplers (DevLog-005 D106)
+- metric_id: cmp_guo2026_wg_ridge_1um-m6
+  component_id: cmp_guo2026_wg_ridge_1um
+  parameter: cladding_thickness_um
+  value: '0.8'
+  unit: um
+  basis: design_target
+  locator: p.13 Methods Device fabrication
+  notes: '800 nm PECVD SiO2 (no post annealing). Cross-note: same value as EO row guo2026-a, verified at the locator (D106).'
+  why: geometry pass couplers (DevLog-005 D106)
+- metric_id: cmp_guo2026_wg_ridge_0p4um-m3
+  component_id: cmp_guo2026_wg_ridge_0p4um
+  parameter: core_thickness_nm
+  value: '200'
+  unit: nm
+  condition: x-cut TFLT film
+  basis: design_target
+  locator: p.13 Methods Device fabrication
+  notes: 'Cross-note: same value as EO row guo2026-a, verified at the locator (D106).'
+  why: geometry pass couplers (DevLog-005 D106)
+- metric_id: cmp_guo2026_wg_ridge_0p4um-m4
+  component_id: cmp_guo2026_wg_ridge_0p4um
+  parameter: etch_depth_nm
+  value: '100'
+  unit: nm
+  basis: design_target
+  locator: p.13 Methods Device fabrication
+  notes: '100 nm ridge height, half the film thickness. Cross-note: same value as EO row guo2026-a, verified at the locator (D106).'
+  why: geometry pass couplers (DevLog-005 D106)
+- metric_id: cmp_guo2026_wg_ridge_0p4um-m5
+  component_id: cmp_guo2026_wg_ridge_0p4um
+  parameter: box_thickness_um
+  value: '3'
+  unit: um
+  basis: design_target
+  locator: p.13 Methods Device fabrication
+  notes: 'Cross-note: same value as EO row guo2026-a, verified at the locator (D106).'
+  why: geometry pass couplers (DevLog-005 D106)
+- metric_id: cmp_guo2026_wg_ridge_0p4um-m6
+  component_id: cmp_guo2026_wg_ridge_0p4um
+  parameter: cladding_thickness_um
+  value: '0.8'
+  unit: um
+  basis: design_target
+  locator: p.13 Methods Device fabrication
+  notes: '800 nm PECVD SiO2 (no post annealing). Cross-note: same value as EO row guo2026-a, verified at the locator (D106).'
+  why: geometry pass couplers (DevLog-005 D106)
+- metric_id: cmp_guo2026_tops-m4
+  component_id: cmp_guo2026_tops
+  parameter: core_thickness_nm
+  value: '200'
+  unit: nm
+  basis: design_target
+  locator: p.13 Methods Device fabrication
+  notes: 200 nm x-cut TFLT layer. Restates eo_film_thickness_nm 200 of EO row guo2026-a (D106).
+  why: D106 geometry pass (actives, 2026-10-20)
+- metric_id: cmp_guo2026_tops-m5
+  component_id: cmp_guo2026_tops
+  parameter: etch_depth_nm
+  value: '100'
+  unit: nm
+  basis: design_target
+  locator: p.13 Methods Device fabrication
+  notes: '''ridge height of 100 nm, half the thickness of the TFLT layer''. Restates etch_depth_nm 100 of guo2026-a (D106).'
+  why: D106 geometry pass (actives, 2026-10-20)
+- metric_id: cmp_guo2026_tops-m6
+  component_id: cmp_guo2026_tops
+  parameter: slab_thickness_nm
+  value: '100'
+  unit: nm
+  basis: derived
+  locator: p.13 Methods Device fabrication
+  notes: '200 nm film minus 100 nm ridge height (paper: ''half the thickness''). Restates slab_thickness_nm 100 of guo2026-a (D106).'
+  why: D106 geometry pass (actives, 2026-10-20)
+- metric_id: cmp_guo2026_tops-m7
+  component_id: cmp_guo2026_tops
+  parameter: sidewall_angle_deg
+  value: '60'
+  unit: deg
+  qualifier: approx
+  basis: author_estimate
+  locator: p.13 Methods Device fabrication
+  notes: '''about 60 deg as determined by the etching process''; how it was determined is not stated. Restates sidewall_angle_deg 60 of guo2026-a (D106).'
+  why: D106 geometry pass (actives, 2026-10-20)
+- metric_id: cmp_guo2026_tops-m8
+  component_id: cmp_guo2026_tops
+  parameter: box_thickness_um
+  value: '3'
+  unit: um
+  basis: design_target
+  locator: p.13 Methods Device fabrication
+  notes: 3 um buried oxide of the LTOI wafer. Restates buffer_oxide_um 3 of guo2026-a (D106).
+  why: D106 geometry pass (actives, 2026-10-20)
+- metric_id: cmp_guo2026_tops-m9
+  component_id: cmp_guo2026_tops
+  parameter: cladding_thickness_um
+  value: '0.8'
+  unit: um
+  basis: derived
+  locator: p.13 Methods Device fabrication
+  notes: '''800 nm thick SiO2 layer'' by PECVD (no post annealing); unit conversion nm -> um, value differs from the printed number (D82d).'
+  why: D106 geometry pass (actives, 2026-10-20)

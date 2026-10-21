@@ -19,12 +19,12 @@ templates:
     label: "Edge coupler / spot-size converter (inverse taper, optional overlay)"
     applies_to: [fiber_chip_coupler.edge]
     top: {required: [tip_width_nm, taper_length_um], optional: [width_nm, overlay_width_um]}
-    xsec: {required: [core_thickness_nm], optional: [overlay_thickness_um, overlay_width_um, box_thickness_um, cladding_thickness_um, slab_thickness_nm]}
+    xsec: {required: [core_thickness_nm], optional: [overlay_thickness_um, overlay_slab_thickness_um, overlay_width_um, box_thickness_um, cladding_thickness_um, slab_thickness_nm]}
     primary: {parameter: insertion_loss_db, scope: per_facet, better: lower}
   transition_bilayer:
     label: "Inter-layer transition (two overlapping tapers)"
     applies_to: [waveguide_platform.transition]
-    top: {required: [taper_length_um], optional: [tip_width_nm, lower_tip_width_nm, width_nm, length_um]}
+    top: {required: [taper_length_um], optional: [tip_width_nm, lower_tip_width_nm, width_nm, lower_width_nm, length_um]}
     xsec: {required: [core_thickness_nm, layer2_thickness_nm], optional: [gap_nm, box_thickness_um, cladding_thickness_um]}
     primary: {parameter: transition_loss_db, scope: per_component, better: lower}
   waveguide_xsec:
@@ -73,7 +73,7 @@ templates:
     label: "Thermo-optic phase shifter (heater over waveguide)"
     applies_to: [phase_shifter.thermo_optic]
     top: {required: [heater_length_um], optional: [heater_width_um, width_nm, length_um]}
-    xsec: {required: [core_thickness_nm, width_nm], optional: [heater_width_um, heater_gap_um, slab_thickness_nm, box_thickness_um, cladding_thickness_um]}
+    xsec: {required: [core_thickness_nm, width_nm], optional: [heater_width_um, heater_thickness_nm, heater_gap_um, heater_offset_um, slab_thickness_nm, box_thickness_um, cladding_thickness_um]}
     primary: {parameter: p_pi_mw, better: lower}
   ridge_laser:
     label: "Ridge laser / SOA (cavity, ridge, grating)"

@@ -1,0 +1,22 @@
+# Geometry pass for the layout viewer (DevLog-005 D102-D111, 2026-10-20; families couplers / passives / actives); applied after patch, sweep, gapfill, addendum.
+metrics:
+  cmp_ofc2026_th3f2_apd_l10_oband-m11:
+    parameter: absorber_width_um
+    value: '0.2'
+    unit: um
+    basis: derived
+    notes: nominal absorption-region width W_A printed as 200 nm; unit conversion nm -> um, value differs from the printed number (D82d). length_um is the APD length.
+    why: 'D102 / contract v5 repoint: role-specific parameter for the Ge absorber (width_nm / length_um / core_thickness_nm are the Si waveguide or device)'
+  cmp_ofc2026_th3f2_apd_l30_cband-m11:
+    parameter: absorber_width_um
+    value: '0.2'
+    unit: um
+    basis: derived
+    notes: nominal absorption-region width W_A printed as 200 nm; unit conversion nm -> um, value differs from the printed number (D82d). length_um is the APD length.
+    why: 'D102 / contract v5 repoint: role-specific parameter for the Ge absorber (width_nm / length_um / core_thickness_nm are the Si waveguide or device)'
+  cmp_ofc2026_th2a1_inp_soa_array-m10:
+    parameter: ridge_width_um
+    value: '2'
+    unit: um
+    notes: SOA ridge width, printed as 2 um (value as printed).
+    why: 'D102 / contract v5 repoint: SOA ridge width belongs in ridge_width_um (width_nm is a waveguide width)'

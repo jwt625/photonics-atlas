@@ -1,0 +1,99 @@
+# Geometry pass for the layout viewer (DevLog-005 D102-D111, 2026-10-20; families couplers / passives / actives); applied after patch, sweep, gapfill, addendum.
+metrics:
+  cmp_feng2022_mmi_2x2-m3:
+    parameter: mmi_length_um
+    value: 31.4
+    unit: um
+    notes: MMI core region length 31.4 um (design).
+    why: 'D102: the MMI body dimension was stored in the generic width_nm / length_um, which the layout viewer reads as the access waveguide / device length; repointed to the role-specific parameter, value
+      as printed in um'
+  cmp_feng2022_mmi_2x2-m4:
+    parameter: mmi_width_um
+    value: 4.8
+    unit: um
+    notes: MMI core region width 4.8 um (design).
+    why: 'D102: the MMI body dimension was stored in the generic width_nm / length_um, which the layout viewer reads as the access waveguide / device length; repointed to the role-specific parameter, value
+      as printed in um'
+add_metrics:
+- metric_id: cmp_feng2022_mmi_2x2-m5
+  component_id: cmp_feng2022_mmi_2x2
+  parameter: port_width_um
+  value: 2.15
+  unit: um
+  basis: design_target
+  locator: p.9 Methods (Design of the 2x2 MMI)
+  notes: Input waveguides tapered from 1.2 um to 2.15 um before entering the MMI region; outputs tapered in reverse.
+  why: 'DevLog-005 D106 geometry pass (passives): template dimension reported by the source'
+- metric_id: cmp_feng2022_mmi_2x2-m6
+  component_id: cmp_feng2022_mmi_2x2
+  parameter: taper_length_um
+  value: 15
+  unit: um
+  basis: design_target
+  locator: p.9 Methods (Design of the 2x2 MMI)
+  notes: Access taper length (1.2 to 2.15 um), inputs and outputs.
+  why: 'DevLog-005 D106 geometry pass (passives): template dimension reported by the source'
+- metric_id: cmp_feng2022_mmi_2x2-m7
+  component_id: cmp_feng2022_mmi_2x2
+  parameter: width_nm
+  value: 1200
+  unit: nm
+  basis: design_target
+  locator: p.9 Methods (Design of the 2x2 MMI; Design of the RAMZI)
+  notes: Access waveguide top width 1.2 um (start of the input tapers; designed top width of the optical waveguides). Restates rib_width_nm of EO row feng2022-a (D106).
+  why: 'DevLog-005 D106 geometry pass (passives): template dimension reported by the source'
+- metric_id: cmp_feng2022_mmi_2x2-m8
+  component_id: cmp_feng2022_mmi_2x2
+  parameter: n_inputs
+  value: 2
+  unit: count
+  basis: design_target
+  locator: p.9 Methods (Design of the 2x2 MMI)
+  notes: 2x2 MMI.
+  why: 'DevLog-005 D106 geometry pass (passives): template dimension reported by the source'
+- metric_id: cmp_feng2022_mmi_2x2-m9
+  component_id: cmp_feng2022_mmi_2x2
+  parameter: n_outputs
+  value: 2
+  unit: count
+  basis: design_target
+  locator: p.9 Methods (Design of the 2x2 MMI)
+  notes: 2x2 MMI.
+  why: 'DevLog-005 D106 geometry pass (passives): template dimension reported by the source'
+- metric_id: cmp_feng2022_mmi_2x2-m10
+  component_id: cmp_feng2022_mmi_2x2
+  parameter: core_thickness_nm
+  value: 500
+  unit: nm
+  basis: design_target
+  locator: p.9 Methods (Device parameters and fabrication)
+  notes: 500 nm x-cut LN thin film (NANOLN), chip-wide. Restates eo_film_thickness_nm of EO row feng2022-a (D106).
+  why: 'DevLog-005 D106 geometry pass (passives): template dimension reported by the source'
+- metric_id: cmp_feng2022_mmi_2x2-m11
+  component_id: cmp_feng2022_mmi_2x2
+  parameter: etch_depth_nm
+  value: 250
+  unit: nm
+  basis: design_target
+  locator: p.9 Methods (Device parameters and fabrication)
+  notes: LN etch depth printed as about 250 nm, chip-wide. Restates EO row feng2022-a (D106).
+  qualifier: approx
+  why: 'DevLog-005 D106 geometry pass (passives): template dimension reported by the source'
+- metric_id: cmp_feng2022_mmi_2x2-m12
+  component_id: cmp_feng2022_mmi_2x2
+  parameter: slab_thickness_nm
+  value: 250
+  unit: nm
+  basis: design_target
+  locator: p.9 Methods (Device parameters and fabrication)
+  notes: 250 nm slab left by the etch, chip-wide. Restates EO row feng2022-a (D106).
+  why: 'DevLog-005 D106 geometry pass (passives): template dimension reported by the source'
+- metric_id: cmp_feng2022_mmi_2x2-m13
+  component_id: cmp_feng2022_mmi_2x2
+  parameter: cladding_thickness_um
+  value: 1.8
+  unit: um
+  basis: design_target
+  locator: p.9 Methods (Device parameters and fabrication)
+  notes: PECVD SiO2 cladding 1.8 um, chip-wide. Restates the cladding of EO row feng2022-a (D106). Buried oxide thickness not stated.
+  why: 'DevLog-005 D106 geometry pass (passives): template dimension reported by the source'

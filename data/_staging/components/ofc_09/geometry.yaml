@@ -1,0 +1,55 @@
+# Geometry pass for the layout viewer (DevLog-005 D102-D111, 2026-10-20; families couplers / passives / actives); applied after patch, sweep, gapfill, addendum.
+add_metrics:
+- metric_id: cmp_ofc2026_tu2d4_si_rib_wg-m3
+  component_id: cmp_ofc2026_tu2d4_si_rib_wg
+  parameter: core_thickness_nm
+  value: '300'
+  unit: nm
+  basis: design_target
+  locator: pNA Sec. 2
+  notes: 300 nm SOI starting wafer. Rib slab is 150 nm (medium rib) or 50 nm (deep rib); which rib type Table 1 reports is not stated, so slab not entered. Width not stated.
+  why: geometry pass couplers (DevLog-005 D106)
+- metric_id: cmp_ofc2026_tu2d4_si_sin_transition-m5
+  component_id: cmp_ofc2026_tu2d4_si_sin_transition
+  parameter: core_thickness_nm
+  value: '300'
+  unit: nm
+  condition: Si layer
+  basis: design_target
+  locator: pNA Sec. 2
+  notes: 300 nm SOI starting wafer. The SiN side is described as a '400nm strip waveguide integrated at bottom level' without saying whether 400 nm is a thickness or a width, so layer2_thickness_nm is not
+    entered.
+  why: geometry pass couplers (DevLog-005 D106)
+- metric_id: cmp_ofc2026_tu2d4_sin_edge_coupler-m5
+  component_id: cmp_ofc2026_tu2d4_sin_edge_coupler
+  parameter: box_thickness_um
+  value: '5'
+  unit: um
+  qualifier: gt
+  basis: design_target
+  locator: pNA Sec. 1; pNA Sec. 2
+  notes: '''reconstructed BOX'' above 5 um between waveguide and substrate, formed by bonding the processed SOI wafer on an HR carrier (Sec. 1-2). SiN thickness / tip width of this coupler not stated (Sec.
+    1 tip size 150-200 nm is a general requirement).'
+  why: geometry pass couplers (DevLog-005 D106)
+- metric_id: cmp_ofc2026_th1d6_gesilica_ring_d1p5mm-m14
+  component_id: cmp_ofc2026_th1d6_gesilica_ring_d1p5mm
+  parameter: width_nm
+  value: 3000
+  unit: nm
+  basis: design_target
+  locator: p.~2 text, resonator design paragraph
+  notes: Waveguide width varied between 3 and 30 um across the studied 1.5 mm diameter rings; the width of the ring behind the Q values is not stated.
+  value_max: 30000
+  statistic: range
+  why: 'DevLog-005 D106 geometry pass (passives): template dimension reported by the source'
+- metric_id: cmp_ofc2026_th1d6_gesilica_ring_d1p5mm-m15
+  component_id: cmp_ofc2026_th1d6_gesilica_ring_d1p5mm
+  parameter: box_thickness_um
+  value: 8
+  unit: um
+  basis: design_target
+  locator: p.~1 text, fabrication workflow paragraph
+  notes: Thermally grown SiO2 under the Ge:silica film, 8-15 um across the devices studied; value for the Q-record ring not stated. Upper cladding not stated.
+  value_max: 15
+  statistic: range
+  why: 'DevLog-005 D106 geometry pass (passives): template dimension reported by the source'

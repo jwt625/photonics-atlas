@@ -29,6 +29,8 @@ taken or reserved by other DevLogs).
 | D108 | Viewer placement: a "Layout" section in the component detail panel (`/components`) when the component's class maps to a template, plus `/layout?id=<component_id>` for a full-size view with top view, cross-section, dimension table and scale bar. SVG, to scale, dark theme, sharp corners, hover tooltips | stays inside the component atlas workflow; deep-linkable |
 | D109 | Batches for the geometry pass are grouped by template family (couplers: gc_1d, edge_taper, transition_bilayer, waveguide_xsec; passives: ring_bus, mmi, dc, y_branch, awg; actives: ge_pd, heater_ps, ridge_laser). Output is a replayable `geometry.yaml` per staging batch (after patch / sweep / gapfill / addendum), plus showcase rows; then a fresh-context audit per family | same replayable patch model as D50 / D83h |
 | D110 | Per-class detail: each template's parameter list doubles as the class's "detail spec"; the geometry pass also enters missing performance values of the template's primary metric for the showcase components | "more detailed info per class" with the same contract |
+| D111 | (geometry-pass rulings) Registry additions: lower_width_nm, overlay_slab_thickness_um, subwavelength_period_nm (W4B.6 m12 repointed: its 500 nm is the transverse SWG period, not the grating period), heater_thickness_nm, heater_offset_um; templates updated. heater_length_um only when the paper states the heater length: a stated phase-section length stays length_um and the heater length is drawn as "not reported" (actives pass rows dropped). Unit rescaling keeps D82d (derived, printed value in notes). Angles printed from the chip normal are converted to the registry's angle-to-film-plane convention as derived with the printed value in notes (larocque2024 35 deg -> 55 deg). A component reported only with simulated performance is not a showcase `typical` (boynton2020 MMI) | geometry pass reports |
+| D112 | Templates that stay without a hero or typical row (no source reports the required dimensions with a measured primary metric): dc hero, y_branch, awg hero, gc_1d SOI hero; the gallery shows these gaps instead of filling them | honesty rule D104 |
 
 ## Registry additions (D102), contract v5
 
@@ -46,9 +48,11 @@ Geometry parameters (kind geometry): `box_thickness_um`, `cladding_thickness_um`
 - [x] DevLog-005 plan; registry additions; `component_layouts.yaml`; showcase table schema.
 - [ ] Explore page (subagent, D100-D101), screenshots, fresh-context UI audit.
 - [ ] Layout viewer (subagent, D103-D104, D108) on the existing geometry, then on the geometry pass output.
-- [ ] Geometry pass: 3 family batches (D105-D107, D109-D110), showcase selection, audits, apply, merge.
+- [x] Geometry pass: 3 family batches (D105-D107, D109-D110), showcase selection (35 rows), applied as geometry.yaml in 22 batches.
+- [ ] Fresh-context audits of the geometry pass (couplers; passives + actives).
 - [ ] Views rebuild, validator, tests, app check / build, screenshots; commit and push; update README.
 
 ## Progress
 
 - 2026-10-20 16:55: feedback items 1-2 fixed and pushed; plan written.
+- 2026-10-20 18:40: geometry pass done (couplers 16 showcase / 81 rows + 9 edits; passives 9 / 32 + 15; actives 10 / 34 + 35 edits after dropping 4 heater-length rows); D111 registry additions; combined per batch as geometry.yaml, no id collisions.

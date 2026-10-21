@@ -1,0 +1,66 @@
+# Geometry pass for the layout viewer (DevLog-005 D102-D111, 2026-10-20; families couplers / passives / actives); applied after patch, sweep, gapfill, addendum.
+add_metrics:
+- metric_id: cmp_liu2025b_rib_wg_1um-m4
+  component_id: cmp_liu2025b_rib_wg_1um
+  parameter: core_thickness_nm
+  value: '360'
+  unit: nm
+  condition: x-cut TFLN film
+  basis: design_target
+  locator: p.3
+  notes: '360 nm LN film. Cross-note: EO row liu2025b-a holds the same value, verified at the locator (D106).'
+  why: geometry pass couplers (DevLog-005 D106)
+- metric_id: cmp_liu2025b_rib_wg_1um-m5
+  component_id: cmp_liu2025b_rib_wg_1um
+  parameter: etch_depth_nm
+  value: '180'
+  unit: nm
+  basis: design_target
+  locator: p.3
+  notes: 'rib height 180 nm (p.3); p.4 calls the test waveguide ''180 nm x 1000 nm rib''. Cross-note: EO row liu2025b-a holds the same value, verified at the locator (D106).'
+  why: geometry pass couplers (DevLog-005 D106)
+- metric_id: cmp_liu2025b_rib_wg_1um-m6
+  component_id: cmp_liu2025b_rib_wg_1um
+  parameter: slab_thickness_nm
+  value: '180'
+  unit: nm
+  basis: design_target
+  locator: p.3
+  notes: 'Cross-note: EO row liu2025b-a holds the same value, verified at the locator (D106).'
+  why: geometry pass couplers (DevLog-005 D106)
+- metric_id: cmp_liu2025b_rib_wg_1um-m7
+  component_id: cmp_liu2025b_rib_wg_1um
+  parameter: box_thickness_um
+  value: '2.5'
+  unit: um
+  basis: design_target
+  locator: p.3
+  notes: '2.5 um BOX on the quartz handle. Cross-note: EO row liu2025b-a holds the same value, verified at the locator (D106).'
+  why: geometry pass couplers (DevLog-005 D106)
+- metric_id: cmp_liu2025b_rib_wg_1um-m8
+  component_id: cmp_liu2025b_rib_wg_1um
+  parameter: cladding_thickness_um
+  value: '3'
+  unit: um
+  basis: design_target
+  locator: p.3
+  notes: '3 um PECVD SiO2 cladding; etched by 2 um only in windows for the metal. Cross-note: EO row liu2025b-a holds the same value, verified at the locator (D106).'
+  why: geometry pass couplers (DevLog-005 D106)
+- metric_id: cmp_liu2025b_edge_coupler_uhna-m2
+  component_id: cmp_liu2025b_edge_coupler_uhna
+  parameter: box_thickness_um
+  value: '2.5'
+  unit: um
+  basis: design_target
+  locator: p.3
+  notes: '2.5 um BOX on the quartz handle. Cross-note: EO row liu2025b-a holds the same value, verified at the locator (D106).'
+  why: geometry pass couplers (DevLog-005 D106)
+- metric_id: cmp_liu2025b_edge_coupler_uhna-m3
+  component_id: cmp_liu2025b_edge_coupler_uhna
+  parameter: cladding_thickness_um
+  value: '3'
+  unit: um
+  basis: design_target
+  locator: p.3
+  notes: 3 um PECVD SiO2, chosen thick to keep a large mode for coupling. Coupler formed by patterning the 180 nm slab; tip width and length not stated.
+  why: geometry pass couplers (DevLog-005 D106)

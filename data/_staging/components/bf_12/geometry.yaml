@@ -1,0 +1,30 @@
+# Geometry pass for the layout viewer (DevLog-005 D102-D111, 2026-10-20; families couplers / passives / actives); applied after patch, sweep, gapfill, addendum.
+add_metrics:
+- metric_id: cmp_kieninger2020_mmi-m5
+  component_id: cmp_kieninger2020_mmi
+  parameter: core_thickness_nm
+  value: 220
+  unit: nm
+  basis: design_target
+  locator: p.2 Sec. 2, Fig. 1(b)
+  notes: Si height stated as about 220 nm for the phase-shifter rails; the MMI is patterned in the same 200 mm SOI device layer (its own thickness is not stated separately). MMI width and length not stated.
+  qualifier: approx
+  why: 'DevLog-005 D106 geometry pass (passives): template dimension reported by the source'
+- metric_id: cmp_kieninger2020_mmi-m6
+  component_id: cmp_kieninger2020_mmi
+  parameter: box_thickness_um
+  value: 2
+  unit: um
+  basis: design_target
+  locator: p.2 Sec. 2
+  notes: 2 um buried oxide separating the waveguides from the Si substrate (chip-level statement).
+  why: 'DevLog-005 D106 geometry pass (passives): template dimension reported by the source'
+- metric_id: cmp_kieninger2020_mmi-m7
+  component_id: cmp_kieninger2020_mmi
+  parameter: cladding_thickness_um
+  value: 3
+  unit: um
+  basis: design_target
+  locator: p.2 Sec. 2
+  notes: 3 um SiO2 top cladding covering the whole chip, opened only above the phase shifters; the MMIs sit below the contact pads.
+  why: 'DevLog-005 D106 geometry pass (passives): template dimension reported by the source'

@@ -211,6 +211,11 @@ parameters:
   heater_length_um: {unit: um, kind: geometry, conditions: [], classes: [phase_shifter, switch_fabric, resonator, wdm], def: "heater length"}
   heater_width_um: {unit: um, kind: geometry, conditions: [], classes: [phase_shifter, switch_fabric, resonator, wdm], def: "heater width"}
   ridge_width_um: {unit: um, kind: geometry, conditions: [], classes: [laser, amplifier, photodetector], def: "ridge / mesa width of an active waveguide"}
+  lower_width_nm: {unit: nm, kind: geometry, conditions: [], classes: [waveguide_platform, fiber_chip_coupler, chip_chip_coupler, mode_converter], def: "lower-layer waveguide width of an inter-layer structure (upper layer: width_nm)"}
+  overlay_slab_thickness_um: {unit: um, kind: geometry, conditions: [], classes: [fiber_chip_coupler], def: "slab thickness of a rib-shaped overlay waveguide (total height: overlay_thickness_um)"}
+  subwavelength_period_nm: {unit: nm, kind: geometry, conditions: [], classes: [fiber_chip_coupler, free_space_emitter, waveguide_platform, splitter, crossing], def: "period of a transverse or sub-wavelength (SWG) structure, distinct from the diffraction-grating period_nm"}
+  heater_thickness_nm: {unit: nm, kind: geometry, conditions: [], classes: [phase_shifter, switch_fabric, resonator, wdm], def: "heater metal thickness (material in notes)"}
+  heater_offset_um: {unit: um, kind: geometry, conditions: [], classes: [phase_shifter, switch_fabric, resonator, wdm], def: "lateral offset of the heater centre from the waveguide centre (vertical distance: heater_gap_um)"}
   # --- shared geometry
   width_nm: {unit: nm, kind: geometry, conditions: [], classes: "*", def: "waveguide / feature width as stated"}
   core_thickness_nm: {unit: nm, kind: geometry, conditions: [], classes: "*", def: "core / device-layer thickness"}

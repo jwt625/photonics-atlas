@@ -1,0 +1,63 @@
+# Geometry pass for the layout viewer (DevLog-005 D102-D111, 2026-10-20; families couplers / passives / actives); applied after patch, sweep, gapfill, addendum.
+metrics:
+  cmp_valdez2022_mmi_2x2-m4:
+    parameter: mmi_length_um
+    value: 38
+    unit: um
+    notes: MMI length 38 um as designed (multimode section).
+    why: 'D102: the MMI body dimension was stored in the generic width_nm / length_um, which the layout viewer reads as the access waveguide / device length; repointed to the role-specific parameter, value
+      as printed in um'
+  cmp_valdez2022_mmi_2x2-m5:
+    parameter: mmi_width_um
+    value: 6
+    unit: um
+    notes: MMI width 6 um as designed (multimode section).
+    why: 'D102: the MMI body dimension was stored in the generic width_nm / length_um, which the layout viewer reads as the access waveguide / device length; repointed to the role-specific parameter, value
+      as printed in um'
+add_metrics:
+- metric_id: cmp_valdez2022_mmi_2x2-m6
+  component_id: cmp_valdez2022_mmi_2x2
+  parameter: n_inputs
+  value: 2
+  unit: count
+  basis: design_target
+  locator: p.5
+  notes: 3-dB 2x2 MMI couplers.
+  why: 'DevLog-005 D106 geometry pass (passives): template dimension reported by the source'
+- metric_id: cmp_valdez2022_mmi_2x2-m7
+  component_id: cmp_valdez2022_mmi_2x2
+  parameter: n_outputs
+  value: 2
+  unit: count
+  basis: design_target
+  locator: p.5
+  notes: 3-dB 2x2 MMI couplers.
+  why: 'DevLog-005 D106 geometry pass (passives): template dimension reported by the source'
+- metric_id: cmp_valdez2022_mmi_2x2-m8
+  component_id: cmp_valdez2022_mmi_2x2
+  parameter: core_thickness_nm
+  value: 150
+  unit: nm
+  basis: design_target
+  locator: p.5 Hybrid Si/LN Chip Fabrication
+  notes: 200 mm SOI wafer with 150 nm thick Si (wafer-level statement; the MMIs are Si features outside the bonded LN).
+  why: 'DevLog-005 D106 geometry pass (passives): template dimension reported by the source'
+- metric_id: cmp_valdez2022_mmi_2x2-m9
+  component_id: cmp_valdez2022_mmi_2x2
+  parameter: box_thickness_um
+  value: 3
+  unit: um
+  basis: design_target
+  locator: p.5 Hybrid Si/LN Chip Fabrication
+  notes: 3 um SiO2 between the 150 nm Si and the high-resistivity Si handle (wafer-level statement).
+  why: 'DevLog-005 D106 geometry pass (passives): template dimension reported by the source'
+- metric_id: cmp_valdez2022_mmi_2x2-m10
+  component_id: cmp_valdez2022_mmi_2x2
+  parameter: cladding_thickness_um
+  value: 0.05
+  unit: um
+  basis: design_target
+  locator: p.5 Hybrid Si/LN Chip Fabrication
+  notes: Deposited SiO2 CMP-planarized to a thin layer (< 50 nm) above the Si (wafer-level statement); no further cladding over the MMI region is stated.
+  qualifier: lt
+  why: 'DevLog-005 D106 geometry pass (passives): template dimension reported by the source'

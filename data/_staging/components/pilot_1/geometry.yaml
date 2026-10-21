@@ -1,0 +1,164 @@
+# Geometry pass for the layout viewer (DevLog-005 D102-D111, 2026-10-20; families couplers / passives / actives); applied after patch, sweep, gapfill, addendum.
+metrics:
+  cmp_li2026aa_ssc-m16:
+    parameter: overlay_width_um
+    value: '4.4'
+    unit: um
+    notes: optimized SiON rib width (Table 1 w6; p.2 text); entered as printed in um
+    why: 'D102 role-specific geometry: the 4.4 um SiON rib is the SSC overlay waveguide, not the LN waveguide width (value as printed in um)'
+  cmp_li2026aa_ssc-m17:
+    parameter: overlay_thickness_um
+    value: '4.2'
+    unit: um
+    notes: SiON layer thickness as deposited (4.2 um, p.8); Table 1 gives SiON rib height h1 3.2 um and slab h2 1 um (no registry parameter for the overlay slab)
+    why: 'D102 role-specific geometry: the 4.2 um SiON layer is the SSC overlay, not the LN core (value as printed in um)'
+  cmp_kohli2025_vdc_sin_bto_cband-m3:
+    parameter: lower_tip_width_nm
+    why: 'D102 role-specific geometry: the SiN taper (800 to 200 nm) is the lower layer; BTO sits about 100 nm above it'
+  cmp_kohli2025_vdc_sin_bto_cband-m6:
+    parameter: layer2_thickness_nm
+    condition: BTO layer (upper)
+    why: 'D102 role-specific geometry: BTO is the second (upper) guiding layer of the bilayer VDC'
+  cmp_valdez2023_mmi_cband-m2:
+    parameter: mmi_length_um
+    value: 39
+    unit: um
+    notes: MMI length designed from simulation (C-band design).
+    why: 'D102: the MMI body dimension was stored in the generic width_nm / length_um, which the layout viewer reads as the access waveguide / device length; repointed to the role-specific parameter, value
+      as printed in um'
+  cmp_valdez2023_mmi_cband-m3:
+    parameter: mmi_width_um
+    value: 6
+    unit: um
+    notes: MMI width 6 um stated for the MMI couplers (both bands).
+    why: 'D102: the MMI body dimension was stored in the generic width_nm / length_um, which the layout viewer reads as the access waveguide / device length; repointed to the role-specific parameter, value
+      as printed in um'
+  cmp_valdez2023_mmi_oband-m2:
+    parameter: mmi_length_um
+    value: 49
+    unit: um
+    notes: MMI length designed from simulation (O-band design).
+    why: 'D102: the MMI body dimension was stored in the generic width_nm / length_um, which the layout viewer reads as the access waveguide / device length; repointed to the role-specific parameter, value
+      as printed in um'
+  cmp_valdez2023_mmi_oband-m3:
+    parameter: mmi_width_um
+    value: 6
+    unit: um
+    notes: MMI width 6 um stated for the MMI couplers (both bands).
+    why: 'D102: the MMI body dimension was stored in the generic width_nm / length_um, which the layout viewer reads as the access waveguide / device length; repointed to the role-specific parameter, value
+      as printed in um'
+  cmp_li2022b_mmi_1x2_532-m3:
+    parameter: mmi_width_um
+    value: 4
+    unit: um
+    notes: MMI region width W_MMI 4 um (design).
+    why: 'D102: the MMI body dimension was stored in the generic width_nm / length_um, which the layout viewer reads as the access waveguide / device length; repointed to the role-specific parameter, value
+      as printed in um'
+  cmp_li2022b_mmi_1x2_532-m4:
+    parameter: mmi_length_um
+    value: 36.1
+    unit: um
+    notes: MMI region length L_MMI 36.1 um (design).
+    why: 'D102: the MMI body dimension was stored in the generic width_nm / length_um, which the layout viewer reads as the access waveguide / device length; repointed to the role-specific parameter, value
+      as printed in um'
+add_metrics:
+- metric_id: cmp_li2022b_gc_532-m9
+  component_id: cmp_li2022b_gc_532
+  parameter: core_thickness_nm
+  value: '200'
+  unit: nm
+  condition: x-cut TFLN film
+  basis: design_target
+  locator: p.2 Sec. 2 Design and fabrication
+  notes: '200 nm top LN film; GC etched to the 100 nm ridge depth (m8). Cross-note: EO row li2022b-a eo_film_thickness_nm 200, verified at the locator (D106).'
+  why: geometry pass couplers (DevLog-005 D106)
+- metric_id: cmp_li2022b_gc_532-m10
+  component_id: cmp_li2022b_gc_532
+  parameter: box_thickness_um
+  value: '2'
+  unit: um
+  basis: design_target
+  locator: p.2 Sec. 2 Design and fabrication
+  notes: '2 um thermal oxide between the LN film and the Si substrate. Cross-note: EO row li2022b-a buffer_oxide_um 2 (D106). The 300 nm SiO2 over-cladding is removed above the GC ports (p.2-3), so no cladding
+    row.'
+  why: geometry pass couplers (DevLog-005 D106)
+- metric_id: cmp_li2022b_gc_532-m11
+  component_id: cmp_li2022b_gc_532
+  parameter: width_nm
+  value: '300'
+  unit: nm
+  condition: waveguide width after the 5 um to 0.3 um taper that follows the GC
+  basis: design_target
+  locator: p.2 Sec. 2 Design and fabrication
+  notes: Taper length, grating length / width and n_periods not stated.
+  why: geometry pass couplers (DevLog-005 D106)
+- metric_id: cmp_li2026aa_ssc-m21
+  component_id: cmp_li2026aa_ssc
+  parameter: core_thickness_nm
+  value: '300'
+  unit: nm
+  condition: x-cut TFLN film (bi-layer taper layer)
+  basis: design_target
+  locator: p.2 Sec. Design of the broadband TFLN modulator
+  notes: '300 nm x-cut TFLN layer. Cross-note: EO row li2026aa-a holds the same value, verified at the locator (D106).'
+  why: geometry pass couplers (DevLog-005 D106)
+- metric_id: cmp_li2026aa_ssc-m22
+  component_id: cmp_li2026aa_ssc
+  parameter: slab_thickness_nm
+  value: '120'
+  unit: nm
+  condition: LN slab of the rib waveguide; the slab is tapered and then removed along the bi-layer taper
+  basis: design_target
+  locator: p.2 Sec. Design of the broadband TFLN modulator
+  notes: '120 nm slab height (180 nm ridge etch, p.8 Methods). Cross-note: EO row li2026aa-a holds the same value, verified at the locator (D106).'
+  why: geometry pass couplers (DevLog-005 D106)
+- metric_id: cmp_li2026aa_ssc-m23
+  component_id: cmp_li2026aa_ssc
+  parameter: width_nm
+  value: '800'
+  unit: nm
+  condition: LN ridge width w4 after the upper-layer taper (ridge tip w2 0.2 um)
+  basis: design_target
+  locator: p.4 Table 1; Fig. 2(b)
+  notes: Table 1 design value; lower slab taper widths w1 0.2, w3 2.1, w5 5 um.
+  why: geometry pass couplers (DevLog-005 D106)
+- metric_id: cmp_li2026aa_ssc-m24
+  component_id: cmp_li2026aa_ssc
+  parameter: box_thickness_um
+  value: '4.7'
+  unit: um
+  basis: design_target
+  locator: p.2 Sec. Design of the broadband TFLN modulator
+  notes: '4.7 um thermally grown SiO2 under the TFLN. Cross-note: EO row li2026aa-a holds the same value, verified at the locator (D106).'
+  why: geometry pass couplers (DevLog-005 D106)
+- metric_id: cmp_li2026aa_ssc-m25
+  component_id: cmp_li2026aa_ssc
+  parameter: cladding_thickness_um
+  value: '2'
+  unit: um
+  condition: protective PECVD SiO2 over the SiON SSC
+  basis: design_target
+  locator: p.8 Methods
+  notes: 2 um protective SiO2 deposited over the SSC after the SiON ridge etch.
+  why: geometry pass couplers (DevLog-005 D106)
+- metric_id: cmp_kohli2025_vdc_sin_bto_cband-m7
+  component_id: cmp_kohli2025_vdc_sin_bto_cband
+  parameter: gap_nm
+  value: '100'
+  unit: nm
+  qualifier: approx
+  condition: vertical gap, BTO located roughly 100 nm above the SiN
+  basis: design_target
+  locator: p.3
+  notes: '''roughly 100 nm above the SiN''. Taper length not stated separately from the 80 um VDC length (m2).'
+  why: geometry pass couplers (DevLog-005 D106)
+- metric_id: cmp_kohli2025_vdc_sin_bto_cband-m8
+  component_id: cmp_kohli2025_vdc_sin_bto_cband
+  parameter: width_nm
+  value: '800'
+  unit: nm
+  condition: SiN width at the taper start and BTO single-mode width after its taper (both 800 nm, C-band)
+  basis: design_target
+  locator: p.3
+  notes: SiN tapered 800 to 200 nm; BTO tapered 150 to 800 nm.
+  why: geometry pass couplers (DevLog-005 D106)
