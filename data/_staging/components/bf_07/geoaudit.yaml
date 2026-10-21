@@ -1,0 +1,79 @@
+# Fresh-context audits of the geometry pass (couplers; passives + actives), 2026-10-20, with coordinator rulings D113; applied after geometry.yaml.
+metrics:
+  cmp_axline2026_racetrack_l500_s410-m3:
+    parameter: coupling_length_um
+    notes: Straight length L of the racetrack (Table B.1; Fig. 1 labels the straight sections L); racetrack straight entered as coupling_length_um so the ring_bus template draws it (D102). Bend radius not
+      stated.
+    why: 'D102 role fix not applied by the geometry pass: racetrack straight length belongs in coupling_length_um (ring_bus template top view); length_um is not read by the template'
+  cmp_axline2026_racetrack_l400_s410-m3:
+    parameter: coupling_length_um
+    notes: Straight length L of the racetrack (Table B.1; Fig. 1 labels the straight sections L); racetrack straight entered as coupling_length_um so the ring_bus template draws it (D102). Bend radius not
+      stated.
+    why: 'D102 role fix not applied by the geometry pass: racetrack straight length belongs in coupling_length_um (ring_bus template top view)'
+  cmp_axline2026_racetrack_l350_s410-m3:
+    parameter: coupling_length_um
+    notes: Straight length L of the racetrack (Table B.1; Fig. 1 labels the straight sections L); racetrack straight entered as coupling_length_um so the ring_bus template draws it (D102). Bend radius not
+      stated.
+    why: 'D102 role fix not applied by the geometry pass: racetrack straight length belongs in coupling_length_um (ring_bus template top view)'
+  cmp_axline2026_racetrack_l400_s470-m3:
+    parameter: coupling_length_um
+    notes: Straight length L of the racetrack (Table B.1; Fig. 1 labels the straight sections L); racetrack straight entered as coupling_length_um so the ring_bus template draws it (D102). Bend radius not
+      stated.
+    why: 'D102 role fix not applied by the geometry pass: racetrack straight length belongs in coupling_length_um (ring_bus template top view)'
+  cmp_axline2026_racetrack_l350_s470-m5:
+    parameter: coupling_length_um
+    notes: Straight length L of the racetrack (Table B.1; Fig. 1 labels the straight sections L); racetrack straight entered as coupling_length_um so the ring_bus template draws it (D102). Bend radius not
+      stated.
+    why: 'D102 role fix not applied by the geometry pass: racetrack straight length belongs in coupling_length_um (ring_bus template top view)'
+add_metrics:
+- metric_id: cmp_churaev2023_ln_taper_transition-m4
+  component_id: cmp_churaev2023_ln_taper_transition
+  parameter: core_thickness_nm
+  value: '600'
+  unit: nm
+  condition: Si3N4 waveguide layer (lower), high-participation configuration (wafer D8812)
+  basis: design_target
+  locator: p.7 Methods Waveguide geometry; p.5
+  notes: 'p.5: the transition result is stated for the 600 nm Si3N4 configuration; the 950 nm configuration is the low-participation wafer.'
+  why: 'audit (showcase hero candidate): transition_bilayer xsec required dimension reported by the paper'
+- metric_id: cmp_churaev2023_ln_taper_transition-m5
+  component_id: cmp_churaev2023_ln_taper_transition
+  parameter: layer2_thickness_nm
+  value: '300'
+  unit: nm
+  condition: bonded x-cut LiNbO3 film (upper, tapered layer)
+  basis: design_target
+  locator: p.7 Methods Waveguide geometry
+  notes: 'LiNbO3 thickness of the NanoLN LNOI wafer. Cross-note: EO row churaev2023-a eo_film_thickness_nm 300 (D106).'
+  why: 'audit (showcase hero candidate): transition_bilayer xsec required dimension'
+- metric_id: cmp_churaev2023_ln_taper_transition-m6
+  component_id: cmp_churaev2023_ln_taper_transition
+  parameter: gap_nm
+  value: '100'
+  unit: nm
+  qualifier: approx
+  condition: SiO2 interlayer between the Si3N4 waveguides and the bonded LiNbO3
+  basis: design_target
+  locator: p.7 Methods Waveguide geometry
+  notes: interlayer SiO2 of about 100 nm (CMP-planarized before bonding, p.3); a few-nm ALD alumina bonding layer (p.3) not included.
+  why: 'audit (showcase hero candidate): transition_bilayer xsec optional dimension'
+- metric_id: cmp_churaev2023_ln_taper_transition-m7
+  component_id: cmp_churaev2023_ln_taper_transition
+  parameter: width_nm
+  value: '10000'
+  unit: nm
+  condition: LiNbO3 taper final width (upper layer)
+  basis: derived
+  locator: p.4
+  notes: printed as a final width of 10 um (taper 100 um long, tip 500 nm); unit conversion um -> nm (D82d).
+  why: 'audit (showcase hero candidate): transition_bilayer top optional dimension'
+- metric_id: cmp_churaev2023_ln_taper_transition-m8
+  component_id: cmp_churaev2023_ln_taper_transition
+  parameter: box_thickness_um
+  value: '4'
+  unit: um
+  condition: wet thermal SiO2 under the Si3N4 Damascene layer
+  basis: design_target
+  locator: p.3
+  notes: '4 um wet thermal SiO2 on the 100 mm Si wafer. Cross-note: EO row churaev2023-a substrate column (D106).'
+  why: 'audit (showcase hero candidate): transition_bilayer xsec optional dimension'

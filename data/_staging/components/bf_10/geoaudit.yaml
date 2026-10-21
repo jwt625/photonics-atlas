@@ -1,0 +1,84 @@
+# Fresh-context audits of the geometry pass (couplers; passives + actives), 2026-10-20, with coordinator rulings D113; applied after geometry.yaml.
+metrics:
+  cmp_celik2022_dc_5050-m2:
+    parameter: coupling_length_um
+    notes: Coupler length 37 um of the tapered coupling region (waveguides taper to 520 nm top width 'to reduce the coupler length to 37 um', p.5); design value (SEM image shown, length not stated as measured).
+      Gap not stated.
+    why: 'D102 role fix not applied by the geometry pass (same kind as larocque2024 m3): the directional-coupler length is the dc template required coupling_length_um, not the generic length_um'
+add_metrics:
+- metric_id: cmp_he2019_vac_si_ln-m7
+  component_id: cmp_he2019_vac_si_ln
+  parameter: lower_width_nm
+  value: '500'
+  unit: nm
+  condition: Si waveguide width at the start of the inverse taper (lower layer, 500 to 80 nm)
+  basis: design_target
+  locator: p.4
+  why: 'audit: D111 lower_width_nm (registry gap the geometry pass reported) not yet entered; role-specific lower-layer width'
+- metric_id: cmp_wang2024b_spiral_1p75um-m7
+  component_id: cmp_wang2024b_spiral_1p75um
+  parameter: core_thickness_nm
+  value: '600'
+  unit: nm
+  condition: x-cut LiTaO3 film (D101 photonic wafer)
+  basis: design_target
+  locator: p.8 Methods; p.3
+  notes: 'film thinned by CMP to 600 nm (p.8); spiral cross-section printed 1.75 um x 0.6 um (p.3). Cross-note: EO row wang2024b-a eo_film_thickness_nm 600 (D106).'
+  why: 'audit (showcase hero candidate): waveguide_xsec required dimension reported by the paper'
+- metric_id: cmp_wang2024b_spiral_1p75um-m8
+  component_id: cmp_wang2024b_spiral_1p75um
+  parameter: etch_depth_nm
+  value: '500'
+  unit: nm
+  basis: design_target
+  locator: p.8 Methods LTOI PICs fabrication
+  notes: main IBE etch of the photonic layer removes 500 nm. EO row wang2024b-a holds 220 nm etch / 400 nm slab, which is the MZM process (p.5), not this spiral.
+  why: 'audit (showcase hero candidate): waveguide_xsec optional dimension'
+- metric_id: cmp_wang2024b_spiral_1p75um-m9
+  component_id: cmp_wang2024b_spiral_1p75um
+  parameter: slab_thickness_nm
+  value: '100'
+  unit: nm
+  basis: design_target
+  locator: p.8 Methods LTOI PICs fabrication
+  notes: continuous 100 nm LiTaO3 slab left across the wafer after the main etch.
+  why: 'audit (showcase hero candidate): waveguide_xsec optional dimension'
+- metric_id: cmp_wang2024b_spiral_1p75um-m10
+  component_id: cmp_wang2024b_spiral_1p75um
+  parameter: box_thickness_um
+  value: '4.7'
+  unit: um
+  basis: design_target
+  locator: p.8 Methods
+  notes: '4.7 um thermal SiO2 on the high-resistivity Si carrier. Cross-note: EO row wang2024b-a buffer_oxide_um 4.7 (D106). Upper cladding of the spiral not stated per device (process deposits 2 um PECVD
+    SiO2; air-clad devices also made), not entered.'
+  why: 'audit (showcase hero candidate): waveguide_xsec optional dimension'
+- metric_id: cmp_wang2024b_spiral_1p75um-m11
+  component_id: cmp_wang2024b_spiral_1p75um
+  parameter: sidewall_angle_deg
+  value: '70'
+  unit: deg
+  qualifier: approx
+  basis: measured
+  locator: p.3; Fig. 1(j)
+  notes: cleaved cross-section shows sidewall angles of almost 70 deg to the surface (paper statement, not read off the micrograph).
+  why: 'audit (showcase hero candidate): waveguide_xsec optional dimension'
+- metric_id: cmp_he2019_vac_si_ln-m8
+  component_id: cmp_he2019_vac_si_ln
+  parameter: layer2_thickness_nm
+  value: '600'
+  unit: nm
+  condition: LN rib (upper), 420 nm slab plus 180 nm rib height
+  basis: derived
+  locator: p.3
+  notes: sum of the stated slab thickness 420 nm and rib height 180 nm. Si layer thickness not stated (not entered).
+  why: 'audit miss (optional): transition_bilayer xsec required dimension'
+- metric_id: cmp_he2019_vac_si_ln-m9
+  component_id: cmp_he2019_vac_si_ln
+  parameter: box_thickness_um
+  value: '3'
+  unit: um
+  basis: design_target
+  locator: p.15 Supp. Sec. II
+  notes: 'h_SiO 3 um in the cross-section model; EO row substrate column: SOI (3 um SiO2 on silicon).'
+  why: audit miss (optional)

@@ -1,0 +1,68 @@
+# Fresh-context audits of the geometry pass (couplers; passives + actives), 2026-10-20, with coordinator rulings D113; applied after geometry.yaml.
+metrics:
+  cmp_guo2026_gc_532-m10:
+    locator: p.13 Methods Device fabrication; p.5 Fig. 2(a)
+    notes: '800 nm PECVD SiO2 over the device (p.13); Fig. 2(a) labels the cladding 0.8 um, the value as entered. Removal above the GC not stated. Cross-note: same value as EO row guo2026-a, verified at
+      the locator (D106).'
+    why: 'audit: the um value is printed in Fig. 2(a) (text prints 800 nm); without the figure locator the row is a unit conversion that D82d / D111 would mark derived'
+  cmp_guo2026_gc_532-m11:
+    locator: p.4 Device design; p.5 Fig. 2(a)
+    notes: 'Fig. 2(a) inset labels the ridge width 400 nm (text: 0.4 um). The taper starts at 5 um next to the GC; the grating width itself is not stated and Fig. 2(b) is unlabelled. Taper length and grating
+      length not stated.'
+    why: 'audit: 400 nm is printed in Fig. 2(a) (text prints 0.4 um); grating-width ruling recorded (taper wide end 5 um is not a stated grating width)'
+  cmp_guo2026_wg_ridge_1um-m6:
+    locator: p.13 Methods Device fabrication; p.5 Fig. 2(a)
+    notes: '800 nm PECVD SiO2, no post annealing (p.13); Fig. 2(a) labels 0.8 um, the value as entered. Cross-note: same value as EO row guo2026-a, verified at the locator (D106).'
+    why: 'audit: the um value is printed in Fig. 2(a); otherwise a unit conversion (D82d)'
+  cmp_guo2026_wg_ridge_0p4um-m6:
+    locator: p.13 Methods Device fabrication; p.5 Fig. 2(a)
+    notes: '800 nm PECVD SiO2, no post annealing (p.13); Fig. 2(a) labels 0.8 um, the value as entered. Cross-note: same value as EO row guo2026-a, verified at the locator (D106).'
+    why: 'audit: the um value is printed in Fig. 2(a); otherwise a unit conversion (D82d)'
+add_metrics:
+- metric_id: cmp_guo2026_wg_ridge_1um-m7
+  component_id: cmp_guo2026_wg_ridge_1um
+  parameter: sidewall_angle_deg
+  value: '60'
+  unit: deg
+  qualifier: approx
+  basis: author_estimate
+  locator: p.13 Methods Device fabrication
+  notes: about 60 deg as determined by the etching process; how it was determined not stated (same basis as cmp_guo2026_tops-m7).
+  why: 'audit miss: xsec_common optional dimension reported by the paper'
+- metric_id: cmp_guo2026_wg_ridge_1um-m8
+  component_id: cmp_guo2026_wg_ridge_1um
+  parameter: slab_thickness_nm
+  value: '100'
+  unit: nm
+  basis: derived
+  locator: p.13 Methods Device fabrication; p.5 Fig. 2(a)
+  notes: 200 nm film minus 100 nm ridge height (half the film); Fig. 2(a) inset labels 100 nm.
+  why: 'audit miss: xsec_common optional dimension'
+- metric_id: cmp_guo2026_wg_ridge_0p4um-m7
+  component_id: cmp_guo2026_wg_ridge_0p4um
+  parameter: sidewall_angle_deg
+  value: '60'
+  unit: deg
+  qualifier: approx
+  basis: author_estimate
+  locator: p.13 Methods Device fabrication
+  notes: about 60 deg as determined by the etching process; how it was determined not stated.
+  why: 'audit miss: xsec_common optional dimension reported by the paper'
+- metric_id: cmp_guo2026_wg_ridge_0p4um-m8
+  component_id: cmp_guo2026_wg_ridge_0p4um
+  parameter: slab_thickness_nm
+  value: '100'
+  unit: nm
+  basis: derived
+  locator: p.13 Methods Device fabrication; p.5 Fig. 2(a)
+  notes: 200 nm film minus 100 nm ridge height; Fig. 2(a) inset labels 100 nm.
+  why: 'audit miss: xsec_common optional dimension'
+- metric_id: cmp_guo2026_gc_532-m12
+  component_id: cmp_guo2026_gc_532
+  parameter: slab_thickness_nm
+  value: '100'
+  unit: nm
+  basis: derived
+  locator: p.13 Methods Device fabrication
+  notes: 'GC etched in the same 100 nm step as the waveguides: 200 nm film minus 100 nm.'
+  why: 'audit miss: gc_1d xsec optional dimension'

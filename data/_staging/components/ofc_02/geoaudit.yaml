@@ -1,0 +1,20 @@
+# Fresh-context audits of the geometry pass (couplers; passives + actives), 2026-10-20, with coordinator rulings D113; applied after geometry.yaml.
+add_metrics:
+- metric_id: cmp_ofc2026_w4b6_dual_mode_gc-m15
+  component_id: cmp_ofc2026_w4b6_dual_mode_gc
+  parameter: core_thickness_nm
+  value: '220'
+  unit: nm
+  basis: design_target
+  locator: p.~2 Sec. 3
+  notes: 220 nm top Si of the SOI wafer (full etch 220 nm, p.~1 Sec. 2).
+  why: 'audit miss (optional): gc_1d xsec required dimension'
+- metric_id: cmp_ofc2026_w4b6_dual_mode_gc-m16
+  component_id: cmp_ofc2026_w4b6_dual_mode_gc
+  parameter: box_thickness_um
+  value: '2'
+  unit: um
+  basis: design_target
+  locator: p.~2 Sec. 3
+  notes: 2 um buried SiO2.
+  why: audit miss (optional)

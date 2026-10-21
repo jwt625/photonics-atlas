@@ -1,0 +1,21 @@
+# Fresh-context audits of the geometry pass (couplers; passives + actives), 2026-10-20, with coordinator rulings D113; applied after geometry.yaml.
+metrics:
+  cmp_ectc51909_2023_00009_rib_waveguide-m4:
+    basis: derived
+    notes: 800 nm thick BOX under the 310 nm SOI film; unit conversion nm -> um, value differs from the printed number (D82d).
+    why: 'audit: printed 800 nm entered as 0.8 um; D82d / D111 unit rescaling is derived (as cmp_ectc51909_2023_00009_ge_pd-m9)'
+  cmp_ectc51909_2023_00009_deep_rib_waveguide-m4:
+    basis: derived
+    notes: 800 nm thick BOX under the 310 nm SOI film; unit conversion nm -> um, value differs from the printed number (D82d).
+    why: 'audit: printed 800 nm entered as 0.8 um; D82d / D111 unit rescaling is derived'
+add_metrics:
+- metric_id: cmp_ectc51909_2023_00009_ge_pd-m10
+  component_id: cmp_ectc51909_2023_00009_ge_pd
+  parameter: cladding_thickness_um
+  value: 0.6
+  unit: um
+  basis: derived
+  locator: p.3 Sec. III.A
+  notes: SiO2 deposited and planarized to 600 nm over the 300 nm thick Si photonic structures (printed 600 nm, converted, D82d); further dielectrics (heater encapsulation, BEOL) follow, total stack above
+    the PD not stated.
+  why: optional template xsec dimension

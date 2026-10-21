@@ -1,0 +1,36 @@
+# Fresh-context audits of the geometry pass (couplers; passives + actives), 2026-10-20, with coordinator rulings D113; applied after geometry.yaml.
+metrics:
+  cmp_boynton2020_mmi_2x2-m5:
+    basis: derived
+    notes: Access waveguide width printed as 1.2 um at the start of the tapers into the MMI slab (design); unit conversion um -> nm, value differs from the printed number (D82d).
+    why: 'D111 / D82d: a unit-rescaled dimension is derived with the printed value in notes (the actives pass applied this to every nm -> um conversion; the passives pass did not)'
+  cmp_luan2026a_mmi_strip_slot-m3:
+    parameter: mmi_width_um
+    value: 1.48
+    unit: um
+    basis: design_target
+    notes: MMI width 1.48 um (value as printed, p.2); 1x2 MMI strip-to-slot converter.
+    why: 'D102 role fix not applied by the geometry pass (same kind as the splitter MMIs): the MMI body width belongs in mmi_width_um (allowed for mode_converter); value back to the printed um number'
+  cmp_luan2026a_mmi_strip_slot-m4:
+    parameter: mmi_length_um
+    notes: MMI length 1.58 um (value as printed, p.2).
+    why: 'D102 role fix: the MMI body length belongs in mmi_length_um, not the generic device length_um'
+add_metrics:
+- metric_id: cmp_boynton2020_mmi_2x2-m7
+  component_id: cmp_boynton2020_mmi_2x2
+  parameter: n_inputs
+  value: 2
+  unit: count
+  basis: design_target
+  locator: p.7
+  notes: 4-port MMI 3 dB coupler (2 x 2).
+  why: optional mmi template port count (non-showcase MMI, simulated loss only)
+- metric_id: cmp_boynton2020_mmi_2x2-m8
+  component_id: cmp_boynton2020_mmi_2x2
+  parameter: n_outputs
+  value: 2
+  unit: count
+  basis: design_target
+  locator: p.7
+  notes: 4-port MMI 3 dB coupler (2 x 2).
+  why: optional mmi template port count

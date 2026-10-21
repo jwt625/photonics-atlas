@@ -1,0 +1,18 @@
+# Fresh-context audits of the geometry pass (couplers; passives + actives), 2026-10-20, with coordinator rulings D113; applied after geometry.yaml.
+metrics:
+  cmp_ofc2026_th3f2_apd_l10_oband-m4:
+    parameter: absorber_length_um
+    notes: APD length 10 um (the O- and C-band APDs 'only differ in their lengths'); the Ge absorber is grown in a deep recess along the waveguide-coupled device, so the device length is the absorber length,
+      as for Th3F.1 / Th3F.3 (same treatment).
+    why: consistency with the pass own Th3F.1 (Ge PD length 40 um) and Th3F.3 (device length 10 / 20 um) rows, entered as absorber_length_um; the ge_pd template requires absorber_length_um
+  cmp_ofc2026_th3f2_apd_l30_cband-m6:
+    parameter: absorber_length_um
+    notes: APD length 30 um (the O- and C-band APDs 'only differ in their lengths'); the Ge absorber is grown in a deep recess along the waveguide-coupled device, so the device length is the absorber length,
+      as for Th3F.1 / Th3F.3 (same treatment).
+    why: consistency with the pass own Th3F.1 / Th3F.3 device-length rows entered as absorber_length_um; the ge_pd template requires absorber_length_um
+  cmp_ofc2026_th3f2_apd_l10_oband-m11:
+    notes: nominal absorption-region width W_A printed as 200 nm; unit conversion nm -> um, value differs from the printed number (D82d).
+    why: stale note after the m4 repoint (no length_um row remains)
+  cmp_ofc2026_th3f2_apd_l30_cband-m11:
+    notes: nominal absorption-region width W_A printed as 200 nm; unit conversion nm -> um, value differs from the printed number (D82d).
+    why: stale note after the m6 repoint (no length_um row remains)

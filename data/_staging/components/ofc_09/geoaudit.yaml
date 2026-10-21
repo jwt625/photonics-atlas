@@ -1,0 +1,12 @@
+# Fresh-context audits of the geometry pass (couplers; passives + actives), 2026-10-20, with coordinator rulings D113; applied after geometry.yaml.
+metrics:
+  cmp_ofc2026_th1d6_gesilica_ring_d1p5mm-m14:
+    basis: derived
+    notes: Waveguide width printed as varied between 3 and 30 um across the studied 1.5 mm diameter rings (unit conversion um -> nm, D82d); the width of the ring behind the Q values is not stated, so this
+      range is the study design span, not this ring's width.
+    why: 'D111 / D82d: a unit-rescaled dimension is derived with the printed value in notes'
+delete_metrics:
+- id: cmp_ofc2026_th1d6_gesilica_ring_d1p5mm-m14
+  why: range is the study design span, not the Q-record ring width (not reported)
+- id: cmp_ofc2026_th1d6_gesilica_ring_d1p5mm-m15
+  why: range is the study span of the thermal oxide, not the Q-record ring BOX (not reported)

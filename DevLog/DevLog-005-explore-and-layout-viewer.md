@@ -30,7 +30,8 @@ taken or reserved by other DevLogs).
 | D109 | Batches for the geometry pass are grouped by template family (couplers: gc_1d, edge_taper, transition_bilayer, waveguide_xsec; passives: ring_bus, mmi, dc, y_branch, awg; actives: ge_pd, heater_ps, ridge_laser). Output is a replayable `geometry.yaml` per staging batch (after patch / sweep / gapfill / addendum), plus showcase rows; then a fresh-context audit per family | same replayable patch model as D50 / D83h |
 | D110 | Per-class detail: each template's parameter list doubles as the class's "detail spec"; the geometry pass also enters missing performance values of the template's primary metric for the showcase components | "more detailed info per class" with the same contract |
 | D111 | (geometry-pass rulings) Registry additions: lower_width_nm, overlay_slab_thickness_um, subwavelength_period_nm (W4B.6 m12 repointed: its 500 nm is the transverse SWG period, not the grating period), heater_thickness_nm, heater_offset_um; templates updated. heater_length_um only when the paper states the heater length: a stated phase-section length stays length_um and the heater length is drawn as "not reported" (actives pass rows dropped). Unit rescaling keeps D82d (derived, printed value in notes). Angles printed from the chip normal are converted to the registry's angle-to-film-plane convention as derived with the printed value in notes (larocque2024 35 deg -> 55 deg). A component reported only with simulated performance is not a showcase `typical` (boynton2020 MMI) | geometry pass reports |
-| D112 | Templates that stay without a hero or typical row (no source reports the required dimensions with a measured primary metric): dc hero, y_branch, awg hero, gc_1d SOI hero; the gallery shows these gaps instead of filling them | honesty rule D104 |
+| D112 | Templates that stay without a hero or typical row (no source reports the required dimensions with a measured primary metric): dc hero, y_branch, awg hero, gc_1d SOI hero, heater_ps hero (no source states a heater length, D111 / D113); the gallery shows these gaps instead of filling them | honesty rule D104 |
+| D113 | (geometry-audit rulings) Optional blocks applied where the dimension is stated or follows from stated values by subtraction (guo2026 sidewall / slab, hu2026a LN core, he2019 LN stack, W4B.6 stack, li2022b GC slab, boynton2020 port counts, CEA-Leti PD cladding); not applied when it rests on a reading or an assumption (liu2025b edge-coupler core from the slab reading, wu2025 Si-TFLN gap from an as-spun BCB thickness). Study-wide design spans are not a component's dimension (Th1D.6 width / BOX ranges deleted). Racetrack straight sections and DC coupling sections are coupling_length_um; Ge / absorber lengths absorber_length_um; MMI bodies of mode converters mmi_*. Showcase: ring_bus hero is ranked under D105 (radius required only): M1D.4 replaces montifiore2026; heater_ps has no hero (heater length never stated); waveguide_xsec hero wang2024b (0.08 dB/cm, full LTOI stack) and transition hero churaev2023 (< 0.1 dB, 100 um taper, both layers) replace m4d5 and kohli2025; kieninger2020 (mmi typical), theurer2026 (ridge_laser typical, template-level median: laser.soa_dfb has 4 rows) and the SOI-only ge_pd set are kept with the deviation recorded | geometry audits (couplers; passives + actives) |
 
 ## Registry additions (D102), contract v5
 
@@ -46,10 +47,11 @@ Geometry parameters (kind geometry): `box_thickness_um`, `cladding_thickness_um`
 
 - [x] Dashboard crosswalk panel hidden; table / pane scrolling fixed and verified (D-none, commit 046e961).
 - [x] DevLog-005 plan; registry additions; `component_layouts.yaml`; showcase table schema.
-- [ ] Explore page (subagent, D100-D101), screenshots, fresh-context UI audit.
-- [ ] Layout viewer (subagent, D103-D104, D108) on the existing geometry, then on the geometry pass output.
+- [x] Explore page (subagent, D100-D101): 12 panels, 20 tests, screenshots reviewed (panel c changed to edge-coupler loss per facet by platform: no chip-side MFD in the data).
+- [ ] Fresh-context UI audit of Explore and the layout viewer.
+- [x] Layout viewer (subagent, D103-D104, D108): 12 template scenes in scene.ts, gallery, components-panel section, /layout?id=, honesty test over all served components; screenshots reviewed.
 - [x] Geometry pass: 3 family batches (D105-D107, D109-D110), showcase selection (35 rows), applied as geometry.yaml in 22 batches.
-- [ ] Fresh-context audits of the geometry pass (couplers; passives + actives).
+- [x] Fresh-context audits of the geometry pass (couplers: 91 ops, 0 wrong values, 8 basis / role fixes, 2 heroes swapped; passives + actives: 105 ops, 0 wrong, 14 role repoints, 12 misses, ring / heater showcase rulings); applied as geoaudit.yaml (D113).
 - [ ] Views rebuild, validator, tests, app check / build, screenshots; commit and push; update README.
 
 ## Progress

@@ -1,0 +1,110 @@
+# Fresh-context audits of the geometry pass (couplers; passives + actives), 2026-10-20, with coordinator rulings D113; applied after geometry.yaml.
+components:
+  cmp_wu2025_vac_si_sin:
+    notes: Si tapered 450 to 160 nm, SiN widened 350 nm to 1 um (entered as lower_width_nm, lower_tip_width_nm, tip_width_nm, width_nm under contract v5 / D111). Used in the SiN edge-coupler path.
+    why: 'audit: stale note; lower_width_nm exists since D111 and the Si input width is now entered'
+  cmp_liu2026d_tops_bg:
+    notes: 'Gold wire heater (same 900 nm Au layer as the CPW), four-pass meander beside one arm, dummy wire at the other arm; heater resistance about 80 ohm (all designs). TO 3-dB bandwidth (Table 1) not
+      entered: no phase-shifter bandwidth parameter in the registry. Design 1 bias section of liu2026d-a..d; Table 1 TO BW 7.8 / 7.3 / 7.3 / 7.7 kHz at 445 / 461 / 488 / 520 nm.'
+    why: 'D113: stale sentence (platform is lnoi_strip in the table); geometry audit PA optional block'
+  cmp_liu2026d_tops_or:
+    notes: 'Gold wire heater (same 900 nm Au layer as the CPW), four-pass meander beside one arm, dummy wire at the other arm; heater resistance about 80 ohm (all designs). TO 3-dB bandwidth (Table 1) not
+      entered: no phase-shifter bandwidth parameter in the registry. Design 2 bias section of liu2026d-e,f; Table 1 TO BW 7.3 / 7.5 kHz at 594 / 640 nm.'
+    why: 'D113: stale sentence (platform is lnoi_strip in the table); geometry audit PA optional block'
+  cmp_liu2026d_tops_nir:
+    notes: 'Gold wire heater (same 900 nm Au layer as the CPW), four-pass meander beside one arm, dummy wire at the other arm; heater resistance about 80 ohm (all designs). TO 3-dB bandwidth (Table 1) not
+      entered: no phase-shifter bandwidth parameter in the registry. Design 3 bias section of liu2026d-g,h; Table 1 TO BW 6.4 kHz at 940 nm (text p.6 gives a 6.6-7.8 kHz range for the three devices: inconsistent
+      with the table).'
+    why: 'D113: stale sentence (platform is lnoi_strip in the table); geometry audit PA optional block'
+metrics:
+  cmp_wu2025_vac_si_sin-m5:
+    basis: derived
+    notes: printed as 1 um (SiN widened 350 nm to 1 um); unit conversion um -> nm (D82d).
+    why: 'audit: value differs from the printed number (1 um -> 1000 nm), D82d / D111; stale lower-width note replaced by m10'
+  cmp_wu2025_sin_edge_coupler-m4:
+    basis: derived
+    notes: printed as 1 um (inverse taper 1 um to 350 nm); unit conversion um -> nm (D82d). Taper length not stated.
+    why: 'audit: value differs from the printed number (1 um -> 1000 nm), D82d / D111'
+  cmp_wu2025_ge_pd-m7:
+    parameter: absorber_length_um
+    notes: 'Ge waveguide ''designed in phase matching with the Si waveguide beneath'' over a device length of 55 um (p.6): the Ge absorber spans the device length.'
+    why: 'D102 role fix not applied by the geometry pass: the row note already calls it the Ge absorber length; the ge_pd template requires absorber_length_um (same treatment as Th3F.1 / Th3F.3)'
+add_metrics:
+- metric_id: cmp_wu2025_vac_si_sin-m10
+  component_id: cmp_wu2025_vac_si_sin
+  parameter: lower_width_nm
+  value: '450'
+  unit: nm
+  condition: Si (lower layer) width at the taper start (450 to 160 nm)
+  basis: design_target
+  locator: p.5 Interlayer and fiber-to-chip coupling
+  why: 'audit: D111 lower_width_nm (registry gap the geometry pass reported) not yet entered (showcase hero)'
+- metric_id: cmp_wu2025_vac_si_tfln-m9
+  component_id: cmp_wu2025_vac_si_tfln
+  parameter: lower_width_nm
+  value: '450'
+  unit: nm
+  condition: Si (lower layer) width at the taper start (450 to 180 nm)
+  basis: design_target
+  locator: p.5 Interlayer and fiber-to-chip coupling
+  why: 'audit: D111 lower_width_nm not yet entered'
+- metric_id: cmp_liu2026d_tops_bg-m12
+  component_id: cmp_liu2026d_tops_bg
+  parameter: heater_thickness_nm
+  value: 900
+  unit: nm
+  basis: design_target
+  locator: p.4 Methods Design and Fabrication; p.2 Fig. 1(d)
+  notes: 'Au heater: the 900 nm thick gold layer forms both the CPW electrodes and the heater resistors (Fig. 1(d) labels 900 nm). Material: Au.'
+  why: 'geometry-pass miss: heater_thickness_nm (D111 registry addition) is stated for this showcase family; heater_ps template cross-section'
+- metric_id: cmp_liu2026d_tops_bg-m13
+  component_id: cmp_liu2026d_tops_bg
+  parameter: heater_gap_um
+  value: 0.25
+  unit: um
+  basis: derived
+  locator: p.2 Fig. 1(d)
+  notes: Vertical distance from the LN top to the heater bottom, labelled 250 nm in the TO phase-shifter cross-section of the platform schematic (heater in a shallow trench of the 1.6 um cladding, p.4);
+    printed 250 nm, unit conversion nm -> um (D82d). Figure label, not measured off the drawing; platform-level schematic for all three designs. Lateral heater-waveguide spacing not stated (larger for the
+    NIR design, p.6).
+  why: 'geometry-pass miss: the cross-section figure labels the heater-to-waveguide vertical gap (heater_gap_um; heater_offset_um is the lateral offset per D111)'
+- metric_id: cmp_liu2026d_tops_or-m9
+  component_id: cmp_liu2026d_tops_or
+  parameter: heater_thickness_nm
+  value: 900
+  unit: nm
+  basis: design_target
+  locator: p.4 Methods Design and Fabrication; p.2 Fig. 1(d)
+  notes: 'Au heater: the 900 nm thick gold layer forms both the CPW electrodes and the heater resistors (Fig. 1(d) labels 900 nm). Material: Au.'
+  why: 'geometry-pass miss: heater_thickness_nm (D111 registry addition) is stated for this showcase family; heater_ps template cross-section'
+- metric_id: cmp_liu2026d_tops_or-m10
+  component_id: cmp_liu2026d_tops_or
+  parameter: heater_gap_um
+  value: 0.25
+  unit: um
+  basis: derived
+  locator: p.2 Fig. 1(d)
+  notes: Vertical distance from the LN top to the heater bottom, labelled 250 nm in the TO phase-shifter cross-section of the platform schematic (heater in a shallow trench of the 1.6 um cladding, p.4);
+    printed 250 nm, unit conversion nm -> um (D82d). Figure label, not measured off the drawing; platform-level schematic for all three designs. Lateral heater-waveguide spacing not stated (larger for the
+    NIR design, p.6).
+  why: 'geometry-pass miss: the cross-section figure labels the heater-to-waveguide vertical gap (heater_gap_um; heater_offset_um is the lateral offset per D111)'
+- metric_id: cmp_liu2026d_tops_nir-m8
+  component_id: cmp_liu2026d_tops_nir
+  parameter: heater_thickness_nm
+  value: 900
+  unit: nm
+  basis: design_target
+  locator: p.4 Methods Design and Fabrication; p.2 Fig. 1(d)
+  notes: 'Au heater: the 900 nm thick gold layer forms both the CPW electrodes and the heater resistors (Fig. 1(d) labels 900 nm). Material: Au.'
+  why: 'geometry-pass miss: heater_thickness_nm (D111 registry addition) is stated for this showcase family; heater_ps template cross-section'
+- metric_id: cmp_liu2026d_tops_nir-m9
+  component_id: cmp_liu2026d_tops_nir
+  parameter: heater_gap_um
+  value: 0.25
+  unit: um
+  basis: derived
+  locator: p.2 Fig. 1(d)
+  notes: Vertical distance from the LN top to the heater bottom, labelled 250 nm in the TO phase-shifter cross-section of the platform schematic (heater in a shallow trench of the 1.6 um cladding, p.4);
+    printed 250 nm, unit conversion nm -> um (D82d). Figure label, not measured off the drawing; platform-level schematic for all three designs. Lateral heater-waveguide spacing not stated (larger for the
+    NIR design, p.6).
+  why: 'geometry-pass miss: the cross-section figure labels the heater-to-waveguide vertical gap (heater_gap_um; heater_offset_um is the lateral offset per D111)'

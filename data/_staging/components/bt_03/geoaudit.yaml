@@ -1,0 +1,13 @@
+# Fresh-context audits of the geometry pass (couplers; passives + actives), 2026-10-20, with coordinator rulings D113; applied after geometry.yaml.
+metrics:
+  cmp_luan2026_mmi_strip_slot-m3:
+    parameter: mmi_width_um
+    value: 1.22
+    unit: um
+    basis: design_target
+    notes: MMI width 1.22 um (value as printed, p.2); 1x2 MMI strip-to-slot converter.
+    why: 'D102 role fix not applied by the geometry pass: the MMI body width belongs in mmi_width_um (allowed for mode_converter); value back to the printed um number'
+  cmp_luan2026_mmi_strip_slot-m4:
+    parameter: mmi_length_um
+    notes: MMI length 1.3 um (value as printed, p.2).
+    why: 'D102 role fix: the MMI body length belongs in mmi_length_um, not the generic device length_um'

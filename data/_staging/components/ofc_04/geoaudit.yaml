@@ -1,0 +1,20 @@
+# Fresh-context audits of the geometry pass (couplers; passives + actives), 2026-10-20, with coordinator rulings D113; applied after geometry.yaml.
+add_metrics:
+- metric_id: cmp_ofc2026_m1g3_qd_dfb_memristor-m10
+  component_id: cmp_ofc2026_m1g3_qd_dfb_memristor
+  parameter: ridge_width_um
+  value: 4
+  unit: um
+  basis: design_target
+  locator: p.~2 Sec. 2
+  notes: III-V p-mesa width 4 um (value as printed); the QD active region below it is 5 um wide (no registry parameter). The Si rib under the mesa is 1.5 um wide (m6).
+  why: 'geometry-pass miss: the paper states the p-mesa width; ridge_width_um is the ridge_laser template required cross-section dimension (DevLog-005 D102)'
+- metric_id: cmp_ofc2026_w3f5_crow_2nd_order-m6
+  component_id: cmp_ofc2026_w3f5_crow_2nd_order
+  parameter: coupling_length_um
+  value: 20
+  unit: um
+  basis: design_target
+  locator: p.~2 Fig. 1 caption
+  notes: Coupling length Lc = 20 um of the CROW rings (caption symbol list, with R = 120 um); previously only in the radius_um row note.
+  why: 'geometry-pass miss: a stated racetrack coupling length belongs in coupling_length_um (ring_bus template top view, D102)'

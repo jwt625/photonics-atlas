@@ -1,0 +1,93 @@
+# Fresh-context audits of the geometry pass (couplers; passives + actives), 2026-10-20, with coordinator rulings D113; applied after geometry.yaml.
+components:
+  cmp_li2022b_mmi_1x2_532:
+    notes: Splitter and combiner of the 532 nm MZM (EO row li2022b-a counts two MMIs as 1.6 dB in its on-chip IL breakdown). Loss from a test structure of five cascaded MMIs between two GCs. Output-port
+      separation Y_MMI 2.08 um (design) entered as pitch_um (m6, D102). Input/output waveguides 1.5 um wide (m5). Fabricated in the authors' laboratory (EBL, dry etch); the laboratory's organization is
+      not named, so fab_org_ids is empty (NanoLN is the wafer supplier).
+    why: 'stale note: pitch_um covers splitter port pitch since D102 and the value is now entered'
+metrics:
+  cmp_li2026aa_ssc-m17:
+    notes: SiON layer thickness as deposited (4.2 um, p.8) = total overlay height; Table 1 gives the SiON rib height h1 3.2 um and slab h2 1 um (slab entered as overlay_slab_thickness_um).
+    why: 'audit: stale note; overlay_slab_thickness_um exists since D111'
+  cmp_li2026aa_ssc-m23:
+    basis: derived
+    notes: Table 1 w4 printed as 0.8 um; unit conversion um -> nm (D82d). Lower slab taper widths w1 0.2, w3 2.1, w5 5 um.
+    why: 'audit: value differs from the printed number (0.8 um -> 800 nm), D82d / D111 unit rescaling is derived'
+  cmp_li2022b_gc_532-m11:
+    basis: derived
+    notes: printed as 0.3 um (taper 5 um to 0.3 um); unit conversion um -> nm (D82d). Taper length, grating length / width and n_periods not stated.
+    why: 'audit: value differs from the printed number (0.3 um -> 300 nm), D82d / D111'
+  cmp_kohli2025_vdc_sin_bto_cband-m8:
+    condition: BTO (upper layer) single-mode width after its taper (150 to 800 nm, C-band)
+    notes: SiN (lower layer) taper start width 800 nm entered as lower_width_nm (D111).
+    why: 'audit role fix (D102 / D111): width_nm is the upper-layer width; the SiN width has its own parameter lower_width_nm'
+  cmp_berman2026_racetrack_249um-m5:
+    parameter: coupling_length_um
+    notes: Straight-section length 249 um of the racetrack (Fig. 1(c) caption, bend radius 100 um in m4); racetrack straight entered as coupling_length_um so the ring_bus template draws it (D102). Gap and
+      width of this racetrack not stated.
+    why: 'D102 role fix not applied by the geometry pass: racetrack straight length belongs in coupling_length_um (ring_bus template top view)'
+add_metrics:
+- metric_id: cmp_li2026aa_ssc-m26
+  component_id: cmp_li2026aa_ssc
+  parameter: overlay_slab_thickness_um
+  value: '1'
+  unit: um
+  condition: SiON rib overlay slab height h2 (rib height h1 3.2 um, total 4.2 um)
+  basis: design_target
+  locator: p.4 Table 1; p.2
+  notes: Table 1 h2 1 um; p.2 text gives the same rib / slab heights for the SiON rib.
+  why: 'audit miss: D111 overlay_slab_thickness_um is an edge_taper xsec dimension the paper reports (showcase hero)'
+- metric_id: cmp_kohli2025_vdc_sin_bto_cband-m9
+  component_id: cmp_kohli2025_vdc_sin_bto_cband
+  parameter: lower_width_nm
+  value: '800'
+  unit: nm
+  condition: SiN (lower layer) width at the taper start (800 to 200 nm)
+  basis: design_target
+  locator: p.3
+  why: 'audit: D111 lower_width_nm; splits the combined SiN / BTO width row m8 by role'
+- metric_id: cmp_li2022b_gc_532-m12
+  component_id: cmp_li2022b_gc_532
+  parameter: slab_thickness_nm
+  value: '100'
+  unit: nm
+  basis: derived
+  locator: p.2 Sec. 2 Design and fabrication
+  notes: 200 nm film minus the 100 nm ridge / grating etch (half the film).
+  why: 'audit miss (optional): gc_1d xsec optional dimension'
+- metric_id: cmp_li2022b_mmi_1x2_532-m5
+  component_id: cmp_li2022b_mmi_1x2_532
+  parameter: width_nm
+  value: 1500
+  unit: nm
+  basis: derived
+  locator: p.3; Fig. 3(a)
+  notes: Input / output waveguide width w printed as 1.5 um (design); unit conversion um -> nm, value differs from the printed number (D82d).
+  why: 'geometry-pass miss (D106, sibling of the showcase hero cmp_li2022b_gc_532): access-waveguide width of the mmi template'
+- metric_id: cmp_li2022b_mmi_1x2_532-m6
+  component_id: cmp_li2022b_mmi_1x2_532
+  parameter: pitch_um
+  value: 2.08
+  unit: um
+  basis: design_target
+  locator: p.3; Fig. 3(a)
+  notes: Separation between the output ports Y_MMI 2.08 um (design), centre-to-centre (with 1.5 um ports in a 4 um MMI an edge gap of 2.08 um would not fit). pitch_um covers splitter port pitch since D102.
+  why: 'geometry-pass miss: port pitch is an mmi template dimension (pitch_um widened to splitters in D102)'
+- metric_id: cmp_li2022b_mmi_1x2_532-m7
+  component_id: cmp_li2022b_mmi_1x2_532
+  parameter: n_inputs
+  value: 1
+  unit: count
+  basis: design_target
+  locator: p.3; Fig. 3(a)
+  notes: 1 x 2 MMI.
+  why: 'geometry-pass miss: mmi template port count'
+- metric_id: cmp_li2022b_mmi_1x2_532-m8
+  component_id: cmp_li2022b_mmi_1x2_532
+  parameter: n_outputs
+  value: 2
+  unit: count
+  basis: design_target
+  locator: p.3; Fig. 3(a)
+  notes: 1 x 2 MMI.
+  why: 'geometry-pass miss: mmi template port count'
