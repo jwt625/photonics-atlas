@@ -100,6 +100,22 @@ per-paper report. Read before first use: `data/schema/components.schema.yaml` (c
   forward_voltage_v, pump_to_comb_efficiency_pct, beam_divergence_deg, phase_shift_pi, retention_time_s,
   mech_resonance_khz).
 
+## Contract v5 additions: layout geometry (DevLog-005 D102-D107, 2026-10-20)
+
+- Layout templates: `data/schema/component_layouts.yaml` (which subtypes each template serves, the dimensions its top
+  view and cross-section need, the primary metric). Use the role-specific geometry parameters (`mmi_width_um` vs
+  `width_nm`, `bus_width_nm` vs ring `width_nm`, `heater_*`, `absorber_*`, `lower_tip_width_nm` vs `tip_width_nm`,
+  `layer2_thickness_nm`, `box_thickness_um`, `cladding_thickness_um`, ...): a drawing must never guess which width is
+  which.
+- Geometry pass for showcase components: every template dimension from text, tables and figure annotations. A figure
+  dimension only when the figure labels it (`extracted_from_figure`, reading uncertainty in notes); never measured off
+  a micrograph or a scale bar. Design dimensions `design_target`, SEM / AFM-measured `measured`. For showcase
+  components the cross-section may restate an EO row's geometry when verified at the paper locator (cross-note).
+- Showcase rows (`data/components/component_showcase.csv`): per template up to 2 `typical` (foundry / PDK / MPW
+  component with measured performance, or the median performer when the subtype has >= 5 rows) and up to 2 `hero`
+  (best measured primary metric with enough geometry for a to-scale top view), across >= 2 platforms where possible;
+  record the criterion, rank and rationale.
+
 ## Workflow (per paper)
 
 1. Find the source row (`eo:<paper_id>`) in `sources.csv`; check `data/components/components.csv` for existing rows.

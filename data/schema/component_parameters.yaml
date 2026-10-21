@@ -65,18 +65,18 @@ parameters:
   power_handling_dbm: {unit: dBm, kind: performance, conditions: [], classes: [fiber_chip_coupler, waveguide_platform, wdm, resonator], def: "highest input power without degradation as stated (stable up to X -> X with gt)"}
   # --- coupler geometry and alignment
   fiber_angle_deg: {unit: deg, kind: geometry, conditions: [], classes: [fiber_chip_coupler, micro_optics], def: "fiber tilt from the chip normal (sign as printed)"}
-  period_nm: {unit: nm, kind: geometry, conditions: [], classes: [fiber_chip_coupler, wdm, free_space_emitter, resonator, reflector, laser], def: "grating period (a discrete set of periods: one row per period, or a range with the set in condition)"}
-  fill_factor: {unit: "1", kind: geometry, conditions: [], classes: [fiber_chip_coupler, free_space_emitter], def: "grating fill factor (duty cycle)"}
+  period_nm: {unit: nm, kind: geometry, conditions: [], classes: [fiber_chip_coupler, wdm, free_space_emitter, resonator, reflector, laser, amplifier], def: "grating period (a discrete set of periods: one row per period, or a range with the set in condition)"}
+  fill_factor: {unit: "1", kind: geometry, conditions: [], classes: [fiber_chip_coupler, free_space_emitter, reflector, laser], def: "grating fill factor (duty cycle)"}
   mfd_chip_um: {unit: um, kind: performance, conditions: [], classes: [fiber_chip_coupler, chip_chip_coupler, micro_optics, laser, amplifier, waveguide_platform], def: "mode-field diameter at the chip facet (1/e^2 unless the note says otherwise)"}
   mfd_fiber_um: {unit: um, kind: performance, conditions: [], classes: [fiber_chip_coupler, micro_optics, fiber_interface], def: "mode-field diameter of the fiber / beam the component couples to"}
   tip_width_nm: {unit: nm, kind: geometry, conditions: [], classes: [fiber_chip_coupler, chip_chip_coupler, waveguide_platform, mode_converter], def: "taper tip width"}
-  taper_length_um: {unit: um, kind: geometry, conditions: [], classes: [fiber_chip_coupler, chip_chip_coupler, mode_converter, waveguide_platform], def: "taper length"}
+  taper_length_um: {unit: um, kind: geometry, conditions: [], classes: [fiber_chip_coupler, chip_chip_coupler, mode_converter, waveguide_platform, splitter, crossing], def: "taper length"}
   tol_1db_lateral_um: {unit: um, kind: performance, conditions: [], classes: [fiber_chip_coupler, chip_chip_coupler, micro_optics, fiber_interface], def: "lateral misalignment for 1 dB excess loss (half-width, +/- value)"}
   tol_1db_longitudinal_um: {unit: um, kind: performance, conditions: [], classes: [fiber_chip_coupler, chip_chip_coupler, micro_optics, fiber_interface], def: "longitudinal (z) misalignment for 1 dB excess loss"}
   beam_diameter_um: {unit: um, kind: performance, conditions: [], classes: [micro_optics, fiber_interface, free_space_emitter], def: "beam diameter at the interface (expanded / collimated beam)"}
   lens_height_um: {unit: um, kind: geometry, conditions: [], classes: [micro_optics], def: "lens height"}
   lens_radius_um: {unit: um, kind: geometry, conditions: [], classes: [micro_optics], def: "lens radius of curvature or aperture radius as stated"}
-  pitch_um: {unit: um, kind: geometry, conditions: [], classes: [fiber_interface, fiber_chip_coupler, micro_optics, laser, photodetector], def: "channel pitch"}
+  pitch_um: {unit: um, kind: geometry, conditions: [], classes: [fiber_interface, fiber_chip_coupler, micro_optics, laser, photodetector, splitter, wdm, mode_converter, crossing, amplifier], def: "channel pitch"}
   n_channels: {unit: count, kind: geometry, conditions: [], classes: [fiber_interface, wdm, laser, photodetector, switch_fabric, micro_optics, fiber_chip_coupler, amplifier, nonreciprocal], def: "number of channels / ports / wavelengths"}
   # --- splitters and crossings
   imbalance_db: {unit: dB, kind: performance, conditions: [], classes: [splitter], def: "output power imbalance |P1/P2| in dB"}
@@ -182,11 +182,35 @@ parameters:
   # --- waveguides / platform
   prop_loss_db_per_cm: {unit: dB/cm, kind: performance, conditions: [wavelength], classes: [waveguide_platform, resonator], def: "propagation loss (dB/m and dB/mm converted with a derived note)"}
   bend_loss_db_per_90: {unit: dB, kind: performance, conditions: [wavelength], classes: [waveguide_platform], def: "loss per 90-degree bend"}
-  min_bend_radius_um: {unit: um, kind: geometry, conditions: [], classes: [waveguide_platform], def: "smallest bend radius used or stated"}
+  min_bend_radius_um: {unit: um, kind: geometry, conditions: [], classes: [waveguide_platform, splitter, resonator, wdm], def: "smallest bend radius used or stated"}
   transition_loss_db: {unit: dB, kind: performance, conditions: [wavelength], classes: [waveguide_platform, chip_chip_coupler], def: "loss per layer / material transition"}
   # --- free-space emitters
   beam_waist_um: {unit: um, kind: performance, conditions: [wavelength], classes: [free_space_emitter], def: "beam waist (1/e^2 radius unless noted)"}
   emission_angle_deg: {unit: deg, kind: performance, conditions: [], classes: [free_space_emitter], def: "emission angle from the chip normal"}
+  # --- D102 (DevLog-005, contract v5): role-specific layout geometry for the layout viewer
+  box_thickness_um: {unit: um, kind: geometry, conditions: [], classes: "*", def: "buried oxide / lower cladding thickness"}
+  cladding_thickness_um: {unit: um, kind: geometry, conditions: [], classes: "*", def: "upper cladding thickness above the core"}
+  layer2_thickness_nm: {unit: nm, kind: geometry, conditions: [], classes: [waveguide_platform, fiber_chip_coupler, chip_chip_coupler, mode_converter], def: "thickness of the second guiding layer of a bilayer / inter-layer structure (material in condition)"}
+  lower_tip_width_nm: {unit: nm, kind: geometry, conditions: [], classes: [waveguide_platform, fiber_chip_coupler, chip_chip_coupler, mode_converter], def: "tip width of the lower-layer taper (upper-layer tip: tip_width_nm)"}
+  overlay_width_um: {unit: um, kind: geometry, conditions: [], classes: [fiber_chip_coupler], def: "width of the overlay / cladding waveguide of a spot-size converter"}
+  overlay_thickness_um: {unit: um, kind: geometry, conditions: [], classes: [fiber_chip_coupler], def: "thickness of the overlay / cladding waveguide of a spot-size converter"}
+  grating_length_um: {unit: um, kind: geometry, conditions: [], classes: [fiber_chip_coupler, free_space_emitter, reflector], def: "grating region length along propagation"}
+  grating_width_um: {unit: um, kind: geometry, conditions: [], classes: [fiber_chip_coupler, free_space_emitter, reflector], def: "lateral width of the grating region"}
+  bus_width_nm: {unit: nm, kind: geometry, conditions: [], classes: [resonator, wdm], def: "bus waveguide width (ring / racetrack waveguide width: width_nm)"}
+  coupling_length_um: {unit: um, kind: geometry, conditions: [], classes: [resonator, wdm, splitter], def: "length of the straight coupling section (racetrack, directional coupler)"}
+  mmi_width_um: {unit: um, kind: geometry, conditions: [], classes: [splitter, crossing, wdm, mode_converter], def: "width of the multimode section"}
+  mmi_length_um: {unit: um, kind: geometry, conditions: [], classes: [splitter, crossing, wdm, mode_converter], def: "length of the multimode section"}
+  port_width_um: {unit: um, kind: geometry, conditions: [], classes: [splitter, crossing, wdm, mode_converter], def: "access-taper width where it meets the multimode section"}
+  n_inputs: {unit: count, kind: geometry, conditions: [], classes: [splitter, wdm, switch_fabric, mode_converter, crossing], def: "number of input ports"}
+  n_outputs: {unit: count, kind: geometry, conditions: [], classes: [splitter, wdm, switch_fabric, mode_converter, crossing], def: "number of output ports"}
+  fpr_length_um: {unit: um, kind: geometry, conditions: [], classes: [wdm], def: "free-propagation region length (AWG / echelle)"}
+  arm_length_increment_um: {unit: um, kind: geometry, conditions: [], classes: [wdm], def: "path-length increment between adjacent arrayed waveguides or MZI arms"}
+  absorber_length_um: {unit: um, kind: geometry, conditions: [], classes: [photodetector], def: "absorber (e.g. Ge) length along propagation"}
+  absorber_width_um: {unit: um, kind: geometry, conditions: [], classes: [photodetector], def: "absorber width"}
+  absorber_thickness_nm: {unit: nm, kind: geometry, conditions: [], classes: [photodetector], def: "absorber thickness"}
+  heater_length_um: {unit: um, kind: geometry, conditions: [], classes: [phase_shifter, switch_fabric, resonator, wdm], def: "heater length"}
+  heater_width_um: {unit: um, kind: geometry, conditions: [], classes: [phase_shifter, switch_fabric, resonator, wdm], def: "heater width"}
+  ridge_width_um: {unit: um, kind: geometry, conditions: [], classes: [laser, amplifier, photodetector], def: "ridge / mesa width of an active waveguide"}
   # --- shared geometry
   width_nm: {unit: nm, kind: geometry, conditions: [], classes: "*", def: "waveguide / feature width as stated"}
   core_thickness_nm: {unit: nm, kind: geometry, conditions: [], classes: "*", def: "core / device-layer thickness"}

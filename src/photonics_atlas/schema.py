@@ -16,6 +16,7 @@ SCHEMA_FILES = [
     ROOT / "data" / "schema" / "people.schema.yaml",
 ]
 PARAMETERS = ROOT / "data" / "schema" / "component_parameters.yaml"
+LAYOUTS = ROOT / "data" / "schema" / "component_layouts.yaml"
 
 
 def load_schema() -> dict[str, Any]:
@@ -40,5 +41,12 @@ def columns(table: str) -> list[str]:
 
 def load_parameters() -> dict[str, Any]:
     with PARAMETERS.open() as f:
+        data: dict[str, Any] = yaml.safe_load(f)
+    return data
+
+
+def load_layouts() -> dict[str, Any]:
+    """Layout templates for the component layout viewer (component_layouts.yaml, DevLog-005 D103)."""
+    with LAYOUTS.open() as f:
         data: dict[str, Any] = yaml.safe_load(f)
     return data

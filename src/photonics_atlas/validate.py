@@ -20,7 +20,7 @@ from typing import Any
 
 from .csvio import read_csv, read_header, split_list
 from .paths import ROOT
-from .schema import load_parameters, load_schema
+from .schema import load_layouts, load_parameters, load_schema
 from .textnorm import norm_key
 
 PDATE = re.compile(r"^\d{4}(-(0[1-9]|1[0-2])(-(0[1-9]|[12]\d|3[01]))?)?$")
@@ -456,6 +456,16 @@ def _component_rules(t: dict[str, list[dict[str, str]]], full: dict[str, list[di
     params: dict[str, dict[str, Any]] = reg["parameters"]
     src = {r["source_id"]: r for r in full["sources"]}
     comps = {r["component_id"]: r for r in full["components"]}
+    layouts = (load_layouts() or {}).get("templates", {})
+    for r in t.get("component_showcase", []):
+        tpl = layouts.get(r["template"])
+        c = comps.get(r["component_id"])
+        if tpl is None:
+            rep.err(f"component_showcase {r['component_id']}: unknown template {r['template']!r}")
+        elif c is not None and c["class"] not in tpl["applies_to"]:
+            rep.err(
+                f"component_showcase {r['component_id']}: class {c['class']} not served by template {r['template']}"
+            )
     for r in t["components"]:
         cid = r["component_id"]
         top, _, sub = r["class"].partition(".")

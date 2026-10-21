@@ -21,6 +21,7 @@ patterns:
 
 enums:
   row_kind: [fabricated, design]
+  showcase_role: [hero, typical]
   platform: [lnoi_rib, lnoi_loaded_sin, lnoi_loaded_si, ltoi_rib, ltoi_loaded_sin, bto_on_si, bto_on_sin, bto_on_oxide_substrate, soi_slot, soi_rib, soi_strip, sin, inp, algaas, plasmonic_mim, suspended_lnoi, lnos_rib, lnoi_loaded_oxide, lnoi_strip, soi, si_sin_multilayer, sion, silica, ge_silica, al2o3, gaas, suspended_gaas, polymer, glass, inp_membrane, other]
   scope: [per_component, per_coupler, per_facet, per_interface, loopback_half, fiber_to_fiber, on_chip_excess, device_total, de_embedded, unspecified]
   basis: [measured, simulated, derived, author_estimate, design_target, extracted_from_figure, specification]
@@ -85,3 +86,19 @@ tables:
       - {name: basis, type: enum, enum: basis, required: true}
       - {name: locator, type: str, pattern: locator, required: true}
       - {name: notes, type: str, required: false}
+
+  component_showcase:
+    # Curated hero / typical components per layout template (DevLog-005 D105); template ids and their classes are in
+    # component_layouts.yaml.
+    path: data/components/component_showcase.csv
+    built: true
+    key: [component_id, template]
+    columns:
+      - {name: component_id, type: fk, ref: components.component_id, required: true}
+      - {name: template, type: str, required: true, desc: "template id in component_layouts.yaml; the component class must be in its applies_to"}
+      - {name: role, type: enum, enum: showcase_role, required: true}
+      - {name: criterion, type: str, required: true, desc: "selection criterion (D105), e.g. 'lowest measured insertion_loss_db per_coupler among SOI GCs with a drawable top view'"}
+      - {name: rank, type: int, pattern: nonneg_int, required: false, desc: "rank under the criterion at selection time"}
+      - {name: rationale, type: str, required: true}
+      - {name: selected_on, type: pdate, required: true}
+

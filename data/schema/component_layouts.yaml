@@ -1,0 +1,83 @@
+# Layout templates for the component layout viewer (DevLog-005 D103-D107). Each template draws one family of components
+# to scale from metric rows only (D104): `top` = plan view, `xsec` = cross-section. `required` parameters are needed for a
+# to-scale view; missing `optional` (and missing `required`) dimensions are drawn schematically, labelled "not reported",
+# never as numbers. Parameter names are registry names (component_parameters.yaml). `primary` ranks hero components (D107).
+version: 1
+
+xsec_common: &xsec_common
+  required: [core_thickness_nm, width_nm]
+  optional: [slab_thickness_nm, etch_depth_nm, sidewall_angle_deg, box_thickness_um, cladding_thickness_um]
+
+templates:
+  gc_1d:
+    label: "1D grating coupler (taper + grating)"
+    applies_to: [fiber_chip_coupler.grating]
+    top: {required: [period_nm], optional: [fill_factor, n_periods, grating_length_um, grating_width_um, taper_length_um, width_nm, fiber_angle_deg]}
+    xsec: {required: [core_thickness_nm, etch_depth_nm], optional: [period_nm, fill_factor, box_thickness_um, cladding_thickness_um, slab_thickness_nm]}
+    primary: {parameter: insertion_loss_db, scope: per_coupler, better: lower}
+  edge_taper:
+    label: "Edge coupler / spot-size converter (inverse taper, optional overlay)"
+    applies_to: [fiber_chip_coupler.edge]
+    top: {required: [tip_width_nm, taper_length_um], optional: [width_nm, overlay_width_um]}
+    xsec: {required: [core_thickness_nm], optional: [overlay_thickness_um, overlay_width_um, box_thickness_um, cladding_thickness_um, slab_thickness_nm]}
+    primary: {parameter: insertion_loss_db, scope: per_facet, better: lower}
+  transition_bilayer:
+    label: "Inter-layer transition (two overlapping tapers)"
+    applies_to: [waveguide_platform.transition]
+    top: {required: [taper_length_um], optional: [tip_width_nm, lower_tip_width_nm, width_nm, length_um]}
+    xsec: {required: [core_thickness_nm, layer2_thickness_nm], optional: [gap_nm, box_thickness_um, cladding_thickness_um]}
+    primary: {parameter: transition_loss_db, scope: per_component, better: lower}
+  waveguide_xsec:
+    label: "Waveguide cross-section (strip / rib)"
+    applies_to: [waveguide_platform.straight, waveguide_platform.bend, waveguide_platform.slow_light]
+    top: {required: [], optional: [min_bend_radius_um, length_um]}
+    xsec: *xsec_common
+    primary: {parameter: prop_loss_db_per_cm, better: lower}
+  ring_bus:
+    label: "Ring / racetrack with bus waveguide(s)"
+    applies_to: [resonator.ring, wdm.mrr, resonator.coupled_rings]
+    top: {required: [radius_um], optional: [gap_nm, width_nm, bus_width_nm, coupling_length_um, heater_width_um]}
+    xsec: *xsec_common
+    primary: {parameter: q_intrinsic, better: higher}
+  mmi:
+    label: "MMI (multimode section with access tapers)"
+    applies_to: [splitter.mmi, crossing.mmi]
+    top: {required: [mmi_width_um, mmi_length_um], optional: [port_width_um, taper_length_um, pitch_um, n_inputs, n_outputs, width_nm]}
+    xsec: *xsec_common
+    primary: {parameter: excess_loss_db, scope: per_component, better: lower}
+  dc:
+    label: "Directional / adiabatic coupler"
+    applies_to: [splitter.directional_coupler, splitter.adiabatic]
+    top: {required: [gap_nm, coupling_length_um], optional: [width_nm, min_bend_radius_um, length_um]}
+    xsec: *xsec_common
+    primary: {parameter: excess_loss_db, scope: per_component, better: lower}
+  y_branch:
+    label: "Y-branch splitter"
+    applies_to: [splitter.y_branch]
+    top: {required: [length_um], optional: [width_nm, pitch_um]}
+    xsec: *xsec_common
+    primary: {parameter: excess_loss_db, scope: per_component, better: lower}
+  awg:
+    label: "Arrayed waveguide grating (schematic: FPRs + array)"
+    applies_to: [wdm.awg]
+    top: {required: [n_arms, n_channels], optional: [fpr_length_um, arm_length_increment_um, diffraction_order, footprint_um2, width_nm]}
+    xsec: *xsec_common
+    primary: {parameter: insertion_loss_db, better: lower}
+  ge_pd:
+    label: "Waveguide-coupled photodetector (absorber on waveguide)"
+    applies_to: [photodetector.ge_waveguide, photodetector.apd]
+    top: {required: [absorber_length_um, absorber_width_um], optional: [width_nm, length_um]}
+    xsec: {required: [absorber_thickness_nm, core_thickness_nm], optional: [width_nm, absorber_width_um, slab_thickness_nm, box_thickness_um, cladding_thickness_um]}
+    primary: {parameter: responsivity_a_per_w, better: higher}
+  heater_ps:
+    label: "Thermo-optic phase shifter (heater over waveguide)"
+    applies_to: [phase_shifter.thermo_optic]
+    top: {required: [heater_length_um], optional: [heater_width_um, width_nm, length_um]}
+    xsec: {required: [core_thickness_nm, width_nm], optional: [heater_width_um, heater_gap_um, slab_thickness_nm, box_thickness_um, cladding_thickness_um]}
+    primary: {parameter: p_pi_mw, better: lower}
+  ridge_laser:
+    label: "Ridge laser / SOA (cavity, ridge, grating)"
+    applies_to: [laser.dfb, laser.heterogeneous, laser.soa_dfb, amplifier.soa]
+    top: {required: [length_um], optional: [ridge_width_um, period_nm, n_channels, pitch_um]}
+    xsec: {required: [ridge_width_um], optional: [core_thickness_nm, etch_depth_nm]}
+    primary: {parameter: output_power_mw, better: higher}
