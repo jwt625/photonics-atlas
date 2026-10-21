@@ -142,8 +142,8 @@
 </div>
 
 <style>
-	.page { height: 100%; display: grid; grid-template-columns: minmax(0, 1fr) 420px; }
-	.left { min-width: 0; display: grid; grid-template-rows: auto minmax(0, 1fr); border-right: 1px solid var(--border); }
+	.page { height: 100%; display: grid; grid-template-columns: minmax(0, 1fr) 420px; grid-template-rows: minmax(0, 1fr); }
+	.left { min-width: 0; min-height: 0; display: grid; grid-template-rows: auto minmax(0, 1fr); border-right: 1px solid var(--border); }
 	.bar { display: flex; gap: 6px; align-items: center; padding: 6px 8px; background: var(--surface); border-bottom: 1px solid var(--border); }
 	.bar input { flex: 1; }
 	.scroll { overflow: auto; }
@@ -155,7 +155,7 @@
 	.t tbody tr { cursor: pointer; }
 	.t tbody tr:hover { background: var(--hover); }
 	.t tbody tr.sel { background: var(--sel); }
-	.detail { overflow: auto; padding: 8px 10px; background: var(--surface); }
+	.detail { min-height: 0; overflow: auto; padding: 8px 10px; background: var(--surface); }
 	h2 { margin: 0 0 6px; font-size: 14px; }
 	h3 { margin: 10px 0 4px; font-size: 11px; color: var(--ink-3); font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; }
 	dl { display: grid; grid-template-columns: 80px 1fr; gap: 2px 8px; margin: 0; }

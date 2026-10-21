@@ -2,13 +2,6 @@
 	import { link } from '../lib/paths';
 	import { store } from '../lib/state.svelte';
 
-	const CORPUS_LABEL: Record<string, string> = {
-		eo: 'EO modulator atlas (org names + author affiliations)',
-		pk: 'Advanced packaging atlas (org names + author affiliations)',
-		lin: 'Photonics lineage (org records)',
-		ofc2026: 'OFC 2026 presentation metadata (author affiliations)'
-	};
-	const pct = (a: number, b: number) => (b ? ((100 * a) / b).toFixed(1) : '100.0');
 	let reg = $derived(store.reg);
 	let types = $derived(reg ? Object.entries(reg.org_types).sort((a, b) => b[1] - a[1]) : []);
 	let tmax = $derived(types.length ? types[0][1] : 1);
@@ -22,23 +15,6 @@
 			{#each [['organizations', 'Organizations in the registry'], ['aliases', 'Curated alias rows'], ['events', 'Org events (acquisition, rename, spin-off, merger)'], ['sources', 'Source documents across corpora'], ['sources_duplicate', 'Source rows marked same_as another row']] as [k, tip]}
 				<div class="tile" data-tip={tip}><div class="v num">{reg.counts[k]}</div><div class="k">{k.replace('_', ' ')}</div></div>
 			{/each}
-		</section>
-
-		<section class="panel wide">
-			<h2>Crosswalk coverage</h2>
-			<table class="grid num">
-				<thead><tr><th>corpus</th><th>strings</th><th>mapped</th><th>rows</th><th>mapped</th><th>row %</th><th>by name</th><th>by alias</th><th>by ROR</th><th>unmapped</th></tr></thead>
-				<tbody>
-					{#each Object.entries(reg.coverage) as [c, v]}
-						<tr>
-							<td data-tip={CORPUS_LABEL[c] ?? c}>{c}</td>
-							<td>{v.strings}</td><td>{v.strings_mapped}</td><td>{v.rows}</td><td>{v.rows_mapped}</td>
-							<td class:ok={v.rows_mapped / v.rows >= 0.9}>{pct(v.rows_mapped, v.rows)}</td>
-							<td>{v.by_basis.name ?? 0}</td><td>{v.by_basis.alias ?? 0}</td><td>{v.by_basis.ror ?? 0}</td><td>{v.by_basis.unmapped ?? 0}</td>
-						</tr>
-					{/each}
-				</tbody>
-			</table>
 		</section>
 
 		<section class="panel">
@@ -92,7 +68,6 @@
 	.grid th, .grid td { text-align: right; padding: 2px 6px; border-bottom: 1px solid var(--grid); white-space: nowrap; }
 	.grid th:first-child, .grid td:first-child { text-align: left; }
 	.grid th { color: var(--ink-3); font-weight: 500; }
-	.ok { color: var(--good); }
 	.bar { display: grid; grid-template-columns: 130px 1fr 40px; gap: 6px; align-items: center; height: 18px; }
 	.bar .lbl { color: var(--ink-2); }
 	.bar .track { height: 10px; background: var(--grid); }

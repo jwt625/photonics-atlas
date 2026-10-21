@@ -160,12 +160,12 @@
 {/if}
 
 <style>
-	.page { height: 100%; display: grid; grid-template-columns: 200px minmax(0, 1fr) 400px; }
-	.tree { overflow: auto; border-right: 1px solid var(--border); background: var(--surface); padding: 4px; display: flex; flex-direction: column; gap: 1px; }
+	.page { height: 100%; display: grid; grid-template-columns: 200px minmax(0, 1fr) 400px; grid-template-rows: minmax(0, 1fr); }
+	.tree { min-height: 0; overflow: auto; border-right: 1px solid var(--border); background: var(--surface); padding: 4px; display: flex; flex-direction: column; gap: 1px; }
 	.tree button { text-align: left; display: flex; justify-content: space-between; border: none; background: transparent; height: 22px; }
 	.tree button.on { background: var(--sel); color: var(--ink); }
 	.tree button:disabled { color: var(--ink-3); cursor: default; }
-	.main { min-width: 0; display: grid; grid-template-rows: auto minmax(0, 1fr); border-right: 1px solid var(--border); }
+	.main { min-width: 0; min-height: 0; display: grid; grid-template-rows: auto minmax(0, 1fr); border-right: 1px solid var(--border); }
 	.bar { display: flex; gap: 6px; align-items: center; padding: 6px 8px; background: var(--surface); border-bottom: 1px solid var(--border); }
 	.bar input { flex: 1; }
 	.scroll { overflow: auto; }
@@ -178,7 +178,7 @@
 	.t tbody tr { cursor: pointer; }
 	.t tbody tr:hover { background: var(--hover); }
 	.t tbody tr.sel { background: var(--sel); }
-	.detail { overflow: auto; padding: 8px 10px; background: var(--surface); }
+	.detail { min-height: 0; overflow: auto; padding: 8px 10px; background: var(--surface); }
 	.detail .t th { position: static; cursor: default; }
 	.detail .t td { white-space: normal; }
 	.detail .t td:nth-child(4) { min-width: 140px; }
