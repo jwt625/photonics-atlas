@@ -237,3 +237,42 @@ reproducible and auditable, and the EO cache layout and fetcher rules for retrie
 5. Nature / Wiley / ACS / AIP / De Gruyter OA (~112): publisher PDF links, >= 10 s spacing per host.
 6. Extraction: PyMuPDF `text.md` with `<!-- page N -->`, figures/ (EO `extract_source.py`), then distill batches of
    10 with the pic-component-distill skill, an audit per batch, merge.
+
+## User answers (2026-10-22)
+
+| # | Answer / decision | Applied as |
+|---|---|---|
+| D141 | Start retrieval; pace ~100 papers per day over 10 days | `data/_staging/literature/retrieval_queue.csv` + `retrieval_schedule.md` (days 2026-10-22 .. 2026-10-31, class-balanced per day) |
+| D142 | Optica papers: arXiv copy when one exists, otherwise the user's local Playwright Chromium / Firefox sessions | queue route `arxiv` first (local pool + arXiv title search); `optica_browser` via `scripts/lit_fetch_browser.py --site optica` (headed persistent profile, 60-120 s spacing, <= 20 per session) |
+| D143 | IEEE: reuse the packaging-atlas fetcher; the user logs in once per session of 30 papers | `scripts/lit_fetch_browser.py --site ieee --login / --run --session S` (adapted from advanced-packaging-atlas `ieee_fetch.py`) |
+| D144 | OpenAlex key: the user obtained one before; look it up in local agent logs | the lookup was refused by the permission classifier (credential exploration); `litfetch` now reads `OPENALEX_API_KEY` from the repo's git-ignored `.env` (cap 0.9 USD / day with a key); waiting for the user to place it there |
+| D146 | Non-OA Optica papers: prefer the IEEE Xplore copy (co-published OFC / CLEO / ACP / IPR proceedings, e.g. 10.1364/ACPC.2021.T4A.130 = Xplore 9738431) over the Optica site; IEEE institutional access is easier and the IEEE fetcher works | R1: Crossref title lookup with prefix 10.1109 (similarity >= 0.93, shared author, year +-1), columns ieee_doi / ieee_match_score, route ieee_browser; identity stays the Optica DOI. Preference: arXiv, then IEEE twin (paywalled Optica), then optica_browser |
+| D145 | Commit like the previous atlas projects | commit a112b7e (one-line message, main, not pushed) |
+
+- 2026-10-22: fetch extra `fetch` = playwright 1.64.0 + pymupdf (as in the packaging atlas); `.gitignore` keeps
+  `references/*/*.pdf`, `references/*/arxiv/`, `references/*/supplement/` local. Streams dispatched: R1 queue +
+  arXiv matching + schedule, R2 OA fetcher + extraction + `lit` corpus registration + inbox, R3 browser fetcher.
+
+## S7 retrieval progress
+
+- 2026-10-22 00:00-01:05 local: streams R1-R3 built `scripts/lit_build_queue.py` (queue + 10-day schedule;
+  arXiv copies: local pool + 814 arXiv title queries -> 24 extra arXiv routes, most selected Optica / IEEE device
+  papers have no arXiv copy (spot-checked with looser queries); IEEE twins via Crossref: 2), `lit_fetch_oa.py`
+  (arXiv + repositories), `lit_fetch_browser.py` (headed Playwright persistent profiles: optica, ieee incl. Xplore
+  title search `ieee_search` (D146), publisher), `lit_extract.py` (PyMuPDF text.md + figures + source.json),
+  `lit_ingest_inbox.py`, `lit_register_sources.py` (`lit` corpus rows in sources.csv; schema enum + source_id
+  pattern), `lit_daily.sh` (daily runbook). Routes: arxiv 194, optica_browser 423, ieee_browser 202,
+  publisher_browser 81, ieee_search 23, oa_publisher 23, manual 54; 100 per day, days 2026-10-22 .. 2026-10-31.
+- Publisher behaviour observed (no retries, breakers armed): plain fetch blocked by Nature (JS challenge), Wiley,
+  AIP (403), De Gruyter (AWS WAF), PubMed Central (captcha), Elsevier linkinghub (TLS verify failure). Headed browser:
+  Nature ok; Wiley and AIP 403 on the landing page; Optica OA ok (no challenge in 30+ requests), subscription and
+  some mislabeled-OA Optica papers `no_access` without an institutional login. Decision D147: Wiley, AIP, De
+  Gruyter rows go to the manual list unless a logged-in browser session clears them; HTTP 403 stays a stop signal.
+- Day 1 (2026-10-22): arXiv 24 ok (incl. pilot); repositories 1 ok, 7 blocked / not PDF; Optica session 1: 11 ok,
+  4 no_access (+ 2 smoke ok, 2 no_access); publisher session: 5 ok, 3 blocked; IEEE session not run: the login
+  window timed out (30 min) without a sign-in. Cached and extracted: 43 papers; `lit:` rows in sources.csv 43;
+  validate_db 0 errors.
+- Next per day: `zsh scripts/lit_daily.sh <day>` in tmux, then the IEEE session with the user's login. Pending: the
+  user's IEEE sign-in (day 1 session), an optional Optica institutional sign-in (`--site optica --login`) to recover
+  `no_access` rows, OPENALEX_API_KEY in `.env` for the broad-journal increment, manual downloads
+  (`data/_staging/literature/manual_downloads.md` to be regenerated from the queue's manual + blocked rows).

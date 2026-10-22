@@ -16,7 +16,7 @@ version: 1
 patterns:
   org_id: "^org_[a-z0-9]+(_[a-z0-9]+)*$"
   event_id: "^event_[a-z0-9]+(_[a-z0-9]+)*$"
-  source_id: "^(eo|pk|ofc2026|blog|ds|lin|web):[^\\s;]+$"
+  source_id: "^(eo|pk|ofc2026|blog|ds|lin|web|lit):[^\\s;]+$"
   country: "^[A-Z]{2}$"
   ror_id: "^https://ror\\.org/0[a-z0-9]{8}$"
   wikidata_qid: "^Q[0-9]+$"
@@ -36,7 +36,7 @@ enums:
   grade: [A, B, C, D, X]
   claim_status: [validated, asserted, inferred, disputed]
   event_basis: [stated_in_source, imported_lineage]
-  corpus: [eo, pk, ofc2026, blog, ds, lin, web]
+  corpus: [eo, pk, ofc2026, blog, ds, lin, web, lit]
   source_type: [journal, conference, arxiv_preprint, thesis, review, datasheet, standard, slides, regulatory_filing, acquisition_filing, official_press_release, official_company_page, official_company_bio, university_bio, conference_bio, cv, paper, patent, archived_webpage, standards_body, professional_society, reputable_technical_media, authoritative_interview, linkedin, crunchbase, company_directory, startup_database, promotional_pr, news_media, repost, other]
   access: [open_access, arxiv, paywalled, paywalled_conference, public_web, login_required, unknown]
   redistribution: [open_license_ok, restricted_local_only, unknown]

@@ -8,7 +8,7 @@ Every caller (any number of scripts / subagents at once) goes through `get`, whi
   - tracks the OpenAlex cost reported in X-RateLimit-Cost-USD per UTC day (logs/.lit_openalex_cost_<date>.json) and
     refuses requests once the cap (env OPENALEX_DAILY_CAP_USD, default 0.08) is reached;
   - sends a generic User-Agent and never any personal identifier (no mailto, no email). OPENALEX_API_KEY is used when
-    the environment provides it and is never logged.
+    the environment or the repo's git-ignored .env provides it (cap then 0.9 USD / day) and is never logged.
   - logs every request to logs/litfetch_<date>.jsonl (url without api_key, status, cost, bytes).
 """
 
@@ -27,7 +27,22 @@ import urllib.request
 from pathlib import Path
 from typing import Any
 
-from .paths import LOGS
+from .paths import LOGS, ROOT
+
+
+def _load_dotenv() -> None:
+    """OPENALEX_API_KEY (and other LITFETCH_* settings) from the repo's git-ignored .env, unless already set."""
+    env = ROOT / ".env"
+    if not env.exists():
+        return
+    for line in env.read_text().splitlines():
+        k, sep, v = line.partition("=")
+        k = k.strip()
+        if sep and k and not k.startswith("#") and k not in os.environ:
+            os.environ[k] = v.strip().strip("'\"")
+
+
+_load_dotenv()
 
 UA = "photonics-atlas-literature-scout/0.1"
 MIN_INTERVAL_S = {
@@ -39,7 +54,10 @@ MIN_INTERVAL_S = {
 DEFAULT_INTERVAL_S = 5.0
 JITTER_S = 0.5
 COOLDOWN_S = float(os.environ.get("LITFETCH_COOLDOWN_S", "1800"))
-OPENALEX_CAP_USD = float(os.environ.get("OPENALEX_DAILY_CAP_USD", "0.08"))
+# Shared free budget is $0.10 / day per IP; a personal key has $1 / day of its own.
+OPENALEX_CAP_USD = float(
+    os.environ.get("OPENALEX_DAILY_CAP_USD", "0.9" if os.environ.get("OPENALEX_API_KEY") else "0.08")
+)
 TIMEOUT_S = 60
 
 
