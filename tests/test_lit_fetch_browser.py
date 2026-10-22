@@ -389,3 +389,12 @@ def test_saved_times_route_tuple() -> None:
     ]
     assert len(m.saved_times(lines, m.site_routes(IEEE), now, 2.0)) == 2
     assert len(m.saved_times(lines, "ieee_browser", now, 2.0)) == 1
+
+
+def test_xplore_article_page_with_captcha_css_is_not_a_challenge() -> None:
+    from lit_fetch_browser import is_challenge
+
+    html = '<style>.form-group .captcha[_ngcontent-ng-c1]{padding:0}</style><h1 class="document-title">X</h1>'
+    assert not is_challenge(html, 200)
+    assert not is_challenge("<style>.captcha{padding:0}</style>", 200)
+    assert is_challenge('<div class="g-recaptcha" data-sitekey="x"></div>', 200)

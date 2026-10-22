@@ -26,7 +26,7 @@ print(' '.join(map(str, s)))"); do
   uv run python scripts/validate_db.py
   echo "== day $DAY automated part done $(date -u +%FT%TZ)"
   echo "IEEE (needs your login):"
-  echo "  uv run python scripts/lit_fetch_browser.py --site ieee --login"
-  echo "  uv run python scripts/lit_fetch_browser.py --site ieee --run --day $DAY"
+  echo "  (one window: sign in when it opens)"
+  echo "  uv run python scripts/lit_fetch_browser.py --site ieee --run --day $DAY --wait-login"
   echo "  uv run python scripts/lit_extract.py --pending && uv run python scripts/lit_register_sources.py"
 } 2>&1 | tee "$LOG"

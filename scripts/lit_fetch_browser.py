@@ -120,10 +120,15 @@ CHALLENGE_RE = re.compile(
     re.I,
 )
 # Signatures count only when the page is not an article page (citation_* meta), which a challenge page never is.
-# Weak signature: a captcha widget.
-CAPTCHA_RE = re.compile(r"captcha", re.I)
+# Weak signature: a captcha widget (not the bare word: Xplore article pages carry a `.captcha` CSS class).
+CAPTCHA_RE = re.compile(
+    r"g-recaptcha|recaptcha/api|hcaptcha\.com|captcha[-_](?:container|form|image|challenge|box)|id=\"captcha", re.I
+)
 JSCHECK_RE = re.compile(r"checkjs\.cfm|<p>\s*Please wait\.\.\.\s*</p>", re.I)
-ARTICLE_RE = re.compile(r'<meta[^>]+name="citation_(?:title|doi)"', re.I)
+# Article pages: citation_* meta, or the IEEE Xplore document app (no citation meta; 2026-10-22 false positive).
+ARTICLE_RE = re.compile(
+    r'<meta[^>]+name="citation_(?:title|doi)"|xplGlobal\.document\.metadata|class="document-title', re.I
+)
 PAYWALL_RE = re.compile(
     r"Purchase (?:this )?(?:article|PDF|Details)|Buy (?:this )?article|Get Access|Login to access|"
     r"Sign in to (?:view|access|download)|requires (?:a )?subscription|You do not have (?:subscription )?access|"
@@ -921,7 +926,7 @@ def login(site: Site, browser: str, login_url: str) -> int:
             if line:  # Enter pressed ("" = stdin closed: keep probing only)
                 st = access(ctx, site)
                 rl.info(f"user confirmed in terminal; access probe {st}")
-                rl.event("login", "confirmed", **st)
+                rl.event("login", "confirmed", access=st)
                 rc = 0
                 break
             try:
@@ -931,7 +936,7 @@ def login(site: Site, browser: str, login_url: str) -> int:
                 continue
             if st.get("ok"):
                 rl.info(f"access detected {st}; profile saved")
-                rl.event("login", "detected", **st)
+                rl.event("login", "detected", access=st)
                 rc = 0
                 break
         ctx.close()
@@ -981,8 +986,22 @@ def run(site: Site, a: argparse.Namespace) -> int:
                 f.page.wait_for_timeout(5000)
                 st = ieee_access(ctx)
                 rl.info(f"access {st}")
+                if not st.get("ok") and a.wait_login:
+                    # Institutional session cookies do not survive a context close, so sign in in this window.
+                    print("Sign in (Institutional Sign In) in the opened window; access is probed every 15 s (30 min).")
+                    deadline = time.monotonic() + 1800
+                    while not st.get("ok") and time.monotonic() < deadline:
+                        f.page.wait_for_timeout(15000)
+                        try:
+                            st = ieee_access(ctx)
+                        except Exception as exc:  # noqa: BLE001  mid-navigation during SSO
+                            rl.info(f"(waiting: {str(exc)[:80]})")
+                    rl.info(f"access after sign-in wait {st}")
+                    if st.get("ok"):
+                        rl.event("login", "detected", access=st)
+                        f.page.wait_for_timeout(5000)
                 if not st.get("ok"):
-                    rl.info("NOT SIGNED IN: run --login first")
+                    rl.info("NOT SIGNED IN: rerun with --wait-login and sign in in the window")
                     ctx.close()
                     return 2
             done = 0
@@ -1049,7 +1068,7 @@ def run(site: Site, a: argparse.Namespace) -> int:
                         st = ieee_access(ctx)
                         if not st.get("ok"):
                             rl.info(f"SESSION LOST {st}: stopping; run --login again")
-                            rl.event("session_lost", "stop", **st)
+                            rl.event("session_lost", "stop", access=st)
                             break
                     else:
                         set_breaker(site, "two consecutive HTML-instead-of-PDF answers", pid, host)
@@ -1074,6 +1093,12 @@ def main() -> int:
     ap.add_argument("--max", type=int, help="max papers attempted this run (default 30 IEEE, 20 Optica / publisher)")
     ap.add_argument("--login-url", default="https://www.nature.com", help="--site publisher --login start page")
     ap.add_argument("--browser", choices=["chromium", "firefox"], default="chromium")
+    ap.add_argument(
+        "--wait-login",
+        action="store_true",
+        help="--site ieee --run: if not signed in, wait in the same window for the user's sign-in (session cookies "
+        "are lost when a separate --login window closes)",
+    )
     ap.add_argument("--dry-run", action="store_true")
     a = ap.parse_args()
     site = SITES[a.site]

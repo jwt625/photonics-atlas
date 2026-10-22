@@ -276,3 +276,10 @@ reproducible and auditable, and the EO cache layout and fetcher rules for retrie
   user's IEEE sign-in (day 1 session), an optional Optica institutional sign-in (`--site optica --login`) to recover
   `no_access` rows, OPENALEX_API_KEY in `.env` for the broad-journal increment, manual downloads
   (`data/_staging/literature/manual_downloads.md` to be regenerated from the queue's manual + blocked rows).
+- 2026-10-22 09:10-09:51 local, IEEE day-1 session (user signed in): first attempt stopped on a false-positive
+  challenge (the word `captcha` in an Xplore CSS class; the Angular article page has no citation_* meta): detection
+  fixed (Xplore document markers count as article pages, captcha only as a widget signature), test added, breaker
+  archived as `logs/lit_browser_blocked_ieee_20261022T091125_false_positive.json`. Second attempt: institutional
+  session cookies do not survive a separate --login window, so `--run --wait-login` signs in in the same window
+  (runbook updated). Result: 21 / 22 ok (incl. xu2023a via Xplore title search, similarity 1.0), 1 no_ieee_copy
+  (yokokawa2022, OFC 2022 -> optica_browser fallback). Day 1 total: 64 papers cached and registered.
