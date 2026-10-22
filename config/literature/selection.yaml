@@ -1,0 +1,39 @@
+# Selection rules for the component-literature cache list (DevLog-006 S5, D120-D125).
+# Inputs: LLM scores (cache/literature/scoring/out_*.jsonl), curation overrides (config/literature/curation/*.yaml).
+total_target: 1000
+reserve_curator_picks: 35
+threshold: 6            # minimum LLM score for a rule-based pick
+paywalled_min_score: 8  # paywalled picks need this score or a curator reason (D124)
+oa_target_fraction: 0.8
+max_per_senior_author: 4    # per class, last author (D125)
+min_years: 3                # distinct publication years per class where available
+min_platforms: 3            # distinct platforms per class where available
+subtype_floor: 5            # min(subtype_floor, available scored >= floor_min_score) per subtype
+floor_min_score: 5
+exclude: [is_review, eo_modulator_main_only, known_in]
+# Tie-breaks inside a class, in order: score, OA, industrial, record_claim, recency, cited_by_count per year.
+budget:
+  fiber_chip_coupler: 60
+  micro_optics: 35
+  fiber_interface: 30
+  free_space_emitter: 40
+  splitter: 50
+  crossing: 30
+  mode_converter: 35
+  polarization: 45
+  resonator: 60
+  wdm: 80
+  reflector: 30
+  phase_shifter: 60
+  switch_fabric: 45
+  nonreciprocal: 30
+  photodetector: 70
+  laser: 90
+  amplifier: 45
+  frequency_converter: 30
+  waveguide_platform: 60
+  chip_chip_coupler: 40
+# Unfilled budget of a class (too few papers above threshold) goes to the reserve. The reserve takes curator picks
+# beyond class budgets first, then the best remaining works, at most this fraction of a class's budget per class.
+fill_reserve_with_best: true
+reserve_max_per_class_fraction: 0.5

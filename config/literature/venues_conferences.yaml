@@ -1,0 +1,186 @@
+# Lane L2 (conferences) venue list (DevLog-006 S1). Probed 2026-10-21 (Crossref facets / container-title filters,
+# OpenAlex /sources search + group_by=publication_year). Details per venue-year:
+# DevLog/research/2026-10-21-lit-lane-conferences.md.
+#
+# Two routes:
+#   api: openalex (default) -> scripts/lit_harvest_openalex.py --config <this> --only <openalex keys>
+#       OpenAlex types conference papers as `conference-paper` (the journals default article|review|letter drops them).
+#       openalex_source_id may OR several ids ("S1|S2"); years with 0 works are skipped by the harvester.
+#   api: crossref -> scripts/lit_harvest_crossref.py --config <this>
+#       crossref_filter (filter-only, from/until-pub-date:<year> appended unless present) or crossref_filter_by_year;
+#       doi_regex / container_regex / item_match route items of a shared filter to venues (one pass per filter-year);
+#       enrich: openalex fills abstracts / affiliations / OA fields by OpenAlex doi:<a>|<b> batch lists
+#       (100 DOIs per $0.0001 request) where Crossref has no abstract.
+# Year ranges: 2016-2025 (OFC 2026 is a local corpus and excluded; DOI-year outside the range is dropped).
+# Dropped: ECIO (no Crossref container, no OpenAlex source; proceedings not DOI-registered as far as both APIs show);
+# ECTC (covered by the advanced-packaging atlas; not harvested).
+lane: conferences
+types: conference-paper|article
+venues:
+  # ---- OFC (Optica, DOI 10.1364/ofc.<year>.<code> in every year 2016-2025, incl. postdeadline papers)
+  - key: ofc
+    name: Optical Fiber Communication Conference (OFC)
+    issn: ""
+    openalex_source_id: S4306420648
+    years: [2016, 2019]
+    extra_filter: ""
+    priority: 1
+    notes: "Crossref has no abstracts for Optica proceedings before 2020; OpenAlex has them (>99 %)"
+  - key: ofc_cr
+    name: Optical Fiber Communication Conference (OFC)
+    api: crossref
+    crossref_filter: "prefix:10.1364,type:proceedings-article"
+    doi_regex: '^10\.1364/ofc\.'
+    years: [2020, 2025]
+    priority: 1
+    notes: "Crossref abstracts 100 % 2020-2025"
+  # ---- CLEO (Optica; DOI codes cleo_si, cleo_at, cleo_qels (to 2022), cleo_fs (2023-))
+  - key: cleo
+    name: Conference on Lasers and Electro-Optics (CLEO)
+    issn: ""
+    openalex_source_id: S4306418073
+    years: [2016, 2019]
+    extra_filter: ""
+    priority: 2
+    notes: "OpenAlex source has no CLEO 2023+ works (no source on those works); 2020-2025 from Crossref"
+  - key: cleo_cr
+    name: Conference on Lasers and Electro-Optics (CLEO)
+    api: crossref
+    crossref_filter: "prefix:10.1364,type:proceedings-article"
+    doi_regex: '^10\.1364/cleo_(si|at|qels|fs)\.'
+    years: [2020, 2025]
+    priority: 2
+    notes: ""
+  # ---- ECOC (IEEE 2017-2018, 2020-2021, 2025; IET 2019 (cp.2019) and 2023 (IET Conference Proceedings 2023(34)))
+  - key: ecoc
+    name: European Conference on Optical Communication (ECOC)
+    issn: ""
+    openalex_source_id: S4306418339
+    years: [2016, 2025]
+    extra_filter: ""
+    priority: 3
+    notes: "2016: 32 works only; 2019 (IET): OpenAlex abstracts 38 %; 2022 and 2024 not found in Crossref or OpenAlex"
+  - key: ecoc_iet2023
+    name: European Conference on Optical Communication (ECOC 2023, IET Conference Proceedings vol 2023 issue 34)
+    api: crossref
+    crossref_filter_by_year:
+      2023: "container-title:IET Conference Proceedings,from-pub-date:2023-11-13,until-pub-date:2023-11-13"
+    item_match: {volume: "2023", issue: "34"}
+    years: [2023, 2023]
+    doi_year_check: false
+    enrich: openalex
+    priority: 3
+    notes: "IET deposits no event name; issue 34 published 2023-11-13 = 451 items, titles are ECOC topics; 10 DOIs read icp.2024.*"
+  # ---- IEEE Group IV Photonics (GFP) and its successor IEEE Silicon Photonics Conference
+  - key: gfp
+    name: IEEE International Conference on Group IV Photonics (GFP)
+    issn: ""
+    openalex_source_id: S7407086434
+    years: [2016, 2022]
+    extra_filter: ""
+    priority: 4
+    notes: "no GFP container in Crossref for 2020 or 2022"
+  - key: siphotonics
+    name: IEEE Silicon Photonics Conference (SiPhotonics)
+    issn: ""
+    openalex_source_id: S7407089019
+    years: [2023, 2025]
+    extra_filter: ""
+    priority: 4
+    notes: ""
+  # ---- IEEE Photonics Conference (IPC)
+  - key: ipc
+    name: IEEE Photonics Conference (IPC)
+    issn: ""
+    openalex_source_id: S4306418808
+    years: [2016, 2025]
+    extra_filter: ""
+    priority: 5
+    notes: ""
+  # ---- Optica Advanced Photonics Congress (IPR + co-located NOMA, NP, Networks, SPPCom, Sensors, SOF, PVLED, ...)
+  - key: apc
+    name: Optica Advanced Photonics Congress (incl. Integrated Photonics Research, IPR)
+    issn: ""
+    openalex_source_id: S4306500759
+    years: [2016, 2019]
+    extra_filter: ""
+    priority: 6
+    notes: "whole congress (IPR DOI code iprsn); the sub-meeting is in the DOI"
+  - key: apc_cr
+    name: Optica Advanced Photonics Congress (incl. Integrated Photonics Research, IPR)
+    api: crossref
+    crossref_filter: "prefix:10.1364,type:proceedings-article"
+    container_regex: 'Advanced Photonics'
+    years: [2020, 2025]
+    priority: 6
+    notes: "whole congress (IPR DOI code iprsn)"
+  # ---- Asia Communications and Photonics Conference (ACP): Optica 2016-2017, 2020-2021; IEEE 2018, 2022-2025
+  - key: acp
+    name: Asia Communications and Photonics Conference (ACP)
+    issn: ""
+    openalex_source_id: S4363608265
+    years: [2016, 2018]
+    extra_filter: ""
+    priority: 7
+    notes: "2019 not found in Crossref (Optica or IEEE) or OpenAlex"
+  - key: acp_cr
+    name: Asia Communications and Photonics Conference (ACP)
+    api: crossref
+    crossref_filter: "prefix:10.1364,type:proceedings-article"
+    doi_regex: '^10\.1364/acpc\.'
+    years: [2020, 2021]
+    priority: 7
+    notes: ""
+  - key: acp_ieee
+    name: Asia Communications and Photonics Conference (ACP)
+    issn: ""
+    openalex_source_id: S4363608265
+    years: [2022, 2025]
+    extra_filter: ""
+    priority: 7
+    notes: "OpenAlex source holds 2022 and 2025; 2023 (ACP/POEM) and 2024 (ACP/IPOC) via acp_ieee_cr"
+  - key: acp_ieee_cr
+    name: Asia Communications and Photonics Conference (ACP)
+    api: crossref
+    crossref_filter_by_year:
+      2023: "container-title:2023 Asia Communications and Photonics Conference/2023 International Photonics and Optoelectronics Meetings (ACP/POEM)"
+      2024: "container-title:2024 Asia Communications and Photonics Conference (ACP) and International Conference on Information Photonics and Optical Communications (IPOC)"
+    years: [2023, 2024]
+    enrich: openalex
+    priority: 7
+    notes: "IEEE deposits no abstracts in Crossref"
+  # ---- CLEO Pacific Rim: IEEE 2017, 2022 (+ Optica 2022), 2024; Optica 2018, 2020
+  - key: cleopr
+    name: Conference on Lasers and Electro-Optics Pacific Rim (CLEO-PR)
+    issn: ""
+    openalex_source_id: S7407089323
+    years: [2017, 2024]
+    extra_filter: ""
+    priority: 8
+    notes: "2022 = IEEE 811 + Optica 654 (Crossref containers), both in this OpenAlex source"
+  - key: cleopr_cr
+    name: Conference on Lasers and Electro-Optics Pacific Rim (CLEO-PR)
+    api: crossref
+    crossref_filter: "prefix:10.1364,type:proceedings-article"
+    container_regex: 'Pacific Rim|CLEO PR'
+    years: [2018, 2020]
+    enrich: openalex
+    priority: 8
+    notes: "2018 Crossref has no abstracts and the works have no OpenAlex source; enrich by DOI"
+  # ---- IEDM and VLSI Symposium: whole programs (photonics filtering left to the prefilter)
+  - key: iedm
+    name: IEEE International Electron Devices Meeting (IEDM)
+    issn: ""
+    openalex_source_id: S4210168112
+    years: [2016, 2025]
+    extra_filter: ""
+    priority: 9
+    notes: "whole program; prefilter selects photonics"
+  - key: vlsi
+    name: Symposium on VLSI Technology (and Circuits)
+    issn: ""
+    openalex_source_id: "S4306421008|S7407086820|S4363605407"
+    years: [2016, 2025]
+    extra_filter: ""
+    priority: 9
+    notes: "whole program; 2025 not in these OpenAlex sources"

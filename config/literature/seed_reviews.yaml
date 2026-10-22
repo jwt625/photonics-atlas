@@ -1,0 +1,228 @@
+# Lane L4 (DevLog-006 S1): review / tutorial seeds per component class, used only for snowballing (reference lists).
+# Reviews are not ingestion targets (D123). Every `reviews:` entry was verified by an OpenAlex singleton get (title,
+# year from the API); `how_found` = taxonomy_s5 | crossref:<query> | openalex_search:<query>.
+# Run: uv run python scripts/lit_seeds.py find-reviews --show ; then reviews ; then cites.
+
+queries:  # Crossref query.bibliographic, type journal-article, from 2018 (free)
+  - {class: fiber_chip_coupler, subtype: grating, q: "grating couplers silicon photonics review"}
+  - {class: fiber_chip_coupler, subtype: edge, q: "edge coupler spot size converter review"}
+  - {class: fiber_chip_coupler, subtype: photonic_wire_bond, q: "photonic wire bonding review"}
+  - {class: fiber_chip_coupler, q: "fiber-to-chip coupling photonic integrated circuits review"}
+  - {class: chip_chip_coupler, q: "chip-to-chip optical coupling hybrid integration review"}
+  - {class: chip_chip_coupler, q: "micro-transfer printing photonics review"}
+  - {class: micro_optics, q: "3D printed micro-optics two-photon lithography review"}
+  - {class: micro_optics, subtype: metalens, q: "metalens review"}
+  - {class: fiber_interface, q: "photonic packaging silicon photonics fiber attach review"}
+  - {class: fiber_interface, subtype: fan_out, q: "multicore fiber fan-in fan-out review"}
+  - {class: fiber_interface, subtype: connector, q: "optical connectors co-packaged optics review"}
+  - {class: free_space_emitter, q: "integrated photonics trapped ions neutral atoms review"}
+  - {class: free_space_emitter, subtype: metasurface, q: "metasurface integrated photonics waveguide review"}
+  - {class: free_space_emitter, subtype: grating_emitter, q: "optical phased array integrated review"}
+  - {class: splitter, subtype: mmi, q: "multimode interference couplers review"}
+  - {class: splitter, q: "optical power splitter silicon photonics review"}
+  - {class: splitter, q: "subwavelength grating metamaterial waveguide devices review"}
+  - {class: crossing, q: "waveguide crossing review"}
+  - {class: crossing, q: "silicon photonics passive devices review"}
+  - {class: mode_converter, q: "on-chip mode division multiplexing review"}
+  - {class: polarization, q: "polarization handling silicon photonics review"}
+  - {class: polarization, subtype: psr, q: "polarization splitter rotator review"}
+  - {class: resonator, q: "microring resonators review"}
+  - {class: resonator, q: "high-Q integrated microresonators review"}
+  - {class: resonator, subtype: photonic_crystal, q: "photonic crystal nanocavity review"}
+  - {class: wdm, subtype: awg, q: "arrayed waveguide grating review"}
+  - {class: wdm, subtype: eg, q: "echelle grating planar concave grating review"}
+  - {class: wdm, q: "on-chip wavelength division multiplexing devices review"}
+  - {class: reflector, subtype: bragg, q: "integrated Bragg gratings review"}
+  - {class: phase_shifter, subtype: thermo_optic, q: "thermo-optic phase shifter review"}
+  - {class: phase_shifter, subtype: phase_change, q: "phase change materials integrated photonics review"}
+  - {class: phase_shifter, subtype: mems, q: "MEMS silicon photonics review"}
+  - {class: switch_fabric, q: "silicon photonic switches review"}
+  - {class: switch_fabric, q: "programmable photonic integrated circuits review"}
+  - {class: switch_fabric, subtype: wss, q: "wavelength selective switch review"}
+  - {class: nonreciprocal, q: "integrated optical isolators review"}
+  - {class: nonreciprocal, q: "nonreciprocal photonics magneto-optical review"}
+  - {class: photodetector, subtype: ge_waveguide, q: "germanium photodetectors silicon photonics review"}
+  - {class: photodetector, subtype: apd, q: "avalanche photodiodes silicon photonics review"}
+  - {class: photodetector, subtype: snspd, q: "superconducting nanowire single-photon detectors review"}
+  - {class: photodetector, subtype: graphene, q: "graphene 2D material waveguide photodetectors review"}
+  - {class: laser, subtype: heterogeneous, q: "heterogeneous integration III-V lasers silicon review"}
+  - {class: laser, q: "lasers on silicon review"}
+  - {class: laser, subtype: sil, q: "narrow linewidth integrated lasers review"}
+  - {class: laser, subtype: comb, q: "microcomb integrated frequency comb review"}
+  - {class: laser, subtype: pcsel, q: "photonic crystal surface emitting lasers review"}
+  - {class: laser, subtype: vcsel, q: "VCSEL review"}
+  - {class: laser, subtype: tunable, q: "widely tunable integrated lasers review"}
+  - {class: amplifier, subtype: soa, q: "semiconductor optical amplifiers review"}
+  - {class: amplifier, subtype: rare_earth, q: "erbium doped waveguide amplifiers review"}
+  - {class: amplifier, subtype: parametric, q: "integrated optical parametric amplifier review"}
+  - {class: frequency_converter, subtype: shg, q: "periodically poled lithium niobate nanophotonics review"}
+  - {class: frequency_converter, q: "nonlinear integrated photonics review"}
+  - {class: waveguide_platform, q: "silicon nitride integrated photonics review"}
+  - {class: waveguide_platform, q: "thin-film lithium niobate photonics review"}
+  - {class: waveguide_platform, q: "ultra-low loss waveguides review"}
+  - {class: waveguide_platform, q: "visible integrated photonics review"}
+  - {class: waveguide_platform, q: "integrated photonics platforms materials review"}
+  - {class: photodetector, subtype: ge_waveguide, q: "germanium silicon photodetectors review progress", rows: 100}
+  - {class: wdm, subtype: awg, q: "arrayed waveguide grating AWG silicon review progress", rows: 100}
+  - {class: wdm, q: "on-chip wavelength demultiplexer silicon photonics review", rows: 100}
+  - {class: switch_fabric, subtype: wss, q: "wavelength selective switch technologies review", rows: 100}
+  - {class: amplifier, subtype: rare_earth, q: "erbium-doped waveguide amplifier integrated photonics review", rows: 100}
+  - {class: amplifier, q: "on-chip optical amplifiers integrated photonics review", rows: 100}
+  - {class: chip_chip_coupler, q: "micro-transfer printing heterogeneous integration silicon photonics review", rows: 100}
+  - {class: chip_chip_coupler, q: "chip-to-chip optical interconnect coupling review", rows: 100}
+  - {class: fiber_interface, subtype: fan_out, q: "multicore fiber fan-in fan-out devices review", rows: 100}
+  - {class: fiber_chip_coupler, subtype: edge, q: "edge coupler silicon photonics review", rows: 100}
+  - {class: splitter, q: "directional coupler MMI splitter silicon photonics review", rows: 100}
+  - {class: laser, q: "integrated lasers silicon photonics review", rows: 100}
+  - {class: laser, subtype: tunable, q: "widely tunable semiconductor lasers integrated review", rows: 100}
+  - {class: phase_shifter, subtype: mems, q: "silicon photonic MEMS review", rows: 100}
+  - {class: frequency_converter, q: "periodically poled thin-film lithium niobate frequency conversion review", rows: 100}
+  - {class: free_space_emitter, q: "integrated photonics for trapped-ion atomic systems review", rows: 100}
+
+# Anchors: landmark papers per class; reviews citing them (OpenAlex type review, 2018-2026) are listed by
+# `anchor-reviews` (filter-only). An anchor DOI is used only if the OpenAlex title printed by --show is the expected
+# paper (checked by hand; mismatches are dropped).
+anchors:
+  - {class: fiber_chip_coupler, subtype: grating, doi: 10.1109/jqe.2002.1017613}
+  - {class: fiber_chip_coupler, subtype: edge, doi: 10.1364/ol.28.001302}
+  - {class: fiber_chip_coupler, subtype: photonic_wire_bond, doi: 10.1364/oe.20.017667}
+  - {class: micro_optics, subtype: facet_lens, doi: 10.1038/s41566-018-0133-4}
+  - {class: free_space_emitter, doi: 10.1038/nnano.2016.139}
+  - {class: free_space_emitter, subtype: grating_emitter, doi: 10.1038/nature11727}
+  - {class: splitter, subtype: mmi, doi: 10.1109/50.372474}
+  - {class: splitter, doi: 10.1038/s41586-018-0421-7}
+  - {class: crossing, doi: 10.1364/ol.32.002801}
+  - {class: mode_converter, doi: 10.1038/ncomms4069}
+  - {class: polarization, subtype: psr, doi: 10.1364/oe.19.010940}
+  - {class: resonator, subtype: ring, doi: 10.1002/lpor.201100017}
+  - {class: resonator, doi: 10.1364/optica.4.000619}
+  - {class: resonator, subtype: photonic_crystal, doi: 10.1038/nature02063}
+  - {class: wdm, subtype: awg, title: "PHASAR-based WDM-devices: Principles, design and applications", hint: "IEEE J. Sel. Top. Quantum Electron. 1996"}
+  - {class: wdm, subtype: eg, title: "Planar concave grating demultiplexer fabricated on a nanophotonic silicon-on-insulator platform", hint: "J. Lightwave Technol. 2007"}
+  - {class: wdm, title: "Silicon microring resonators", hint: "Laser Photonics Rev. 2012"}
+  - {class: wdm, subtype: bragg_cdc, doi: 10.1364/oe.21.003633}
+  - {class: phase_shifter, subtype: thermo_optic, doi: 10.1364/oe.22.010487}
+  - {class: phase_shifter, subtype: phase_change, doi: 10.1038/nphoton.2015.182}
+  - {class: switch_fabric, subtype: mems, doi: 10.1364/optica.3.000064}
+  - {class: switch_fabric, subtype: mzi_mesh, doi: 10.1038/nphoton.2017.93}
+  - {class: nonreciprocal, doi: 10.1038/nphoton.2011.270}
+  - {class: photodetector, subtype: ge_waveguide, doi: 10.1038/nphoton.2010.157}
+  - {class: photodetector, subtype: apd, doi: 10.1038/nphoton.2008.247}
+  - {class: photodetector, subtype: snspd, doi: 10.1038/ncomms2307}
+  - {class: photodetector, subtype: graphene, doi: 10.1038/nphoton.2013.253}
+  - {class: laser, subtype: heterogeneous, doi: 10.1364/oe.14.009203}
+  - {class: laser, subtype: sil, doi: 10.1038/s41566-021-00761-7}
+  - {class: laser, subtype: pcsel, doi: 10.1038/nphoton.2014.75}
+  - {class: amplifier, subtype: rare_earth, doi: 10.1126/science.abo2631}
+  - {class: frequency_converter, subtype: shg, doi: 10.1364/optica.5.001438}
+  - {class: waveguide_platform, doi: 10.1038/s41586-022-05119-9}
+  - {class: waveguide_platform, title: "Ultra-low-loss high-aspect-ratio Si3N4 waveguides", hint: "Opt. Express 2011"}
+  - {class: waveguide_platform, title: "Monolithic ultra-high-Q lithium niobate microring resonator", hint: "Optica 2017"}
+  - {class: laser, subtype: comb, title: "Dissipative Kerr solitons in optical microresonators", hint: "Science 2018"}
+  - {class: laser, subtype: vcsel, title: "Surface-emitting laser-its birth and generation of new optoelectronics field", hint: "IEEE J. Sel. Top. Quantum Electron. 2000"}
+  - {class: laser, subtype: tunable, title: "Widely tunable sampled grating DBR laser with integrated electroabsorption modulator", hint: "IEEE Photon. Technol. Lett. 1999"}
+  - {class: amplifier, subtype: soa, title: "Semiconductor optical amplifiers for ultra-wideband optical systems", hint: ""}
+  - {class: amplifier, subtype: parametric, title: "Broad-band optical parametric gain on a silicon photonic chip", hint: "Nature 2006"}
+  - {class: chip_chip_coupler, title: "Heterogeneously integrated photonic chiplets", hint: ""}
+  - {class: chip_chip_coupler, title: "Micro-transfer-printed III-V-on-silicon C-band semiconductor optical amplifiers", hint: ""}
+  - {class: fiber_interface, title: "Automated, self-aligned assembly of 12 fibers per nanophotonic chip with standard microelectronics assembly tooling", hint: "ECTC 2015"}
+  - {class: fiber_interface, subtype: fan_out, title: "Ultrafast laser inscription of a three dimensional fan-out device for multicore fiber coupling applications", hint: "Opt. Express 2014"}
+  - {class: free_space_emitter, subtype: metasurface, doi: 10.1126/science.1210713}
+  - {class: polarization, title: "Polarization management for silicon photonic integrated circuits", hint: "Laser Photonics Rev. 2013"}
+  - {class: reflector, subtype: bragg, title: "Narrow-band waveguide Bragg gratings on SOI wafers with CMOS-compatible fabrication process", hint: "Opt. Express 2012"}
+  - {class: micro_optics, subtype: metalens, title: "Metalenses at visible wavelengths: Diffraction-limited focusing and subwavelength resolution imaging", hint: "Science 2016"}
+  - {class: photodetector, subtype: vertical, title: "Germanium-on-silicon photodetectors with 1.5-µm-thick absorbers", hint: ""}
+
+openalex_queries:  # title.search (all words), 2018-2026, most cited first; cost $0.001 each, lane cap 20
+  - {class: amplifier, subtype: soa, q: "semiconductor optical amplifier review"}
+  - {class: amplifier, subtype: rare_earth, q: "erbium waveguide amplifier review"}
+  - {class: wdm, subtype: awg, q: "arrayed waveguide grating review"}
+  - {class: wdm, q: "wavelength division multiplexing integrated review"}
+  - {class: switch_fabric, subtype: wss, q: "wavelength selective switch review"}
+  - {class: fiber_interface, subtype: fan_out, q: "multicore fiber fan-in"}
+  - {class: fiber_interface, q: "photonic packaging review"}
+  - {class: photodetector, subtype: ge_waveguide, q: "germanium photodetector review"}
+  - {class: photodetector, subtype: apd, q: "avalanche photodiode review"}
+  - {class: laser, subtype: tunable, q: "tunable laser review"}
+  - {class: phase_shifter, subtype: mems, q: "MEMS photonics review"}
+  - {class: chip_chip_coupler, q: "transfer printing photonic review"}
+  - {class: nonreciprocal, q: "optical isolator review"}
+  - {class: splitter, q: "power splitter review"}
+
+reviews:  # class, subtype, doi, title / year (from the OpenAlex record), how_found
+  - {"class": "fiber_chip_coupler", "subtype": "", "doi": "10.1364/prj.7.000201", "title": "Coupling strategies for silicon photonics integrated chips [Invited]", "year": 2019, "how_found": "taxonomy_s5", "n_refs": 130}
+  - {"class": "fiber_chip_coupler", "subtype": "", "doi": "10.1515/nanoph-2018-0075", "title": "High‐efficiency broadband light coupling between optical fibers and photonic integrated circuits", "year": 2017, "how_found": "taxonomy_s5", "n_refs": 162}
+  - {"class": "fiber_chip_coupler", "subtype": "grating", "doi": "10.3390/mi11070666", "title": "Grating Couplers on Silicon Photonics: Design Principles, Emerging Trends and Practical Issues", "year": 2020, "how_found": "crossref:grating couplers silicon photonics review", "n_refs": 166}
+  - {"class": "fiber_chip_coupler", "subtype": "edge", "doi": "10.3390/app10041538", "title": "Edge Couplers in Silicon Photonic Integrated Circuits: A Review", "year": 2020, "how_found": "taxonomy_s5", "n_refs": 154}
+  - {"class": "chip_chip_coupler", "subtype": "photonic_wire_bond", "doi": "10.1038/s41377-025-02048-w", "title": "Advances in waveguide to waveguide couplers for 3D integrated photonic packaging", "year": 2026, "how_found": "anchor_cites:10.1002/lpor.201900364", "n_refs": 328}
+  - {"class": "chip_chip_coupler", "subtype": "evanescent", "doi": "10.37188/lam.2021.005", "title": "Recent Progress in Heterogeneous III-V-on-Silicon Photonic Integration", "year": 2021, "how_found": "anchor_cites:10.1364/oe.14.009203", "n_refs": 218}
+  - {"class": "chip_chip_coupler", "subtype": "other", "doi": "10.3724/cjos.2025.026", "title": "Recent progress in heterogeneously integrated silicon-based III-V lasers enabled by micro-transfer printing", "year": 2026, "how_found": "crossref:micro-transfer printing heterogeneous integration silicon photonics review", "n_refs": 73}
+  - {"class": "micro_optics", "subtype": "facet_lens", "doi": "10.1364/prj.453338", "title": "3D printing of optical materials by processes based on photopolymerization: materials, technologies, and recent advances", "year": 2022, "how_found": "anchor_cites:10.1038/s41566-018-0133-4", "n_refs": 134}
+  - {"class": "micro_optics", "subtype": "facet_lens", "doi": "10.1016/j.addma.2022.102682", "title": "Recent advancements and applications in 3D printing of functional optics", "year": 2022, "how_found": "anchor_cites:10.1364/oe.20.017667", "n_refs": 154}
+  - {"class": "micro_optics", "subtype": "metalens", "doi": "10.1038/s41377-022-00885-7", "title": "Dielectric metalens for miniaturized imaging systems: progress and challenges", "year": 2022, "how_found": "anchor_cites:10.1126/science.aaf6644", "n_refs": 230}
+  - {"class": "micro_optics", "subtype": "metalens", "doi": "10.1038/s41578-020-0203-3", "title": "Flat optics with dispersion-engineered metasurfaces", "year": 2020, "how_found": "anchor_cites:10.1126/science.aaf6644", "n_refs": 195}
+  - {"class": "fiber_interface", "subtype": "", "doi": "10.1021/acsphotonics.2c00891", "title": "Integrated Photonics Packaging: Challenges and Opportunities", "year": 2022, "how_found": "anchor_cites:10.1038/s41566-018-0133-4", "n_refs": 188}
+  - {"class": "fiber_interface", "subtype": "v_groove", "doi": "10.1109/jstqe.2020.2964383", "title": "Advances in Interfacing Optical Fibers to Nanophotonic Waveguides Via Mechanically Compliant Polymer Waveguides", "year": 2020, "how_found": "anchor_cites:10.1109/ectc.2015.7159680", "n_refs": 41}
+  - {"class": "fiber_interface", "subtype": "", "doi": "10.1109/tcpmt.2025.3582041", "title": "3-D Packaging Technologies for Advanced Integrated Photonics Modules: A Review", "year": 2025, "how_found": "openalex_search:photonic packaging review", "n_refs": 97}
+  - {"class": "fiber_interface", "subtype": "fan_out", "doi": "10.1117/1.ap.3.2.024002", "title": "Photonic circuits written by femtosecond laser in glass: improved fabrication and recent progress in photonic devices", "year": 2021, "how_found": "anchor_cites:10.1364/oe.15.011691", "n_refs": 177}
+  - {"class": "free_space_emitter", "subtype": "", "doi": "10.1038/s42254-020-0182-8", "title": "Engineering of microfabricated ion traps and integration of advanced on-chip features", "year": 2020, "how_found": "anchor_cites:10.1038/nnano.2016.139", "n_refs": 221}
+  - {"class": "free_space_emitter", "subtype": "grating_emitter", "doi": "10.1109/jstqe.2020.3022948", "title": "A Review and Perspective on Optical Phased Array for Automotive LiDAR", "year": 2020, "how_found": "anchor_cites:10.1038/nature11727", "n_refs": 123}
+  - {"class": "free_space_emitter", "subtype": "", "doi": "10.3390/mi13070990", "title": "Free-Space Applications of Silicon Photonics: A Review", "year": 2022, "how_found": "anchor_cites:10.1038/nature11727", "n_refs": 101}
+  - {"class": "free_space_emitter", "subtype": "metasurface", "doi": "10.1364/aop.495828", "title": "Recent advances in metamaterial integrated photonics", "year": 2023, "how_found": "anchor_cites:10.1038/s41586-018-0421-7", "n_refs": 288}
+  - {"class": "splitter", "subtype": "", "doi": "10.1038/s41586-018-0421-7", "title": "Subwavelength integrated photonics", "year": 2018, "how_found": "taxonomy_s5", "n_refs": 103}
+  - {"class": "splitter", "subtype": "", "doi": "10.1515/nanoph-2021-0110", "title": "A review of silicon subwavelength gratings: building break‐through devices with anisotropic metamaterials", "year": 2021, "how_found": "anchor_cites:10.1038/s41586-018-0421-7", "n_refs": 206}
+  - {"class": "splitter", "subtype": "", "doi": "10.3390/photonics12090928", "title": "Progress in Passive Silicon Photonic Devices: A Review", "year": 2025, "how_found": "anchor_cites:10.1002/lpor.201200023", "n_refs": 113}
+  - {"class": "crossing", "subtype": "", "doi": "10.3390/mi11030326", "title": "State-of-the-Art and Perspectives on Silicon Waveguide Crossings: A Review", "year": 2020, "how_found": "anchor_cites:10.1364/ol.32.002801", "n_refs": 91}
+  - {"class": "crossing", "subtype": "", "doi": "10.3390/photonics13060539", "title": "Silicon-Based Optical Waveguide Crossings for High-Capacity Transmission: A Review", "year": 2026, "how_found": "anchor_cites:10.1364/ol.32.002801", "n_refs": 94}
+  - {"class": "mode_converter", "subtype": "mdm_mux", "doi": "10.29026/oea.2022.210127", "title": "Optical multiplexing techniques and their marriage for on-chip and optical fiber communication: a review", "year": 2022, "how_found": "anchor_cites:10.1038/ncomms4069", "n_refs": 198}
+  - {"class": "mode_converter", "subtype": "", "doi": "10.1063/5.0046071", "title": "Perspective on mode-division multiplexing", "year": 2021, "how_found": "anchor_cites:10.1038/ncomms4069", "n_refs": 100}
+  - {"class": "mode_converter", "subtype": "mdm_mux", "doi": "10.1109/jlt.2024.3412391", "title": "Recent Advancements in Mode Division Multiplexing for Communication and Computation in Silicon Photonics", "year": 2024, "how_found": "anchor_cites:10.1038/ncomms4069", "n_refs": 60}
+  - {"class": "polarization", "subtype": "", "doi": "10.1002/lpor.202301025", "title": "Recent Progress in Light Polarization Control Schemes for Silicon Integrated Photonics", "year": 2024, "how_found": "anchor_cites:10.1002/lpor.201200023", "n_refs": 224}
+  - {"class": "polarization", "subtype": "", "doi": "10.1002/lpor.202500643", "title": "Advances in On‐Chip Polarization Multiplexing Devices: From Traditional Designs to Inverse Design and Hybrid Multiplexing", "year": 2025, "how_found": "anchor_cites:10.1002/lpor.201200023", "n_refs": 149}
+  - {"class": "polarization", "subtype": "pbs", "doi": "10.1049/iet-opt.2019.0079", "title": "Silicon nitride polarisation beam splitters: a review", "year": 2019, "how_found": "anchor_cites:10.1002/lpor.201200023", "n_refs": 40}
+  - {"class": "resonator", "subtype": "disk", "doi": "10.1007/s11433-018-9349-2", "title": "Emerging opportunities for ultra-high Q whispering gallery mode microcavities", "year": 2019, "how_found": "anchor_cites:10.1364/optica.4.000619", "n_refs": 22}
+  - {"class": "resonator", "subtype": "photonic_crystal", "doi": "10.3390/photonics10111199", "title": "Recent Progress in Photonic Crystal Devices and Their Applications: A Review", "year": 2023, "how_found": "anchor_cites:10.1038/nature02063", "n_refs": 189}
+  - {"class": "resonator", "subtype": "", "doi": "10.1038/s41578-024-00668-z", "title": "Nonlinear and quantum photonics using integrated optical materials", "year": 2024, "how_found": "anchor_cites:10.1364/optica.4.000619", "n_refs": 386}
+  - {"class": "wdm", "subtype": "", "doi": "10.1016/j.scib.2018.05.038", "title": "On-chip silicon photonic signaling and processing: a review", "year": 2018, "how_found": "anchor_cites:10.1038/nature11727", "n_refs": 326}
+  - {"class": "wdm", "subtype": "eg", "doi": "10.1038/s41377-022-00853-1", "title": "Advances in cost-effective integrated spectrometers", "year": 2022, "how_found": "anchor_cites:10.1109/jlt.2007.893025", "n_refs": 109}
+  - {"class": "reflector", "subtype": "bragg", "doi": "10.1109/jlt.2020.3035372", "title": "Spectral Design of Silicon Integrated Bragg Gratings: A Tutorial", "year": 2020, "how_found": "anchor_cites:10.1364/oe.20.015547", "n_refs": 43}
+  - {"class": "reflector", "subtype": "bragg", "doi": "10.1007/s12200-018-0813-1", "title": "Optical signal processing based on silicon photonics waveguide Bragg gratings: review", "year": 2018, "how_found": "anchor_cites:10.1002/lpor.201100017", "n_refs": 78}
+  - {"class": "phase_shifter", "subtype": "thermo_optic", "doi": "10.1007/s12200-022-00012-9", "title": "Thermo-optic phase shifters based on silicon-on-insulator platform: state-of-the-art and a review", "year": 2022, "how_found": "anchor_cites:10.1364/oe.22.010487", "n_refs": 60}
+  - {"class": "phase_shifter", "subtype": "", "doi": "10.3390/mi13091509", "title": "Silicon Photonic Phase Shifters and Their Applications: A Review", "year": 2022, "how_found": "anchor_cites:10.1364/oe.22.010487", "n_refs": 133}
+  - {"class": "phase_shifter", "subtype": "phase_change", "doi": "10.1364/ome.8.002415", "title": "Optical phase change materials in integrated silicon photonic devices: review", "year": 2018, "how_found": "anchor_cites:10.1038/nphoton.2015.182", "n_refs": 85}
+  - {"class": "phase_shifter", "subtype": "phase_change", "doi": "10.1021/acsphotonics.2c00976", "title": "Opportunities and Challenges for Large-Scale Phase-Change Material Integrated Electro-Photonics", "year": 2022, "how_found": "anchor_cites:10.1038/nphoton.2015.182", "n_refs": 149}
+  - {"class": "phase_shifter", "subtype": "mems", "doi": "10.1515/nanoph-2021-0082", "title": "Recent advances in nano‐opto‐electro‐mechanical systems", "year": 2021, "how_found": "anchor_cites:10.1364/optica.3.000064", "n_refs": 125}
+  - {"class": "switch_fabric", "subtype": "", "doi": "10.3390/mi10010051", "title": "State of the Art and Perspectives on Silicon Photonic Switches", "year": 2019, "how_found": "anchor_cites:10.1364/optica.3.000064", "n_refs": 112}
+  - {"class": "switch_fabric", "subtype": "", "doi": "10.1002/lpor.202200571", "title": "A Review of Silicon‐Based Integrated Optical Switches", "year": 2023, "how_found": "crossref:integrated lasers silicon photonics review", "n_refs": 117}
+  - {"class": "switch_fabric", "subtype": "wss", "doi": "10.1109/jlt.2020.3022375", "title": "Recent Progress of Wavelength Selective Switch", "year": 2020, "how_found": "crossref:wavelength selective switch review", "n_refs": 22}
+  - {"class": "switch_fabric", "subtype": "mems", "doi": "10.1109/comst.2019.2895817", "title": "A Comparative Review of MEMS-Based Optical Cross-Connects for All-Optical Networks From the Past to the Present Day", "year": 2019, "how_found": "anchor_cites:10.1364/optica.3.000064", "n_refs": 160}
+  - {"class": "nonreciprocal", "subtype": "isolator", "doi": "10.1364/ome.447398", "title": "Review of integrated magneto-optical isolators with rare-earth iron garnets for polarization diverse and magnet-free isolation in silicon photonics [Invited]", "year": 2022, "how_found": "anchor_cites:10.1038/nphoton.2011.270", "n_refs": 87}
+  - {"class": "nonreciprocal", "subtype": "isolator", "doi": "10.1364/ome.8.003307", "title": "Magneto-optical materials and designs for integrated TE- and TM-mode planar waveguide isolators: a review [Invited]", "year": 2018, "how_found": "anchor_cites:10.1038/nphoton.2011.270", "n_refs": 41}
+  - {"class": "nonreciprocal", "subtype": "", "doi": "10.1039/d5tc01540e", "title": "Recent development of magneto-optical thin films and integrated photonic devices", "year": 2025, "how_found": "anchor_cites:10.1038/nphoton.2011.270", "n_refs": 208}
+  - {"class": "photodetector", "subtype": "ge_waveguide", "doi": "10.1364/ome.435902", "title": "Recent progress of silicon integrated light emitters and photodetectors for optical communication based on two-dimensional materials", "year": 2021, "how_found": "crossref:germanium silicon photodetectors review progress", "n_refs": 169}
+  - {"class": "photodetector", "subtype": "apd", "doi": "10.1088/1361-6528/ac5442", "title": "A review on III–V compound semiconductor short wave infrared avalanche photodiodes", "year": 2022, "how_found": "anchor_cites:10.1038/nphoton.2008.247", "n_refs": 144}
+  - {"class": "photodetector", "subtype": "snspd", "doi": "10.1063/5.0045990", "title": "Superconducting nanowire single-photon detectors: A perspective on evolution, state-of-the-art, future developments, and applications", "year": 2021, "how_found": "anchor_cites:10.1038/ncomms2307", "n_refs": 232}
+  - {"class": "photodetector", "subtype": "graphene", "doi": "10.1038/s41578-018-0040-9", "title": "Graphene-based integrated photonics for next-generation datacom and telecom", "year": 2018, "how_found": "anchor_cites:10.1038/nphoton.2010.157", "n_refs": 263}
+  - {"class": "laser", "subtype": "heterogeneous", "doi": "10.1364/aop.455976", "title": "Recent advances in light sources on silicon", "year": 2022, "how_found": "anchor_cites:10.1364/oe.14.009203", "n_refs": 240}
+  - {"class": "laser", "subtype": "", "doi": "10.1186/s43593-022-00027-x", "title": "Prospects and applications of on-chip lasers", "year": 2023, "how_found": "anchor_cites:10.1364/oe.14.009203", "n_refs": 183}
+  - {"class": "laser", "subtype": "sil", "doi": "10.1007/s11467-022-1245-3", "title": "Recent advances in laser self-injection locking to high-Q microresonators", "year": 2023, "how_found": "anchor_cites:10.1038/s41566-021-00761-7", "n_refs": 279}
+  - {"class": "laser", "subtype": "tunable", "doi": "10.1063/1.5124254", "title": "Tutorial on narrow linewidth tunable semiconductor lasers using Si/III-V heterogeneous integration", "year": 2019, "how_found": "anchor_cites:10.1364/oe.14.009203", "n_refs": 111}
+  - {"class": "laser", "subtype": "comb", "doi": "10.1117/1.ap.2.3.034001", "title": "Advances in soliton microcomb generation", "year": 2020, "how_found": "anchor_cites:10.1126/science.aan8083", "n_refs": 166}
+  - {"class": "laser", "subtype": "pcsel", "doi": "10.1364/aop.502863", "title": "High-power and high-beam-quality photonic-crystal surface-emitting lasers: a tutorial", "year": 2023, "how_found": "anchor_cites:10.1038/nphoton.2014.75", "n_refs": 80}
+  - {"class": "laser", "subtype": "vcsel", "doi": "10.3390/photonics10040410", "title": "Progress in Short Wavelength Energy-Efficient High-Speed Vertical-Cavity Surface-Emitting Lasers for Data Communication", "year": 2023, "how_found": "anchor_cites:10.1109/2944.902168", "n_refs": 51}
+  - {"class": "amplifier", "subtype": "soa", "doi": "10.3390/s23177326", "title": "A Review of High-Power Semiconductor Optical Amplifiers in the 1550 nm Band", "year": 2023, "how_found": "openalex_search:semiconductor optical amplifier review", "n_refs": 130}
+  - {"class": "amplifier", "subtype": "soa", "doi": "10.3390/photonics10020161", "title": "The Progress and Trend of Heterogeneous Integration Silicon/III-V Semiconductor Optical Amplifiers", "year": 2023, "how_found": "crossref:on-chip optical amplifiers integrated photonics review", "n_refs": 87}
+  - {"class": "amplifier", "subtype": "", "doi": "10.1109/jlt.2022.3153447", "title": "On-Chip Waveguide Amplifiers for Multi-Band Optical Communications: A Review and Challenge", "year": 2022, "how_found": "crossref:on-chip optical amplifiers integrated photonics review", "n_refs": 72}
+  - {"class": "frequency_converter", "subtype": "", "doi": "10.1038/s41578-024-00668-z", "title": "Nonlinear and quantum photonics using integrated optical materials", "year": 2024, "how_found": "anchor_cites:10.1364/optica.5.001438", "n_refs": 386}
+  - {"class": "frequency_converter", "subtype": "shg", "doi": "10.1117/1.ap.4.3.034003", "title": "Advances in lithium niobate photonics: development status and perspectives", "year": 2022, "how_found": "anchor_cites:10.1364/optica.5.001438", "n_refs": 385}
+  - {"class": "frequency_converter", "subtype": "shg", "doi": "10.1364/aop.495768", "title": "Ultrafast second-order nonlinear photonics—from classical physics to non-Gaussian quantum dynamics: a tutorial", "year": 2024, "how_found": "anchor_cites:10.1364/optica.5.001438", "n_refs": 198}
+  - {"class": "frequency_converter", "subtype": "shg", "doi": "10.1016/j.infrared.2022.104243", "title": "Research progress on periodically poled lithium niobate for nonlinear frequency conversion", "year": 2022, "how_found": "crossref:periodically poled thin-film lithium niobate frequency conversion review", "n_refs": 177}
+  - {"class": "waveguide_platform", "subtype": "", "doi": "10.1109/jlt.2021.3066203", "title": "Review of Silicon Photonics Technology and Platform Development", "year": 2021, "how_found": "taxonomy_s5", "n_refs": 116}
+  - {"class": "waveguide_platform", "subtype": "", "doi": "10.1364/aop.411024", "title": "Integrated photonics on thin-film lithium niobate", "year": 2021, "how_found": "taxonomy_s5", "n_refs": 530}
+  - {"class": "waveguide_platform", "subtype": "", "doi": "10.1364/prj.452936", "title": "Silicon nitride passive and active photonic integrated circuits: trends and prospects", "year": 2022, "how_found": "anchor_cites:10.1364/oe.19.003163", "n_refs": 156}
+  - {"class": "waveguide_platform", "subtype": "", "doi": "10.1038/s41467-024-44750-0", "title": "Roadmapping the next generation of silicon photonics", "year": 2024, "how_found": "taxonomy_s5", "n_refs": 159}
+  - {"class": "wdm", "subtype": "mrr", "doi": "10.29026/oea.2022.210127", "title": "Optical multiplexing techniques and their marriage for on-chip and optical fiber communication: a review", "year": 2022, "how_found": "anchor_cites:10.1038/ncomms4069", "n_refs": 198}
+  - {"class": "amplifier", "subtype": "rare_earth", "doi": "10.3390/app122211712", "title": "Recent Progress in On-Chip Erbium-Based Light Sources", "year": 2022, "how_found": "anchor_cites:10.1126/science.abo2631", "n_refs": 82}
+
+cites:  # forward citations (filter cites:W, newest first, <= 2 pages) for classes whose reviews predate 2021
+  - {class: reflector, doi: 10.1364/oe.20.015547, pages: 2, reason: "reflector reviews are 2018 and 2020; narrow-band SOI Bragg grating benchmark (anchor)"}

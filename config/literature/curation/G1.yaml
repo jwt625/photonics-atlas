@@ -1,0 +1,77 @@
+# S4 curation, group G1 (DevLog-006): fiber_chip_coupler, micro_optics, fiber_interface, free_space_emitter.
+# Reviewed 2026-10-21 against cache/literature/curation_inputs/<class>.csv as of that date.
+group: G1
+curator_notes: >-
+  fiber_chip_coupler: rule picks were 49 grating vs 14 edge; picks rebalance toward edge / SSC (inverse-taper
+  landmark, foundry production couplers, TFLN, visible, buried 3D SSC) and add grating benchmarks (Taillaert,
+  backside-mirror and fully etched CE records, sub-dB SWG, Luxtera platform, LETI PDK, SiC). Photonic wire bond had 3 papers; two PWB papers added.
+  Conference duplicates of journal papers dropped. micro_optics: adequate after out-of-scope imaging metalenses were
+  excluded; added the in-situ facet-printing and free-form reflector benchmarks. fiber_interface: fiber-only fan-outs
+  dominated; picks add CPO-relevant industry interfaces (IBM, imec, Corning, GF, detachable CPO connectors).
+  free_space_emitter: 26 of 40 were OPAs; picks and adds restore the AMO grating-emitter core (ion addressing,
+  visible emitters, meta-gratings, metasurface platforms). Several adds were in prefiltered.jsonl beyond the
+  scoring cap (score_keep false), so they never reach the inputs.
+picks:
+  # fiber_chip_coupler
+  - {uid: "10.1364/ol.28.001302", class: fiber_chip_coupler, reason: "landmark Si inverse nanotaper edge coupler (2003)"}
+  - {uid: "10.1364/ol.413945", class: fiber_chip_coupler, reason: "GF production metamaterial edge couplers, return loss statistics (industry)"}
+  - {uid: "10.1109/ectc.2018.00130", class: fiber_chip_coupler, reason: "imec lensed polarization-insensitive edge couplers (industry)"}
+  - {uid: "10.1364/ol.44.002314", class: fiber_chip_coupler, reason: "TFLN fiber-to-chip edge interface benchmark, OA"}
+  - {uid: "10.1364/optica.431064", class: fiber_chip_coupler, reason: "buried 3D spot-size converter, OA; edge subtype underweighted"}
+  - {uid: "10.1364/oe.435669", class: fiber_chip_coupler, reason: "visible-band bilayer SiN edge coupler; band gap"}
+  - {uid: "10.1364/optica.6.000549", class: fiber_chip_coupler, reason: "fiber-to-chip fusion splicing, low-loss packaged coupling, OA"}
+  - {uid: "10.1143/jjap.45.6071", class: fiber_chip_coupler, reason: "landmark SOI grating coupler paper (Ghent), OA"}
+  - {uid: "10.1117/12.2511845", class: fiber_chip_coupler, reason: "CEA-LETI PDK grating coupler development (foundry PDK)"}
+  - {uid: "10.1364/oe.570674", class: fiber_chip_coupler, reason: "SiC-on-insulator grating coupler; platform gap, OA"}
+  - {uid: "10.1364/ol.39.005348", class: fiber_chip_coupler, reason: "record fully etched apodized SOI grating coupler CE, OA"}
+  - {uid: "10.1364/oe.23.022628", class: fiber_chip_coupler, reason: "first sub-dB single-etch SWG surface grating coupler, OA"}
+  - {uid: "10.1002/lpor.202000542", class: fiber_chip_coupler, reason: "zero-order radiation GC breaking CE-bandwidth trade-off, OA"}
+  - {uid: "10.1049/el:20021185", class: fiber_chip_coupler, reason: "NTT Si-wire to SMF mode size converter, landmark (reclassed)"}
+  # micro_optics
+  - {uid: "10.1038/ncomms11763", class: micro_optics, reason: "benchmark 3D-printed free-form optics on SMF facets, OA"}
+  # fiber_interface
+  - {uid: "10.1109/jstqe.2018.2879018", class: fiber_interface, reason: "IBM self-aligned metamaterial fiber interface, volume manufacturing"}
+  - {uid: "10.1109/ipc48725.2021.9592855", class: fiber_interface, reason: "imec U-groove passive 30-fiber array assembly (industry)"}
+  - {uid: "10.1109/lpt.2019.2941126", class: fiber_interface, reason: "Corning reflow-compatible glass connector ferrule for PIC edges"}
+  - {uid: "10.1364/ofc.2020.th3i.4", class: fiber_interface, reason: "GF 300 mm monolithic fiber attach, yield and reliability"}
+  - {uid: "10.1364/oe.15.011691", class: fiber_interface, reason: "first laser-inscribed 3D waveguide MCF fan-out, OA"}
+  - {uid: "10.1364/oe.19.009102", class: fiber_interface, reason: "NIST self-aligning cryogenic fiber-to-detector coupling, OA"}
+  - {uid: "10.1364/ofc.2025.th3h.1", class: fiber_interface, reason: "detachable fiber connector with evanescent glass coupling for CPO"}
+  - {uid: "10.1109/ecoc66593.2025.11263261", class: fiber_interface, reason: "12-channel detachable CPO connector, mating-cycle statistics"}
+  # free_space_emitter
+  - {uid: "10.1038/nnano.2016.139", class: free_space_emitter, reason: "landmark integrated focusing grating addressing of an ion qubit, OA"}
+  - {uid: "10.1038/s41586-020-2811-x", class: free_space_emitter, reason: "multi-wavelength (UV-NIR) grating emitters for ion control, OA"}
+  - {uid: "10.1038/s41598-017-02169-2", class: free_space_emitter, reason: "diffraction-limited waveguide focusing gratings, OA"}
+  - {uid: "10.1364/optica.486747", class: free_space_emitter, reason: "visible free-space emitters benchmark, OA"}
+  - {uid: "10.1364/oe.424644", class: free_space_emitter, reason: "visible meta-grating outcouplers for beam shaping, OA"}
+  - {uid: "10.1021/acsphotonics.9b01000", class: free_space_emitter, reason: "metasurface-integrated photonic beam projection platform, OA"}
+drops:
+  - {uid: "10.1364/ofc.2017.tu3k.1", reason: "conference version of 10.1109/jlt.2017.2779863"}
+  - {uid: "10.1117/12.3042842", reason: "duplicate of 10.1364/oe.533597 (same metastructure coupler, same numbers)"}
+  - {uid: "10.1364/oe.21.007868", reason: "IME group over author cap; redundant apodized double-etch grating"}
+  - {uid: "10.1515/nanoph-2023-0898", reason: "microdisk laser emission enhancement; no micro-optic coupling metrics"}
+  - {uid: "10.1364/oe.479223", reason: "fiber LPG coupler for WGM excitation; not a chip / fiber interface"}
+  - {uid: "arxiv:2512.04767", reason: "diffractive neural network MMF demultiplexing; system-level"}
+  - {uid: "10.1515/nanoph-2024-0519", reason: "QD source paper; pigtailing secondary, Senellart paper kept"}
+  - {uid: "10.1109/jlt.2024.3483556", reason: "spectrometer system; no emitter component metrics"}
+  - {uid: "10.1002/ecjb.10025", reason: "same NTT OptoBump interface as 10.1109/tadvp.2003.817332 (kept)"}
+reclass:
+  - {uid: "10.1049/el:20021185", class: fiber_chip_coupler, subtype: fiber_chip_coupler.edge, reason: "Si-wire to single-mode fibre spot-size converter"}
+  - {uid: "10.1038/s41586-020-2811-x", class: free_space_emitter, subtype: free_space_emitter.grating_emitter, reason: "focusing grating emitters to ions, not fiber coupling"}
+  - {uid: "10.1364/oe.26.010400", class: fiber_chip_coupler, subtype: fiber_chip_coupler.other, reason: "vertically curved Si surface coupler to fiber; same family as 10.1364/oe.23.029449"}
+  - {uid: "arxiv:2606.16398", class: fiber_chip_coupler, subtype: fiber_chip_coupler.other, reason: "3D-printed out-of-plane couplers, not photonic wire bonds"}
+  - {uid: "10.1364/ofc.2020.th3i.4", class: fiber_interface, subtype: fiber_interface.v_groove, reason: "monolithic self-aligned cleaved-fiber attach groove"}
+adds:
+  - {doi: "10.1364/oe.22.001277", arxiv_id: "", title: "Bridging the gap between optical fibers and silicon photonic integrated circuits", year: 2014, class: fiber_chip_coupler, subtype: fiber_chip_coupler.grating, reason: "benchmark SOI grating coupler with backside metal mirror; prefilter no_class_hit"}
+  - {doi: "10.1364/optica.2.000070", arxiv_id: "", title: "Efficient fiber-optical interface for nanophotonic devices", year: 2015, class: fiber_chip_coupler, subtype: fiber_chip_coupler.other, reason: "adiabatic tapered-fiber interface benchmark; prefilter no_class_hit"}
+  - {doi: "10.1109/jstqe.2010.2086049", arxiv_id: "", title: "A Grating-Coupler-Enabled CMOS Photonics Platform", year: 2010, class: fiber_chip_coupler, subtype: fiber_chip_coupler.grating, reason: "Luxtera industrial grating-coupler platform; beyond scoring cap"}
+  - {doi: "10.1038/s41377-020-0292-1", arxiv_id: "", title: "Laser polymerized photonic wire bonds approach 1 Tbit/s data rates", year: 2020, class: fiber_chip_coupler, subtype: fiber_chip_coupler.photonic_wire_bond, reason: "PWB benchmark, OA; PWB subtype has 3 papers; beyond cap"}
+  - {doi: "10.1109/tcpmt.2025.3531206", arxiv_id: "", title: "Photonic Integration Using Industry-Ready Photonic Wire Bonds and Facet Attached Micro-Lenses", year: 2025, class: fiber_chip_coupler, subtype: fiber_chip_coupler.photonic_wire_bond, reason: "industrial PWB / facet microlens process, OA; beyond cap"}
+  - {doi: "10.1038/s41566-018-0133-4", arxiv_id: "", title: "In situ 3D nanoprinting of free-form coupling elements for hybrid photonic integration", year: 2018, class: micro_optics, subtype: micro_optics.facet_lens, reason: "landmark facet-attached microlenses, OA; prefilter no_class_hit"}
+  - {doi: "10.1002/lpor.202200025", arxiv_id: "", title: "Free‐Form Micro‐Optics Enabling Ultra‐Broadband Low‐Loss Off‐Chip Coupling", year: 2023, class: micro_optics, subtype: micro_optics.other, reason: "free-form micro-reflector coupler, OA; beyond scoring cap"}
+  - {doi: "10.1109/jstqe.2016.2593637", arxiv_id: "", title: "A Novel Approach to Photonic Packaging Leveraging Existing High-Throughput Microelectronic Facilities", year: 2016, class: fiber_interface, subtype: fiber_interface.v_groove, reason: "IBM self-aligned V-groove fiber assembly benchmark; beyond cap"}
+  - {doi: "10.1038/nature11727", arxiv_id: "", title: "Large-scale nanophotonic phased array", year: 2013, class: free_space_emitter, subtype: free_space_emitter.grating_emitter, reason: "landmark 4096-element OPA; prefilter no_class_hit"}
+  - {doi: "10.1109/jphot.2021.3094646", arxiv_id: "", title: "Design and Fabrication of Grating Couplers for the Optical Addressing of Trapped Ions", year: 2021, class: free_space_emitter, subtype: free_space_emitter.grating_emitter, reason: "ion-addressing grating emitters, OA; beyond scoring cap"}
+  - {doi: "10.1038/s41377-024-01542-x", arxiv_id: "", title: "Low cross-talk optical addressing of trapped-ion qubits using a novel integrated photonic chip", year: 2024, class: free_space_emitter, subtype: free_space_emitter.grating_emitter, reason: "ion addressing crosstalk benchmark, OA; beyond cap"}
+  - {doi: "10.1021/acsphotonics.2c00422", arxiv_id: "", title: "Surface-Normal Free-Space Beam Projection via Slow-Light Standing-Wave Resonance Photonic Gratings", year: 2022, class: free_space_emitter, subtype: free_space_emitter.grating_emitter, reason: "large-aperture surface-normal grating emitter, OA; beyond cap"}
+  - {doi: "10.1021/acsphotonics.4c00744", arxiv_id: "", title: "Atomic Magnetometry Using a Metasurface Polarizing Beamsplitter in Silicon-on-Sapphire", year: 2024, class: free_space_emitter, subtype: free_space_emitter.metasurface, reason: "metasurface subtype gap (5 papers), OA; beyond cap"}

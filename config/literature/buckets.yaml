@@ -1,0 +1,673 @@
+# Regex prefilter for the component-literature pool (DevLog-006 S2). Used by scripts/lit_prefilter.py.
+# All patterns are Python regexes, case-insensitive, searched (not anchored). Write them in single quotes.
+#
+# classes.<class>.subtypes.<subtype>: {title: [...], abstract: [...]}
+#   title    = strong hit (searched in the title only)
+#   abstract = weak hit (searched in the abstract only); when omitted, the title patterns are used for the abstract too
+#   subtype `_class` = hits that assign the class without a subtype
+# classes.<class>.require: optional; a class hit counts only if one of these matches title + abstract; classes without
+#   `require` use `context_default` (integrated / fiber-chip context); `require: []` disables the check.
+#   By default a title hit on a specific subtype (not `other` / `_class`) skips the check; `require_scope: all` applies it
+#   to every hit.
+# classes.<class>.exclude_title: optional; drops this class's hits (not the record) when the title matches
+# exclusions: global out-of-scope rules over the title (record excluded from scoring when a rule fires):
+#   title: [...] fire on a title match; unless_title / unless_text: [...] cancel the rule when they match;
+#   unless_class_title_hit: true cancels the rule when any class has a title hit (ignore_classes are not counted);
+#   require_no_text: [...] the rule fires only when none of these match title + abstract;
+#   require_abstract: true the rule fires only when the record has an abstract
+# Hit order (best class): title hit > abstract hit > seed_class; then a specific-subtype title hit (not other / _class)
+# before a generic one; then the earliest title match (titles name the main component first); then the number of
+# subtypes hit in the title, then in the abstract.
+version: 1
+
+groups:
+  G1: [fiber_chip_coupler, micro_optics, fiber_interface, free_space_emitter]
+  G2: [splitter, crossing, mode_converter, polarization]
+  G3: [resonator, wdm, reflector]
+  G4: [phase_shifter, switch_fabric, nonreciprocal]
+  G5: [photodetector]
+  G6: [laser, amplifier, frequency_converter]
+  G7: [waveguide_platform, chip_chip_coupler]
+
+# Per-class LLM-scoring cap = max(cap_min, cap_mult x budget); budget from config/literature/selection.yaml.
+caps:
+  # 6 x budget / min 200 (DevLog plan) caps the total at 5890 < the 6000-9000 scoring target, so 8 x / min 250 (max 7770)
+  cap_min: 250
+  cap_mult: 8
+  min_rule_score: 3       # title-hit records below this rule score are not sent to scoring (tier-A seeds exempt)
+  weak_min_rule_score: 5  # same for records whose best hit is abstract-only
+# Seed tiers (D131, revised 2026-10-21 by the coordinator), by pool file prefix:
+#   A (curated local seeds): +a_bonus, ranked first, kept beyond the cap, seed_class stands in when no regex fires.
+#   B (review references / forward citations): +b_bonus (+b_multi_bonus when cited by reviews of >= 2 classes or by
+#     >= 2 reviews, refs_of_all), count toward the cap, normal exclusions and score floors; when no lane also found the
+#     work it needs a title class hit, and before b_old_year also an experimental or quantitative cue.
+#   Review seeds (is_review_seed) are snowball sources and are never scored (D123).
+seed_tiers:
+  seed_prefix: seeds_
+  a_files: [seeds_local]
+  b_files: [seeds_refs_, seeds_cites_]
+  a_bonus: 2
+  b_bonus: 1
+  b_multi_bonus: 1
+  b_old_year: 2005
+# Pool-file prefixes whose records are matched strictly (title hit required, `require` on every hit) unless another
+# lane also found the work: arXiv app-ph / quant-ph not cross-listed to physics.optics (lane L3 note 2026-10-21).
+strict_files: [arxiv_appq_]
+
+# Records with these OpenAlex / Crossref types are dropped at merge.
+drop_types: [erratum, editorial, paratext, retraction, letter, peer-review]
+# Front matter and corrections (title), dropped at prefilter.
+non_paper_title: '^(?:erratum|errata|corrigendum|correction(?: to)?:|correction to\b|retraction|retracted|publisher''s note|editorial\b|expression of concern|front matter|back matter|table of contents|author index|cover image|title page|issue information|masthead|reviewers? list|preface\b|foreword\b|welcome\b|in memoriam|obituary)'
+
+# Default component context for every class without its own `require` (title + abstract).
+context_default:
+  - 'on[- ]chip|integrated|photonic integrated circuit|\bPICs?\b|waveguid|\bchips?\b|chip[- ]scale|CMOS|foundry|wafer|monolithic|silicon photonic|\bPDK\b|silicon nitride|\bSiN\b|Si3N4|lithium niobate|\bLNOI\b|\bTFLN\b|\bSOI\b|\bInP\b|III-?V|planar lightwave|micro-?rings?|micro-?resonators?|ring resonators?|photonic crystal|nanophotonic|heterogeneous|hybrid integrat|transceiver|co-?packaged|fib(?:er|re)[- ](?:to|coupled|pigtail|array|attach|optic)|semiconductor|quantum[- ]dot|quantum[- ]well'
+
+cues:
+  experimental: 'fabricat|measur|demonstrat|experiment|characteri[sz]|prototype|\btested\b'
+  quantitative: '(?<![a-z])\d+(?:\.\d+)?\s?(?:dB(?:m|/cm|/m|/km|/90|/turn)?|%|nm|pm|µm|μm|um|GHz|THz|MHz|kHz|Hz|A/W|mA/W|mW|µW|μW|nW|Gb/s|Gbit/s|Gbps|Gbaud|GBd|Tb/s|ps|fs|ns|mm|K|°C|pJ|fJ|nJ|V)(?![a-zA-Z])|\bQs?\s?(?:factors?)?\s?(?:of|=|~|>|≈|exceeding|above|up to)\s?(?:\d|10)|\d(?:\.\d+)?\s?[x×]\s?10\^?\s?[0-9]|\d(?:\.\d+)?\s?(?:million|billion)\b'
+  integrated: 'on[- ]chip|integrated|photonic integrated circuit|\bPICs?\b|waveguide|chip[- ]scale|CMOS[- ]compatible|foundry|wafer[- ]scale|monolithic|silicon photonic|\bPDK\b'
+  review_title: '\b(?:review|tutorial|roadmap|perspectives?|overview|survey|progress in|advances in|recent (?:advances|progress|developments)|state[- ]of[- ]the[- ]art and|outlook|primer)\b'
+  simulation: 'simulat|numerical(?:ly)?|we propose|is proposed|are proposed|theoretical(?:ly)?|\bFDTD\b|finite[- ]difference|finite[- ]element|eigenmode expansion|design(?:ed)? (?:of|and analysis)|\bin silico\b'
+
+# Records whose title fires a rule are excluded from scoring (counted per rule in the stats).
+exclusions:
+  fiber_laser_amplifier:
+    title:
+      - 'fib(?:er|re)[- ](?:ring |optic |optical |based )?lasers?'
+      - 'fib(?:er|re)[- ](?:optical |optic |raman |parametric )?amplifi'
+      - '\bEDFAs?\b|\bYDFAs?\b|\bTDFAs?\b|\bFOPAs?\b'
+      - '(?:erbium|ytterbium|thulium|holmium|neodymium|bismuth|Er|Yb|Tm|Ho|Nd)[- ]?(?:\d\+|3\+|³⁺)?[- ]?doped (?:silica |double[- ]clad |large[- ]mode[- ]area |photonic crystal |multicore |few[- ]mode )?fib(?:er|re)'
+      - 'mode[- ]locked (?:all[- ])?fib(?:er|re)|all[- ]fib(?:er|re) (?:laser|amplif|mode[- ]locked|oscillat)'
+      - '(?:Q[- ]switched|mode[- ]locked)[^.]{0,40}fib(?:er|re) (?:laser|oscillat)'
+      - 'fib(?:er|re) (?:oscillator|MOPA)|\bMOPA\b'
+    unless_title: ['on[- ]chip|integrated|waveguide|photonic chip|silicon|nitride|lithium niobate|\bPIC\b']
+  fiber_sensing:
+    # fiber-only sensors and fiber transmission physics; fiber-only passive parts for chips stay in scope
+    title:
+      - 'fib(?:er|re)[- ](?:optic(?:al)? )?(?:bragg grating )?sens(?:or|ing)'
+      - '\bFBGs?\b[^.]{0,40}sens|distributed (?:acoustic|temperature|strain|fib(?:er|re)) sens|\bDAS\b|\bOTDR\b|\bBOTDA\b|\bphi-?OTDR|Brillouin optical time'
+      - '(?:tapered|microfib(?:er|re)|D[- ]shaped|photonic crystal) fib(?:er|re)[^.]{0,40}(?:sensor|sensing|refractive index|temperature)'
+    unless_title: ['on[- ]chip|integrated|waveguide|photonic chip|silicon photonic']
+  biomedical_imaging:
+    title:
+      - 'in vivo|in[- ]vitro|\btissues?\b|endoscop|photoacoustic|optoacoustic|optical coherence tomograph|\bOCT\b|bio-?imaging|biomedical imaging|histolog|\bretina|\bbrain\b|neurons?\b|\bcells? imaging|fluorescence (?:microscop|imaging|lifetime imaging)|(?:two|multi)[- ]photon (?:microscop|imaging|excitation microscop)|super[- ]resolution (?:microscop|imaging)|light[- ]sheet|\bcancer\b|\btumou?r|diagnos|blood|\bskin\b|\bdental\b|ophthalm'
+    unless_title: ['on[- ]chip|integrated photonic|photonic integrated|silicon photonic|waveguide|photonic chip|\bPIC\b']
+  astronomy:
+    title:
+      - 'telescopes?|astronom|astrophotonic|exoplanet|stellar|nulling interferomet|astro-?comb|spectrograph'
+    unless_title: ['on[- ]chip|integrated|photonic chip|waveguide|photonic lantern|\bPIC\b|microcomb|lantern']
+  metamaterial_theory:
+    title:
+      - 'metamaterials?|metasurfaces?|meta[- ]?atoms?|hyperbolic|epsilon[- ]near[- ]zero|\bENZ\b|bound states? in the continuum|\bBICs?\b|topological|non[- ]?hermitian|exceptional points?|parity[- ]time|\bPT[- ]symmetr|anapole|toroidal|chiral(?:ity)?'
+    require_no_text: ['fabricat|measur|demonstrat|experiment|characteri[sz]|prototype']
+    require_abstract: true
+  lidar_system:
+    title: ['lidar|ladar|laser radar|range finder|rangefinder|\bFMCW\b[^.]{0,30}(?:ranging|imaging|sensing|system)|3D imaging|depth (?:sensing|imaging)|point clouds?']
+    unless_class_title_hit: true
+  eo_modulator_only:
+    # EO-atlas scope unless the title names another component
+    title:
+      - 'modulators?\b|\bMZMs?\b|\bEAMs?\b|electro[- ]?absorption modulat|electro[- ]?optic(?:al)? (?:phase[- ]shifters?|frequency shift|tun(?:ing|able)|polymer)|pockels (?:modulat|phase)'
+    unless_class_title_hit: true
+    ignore_classes: [resonator, phase_shifter, waveguide_platform]
+  solar_cells:
+    title: ['solar cells?|photovoltai|solar (?:energy|harvest|absorber|thermal)|thermophotovoltai|radiative cooling']
+  led_display:
+    title:
+      - 'light[- ]emitting (?:diodes?|devices?|transistors?)|\b(?:O|Q|PeL|micro-?|µ|μ)?LEDs?\b|electroluminescen|displays?\b|\bAR\b[^.]{0,20}(?:glasses|display)|augmented reality|virtual reality|near[- ]eye|head[- ]mounted|holographic display'
+    unless_title: ['interconnect|waveguide|on[- ]chip|integrated photonic|photonic integrated|silicon photonic|optical link']
+  thz_free_space:
+    title: ['terahertz|\bTHz\b|sub[- ]?THz|millimet(?:er|re)[- ]wave (?:imaging|radar|antenna)']
+    unless_title: ['waveguide|on[- ]chip|integrated|chip|photodiode|photodetector|photomix|photonic[- ]crystal|silicon photonic|\bPIC\b|\bUTC\b|micro-?resonators?|micro-?combs?|frequency combs?|micro-?rings?|\blasers?\b']
+  plasmonic_sensing:
+    title:
+      - 'plasmonic (?:bio)?(?:sens|detect)|surface plasmon resonance|\b(?:L)?SPR\b|\bSERS\b|surface[- ]enhanced raman|plasmonic (?:refractive index|gas|chemical)|(?:bio|gas|chemical|humidity|refractive[- ]index) sensors?[^.]{0,30}plasmon|plasmon[^.]{0,40}(?:bio|gas|chemical|refractive[- ]index) sens'
+  non_optical:
+    # microwave / superconducting-circuit / acoustic / magnonic work that shares component words
+    title:
+      - 'superconducting (?:qubits?|resonators?|circuits?|quantum (?:circuits?|processors?))|josephson|transmons?|fluxonium|kinetic[- ]inductance|microwave (?:resonators?|circuits?|amplifiers?|electronics|filters?|cavit)|qubits? readout|circuit (?:QED|quantum electrodynamics)'
+      - '\bacoustic\b|phononic crystals?|spin[- ]waves?|magnons?|magnonic|seismic|elastic waves?|\bbolts?\b|vibrometr|ultrasound|ultrasonic|sonar|antennas? for (?:5G|6G|wireless)|reconfigurable intelligent surface|\bRIS\b'
+    unless_title: ['optical|photonic|\blaser|\blight\b|optomechanic|electro[- ]?optic|opto[- ]?electronic|microwave[- ]to[- ]optical|transduc|brillouin|acousto[- ]?optic|opto[- ]?acoustic']
+  bulk_free_space:
+    # bulk / free-space optics without a chip
+    title:
+      - 'free[- ]space optical (?:communication|link|transmission)|\bFSO\b|underwater (?:optical |wireless )?communication|visible light communication|\bVLC\b|optical wireless|\bOWC\b|turbulen|orbital angular momentum (?:beams?|multiplex)[^.]{0,30}free[- ]space|structured light beams?|vortex beams?|\bbulk (?:crystal|optics?)\b|ultrafast laser (?:processing|machining|ablation)|laser (?:ablation|machining|welding|cutting|cleaning|processing|induced breakdown)|\bLIBS\b|femtosecond laser (?:processing|ablation|machining)|attosecond|high[- ]harmonic generation in (?:gases|solids|crystals)|filamentation|\bX-?ray\b'
+    unless_title: ['on[- ]chip|integrated|waveguide|photonic chip|silicon|nitride|lithium niobate|\bPIC\b|metasurface|grating coupler']
+
+platforms:
+  soi: '\bSOI\b|silicon[- ]on[- ]insulator|silicon photonic|\bSiPh\b|(?<![A-Za-z])Si (?:waveguide|photonic|wire|ring|strip|rib|slot|micro|MMI|chip)|silicon (?:waveguide|ring|wire|strip|rib|slot|chip|microring|micro-?disk|MMI|photonics?)\b|crystalline silicon|silicon[- ]based (?:photonic|integrated|waveguide)'
+  sin: 'silicon nitride|\bSiN(?:x)?\b|Si3N4|Si₃N₄|\bSiON\b|silicon oxynitride|Si-?rich nitride'
+  tfln: 'lithium niobate|\bLiNbO3\b|LiNbO₃|\bLNOI\b|\bTFLN\b|\bLN\b|\bPPLN\b'
+  lt: 'lithium tantalate|LiTaO3|LiTaO₃|\bLTOI\b|\bTFLT\b'
+  inp: '\bInP\b|indium phosphide|InGaAsP|InGaAlAs|AlGaInAs|InAlGaAs'
+  gaas_algaas: '\bGaAs\b|gallium arsenide|AlGaAs|AlGaAsOI|GaAsOI'
+  aln: '\bAlN\b|alumin(?:i)?um nitride'
+  ta2o5: 'Ta2O5|Ta₂O₅|tantala\b|tantalum pentoxide|tantalum oxide'
+  sic: 'silicon carbide|\bSiC\b|4H-SiC|3C-SiC|SiCOI'
+  diamond: '\bdiamond'
+  polymer: '\bpolymers?\b|\bSU-?8\b|\bPMMA\b|IP-Dip|ormocer|OrmoCore|organic[- ]hybrid|\bpolyimide'
+  al2o3: 'Al2O3|Al₂O₃|alumina\b|alumin(?:i)?um oxide'
+  glass_plc: 'planar lightwave circuit|\bPLCs?\b|silica[- ]on[- ]silicon|(?:doped|germano|Ge-?doped) silica|glass waveguide|laser[- ]written|(?:femtosecond|fs)[- ]laser[- ](?:written|inscri)|ion[- ]exchang|borosilicate|fused silica|silica waveguide|glass chip|\bglass\b[^.]{0,20}(?:waveguide|interposer|substrate|chip)'
+  ge_sige: '\bGe\b|germanium|\bSiGe\b|\bGeSi\b|\bGeSn\b'
+  bto: '\bBTO\b|BaTiO3|BaTiO₃|barium titanate'
+  chalcogenide: 'chalcogenide|As2S3|As₂S₃|As2Se3|GeSbSe|Ge-Sb-Se|\bGST\b|Ge2Sb2Te5|Sb2Se3|Sb₂Se₃|Sb2S3|Sb₂S₃|\bGSST\b'
+  hybrid_heterogeneous: 'heterogeneous(?:ly)?[- ]integrat|hybrid(?:ly)?[- ]integrat|heterogeneous (?:III-?V|InP|laser|platform)|wafer[- ]bond|die[- ]to[- ]wafer bond|micro[- ]?transfer[- ]print|transfer[- ]printed|flip[- ]chip|III-?V[- ]on[- ](?:Si|silicon|insulator)|(?:InP|III-?V|GaAs)[- ]?(?:on|/)[- ]?(?:Si|silicon|SiN|LN|lithium niobate)\b|bonded (?:III-?V|InP|lithium niobate|thin film)'
+
+classes:
+  fiber_chip_coupler:
+    subtypes:
+      _class:
+        title:
+          - 'fib(?:er|re)[- ](?:to|/)[- ](?:chip|waveguide|PIC)|(?:chip|waveguide|PIC)[- ](?:to|/)[- ]fib(?:er|re)'
+          - 'fib(?:er|re)[- ](?:chip )?(?:coupl(?:er|ing)|interface)s?\b(?![- ](?:array|unit))'
+          - '(?:optical )?(?:input/output|I/O) coupl|off[- ]chip coupl'
+      grating:
+        title:
+          - 'grating[- ]couplers?|grating[- ]coupling|grating[- ]coupled'
+          - '\bGCs?\b'
+          - '(?:surface|vertical(?:ly)?)[- ](?:grating[- ])?coupl'
+          - 'polari[sz]ation[- ](?:splitting|diversity|insensitive)[^.]{0,20}grating'
+          - '(?:apodized|focusing|2D|two[- ]dimensional|dual[- ]layer|bi[- ]?layer|blazed|chirped|subwavelength|photonic[- ]crystal) grating coupl'
+        abstract:
+          - 'grating[- ]couplers?|grating[- ]coupling'
+          - 'surface[- ]grating'
+      edge:
+        title:
+          - 'edge[- ]coupl(?:er|ers|ing|ed)'
+          - 'spot[- ]size convert|mode[- ]size convert|\bSSCs?\b|mode (?:size )?(?:expander|transformer)s?'
+          - 'inverse(?:ly)?[- ]taper|inverted taper|(?:trident|multi[- ]tip|cantilever(?:ed)?|suspended)[^.]{0,30}(?:coupler|taper)'
+          - 'butt[- ]coupl[^.]{0,30}fib(?:er|re)|fib(?:er|re)[^.]{0,30}butt[- ]coupl'
+          - 'facet coupl|end[- ]fire coupl|lensed fib(?:er|re)'
+        abstract:
+          - 'edge[- ]coupl'
+          - 'spot[- ]size convert'
+          - 'inverse(?:ly)? taper|inverted taper'
+      photonic_wire_bond:
+        title:
+          - 'photonic wire[- ]?bond|\bPWBs?\b'
+          - '(?:3D|two[- ]photon|direct[- ]laser)[- ](?:printed|written|lithograph)[^.]{0,30}(?:waveguides?|wire|interconnect)'
+        abstract: ['photonic wire[- ]?bond']
+
+  chip_chip_coupler:
+    subtypes:
+      _class:
+        title:
+          - '(?:chip|die)[- ]to[- ](?:chip|die|wafer)[^.]{0,30}(?:optical |photonic )?(?:coupl|interconnect|interface)'
+          - 'inter[- ]?chip (?:optical )?(?:coupl|interconnect|link)|interchip'
+          - 'optical interposers?|photonic interposers?|chiplet[^.]{0,30}(?:optical|photonic)'
+        abstract: ['(?:chip|die)[- ]to[- ](?:chip|die) (?:optical )?coupl', 'optical interposer']
+      evanescent:
+        title:
+          - 'evanescent(?:ly)?[- ]coupl[^.]{0,40}(?:chip|die|interposer|III-?V|InP|layer|wafer)'
+          - 'adiabatic[^.]{0,20}(?:taper|coupler|coupling)[^.]{0,40}(?:chip|die|interposer|III-?V|InP|polymer|glass)'
+          - '(?:tip[- ]to[- ]tip|taper[- ]to[- ]taper)[^.]{0,20}coupl'
+        abstract: ['evanescent(?:ly)?[- ]coupl[^.]{0,40}(?:chip|die|interposer)', 'adiabatic (?:taper )?coupl[^.]{0,40}(?:chip|die|interposer)']
+      butt:
+        title:
+          - 'butt[- ]coupl(?!ing[^.]{0,30}fib)'
+          - 'flip[- ]chip(?:ped)?[^.]{0,40}(?:laser|photonic|III-?V|InP|SOA|optical)'
+          - '(?:laser|III-?V|InP|SOA|gain chip)[- ](?:to|on)[- ](?:silicon|SiN|PIC|chip|waveguide)[^.]{0,30}coupl'
+          - 'hybrid(?:ly)?[- ]integrat[^.]{0,30}(?:laser|InP|III-?V|SOA|gain chip)[^.]{0,30}(?:coupl|alignment|assembl)'
+        abstract: ['butt[- ]coupl[^.]{0,40}(?:laser|III-?V|InP|chip)']
+      photonic_wire_bond:
+        title: ['photonic wire[- ]?bond|\bPWBs?\b']
+      other:
+        title:
+          - 'micro[- ]?transfer[- ]print|transfer[- ]printed'
+          - '(?:vertical|out[- ]of[- ]plane|inter[- ]?layer)[^.]{0,20}(?:chip[- ]to[- ]chip|inter[- ]?chip)'
+          - 'multi[- ]chip (?:photonic|optical) (?:module|integration|assembl)'
+
+  micro_optics:
+    require_scope: all
+    require: ['fib(?:er|re)|\bchips?\b|coupl|waveguid|photonic integrated|\bPICs?\b|facet|laser|photodiode|photodetector|VCSEL|packag|interconnect|transceiver|edge[- ]emitt|grating coupler']
+    exclude_title: ['imaging|camera|cameras|display|holograph|structural colou?r|cosmos|telescope|astronom|tweezers|micromachines?|end[- ]to[- ]end|deconvolution']
+    subtypes:
+      facet_lens:
+        title:
+          - '(?:3D|two[- ]photon|direct[- ]laser|4D)[- ]?(?:printed|written|lithograph)[^.]{0,30}(?:micro[- ]?)?(?:lens|optic|reflector|mirror)'
+          - 'facet[- ]attached|\bFaMLs?\b'
+          - 'micro[- ]?lens(?:es)?[^.]{0,40}(?:facet|fib(?:er|re)|chip|coupl)'
+          - 'free[- ]?form (?:micro[- ]?)?(?:optic|lens|reflector|mirror)'
+        abstract: ['facet[- ]attached', '(?:3D|two[- ]photon)[- ]printed (?:micro[- ]?)?(?:lens|optic)']
+      integrated_lens:
+        title:
+          - 'integrated micro[- ]?lens|on[- ]chip (?:micro[- ]?)?lens|(?:SiON|silicon|silica|polymer) micro[- ]?lens|micro[- ]?lens arrays?|\bMLAs?\b'
+          - 'wafer[- ]level (?:micro[- ]?)?(?:optic|lens)'
+        abstract: ['micro[- ]?lens arrays?', 'integrated micro[- ]?lens']
+      metalens:
+        title:
+          - 'meta[- ]?lens(?:es)?'
+          - 'metasurface[^.]{0,30}(?:lens|coupl|fib(?:er|re)|collimat|focus)'
+          - '(?:fib(?:er|re)|facet|tip)[^.]{0,20}metasurface'
+        abstract: ['meta[- ]?lens']
+      vertical_taper:
+        title:
+          - 'vertical(?:ly)?[- ](?:curved |tapered )?(?:taper|waveguide|coupler)s?|3D tapers?'
+          - '(?:total internal reflection|\bTIR\b|45[- ]?(?:°|deg|degree)|micro[- ]?|turning|curved)[- ]?(?:mirrors?|reflectors?)[^.]{0,40}(?:coupl|waveguide|photodiode|fib(?:er|re)|out[- ]of[- ]plane)'
+          - 'out[- ]of[- ]plane coupl|elephant coupler|bent taper'
+      other:
+        title:
+          - 'micro[- ]?optic(?:s|al)? (?:bench|elements?|coupl|components?|assembl|packag)'
+          - 'ball lens|GRIN lens|graded[- ]index lens|expanded[- ]beam'
+          - 'micro[- ]?optics?\b'
+
+  fiber_interface:
+    subtypes:
+      fau:
+        title:
+          - 'fib(?:er|re)[- ]arrays?|\bFAUs?\b|fib(?:er|re) array units?'
+          - 'fib(?:er|re)[- ](?:attach|pigtail)|pigtail(?:ed|ing)'
+          - 'fib(?:er|re) (?:assembly|packaging|alignment) (?:of|for|to)'
+        abstract: ['fib(?:er|re) arrays?', 'fib(?:er|re) attach']
+      v_groove:
+        title:
+          - '[VU][- ]grooves?'
+          - 'passive(?:ly)?[- ]align[^.]{0,40}fib(?:er|re)|self[- ]align[^.]{0,30}fib(?:er|re)|fib(?:er|re)[^.]{0,30}(?:passive|self)[- ]align'
+        abstract: ['[VU][- ]grooves?']
+      fan_out:
+        title:
+          - 'fan[- ]?in|fan[- ]?out (?:devices?|modules?|couplers?|for)|fan[- ]?in/fan[- ]?out'
+          - 'multi[- ]?core fib(?:er|re)s?[^.]{0,40}(?:coupl|fan|interface|connect|chip|grating|integrat)|\bMCFs?\b[^.]{0,40}(?:coupl|fan|interface|chip|connect)'
+          - 'photonic lanterns?'
+          - '(?:laser[- ]written|glass|3D|three[- ]dimensional) (?:optical )?waveguides?[^.]{0,40}(?:fan|interconnect|coupl|interposer|multi[- ]?core)'
+        abstract: ['fan[- ]in', 'multi[- ]?core fib(?:er|re)', 'photonic lantern']
+      connector:
+        title:
+          - '(?:optical|fib(?:er|re)|photonic) connectors?|connectori[sz]'
+          - 'expanded[- ]beam|detachable[^.]{0,30}(?:fib(?:er|re)|optical|connect|coupl)|pluggable[^.]{0,20}(?:fib(?:er|re)|connector|coupl)'
+          - '\bMPO\b|\bMT ferrule|ferrules?'
+        abstract: ['expanded[- ]beam', 'detachable (?:fib(?:er|re)|optical) (?:connect|coupl)']
+      other:
+        title:
+          - 'fib(?:er|re)[- ]to[- ]fib(?:er|re) coupl|tapered fib(?:er|re)[^.]{0,30}(?:coupl|chip|waveguide)|fib(?:er|re) (?:couplers?|splice|splicing)\b'
+
+  free_space_emitter:
+    require_scope: all
+    require: ['grating|waveguid|integrated|on[- ]chip|photonic chip|phased[- ]array|silicon|nitride|alumina|Al2O3|\bPICs?\b|photonic integrated|planar']
+    subtypes:
+      grating_emitter:
+        title:
+          - '(?:focusing|focused) gratings?|grating emitters?|grating[- ]based (?:emitter|beam)'
+          - '(?:emit|out[- ]?coupl|deliver|project)[^.]{0,40}(?:free[- ]space|into free space)|free[- ]space (?:beam|emission|emitters?|coupling|beams? (?:from|delivery))'
+          - '(?:integrated photonic|on[- ]chip|waveguide|photonic chip|grating)[^.]{0,60}(?:trapped[- ]ions?|ion traps?|neutral atoms?|cold atoms?|atom(?:ic)? (?:trap|cloud|vapou?r|clock)|magneto[- ]optical trap|\bMOT\b|optical tweezers?)'
+          - '(?:trapped[- ]ions?|ion[- ]trap|neutral[- ]atom|cold[- ]atom|atomic)[^.]{0,60}(?:integrated photonic|grating coupler|waveguide|photonic chip|integrated optic)'
+          - '(?:visible|ultraviolet|UV|blue)[- ](?:light )?(?:beam|emitter|grating)s?\b'
+        abstract:
+          - 'focusing grating|grating emitter'
+          - '(?:integrated|on[- ]chip|waveguide|grating)[^.]{0,60}(?:trapped[- ]ions?|neutral atoms?|cold atoms?|ion traps?)'
+      metasurface:
+        title:
+          - 'metasurface[^.]{0,40}(?:waveguide|integrated|on[- ]chip|photonic chip|beam|emitter|coupler|free[- ]space)'
+          - '(?:waveguide|on[- ]chip|integrated)[^.]{0,30}metasurfaces?'
+          - 'meta[- ]?(?:grating|couplers?)'
+        abstract: ['(?:waveguide|on[- ]chip|integrated)[^.]{0,20}metasurface']
+      other:
+        title:
+          - 'optical phased[- ]arrays?|phased[- ]array (?:antenna|emitter|beam)|beam[- ]?steer'
+          - '(?:large|wide)[- ](?:area|aperture) (?:emitter|aperture|beam)'
+          - 'free[- ]space (?:optical )?(?:interconnect|beam (?:shaping|forming))|beam[- ]?(?:shaping|forming)[^.]{0,20}(?:chip|integrated|waveguide)'
+        abstract: ['optical phased array', 'beam steering']
+
+  splitter:
+    subtypes:
+      mmi:
+        title: ['multi[- ]?mode interfer|\bMMIs?\b']
+        abstract: ['multi[- ]?mode interfer|\bMMIs?\b']
+      directional_coupler:
+        title:
+          - 'directional[- ]couplers?|directional[- ]coupling'
+          - '(?:2|two)\s?[x×]\s?(?:2|two) (?:optical |power |broadband )?(?:couplers?|splitters?)'
+          - '3[- ]?dB (?:couplers?|splitters?)'
+          - '(?:wavelength|polari[sz]ation|fabrication)[- ](?:insensitive|independent|tolerant) (?:directional )?(?:couplers?|splitters?)'
+          - '(?:bent|asymmetric|tunable|broadband|curved)[- ](?:waveguide )?(?:directional )?couplers?'
+        abstract: ['directional[- ]couplers?']
+      adiabatic:
+        title: ['adiabatic (?:3[- ]?dB |mode[- ]evolution |power )?(?:couplers?|splitters?)|mode[- ]evolution (?:couplers?|splitters?)']
+        abstract: ['adiabatic (?:3[- ]?dB )?(?:couplers?|splitters?)']
+      y_branch:
+        title: ['y[- ](?:branch|junction|splitter)s?']
+        abstract: ['y[- ](?:branch|junction)']
+      hybrid_90:
+        title: ['90[- ]?(?:°|deg|degree)?[- ]?(?:optical )?hybrids?|optical hybrids?']
+        abstract: ['90[- ]?(?:°|deg|degree)?[- ]?(?:optical )?hybrids?']
+      other:
+        title:
+          - '(?<!polarization )(?<!polarisation )(?<!polarization beam )(?<!polarisation beam )(?<!mode )(?<!wavelength )(?:power |beam |optical |waveguide |broadband |ultra[- ]?compact |compact )splitters?'
+          - '(?:1|2)\s?[x×]\s?(?:\d+|N)\s(?:optical |power |waveguide )?(?:splitters?|couplers?|MMIs?)'
+          - '(?:arbitrary|tunable|variable) (?:power[- ])?(?:splitting )?ratio|splitting ratio|power (?:splitting|divid)'
+          - 'star couplers?|(?<!polarization )(?<!polarisation )(?:power )?combiners?\b'
+        abstract: ['power splitters?', 'splitting ratio']
+
+  crossing:
+    subtypes:
+      mmi:
+        title: ['(?:mmi|multi[- ]?mode interfer|multimode)[^.]{0,30}crossings?|crossings?[^.]{0,30}(?:mmi|multi[- ]?mode)']
+      swg:
+        title: ['(?:sub[- ]?wavelength|SWG)[^.]{0,30}crossings?|crossings?[^.]{0,30}(?:sub[- ]?wavelength|SWG)']
+      multilevel:
+        title: ['(?:multi[- ]?layer|multi[- ]?level|inter[- ]?layer|3D|vertical|dual[- ]layer|bi[- ]?layer)[^.]{0,30}crossings?']
+      other:
+        title:
+          - 'waveguide (?:crossings?|intersections?|cross(?:es)?)\b'
+          - '(?<!avoided )(?<!anti-)(?<!anti )(?<!level )(?<!zero[- ])(?<!mode )(?<!band )\bcrossings?\b'
+        abstract: ['waveguide crossings?|crossing loss|low[- ]loss crossings?|intersection loss']
+
+  resonator:
+    subtypes:
+      ring:
+        title:
+          - 'micro-?rings?|ring[- ]resonat|racetrack|\bMRRs?\b|ring cavit|ring[- ]shaped (?:resonat|cavit)'
+        abstract: ['micro-?ring|ring resonat|racetrack']
+      coupled_rings:
+        title:
+          - 'coupled[- ](?:micro-?)?(?:rings?|resonators?|cavities)|photonic molecules?|(?:ring|resonator) dimers?|(?:dual|double|triple|twin)[- ](?:micro-?)?(?:rings?|resonators?)'
+        abstract: ['coupled[- ](?:micro-?)?(?:rings?|resonators?)|photonic molecule']
+      photonic_crystal:
+        title:
+          - 'photonic[- ]crystal (?:nano)?cavit|(?:nanobeam|\bL3\b|\bH1\b|heterostructure|1D|2D) (?:photonic[- ]crystal )?cavit|nano-?cavit'
+          - 'fabry[- ]p[eé]rot (?:cavit|resonat|micro)|\bFP (?:cavit|resonat)'
+        abstract: ['photonic[- ]crystal (?:nano)?cavit|nanobeam cavit|nano-?cavit']
+      bragg:
+        title: ['bragg (?:grating )?(?:resonat|cavit)|(?:phase[- ]shifted|π[- ]shifted|pi[- ]shifted|quarter[- ]wave[- ]shifted) (?:waveguide )?bragg']
+        abstract: ['bragg (?:grating )?(?:resonat|cavit)|phase[- ]shifted bragg']
+      disk:
+        title: ['micro-?disks?|whispering[- ]gallery|\bWGMs?\b|micro-?toroids?|micro-?wedges?|micro-?spheres?\b|micro-?bubbles?\b']
+        abstract: ['micro-?disk|whispering[- ]gallery|micro-?toroid']
+      other:
+        title:
+          - 'micro-?resonators?|nano-?resonators?|optical resonators?|optical cavit(?:y|ies)|(?:integrated|on[- ]chip) (?:resonators?|cavit)'
+          - '(?:high|ultra[- ]?high|ultrahigh|record)[- ]Q\b|quality[- ]factors?|intrinsic Q|Q[- ]factors?|billion[- ]Q|million[- ]Q'
+          - 'reference cavit|resonators?\b'
+        abstract: ['micro-?resonator|quality factor|intrinsic Q|Q[- ]factor|loaded Q']
+    exclude_title: ['superconducting|microwave|metasurfaces?|metamaterials?|metagratings?|\bSIW\b|\bsoil\b|mechanical resonat(?:or)?s?\b(?![^.]{0,20}optic)|acoustic resonat|\bMEMS resonat|LC resonat|split[- ]ring|\bSRRs?\b|plasmonic (?:nano)?(?:resonat|cavit)|Mie resonat|terahertz']
+
+  wdm:
+    subtypes:
+      awg:
+        title: ['arrayed[- ]waveguide gratings?|\bAWGs?\b|phased[- ]array (?:de)?(?:mux|multiplexer)|\bPHASARs?\b']
+        abstract: ['arrayed[- ]waveguide grating|\bAWGs?\b']
+      eg:
+        title: ['echelle|(?:planar )?concave gratings?|\bPCGs?\b|etched diffraction gratings?|\bEDGs?\b']
+        abstract: ['echelle|concave grating|etched diffraction grating']
+      cascaded_mzi:
+        title:
+          - '(?:cascaded|lattice|multi[- ]stage)[^.]{0,20}(?:MZIs?|Mach[- ]Zehnder)'
+          - '(?:MZI|Mach[- ]Zehnder)[- ](?:interferometer[- ])?(?:based )?(?:lattice|filters?|(?:de)?multiplexers?|(?:de)?mux|interleavers?)'
+          - 'lattice filters?'
+        abstract: ['cascaded (?:MZIs?|Mach[- ]Zehnder)|MZI lattice|lattice filter']
+      mrr:
+        title:
+          - '(?:micro-?)?ring(?: resonator)?[- ](?:based )?(?:filters?|(?:de)?multiplexers?|(?:de)?mux(?:es)?|filter banks?|add[- ]drop (?:filter|multiplexer)s?|WDM|DWDM)'
+          - 'add[- ]drop (?:filters?|multiplexers?)|\bOADMs?\b'
+          - '(?:higher|high|second|third|fifth)[- ]order (?:micro-?)?ring|(?:micro-?)?ring[^.]{0,20}(?:filter|wavelength) (?:banks?|arrays?)|collective tuning|wavelength locking of (?:micro-?)?rings?'
+        abstract: ['ring[- ]based (?:WDM|filter|(?:de)?multiplexer)|(?:micro-?)?ring (?:filters?|(?:de)?multiplexers?)']
+      bragg_cdc:
+        title:
+          - 'contra[- ]?directional|\bCDCs?\b|grating[- ]assisted (?:contra|couplers?|coupling)'
+          - 'bragg[^.]{0,30}(?:filters?|add[- ]drop|(?:de)?multiplexers?|(?:de)?mux)|multimode (?:waveguide )?bragg|(?:waveguide )?bragg[- ]grating (?:filters?|add)'
+        abstract: ['contra[- ]?directional|grating[- ]assisted coupl']
+      interleaver:
+        title: ['interleavers?']
+        abstract: ['interleaver']
+      tff:
+        title: ['thin[- ]film filters?|\bTFFs?\b|dielectric (?:multilayer |interference )?filters?[^.]{0,30}(?:WDM|(?:de)?mux|sub-?assembl|modules?)|z[- ]block']
+        abstract: ['thin[- ]film filter']
+      other:
+        title:
+          - '(?<!mode )(?<!mode-)(?<!mode division )(?<!mode-division )(?<!polarization )(?<!polarisation )(?<!space division )(?<!space-division )(?<!spatial )(?<!time )(?<!time-division )(?:de)?multiplex(?:er|ers|ing)\b|(?<!mode )(?<!mode-)\b(?:de)?mux(?:es)?\b'
+          - '\b(?:C|L|D|LAN|LR|FR|CW|DR)?-?WDM\b|wavelength[- ]division|wavelength (?:de)?multiplex|wavelength (?:splitters?|routers?|routing|demultiplex|selective filters?)'
+          - '(?:optical|channel|band|spectral)[- ](?:drop |pass |add[- ]drop )?(?:filters?|router)s?\b(?<!optical filter)|(?:di|tri|du)plexers?|band[- ]?(?:pass|splitting) filters?|(?:O|C|L)[- ]band (?:/|and|to) (?:O|C|L)[- ]band'
+          - '(?:spectral|wavelength)[- ]selective|tunable (?:optical )?filters?|optical filters?'
+        abstract: ['wavelength[- ]division (?:de)?multiplex(?:er|ing)? (?:device|chip|filter)|(?:de)?multiplexer']
+
+  polarization:
+    exclude_title: ['imaging|polarimetry (?:with|using) (?:wave[- ]?plates|stress)|ellipsometr|wave[- ]?plates?|topolog|chiral (?:media|molecules)|optical activity|spin waves?|sensing applications']
+    subtypes:
+      pbs:
+        title:
+          - 'polari[sz](?:ation|ing)[- ](?:beam[- ])?splitt(?!er[- ](?:and[- ])?rotator)|\bPBSs?\b|polari[sz]ation (?:de)?multiplex(?:er|ers)'
+        abstract: ['polari[sz]ation (?:beam )?splitt|\bPBS\b']
+      psr:
+        title:
+          - 'polari[sz]ation[- ]splitter[- ](?:and[- ])?rotators?|\bPSRs?\b|polari[sz]ation[- ]rotat|polari[sz]ation[- ]rotator[- ]combiners?|\bPRCs?\b|polari[sz]ation conver(?:ter|sion)'
+          - '(?:TE|TM)[0-9]?[- ](?:to|/)[- ](?:TM|TE)[0-9]?(?: mode)? conver|mode (?:hybridi[sz]ation|evolution)[^.]{0,30}polari'
+        abstract: ['polari[sz]ation[- ]splitter[- ]rotator|polari[sz]ation rotat|\bPSRs?\b']
+      compensator:
+        title:
+          - 'polari[sz]ation (?:controllers?|compensat|trackers?|tracking|stabili[sz]|scrambl|management|control|recover|demultiplex(?:ing)? (?:circuit|chip))|(?:automatic|endless|adaptive) polari[sz]ation'
+        abstract: ['polari[sz]ation (?:controller|compensat|tracking)']
+      other:
+        title:
+          - 'polari[sz]ers?\b|(?:TE|TM)[- ]pass|polari[sz]ation[- ](?:diversity|handling|filter|selective|maintaining (?:waveguide|coupler))|polarimet|stokes (?:parameter|polarimet|analy)|on[- ]chip polari[sz]ation|polari[sz]ation[- ]resolved (?:detection|measurement)|birefringen(?:ce|t) (?:control|compensat|engineering|free)'
+        abstract: ['polari[sz]ers?\b|TE[- ]pass|TM[- ]pass']
+
+  phase_shifter:
+    exclude_title: ['microwave|superconducting|fluxonium|domain walls?|metasurfaces?|spatial light modulat|\bSLMs?\b|image processing|thermal (?:modulation|patterning|management)|frequency reference|(?:micro)?mechanical (?:frequency|oscillator)']
+    subtypes:
+      thermo_optic:
+        title:
+          - 'thermo[- ]?optic(?:al|ally)?|\bTOPS\b|\bTO (?:phase|switch|tun)|(?:micro-?)?heaters?\b|thermal(?:ly)? (?:tun(?:ing|able|ed)|isolat|controll)|heat(?:ing)?[- ]tun'
+          - '(?:undercut|suspended|free[- ]standing|thermally isolated|folded|multi[- ]pass)[^.]{0,30}(?:phase[- ]shift|heaters?|thermo)'
+        abstract: ['thermo[- ]?optic(?:al)? (?:phase|tun|switch|coefficient)|micro-?heaters?|thermal tuning']
+      mems:
+        title:
+          - '\bMEMS\b|\bNEMS\b|micro[- ]?electro[- ]?mechanical|nano[- ]?electro[- ]?mechanical|(?:electrostatic(?:ally)?|comb[- ]drive|cantilever)[^.]{0,30}(?:actuat|tun|phase|switch)|opto[- ]?mechanical(?:ly)? (?:phase|switch|tun)'
+        abstract: ['\bMEMS\b|\bNEMS\b|electrostatic(?:ally)? actuat']
+      phase_change:
+        title:
+          - 'phase[- ]change (?:materials?|photonic|memory|optical|metasurface)|\bPCMs?\b|\bGST\b|Ge2Sb2Te5|Ge₂Sb₂Te₅|GeSbTe|Sb2Se3|Sb₂Se₃|Sb2S3|Sb₂S₃|\bGSST\b|\bVO2\b|VO₂|vanadium dioxide|\bIn3SbTe2\b|chalcogenide phase'
+        abstract: ['phase[- ]change material|Ge2Sb2Te5|Sb2Se3|Sb2S3|\bGSST\b']
+      ferroelectric_nonvolatile:
+        title:
+          - 'non[- ]?volatile[^.]{0,30}(?:phase|tun|switch|memory|photonic|optical|weight)|ferroelectric[^.]{0,30}(?:phase|tun|non[- ]?volatile|memory|domain)|\bHZO\b|hafnium zirconium oxide|optical memory'
+        abstract: ['non[- ]?volatile (?:phase|tun|switch|memory)']
+      other:
+        title:
+          - '(?<!electro-optic )(?<!electro-optical )(?<!electrooptic )phase[- ]shifters?|phase (?:tuners?|tuning elements?|actuators?)|optical phase (?:tuning|control)'
+          - 'liquid[- ]crystal[^.]{0,30}(?:phase|tun|waveguide|switch)|piezo(?:electric(?:ally)?)?[^.]{0,30}(?:phase|tun|actuat|control)|stress[- ]optic|strain[- ]tun|magnetostrict'
+        abstract: ['phase[- ]shifters?|piezoelectric(?:ally)? (?:tun|actuat)']
+
+  switch_fabric:
+    subtypes:
+      mzi_mesh:
+        title:
+          - '(?:\d+|N)\s?[x×]\s?(?:\d+|N)\s?(?:optical |photonic |silicon |thermo[- ]?optic |non[- ]?blocking |strictly[- ]non[- ]?blocking )*(?:switch|mesh|router|crossbar)'
+          - 'switch(?:ing)? (?:fabrics?|matri(?:x|ces)|networks?|arrays?)|\bBene[sš]\b|crossbar|dilated|spanke|\bPILOSS\b|banyan|\bClos\b'
+          - '(?:MZI|Mach[- ]Zehnder|interferometer|interferometric) (?:meshes|mesh|switch(?:es)?|arrays?)|programmable (?:photonic |optical |integrated )*(?:meshes|mesh|circuits?|processors?|interferometers?)|universal (?:linear )?(?:optics|photonic|interferomet)'
+        abstract: ['switch fabric|switch matrix|MZI mesh|programmable photonic (?:mesh|circuit)']
+      mems:
+        title: ['MEMS[^.]{0,30}switch|(?:micro[- ]?)?mirror[^.]{0,20}switch|optical circuit switch|\bOCSs?\b|optical cross[- ]?connect|\bOXCs?\b']
+        abstract: ['MEMS (?:optical )?switch|optical circuit switch']
+      wss:
+        title: ['wavelength[- ]selective switch|\bWSSs?\b|\bROADMs?\b|(?:wavelength|spectral)[- ](?:selective )?(?:routers?|routing switch)|flexible[- ]grid (?:switch|filter)']
+        abstract: ['wavelength[- ]selective switch|\bWSS\b']
+      other:
+        title:
+          - '(?:optical|photonic|all[- ]optical|silicon photonic|thermo[- ]?optic|electro[- ]?optic|broadband|ultrafast|compact|integrated|on[- ]chip)[- ]switch(?:es|ing)?\b|switch(?:es)?\b|(?:1|2)\s?[x×]\s?\d+\s(?:optical )?switch|optical routers?'
+        abstract: ['optical switch|photonic switch']
+
+  photodetector:
+    require_scope: all
+    require: ['waveguide|on[- ]chip|integrated|silicon|\bSOI\b|SiN|nitride|lithium niobate|\bLN\b|TFLN|photonic|\bPIC\b|fib(?:er|re)|GHz|Gb/s|Gbaud|bandwidth|single[- ]photon|SNSPD|SPAD|avalanche|InGaAs|InP|\bGe\b|germanium|telecom|1550|1310|O[- ]band|C[- ]band|coherent receiver']
+    exclude_title: ['perovskite|organic photo|self[- ]powered|flexible|wearable|solar[- ]blind|Ga2O3|\bZnO\b|X[- ]ray|scintillat|focal[- ]plane|imag(?:er|ing) (?:sensor|array)|CMOS image sensor|ultraviolet photodetector|UV photodetector|photo-?transistors?|retina|neuromorphic vision|artificial (?:eye|vision)|in[- ]sensor']
+    subtypes:
+      ge_waveguide:
+        title:
+          - '(?:\bGe\b|germanium|\bGeSi\b|\bSiGe\b|Ge[- ]on[- ]Si|GeSn)[^.]{0,40}(?:photo-?detectors?|photo-?diodes?|\bPDs?\b|detectors?|receivers?)'
+          - 'waveguide[- ](?:integrated |coupled |based )?(?:\bGe\b |germanium )?(?:photo-?detectors?|photo-?diodes?)'
+        abstract: ['(?:\bGe\b|germanium)[^.]{0,30}(?:photo-?detector|photo-?diode)']
+      apd:
+        title: ['avalanche (?:photo-?)?(?:diodes?|detectors?)|\bAPDs?\b|avalanche (?:gain|multiplication)|separate absorption[^.]{0,20}multiplication|\bSACM\b']
+        abstract: ['avalanche photo-?(?:diode|detector)|\bAPDs?\b']
+      vertical:
+        title: ['(?:vertical(?:ly)?|surface|normal|top|back)[- ]?(?:illuminat(?:ed|ion)|incidence|incident)[^.]{0,30}(?:photo|detector|diode|\bPDs?\b)|(?:surface[- ]illuminated|normal[- ]incidence) photo|\bPIN (?:photo)?diodes?']
+      iii_v_on_platform:
+        title:
+          - '(?:InGaAs|InP|III[- ]?V|InGaAsP|InAs|GaSb|InGaAsSb|GaAs)[^.]{0,40}(?:photo-?detectors?|photo-?diodes?|\bPDs?\b)[^.]{0,40}(?:silicon|\bSi\b|SiN|nitride|lithium niobate|\bLN\b|LNOI|TFLN|heterogeneous|bonded|on[- ]chip|integrated|waveguide)'
+          - '(?:heterogeneous(?:ly)?|hybrid(?:ly)?|monolithic(?:ally)?)[- ]integrat[^.]{0,30}(?:photo-?detectors?|photo-?diodes?)|(?:photo-?detectors?|photo-?diodes?)[^.]{0,30}(?:on|onto) (?:silicon|thin[- ]film lithium|lithium niobate|LNOI|TFLN|SiN|silicon nitride)'
+          - 'uni[- ]?travel(?:l)?ing[- ]carrier|\bM?UTC[- ]?(?:PDs?|photodiodes?)\b'
+      graphene:
+        title: ['graphene[^.]{0,40}(?:photo|detector)|(?:2D|two[- ]dimensional|MoS2|MoTe2|WSe2|WS2|black phosphorus|PtSe2|transition[- ]metal dichalcogenide|\bTMDC?s?\b|van der Waals|tellurium|Bi2Se3)[^.]{0,40}(?:photo-?detectors?|photo-?diodes?|photodetection|detectors?)']
+        abstract: ['graphene (?:photo-?detector|photo-?diode)']
+      snspd:
+        title: ['superconducting[^.]{0,20}nanowire|\bSNSPDs?\b|\bSSPDs?\b|superconducting (?:single[- ]photon )?detectors?|transition[- ]edge sensors?|\bTESs?\b']
+        abstract: ['superconducting nanowire|\bSNSPDs?\b']
+      spad:
+        title: ['single[- ]photon avalanche|\bSPADs?\b|Geiger[- ]mode']
+        abstract: ['single[- ]photon avalanche|\bSPADs?\b']
+      other:
+        title: ['photo-?detectors?|photo-?diodes?|photo-?receivers?|\bPDs?\b|photo-?conductors?|photo-?detection|bolometers?|photo-?mixers?|optical (?:power )?monitors?|responsivity|single[- ]photon detect']
+        abstract: ['photo-?detectors?|photo-?diodes?|responsivity']
+
+  laser:
+    require: ['semiconductor|diode|on[- ]chip|integrated|waveguid|silicon|\bInP\b|III-?V|GaAs|GaN|quantum[- ](?:dot|well|cascade)|micro-?(?:ring|resonator|cavit|disk|laser|comb)|nano-?lasers?|VCSEL|DFB|DBR|PCSEL|\bchips?\b|photonic crystal|heterogeneous|hybrid|lithium niobate|nitride|external[- ]cavity|linewidth|soliton|transceiver|co-?packaged|\bCPO\b|telecom|O[- ]band|C[- ]band|wall[- ]plug']
+    exclude_title: ['\b(?:ho|tm|yb|er|nd|cr|ti|pr|dy):[a-z]|kerr[- ]lens|vibrometr|doppler|wireless power|beamline|synchrotron|electron beams?|accelerator|LIBS|microscop|tweezers|laser (?:beams?|pulses?) (?:propagat|interact|irradiat)|laser[- ]plasma|N2\+|filament|Ti:sapphire|thin[- ]disk|free[- ]electron|\bCO2 laser|random lasers?|\bX-?ray\b|attosecond|high[- ]harmonic|laser[- ](?:written|writing|direct|ablat|induced|process|micromachin|anneal|machin|inscri|print|cut|drill|scann|lithograph|assisted|textur|cleaning|cooling of|plasma|wakefield|fusion)|(?:femtosecond|picosecond|ultrafast|pulsed|fs|ps)[- ]laser (?:writ|inscri|ablat|process|machin|direct|fabricat|modif|induc|irradiat)|(?:solid[- ]state|bulk|gas|dye|excimer|Nd:YAG|Yb:YAG|Er:YAG|Tm:YAG|microchip) lasers?']
+    subtypes:
+      dfb:
+        title: ['distributed[- ]feedback|\bDFBs?\b|\bEMLs?\b|electro[- ]?absorption modulated lasers?|\bDML\b|directly modulated lasers?']
+        abstract: ['distributed[- ]feedback|\bDFB\b']
+      soa_dfb:
+        title: ['(?:\bSOA\b|semiconductor optical amplifier)[- ]?(?:integrated|assisted)[^.]{0,30}(?:DFB|laser)|(?:DFB|laser)[^.]{0,30}(?:monolithically )?integrated[^.]{0,20}(?:\bSOA\b|semiconductor optical amplifier)|\bAXEL\b']
+      dbr:
+        title: ['distributed bragg reflector lasers?|\bDBR\b[^.]{0,20}lasers?|\bDBR lasers?|bragg[- ]reflector lasers?']
+        abstract: ['\bDBR lasers?']
+      ecl:
+        title: ['external[- ]cavity (?:diode )?(?:lasers?|semiconductor)|\bECLs?\b|extended[- ]cavity|hybrid[- ](?:integrated )?(?:III-?V/|InP/)?(?:silicon|SiN|Si3N4|silicon nitride|polymer)[^.]{0,20}lasers?|(?:gain chip|RSOA)[^.]{0,40}(?:laser|cavity)']
+        abstract: ['external[- ]cavity lasers?|\bECLs?\b']
+      sil:
+        title: ['self[- ]injection[- ]lock|\bSIL\b(?!icon)|injection[- ]locked (?:to|by) (?:a |an )?(?:micro-?)?(?:resonator|ring|cavity)']
+        abstract: ['self[- ]injection[- ]lock']
+      pcsel:
+        title: ['photonic[- ]crystal surface[- ]emitting|\bPCSELs?\b']
+        abstract: ['\bPCSELs?\b|photonic[- ]crystal surface[- ]emitting']
+      vcsel:
+        title: ['vertical[- ]cavity surface[- ]emitting|\bVCSELs?\b|\bVECSELs?\b']
+        abstract: ['\bVCSELs?\b|vertical[- ]cavity surface[- ]emitting']
+      els_module:
+        title: ['external (?:laser|light) sources?|\bELS(?:FP)?s?\b|laser (?:source )?modules?|\bCW[- ]?WDM\b|multi-?wavelength (?:laser )?(?:sources?|lasers?|arrays?)|remote laser|laser (?:arrays?|sources?)[^.]{0,30}(?:co-?packaged|\bCPO\b|optical I/O|interconnect)|light sources? for (?:co-?packaged|silicon photonic|CPO)']
+        abstract: ['external laser source|\bELSFP\b|\bCW-WDM\b']
+      comb:
+        title:
+          - '(?:frequency|optical|Kerr|electro[- ]?optic|quantum[- ]dot|soliton|dark[- ]pulse|turnkey|platicon|brillouin|interband|quantum[- ]cascade)[- ](?:micro-?)?combs?\b'
+          - 'micro-?combs?\b|dissipative Kerr soliton|soliton micro|(?:Kerr|temporal|cavity) solitons?|mode[- ]locked (?:lasers?|diodes?|semiconductor|quantum|integrated|on[- ]chip|III-?V)|comb (?:lasers?|sources?|generat)'
+        abstract: ['micro-?comb|frequency comb|Kerr soliton|mode[- ]locked laser']
+      heterogeneous:
+        title:
+          - 'heterogeneous(?:ly)?[- ]integrat[^.]{0,40}(?:lasers?|light sources?|gain)|(?:lasers?|light sources?)[^.]{0,40}heterogeneous(?:ly)?'
+          - '(?:III-?V|InP|GaAs|quantum[- ]dot|QD|InAs)[- ]?(?:on|/)[- ]?(?:silicon|\bSi\b|SOI|SiN|Si3N4|silicon nitride|lithium niobate|\bLN\b|TFLN|insulator)[^.]{0,30}(?:lasers?|light sources?)'
+          - '(?:micro-?)?transfer[- ]print[^.]{0,40}(?:lasers?|gain)|(?:wafer|die)[- ]bonded[^.]{0,30}lasers?|lasers?[^.]{0,20}(?:on|grown on|bonded (?:on|to)) (?:silicon|\bSi\b|SOI|SiN|silicon nitride|thin[- ]film lithium niobate|lithium niobate|LNOI)\b'
+          - '(?:monolithic(?:ally)?|epitaxial(?:ly)?|direct(?:ly)?[- ]grown)[^.]{0,30}(?:quantum[- ]dot |QD )?lasers?'
+        abstract: ['heterogeneous(?:ly)? integrated lasers?|III-V/(?:Si|silicon)']
+      tunable:
+        title: ['(?:widely[- ])?tunable (?:diode |semiconductor |integrated |hybrid |narrow[- ]linewidth )?lasers?|vernier|sampled[- ]grating|\bSG-?DBR\b|wavelength[- ]tunable (?:lasers?|sources?)|swept[- ]source|frequency[- ]agile|(?:laser|wavelength) tuning range']
+        abstract: ['tunable lasers?|tuning range of']
+      other:
+        title:
+          - '(?:semiconductor|diode|micro|nano|integrated|on[- ]chip|chip[- ]scale|hybrid|heterogeneous|ring|disk|quantum[- ]dot|quantum[- ]well|single[- ]mode|single[- ]frequency|narrow[- ]linewidth|brillouin|raman|silicon|InP|GaAs|GaN|III-?V|waveguide|photonic[- ]crystal|edge[- ]emitting|interband|cavity|wavelength|tunable|visible|blue|green|red|UV|ultraviolet|mid[- ]infrared|telecom|O[- ]band|C[- ]band|high[- ]power|array|DBR|DFB|BIC|topological|polariton)[^.,:;]{0,25}lasers?\b|lasers?\b[^.]{0,40}(?:on[- ]chip|integrated|silicon|platform|waveguide|photonic integrated)|\blasing\b|laser diodes?|quantum[- ]cascade|\bQCLs?\b|\bICLs?\b|micro-?lasers?|nano-?lasers?|ring lasers?|narrow[- ]linewidth|(?:sub[- ]?)?(?:Hz|kHz|mHz)[- ]linewidth|(?:low|ultra[- ]?low)[- ](?:noise|phase[- ]noise) (?:lasers?|light|sources?)|light sources?\b|\bsources? for (?:silicon photonic|integrated)|injection[- ]lock|Brillouin lasers?'
+        abstract: ['lasing threshold|threshold current|laser linewidth|intrinsic linewidth|side[- ]mode suppression|wall[- ]plug|slope efficiency|output power of the laser']
+
+  amplifier:
+    require_scope: all
+    subtypes:
+      soa:
+        title: ['semiconductor optical amplifiers?|\bR?SOAs?\b|(?:quantum[- ]dot|QD|InP|III-?V|GaAs|heterogeneous)[^.]{0,20}(?:optical )?amplifiers?|booster amplifiers?|reflective (?:semiconductor )?optical amplifier|gain chips?']
+        abstract: ['semiconductor optical amplifier|\bSOAs?\b']
+      rare_earth:
+        title:
+          - '(?:erbium|\bEr\b|\bEr3\+|\bEr\^?3\+|Er³⁺|ytterbium|\bYb\b|thulium|\bTm\b|holmium|neodymium|rare[- ]earth)[^.]{0,40}(?:waveguide )?(?:amplifi|gain\b|lasers?|lasing)'
+          - '\bEDWAs?\b|erbium[- ](?:doped|implanted)[^.]{0,30}(?:waveguide|lithium niobate|silicon nitride|Si3N4|LNOI|TFLN|Al2O3|TeO2|tellurite|chip|integrated|photonic)'
+        abstract: ['erbium[- ](?:doped|implanted)|rare[- ]earth[- ]doped|Er3\+|Er³⁺']
+      parametric:
+        title: ['(?:optical )?parametric amplif|\bOPAs?\b(?![- ]based beam)|traveling[- ]wave parametric|phase[- ]sensitive amplif|four[- ]wave[- ]mixing[^.]{0,20}amplif|\bTWPA\b']
+        abstract: ['parametric amplif|phase[- ]sensitive amplif']
+      other:
+        title: ['optical amplif|light amplif|waveguide amplif|on[- ]chip amplif|integrated (?:optical )?amplif|net (?:on[- ]chip |internal |modal )?gain|optical gain|Raman amplif|(?<!electrical )(?<!transimpedance )(?<!driver )(?<!RF )(?<!TIA )(?<!power )(?<!low-noise )(?<!low noise )(?<!lock-in )(?<!operational )(?<!electronic )\bamplifiers?\b']
+        abstract: ['optical amplifi|net gain|small[- ]signal gain']
+    exclude_title: ['\b(?:ho|tm|yb|er|nd|cr|ti|pr|dy|ce):[a-z]|josephson|kinetic[- ]inductance|superconducting|qubits?|microwave|luminescen|thermometr|nanocrystals?|nanoparticles?|avalanche|in (?:\w+ )?crystals|network model|C\+L networks?|transimpedance|\bTIA\b|driver amplif|electrical amplif|\bRF amplif|low[- ]noise amplif|power amplif|operational amplif|lock[- ]in amplif|chirped[- ]pulse amplif']
+
+  nonreciprocal:
+    require_scope: all
+    exclude_title: ['metasurfaces?|metamaterials?|thermal (?:emit|emission|radiation)|thermophotonic|radiative|time crystals?|superconducting|microwave|acoustic|spin[- ]waves?|magnons?|skyrmion|kerr effect|\bMOKE\b|dichroism|nanoparticles?|honeycomb|haldane|glass(?:es)?\b|thin[- ]film thermal|imaging']
+    require: ['waveguid|on[- ]chip|integrated|photonic chip|silicon|nitride|lithium niobate|\bLNOI\b|\bTFLN\b|\bPIC\b|ring resonator|micro-?ring|micro-?resonator|isolators?\b|circulators?\b|InP|III-?V|semiconductor laser']
+    subtypes:
+      _class:
+        title: ['non[- ]?reciproc|magneto[- ]?optic(?:al)?|faraday rotat|\bCe:?YIG\b|\bYIG\b|garnet|optical diodes?|magnet(?:ic)?[- ]?free (?:isolat|circulat|non)|magnetless|time[- ]modulat[^.]{0,30}(?:isolat|non[- ]?recipro)|unidirectional (?:transmission|propagation)']
+        abstract: ['non[- ]?reciproc|magneto[- ]?optic|faraday rotat']
+      isolator:
+        title: ['(?<!vibration )(?<!galvanic )(?<!thermal )isolators?\b|optical isolation\b']
+        abstract: ['optical isolators?|isolation ratio']
+      circulator:
+        title: ['circulators?\b']
+        abstract: ['optical circulators?']
+
+  waveguide_platform:
+    exclude_title: ['waveguide QED|waveguide quantum electrodynamics|acoustic|elastic|phononic|spoof|microwave|terahertz|hollow[- ]core|hollow waveguides?|air waveguides?|turbulen|neural operator|\bmasks?\b|\bEUV\b|beamline|electrons?\b|plasma']
+    subtypes:
+      straight:
+        title:
+          - '(?:low|ultra[- ]?low|ultralow|record[- ]low|minimal)[- ](?:propagation[- ])?loss(?:es)?(?:[- ][a-z0-9-]+){0,3} (?:waveguides?|platforms?|photonics|photonic (?:integrated )?circuits?)\b|(?:waveguide|propagation) loss(?:es)?\b|dB/(?:cm|m)\b|(?:sidewall|surface|line[- ]edge) roughness|(?:loss|roughness) reduction'
+          - '(?:thin[- ]film|integrated|wafer[- ]scale|monolithic) (?:lithium tantalate|tantala|Ta2O5|AlN|alumin(?:i)?um nitride|silicon carbide|SiC|diamond|Al2O3|alumina|GaP|gallium phosphide|chalcogenide|TeO2|tellurite|BTO|barium titanate|AlGaAs|GaN|gallium nitride|LNOI|lithium niobate|silicon nitride|germanium|SiGe)[^.]{0,20}(?:photonics?|waveguides?|platforms?|circuits?)'
+          - '(?:photonic|integrated|waveguide|foundry|fabrication) (?:integrated circuit )?platforms?|foundry (?:process|platform|PDK)|\bPDKs?\b|process design kit|multi[- ]project wafer|\bMPW\b|(?:wafer[- ]scale|CMOS[- ]compatible|CMOS[- ]foundry|\d+[- ]?mm)[^.]{0,30}(?:waveguides?|platforms?|fabrication|photonic|integration)'
+          - '(?:visible|ultraviolet|UV|mid[- ]infrared|mid[- ]IR|near[- ]infrared|blue|violet)[- ](?:light |wavelength |spectrum )?(?:integrated )?(?:photonics|waveguides?|photonic (?:integrated )?(?:circuits?|platforms?))'
+        abstract: ['propagation loss(?:es)? of|dB/cm|waveguide loss(?:es)?']
+      bend:
+        title: ['(?:waveguide |compact |sharp |tight |euler |low[- ]loss |ultra[- ]?sharp |multimode )bends?\b|bend(?:ing)? loss(?:es)?|euler (?:bends?|curves?)|bend radius|bend(?:s)? with|(?:circular|spline|clothoid) bends?']
+        abstract: ['bend(?:ing)? loss|euler bend|bend radius']
+      transition:
+        title:
+          - '(?:inter[- ]?layer|layer[- ]to[- ]layer|multi[- ]?layer)[^.]{0,30}(?:transitions?|coupl|tapers?|couplers?)'
+          - '(?:Si|silicon)[- ]?(?:to|/)[- ]?(?:SiN|silicon nitride|Si3N4|LN|lithium niobate)[^.]{0,20}(?:transitions?|coupl|tapers?|couplers?)|(?:SiN|silicon nitride|Si3N4|LN|lithium niobate)[- ]?(?:to|/)[- ]?(?:Si|silicon)\b[^.]{0,20}(?:transitions?|coupl|tapers?|couplers?)'
+          - '(?:III-?V|InP)[- ]?(?:to|/)[- ]?(?:Si|silicon|SiN)\b[^.]{0,20}(?:transitions?|tapers?|coupl)|(?:adiabatic|vertical|bilayer|multilayer) (?:tapers?|transitions?)\b|escalator|(?:SiN|silicon nitride)[- ]on[- ](?:Si|silicon|SOI)\b[^.]{0,30}(?:platform|integration|multilayer)'
+        abstract: ['(?:interlayer|inter-layer) (?:transition|coupler|coupling)|(?:Si|silicon)[- ]to[- ](?:SiN|silicon nitride) (?:transition|taper|coupl)']
+      slow_light:
+        title: ['slow[- ]light|(?:bragg[- ]loaded|corrugated|grating[- ]loaded|sidewall[- ]grating) waveguides?|photonic[- ]crystal waveguides?|coupled[- ]resonator optical waveguides?|\bCROWs?\b|(?:high|large) group index']
+        abstract: ['slow[- ]light|group index of|photonic[- ]crystal waveguide']
+      other:
+        title: ['(?:sub[- ]?wavelength[- ]grating|\bSWG\b|slot|rib|ridge|strip|channel|buried|suspended|loaded|hybrid plasmonic|bound[- ]state|membrane|free[- ]standing|pedestal|trench) waveguides?|waveguide (?:fabrication|technology|platforms?|loss|geometry|design)|(?:optical|photonic) waveguides? (?:in|on|of|with|for)|(?:integrated|nanophotonic|on[- ]chip|planar|dielectric|photonic) waveguides?|(?:silicon|nitride|SiN|Si3N4|lithium niobate|LNOI|TFLN|AlN|GaAs|AlGaAs|InP|GaP|diamond|SiC|Ta2O5|tantala|alumina|Al2O3|polymer|glass|silica|chalcogenide|germanium|tellurite|TeO2) (?:\w+ )?waveguides?']
+        abstract: ['propagation loss|waveguide platform']
+
+  reflector:
+    subtypes:
+      bragg:
+        title: ['bragg (?:grating )?(?:reflectors?|mirrors?)|(?:waveguide|integrated|on[- ]chip|silicon|SiN|nitride|sidewall|multimode|chirped|apodized|cladding[- ]modulated) bragg gratings?|(?<!fiber )(?<!fibre )(?<!fiber-)\bbragg gratings?\b(?![^.]{0,20}sens)|distributed bragg reflectors?(?! lasers?)|\bDBR (?:mirror|reflector)s?']
+        abstract: ['bragg (?:grating )?(?:reflector|mirror)|waveguide bragg grating']
+      phc_mirror:
+        title: ['photonic[- ]crystal (?:mirrors?|reflectors?)|(?:broadband|high[- ]reflectivity|subwavelength|metasurface|high[- ]contrast[- ]grating|\bHCG\b|photonic[- ]crystal) (?:mirrors?|reflectors?)|high[- ]contrast gratings?|(?:membrane|resonant) (?:mirrors?|reflectors?)']
+        abstract: ['photonic[- ]crystal mirror|high[- ]contrast grating']
+      band_stop:
+        title: ['band[- ]?stop|notch filters?|stop[- ]?band (?:filters?|waveguides?)|rejection filters?|band[- ]?rejection|(?:photonic[- ]crystal|grating) (?:band[- ]?stop|stop[- ]?band)']
+        abstract: ['notch filter|band[- ]?stop filter|stop band']
+      loop_mirror:
+        title: ['loop mirrors?|loop reflectors?|sagnac (?:loop )?(?:mirrors?|reflectors?|loops?)']
+        abstract: ['loop mirror|sagnac loop']
+      other:
+        title: ['(?:on[- ]chip|integrated|waveguide|broadband|tunable|variable|reconfigurable|wideband|total) (?:mirrors?|reflectors?)\b|reflectors?\b|retro[- ]?reflectors?|reflectivity|back[- ]?reflection']
+        abstract: ['on[- ]chip (?:mirror|reflector)|broadband reflector']
+
+  frequency_converter:
+    require_scope: all
+    exclude_title: ['\bbulk\b|(?<!photonic )(?<!photonic-)crystals?\b|gas[- ]filled|hollow[- ]core|negative[- ]curvature|ZBLAN|(?:photonic[- ]crystal|tapered|highly[- ]nonlinear|microstructured|chalcogenide|silica|soft[- ]glass|multimode) fib(?:er|re)s?|metasurfaces?|nanoparticles?|nanocrystals?|monolayers?|borophene|plasmon|\bJ\b|joule|terawatt|petawatt|attosecond|\bLBO\b|\bBBO\b|\bKTP\b|\bCLBO\b|AgGaS2|ZnGeP2|BaGa4Se7|\bthermal camera|vapou?rs?\b|atomic (?:vapou?r|ensemble)|imaging']
+    require: ['waveguid|on[- ]chip|integrated|chip|nanophotonic|thin[- ]film|micro-?resonator|micro-?ring|micro-?disk|ring resonator|\bLNOI\b|\bTFLN\b|PPLN|photonic crystal|silicon|nitride|AlGaAs|GaP|AlN|InGaP']
+    subtypes:
+      shg:
+        title: ['second[- ]harmonic|\bSHG\b|periodically[- ]poled|\bPP(?:LN|KTP|LT|LNOI)\b|frequency[- ]doubl|quasi[- ]phase[- ]match|\bQPM\b|poled (?:thin[- ]film )?lithium niobate|frequency doubling']
+        abstract: ['second[- ]harmonic|periodically[- ]poled|quasi[- ]phase[- ]match']
+      sfg_dfg:
+        title: ['sum[- ]frequency|difference[- ]frequency|\bSFG\b|\bDFG\b|frequency (?:up|down)[- ]?conver|quantum frequency conver|(?:all[- ]optical )?wavelength conver(?:sion|ters?)|frequency conver(?:sion|ters?)|(?:up|down)[- ]?conver(?:sion|ters?) of (?:single )?photons']
+        abstract: ['sum[- ]frequency|difference[- ]frequency|frequency conversion|wavelength conversion']
+      other:
+        title: ['optical parametric oscillat|\bOPOs?\b|third[- ]harmonic|\bTHG\b|supercontinuum|four[- ]wave[- ]mixing|\bFWM\b|spontaneous parametric down|\bSPDC\b|photon[- ]pair|entangled[- ]photon (?:source|pair)|(?:χ\(2\)|χ\(3\)|chi\(2\)|chi\(3\)|χ\^?\(?2\)?|second[- ]order nonlinear|third[- ]order nonlinear|quadratic nonlinear|cascaded nonlinear)|nonlinear (?:frequency )?conversion|squeez(?:ed|ing) light|squeezer|(?:mid[- ]infrared|visible|UV) (?:light )?generation']
+        abstract: ['parametric oscillat|four[- ]wave mixing|nonlinear conversion efficiency|photon[- ]pair source']
+
+  mode_converter:
+    subtypes:
+      mdm_mux:
+        title: ['mode[- ]division (?:de)?multiplex|\bMDM\b|mode (?:de)?multiplex|mode[- ](?:de)?mux|few[- ]mode[^.]{0,30}(?:coupl|chip|integrated|grating|multiplex|waveguide|fib(?:er|re) interface)|multimode (?:de)?multiplexers?|space[- ]division multiplex[^.]{0,40}(?:chip|integrated|silicon|photonic)|(?:on[- ]chip|integrated) (?:mode|space)[- ]division']
+        abstract: ['mode[- ]division (?:de)?multiplex|mode (?:de)?multiplexer']
+      converter:
+        title: ['mode[- ](?:order[- ])?conver(?:ter|ters|sion)|(?:TE|TM)\d+[- ]?(?:to|/|-)[- ]?(?:TE|TM)\d+(?! polari)|mode (?:transformers?|exchangers?|shapers?)|(?:inverse[- ]designed|metamaterial|subwavelength|graded[- ]index) mode']
+        abstract: ['mode conver(?:ter|sion)']
+      other:
+        title: ['higher[- ]order modes?|multimode (?:waveguides? )?(?:bends?|crossings?|devices?|photonics|interconnect|splitters?)|mode (?:filters?|splitters?|sorters?|selective)|photonic lanterns?|(?:orbital angular momentum|\bOAM\b)[^.]{0,30}(?:emitter|generator|chip|integrated|on[- ]chip)']
+        abstract: ['higher[- ]order mode|mode sorter']

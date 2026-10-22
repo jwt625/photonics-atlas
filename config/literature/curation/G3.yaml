@@ -1,0 +1,123 @@
+group: G3
+curator_notes: >-
+  resonator: rule picks over-weighted nonlinear / quantum / sensing demos and missed the main Q benchmarks (cap left
+  them unscored): added TFLN 2017 / 29M, PhC 11M, wedge and >1e9 silica disks, Si3N4 ultrahigh-Q / subtractive / Leti,
+  Si ultralow-loss ring; dropped EO switch, spectrometer, bulk WGM, physics demos. Gaps: polymer, AlN rings.
+  wdm: AWG-heavy (30); added echelle (Kotura, NRC, 3-um SOI), AWGR, MRR banks (Xia/Vlasov 2007), contra-DC, polymer /
+  InP-foundry / silica AWG, Piggott inverse design; dropped spectrometers, time-domain pulse interleaver, SNSPD filter.
+  wdm.tff: only 2 papers found (ETRI APD-ROSA, Sumitomo focal shifts); still a gap. Daoxin Dai has 6 rule picks in
+  wdm (D125 cap 4; 2 via reserve), left for the coordinator.
+  reflector: rule picks included free-space HCG / epitaxial DBR / THz / GMR mirrors (dropped as free-space or
+  out-of-band); replaced with integrated Bragg benchmarks (CMOS, LioniX, low-kappa SiN, spiral, cladding-modulated,
+  SWG). phc_mirror and band_stop stay thin.
+  Adds: OpenAlex ids from the prefiltered pool (unscored, beyond cap) except Xia 2007 and Biberman 2012 (API-verified).
+picks:
+  # --- resonator
+  - {uid: "10.1364/optica.4.000619", class: resonator, reason: "benchmark Si3N4 ultra-low-loss ring, sub-mW OPO threshold (Lipson 2017)"}
+  - {uid: "10.1364/ol.395203", class: resonator, reason: "multi-million Q thick-SOI resonators plus 100 MHz filter bank"}
+  - {uid: "10.1109/lpt.2021.3059919", class: resonator, reason: "imec low-loss bend Si rings; industrial"}
+  - {uid: "10.1109/jlt.2022.3199764", class: resonator, reason: "Si nanobeam PhC cavity, measured Q above 2 million"}
+  - {uid: "10.1364/oe.485093", class: resonator, reason: "NTT H1 hexapole PhC nanocavity ultrahigh-Q; industrial lab"}
+  - {uid: "10.1364/oe.381224", class: resonator, reason: "1.4M Q Si3N4 ring at 780 nm; NIR band coverage"}
+  - {uid: "10.1063/5.0296704", class: resonator, reason: "III-V mid-IR resonators Q above 0.5M; InP platform gap"}
+  - {uid: "10.1364/oe.569797", class: resonator, reason: "chalcogenide on-chip resonators, impurity-limited loss mid-IR; platform gap"}
+  - {uid: "10.1109/lpt.2019.2897859", class: resonator, reason: "coupled-ring flat-top sub-100 MHz Si3N4 filter; coupled_rings subtype"}
+  - {uid: "10.1364/prj.470644", class: resonator, reason: "million-Q integrated Fabry-Perot cavity with multimode retroreflectors"}
+  - {uid: "10.1364/ol.40.003153", class: resonator, reason: "electrically tunable sidewall Bragg Fabry-Perot filter; bragg subtype"}
+  # --- wdm
+  - {uid: "10.1002/lpor.202401357", class: wdm, reason: "imec ring WDM 32x100 GHz filter; industrial (reclassed from resonator)"}
+  - {uid: "10.1364/oe.482938", class: wdm, reason: "32x32 silicon AWGR (Yoo); AWGR benchmark"}
+  - {uid: "10.1364/oe.19.014130", class: wdm, reason: "low-loss Si3N4 AWG with nano-core waveguides (Bowers 2011)"}
+  - {uid: "10.1364/oe.25.030651", class: wdm, reason: "low-loss Si AWG with refined loss/crosstalk characterization"}
+  - {uid: "10.1109/jlt.2023.3325655", class: wdm, reason: "1x40 100 GHz cascaded echelle on 3-um SOI; echelle subtype"}
+  - {uid: "10.1364/oe.453273", class: wdm, reason: "NRC athermal and tunable echelle demux; echelle subtype"}
+  - {uid: "10.1109/lpt.2017.2660546", class: wdm, reason: "III-V Lab 16x100 GHz echelle mux on SOI; industrial"}
+  - {uid: "10.1364/oe.19.006125", class: wdm, reason: "Kotura single-chip echelle VMUX/DEMUX; industry first"}
+  - {uid: "10.1038/s41467-021-24640-5", class: wdm, reason: "polarization-transparent hitless ring add-drop multiplexer"}
+  - {uid: "10.1364/oe.24.029009", class: wdm, reason: "FSR-free ring filter with bent contra-DCs"}
+  - {uid: "10.1109/jphot.2017.2662480", class: wdm, reason: "large-FSR tunable double-ring WDM filters, power numbers"}
+  - {uid: "10.1364/oe.26.030076", class: wdm, reason: "SiN Mach-Zehnder lattice CWDM O-band, polarization-insensitive"}
+  - {uid: "10.1109/lpt.2020.3044262", class: wdm, reason: "ultra-broadband Si interleaver; interleaver subtype"}
+  - {uid: "10.1364/oe.397141", class: wdm, reason: "16-channel O-band contra-DC WDM chip"}
+  - {uid: "10.1002/lpor.202402114", class: wdm, reason: "polarization-independent complex Bragg filters on SiN"}
+  - {uid: "arxiv:2509.07233", class: wdm, reason: "co-optimized inverse-designed WDM; inverse-design benchmark"}
+  - {uid: "10.1021/acsphotonics.7b00987", class: wdm, reason: "inverse-designed narrowband 3-channel demux (Vuckovic)"}
+  - {uid: "10.1364/oe.492007", class: wdm, reason: "silica PLC CWDM, temperature-insensitive; platform gap"}
+  - {uid: "10.1109/jphot.2025.3605942", class: wdm, reason: "athermal polymer AWGR; polymer platform gap"}
+  - {uid: "10.1109/lpt.2018.2840224", class: wdm, reason: "deep-UV generic InP foundry AWGs; foundry statistics"}
+  # --- reflector
+  - {uid: "10.1364/ol.38.004002", class: reflector, reason: "wafer-scale CMOS lambda/4-shifted Bragg grating array"}
+  - {uid: "10.1364/oe.23.030329", class: reflector, reason: "low-kappa narrow-band Si3N4 Bragg gratings (Bowers)"}
+  - {uid: "10.1364/oe.25.006653", class: reflector, reason: "broadband high-reflectivity circular Bragg mirror on 220 nm SOI"}
+  - {uid: "10.1364/oe.21.008953", class: reflector, reason: "spiral waveguide Bragg gratings in SOI"}
+  - {uid: "10.1364/oe.23.016662", class: reflector, reason: "complex apodized Bragg filters without circulators"}
+  - {uid: "10.1364/oe.17.018518", class: reflector, reason: "tunable Bragg reflectors on SOI rib waveguides"}
+  - {uid: "10.1364/ol.394455", class: reflector, reason: "SWG modal Bragg filters, narrow bandwidth, high rejection"}
+  - {uid: "10.1109/lpt.2019.2915262", class: reflector, reason: "LioniX SiN Bragg with Joule tuning for ECL; industrial"}
+  - {uid: "10.1364/ol.34.001357", class: reflector, reason: "cladding-modulated Bragg gratings in Si; method benchmark"}
+  - {uid: "10.1109/jlt.2025.3574736", class: reflector, reason: "fully tunable Sagnac loop mirrors; loop_mirror subtype gap"}
+  - {uid: "10.1002/lpor.201800226", class: reflector, reason: "coherency-broken Bragg rejection filters; band_stop subtype gap"}
+drops:
+  # --- resonator
+  - {uid: "10.1038/s44310-024-00032-7", reason: "electro-optic switch; EO atlas scope"}
+  - {uid: "10.29026/oea.2022.210100", reason: "spectrometer system, not resonator characterization"}
+  - {uid: "10.1364/oe.483990", reason: "biosensor; same group as 10.1021/acsphotonics.4c00778"}
+  - {uid: "10.1002/jbio.201300012", reason: "biosensor application; better Bragg resonators available"}
+  - {uid: "arxiv:2410.10079", reason: "non-Hermitian physics demo; few component metrics"}
+  - {uid: "10.1364/optica.542968", reason: "squeezing result, not resonator characterization"}
+  - {uid: "arxiv:2407.00421", reason: "nonlinear physics; Ya Cheng above 4 per class"}
+  - {uid: "10.1364/oe.26.010813", reason: "bulk crystalline WGM resonator, not integrated"}
+  - {uid: "10.1515/nanoph-2024-0282", reason: "2D-material SHG enhancement, not resonator characterization"}
+  # --- wdm
+  - {uid: "10.1364/ol.570758", reason: "speckle spectrometer, not a WDM component"}
+  - {uid: "10.1038/s41467-023-42197-3", reason: "reconstructive spectrometer, not a WDM component"}
+  - {uid: "arxiv:2306.05729", reason: "spectrometer, same work family as 10.1038/s41467-023-42197-3"}
+  - {uid: "10.1088/1361-6668/aaa6b4", reason: "SNSPD with fiber-end bandpass filter; not WDM component"}
+  - {uid: "10.1038/s41467-025-59794-z", reason: "time-domain pulse interleaver for microwaves, not wavelength interleaver"}
+  # --- reflector
+  - {uid: "10.1364/oe.502363", reason: "terahertz band-stop filter; out of scope (optical only)"}
+  - {uid: "10.1364/oe.600321", reason: "epitaxial vertical DBR on Ge; not integrated waveguide reflector"}
+  - {uid: "10.1186/s43074-025-00180-9", reason: "epitaxial DBR for surface-normal devices; not waveguide reflector"}
+  - {uid: "10.1002/lpor.72036", reason: "free-space monolithic Bragg reflector; not integrated"}
+  - {uid: "10.1364/oe.487119", reason: "free-space high-contrast grating mirror"}
+  - {uid: "10.1021/acsphotonics.1c00850", reason: "free-space high-contrast grating mirror"}
+  - {uid: "10.1364/oe.456898", reason: "free-space high-contrast grating mirror"}
+  - {uid: "10.1109/jphot.2016.2520834", reason: "surface-normal HCG reflector; free-space"}
+  - {uid: "10.1364/oe.396693", reason: "free-space high-contrast grating mirror"}
+  - {uid: "10.1364/ol.42.000223", reason: "free-space guided-mode resonance notch filter"}
+  - {uid: "10.1364/oe.24.015120", reason: "surface-normal CRIGF reflector for free-space incidence"}
+  - {uid: "10.1364/oe.614298", reason: "nonlinear pulse compression result, not reflector metrics"}
+  - {uid: "10.1063/1.5013618", reason: "nonlinear loop mirror signal processing (score 5); replaced by Sagnac adds"}
+reclass:
+  - {uid: "10.1038/s41467-021-21205-4", class: resonator, subtype: resonator.ring, reason: "all-waveguide coil ring resonator"}
+  - {uid: "arxiv:2509.04783", class: resonator, subtype: resonator.photonic_crystal, reason: "micro Fabry-Perot cavity (subtype covers FP)"}
+  - {uid: "10.1364/prj.470644", class: resonator, subtype: resonator.photonic_crystal, reason: "integrated Fabry-Perot cavity"}
+  - {uid: "10.1002/lpor.202401357", class: wdm, subtype: wdm.mrr, reason: "ring-based 32x100 GHz WDM filter"}
+  - {uid: "10.1364/oe.468721", class: wdm, subtype: wdm.bragg_cdc, reason: "multimode waveguide grating add-drop filter"}
+  - {uid: "10.1515/nanoph-2023-0665", class: wdm, subtype: wdm.bragg_cdc, reason: "abstract: cascaded multimode waveguide grating bandpass filters"}
+  - {uid: "10.1364/oe.410379", class: wdm, subtype: wdm.cascaded_mzi, reason: "cascaded AMZ triplets"}
+  - {uid: "10.1109/jlt.2025.3574736", class: reflector, subtype: reflector.loop_mirror, reason: "Sagnac loop mirror based filter"}
+  - {uid: "10.1002/lpor.201800226", class: reflector, subtype: reflector.band_stop, reason: "Bragg rejection (band-stop) filter"}
+adds:
+  # --- resonator (prefiltered pool, unscored beyond cap; metadata from OpenAlex harvest)
+  - {doi: "10.1364/optica.4.001536", arxiv_id: "", title: "Monolithic ultra-high-Q lithium niobate microring resonator", year: 2017, class: resonator, subtype: resonator.ring, reason: "TFLN ring Q benchmark"}
+  - {doi: "10.1364/prj.521172", arxiv_id: "", title: "Twenty-nine million intrinsic Q -factor monolithic microresonators on thin-film lithium niobate", year: 2024, class: resonator, subtype: resonator.ring, reason: "TFLN record intrinsic Q"}
+  - {doi: "10.1364/oe.25.001769", arxiv_id: "", title: "Photonic crystal nanocavity with a Q factor exceeding eleven million", year: 2017, class: resonator, subtype: resonator.photonic_crystal, reason: "PhC nanocavity Q record"}
+  - {doi: "10.1038/nphoton.2012.109", arxiv_id: "", title: "Chemically etched ultrahigh-Q wedge-resonator on a silicon chip", year: 2012, class: resonator, subtype: resonator.disk, reason: "on-chip silica wedge Q benchmark; paywalled"}
+  - {doi: "10.1364/ol.394940", arxiv_id: "", title: "Greater than one billion Q factor for on-chip microresonators", year: 2020, class: resonator, subtype: resonator.disk, reason: "on-chip Q record above 1e9; paywalled"}
+  - {doi: "10.1364/optica.1.000153", arxiv_id: "", title: "Integrated waveguide coupled Si_3N_4 resonators in the ultrahigh-Q regime", year: 2014, class: resonator, subtype: resonator.ring, reason: "Si3N4 ultrahigh-Q benchmark"}
+  - {doi: "10.1364/oe.27.035719", arxiv_id: "", title: "High-Q Si 3 N 4 microresonators based on a subtractive processing for Kerr nonlinear optics", year: 2019, class: resonator, subtype: resonator.ring, reason: "subtractive-process Si3N4 high-Q"}
+  - {doi: "10.1364/oe.27.030726", arxiv_id: "", title: "Ultralow-loss tightly confining Si 3 N 4 waveguides and high-Q microresonators", year: 2019, class: resonator, subtype: resonator.ring, reason: "CEA-Leti 200 mm high-Q Si3N4; industrial"}
+  - {doi: "10.1364/optica.4.001251", arxiv_id: "", title: "High-quality lithium niobate photonic crystal nanocavities", year: 2017, class: resonator, subtype: resonator.photonic_crystal, reason: "TFLN PhC cavity benchmark"}
+  - {doi: "10.1109/lpt.2004.826025", arxiv_id: "", title: "Low-Loss SOI Photonic Wires and Ring Resonators Fabricated With Deep UV Lithography", year: 2004, class: resonator, subtype: resonator.ring, reason: "imec DUV ring landmark; foundry; paywalled"}
+  - {doi: "10.1364/ol.37.004236", arxiv_id: "", title: "Ultralow-loss silicon ring resonators", year: 2012, class: resonator, subtype: resonator.ring, reason: "Si ring Q benchmark; API-verified, not in local corpora; paywalled"}
+  # --- wdm
+  - {doi: "10.1038/nphoton.2015.69", arxiv_id: "", title: "Inverse design and demonstration of a compact and broadband on-chip wavelength demultiplexer", year: 2015, class: wdm, subtype: wdm.other, reason: "first inverse-designed WDM demux"}
+  - {doi: "10.1364/oe.15.011934", arxiv_id: "", title: "Ultra-compact high order ring resonator filters using submicron silicon photonic wires for on-chip optical interconnects", year: 2007, class: wdm, subtype: wdm.mrr, reason: "IBM high-order ring filter landmark; API-verified, not in local corpora"}
+  - {doi: "10.1364/oe.21.006733", arxiv_id: "", title: "Ultra-compact, flat-top demultiplexer using anti-reflection contra-directional couplers for CWDM networks on silicon", year: 2013, class: wdm, subtype: wdm.bragg_cdc, reason: "contra-DC CWDM demux benchmark"}
+  - {doi: "10.1364/oe.24.005715", arxiv_id: "", title: "Sub-GHz-resolution C-band Nyquist-filtering interleaver on a high-index-contrast photonic integrated circuit", year: 2016, class: wdm, subtype: wdm.interleaver, reason: "sub-GHz interleaver; interleaver subtype"}
+  - {doi: "10.1364/oe.24.027104", arxiv_id: "", title: "Highly alignment tolerant and high-sensitivity 100Gb/s (4 × 25Gb/s) APD-ROSA with a thin-film filter-based de-multiplexer", year: 2016, class: wdm, subtype: wdm.tff, reason: "TFF demux in ROSA; tff subtype gap"}
+  - {doi: "10.1364/ol.457566", arxiv_id: "", title: "Focal shifts in thin film filters for MUX/DEMUXs", year: 2022, class: wdm, subtype: wdm.tff, reason: "Sumitomo zigzag TFF MUX/DEMUX; tff subtype gap; paywalled"}
+  # --- reflector
+  - {doi: "10.1063/1.5025833", arxiv_id: "", title: "Advanced photonic filters based on cascaded Sagnac loop reflector resonators in silicon-on-insulator nanowires", year: 2018, class: reflector, subtype: reflector.loop_mirror, reason: "measured SOI Sagnac loop reflectors; loop_mirror gap"}
+  - {doi: "10.1109/jqe.2019.2941578", arxiv_id: "", title: "Characterization of Waveguide Photonic Crystal Reflectors on Indium Phosphide Membranes", year: 2019, class: reflector, subtype: reflector.phc_mirror, reason: "waveguide PhC reflectors on IMOS; phc_mirror gap"}

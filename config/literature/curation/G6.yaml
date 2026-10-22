@@ -1,0 +1,120 @@
+group: G6
+curator_notes: >-
+  laser: rule selection was academic-heavy (combs 22, TFLN rare-earth microdisks, one Ghent/Glasgow cluster of 11)
+  and thin on datacom / CPO sources. Picks add high-power low-RIN DFBs, multi-wavelength DFB arrays for optical I/O,
+  SOA-DFB, Intel / Sumitomo / Huawei-class heterogeneous tunable lasers, III-V-on-TFLN, a coherent-lite SIL, and
+  landmarks (first hybrid Si laser, Hz-linewidth SIL, battery comb, 108 GHz DML). Gap: els_module has a single
+  system-level OFC paper; no ELSFP / CPO laser-module literature exists in the pool. amplifier: good subtype
+  balance; added Er:SiN Science, TFLN EDWAs with fiber-to-fiber gain and NF, O-band QD SOA on Si, Si LMA amplifier,
+  removed a preprint duplicate. frequency_converter: rule picks drifted to supercontinuum, squeezing and photon-pair
+  sources; replaced with PPLN / TFLN / AlN / SiN SHG and DFG benchmarks (most were unscored, added) and industry PPLN
+  ridge / module papers.
+picks:
+  # laser: datacom / CPO / ELS-relevant sources
+  - {uid: "10.1364/ofc.2021.f3c.6", class: laser, reason: "only els_module paper: 8-port 8-lambda remote laser source (Ayar Labs)"}
+  - {uid: "10.1109/acp66871.2025.11349987", class: laser, reason: "soa_dfb gap: >130 mW SOA-DFB, SMSR, RIN, bandwidth"}
+  - {uid: "10.1364/oe.550648", class: laser, reason: "424 mW CW DFB, 21 kHz, RIN -168 dB/Hz; ELS-class source"}
+  - {uid: "10.1364/oe.516210", class: laser, reason: "190 mW DFB, SMSR 55 dB, RIN, 45 kHz linewidth"}
+  - {uid: "10.1364/oe.523353", class: laser, reason: "16-ch 200 GHz DFB array, >85 mW, RIN, linewidth per channel"}
+  - {uid: "10.3788/col202523.041402", class: laser, reason: "8-ch O-band DFB array for optical I/O, >80 mW, SMSR"}
+  - {uid: "10.1364/oe.539658", class: laser, reason: "multi-port multi-wavelength DFB source for optical I/O"}
+  - {uid: "10.1364/oe.587554", class: laser, reason: ">100 mW per wavelength DFB array with SOA, RIN, linewidth"}
+  - {uid: "10.1002/lpor.202200979", class: laser, reason: "1.3 um QD DFB: 100 mW, SMSR 62.6 dB, 1.6 kHz, RIN -166"}
+  - {uid: "10.1364/oe.540568", class: laser, reason: "1.3 um DML DFB 29 GHz, 50 Gb/s; datacom source"}
+  - {uid: "10.1109/jlt.2024.3361080", class: laser, reason: "Intel 300 mm III-V/Si tunable laser + SOA, >17 dBm"}
+  - {uid: "10.1364/ofc.2022.tu2e.5", class: laser, reason: "Intel III-V/Si multi-wavelength DFB for DWDM optical I/O"}
+  - {uid: "10.1109/jlt.2024.3450093", class: laser, reason: "chip-on-wafer InP/Si tunable laser with 3000 h aging; industry"}
+  - {uid: "10.1109/jphot.2020.3037834", class: laser, reason: "312 mW on-chip SCOWA + SiN DBR laser, 1.6 dB coupling"}
+  - {uid: "10.1364/optica.6.000745", class: laser, reason: "benchmark: >37 mW sub-kHz heterogeneous III-V/Si laser"}
+  - {uid: "10.1515/nanoph-2025-0458", class: laser, reason: "subtype gap: heterogeneous III-V on TFLN DFB and Vernier lasers"}
+  - {uid: "10.1063/5.0231827", class: laser, reason: "TFLN hybrid ECL 76 mW, SMSR >60 dB, 43 nm tuning"}
+  - {uid: "10.1364/oe.487850", class: laser, reason: "220 mW Si3N4 ECL, 55 nm tuning, <8 kHz"}
+  - {uid: "10.1109/jlt.2025.3610084", class: laser, reason: "SIL DFB for 800G coherent-lite DCI: 42 Hz, RIN"}
+  - {uid: "10.1364/oe.562511", class: laser, reason: "single-mode 850 nm Zn-diffusion VCSEL, bandwidth, coupling"}
+  - {uid: "10.1109/jlt.2016.2597870", class: laser, reason: "band gap: single-mode 1.5 um InP VCSEL, >21 GHz, 50 Gb/s"}
+  # amplifier
+  - {uid: "10.1126/science.abo2631", class: amplifier, reason: "benchmark: Er:Si3N4 PIC amplifier, 145 mW, >30 dB gain"}
+  - {uid: "10.1038/s41467-026-74486-y", class: amplifier, reason: "Si photonic LMA amplifier: 115 mW sat, 30 dB, 3.6 dB NF"}
+  - {uid: "10.1364/oe.27.000293", class: amplifier, reason: "27 dB gain III-V-on-Si SOA, >17 dBm output"}
+  - {uid: "10.1021/acsphotonics.9b00903", class: amplifier, reason: "O-band QD SOA on Si: 23 dBm sat, 6.1 dB NF"}
+  - {uid: "10.1109/jlt.2024.3509402", class: amplifier, reason: "O-band QD vs QW vs bulk SOA: gain, NF, Psat, alpha"}
+  - {uid: "10.1109/jstqe.2016.2593103", class: amplifier, reason: "heterogeneous Si/III-V SOAs: 25 dB, 14 dBm, transition loss"}
+  - {uid: "10.1021/acsphotonics.5c01901", class: amplifier, reason: "Er:TFLN EDWA >18 dB fiber-to-fiber, NF ~5 dB"}
+  - {uid: "10.1109/jstqe.2021.3137192", class: amplifier, reason: "Er:LNOI 16 dB internal net gain, NF 4.49 dB"}
+  - {uid: "10.1364/oe.562635", class: amplifier, reason: "packaged Er:Al2O3 amplifier 24 dB external gain, 95 C"}
+  - {uid: "10.1364/oe.22.025993", class: amplifier, reason: "benchmark: 20 dB net gain Er:Al2O3 spiral on Si"}
+  - {uid: "10.1364/optica.442332", class: amplifier, reason: "parametric benchmark: >100 dB/cm OPA in nanophotonic LN"}
+  # frequency_converter
+  - {uid: "10.1109/jqe.2010.2045475", class: frequency_converter, reason: "industry: NTT direct-bonded PPZnLN ridge, 2400 %/W, module loss"}
+  - {uid: "10.1364/oe.416723", class: frequency_converter, reason: "watt-level 775 nm SHG, 70 % in RPE PPLN ridge"}
+  - {uid: "arxiv:2512.07968", class: frequency_converter, reason: "platform gap: PP thin-film LiTaO3, >1 W SHG"}
+  - {uid: "10.1038/s41467-025-65953-z", class: frequency_converter, reason: "TFLN DFG 48.6 % efficiency, 13.2 dBm idler"}
+  - {uid: "10.1364/oe.389423", class: frequency_converter, reason: "platform gap: GaAs-on-insulator SHG on 76 mm wafers"}
+  - {uid: "10.1002/lpor.202501357", class: frequency_converter, reason: "PPLN on 200 mm Si photonics wafer; foundry route"}
+drops:
+  # laser
+  - {uid: "10.1038/s41467-022-33528-x", reason: "bulk microchip Yb:YAG Q-switched laser, not a PIC laser"}
+  - {uid: "10.1364/ol.569430", reason: "QCL facet-coating study, discrete mid-IR emitter"}
+  - {uid: "10.1364/ol.579036", reason: "fs-written bulk-crystal waveguide laser; laser.other overweight"}
+  - {uid: "10.1063/1.5000353", reason: "same CEA GeSn group; keep 10.1364/oe.26.032500"}
+  - {uid: "10.1364/cleo_at.2025.aa122_7", reason: "conference version of 10.1038/s41467-026-69787-1"}
+  - {uid: "arxiv:2607.18611", reason: "Kerr soliton pulse-energy study; comb subtype overweight"}
+  - {uid: "arxiv:2608.04931", reason: "EO comb plus compression system, not a laser source"}
+  - {uid: "10.1002/lpor.202503251", reason: "LN Raman-soliton comb; comb overweight, Ya Cheng group cap"}
+  - {uid: "arxiv:2609.18640", reason: "LN Kerr-Raman dual comb; comb overweight, Ya Cheng group cap"}
+  - {uid: "10.1364/oe.469942", reason: "modulator-based recirculating-loop comb generator"}
+  - {uid: "10.1109/jstqe.2017.2759263", reason: "absorber-length parametric study; CPML series already covered"}
+  - {uid: "10.1038/s41377-025-01795-0", reason: "comb microwave oscillator system; comb overweight"}
+  - {uid: "10.1364/ol.575610", reason: "Hou group cap (5 selected); dual-wavelength DFB variant"}
+  - {uid: "10.1109/lpt.2023.3278880", reason: "Hou group cap; beamforming DFB variant"}
+  - {uid: "10.1364/oe.563242", reason: "Hou group cap; multi-wavelength MLL DFB variant"}
+  - {uid: "arxiv:2604.22397", reason: "Nd:LNOI microdisk, 2e-5 slope efficiency; TFLN microdisks overweight"}
+  - {uid: "10.3788/col202422.041301", reason: "Er:Yb LN microdisk, low output; TFLN microdisks overweight"}
+  - {uid: "10.1364/ol.549540", reason: "Ghent group cap (6 selected); SWIR ring-laser variant"}
+  - {uid: "10.1364/oe.404847", reason: "Ghent group cap; covered by 10.1364/oe.26.008821"}
+  - {uid: "10.1364/prj.507560", reason: "Kuyken group cap; overlaps 10.1063/5.0058022"}
+  - {uid: "10.1364/oe.513997", reason: "abstract gives only relative improvements"}
+  - {uid: "10.1364/oe.585899", reason: "weak metrics (310 mA threshold); QD-on-Si covered by landmarks"}
+  - {uid: "10.1126/sciadv.abp9006", reason: "locked to bulk 8 mL vacuum-gap cavity, not an integrated laser"}
+  - {uid: "10.1109/jlt.2023.3294235", reason: "Bowers group cap; narrow mode-hop-free tuning result"}
+  - {uid: "10.1063/5.0191537", reason: "optically gain-switched ps emitter; weak VCSEL floor backfill"}
+  # amplifier
+  - {uid: "10.1109/siphotonics55903.2023.10141916", reason: "Ghent group cap; conference SOA superseded by journal SOAs"}
+  - {uid: "10.1364/oe.23.000747", reason: "same TeO2:Er group as 10.1364/oe.18.019192; truncated abstract"}
+  - {uid: "10.1049/el:20040531", reason: "2004 paywalled letter, no gain / NF numbers stated"}
+  - {uid: "arxiv:2505.15361", reason: "preprint of 10.1038/s41467-026-74486-y (same abstract)"}
+  - {uid: "arxiv:2404.08609", reason: "preprint of 10.1038/s41586-025-08666-z; family merge missed"}
+  # frequency_converter
+  - {uid: "10.1038/s41377-026-02323-4", reason: "supercontinuum, not a frequency-converter metric set"}
+  - {uid: "10.1063/5.0265760", reason: "supercontinuum, not a frequency-converter metric set"}
+  - {uid: "10.1109/jlt.2026.3671328", reason: "supercontinuum / fCEO detection, not a converter"}
+  - {uid: "arxiv:2509.00394", reason: "preprint of 10.1109/jlt.2026.3671328; supercontinuum"}
+  - {uid: "arxiv:2602.22693", reason: "squeezed-light source; no conversion efficiency"}
+  - {uid: "10.1063/5.0256768", reason: "SFWM entangled-pair source, not a frequency converter"}
+  - {uid: "10.1364/oe.488978", reason: "photon-pair source; no conversion efficiency"}
+  - {uid: "10.1021/acsphotonics.4c02298", reason: "Si FWM phase conjugation; off-core for SHG/SFG/DFG class"}
+  - {uid: "10.1109/jphot.2022.3231345", reason: "Si FWM converter at -25 dB CE; weak vs PPLN / TFLN set"}
+  - {uid: "arxiv:2409.15845", reason: "preprint of 10.1038/s41586-025-08824-3 (Andrekson FWM amplifier)"}
+reclass:
+  - {uid: "10.3390/app112311096", class: laser, subtype: laser.tunable, reason: "III-V/Si tunable laser with SOA, not a DFB"}
+  - {uid: "10.1364/oe.587554", class: laser, subtype: laser.soa_dfb, reason: "DFB array with integrated SOA booster"}
+  - {uid: "10.1109/jlt.2024.3437754", class: laser, subtype: laser.heterogeneous, reason: "InP membrane laser bonded on SiC with SSC"}
+  - {uid: "10.1002/nap2.70037", class: laser, subtype: laser.heterogeneous, reason: "flip-chip InGaN lasers on foundry SiN PIC"}
+  - {uid: "arxiv:2510.15146", class: laser, subtype: laser.comb, reason: "soliton mode-locked on-chip fs laser"}
+  - {uid: "10.1364/oe.582572", class: amplifier, subtype: amplifier.rare_earth, reason: "Nd-doped Al2O3 is rare-earth"}
+  - {uid: "10.1364/oe.24.020318", class: amplifier, subtype: amplifier.soa, reason: "III-V/Si SOA (XGM), not a chi(2) converter"}
+adds:
+  - {doi: "10.1364/oe.14.009203", arxiv_id: "", title: "Electrically pumped hybrid AlGaInAs-silicon evanescent laser", year: 2006, class: laser, subtype: laser.heterogeneous, reason: "landmark first electrically pumped hybrid III-V/Si laser; unscored (cap)"}
+  - {doi: "10.1038/s41566-021-00761-7", arxiv_id: "", title: "Hertz-linewidth semiconductor lasers using CMOS-ready ultra-high-Q microresonators", year: 2021, class: laser, subtype: laser.sil, reason: "benchmark SIL to CMOS SiN; unscored (cap)"}
+  - {doi: "10.1038/s41586-018-0598-9", arxiv_id: "", title: "Battery-operated integrated frequency comb generator", year: 2018, class: laser, subtype: laser.comb, reason: "electrically driven integrated comb benchmark; unscored (cap)"}
+  - {doi: "10.1038/s41566-022-01120-w", arxiv_id: "", title: "Widely tunable and narrow-linewidth chip-scale lasers from near-ultraviolet to near-infrared wavelengths", year: 2022, class: laser, subtype: laser.ecl, reason: "visible / NIR hybrid ECL benchmark; paywalled; unscored (cap)"}
+  - {doi: "10.1038/nphoton.2016.21", arxiv_id: "", title: "Electrically pumped continuous-wave III–V quantum dot lasers on silicon", year: 2016, class: laser, subtype: laser.other, reason: "landmark monolithic QD laser on Si; paywalled; unscored (cap)"}
+  - {doi: "10.1038/s41566-020-00700-y", arxiv_id: "", title: "Directly modulated membrane lasers with 108 GHz bandwidth on a high-thermal-conductivity silicon carbide substrate", year: 2020, class: laser, subtype: laser.heterogeneous, reason: "record DML bandwidth (NTT); paywalled; not in pool"}
+  - {doi: "10.1364/optica.438620", arxiv_id: "", title: "III/V-on-lithium niobate amplifiers and lasers", year: 2021, class: amplifier, subtype: amplifier.soa, reason: "first III-V-on-TFLN SOA; unscored (cap)"}
+  - {doi: "10.1126/sciadv.abi8150", arxiv_id: "", title: "Overcoming the quantum limit of optical amplification in monolithic waveguides", year: 2021, class: amplifier, subtype: amplifier.parametric, reason: "SiN PSA with sub-3 dB NF benchmark; unscored (cap)"}
+  - {doi: "10.1364/optica.5.001438", arxiv_id: "", title: "Ultrahigh-efficiency wavelength conversion in nanophotonic periodically poled lithium niobate waveguides", year: 2018, class: frequency_converter, subtype: frequency_converter.shg, reason: "benchmark TFLN PPLN SHG; unscored (cap)"}
+  - {doi: "10.1364/optica.6.001455", arxiv_id: "", title: "Periodically poled thin-film lithium niobate microring resonators with a second-harmonic generation efficiency of 250,000%/W", year: 2019, class: frequency_converter, subtype: frequency_converter.shg, reason: "record microring SHG; unscored (cap)"}
+  - {doi: "10.1364/optica.7.000040", arxiv_id: "", title: "Ultrabroadband nonlinear optics in nanophotonic periodically poled lithium niobate waveguides", year: 2020, class: frequency_converter, subtype: frequency_converter.shg, reason: "dispersion-engineered broadband PPLN SHG benchmark; unscored (cap)"}
+  - {doi: "10.1364/optica.3.001126", arxiv_id: "", title: "Second-harmonic generation in aluminum nitride microrings with 2500%/W conversion efficiency", year: 2016, class: frequency_converter, subtype: frequency_converter.shg, reason: "AlN platform SHG benchmark; unscored (cap)"}
+  - {doi: "10.1038/s41566-020-00708-4", arxiv_id: "", title: "Efficient photoinduced second-harmonic generation in silicon nitride photonics", year: 2020, class: frequency_converter, subtype: frequency_converter.shg, reason: "SiN photoinduced chi(2) SHG benchmark; unscored (cap)"}
+  - {doi: "10.1038/s41467-022-31134-5", arxiv_id: "", title: "Ultra-low-power second-order nonlinear optics on a chip", year: 2022, class: frequency_converter, subtype: frequency_converter.shg, reason: "resonant TFLN SHG / OPO efficiency benchmark; unscored (cap)"}

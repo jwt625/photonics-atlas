@@ -1,0 +1,101 @@
+# S4 curation, group G7 (DevLog-006): waveguide_platform, chip_chip_coupler.
+# Reviewed 2026-10-22 against cache/literature/curation_inputs/<class>.csv as of that date.
+group: G7
+curator_notes: >-
+  waveguide_platform: rule picks were 16 SiN (6 visible) and 11 SOI, with 1 TFLN, 0 chalcogenide, 0 SiC / diamond /
+  InP / AlGaAs-on-insulator. Picks and adds aim at one or two best papers per platform and band: SiN record loss
+  (0.034 dB/m, 1 dB/m wafer-scale), CEA-Leti 200 mm platform, TFLN material-limited loss and visible, AlN-on-sapphire,
+  AlGaAs-on-insulator, chalcogenide C-band and LWIR, mid-IR Si / Ge, InP LWIR, 4H-SiCOI, diamond, CPO polymer. Drops
+  remove conference twins, nonlinear-primary papers, a metrology paper and pre-window paywalled bends. Bends get
+  TFLN and Bezier picks. Slow light is thin (PhC / SWG, mostly SOI). chip_chip_coupler: the regex bucket was
+  mostly transfer-printing process, electronics and bulk-WGM coupling; 9 dropped. Adds bring die-to-die benchmarks:
+  imec sub-300 nm flip-chip DFB, Si3N4-Si chip-to-chip evanescent coupler, Si3N4-polymer flip-chip coupler, PWB
+  multi-chip engines / ECL / swept DFB, micro-transfer-printed etched-facet lasers butt-coupled to SOI.
+picks:
+  # waveguide_platform
+  - {uid: "10.1109/jlt.2020.3030123", class: waveguide_platform, reason: "CEA-Leti 200 mm platform, 0.1 dB/cm rib; replaces conference twin"}
+  - {uid: "10.1038/s41467-021-21973-z", class: waveguide_platform, reason: "wafer-scale Si3N4 1 dB/m, Q >30M statistics, OA"}
+  - {uid: "10.1364/ol.454392", class: waveguide_platform, reason: "record 0.034 dB/m wafer-scale Si3N4, 720M Q"}
+  - {uid: "10.1063/5.0095146", class: waveguide_platform, reason: "TFLN material-limited loss record 0.2 dB/m, OA; TFLN gap"}
+  - {uid: "10.1364/optica.6.000380", class: waveguide_platform, reason: "TFLN visible-band loss benchmark 6 dB/m at 637 nm, OA"}
+  - {uid: "10.1021/acsphotonics.5c02661", class: waveguide_platform, reason: "crystalline AlN-on-sapphire <0.2 dB/cm, Qi 2e6, OA"}
+  - {uid: "10.1364/ol.44.004075", class: waveguide_platform, reason: "AlGaAs-on-insulator platform loss benchmark, Q 1.5e6"}
+  - {uid: "10.1364/oe.26.021358", class: waveguide_platform, reason: "chalcogenide C-band waveguide 0.56 dB/cm, OA; platform gap"}
+  - {uid: "10.1364/ome.448376", class: waveguide_platform, reason: "chalcogenide LWIR 7-11 um ~0.9 dB/cm, OA; band gap"}
+  - {uid: "10.1364/optica.4.000707", class: waveguide_platform, reason: "low-loss Si mid-IR platform 3-6 um, Qi 1e6, OA"}
+  - {uid: "10.1364/oe.26.025667", class: waveguide_platform, reason: "Ge-on-Si 7.5-11 um loss; journal version over CLEO 2019"}
+  - {uid: "10.1021/acsphotonics.3c01898", class: waveguide_platform, reason: "InP buried waveguides <1.2 dB/cm 4.6-11.2 um, OA; InP gap"}
+  - {uid: "10.1364/oe.452580", class: waveguide_platform, reason: "Bezier bends Si 1 um and SiN measured, OA; bend subtype"}
+  - {uid: "10.1364/oe.515173", class: waveguide_platform, reason: "TFLN sharp free-form bends <0.05 dB, OA; bend platform gap"}
+  - {uid: "10.1088/1361-6463/ab07d5", class: waveguide_platform, reason: "Si-to-SiN interlayer transition 0.058 dB measured, OA"}
+  - {uid: "10.1364/oe.531708", class: waveguide_platform, reason: "single-mode polymer O-band 0.32 dB/cm for CPO, OA"}
+  # chip_chip_coupler (reclassed from other classes)
+  - {uid: "10.1364/oe.600656", class: chip_chip_coupler, reason: "flip-chip QCL end-fire to Ge-on-Si, 3 dB; mid-IR die-to-die"}
+  - {uid: "10.1109/jlt.2022.3172781", class: chip_chip_coupler, reason: "angled flip-chip VCSEL to SiN grating, measured coupling, OA"}
+  - {uid: "10.3788/col202422.081401", class: chip_chip_coupler, reason: "PWB DFB-array-to-PLC coupling, O-band, OA (from laser)"}
+drops:
+  # waveguide_platform (selected rows)
+  - {uid: "10.1109/group4.2019.8853923", reason: "conference twin of 10.1109/jlt.2020.3030123 (CEA-Leti platform)"}
+  - {uid: "10.1364/cleo_si.2019.sth1n.2", reason: "sensing conference abstract; superseded by 10.1364/oe.26.025667"}
+  - {uid: "arxiv:2104.09293", reason: "duplicate work of 10.1109/lpt.2022.3175157 (same numbers)"}
+  - {uid: "10.1364/ome.456280", reason: "nonlinearity-primary polymer paper; polymer covered by CPO papers"}
+  - {uid: "10.1109/jphot.2022.3167695", reason: "minor Ge slot variant; Ge-on-Si covered by four papers"}
+  - {uid: "10.1364/oe.558186", reason: "roughness metrology method; visible SiN over-represented"}
+  - {uid: "10.1109/jqe.1982.1071389", reason: "1982 paywalled Ti:LN bend, pre-window; bends covered"}
+  - {uid: "10.1364/cleo_at.2018.jw2a.70", reason: "paywalled conference abstract; bends covered by journal papers"}
+  - {uid: "10.1364/oe.511606", reason: "second ScAlN paper; keep 10.1063/5.0208517 (CMOS 200 mm)"}
+  - {uid: "10.1364/oe.19.00b146", reason: "nonlinear-primary a-Si:H; a-Si covered by 10.1364/prj.7.000193"}
+  - {uid: "10.1364/oe.389765", reason: "rare-earth oxide Er absorption study, not a loss benchmark"}
+  # waveguide_platform (not selected, keep out of floor fill)
+  - {uid: "10.1364/oe.447268", reason: "THz waveguide bends, out of scope"}
+  - {uid: "10.1364/oe.27.028707", reason: "THz mode converter, out of scope"}
+  - {uid: "10.1002/adom.201600171", reason: "THz hollow-core waveguide, out of scope"}
+  - {uid: "10.1364/cleo_at.2020.jth2f.26", reason: "conference twin of arxiv:1910.10880 (Ga2O3)"}
+  # chip_chip_coupler (selected rows)
+  - {uid: "arxiv:2105.04626", reason: "coupler to bulk WGM resonators, not die-to-die"}
+  - {uid: "10.1364/optica.5.000219", reason: "prism coupling to bulk crystalline resonator, not die-to-die"}
+  - {uid: "10.1364/ao.16.001026", reason: "1977 paywalled, pre-window; butt coupling covered by modern papers"}
+  - {uid: "10.1364/optica.6.001002", reason: "THz photonic crystal waveguides, out of scope"}
+  - {uid: "10.1038/s41598-024-79945-4", reason: "PWB to bulk MgF2 resonator, no coupling metric"}
+  - {uid: "10.1364/ofc.2024.th2a.27", reason: "conference twin of 10.1364/optica.559260"}
+  - {uid: "10.1021/acsphotonics.6c00397", reason: "quantum-emitter physics, no coupling metric; emitters covered"}
+  - {uid: "10.1038/s41467-026-74664-y", reason: "QD array emitter study, ~5 % coupling; emitters covered"}
+  - {uid: "arxiv:2511.21529", reason: "QD emitter yield / tuning, no coupling metric"}
+  # chip_chip_coupler (not selected, keep out of fill)
+  - {uid: "10.1109/group4.2012.6324123", reason: "conference twin of 10.1109/jlt.2014.2304305 (trident SSC)"}
+  - {uid: "10.1364/cleo_qels.2018.fm1h.5", reason: "conference twin of 10.1364/optica.5.000691"}
+  - {uid: "10.1364/cleo_si.2025.ss137_4", reason: "conference twin of add 10.1002/adem.202402095"}
+  - {uid: "10.1049/cp.2019.0913", reason: "garbled abstract; HHI flip-chip covered by two journal papers"}
+reclass:
+  # waveguide_platform: other -> straight (propagation loss is the reported metric)
+  - {uid: "10.1364/oe.381894", class: waveguide_platform, subtype: waveguide_platform.straight, reason: "polysilicon SWG waveguide loss"}
+  - {uid: "10.1063/5.0024743", class: waveguide_platform, subtype: waveguide_platform.straight, reason: "Ta2O5-on-quartz propagation loss"}
+  - {uid: "10.1364/oe.420687", class: waveguide_platform, subtype: waveguide_platform.straight, reason: "Ge-on-Si LWIR propagation loss"}
+  - {uid: "arxiv:2606.21118", class: waveguide_platform, subtype: waveguide_platform.straight, reason: "Ta2O5 propagation loss telecom / 780 nm"}
+  - {uid: "10.1364/oe.576679", class: waveguide_platform, subtype: waveguide_platform.straight, reason: "Ge-on-Si MWIR propagation loss"}
+  - {uid: "10.1109/jlt.2025.3543339", class: waveguide_platform, subtype: waveguide_platform.straight, reason: "single-mode polymer waveguide loss and power handling"}
+  # chip_chip_coupler -> waveguide_platform: bonded III-V-on-SOI taper on the same chip (schema rule)
+  - {uid: "10.1364/ol.396361", class: waveguide_platform, subtype: waveguide_platform.transition, reason: "III-V-on-SOI SSC on one bonded chip"}
+  # chip_chip_coupler subtypes
+  - {uid: "10.1364/oe.21.016075", class: chip_chip_coupler, subtype: chip_chip_coupler.evanescent, reason: "adiabatic SOI-to-polymer flip-chip coupler"}
+  - {uid: "10.1364/ofc.2017.th2a.39", class: chip_chip_coupler, subtype: chip_chip_coupler.evanescent, reason: "metamaterial adiabatic chip-to-chip coupler"}
+  - {uid: "10.1364/optica.559260", class: chip_chip_coupler, subtype: chip_chip_coupler.evanescent, reason: "adiabatic SiN-to-polymer coupler"}
+  - {uid: "10.1364/oe.600656", class: chip_chip_coupler, subtype: chip_chip_coupler.butt, reason: "flip-chip QCL end-fire coupling (from laser)"}
+  - {uid: "10.1109/jlt.2022.3172781", class: chip_chip_coupler, subtype: chip_chip_coupler.other, reason: "VCSEL flip-chip over grating (from fiber_chip_coupler)"}
+  - {uid: "10.3788/col202422.081401", class: chip_chip_coupler, subtype: chip_chip_coupler.photonic_wire_bond, reason: "PWB laser-to-PLC (from laser)"}
+adds:
+  # waveguide_platform
+  - {doi: "10.1038/s41566-019-0556-6", arxiv_id: "", title: "4H-silicon-carbide-on-insulator for integrated quantum and nonlinear photonics", year: 2019, class: waveguide_platform, subtype: waveguide_platform.straight, reason: "4H-SiCOI platform benchmark; SiC gap; not in inputs"}
+  - {doi: "10.1038/nphoton.2014.72", arxiv_id: "", title: "Diamond nonlinear photonics", year: 2014, class: waveguide_platform, subtype: waveguide_platform.straight, reason: "diamond-on-insulator waveguide / Q benchmark; diamond gap"}
+  # chip_chip_coupler
+  - {doi: "10.1002/adem.202402095", arxiv_id: "", title: "Low Loss Chip‐to‐Chip Couplers for High‐Density Co‐Packaged Optics", year: 2024, class: chip_chip_coupler, subtype: chip_chip_coupler.evanescent, reason: "Si3N4-to-Si vertical die-to-die coupler 0.73 dB, tolerance, OA"}
+  - {doi: "10.1109/jstqe.2022.3223641", arxiv_id: "", title: "Wafer-Scale Hybrid Integration of InP DFB Lasers on Si Photonics by Flip-Chip Bonding with sub-300nm Alignment Precision", year: 2022, class: chip_chip_coupler, subtype: chip_chip_coupler.butt, reason: "imec flip-chip DFB to SiN, -1.5 dB coupling, 300 mm, OA"}
+  - {doi: "10.1109/lpt.2016.2616021", arxiv_id: "", title: "Low-Loss Highly Tolerant Flip-Chip Couplers for Hybrid Integration of Si 3 N 4 and Polymer Waveguides", year: 2016, class: chip_chip_coupler, subtype: chip_chip_coupler.evanescent, reason: "flip-chip Si3N4-polymer adiabatic coupler, OA"}
+  - {doi: "10.1038/s41377-020-0272-5", arxiv_id: "", title: "Hybrid multi-chip assembly of optical communication engines by in situ 3D nano-lithography", year: 2020, class: chip_chip_coupler, subtype: chip_chip_coupler.photonic_wire_bond, reason: "PWB laser-to-PIC multi-chip engine benchmark, OA"}
+  - {doi: "10.1038/s41598-021-95981-w", arxiv_id: "", title: "Hybrid external-cavity lasers (ECL) using photonic wire bonds as coupling elements", year: 2021, class: chip_chip_coupler, subtype: chip_chip_coupler.photonic_wire_bond, reason: "PWB SOA-to-PIC coupling loss in ECL, OA"}
+  - {doi: "10.1364/oe.510036", arxiv_id: "", title: "On-chip hybrid integration of swept frequency distributed-feedback laser with silicon photonic circuits using photonic wire bonding", year: 2024, class: chip_chip_coupler, subtype: chip_chip_coupler.photonic_wire_bond, reason: "PWB DFB-to-SiPh, non-Koos group, OA"}
+  - {doi: "10.1109/jqe.2019.2958365", arxiv_id: "", title: "Edge-Coupling of O-Band InP Etched-Facet Lasers to Polymer Waveguides on SOI by Micro-Transfer-Printing", year: 2019, class: chip_chip_coupler, subtype: chip_chip_coupler.butt, reason: "micro-transfer-printed laser butt coupling, measured loss, OA"}
+  - {doi: "10.1364/oe.26.021443", arxiv_id: "", title: "Integration of etched facet, electrically pumped, C-band Fabry-Pérot lasers on a silicon photonic integrated circuit by transfer printing", year: 2018, class: chip_chip_coupler, subtype: chip_chip_coupler.butt, reason: "transfer-printed C-band laser butt-coupled to SOI, OA"}
+  - {doi: "10.1109/lpt.2021.3112971", arxiv_id: "", title: "Relaxed Tolerance Low-Loss Adiabatic Si3N4 to Polymer Waveguide Coupler for Dense Interconnects", year: 2021, class: chip_chip_coupler, subtype: chip_chip_coupler.evanescent, reason: "adiabatic Si3N4-polymer 0.52 dB, +-4 um 1-dB tolerance"}
+  - {doi: "10.1364/oe.24.016258", arxiv_id: "", title: "Flip-chip integration of tilted VCSELs onto a silicon photonic integrated circuit", year: 2016, class: chip_chip_coupler, subtype: chip_chip_coupler.other, reason: "flip-chip VCSEL-to-grating coupling penalty measured, OA"}
+  - {doi: "10.1038/s44310-025-00061-w", arxiv_id: "", title: "Telecom wavelength quantum dots interfaced with silicon-nitride circuits via photonic wire bonding", year: 2025, class: chip_chip_coupler, subtype: chip_chip_coupler.photonic_wire_bond, reason: "cryogenic PWB source-to-SiN, 28.6 % funneling, OA"}

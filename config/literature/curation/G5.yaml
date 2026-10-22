@@ -1,0 +1,95 @@
+# S4 curation, group G5 (DevLog-006): photodetector.
+# Reviewed 2026-10-21 against cache/literature/curation_inputs/photodetector.csv as of that date.
+group: G5
+curator_notes: >-
+  photodetector: rule picks were strong on Ge waveguide PDs (record bandwidth, 300 mm platforms) but thin on
+  foundry / industry PDs, on-chip SNSPDs and pre-2016 benchmarks. Picks add GF, AIM, Kotura and imec APD papers,
+  waveguide SNSPDs (SOI, TFLN), III-V on SOI / IMOS, a waveguide-integrated SPAD and a mid-IR GeSn waveguide PD.
+  Adds are verified pre-2016 / unscored benchmarks (Intel 340 GHz GBP APD, CEA Ge APD receiver, Pernice and
+  Schuck waveguide SNSPDs, planar Ge-on-Si SPAD, 110 GHz graphene, 100 GHz plasmonic, Sandia 45 GHz Ge PD).
+  Scope: discrete material-science / imaging / sensing detectors dropped; optical-in photomixer
+  PDs kept as PDs. InP-native waveguide UTC / PIN PDs were labelled iii_v_on_platform: reclassed to other
+  (schema: III-V on Si / SiN / TFLN); top-illuminated mesas reclassed to vertical.
+  Gaps: 2013-2014 graphene landmarks not added; an APL Photonics 2020
+  SiN SNSPD is wrongly merged as a version of a different Schuck paper.
+picks:
+  - {uid: "10.1038/ncomms9233", class: photodetector, reason: "waveguide SNSPD on SOI, near-unity absorption benchmark, OA"}
+  - {uid: "10.1021/acsphotonics.3c01628", class: photodetector, reason: "SNSPD on TFLN waveguide, platform gap for on-chip SNSPDs"}
+  - {uid: "10.1364/ofc.2022.w3d.1", class: photodetector, reason: "GlobalFoundries monolithic SiPh waveguide APD, foundry result"}
+  - {uid: "10.1109/jstqe.2019.2911458", class: photodetector, reason: "AIM foundry Ge waveguide PD arrays, high-power and OIP3 numbers"}
+  - {uid: "10.1364/oe.19.010967", class: photodetector, reason: "industrial (Kotura) 36 GHz Ge waveguide PD, responsivity benchmark, OA"}
+  - {uid: "10.1109/jlt.2020.2986923", class: photodetector, reason: "imec Si-contacted Ge/Si waveguide APD with wafer-scale statistics"}
+  - {uid: "10.1364/optica.400751", class: photodetector, reason: "SNSPD 98 % system detection efficiency at 1550 nm record, OA"}
+  - {uid: "10.1364/oe.24.008290", class: photodetector, reason: "UTC PD on InP membrane on Si (IMOS), 67 GHz, OA"}
+  - {uid: "10.1364/optica.468129", class: photodetector, reason: "III-V PD selectively grown on SOI, Si-waveguide coupled, OA"}
+  - {uid: "10.1364/oe.502285", class: photodetector, reason: "micro-transfer-printed III-V PD on SOI, three coupling schemes, OA"}
+  - {uid: "10.1038/s41566-020-0647-4", class: photodetector, reason: "2D (MoTe2) waveguide PD on Si photonics benchmark, OA"}
+  - {uid: "10.1109/jstqe.2021.3104962", class: photodetector, reason: "InGaAs/InP SPAD device paper, DCR / PDE benchmark, OA"}
+  - {uid: "arxiv:2606.22863", class: photodetector, reason: "waveguide-integrated SPAD on SiN PIC, visible, free-running"}
+  - {uid: "10.1021/acsphotonics.5c01828", class: photodetector, reason: "mid-IR GeSn waveguide PD on SOI, band gap, OA"}
+drops:
+  # duplicates / precursors of selected papers
+  - {uid: "arxiv:2007.00299", reason: "duplicate of 10.1021/acsphotonics.0c01299 (journal version, OA)"}
+  - {uid: "10.1364/ofc.2016.tu2d.6", reason: "conference version of 10.1364/oe.24.004622"}
+  - {uid: "10.1109/drc.2018.8442178", reason: "conference precursor of 10.1364/optica.6.001277"}
+  - {uid: "10.1109/jlt.2014.2367134", reason: "same Si-contacted Ge PD line as 10.1364/oe.24.004622; senior-author cap"}
+  # material-science / imaging / sensing surface detectors without waveguide or comms context
+  - {uid: "10.1515/nanoph-2024-0062", reason: "Tamm-plasmon planar hot-electron PD, 0.2 mA/W, no waveguide"}
+  - {uid: "10.1038/s41378-021-00332-4", reason: "discrete graphene/Si Schottky PD, material science, no waveguide"}
+  - {uid: "10.1364/prj.417866", reason: "discrete nano-Schottky array PD, material science"}
+  - {uid: "10.1364/oe.494216", reason: "Ga2O3 solar-blind PD, out of scope per rubric"}
+  - {uid: "10.1364/ol.607032", reason: "InSe Schottky junction material study, no waveguide"}
+  - {uid: "10.1364/cleo_si.2020.sm3r.7", reason: "organic PD, out of scope per rubric"}
+  - {uid: "10.1002/lpor.201700059", reason: "discrete plasmonic-absorber Schottky PD, material science"}
+  - {uid: "10.1109/iedm45741.2023.10413863", reason: "tunable narrowband spectral-sensing pixel, no waveguide or comms"}
+  - {uid: "10.1109/lpt.2019.2952204", reason: "CMOS color imaging photodiodes, out of scope"}
+  - {uid: "10.1002/lpor.202503073", reason: "machine-vision NIR PD, no waveguide or comms context"}
+  - {uid: "10.1109/jlt.2026.3686231", reason: "nanomaterial heterostructure PD, material science"}
+  - {uid: "10.1021/acsphotonics.4c00996", reason: "GeSn metasurface SWIR PD for sensing, no waveguide"}
+  - {uid: "10.1515/nanoph-2023-0116", reason: "Ge metasurface broadband detector, material science"}
+  - {uid: "10.1364/prj.456000", reason: "discrete GeSn mid-IR PD for sensing, no waveguide or comms"}
+  - {uid: "10.1364/oe.581982", reason: "discrete PbS quantum-dot PD, material science"}
+  - {uid: "10.1364/ome.578329", reason: "metamaterial-enhanced discrete PD, no waveguide or comms"}
+  - {uid: "arxiv:2105.05529", reason: "CMOS imaging / LiDAR Si SPAD pixel, consistent with excluded CMOS SPADs"}
+  - {uid: "10.1364/oe.585267", reason: "96x96 SPAD flash-LiDAR sensor, imaging system"}
+reclass:
+  # InP-native waveguide PDs: not III-V on Si / SiN / TFLN
+  - {uid: "10.1364/oe.25.025719", class: photodetector, subtype: photodetector.other, reason: "monolithic InP coherent receiver UTC PDs, not on Si/SiN/TFLN"}
+  - {uid: "arxiv:2501.02812", class: photodetector, subtype: photodetector.other, reason: "InP-native waveguide MUTC PD"}
+  - {uid: "10.1364/oe.559249", class: photodetector, subtype: photodetector.other, reason: "InP-native evanescent waveguide MUTC PD"}
+  - {uid: "10.1364/oe.577735", class: photodetector, subtype: photodetector.other, reason: "InP-native evanescent waveguide MUTC PD"}
+  - {uid: "10.1364/oe.521854", class: photodetector, subtype: photodetector.other, reason: "InP-native evanescent waveguide MUTC PD"}
+  - {uid: "10.1364/optica.3.000483", class: photodetector, subtype: photodetector.other, reason: "InP photonic-crystal nano-PD, not on Si/SiN/TFLN"}
+  - {uid: "10.1364/oe.475987", class: photodetector, subtype: photodetector.other, reason: "InP-native waveguide MUTC PD (optical in, sub-THz out)"}
+  - {uid: "10.1109/jlt.2016.2591266", class: photodetector, subtype: photodetector.other, reason: "monolithic InP waveguide MUTC PD"}
+  - {uid: "10.1109/jstqe.2021.3072702", class: photodetector, subtype: photodetector.other, reason: "InP-native waveguide UTC PD"}
+  - {uid: "10.1109/jstqe.2021.3108785", class: photodetector, subtype: photodetector.other, reason: "InP butt-joint waveguide PD PIC"}
+  - {uid: "10.1109/jlt.2018.2867808", class: photodetector, subtype: photodetector.other, reason: "InP-native waveguide PD"}
+  - {uid: "10.1049/icp.2023.1832", class: photodetector, subtype: photodetector.other, reason: "monolithic InP coherent PD PIC"}
+  - {uid: "10.1109/jlt.2019.2908247", class: photodetector, subtype: photodetector.other, reason: "InP-native polarization-diverse PD chip"}
+  - {uid: "10.1364/acpc.2017.su4k.3", class: photodetector, subtype: photodetector.other, reason: "InP-native evanescent waveguide UTC PD"}
+  # top-illuminated mesa PDs
+  - {uid: "10.1364/optica.6.000884", class: photodetector, subtype: photodetector.vertical, reason: "top-illuminated mesa UTC PD on InP (10 um diameter)"}
+  - {uid: "10.1109/jlt.2020.3043537", class: photodetector, subtype: photodetector.vertical, reason: "surface-illuminated UTC PD on InP"}
+  - {uid: "10.1109/jstqe.2021.3095470", class: photodetector, subtype: photodetector.vertical, reason: "discrete GaAs 850 nm PD, not on a platform"}
+  - {uid: "10.1109/jlt.2022.3216839", class: photodetector, subtype: photodetector.vertical, reason: "discrete GaAs PD, not on a platform"}
+  - {uid: "10.1109/jlt.2023.3328899", class: photodetector, subtype: photodetector.vertical, reason: "discrete 850 nm PD with inductive peaking"}
+  # other -> specific
+  - {uid: "10.1364/oe.26.006351", class: photodetector, subtype: photodetector.iii_v_on_platform, reason: "GaAs MSM PD transfer-printed onto SiN interposer"}
+  - {uid: "10.1002/lpor.201900032", class: photodetector, subtype: photodetector.graphene, reason: "black-phosphorus 2D waveguide PD"}
+  - {uid: "10.1364/ol.574072", class: photodetector, subtype: photodetector.graphene, reason: "MoTe2/MoS2 2D waveguide PD on TFLN"}
+  - {uid: "10.1021/acsphotonics.4c02618", class: photodetector, subtype: photodetector.graphene, reason: "MoS2 2D waveguide PD on TFLN"}
+  - {uid: "10.1364/ol.541460", class: photodetector, subtype: photodetector.graphene, reason: "MoTe2 2D Schottky waveguide PD"}
+  - {uid: "10.1021/acsphotonics.3c00453", class: photodetector, subtype: photodetector.graphene, reason: "PdSe2 2D plasmonic waveguide PD"}
+  - {uid: "arxiv:2305.00709", class: photodetector, subtype: photodetector.graphene, reason: "InSe 2D waveguide PD on SiN"}
+  - {uid: "10.1021/acsphotonics.1c00628", class: photodetector, subtype: photodetector.graphene, reason: "MoTe2 2D PD on Si photonic-crystal cavity"}
+  - {uid: "10.29026/oea.2026.260042", class: photodetector, subtype: photodetector.graphene, reason: "SnS2 2D PD on microring"}
+adds:
+  - {doi: "10.1038/nphoton.2008.247", arxiv_id: "", title: "Monolithic germanium/silicon avalanche photodiodes with 340 GHz gain–bandwidth product", year: 2008, class: photodetector, subtype: photodetector.apd, reason: "Intel Ge/Si APD GBP landmark; paywalled, manual download; in pool, not kept"}
+  - {doi: "10.1038/ncomms5957", arxiv_id: "", title: "Germanium avalanche receiver for low power interconnects", year: 2014, class: photodetector, subtype: photodetector.apd, reason: "CEA waveguide Ge APD low-voltage benchmark, OA; not in pool"}
+  - {doi: "10.1038/ncomms2307", arxiv_id: "", title: "High-speed and high-efficiency travelling wave single-photon detectors embedded in nanophotonic circuits", year: 2012, class: photodetector, subtype: photodetector.snspd, reason: "travelling-wave waveguide SNSPD landmark, OA; in pool, not kept"}
+  - {doi: "10.1038/srep01893", arxiv_id: "", title: "Waveguide integrated low noise NbTiN nanowire single-photon detectors with milli-Hz dark count rate", year: 2013, class: photodetector, subtype: photodetector.snspd, reason: "waveguide SNSPD dark-count record, OA; in pool, not kept"}
+  - {doi: "10.1038/s41467-019-08830-w", arxiv_id: "", title: "High performance planar germanium-on-silicon single-photon avalanche diode detectors", year: 2019, class: photodetector, subtype: photodetector.spad, reason: "planar Ge-on-Si SPAD SPDE / NEP benchmark, OA; not in pool"}
+  - {doi: "10.1515/nanoph-2019-0167", arxiv_id: "", title: "Ultra‐compact integrated graphene plasmonic photodetector with bandwidth above 110 GHz", year: 2019, class: photodetector, subtype: photodetector.graphene, reason: "graphene waveguide PD >110 GHz benchmark, OA; in pool, not kept"}
+  - {doi: "10.1021/acsphotonics.8b00525", arxiv_id: "", title: "100 GHz Plasmonic Photodetector", year: 2018, class: photodetector, subtype: photodetector.other, reason: "CMOS-compatible plasmonic PD >100 GHz benchmark, OA; in pool, not kept"}
+  - {doi: "10.1364/oe.19.024897", arxiv_id: "", title: "Ultra compact 45 GHz CMOS compatible Germanium waveguide photodiode with low dark current", year: 2011, class: photodetector, subtype: photodetector.ge_waveguide, reason: "Sandia compact Ge waveguide PD, low dark current benchmark, OA; not in pool"}

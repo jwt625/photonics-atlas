@@ -1,0 +1,20 @@
+# DevLog-006 S6 audit A (correctness), 2026-10-22. Proposed corrections to data/_staging/literature/cache_list.csv in
+# the curation format. Only items judged from the record (title / abstract / authors) with high confidence.
+# Report: DevLog/audits/2026-10-22-lit-selection-audit-a.md. The coordinator applies them.
+audit: A
+date: 2026-10-22
+drops:
+  - {uid: "10.1364/oe.19.010940", reason: "simulation-only concept paper (abstract: 'a design example ... is given'); no fabricated device; curator reason 'with measurement' not supported"}
+  - {uid: "10.1364/ol.30.000138", reason: "simulation-only (abstract: designs presented, FDTD / EME simulations); no fabricated rotator"}
+  - {uid: "10.1038/s41377-020-0292-1", reason: "single-author commentary (Juodkazis) on Blaicher 2020; the primary paper 10.1038/s41377-020-0272-5 is already selected"}
+  - {uid: "10.1109/siphotonics60897.2024.10543882", reason: "conference precursor of 10.1109/jlt.2024.3407339 (same authors, same bent 50:50 DC, same year); journal version selected"}
+  - {uid: "10.1109/jphot.2009.2031596", reason: "label-free biosensor; abstract metrics are RIU sensitivity and detection limit only (sensing devices out of scope)"}
+  - {uid: "10.1364/oe.582322", reason: "waveguide-metasurface holography for AR/VR; metrics are image correlation / PSNR, not component metrics (AR combiners out of scope)"}
+  - {uid: "arxiv:2610.21027", reason: "free-space-illuminated LN metasurface of guided-mode-resonance antennas (D138: surface-normal GMR parts out of scope); EO modulation"}
+  - {uid: "10.1364/ol.457566", reason: "thin-film-filter focal-shift optics study; no MUX insertion loss, crosstalk or passband; the tff subtype keeps 10.1364/oe.24.027104"}
+reclass:
+  - {uid: "10.1364/oe.27.005203", class: switch_fabric, subtype: switch_fabric.other, reason: "8x4 microring crossbar switch, not an MZI mesh"}
+  - {uid: "10.1109/jlt.2017.2715118", class: wdm, subtype: wdm.bragg_cdc, reason: "MZI + Bragg-grating add-drop multiplexer"}
+  - {uid: "10.1364/oe.533232", class: micro_optics, subtype: micro_optics.vertical_taper, reason: "45-degree micro-mirror vertical coupling in polymer waveguides (schema: reflector to PD or fiber)"}
+  - {uid: "arxiv:2505.10338", class: frequency_converter, subtype: frequency_converter.other, reason: "Bragg-scattering four-wave mixing (chi3), not chi2 SFG / DFG"}
+  - {uid: "10.1364/oe.19.015864", class: phase_shifter, subtype: phase_shifter.mems, reason: "subject is the dielectric MEMS cantilever tuner (122 pm at 9 V); ring Q unchanged"}

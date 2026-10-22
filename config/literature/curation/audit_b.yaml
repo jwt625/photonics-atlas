@@ -1,0 +1,215 @@
+# Applied copy of data/_staging/literature/audit_b_corrections.yaml (DevLog-006 S6, D140).
+audit: B
+date: 2026-10-22
+picks:
+- uid: 10.1109/jlt.2014.2373051
+  class: fiber_chip_coupler
+  reason: PWB fiber-to-chip paper (multicore fiber to SiPh), OA; replaces the LSA commentary as the PWB subtype entry
+- uid: 10.1038/s41598-017-16505-z
+  class: fiber_chip_coupler
+  reason: record SOI grating coupler -0.9 dB without back reflector, OA, score 9
+- uid: 10.1364/oe.416492
+  class: fiber_chip_coupler
+  reason: TFLN edge coupler 0.54 / 0.59 dB per facet TE / TM, OA; TFLN edge benchmark
+- uid: 10.1364/oe.19.012646
+  class: polarization
+  reason: SOI polarization splitter-rotator for diversity circuits (Liu / Hvam 2011), OA, widely used PSR reference
+- uid: 10.1038/s41377-024-01466-6
+  class: mode_converter
+  reason: 3D-nanoprinted six-mode photonic lantern on multicore fiber, OA; replaces a second OAM fiber-grating converter
+- uid: 10.1038/s41377-021-00584-9
+  class: resonator
+  reason: 4H-SiC-on-insulator microresonators, mean Q 6.75e6, OA; no SiC ring in the resonator class
+- uid: 10.3788/col202220.011902
+  class: resonator
+  reason: TFLN microring Q above 1e8 (record class for TFLN rings), OA
+- uid: 10.1109/jlt.2007.893025
+  class: wdm
+  reason: landmark SOI planar concave (echelle) grating demux, OA; eg subtype had no landmark
+- uid: 10.1109/jstqe.2006.884088
+  class: wdm
+  reason: landmark SOI photonic-wire AWG / lattice / ring filters by deep UV (Ghent), OA
+- uid: 10.1364/optica.2.000370
+  class: switch_fabric
+  reason: 50x50 MEMS switch with movable directional couplers, 0.04 dB per crossing, OA
+- uid: 10.1364/oe.23.017599
+  class: switch_fabric
+  reason: 32x32 strictly non-blocking Si-wire PILOSS switch with LGA interposer (AIST), OA; scale record; swaps within the
+    Kawashima cap
+- uid: 10.1364/oe.20.001839
+  class: nonreciprocal
+  reason: adhesively bonded Ce:YIG/SOI MZI isolator, 25 dB, OA; bonded-garnet benchmark
+- uid: 10.1364/oe.17.006252
+  class: photodetector
+  reason: landmark 42 GHz butt-coupled Ge PIN waveguide PD, 1 A/W, OA
+- uid: 10.1038/s41566-018-0313-2
+  class: laser
+  reason: sub-Hz fundamental linewidth integrated Brillouin laser (landmark), OA; swaps within the Blumenthal cap
+- uid: 10.1038/s41586-022-05119-9
+  class: laser
+  reason: III-V on SiN lasers / SOAs / PDs below 1 um (Nature 2022), OA, score 9
+- uid: 10.1364/oe.27.025920
+  class: frequency_converter
+  reason: periodically poled TFLN waveguide SHG 4600 %/W/cm2, OA
+- uid: 10.1364/oe.19.024090
+  class: waveguide_platform
+  reason: wafer-bonded silica waveguides 0.045 dB/m, lowest planar loss benchmark, OA
+- uid: 10.1109/jstqe.2019.2908790
+  class: waveguide_platform
+  reason: GlobalFoundries 300 mm monolithic SiPh foundry statistics (industry), paywalled, replaces a paywalled sensing
+    row
+drops:
+- uid: 10.1038/s41377-020-0292-1
+  reason: News-and-views commentary (score 0) on Blaicher 2020, which is already selected in chip_chip_coupler
+- uid: 10.1364/oe.22.024235
+  reason: fiber packaging (laser-welded fiber) paper; grating subtype has 33 rows; weaker than the GC record it makes room
+    for
+- uid: 10.1364/oe.21.029313
+  reason: Si/SiON cascaded-taper coupler 3.6-4.2 dB; superseded by stronger edge couplers; makes room for the TFLN edge
+    benchmark
+- uid: 10.1364/ol.30.000138
+  reason: FDTD-only design (score 0, paywalled); no fabricated device
+- uid: 10.1364/oe.16.004872
+  reason: system-level polarization-diversity circuit (PDL, 10 Gb/s); same group as the 2006 splitter already selected
+- uid: 10.1364/oe.435951
+  reason: second OAM helical long-period fiber-grating converter; one such fiber-only OAM converter remains
+- uid: 10.1109/jphot.2009.2031596
+  reason: biosensing slot ring (RIU sensitivity); sensor metrics, not resonator component metrics
+- uid: 10.1038/s41377-023-01102-9
+  reason: spectrometer system result (channel count); no single-resonator metric focus
+- uid: openalex:W2915271777
+  reason: dissertation; thesis numbers usually duplicate the journal papers; weak locator traceability
+- uid: 10.1364/ol.41.003892
+  reason: system-level InP wavelength router with SOA wavelength converters (40 Gb/s); few WDM component metrics
+- uid: 10.1364/ol.42.000342
+  reason: system-level MIMO mode / wavelength demux at 10 Gb/s; residual crosstalk only
+- uid: 10.1109/jlt.2020.2989379
+  reason: 2-channel CDC WSS; same group's 16-channel CDC WSS (10.1364/oe.402546) stays; frees the Kawashima cap slot
+- uid: 10.1038/s41566-019-0547-7
+  reason: single all-optical graphene-plasmonic switch device; not a switch fabric
+- uid: 10.1109/jstqe.2021.3104962
+  reason: discrete free-space / fiber InGaAs SPAD, not waveguide-integrated; out of the PD scope note
+- uid: arxiv:1904.05744
+  reason: preprint of a normal-incidence metasurface Ge PD; weaker atlas relevance than the graphene landmark
+- uid: 10.1364/ol.503126
+  reason: paywalled photonic-molecule Brillouin laser; replaced by the OA Brillouin landmark from the same group (cap 4)
+- uid: 10.1109/jlt.2024.3406253
+  reason: edge-emitting PhC laser with intracavity DFG filed as pcsel; not a PCSEL, paywalled
+- uid: 10.1364/ao.54.003353
+  reason: discrete crystalline-WGM-stabilized laser module (bulk resonator); not a PIC source
+- uid: 10.1364/ofc.2021.f3c.6
+  reason: score 2, link-level pJ/bit result; replaced by a dedicated CPO external-laser-source module paper
+- uid: 10.1088/1361-6641/ac5d10
+  reason: QD gain-material characterization (modal gain), no amplifier device metrics
+- uid: 10.1109/jlt.2016.2587694
+  reason: all-optical phase regeneration (system) with PSA extinction only
+- uid: 10.1109/jlt.2020.3046371
+  reason: bulk PPLN crystal between GRIN lenses in a polymer PIC, 0.03 %/W; not an integrated converter
+- uid: 10.1364/oe.14.004357
+  reason: dispersion engineering (GVD) paper; no loss metric focus
+- uid: 10.1364/oe.26.021358
+  reason: supercontinuum paper; waveguide loss is a single side number
+- uid: arxiv:2201.01457
+  reason: PPLN waveguide / OPA module (quantum optics); misfiled in waveguide_platform
+- uid: 10.1364/ol.42.001245
+  reason: suspended slot waveguide for sensing, simulated sensitivity; paywalled
+- uid: 10.1109/jlt.2025.3534653
+  reason: passive fixed achromatic phase element (ULI glass); not a tuning phase shifter; paywalled
+adds:
+- doi: 10.1038/nphoton.2015.80
+  arxiv_id: ''
+  title: An integrated-nanophotonics polarization beamsplitter with 2.4 × 2.4 μm2 footprint
+  year: 2015
+  class: polarization
+  subtype: polarization.pbs
+  reason: inverse-designed PBS landmark, measured; prefilter no_class_hit ('beamsplitter'); paywalled, replaces a paywalled
+    drop
+- doi: 10.1364/ol.31.002571
+  arxiv_id: ''
+  title: Multistage high-order microring-resonator add-drop filters
+  year: 2006
+  class: wdm
+  subtype: wdm.mrr
+  reason: landmark high-order microring filters; not in pool, OpenAlex get 2026-10-22; paywalled
+- doi: 10.1364/oe.27.026842
+  arxiv_id: '1805.10999'
+  title: 8×8 reconfigurable quantum photonic processor based on silicon nitride waveguides
+  year: 2019
+  class: switch_fabric
+  subtype: switch_fabric.mzi_mesh
+  reason: SiN 8x8 MZI mesh with loss metrics, OA; prefiltered under waveguide_platform, cut by cap
+- doi: 10.1364/optica.3.001348
+  arxiv_id: ''
+  title: Demonstration of a 4 × 4-port universal linear circuit
+  year: 2016
+  class: switch_fabric
+  subtype: switch_fabric.mzi_mesh
+  reason: first programmable universal 4x4 MZI mesh on SOI, OA; cut by cap
+- doi: 10.1038/s41566-023-01227-8
+  arxiv_id: ''
+  title: Integrated electro-optic isolator on thin-film lithium niobate
+  year: 2023
+  class: nonreciprocal
+  subtype: nonreciprocal.isolator
+  reason: TFLN EO isolator benchmark; not in pool, OpenAlex get 2026-10-22; paywalled, replaces a paywalled drop
+- doi: 10.1038/nphoton.2013.240
+  arxiv_id: ''
+  title: CMOS-compatible graphene photodetector covering all optical communication bands
+  year: 2013
+  class: photodetector
+  subtype: photodetector.graphene
+  reason: waveguide graphene PD landmark, OA; prefilter no_class_hit
+- doi: 10.1038/s41586-023-06059-8
+  arxiv_id: ''
+  title: High-brightness scalable continuous-wave single-mode photonic-crystal laser
+  year: 2023
+  class: laser
+  subtype: laser.pcsel
+  reason: CW single-mode PCSEL brightness benchmark, OA; cut by cap (cap_rank 6431)
+- doi: 10.1364/ofc.2023.w4b.1
+  arxiv_id: ''
+  title: 8-Channel CWDM TOSA for CPO External Laser Sources Employing a Blind Mate Optical Connector
+  year: 2023
+  class: laser
+  subtype: laser.els_module
+  reason: dedicated CPO external laser source module (CWDM TOSA); els_module had one score-2 paper; paywalled, replaces
+    a paywalled drop
+- doi: 10.1038/nature04932
+  arxiv_id: ''
+  title: Broad-band optical parametric gain on a silicon photonic chip
+  year: 2006
+  class: amplifier
+  subtype: amplifier.parametric
+  reason: landmark on-chip parametric gain; prefilter no_class_hit; paywalled (amplifier 7 / 45)
+- doi: 10.1364/ol.36.004401
+  arxiv_id: ''
+  title: 50 dB parametric on-chip gain in silicon photonic wires
+  year: 2011
+  class: amplifier
+  subtype: amplifier.parametric
+  reason: record on-chip parametric gain in Si; not in pool, OpenAlex get 2026-10-22; OA
+- doi: 10.1364/prj.486379
+  arxiv_id: '2303.05004'
+  title: Foundry manufacturing of tight-confinement, dispersion-engineered, ultralow-loss silicon nitride photonic integrated
+    circuits
+  year: 2023
+  class: waveguide_platform
+  subtype: waveguide_platform.straight
+  reason: foundry ultralow-loss SiN statistics, OA; rule score 9, cut by cap (cap_rank 665)
+- doi: 10.1364/oe.401959
+  arxiv_id: '2007.06498'
+  title: Wafer-scale low-loss lithium niobate photonic integrated circuits
+  year: 2020
+  class: waveguide_platform
+  subtype: waveguide_platform.straight
+  reason: wafer-scale TFLN loss / uniformity, OA; rule score 10, cut by cap
+- doi: 10.1364/oe.18.020298
+  arxiv_id: ''
+  title: Thermally tunable silicon racetrack resonators with ultralow tuning power
+  year: 2010
+  class: phase_shifter
+  subtype: phase_shifter.thermo_optic
+  reason: undercut / isolated heater tuning-power benchmark; not in pool, OpenAlex get 2026-10-22; OA
+coordinator_note: '2026-10-22 coordinator (D140): removed 4 audit-B drops that conflicted with curator picks: MEMS crossconnect
+  and LCoS WSS modules are in scope (registry subtypes switch_fabric.mems / .wss); Kittlaus 2021 SAW isolator and Lira 2012
+  PRL interband isolator are nonreciprocal landmarks with measured isolation. Auditor original: data/_staging/literature/audit_b_corrections.yaml'

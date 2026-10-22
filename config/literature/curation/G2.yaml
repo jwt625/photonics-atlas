@@ -1,0 +1,95 @@
+group: G2
+curator_notes: "splitter: rule pick is broad (6 subtypes, 40/50 OA) but SOI-heavy; picks add the Chrostowski/Plant DC and adiabatic benchmarks, TFLN, InP, 3D SiN, mid-IR; adds Halir 2016 SWG MMI. crossing: rule pick had THz and non-crossing rows; the strongest crossing papers were routed to waveguide_platform by the prefilter and capped out, so picks/adds restore Ma 2013, Jones 2013, Bloch-MMI 2013, star crossings, tri-layer SiN, Dai 6 mdB, SiN, TFLN, visible. mode_converter: rule pick was fiber-heavy (LPG, lanterns) and missed the on-chip MDM canon; picks add Dai/Shi/Tsang/Frandsen/Ding MDM, SiN, InP, TFLN; adds Luo 2014. polarization: rule pick is good; 888 polarization title-hit records were capped out (incl. Watts 2005, Fukuda 2008, Dai 2011, Ding 2013), restored as adds. Pending-score uids are picked ahead."
+picks:
+  # splitter (11)
+  - {uid: "10.1364/oe.23.003795", class: splitter, reason: "benchmark broadband asymmetric DC, UBC, OA"}
+  - {uid: "10.1109/jphot.2016.2574335", class: splitter, reason: "SWG directional coupler benchmark, UBC, OA"}
+  - {uid: "10.1364/oe.26.029873", class: splitter, reason: "SWG-slot adiabatic 3-dB coupler, OA, many measured numbers"}
+  - {uid: "10.1364/oe.27.014338", class: splitter, reason: "arbitrary-ratio Y-junction, broadband, OA"}
+  - {uid: "10.1364/oe.419255", class: splitter, reason: "TFLN 1x2 and 4x4 MMI measured IL, OA; platform gap"}
+  - {uid: "10.1364/oe.497887", class: splitter, reason: "TFLN arbitrary-ratio splitter, OA; platform gap"}
+  - {uid: "10.1002/lpor.202301052", class: splitter, reason: "TFLN 1x16/1x40 splitters, excess loss measured, OA"}
+  - {uid: "10.1364/oe.25.010474", class: splitter, reason: "3D tri-layer SiN vertical Y-junction, OA"}
+  - {uid: "10.1364/oe.409527", class: splitter, reason: "mid-IR 2.1-4.2 um DC in glass, OA; band gap"}
+  - {uid: "10.1109/ipc48725.2021.9592858", class: splitter, reason: "InP O-band MMI, measured loss/imbalance; InP gap"}
+  - {uid: "10.1364/ol.480380", class: splitter, reason: "TFLN 90-degree hybrid, loss/CMRR/phase error"}
+  # crossing (7; four pending scoring)
+  - {uid: "10.1002/lpor.202100623", class: crossing, reason: "anisotropic-SWG multimode crossing, Dai group benchmark"}
+  - {uid: "10.1364/oe.18.016146", class: crossing, reason: "first SWG crossing (NRC 2010), landmark, OA"}
+  - {uid: "10.1364/oe.25.030862", class: crossing, reason: "tri-layer SiN overpass crossings 0.28 mdB, record; scored after inputs"}
+  - {uid: "10.1364/oe.21.029374", class: crossing, reason: "Ma 2013 ultralow-loss single-layer crossing benchmark; pending score"}
+  - {uid: "10.1364/oe.21.012002", class: crossing, reason: "Sandia CMOS crossing, ultra-low crosstalk benchmark; pending score"}
+  - {uid: "10.1364/ol.38.003608", class: crossing, reason: "Bloch-mode cascaded-MMI crossing benchmark; pending score"}
+  - {uid: "10.1021/acsphotonics.8b00788", class: crossing, reason: "CMOS star-crossings, low loss/crosstalk; pending score"}
+  - {uid: "10.1364/osac.381003", class: crossing, reason: "SiN MMI crossing at NIR, OA; SiN/band gap"}
+  # mode_converter (10)
+  - {uid: "10.1364/oe.24.016866", class: mode_converter, reason: "topology-optimized SOI mode multiplexer benchmark, OA"}
+  - {uid: "10.1364/oe.21.010376", class: mode_converter, reason: "tapered-DC two-mode MUX benchmark, OA"}
+  - {uid: "10.1364/ol.38.001422", class: mode_converter, reason: "ADC-based silicon mode MUX landmark 2013"}
+  - {uid: "10.1002/lpor.201700109", class: mode_converter, reason: "10-channel dual-polarization mode MUX record"}
+  - {uid: "10.1364/oe.22.012799", class: mode_converter, reason: "8-channel silicon mode demux, OA"}
+  - {uid: "10.1364/ol.41.004815", class: mode_converter, reason: "16-channel mode MUX record channel count"}
+  - {uid: "10.1364/oe.22.022172", class: mode_converter, reason: "SiN three-mode MDM+WDM, OA; SiN gap"}
+  - {uid: "10.1364/ol.464407", class: mode_converter, reason: "InP membrane MDM, OA; InP gap"}
+  - {uid: "10.1364/ol.417423", class: mode_converter, reason: "TFLN two-mode MUX, OA; TFLN gap"}
+  - {uid: "10.1364/ol.42.001221", class: mode_converter, reason: "fabrication-tolerant SOI mode converter/MUX, OA"}
+  # polarization (10)
+  - {uid: "10.1364/oe.22.011167", class: polarization, reason: "SiN-on-SOI PSR and controllers, foundry, OA"}
+  - {uid: "10.1364/oe.23.029413", class: polarization, reason: "wideband silicon PBS benchmark, UBC, OA"}
+  - {uid: "10.1364/ol.394696", class: polarization, reason: "tilted-SWG PBS, Malaga, OA"}
+  - {uid: "10.1364/oe.27.025872", class: polarization, reason: "passive InP polarization rotator-splitter, OA"}
+  - {uid: "10.1364/prj.432906", class: polarization, reason: "TFLN adiabatic PRS benchmark, OA"}
+  - {uid: "10.1364/ofc.2024.m1j.5", class: polarization, reason: "adiabatic PSR on CMOS-integrated foundry platform, industry"}
+  - {uid: "10.3788/col202220.041301", class: polarization, reason: "integrated dynamic polarization controller, OA; compensator gap"}
+  - {uid: "10.1063/1.5134973", class: polarization, reason: "mid-IR Ge-on-Si polarization rotator, OA; band gap"}
+  - {uid: "10.1002/lpor.201800349", class: polarization, reason: "the article behind selected cover entry lpor.201970021"}
+  - {uid: "10.1364/ol.481314", class: polarization, reason: "SiC PBS, OA; platform gap"}
+drops:
+  # splitter
+  - {uid: "10.1364/oe.469322", reason: "beamforming delay-line chip; splitter only side data"}
+  - {uid: "10.7567/jjaps.18s1.385", reason: "1979 GaAs electro-optic DC switch; modulator-type, pre-window"}
+  - {uid: "arxiv:2604.12017", reason: "duplicate of 10.1364/ol.603244 (OA journal version)"}
+  # crossing
+  - {uid: "10.1002/lpor.202501911", reason: "out of scope: THz 220-330 GHz crossing"}
+  - {uid: "10.1364/ol.436039", reason: "out of scope: THz crossing"}
+  - {uid: "10.1515/nanoph-2019-0191", reason: "out of scope: THz plasmonic intersection"}
+  - {uid: "10.1109/jstqe.2026.3699569", reason: "4th same-design Feng Gao Si crossing, paywalled; swapped for TFLN add"}
+  - {uid: "10.1364/iprsn.2020.ith3a.4", reason: "conference version of 10.1364/ol.402446"}
+  # mode_converter
+  - {uid: "10.1364/cleo_at.2024.jth2a.37", reason: "conference duplicate of 10.1364/ol.530977"}
+  - {uid: "10.1364/ofc.2025.w4j.6", reason: "fiber LPG conference abstract, single efficiency number"}
+  - {uid: "10.1109/jqe.2024.3410234", reason: "second Hongpu Li fiber helical LPFG; fiber-heavy class"}
+  - {uid: "10.1364/ol.609358", reason: "multimode-to-multimode astronomy lantern; not a mode MUX; 4th lantern"}
+  # polarization
+  - {uid: "10.1002/lpor.201970021", reason: "journal cover entry; duplicate of 10.1002/lpor.201800349"}
+  - {uid: "10.1364/oe.27.026060", reason: "free-space metasurface SWIR imaging filter; not integrated"}
+reclass:
+  - {uid: "10.1364/oe.608644", class: waveguide_platform, subtype: waveguide_platform.other, reason: "waveguide across electrical isolation trench, not waveguide-waveguide crossing"}
+  - {uid: "10.1364/oe.25.030862", class: crossing, subtype: crossing.multilevel, reason: "overpass crossings in tri-layer SiN"}
+  - {uid: "10.1364/ol.38.003608", class: crossing, subtype: crossing.mmi, reason: "cascaded-MMI crossing per title"}
+  - {uid: "10.1002/lpor.201900172", class: micro_optics, subtype: micro_optics.integrated_lens, reason: "on-chip GRIN-lens spot-size converter, not a spatial-mode converter"}
+  - {uid: "10.1049/el:20021185", class: fiber_chip_coupler, subtype: fiber_chip_coupler.edge, reason: "Si-wire-to-SMF inverse-taper mode-size converter (edge coupler)"}
+  - {uid: "10.1109/jlt.2020.2986474", class: laser, subtype: laser.other, reason: "Tm waveguide laser with Y-branch; laser metrics, not splitter"}
+adds:
+  # crossing (prefilter routed these to waveguide_platform and capped them out)
+  - {doi: "10.1364/acpc.2021.t4a.130", arxiv_id: "", title: "Compact Silicon Photonic Waveguide Crossings with Sub- 10-mdB Loss", year: 2021, class: crossing, subtype: crossing.other, reason: "record 6 mdB single-layer crossing (Dai)"}
+  - {doi: "10.1364/ol.605296", arxiv_id: "", title: "Compact polarization-insensitive silicon nitride waveguide crossing via adjoint-based inverse design", year: 2026, class: crossing, subtype: crossing.other, reason: "SiN foundry crossing TE/TM, OA; SiN gap"}
+  - {doi: "10.1109/jlt.2026.3672159", arxiv_id: "", title: "Inverse-Designed Ultrabroadband Low-loss Silicon Nitride Waveguide Crossing for Visible and Short-Wave Infrared Bands", year: 2026, class: crossing, subtype: crossing.other, reason: "SiN visible + O-L crossing record; band gap"}
+  - {doi: "10.3788/col202523.111304", arxiv_id: "", title: "Low-loss and high-fabrication-tolerance polarization-insensitive silicon waveguide crossing", year: 2025, class: crossing, subtype: crossing.other, reason: "MPW Gaussian-beam crossing, TE/TM IL, PDL, OA"}
+  - {doi: "10.1515/nanoph-2023-0524", arxiv_id: "", title: "Temperature‐insensitive and low‐loss single‐mode silicon waveguide crossing covering all optical communication bands enabled by curved anisotropic metamaterial", year: 2023, class: crossing, subtype: crossing.swg, reason: "SWG crossing 1260-1675 nm, OA"}
+  - {doi: "10.1038/s44310-025-00094-1", arxiv_id: "", title: "Broadband, high-efficient and compact inverse-designed crossing on thin-film lithium niobate platform", year: 2025, class: crossing, subtype: crossing.other, reason: "TFLN crossing, OA; platform gap"}
+  - {doi: "10.1364/ol.491869", arxiv_id: "", title: "Efficient adiabatic-coupler-based silicon nitride waveguide crossings for photonic quantum computing", year: 2023, class: crossing, subtype: crossing.other, reason: "adiabatic SiN crossing, ring-assisted IL method"}
+  # splitter
+  - {doi: "10.1002/lpor.201600213", arxiv_id: "", title: "Ultra‐broadband nanophotonic beamsplitter using an anisotropic sub‐wavelength metamaterial", year: 2016, class: splitter, subtype: splitter.mmi, reason: "SWG MMI benchmark (Halir), OA; capped out"}
+  - {doi: "10.1364/ol.439985", arxiv_id: "", title: "Broadband 2 × 2 multimode interference coupler for mid-infrared wavelengths", year: 2021, class: splitter, subtype: splitter.mmi, reason: "mid-IR 3.1-3.7 um SWG MMI, OA; band gap"}
+  - {doi: "10.1364/osac.1.001324", arxiv_id: "1903.12585", title: "Broadband SiN asymmetric directional coupler for 840 nm operation", year: 2018, class: splitter, subtype: splitter.directional_coupler, reason: "SiN 840 nm DC, OA; band gap"}
+  # mode_converter
+  - {doi: "10.1038/ncomms4069", arxiv_id: "", title: "WDM-compatible mode-division multiplexing on a silicon chip", year: 2014, class: mode_converter, subtype: mode_converter.mdm_mux, reason: "landmark ring-based MDM (Lipson), OA"}
+  # polarization (capped out)
+  - {doi: "10.1364/ol.30.000138", arxiv_id: "", title: "Integrated mode-evolution-based polarization rotators", year: 2005, class: polarization, subtype: polarization.psr, reason: "landmark mode-evolution rotator (Watts/Haus)"}
+  - {doi: "10.1364/oe.16.004872", arxiv_id: "", title: "Silicon photonic circuit with polarization diversity", year: 2008, class: polarization, subtype: polarization.psr, reason: "NTT polarization-diversity circuit landmark, OA"}
+  - {doi: "10.1364/oe.19.010940", arxiv_id: "", title: "Novel concept for ultracompact polarization splitter-rotator based on silicon nanowires", year: 2011, class: polarization, subtype: polarization.psr, reason: "Dai/Bowers PSR concept with measurement, OA"}
+  - {doi: "10.1364/ol.38.001227", arxiv_id: "", title: "Wideband polarization splitter and rotator with large fabrication tolerance and simple fabrication process", year: 2013, class: polarization, subtype: polarization.psr, reason: "widely used single-etch PSR (DTU), OA"}
+  - {doi: "10.1109/lpt.2012.2218593", arxiv_id: "", title: "CMOS Compatible Silicon-on-Insulator Polarization Rotator Based on Symmetry Breaking of the Waveguide Cross Section", year: 2012, class: polarization, subtype: polarization.psr, reason: "193-nm DUV CMOS rotator, OA"}
+  - {doi: "10.1109/jphot.2012.2234095", arxiv_id: "", title: "Ultralow-Loss Planar $\\hbox{Si}_{3}\\hbox{N}_{4}$ Waveguide Polarizers", year: 2013, class: polarization, subtype: polarization.other, reason: "ultralow-loss Si3N4 polarizer benchmark, OA"}
+  - {doi: "10.1364/ol.41.005656", arxiv_id: "", title: "Wide-band polarization controller for Si photonic integrated circuits", year: 2016, class: polarization, subtype: polarization.compensator, reason: "Si polarization controller; compensator subtype thin"}

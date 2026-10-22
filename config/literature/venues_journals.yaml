@@ -1,0 +1,254 @@
+# Lane L1 (journals) venue list for scripts/lit_harvest_openalex.py (DevLog-006 S1).
+# Source ids resolved 2026-10-21 from /sources/issn:<issn> (free singleton gets); npj Nanophotonics from a
+# /sources search (its ISSN was not known beforehand). Name = OpenAlex display_name at resolution time.
+# types: OpenAlex work types kept (article|review|letter; drops erratum, editorial, paratext, retraction, other
+# (= news & views / research highlights in LSA, OEA, Nat Photon), book-review). A venue may override with `types:`.
+# Broad journals: extra_filter BROAD_TOPICS = any of the work's 3 topics in the OpenAlex photonics topic set below
+# (measured 2026-10-21: keeps 134/134 EO-atlas reference papers; cuts the 6 broad journals 2016-2026 from 487,340 to
+# 18,082 works). Topic set: T10299 Photonic and Optical Devices, T11050 Photorefractive and Nonlinear Optics,
+# T11429 Semiconductor Lasers and Optical Devices, T10767 Advanced Photonic Communication Systems, T10232 Optical
+# Network Technologies, T10847 Advanced Optical Network Technologies, T10846 Photonic Crystal and Fiber Optics,
+# T10666 Photonic Crystals and Applications, T10988 Advanced Fiber Laser Technologies, T11449 Mechanical and Optical
+# Resonators, T13493 Optical and Acousto-Optic Technologies, T11025 Nonlinear Optical Materials Research, T12510
+# Magneto-Optical Properties and Applications, T12004 Advanced Frequency and Time Standards, T10022 Semiconductor
+# Quantum Structures and Devices, T12760 Laser Design and Applications, T11127 Solid State Laser Technologies, T14158
+# Optical Systems and Laser Technology, T10245 Metamaterials and Metasurfaces Applications, T10295 Plasmonic and
+# Surface Plasmon Research.
+lane: journals
+types: article|review|letter
+venues:
+  # priority 1: core integrated-photonics journals
+  - key: optica
+    name: Optica
+    issn: 2334-2536
+    openalex_source_id: S4210197940
+    years: [2016, 2026]
+    extra_filter: ""
+    priority: 1
+    notes: ""
+  - key: optics_express
+    name: Optics Express
+    issn: 1094-4087
+    openalex_source_id: S178776955
+    years: [2016, 2026]
+    extra_filter: ""
+    priority: 1
+    notes: ""
+  - key: optics_letters
+    name: Optics Letters
+    issn: 0146-9592
+    openalex_source_id: S134390580
+    years: [2016, 2026]
+    extra_filter: ""
+    priority: 1
+    notes: "OpenAlex source also lists 1071-2763, 1539-4794"
+  - key: photonics_research
+    name: Photonics Research
+    issn: 2327-9125
+    openalex_source_id: S2764698263
+    years: [2016, 2026]
+    extra_filter: ""
+    priority: 1
+    notes: ""
+  - key: apl_photonics
+    name: APL Photonics
+    issn: 2378-0967
+    openalex_source_id: S4210226744
+    years: [2016, 2026]
+    extra_filter: ""
+    priority: 1
+    notes: ""
+  - key: jlt
+    name: Journal of Lightwave Technology
+    issn: 0733-8724
+    openalex_source_id: S2307745
+    years: [2016, 2026]
+    extra_filter: ""
+    priority: 1
+    notes: ""
+  - key: ptl
+    name: IEEE Photonics Technology Letters
+    issn: 1041-1135
+    openalex_source_id: S27723657
+    years: [2016, 2026]
+    extra_filter: ""
+    priority: 1
+    notes: ""
+  - key: jstqe
+    name: IEEE Journal of Selected Topics in Quantum Electronics
+    issn: 1077-260X
+    openalex_source_id: S192705446
+    years: [2016, 2026]
+    extra_filter: ""
+    priority: 1
+    notes: ""
+  - key: nature_photonics
+    name: Nature Photonics
+    issn: 1749-4885
+    openalex_source_id: S120392215
+    years: [2016, 2026]
+    extra_filter: ""
+    priority: 1
+    notes: ""
+  - key: lsa
+    name: Light Science & Applications
+    issn: 2047-7538
+    openalex_source_id: S2498964232
+    years: [2016, 2026]
+    extra_filter: ""
+    priority: 1
+    notes: ""
+  - key: acs_photonics
+    name: ACS Photonics
+    issn: 2330-4022
+    openalex_source_id: S135184319
+    years: [2016, 2026]
+    extra_filter: ""
+    priority: 1
+    notes: ""
+  - key: lpr
+    name: Laser & Photonics Review
+    issn: 1863-8880
+    openalex_source_id: S95928045
+    years: [2016, 2026]
+    extra_filter: ""
+    priority: 1
+    notes: ""
+  - key: nanophotonics
+    name: Nanophotonics
+    issn: 2192-8606
+    openalex_source_id: S2737520951
+    years: [2016, 2026]
+    extra_filter: ""
+    priority: 1
+    notes: ""
+  # priority 2: other photonics journals
+  - key: optical_materials_express
+    name: Optical Materials Express
+    issn: 2159-3930
+    openalex_source_id: S2496121912
+    years: [2016, 2026]
+    extra_filter: ""
+    priority: 2
+    notes: ""
+  - key: advanced_photonics
+    name: Advanced Photonics
+    issn: 2577-5421
+    openalex_source_id: S4210199334
+    years: [2016, 2026]
+    extra_filter: ""
+    priority: 2
+    notes: ""
+  - key: advanced_photonics_nexus
+    name: Advanced Photonics Nexus
+    issn: 2791-1519
+    openalex_source_id: S4387281427
+    years: [2016, 2026]
+    extra_filter: ""
+    priority: 2
+    notes: ""
+  - key: chinese_optics_letters
+    name: Chinese Optics Letters
+    issn: 1671-7694
+    openalex_source_id: S112097523
+    years: [2016, 2026]
+    extra_filter: ""
+    priority: 2
+    notes: ""
+  - key: ieee_photonics_journal
+    name: IEEE Photonics Journal
+    issn: 1943-0655
+    openalex_source_id: S72499069
+    years: [2016, 2026]
+    extra_filter: ""
+    priority: 2
+    notes: "OpenAlex issn_l 1943-0647"
+  - key: ieee_jqe
+    name: IEEE Journal of Quantum Electronics
+    issn: 0018-9197
+    openalex_source_id: S80223966
+    years: [2016, 2026]
+    extra_filter: ""
+    priority: 2
+    notes: ""
+  - key: oea
+    name: Opto-Electronic Advances
+    issn: 2096-4579
+    openalex_source_id: S2883262519
+    years: [2016, 2026]
+    extra_filter: ""
+    priority: 2
+    notes: ""
+  - key: elight
+    name: eLight
+    issn: 2662-8643
+    openalex_source_id: S4210205584
+    years: [2016, 2026]
+    extra_filter: ""
+    priority: 2
+    notes: "OpenAlex issn_l 2097-1710"
+  - key: photonix
+    name: PhotoniX
+    issn: 2662-1991
+    openalex_source_id: S3035551292
+    years: [2016, 2026]
+    extra_filter: ""
+    priority: 2
+    notes: ""
+  - key: npj_nanophotonics
+    name: npj Nanophotonics
+    issn: 2948-216X
+    openalex_source_id: S5407036647
+    years: [2016, 2026]
+    extra_filter: ""
+    priority: 2
+    notes: "source id and ISSN from a /sources search 2026-10-21"
+  # priority 3: broad journals, photonics topic filter (see header)
+  - key: nature
+    name: Nature
+    issn: 0028-0836
+    openalex_source_id: S137773608
+    years: [2016, 2026]
+    extra_filter: "topics.id:T10299|T11050|T11429|T10767|T10232|T10847|T10846|T10666|T10988|T11449|T13493|T11025|T12510|T12004|T10022|T12760|T11127|T14158|T10245|T10295"
+    priority: 3
+    notes: ""
+  - key: science
+    name: Science
+    issn: 0036-8075
+    openalex_source_id: S3880285
+    years: [2016, 2026]
+    extra_filter: "topics.id:T10299|T11050|T11429|T10767|T10232|T10847|T10846|T10666|T10988|T11449|T13493|T11025|T12510|T12004|T10022|T12760|T11127|T14158|T10245|T10295"
+    priority: 3
+    notes: ""
+  - key: nat_commun
+    name: Nature Communications
+    issn: 2041-1723
+    openalex_source_id: S64187185
+    years: [2016, 2026]
+    extra_filter: "topics.id:T10299|T11050|T11429|T10767|T10232|T10847|T10846|T10666|T10988|T11449|T13493|T11025|T12510|T12004|T10022|T12760|T11127|T14158|T10245|T10295"
+    priority: 3
+    notes: ""
+  - key: sci_adv
+    name: Science Advances
+    issn: 2375-2548
+    openalex_source_id: S2737427234
+    years: [2016, 2026]
+    extra_filter: "topics.id:T10299|T11050|T11429|T10767|T10232|T10847|T10846|T10666|T10988|T11449|T13493|T11025|T12510|T12004|T10022|T12760|T11127|T14158|T10245|T10295"
+    priority: 3
+    notes: ""
+  - key: apl
+    name: Applied Physics Letters
+    issn: 0003-6951
+    openalex_source_id: S105243760
+    years: [2016, 2026]
+    extra_filter: "topics.id:T10299|T11050|T11429|T10767|T10232|T10847|T10846|T10666|T10988|T11449|T13493|T11025|T12510|T12004|T10022|T12760|T11127|T14158|T10245|T10295"
+    priority: 3
+    notes: ""
+  - key: sci_rep
+    name: Scientific Reports
+    issn: 2045-2322
+    openalex_source_id: S196734849
+    years: [2016, 2026]
+    extra_filter: "topics.id:T10299|T11050|T11429|T10767|T10232|T10847|T10846|T10666|T10988|T11449|T13493|T11025|T12510|T12004|T10022|T12760|T11127|T14158|T10245|T10295"
+    priority: 3
+    notes: ""

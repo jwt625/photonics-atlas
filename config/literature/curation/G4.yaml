@@ -1,0 +1,107 @@
+# Curation overrides for class group G4 (phase_shifter, switch_fabric, nonreciprocal), DevLog-006 S4, 2026-10-21.
+# Inputs read: cache/literature/curation_inputs/{phase_shifter,switch_fabric,nonreciprocal}.csv (regenerated 18:13 local).
+# Adds verified by OpenAlex singleton gets (doi:<doi>) on 2026-10-21; titles copied from the API response.
+group: G4
+curator_notes: >-
+  phase_shifter: thermo-optic dense and well spread (SOI, SiN, SiC, InP, Ge, Al2O3 UV); dropped EO carrier devices
+  (III-V MQW OPA, BJT injection) and conference / preprint duplicates; picked MEMS benchmarks (13-pi NOEMS,
+  nanobenders), ITO and folded heaters, visible SiN, TFLN; added BTO ferroelectric (IBM), graphene-heater PCM, Sb2Se3,
+  PZT stress-optic, 200 mm piezo-MEMS and the Jacques heater-design study. switch_fabric: selection skewed to recent
+  2x2 elements; picked large-port benchmarks (64x64 / 240x240 MEMS, 32x32 S&S, 16x16 EO, 16x16 PLC), microring 8x8,
+  WSS modules; dropped TTD beamformers and nonlinear switching; reclassed S&S / PILOSS MZI fabrics to mzi_mesh.
+  nonreciprocal: thin and noisy; dropped isolator-replacement circuits and garnet material papers; picked and added
+  magneto-optic, nonlinear, acousto-optic and EO landmark isolators / circulators and fiber MCF isolators.
+picks:
+  # phase_shifter (7)
+  - {uid: "10.1364/oe.413202", class: phase_shifter, reason: "NOEMS phase shifter, low IL, 13-pi range; MEMS subtype benchmark"}
+  - {uid: "10.1038/s42005-020-00412-3", class: phase_shifter, reason: "piezo nanobender actuators at CMOS voltages; MEMS tuning benchmark"}
+  - {uid: "10.1364/oe.386959", class: phase_shifter, reason: "ultra-low-loss ITO/Si heater; transparent-heater benchmark, OA"}
+  - {uid: "10.1364/oe.23.019575", class: phase_shifter, reason: "dense dissimilar folded routing, high-efficiency TO switch; reference design"}
+  - {uid: "10.1364/oe.448614", class: phase_shifter, reason: "visible-band SiN TOPS; band diversity, OA"}
+  - {uid: "10.1364/ol.469358", class: phase_shifter, reason: "TFLN thermo-optic phase shifter; platform gap (paywalled)"}
+  - {uid: "10.1364/optica.7.000003", class: phase_shifter, reason: "multi-pass low-power TO phase shifter, large OPA; efficiency benchmark"}
+  # switch_fabric (14)
+  - {uid: "10.1364/optica.3.000064", class: switch_fabric, reason: "64x64 digital MEMS switch; port-count benchmark"}
+  - {uid: "10.1364/optica.6.000490", class: switch_fabric, reason: "240x240 wafer-scale MEMS switch; record port count"}
+  - {uid: "10.1002/lpor.202300275", class: switch_fabric, reason: "32x32 strictly non-blocking S&S on Si3N4-on-SOI, 1984 MZIs, OA"}
+  - {uid: "10.1364/oe.24.009295", class: switch_fabric, reason: "16x16 non-blocking EO MZI switch; large EO fabric, OA"}
+  - {uid: "10.1109/jlt.2019.2945941", class: switch_fabric, reason: "multi-stage 8x8 dual-microring switch; microring fabric benchmark"}
+  - {uid: "10.1109/50.918890", class: switch_fabric, reason: "NTT 16x16 silica PLC TO matrix switch; industry landmark"}
+  - {uid: "10.1364/ao.50.004037", class: switch_fabric, reason: "NTT 128x128 3D MEMS switch module; industry MEMS OXC"}
+  - {uid: "10.1109/ofc.2001.927572", class: switch_fabric, reason: "Lucent 1296-port MEMS crossconnect, IL and crosstalk; landmark (wrongly out_of_scope)"}
+  - {uid: "10.1109/jlt.2020.3002716", class: switch_fabric, reason: "24x[1x12] LCoS WSS, 312 ports, IL / crosstalk; record WSS (wrongly out_of_scope)"}
+  - {uid: "10.1109/jlt.2024.3371161", class: switch_fabric, reason: "foundry fine-resolution silicon WSS; WSS subtype, OA"}
+  - {uid: "10.1109/jphot.2016.2527705", class: switch_fabric, reason: "NTT MxN WSS with SLM beam splitting; WSS module, OA"}
+  - {uid: "10.1109/jphot.2022.3233663", class: switch_fabric, reason: "LCoS 3x3 folded WSS; WSS module, OA"}
+  - {uid: "10.1109/ecoc.2015.7341648", class: switch_fabric, reason: "Furukawa 1x93 WSS with PLC spot-size converter; industry"}
+  - {uid: "10.1364/ofc.2018.th4a.1", class: switch_fabric, reason: "contentionless twin 8x24 WSS, low IL; industry module"}
+  # nonreciprocal (9)
+  - {uid: "10.1038/s41566-021-00882-z", class: nonreciprocal, reason: "magnetic-free SiN isolator (piezo-driven); benchmark"}
+  - {uid: "10.1038/s41566-022-01110-y", class: nonreciprocal, reason: "passive nonlinear isolators, integrated; benchmark"}
+  - {uid: "10.1364/optica.443097", class: nonreciprocal, reason: "polarization-independent isolators and circulators on InP membrane; platform gap"}
+  - {uid: "10.1364/optica.506366", class: nonreciprocal, reason: "ultra-broadband MO isolators and circulators on SiN"}
+  - {uid: "10.1364/optica.483017", class: nonreciprocal, reason: "polarization-independent MO isolator on Si; benchmark"}
+  - {uid: "10.1038/nphoton.2011.270", class: nonreciprocal, reason: "first monolithic MO resonator isolator on Si; landmark"}
+  - {uid: "10.1063/1.2884855", class: nonreciprocal, reason: "first direct-bonded garnet/Si waveguide isolator; landmark"}
+  - {uid: "10.1038/s41566-020-00711-9", class: nonreciprocal, reason: "SAW acousto-optic isolation in SOI; not an EO modulator paper"}
+  - {uid: "10.1103/physrevlett.109.033901", class: nonreciprocal, reason: "interband-transition nonreciprocity on Si; magnet-free landmark"}
+drops:
+  # phase_shifter
+  - {uid: "arxiv:2203.13337", reason: "duplicate preprint of 10.1038/s41377-023-01213-3 (OA journal version)"}
+  - {uid: "10.1364/ofc.2023.w3g.3", reason: "conference version of 10.1038/s41467-024-44773-7"}
+  - {uid: "10.1364/cleo_si.2024.stu4q.7", reason: "conference version of 10.1021/acsphotonics.3c00053"}
+  - {uid: "10.1002/lpor.202201032", reason: "paywalled journal version of OA arxiv:2301.00816 (kept)"}
+  - {uid: "arxiv:1904.01104", reason: "III-V MQW carrier phase shifter, GHz EO device; EO atlas"}
+  - {uid: "10.1109/jstqe.2019.2949451", reason: "BJT carrier-injection (plasma dispersion) phase shifter; EO atlas"}
+  - {uid: "10.1364/oe.555005", reason: "mode-insensitive VOA; not a phase-shifter benchmark"}
+  # switch_fabric
+  - {uid: "10.1364/oe.607733", reason: "true-time-delay RF beamformer, system level; switch data incidental"}
+  - {uid: "arxiv:2608.10808", reason: "preprint duplicate of 10.1364/oe.607733; system level"}
+  - {uid: "10.1002/lpor.202500219", reason: "microwave photonic beamforming chip, system level"}
+  - {uid: "arxiv:2007.02812", reason: "all-optical VO2 absorption switching, not a switch fabric"}
+  - {uid: "10.1038/srep09611", reason: "Kerr all-optical data conversion, not a switch fabric"}
+  # nonreciprocal
+  - {uid: "arxiv:2504.06535", reason: "isolator-replacement laser circuit, no nonreciprocal component"}
+  - {uid: "10.1109/jlt.2021.3096460", reason: "reflection-cancellation laser circuit, no nonreciprocal component"}
+  - {uid: "arxiv:2509.06121", reason: "nonreciprocity physics demo in metawaveguide, not an isolator benchmark"}
+  - {uid: "10.1063/1.354318", reason: "garnet waveguide NRPS only, no isolator; 1993 paywalled"}
+  - {uid: "10.1364/ome.9.001128", reason: "TGG ion-irradiated waveguide material study, no isolator"}
+  - {uid: "10.1002/adom.202100512", reason: "garnet film material study, no device"}
+  - {uid: "10.1364/ome.476482", reason: "garnet crystallization (EBSD) material study, no device"}
+reclass:
+  # phase_shifter
+  - {uid: "10.1021/acsphotonics.1c01410", class: phase_shifter, subtype: phase_shifter.phase_change, reason: "VO2 phase-transition material on Si"}
+  # switch_fabric
+  - {uid: "10.1109/ofc.2001.927572", class: switch_fabric, subtype: switch_fabric.mems, reason: "MEMS crossconnect; scored out_of_scope under phase_shifter"}
+  - {uid: "10.1109/jlt.2020.3002716", class: switch_fabric, subtype: switch_fabric.wss, reason: "LCoS WSS module, in scope per D80f note"}
+  - {uid: "10.1364/optica.6.000490", class: switch_fabric, subtype: switch_fabric.mems, reason: "MEMS switch fabric"}
+  - {uid: "10.1002/lpor.202300275", class: switch_fabric, subtype: switch_fabric.mzi_mesh, reason: "S&S fabric of TO MZI elements"}
+  - {uid: "10.1109/jlt.2025.3545568", class: switch_fabric, subtype: switch_fabric.mzi_mesh, reason: "8x8 S&S of MZI elements"}
+  - {uid: "10.1364/oe.27.021130", class: switch_fabric, subtype: switch_fabric.mzi_mesh, reason: "4x4 / 16x16 MZI switches"}
+  - {uid: "10.1109/jlt.2020.3032154", class: switch_fabric, subtype: switch_fabric.mzi_mesh, reason: "8x8 port-alternated S&S MZI fabric"}
+  - {uid: "10.1109/jlt.2020.3024016", class: switch_fabric, subtype: switch_fabric.mzi_mesh, reason: "8x8 PILOSS of double-MZ elements"}
+  - {uid: "10.1364/oe.23.017599", class: switch_fabric, subtype: switch_fabric.mzi_mesh, reason: "32x32 strictly non-blocking Si-wire MZI fabric"}
+  - {uid: "10.1109/jphot.2016.2523985", class: switch_fabric, subtype: switch_fabric.mzi_mesh, reason: "4x4 polarization-diversity MZI fabric"}
+  # nonreciprocal
+  - {uid: "10.1038/s41566-020-00711-9", class: nonreciprocal, subtype: nonreciprocal.isolator, reason: "acousto-optic isolator; flagged eo_modulator_main in error"}
+  - {uid: "10.1038/s41377-024-01692-y", class: nonreciprocal, subtype: nonreciprocal.isolator, reason: "other is not a nonreciprocal subtype"}
+adds:
+  # phase_shifter (6)
+  - {doi: "10.1038/s41566-022-01003-0", arxiv_id: "", title: "A ferroelectric multilevel non-volatile photonic phase shifter", year: 2022, class: phase_shifter, subtype: phase_shifter.ferroelectric_nonvolatile, reason: "BTO non-volatile multilevel phase shifter (IBM); subtype benchmark, OA"}
+  - {doi: "10.1038/s41565-022-01153-w", arxiv_id: "", title: "Ultra-low-energy programmable non-volatile silicon photonics based on phase-change materials with graphene heaters", year: 2022, class: phase_shifter, subtype: phase_shifter.phase_change, reason: "PCM with graphene heaters, switching energy record; paywalled"}
+  - {doi: "10.1038/s41566-021-00903-x", arxiv_id: "", title: "High-speed programmable photonic circuits in a cryogenically compatible, visible–near-infrared 200 mm CMOS architecture", year: 2021, class: phase_shifter, subtype: phase_shifter.mems, reason: "200 mm piezo-optomechanical phase shifters, speed and Vpi; OA"}
+  - {doi: "10.1364/oe.27.010456", arxiv_id: "", title: "Optimization of thermo-optic phase-shifter design and mitigation of thermal crosstalk on the SOI platform", year: 2019, class: phase_shifter, subtype: phase_shifter.thermo_optic, reason: "systematic heater geometry / crosstalk measurements; reference study, OA"}
+  - {doi: "10.1126/sciadv.abg3500", arxiv_id: "", title: "Nonvolatile programmable silicon photonics using an ultralow-loss Sb 2 Se 3 phase change material", year: 2021, class: phase_shifter, subtype: phase_shifter.phase_change, reason: "Sb2Se3 low-loss PCM phase shifter; benchmark, OA"}
+  - {doi: "10.1364/oe.23.014018", arxiv_id: "", title: "Stress-optic modulator in TriPleX platform using a piezoelectric lead zirconate titanate (PZT) thin film", year: 2015, class: phase_shifter, subtype: phase_shifter.other, reason: "PZT stress-optic tuning on TriPleX SiN; industry platform, OA"}
+  # switch_fabric (2)
+  - {doi: "10.1038/s41467-017-00714-1", arxiv_id: "", title: "Multipurpose silicon photonics signal processor core", year: 2017, class: switch_fabric, subtype: switch_fabric.mzi_mesh, reason: "hexagonal programmable MZI mesh; mesh benchmark, OA"}
+  - {doi: "10.1002/lpor.202300232", arxiv_id: "", title: "Ultrabroadband 2D‐Dispersive Wavelength Selective Switch with 1.57 GHz Hyperfine Spectral Resolution and >1600 Channels", year: 2023, class: switch_fabric, subtype: switch_fabric.wss, reason: "record WSS resolution / channel count; paywalled"}
+  # nonreciprocal (8)
+  - {doi: "10.1038/s41566-020-0640-y", arxiv_id: "", title: "Low-loss nonlinear optical isolators in silicon", year: 2020, class: nonreciprocal, subtype: nonreciprocal.isolator, reason: "low-loss nonlinear Si isolator; benchmark, paywalled"}
+  - {doi: "10.1038/s41566-025-01663-8", arxiv_id: "", title: "A terahertz-bandwidth non-magnetic isolator", year: 2025, class: nonreciprocal, subtype: nonreciprocal.isolator, reason: "THz-bandwidth (optical) magnet-free isolator; record, OA"}
+  - {doi: "10.1038/s41566-026-02008-9", arxiv_id: "", title: "Integrated electro-optic circulator on thin-film lithium niobate for bidirectional optical fibre transmission", year: 2026, class: nonreciprocal, subtype: nonreciprocal.circulator, reason: "TFLN EO circulator; circulator subtype, OA"}
+  - {doi: "10.1038/s41566-024-01601-0", arxiv_id: "", title: "Passive broadband Faraday isolator for hybrid integration to photonic circuits without lens and external magnet", year: 2025, class: nonreciprocal, subtype: nonreciprocal.isolator, reason: "hybrid-integrable passive Faraday isolator; OA"}
+  - {doi: "10.1038/s41566-017-0075-2", arxiv_id: "", title: "Time-reversal symmetry breaking with acoustic pumping of nanophotonic circuits", year: 2018, class: nonreciprocal, subtype: nonreciprocal.isolator, reason: "first acoustically pumped integrated isolation; OA"}
+  - {doi: "10.1109/jlt.2016.2644626", arxiv_id: "", title: "Microring-Based Optical Isolator and Circulator with Integrated Electromagnet for Silicon Photonics", year: 2017, class: nonreciprocal, subtype: nonreciprocal.circulator, reason: "microring isolator / circulator with on-chip electromagnet; paywalled"}
+  - {doi: "10.1038/s41566-024-01539-3", arxiv_id: "", title: "Unified laser stabilization and isolation on a silicon chip", year: 2024, class: nonreciprocal, subtype: nonreciprocal.isolator, reason: "integrated nonlinear isolator with laser; OA"}
+  - {doi: "10.1063/1.5050332", arxiv_id: "", title: "Fully integrated optical isolators for space division multiplexed (SDM) transmission", year: 2018, class: nonreciprocal, subtype: nonreciprocal.isolator, reason: "multicore-fiber isolators (fiber-only, D80f scope); OA"}
