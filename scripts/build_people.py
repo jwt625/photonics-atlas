@@ -87,7 +87,9 @@ def main() -> int:
         queue = P.review_pairs(ident, slots, pid_of)
         queued = {r["person_id_a"] for r in queue} | {r["person_id_b"] for r in queue}
         n_obs = {pid_of[c]: sum(len(P.obs_ids(s)) for s in ms) for c, ms in clusters.items()}
-        demoted = P.demoted_by_queue(queue, n_obs)  # D64 ruling: a partner without observations demotes nothing
+        lit_only = {pid_of[c] for c, ms in clusters.items() if all(s.corpus == "lit" for s in ms)}
+        # D64 ruling: a partner without observations demotes nothing; D377 (b): lit-vs-existing demotes the lit side
+        demoted = P.demoted_by_queue(queue, n_obs, lit_only)
         idx = {s.sid: i for i, s in enumerate(slots)}
 
         people_rows = {r["person_id"]: r for r in old_people}

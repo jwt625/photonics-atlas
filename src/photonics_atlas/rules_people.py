@@ -28,11 +28,14 @@ from .people import (
     HEADER_ID_RE,
     SLOT_OF_OBS_RE,
     SPELLED_EMAIL_RE,
+    case_accent_key,
     clean_text,
+    demoted_by_queue,
     header_batches,
     header_obs_id,
     header_rows,
     header_status,
+    lit_duplicates,
 )
 from .textnorm import EMAIL_RE
 
@@ -42,11 +45,16 @@ PEOPLE_REL = Path("data") / "people"
 TABLES = ("people", "person_aliases", "person_xref", "affiliation_observations")
 KIND_OF_CORPUS = {"eo": "publication", "pk": "publication", "ofc2026": "conference"}
 # D214: OFC 2026 also gives paper-header rows (kind publication, own obs id namespace #a<i>.h<j>.<k>[.<m>])
-KINDS_OF_CORPUS = {"eo": {"publication"}, "pk": {"publication"}, "ofc2026": {"conference", "publication"}}
+KINDS_OF_CORPUS = {
+    "eo": {"publication"},
+    "pk": {"publication"},
+    "ofc2026": {"conference", "publication"},
+    "lit": {"publication"},  # D370: lit slots have paper-header rows only (DevLog-011)
+}
 HEADER_LOCATOR_RE = re.compile(r"^p\.~[0-9]+")
 GRADE_OF_KIND = {"publication": "A", "conference": "B"}
 RULE_BASES = {"exact_name_shared_org", "compatible_name_shared_org_coauthor"}
-ORIGIN_GRADE = {"eo_person_id": "A", "pk_name_key": "A", "ofc_name": "B"}
+ORIGIN_GRADE = {"eo_person_id": "A", "pk_name_key": "A", "ofc_name": "B", "lit_name_key": "A"}
 LINKEDIN_RE = re.compile(r"linked\s*-?\s*in|lnkd\.in", re.IGNORECASE)
 MOVE_RE = re.compile(
     r"\b(?:former(?:ly)?|previously|ex-[a-z]+|joined|left|moved\s+to|now\s+(?:at|with)|background|alumn(?:us|a|i|ae))\b",
@@ -226,6 +234,7 @@ def rules(
     xw: dict[tuple[str, str], set[str]] = defaultdict(set)
     for r in full.get("org_crosswalk", []):
         xw[(r["corpus"], clean_text(r["printed"]))] |= {x.strip() for x in r["org_ids"].split(";") if x.strip()}
+    lit_dups = lit_duplicates(src)
     _, hdr_stale = header_batches(base)
     for d in hdr_stale:
         rep.warn(f"OFC header batch {d.name}: check stamp does not match headers.yaml; its rows are not used (D248)")
@@ -243,7 +252,9 @@ def rules(
 
     for r in t["affiliation_observations"]:
         oid, sid = r["obs_id"], r["source_id"]
-        if r["printed_name"] not in names_of[r["person_id"]]:
+        hdr_row = (r["source_id"].startswith(("ofc2026:", "lit:"))) and bool(HEADER_ID_RE.search(oid))
+        ca_ok = hdr_row and case_accent_key(r["printed_name"]) in {case_accent_key(n) for n in names_of[r["person_id"]]}
+        if r["printed_name"] not in names_of[r["person_id"]] and not ca_ok:  # D379: header forms up to case / accents
             rep.err(
                 f"affiliation_observations {oid}: printed_name {r['printed_name']!r} is not a name of "
                 f"{r['person_id']} (display_name / aliases)"
@@ -256,9 +267,9 @@ def rules(
         if s["same_as"]:
             rep.err(f"affiliation_observations {oid}: cites duplicate {sid} (canonical {s['same_as']}, p6)")
         kinds = KINDS_OF_CORPUS.get(s["corpus"])
-        hm = HEADER_ID_RE.search(oid) if s["corpus"] == "ofc2026" else None
+        hm = HEADER_ID_RE.search(oid) if s["corpus"] in ("ofc2026", "lit") else None
         if kinds is None:
-            rep.err(f"affiliation_observations {oid}: source corpus {s['corpus']} is not eo, pk or ofc2026")
+            rep.err(f"affiliation_observations {oid}: source corpus {s['corpus']} is not eo, pk, ofc2026 or lit")
         elif r["kind"] not in kinds:
             rep.err(
                 f"affiliation_observations {oid}: {s['corpus']} source gives kind {'/'.join(sorted(kinds))}, not {r['kind']}"
@@ -268,6 +279,10 @@ def rules(
                 f"affiliation_observations {oid}: an ofc2026 publication row is a paper-header row with an "
                 "#a<i>.h<j>.<k> id, and a header id is a publication row (D214)"
             )
+        elif s["corpus"] == "lit" and not hm:
+            rep.err(f"affiliation_observations {oid}: a lit observation is a paper-header row (D370, D219e id form)")
+        if s["corpus"] == "lit" and sid in lit_dups:
+            rep.err(f"affiliation_observations {oid}: {sid} is the same paper as {lit_dups[sid]} (DOI / title, D372)")
         if hm:
             want_grade = header_row_checks(oid, r, hm, hdr, rep)
         else:
@@ -281,6 +296,7 @@ def rules(
             "eo": s["published_on"] or session.get(sid, "") or s["year"],
             "pk": s["year"],
             "ofc2026": session.get(sid, ""),
+            "lit": s["published_on"] or s["year"],  # D370
         }.get(corpus, "")
         if want_on and r["active_on"] != want_on:
             rep.err(f"affiliation_observations {oid}: active_on {r['active_on']} != source date {want_on} (D67)")
@@ -335,7 +351,8 @@ def rules(
         return
     queue = read_csv(review_queue)
     n_obs = {pid: len(rows) for pid, rows in obs_by.items()}
-    demoted: set[str] = set()
+    lit_only = {pid for pid, xs in xref_by.items() if xs and all(x["scheme"] == "lit_name_key" for x in xs)}
+    demoted = demoted_by_queue(queue, n_obs, lit_only)  # D64 ruling, D377 (b)
     pairs: set[frozenset[str]] = set()
     for q in queue:
         a, b = q["person_id_a"], q["person_id_b"]
@@ -343,10 +360,6 @@ def rules(
         for k in (a, b):
             if k not in people:
                 rep.warn(f"review queue: {k} not in people.csv (stale queue; rebuild)")
-        if n_obs.get(b, 0):
-            demoted.add(a)
-        if n_obs.get(a, 0):
-            demoted.add(b)
     for r in full["affiliation_observations"]:
         if r["person_id"] in demoted and r["visibility"] == "public":
             rep.err(

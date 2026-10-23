@@ -11,7 +11,7 @@
 #        candidate matches live only in the git-ignored data/_local/people/review_queue.csv; every observation of a
 #        person in that queue has visibility review (D64).
 #   (p4) Grades: paper-printed affiliation A (kind publication), OFC organizer metadata B (kind conference); public
-#        visibility needs grade A/B (D70). OFC 2026 paper-header rows (D214): kind publication, obs id
+#        visibility needs grade A/B (D70). OFC 2026 and lit paper-header rows (D214, D370): kind publication, obs id
 #        <source_id>#a<i>.h<aff_order>.<org_k>.m<n> (D219e), grade A, B only for the listing_order / layout marker bases.
 #   (p5) No e-mail addresses or other contact data in any cell. No LinkedIn-derived rows.
 #   (p6) Observations cite canonical sources only (no source with same_as): the 54 OFC 2026 papers in EO count once.
@@ -21,12 +21,12 @@ version: 3
 patterns:
   people_person_id: "^person_[a-z0-9]+(_[a-z0-9]+)*$"
   people_orcid: "^[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{3}[0-9X]$"
-  people_obs_id: "^(eo|pk|ofc2026):[^\\s;#]+#a[0-9]+\\.(h[0-9]+\\.[0-9]+\\.m[0-9]+|[0-9]+(\\.[0-9]+)?)$"
+  people_obs_id: "^(eo|pk|ofc2026|lit):[^\\s;#]+#a[0-9]+\\.(h[0-9]+\\.[0-9]+\\.m[0-9]+|[0-9]+(\\.[0-9]+)?)$"
 
 enums:
   people_research_status: [not_started, seed_unverified, in_research, validated, conflicted]
   people_alias_type: [native_name, transliteration, alternate_spelling, common_name, former_name, printed_variant, abbreviated]
-  people_xref_scheme: [eo_person_id, lin_id, orcid, pk_name_key, ofc_name]
+  people_xref_scheme: [eo_person_id, lin_id, orcid, pk_name_key, ofc_name, lit_name_key]
   people_xref_basis: [origin, orcid, exact_name_shared_org, compatible_name_shared_org_coauthor, manual]
   people_obs_kind: [publication, conference]
   people_aff_role: [primary, additional, present_address]

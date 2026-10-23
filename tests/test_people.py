@@ -281,6 +281,111 @@ def test_folded_name_match_keeps_a_mapped_metadata_org() -> None:
     assert hs(["org_q"], "Qorvath University", rows, orgs) == "confirmed"  # a header row carries the metadata root
 
 
+def test_lit_slots_and_duplicates(monkeypatch: pytest.MonkeyPatch) -> None:
+    """D370-D374 on fictitious lit papers: slots = author-list positions, header rows the only observations (D219e
+    ids), printed forms aliases only (D218), duplicate papers of other corpora skipped (D372)."""
+    src = {
+        "lit:ozz2025": {
+            "corpus": "lit",
+            "native_id": "ozz2025",
+            "doi": "10.9/abc",
+            "title": "A Qorvath Waveguide Study",
+            "same_as": "",
+            "published_on": "2025-03-01",
+            "year": "2025",
+        },
+        "lit:dup2024": {
+            "corpus": "lit",
+            "native_id": "dup2024",
+            "doi": "10.9/X1",
+            "title": "Other Title For A Paper",
+            "same_as": "",
+            "published_on": "",
+            "year": "2024",
+        },
+        "lit:tit2023": {
+            "corpus": "lit",
+            "native_id": "tit2023",
+            "doi": "",
+            "title": "On Fennimore Gratings, Again!",
+            "same_as": "",
+            "published_on": "",
+            "year": "2023",
+        },
+        "eo:x2024": {
+            "corpus": "eo",
+            "native_id": "x2024",
+            "doi": "10.9/x1",
+            "title": "Different",
+            "same_as": "",
+            "published_on": "",
+            "year": "2024",
+        },
+        "pk:y2023": {
+            "corpus": "pk",
+            "native_id": "y2023",
+            "doi": "",
+            "title": "on fennimore gratings again",
+            "same_as": "",
+            "published_on": "",
+            "year": "2023",
+        },
+    }
+    assert P.lit_duplicates(src) == {"lit:dup2024": "eo:x2024", "lit:tit2023": "pk:y2023"}
+    lists = {"ozz2025": ["Ada Fennimore", "Ivo Brannt"], "dup2024": ["Q. Ozz"], "tit2023": ["R. Ozz"]}
+    monkeypatch.setattr(P, "lit_author_lists", lambda codes, root=None: {c: lists[c] for c in codes if c in lists})
+    dropped: Counter[str] = Counter()
+    slots = P._lit_slots(src, dropped)
+    assert [(s.sid, s.name, s.active_on, s.coauthor_names) for s in slots] == [
+        ("lit:ozz2025#1", "Ada Fennimore", "2025-03-01", ["Ivo Brannt"]),
+        ("lit:ozz2025#2", "Ivo Brannt", "2025-03-01", ["Ada Fennimore"]),
+    ]
+    assert sum(dropped.values()) == 2 and all("D372" in k for k in dropped)
+    rows = [
+        dict(_hrow("lit:ozz2025", 1, "U", "org_u", name="A. Fennimore"), author_index="1", locator="p.1 header"),
+        dict(_hrow("lit:ozz2025", 1, "U", "org_u;org_c", name="I. Brannt"), author_index="2", locator="p.1 footnote"),
+    ]
+    stats = P.attach_headers(slots, rows, {})
+    assert stats["lit slots with rows"] == 2 and stats["lit rows grade A"] == 2
+    assert [o for s in slots for o, _, _ in P.obs_ids(s)] == [
+        "lit:ozz2025#a1.h1.1.m1",
+        "lit:ozz2025#a2.h1.1.m1",
+        "lit:ozz2025#a2.h1.1.m2",
+    ]
+    assert all(s.hdr_status == "" and not s.affs and s.names == [s.name] for s in slots)  # no metadata row, D217
+    al = P.alias_rows("person_x", "Ada Fennimore", [slots[0]])
+    assert [(a["alias"], a["origin"], a["notes"]) for a in al] == [("A. Fennimore", "lit", P.LIT_ALIAS_NOTE)]
+
+
+def test_swapped_name_order_and_case_accent_aliases() -> None:
+    """D378: a slot flagged name_order_swapped with a common family-name token joins nobody by name (review), unless
+    the join is committed. D379: header forms differing only in case / accents are not added as aliases."""
+    co = ["Daria Quell", "Ivo Brannt"]
+    a = _slot("s:1#1", "Wei Wang", {"o"}, co)
+    b = _slot("s:2#1", "Wei Wang", {"o"}, co)
+    assert P.evaluate(a, b, P.EO_COMMON).basis == "compatible_name_shared_org_coauthor"  # type: ignore[union-attr]
+    b.name_order_swapped = True
+    pr = P.evaluate(a, b, P.EO_COMMON)
+    assert pr is not None and "name_order_swapped" in pr.flags and pr.need == (P.NEVER,)
+    ident = _resolve_c([a, b])
+    assert ident.cluster_of[0] != ident.cluster_of[1]
+    assert any("name_order_swapped" in p.flags for p in ident.review)
+    ident = _resolve_c([a, b], {"s:1#1": "person_wei_wang", "s:2#1": "person_wei_wang"})
+    assert ident.cluster_of[0] == ident.cluster_of[1]  # committed join stands
+    # a distinctive name without a common token is not affected
+    c, d = _slot("s:3#1", "Ada Fennimore", {"o"}), _slot("s:4#1", "Ada Fennimore", {"o"})
+    d.name_order_swapped = True
+    assert P.evaluate(c, d, P.EO_COMMON).basis == "exact_name_shared_org"  # type: ignore[union-attr]
+    # D379
+    s = _slot("lit:ozz2025#1", "Ada Fennimore", {"o"})
+    s.hdr = [
+        P.Aff(1, "U", [], "", "", "primary", "p.1 header", oid="lit:ozz2025#a1.h1.1", printed_name=n)
+        for n in ("ADA FENNIMORE", "Adá Fennimore", "A. Fennimore", "A. FENNIMORE")
+    ]
+    s.corpus = "lit"
+    assert [a["alias"] for a in P.alias_rows("person_x", "Ada Fennimore", [s])] == ["A. Fennimore"]
+
+
 def test_round2_hub_and_common_rules() -> None:
     hub = P.coauthor_key("Ivo Brannt", P.EO_COMMON)
     hubs = frozenset({hub})
@@ -451,7 +556,11 @@ def test_local_review_queue_hides_its_people() -> None:
     obs = read_csv(PEOPLE / "affiliation_observations.csv")
     people = {r["person_id"]: r for r in read_csv(PEOPLE / "people.csv")}
     n_obs = Counter(o["person_id"] for o in obs)
-    demoted = P.demoted_by_queue(queue, dict(n_obs))
+    xs: dict[str, set[str]] = defaultdict(set)
+    for x in read_csv(PEOPLE / "person_xref.csv"):
+        xs[x["person_id"]].add(x["scheme"])
+    lit_only = {p for p, ss in xs.items() if ss == {"lit_name_key"}}
+    demoted = P.demoted_by_queue(queue, dict(n_obs), lit_only)
     assert demoted and all(o["visibility"] == "review" for o in obs if o["person_id"] in demoted)
     # D216: a header / metadata conflict slot (header and metadata rows side by side, all review) is the exception
     by_slot: dict[str, list[dict[str, str]]] = defaultdict(list)
@@ -473,6 +582,12 @@ def test_local_review_queue_hides_its_people() -> None:
     )
     # D64 ruling: a partner without observations (LIN-only record) keeps the pair queued but demotes nothing
     assert P.demoted_by_queue([{"person_id_a": "person_a", "person_id_b": "person_b"}], {"person_a": 3}) == {"person_b"}
+    # D377 (b): lit-vs-existing demotes only the lit side; lit-vs-lit as D64
+    pair = [{"person_id_a": "person_a", "person_id_b": "person_b"}]
+    both = {"person_a": 2, "person_b": 1}
+    assert P.demoted_by_queue(pair, both, {"person_b"}) == {"person_b"}
+    assert P.demoted_by_queue(pair, both, {"person_a"}) == {"person_a"}
+    assert P.demoted_by_queue(pair, both, {"person_a", "person_b"}) == {"person_a", "person_b"}
     # D70/D94 ruling: a queued LIN A/B person row stays public; none of its queued observations is public
     xref = read_csv(PEOPLE / "person_xref.csv")
     lin_ab = {x["person_id"] for x in xref if x["scheme"] == "lin_id" and x["grade"] in ("A", "B")}
@@ -532,9 +647,9 @@ def test_build_is_in_sync_with_inputs() -> None:
 def data(tmp_path: Path) -> Path:
     """Temp copy without the local queue; rules_people derives its paths from the validate root (D97)."""
     shutil.copytree(ROOT / "data", tmp_path / "data", ignore=shutil.ignore_patterns("_local", "_staging"))
-    hdr = ROOT / P.HEADERS_REL  # D214: the validator checks OFC header observations against the staged rows
-    if hdr.exists():
-        shutil.copytree(hdr, tmp_path / P.HEADERS_REL)
+    for rel in P.HEADER_DIRS_REL:  # D214 / D370: the validator checks header observations against the staged rows
+        if (ROOT / rel).exists():
+            shutil.copytree(ROOT / rel, tmp_path / rel)
     return tmp_path
 
 
@@ -855,6 +970,25 @@ def test_ofc_header_rules(data: Path) -> None:
     assert any(conflict in e and "every row must be review (D216)" in e for e in errs)
     assert any("metadata row kept although the paper header confirms it (D215)" in e for e in errs)
     assert any(gone in e and "no staged OFC header row" in e for e in errs)
+
+
+def test_lit_observation_rules(data: Path) -> None:
+    """D370 / D372 validator rules on a copy: a lit observation is a paper-header row of a non-duplicate source."""
+    obs = read_csv(data / "data" / "people" / "affiliation_observations.csv")
+    lit = [o for o in obs if o["source_id"].startswith("lit:")]
+    if len(lit) < 2:
+        pytest.skip("no lit observations in the committed tables yet")
+    a, b = lit[0], lit[1]
+
+    def bad(rows: Rows) -> None:
+        _row(rows, obs_id=a["obs_id"]).update(obs_id=a["obs_id"].rsplit(".h", 1)[0] + ".1")
+        _row(rows, obs_id=b["obs_id"]).update(kind="conference", evidence_grade="B")
+        rows.sort(key=lambda r: r["obs_id"])
+
+    _edit(data, "affiliation_observations", bad)
+    errs = _errors(data)
+    assert any("a lit observation is a paper-header row" in e for e in errs)
+    assert any(b["obs_id"] in e and "gives kind publication, not conference" in e for e in errs)
 
 
 def test_rules_people_import_failure_is_an_error(data: Path, monkeypatch: pytest.MonkeyPatch) -> None:

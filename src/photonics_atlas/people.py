@@ -236,6 +236,7 @@ class Slot:
     lin: dict[str, Any] = field(default_factory=dict)
     hdr: list[Aff] = field(default_factory=list)  # D214: OFC header rows of this slot (observations only, D217)
     hdr_status: str = ""  # D215: confirmed | conflict | unmapped ('' = no header rows)
+    name_order_swapped: bool = False  # D378: list name order probably inverted (lit header audit 2026-10-23)
 
     @property
     def name(self) -> str:
@@ -467,7 +468,14 @@ def _lin_slots() -> list[Slot]:
 # ---------------------------------------------------------------- OFC 2026 paper headers (DevLog-008, D214-D219)
 
 HEADER_ALIAS_NOTE = "OFC paper header form; not used for identity (D218)"
+LIT_ALIAS_NOTE = "lit paper header form; not used for identity (D218, D371)"
 HEADERS_REL = Path("data") / "_staging" / "people" / "ofc_headers"
+LIT_HEADERS_REL = Path("data") / "_staging" / "people" / "lit_headers"  # DevLog-011 D351
+# DevLog-011 / DevLog-004 D370-D377: the lit merge is implemented but stays off until its first real build (after the
+# D380-D383 header fixes); off, the build reproduces the committed tables.
+LIT_MERGE = False
+HEADER_DIRS_REL = (HEADERS_REL, LIT_HEADERS_REL) if LIT_MERGE else (HEADERS_REL,)
+HEADER_CORPORA = {"ofc2026", "lit"}
 HEADER_STAMP = "check_stamp.txt"
 HEADER_GRADE_B = {"listing_order", "layout"}  # D240 / D246: grade B marker bases; every other basis is grade A
 SLOT_OF_OBS_RE = re.compile(r"^(.+#a\d+)\.")  # obs id -> '<source_id>#a<author_index>'
@@ -475,11 +483,12 @@ HEADER_ID_RE = re.compile(r"#a(\d+)\.h(\d+)\.(\d+)\.m(\d+)$")  # D219e
 
 
 def header_batches(root: Path = ROOT) -> tuple[list[Path], list[Path]]:
-    """Batch directories whose derived files belong to the current headers.yaml (D248 stamp), and the stale ones."""
-    base = root / HEADERS_REL
+    """Batch directories whose derived files belong to the current headers.yaml (D248 stamp), and the stale ones
+    (OFC DevLog-008 and lit DevLog-011 staging)."""
     ok: list[Path] = []
     stale: list[Path] = []
-    for d in sorted(x for x in base.iterdir() if x.is_dir()) if base.exists() else []:
+    dirs = [d for rel in HEADER_DIRS_REL if (root / rel).exists() for d in sorted((root / rel).iterdir())]
+    for d in (x for x in dirs if x.is_dir()):
         st, yp = d / HEADER_STAMP, d / "headers.yaml"
         if not (d / "header_rows.csv").exists():
             continue
@@ -490,7 +499,7 @@ def header_batches(root: Path = ROOT) -> tuple[list[Path], list[Path]]:
 
 
 def header_rows(root: Path = ROOT) -> list[dict[str, str]]:
-    """Staged OFC header rows of every current batch (DevLog-008 D171; one row per slot x affiliation x org)."""
+    """Staged header rows of every current batch (DevLog-008 D171, DevLog-011; one row per slot x affiliation x org)."""
     ok, _ = header_batches(root)
     return [r for d in ok for r in read_csv(d / "header_rows.csv")]
 
@@ -554,7 +563,7 @@ def attach_headers(slots: list[Slot], rows: list[dict[str, str]], orgs: dict[str
     seen: set[str] = set()
     for s in slots:
         rs = by_slot.get(s.sid)
-        if s.corpus != "ofc2026" or not rs:
+        if s.corpus not in HEADER_CORPORA or not rs:
             continue
         seen.add(s.sid)
         rs = sorted(rs, key=lambda r: (int(r["aff_order"]), int(r["org_k"])))
@@ -574,15 +583,114 @@ def attach_headers(slots: list[Slot], rows: list[dict[str, str]], orgs: dict[str
                     grade=r["evidence_grade"],
                 )
             )
-        meta = s.affs[0]
-        s.hdr_status = header_status(meta.org_ids, meta.printed_org, rs, orgs)
-        stats[f"slots {s.hdr_status}"] += 1
+        tag = "" if s.corpus == "ofc2026" else f"{s.corpus} "
+        if s.corpus == "ofc2026":
+            meta = s.affs[0]
+            s.hdr_status = header_status(meta.org_ids, meta.printed_org, rs, orgs)
+            stats[f"slots {s.hdr_status}"] += 1
+        else:
+            stats[f"{tag}slots with rows"] += 1  # D370: header rows are the only observations of a lit slot
         for r in rs:
-            stats[f"rows grade {r['evidence_grade']}"] += 1
-    stats["rows without a kept OFC slot (EO duplicate or not in the registry)"] = sum(
-        len(v) for k, v in by_slot.items() if k not in seen
-    )
+            stats[f"{tag}rows grade {r['evidence_grade']}"] += 1
+    for k, v in by_slot.items():
+        if k not in seen:
+            corpus = k.split(":", 1)[0]
+            tag = "OFC" if corpus == "ofc2026" else corpus
+            stats[f"rows without a kept {tag} slot (EO duplicate, duplicate paper or not in the registry)"] += len(v)
     return +stats
+
+
+# D378 (lit header batches audit 2026-10-23, issue 2): author-list name order probably inverted (list "Xu Qi",
+# printed "Qi Xu"); kept out of new name joins on a common family name until reviewed
+LIT_NAME_ORDER_SWAPPED = frozenset(
+    {"lit:qi2024#1", "lit:ni2025a#2", "lit:nie2024#11", "lit:tao2024#4", "lit:zhang2023a#7"}
+)
+NEVER = "\x00never"  # a coauthor key no slot carries: a pending join that can only pass as a committed join
+
+LIT_CACHE_LIST = Path("data") / "_staging" / "literature" / "cache_list.csv"
+LIT_AUTHOR_FILES = (Path("cache") / "literature" / "merged.jsonl", Path("cache") / "literature" / "curator_adds.jsonl")
+
+
+def lit_author_lists(codes: Iterable[str], root: Path = ROOT) -> dict[str, list[str]]:
+    """DevLog-011 D352 / D362: ordered author list per lit paper (cache_list uid -> merged.jsonl `authors`, then
+    curator_adds.jsonl for curator-added papers). Same lookup as scripts/ofc_headers.py `lit_papers`."""
+    cl = root / LIT_CACHE_LIST
+    uid = {r["paper_id"]: r["uid"] for r in read_csv(cl)} if cl.exists() else {}
+    want = {uid[c]: c for c in codes if c in uid}
+    out: dict[str, list[str]] = {}
+    for rel in LIT_AUTHOR_FILES:
+        path = root / rel
+        if not path.exists():
+            continue
+        with path.open(encoding="utf-8") as f:
+            for line in f:
+                if '"uid"' not in line:
+                    continue
+                r = json.loads(line)
+                c = want.get(r.get("uid", ""))
+                if c and c not in out and r.get("authors"):
+                    out[c] = [str(x) for x in r["authors"]]
+    return out
+
+
+def _title_key(t: str) -> str:
+    return " ".join(re.sub(r"[^a-z0-9]+", " ", ascii_fold(t).lower()).split())
+
+
+def lit_duplicates(sources: dict[str, dict[str, str]]) -> dict[str, str]:
+    """D372 (DevLog-011 D365): a lit source whose DOI or normalized title equals a source of another corpus is the
+    same paper; its slots are not added (the other record stays canonical, as p6)."""
+    doi: dict[str, str] = {}
+    title: dict[str, str] = {}
+    for sid, r in sources.items():
+        if r["corpus"] == "lit":
+            continue
+        if r["doi"]:
+            doi.setdefault(r["doi"].strip().lower(), sid)
+        tk = _title_key(r["title"])
+        if len(tk) >= 20:
+            title.setdefault(tk, sid)
+    out = {}
+    for sid, r in sources.items():
+        if r["corpus"] != "lit":
+            continue
+        hit = doi.get(r["doi"].strip().lower()) if r["doi"] else None
+        hit = hit or title.get(_title_key(r["title"]))
+        if hit:
+            out[sid] = hit
+    return out
+
+
+def _lit_slots(sources: dict[str, dict[str, str]], dropped: Counter[str]) -> list[Slot]:
+    """D370: one slot per position of a lit paper's author list (DevLog-011 D359: lit:<paper_id>#<i>, i = list
+    position); slot names = the list names (never the header printed forms, D218); no metadata affiliation."""
+    lit = {sid: r for sid, r in sources.items() if r["corpus"] == "lit" and not r["same_as"]}
+    dups = lit_duplicates(sources)
+    for other in sorted(dups.values()):
+        dropped[f"lit: duplicate paper of another corpus ({other.split(':')[0]}), D372"] += 1
+    lists = lit_author_lists([r["native_id"] for r in lit.values()])
+    out = []
+    for sid, r in sorted(lit.items()):
+        if sid in dups:
+            continue
+        names = [clean_text(n) for n in lists.get(r["native_id"], [])]
+        if not names:
+            dropped["lit: paper without an author list"] += 1
+        for i, n in enumerate(names, start=1):
+            out.append(
+                Slot(
+                    sid=f"{sid}#{i}",
+                    corpus="lit",
+                    source_id=sid,
+                    index=i,
+                    names=[n],
+                    coauthor_names=[m for k, m in enumerate(names, start=1) if k != i],
+                    active_on=r["published_on"] or r["year"],
+                    kind="publication",
+                    name_order_swapped=f"{sid}#{i}" in LIT_NAME_ORDER_SWAPPED,
+                )
+            )
+    return out
 
 
 def load_inputs() -> Inputs:
@@ -602,14 +710,27 @@ def load_inputs() -> Inputs:
             dropped[f"{s.corpus}: duplicate source (same_as {src['same_as'].split(':')[0]})"] += 1
         else:
             kept.append(s)
-    slots = kept + _lin_slots()
+    slots = kept + (_lit_slots(sources, dropped) if LIT_MERGE else []) + _lin_slots()
     lineage = org_lineages(orgs)
     for s in slots:
         s.variants = [v for v in dict.fromkeys(parse(n) for n in s.names) if v.fam]
         s.roots = frozenset(org_root(orgs, o) for a in s.affs for o in a.org_ids if o in orgs)
         s.lineages = frozenset(k for r in s.roots for k in lineage.get(r, {r}))
-    headers = attach_headers(slots, header_rows(), orgs)  # after roots: header orgs are not identity keys (D217)
-    common = common_families(slots)
+    headers = attach_headers(slots, header_rows(), orgs)  # after roots: OFC header orgs are not identity keys (D217)
+    for s in slots:
+        if s.corpus == "lit":  # D377 (a): the printed header affiliation is a lit slot's org for identity
+            s.roots = frozenset(org_root(orgs, o) for h in s.hdr for o in h.org_ids if o in orgs)
+            s.lineages = frozenset(k for r in s.roots for k in lineage.get(r, {r}))
+    # D373: a lit slot without header rows has no observation and, with no metadata org (D217), no identity evidence:
+    # it is not a person (D65: no person from a name alone); its name stays a coauthor name of the other slots
+    n0 = len(slots)
+    slots = [s for s in slots if s.corpus != "lit" or s.hdr]
+    if n0 - len(slots):
+        dropped["lit: author without header rows (no observation, D373)"] += n0 - len(slots)
+    # D375: the data-driven identity sets (common family names, hub keys, ambiguous full-name keys) come from the slots
+    # with metadata identity evidence; lit slots (no identity org, D217) would only move the thresholds of others
+    stat_slots = [s for s in slots if s.corpus != "lit"]
+    common = common_families(stat_slots)
     for s in slots:
         s.coauthors = frozenset(coauthor_key(n, common) for n in s.coauthor_names) - {""}
         s.selfkeys = frozenset(coauthor_key(n, common) for n in s.names)
@@ -619,8 +740,8 @@ def load_inputs() -> Inputs:
         sources=sources,
         common=common,
         dropped=dropped,
-        hubs=hub_keys(slots),
-        dense=dense_keys(slots, orgs),
+        hubs=hub_keys(stat_slots),
+        dense=dense_keys(stat_slots, orgs),
         headers=headers,
         committed=committed_slots(),
     )
@@ -754,6 +875,22 @@ def _evidence(a: Slot, b: Slot, hubs: frozenset[str]) -> int:
 
 
 def evaluate(
+    a: Slot, b: Slot, common: set[str], hubs: frozenset[str] = frozenset(), dense: frozenset[str] = frozenset()
+) -> Pair | None:
+    """D63 evaluation (`_evaluate`) plus D378: a name-based join of a slot flagged `name_order_swapped` whose name
+    carries a common family-name token is never a new join (it stands only as a committed join; else review)."""
+    pr = _evaluate(a, b, common, hubs, dense)
+    if pr is None or pr.basis not in ("exact_name_shared_org", "compatible_name_shared_org_coauthor"):
+        return pr
+    if any(s.name_order_swapped and set(fold(s.name).split()) & common for s in (a, b)):
+        flags = pr.flags or (("exact_name",) if pr.basis.startswith("exact") else ("compatible_name",)) + (
+            "shared_org",
+        )
+        return Pair(0, 0, pr.basis, (*flags, "name_order_swapped"), (NEVER,))
+    return pr
+
+
+def _evaluate(
     a: Slot, b: Slot, common: set[str], hubs: frozenset[str] = frozenset(), dense: frozenset[str] = frozenset()
 ) -> Pair | None:
     """D63 merge basis for two slots of one family block, a review-only pair (basis ''), or None (no relation).
@@ -1042,7 +1179,7 @@ def display_name(members: list[Slot]) -> str:
 
 
 def _anchor(members: list[Slot]) -> Slot:
-    order = {"lin": 0, "eo": 1, "pk": 2, "ofc2026": 3}
+    order = {"lin": 0, "eo": 1, "pk": 2, "ofc2026": 3, "lit": 4}
     return min(members, key=lambda s: (order[s.corpus], s.sid))
 
 
@@ -1067,6 +1204,8 @@ def xref_rows(pid: str, members: list[Slot], ident: Identity, idx: dict[str, int
             groups[("pk_name_key", name_key(s.name))].append(s)
         elif s.corpus == "ofc2026":
             groups[("ofc_name", s.name)].append(s)
+        elif s.corpus == "lit":
+            groups[("lit_name_key", name_key(s.name))].append(s)  # D374
         else:
             groups[("lin_id", s.lin_id)].append(s)
     rows = []
@@ -1075,7 +1214,9 @@ def xref_rows(pid: str, members: list[Slot], ident: Identity, idx: dict[str, int
             continue
         basis = min((chain[idx[s.sid]] for s in ss), key=lambda b: BASIS_RANK[b])
         if basis == "origin":
-            grade = {"eo": "A", "pk": "A", "ofc2026": "B"}.get(ss[0].corpus) or lin_grade(ss[0], inp.sources)
+            grade = {"eo": "A", "pk": "A", "ofc2026": "B", "lit": "A"}.get(ss[0].corpus) or lin_grade(
+                ss[0], inp.sources
+            )
         elif basis == "orcid":
             grade = "A"
         else:
@@ -1104,7 +1245,7 @@ def alias_rows(pid: str, dname: str, members: list[Slot]) -> list[dict[str, str]
                     "lang": a.get("language") or "",
                     "origin": "lin",
                 }
-    prio = {"eo": 0, "pk": 1, "ofc2026": 2}
+    prio = {"eo": 0, "pk": 1, "ofc2026": 2, "lit": 3}
     for s in sorted((s for s in members if s.corpus in prio), key=lambda s: (prio[s.corpus], s.sid)):
         n = s.name
         if n == dname or n in out or not n:
@@ -1116,19 +1257,26 @@ def alias_rows(pid: str, dname: str, members: list[Slot]) -> list[dict[str, str]
             "lang": "",
             "origin": s.corpus,
         }
+    seen_ca = {case_accent_key(dname)} | {case_accent_key(k) for k in out}
     for s in sorted((s for s in members if s.hdr), key=lambda s: s.sid):  # D218: header printed forms, last
         for n in dict.fromkeys(a.printed_name for a in s.hdr):
-            if n == dname or n in out or not n:
-                continue
+            if n == dname or n in out or not n or case_accent_key(n) in seen_ca:
+                continue  # D379: a header form differing from a kept name only in case or accents adds nothing
+            seen_ca.add(case_accent_key(n))
             out[n] = {
                 "person_id": pid,
                 "alias": n,
                 "alias_type": "abbreviated" if parse(n).abbreviated else "printed_variant",
                 "lang": "",
-                "origin": "ofc2026",
-                "notes": HEADER_ALIAS_NOTE,
+                "origin": s.corpus,
+                "notes": HEADER_ALIAS_NOTE if s.corpus == "ofc2026" else LIT_ALIAS_NOTE,
             }
     return [out[k] for k in sorted(out)]
+
+
+def case_accent_key(name: str) -> str:
+    """D379: a name up to case and accents (punctuation and spacing kept)."""
+    return ascii_fold(name).casefold()
 
 
 def new_person_id(dname: str, taken: set[str]) -> str:
@@ -1249,16 +1397,18 @@ def review_pairs(ident: Identity, slots: list[Slot], pid_of: dict[int, str]) -> 
     return out
 
 
-def demoted_by_queue(queue: Iterable[dict[str, str]], n_obs: dict[str, int]) -> set[str]:
+def demoted_by_queue(queue: Iterable[dict[str, str]], n_obs: dict[str, int], lit_only: Iterable[str] = ()) -> set[str]:
     """D64 ruling (2026-10-20): a person's observations are review when the person is in a queue pair whose partner
     has >= 1 observation; a partner without observations (a LIN-only record) keeps the pair queued but demotes
-    nothing."""
+    nothing. D377 (b): a pair of a lit-only person (every record a lit slot) and a person with other records demotes
+    only the lit side; lit-vs-lit and all other pairs as D64."""
+    lit = set(lit_only)
     out = set()
     for q in queue:
         a, b = q["person_id_a"], q["person_id_b"]
-        if n_obs.get(b, 0):
+        if n_obs.get(b, 0) and not (b in lit and a not in lit):
             out.add(a)
-        if n_obs.get(a, 0):
+        if n_obs.get(a, 0) and not (a in lit and b not in lit):
             out.add(b)
     return out
 
