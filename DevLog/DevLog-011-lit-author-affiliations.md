@@ -239,3 +239,16 @@ Slots without rows (12): ma2026 x3 (unreadable paper), list authors not printed 
 - State: 116 papers, 115 ok, 973 / 985 slots, 1312 rows (grade A); fresh batch audit GO (0 wrong in 342 slots).
 - Next: D381-D383, then the people merge build (DevLog-004 D370-D379; switch `LIT_MERGE` in
   src/photonics_atlas/people.py), build_views, push.
+
+## TODO (postponed by the owner 2026-10-23: lit authors made visible first)
+
+- [ ] D381 nakamura2020 #4: Tamagawa as a structured more_orgs entry with its own place (AIST place only as printed).
+- [ ] D382 strict_compatible: an extra initial must match a syllable start (exact pinyin or capitalized-part
+      segmentation); tests "M. G. Li" !~ "Ming Li", "S. A. Yu" !~ "Siyuan Yu", "J. N. Smith" !~ "Johann Smith",
+      "S. H." ~ "Shaohua"; re-check lit slots and rebuild people if any slot changes. (No current slot is affected,
+      per the batch audit.)
+- [ ] D383 wording: lit slot id `lit:<paper_id>#<i>` everywhere in this DevLog.
+- [ ] D380 follow-up: scan all lit / OFC blocks for building / site names in unit / org fields (sulway2023 fixed).
+- [ ] Org round for the 75 lit org requests (data/_staging/people/lit_headers/org_requests.csv), then
+      `check all --corpus lit` + aggregate + people rebuild.
+- [x] Lit authors in the people atlas (DevLog-004 2026-10-23 16:20): built and served.
