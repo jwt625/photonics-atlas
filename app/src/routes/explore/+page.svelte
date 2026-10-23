@@ -269,7 +269,7 @@
 					<YearStack comps={shown} {familyName} />
 					<TopBars
 						letter="k"
-						desc="Components per fabricating organization (fab_org_ids: the org the source states fabricated the component; a component counts once per org)"
+						desc="Components per fabricating organization (the organization the publication states fabricated the component; a component counts once per organization)"
 						counts={fabCounts}
 						badgeTip={`distinct fabricating organizations in the current filter; ${noFab} of ${shown.length} components name none`}
 					/>

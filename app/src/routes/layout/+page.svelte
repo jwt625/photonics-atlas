@@ -4,6 +4,7 @@
 	import { onMount } from 'svelte';
 	import { afterNavigate } from '$app/navigation';
 	import { comp, fmtValue, loadComponents, type Metric, type PrimarySpec } from '../../lib/components.svelte';
+	import { pubTip } from '../../lib/pub';
 	import { link } from '../../lib/paths';
 	import { gallery } from '../../lib/layout/gallery';
 	import LayoutViews from '../../lib/layout/LayoutViews.svelte';
@@ -49,13 +50,12 @@
 				<div class="crumbs"><a href={link('/layout')}>Layout gallery</a> / <span class="mono">{r.templateId}</span></div>
 				<h1>{c.label}</h1>
 				<div class="meta">
-					<span class="mono">{c.component_id}</span>
 					<span>{c.class}</span>
 					{#if c.platform}<span data-tip={[c.core_material, c.cladding && 'cladding: ' + c.cladding].filter(Boolean).join('\n')}>{c.platform}</span>{/if}
 					<span data-tip={r.template.applies_to.join('\n')}>{r.template.label}</span>
-					{#each show as s}<span class="role {s.role}" data-tip={[s.criterion, s.rationale, s.selected_on].filter(Boolean).join('\n')}>{s.role}</span>{/each}
+					{#each show as s}<span class="role {s.role}" data-tip={[s.criterion, s.rationale].filter(Boolean).join('\n')}>{s.role}</span>{/each}
 					<a href={link('/components') + '#' + encodeURIComponent(c.component_id)}>all values</a>
-					{#if c.source.url}<a href={c.source.url} target="_blank" rel="noopener" data-tip={c.source.title}>source ({c.source.year})</a>{:else}<span data-tip={c.source.title}>{c.source.id}</span>{/if}
+					{#if c.source.url}<a href={c.source.url} target="_blank" rel="noopener" data-tip={pubTip(c.source)}>publication ({c.source.year})</a>{:else}<span data-tip={pubTip(c.source)}>publication ({c.source.year})</span>{/if}
 				</div>
 				{#if prim}
 					<div class="prim">
@@ -113,7 +113,7 @@
 					<span>{g.t.label}</span>
 					<span class="mono muted">{g.id}</span>
 					<span class="muted num" data-tip="components whose class the template serves / with at least one template dimension">{g.served} components, {g.withGeometry} with geometry</span>
-					<span class="muted" data-tip="primary metric (D107){Object.keys(g.t.primary_by_class ?? {}).length ? '; class overrides (D229a)' : ''}">{specText(g.t.primary)}{#each Object.entries(g.t.primary_by_class ?? {}) as [cls, ps]}; {cls}: {specText(ps)}{/each}</span>
+					<span class="muted" data-tip="primary metric{Object.keys(g.t.primary_by_class ?? {}).length ? ' (per class where stated)' : ''}">{specText(g.t.primary)}{#each Object.entries(g.t.primary_by_class ?? {}) as [cls, ps]}; {cls}: {specText(ps)}{/each}</span>
 				</h2>
 				<div class="cards">
 					{#each g.items as it (it.kind + (it.kind === 'card' ? it.card.c.component_id : it.gap.platform) + it.role)}
@@ -135,7 +135,7 @@
 							</a>
 						{:else}
 							{@const gap = it.gap}
-							<div class="card gap" data-tip="D112: no source in the atlas reports the required dimensions together with a measured primary metric for this {gap.platform ? gap.platform + ' ' : ''}role">
+							<div class="card gap" data-tip="No publication in the atlas reports the required dimensions together with a measured primary metric for this {gap.platform ? gap.platform + ' ' : ''}role">
 								<div class="ch"><span class="role {gap.role}">{gap.role}</span><span class="lbl">no {gap.platform ? gap.platform + ' ' : ''}{gap.role}{gap.platform ? '' : ' component'}</span></div>
 								<div class="gapbody">not selected: no qualifying source</div>
 							</div>

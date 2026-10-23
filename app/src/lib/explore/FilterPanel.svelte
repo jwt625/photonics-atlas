@@ -2,7 +2,7 @@
 	// Explore filter side panel (structure and look of the sibling atlases' FilterPanel.svelte).
 	import type { Component } from '../components.svelte';
 	import { FAMILIES, GROUP_ORDER, familyLabel } from './colors';
-	import { classFamily, corpusOf, countBy, familyOf, yearOf } from './logic';
+	import { classFamily, countBy, familyOf, pubTypeOf, yearOf } from './logic';
 	import { exFilters, resetExFilters } from './state.svelte';
 
 	let { all, nShown, familyName }: { all: Component[]; nShown: number; familyName: (f: string) => string } = $props();
@@ -24,15 +24,10 @@
 			return { value: g, label: familyLabel(g), n: c.get(g) ?? 0, tip };
 		});
 	});
-	const CORPUS_TIP: Record<string, string> = {
-		eo: 'eo: EO modulator atlas corpus',
-		ofc2026: 'ofc2026: OFC 2026 corpus (papers already in eo count as eo)',
-		pk: 'pk: advanced packaging atlas corpus'
-	};
-	const corpusOpts = $derived.by<Opt[]>(() =>
-		[...countBy(all, corpusOf).entries()]
-			.sort((a, b) => b[1] - a[1])
-			.map(([value, n]) => ({ value, label: value, n, tip: (CORPUS_TIP[value] ?? `source id prefix ${value}`) + `: ${n} components` }))
+	const typeOpts = $derived.by<Opt[]>(() =>
+		[...countBy(all, pubTypeOf).entries()]
+			.sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
+			.map(([value, n]) => ({ value, label: value, n, tip: `${value}: ${n} components` }))
 	);
 	const yearBounds = $derived.by(() => {
 		const ys = all.map(yearOf).filter((y): y is number => y !== null);
@@ -47,7 +42,7 @@
 		return v.trim() === '' || !Number.isFinite(n) ? null : Math.round(n);
 	}
 	const active = $derived(
-		!!(exFilters.classes.length || exFilters.families.length || exFilters.corpora.length || exFilters.measuredOnly || exFilters.yearMin !== null || exFilters.yearMax !== null)
+		!!(exFilters.classes.length || exFilters.families.length || exFilters.pubTypes.length || exFilters.measuredOnly || exFilters.yearMin !== null || exFilters.yearMax !== null)
 	);
 </script>
 
@@ -61,7 +56,7 @@
 	</section>
 {/snippet}
 
-{#snippet checks(list: Opt[], sel: string[], key: 'classes' | 'families' | 'corpora', tall: boolean)}
+{#snippet checks(list: Opt[], sel: string[], key: 'classes' | 'families' | 'pubTypes', tall: boolean)}
 	<div class="checks" class:tall>
 		{#each list as o (o.value)}
 			<label data-tip={o.tip}>
@@ -100,16 +95,16 @@
 		{@render group('basis', 'Basis', basisBody)}
 
 		{#snippet srcBody()}
-			<div class="sub">Corpus</div>
-			{@render checks(corpusOpts, exFilters.corpora, 'corpora', false)}
-			<div class="sub">Source year</div>
+			<div class="sub">Publication type</div>
+			{@render checks(typeOpts, exFilters.pubTypes, 'pubTypes', false)}
+			<div class="sub">Publication year</div>
 			<div class="yr">
-				<input type="number" placeholder={String(yearBounds.min)} value={exFilters.yearMin ?? ''} onchange={(e) => (exFilters.yearMin = num(e.currentTarget.value))} data-tip="Earliest source year" />
+				<input type="number" placeholder={String(yearBounds.min)} value={exFilters.yearMin ?? ''} onchange={(e) => (exFilters.yearMin = num(e.currentTarget.value))} data-tip="Earliest publication year" />
 				<span class="muted">to</span>
-				<input type="number" placeholder={String(yearBounds.max)} value={exFilters.yearMax ?? ''} onchange={(e) => (exFilters.yearMax = num(e.currentTarget.value))} data-tip="Latest source year" />
+				<input type="number" placeholder={String(yearBounds.max)} value={exFilters.yearMax ?? ''} onchange={(e) => (exFilters.yearMax = num(e.currentTarget.value))} data-tip="Latest publication year" />
 			</div>
 		{/snippet}
-		{@render group('src', 'Source', srcBody)}
+		{@render group('src', 'Publication', srcBody)}
 	</div>
 </aside>
 

@@ -1,5 +1,8 @@
 // Pure logic of the supply, people and org-hub views (DevLog-010 D190-D198).
 import type { Component } from './components.svelte';
+import type { Pub } from './pub';
+import type { Registry } from './types';
+import type { SupplyView } from './supply.svelte';
 import type { Obs, PeopleView, Person } from './people.svelte';
 import type { SrcMeta, SupplyCategory, Usage } from './supply.svelte';
 
@@ -178,32 +181,36 @@ export function orgTable(v: PeopleView): Map<string, { persons: number; obs: num
 	return new Map([...ps].map(([k, s]) => [k, { persons: s.size, obs: ns.get(k) ?? 0 }]));
 }
 
-export const corpusOf = (sid: string): string => sid.split(':', 1)[0];
+/** Publication type of a source (plain words from the served publication record; "Other" when absent). */
+export const typeOf = (sources: Record<string, SrcMeta>, sid: string): string => sources[sid]?.type ?? 'Other';
 
 export interface Coverage {
-	corpora: string[];
+	/** publication types present, alphabetical (colour slots follow this order: identity, not rank) */
+	types: string[];
 	years: number[];
-	/** corpus -> counts per year (aligned with years) */
+	/** type -> counts per year (aligned with years) */
 	byYear: Map<string, number[]>;
-	/** `${corpus}|${grade}` -> count */
+	/** `${type}|${grade}` -> count */
 	byGrade: Map<string, number>;
 	grades: string[];
 }
 
-export function coverage(obs: Obs[]): Coverage {
-	const corpora = [...new Set(obs.map((o) => corpusOf(o.source_id)))].sort();
+/** Public observations per observation year and publication type; data-driven, so a new publication type (e.g. the
+ *  literature-cache journal papers) appears without a code change. */
+export function coverage(obs: Obs[], sources: Record<string, SrcMeta>): Coverage {
+	const types = [...new Set(obs.map((o) => typeOf(sources, o.source_id)))].sort();
 	const grades = [...new Set(obs.map((o) => o.grade))].sort();
 	const ys = obs.map((o) => Number(o.active_on.slice(0, 4)));
 	const years: number[] = [];
 	if (ys.length) for (let y = Math.min(...ys); y <= Math.max(...ys); y++) years.push(y);
-	const byYear = new Map(corpora.map((c) => [c, years.map(() => 0)]));
+	const byYear = new Map(types.map((c) => [c, years.map(() => 0)]));
 	const byGrade = new Map<string, number>();
 	obs.forEach((o, i) => {
-		const c = corpusOf(o.source_id);
+		const c = typeOf(sources, o.source_id);
 		(byYear.get(c) as number[])[ys[i] - years[0]]++;
 		byGrade.set(`${c}|${o.grade}`, (byGrade.get(`${c}|${o.grade}`) ?? 0) + 1);
 	});
-	return { corpora, years, byYear, byGrade, grades };
+	return { types, years, byYear, byGrade, grades };
 }
 
 // ---------- org hub ----------
@@ -227,19 +234,30 @@ export function orgComponents(comps: Component[], orgId: string): OrgComponent[]
 	return out.sort((a, b) => a.c.class.localeCompare(b.c.class) || a.c.component_id.localeCompare(b.c.component_id));
 }
 
-// Sibling atlas sites (D198): both read their filters from the URL hash.
-export const EO_SITE = 'https://outside5sigma.com/eo-modulator-atlas';
-export const PK_SITE = 'https://outside5sigma.com/advanced-packaging-atlas';
+export interface OrgPub {
+	id: string;
+	p: Pub;
+	/** what the publication contributes for this organization: components, supply, standards, authors, events */
+	uses: Set<string>;
+}
 
-/** EO table search (token AND over paper fields incl. org names). */
-export const eoSearch = (q: string): string => `${EO_SITE}/table#q=${encodeURIComponent(q)}`;
-/** Packaging table filtered to one canonical PK org name. */
-export const pkOrg = (name: string): string => `${PK_SITE}/table#o=${encodeURIComponent(name)}`;
-
-/** Sibling-atlas page of an `eo:` / `pk:` source (table searched by its paper id); null for other corpora. */
-export function siblingPaper(sid: string): { href: string; site: string } | null {
-	const [c, id] = [corpusOf(sid), sid.slice(sid.indexOf(':') + 1)];
-	if (c === 'eo') return { href: eoSearch(id), site: 'EO atlas' };
-	if (c === 'pk') return { href: `${PK_SITE}/table#q=${encodeURIComponent(id)}`, site: 'packaging atlas' };
-	return null;
+/** Publications linked to an organization through any lens (D199t): components it fabricated or hosted, supply uses,
+ *  processes (as foundry or broker), reliability tests citing a standard it issued, public author affiliations, org
+ *  events it takes part in. Same definition as the `pub` lens count of build_views.py (vitest checks every org). */
+export function orgPublications(orgId: string, reg: Registry, comps: Component[], sv: SupplyView, pv: PeopleView): OrgPub[] {
+	const m = new Map<string, OrgPub>();
+	const add = (sid: string, use: string, p: Pub | undefined) => {
+		if (!p || !Object.keys(p).length) return;
+		const s = m.get(sid) ?? { id: sid, p, uses: new Set<string>() };
+		s.uses.add(use);
+		m.set(sid, s);
+	};
+	for (const { c } of orgComponents(comps, orgId)) add(c.source_id, 'components', c.source);
+	for (const u of sv.usage) if (u.org_id === orgId) add(u.source_id, 'supply', sv.sources[u.source_id]);
+	for (const p of sv.processes) if (p.org_id === orgId || p.broker_org_id === orgId) add(p.source_id, 'supply', sv.sources[p.source_id]);
+	const stds = new Set(sv.standards.filter((x) => x.body_org_id === orgId).map((x) => x.standard_id));
+	if (stds.size) for (const t of sv.tests) if (split(t.standard_ids).some((x) => stds.has(x))) add(t.source_id, 'standards', sv.sources[t.source_id]);
+	for (const ob of pv.obs) if (ob.org_id === orgId) add(ob.source_id, 'authors', pv.sources[ob.source_id]);
+	for (const e of reg.events) if (e.participants.some((x) => x.org === orgId)) for (const s of e.sources) add(s, 'events', reg.sources[s]);
+	return [...m.values()].sort((a, b) => Number(b.p.year || 0) - Number(a.p.year || 0) || (a.p.title ?? '').localeCompare(b.p.title ?? ''));
 }

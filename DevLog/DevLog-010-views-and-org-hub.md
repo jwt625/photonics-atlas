@@ -169,3 +169,84 @@ standards 24, tests 401; persons public 6248 / 6922; observations public 10691 /
    Silicon Photonics Solutions Group) with a toggle?
 4. EO atlas cross-link is a token search (`#q=`), which can match more papers than the org's; an exact org filter
    would need an EO-side hash parameter (EO repo change, not done).
+
+## Request 2026-10-23: viewer-facing front end (owner via coordinator)
+
+Owner: "why is there still a 'Sources by corpus and access'? that's internal info. Viewers should not care. Screen the
+FE and update accordingly. e.g., People/Coverage is still by source." Screen every page and replace internal /
+workflow information with viewer-facing content. Decisions D199g-D199z.
+
+Screening (2026-10-23, before changes; what a viewer sees that is internal):
+
+| Page | Internal content found |
+|---|---|
+| header | "N orgs, N sources" (registry counts) |
+| `/` | tiles aliases / events / sources / sources_duplicate; "Sources by corpus and access" table; "Most frequent OFC 2026 affiliations (author rows)" with OFC / EO / PK row columns |
+| `/explore` | filter "Corpus" (eo / lit / ofc2026 / pk with corpus tooltips) |
+| `/components` | "Source" column = registry source id; detail: "EO device" id, "verified" date, access; parameter tooltips and value tooltips carry decision ids and corpus-prefixed ids in curator notes |
+| `/layout` | component id in the meta line, source fallback = source id, tooltips "D107", "D112", "D229a" |
+| `/orgs` | EO / PK / OFC author-row columns, Al / Ev columns; detail: id, "name from" (name basis), origin corpora, curation notes, "Printed strings in the corpora" (corpus, crosswalk rows, match basis); events with grade |
+| `/orgs/hub` | org id crumbs, tiles "observations"; Registry panel (id, name from, origin, notes, printed strings by corpus); Sources with source ids, corpus and lens letters; supply / process rows show source ids |
+| `/supply` | tooltips "DevLog-003 D52", "D58", "D59, D60"; used-in rows show source ids and atlas anchors (`eo-atlas:papers.csv#...`); processes Source column = source id; standards Access column; test tooltips with test ids, notes |
+| `/people` | person id; observation table "gr" (A / B) and source ids; timeline legend by corpus and grade; Coverage by corpus with grade columns; lineage "LIN record, grade A" |
+| `/about` | corpora, grades A-D / X, data paths |
+
+Plan:
+
+1. `build_views.py`: one publication record per cited source (title, venue, year, publication type in plain words,
+   link: url / DOI / arXiv; sibling-atlas link for EO / packaging papers) in every view; no access / licence /
+   redistribution / corpus fields; registry.json without coverage, sources by corpus, duplicate counts, per-corpus
+   rows, printed-string match data, name basis, origin, curation notes, event grade / basis / locator / notes;
+   `overview` block (all computed); lens gains publications; supply rows without extraction, verified_on, curation
+   notes, atlas anchors (shown as "paper record (EO modulator atlas)"); people: publication type totals instead of
+   corpus totals, program-listing locators in plain words; a scrub of decision ids and corpus-prefixed ids from
+   served free text (curator notes, parameter definitions); join ids (source_id, obs_id) stay as keys, never rendered.
+2. App: dashboard rebuilt as an atlas overview; publication shown as title / venue / year / type / link everywhere;
+   explore filter by publication type; orgs table by lens counts; hub without registry internals; people coverage
+   by publication type and provenance in plain words (tooltips); about page rewritten.
+3. Tests: served-JSON test (forbidden keys, corpus prefixes only under join keys, no decision ids); privacy tests
+   kept; Playwright DOM scan of every page for corpus prefixes, decision ids, "corpus", "access", grade jargon.
+4. Rebuild views, checks, screenshots of every page at both sizes, README "Current state".
+
+### Decisions (D199g-D199s)
+
+| # | Decision | Rationale |
+|---|---|---|
+| D199g | Every cited source is served as a publication record: title, venue, year, publication type, link (url, else `https://doi.org/<doi>`, else `https://arxiv.org/abs/<id>`), DOI, arXiv id, and for EO / packaging papers the sibling-atlas page (`atlas: [site, href]`). No access, licence, redistribution, corpus, text_cached or same_as field is served. Components carry the record under `source` (no id); supply, people and registry serve a `sources` map keyed by source id | owner: sources are shown as the publication |
+| D199h | Publication type in plain words from the registry `source_type` (journal / review / paper -> Journal article; conference -> Conference paper; arxiv_preprint -> Preprint; press releases, filings, company and profile pages, news, thesis, patent, datasheet, standard). A source type without a mapping falls back to its own name, so new types (e.g. the literature-cache authors) appear without a code change | data-driven filters and legends |
+| D199i | Served free text (curator notes, parameter definitions, showcase criterion / rationale, stated specs) is scrubbed at build time: decision ids (`D102`, `(D256 / D82d)`, `D157:`, `D82(d)`) and `(... batch_N ...)` parentheticals are removed; corpus-prefixed source ids in text are replaced by the quoted publication title. Source tables are not edited | owner: no decision ids or batch names; data/* untouched |
+| D199j | Not served: component `verified_on`, `host_device_ids`; showcase `selected_on`; supply `extraction`, `verified_on`, curation `notes`, test `atlas_ref`, `tv_ref`, standard `access`; org `name_basis`, `name_source`, `origin`, curation `notes`, per-corpus crosswalk rows and match basis (printed names kept as a plain list); event grade, status, basis, locator, notes; registry coverage, sources by corpus and access, duplicate counts. Atlas-anchor locators read "paper record (EO modulator atlas)" / "(advanced packaging atlas)"; OFC program locators read "conference program listing" | pipeline and curation detail is internal |
+| D199k | People: no grade codes, corpus names or person / observation ids on screen. Provenance in plain words in tooltips ("affiliation printed in the publication" / "affiliation from the conference program listing"); the timeline colours by publication type (alphabetical slots), one symbol; Coverage = affiliations per publication year by publication type plus a type x provenance table and plain-word totals (people, affiliations not yet mapped to an organization, affiliations not shown while identity is under review). Lineage-only persons: "Listed in a curated career-lineage record" with the source titles and types. `obs_id`, `source_id` (obs columns) and `lin_sources` stay in people.json as join keys only | owner: People / Coverage was by source |
+| D199l | Home page = atlas overview from registry.json `overview` (computed in build_views.py): tiles components / values (measured) / platforms / component papers / years / organizations / people / vendors / products / reliability tests; publications per year by type (chart a, lin / log); organizations by type; top 12 fabricating organizations by components; top 12 vendors by stated uses (shared-cleanroom use not counted). Header: "N components, N publications" | owner: replace the registry-internal tiles and the sources-by-corpus table |
+| D199m | Organizations table: Publications / People / Components (fabricated) / Supply columns from the lens counts (new `pub` = distinct publications over components, supply rows, processes and public affiliations), default sort by publications; detail and hub without id, name basis, origin, notes, printed-string table; "printed in publications as" list; events with participants and the reporting publications (new `EventList`). Hub tiles and panels in plain words; Publications panel: year, title link, type, what the publication contributes (components, supply, standards, authors, events), atlas link | owner: no corpus breakdown |
+| D199n | Explore: the Corpus filter becomes Publication type (data-driven from the records); "Source year" -> "Publication year" | owner |
+| D199o | Components / layout: Publication column (title; venue, year, type, DOI and locator on hover) replaces the source id; detail without id, EO device id, verified date, access; layout meta without the component id; tooltips without decision ids | owner |
+| D199p | Supply: tooltips without DevLog / decision ids; processes and used-in rows show the publication title and year; standards table without the Access column; "uses" instead of "usage rows" | owner |
+| D199q | About page rewritten for viewers (what the atlas holds, computed counts, how to read basis / locators / empty fields / affiliations, related atlases) | owner: every page |
+| D199r | Tests: `tests/test_views.py` adds a served-data check (fresh builds and committed files): forbidden keys anywhere, corpus-prefixed ids only under the join keys (`build_views.JOIN_KEYS`, keys of `sources` maps, the obs_id / source_id columns and the lin_sources column of people.json), no decision ids / DevLog / atlas anchors / program-metadata locators / batch names / staging paths in any served string; publication records only with the D199g fields; overview counts. The rendered-page check is the Playwright screen (session scratchpad `screen.mjs`, not committed: it holds local paths): DOM text and every data-tip / title / aria-label / placeholder / Plotly hover text of 21 page states x 2 viewports scanned for corpus ids, decision ids, "corpus", access / licence fields, grade codes, pipeline words, "observation" jargon, "LIN" | owner: add a test |
+| D199s | Join keys kept in served JSON (never rendered): `source_id`, `obs_id`, event `sources`, `lin_sources`, `datasheet_source_id`, keys of `sources` maps. Removing them would break the joins between views (hub, supply, people) and the privacy test's id check | explained per the request |
+
+### Progress (2026-10-23)
+
+- 10:05-10:35: screening table and plan written first (above); build_views.py rewritten (publication records, scrub,
+  overview, lens `pub`, plain locators, dropped internal fields); app pages changed: header, `/`, `/explore`,
+  `/components`, `/layout`, `/orgs`, `/orgs/hub`, `/supply`, `/people`, `/about`; new `lib/pub.ts`,
+  `lib/EventList.svelte`. Views rebuilt 10:19 (registry 505901 bytes, components 2226494, supply 1172087, people
+  2854559).
+- Checks: `pytest -q` 325 passed; `tests/test_views.py` 12 passed; `ruff check .` clean; `mypy` clean (82 files);
+  `validate_db.py` 0 errors, 15 warnings; `pnpm check` 0 / 0; `pnpm test` 57 passed; `pnpm build` ok (app/build
+  rebuilt). Screen: 21 page states x 2 viewports, 42 screenshots (session scratchpad `views_vf/`), every one inspected;
+  0 internal-content hits, 0 console errors, 0 rounded elements, no horizontal overflow. Fixed after inspection: event
+  "(announced ...)" spacing, duplicated atlas link next to "paper record", snake_case roles and org types, "Observations"
+  header, org-search placeholder, vendor tooltip on the home page, "usage rows" wording.
+- README "Current state" updated with the computed 2026-10-23 counts.
+- (Resolved 10:35 by D199t.) The /orgs "publications" count differed from the hub Publications panel (AMF 20 vs 22).
+
+| # | Decision | Rationale |
+|---|---|---|
+| D199t | One definition of an organization's publications: every registry source linked to the org through any lens (components fabricated / hosted, supply uses, processes as foundry or broker, reliability tests citing a standard it issued, public author affiliations, org events it takes part in). Computed once in `build_views.py` (`lens.pub`), shown in the /orgs column, the /orgs detail and the hub tile; the hub Publications panel lists the same set (`orgPublications` in `app/src/lib/views.ts`), and a vitest asserts list length == `lens.pub` for all 1069 orgs | coordinator: one count everywhere |
+
+- 10:35: D199t applied; views rebuilt (registry.json 506233 bytes), app/build rebuilt; `pytest -q tests/test_views.py`
+  12 passed, ruff / mypy clean, `pnpm check` 0 / 0, `pnpm test` 58 passed (new D199t test passes for every org on the
+  first run). Re-shot `orgs_sel` and `hub_amf` at both sizes (session scratchpad
+  `views_vf/`): AMF 22 publications in the table, the detail and the hub tile; scan 0 hits, 0 console errors.

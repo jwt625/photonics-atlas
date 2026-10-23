@@ -1,13 +1,8 @@
+import type { Pub } from './pub';
+
 export interface Alias {
 	alias: string;
 	type: string;
-	scope: string;
-}
-export interface Printed {
-	corpus: string;
-	printed: string;
-	n: number;
-	basis: string;
 }
 export interface Org {
 	id: string;
@@ -22,21 +17,18 @@ export interface Org {
 	ror: string;
 	qid: string;
 	website: string;
-	name_basis: string;
-	name_source: string;
-	origin: string[];
 	aliases: Alias[];
-	rows: Record<string, number>;
-	printed: Printed[];
+	/** names as printed in publications (other than the org name) */
+	printed: string[];
+	/** [site name, href] of the org in a sibling atlas */
+	links: [string, string][];
 	events: string[];
-	/** per-lens counts (DevLog-010 D191): cmp_fab, cmp_fac, sup, proc, std, ppl, obs; non-zero keys only */
+	/** per-lens counts: cmp_fab, cmp_fac, sup, proc, std, ppl, obs, pub; non-zero keys only */
 	lens?: Record<string, number>;
-	notes: string;
 }
 export interface Participant {
 	org: string;
 	role: string;
-	printed: string;
 }
 export interface OrgEvent {
 	id: string;
@@ -44,27 +36,27 @@ export interface OrgEvent {
 	name: string;
 	announced: string;
 	effective: string;
-	grade: string;
-	status: string;
-	basis: string;
+	/** source ids (join keys into Registry.sources) */
 	sources: string[];
-	locator: string;
-	notes: string;
 	participants: Participant[];
 }
-export interface Coverage {
-	strings: number;
-	strings_mapped: number;
-	rows: number;
-	rows_mapped: number;
-	by_basis: Record<string, number>;
+/** Home-page overview computed by build_views.py (D199l). */
+export interface Overview {
+	components: { n: number; classes: number; class_families: number; platforms: number; publications: number; years: number[] };
+	values: { n: number; measured: number };
+	orgs: { n: number; by_type: Record<string, number> };
+	people: { persons: number; affiliations: number; publications: number };
+	supply: { usage: number; vendors: number; products: number; processes: number; tests: number; standards: number };
+	top_fabs: [string, number][];
+	top_vendors: [string, number][];
+	publications: { n: number; years: number[]; by_type: Record<string, number[]>; no_year: number };
 }
 export interface Registry {
 	generated_on: string;
 	counts: Record<string, number>;
-	coverage: Record<string, Coverage>;
 	org_types: Record<string, number>;
-	sources_by_corpus: Record<string, Record<string, number>>;
+	overview: Overview;
 	orgs: Org[];
 	events: OrgEvent[];
+	sources: Record<string, Pub>;
 }

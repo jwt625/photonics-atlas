@@ -29,9 +29,8 @@ const comp = (x: Partial<Component> & { metrics: Metric[] }): Component => ({
 	label: 'test',
 	row_kind: 'fabricated',
 	platform: 'soi',
-	verified_on: '2026-10-20',
 	fab_orgs: [],
-	source: { id: 'eo:t2026', title: 'T', year: '2026', venue: 'V', url: '', access: '' },
+	source: { title: 'T', year: '2026', venue: 'V', type: 'Journal article' },
 	...x
 });
 
@@ -185,17 +184,17 @@ describe('points and omitted counts', () => {
 
 describe('filters and counts', () => {
 	const cs = [
-		comp({ class: 'laser.dfb', platform: 'inp', source: { id: 'ofc2026:a', title: '', year: '2024', venue: '', url: '', access: '' }, metrics: [m({ basis: 'simulated' })] }),
-		comp({ class: 'fiber_chip_coupler.edge', platform: 'soi', source: { id: 'pk:b', title: '', year: '2026', venue: '', url: '', access: '' }, metrics: [m({})] }),
+		comp({ class: 'laser.dfb', platform: 'inp', source: { year: '2024', type: 'Conference paper' }, metrics: [m({ basis: 'simulated' })] }),
+		comp({ class: 'fiber_chip_coupler.edge', platform: 'soi', source: { year: '2026', type: 'Conference paper' }, metrics: [m({})] }),
 		comp({ class: 'fiber_chip_coupler.grating', platform: '', metrics: [m({})] })
 	];
-	it('filters by class family, platform family, corpus, year and basis', () => {
+	it('filters by class family, platform family, publication type, year and basis', () => {
 		const f = defaultExFilters();
 		expect(applyExFilters(cs, f)).toHaveLength(3);
 		expect(applyExFilters(cs, { ...f, classes: ['fiber_chip_coupler'] })).toHaveLength(2);
 		expect(applyExFilters(cs, { ...f, families: ['iii_v'] })).toHaveLength(1);
 		expect(applyExFilters(cs, { ...f, families: ['other'] })).toHaveLength(1);
-		expect(applyExFilters(cs, { ...f, corpora: ['pk', 'eo'] })).toHaveLength(2);
+		expect(applyExFilters(cs, { ...f, pubTypes: ['Conference paper'] })).toHaveLength(2);
 		expect(applyExFilters(cs, { ...f, yearMin: 2025 })).toHaveLength(2);
 		expect(applyExFilters(cs, { ...f, measuredOnly: true })).toHaveLength(2);
 	});

@@ -13,8 +13,13 @@ All of it is one SvelteKit static app, live at https://outside5sigma.com/photoni
 [advanced packaging atlas](https://github.com/jwt625/advanced-packaging-atlas) stay canonical for their own tables;
 this repo reads them through read-only adapters and maps their organizations into the shared registry.
 
-## Current state (2026-10-20)
+## Current state (2026-10-23)
 
+- Counts on 2026-10-23 (computed by `scripts/build_views.py` from the tables): 807 components (91 classes in 20
+  families, 30 platforms) with 3575 values (1467 measured) from 309 publications, years 2006-2026; 1069 organizations;
+  6244 public people with 10372 published affiliations in 1293 publications; supply: 1996 stated uses, 242 vendors
+  (shared cleanrooms not counted), 852 products, 39 foundry processes, 24 standards, 401 reliability tests; 1358
+  publications cited across components, supply and people.
 - P0 foundation done ([DevLog-001](DevLog/DevLog-001-p0-foundation.md)): shared registry of organizations (aliases,
   parents, ROR / Wikidata ids), org events (acquisitions, renames, spin-offs, mergers, with sources and locators) and
   source documents (`eo:`, `pk:`, `ofc2026:`, `blog:`, `lin:`, `web:`); generated crosswalk mapping every EO / packaging
@@ -30,11 +35,14 @@ this repo reads them through read-only adapters and maps their organizations int
   `scripts/merge_component_staging.py --replace`.
 - P2 supply chain foundation ([DevLog-003](DevLog/DevLog-003-p2-supply-chain.md)): category tree A-K,
   `data/supply/` (foundry / facility / wafer usage from EO papers, foundry processes, standards, reliability tests from
-  the packaging atlas); products and datasheet specs not started.
+  the packaging atlas); products from the vendor / model scanner; datasheet specs not started.
 - P3 people foundation ([DevLog-004](DevLog/DevLog-004-p3-people.md)): person registry, ID crosswalk and dated
   affiliation observations (`data/people/`, grade A paper-printed, B conference metadata); review queue and derived
   transitions stay local (git-ignored `data/_local/`), never published.
-- App (`app/`): dashboard, organizations, components. Not yet: supply-chain and people views, org hub page.
+- App (`app/`, [DevLog-010](DevLog/DevLog-010-views-and-org-hub.md)): atlas overview, components, explore, layouts,
+  supply (category tree, vendors, products, processes, standards), people (persons, organizations, coverage by
+  publication type; public rows only), organizations and the org hub (`/orgs/hub?id=`). Viewer-facing: sources are
+  shown as publications (title, venue, year, type, link); no internal / pipeline fields are served.
 
 ## Data conventions
 
@@ -71,7 +79,7 @@ decision lives in a config file (`config/org_seed_overrides.yaml`, `config/org_c
 | 5 | `merge_org_events.py` | regenerates `org_events.csv` / participants from lineage + staged research (hand-added event ids are kept), appends orgs it needs, replaces the web rows of `sources.csv` (cited sources only); needs step 4 |
 | 6 | `apply_registry_corrections.py` | applies `config/registry_corrections.yaml` in place (idempotent) |
 | 7 | `build_org_crosswalk.py` | regenerates `data/crosswalk/org_crosswalk.csv`; exit 1 when the P0 acceptance fails |
-| 8 | `build_views.py` | regenerates `app/static/data/registry.json` and `components.json` (committed; the Pages build serves them) |
+| 8 | `build_views.py` | regenerates `app/static/data/{registry,components,supply,people}.json` (committed; the Pages build serves them; people: public rows only) |
 
 Atlas tranches on top of the registry (each validated by `validate_db.py` through its schema file and rules module):
 

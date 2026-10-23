@@ -7,6 +7,7 @@ from __future__ import annotations
 import ast
 import importlib.util
 import json
+import re
 import shutil
 from pathlib import Path
 from types import ModuleType
@@ -98,8 +99,8 @@ def test_people_view_public_only() -> None:
         1 for o in obs.values() if o["visibility"] == "public" and persons[o["person_id"]]["visibility"] == "public"
     )
     assert len(v["obs"]) == v["counts"]["obs_public"] == n_pub
-    assert sum(t["public"] for t in v["totals_by_corpus"].values()) == n_pub
-    assert sum(t["all"] for t in v["totals_by_corpus"].values()) == len(obs)
+    assert sum(t["public"] for t in v["totals_by_type"].values()) == n_pub
+    assert sum(t["all"] for t in v["totals_by_type"].values()) == len(obs)
 
 
 def test_person_flipped_to_review_disappears(tmp_path: Path) -> None:
@@ -183,3 +184,110 @@ def test_lens_counts() -> None:
     assert sum(v.get("sup", 0) for v in lens.values()) == len(usage)
     assert sum(v.get("obs", 0) for v in lens.values()) <= bv.build_people_view()["counts"]["obs_public"]
     assert all(all(n > 0 for n in v.values()) for v in lens.values())
+
+
+# ---------- viewer-facing served data (DevLog-010 D199g-D199z) ----------
+
+FORBIDDEN_KEYS = {
+    "access",
+    "license",
+    "redistribution",
+    "corpus",
+    "corpora",
+    "sources_duplicate",
+    "sources_by_corpus",
+    "coverage",
+    "text_cached",
+    "same_as",
+    "extraction",
+    "verified_on",
+    "atlas_ref",
+    "tv_ref",
+    "name_basis",
+    "name_source",
+    "origin",
+    "evidence_grade",
+    "selected_on",
+    "host_device_ids",
+    "totals_by_corpus",
+}
+PREFIXED = re.compile(r"\b(?:eo|pk|ofc2026|lit|lin|blog|web|ds):[A-Za-z0-9]")
+INTERNAL = re.compile(r"\bD\d{2,3}[a-z]?\b|DevLog|eo-atlas:|pk-atlas:|authors_json|batch_\d|_staging|data/_local")
+
+
+def _viewer_issues(doc: Any, path: str = "") -> list[str]:
+    """Forbidden keys anywhere; corpus-prefixed ids only as values of join keys (bv.JOIN_KEYS) or as keys of a
+    `sources` map; no decision ids, pipeline paths or atlas anchors in any served string."""
+    out: list[str] = []
+    stack: list[tuple[Any, str, str]] = [(doc, path, "")]
+    while stack:
+        v, p, key = stack.pop()
+        if isinstance(v, dict):
+            for k, x in v.items():
+                if k in FORBIDDEN_KEYS:
+                    out.append(f"{p}.{k}: forbidden key")
+                if PREFIXED.search(k) and not p.endswith(".sources"):
+                    out.append(f"{p}: prefixed key {k}")
+                stack.append((x, f"{p}.{k}", k))
+        elif isinstance(v, list):
+            stack.extend((x, f"{p}[]", key) for x in v)
+        elif isinstance(v, str):
+            if INTERNAL.search(v):
+                out.append(f"{p}: internal text {v[:80]!r}")
+            if PREFIXED.search(v) and key not in bv.JOIN_KEYS and not _join_column(p):
+                out.append(f"{p}: prefixed id {v[:80]!r}")
+    return out
+
+
+def _join_column(path: str) -> bool:
+    """people.json column arrays: obs_id and source_id columns, lin_sources column (positional, no key)."""
+    return path in (".obs[][]", ".persons[][]")
+
+
+def test_served_views_viewer_facing_fresh() -> None:
+    pubs = bv.Pubs()
+    for name, doc in (
+        ("registry", bv.build(pubs=pubs)),
+        ("components", bv.build_components(pubs=pubs)),
+        ("supply", bv.build_supply(pubs=pubs)),
+        ("people", bv.build_people_view(pubs=pubs)),
+    ):
+        issues = _viewer_issues(doc)
+        assert not issues, f"{name}: {issues[:5]}"
+
+
+def test_people_columns_hold_prefixed_ids_only_in_join_columns() -> None:
+    v = bv.build_people_view()
+    join = {v["obs_fields"].index("obs_id"), v["obs_fields"].index("source_id")}
+    for row in v["obs"]:
+        for i, x in enumerate(row):
+            if isinstance(x, str) and PREFIXED.search(x):
+                assert i in join, (v["obs_fields"][i], x)
+    lin = v["person_fields"].index("lin_sources")
+    for row in v["persons"]:
+        for i, x in enumerate(row):
+            if isinstance(x, str) and PREFIXED.search(x):
+                assert i == lin, (v["person_fields"][i], x)
+
+
+def test_served_views_viewer_facing_committed() -> None:
+    files = sorted(STATIC.glob("*.json"))
+    docs = {f.name: json.loads(f.read_text(encoding="utf-8")) for f in files}
+    if "registry.json" not in docs or "overview" not in docs["registry.json"]:
+        pytest.skip("views not rebuilt with the viewer-facing build yet")
+    for name, doc in docs.items():
+        issues = _viewer_issues(doc)
+        assert not issues, f"{name}: {issues[:5]}"
+
+
+def test_publication_records() -> None:
+    v = bv.build_supply()
+    for sid, m in v["sources"].items():
+        assert m.get("title") and m.get("type"), sid
+        assert set(m) <= {"title", "venue", "year", "type", "url", "doi", "arxiv", "atlas"}, sid
+    ov = bv.build()["overview"]
+    comps = read_csv(ROOT / "data" / "components" / "components.csv")
+    assert ov["components"]["n"] == len(comps)
+    assert ov["components"]["publications"] == len({c["source_id"] for c in comps})
+    pubs = ov["publications"]
+    assert sum(sum(c) for c in pubs["by_type"].values()) + pubs["no_year"] == pubs["n"]

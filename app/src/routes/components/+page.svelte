@@ -4,6 +4,7 @@
 	import { link } from '../../lib/paths';
 	import LayoutViews from '../../lib/layout/LayoutViews.svelte';
 	import { templateFor } from '../../lib/layout/resolve';
+	import { pubTip, venueYear } from '../../lib/pub';
 
 	let cls = $state('');
 	let param = $state('');
@@ -40,13 +41,14 @@
 	const keyOf = (r: Row, k: string): string | number => {
 		if (k === 'value') return Number(r.m.value);
 		if (k === 'wavelength') return Number(r.m.wavelength_nm ?? 0);
+		if (k === 'publication') return (r.c.source.title ?? '').toLowerCase();
 		if (k in r.m) return String((r.m as unknown as Record<string, string>)[k] ?? '');
 		return String((r.c as unknown as Record<string, string>)[k] ?? '');
 	};
 	let shown = $derived(
 		rows
 			.filter((r) => (!cls || r.c.class.startsWith(cls + '.')) && (!param || r.m.parameter === param))
-			.filter((r) => !q || (r.c.label + ' ' + r.c.source_id + ' ' + r.c.class + ' ' + (r.c.platform ?? '')).toLowerCase().includes(q.toLowerCase()))
+			.filter((r) => !q || (r.c.label + ' ' + (r.c.source.title ?? '') + ' ' + (r.c.source.venue ?? '') + ' ' + r.c.class + ' ' + (r.c.platform ?? '')).toLowerCase().includes(q.toLowerCase()))
 			.sort((a, b) => {
 				const x = keyOf(a, sortKey), y = keyOf(b, sortKey);
 				return x === y ? 0 : x < y ? -sortDir : sortDir;
@@ -79,7 +81,7 @@
 		['basis', 'Basis', 'measured, simulated, derived, ...'],
 		['class', 'Class', 'class.subtype'],
 		['platform', 'Platform', 'Waveguide platform'],
-		['source_id', 'Source', 'Registry source id'],
+		['publication', 'Publication', 'Publication the value comes from (title; venue and year on hover)'],
 		['locator', 'Loc', 'Page / figure / table in the source']
 	];
 </script>
@@ -98,7 +100,7 @@
 		</aside>
 		<div class="main">
 			<div class="bar">
-				<input type="search" placeholder="Search component, source, platform" value={qLive} oninput={(e) => onInput(e.currentTarget.value)} onkeydown={(e) => e.key === 'Enter' && (q = qLive)} />
+				<input type="search" placeholder="Search component, publication, platform" value={qLive} oninput={(e) => onInput(e.currentTarget.value)} onkeydown={(e) => e.key === 'Enter' && (q = qLive)} />
 				<select bind:value={param} data-tip="Filter by parameter"><option value="">all parameters</option>{#each params as p}<option>{p}</option>{/each}</select>
 				<span class="muted num">{shown.length} / {rows.length} values</span>
 			</div>
@@ -117,7 +119,7 @@
 								<td>{r.m.basis}</td>
 								<td class="cls" data-tip={r.c.class}>{r.c.class}</td>
 								<td>{r.c.platform ?? ''}</td>
-								<td>{r.c.source_id}</td>
+								<td class="pub" data-tip={pubTip(r.c.source, r.m.locator)}>{r.c.source.title ?? ''}</td>
 								<td data-tip={r.m.notes ?? ''}>{r.m.locator}</td>
 							</tr>
 						{/each}
@@ -129,7 +131,6 @@
 			{#if sel}
 				<h2>{sel.label}</h2>
 				<dl>
-					<dt>id</dt><dd class="mono">{sel.component_id}</dd>
 					<dt>class</dt><dd>{sel.class}</dd>
 					<dt>kind</dt><dd>{sel.row_kind}</dd>
 					{#if sel.platform}<dt>platform</dt><dd>{sel.platform}</dd>{/if}
@@ -137,9 +138,7 @@
 					{#if sel.cladding}<dt>cladding</dt><dd>{sel.cladding}</dd>{/if}
 					{#if sel.fab_orgs.length}<dt>fab</dt><dd>{sel.fab_orgs.join(', ')}</dd>{/if}
 					{#if sel.process_name}<dt>process</dt><dd>{sel.process_name}</dd>{/if}
-					{#if sel.host_device_id}<dt>EO device</dt><dd class="mono">{sel.host_device_id}</dd>{/if}
-					<dt>source</dt><dd>{#if sel.source.url}<a href={sel.source.url} target="_blank" rel="noopener">{sel.source.title}</a>{:else}{sel.source.title}{/if} <span class="muted">({sel.source.year}; {sel.source.access})</span></dd>
-					<dt>verified</dt><dd>{sel.verified_on}</dd>
+					<dt>publication</dt><dd data-tip={pubTip(sel.source)}>{#if sel.source.url}<a href={sel.source.url} target="_blank" rel="noopener">{sel.source.title}</a>{:else}{sel.source.title}{/if} <span class="muted">{[venueYear(sel.source), sel.source.type].filter(Boolean).join('; ')}</span>{#if sel.source.atlas} <a href={sel.source.atlas[1]} target="_blank" rel="noopener">{sel.source.atlas[0]}</a>{/if}</dd>
 				</dl>
 				{#if sel.notes}<p class="muted">{sel.notes}</p>{/if}
 				{#if templateFor(sel.class, view.layouts)}
@@ -184,6 +183,7 @@
 	.t .r { text-align: right; }
 	.t td.lbl { max-width: 220px; overflow: hidden; text-overflow: ellipsis; }
 	.t td.cls { max-width: 160px; overflow: hidden; text-overflow: ellipsis; }
+	.t td.pub { max-width: 260px; overflow: hidden; text-overflow: ellipsis; }
 	.t tbody tr { cursor: pointer; }
 	.t tbody tr:hover { background: var(--hover); }
 	.t tbody tr.sel { background: var(--sel); }

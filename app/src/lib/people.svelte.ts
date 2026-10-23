@@ -23,7 +23,6 @@ export interface Obs {
 	printed_org: string;
 	unit: string;
 	country: string;
-	kind: string;
 	aff_role: string;
 	active_on: string;
 	source_id: string;
@@ -33,7 +32,7 @@ export interface Obs {
 export interface PeopleRaw {
 	generated_on: string;
 	counts: Record<string, number>;
-	totals_by_corpus: Record<string, { all: number; public: number }>;
+	totals_by_type: Record<string, { all: number; public: number }>;
 	person_fields: string[];
 	persons: (string | number)[][];
 	obs_fields: string[];
@@ -43,7 +42,7 @@ export interface PeopleRaw {
 export interface PeopleView {
 	generated_on: string;
 	counts: Record<string, number>;
-	totals_by_corpus: Record<string, { all: number; public: number }>;
+	totals_by_type: Record<string, { all: number; public: number }>;
 	persons: Person[];
 	obs: Obs[];
 	/** observations per person index, in (active_on, obs_id) order */
@@ -60,7 +59,7 @@ export function decodePeople(raw: PeopleRaw): PeopleView {
 	const obs = rows<Obs>(raw.obs_fields, raw.obs);
 	const byPerson: Obs[][] = persons.map(() => []);
 	for (const o of obs) byPerson[o.p].push(o);
-	return { generated_on: raw.generated_on, counts: raw.counts, totals_by_corpus: raw.totals_by_corpus, persons, obs, byPerson, sources: raw.sources };
+	return { generated_on: raw.generated_on, counts: raw.counts, totals_by_type: raw.totals_by_type, persons, obs, byPerson, sources: raw.sources };
 }
 
 // raw state: the view is replaced as a whole, never mutated (no deep proxies over thousands of rows)

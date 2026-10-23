@@ -19,7 +19,7 @@
 		badgeTip = '',
 		years,
 		series,
-		xTitle = 'Source year',
+		xTitle = 'Publication year',
 		yTitle,
 		unit,
 		height = 260,

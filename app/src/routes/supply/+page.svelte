@@ -7,7 +7,8 @@
 	import { loadSupply, sup, type Row, type Usage } from '../../lib/supply.svelte';
 	import { slotColor } from '../../lib/explore/colors';
 	import StackBars from '../../lib/StackBars.svelte';
-	import { descendants, OTHER, rollup, shareByYear, siblingPaper, split, vendors, yearOf } from '../../lib/views';
+	import { descendants, OTHER, rollup, shareByYear, split, vendors, yearOf } from '../../lib/views';
+	import { pubTip } from '../../lib/pub';
 
 	type Tab = 'usage' | 'processes' | 'standards';
 	let tab = $state<Tab>('usage');
@@ -127,7 +128,7 @@
 
 	// processes
 	const procs = $derived(
-		(view?.processes ?? []).filter((p) => !q || fold([name(p.org_id), p.process_name, p.platform, p.pdk_name, p.source_id].join(' ')).includes(fold(q)))
+		(view?.processes ?? []).filter((p) => !q || fold([name(p.org_id), p.process_name, p.platform, p.pdk_name, src(p.source_id).title].join(' ')).includes(fold(q)))
 	);
 	// standards and tests
 	const testsBy = $derived.by(() => {
@@ -151,11 +152,9 @@
 	});
 
 	const src = (sid: string) => view?.sources[sid] ?? {};
-	const srcTip = (sid: string) => {
-		const s = src(sid);
-		return [sid, s.title, [s.venue, s.year].filter(Boolean).join(', '), s.access && 'access ' + s.access].filter(Boolean).join('\n');
-	};
-	const uTip = (u: Usage) => [u.usage_id, 'basis ' + u.basis + ', extraction ' + u.extraction, 'verified ' + u.verified_on, u.notes].filter(Boolean).join('\n');
+	const srcTip = (sid: string, loc = '') => pubTip(src(sid), loc);
+	const BASIS: Record<string, string> = { stated: 'stated in the publication', inferred_from_model: 'vendor inferred from the stated model number', datasheet_spec: 'datasheet specification', datasheet_typical: 'datasheet typical value' };
+	const uTip = (u: Usage) => [BASIS[u.basis] ?? u.basis, srcTip(u.source_id, u.locator)].filter(Boolean).join('\n');
 	const range = (t: Row) => (t.t_min_c || t.t_max_c ? `${t.t_min_c ?? ''} to ${t.t_max_c ?? ''} C` : t.temp_c ? `${t.temp_c} C` : '') + (t.rh_pct ? ` / ${t.rh_pct} %RH` : '');
 </script>
 
@@ -167,8 +166,8 @@
 	<div class="page">
 		<aside class="tree" class:off={tab !== 'usage'} inert={tab !== 'usage'} data-tip={tab !== 'usage' ? 'Categories apply to the Usage tab' : undefined}>
 			<div class="th">
-				<span class="muted" data-tip="Category tree A-K (DevLog-003 D52); counts are product_usage rows in the subtree">Categories</span>
-				<label class="muted" data-tip="Show categories without usage rows"><input type="checkbox" bind:checked={showEmpty} /> empty</label>
+				<span class="muted" data-tip="Supply categories A-K; counts are stated uses in the subtree">Categories</span>
+				<label class="muted" data-tip="Show categories without stated uses"><input type="checkbox" bind:checked={showEmpty} /> empty</label>
 			</div>
 			<button class="node" class:on={!cat} onclick={() => set('cat', '')}><span class="lbl">All categories</span><span class="num">{view.usage.length}</span></button>
 			{#each tree as n (n.id)}
@@ -185,15 +184,15 @@
 		<div class="main">
 			<div class="bar">
 				<span class="seg tabs">
-					<button class:on={tab === 'usage'} onclick={() => set('tab', 'usage')} data-tip="Vendors per category with the papers that state their use">Usage</button><button class:on={tab === 'processes'} onclick={() => set('tab', 'processes')} data-tip="Per-source foundry process observations (DevLog-003 D58)">Processes</button><button class:on={tab === 'standards'} onclick={() => set('tab', 'standards')} data-tip="Standards cited by packaging reliability tests (D59, D60)">Standards</button>
+					<button class:on={tab === 'usage'} onclick={() => set('tab', 'usage')} data-tip="Vendors per category with the papers that state their use">Usage</button><button class:on={tab === 'processes'} onclick={() => set('tab', 'processes')} data-tip="Foundry processes as described in each publication">Processes</button><button class:on={tab === 'standards'} onclick={() => set('tab', 'standards')} data-tip="Standards cited by packaging reliability tests">Standards</button>
 				</span>
 				<input type="search" placeholder={tab === 'usage' ? 'Filter vendors' : tab === 'processes' ? 'Filter org, process, platform, PDK' : 'Filter designation, body'} value={qLive} oninput={(e) => onInput(e.currentTarget.value)} onkeydown={(e) => e.key === 'Enter' && (q = qLive)} />
 				{#if tab === 'usage'}
-					<span class="muted num" data-tip="vendors / usage rows in the selected category subtree; products recorded (products.csv)">{vend.length} vendors, {usageIn.length} rows, {products.length} products</span>
+					<span class="muted num" data-tip="vendors, stated uses and named products in the selected category">{vend.length} vendors, {usageIn.length} uses, {products.length} products</span>
 				{:else if tab === 'processes'}
 					<span class="muted num">{procs.length} / {view.processes.length}</span>
 				{:else}
-					<span class="muted num" data-tip="standards / reliability test rows; rows whose printed standard has no parsed designation">{view.standards.length} standards, {view.tests.length} tests, {unparsed} unparsed</span>
+					<span class="muted num" data-tip="cited standards / reliability tests; tests whose printed standard is not one of the listed designations">{view.standards.length} standards, {view.tests.length} tests, {unparsed} without a listed standard</span>
 				{/if}
 			</div>
 			<div class="scroll">
@@ -202,12 +201,12 @@
 						<div class="chart">
 							<StackBars
 								letter="a"
-								desc="Usage rows (one per source x org x role fact) per source year in the selected category subtree, stacked by vendor; the six vendors with most rows keep their own colour (ordered by id), the rest are grey. Counts of stated use in the papers, not market share."
+								desc="Stated uses (one per publication, vendor and role) per publication year in the selected category, stacked by vendor; the six vendors with most uses keep their own colour, the rest are grey. Uses stated in the papers, not market share."
 								badge={`${share.total - share.noYear}/${share.total}`}
-								badgeTip={`${share.total - share.noYear} of ${share.total} usage rows plotted; ${share.noYear} without a source year`}
+								badgeTip={`${share.total - share.noYear} of ${share.total} stated uses plotted; ${share.noYear} without a publication year`}
 								years={share.years}
 								{series}
-								yTitle="Usage rows (count)"
+								yTitle="Stated uses (count)"
 								unit="rows"
 								height={narrow ? 170 : 300}
 								legend={!narrow}
@@ -215,30 +214,30 @@
 						</div>
 					{/if}
 					<table class="t num click">
-						<thead><tr><th>Vendor</th><th>Type</th><th>CC</th><th class="r" data-tip="usage rows">Rows</th><th class="r" data-tip="distinct sources">Papers</th><th>Roles</th><th>Categories</th><th data-tip="source years">Years</th></tr></thead>
+						<thead><tr><th>Vendor</th><th>Type</th><th>CC</th><th class="r" data-tip="stated uses">Uses</th><th class="r" data-tip="distinct publications">Papers</th><th>Roles</th><th>Categories</th><th data-tip="publication years">Years</th></tr></thead>
 						<tbody>
 							{#each vend as v (v.org)}
 								{@const o = store.byId.get(v.org)}
 								<tr class:sel={v.org === org} onclick={() => set('org', v.org === org ? '' : v.org)}>
-									<td class="name" data-tip={v.org}><span class="sw" style:background={swatch(v.org)}></span>{name(v.org)}</td><td>{o?.type ?? ''}</td><td>{o?.country ?? ''}</td>
-									<td class="r">{v.rows}</td><td class="r">{v.sources}</td><td>{v.roles.join(', ')}</td>
+									<td class="name"><span class="sw" style:background={swatch(v.org)}></span>{name(v.org)}</td><td>{(o?.type ?? '').replace(/_/g, ' ')}</td><td>{o?.country ?? ''}</td>
+									<td class="r">{v.rows}</td><td class="r">{v.sources}</td><td>{v.roles.map((r) => r.replace(/_/g, ' ')).join(', ')}</td>
 									<td data-tip={v.cats.map((c) => c + ' ' + (catById.get(c)?.label ?? '')).join('\n')}>{v.cats.join(', ')}</td>
 									<td>{v.y0 === null ? '' : v.y0 === v.y1 ? v.y0 : `${v.y0}-${v.y1}`}</td>
 								</tr>
 							{/each}
 						</tbody>
 					</table>
-					{#if !vend.length}<p class="muted pad">No usage rows in this category.</p>{/if}
+					{#if !vend.length}<p class="muted pad">No stated use in this category.</p>{/if}
 				{:else if tab === 'processes'}
 					<table class="t num">
-						<thead><tr><th>Org</th><th>Process (as printed)</th><th>Platform</th><th class="r" data-tip="nominal wafer diameter (mm)">Wafer mm</th><th>PDK</th><th data-tip="PDK stated open">Open</th><th>Access</th><th>Broker</th><th>Source</th><th>Loc</th></tr></thead>
+						<thead><tr><th>Org</th><th>Process (as printed)</th><th>Platform</th><th class="r" data-tip="nominal wafer diameter (mm)">Wafer mm</th><th>PDK</th><th data-tip="PDK stated open">Open</th><th data-tip="how the foundry was accessed (MPW, dedicated run, ...)">Route</th><th>Broker</th><th>Publication</th><th class="r">Year</th></tr></thead>
 						<tbody>
 							{#each procs as p (p.process_id)}
-								<tr data-tip={[p.process_id, p.notes].filter(Boolean).join('\n')}>
+								<tr data-tip={srcTip(p.source_id, p.locator)}>
 									<td class="name"><a href={link('/orgs/hub') + '?id=' + encodeURIComponent(p.org_id)}>{name(p.org_id)}</a></td>
 									<td class="wrap">{p.process_name}</td><td>{p.platform ?? ''}</td><td class="r">{p.wafer_mm ?? ''}</td><td>{p.pdk_name ?? ''}</td><td>{p.pdk_open ?? ''}</td><td>{p.access_route ?? ''}</td>
 									<td>{p.broker_org_id ? name(p.broker_org_id) : ''}</td>
-									<td data-tip={srcTip(p.source_id)}>{p.source_id} <span class="muted">{src(p.source_id).year ?? ''}</span></td><td class="loc" data-tip={p.locator}>{p.locator}</td>
+									<td class="pub">{src(p.source_id).title ?? ''}</td><td class="r">{src(p.source_id).year ?? ''}</td>
 								</tr>
 							{/each}
 						</tbody>
@@ -247,11 +246,11 @@
 					<div class="split2">
 						<div class="cell">
 							<table class="t num click">
-								<thead><tr><th>Designation</th><th>Body</th><th class="r" data-tip="reliability test rows citing the designation">Tests</th><th class="r">Papers</th><th>Access</th></tr></thead>
+								<thead><tr><th>Designation</th><th>Body</th><th class="r" data-tip="reliability test rows citing the designation">Tests</th><th class="r">Papers</th></tr></thead>
 								<tbody>
 									{#each stds as { s, n, papers } (s.standard_id)}
-										<tr class:sel={s.standard_id === std} onclick={() => set('std', s.standard_id === std ? '' : s.standard_id)} data-tip={[s.standard_id, s.title, s.notes].filter(Boolean).join('\n')}>
-											<td class="mono">{s.designation}</td><td>{s.body_org_id ? name(s.body_org_id) : ''}</td><td class="r">{n}</td><td class="r">{papers}</td><td>{s.access ?? ''}</td>
+										<tr class:sel={s.standard_id === std} onclick={() => set('std', s.standard_id === std ? '' : s.standard_id)} data-tip={[s.title, s.edition, s.scope].filter(Boolean).join('\n') || undefined}>
+											<td class="mono">{s.designation}</td><td>{s.body_org_id ? name(s.body_org_id) : ''}</td><td class="r">{n}</td><td class="r">{papers}</td>
 										</tr>
 									{/each}
 								</tbody>
@@ -259,7 +258,7 @@
 						</div>
 						<div class="cell types">
 							<table class="t num">
-								<thead><tr><th data-tip="stress type (D60); measurement types where no stress is named">Test type</th><th class="r">Tests</th></tr></thead>
+								<thead><tr><th data-tip="stress applied; the measurement type where no stress is named">Test type</th><th class="r">Tests</th></tr></thead>
 								<tbody>{#each typeCounts as [t, n]}<tr><td>{t}</td><td class="r">{n}</td></tr>{/each}</tbody>
 							</table>
 						</div>
@@ -273,15 +272,15 @@
 				<h2>{name(org)} <a class="hub" href={link('/orgs/hub') + '?id=' + encodeURIComponent(org)} data-tip="All lenses for this organization">hub</a></h2>
 				<div class="meta muted spaced">
 					{#if [o?.type, o?.country].some((x) => x && x !== 'unknown')}<span>{[o?.type, o?.country].filter((x) => x && x !== 'unknown').join(', ')}</span>{/if}
-					<span>{cat ? cat + ': ' : ''}{orgRows.length} of {orgAll} usage rows</span>
+					<span>{cat ? cat + ': ' : ''}{orgRows.length} of {orgAll} stated uses</span>
 				</div>
 				<h3>Products</h3>
 				{#if products.length}
 					<table class="t num prods">
 						<tbody>
 							{#each products as p (p.product_id)}
-								<tr class:sel={prod === p.product_id} class="click" onclick={() => (prod = prod === p.product_id ? '' : p.product_id)} data-tip={[p.product_id, p.status && 'status ' + p.status, p.notes].filter(Boolean).join('\n')}>
-									<td>{p.model}{#if p.product_line}<span class="muted pl">{p.product_line}</span>{/if}</td><td class="mono" data-tip={catById.get(p.category_id)?.label}>{p.category_id}</td><td class="r" data-tip="usage rows naming this product">{prodRows(p.product_id) || ''}</td>
+								<tr class:sel={prod === p.product_id} class="click" onclick={() => (prod = prod === p.product_id ? '' : p.product_id)} data-tip={[p.status && 'status ' + p.status].filter(Boolean).join('\n')}>
+									<td>{p.model}{#if p.product_line}<span class="muted pl">{p.product_line}</span>{/if}</td><td class="mono" data-tip={catById.get(p.category_id)?.label}>{p.category_id}</td><td class="r" data-tip="stated uses naming this product">{prodRows(p.product_id) || ''}</td>
 								</tr>
 							{/each}
 						</tbody>
@@ -292,13 +291,12 @@
 				<h3>Used in{#if prod} <span class="muted">{model(prod)}</span>{/if}</h3>
 				{#each shownRows as u (u.usage_id)}
 					{@const s = src(u.source_id)}
-					{@const sib = siblingPaper(u.source_id)}
 					<div class="use" data-tip={uTip(u)}>
-						<div class="uh"><span class="num">{s.year ?? ''}</span> <span class="role">{u.role}</span> <span class="mono" data-tip={catById.get(u.category_id)?.label}>{u.category_id}</span>{#if u.product_id}<span class="model" data-tip={u.product_id}>{model(u.product_id)}</span>{/if}</div>
-						<div>{#if s.url}<a href={s.url} target="_blank" rel="noopener">{s.title ?? u.source_id}</a>{:else}{s.title ?? u.source_id}{/if}</div>
-						<div class="muted small">{s.venue ?? ''}</div>
+						<div class="uh"><span class="num">{s.year ?? ''}</span> <span class="role">{u.role.replace(/_/g, ' ')}</span> <span class="mono" data-tip={catById.get(u.category_id)?.label}>{u.category_id}</span>{#if u.product_id}<span class="model">{model(u.product_id)}</span>{/if}</div>
+						<div>{#if s.url}<a href={s.url} target="_blank" rel="noopener">{s.title ?? ''}</a>{:else}{s.title ?? ''}{/if}</div>
+						<div class="muted small">{[s.venue, s.type].filter(Boolean).join('; ')}</div>
 						{#if u.stated_spec}<div class="small">stated: {u.stated_spec}</div>{/if}
-						<div class="small muted">{u.source_id}; {u.locator}{#if sib}; <a href={sib.href} target="_blank" rel="noopener">{sib.site}</a>{/if}</div>
+						<div class="small muted">{#if s.atlas && u.locator.startsWith('paper record')}<a href={s.atlas[1]} target="_blank" rel="noopener">{u.locator}</a>{:else}{u.locator}{#if s.atlas}; <a href={s.atlas[1]} target="_blank" rel="noopener">{s.atlas[0]}</a>{/if}{/if}</div>
 					</div>
 				{/each}
 			{:else if tab === 'standards' && stdSel}
@@ -309,7 +307,7 @@
 					<thead><tr><th data-tip="stress type; measurand after the slash">type</th><th>condition</th><th class="r">value</th></tr></thead>
 					<tbody>
 						{#each stdTests as t (t.test_id)}
-							<tr data-tip={[srcTip(t.source_id), t.test_id, t.parameter, t.variant, 'printed: ' + t.standard_printed, t.pass_criterion && 'pass: ' + t.pass_criterion, t.result && 'result: ' + t.result, 'locator ' + t.locator, t.notes].filter(Boolean).join('\n')}>
+							<tr data-tip={[srcTip(t.source_id, t.locator), t.parameter, t.variant, 'printed: ' + t.standard_printed, t.pass_criterion && 'pass: ' + t.pass_criterion, t.result && 'result: ' + t.result].filter(Boolean).join('\n')}>
 								<td>{t.test_type}{t.measurand && t.measurand !== t.test_type ? ' / ' + t.measurand : ''}</td>
 								<td>{range(t)}</td>
 								<td class="r">{t.value ?? t.value_text ?? ''} {t.unit ?? ''}</td>
@@ -320,9 +318,9 @@
 			{:else if tab === 'usage' && cat}
 				{@const c = catById.get(cat)}
 				<h2><span class="mono">{cat}</span> {c?.label}</h2>
-				<p class="muted small">{usageIn.length} usage rows, {vend.length} vendors, {products.length} products. Select a vendor.</p>
+				<p class="muted small">{usageIn.length} stated uses, {vend.length} vendors, {products.length} products. Select a vendor.</p>
 			{:else}
-				<p class="muted">{tab === 'usage' ? 'Select a category or vendor.' : tab === 'standards' ? 'Select a standard.' : 'Process observations are per source (D58): identity between rows is not asserted.'}</p>
+				<p class="muted">{tab === 'usage' ? 'Select a category or vendor.' : tab === 'standards' ? 'Select a standard.' : 'Each row is one foundry process as a publication describes it.'}</p>
 			{/if}
 		</aside>
 	</div>
@@ -357,7 +355,7 @@
 	.t .r { text-align: right; }
 	.t td.name { max-width: 260px; overflow: hidden; text-overflow: ellipsis; }
 	.t td.wrap { white-space: normal; min-width: 220px; max-width: 420px; }
-	.t td.loc { max-width: 200px; overflow: hidden; text-overflow: ellipsis; }
+	.t td.pub { max-width: 320px; overflow: hidden; text-overflow: ellipsis; }
 	.t.click tbody tr, .t tr.click { cursor: pointer; }
 	.tree.off { opacity: 0.45; }
 	.model { color: var(--ink); }

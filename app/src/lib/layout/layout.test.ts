@@ -12,8 +12,8 @@ const VIEW = JSON.parse(readFileSync(fileURLToPath(new URL('../../../static/data
 let n = 0;
 const m = (x: Partial<Metric>): Metric => ({ metric_id: `cmp_t-m${++n}`, parameter: 'width_nm', value: '500', unit: 'nm', basis: 'design_target', locator: 'p.1', ...x });
 const C = (cls: string, metrics: Metric[], extra: Partial<Component> = {}): Component => ({
-	component_id: 'cmp_t', source_id: 'eo:t', class: cls, label: 't', row_kind: 'fabricated', verified_on: '2026-10-20', fab_orgs: [],
-	source: { id: 'eo:t', title: '', year: '', venue: '', url: '', access: '' }, metrics, ...extra
+	component_id: 'cmp_t', source_id: 'eo:t', class: cls, label: 't', row_kind: 'fabricated', fab_orgs: [],
+	source: { title: '', year: '' }, metrics, ...extra
 });
 const NUM = /(?<![A-Za-z_\d.])\d+(?:\.\d+)?/g; // numbers, not digits inside identifiers (layer2_thickness_nm)
 

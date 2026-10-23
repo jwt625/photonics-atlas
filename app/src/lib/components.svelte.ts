@@ -1,4 +1,5 @@
 import { staticUrl } from './paths';
+import type { Pub } from './pub';
 
 export interface Metric {
 	metric_id: string;
@@ -32,19 +33,17 @@ export interface Component {
 	class: string;
 	label: string;
 	row_kind: string;
-	host_device_id?: string;
 	platform?: string;
 	core_material?: string;
 	cladding?: string;
 	process_name?: string;
 	test_structure?: string;
-	verified_on: string;
 	notes?: string;
 	fab_orgs: string[];
 	/** registry org ids, `;`-separated, as in components.csv (present only when non-empty) */
 	fab_org_ids?: string;
 	facility_org_ids?: string;
-	source: { id: string; title: string; year: string; venue: string; url: string; access: string };
+	source: Pub;
 	metrics: Metric[];
 }
 /** Primary metric spec of a layout template (D107). */
@@ -73,7 +72,6 @@ export interface ShowcaseRow {
 	criterion?: string;
 	rank?: string;
 	rationale?: string;
-	selected_on?: string;
 }
 export interface ComponentsView {
 	generated_on: string;

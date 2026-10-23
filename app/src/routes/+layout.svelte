@@ -43,8 +43,8 @@
 		</nav>
 		<div class="grow"></div>
 		{#if store.reg}
-			<span class="muted num" data-tip="Organizations / sources in the loaded registry">
-				{store.reg.counts.organizations} orgs, {store.reg.counts.sources} sources
+			<span class="muted num" data-tip="Components and the publications the atlas cites">
+				{store.reg.overview.components.n} components, {store.reg.overview.publications.n} publications
 			</span>
 		{:else if store.loading}
 			<span class="spinner"></span>

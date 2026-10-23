@@ -1,5 +1,6 @@
 // Supply-chain view (static/data/supply.json, DevLog-010 D191): DevLog-003 tables as generated, non-empty fields only.
 import { staticUrl } from './paths';
+import type { Pub } from './pub';
 
 export interface SupplyCategory {
 	id: string;
@@ -16,19 +17,10 @@ export interface Usage {
 	role: string;
 	stated_spec?: string;
 	locator: string;
-	extraction: string;
 	basis: string;
-	verified_on: string;
-	notes?: string;
 }
 export type Row = Record<string, string>;
-export interface SrcMeta {
-	title?: string;
-	year?: string;
-	venue?: string;
-	url?: string;
-	access?: string;
-}
+export type SrcMeta = Pub;
 export interface SupplyView {
 	generated_on: string;
 	categories: SupplyCategory[];

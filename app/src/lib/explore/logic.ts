@@ -75,20 +75,18 @@ export interface ExFilters {
 	/** keep measured performance values only (and components with at least one measured value) */
 	measuredOnly: boolean;
 	/** source id prefix (eo / ofc2026 / pk); empty = all */
-	corpora: string[];
+	/** publication types (plain words from the publication record) */
+	pubTypes: string[];
 	yearMin: number | null;
 	yearMax: number | null;
 }
 
 export function defaultExFilters(): ExFilters {
-	return { classes: [], families: [], measuredOnly: false, corpora: [], yearMin: null, yearMax: null };
+	return { classes: [], families: [], measuredOnly: false, pubTypes: [], yearMin: null, yearMax: null };
 }
 
 export const classFamily = (c: Component): string => c.class.split('.')[0];
-export const corpusOf = (c: Component): string => {
-	const i = c.source.id.indexOf(':');
-	return i > 0 ? c.source.id.slice(0, i) : c.source.id;
-};
+export const pubTypeOf = (c: Component): string => c.source.type ?? 'Other';
 export const yearOf = (c: Component): number | null => {
 	const y = Number(c.source.year);
 	return c.source.year && Number.isFinite(y) ? y : null;
@@ -99,7 +97,7 @@ export function applyExFilters(comps: Component[], f: ExFilters): Component[] {
 	return comps.filter((c) => {
 		if (f.classes.length && !f.classes.includes(classFamily(c))) return false;
 		if (f.families.length && !f.families.includes(familyOf(c))) return false;
-		if (f.corpora.length && !f.corpora.includes(corpusOf(c))) return false;
+		if (f.pubTypes.length && !f.pubTypes.includes(pubTypeOf(c))) return false;
 		const y = yearOf(c);
 		if (f.yearMin !== null && (y === null || y < f.yearMin)) return false;
 		if (f.yearMax !== null && (y === null || y > f.yearMax)) return false;

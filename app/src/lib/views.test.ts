@@ -4,12 +4,14 @@ import { describe, expect, it } from 'vitest';
 import type { ComponentsView } from './components.svelte';
 import { decodePeople, type PeopleRaw } from './people.svelte';
 import type { SupplyView } from './supply.svelte';
-import { coverage, dateNum, descendants, orgComponents, orgPeople, orgTable, OTHER, personStats, rollup, shareByYear, siblingPaper, split, vendors } from './views';
+import type { Registry } from './types';
+import { orgPublications, coverage, dateNum, descendants, orgComponents, orgPeople, orgTable, OTHER, personStats, rollup, shareByYear, split, vendors } from './views';
 
 const load = <T>(f: string): T => JSON.parse(readFileSync(new URL(`../../static/data/${f}`, import.meta.url), 'utf-8')) as T;
 const sv = load<SupplyView>('supply.json');
 const pv = decodePeople(load<PeopleRaw>('people.json'));
 const cv = load<ComponentsView>('components.json');
+const rv = load<Registry>('registry.json');
 
 describe('supply logic', () => {
 	it('descendants follow parent links, not id prefixes', () => {
@@ -51,10 +53,10 @@ describe('people logic', () => {
 	it('org table and coverage count every public observation once', () => {
 		const t = orgTable(pv);
 		expect([...t.values()].reduce((a, b) => a + b.obs, 0)).toBe(pv.obs.filter((o) => o.org_id).length);
-		const c = coverage(pv.obs);
+		const c = coverage(pv.obs, pv.sources);
 		expect([...c.byYear.values()].flat().reduce((a, b) => a + b, 0)).toBe(pv.obs.length);
 		expect([...c.byGrade.values()].reduce((a, b) => a + b, 0)).toBe(pv.obs.length);
-		for (const [k, v] of Object.entries(pv.totals_by_corpus)) {
+		for (const [k, v] of Object.entries(pv.totals_by_type)) {
 			expect((c.byYear.get(k) ?? []).reduce((a, b) => a + b, 0)).toBe(v.public);
 		}
 	});
@@ -77,9 +79,13 @@ describe('org hub logic', () => {
 		expect(want).toBeGreaterThan(0);
 		expect(orgComponents(cv.components, 'org_imec').length).toBe(want);
 	});
-	it('sibling paper links only for eo / pk sources', () => {
-		expect(siblingPaper('eo:aihara2026')?.href).toBe('https://outside5sigma.com/eo-modulator-atlas/table#q=aihara2026');
-		expect(siblingPaper('pk:ectc32696.2021.00125')?.href).toBe('https://outside5sigma.com/advanced-packaging-atlas/table#q=ectc32696.2021.00125');
-		expect(siblingPaper('ofc2026:M1A.1')).toBeNull();
+	it('publication records carry title and type, never access or corpus fields', () => {
+		for (const p of [...Object.values(sv.sources), ...Object.values(pv.sources), ...cv.components.map((c) => c.source)]) {
+			expect(Object.keys(p).every((k) => ['title', 'venue', 'year', 'type', 'url', 'doi', 'arxiv', 'atlas'].includes(k))).toBe(true);
+		}
+	});
+	it('hub publication list equals the publication lens count of /orgs for every org (D199t)', () => {
+		const bad = rv.orgs.filter((o) => orgPublications(o.id, rv, cv.components, sv, pv).length !== (o.lens?.pub ?? 0));
+		expect(bad.map((o) => [o.id, o.lens?.pub ?? 0, orgPublications(o.id, rv, cv.components, sv, pv).length])).toEqual([]);
 	});
 });

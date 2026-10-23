@@ -49,7 +49,7 @@
 		showlegend: true,
 		legend: { orientation: 'v', x: 0.01, xanchor: 'left', y: 0.99, yanchor: 'top', bgcolor: 'rgba(0,0,0,0)', font: { size: 10, color: th.ink2 }, traceorder: 'normal' },
 		hoverlabel: { bgcolor: th.surface, bordercolor: th.line, font: { color: th.ink, size: 11 } },
-		xaxis: { title: { text: 'Source year', standoff: 4, font: { size: 11, color: th.ink2 } }, dtick: 1, tickformat: 'd', gridcolor: th.grid, linecolor: th.line, tickfont: { size: 10 }, automargin: true, zeroline: false },
+		xaxis: { title: { text: 'Publication year', standoff: 4, font: { size: 11, color: th.ink2 } }, dtick: 1, tickformat: 'd', gridcolor: th.grid, linecolor: th.line, tickfont: { size: 10 }, automargin: true, zeroline: false },
 		yaxis: { title: { text: 'Components (count)', standoff: 4, font: { size: 11, color: th.ink2 } }, gridcolor: th.grid, linecolor: th.line, tickfont: { size: 10 }, rangemode: 'tozero', dtick: yDtick, tickformat: 'd', automargin: true, zeroline: false }
 	});
 	const total = $derived(comps.length);
@@ -59,7 +59,7 @@
 	letter="j"
 	desc="Components per source publication year, stacked by class family (the seven largest families keep a fixed colour; the rest fold into Other classes). Colours here mean class family, not platform."
 	badge={`${total - data.noYear}/${total}`}
-	badgeTip={`${total - data.noYear} of ${total} components in the filter plotted; ${data.noYear} without a source year`}
+	badgeTip={`${total - data.noYear} of ${total} components in the filter plotted; ${data.noYear} without a publication year`}
 >
 	{#snippet controls()}<span class="tag" data-tip="Colours in this panel encode class family, not platform family (page legend)">colour = class family</span>{/snippet}
 	{#if data.years.length}
