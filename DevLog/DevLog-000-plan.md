@@ -187,3 +187,11 @@ Phases run as tranches with a DevLog each, pilot-then-batch, fresh-context audit
   organizer-metadata affiliation strings that contain an institutional address stay as printed exact match keys
   (organizer metadata, not paper text; institutional, not personal). (8) No org co-affiliation matrix (no flow views
   from people data).
+- 2026-10-23 16:00 PDT, wrap-up handoff. Pushed: FE screen (DevLog-010 D199g-D199t), lit author-affiliation extraction
+  (DevLog-011, 116 papers) and the gated lit people merge (DevLog-004). Open, in order: (1) DevLog-011 D381-D383 then the
+  lit people merge build (switch LIT_MERGE); (2) audit + merge lit_07-lit_11 component batches (DevLog-007) and the
+  registry extension for their gaps; (3) org round 7 (355 supply vendor requests, 75 lit org requests, OFC / lit
+  aliases); (4) supply full_14 review (13 candidates); (5) retrieval day 2 IEEE session (needs the owner's sign-in) and
+  day 3+; (6) proposed, not started: material tags per component (multi-valued, derived from platform + printed
+  core_material via a curated mapping) with a Material filter on Components / Explore / Layout and a dashboard
+  breakdown - waits for the owner's go.
