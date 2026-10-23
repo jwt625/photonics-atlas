@@ -17,6 +17,7 @@ build is designed in DevLog-008 and not implemented here.
 from __future__ import annotations
 
 import argparse
+import bisect
 import csv
 import hashlib
 import io
@@ -24,6 +25,8 @@ import os
 import re
 import sys
 from collections import Counter, defaultdict
+from collections.abc import Mapping
+from dataclasses import dataclass
 from pathlib import Path
 from typing import Literal
 
@@ -362,6 +365,7 @@ ROW_COLS = [
     "org_ids",
     "match_basis",
 ]
+CMP_COLS_LIT_EXTRA = ["order_differs"]  # D363: lit only (OFC compare.csv unchanged)
 CMP_COLS = [
     "source_id",
     "author_index",
@@ -419,19 +423,37 @@ class _M(BaseModel):
     model_config = ConfigDict(extra="forbid", coerce_numbers_to_str=True)
 
 
+class MoreOrg(_M):
+    """D367: a further organization of a joint-printed block with its own printed unit / city / country (None =
+    the block's)."""
+
+    org: str
+    unit: str = ""
+    locality: str | None = None
+    country: str | None = None
+
+
 class AffIn(_M):
     marker: str = ""
     org: str
     org_from_prefix: bool = False  # D283: org printed once before several marked blocks ("Org: 1 City, 2 City")
-    more_orgs: list[str] = []  # joint-printed block ("University X and Institute Y"): further orgs, one row each
+    more_orgs: list[str | MoreOrg] = []  # joint-printed block: further orgs, one row each (structured: D367)
     unit: str = ""
     locality: str = ""  # city only (D244)
     country: str = ""
-    basis: Literal["printed", "single", "listing_order", "pdf", "layout"]
+    basis: Literal["printed", "single", "listing_order", "pdf", "layout", "prose", "grouped", "per_author"]
     role: Literal["affiliation", "present_address"] = "affiliation"
     locator: str = "p.~1 header"
     campus: str = ""  # D301: printed place that with the org names a distinct campus / institution ("..., Shenzhen")
+    continued: str = ""  # D360 (prose): first printed word(s) of the statement's continuation in another column
     marker_trailing: bool = False  # D286e: block printed as "Org, City, Country (1)", marker after the block
+    clause: bool = False  # D366 (prose): an "and (also) with" clause of the previous block's statement
+    skip_prefix: str = ""  # D366 (prose): printed address-like span between the verb and the first field; not stored
+    skip_between: str = ""  # D380: printed building / site name between unit and org; verified, never stored
+
+    @property
+    def mo(self) -> list[MoreOrg]:
+        return [MoreOrg(org=x) if isinstance(x, str) else x for x in self.more_orgs]
 
 
 class DroppedIn(_M):
@@ -456,6 +478,7 @@ class PaperIn(_M):
     affiliations: list[AffIn] = []
     authors: list[AuthorIn] = []
     author_list_differs: bool = False
+    slots_from_header: bool = False  # D352 (lit): no ordered author list; slots = header order (flagged)
     note: str = ""
 
 
@@ -491,6 +514,8 @@ def header_text(path: Path) -> str | None:
 FOLD_FIX = str.maketrans(
     {
         "\u0131": "i",
+        "\u0153": "oe",
+        "\u0152": "OE",
         "\u0130": "I",
         "\u0237": "j",
         **{c: "" for c in "\u00b4\u02dc\u02c6\u00a8\u00b8\u02d8\u02c7\u02d9\u02da\u02dd\u02db`"},
@@ -509,8 +534,8 @@ def alnum(s: str) -> str:
 
 
 def mask(s: str) -> str:
-    s = EMAIL_RE.sub("[contact removed]", s)
-    return re.sub(r"\S*[@＠]\S*", "[contact removed]", s)
+    s = re.sub(r"\S*[@＠]\S*", "[contact removed]", s)
+    return EMAIL_RE.sub("[contact removed]", s)
 
 
 def render_csv(columns: list[str], rows: list[dict[str, object]]) -> str:
@@ -538,8 +563,208 @@ def eo_duplicates() -> set[str]:
     }
 
 
-def batch_dirs() -> list[Path]:
-    return sorted(p for p in BASE.iterdir() if p.is_dir() and (p / "papers.csv").exists()) if BASE.is_dir() else []
+def batch_dirs(spec: Spec | None = None) -> list[Path]:
+    base = (spec or OFC).base()
+    return sorted(p for p in base.iterdir() if p.is_dir() and (p / "papers.csv").exists()) if base.is_dir() else []
+
+
+# ---------------------------------------------------------------- corpora (D350: one tool, OFC default)
+
+
+@dataclass(frozen=True)
+class Spec:
+    corpus: str  # source corpus and org-alias scope
+    staging: str  # directory under data/_staging/people/ and prefix of the local lists
+    locator_re: re.Pattern[str]
+
+    def base(self) -> Path:
+        return BASE if self.corpus == "ofc2026" else LIT_BASE  # module globals (tests monkeypatch them)
+
+
+OFC = Spec("ofc2026", "ofc_headers", LOCATOR_RE)
+LIT = Spec("lit", "lit_headers", re.compile(r"^p\.[0-9]+( [a-z]+)?$"))  # D353: exact page of text.md
+LIT_BASE = STAGING / "people" / "lit_headers"
+REFS = ROOT / "references"
+PAGE_RE = re.compile(r"<!-- page (\d+) -->")
+
+
+@dataclass
+class LitPaper:
+    code: str
+    authors: list[ofc.OfcAuthor]  # ordered author list (merged.jsonl); empty when the paper has none (D352)
+
+
+def lit_papers() -> dict[str, LitPaper]:
+    """`lit` sources with their ordered author lists (cache_list uid -> merged.jsonl `authors`)."""
+    import json
+
+    codes = [r["native_id"] for r in read_csv(REGISTRY / "sources.csv") if r["corpus"] == "lit"]
+    uid = {r["paper_id"]: r["uid"] for r in read_csv(STAGING / "literature" / "cache_list.csv")}
+    want = {uid[c]: c for c in codes if c in uid}
+    names: dict[str, list[str]] = {}
+    # merged.jsonl first; cache/literature/curator_adds.jsonl (same `authors` field) for curator-added papers that
+    # are not in it (D362)
+    for src in ("merged.jsonl", "curator_adds.jsonl"):
+        path = ROOT / "cache" / "literature" / src
+        if not path.exists():
+            continue
+        with path.open(encoding="utf-8") as f:
+            for line in f:
+                if '"uid"' not in line:
+                    continue
+                r = json.loads(line)
+                c = want.get(r.get("uid", ""))
+                if c and c not in names and r.get("authors"):
+                    names[c] = [str(x) for x in r["authors"]]
+    return {
+        c: LitPaper(c, [ofc.OfcAuthor(index=i, name=n, affiliation="") for i, n in enumerate(names.get(c, []), 1)])
+        for c in codes
+    }
+
+
+def lit_pages(code: str) -> dict[int, str]:
+    path = REFS / code / "text.md"
+    if not path.exists():
+        return {}
+    parts = PAGE_RE.split(path.read_text(encoding="utf-8", errors="replace"))
+    return {int(parts[i]): parts[i + 1] for i in range(1, len(parts) - 1, 2)}
+
+
+def lit_text(code: str, pages: set[int], sep: bool = False) -> str | None:
+    """D353: the header page plus the pages named in block locators, in page order (`sep`: page separators for
+    `show`, D366)."""
+    pg = lit_pages(code)
+    if not pg:
+        return None
+    if sep:
+        return "\n".join(f"----- text.md page {k} -----\n{pg[k]}" for k in sorted(pages) if k in pg)
+    return "\n".join(pg[k] for k in sorted(pages) if k in pg)
+
+
+def lit_search_pages(locators: list[str]) -> set[int]:
+    """D366: the author line is searched from the first page a locator names as `header` (cover pages are skipped),
+    else page 1; plus every page named in a locator."""
+    named = {int(m.group(1)) for x in locators if (m := re.match(r"p\.([0-9]+)", x))}
+    header = {int(m.group(1)) for x in locators if (m := re.match(r"p\.([0-9]+) header$", x))}
+    base = min(header) if header else 1
+    return {base} | {k for k in named if k >= base}
+
+
+def lit_pdf_text(code: str, pages: set[int]) -> str | None:
+    path = REFS / code / "source.pdf"
+    if not path.exists():
+        return None
+    return pdf_pages(path, sorted(pages))
+
+
+def pdf_pages(path: Path, pages: list[int]) -> str:
+    """Text of the given 1-based pages, superscript spans marked ^{...}; no cut at the abstract (D353)."""
+    import pymupdf  # optional dependency (extra 'fetch')
+
+    parts: list[str] = []
+    with pymupdf.open(path) as doc:  # type: ignore[no-untyped-call]
+        for k in pages:
+            if not 1 <= k <= len(doc):
+                continue
+            for block in doc[k - 1].get_text("dict")["blocks"]:
+                for line in block.get("lines", []):
+                    s = ""
+                    for span in line["spans"]:
+                        t = span["text"]
+                        s += f"^{{{t.strip()}}}" if span["flags"] & 1 and t.strip() else t
+                    parts.append(s)
+                parts.append("")
+    return "\n".join(parts)
+
+
+def lit_duplicates() -> set[str]:
+    return {r["native_id"] for r in read_csv(REGISTRY / "sources.csv") if r["corpus"] == "lit" and r["same_as"]}
+
+
+def cmd_lit_pilot(codes: list[str]) -> int:
+    out = LIT_BASE / PILOT / "papers.csv"
+    if out.exists():
+        print(f"{out} exists; not overwritten", file=sys.stderr)
+        return 1
+    meta = lit_papers()
+    rows = [
+        {
+            "source_id": f"lit:{c}",
+            "code": c,
+            "n_authors_meta": len(meta[c].authors),
+            "local_pdf": (REFS / c / "source.pdf").exists(),
+        }
+        for c in codes
+    ]
+    write_csv(out, PAPER_COLS, rows)
+    print(f"wrote {out} ({len(rows)} papers)")
+    return 0
+
+
+def cmd_lit_queue(size: int, dry_run: bool) -> int:
+    """Incremental (D351): papers already in a batch stay there; new `lit` sources go to new batches."""
+    with RunLog(f"lit_headers_queue_{os.getpid()}", dry_run) as log:
+        meta = lit_papers()
+        dup = lit_duplicates()
+        existing = batch_dirs(LIT)
+        taken = {r["code"] for b in existing for r in read_csv(b / "papers.csv")}
+        skipped: list[dict[str, str]] = []
+        todo: list[str] = []
+        for code in sorted(meta):
+            if code in taken:
+                continue
+            reason = "no_text" if not lit_pages(code) else ("duplicate_source" if code in dup else "")
+            if reason:
+                skipped.append({"source_id": f"lit:{code}", "code": code, "reason": reason})
+            else:
+                todo.append(code)
+        n0 = sum(1 for b in existing if b.name.startswith("lit_h"))
+        batches = [todo[i : i + size] for i in range(0, len(todo), size)]
+        log.info(f"existing batches {len(existing)} ({len(taken)} papers); to queue {len(todo)} in {len(batches)}")
+        log.info(f"skipped {dict(Counter(x['reason'] for x in skipped))}")
+        if dry_run:
+            return 0
+        for i, codes in enumerate(batches, start=n0 + 1):
+            d = LIT_BASE / f"lit_h{i:02d}"
+            if d.exists():
+                raise SystemExit(f"{d} exists; refusing to overwrite")
+            rows = [
+                {
+                    "source_id": f"lit:{c}",
+                    "code": c,
+                    "n_authors_meta": len(meta[c].authors),
+                    "local_pdf": (REFS / c / "source.pdf").exists(),
+                }
+                for c in codes
+            ]
+            write_csv(d / "papers.csv", PAPER_COLS, rows)
+            log.event("batch", batch=d.name, papers=len(rows), authors=sum(len(meta[c].authors) for c in codes))
+        if skipped or not (LIT_BASE / "skipped.csv").exists():
+            write_csv(LIT_BASE / "skipped.csv", ["source_id", "code", "reason"], skipped)
+        log.info(f"wrote {len(batches)} batches")
+    return 0
+
+
+def cmd_lit_show(batch: str, codes: list[str], pdf: bool, pages: list[int]) -> int:
+    papers = read_csv(LIT_BASE / batch / "papers.csv")
+    meta = lit_papers()
+    for r in papers:
+        c = r["code"]
+        if codes and c not in codes:
+            continue
+        want = set(pages) | {1}
+        print(f"===== {r['source_id']}  author list {len(meta[c].authors)}  pages {sorted(want)}")
+        print(mask(lit_text(c, want, sep=True) or "[no text]").strip())
+        if pdf:
+            print(f"----- local PDF, pages {sorted(want)} (superscripts as ^{{...}})")
+            print(mask(lit_pdf_text(c, want) or "[no pdf]").strip())
+        print("----- author list slots (index | name)")
+        for a in meta[c].authors:
+            print(f"  {a.index} | {a.name}")
+        if not meta[c].authors:
+            print("  [no author list: slots_from_header (D352)]")
+        print()
+    return 0
 
 
 # ---------------------------------------------------------------- pilot / queue
@@ -665,7 +890,7 @@ def cmd_show(batch: str, codes: list[str], pdf: bool) -> int:
 
 
 def _toks(name: str) -> list[str]:
-    return fold(name).split()
+    return fold(name.translate(FOLD_FIX)).split()  # D362: also oe ligature, dotless i
 
 
 def _exact(h: str, m: str) -> bool:
@@ -726,7 +951,7 @@ def scan_contacts(d: Path, ck: Check) -> None:
             scan_text(f.name, f.read_text(encoding="utf-8", errors="replace"), f.suffix in (".yaml", ".csv"), ck)
 
 
-def map_org(m: Matcher, a: AffIn) -> tuple[list[str], str]:
+def map_org(m: Matcher, a: AffIn, corpus: str = "ofc2026") -> tuple[list[str], str]:
     """D177 (order amended by D249): exact matcher rules on deterministic variants of the printed org: as printed,
     parenthesized part removed, unit + org; last, a parenthesized acronym alone, through ofc2026-scoped aliases only.
     No fuzzy matching."""
@@ -743,11 +968,11 @@ def map_org(m: Matcher, a: AffIn) -> tuple[list[str], str]:
     for v, tag in variants:
         if not v:
             continue
-        ids, basis = m.match(v, "ofc2026")
+        ids, basis = m.match(v, corpus)
         if ids:
             return ids, f"{basis}:{tag}" if tag else basis
     for acro in re.findall(r"\(([A-Z][A-Za-z*&+-]{1,11})\)", a.org):
-        scoped = m.by_scoped_alias.get((norm_key(acro), "ofc2026"))
+        scoped = m.by_scoped_alias.get((norm_key(acro), corpus))
         if scoped:
             return sorted(scoped), "alias:acronym_scoped"
     return [], "unmapped"
@@ -772,13 +997,24 @@ TAG_RE = re.compile(r"</?(?:sup|sub|a|span|b|i|em|strong|br|u)\b[^>]*>", re.I)
 WINDOW_TAIL = 600  # normalized characters after the last block start
 
 
+MEMBERSHIP_RE = re.compile(  # D355: "Member, IEEE", "Senior Member, IEEE, Fellow, OSA" in author lines
+    r",?\s*(?:(?:Graduate\s+)?Student\s+|Senior\s+|Life\s+|Associate\s+)?(?:Member|Fellow)\s*,?\s*"
+    r"(?:IEEE|OSA|Optica|SPIE|IET|IEICE|JSAP|APS)"
+    r"(?:\s*,\s*(?:(?:Graduate\s+)?(?:Student\s+|Senior\s+|Life\s+)?(?:Member|Fellow)\s*,?\s*)?"
+    r"(?:IEEE|OSA|Optica|SPIE|IET|IEICE|JSAP|APS))*"
+)
+
+
 def _prep(t: str, pdf: bool) -> str:
+    t = MEMBERSHIP_RE.sub(" ", t)
     t = re.sub(r"\[([^\]]*)\]\(mailto:[^)]*\)", " ", t)
     t = re.sub(r"!\[[^\]]*\]\([^)]*\)", " ", t)  # images
     t = re.sub(r"\[([^\]]*)\]\((?:https?:|www\.)[^)]*\)", r" \1 ", t)  # D286b: link text kept, target dropped
     t = re.sub(r"(?:https?://|www\.)\S+", " ", t)
+    # first: an address ends at whitespace or a bracket / separator (EMAIL_RE runs over ". \nName"); the closing
+    # ")" of "(email: ...)" stays, it is a statement boundary (D366)
+    t = re.sub(r"[\w.+-]*[@\uff20][\w.-]*", " ", t)
     t = EMAIL_RE.sub(" ", t)
-    t = re.sub(r"\S*[@\uff20]\S*", " ", t)
     t = TAG_RE.sub(" ", t)
     t = t.replace("*", " star ") if pdf else t.replace("\\*", " star ").replace("*", " ")
     for rx, w in SYMBOLS:
@@ -803,6 +1039,7 @@ def mnorm(marker: str) -> str:
 
 def _words(s: str) -> str:
     s = re.sub(r"(?<=\d)(?=[A-Za-z])|(?<=[A-Za-z])(?=\d)", " ", fold_text(s))  # "3Now with" -> "3 Now with"
+    s = re.sub(r"\b([a-z])(?=[A-Z][a-z])", r"\1 ", s)  # D366: letter marker glued to a cue, "aPresent address"
     return " " + " ".join(re.sub(r"[^a-z0-9]+", " ", s.lower()).split()) + " "
 
 
@@ -860,7 +1097,9 @@ def _locate_block(b: AffIn, n: str, t: str, idx: list[int], pos: int, need: bool
             cue = next((c for c in CUES if n.startswith(c, max(0, cs - len(c))) and cs - len(c) >= pos), "")
             cs -= len(cue)
         last = fs + len(fn)
-        for v in [b.org if not b.org_from_prefix else "", b.unit, b.locality, *b.more_orgs]:
+        for v in [b.org if not b.org_from_prefix else "", b.unit, b.locality] + [
+            y for x in b.mo for y in (x.org, x.unit, x.locality or "")
+        ]:
             hits = _find_word(n, t, idx, alnum(v), cs) if v else []
             if hits:
                 last = max(last, hits[0] + len(alnum(v)))
@@ -893,7 +1132,7 @@ def _author_marks(
     return all(k in it for k in rec)  # recorded markers in printed order
 
 
-def analyse(p: PaperIn, text: str, src: str) -> list[str]:
+def analyse(p: PaperIn, text: str, src: str, coverage: bool = False) -> list[str]:
     """One source text (md extraction or local PDF page 1), D246 as amended by D286: authors located in order, each
     followed by exactly its printed markers; blocks located after the author line in printed order (unit first,
     whole words, each after the previous block's last field; marker + cue before the first field for printed
@@ -905,20 +1144,25 @@ def analyse(p: PaperIn, text: str, src: str) -> list[str]:
     block_syms = {k for b in p.affiliations for k in TOK_RE.findall(mnorm(b.marker)) if k in SYM_TOKENS}
     regular = [b for b in p.affiliations if b.role == "affiliation"]
     single_one = frozenset({"1"}) if len(regular) == 1 and regular[0].basis == "single" else frozenset()
+    prose_marks = {b.marker for b in p.affiliations if b.basis in ("prose", "grouped", "per_author")}  # not printed
     located: list[tuple[AuthorIn, int, int]] = []
     cur = 0
     for au in p.authors:
         hits = _find_word(n, t, idx, alnum(au.name), cur)
         if not hits:
-            if not au.unreadable:  # D284: an unreadable author's name is not checked
+            only_prose = bool(au.markers) and set(au.markers) <= prose_marks  # D354: checked in the statement
+            if not au.unreadable and not only_prose:  # D284: an unreadable author's name is not checked
                 errs.append(f"{src}: author {au.name!r} not printed after the previous author (D246)")
             continue
         located.append((au, hits[0], hits[0] + len(alnum(au.name))))
         cur = hits[0] + len(alnum(au.name))
     end = located[-1][2] if located else 0
-    for k, (au, _s, e) in enumerate(located):
-        if au.unreadable:
+    for k, (au0, _s, e) in enumerate(located):
+        if au0.unreadable:
             continue
+        if au0.markers and set(au0.markers) <= prose_marks:
+            continue  # D354: prose markers are not printed after the name
+        au = au0.model_copy(update={"markers": [mk for mk in au0.markers if mk not in prose_marks]})
         nxt = located[k + 1][1] if k + 1 < len(located) else None
         seg = n[e:nxt] if nxt is not None else n[e : e + 12]
         if not _author_marks(au, seg, block_syms, nxt is not None, single_one):
@@ -930,6 +1174,8 @@ def analyse(p: PaperIn, text: str, src: str) -> list[str]:
     pos = end
     starts: list[tuple[int, int, AffIn]] = []
     for b in p.affiliations:
+        if b.basis in ("prose", "grouped", "per_author"):
+            continue  # D354 / D368: located by their statement or author position, below
         need = (
             bool(b.marker) and not b.marker_trailing and (b.basis == "printed" or (b.basis == "pdf" and src == "pdf"))
         )
@@ -961,33 +1207,276 @@ def analyse(p: PaperIn, text: str, src: str) -> list[str]:
                 "[a-z]{0,40}" + re.escape(mnorm(b.marker)) + "(?![0-9])", tail
             ):
                 errs.append(f"{tag}: trailing marker not printed after the block's last field (D286e)")
-        for fld, v in [
-            ("org", "" if b.org_from_prefix else b.org),
-            ("unit", b.unit),
-            ("locality", b.locality),
-            ("campus", b.campus),
-        ] + [("more_orgs", x) for x in b.more_orgs]:
-            if v and alnum(v) not in w:
-                errs.append(f"{tag}: {fld} {v!r} not inside this printed block (D246)")
-        if b.unit and b.org and not b.org_from_prefix:
-            u, o = re.escape(alnum(b.unit)), re.escape(alnum(b.org))
-            if not (re.search(u + "[a-z]{0,10}" + o, w) or re.search(o + "[a-z]{0,10}" + u, w)):
-                errs.append(f"{tag}: unit and org are not one contiguous printed segment (D246)")
-        if bool(CUE_WORDS.search(ws)) != (b.role == "present_address"):
-            errs.append(
-                f"{tag}: role {b.role} but the block "
-                f"{'has' if b.role != 'present_address' else 'lacks'} a present-address cue (D246)"
-            )
-        if b.country and not _country_hit(b.country, ws):
-            errs.append(f"{tag}: country {b.country!r} is not printed in this block (D246)")
+        _window_checks(b, w, ws, tag, errs)
+    _prose_checks(p, n, t, idx, src, errs, coverage)
+    _grouped_checks(p, n, t, idx, src, errs, located)
     return errs
 
 
-def check_provenance(p: PaperIn, tag: str, md: str | None, pdf: str | None, ck: Check) -> None:
+def _window_checks(b: AffIn, w: str, ws: str, tag: str, errs: list[str]) -> None:
+    """Fields inside the block window (normalized `w`, word view `ws`); unit + org one segment; cue; country."""
+    for fld, v in [
+        ("org", "" if b.org_from_prefix else b.org),
+        ("unit", b.unit),
+        ("locality", b.locality),
+        ("campus", b.campus),
+    ] + [
+        (f, v)
+        for x in b.mo
+        for f, v in (("more_orgs", x.org), ("more_orgs unit", x.unit), ("more_orgs locality", x.locality or ""))
+    ]:
+        if v and alnum(v) not in w:
+            errs.append(f"{tag}: {fld} {v!r} not inside this printed block (D246)")
+    for x in b.mo:
+        if x.unit:
+            u, o = re.escape(alnum(x.unit)), re.escape(alnum(x.org))
+            if not (re.search(u + "[a-z]{0,10}" + o, w) or re.search(o + "[a-z]{0,10}" + u, w)):
+                errs.append(f"{tag}: more_orgs unit and org are not one contiguous printed segment (D367)")
+        if x.country and not _country_hit(x.country, ws):
+            errs.append(f"{tag}: more_orgs country {x.country!r} is not printed in this block (D367)")
+    if b.skip_between and alnum(b.skip_between) not in w:
+        errs.append(f"{tag}: skip_between {b.skip_between!r} not inside this printed block (D380)")
+    if b.unit and b.org and not b.org_from_prefix:
+        u, o = re.escape(alnum(b.unit)), re.escape(alnum(b.org))
+        k = re.escape(alnum(b.skip_between)) if b.skip_between else ""
+        gap = "[a-z]{0,10}" + (k + "[a-z]{0,10}" if k else "")
+        if not (re.search(u + gap + o, w) or re.search(o + gap + u, w)):
+            errs.append(f"{tag}: unit and org are not one contiguous printed segment (D246)")
+    if bool(CUE_WORDS.search(ws)) != (b.role == "present_address"):
+        errs.append(
+            f"{tag}: role {b.role} but the block "
+            f"{'has' if b.role != 'present_address' else 'lacks'} a present-address cue (D246)"
+        )
+    if b.country and not _country_hit(b.country, ws):
+        errs.append(f"{tag}: country {b.country!r} is not printed in this block (D246)")
+
+
+VERB_RE = "(?:is|are|was|were)(?:also|now|currently|presently)?with(?:the)?"
+CLAUSE_RE = "(?:and(?:is|are|was|were)?(?:also)?|also)with(?:the)?"  # D366: "<names> is with A, and (also) with B" clause of one statement
+# D366: a statement subject starts after a real sentence boundary: ")" (contact parentheses), ";", a blank line, a
+# number or an upper-case / lower-case word or a country name followed by ". ", or the previous statement's verb.
+# A period after a capitalized name ("F. Ferraro. Y. Ban") is not a boundary.
+_NOT_BOUNDARY = {"jordan", "chad", "georgia", "guinea", "niger", "mali", "peru", "cuba", "togo", "oman", "wales"}
+_COUNTRY_WORDS = sorted(
+    {a for v in COUNTRIES.values() for a in v if len(a) > 3 and a not in _NOT_BOUNDARY}, key=len, reverse=True
+)
+PROSE_CUT_RE = re.compile(
+    r"\)|;\s|\n\s*\n|\d\.\s|\b[A-Z]{2,}\.\s|\b[a-z]{2,}\.\s|[\u201d\u2019\"]\.\s|\.[\u201d\u2019\"]\s|"
+    r"(?i:\b(?:" + "|".join(re.escape(c).replace(r"\ ", r"\s+") for c in _COUNTRY_WORDS) + r"))\.\s|"
+    r"\b(?:is|are|was|were)(?:\s+(?:also|now|currently|presently))?\s+with\b"
+)
+
+
+def _subject(t: str, idx: list[int], start: int) -> tuple[str, list[str]]:
+    """Subject of the statement whose verb phrase starts at normalized position `start` and its name candidates
+    (split at commas, "and", "&", and a period after a full word: "F. Ferraro. Y. Ban" -> two names)."""
+    before = t[max(0, idx[start] - 600) : idx[start]]
+    cut = max((m.end() for m in PROSE_CUT_RE.finditer(before)), default=0)
+    subject = before[cut:].strip(" .\n")
+    parts = re.split(r",|\band\b|&|(?<=[A-Za-z]{2})\.\s", subject)
+    names = [c.strip(" .\n").translate(FOLD_FIX) for c in parts if c.strip(" .\n")]
+    return subject, names
+
+
+def _at_line_start(t: str, i: int) -> bool:
+    j = i - 1
+    while j >= 0 and t[j] in " \t":
+        j -= 1
+    return j < 0 or t[j] == "\n"
+
+
+def _first_field_hits(
+    b: AffIn, n: str, t: str, idx: list[int], pos: int, bounded: bool = True
+) -> list[tuple[int, int]]:
+    """(block start candidate, end of the first field): unit first, an org printed directly before the unit starts
+    the block (D246 / D286c)."""
+    out = []
+    fo = alnum(b.org)
+    first = alnum(b.unit or b.org)
+    occ = _find_word(n, t, idx, first, pos) if bounded else [m.start() for m in re.finditer(re.escape(first), n[pos:])]
+    for fs in occ if bounded else [pos + x for x in occ]:
+        cs = fs
+        if b.unit and b.org:
+            lo = max(0, fs - len(fo) - 10)
+            hit = re.search(re.escape(fo) + "[a-z]{0,10}$", n[lo:fs])
+            if hit:
+                cs = lo + hit.start()
+        out.append((cs, fs + len(first)))
+    return out
+
+
+def _prose_checks(p: PaperIn, n: str, t: str, idx: list[int], src: str, errs: list[str], coverage: bool) -> None:
+    """D354: each prose block is a statement "<names> is / are (also / now) with <block>": located by the verb
+    phrase directly before its first field (unit first; an org printed directly before the unit starts the block;
+    a verified `skip_prefix` may sit between, D366), in printed order; a `clause` block is an "and (also) with"
+    clause of the previous block's statement (same subject, own fields, D366); window up to the next statement or
+    clause (<= 300 normalized characters), plus the continuation window when the statement goes on in another
+    column (`continued`, D360); the subject must name every author carrying the block's marker and no other author;
+    "The authors" = every author; "He / She / They" = the previous statement's subject. With `coverage` (lit, D361,
+    D366) every statement or clause of the searched text whose subject names an author must be a recorded block."""
+    pos = 0
+    prev: list[str] = []
+    recorded: list[int] = []
+    stmt_names: list[str] = []
+    stmt_subject = ""
+    stop = re.compile(f"{VERB_RE}|{CLAUSE_RE}")
+    for b in [x for x in p.affiliations if x.basis == "prose"]:
+        tag = f"{src}: block {b.marker!r}"
+        anchor = (CLAUSE_RE if b.clause else VERB_RE) + re.escape(alnum(b.skip_prefix))
+        start = None
+        first_end = pos
+        field_start = pos
+        for cs, fe in _first_field_hits(b, n, t, idx, pos, bounded=False):  # the verb / clause anchor bounds it
+            v = re.search(anchor + "$", n[max(0, cs - 40 - len(alnum(b.skip_prefix))) : cs])
+            if v:
+                start = max(0, cs - 40 - len(alnum(b.skip_prefix))) + v.start()
+                first_end, field_start = fe, cs
+                break
+        if start is None and b.continued:  # the first field itself may continue in the other part ("Intel | Corp.")
+            for v2 in re.finditer(anchor, n[pos:]):
+                vs = pos + v2.start()
+                if n.startswith(alnum(b.org)[: max(1, len(alnum(b.org)) - len(alnum(b.continued)))], pos + v2.end()):
+                    start, first_end = vs, pos + v2.end()
+                    break
+        if start is None:
+            what = "'and (also) with'" if b.clause else "'<names> is / are with'"
+            errs.append(f"{tag}: {what} + first field (unit or org) not printed (D354)")
+            continue
+        recorded.append(start)
+        nxt = stop.search(n, max(field_start, start + 6))  # after this block's own anchor
+        e = min(nxt.start() if nxt else len(n), start + 300, len(n))
+        if b.continued:  # the printed first part ends with the verb's line
+            line_end = t.find("\n", idx[start])
+            if line_end >= 0:
+                e = min(e, bisect.bisect_left(idx, line_end))
+        w, ws = n[start:e], _words(t[idx[start] : idx[e - 1] + 1])
+        if b.continued:  # D360: the rest of the statement is printed elsewhere on the page, at a line start
+            ca = alnum(b.continued)
+            hits = [h for h in _find_word(n, t, idx, ca, e) if _at_line_start(t, idx[h])]
+            if not hits:
+                errs.append(
+                    f"{tag}: continuation {b.continued!r} not printed at a line start after the statement (D360)"
+                )
+            else:
+                cs2 = hits[0]
+                n2 = stop.search(n, cs2 + len(ca))
+                ce = min(n2.start() if n2 else len(n), cs2 + 300, len(n))
+                w += n[cs2:ce]
+                ws += _words(t[idx[cs2] : idx[ce - 1] + 1])
+        _window_checks(b, w, ws, tag, errs)
+        if b.clause:
+            if not stmt_subject and not stmt_names:
+                errs.append(f"{tag}: clause without a preceding statement block (D366)")
+            subject, names = stmt_subject, stmt_names
+        else:
+            subject, names = _subject(t, idx, start)
+            if re.fullmatch(r"(?i)(he|she|they)", subject):
+                names = prev
+            else:
+                prev = names
+            stmt_subject, stmt_names = subject, names
+        carriers = [au for au in p.authors if b.marker in au.markers and not au.unreadable]
+        if re.search(r"(?i)\bauthors\b", subject):
+            missing = [au.name for au in p.authors if b.marker not in au.markers and not au.unreadable]
+            if missing:
+                errs.append(f"{tag}: statement names all authors; {missing} do not carry {b.marker!r} (D354)")
+        else:
+            for au in carriers:
+                if not any(compatible(au.name, c) for c in names):
+                    errs.append(f"{tag}: author {au.name!r} is not named in the statement subject (D354)")
+            for c in names:
+                hits2 = [au for au in p.authors if compatible(au.name, c)]
+                if hits2 and not any(b.marker in au.markers for au in hits2):
+                    errs.append(f"{tag}: {c!r} is named in the statement but carries no {b.marker!r} (D354)")
+        pos = first_end  # the next statement starts after this block's first field
+    if not coverage:
+        return
+    names_prev = False
+    last_verb = None
+    for v in re.finditer(f"{VERB_RE}|{CLAUSE_RE}", n):
+        vs = v.start()
+        if not _starts_word(t, idx, vs):
+            continue
+        if v.group(0).startswith("and"):  # a clause belongs to the statement it follows
+            if last_verb is None or not last_verb[1] or vs - last_verb[0] > 300:
+                continue
+            names_author = True
+        else:
+            subject, names = _subject(t, idx, vs)
+            if re.fullmatch(r"(?i)(he|she|they)", subject):
+                names_author = names_prev
+            else:
+                names_author = bool(re.search(r"(?i)\bauthors\b", subject)) or any(
+                    compatible(au.name, c) for au in p.authors for c in names
+                )
+                names_prev = names_author
+            last_verb = (vs, names_author)
+        if names_author and not any(abs(vs - r) <= 3 for r in recorded):
+            snippet = " ".join(t[max(0, idx[vs] - 60) : idx[vs]].split()[-6:])
+            errs.append(f"{src}: statement '... {snippet} {v.group(0)} ...' names an author but is not recorded (D361)")
+
+
+def _grouped_checks(
+    p: PaperIn, n: str, t: str, idx: list[int], src: str, errs: list[str], located: list[tuple[AuthorIn, int, int]]
+) -> None:
+    """D368: `grouped` blocks follow their author group (the group's names printed consecutively, then its
+    block(s)); `per_author` blocks follow their single author. Verified by position, independent of the author line:
+    the block's first field is found after the previous grouped block; every carrier's name is printed between the
+    previous grouped block and this one, and no other author's name after the group's first name (a group's further
+    block may follow its previous block directly); fields inside the window up to the next author name or block
+    (<= 400 normalized characters)."""
+    gb = [b for b in p.affiliations if b.basis in ("grouped", "per_author")]
+    names = {id(au): alnum(au.name) for au in p.authors if alnum(au.name)}
+    pos = 0
+    prev_carriers: set[int] = set()
+    prev_start = 0
+    for b in gb:
+        tag = f"{src}: block {b.marker!r}"
+        carriers = [au for au in p.authors if b.marker in au.markers and not au.unreadable]
+        if not carriers:
+            continue
+        cid = {id(au) for au in carriers}
+        if b.basis == "per_author" and len(carriers) != 1:
+            errs.append(f"{tag}: per_author block carried by {len(carriers)} authors (D368)")
+        hits = _first_field_hits(b, n, t, idx, pos)
+        if not hits:
+            errs.append(f"{tag}: first field (unit or org) not printed after the previous block (D368)")
+            continue
+        start, fe = hits[0]
+        if cid == prev_carriers and not any(
+            _find_word(n, t, idx, nm, prev_start) and _find_word(n, t, idx, nm, prev_start)[0] < start
+            for k, nm in names.items()
+        ):
+            pass  # a further block of the same group, printed right after the previous one
+        else:
+            last_hit: dict[int, int] = {}
+            for au in carriers:
+                occ = [h for h in _find_word(n, t, idx, names.get(id(au), ""), pos) if h < start]
+                if not occ:
+                    errs.append(f"{tag}: author {au.name!r} is not printed before this block (D368)")
+                else:
+                    last_hit[id(au)] = occ[-1]
+            if last_hit:
+                first = min(last_hit.values())
+                others = [
+                    au.name
+                    for au in p.authors
+                    if id(au) not in cid
+                    and any(first <= h < start for h in _find_word(n, t, idx, names.get(id(au), ""), first))
+                ]
+                if others:
+                    errs.append(f"{tag}: authors {others} are printed between the group and its block (D368)")
+        nxt = [h[0] for k, nm in names.items() if (h := _find_word(n, t, idx, nm, fe))]
+        e = min(min(nxt) if nxt else len(n), start + 400, len(n))
+        _window_checks(b, n[start:e], _words(t[idx[start] : idx[e - 1] + 1]), tag, errs)
+        pos, prev_carriers, prev_start = fe, cid, start
+
+
+def check_provenance(p: PaperIn, tag: str, md: str | None, pdf: str | None, ck: Check, coverage: bool = False) -> None:
     """Pass when the PDF analysis is clean, or the md analysis is clean and no block claims basis pdf."""
     has_pdf_block = any(b.basis == "pdf" for b in p.affiliations)
-    md_errs = analyse(p, md, "md") if md is not None else ["md: no header text"]
-    pdf_errs = analyse(p, pdf, "pdf") if pdf is not None else None
+    md_errs = analyse(p, md, "md", coverage) if md is not None else ["md: no header text"]
+    pdf_errs = analyse(p, pdf, "pdf", coverage) if pdf is not None else None
     if pdf_errs == [] or (not md_errs and not has_pdf_block):
         return
     for e in md_errs:
@@ -996,9 +1485,37 @@ def check_provenance(p: PaperIn, tag: str, md: str | None, pdf: str | None, ck: 
         ck.err(f"{tag}: {e}")
 
 
-def match_slots(p: PaperIn, pres: ofc.OfcPresentation, tag: str, ck: Check) -> dict[int, int]:
+def strict_compatible(h: str, m: str) -> bool:
+    """D369 (lit slot matching): `compatible`, and when one form is abbreviated every initial must be explained by
+    the other form: by its given-name syllables, or, for a joined given name, by its letters in order ("S. H. Tao" ~
+    "Shaohua Tao", "D. L. Kwong" ~ "DimLee Kwong"; "S. F. Yu" !~ "Siyuan Yu", "M. B. Yu" !~ "Ming Yu")."""
+    if not compatible(h, m):
+        return False
+    from photonics_atlas.people import parse
+
+    a, b = parse(h.translate(FOLD_FIX)), parse(m.translate(FOLD_FIX))
+    if a.abbreviated == b.abbreviated:
+        return True
+    ab, full = (a, b) if a.abbreviated else (b, a)
+    if len(ab.inits) <= len(full.inits):
+        return True
+    # extra initials must be provable inside the joined full given name, in order ("S. H." ~ "Shaohua")
+    g = "".join(full.given)
+    pos = 0
+    for k, ch in enumerate(ab.inits):
+        hit = g.find(ch, pos) if k else (0 if g.startswith(ch) else -1)
+        if hit < 0:
+            return False
+        pos = hit + 2
+    return True
+
+
+def match_slots(
+    p: PaperIn, pres: ofc.OfcPresentation | LitPaper, tag: str, ck: Check, strict: bool = False
+) -> dict[int, int]:
     """D174 / D247: header position -> metadata slot. Exact name first, then compatible; no positional fallback; an
     ambiguous name needs an explicit `slot:`."""
+    comp = strict_compatible if strict else compatible
     n_meta = len(pres.authors)
     slot_of: dict[int, int] = {}
     for k, au in enumerate(p.authors, 1):
@@ -1006,12 +1523,12 @@ def match_slots(p: PaperIn, pres: ofc.OfcPresentation, tag: str, ck: Check) -> d
             if au.slot and not 1 <= au.slot <= n_meta:
                 ck.err(f"{tag}: author {au.name!r} slot {au.slot} outside 1..{n_meta}")
             elif au.slot:
-                if not compatible(au.name, pres.authors[au.slot - 1].name):
+                if not comp(au.name, pres.authors[au.slot - 1].name):
                     ck.warn(f"{tag}: author {au.name!r} set to slot {au.slot} ({pres.authors[au.slot - 1].name!r})")
                 slot_of[k] = au.slot
             continue
         exact = [a.index for a in pres.authors if _exact(au.name, a.name)]
-        cands = exact or [a.index for a in pres.authors if compatible(au.name, a.name)]
+        cands = exact or [a.index for a in pres.authors if comp(au.name, a.name)]
         if len(cands) == 1:
             slot_of[k] = cands[0]
         else:
@@ -1022,7 +1539,7 @@ def match_slots(p: PaperIn, pres: ofc.OfcPresentation, tag: str, ck: Check) -> d
     unmatched = [a for a in pres.authors if a.index not in set(slot_of.values())]
     for au in p.authors:
         if au.slot == 0:
-            hits = [a.index for a in unmatched if compatible(au.name, a.name)]
+            hits = [a.index for a in unmatched if comp(au.name, a.name)]
             if hits:
                 ck.err(f"{tag}: author {au.name!r} has slot 0 but matches unmatched metadata slot(s) {hits} (D302)")
     return slot_of
@@ -1031,7 +1548,7 @@ def match_slots(p: PaperIn, pres: ofc.OfcPresentation, tag: str, ck: Check) -> d
 def check_batch(
     d: Path,
     ck: Check,
-    meta: dict[str, ofc.OfcPresentation],
+    meta: Mapping[str, ofc.OfcPresentation | LitPaper],
     texts: dict[str, Path],
     pdfs: dict[str, Path],
     eo: set[str],
@@ -1039,9 +1556,12 @@ def check_batch(
     orgs: dict[str, dict[str, str]],
     xw: dict[tuple[str, str], list[str]],
     write: bool,
+    spec: Spec | None = None,
 ) -> Counter[str]:
     """Validate one batch; derived files are written (atomically, with a stamp of the YAML) only when the batch has
     0 errors (D248)."""
+    spec = spec or OFC
+    lit = spec.corpus == "lit"
     stats: Counter[str] = Counter()
     n_err0 = len(ck.errors)
     queue = {r["source_id"]: r for r in read_csv(d / "papers.csv")}
@@ -1057,6 +1577,10 @@ def check_batch(
         return stats
     papers: list[PaperIn] = []
     for i, r in enumerate(raw):
+        if lit and isinstance(r, dict):  # D353: lit locators are exact pages; the OFC default does not apply
+            for a in r.get("affiliations") or []:
+                if isinstance(a, dict):
+                    a.setdefault("locator", "p.1 header")
         try:
             papers.append(PaperIn.model_validate(r))
         except ValidationError as e:
@@ -1073,14 +1597,24 @@ def check_batch(
     for p in papers:
         sid = p.source_id
         tag = f"{d.name} {sid}"
-        code = sid.split(":", 1)[1] if sid.startswith("ofc2026:") else sid
+        code = sid.split(":", 1)[1] if sid.startswith(f"{spec.corpus}:") else sid
         if sid not in queue:
             ck.err(f"{tag}: not in this batch's papers.csv (D176 f)")
             continue
         if code in eo and d.name != PILOT:
             ck.err(f"{tag}: EO duplicate, not queued (D175)")
         stats[f"papers_{p.status}"] += 1
-        pres = meta[code]
+        pres: ofc.OfcPresentation | LitPaper = meta[code]
+        if lit and not pres.authors:  # D352: no ordered author list
+            if not p.slots_from_header:
+                ck.err(f"{tag}: no author list for this paper; set slots_from_header: true (D352)")
+            pres = LitPaper(
+                code,
+                [ofc.OfcAuthor(index=k, name=au.name, affiliation="") for k, au in enumerate(p.authors, 1)],
+            )
+            stats["papers_slots_from_header"] += 1
+        elif p.slots_from_header:
+            ck.err(f"{tag}: slots_from_header but the paper has an author list (D352)")
         if p.status == "unreadable":
             if p.affiliations or p.authors:
                 ck.err(f"{tag}: unreadable paper must carry no affiliations or authors (D175)")
@@ -1103,7 +1637,9 @@ def check_batch(
                 ck.err(f"{tag}: block marker {b.marker!r} defined twice")
             by_marker[b.marker] = b
             for fld, v in [("org", b.org), ("unit", b.unit), ("locality", b.locality)] + [
-                ("more_orgs", x) for x in b.more_orgs
+                (f, v)
+                for x in b.mo
+                for f, v in (("more_orgs", x.org), ("more_orgs unit", x.unit), ("more_orgs locality", x.locality or ""))
             ]:
                 for label, rx in ADDRESS_RES:
                     if v and rx.search(v):
@@ -1124,7 +1660,16 @@ def check_batch(
                 ck.err(f"{tag}: block {b.marker!r} has no org")
             if b.country and (not COUNTRY_RE.match(b.country) or b.country not in COUNTRIES):
                 ck.err(f"{tag}: block {b.marker!r} country {b.country!r} is not a known ISO alpha-2 code")
-            if not LOCATOR_RE.match(b.locator):
+            if b.basis == "prose" and not re.fullmatch(r"P[0-9]+", b.marker):
+                ck.err(f"{tag}: prose block marker {b.marker!r} must be a synthetic P<n> (never printed, D354)")
+            if b.basis in ("grouped", "per_author") and not re.fullmatch(r"G[0-9]+", b.marker):
+                ck.err(f"{tag}: {b.basis} block marker {b.marker!r} must be a synthetic G<n> (never printed, D368)")
+            if (b.clause or b.skip_prefix) and b.basis != "prose":
+                ck.err(f"{tag}: clause / skip_prefix only for prose blocks (D366)")
+            for mx in b.mo:
+                if mx.country and (not COUNTRY_RE.match(mx.country) or mx.country not in COUNTRIES):
+                    ck.err(f"{tag}: more_orgs country {mx.country!r} is not a known ISO alpha-2 code (D367)")
+            if not spec.locator_re.match(b.locator):
                 ck.err(f"{tag}: block {b.marker!r} locator {b.locator!r} (D176 e)")
         regular = [a for a in p.affiliations if a.role == "affiliation"]
         if any(a.basis == "single" for a in p.affiliations) and (len(regular) != 1 or regular[0].marker):
@@ -1166,11 +1711,21 @@ def check_batch(
         for mk in set(by_marker) - used:
             ck.err(f"{tag}: block {mk!r} is used by no author (D176 c)")
         # (b) provenance against the printed text (D246)
-        md = header_text(texts[code]) if code in texts else None
-        pdf = pdf_header(pdfs[code]) if code in pdfs else None
-        check_provenance(p, tag, md, pdf, ck)
+        if lit:
+            pages = lit_search_pages([b.locator for b in p.affiliations])
+            md = lit_text(code, pages)
+            pdf = lit_pdf_text(code, pages)
+        else:
+            md = header_text(texts[code]) if code in texts else None
+            pdf = pdf_header(pdfs[code]) if code in pdfs else None
+        check_provenance(p, tag, md, pdf, ck, coverage=lit)
         # (d) slot matching (D174 / D247)
-        slot_of = match_slots(p, pres, tag, ck)
+        slot_of = match_slots(p, pres, tag, ck, strict=lit)
+        seq = [slot_of[k] for k in sorted(slot_of)]
+        order_differs = lit and seq != sorted(seq)
+        if order_differs:  # D363: slot = author-list position (D62 / D359); header_pos keeps the printed order
+            ck.warn(f"{tag}: printed author order differs from the author list (slots by name; header_pos kept)")
+            stats["papers_order_differs"] += 1
         n_meta = len(pres.authors)
         missing = sorted(set(range(1, n_meta + 1)) - set(slot_of.values()))
         extra_header = [au.name for au in p.authors if au.slot == 0]
@@ -1207,11 +1762,14 @@ def check_batch(
                 pa = pa or x.role == "present_address"
                 n_aff += x.role == "affiliation"
                 grade, note = GRADE_OF_BASIS.get(x.basis, ("A", ""))
-                for kk, org in enumerate([x.org, *x.more_orgs], 1):
+                for kk, mo in enumerate([MoreOrg(org=x.org, unit=x.unit), *x.mo], 1):
+                    org = mo.org
                     if kk == 1 and x.campus:  # D301: org + campus is the institution; never the parent / homonym
                         org = f"{org}, {x.campus}"
-                    xo = x.model_copy(update={"org": org, "unit": x.unit if kk == 1 else ""})
-                    ids, basis = map_org(m, xo)
+                    loc = x.locality if mo.locality is None or kk == 1 else mo.locality
+                    ctry = x.country if mo.country is None or kk == 1 else mo.country
+                    xo = x.model_copy(update={"org": org, "unit": mo.unit, "locality": loc, "country": ctry})
+                    ids, basis = map_org(m, xo, spec.corpus)
                     rows.append(
                         {
                             "source_id": sid,
@@ -1224,8 +1782,8 @@ def check_batch(
                             "org_k": kk,
                             "org_name": org,
                             "unit": xo.unit,
-                            "locality": x.locality,
-                            "country": x.country,
+                            "locality": xo.locality,
+                            "country": xo.country,
                             "marker_basis": x.basis,
                             "evidence_grade": grade,  # D240 / D246
                             "grade_note": note,
@@ -1247,17 +1805,21 @@ def check_batch(
                         unmapped[(org, xo.unit, x.country)].append(sid)
             if ordered and ordered[0].role == "present_address":
                 ck.warn(f"{tag}: author {au.name!r} has only a present-address block")
-            outcome = _outcome(a, hdr_ids, pa_ids, unmapped_here, orgs, xw)
-            cmp_rows.append(
-                _cmp(sid, a, au.name, sorted(hdr_ids), n_aff, pa, outcome, xw.get(("ofc2026", a.affiliation), []))
-            )
+            # D356: lit has no per-author metadata org to compare with
+            outcome = "recorded" if lit else _outcome(a, hdr_ids, pa_ids, unmapped_here, orgs, xw)
+            meta_ids = [] if lit else xw.get(("ofc2026", a.affiliation), [])
+            cmp_rows.append(_cmp(sid, a, au.name, sorted(hdr_ids), n_aff, pa, outcome, meta_ids))
             stats[f"outcome_{outcome}"] += 1
             stats["slots_multi_aff"] += n_aff >= 2
             stats["slots_present_address"] += pa
+        if lit:
+            for r in cmp_rows:
+                if r["source_id"] == sid:
+                    r["order_differs"] = order_differs
         stats["slots"] += n_meta
     derived = {
         "header_rows.csv": render_csv(ROW_COLS, rows),
-        "compare.csv": render_csv(CMP_COLS, cmp_rows),
+        "compare.csv": render_csv(CMP_COLS + (CMP_COLS_LIT_EXTRA if lit else []), cmp_rows),
         "unmapped_orgs.csv": render_csv(
             UNMAPPED_COLS,
             [
@@ -1336,7 +1898,12 @@ def stamp_ok(d: Path) -> bool:
     return st.read_text(encoding="utf-8").split()[-1] == hashlib.sha256(yp.read_bytes()).hexdigest()
 
 
-def write_aggregates(log: RunLog, meta: dict[str, ofc.OfcPresentation], orgs: dict[str, dict[str, str]]) -> int:
+def write_aggregates(
+    log: RunLog,
+    meta: Mapping[str, ofc.OfcPresentation | LitPaper],
+    orgs: dict[str, dict[str, str]],
+    spec: Spec | None = None,
+) -> int:
     """Across all batches with current derived files (stamp matches the YAML): org alias requests (D242, committed
     staging), conflict review list (D241) and header-only authors (D243), both local only (data/_local/, git-ignored).
     Returns the number of extracted batches skipped as stale."""
@@ -1347,7 +1914,8 @@ def write_aggregates(log: RunLog, meta: dict[str, ofc.OfcPresentation], orgs: di
     conflicts: list[dict[str, object]] = []
     extra: list[dict[str, object]] = []
     stale = 0
-    for d in batch_dirs():
+    spec = spec or OFC
+    for d in batch_dirs(spec):
         if not (d / "headers.yaml").exists():
             continue
         if not stamp_ok(d):
@@ -1393,9 +1961,9 @@ def write_aggregates(log: RunLog, meta: dict[str, ofc.OfcPresentation], orgs: di
                 "curation_note": CURATION_NOTES.get(name, ""),
             }
         )
-    write_atomic(BASE / "org_requests.csv", render_csv(REQUEST_COLS, rows))
-    write_atomic(LOCAL / "ofc_headers_conflicts.csv", render_csv(CONFLICT_COLS, conflicts))
-    write_atomic(LOCAL / "ofc_headers_extra_authors.csv", render_csv(EXTRA_AUTHOR_COLS, extra))
+    write_atomic(spec.base() / "org_requests.csv", render_csv(REQUEST_COLS, rows))
+    write_atomic(LOCAL / f"{spec.staging}_conflicts.csv", render_csv(CONFLICT_COLS, conflicts))
+    write_atomic(LOCAL / f"{spec.staging}_extra_authors.csv", render_csv(EXTRA_AUTHOR_COLS, extra))
     log.info(f"org_requests {len(rows)} strings; local conflicts {len(conflicts)}, extra authors {len(extra)}")
     return stale
 
@@ -1407,29 +1975,33 @@ def _inputs() -> tuple[dict[str, ofc.OfcPresentation], dict[str, dict[str, str]]
     return meta, orgs, xw
 
 
-def cmd_check(batches: list[str], dry_run: bool) -> int:
+def cmd_check(batches: list[str], dry_run: bool, corpus: str = "ofc2026") -> int:
     """Per-batch outputs only (safe to run in parallel, D248); `aggregate` writes the cross-batch files."""
+    spec = LIT if corpus == "lit" else OFC
     label = "all" if batches == ["all"] else "_".join(batches)[:40]
-    with RunLog(f"ofc_headers_check_{label}_{os.getpid()}", dry_run) as log:
-        meta, orgs, xw = _inputs()
-        texts = text_files()
-        pdfs = pdf_files()
-        eo = eo_duplicates()
+    with RunLog(f"{spec.staging}_check_{label}_{os.getpid()}", dry_run) as log:
+        meta: Mapping[str, ofc.OfcPresentation | LitPaper]
+        if spec is LIT:
+            _, orgs, xw = _inputs()
+            meta, texts, pdfs, eo = lit_papers(), {}, {}, lit_duplicates()
+        else:
+            meta, orgs, xw = _inputs()
+            texts, pdfs, eo = text_files(), pdf_files(), eo_duplicates()
         m = load_matcher()
         ck = Check(log)
         # (f) no paper in two batches
         where: dict[str, list[str]] = defaultdict(list)
-        for b in batch_dirs():
+        for b in batch_dirs(spec):
             for r in read_csv(b / "papers.csv"):
                 where[r["source_id"]].append(b.name)
         for sid, bs in where.items():
             if len(bs) > 1:
                 ck.err(f"{sid} queued in {bs} (D176 f)")
         total: Counter[str] = Counter()
-        names = [b.name for b in batch_dirs()] if batches == ["all"] else batches
+        names = [b.name for b in batch_dirs(spec)] if batches == ["all"] else batches
         for name in names:
-            d = BASE / name
-            st = check_batch(d, ck, meta, texts, pdfs, eo, m, orgs, xw, write=not dry_run)
+            d = spec.base() / name
+            st = check_batch(d, ck, meta, texts, pdfs, eo, m, orgs, xw, write=not dry_run, spec=spec)
             log.info(f"{name}: {dict(sorted(st.items()))}")
             log.event("batch", batch=name, stats=dict(st))
             total.update(st)
@@ -1443,11 +2015,17 @@ def cmd_check(batches: list[str], dry_run: bool) -> int:
     return 1 if ck.errors else 0
 
 
-def cmd_aggregate() -> int:
+def cmd_aggregate(corpus: str = "ofc2026") -> int:
     """Coordinator step after the batch checks (D248)."""
-    with RunLog(f"ofc_headers_aggregate_{os.getpid()}", False) as log:
-        meta, orgs, _ = _inputs()
-        stale = write_aggregates(log, meta, orgs)
+    spec = LIT if corpus == "lit" else OFC
+    with RunLog(f"{spec.staging}_aggregate_{os.getpid()}", False) as log:
+        meta: Mapping[str, ofc.OfcPresentation | LitPaper]
+        if spec is LIT:
+            _, orgs, _ = _inputs()
+            meta = lit_papers()
+        else:
+            meta, orgs, _ = _inputs()
+        stale = write_aggregates(log, meta, orgs, spec)
     return 1 if stale else 0
 
 
@@ -1466,17 +2044,23 @@ def main() -> int:
     sc = sub.add_parser("check")
     sc.add_argument("batches", nargs="+", help="batch names, or 'all'")
     sc.add_argument("--dry-run", action="store_true")
-    sub.add_parser("aggregate", help="cross-batch org_requests.csv and local review lists (coordinator, after checks)")
+    ss.add_argument("--pages", nargs="*", type=int, default=[], help="lit: further pages to print (page 1 always)")
+    sg = sub.add_parser(
+        "aggregate", help="cross-batch org_requests.csv and local review lists (coordinator, after checks)"
+    )
+    for x in (sp, sq, ss, sc, sg):
+        x.add_argument("--corpus", choices=["ofc2026", "lit"], default="ofc2026", help="D350 (default ofc2026)")
     a = ap.parse_args()
+    lit = a.corpus == "lit"
     if a.cmd == "pilot":
-        return cmd_pilot(a.codes)
+        return cmd_lit_pilot(a.codes) if lit else cmd_pilot(a.codes)
     if a.cmd == "queue":
-        return cmd_queue(a.size, a.dry_run)
+        return cmd_lit_queue(a.size, a.dry_run) if lit else cmd_queue(a.size, a.dry_run)
     if a.cmd == "show":
-        return cmd_show(a.batch, a.codes, a.pdf)
+        return cmd_lit_show(a.batch, a.codes, a.pdf, a.pages) if lit else cmd_show(a.batch, a.codes, a.pdf)
     if a.cmd == "aggregate":
-        return cmd_aggregate()
-    return cmd_check(a.batches, a.dry_run)
+        return cmd_aggregate(a.corpus)
+    return cmd_check(a.batches, a.dry_run, a.corpus)
 
 
 if __name__ == "__main__":
