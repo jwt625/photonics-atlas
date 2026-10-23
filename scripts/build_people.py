@@ -1,12 +1,15 @@
 """Build the person registry and affiliation observations (DevLog-004, D61-D70).
 
 Inputs (read-only): LIN people + edges, EO people / paper_authors / author_affiliations / papers / crossref.json, PK
-author_affiliations / papers, OFC 2026 authors_json; registry organizations / sources and the org crosswalk.
+author_affiliations / papers, OFC 2026 authors_json, OFC 2026 paper-header rows staged by DevLog-008
+(data/_staging/people/ofc_headers/*/header_rows.csv, batches with a current check stamp; D214-D219); registry
+organizations / sources and the org crosswalk.
 Writes data/people/{people,person_aliases,person_xref,affiliation_observations}.csv and the local-only review queue
 data/_local/people/review_queue.csv (name-only and other unconfirmed identity pairs; never committed, D64).
 
 Curated rows are kept: existing people.csv rows (new persons appended; derived fields refreshed: visibility, a
-display_name no longer printed by any of the person's records, a disambiguator copied from LIN, D93/D94),
+display_name no longer printed by any of the person's records, a disambiguator copied from LIN, D93/D94;
+same_as of ids kept without records, D212),
 person_aliases rows with origin manual, person_xref rows with basis manual. Person ids are reused through obs_id and EO
 xrefs and never reassigned (D65).
 
@@ -60,6 +63,8 @@ def main() -> int:
         slots = inp.slots
         log.info(f"slots {len(slots)} by corpus {dict(Counter(s.corpus for s in slots))}; dropped {dict(inp.dropped)}")
         log.info(f"common family names {len(inp.common)} (EO list {len(P.EO_COMMON)})")
+        _, stale = P.header_batches()
+        log.info(f"OFC header merge (D214-D219): {dict(inp.headers)}; stale batches skipped: {[d.name for d in stale]}")
         log.event("inputs", slots=dict(Counter(s.corpus for s in slots)), dropped=dict(inp.dropped))
         blocks: set[str] | None = None
         if args.only:
@@ -131,19 +136,21 @@ def main() -> int:
             n_public = 0
             for s in ms:
                 for oid, aff, org_id in P.obs_ids(s):
-                    grade = "A" if s.kind == "publication" else "B"
-                    vis = "review" if pid in demoted or c_only_lin or grade not in "AB" else "public"
+                    kind = aff.kind or s.kind
+                    grade = aff.grade or ("A" if kind == "publication" else "B")  # D214: header rows carry their grade
+                    conflict = s.hdr_status == "conflict"  # D216 (DevLog-008 D281): both sides review until resolved
+                    vis = "review" if pid in demoted or c_only_lin or conflict or grade not in "AB" else "public"
                     n_public += vis == "public"
                     obs_rows.append(
                         {
                             "obs_id": oid,
                             "person_id": pid,
-                            "printed_name": s.name,
+                            "printed_name": aff.printed_name or s.name,
                             "org_id": org_id,
                             "printed_org": aff.printed_org,
                             "unit": aff.unit,
                             "country": aff.country,
-                            "kind": s.kind,
+                            "kind": kind,
                             "aff_role": aff.role,
                             "active_on": s.active_on,
                             "source_id": s.source_id,
@@ -164,10 +171,20 @@ def main() -> int:
             orphans = []
         for pid in orphans:
             people_rows[pid]["visibility"] = "review"  # kept without records (D65): nothing to show
+        redirects = P.same_as_redirects(people_rows, orphans, old_obs, {r["obs_id"]: r["person_id"] for r in obs_rows})
+        for pid, row in people_rows.items():
+            new = redirects.get(pid, "")
+            if row.get("same_as", "") != new:
+                refreshed["same_as_set" if new else "same_as_cleared"] += 1
+            row["same_as"] = new
+        unresolved = sorted(set(orphans) - set(redirects))
+        if unresolved:
+            log.info(f"kept without records and no single surviving person (same_as empty, D212): {unresolved}")
         stats = {
             "people": len(people_rows),
             "people_new": new_people,
             "people_kept_without_records": len(orphans),
+            "people_redirected": sum(1 for r in people_rows.values() if r.get("same_as")),
             "people_by_visibility": dict(Counter(r.get("visibility", "") for r in people_rows.values())),
             "people_refreshed": dict(refreshed),
             "xref_by_scheme_basis": dict(Counter(f"{x['scheme']}/{x['basis']}" for x in xref_rows.values())),
@@ -176,6 +193,8 @@ def main() -> int:
             "obs_by_kind_grade": dict(Counter(f"{r['kind']}/{r['evidence_grade']}" for r in obs_rows)),
             "obs_by_visibility": dict(Counter(r["visibility"] for r in obs_rows)),
             "obs_unmapped_org": sum(1 for r in obs_rows if not r["org_id"]),
+            "obs_ofc_header": sum(1 for r in obs_rows if P.HEADER_ID_RE.search(r["obs_id"])),
+            "ofc_header_slots": dict(Counter(s.hdr_status for s in slots if s.hdr_status)),
             "review_pairs": len(queue),
             "review_persons": len(queued),
             "review_persons_demoted": len(demoted),

@@ -1,0 +1,22 @@
+# D259a (coordinator, 2026-10-22, DevLog-007): D259 applied strictly to lit:zhang2023. Every value taken from figures /
+# statements this paper reproduces from the authors' own earlier work is a cited value (skill rule 3 / D80i) and is
+# removed: ref. [29] (ECTC 2022; Fig. 5 SOA I-V incl. the 10 ohm row added by extaudit.yaml, Fig. 5 gain / gain spectra,
+# Fig. 6 switch transmission) and ref. [32] (OFC 2022 integrated transmitter: WTL1, already deleted by extaudit.yaml, and
+# the printing-site taper coupling). A component left without a performance metric is deleted (D49: geometry-only items
+# are not rows). Batch note: after this file lit:zhang2023 has no component rows; it had 4 components and 16 metric rows
+# before the ext audit (WTL1 8, SOA 4, taper 3, switch 1) plus the SOA m5 row added by extaudit.yaml and removed here
+# with its component (DevLog-007 D259, D259a).
+# Replay order: patch, sweep, gapfill, addendum, geometry, geoaudit, coord, sweep2, coord2, extaudit, sweep3, extaudit2.
+delete_components:
+- id: cmp_lit_zhang2023_utp_inp_soa_switch
+  why: 'D259a: all performance rows come from Fig. 5, reproduced from the authors'' ECTC 2022 paper (ref. [29]; p.7 caption):
+    gain_db m1 (on-chip gain saturating at ~10 dB), bw_3db_nm m2 / m3 (Fig. 5(b) gain spectra), series_resistance_ohm m5
+    (Fig. 5(a) I-V, 10 ohm); removed as cited values. The remaining length_um m4 (950 um coupon) is geometry only, so the
+    component is deleted (D49)'
+- id: cmp_lit_zhang2023_mzi_switch_1x2_soa
+  why: 'D259a: crosstalk_db m1 (20 dB off-state leakage) is read from Fig. 6, reproduced from the authors'' ECTC 2022 paper
+    (ref. [29]; p.8 caption); removed as a cited value, leaving no metric row, so the component is deleted (D49)'
+- id: cmp_lit_zhang2023_iii_v_si_taper_utp
+  why: 'D259a: coupling_efficiency_pct m1 (> 90 %, p.10) describes the printing site of the integrated transmitter of the
+    authors'' OFC 2022 paper (ref. [32], cited in the p.10 design paragraph); removed as a cited value. The remaining
+    taper_length_um m2 and gap_nm m3 are geometry only, so the component is deleted (D49)'

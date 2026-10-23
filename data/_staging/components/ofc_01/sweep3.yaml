@@ -1,0 +1,22 @@
+# Convention sweep 3 (coordinator, 2026-10-22, DevLog-007 D256): unit / prefix conversions of non-dimension values found mechanically and verified at the locator; derived unless the source prints the stored-unit form for the same quantity.
+# Batches with an extaudit.yaml carry their sweep 3 ops there; this file is used only where no extaudit.yaml exists.
+# Replay order: patch, sweep, gapfill, addendum, geometry, geoaudit, coord, sweep2, coord2, extaudit, sweep3.
+metrics:
+  cmp_ofc2026_th1f6_er_sin_mll-m3:
+    basis: derived
+    notes: 'Comb line of the minimum not stated; band inferred from the 1550 nm CBG reflection band and the 1559.424 nm reference
+      laser. Printed 3.6 kHz (measured value), stored in Hz: prefix conversion, basis derived (D256 / D82d).'
+    why: 'sweep 3 (D256): p.~3 Fig. 2(d) caption prints 3.6 kHz; the stored-unit form is printed nowhere in the source text,
+      so the conversion is derived'
+  cmp_ofc2026_w2a11_mci_ecl_12arm-m5:
+    basis: derived
+    notes: 'Printed 48.5 kHz (minimum, delayed self-heterodyne) (measured value), stored in Hz: prefix conversion, basis derived
+      (D256 / D82d).'
+    why: 'sweep 3 (D256): abstract and p.~2 Sec. 3 prints 48.5 kHz (minimum, delayed self-heterodyne); the stored-unit form
+      is printed nowhere in the source text, so the conversion is derived'
+  cmp_ofc2026_w2a11_mci_ecl_12arm-m6:
+    basis: derived
+    notes: 'Printed ''below 100 kHz'' across the tuning range (measured value), stored in Hz: prefix conversion, basis derived
+      (D256 / D82d).'
+    why: 'sweep 3 (D256): p.~2 Sec. 3 prints ''below 100 kHz'' across the tuning range; the stored-unit form is printed nowhere
+      in the source text, so the conversion is derived'

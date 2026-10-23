@@ -1,0 +1,60 @@
+# Ext audit corrections (coordinator, 2026-10-22, DevLog-007 D256-D259; audit record DevLog/audits/2026-10-22-registry-ext-gapfill-sweep-audit.md) plus convention sweep 3 ops (D256: unit / prefix conversions of non-dimension values) for this batch.
+# Replay order: patch, sweep, gapfill, addendum, geometry, geoaudit, coord, sweep2, coord2, extaudit, sweep3 (files absent in a batch are skipped).
+metrics:
+  cmp_lit_suda2025_polymer_sm_wg_fr4-m11:
+    scope: fiber_to_fiber
+    includes: two fiber-waveguide facets and 11 mm propagation
+    why: 'G_lit_02 audit: PDL is the TE-TM difference of fiber-to-fiber insertion loss (p.3-4); scope as on the IL rows m1
+      / m2 and the lit_05 gap-fill pdl rows'
+  cmp_lit_suda2025_polymer_sm_wg_fr4-m12:
+    scope: fiber_to_fiber
+    includes: two fiber-waveguide facets and 11 mm propagation
+    why: 'G_lit_02 audit: PDL is the TE-TM difference of fiber-to-fiber insertion loss (p.3-4); scope as on the IL rows m1
+      / m2 and the lit_05 gap-fill pdl rows'
+  cmp_lit_lu2024_pcw_dfb-m12:
+    basis: derived
+    notes: '''reaches 45 kHz''; Lorentzian per the conclusion (p.9). Printed 45 kHz (measured value), stored in Hz: prefix
+      conversion, basis derived (D256 / D82d).'
+    why: 'ext audit (D82d, outside the D255 dimension scope): p.8 prints 45 kHz, stored 45000 Hz; a prefix conversion is derived'
+  cmp_lit_billah2018_hcsel_dfb-m3:
+    value: '2700000'
+    value_max: '5800000'
+    basis: derived
+    notes: 'Values 2.7 / 2.9 / 5.8 / 4.2 MHz. Printed in MHz (measured values), stored in Hz: prefix conversion, basis derived
+      (D256 / D82d).'
+    why: 'ext audit (D82d, outside the D255 dimension scope): p.8 Sec. 4C prints 2.7 MHz etc., stored in Hz; prefix conversion
+      is derived; value strings without the float suffix'
+  cmp_lit_billah2018_hcsel_dfb-m5:
+    basis: derived
+    notes: 'Values 1.9 / 3.4 / 2.8 / 2.3 MHz. Printed 1.9 / 3.4 / 2.8 / 2.3 MHz (measured value), stored in Hz: prefix conversion,
+      basis derived (D256 / D82d).'
+    value: '1900000'
+    value_max: '3400000'
+    why: 'sweep 3 (D256): p.8 Sec. 4C prints 1.9 / 3.4 / 2.8 / 2.3 MHz; the stored-unit form is printed nowhere in the source
+      text, so the conversion is derived'
+  cmp_lit_billah2018_hcsel_dfb-m6:
+    value: '3000000'
+    value_max: '5000000'
+    basis: derived
+    notes: 'HCSEL linewidth ''specified between 3 MHz and 5 MHz'' (specification value). Printed in MHz, stored in Hz: prefix
+      conversion, basis derived (D256 / D82d).'
+    why: 'sweep 3 (D256): p.8 Sec. 4C prints ''specified between 3 MHz and 5 MHz''; stored in Hz, so the conversion is derived;
+      value strings without the float suffix'
+  cmp_lit_lu2024_pcw_dfb-m13:
+    basis: derived
+    notes: 'Printed ''tends to about 50 kHz'' at 300 mA (measured value), stored in Hz: prefix conversion, basis derived (D256
+      / D82d).'
+    why: 'sweep 3 (D256): p.8 prints ''tends to about 50 kHz'' at 300 mA; the stored-unit form is printed nowhere in the source
+      text, so the conversion is derived'
+  cmp_lit_lu2024_pcw_dfb-m20:
+    basis: derived
+    notes: '''decreases to less than 100 kHz'' at 180 mA. Printed less than 100 kHz (measured value), stored in Hz: prefix
+      conversion, basis derived (D256 / D82d).'
+    why: 'sweep 3 (D256): p.8 prints less than 100 kHz; the stored-unit form is printed nowhere in the source text, so the
+      conversion is derived'
+  cmp_lit_heim2025_ectl-m9:
+    locator: p.5; p.6 Fig. 2(e) caption
+    notes: Text p.5 prints 1.75 kHz; the Fig. 2(e) caption and the p.6 text print 1750 Hz (stored unit), so the basis stays
+      measured (D256).
+    why: 'sweep 3 (D256 / Q3): the p.5 text prints 1.75 kHz, the Fig. 2(e) caption and p.6 text print 1750 Hz (stored unit)
+      for the same free-running ILW: basis stays, locator cites it'

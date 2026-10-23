@@ -1,7 +1,7 @@
 // Geometry resolver for the layout viewer (DevLog-005 D102-D107). For a component: pick the layout template served by
 // its class, resolve every template dimension to one metric row (deterministic pick, alternatives exposed), and mark
 // the dimensions the source does not report. Labels are the stored value strings plus unit: no number is computed.
-import { fmtValue, type Component, type ComponentsView, type LayoutTemplate, type Metric } from '../components.svelte';
+import { fmtValue, type Component, type ComponentsView, type LayoutTemplate, type Metric, type PrimarySpec } from '../components.svelte';
 
 export type View = 'top' | 'xsec';
 export type BasisKind = 'design' | 'measured' | 'figure' | 'spec' | 'derived' | 'estimate' | 'simulated' | 'other';
@@ -178,13 +178,20 @@ export function resolve(c: Component, view: ComponentsView): Resolved | null {
 
 /** D107 companions shown next to the primary metric. */
 const COMPANION: Record<string, string[]> = {
-	dc: ['imbalance_db'],
+	dc: ['imbalance_db', 'split_ratio_pct'],
 	awg: ['crosstalk_adjacent_db'],
 	ge_pd: ['bw3db_ghz'],
 	ridge_laser: ['linewidth_hz']
 };
 
+/** Primary metric spec of a component (D229a): the template's class-specific `primary_by_class` entry, else `primary`. */
+export function primaryFor(cls: string, t: LayoutTemplate): PrimarySpec {
+	return t.primary_by_class?.[cls] ?? t.primary;
+}
+
 export interface Primary {
+	/** spec used for this component (primaryFor) */
+	spec: PrimarySpec;
 	param: string;
 	row: Metric | null;
 	n: number;
@@ -193,20 +200,67 @@ export interface Primary {
 	companions: { param: string; row: Metric }[];
 }
 
-/** Best value of the template's primary metric (scope as the template states; measured rows preferred over others,
- *  then better value, then metric id). ridge_laser falls back from output_power_mw to output_power_dbm. */
+/** Best value of the component's primary metric (primaryFor: class override, else the template primary). Passes in order (D221): measured rows with the template scope, measured
+ *  rows of any scope (scope printed), rows of any basis with the template scope, then the rest; within a pass the better
+ *  value, then metric id. ridge_laser falls back from output_power_mw to output_power_dbm inside each pass. */
 export function primaryMetric(c: Component, templateId: string, t: LayoutTemplate): Primary {
-	const params = templateId === 'ridge_laser' ? [t.primary.parameter, 'output_power_dbm'] : [t.primary.parameter];
-	for (const [p, strict] of [...params.map((q) => [q, true] as const), ...(t.primary.scope ? params.map((q) => [q, false] as const) : [])]) {
-		const rows = c.metrics.filter((m) => m.parameter === p && (!strict || !t.primary.scope || m.scope === t.primary.scope) && Number.isFinite(Number(m.value)) && m.statistic !== 'std');
-		if (!rows.length) continue;
-		const sgn = t.primary.better === 'lower' ? 1 : -1;
-		rows.sort((a, b) => (a.basis === 'measured' ? 0 : 1) - (b.basis === 'measured' ? 0 : 1) || sgn * (Number(a.value) - Number(b.value)) || metricOrder(a.metric_id) - metricOrder(b.metric_id));
-		const companions = (COMPANION[templateId] ?? []).flatMap((q) => {
-			const r = pickOrder(c.metrics.filter((m) => m.parameter === q && m.statistic !== 'std')).sort((a, b) => (a.basis === 'measured' ? 0 : 1) - (b.basis === 'measured' ? 0 : 1));
-			return r.length ? [{ param: q, row: r[0] }] : [];
-		});
-		return { param: p, row: rows[0], n: rows.length, scopeMatch: strict || !t.primary.scope, companions };
+	const spec = primaryFor(c.class, t);
+	const params = templateId === 'ridge_laser' ? [spec.parameter, 'output_power_dbm'] : [spec.parameter];
+	const scope = spec.scope;
+	const passes: [boolean, boolean][] = scope ? [[true, true], [true, false], [false, true], [false, false]] : [[true, false], [false, false]];
+	const sgn = spec.better === 'lower' ? 1 : -1;
+	// companions are shown with or without a primary row (UI audit 19: a dc with a measured split but no excess loss)
+	const companions = (COMPANION[templateId] ?? []).flatMap((q) => {
+		const r = pickOrder(c.metrics.filter((m) => m.parameter === q && m.statistic !== 'std')).sort((a, b) => (a.basis === 'measured' ? 0 : 1) - (b.basis === 'measured' ? 0 : 1));
+		return r.length ? [{ param: q, row: r[0] }] : [];
+	});
+	for (const [measured, strict] of passes) {
+		for (const p of params) {
+			const rows = c.metrics.filter(
+				(m) => m.parameter === p && (!measured || m.basis === 'measured') && (!strict || m.scope === scope) && Number.isFinite(Number(m.value)) && m.statistic !== 'std'
+			);
+			if (!rows.length) continue;
+			rows.sort((a, b) => sgn * (Number(a.value) - Number(b.value)) || metricOrder(a.metric_id) - metricOrder(b.metric_id));
+			const n = c.metrics.filter((m) => m.parameter === p && Number.isFinite(Number(m.value)) && m.statistic !== 'std').length;
+			return { spec, param: p, row: rows[0], n, scopeMatch: !scope || rows[0].scope === scope, companions };
+		}
 	}
-	return { param: t.primary.parameter, row: null, n: 0, scopeMatch: true, companions: [] };
+	return { spec, param: spec.parameter, row: null, n: 0, scopeMatch: true, companions };
+}
+
+const SI_PREFIX: [number, string][] = [[1e12, 'T'], [1e9, 'G'], [1e6, 'M'], [1e3, 'k']];
+const LEN_UP: Record<string, [string, number][]> = { nm: [['mm', 1e6], ['µm', 1e3]], um: [['mm', 1e3]] };
+
+/** Significant digits of a stored number string (trailing zeros of an integer are not significant). */
+function sig(s: string): number {
+	// a float-formatted integer ("3500000.0", lit corpus) has no significant digits after the point (UI audit 2026-10-23 #5)
+	s = s.replace(/\.0+$/, '');
+	const d = s.replace(/^[-+]?0*/, '').replace('.', '');
+	const t = s.includes('.') ? d.replace(/^0+/, '') : d.replace(/0+$/, '');
+	return Math.min(Math.max(t.length, 1), 6);
+}
+function eng(s: string, k: number): string {
+	const v = Number(s) / k;
+	return String(Number(v.toPrecision(sig(s))));
+}
+
+/** Compact card text of a row (D224): lengths >= 1000 in the next unit (10000 nm -> 10 µm, 390000 µm -> 390 mm), Hz with
+ *  an SI prefix, other values >= 1e5 in exponent form (566000000 -> 5.66e8). The stored string stays in the tooltip. */
+export function compactLabel(m: Metric): string {
+	const q = fmtValue(m).match(/^[<>=~]+ /)?.[0] ?? '';
+	const v = Math.abs(Number(m.value));
+	if (!Number.isFinite(v)) return rowLabel(m);
+	const both = (f: (x: string) => string) => f(m.value) + (m.value_max ? '-' + f(m.value_max) : '');
+	for (const [u, k] of LEN_UP[m.unit] ?? []) if (v >= k) return q + both((x) => eng(x, k)) + ' ' + u;
+	if (m.unit === 'Hz') for (const [k, p] of SI_PREFIX) if (v >= k) return q + both((x) => eng(x, k)) + ' ' + p + 'Hz';
+	if (v >= 1e5 && !(m.unit in TO_UM) && m.unit !== 'Hz') {
+		const u = unitLabel(m.unit);
+		return q + both((x) => Number(x).toExponential(sig(x) - 1).replace('e+', 'e')) + (u ? ' ' + u : '');
+	}
+	return rowLabel(m);
+}
+
+/** Basis plus statistic (median, mean, best ...) of a row, for the primary value on cards and the primary line. */
+export function basisStat(m: Metric): string {
+	return m.basis + (m.statistic ? ', ' + m.statistic : '');
 }

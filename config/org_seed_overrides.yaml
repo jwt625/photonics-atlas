@@ -44,3 +44,16 @@ ror_ids:
   # Company"; same company, website en.yofc.com). Without it the ROR pass created a duplicate org (folded 2026-10-20,
   # DevLog-001 / P0 code audit S4).
   "lin:org_yofc": "https://ror.org/017wqzq54"
+  # D200 (2026-10-22, PK b1daf52 orgs): ROR company records carry a trailing " (Country)" disambiguator (and sometimes a
+  # legal suffix), so the exact-name lookup misses them. Set only where the display name minus that disambiguator has
+  # the PK name's normalized key, the record is active and its country equals the PK country; verified in the pinned
+  # dump v2.15-2026-10-20. Not set: "Applied Materials Singapore Technology" (ROR "Applied Materials (Singapore)" is a
+  # different name), "IMT" (ROR "IMT Srl (Italy)"; PK prints only "IMT", Rome, full name not printed).
+  "pk:Apic Yamada": "https://ror.org/02am2vc95"  # APIC Yamada Corporation (Japan), JP
+  "pk:MIRISE Technologies": "https://ror.org/04pm66810"  # Mirise Technologies Corporation (Japan), JP
+  "pk:Northrop Grumman": "https://ror.org/05kewds18"  # Northrop Grumman (United States), US; parent of the national records
+  "pk:Onto Innovation": "https://ror.org/0317a1b85"  # Onto Innovation (United States), US
+  "pk:Panasonic": "https://ror.org/011tm7n37"  # Panasonic (Japan), JP; parent of the national records (PK: parent brand, HQ country)
+  "pk:Socionext": "https://ror.org/04ma89d43"  # Socionext (Japan), JP
+  "pk:Sumitomo Bakelite": "https://ror.org/02kxw8q35"  # Sumitomo Bakelite (Japan), JP
+  "pk:TAZMO": "https://ror.org/01yj45475"  # Tazmo Co., Ltd. (Japan), JP

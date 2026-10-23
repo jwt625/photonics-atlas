@@ -81,7 +81,8 @@ orgs:
     why: ROR parent relation
   org_fonctions_optiques_pour_les_technologies_de_linformation:
     parent_org_id: org_universite_de_rennes
-    why: ROR parent relation
+    notes: "curated (batch_2): ror:03yn94905 Fonctions Optiques pour les Technologies de l’information (acronym FOTON), facility; ofc2026:M1F.1 p.1 affiliation \"Universite de Rennes, CNRS, Institut FOTON - UMR 6082, Lannion, France\"; ROR lists 4 parents (incl. CNRS 02feahw73); registry org_cnrs has no ror_id; parent left empty"
+    why: "ROR parent relation; D339 (round-6 audit W3): address text reduced to org / unit / city / country (D172 / D244)"
   org_university_of_science_and_technology_of_china:
     parent_org_id: org_chinese_academy_of_sciences
     why: ROR parent relation
@@ -89,6 +90,112 @@ orgs:
   org_aim_photonics:
     ror_id: https://ror.org/01cb8vz90
     why: ROR record 01cb8vz90 matches the registry name (org curation round 2)
+  # D201 (2026-10-22, PK b1daf52): PK prints only "IMT" (Rome; PK note "full name and type not printed"). A bare
+  # three-letter name would route every printed "IMT" (other IMT institutes exist, e.g. the registry's IMT Atlantique)
+  # to this org, so its name is kept out of name matching and a pk-scoped alias maps the PK string (add_aliases below).
+  org_imt:
+    no_name_match: 'true'
+    why: 'D201: bare acronym printed without full name; matched only through the pk-scoped alias'
+  # D202 (2026-10-22, PK b1daf52): PK organizations.csv states parent_org University College Cork for Tyndall, and
+  # ROR 007ecwd34 (Tyndall National Institute) lists parent 03265fv13 (University College Cork); UCC is a registry org
+  # since the 2026-10-22 seed.
+  org_tyndall_national_institute:
+    parent_org_id: org_university_college_cork
+    origin: pk;ofc2026;ror
+    why: 'D202: PK parent_org and ROR parent relation (007ecwd34 -> 03265fv13); origin gains pk (D200 origin rule below)'
+  # D200 origin rule (2026-10-22): the seed is append-only, so an existing org that a new PK org_name (b1daf52) maps
+  # to by name does not get pk in its origin; set here (origin lists the inputs that contributed the row, enum order).
+  org_beijing_institute_of_technology: {origin: pk;ofc2026;ror, why: 'D200: PK org_name Beijing Institute of Technology (b1daf52) maps by name'}
+  org_eindhoven_university_of_technology: {origin: eo;pk, why: 'D200: PK org_name Eindhoven University of Technology (b1daf52) maps by name'}
+  org_instituto_de_telecomunicacoes: {origin: pk;ofc2026;ror, why: 'D200: PK org_name Instituto de Telecomunicações (b1daf52) maps by name'}
+  org_mit: {origin: eo;pk;lin, why: 'D200: PK org_name Massachusetts Institute of Technology (b1daf52) maps by name'}
+  org_nec: {origin: pk;ofc2026;ror, why: 'D200: PK org_name NEC (b1daf52) maps by name'}
+  org_national_institute_of_information_and_communications_technology: {origin: eo;pk, why: 'D200: PK org_name National Institute of Information and Communications Technology (b1daf52) maps by name'}
+  org_thales_alenia_space: {origin: pk;ofc2026;ror, why: 'D200: PK org_name Thales Alenia Space (b1daf52) maps by name'}
+  org_yonsei_university: {origin: pk;ofc2026;ror, why: 'D200: PK org_name Yonsei University (b1daf52) maps by name'}
+
+  # D275 (2026-10-22, org round 5): this org is Italy's CNR (ROR 04zaypm56, label Consiglio Nazionale delle Ricerche,
+  # Rome). The bare name "National Research Council" also names other national bodies (National Research Council
+  # Canada, ROR 04mte1k06, a separate registry org since round 5), so the name is kept out of name matching; the org
+  # maps through its aliases (Consiglio Nazionale delle Ricerche). No crosswalk row matched it by name (checked).
+  org_national_research_council:
+    no_name_match: 'true'
+    notes: "Italy's Consiglio Nazionale delle Ricerche (CNR), Rome; ROR types: funder, nonprofit; v2.15-2026-10-20-ror-data. D275: no_name_match, the bare English name is shared with other national research councils (e.g. National Research Council Canada, org_national_research_council_canada)"
+    why: 'D275: bare name ambiguous between national research councils; matched through aliases only'
+
+  # D339 (round-6 audit W3, 2026-10-23): notes of rows merged before org round 6 quoted address text.
+  org_femtum:
+    notes: "curated (batch_2): ofc2026:Th1D.5 p.1 affiliation \"Femtum, Quebec (QC), Canada\"; no ROR record; country from header address"
+    why: "D339 (round-6 audit W3): address text reduced to org / unit / city / country (D172 / D244)"
+  org_fiberhome_fujikura_optic_technology:
+    notes: "curated (batch_2): ofc2026:Th3A.2 p.1 affiliation \"Fiberhome Fujikura Optic Technology, Wuhan, China\"; no ROR record; distinct company name; not mapped to FiberHome or Fujikura; org_type unknown (no legal-form word)"
+    why: "D339 (round-6 audit W3): address text reduced to org / unit / city / country (D172 / D244)"
+  org_fiberhome_technology_group:
+    notes: "curated (batch_2): ror:04yv20134 Fiberhome Technology Group (China), company; Th4C.5 header lists \"Fiberhome Telecommunication Technologies Co., LTD, ... Wuhan, China\""
+    why: "D339 (round-6 audit W3): address text reduced to org / unit / city / country (D172 / D244)"
+  org_formfactor:
+    notes: "curated (batch_2): ror:03n4yr938 FormFactor (United States), company; ofc2026:Tu2D.5 p.1 affiliation \"FormFactor Inc., ... Beaverton, OR, USA\""
+    why: "D339 (round-6 audit W3): address text reduced to org / unit / city / country (D172 / D244)"
+  org_fuji_film_business_innovation:
+    notes: "curated (batch_2): ofc2026:W1B.4 p.1 affiliation \"FUJIFILM Business Innovation Corp., Ebina, Kanagawa, Japan\"; no ROR record under this name; renamed successor of Fuji Xerox; not mapped to ROR 02w528w58 Fuji Xerox (rule 3); name kept as printed in batch incl. Kabushiki Kaisha"
+    why: "D339 (round-6 audit W3): address text reduced to org / unit / city / country (D172 / D244)"
+  org_fujikura:
+    notes: "curated (batch_2): ror:0123ma395 Fujikura (Japan), company; ofc2026:W2A.18 p.1 affiliation \"Optical Technologies R&D Center, Fujikura Ltd., ... Sakura, Chiba, Japan\""
+    why: "D339 (round-6 audit W3): address text reduced to org / unit / city / country (D172 / D244)"
+  org_genopsys_technologies:
+    notes: "curated (batch_2): ofc2026:W4H.3 p.1 affiliation \"GeNopsys Technologies Inc., ... Hsinchu City, Taiwan\"; no ROR record"
+    why: "D339 (round-6 audit W3): address text reduced to org / unit / city / country (D172 / D244)"
+  org_hangzhou_qoretek:
+    notes: "curated (batch_2): ofc2026:W2A.4 p.1 affiliation \"QoreTek, Hangzhou, China\"; no ROR record"
+    why: "D339 (round-6 audit W3): address text reduced to org / unit / city / country (D172 / D244)"
+  org_hewlett_packard_labs:
+    notes: "curated (batch_2): ofc2026:M1G.3 p.1 affiliation \"Hewlett Packard Labs, Large-Scale Integrated Photonics Laboratory, ... Milpitas, CA, USA\"; no ROR record; research lab (rule 2); parent company not stated in header or ROR, left empty (candidate registry org_hewlett_packard_enterprise, review); org_type industrial_lab by analogy to registry Bell Labs rows"
+    why: "D339 (round-6 audit W3): address text reduced to org / unit / city / country (D172 / D244)"
+  org_hs_photonics:
+    notes: "curated (batch_2): ofc2026:M1B.2 p.1 affiliation \"HS Photonics Co., Ltd., Changsha, China\"; no ROR record; trailing part is the company location"
+    why: "D339 (round-6 audit W3): address text reduced to org / unit / city / country (D172 / D244)"
+  org_innolume:
+    notes: "curated (batch_2): ror:05gmpv778 Innolume (Germany), company; ofc2026:Th2A.46 p.1 affiliation \"Innolume GmbH, ... Dortmund, Germany\""
+    why: "D339 (round-6 audit W3): address text reduced to org / unit / city / country (D172 / D244)"
+  org_inphred:
+    notes: "curated (batch_2): ofc2026:W4E.4 p.1 affiliation \"Inphred Inc., Boston, MA, USA\"; no ROR record"
+    why: "D339 (round-6 audit W3): address text reduced to org / unit / city / country (D172 / D244)"
+  org_institute_of_southwestern_communication:
+    notes: "curated (batch_2): ofc2026:Tu3K.2 p.1 affiliation \"National Key Laboratory of Security Communication, Institute of Southwestern Communication, Chengdu, China\"; no ROR record"
+    why: "D339 (round-6 audit W3): address text reduced to org / unit / city / country (D172 / D244)"
+  org_kddi_research:
+    notes: "curated (batch_2): ror:05qsqt662 KDDI Research (Japan), ja label KDDI Sogo Kenkyujo; ofc2026:Th1I.4 p.1 affiliation \"KDDI Research, Inc., Saitama, Japan\""
+    why: "D339 (round-6 audit W3): address text reduced to org / unit / city / country (D172 / D244)"
+  org_king_abdullah_university_of_science_and_technology:
+    notes: "curated (batch_2): ror:01q3tbs38 King Abdullah University of Science and Technology, education; ofc2026:W2A.21 p.1 affiliation \"Photonics Laboratory, King Abdullah University of Science and Technology (KAUST), Thuwal, Kingdom of Saudi Arabia\""
+    why: "D339 (round-6 audit W3): address text reduced to org / unit / city / country (D172 / D244)"
+  org_leidos:
+    notes: "curated (batch_2): ror:012cvds63 Leidos (United States), company; ofc2026:Th4C.7 p.1 affiliation \"Leidos Inc., Arlington, VA, USA\""
+    why: "D339 (round-6 audit W3): address text reduced to org / unit / city / country (D172 / D244)"
+  org_lightera:
+    notes: "curated (batch_2): ofc2026:Tu3D.5 p.1 affiliation \"Lightera, Somerset, New Jersey, USA\"; no ROR record; not mapped to OFS or Furukawa (rule 3); org_type unknown"
+    why: "D339 (round-6 audit W3): address text reduced to org / unit / city / country (D172 / D244)"
+  org_omattrix:
+    notes: "curated (batch_3): ofc2026:Th1B.1 p.1 affiliation (Omattrix Ltd. Co., Santa Clara CA); no registry/ROR row; name from header form; country US from header address Santa Clara CA plus ZIP (no country word printed)"
+    why: "D339 (round-6 audit W3): address text reduced to org / unit / city / country (D172 / D244)"
+  org_prysmian_group:
+    notes: "curated (batch_3): ROR 01kh3en48 (Prysmian Group (Italy), company); ofc2026:M1C.2 p.1 affiliation (Prysmian, Haisnes, France); no registry row"
+    why: "D339 (round-6 audit W3): address text reduced to org / unit / city / country (D172 / D244)"
+  org_state_key_laboratory_of_mobile_network_and_mobile_multimedia_technology:
+    notes: "curated (batch_1): ofc2026:M3K.2 p.1 affiliation (Shenzhen, China; no host org printed); no ROR record; leading 3 is a footnote marker; host org not printed in header, so no parent; ROR record and parent applied by coordinator (DevLog-001)"
+    why: "D339 (round-6 audit W3): address text reduced to org / unit / city / country (D172 / D244)"
+  org_westlake_institute_for_optoelectronics:
+    notes: "curated (batch_4): ofc2026:W3F.5 and Th1K.2 p.1 affiliation (Westlake Institute for Optoelectronics, Hangzhou, China; listed separately from Westlake University); no ROR record; not mapped to org_westlake_university: headers list it as a separate affiliation; parent not stated - review"
+    why: "D339 (round-6 audit W3): address text reduced to org / unit / city / country (D172 / D244)"
+  org_center_for_nanoscale_characterization_and_devices:
+    notes: "curated (batch_5): eo:wang2022a p.4 ack 'Center for Nanoscale Characterization & Devices (CNCD), WNLO of HUST for the facility support'; eo:wang2022a p.1 affiliation 'Wuhan National Laboratory for Optoelectronics, ..., Huazhong University of Science and Technology, Wuhan, China'; registry org_huazhong_university_of_science_and_technology; no ROR record for CNCD; parent = HUST, the most specific registry host: WNLO has ROR 03c9ncn37 but the registry maps WNLO strings to HUST as unit_printed (batch_4); re-parent if WNLO becomes its own org; country CN from the host header address"
+    why: "D339 (round-6 audit W3): address text reduced to org / unit / city / country (D172 / D244)"
+  org_grace_semiconductor_manufacturing:
+    notes: "curated (batch_7): lit:sheng2012 p.2 affiliation 'Grace Semiconductor Manufacturing Corporation, Shanghai, China'; as-of-source org (2012); no fab role (passive 0.13 um CMOS wording, lit_05 audit Q2); later corporate history not sourced"
+    why: "D339 (round-6 audit W3): address text reduced to org / unit / city / country (D172 / D244)"
+  org_qaleido_photonics:
+    notes: "curated (batch_7): lit:ye2023 p.1 affiliation 'Qaleido Photonics, Hangzhou, China'; p.12 disclosures 'Qaleido Photonics, a start-up'; D311: type unknown (D17: no type word in the name, no ROR record; p.12 calls it a start-up); country CN as printed; no registry / ROR row"
+    why: "D339 (round-6 audit W3): address text reduced to org / unit / city / country (D172 / D244)"
 aliases:
 - match:
     org_id: org_china_united_network_communications_group
@@ -159,4 +266,133 @@ aliases:
   set:
     notes: 'batch_4: misspelled printed form of YOFC (org_yofc)'
   why: note cited the folded id
-add_aliases: []
+# D339 (round-6 audit W3, 2026-10-23): alias notes merged before org round 6 that quoted address text.
+- match:
+    org_id: org_wuhan_hggenuine_optics_tech
+    alias: "HGGenuine Optics Tech Co., Ltd"
+  set:
+    notes: "batch_2: registry:org_wuhan_hggenuine_optics_tech; ofc2026:Th4A.7 p.1 affiliation \"Wuhan HGGenuine Optics Tech Co., Ltd, Wuhan\"; not registry org_genuine_optics (US)"
+  why: "D339 (round-6 audit W3): address text reduced to org / unit / city / country (D172 / D244)"
+- match:
+    org_id: org_nstic
+    alias: "National Semiconductor Translation and Innovation Centre (NSTIC)"
+  set:
+    notes: "batch_3: registry org_nstic; ofc2026:Th1D.1 p.1 affiliation (NSTIC, Singapore)"
+  why: "D339 (round-6 audit W3): address text reduced to org / unit / city / country (D172 / D244)"
+- match:
+    org_id: org_state_key_laboratory_of_mobile_network_and_mobile_multimedia_technology
+    alias: "3State Key Laboratory of Mobile Network and Mobile Multimedia Technology"
+  set:
+    notes: "batch_1: ofc2026:M3K.2 p.1 affiliation (Shenzhen, China; no host org printed); no ROR record; leading 3 is a footnote marker; host org not printed in header, so no parent"
+  why: "D339 (round-6 audit W3): address text reduced to org / unit / city / country (D172 / D244)"
+- match:
+    org_id: org_bt_group
+    alias: "BT Research & Network Strategy"
+  set:
+    notes: "batch_1: ofc2026:Tu2E.1 p.1 affiliation (BT Research & Network Strategy, Ipswich, UK); ROR 00kv9pj15 BT Group (United Kingdom), types company; funder"
+  why: "D339 (round-6 audit W3): address text reduced to org / unit / city / country (D172 / D244)"
+- match:
+    org_id: org_fiberhome_technology_group
+    alias: "FiberHome Technologies Group"
+  set:
+    notes: "batch_2: ror:04yv20134 Fiberhome Technology Group (China), company; Th4C.5 header lists \"Fiberhome Telecommunication Technologies Co., LTD, ... Wuhan, China\""
+  why: "D339 (round-6 audit W3): address text reduced to org / unit / city / country (D172 / D244)"
+- match:
+    org_id: org_globalfoundries
+    alias: "Globalfoundries Inc Malta"
+  set:
+    notes: "batch_2: registry:org_globalfoundries; ofc2026:M2A.3 p.1 affiliation \"GlobalFoundries, Malta, NY, USA\"; site of company"
+  why: "D339 (round-6 audit W3): address text reduced to org / unit / city / country (D172 / D244)"
+- match:
+    org_id: org_the_hong_kong_university_of_science_and_technology_guangzhou
+    alias: "Hong Kong Univ of Sci & Tech (Guangzhou)"
+  set:
+    notes: "batch_2: registry:org_the_hong_kong_university_of_science_and_technology_guangzhou; ofc2026:Th3D.2 p.1 affiliation \"The Hong Kong University of Science and Technology (Guangzhou), Guangzhou\"; Guangzhou campus org, not HKUST HK"
+  why: "D339 (round-6 audit W3): address text reduced to org / unit / city / country (D172 / D244)"
+- match:
+    org_id: org_hs_photonics
+    alias: "HS Photonics Co., Ltd., Xiangjiang Science & Technology Innovation Base"
+  set:
+    notes: "batch_2: ofc2026:M1B.2 p.1 affiliation \"HS Photonics Co., Ltd., Changsha, China\"; no ROR record; trailing part is the company location"
+  why: "D339 (round-6 audit W3): address text reduced to org / unit / city / country (D172 / D244)"
+- match:
+    org_id: org_fudan_university
+    alias: "Information Office of Fudan University"
+  set:
+    notes: "batch_2: registry:org_fudan_university; ofc2026:Th4C.4 p.1 affiliation \"Information Office of Fudan University, Fudan University, Shanghai, China\""
+  why: "D339 (round-6 audit W3): address text reduced to org / unit / city / country (D172 / D244)"
+- match:
+    org_id: org_fonctions_optiques_pour_les_technologies_de_linformation
+    alias: "Institut Fonctions Optiques pour les Technologies de l'Information"
+  set:
+    notes: "batch_2: ror:03yn94905 Fonctions Optiques pour les Technologies de l’information (acronym FOTON), facility; ofc2026:M1F.1 p.1 affiliation \"Universite de Rennes, CNRS, Institut FOTON - UMR 6082, Lannion, France\"; ROR lists 4 parents (incl. CNRS 02feahw73); registry org_cnrs has no ror_id; parent left empty"
+  why: "D339 (round-6 audit W3): address text reduced to org / unit / city / country (D172 / D244)"
+- match:
+    org_id: org_institute_of_computing_technology
+    alias: "Institute of Computing Technology, Chinese Academy of Sciences, Beijing 100190, China University of Chinese Academy of Sciences"
+  set:
+    notes: "batch_2: ror:0090r4d87; registry:org_university_of_chinese_academy_of_sciences; ofc2026:Th2A.35 p.1 affiliation \"1 Institute of Computing Technology, Chinese Academy of Sciences, Beijing, China 2 University of Chinese Academy of Sciences\"; two affiliations merged into one string; ICT is a new org proposed in this batch"
+  why: "D339 (round-6 audit W3): address text reduced to org / unit / city / country (D172 / D244)"
+- match:
+    org_id: org_university_of_chinese_academy_of_sciences
+    alias: "Institute of Computing Technology, Chinese Academy of Sciences, Beijing 100190, China University of Chinese Academy of Sciences"
+  set:
+    notes: "batch_2: ror:0090r4d87; registry:org_university_of_chinese_academy_of_sciences; ofc2026:Th2A.35 p.1 affiliation \"1 Institute of Computing Technology, Chinese Academy of Sciences, Beijing, China 2 University of Chinese Academy of Sciences\"; two affiliations merged into one string; ICT is a new org proposed in this batch"
+  why: "D339 (round-6 audit W3): address text reduced to org / unit / city / country (D172 / D244)"
+- match:
+    org_id: org_astar_ime
+    alias: "Institute of Microelectronics (IME)"
+  set:
+    notes: "batch_2: registry:org_astar_ime (aliases IME, Institute of Microelectronics); ofc2026:Th1D.1 p.1 affiliation \"Institute of Microelectronics (IME), A*STAR, Singapore\"; A*STAR IME, not CAS IME"
+  why: "D339 (round-6 audit W3): address text reduced to org / unit / city / country (D172 / D244)"
+- match:
+    org_id: org_kddi_research
+    alias: "Kabushiki Kaisha KDDI Sogo Kenkyujo"
+  set:
+    notes: "batch_2: ror:05qsqt662 KDDI Research (Japan), ja label KDDI Sogo Kenkyujo; ofc2026:Th1I.4 p.1 affiliation \"KDDI Research, Inc., Saitama, Japan\""
+  why: "D339 (round-6 audit W3): address text reduced to org / unit / city / country (D172 / D244)"
+- match:
+    org_id: org_king_abdullah_university_of_science_and_technology
+    alias: "King Abdullah University of Science and Technology Computer Electrical and Mathematical Science and Engineering Division"
+  set:
+    notes: "batch_2: ror:01q3tbs38 King Abdullah University of Science and Technology, education; ofc2026:W2A.21 p.1 affiliation \"Photonics Laboratory, King Abdullah University of Science and Technology (KAUST), Thuwal, Kingdom of Saudi Arabia\""
+  why: "D339 (round-6 audit W3): address text reduced to org / unit / city / country (D172 / D244)"
+- match:
+    org_id: org_korea_advanced_institute_of_science_and_technology
+    alias: "Korea Advanced Institute of Science and Technology College of Engineering"
+  set:
+    notes: "batch_2: registry:org_korea_advanced_institute_of_science_and_technology; ofc2026:Tu2K.5 p.1 affiliation \"Korea Advanced Institute of Science and Technology (KAIST), Daejeon, South Korea\""
+  why: "D339 (round-6 audit W3): address text reduced to org / unit / city / country (D172 / D244)"
+- match:
+    org_id: org_institute_of_semiconductors_chinese_academy_of_sciences
+    alias: "Laboratory of Solid State Optoelectronics Information Technology, Institute of Semiconductors, Chinese Academy of Sciences"
+  set:
+    notes: "batch_2: registry:org_institute_of_semiconductors_chinese_academy_of_sciences; ofc2026:M1B.2 p.1 affiliation \"Laboratory of Solid State Optoelectronics Information Technology, Institute of Semiconductors, Chinese Academy of Sciences, Beijing, China\""
+  why: "D339 (round-6 audit W3): address text reduced to org / unit / city / country (D172 / D244)"
+- match:
+    org_id: org_prysmian_group
+    alias: "Prysmian"
+  set:
+    notes: "batch_3: ROR 01kh3en48 (Prysmian Group (Italy), company); ofc2026:M1C.2 p.1 affiliation (Prysmian, Haisnes, France); no registry row"
+  why: "D339 (round-6 audit W3): address text reduced to org / unit / city / country (D172 / D244)"
+- match:
+    org_id: org_prysmian_group
+    alias: "Prysmian Cables et Systemes France SAS"
+  set:
+    notes: "batch_3: ROR 01kh3en48; French subsidiary named Prysmian; ofc2026:M4E.3 p.1 affiliation (Prysmian Group, Haisnes, France)"
+  why: "D339 (round-6 audit W3): address text reduced to org / unit / city / country (D172 / D244)"
+- match:
+    org_id: org_center_for_nanoscale_characterization_and_devices
+    alias: "Center for Nanoscale Characterization & Devices (CNCD), WNLO, HUST"
+  set:
+    notes: "batch_5: eo:wang2022a p.4 ack 'Center for Nanoscale Characterization & Devices (CNCD), WNLO of HUST for the facility support'; eo:wang2022a p.1 affiliation 'Wuhan National Laboratory for Optoelectronics, ..., Huazhong University of Science and Technology, Wuhan, China'; registry org_huazhong_university_of_science_and_technology; no ROR record for CNCD; parent = HUST, the most specific registry host: WNLO has ROR 03c9ncn37 but the registry maps WNLO strings to HUST as unit_printed (batch_4); re-parent if WNLO becomes its own org; country CN from the host header address"
+  why: "D339 (round-6 audit W3): address text reduced to org / unit / city / country (D172 / D244)"
+# D201: the PK string "IMT" (name key equal to the org name, which is no_name_match) maps only inside the pk corpus.
+add_aliases:
+  - org_id: org_imt
+    alias: IMT
+    alias_type: printed_variant
+    origin: pk
+    scope: pk
+    basis: pk_name
+    notes: "D201: PK org_name 'IMT' (Rome); full name not printed; scoped to pk so other printed 'IMT' strings stay unmapped"

@@ -1,7 +1,10 @@
+import { readFileSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
 import type { Component, Metric } from '../components.svelte';
 import { platformFamily } from './colors';
 import {
+	logDtick,
 	applyExFilters,
 	buildScatter,
 	buildStrip,
@@ -46,6 +49,17 @@ describe('platform families', () => {
 		expect(platformFamily('other')).toBe('other');
 		expect(platformFamily(undefined)).toBe('other');
 		expect(platformFamily('plasmonic_mim')).toBe('other');
+		expect(platformFamily('gap_on_insulator')).toBe('iii_v');
+		expect(platformFamily('iii_v_on_si_epi')).toBe('iii_v');
+	});
+	it('every platform enum value of components.schema.yaml has a family, except the declared neutral ones (D229a)', () => {
+		const y = readFileSync(fileURLToPath(new URL('../../../../data/schema/components.schema.yaml', import.meta.url)), 'utf-8');
+		const enumLine = y.match(/^\s*platform: \[([^\]]+)\]/m);
+		expect(enumLine).not.toBeNull();
+		const vals = enumLine![1].split(',').map((v) => v.trim());
+		expect(vals).toContain('gap_on_insulator');
+		const neutral = new Set(['other', 'plasmonic_mim', 'al2o3']);
+		expect(vals.filter((v) => !neutral.has(v) && platformFamily(v) === 'other')).toEqual([]);
 	});
 });
 
@@ -192,5 +206,13 @@ describe('filters and counts', () => {
 		const h = classPlatformMatrix(cs, 'family');
 		expect(h.rows[0]).toBe('fiber_chip_coupler');
 		expect(h.z.flat().reduce((a, b) => a + b, 0)).toBe(3);
+	});
+});
+
+describe('log axis ticks (UI audit 20)', () => {
+	it('1-2-5 labels within three decades, decades beyond, none without positive values', () => {
+		expect(logDtick([0.5, 3, 40])).toBe('D2');
+		expect(logDtick([1e4, 5e8])).toBe(1);
+		expect(logDtick([0, -1, null])).toBeUndefined();
 	});
 });

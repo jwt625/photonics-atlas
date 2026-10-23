@@ -1,6 +1,7 @@
 # Schema for the people atlas tables (data/people/*.csv). Loaded together with registry.schema.yaml by
 # scripts/validate_db.py. v1 2026-10-20 (DevLog-004, decisions D61-D70); v2 2026-10-20 (audit corrections D90-D94:
-# people.visibility, lin_id source notes). Rule checks: photonics_atlas/rules_people.py.
+# people.visibility, lin_id source notes); v3 2026-10-22 (D212: people.same_as redirect; D214: OFC header obs ids). Rule checks:
+# photonics_atlas/rules_people.py.
 #
 # Rules (binding, in addition to registry rules (a)-(h)):
 #   (p1) Public professional sources only. A publication or conference affiliation is a dated active_on observation,
@@ -10,16 +11,17 @@
 #        candidate matches live only in the git-ignored data/_local/people/review_queue.csv; every observation of a
 #        person in that queue has visibility review (D64).
 #   (p4) Grades: paper-printed affiliation A (kind publication), OFC organizer metadata B (kind conference); public
-#        visibility needs grade A/B (D70).
+#        visibility needs grade A/B (D70). OFC 2026 paper-header rows (D214): kind publication, obs id
+#        <source_id>#a<i>.h<aff_order>.<org_k>.m<n> (D219e), grade A, B only for the listing_order / layout marker bases.
 #   (p5) No e-mail addresses or other contact data in any cell. No LinkedIn-derived rows.
 #   (p6) Observations cite canonical sources only (no source with same_as): the 54 OFC 2026 papers in EO count once.
 #   (p7) No career claims in person rows: role, employer and move wording belong to the LIN claims layer (D93).
-version: 2
+version: 3
 
 patterns:
   people_person_id: "^person_[a-z0-9]+(_[a-z0-9]+)*$"
   people_orcid: "^[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{3}[0-9X]$"
-  people_obs_id: "^(eo|pk|ofc2026):[^\\s;#]+#a[0-9]+\\.[0-9]+(\\.[0-9]+)?$"
+  people_obs_id: "^(eo|pk|ofc2026):[^\\s;#]+#a[0-9]+\\.(h[0-9]+\\.[0-9]+\\.m[0-9]+|[0-9]+(\\.[0-9]+)?)$"
 
 enums:
   people_research_status: [not_started, seed_unverified, in_research, validated, conflicted]
@@ -42,6 +44,7 @@ tables:
       - {name: disambiguator, type: str, required: false, desc: "curated non-career discriminator only (field, native-script name); no role, employer or move wording; LIN name_disambiguator is not copied (career claim, D93)"}
       - {name: research_status, type: enum, enum: people_research_status, required: true, desc: "LIN value for LIN people; not_started otherwise; validated only for LIN people"}
       - {name: visibility, type: enum, enum: people_visibility, required: true, desc: "derived (D94): public iff >= 1 public observation or a LIN A/B source, and not a LIN person whose sources are all below B"}
+      - {name: same_as, type: fk, ref: people.person_id, required: false, desc: "redirect (D212): set on a committed id that lost all its records to a merge; the surviving person_id, never itself redirected; visibility review"}
       - {name: notes, type: str, required: false}
 
   person_aliases:
@@ -74,10 +77,10 @@ tables:
     built: true
     key: [obs_id]
     columns:
-      - {name: obs_id, type: str, pattern: people_obs_id, required: true, desc: "<source_id>#a<author_index>.<aff_order>[.<k> per org of a joint_printed string]"}
+      - {name: obs_id, type: str, pattern: people_obs_id, required: true, desc: "<source_id>#a<author_index>.<aff_order>[.<k> per org of a joint_printed string]; OFC paper-header rows <source_id>#a<author_index>.h<aff_order>.<org_k>.m<n> (D214; n = registry org index in the row, always present, D219e)"}
       - {name: person_id, type: fk, ref: people.person_id, required: true}
       - {name: printed_name, type: str, required: true, desc: "author name as printed in the input (D61)"}
-      - {name: org_id, type: fk, ref: organizations.org_id, required: false, desc: "registry org through the crosswalk; empty when unmapped"}
+      - {name: org_id, type: fk, ref: organizations.org_id, required: false, desc: "registry org through the crosswalk; OFC paper-header rows: the org id of the staged header row (D214); empty when unmapped"}
       - {name: printed_org, type: str, required: false, desc: "the input's org string (EO/PK org_name, OFC affiliation text); empty only when the input is empty"}
       - {name: unit, type: str, required: false}
       - {name: country, type: str, pattern: country, required: false, desc: "as printed (EO/PK); site country, may differ from the registry org country (D29)"}

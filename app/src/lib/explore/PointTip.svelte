@@ -1,9 +1,10 @@
 <script lang="ts">
 	import type { Metric } from '../components.svelte';
+	import { unitLabel } from '../layout/resolve';
 	import { familyLabel } from './colors';
 	import { isInferred, type Pt, type Val } from './logic';
 
-	let { pt, classLabel }: { pt: Pt; classLabel: (cls: string) => string } = $props();
+	let { pt, classLabel, pinned = false }: { pt: Pt; classLabel: (cls: string) => string; pinned?: boolean } = $props();
 
 	const QSYM: Record<string, string> = { lt: '<', gt: '>', le: '<=', ge: '>=', approx: '~' };
 
@@ -44,7 +45,7 @@
 		<div class="mv">
 			<div class="kv">
 				<span class="l">{r.lbl}</span>
-				<span class="v num">{valText(r.v)} {r.v.unit}</span>
+				<span class="v num">{valText(r.v)}{unitLabel(r.v.unit) ? ' ' + unitLabel(r.v.unit) : ''}</span>
 				<span class="b" class:mod={r.v.m.basis !== 'measured'}>{r.v.m.basis}{r.v.m.statistic ? ', ' + r.v.m.statistic : ''}</span>
 			</div>
 			{#if r.v.note}<div class="d">{r.v.note}</div>{/if}
@@ -53,7 +54,7 @@
 		</div>
 	{/each}
 	<div class="src">{c.source.title} ({c.source.year}{c.source.venue ? ', ' + c.source.venue : ''})</div>
-	<div class="hint">click a point to pin its card; click empty space to unpin</div>
+	{#if !pinned}<div class="hint">click a point to pin its card; click empty space to unpin</div>{/if}
 </div>
 
 <style>

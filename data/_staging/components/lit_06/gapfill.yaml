@@ -1,0 +1,174 @@
+# D169 gap-fill (subagent, 2026-10-22); replay order patch, sweep, gapfill, addendum, geometry, geoaudit, coord, sweep2
+components:
+  cmp_lit_bogaerts2006_racetrack_r5um:
+    notes: "Drop efficiency 50-70 % (m6). Processed in imec's advanced CMOS research environment (p.1 Sec. II-A: 'we used the advanced CMOS research environment' of imec; 248 nm DUV, ICP-RIE); acknowledgment thanks the IMEC P-line operators for processing (D84b)."
+    why: 'D169 gap-fill: drop_efficiency_pct now exists; note sentence rewritten to point to m6'
+  cmp_lit_tanizawa2015_mz_element_tm:
+    notes: "Test element on the same die. DC waveguides 430 nm wide with a 430 nm gap (Fig. 8(a); gap entered as m13). 3-dB DCs designed for TM (larger dimensional tolerance); designed cross state without heating. Crosstalk-below-35-dB bandwidth 4.3 nm (bar) and 2.3 nm (cross), envelope fit (entered as xt_bandwidth_nm m11 / m12). Cross-state trimming power 1.5 mW typical (not entered). 'We fabricated the 32 x 32 switch' (300 mm SOI, ArF immersion lithography) (p.3 Sec. 2); 13 of 15 authors at AIST, 2 at Furukawa Electric: fab org set to AIST (borderline D80b, facility not named)."
+    why: 'D169 gap-fill: gap_nm (switch_fabric) and xt_bandwidth_nm now exist; the two registry-gap sentences rewritten, rest verbatim'
+  cmp_lit_iwama2015_wss_1x93:
+    notes: "Calibrated for 96 channels at 50 GHz spacing over the full C-band; flexible-grid operation in 12.5 GHz steps shown (Fig. 6). 0.5-dB and 3-dB passband widths for a 50 GHz slot typically 37.0 and 45.5 GHz (entered as m10 / m11); super-Gaussian order 4.7 (no registry parameter, not entered). Insertion loss rises with port distance (LCOS diffraction efficiency). All authors at Furukawa Electric; no fabrication statement (fab_org_ids empty, D80b)."
+    why: 'D169 gap-fill: bw_0p5db_ghz and bw_3db_ghz now allowed for switch_fabric; registry-gap sentence rewritten, rest verbatim'
+add_metrics:
+- metric_id: cmp_lit_deng2026_ringmzi_16x400ghz-m6
+  component_id: cmp_lit_deng2026_ringmzi_16x400ghz
+  parameter: bw_fwhm_ghz
+  value: '68'
+  unit: GHz
+  statistic: mean
+  n_samples: '16'
+  condition: channel FWHM of the 16 channels (ring drop + MZI path), no dynamic tuning
+  method: direct
+  basis: measured
+  locator: p.5-6 Sec. 2, Fig. 3(b)
+  notes: 'printed ''68+/-8 GHz'' over the 16 channels; the paper does not define the +/- (standard deviation or half-range not stated), centre value entered as mean as for m2 / m3'
+  why: 'D169 gap-fill: bw_fwhm_ghz now exists; FWHM 68 +/- 8 GHz listed as not entered (lit_06 audit registry gaps)'
+- metric_id: cmp_lit_deng2026_wdm_64x100ghz-m7
+  component_id: cmp_lit_deng2026_wdm_64x100ghz
+  parameter: bw_fwhm_ghz
+  value: '50'
+  unit: GHz
+  statistic: mean
+  n_samples: '64'
+  condition: channel FWHM of the 64 channels after heater alignment of interleaver and rings
+  method: direct
+  basis: measured
+  locator: p.8 Sec. 2, Fig. 5(b)
+  notes: 'printed ''50+/-10 GHz''; the paper does not define the +/- (standard deviation or half-range not stated), centre value entered as mean as for m2 / m3'
+  why: 'D169 gap-fill: bw_fwhm_ghz now exists; FWHM 50 +/- 10 GHz listed as not entered (lit_06 audit registry gaps)'
+- metric_id: cmp_lit_iwama2015_wss_1x93-m10
+  component_id: cmp_lit_iwama2015_wss_1x93
+  parameter: bw_0p5db_ghz
+  value: '37.0'
+  unit: GHz
+  statistic: typical
+  band: c_band
+  condition: 0.5-dB passband width of a 50 GHz channel slot (96 x 50 GHz grid)
+  method: direct
+  basis: measured
+  locator: p.3 Experimental Results, Fig. 4; p.1 Abstract
+  notes: 'printed ''typically. 37.0 GHz'' (p.3) and ''typically 37.0 GHz 0.5 dB passband width'' (abstract)'
+  why: 'D169 gap-fill: bw_0p5db_ghz now exists for switch_fabric; 37.0 GHz listed as not entered (lit_06 audit registry gaps)'
+- metric_id: cmp_lit_iwama2015_wss_1x93-m11
+  component_id: cmp_lit_iwama2015_wss_1x93
+  parameter: bw_3db_ghz
+  value: '45.5'
+  unit: GHz
+  statistic: typical
+  band: c_band
+  condition: 3.0-dB passband width of a 50 GHz channel slot (96 x 50 GHz grid)
+  method: direct
+  basis: measured
+  locator: p.3 Experimental Results, Fig. 4
+  notes: 'printed ''3.0 dB bandwidth for 50 GHz slot'' typically 45.5 GHz'
+  why: 'D169 gap-fill: bw_3db_ghz now allowed for switch_fabric; 45.5 GHz listed as not entered (lit_06 audit registry gaps)'
+- metric_id: cmp_lit_tanizawa2015_mz_element_tm-m11
+  component_id: cmp_lit_tanizawa2015_mz_element_tm
+  parameter: xt_bandwidth_nm
+  value: '4.3'
+  unit: nm
+  polarization: tm
+  condition: crosstalk (leakage / intended output) below -35 dB, bar state; width taken on the envelope of the leakage spectrum
+  method: direct
+  basis: measured
+  locator: p.4 Sec. 3, Fig. 4(a)
+  notes: minimum crosstalk below -40 dB at about 1545 nm (m1); envelope definition because residual TE-like light from the setup sets a leakage floor (p.4)
+  why: 'D169 gap-fill: xt_bandwidth_nm now exists; 4.3 nm (bar, -35 dB) listed as not entered (lit_06 audit registry gaps)'
+- metric_id: cmp_lit_tanizawa2015_mz_element_tm-m12
+  component_id: cmp_lit_tanizawa2015_mz_element_tm
+  parameter: xt_bandwidth_nm
+  value: '2.3'
+  unit: nm
+  polarization: tm
+  condition: crosstalk (leakage / intended output) below -35 dB, cross state; width taken on the envelope of the leakage spectrum
+  method: direct
+  basis: measured
+  locator: p.4 Sec. 3, Fig. 4(b)
+  notes: cross-state leakage floor limited by residual TE-like light from the setup, hence the envelope definition (p.4); this 2.3 nm is the input to the fabric estimate (piloss_32x32-m8)
+  why: 'D169 gap-fill: xt_bandwidth_nm now exists; 2.3 nm (cross, -35 dB) listed as not entered (lit_06 audit registry gaps)'
+- metric_id: cmp_lit_tanizawa2015_mz_element_tm-m13
+  component_id: cmp_lit_tanizawa2015_mz_element_tm
+  parameter: gap_nm
+  value: '430'
+  unit: nm
+  condition: gap between the two 430 nm wide waveguides of the 3-dB directional couplers
+  basis: design_target
+  locator: p.7 Sec. 4, Fig. 8(a)
+  notes: Fig. 8(a) DC cross-section schematic; CD-SEM statistics are given for the 430 nm pitch line-and-space width only (sigma 0.9 nm on resist), not for the gap
+  why: 'D169 gap-fill: gap_nm now allowed for switch_fabric; DC gap 430 nm listed as not entered (lit_06 audit registry gaps)'
+- metric_id: cmp_lit_tanizawa2015_piloss_32x32-m8
+  component_id: cmp_lit_tanizawa2015_piloss_32x32
+  parameter: xt_bandwidth_nm
+  value: '1.8'
+  unit: nm
+  wavelength_nm: '1545'
+  polarization: tm
+  condition: worst-case total crosstalk below -20 dB, all connection states (30 crossings at MZ elements, incoherent model); element cross-state width 2.3 nm minus 0.5 nm narrowing from 3-sigma centre-wavelength variation
+  basis: author_estimate
+  locator: p.7-8 Sec. 4; p.8 Sec. 5
+  notes: 'printed ''2.3 nm - 0.5 nm = 1.8 nm at around 1545 nm''; rests on a modelled centre-wavelength sigma of 0.083 nm (FEM, CD-SEM width sigma 0.9 nm on resist assumed unchanged after etch) and neglects coherent crosstalk; not measured on the full fabric (as m6)'
+  why: 'D169 gap-fill: xt_bandwidth_nm now exists; 1.8 nm at -20 dB (estimate) listed as not entered (lit_06 audit registry gaps)'
+- metric_id: cmp_lit_bogaerts2006_racetrack_r5um-m6
+  component_id: cmp_lit_bogaerts2006_racetrack_r5um
+  parameter: drop_efficiency_pct
+  value: '50'
+  value_max: '70'
+  unit: '%'
+  statistic: range
+  condition: drop-port transmission at resonance, racetrack R = 5 um with 6.28 um coupling section
+  method: direct
+  basis: measured
+  locator: p.6 Sec. VII-A, Fig. 8(b)
+  notes: 'printed ''50%-70% drop efficiency''; which resonances the range spans and the normalization reference are not stated'
+  why: 'D169 gap-fill: drop_efficiency_pct now exists; 50-70 % tied in the text to this racetrack (Fig. 8(b)), listed as not entered in the component note'
+- metric_id: cmp_lit_bogaerts2006_awg_16x200ghz-m14
+  component_id: cmp_lit_bogaerts2006_awg_16x200ghz
+  parameter: taper_length_um
+  value: '15'
+  value_max: '30'
+  unit: um
+  condition: adiabatic transition from the deep (220 nm) to the shallow (70 nm) etched access waveguides at the star couplers; required length depends on the star-coupler parameters
+  basis: design_target
+  locator: p.4 Sec. V
+  notes: 'printed ''15-30 um, depending on the parameters of the star coupler''; the length used in this AWG is not stated separately'
+  why: 'D169 gap-fill: taper_length_um now allowed for wdm; AWG transitions 15-30 um listed as not entered (lit_06 audit registry gaps)'
+- metric_id: cmp_lit_fujisawa2020_mux4_oband1-m13
+  component_id: cmp_lit_fujisawa2020_mux4_oband1
+  parameter: taper_length_um
+  value: '100'
+  unit: um
+  condition: w1 (400 nm) to w2 (824 nm) width tapers in the PSR path (MZ-A output and rib section after the ADC); the Si-wire-to-rib connections are also 100 um
+  basis: design_target
+  locator: p.2 Sec. II
+  notes: printed 'all 100 um' for the w1-w2 tapers and the Si-wire-to-rib connections
+  why: 'D169 gap-fill: taper_length_um now allowed for wdm; MUX w1-w2 tapers 100 um listed as not entered (lit_06 audit registry gaps)'
+- metric_id: cmp_lit_fujisawa2020_mux4_oband2-m13
+  component_id: cmp_lit_fujisawa2020_mux4_oband2
+  parameter: taper_length_um
+  value: '100'
+  unit: um
+  condition: w1 (400 nm) to w2 (824 nm) width tapers in the PSR path (MZ-A output and rib section after the ADC); the Si-wire-to-rib connections are also 100 um
+  basis: design_target
+  locator: p.2 Sec. II
+  notes: printed 'all 100 um' for the w1-w2 tapers and the Si-wire-to-rib connections; one statement for both MUXs
+  why: 'D169 gap-fill: taper_length_um now allowed for wdm; MUX w1-w2 tapers 100 um listed as not entered (lit_06 audit registry gaps)'
+- metric_id: cmp_lit_fujisawa2020_adc_oband1-m5
+  component_id: cmp_lit_fujisawa2020_adc_oband1
+  parameter: coupling_length_um
+  value: '35.4'
+  unit: um
+  condition: ADC coupling length LB for O-band1, chosen from the BPM simulation (w1 400 nm / w2 824 nm, 30 um S-bends)
+  basis: design_target
+  locator: p.4 Sec. III-B
+  notes: 'printed ''From the BPM simulation, LB = 35.4 ... um for O-band1''; design dimension'
+  why: 'D169 gap-fill: coupling_length_um now allowed for mode_converter; LB 35.4 um listed as not entered (lit_06 audit registry gaps)'
+- metric_id: cmp_lit_fujisawa2020_adc_oband2-m5
+  component_id: cmp_lit_fujisawa2020_adc_oband2
+  parameter: coupling_length_um
+  value: '30.3'
+  unit: um
+  condition: ADC coupling length LB for O-band2, chosen from the BPM simulation (w1 400 nm / w2 824 nm, 30 um S-bends)
+  basis: design_target
+  locator: p.4 Sec. III-B
+  notes: 'printed ''From the BPM simulation, LB = ... 30.3 um for ... O-band2''; design dimension'
+  why: 'D169 gap-fill: coupling_length_um now allowed for mode_converter; LB 30.3 um listed as not entered (lit_06 audit registry gaps)'

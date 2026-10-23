@@ -1,0 +1,11 @@
+# Convention sweep 2 (coordinator, 2026-10-22, DevLog-007 D157 / D162 / D253-D255): D157 unit-rescale basis fixes found
+# mechanically (value absent in the stored unit, present in another unit in the source text) and verified at the locator;
+# D162 fill_factor = tooth fraction. Replay order: patch, sweep, gapfill, addendum, geometry, geoaudit, coord, sweep2.
+metrics:
+  cmp_berman2026_fp_1mm_55cells-m3:
+    basis: derived
+    notes: 'D157: printed as 1 mm (design_target value), stored in um: unit rescale, basis derived.'
+    why: 'D157 sweep: printed 1 mm, stored 1000 um (pure unit rescale of a printed dimension is derived; verified at p.5 Fig. 3(c))'
+  cmp_li2022b_gc_532-m5:
+    notes: duty cycle rho. Duty cycle rho as printed; tooth vs gap fraction not defined in the paper (D253).
+    why: 'D253 sweep: fill_factor definition not stated in the paper; noted'

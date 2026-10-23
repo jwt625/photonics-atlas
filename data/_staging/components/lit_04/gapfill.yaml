@@ -1,0 +1,314 @@
+# D169 gap-fill (subagent, 2026-10-22); replay order patch, sweep, gapfill, addendum, geometry, geoaudit, coord, sweep2
+components:
+  cmp_lit_wilson2019_gap_strip_wg:
+    platform: gap_on_insulator
+    notes: 'S.H. (IBM Research - Zurich) fabricated all devices (author contributions, p.5); all samples fabricated at BRNC, IBM Research (acknowledgements, p.5). Platform gap_on_insulator: GaP direct-bonded (5 nm Al2O3 on both surfaces) to 2 um thermal SiO2 on Si (p.1, p.2; D252). Sidewall RMS roughness as low as 1.1 nm (AFM), nearly vertical sidewalls (Supp. Fabrication). Not entered (no registry parameter): nonlinearity parameter 2.4(6)e2 /W/m and n2 1.1(3)e-17 m2/W (pump-probe, p.3), effective area 0.2 um2 (simulated).'
+    why: 'D252 platform: other -> gap_on_insulator; text p.1 ''GaP-on-insulator'' platform, p.2 GaP bonded to a Si wafer with 2 um thermal oxide; platform sentence of the note rewritten'
+  cmp_lit_wilson2019_gap_ring_r50_uncladded:
+    platform: gap_on_insulator
+    notes: 'S.H. (IBM Research - Zurich) fabricated all devices (author contributions, p.5); all samples fabricated at BRNC, IBM Research (acknowledgements, p.5). Platform gap_on_insulator: GaP direct-bonded (5 nm Al2O3 on both surfaces) to 2 um thermal SiO2 on Si (p.1, p.2; D252). Grating-coupled bus; grating coupler performance not reported. Measured FSR vs wavelength for widths 450-650 nm agrees with simulated dispersion (Fig. 2(h),(i)).'
+    why: 'D252 platform: other -> gap_on_insulator; text p.1 ''GaP-on-insulator'' platform, p.2 GaP bonded to a Si wafer with 2 um thermal oxide; platform sentence of the note rewritten'
+  cmp_lit_wilson2019_gap_kerr_comb_r50:
+    platform: gap_on_insulator
+    notes: 'S.H. (IBM Research - Zurich) fabricated all devices (author contributions, p.5); all samples fabricated at BRNC, IBM Research (acknowledgements, p.5). Platform gap_on_insulator: GaP direct-bonded (5 nm Al2O3 on both surfaces) to 2 um thermal SiO2 on Si (p.1, p.2; D252). Combs > 100 nm wide with sech2 envelope 3-dB width 1.4 THz (1 W input), not fully coherent (RF noise); simultaneous frequency-doubled visible combs (up to 50 lines) (p.4). Comb spacing 100-250 GHz across devices (p.5).'
+    why: 'D252 platform: other -> gap_on_insulator; text p.1 ''GaP-on-insulator'' platform, p.2 GaP bonded to a Si wafer with 2 um thermal oxide; platform sentence of the note rewritten'
+  cmp_lit_wilson2019_gap_racetrack_cladded_100ghz:
+    platform: gap_on_insulator
+    notes: 'S.H. (IBM Research - Zurich) fabricated all devices (author contributions, p.5); all samples fabricated at BRNC, IBM Research (acknowledgements, p.5). Platform gap_on_insulator: GaP direct-bonded (5 nm Al2O3 on both surfaces) to 2 um thermal SiO2 on Si (p.1, p.2; D252). Cladding reduces D2 by an order of magnitude (p.4). Same cladded racetrack generates > 200 nm FWM combs (Fig. 4(c)) and Raman-shifted combs (separate row).'
+    why: 'D252 platform: other -> gap_on_insulator; text p.1 ''GaP-on-insulator'' platform, p.2 GaP bonded to a Si wafer with 2 um thermal oxide; platform sentence of the note rewritten'
+  cmp_lit_wilson2019_gap_raman_laser_racetrack:
+    platform: gap_on_insulator
+    notes: 'S.H. (IBM Research - Zurich) fabricated all devices (author contributions, p.5); all samples fabricated at BRNC, IBM Research (acknowledgements, p.5). Platform gap_on_insulator: GaP direct-bonded (5 nm Al2O3 on both surfaces) to 2 um thermal SiO2 on Si (p.1, p.2; D252). Stokes shift 12 THz (Raman line < 100 GHz wide on the growth substrate); 10% conversion efficiency (definition not given, no registry parameter, not entered). Q ~2e5 mode. Not observed in smaller-radius resonators.'
+    why: 'D252 platform: other -> gap_on_insulator; text p.1 ''GaP-on-insulator'' platform, p.2 GaP bonded to a Si wafer with 2 um thermal oxide; platform sentence of the note rewritten'
+  cmp_lit_shikama2017_fifo_6mode_19core:
+    notes: 'Fabricated by the authors (''we fabricated'', p.2-3 Sec. III); all authors NTT Corporation (NTT Device Technology Labs and Access Network Service Systems Labs), mapped to org_ntt. Spatial multiplicity > 100 (19 cores x 6 modes). MDL variation < 2 dB per core, all 19 cores (p.4 Fig. 7, conclusion: all modes and cores over the C band) and MDL of total output power < 1.7 dB (p.5) entered as mdl_db m7 / m8 (D169 gap-fill). Modal crosstalk with DUT (Tables II-III, p.6) includes the MPLC mode MUX / DEMUX, not entered. Rotational misalignment clearance reduced to < +/-0.9 deg (1.3 um worst-case offset, design, p.3).'
+    why: 'D169 gap-fill: mdl_db now exists for fiber_interface; rewrite the not-entered sentence only'
+  cmp_lit_yue2026_opa_16ch_cladding_free:
+    notes: 'Chip fabricated by authors affiliated with SIMIT-CAS (author contributions, p.17; D83c). Facilities acknowledged for sample fabrication (p.16): ''SIMIT material-device and characterization platform'' and ''ShanghaiTech Material and Device Lab (SMDL)'', neither in the registry as a facility. Packaging by SJTU-Pinghu Institute staff (thanks, not entered). PM lensed fiber attached to edge couplers (p.15). Entered in the D169 gap-fill: SLSR above 8 dB for over 4 h (m5, p.11, Fig. 6(a)); phase-steering range -20 to 20 deg in theta_x (m6, p.12, Fig. 6(c)); wavelength-steering range 9 deg in theta_y (m7, p.12); wavelength-steering slope -0.09 deg/nm (m8, Fig. 6(d) inset fit). Not entered: EO phase-modulator V_pi 4.4 V (Fig. 3(f), EO metric). Far-field FWHM 2.6 deg x 1.6 deg (p.7, Fig. 3) not entered: the text does not say which OPA variant (cladded or cladding-free) Fig. 3 shows. 16 channels entered as n_channels m9 (D169 gap-fill). Sibling SiO2-cladded LT OPA (focusing-stability time ~16 min) and cladded LN control OPA have no registry-parameter metric, not rows.'
+    why: 'D169 gap-fill: slsr_db, n_channels, steering_range_deg, steering_efficiency_deg_per_nm now allowed for free_space_emitter; rewrite the not-entered sentences only'
+  cmp_lit_prost2022_opa_32ch_onchip_calibration:
+    notes: 'Implemented in a 200-mm DUV SiN/Si process stack (ref. [15]); all authors imec, but no explicit fabrication statement, so fab_org_ids empty (D80b). Calibration readout by Si photon-assisted tunneling PDs (1 mm active section, -1 V), characterized in a cited work, no own metric. Entered in the D169 gap-fill: SLSR 11 dB after calibration (m6, printed -11 dB, p.3) and 13.3 dB theoretical (m10); ambiguous steering range +/-19.2 deg at 1550 nm (m7, calculated, p.2); 32 channels and 2.5 um pitch (m8 / m9). 2D steering by wavelength tuning 1520-1580 nm (p.3-4).'
+    why: 'D169 gap-fill: slsr_db, steering_range_deg, n_channels, pitch_um now allowed for free_space_emitter; rewrite the not-entered sentence only'
+  cmp_lit_kim2019_opa_32el:
+    notes: 'Antenna: 400 nm wide Si waveguide grating with fully etched apodized sidewall perturbations, 500 um long, 4 um element pitch; wavelength steering along phi (design 0.164 deg/nm from simulated n_g 4.43). Cascaded directional-coupler distribution, L-shaped thermo-optic phase shifters driven by pitch-matched PDM switch-mode drivers through TOVs. Fabrication org not stated explicitly (3D platform ''similar to [26]''; co-authors at the Colleges of Nanoscale Science and Engineering, Albany, printed as such, not in the registry under that name). Berkeley Wireless Research Center thanked ''for continued support'' (p.12): research center, not entered as a facility. SLSR 8.5 dB after calibration (m6) and 2D steering 16 deg (theta, phase) x 18.5 deg (phi, 120 nm tuning around 1550 nm) (m7 / m8) entered in the D169 gap-fill, with the design steering efficiency (m9) and the theoretical theta range 22.3 deg (m12); near-field intensity variation within 2.25 dB along the antenna (p.7-9, Figs. 9, 12) not entered (no registry parameter). 32 elements and 4 um pitch entered as n_channels m10 / pitch_um m11 (D169 gap-fill).'
+    why: 'D169 gap-fill: slsr_db, steering_range_deg, steering_efficiency_deg_per_nm, n_channels, pitch_um now allowed for free_space_emitter; rewrite the not-entered sentences only'
+  cmp_lit_kim2019_opa_125el:
+    notes: 'Antenna: 400 nm wide Si waveguide grating with fully etched apodized sidewall perturbations, 500 um long, 4 um element pitch; wavelength steering along phi (design 0.164 deg/nm from simulated n_g 4.43). Cascaded directional-coupler distribution, L-shaped thermo-optic phase shifters driven by pitch-matched PDM switch-mode drivers through TOVs. Fabrication org not stated explicitly (3D platform ''similar to [26]''; co-authors at the Colleges of Nanoscale Science and Engineering, Albany, printed as such, not in the registry under that name). Berkeley Wireless Research Center thanked ''for continued support'' (p.12): research center, not entered as a facility. Average 20 mW/element power (abstract), no free_space_emitter parameter. Theoretical emission efficiency ~-9 dB for the 125-element array (p.11) not entered (calculated). 125 elements and 4 um pitch entered as n_channels m8 / pitch_um m9 (D169 gap-fill); Table I SLSR 7.4 dB (m6), design steering efficiency (m7) and theoretical theta range 22.3 deg (m10) also entered.'
+    why: 'D169 gap-fill: n_channels, pitch_um, slsr_db, steering_efficiency_deg_per_nm, steering_range_deg now allowed for free_space_emitter; rewrite the not-entered sentence only'
+add_metrics:
+- metric_id: cmp_lit_yue2026_opa_16ch_cladding_free-m5
+  component_id: cmp_lit_yue2026_opa_16ch_cladding_free
+  parameter: slsr_db
+  value: '8'
+  unit: dB
+  qualifier: gt
+  polarization: te
+  condition: cladding-free LT OPA after phase calibration, held for over 4 h (focusing-stability test); main lobe over highest sidelobe in the theta_x far-field cross-section
+  method: direct
+  basis: measured
+  locator: p.11; p.13 Fig. 6(a)
+  notes: '''an SLSR over 8 dB for over 4 hours''; Fig. 6(a) insets annotate 8.77 / 9.05 / 9.07 dB at 1 / 2.5 / 4 h. Wavelength and optical power of the Fig. 6(a) run not stated; Fig. 6(b) shows similar SLSR at 14, 0 and -14 dBm (no numbers in text). TE input (Methods p.15).'
+  why: 'D169 gap-fill: slsr_db now allowed for free_space_emitter; SLSR > 8 dB over 4 h listed as not entered in the component note'
+- metric_id: cmp_lit_yue2026_opa_16ch_cladding_free-m6
+  component_id: cmp_lit_yue2026_opa_16ch_cladding_free
+  parameter: steering_range_deg
+  value: '40'
+  unit: deg
+  polarization: te
+  condition: theta_x axis, phase steering with the 16 phase shifters; full span -20 to +20 deg
+  method: direct
+  basis: measured
+  locator: p.12; p.13 Fig. 6(c)
+  notes: '''sweep the optical beam from -20 to 20 deg, covering an angular range of 40 deg along the theta_x direction''.'
+  why: 'D169 gap-fill: steering_range_deg now exists; phase-steering range listed as not entered in the component note'
+- metric_id: cmp_lit_yue2026_opa_16ch_cladding_free-m7
+  component_id: cmp_lit_yue2026_opa_16ch_cladding_free
+  parameter: steering_range_deg
+  value: '9'
+  unit: deg
+  wavelength_nm: '1520'
+  wavelength_max_nm: '1620'
+  polarization: te
+  condition: theta_y axis, wavelength steering 1520-1620 nm; full span 15 to 6 deg
+  method: direct
+  basis: measured
+  locator: p.12; p.13 Fig. 6(d)
+  notes: '''depicting an angular range of 9 deg along the theta_y direction''; end angles also in m1 / m2 (emission_angle_deg).'
+  why: 'D169 gap-fill: steering_range_deg now exists; the printed theta_y wavelength-steering range (same sentence pair as the 40 deg phase range) gets the same treatment as m6'
+- metric_id: cmp_lit_yue2026_opa_16ch_cladding_free-m8
+  component_id: cmp_lit_yue2026_opa_16ch_cladding_free
+  parameter: steering_efficiency_deg_per_nm
+  value: '-0.09'
+  unit: deg/nm
+  wavelength_nm: '1520'
+  wavelength_max_nm: '1620'
+  polarization: te
+  condition: theta_y vs wavelength, linear fit of the measured beam angle
+  method: direct
+  basis: measured
+  locator: p.13 Fig. 6(d) inset
+  notes: Printed 'kappa = -0.09' in the Fig. 6(d) inset (measured theta_y in deg vs wavelength in nm, linear fitting); unit from the inset axes, value not in the text. Standard fit of own data (D80a).
+  why: 'D169 gap-fill: steering_efficiency_deg_per_nm now exists; -0.09 deg/nm listed as not entered in the component note'
+- metric_id: cmp_lit_yue2026_opa_16ch_cladding_free-m9
+  component_id: cmp_lit_yue2026_opa_16ch_cladding_free
+  parameter: n_channels
+  value: '16'
+  unit: count
+  condition: OPA channels (phase modulators feeding the slab grating)
+  basis: design_target
+  locator: p.7
+  notes: '''a 16-channel integrated LT OPA''; CW laser split into 16 channels by cascaded MMIs. Channel pitch at the slab grating not stated.'
+  why: 'D169 gap-fill: n_channels now allowed for free_space_emitter; 16 channels listed as not entered in the component note'
+- metric_id: cmp_lit_prost2022_opa_32ch_onchip_calibration-m6
+  component_id: cmp_lit_prost2022_opa_32ch_onchip_calibration
+  parameter: slsr_db
+  value: '11'
+  unit: dB
+  wavelength_nm: '1550'
+  condition: after on-chip phase calibration; psi-axis far-field cutline; SLSR from the input-power step at which the sidelobe reaches the pre-saturation main-lobe level (method of ref. [17])
+  method: direct
+  basis: measured
+  locator: p.3; p.3 Fig. 3(b)
+  notes: Printed -11 dB ('we estimated the SLSR to be -11 dB'), entered as positive suppression; own measurement with a camera-dynamic-range workaround.
+  why: 'D169 gap-fill: slsr_db now allowed for free_space_emitter; SLSR 11 dB listed as not entered in the component note'
+- metric_id: cmp_lit_prost2022_opa_32ch_onchip_calibration-m7
+  component_id: cmp_lit_prost2022_opa_32ch_onchip_calibration
+  parameter: steering_range_deg
+  value: '19.2'
+  unit: deg
+  wavelength_nm: '1550'
+  condition: psi axis (phase steering across the LWA array); ambiguous (grating-lobe-limited) steering range, printed as a +/- half span (+/-19.2 deg)
+  basis: simulated
+  locator: p.2
+  notes: '''Based on these dimensions, the ambiguous steering range is +/-19.2 deg at 1.55 um [16]'': calculated from the design dimensions with the relation of ref. [16]; formula not given. Value kept as printed (half span), not converted to a full span.'
+  why: 'D169 gap-fill: steering_range_deg now exists; +/-19.2 deg (calculated) listed as not entered in the component note; computed design performance -> simulated (D80)'
+- metric_id: cmp_lit_prost2022_opa_32ch_onchip_calibration-m8
+  component_id: cmp_lit_prost2022_opa_32ch_onchip_calibration
+  parameter: n_channels
+  value: '32'
+  unit: count
+  condition: OPA channels (leaky-wave antennas, each with a phase shifter and phase interrogator)
+  basis: design_target
+  locator: p.1 Abstract; p.2 Fig. 1(b)
+  notes: '''A 32-channel OPA''.'
+  why: 'D169 gap-fill: n_channels now allowed for free_space_emitter; 32 channels listed as not entered in the component note'
+- metric_id: cmp_lit_prost2022_opa_32ch_onchip_calibration-m9
+  component_id: cmp_lit_prost2022_opa_32ch_onchip_calibration
+  parameter: pitch_um
+  value: '2.5'
+  unit: um
+  condition: LWA (emitter) array pitch
+  basis: design_target
+  locator: p.1 Abstract; p.1 (aperture description)
+  notes: '''The LWA array pitch is 2.5 um''.'
+  why: 'D169 gap-fill: pitch_um now allowed for free_space_emitter; 2.5 um pitch listed as not entered in the component note'
+- metric_id: cmp_lit_prost2022_opa_32ch_onchip_calibration-m10
+  component_id: cmp_lit_prost2022_opa_32ch_onchip_calibration
+  parameter: slsr_db
+  value: '13.3'
+  unit: dB
+  wavelength_nm: '1550'
+  condition: theoretical value for the uniform linear array (32 channels)
+  basis: simulated
+  locator: p.3
+  notes: Printed '-13.3 dB theoretical for the uniform linear array', entered as positive suppression; calculated, same treatment as the theoretical beam divergence rows m3 / m4.
+  why: 'D169 gap-fill: slsr_db now allowed for free_space_emitter; theory 13.3 dB listed in the not-entered sentence of the component note'
+- metric_id: cmp_lit_kim2019_opa_32el-m6
+  component_id: cmp_lit_kim2019_opa_32el
+  parameter: slsr_db
+  value: '8.5'
+  unit: dB
+  condition: after array calibration (two local-search iterations with SLSR as the target metric)
+  method: direct
+  basis: measured
+  locator: p.9 Sec. V; p.9 Fig. 12; p.10 Table I
+  notes: '''achieving SLSR of 8.5 dB''; Table I small variant 8.5 dB. Wavelength not stated for this measurement.'
+  why: 'D169 gap-fill: slsr_db now allowed for free_space_emitter; SLSR 8.5 dB listed as not entered in the component note'
+- metric_id: cmp_lit_kim2019_opa_32el-m7
+  component_id: cmp_lit_kim2019_opa_32el
+  parameter: steering_range_deg
+  value: '16'
+  unit: deg
+  condition: theta axis (array direction), phase-shifter steering after calibration; full span
+  method: direct
+  basis: measured
+  locator: p.9 Sec. V; p.9 Fig. 12(e); p.10 Table I
+  notes: '''over 16 deg in theta via phase shifter control'' read as the demonstrated span (Table I steering range phi/theta 18.5/16 deg, no bound), so no qualifier.'
+  why: 'D169 gap-fill: steering_range_deg now exists; 16 deg theta listed as not entered in the component note (one row per axis)'
+- metric_id: cmp_lit_kim2019_opa_32el-m8
+  component_id: cmp_lit_kim2019_opa_32el
+  parameter: steering_range_deg
+  value: '18.5'
+  unit: deg
+  condition: phi axis (along the grating antenna), wavelength steering over a 120 nm range centered around 1550 nm; full span
+  method: direct
+  basis: measured
+  locator: p.9 Sec. V; p.9 Fig. 12(d); p.10 Table I
+  notes: '''over 18.5 deg in phi by tuning the input laser wavelength across a 120-nm range centered around 1550 nm''; Table I 18.5 deg (phi). Wavelength limits not entered (only ''120 nm centered around 1550 nm'' is stated).'
+  why: 'D169 gap-fill: steering_range_deg now exists; 18.5 deg phi listed as not entered in the component note (one row per axis)'
+- metric_id: cmp_lit_kim2019_opa_32el-m9
+  component_id: cmp_lit_kim2019_opa_32el
+  parameter: steering_efficiency_deg_per_nm
+  value: '0.164'
+  unit: deg/nm
+  wavelength_nm: '1550'
+  condition: phi axis (wavelength steering), design value from Eq. (5) with simulated group index 4.43
+  basis: simulated
+  locator: p.5 Sec. IV-A, Eq. (5)
+  notes: '''The simulated group index at 1550 nm is 4.43, which results in a steering efficiency of 0.164 deg per 1 nm wavelength shift''. Computed from a simulated input (D80).'
+  why: 'D169 gap-fill: steering_efficiency_deg_per_nm now exists; design 0.164 deg/nm stated in the component note'
+- metric_id: cmp_lit_kim2019_opa_32el-m10
+  component_id: cmp_lit_kim2019_opa_32el
+  parameter: n_channels
+  value: '32'
+  unit: count
+  condition: antenna elements (each with an independent phase shifter)
+  basis: design_target
+  locator: p.7 Sec. V; p.10 Table I
+  notes: 'N = 32 elements; Table I: 32 independent phase controls.'
+  why: 'D169 gap-fill: n_channels now allowed for free_space_emitter; 32 elements listed as not entered in the component note'
+- metric_id: cmp_lit_kim2019_opa_32el-m11
+  component_id: cmp_lit_kim2019_opa_32el
+  parameter: pitch_um
+  value: '4'
+  unit: um
+  condition: antenna element pitch
+  basis: design_target
+  locator: p.5 Sec. IV-A
+  notes: '''The elements are placed at a 4 um pitch in our prototype''.'
+  why: 'D169 gap-fill: pitch_um now allowed for free_space_emitter; 4 um pitch listed as not entered in the component note'
+- metric_id: cmp_lit_kim2019_opa_32el-m12
+  component_id: cmp_lit_kim2019_opa_32el
+  parameter: steering_range_deg
+  value: '22.3'
+  unit: deg
+  wavelength_nm: '1550'
+  condition: theta axis (array direction); theoretical ambiguity-free range 2|theta_b|max from Eq. (2) for the 4 um pitch; full span
+  basis: simulated
+  locator: p.5 Sec. IV-A; p.2 Eq. (2)
+  notes: '''corresponds to the theoretical steering range (2|theta_b|max) of 22.3 deg at 1550 nm from (2)''. Calculated (D80).'
+  why: 'D169 gap-fill: steering_range_deg now exists; the paper''s theoretical range is the analogue of the prost2022 calculated range in the list (same treatment)'
+- metric_id: cmp_lit_kim2019_opa_125el-m6
+  component_id: cmp_lit_kim2019_opa_125el
+  parameter: slsr_db
+  value: '7.4'
+  unit: dB
+  condition: after phase-shifter calibration
+  method: direct
+  basis: measured
+  locator: p.10 Table I
+  notes: 'Table I ''Sidelobe Suppression'', This Work, large variant (125 elements): 7.4 dB; not in the running text. Wavelength not stated.'
+  why: 'D169 gap-fill: slsr_db now allowed for free_space_emitter; Table I value of the 125-element array found while re-reading the kim2019 locators'
+- metric_id: cmp_lit_kim2019_opa_125el-m7
+  component_id: cmp_lit_kim2019_opa_125el
+  parameter: steering_efficiency_deg_per_nm
+  value: '0.164'
+  unit: deg/nm
+  wavelength_nm: '1550'
+  condition: phi axis (wavelength steering), design value from Eq. (5) with simulated group index 4.43; same antenna design as the 32-element array
+  basis: simulated
+  locator: p.5 Sec. IV-A, Eq. (5)
+  notes: '''The simulated group index at 1550 nm is 4.43, which results in a steering efficiency of 0.164 deg per 1 nm wavelength shift''; both arrays use identical devices (p.7 Sec. V). Computed from a simulated input (D80).'
+  why: 'D169 gap-fill: steering_efficiency_deg_per_nm now exists; design 0.164 deg/nm stated in the component note'
+- metric_id: cmp_lit_kim2019_opa_125el-m8
+  component_id: cmp_lit_kim2019_opa_125el
+  parameter: n_channels
+  value: '125'
+  unit: count
+  condition: antenna elements (each with an independent phase shifter)
+  basis: design_target
+  locator: p.7 Sec. V; p.10 Fig. 13; p.10 Table I
+  notes: 'N = 125 elements; Table I: 125 independent phase controls.'
+  why: 'D169 gap-fill: n_channels now allowed for free_space_emitter; 125 elements listed as not entered in the component note'
+- metric_id: cmp_lit_kim2019_opa_125el-m9
+  component_id: cmp_lit_kim2019_opa_125el
+  parameter: pitch_um
+  value: '4'
+  unit: um
+  condition: antenna element pitch
+  basis: design_target
+  locator: p.5 Sec. IV-A; p.11
+  notes: 4 um pitch for the prototype (p.5); 'N = 125, d = 4 um' (p.11).
+  why: 'D169 gap-fill: pitch_um now allowed for free_space_emitter; 4 um pitch listed as not entered in the component note'
+- metric_id: cmp_lit_kim2019_opa_125el-m10
+  component_id: cmp_lit_kim2019_opa_125el
+  parameter: steering_range_deg
+  value: '22.3'
+  unit: deg
+  wavelength_nm: '1550'
+  condition: theta axis (array direction); theoretical ambiguity-free range 2|theta_b|max from Eq. (2) for the 4 um pitch; full span
+  basis: simulated
+  locator: p.5 Sec. IV-A; p.2 Eq. (2)
+  notes: '''corresponds to the theoretical steering range (2|theta_b|max) of 22.3 deg at 1550 nm from (2)'', stated for the prototype pitch shared by both arrays. Calculated (D80). Table I gives no measured steering range for the large variant (''-/-'').'
+  why: 'D169 gap-fill: steering_range_deg now exists; the paper''s theoretical range is the analogue of the prost2022 calculated range in the list (same treatment)'
+- metric_id: cmp_lit_shikama2017_fifo_6mode_19core-m7
+  component_id: cmp_lit_shikama2017_fifo_6mode_19core
+  parameter: mdl_db
+  value: '2'
+  unit: dB
+  qualifier: lt
+  n_samples: '19'
+  band: c_band
+  scope: device_total
+  includes: FI device and its PC connection to the FM-MCF
+  excludes: setup MDL (measured without the DUT) subtracted
+  condition: per core, every core; MDL = max minus min of the mode-group average coupling efficiencies LP01, LP11, LP21/02; after rotational alignment (~60 deg); broadband ASE without wavelength filter (C-band averaged)
+  method: direct
+  basis: measured
+  locator: p.4 Sec. IV.A; p.4 Fig. 7; p.1 Abstract
+  notes: 'Paper''s term ''MDL variation'', definition p.2 Sec. II (max minus min of the mode-group average coupling efficiencies). Text: ''Almost all the MDL variation values were successfully reduced to less than 2 dB for all the cores''; Fig. 7 shows all 19 cores below 2 dB (largest about 1.85 dB, core 8, read off the plot). Outer cores tend to be higher.'
+  why: 'D169 gap-fill: mdl_db now exists for fiber_interface; MDL < 2 dB per core listed as not entered in the component note'
+- metric_id: cmp_lit_shikama2017_fifo_6mode_19core-m8
+  component_id: cmp_lit_shikama2017_fifo_6mode_19core
+  parameter: mdl_db
+  value: '1.7'
+  unit: dB
+  qualifier: lt
+  n_samples: '19'
+  band: c_band
+  condition: total output power (no mode DEMUX) after the FI device and the FM-MCF, each mode launched through the mode MUX; spread over modes, all cores
+  method: direct
+  basis: measured
+  locator: p.5 Sec. IV.A
+  notes: '''the mode dependent loss of the total output power was less than 1.7 dB for all the cores''; indicates cladding-mode leakage at butt coupling. Whether the setup contribution was subtracted is not stated.'
+  why: 'D169 gap-fill: mdl_db now exists for fiber_interface; MDL of total output power < 1.7 dB listed as not entered in the component note'

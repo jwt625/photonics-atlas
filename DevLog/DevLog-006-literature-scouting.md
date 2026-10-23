@@ -114,7 +114,8 @@ reproducible and auditable, and the EO cache layout and fetcher rules for retrie
 - [x] S5. Selection script -> `data/_staging/literature/cache_list.csv` + triage report.
 - [x] S6. Fresh-context audit of the selection; corrections recorded.
 - [ ] Inspection point (D129): retrieval plan, manual-download list (written; waiting for review).
-- [ ] Increment: Nature Communications 2016-2021, Science Advances, Applied Physics Letters, Scientific Reports (OpenAlex cap), then prefilter / score / select delta.
+- [x] Increment harvest: Nature Communications 2016-2021, Science Advances, Applied Physics Letters, Scientific Reports 2016-2026 (2026-10-23 UTC, 14,898 records, $0.0103), S2 rerun, delta batches G1_b010 .. G7_b006 (281 records).
+- [x] Increment scoring: score the 7 delta batches, then the S5 select delta (D230-D232; `data/_staging/literature/increment_delta.md`).
 - [ ] S7. Retrieval (OA, single owner, pilot then escalate), extraction, registry corpus `lit`.
 - [ ] S8. Distill batches with the pic-component-distill skill + audits.
 
@@ -222,6 +223,50 @@ reproducible and auditable, and the EO cache layout and fetcher rules for retrie
 - Checks 02:47 UTC: ruff, mypy (62 files) clean; validate_db 0 errors; pytest 131 pass, 2 fail in
   test_adapters / test_people (inventory counts and people sync against the sibling EO atlas, which changed after
   those tests were written; no tracked file was modified in this session).
+- 2026-10-23 04:58-05:09 UTC, broad-journal increment (L1 method: OpenAlex filter-only venue-year lists, 20-topic
+  filter, page=N, no search, shared `litfetch` client, no key). OpenAlex spend that UTC day before the run: $0;
+  after: $0.0103 (103 requests, all HTTP 200: 8 group_by incl. a 4-request dry-run, 95 list pages); nothing remains
+  for these venues. Every unit = meta.count = group_by count. Logs: `logs/lit_harvest_openalex_journals_20261022T215841.*`
+  (dry-run), `..._20261022T215852.*` (harvest), `logs/litfetch_2026-10-23.jsonl`.
+
+| venue | 2016 | 2017 | 2018 | 2019 | 2020 | 2021 | 2022 | 2023 | 2024 | 2025 | 2026 | total | abstract | OA |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| Nature Communications | 200 | 235 | 235 | 235 | 253 | 268 | (done) | (done) | (done) | (done) | (done) | 1,426 | 1,424 | 100 % |
+| Science Advances | 36 | 45 | 61 | 57 | 75 | 81 | 96 | 76 | 107 | 173 | 111 | 918 | 917 | 100 % |
+| Applied Physics Letters | 806 | 713 | 596 | 491 | 489 | 582 | 465 | 582 | 613 | 568 | 517 | 6,422 | 6,329 | 38.7 % |
+| Scientific Reports | 988 | 976 | 558 | 547 | 453 | 420 | 428 | 357 | 416 | 586 | 403 | 6,132 | 6,132 | 100 % |
+| total | | | | | | | | | | | | 14,898 | 14,802 | |
+
+  Nature Communications 2022-2026 now counts 1,940 in OpenAlex vs 1,937 harvested 2026-10-22 (files not refreshed).
+- S2 rerun 05:04 UTC (backup of the previous outputs first: `cache/literature/backup/s2_before_increment_20261023T050406Z.zip`):
+  pool 218,503 -> 233,401 records (615 files); works 202,302 -> 215,863 (13,563 new works, 1,335 records merged into
+  existing works, 24 of them already-scored arXiv / conference records now headed by the journal DOI); known 405 ->
+  408; class candidates 46,958 -> 49,708 (2,753 new: APL 1,357, Sci Rep 1,070, Nat Commun 202, Sci Adv 124; laser
+  719, resonator 521, photodetector 361); kept for scoring 7,457 -> 7,461. The per-class caps (D130) bind for 18 / 20
+  classes, so new works enter only by outranking incumbents: 277 new works kept (APL 151, Sci Rep 116, Nat Commun 8,
+  Sci Adv 2) and 277 earlier-kept, already-scored works fell below the caps (they stay scored and eligible in S5);
+  4 existing works became candidates through the journal version's abstract. Few Nat Commun works pass the cap:
+  the cap rank uses rule score, title hit, numbers in title + abstract and recency, which their qualitative
+  2016-2021 abstracts lose (observation, not changed).
+- Delta batches 05:08 UTC (`scripts/lit_make_score_batches.py --flush`): G1_b010 49, G2_b009 39, G3_b011 45,
+  G4_b009 45, G5_b005 32, G6_b010 60, G7_b006 11 = 281 records (APL 152, Sci Rep 118, Nat Commun 9, Sci Adv 2).
+  SHA-256 of all 115 existing files in `cache/literature/scoring/` identical before / after except `manifest.json`,
+  whose 53 earlier entries are unchanged; appended: G9_b001 .. b004 (recovered from the rescue files, which had no
+  manifest entry) and the 7 new batches (64 entries, 0 duplicate uids). Not scored.
+- Fixes for the rerun (ruff, mypy, 12 prefilter tests pass):
+
+| # | Decision | Rationale |
+|---|---|---|
+| D148 | `lit_prefilter.build_known` skips sources.csv corpus `lit` | the 64 S7-registered papers would otherwise be `known` and drop out of a later S5 run |
+| D149 | `lit_select` keeps a scored work under its scored uid when a later harvest merges in a version that heads the record (alias in `alt_uids`) | without it a S5 rerun drops 2 selected papers (isichenko2023 -> Sci Rep 2024, yulaev2024 -> APL 2024) |
+
+- Expected S5 changes once the delta is scored (checked with a scratch copy of `lit_select.py` writing outside the
+  repo; real outputs untouched): with only D148 / D149 and no new scores, 999 / 1000 uids unchanged, 996 rows
+  identical except rank; ronn2019 (amplifier, rank) displaced by 10.1364/ofc.2022.w3j.6, now merged with its Sci
+  Rep 2021 version; isichenko2023 and yulaev2024 now carry journal venue metadata; paper_id shifts
+  isichenko2023 -> isichenko2024 (journal year) and gao2021 -> gao2021a (COL LN microring, collision with the new
+  gao2021). Both shifted ids are in the retrieval queue (days 2026-10-25, 2026-10-23): pin paper_ids of queued /
+  cached rows before re-running S5.
 
 ## S7 retrieval plan (proposed, waits for review)
 
@@ -283,3 +328,63 @@ reproducible and auditable, and the EO cache layout and fetcher rules for retrie
   session cookies do not survive a separate --login window, so `--run --wait-login` signs in in the same window
   (runbook updated). Result: 21 / 22 ok (incl. xu2023a via Xplore title search, similarity 1.0), 1 no_ieee_copy
   (yokokawa2022, OFC 2022 -> optica_browser fallback). Day 1 total: 64 papers cached and registered.
+- 2026-10-22 22:10 PDT: `scripts/lit_manual_list.py` (new) regenerated `data/_staging/literature/manual_downloads.md`
+  from the queue and the fetch status log (cached papers left out): 97 rows = 54 route manual, 34 D147 hosts (Wiley
+  21, De Gruyter 13), 9 failed day-1 attempts (optica no_access 5, oa_publisher blocked 2, ieee_search no_access 1,
+  no_ieee_copy 1). Re-run it after each retrieval day. S8 distillation moved to DevLog-007.
+
+## Increment S5 delta (2026-10-22 local, coordinator rules)
+
+The 7 delta batches (G1_b010 .. G7_b006, 281 records) are scored (`lit_check_scores.py`: 7 ok, 0 errors). Selection
+delta under the coordinator's rules, recorded as decisions:
+
+| # | Decision | Rationale |
+|---|---|---|
+| D230 | Identity pinning: `lit_select.py` reads the previous `cache_list.csv` as a pin table; a selected work whose uid (or a version-family member's uid) is in it keeps that row's paper_id, and every previous paper_id is reserved, so a new work never takes a retired or existing id | fixes isichenko2023 -> isichenko2024 and gao2021 -> gao2021a; queue, status log and `references/<paper_id>/` key on paper_id |
+| D231 | Budget stays 1000. Frozen (never displaced): cached papers (`references/<paper_id>/source.pdf`), every day-1 and day-2 queue row, curator picks. A work outside the previous list enters only by displacing a not-yet-retrieved, non-curator incumbent of the same primary class on days 3-10, and only when the unconstrained `selection.yaml` rules (rank, subtype / platform floors, senior-author cap, paywalled share) select it and drop that incumbent; the final list is re-checked for the senior-author cap and the paywalled share | retrieval in progress; no churn of fetched or scheduled-today work |
+| D232 | Procedure: zip backup of cache_list, queue, schedule, manual list, triage report into `cache/literature/backup/`; `lit_select.py --delta` dry-run writes `increment_delta.md` (entering / displaced, class, score, reason); apply; `lit_build_queue.py --delta` keeps every retained queue row verbatim and gives incoming rows the displaced rows' day slots (route by the normal matching logic; arXiv API <= ~50 queries via `litfetch`, stop on 403/429); verify day 1-2 rows unchanged, total 1000, per-class counts; regenerate the manual list | auditable, reversible |
+
+Plan: (1) pin table + `--delta` mode in `lit_select.py`, test; (2) `--delta` mode in `lit_build_queue.py`, test;
+(3) backup, dry-run, delta report; (4) apply, queue rebuild, verification, manual list; (5) checks.
+
+Progress (2026-10-22 22:20-22:28 PDT):
+
+- Code: `lit_select.py` pin table + `assign_paper_ids` (D230), `--delta` / `delta_select` / `increment_delta.md`
+  writer (D231); `lit_build_queue.py --delta` / `delta_slots` (D232). Tests: `tests/test_lit_select.py` (2, new),
+  `test_delta_slots_keeps_rows_and_hands_over_day_slots` in `tests/test_lit_build_queue.py`.
+- Backup: `cache/literature/backup/s5_before_increment_delta_20261023T052420Z.zip` (cache_list, queue, schedule,
+  manual list, triage report, eo_atlas_candidates).
+- Dry-run (`logs/lit_select_20261022T222239.*`) and apply (`..._20261022T222426.*`) gave the same delta: unconstrained
+  run on 8,317 scored records picks 16 works outside the previous list; 10 entered, 6 blocked (no displaceable
+  same-class incumbent: the class's dropped incumbents are cached, on day 2, or absent); 16 previous rows dropped by
+  the unconstrained run: 10 displaced, 4 kept as frozen (ronn2019, heim2025, meng2023 cached; wu2025 day 2), 2
+  switch_fabric rows kept (no switch_fabric entrant). Entering: all OA, 8 Scientific Reports, 1 Nature
+  Communications, 1 APL (holl2025); list in `increment_delta.md`. 990 / 990 kept uids keep their paper_id
+  (isichenko2023, gao2021 unchanged); kept rows changed only rank, selection_reason (5, rule relabels) and journal
+  metadata of isichenko2023 / yulaev2024 (D149). Per-class counts identical to the previous list; OA 818.
+- Queue (`logs/lit_build_queue_20261022T222445.*`): 9 arXiv title queries via `litfetch` (all HTTP 200, 0 hits);
+  yanikgonul2021 has a given arXiv id. 990 rows byte-identical (day 1-2 diff empty; full diff = the 10 replaced
+  lines); 100 per day kept. Routes: arxiv 195, oa_publisher 23, publisher_browser 87, optica_browser 418,
+  ieee_browser 200, ieee_search 23, manual 54. Manual list regenerated: 96 rows (zhou2025 out, moser2011 ->
+  holl2025).
+- Checks: ruff clean, mypy 76 files clean, pytest 213 pass, validate_db 0 errors / 18 registry warnings
+  (`logs/s5_delta_checks_20261022T222555.log`).
+
+| # | Decision | Rationale |
+|---|---|---|
+| D233 | Coordinator override: holl2025 (10.1063/5.0293416, optically pumped 2 um GaSb VECSEL) dropped as not an integrated-photonics component, via a curation drop in `config/literature/curation/increment.yaml` (replayable); hamaguchi2018 kept | coordinator review of the increment delta |
+
+- 2026-10-22 22:29 PDT, D233 applied with the same procedure: backup
+  `cache/literature/backup/s5_before_d233_20261023T052856Z.zip`; dry-run and apply identical (1 swap: moser2011
+  re-enters on the laser.vcsel floor, displacing holl2025; paper_id moser2011 regenerated unchanged); queue rebuild
+  without network (moser2011 arXiv lookup cached): 999 rows byte-identical, day 1-2 diff empty, the moser2011 row is
+  byte-identical to its pre-increment row. Net increment vs HEAD: 9 swaps (18 diff lines). Routes: arxiv 195,
+  oa_publisher 23, publisher_browser 87, optica_browser 418, ieee_browser 200, ieee_search 23, manual 54. Manual
+  list 96 rows. `increment_delta.md` holds the first delta plus a D233 section. `write_delta` now marks an ineligible
+  previous row as displaced when it was.
+- 2026-10-23 00:07-01:27 PDT, day 2 automated part (tmux `lit_day2`, log `logs/lit_daily_day2_20261023T000710.log`):
+  arXiv / repositories 18 ok (1 blocked: researching.cn TLS verify failure, breaker armed; 1 not_pdf), Optica browser
+  sessions + publisher session: 34 ok in total across routes, 11 no_access; new breaker: pubs.acs.org (challenge 403 on
+  PDF re-request, manual reset only); Wiley / De Gruyter skipped by their D147 breakers. Extraction + registration: `lit`
+  corpus 116 sources (+52), validate_db 0 errors. Manual list regenerated: 110 rows. IEEE day-2 session (21 papers)
+  waits for the user's sign-in (`--site ieee --run --day 2 --wait-login`). Distill batches lit_07-lit_11 (DevLog-007).

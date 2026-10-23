@@ -1,0 +1,8 @@
+# Convention sweep 2 (coordinator, 2026-10-22, DevLog-007 D157 / D162 / D253-D255): D157 unit-rescale basis fixes found
+# mechanically (value absent in the stored unit, present in another unit in the source text) and verified at the locator;
+# D162 fill_factor = tooth fraction. Replay order: patch, sweep, gapfill, addendum, geometry, geoaudit, coord, sweep2.
+metrics:
+  cmp_lit_jahed2022_input_gc_staircase-m3:
+    basis: derived
+    notes: duty cycle optimized to 69 % in 2D FDTD. Printed 69 % (duty cycle; tooth vs gap not defined in the paper); stored as the fraction 0.69, unit conversion derived (D157); registry reads fill_factor as tooth fraction (D253).
+    why: 'D157 / D253 sweep: printed 69 % stored as 0.69 (unit conversion, derived); definition not stated'

@@ -1,0 +1,8 @@
+# Convention sweep 2 (coordinator, 2026-10-22, DevLog-007 D157 / D162 / D253-D255): D157 unit-rescale basis fixes found
+# mechanically (value absent in the stored unit, present in another unit in the source text) and verified at the locator;
+# D162 fill_factor = tooth fraction. Replay order: patch, sweep, gapfill, addendum, geometry, geoaudit, coord, sweep2.
+metrics:
+  cmp_sabatti2024_ppln_7mm-m3:
+    basis: derived
+    notes: 'PPLN region length. D157: printed as 7 mm (design_target value), stored in um: unit rescale, basis derived.'
+    why: 'D157 sweep: printed 7 mm, stored 7000 um (pure unit rescale of a printed dimension is derived; verified at p.2 Sec. 2)'

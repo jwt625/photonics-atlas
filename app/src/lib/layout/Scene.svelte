@@ -1,5 +1,6 @@
 <script lang="ts">
-	// SVG renderer of one layout scene (DevLog-005 D104, D108): to scale (true scale or expanded y, clearly labelled),
+	// SVG renderer of one layout scene (DevLog-005 D104, D108, D225): to scale (true scale, partly schematic or expanded y,
+	// clearly labelled; a view with no reported length is a schematic without a scale bar),
 	// dimension marks with the stored value + unit and a basis badge, dashed schematic shapes, scale bar(s), and a
 	// true-scale inset when the scene asks for one. Hover tips come from the shapes and the resolved metric rows.
 	import './layout.css';
@@ -136,6 +137,8 @@
 			<span class="badge warn" data-tip={scene.notes.join('\n')}>SCHEMATIC, NOT TO SCALE</span>
 		{:else if eff === 'expanded'}
 			<span class="badge warn" data-tip="Vertical axis stretched by the stated factor: shapes are not to scale. Labels are the reported values.">NOT TO SCALE: y ×{fmtK(k)}</span>
+		{:else if scene.partial}
+			<span class="badge warn" data-tip="Solid shapes: reported dimensions, both axes at the same scale (scale bar). Dashed shapes: not reported, proportions fixed by the template (not to scale).">PARTLY SCHEMATIC</span>
 		{:else}
 			<span class="badge" data-tip="Both axes at the same scale">TRUE SCALE</span>
 		{/if}
@@ -194,13 +197,13 @@
 						{/each}
 					</g>
 					{@render marks(insetMarks)}
-					<text class="lbl muted" x={ins.bx + 4} y={ins.by + 11} data-tip="True-scale magnified view of the coupling region">inset ×{fmtK(ins.zoom)}</text>
+					<text class="lbl muted" x={ins.bx + 4} y={ins.by + 11} data-tip={scene.schematic ? 'Magnified view of the coupling region (schematic)' : 'Magnified view of the coupling region, both axes at the same scale'}>inset ×{fmtK(ins.zoom)}</text>
 				{/if}
 				{#if thumb && eff === 'expanded'}<text class="lbl nr" x={W - 4} y={11} text-anchor="end" data-tip="Not to scale: vertical axis stretched">y ×{fmtK(k)}</text>{/if}
 				{#if !scene.schematic}
 					{@const bx = 8}
 					{@const by = height - 8}
-					<g class="ruler" data-tip="Scale bar (ruler, not a data value)">
+					<g class="ruler" data-tip={scene.partial ? 'Scale bar (ruler, not a data value): applies to the solid, reported shapes only' : 'Scale bar (ruler, not a data value)'}>
 						<line x1={bx} y1={by} x2={bx + barX * sx} y2={by} />
 						<line x1={bx} y1={by - 3} x2={bx} y2={by + 1} /><line x1={bx + barX * sx} y1={by - 3} x2={bx + barX * sx} y2={by + 1} />
 						<text x={bx + barX * sx + 4} y={by + 3}>{eff === 'expanded' ? 'x ' : ''}{fmtLen(barX)}</text>

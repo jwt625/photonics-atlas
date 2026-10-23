@@ -1,0 +1,10 @@
+# Convention sweep 3 (coordinator, 2026-10-22, DevLog-007 D256): unit / prefix conversions of non-dimension values found mechanically and verified at the locator; derived unless the source prints the stored-unit form for the same quantity.
+# Batches with an extaudit.yaml carry their sweep 3 ops there; this file is used only where no extaudit.yaml exists.
+# Replay order: patch, sweep, gapfill, addendum, geometry, geoaudit, coord, sweep2, coord2, extaudit, sweep3.
+metrics:
+  cmp_okuda2026_bh_dfb-m3:
+    basis: derived
+    notes: 'Lasing wavelength printed as 1.31 um (measured value), stored in nm: unit conversion, basis derived (D256 / D82d).
+      No nm form in the text or the Fig. 2 labels.'
+    why: 'sweep 3 (D256): p.2 Sec. 3 prints 1.31 um; no nm form in the text or the Fig. 2 labels (p.2 render), so the conversion
+      is derived'

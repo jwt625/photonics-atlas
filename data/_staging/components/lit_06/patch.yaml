@@ -1,0 +1,170 @@
+# Audit patch lit_06 (fresh-context audit 2026-10-22, DevLog/audits/2026-10-22-lit_06-audit.md).
+# 8 metric corrections (imprecise) + 10 missed metric rows + 1 component note. No wrong rows.
+# Open questions (not patched): ye2023 fab org (Qaleido Photonics missing from the registry), see audit record.
+components:
+  cmp_lit_bogaerts2006_wire_bends:
+    notes: "Spirals with lengths 0.1-50 mm and 0-550 bends; straight loss and excess bend loss from the slopes of a 2-D fit (Fig. 1(a)); the fitted straight-wire slope is printed only as a Fig. 1(a) label (0.37 dB/mm, entered as prop_loss_db_per_cm), the per-radius excess losses only as Fig. 1(b) labels (0.104 / 0.029 / 0.016 / 0.007 dB at R = 1 / 2 / 3 / 5 um). The text's 0.24 dB/mm is cited earlier work (refs. 2, 9), not entered. Processed in imec's advanced CMOS research environment (p.1 Sec. II-A: 'we used the advanced CMOS research environment' of imec; 248 nm DUV, ICP-RIE); acknowledgment thanks the IMEC P-line operators for processing (D84b)."
+    why: 'audit: figure-label values now entered (m7-m9); note no longer says the straight loss is not printed'
+metrics:
+  cmp_lit_deng2026_wdm_64x100ghz-m6:
+    locator: 'p.8 Sec. 2; p.11 Table 1'
+    why: 'locator: the ~2.5 x 0.7 mm2 footprint is in the p.8 text; Table 1 is on p.11 of text.md, not p.8'
+  cmp_lit_bogaerts2006_awg_16x200ghz-m10:
+    parameter: crosstalk_nonadjacent_db
+    condition: "'general crosstalk' (the paper contrasts it with the nearest-neighbour crosstalk, p.3-4); nearest-neighbour crosstalk stated lower without a number"
+    notes: "printed 'between -17 and -20 dB'; same 'general' vs 'nearest neighbor' split as the simulated m12 / m13"
+    why: "consistency with m12 (simulated 'general crosstalk' entered as crosstalk_nonadjacent_db): the paper defines 'general' against 'nearest neighbor' crosstalk (p.3 Sec. V for the 8-ch AWG, p.4 for this AWG), so the type is stated (registry: crosstalk_db for wdm only when the type is not stated)"
+  cmp_lit_fujisawa2020_adc_oband1-m1:
+    method: reference_structure
+    why: 'p.6 Sec. IV: losses isolated by subtracting a straight Si wire on the same chip (two cascaded ADCs, Fig. 14(a)); no length / count series, so not cutback'
+  cmp_lit_fujisawa2020_adc_oband2-m1:
+    method: reference_structure
+    why: 'as adc_oband1-m1 (straight-wire reference subtraction, p.6 Sec. IV)'
+  cmp_lit_papadovasilakis2023a_bend90_w300_r10-m1:
+    method: cutback
+    why: 'p.6-7 Sec. III-A, Fig. 9: slope over 80 / 160 / 240 cascaded bends normalized to a reference waveguide, the same cutback method recorded for the taper rows'
+  cmp_lit_qiao2017_benes_32x32-m12:
+    band: ''
+    wavelength_nm: '1500'
+    wavelength_max_nm: '1570'
+    wavelength_inferred: 'true'
+    notes: "'calculated' worst on-chip IL using a method from ref. 13 and the passive-component bandwidth; wavelength range inferred from the 1500-1570 nm bandwidth test (Fig. 5(c)), which spans S- and C-band"
+    why: 'D46: the inferred range is the 1500-1570 nm test span stated on p.5, not C-band alone'
+  cmp_lit_qiao2017_benes_32x32-m13:
+    band: ''
+    wavelength_nm: '1500'
+    wavelength_max_nm: '1570'
+    wavelength_inferred: 'true'
+    notes: "'calculated' worst on-chip IL; wavelength range inferred from the 1500-1570 nm bandwidth test (Fig. 5(c)), which spans S- and C-band"
+    why: 'as m12'
+  cmp_lit_tanizawa2015_piloss_32x32-m6:
+    qualifier: gt
+    why: "conventions: 'less than -20 dB' (p.1 Abstract, p.8 Sec. 5) is a suppression magnitude 20 with qualifier gt (worst estimate -20.2 dB, p.7)"
+add_metrics:
+- metric_id: cmp_lit_bogaerts2006_wire_bends-m7
+  component_id: cmp_lit_bogaerts2006_wire_bends
+  parameter: prop_loss_db_per_cm
+  value: '3.7'
+  unit: dB/cm
+  band: c_band
+  wavelength_inferred: 'true'
+  polarization: te
+  condition: straight-waveguide slope of the 2-D fit over the R = 3 um spiral set (length 0.1-50 mm, 0-550 bends)
+  method: cutback
+  basis: derived
+  locator: 'p.2 Sec. III-B, Fig. 1(a)'
+  notes: 'Fig. 1(a) label 0.37 dB/mm (fitted plane slope along total length) converted to dB/cm; wavelength not stated, C-band inferred (wires designed for 1.55 um, p.2 Sec. III-A)'
+  why: 'miss: own measured straight-wire loss printed as a figure label; D82d unit conversion -> derived'
+- metric_id: cmp_lit_bogaerts2006_wire_bends-m8
+  component_id: cmp_lit_bogaerts2006_wire_bends
+  parameter: bend_loss_db_per_90
+  value: '0.029'
+  unit: dB
+  band: c_band
+  wavelength_inferred: 'true'
+  polarization: te
+  excludes: straight propagation loss along the bend
+  condition: R = 2 um; excess loss per 90-deg bend
+  basis: extracted_from_figure
+  locator: 'p.2 Sec. III-B, Fig. 1(b)'
+  notes: 'printed label 0.029 in Fig. 1(b) (excess bend loss bar at R = 2 um, measured spiral data); no reading uncertainty (label); C-band inferred'
+  why: 'miss: per-radius excess bend loss printed in Fig. 1(b), not in the text'
+- metric_id: cmp_lit_bogaerts2006_wire_bends-m9
+  component_id: cmp_lit_bogaerts2006_wire_bends
+  parameter: bend_loss_db_per_90
+  value: '0.007'
+  unit: dB
+  band: c_band
+  wavelength_inferred: 'true'
+  polarization: te
+  excludes: straight propagation loss along the bend
+  condition: R = 5 um; excess loss per 90-deg bend (total 0.01 dB in m3)
+  basis: extracted_from_figure
+  locator: 'p.2 Sec. III-B, Fig. 1(b)'
+  notes: 'printed label 0.007 in Fig. 1(b) (excess bend loss at R = 5 um); no reading uncertainty (label); C-band inferred'
+  why: 'miss: excess part of the R = 5 um bend loss printed in Fig. 1(b); m3 holds only the total'
+- metric_id: cmp_lit_fujisawa2020_mux4_oband1-m12
+  component_id: cmp_lit_fujisawa2020_mux4_oband1
+  parameter: arm_length_increment_um
+  value: '21.5'
+  unit: um
+  condition: delay-line length difference of MZ-A and MZ-B (same dL, 18 nm / 3200 GHz FSR, 400 nm delay-line width)
+  basis: design_target
+  locator: 'p.4 Sec. III-A, Fig. 7'
+  notes: dL calculated from the FSR formula for O-band1 (Fig. 7)
+  why: 'miss: MZI arm-length increment is a registry wdm geometry parameter (D102 / D153)'
+- metric_id: cmp_lit_fujisawa2020_mux4_oband2-m12
+  component_id: cmp_lit_fujisawa2020_mux4_oband2
+  parameter: arm_length_increment_um
+  value: '22'
+  unit: um
+  condition: delay-line length difference of MZ-A and MZ-B (same dL, 18 nm / 3200 GHz FSR, 400 nm delay-line width)
+  basis: design_target
+  locator: 'p.4 Sec. III-A, Fig. 7'
+  notes: dL calculated from the FSR formula for O-band2 (Fig. 7)
+  why: 'miss: as oband1-m12'
+- metric_id: cmp_lit_tanizawa2015_mz_element_tm-m10
+  component_id: cmp_lit_tanizawa2015_mz_element_tm
+  parameter: power_consumption_w
+  value: '0.0015'
+  unit: W
+  statistic: typical
+  condition: trimming power for the exact cross state (elements in the 32x32 paths)
+  basis: derived
+  locator: 'p.5 Sec. 3'
+  notes: "printed 'typical electrical powers ... 45 mW and 1.5 mW' for bar and cross; 1.5 mW converted to W; the bar-state 45 mW is m2 (p_pi_mw)"
+  why: 'miss: cross-state trimming power is a stated per-element electrical power; power_consumption_w is allowed for switch_fabric (qiao2017 unit powers use the same parameter)'
+- metric_id: cmp_lit_nakamura2020_interleaver_1x4-m7
+  component_id: cmp_lit_nakamura2020_interleaver_1x4
+  parameter: fsr_ghz
+  value: '400'
+  unit: GHz
+  condition: stage 1 asymmetric MZI (dL1 = 195.202 um)
+  basis: author_estimate
+  locator: 'p.5 Sec. III-A; p.6'
+  notes: design FSR; not measured separately (D82a)
+  why: 'miss: stated stage FSR, fsr_ghz allowed for wdm'
+- metric_id: cmp_lit_nakamura2020_interleaver_1x4-m8
+  component_id: cmp_lit_nakamura2020_interleaver_1x4
+  parameter: fsr_ghz
+  value: '800'
+  unit: GHz
+  condition: stage 2 asymmetric MZI (dL2 = 97.460 um)
+  basis: author_estimate
+  locator: 'p.6 Sec. III-A'
+  notes: design FSR; not measured separately (D82a)
+  why: 'miss: as m7'
+- metric_id: cmp_lit_ye2023_ring_100ghz_w2p4-m13
+  component_id: cmp_lit_ye2023_ring_100ghz_w2p4
+  parameter: kappa_intrinsic_mhz
+  value: '16'
+  unit: MHz
+  qualifier: le
+  statistic: wafer_map
+  n_samples: '20'
+  wavelength_nm: '1480'
+  wavelength_max_nm: '1640'
+  polarization: te
+  mode: TE00
+  condition: most probable kappa0/2pi of the C11 chip in each of the 20 measured stepper fields over the 6-inch wafer
+  basis: measured
+  locator: 'p.4 Sec. 3.1, Fig. 2(d)'
+  notes: "'In all measured 20 fields, kappa0/2pi <= 16 MHz'; spectroscopy range 1480-1640 nm"
+  why: 'miss: wafer-level intrinsic loss rate stated in the text (component notes only)'
+- metric_id: cmp_lit_ye2023_ring_100ghz_w2p4-m14
+  component_id: cmp_lit_ye2023_ring_100ghz_w2p4
+  parameter: kappa_intrinsic_mhz
+  value: '19'
+  unit: MHz
+  qualifier: le
+  statistic: wafer_map
+  n_samples: '20'
+  wavelength_nm: '1480'
+  wavelength_max_nm: '1640'
+  polarization: tm
+  mode: TM00
+  condition: most probable kappa0/2pi of the C11 chip in each of the 20 measured stepper fields over the 6-inch wafer
+  basis: measured
+  locator: 'p.10 App. A, Fig. 5(c)'
+  notes: "'In all measured 20 fields, kappa0/2pi <= 19 MHz' (TM00); spectroscopy range 1480-1640 nm"
+  why: 'miss: as m13 for TM00'

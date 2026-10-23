@@ -1,0 +1,32 @@
+# Convention sweep 2 (coordinator, 2026-10-22, DevLog-007 D157 / D162 / D253-D255): D157 unit-rescale basis fixes found
+# mechanically (value absent in the stored unit, present in another unit in the source text) and verified at the locator;
+# D162 fill_factor = tooth fraction. Replay order: patch, sweep, gapfill, addendum, geometry, geoaudit, coord, sweep2.
+metrics:
+  cmp_li2025b_gc_focusing-m4:
+    basis: derived
+    notes: 'GC width as printed for the SEM inset (15 um); not stated as an SEM measurement. D157: printed as 15 um (design_target value), stored in nm: unit rescale, basis derived.'
+    why: 'D157 sweep: printed 15 um, stored 15000 nm (pure unit rescale of a printed dimension is derived; verified at p.4 Fig. 2 caption inset (i))'
+  cmp_liu2026d_ec_bg_expanding_taper-m1:
+    basis: derived
+    notes: 'D157: printed as 5 um (design_target value), stored in nm: unit rescale, basis derived.'
+    why: 'D157 sweep: printed 5 um, stored 5000 nm (pure unit rescale of a printed dimension is derived; verified at p.4 Methods Design and Fabrication)'
+  cmp_liu2026d_ec_or_expanding_taper-m1:
+    basis: derived
+    notes: 'D157: printed as 5 um (design_target value), stored in nm: unit rescale, basis derived.'
+    why: 'D157 sweep: printed 5 um, stored 5000 nm (pure unit rescale of a printed dimension is derived; verified at p.4 Methods Design and Fabrication)'
+  cmp_liu2026d_tops_bg-m6:
+    basis: derived
+    notes: 'D157: printed as 0.75 mm (design_target value), stored in um: unit rescale, basis derived.'
+    why: 'D157 sweep: printed 0.75 mm, stored 750 um (pure unit rescale of a printed dimension is derived; verified at p.3 Methods Design and Fabrication)'
+  cmp_liu2026d_tops_or-m3:
+    basis: derived
+    notes: 'D157: printed as 0.75 mm (design_target value), stored in um: unit rescale, basis derived.'
+    why: 'D157 sweep: printed 0.75 mm, stored 750 um (pure unit rescale of a printed dimension is derived; verified at p.3 Methods Design and Fabrication)'
+  cmp_liu2026d_tops_nir-m2:
+    basis: derived
+    notes: 'D157: printed as 0.75 mm (design_target value), stored in um: unit rescale, basis derived.'
+    why: 'D157 sweep: printed 0.75 mm, stored 750 um (pure unit rescale of a printed dimension is derived; verified at p.3 Methods Design and Fabrication)'
+  cmp_wu2025_vac_si_tfln-m5:
+    basis: derived
+    notes: 'TFLN waveguide width in the VAC region (2.5 um in the modulation section). D157: printed as 1.5 um (design_target value), stored in nm: unit rescale, basis derived.'
+    why: 'D157 sweep: printed 1.5 um, stored 1500 nm (pure unit rescale of a printed dimension is derived; verified at p.5 Interlayer and fiber-to-chip coupling)'

@@ -1,0 +1,10 @@
+# Coordinator rulings on the lit_02 audit questions (DevLog-007 D157-D159, 2026-10-22).
+components:
+  cmp_lit_mu2026_mzi_to_switch:
+    class: switch_fabric.other
+    why: 'D158: a single 1x2 MZI switch element is switch_fabric.other; mzi_mesh only for NxN meshes or a cell characterized as part of one'
+delete_metrics:
+- id: cmp_lit_dangel2013_silicone_wg_flex-m2
+  why: 'D159: the paper does not state whether the 10 cm VIS-NIR sample is flex or rigid; attaching it to either row would be an assumption (bound noted in the component notes instead)'
+- id: cmp_lit_dangel2013_silicone_wg_flex-m3
+  why: 'D159: same sample-type ambiguity as m2'

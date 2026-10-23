@@ -305,6 +305,8 @@ def build_known(log: RunLog | None = None) -> KnownIndex:
     src = REGISTRY / "sources.csv"
     if src.exists():
         for row in read_csv(src):
+            if row.get("corpus") == "lit":  # this pipeline's own selections (S7), never "known" to it (D148)
+                continue
             k.add(f"sources:{row.get('corpus') or 'other'}", row.get("doi"), row.get("arxiv_id"), row.get("title"))
     else:
         note(f"known: missing {src.relative_to(ROOT)}")

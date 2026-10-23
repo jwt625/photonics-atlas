@@ -1,0 +1,171 @@
+# Audit patch lit_05 (fresh-context audit 2026-10-22, DevLog/audits/2026-10-22-lit_05-audit.md).
+# 297 metrics: 279 ok / 18 imprecise / 0 wrong; 47 components: 43 ok / 4 imprecise / 0 wrong; 6 misses added.
+# Not covered here (coordinator decisions, see the audit file): ams AG / NRC Canada registry rows (nevlacsil2020 fab),
+# crossing.mmi template primary (excess_loss_db) vs crossing_loss_db, registry gaps.
+components:
+  cmp_lit_bock2010_swg_crossing_400:
+    core_material: 'Si 260 nm on 2 um BOX (commercial SOI); single-etch SWG segments; SEM fabrication bias 50 nm (p.6-7); the SEM SWG dimensions (pitch 300 nm, segment width 250 nm, duty cycle 33%) match design B, not this design; wire width 400 nm (SEM) vs 450 nm design'
+    why: 'p.6-7 Sec. 4: the SEM-determined pitch 300 nm belongs to design B (final pitch 300 nm); design A has final pitch 400 nm (m4), so the core_material must not attribute a 300 nm SEM pitch to it'
+  cmp_lit_wang2026_crossing_oband_lband:
+    class: crossing.mmi
+    why: 'p.2 Sec. II: the device is a taper-based transition plus a multimode interference region working by self-imaging (''analogous to that of a multimode interferometer''); p.4 ''gradually varying MMI structure''; geometry already entered with MMI roles (mmi_width_um, mmi_length_um, port_width_um); registry crossing.mmi = MMI-based'
+  cmp_lit_wang2026_crossing_visible:
+    class: crossing.mmi
+    why: same design method and structure as the O-L band crossing (p.4-5 Sec. III, Table II)
+  cmp_lit_elsaeed2024_straight_dc_50:
+    notes: 'Fabricated on imec''s iSiPP300 platform (p.4). The cutback with six cascaded identical DCs (slope of linear regression, Fig. 3) is stated for the bent DCs only (p.4); the straight-DC coupling ratios are fitted against coupling length (Fig. 4(a)) and their measurement structure is not stated. Wavelength span 80 nm read as 1260-1340 nm from the Fig. 5 / Fig. 8 axes.'
+    why: 'p.4 Sec. II: ''the cutback method was used for the bent DC measurements''; the component note claimed the cascade for the straight DC as well'
+metrics:
+  cmp_lit_nevlacsil2020_mmi_te_te-m1:
+    basis: derived
+    notes: 'stated once for all crossing configurations; single-crossing loss = (T40 - T80) / 40 from cascades of 40 and 80 crossings (p.6), explicit arithmetic on own measurements'
+    why: 'D80a: difference of two structures divided by N is derived whether the batch or the authors did it (p.6 Sec. 3: transmissions of 40 and 80 crossings subtracted, divided by 40)'
+  cmp_lit_nevlacsil2020_mmi_te_te-m2:
+    basis: derived
+    notes: 'stated for all optimized MMI crossing types over the 100 nm band; (T40 - T80) / 40 per wavelength (p.6)'
+    why: D80a, as m1
+  cmp_lit_nevlacsil2020_mmi_tm_tm-m1:
+    basis: derived
+    notes: 'stated once for all crossing configurations; single-crossing loss = (T40 - T80) / 40 from cascades of 40 and 80 crossings (p.6), explicit arithmetic on own measurements'
+    why: D80a, as te_te-m1
+  cmp_lit_nevlacsil2020_mmi_tm_tm-m2:
+    basis: derived
+    notes: 'stated for all optimized MMI crossing types over the 100 nm band; (T40 - T80) / 40 per wavelength (p.6)'
+    why: D80a, as te_te-m1
+  cmp_lit_nevlacsil2020_mmi_te_tm-m1:
+    basis: derived
+    notes: 'stated once for all crossing configurations; single-crossing loss = (T40 - T80) / 40 from cascades of 40 and 80 crossings (p.6), explicit arithmetic on own measurements'
+    why: D80a, as te_te-m1
+  cmp_lit_nevlacsil2020_mmi_te_tm-m2:
+    basis: derived
+    notes: 'stated for all optimized MMI crossing types over the 100 nm band; (T40 - T80) / 40 per wavelength (p.6)'
+    why: D80a, as te_te-m1
+  cmp_lit_nevlacsil2020_array_te_te-m2:
+    basis: design_target
+    notes: optimum spacing chosen from a 3D-FDTD linear parameter sweep (p.7); a dimension, hence design_target
+    why: 'D82a / D76: design_target is the basis for dimensions; simulated is for performance values'
+  cmp_lit_nevlacsil2020_array_tm_tm-m2:
+    basis: design_target
+    notes: optimum spacing chosen from a 3D-FDTD linear parameter sweep (p.7); a dimension, hence design_target
+    why: D82a / D76, as array_te_te-m2
+  cmp_lit_wang2026_crossing_oband_lband-m1:
+    basis: derived
+    notes: 'printed -0.07 dB average; per-crossing loss = (P_device - P_ref) / M with M = 20 and 30 against a straight reference waveguide (p.4), explicit arithmetic on own measurements; up to 0.1 dB discrepancy between the 20- and 30-crossing results'
+    why: 'D80a: p.4 Sec. III states the per-crossing excess loss is calculated as (P_device - P_ref)/M'
+  cmp_lit_wang2026_crossing_oband_lband-m2:
+    basis: derived
+    notes: 'printed within -0.2 dB; (P_device - P_ref) / M, M = 20, 30 (p.4)'
+    why: D80a, as m1
+  cmp_lit_wang2026_crossing_oband_lband-m3:
+    basis: derived
+    notes: 'printed -0.03 dB around 1400 nm; (P_device - P_ref) / M, M = 20, 30 (p.4). The p.2 summary prints the measured range as -0.05 to -0.2 dB, inconsistent with this minimum'
+    why: D80a, as m1; records the in-paper inconsistency (p.2 vs p.4)
+  cmp_lit_wang2026_crossing_visible-m1:
+    statistic: ''
+    notes: 'printed -0.063 dB (exp.) in Table III and p.6 Sec. III; not stated as an average (measured with laser diodes at 639.5 and 663.3 nm); the abstract''s ''average excess loss of -0.048 dB'' is the simulated value of Table III'
+    why: 'p.5 Table III and p.6 print -0.063 dB without calling it a mean; the only ''average'' wording (abstract, conclusion) belongs to the simulated -0.048 dB'
+  cmp_lit_huang2019a_tmf_butt_coupling-m1:
+    basis: author_estimate
+    notes: 'coupling loss stated without its extraction method (p.4 Sec. IV): origin not stated'
+    why: 'D44 / D76: a per-facet loss of unstated origin is author_estimate (bf_07-12 audit precedent for per-coupler values of unstated origin)'
+  cmp_lit_huang2019a_tmf_butt_coupling-m2:
+    basis: author_estimate
+    notes: 'coupling loss stated without its extraction method (p.4 Sec. IV): origin not stated'
+    why: D44 / D76, as m1
+  cmp_lit_qi2025_tops_standard-m4:
+    parameter: length_um
+    condition: 'phase shifter in each MZI, ''about 0.3 mm'' (heater length not stated as such)'
+    why: 'D111: heater_length_um only when the paper states the heater length; p.4 Sec. III A states the phase-shifter length'
+  cmp_lit_qi2025_tops_undercut-m4:
+    parameter: length_um
+    condition: 'phase shifter in each MZI, ''about 0.3 mm'' (heater length not stated as such)'
+    why: D111, as tops_standard-m4
+  cmp_lit_elsaeed2024_straight_dc_50-m1:
+    method: unspecified
+    notes: '+/-0.115 dB (std over wavelength); printed -0.126 dB; Ac fitted to the straight-DC coupling ratios vs coupling length (Fig. 4(a)); the cascade (cutback) is stated only for the bent DCs (p.4)'
+    why: 'p.4 Sec. II: cutback stated for the bent DC measurements only'
+  cmp_lit_elsaeed2024_straight_dc_50-m2:
+    method: unspecified
+    notes: '+/-0.109 dB (std over wavelength); printed -0.070 dB; At fitted to the straight-DC coupling ratios vs coupling length (Fig. 4(a)); the cascade (cutback) is stated only for the bent DCs (p.4)'
+    why: p.4 Sec. II, as m1
+add_metrics:
+- metric_id: cmp_lit_qi2025_fp_slr_cavity-m10
+  component_id: cmp_lit_qi2025_fp_slr_cavity
+  parameter: power_coupling_pct
+  value: '0.2'
+  unit: '%'
+  condition: power coupling through each SLR (cavity mirror transmission) at the largest measured external Q (Qe 40e6), highly reflective operating point (120 mW heater power), before undercut
+  basis: derived
+  locator: p.5 Sec. III C; p.4 Fig. 4(d)
+  notes: printed 0.2%; computed by the authors from the fitted Qe with the double-sided cavity model; wavelength of the Qe maximum not stated (external coupling dips near 1560-1570 nm)
+  why: 'miss: p.5 states the 0.2% power coupling through each SLR; power_coupling_pct is allowed for resonator (D75)'
+- metric_id: cmp_lit_wang2026_crossing_visible-m16
+  component_id: cmp_lit_wang2026_crossing_visible
+  parameter: crossing_loss_db
+  value: '0.03'
+  value_max: '0.065'
+  unit: dB
+  statistic: range
+  wavelength_nm: '639'
+  wavelength_max_nm: '663'
+  polarization: te
+  scope: per_component
+  condition: laser diodes at 639.5 and 663.3 nm; 19 and 38 cascaded crossings with a U-bend reference
+  method: reference_structure
+  basis: measured
+  locator: p.2 Sec. I
+  notes: printed excess loss between -0.03 dB and -0.065 dB within 639-663 nm (measured visible-band device)
+  why: 'miss: measured range stated on p.2'
+- metric_id: cmp_lit_wang2026_crossing_visible-m17
+  component_id: cmp_lit_wang2026_crossing_visible
+  parameter: crosstalk_db
+  value: '41'
+  unit: dB
+  statistic: best
+  wavelength_nm: '639'
+  wavelength_max_nm: '663'
+  polarization: te
+  basis: measured
+  locator: p.2 Sec. I
+  notes: printed minimal detectable crosstalk as low as -41 dB; limited by laser power and OSA sensitivity (p.5)
+  why: 'miss: measured best crosstalk stated on p.2 (m3 holds the < -35 dB bound)'
+- metric_id: cmp_lit_wang2026_crossing_oband_lband-m17
+  component_id: cmp_lit_wang2026_crossing_oband_lband
+  parameter: crossing_loss_db
+  value: '0.03'
+  unit: dB
+  statistic: best
+  wavelength_nm: '1425'
+  polarization: te
+  scope: per_component
+  condition: 3D-FDTD
+  method: unspecified
+  basis: simulated
+  locator: p.3 Sec. II; Fig. 2(a)
+  notes: printed minimum simulated excess loss -0.03 dB around 1425 nm
+  why: 'miss: simulated minimum stated on p.3'
+- metric_id: cmp_lit_wang2026_crossing_oband_lband-m18
+  component_id: cmp_lit_wang2026_crossing_oband_lband
+  parameter: crosstalk_db
+  value: '55'
+  unit: dB
+  statistic: best
+  polarization: te
+  condition: 3D-FDTD; at specific wavelengths within the simulated 1250-1625 nm range (wavelength not stated)
+  basis: simulated
+  locator: p.3 Sec. II; Fig. 2(a)
+  notes: printed as low as -55 dB at specific wavelengths
+  why: 'miss: simulated best crosstalk stated on p.3 (m7 holds the < -45 dB bound)'
+- metric_id: cmp_lit_xu2022_fp_retro_series-m10
+  component_id: cmp_lit_xu2022_fp_retro_series
+  parameter: prop_loss_db_per_cm
+  value: '0.15'
+  unit: dB/cm
+  wavelength_nm: '1550'
+  mode: TE1
+  condition: volume-current method; assumed sidewall roughness sigma 5 nm and correlation length 50 nm; mean loss of the linear W_bus-to-W_ref taper
+  method: unspecified
+  basis: simulated
+  locator: p.6 Sec. 2
+  notes: printed mean propagation loss 0.15 dB/cm at the central wavelength 1.55 um (measured counterpart 0.18 dB/cm in m5)
+  why: 'miss: simulated mean TE1 loss stated on p.6'

@@ -5,6 +5,7 @@ Patch file (YAML) keys, applied in this order; every op carries a `why`:
   components:     {component_id: {field: value, ...}}
   metrics:        {metric_id: {field: value, ...}}
   delete_metrics: [{id: metric_id, why: ...}]
+  delete_components: [{id: component_id, why: ...}]  (also drops its metric rows)
   add_components: [{...row..., why: ...}]
   add_metrics:    [{...row..., why: ...}]
 Idempotent: re-applying a patch changes nothing. Writes the batch CSVs in schema column order; logs every change.
@@ -71,6 +72,13 @@ def main() -> int:
                 mets = [m for m in mets if m["metric_id"] != d["id"]]
                 log.event("metrics", "delete", id=d["id"], why=d.get("why", ""))
                 n += 1
+        for d in patch.get("delete_components") or []:
+            if d["id"] in cid:
+                comps = [c for c in comps if c["component_id"] != d["id"]]
+                dropped = [m["metric_id"] for m in mets if m["component_id"] == d["id"]]
+                mets = [m for m in mets if m["component_id"] != d["id"]]
+                log.event("components", "delete", id=d["id"], metrics=dropped, why=d.get("why", ""))
+                n += 1 + len(dropped)
         for row in patch.get("add_components") or []:
             if row["component_id"] not in cid:
                 comps.append({c: str(row.get(c, "")) for c in columns("components")})

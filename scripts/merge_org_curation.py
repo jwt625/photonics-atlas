@@ -7,6 +7,9 @@ Per decision row (contract: data/_staging/org_curation/INSTRUCTIONS.md):
              when the printed string differs from the name
   joint   -> one joint_printed alias row per org
   skip    -> data/_staging/org_curation/skipped.csv (review queue)
+Optional decision columns (D270, org round 5): origin (input where the string was seen; default ofc2026), scope
+(alias corpora), valid_from (alias), name_source (new org; default the ROR id or "<origin> printed (<batch>)"),
+supply_roles and no_name_match (new org).
 Coordinator corrections are applied from config/org_curation_overrides.yaml before merging. Append-only: existing
 registry rows are not modified.
 
@@ -84,7 +87,13 @@ def main() -> int:
                 continue
             pid = remap.get(r["org_id"], r["org_id"])
             k = norm_key(r["new_name"])
-            existing = (r["ror_id"] and ror2id.get(r["ror_id"])) or name2id.get(k) or alias2id.get(k)
+            # An id already in the registry is that org (no_name_match orgs have no name key to unify by, D270).
+            existing = (
+                (pid if pid in have else "")
+                or (r["ror_id"] and ror2id.get(r["ror_id"]))
+                or name2id.get(k)
+                or alias2id.get(k)
+            )
             if existing:
                 remap[r["org_id"]] = existing
                 log.event("unify", "to_existing", proposed=r["org_id"], existing=existing, batch=r["batch"])
@@ -115,13 +124,18 @@ def main() -> int:
                 raise SystemExit(f"{pid}: ror_id {r['ror_id']} not in the ROR dump")
             if r["org_type"] not in enums["org_type"] or r["name_basis"] not in enums["name_basis"]:
                 raise SystemExit(f"{pid}: bad org_type/name_basis {r['org_type']!r}/{r['name_basis']!r}")
+            if bad := [x for x in split_list(r.get("supply_roles", "")) if x not in enums["supply_role"]]:
+                raise SystemExit(f"{pid}: bad supply_roles {bad}")
             rec = ridx.records.get(r["ror_id"]) if r["ror_id"] else None
             o = {
                 "org_id": pid,
                 "name": r["new_name"],
                 "name_basis": r["name_basis"],
-                "name_source": r["ror_id"] or f"ofc2026 printed ({r['batch']})",
+                "name_source": r.get("name_source")
+                or r["ror_id"]
+                or f"{r.get('origin') or 'ofc2026'} printed ({r['batch']})",
                 "org_type": r["org_type"],
+                "supply_roles": r.get("supply_roles", ""),
                 "country": r["country"],
                 "parent_org_id": r["parent_org_id"],
                 "status": "active" if rec and rec.status == "active" else "unknown",
@@ -129,7 +143,13 @@ def main() -> int:
                 "ror_id": r["ror_id"],
                 "wikidata_qid": rec.wikidata if rec and rec.wikidata.startswith("Q") else "",
                 "website": rec.website if rec else "",
-                "origin": ((r.get("origin") or "ofc2026") + (";ror" if rec else "")),
+                "origin": ";".join(
+                    sorted(
+                        set(split_list(r.get("origin") or "ofc2026")) | ({"ror"} if rec else set()),
+                        key=enums["origin"].index,
+                    )
+                ),
+                "no_name_match": r.get("no_name_match", ""),
                 "notes": f"curated ({r['batch']}): {r['evidence']}" + (f"; {r['notes']}" if r["notes"] else ""),
             }
             o.update(org_ov.get(pid, {}))
@@ -152,7 +172,9 @@ def main() -> int:
             if oid not in all_ids:
                 raise SystemExit(f"{r['batch']}: {r['printed']!r} -> unknown org {oid}")
             target_name = new_orgs[oid]["name"] if oid in new_orgs else have[oid]["name"]
-            if norm_key(r["printed"]) == norm_key(target_name) or (oid, r["printed"]) in have_al:
+            # A string equal to the org name needs no alias, except a scoped one (no_name_match orgs, D201 / D270).
+            same = norm_key(r["printed"]) == norm_key(target_name) and not r.get("scope")
+            if same or (oid, r["printed"]) in have_al:
                 return
             if atype not in enums["alias_type"]:
                 raise SystemExit(f"{r['batch']}: bad alias_type {atype!r} for {r['printed']!r}")
@@ -163,9 +185,9 @@ def main() -> int:
                     "alias": r["printed"],
                     "alias_type": atype,
                     "lang": "",
-                    "valid_from": "",
+                    "valid_from": r.get("valid_from", ""),
                     "valid_to": "",
-                    "origin": r.get("origin") or "ofc2026",
+                    "origin": split_list(r.get("origin") or "ofc2026")[0],
                     "scope": r.get("scope", ""),
                     "basis": "curated",
                     "notes": f"{r['batch']}: {r['evidence']}" + (f"; {r['notes']}" if r["notes"] else ""),

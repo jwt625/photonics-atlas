@@ -1,0 +1,16 @@
+# Convention sweep 3 (coordinator, 2026-10-22, DevLog-007 D256): unit / prefix conversions of non-dimension values found mechanically and verified at the locator; derived unless the source prints the stored-unit form for the same quantity.
+# Batches with an extaudit.yaml carry their sweep 3 ops there; this file is used only where no extaudit.yaml exists.
+# Replay order: patch, sweep, gapfill, addendum, geometry, geoaudit, coord, sweep2, coord2, extaudit, sweep3.
+metrics:
+  cmp_ofc2026_m1g3_qd_dfb_memristor-m4:
+    basis: derived
+    notes: '46 pm non-volatile shift, abstract ''~46 pm''; gives a 16.52 dB amplitude difference at the original peak. Reset
+      by +7 V is incomplete. Printed 46 pm (measured value), stored in nm: unit conversion, basis derived (D256 / D82d).'
+    why: 'sweep 3 (D256): p.~2 Sec. 2 and the abstract prints 46 pm; the stored-unit form is printed nowhere in the source
+      text, so the conversion is derived'
+  cmp_ofc2026_tu3c1_mrr_wdm_rx_4ch-m1:
+    basis: derived
+    notes: '250 pm (31.2 GHz) as printed; C band inferred from the EDFA in the setup. Stored in nm: unit conversion, basis
+      derived (D256 / D82d).'
+    why: 'sweep 3 (D256): abstract, Fig. 1 caption and p.~2 print 250 pm; the stored-unit form 0.25 nm is printed nowhere,
+      so the conversion is derived'

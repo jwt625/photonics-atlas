@@ -1,0 +1,51 @@
+# Org round 5 coordinator assignments (DevLog-001 D277, 2026-10-22): fab / facility org ids left empty in
+# lit_03 only because the org was missing from the registry; orgs added by org curation batch_7. Applied last,
+# on top of patch.yaml, coord.yaml, gapfill.yaml and sweep2.yaml (current staging CSVs); notes replace the
+# 'not in the registry' wording.
+components:
+  cmp_lit_oz2023_mos2_heater:
+    facility_org_ids: org_micro_nano_fabrication_unit_at_technion
+    notes: 'Devices fabricated at the Micro-Nano Fabrication Unit at Technion (p.19): facility_org_ids org_micro_nano_fabrication_unit_at_technion
+      (coord2). Au/1L-MoS2 Schottky contacts; thermal breakdown at ~1 mW limited the drive to <100 uA (p.15). Heater adds
+      ~1.5e-3 dB/um to the device loss and leaves the ring IL unchanged (p.11; no per-length registry parameter for phase_shifter).
+      Ring metrics: cmp_lit_oz2023_si_mrr.'
+    why: 'D277 / lit_03 batch report and audit: ''The devices were fabricated at the Micro-Nano Fabrication Unit at Technion''
+      (p.19) -> facility; org added in org round 5'
+  cmp_lit_oz2023_si_mrr:
+    facility_org_ids: org_micro_nano_fabrication_unit_at_technion
+    notes: 'Bare ring after planarization, TE, grating-coupled bus, through port. Radius not stated. Q changed by <5 % and
+      IL unchanged after the MoS2 heater (p.11-12). Devices fabricated at the Technion Micro-Nano Fabrication Unit (p.19):
+      facility_org_ids org_micro_nano_fabrication_unit_at_technion (coord2).'
+    why: 'D277 / lit_03 audit: same statement (p.19) covers the ring devices'
+  cmp_lit_meng2023_gsse_pram_4bit:
+    facility_org_ids: org_george_washington_university_nanofabrication_and_imaging_center
+    notes: 'Amplitude-only (k) modulation memory; class phase_shifter.phase_change as the nearest registry class. Contributions
+      (p.14): devices fabricated by a GWU author and an MIT author; heaters fabricated in the GWU Nanofabrication and Imaging
+      Center (GWNIC, p.11, p.13): facility_org_ids org_george_washington_university_nanofabrication_and_imaging_center (coord2).
+      Thin-film analysis supported by NIST CNST (p.13; registry org_center_for_nanoscale_science_and_technology; analysis
+      support, not a facility id). Planarized chips provided by a contributor (D.V.T.) not in the author list. GSSe thickness
+      inconsistent in the paper (40 nm p.3, 30 nm p.3-4, 20 nm Methods p.11): not entered. Total extinction 12 dB over 16
+      states, 0.75 dB per state (p.4, Fig. 2(a)) entered as extinction_db / n_levels (D169). Not entered (no registry parameter
+      for phase_shifter): 0.2 dB/um extinction, <0.002 dB/um unit IL, 1.5 nJ/dB set energy (Table 1, p.10); 0.5 ms for 0.2
+      dB and 500 ms for 6 dB extinction (p.6, Fig. 3(b)). The ~500,000 write-reset cycles (double-sided-heater design, p.5)
+      and the 6-state single-heater-pair cell (p.8) are on the sibling rows cmp_lit_meng2023_gsse_pram_double_heater and cmp_lit_meng2023_gsse_pram_single_pair.'
+    why: 'D277 / lit_03 audit: ''performed in part at the George Washington University Nanofabrication and Imaging Center
+      (GWNIC)'' (p.13) and heaters fabricated there (p.11) -> facility; org added in org round 5'
+  cmp_lit_meng2023_gsse_pram_double_heater:
+    facility_org_ids: org_george_washington_university_nanofabrication_and_imaging_center
+    notes: 'Sibling design of cmp_lit_meng2023_gsse_pram_4bit (which uses single-sided heaters): the double-sided heater pairs
+      of Fig. 1(a-c); the endurance test names the failure of the micro-heaters on the two sides of the waveguide (p.5). Fabrication
+      per the contributions (p.14, devices fabricated by a GWU author and an MIT author); heaters made in GWNIC (p.11): facility_org_ids
+      org_george_washington_university_nanofabrication_and_imaging_center (coord2). Without Al2O3 protection the tungsten
+      heaters failed after 10,000 cycles (Fig. 2(d) caption). Heater-position sweep (Fig. 2(b), 2(e)), FOM and per-length
+      Table 1 values not entered (curves / per-length, D169).'
+    why: 'D277 / lit_03 audit: ''performed in part at the George Washington University Nanofabrication and Imaging Center
+      (GWNIC)'' (p.13) and heaters fabricated there (p.11) -> facility; org added in org round 5'
+  cmp_lit_meng2023_gsse_pram_single_pair:
+    facility_org_ids: org_george_washington_university_nanofabrication_and_imaging_center
+    notes: 'Second P-RAM design (Fig. 4): the shorter heater sets the amorphous area of the GSSe pad by the pulse energy (80-400
+      nJ), the longer heater resets the whole cell to crystalline (p.7-8). Fabrication per the contributions (p.14); heaters
+      made in GWNIC (p.11): facility_org_ids org_george_washington_university_nanofabrication_and_imaging_center (coord2).
+      Pulse energies not entered (no registry parameter).'
+    why: 'D277 / lit_03 audit: ''performed in part at the George Washington University Nanofabrication and Imaging Center
+      (GWNIC)'' (p.13) and heaters fabricated there (p.11) -> facility; org added in org round 5'

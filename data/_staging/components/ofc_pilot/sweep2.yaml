@@ -1,0 +1,28 @@
+# Convention sweep 2 (coordinator, 2026-10-22, DevLog-007 D157 / D162 / D253-D255): D157 unit-rescale basis fixes found
+# mechanically (value absent in the stored unit, present in another unit in the source text) and verified at the locator;
+# D162 fill_factor = tooth fraction. Replay order: patch, sweep, gapfill, addendum, geometry, geoaudit, coord, sweep2.
+metrics:
+  cmp_ofc2026_w1b3_soa_dfb_1p8mm-m8:
+    basis: derived
+    notes: 'cavity length. D157: printed as 1.8 mm (design_target value), stored in um: unit rescale, basis derived.'
+    why: 'D157 sweep: printed 1.8 mm, stored 1800 um (pure unit rescale of a printed dimension is derived; verified at pNA Sec. 2)'
+  cmp_ofc2026_w3e1_soa_dfb_1p8mm-m3:
+    basis: derived
+    notes: 'cavity length. D157: printed as 1.8 mm (design_target value), stored in um: unit rescale, basis derived.'
+    why: 'D157 sweep: printed 1.8 mm, stored 1800 um (pure unit rescale of a printed dimension is derived; verified at p.~1 Sec. 2)'
+  cmp_ofc2026_th2a9_awg_16ch_1p6nm-m9:
+    basis: derived
+    notes: 'arrayed waveguide width. D157: printed as 2 um (design_target value), stored in nm: unit rescale, basis derived.'
+    why: 'D157 sweep: printed 2 um, stored 2000 nm (pure unit rescale of a printed dimension is derived; verified at pNA Sec. 2)'
+  cmp_ofc2026_w1b3_tosa_8ch-m6:
+    basis: derived
+    notes: '1.2 mm pitch chosen to suppress thermal interference (as printed). D157: printed as 1.2 mm (design_target value), stored in um: unit rescale, basis derived.'
+    why: 'D157 sweep: printed 1.2 mm, stored 1200 um (pure unit rescale of a printed dimension is derived; verified at p.~1 Sec. 3)'
+  cmp_ofc2026_w3e1_tosa_8ch_1p0mm-m7:
+    basis: derived
+    notes: '1.2 mm pitch chosen to suppress thermal interference (as printed). D157: printed as 1.2 mm (design_target value), stored in um: unit rescale, basis derived.'
+    why: 'D157 sweep: printed 1.2 mm, stored 1200 um (pure unit rescale of a printed dimension is derived; verified at p.~1 Sec. 3)'
+  cmp_ofc2026_w3e1_tosa_8ch_1p8mm-m5:
+    basis: derived
+    notes: '1.2 mm pitch chosen to suppress thermal interference (as printed). D157: printed as 1.2 mm (design_target value), stored in um: unit rescale, basis derived.'
+    why: 'D157 sweep: printed 1.2 mm, stored 1200 um (pure unit rescale of a printed dimension is derived; verified at p.~1 Sec. 3)'

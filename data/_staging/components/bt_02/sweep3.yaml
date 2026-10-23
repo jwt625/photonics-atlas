@@ -1,0 +1,11 @@
+# Convention sweep 3 (coordinator, 2026-10-22, DevLog-007 D256): unit / prefix conversions of non-dimension values found mechanically and verified at the locator; derived unless the source prints the stored-unit form for the same quantity.
+# Batches with an extaudit.yaml carry their sweep 3 ops there; this file is used only where no extaudit.yaml exists.
+# Replay order: patch, sweep, gapfill, addendum, geometry, geoaudit, coord, sweep2, coord2, extaudit, sweep3.
+metrics:
+  cmp_holzgrafe2020_photonic_molecule-m2:
+    basis: derived
+    notes: 'total loss rate kappa_bright/2pi about 1.0 GHz as reported (strongly overcoupled to the bus); wavelength taken
+      from the Fig. 1(c) spectrum region Printed about 1.0 GHz (kappa_bright = 2 pi x 1.0 GHz) (measured value), stored in
+      MHz: prefix conversion, basis derived (D256 / D82d).'
+    why: 'sweep 3 (D256): p.4 Sec. 2 prints about 1.0 GHz (kappa_bright = 2 pi x 1.0 GHz); the stored-unit form is printed
+      nowhere in the source text, so the conversion is derived'

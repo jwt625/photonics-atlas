@@ -1,0 +1,8 @@
+# Convention sweep 2 (coordinator, 2026-10-22, DevLog-007 D157 / D162 / D253-D255): D157 unit-rescale basis fixes found
+# mechanically (value absent in the stored unit, present in another unit in the source text) and verified at the locator;
+# D162 fill_factor = tooth fraction. Replay order: patch, sweep, gapfill, addendum, geometry, geoaudit, coord, sweep2.
+metrics:
+  cmp_ofc2026_m1g3_qd_dfb_memristor-m6:
+    basis: derived
+    notes: 'Si waveguide width. D157: printed as 1.5 um (design_target value), stored in nm: unit rescale, basis derived.'
+    why: 'D157 sweep: printed 1.5 um, stored 1500 nm (pure unit rescale of a printed dimension is derived; verified at p.~1 Sec. 2)'

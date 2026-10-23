@@ -1,0 +1,9 @@
+# Convention sweep 3 (coordinator, 2026-10-22, DevLog-007 D256): unit / prefix conversions of non-dimension values found mechanically and verified at the locator; derived unless the source prints the stored-unit form for the same quantity.
+# Batches with an extaudit.yaml carry their sweep 3 ops there; this file is used only where no extaudit.yaml exists.
+# Replay order: patch, sweep, gapfill, addendum, geometry, geoaudit, coord, sweep2, coord2, extaudit, sweep3.
+metrics:
+  cmp_powell2024_ring_239um-m3:
+    basis: derived
+    notes: '205 pm as printed (measured value), stored in nm: unit conversion, basis derived (D256 / D82d). Fig. 3(a) (p.4)
+      labels no FSR value.'
+    why: 'sweep 3 (D256): p.2 Sec. III prints 205 pm; Fig. 3(a) (p.4 render) labels no FSR value, so the conversion is derived'

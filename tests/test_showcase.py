@@ -42,6 +42,9 @@ def test_templates_reference_registry_parameters() -> None:
         names = [p for view in ("top", "xsec") for k in ("required", "optional") for p in t[view][k]]
         assert all(p in params for p in names), tid
         assert t["primary"]["parameter"] in params, tid
+        for cls, prim in (t.get("primary_by_class") or {}).items():
+            assert cls in t["applies_to"], (tid, cls)
+            assert prim["parameter"] in params, (tid, cls)
 
 
 def test_valid_row_passes(tmp_path: Path) -> None:

@@ -217,8 +217,15 @@ def crossref_title(title: str, hint: str = "") -> dict[str, Any]:
     return best
 
 
-OPTICA_ISSN = {"oe": "1094-4087", "optica": "2334-2536", "ome": "2159-3930", "boe": "2156-7085", "osac": "2578-7519",
-               "optcon": "2770-0208", "opticaq": "2837-6714"}
+OPTICA_ISSN = {
+    "oe": "1094-4087",
+    "optica": "2334-2536",
+    "ome": "2159-3930",
+    "boe": "2156-7085",
+    "osac": "2578-7519",
+    "optcon": "2770-0208",
+    "opticaq": "2837-6714",
+}
 
 
 def crossref_optica(uri: str) -> str:
@@ -227,11 +234,21 @@ def crossref_optica(uri: str) -> str:
     if not m or m.group(1) not in OPTICA_ISSN:
         return ""
     j, vol, issue, page = m.groups()
-    res = litfetch.get_json(CR, {"filter": f"issn:{OPTICA_ISSN[j]}", "query.bibliographic": f"{vol} {issue} {page}",
-                                 "rows": "20", "select": "DOI,volume,issue,page"})
+    res = litfetch.get_json(
+        CR,
+        {
+            "filter": f"issn:{OPTICA_ISSN[j]}",
+            "query.bibliographic": f"{vol} {issue} {page}",
+            "rows": "20",
+            "select": "DOI,volume,issue,page",
+        },
+    )
     for it in res["message"]["items"]:
-        if str(it.get("volume")) == vol and str(it.get("issue")) == issue and \
-                str(it.get("page", "")).split("-")[0] == page:
+        if (
+            str(it.get("volume")) == vol
+            and str(it.get("issue")) == issue
+            and str(it.get("page", "")).split("-")[0] == page
+        ):
             return clean_doi(it.get("DOI", ""))
     return ""
 
@@ -252,7 +269,9 @@ def resolve(cache: ResolveCache, kind: str, value: str, hint: str = "") -> dict[
         else:
             cr_doi = crossref_optica(value)
             w = oa_single(f"doi:{cr_doi}") if cr_doi else None
-            rec = {"work": w, "crossref_doi": cr_doi} if w else {"miss": "optica uri unresolved", "crossref_doi": cr_doi}
+            rec = (
+                {"work": w, "crossref_doi": cr_doi} if w else {"miss": "optica uri unresolved", "crossref_doi": cr_doi}
+            )
     elif kind == "arxiv":
         w = oa_single(f"doi:10.48550/arXiv.{value}")
         rec = {"work": w} if w else {"miss": "openalex 404"}
@@ -261,8 +280,11 @@ def resolve(cache: ResolveCache, kind: str, value: str, hint: str = "") -> dict[
         match = {k: hit[k] for k in ("ratio", "cr_score", "cr_title")}
         if hit["doi"] and hit["ratio"] >= TITLE_MATCH_MIN:
             w = oa_single(f"doi:{hit['doi']}")
-            rec = {"work": w, "crossref_doi": hit["doi"], "match": match} if w else {
-                "miss": "openalex 404 after crossref", "crossref_doi": hit["doi"], "match": match}
+            rec = (
+                {"work": w, "crossref_doi": hit["doi"], "match": match}
+                if w
+                else {"miss": "openalex 404 after crossref", "crossref_doi": hit["doi"], "match": match}
+            )
         else:
             rec = {"miss": "no near-exact crossref title", "match": match, "crossref_doi": hit["doi"]}
     cache.put(key, rec)
@@ -282,8 +304,11 @@ def local_inputs() -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
                 continue
             if r["in_eo_atlas"] != "N" or r["in_packaging_atlas"] != "N":
                 continue
-            base = {"seed_source": "blog", "seed_reason": f"blog {r['post_file']} topic={r['topic_guess']}",
-                    "seed_input_id": f"{r['id_type']}:{r['identifier']}"}
+            base = {
+                "seed_source": "blog",
+                "seed_reason": f"blog {r['post_file']} topic={r['topic_guess']}",
+                "seed_input_id": f"{r['id_type']}:{r['identifier']}",
+            }
             if r["id_type"] == "doi":
                 seeds.append({**base, "kind": "doi", "value": clean_doi(r["identifier"])})
             elif r["id_type"] == "arxiv":
@@ -293,8 +318,12 @@ def local_inputs() -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
             else:
                 skipped.append({**base, "url": r["url"]})
     for r in parse_taxonomy_seeds(TAXONOMY_MD.read_text(encoding="utf-8")):
-        base = {"seed_source": "taxonomy_s5", "seed_reason": f"taxonomy s5 {r['class']}; seen in {r['seen_in']}",
-                "seed_input_id": r["title"], "seed_class": TAXONOMY_CLASS.get(r["class"], "")}
+        base = {
+            "seed_source": "taxonomy_s5",
+            "seed_reason": f"taxonomy s5 {r['class']}; seen in {r['seen_in']}",
+            "seed_input_id": r["title"],
+            "seed_class": TAXONOMY_CLASS.get(r["class"], ""),
+        }
         dm, am = DOI_RE.search(r["ids"]), ARXIV_RE.search(r["ids"])
         if dm:
             seeds.append({**base, "kind": "doi", "value": clean_doi(dm.group(0))})
@@ -307,8 +336,11 @@ def local_inputs() -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
         for r in csv.DictReader(f):
             if not eo_is_component(r["title"]):
                 continue
-            base = {"seed_source": "eo_candidates", "seed_input_id": f"eo:{r['paper_id']}",
-                    "seed_reason": f"eo candidates {r['paper_id']} title names a non-modulator component"}
+            base = {
+                "seed_source": "eo_candidates",
+                "seed_input_id": f"eo:{r['paper_id']}",
+                "seed_reason": f"eo candidates {r['paper_id']} title names a non-modulator component",
+            }
             if r["doi"]:
                 seeds.append({**base, "kind": "doi", "value": clean_doi(r["doi"])})
             elif r["arxiv_id"]:
@@ -348,8 +380,12 @@ def cmd_local(args: argparse.Namespace, log: RunLog) -> None:
             unresolved.append({**{k: v for k, v in s.items()}, "miss": rec.get("miss", ""), "match": rec.get("match")})
             continue
         p = litpool.from_openalex(rec["work"], LANE, f"local:{s['seed_source']}")
-        extra = {"seed_source": s["seed_source"], "seed_reason": s["seed_reason"], "seed_input_id": s["seed_input_id"],
-                 "seed_class": s.get("seed_class", "")}
+        extra = {
+            "seed_source": s["seed_source"],
+            "seed_reason": s["seed_reason"],
+            "seed_input_id": s["seed_input_id"],
+            "seed_class": s.get("seed_class", ""),
+        }
         if s["kind"] == "arxiv" and not p["arxiv_id"]:
             extra["seed_arxiv_id"] = s["value"]
         if "match" in rec:
@@ -362,7 +398,9 @@ def cmd_local(args: argparse.Namespace, log: RunLog) -> None:
             continue
         out[p["uid"]] = {**p, **extra}
     n = write_atomic(litpool.POOL / "seeds_local.jsonl", list(out.values()))
-    write_atomic(SEEDS / "local_unresolved.jsonl", unresolved + [{**x, "miss": "url row, no identifier"} for x in skipped])
+    write_atomic(
+        SEEDS / "local_unresolved.jsonl", unresolved + [{**x, "miss": "url row, no identifier"} for x in skipped]
+    )
     log.info(f"seeds_local.jsonl {n} records; unresolved {len(unresolved)}; url rows {len(skipped)}")
     log.event("local", records=n, unresolved=len(unresolved), url_rows=len(skipped))
 
@@ -397,26 +435,49 @@ def cmd_find_reviews(args: argparse.Namespace, log: RunLog) -> None:
                 if used >= OPENALEX_SEARCH_CAP:
                     log.info(f"openalex search cap {OPENALEX_SEARCH_CAP} reached; skip {q['q']}")
                     continue
-                j = litfetch.get_json(OA, {
-                    "filter": f"title.search:{q['q']},publication_year:2018-2026",
-                    "sort": "cited_by_count:desc", "per_page": "25",
-                    "select": "id,doi,title,publication_year,type,primary_location,cited_by_count"})
+                j = litfetch.get_json(
+                    OA,
+                    {
+                        "filter": f"title.search:{q['q']},publication_year:2018-2026",
+                        "sort": "cited_by_count:desc",
+                        "per_page": "25",
+                        "select": "id,doi,title,publication_year,type,primary_location,cited_by_count",
+                    },
+                )
                 cp.parent.mkdir(parents=True, exist_ok=True)
                 cp.write_text(json.dumps({"n": used + 1}))
-                items = [{"doi": litpool.norm_doi(w.get("doi")), "title": w.get("title") or "",
-                          "year": w.get("publication_year"), "type": w.get("type"),
-                          "venue": ((w.get("primary_location") or {}).get("source") or {}).get("display_name", ""),
-                          "cited_by": w.get("cited_by_count")} for w in j["results"]]
+                items = [
+                    {
+                        "doi": litpool.norm_doi(w.get("doi")),
+                        "title": w.get("title") or "",
+                        "year": w.get("publication_year"),
+                        "type": w.get("type"),
+                        "venue": ((w.get("primary_location") or {}).get("source") or {}).get("display_name", ""),
+                        "cited_by": w.get("cited_by_count"),
+                    }
+                    for w in j["results"]
+                ]
             else:
-                j = litfetch.get_json(CR, {
-                    "query.bibliographic": q["q"], "rows": str(q.get("rows", 20)),
-                    "filter": "type:journal-article,from-pub-date:2018-01-01",
-                    "select": "DOI,title,score,container-title,issued,is-referenced-by-count,type"})
-                items = [{"doi": clean_doi(it.get("DOI", "")), "title": (it.get("title") or [""])[0],
-                          "year": ((it.get("issued") or {}).get("date-parts") or [[None]])[0][0],
-                          "venue": (it.get("container-title") or [""])[0],
-                          "cited_by": it.get("is-referenced-by-count"), "score": it.get("score")}
-                         for it in j["message"]["items"]]
+                j = litfetch.get_json(
+                    CR,
+                    {
+                        "query.bibliographic": q["q"],
+                        "rows": str(q.get("rows", 20)),
+                        "filter": "type:journal-article,from-pub-date:2018-01-01",
+                        "select": "DOI,title,score,container-title,issued,is-referenced-by-count,type",
+                    },
+                )
+                items = [
+                    {
+                        "doi": clean_doi(it.get("DOI", "")),
+                        "title": (it.get("title") or [""])[0],
+                        "year": ((it.get("issued") or {}).get("date-parts") or [[None]])[0][0],
+                        "venue": (it.get("container-title") or [""])[0],
+                        "cited_by": it.get("is-referenced-by-count"),
+                        "score": it.get("score"),
+                    }
+                    for it in j["message"]["items"]
+                ]
             path.write_text(json.dumps({"query": q, "items": items}, ensure_ascii=False, indent=1))
             log.event("find_reviews", query=q["q"], n=len(items), file=str(path.relative_to(ROOT)))
         if path.exists() and args.show:
@@ -461,25 +522,47 @@ def cmd_anchor_reviews(args: argparse.Namespace, log: RunLog) -> None:
                 log.event("anchor_reviews", "missing", anchor=akey)
                 continue
             wid = w["id"].rsplit("/", 1)[-1]
-            j = litfetch.get_json(OA, {
-                "filter": f"cites:{wid},publication_year:2018-2026", "sort": "cited_by_count:desc",
-                "per_page": "200", "select": "id,doi,title,publication_year,type,primary_location,cited_by_count"})
-            items = [{"doi": litpool.norm_doi(x.get("doi")), "title": x.get("title") or "",
-                      "year": x.get("publication_year"), "type": x.get("type"),
-                      "venue": ((x.get("primary_location") or {}).get("source") or {}).get("display_name", ""),
-                      "cited_by": x.get("cited_by_count")} for x in j["results"]]
+            j = litfetch.get_json(
+                OA,
+                {
+                    "filter": f"cites:{wid},publication_year:2018-2026",
+                    "sort": "cited_by_count:desc",
+                    "per_page": "200",
+                    "select": "id,doi,title,publication_year,type,primary_location,cited_by_count",
+                },
+            )
+            items = [
+                {
+                    "doi": litpool.norm_doi(x.get("doi")),
+                    "title": x.get("title") or "",
+                    "year": x.get("publication_year"),
+                    "type": x.get("type"),
+                    "venue": ((x.get("primary_location") or {}).get("source") or {}).get("display_name", ""),
+                    "cited_by": x.get("cited_by_count"),
+                }
+                for x in j["results"]
+            ]
             items = [x for x in items if x["type"] == "review" or REVIEW_TITLE.search(x["title"])]
             aw = {k: w.get(k) for k in ("id", "doi", "title", "publication_year", "cited_by_count")}
-            path.write_text(json.dumps({"anchor": a, "anchor_work": aw, "n_citing": j["meta"]["count"],
-                                        "items": items}, ensure_ascii=False, indent=1))
+            path.write_text(
+                json.dumps(
+                    {"anchor": a, "anchor_work": aw, "n_citing": j["meta"]["count"], "items": items},
+                    ensure_ascii=False,
+                    indent=1,
+                )
+            )
             log.event("anchor_reviews", anchor=akey, wid=wid, n_citing=j["meta"]["count"], n_review_like=len(items))
         if path.exists() and args.show:
             d = json.loads(path.read_text())
             aw = d["anchor_work"]
-            print(f"\n## {a['class']} / {a.get('subtype', '')}: anchor {aw['doi']} = {(aw['title'] or '')[:90]} "
-                  f"({aw['publication_year']}, {aw['cited_by_count']} cites); citing 2018+ {d['n_citing']}")
+            print(
+                f"\n## {a['class']} / {a.get('subtype', '')}: anchor {aw['doi']} = {(aw['title'] or '')[:90]} "
+                f"({aw['publication_year']}, {aw['cited_by_count']} cites); citing 2018+ {d['n_citing']}"
+            )
             for it in d["items"][: args.top]:
-                print(f"  {it['year']} | {it['cited_by']} | {(it['venue'] or '')[:30]} | {it['doi']} | {it['title'][:110]}")
+                print(
+                    f"  {it['year']} | {it['cited_by']} | {(it['venue'] or '')[:30]} | {it['doi']} | {it['title'][:110]}"
+                )
 
 
 # ---------- reviews and references ----------
@@ -504,8 +587,9 @@ def fetch_works(ids: list[str], wc: WorkCache, log: RunLog) -> None:
     todo = sorted({i for i in ids if i not in wc.data})
     log.info(f"  fetch {len(todo)} uncached works in {(len(todo) + BATCH_IDS - 1) // BATCH_IDS} filter pages")
     for batch in chunks(todo, BATCH_IDS):
-        j = get_json_retry(OA, {"filter": "openalex_id:" + "|".join(batch), "per_page": "200",
-                                "select": litpool.OPENALEX_SELECT})
+        j = get_json_retry(
+            OA, {"filter": "openalex_id:" + "|".join(batch), "per_page": "200", "select": litpool.OPENALEX_SELECT}
+        )
         got = list(j["results"])
         seen = {w["id"].rsplit("/", 1)[-1] for w in got}
         missing = [{"id": i, "missing": True} for i in batch if i not in seen]
@@ -549,8 +633,13 @@ def cmd_reviews(args: argparse.Namespace, log: RunLog) -> None:
         if p["uid"] in recs:
             recs[p["uid"]]["seed_classes"].append(cls)
             continue
-        recs[p["uid"]] = {**p, "is_review_seed": True, "seed_class": r["class"], "seed_classes": [cls],
-                          "n_referenced_works": len(w.get("referenced_works") or [])}
+        recs[p["uid"]] = {
+            **p,
+            "is_review_seed": True,
+            "seed_class": r["class"],
+            "seed_classes": [cls],
+            "n_referenced_works": len(w.get("referenced_works") or []),
+        }
     if not args.only:
         n = write_atomic(litpool.POOL / "seeds_reviews.jsonl", list(recs.values()))
         log.info(f"seeds_reviews.jsonl {n} records")
@@ -582,8 +671,12 @@ def cmd_reviews(args: argparse.Namespace, log: RunLog) -> None:
             out.append({**p, "seed_class": cls, "refs_of_all": sorted(set(dois))})
         n = write_atomic(out_path, out)
         years = [x["year"] for x in out if x["year"]]
-        summary[cls] = {"reviews": len(crev), "refs": len(refs), "records": n,
-                        "years": [min(years), max(years)] if years else []}
+        summary[cls] = {
+            "reviews": len(crev),
+            "refs": len(refs),
+            "records": n,
+            "years": [min(years), max(years)] if years else [],
+        }
         log.info(f"  seeds_refs_{cls}.jsonl {n} records years {summary[cls]['years']}")
         log.event("refs", cls=cls, **summary[cls])
     (SEEDS / "refs_summary.json").write_text(json.dumps(summary, indent=1))
@@ -609,14 +702,22 @@ def cmd_cites(args: argparse.Namespace, log: RunLog) -> None:
             if path.exists():
                 j = json.loads(path.read_text())
             else:
-                j = get_json_retry(OA, {"filter": f"cites:{wid}", "sort": "publication_date:desc",
-                                        "per_page": "200", "page": str(page + 1),  # cursor page 2 gave HTTP 401
-                                        "select": litpool.OPENALEX_SELECT})
+                j = get_json_retry(
+                    OA,
+                    {
+                        "filter": f"cites:{wid}",
+                        "sort": "publication_date:desc",
+                        "per_page": "200",
+                        "page": str(page + 1),  # cursor page 2 gave HTTP 401
+                        "select": litpool.OPENALEX_SELECT,
+                    },
+                )
                 path.write_text(json.dumps(j, ensure_ascii=False))
             for x in j["results"]:
                 p = litpool.from_openalex(x, LANE, f"cites:{wid}")
-                by_cls.setdefault(c["class"], {}).setdefault(p["uid"], {**p, "seed_class": c["class"],
-                                                                        "cites_seed_doi": c["doi"]})
+                by_cls.setdefault(c["class"], {}).setdefault(
+                    p["uid"], {**p, "seed_class": c["class"], "cites_seed_doi": c["doi"]}
+                )
             if (page + 1) * 200 >= int((j.get("meta") or {}).get("count") or 0):
                 break
     for cls, recs in by_cls.items():
@@ -636,8 +737,13 @@ def main() -> int:
     args = ap.parse_args()
     SEEDS.mkdir(parents=True, exist_ok=True)
     with RunLog(f"lit_seeds_{args.cmd.replace('-', '_')}", args.dry_run) as log:
-        cmds = {"local": cmd_local, "find-reviews": cmd_find_reviews, "anchor-reviews": cmd_anchor_reviews,
-                "reviews": cmd_reviews, "cites": cmd_cites}
+        cmds = {
+            "local": cmd_local,
+            "find-reviews": cmd_find_reviews,
+            "anchor-reviews": cmd_anchor_reviews,
+            "reviews": cmd_reviews,
+            "cites": cmd_cites,
+        }
         cmds[args.cmd](args, log)
     return 0
 

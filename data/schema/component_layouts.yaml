@@ -1,7 +1,8 @@
 # Layout templates for the component layout viewer (DevLog-005 D103-D107). Each template draws one family of components
 # to scale from metric rows only (D104): `top` = plan view, `xsec` = cross-section. `required` parameters are needed for a
 # to-scale view; missing `optional` (and missing `required`) dimensions are drawn schematically, labelled "not reported",
-# never as numbers. Parameter names are registry names (component_parameters.yaml). `primary` ranks hero components (D107).
+# never as numbers. Parameter names are registry names (component_parameters.yaml). `primary` ranks hero components (D107);
+# `primary_by_class` (optional) overrides it for the listed classes (D251).
 version: 1
 
 xsec_common: &xsec_common
@@ -15,6 +16,8 @@ templates:
     top: {required: [period_nm], optional: [fill_factor, n_periods, grating_length_um, grating_width_um, taper_length_um, width_nm, fiber_angle_deg]}
     xsec: {required: [core_thickness_nm, etch_depth_nm], optional: [period_nm, fill_factor, box_thickness_um, cladding_thickness_um, slab_thickness_nm]}
     primary: {parameter: insertion_loss_db, scope: per_coupler, better: lower}
+    # D112 / D223: platform-qualified gap shown in the gallery while no hero has this platform family (app explore/colors.ts keys)
+    gaps: [{role: hero, platform_family: soi}]
   edge_taper:
     label: "Edge coupler / spot-size converter (inverse taper, optional overlay)"
     applies_to: [fiber_chip_coupler.edge]
@@ -45,10 +48,13 @@ templates:
     top: {required: [mmi_width_um, mmi_length_um], optional: [port_width_um, taper_length_um, pitch_um, n_inputs, n_outputs, width_nm]}
     xsec: *xsec_common
     primary: {parameter: excess_loss_db, scope: per_component, better: lower}
+    # D164 / D251: crossings report loss per crossing (crossing_loss_db); class-specific primary overrides `primary`
+    primary_by_class: {crossing.mmi: {parameter: crossing_loss_db, scope: per_component, better: lower}}
   dc:
     label: "Directional / adiabatic coupler"
     applies_to: [splitter.directional_coupler, splitter.adiabatic]
-    top: {required: [gap_nm, coupling_length_um], optional: [width_nm, min_bend_radius_um, length_um]}
+    # D258: coupling_angle_deg (bent DC coupling-section angle) listed; the app dc scene still draws a straight section
+    top: {required: [gap_nm, coupling_length_um], optional: [width_nm, min_bend_radius_um, length_um, coupling_angle_deg]}
     xsec: *xsec_common
     primary: {parameter: excess_loss_db, scope: per_component, better: lower}
   y_branch:

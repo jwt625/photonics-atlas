@@ -31,3 +31,19 @@ paper completely before the next.
 
 Write only in your batch directory. Never edit `data/components/`, `data/registry/`, `data/schema/`, scripts, the
 skill, or any sibling repo. Never copy e-mail addresses, figures or more than a few words of text from a source.
+
+## Addendum: `lit` corpus batches (DevLog-007, 2026-10-22)
+
+For batches named `lit_NN` the papers are this repo's literature cache, not the EO atlas:
+
+- Source row `lit:<paper_id>` in `data/registry/sources.csv` (check `access`, `license`, `redistribution`).
+- Text `references/<paper_id>/text.md` (page markers `<!-- page N -->`), figures `references/<paper_id>/figures/`,
+  metadata `references/<paper_id>/source.json` (read-only). Supplements, when cached, are under
+  `references/<paper_id>/supplement/`.
+- Ids `cmp_lit_<paper_id>_<label>` (D72 rule for non-EO corpora). Locators `p.N` (page of `text.md`) plus figure /
+  table / section, as for `eo:`; the validator enforces `^p\.[0-9]+` for `lit:`.
+- No EO host device: `host_device_ids` stays empty unless the paper is also an EO paper (it is not, D123).
+- Rights: quotes only when `redistribution` is `open_license_ok`, otherwise facts and locators only.
+- These are dedicated component papers: capture every component the paper characterizes (headline device, reference
+  structures with their own measured numbers, on-chip building blocks with stated performance), plus the layout
+  geometry the paper states (D102 role-specific geometry parameters, `data/schema/component_layouts.yaml`).

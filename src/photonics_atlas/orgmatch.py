@@ -45,7 +45,9 @@ def load_matcher(registry: Path = REGISTRY, with_ror: bool = True) -> Matcher:
     for o in read_csv(registry / "organizations.csv"):
         if o.get("no_name_match") != "true":
             m.by_name[norm_key(o["name"])] = o["org_id"]
-        if o["ror_id"]:
+        # no_name_match orgs are kept out of the ROR display / label route too: their ROR display name is their
+        # name (D310; e.g. Italy's CNR, ROR display "National Research Council").
+        if o["ror_id"] and o.get("no_name_match") != "true":
             m.by_ror.setdefault(o["ror_id"], o["org_id"])
     for a in read_csv(registry / "org_aliases.csv"):
         k = norm_key(a["alias"])

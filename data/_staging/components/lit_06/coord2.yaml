@@ -1,0 +1,38 @@
+# Org round 5 coordinator assignments (DevLog-001 D277, 2026-10-22): fab / facility org ids left empty in
+# lit_06 only because the org was missing from the registry; orgs added by org curation batch_7. Applied last,
+# on top of patch.yaml, coord.yaml, gapfill.yaml and sweep2.yaml (current staging CSVs); notes replace the
+# 'not in the registry' wording.
+components:
+  cmp_lit_ye2023_ring_100ghz_w2p4:
+    fab_org_ids: org_qaleido_photonics
+    notes: 'Curved bus waveguide with the same cross-section as the ring (multimode bus) for phase matching; near-unity coupling
+      ideality from 3269 TE / 959 TM data points (no registry parameter). GVD D2/2pi = 0.8469 MHz, D3/2pi = -0.754 kHz, D4/2pi
+      = -14 Hz for a typical ring (Fig. 3(a), not entered). Coupling gaps down to 300 nm in over-coupled samples. kappa0 decreases
+      with width (1.8-2.4 um, Fig. 2(c), values only in the plot). Wafer-level: most probable kappa0/2pi <= 16 MHz (TE) and
+      <= 19 MHz (TM) in all 20 measured fields. Light coupled with lensed fibers and inverse tapers. Fabricated by Z. Y.,
+      H. J. and Z. H. (author contributions, p.12), all affiliated with Qaleido Photonics (Hangzhou); fab_org_ids org_qaleido_photonics
+      (D80b; lit_06 audit Q1; coord2).'
+    why: 'D277 / lit_06 audit Q1: author contributions (p.12) ''Z. Y., H. J. and Z. H. developed the fabrication process and
+      fabricated the samples'', all three at Qaleido Photonics (p.1); org added in org round 5'
+  cmp_lit_ye2023_soliton_comb_100ghz:
+    fab_org_ids: org_qaleido_photonics
+    notes: Same ring family as the 100 GHz characterization rings; single solitons accessed by laser-piezo tuning, verified
+      by EOM/VNA C- and S-resonances; Raman self-frequency shift 10.4 nm at 126 mW. Pump from an ECDL + EDFA (setup, not a
+      component). Fabricated by Z. Y., H. J. and Z. H. (author contributions, p.12), all affiliated with Qaleido Photonics
+      (Hangzhou); fab_org_ids org_qaleido_photonics (D80b; lit_06 audit Q1; coord2).
+    why: 'D277 / lit_06 audit Q1: author contributions (p.12) ''Z. Y., H. J. and Z. H. developed the fabrication process and
+      fabricated the samples'', all three at Qaleido Photonics (p.1); org added in org round 5'
+  cmp_lit_ye2023_soliton_comb_20ghz:
+    fab_org_ids: org_qaleido_photonics
+    notes: K-band repetition rate. Number of comb lines in the 3-dB bandwidth printed as 117 (text) and 137 (Fig. 4 caption),
+      not entered. Fabricated by Z. Y., H. J. and Z. H. (author contributions, p.12), all affiliated with Qaleido Photonics
+      (Hangzhou); fab_org_ids org_qaleido_photonics (D80b; lit_06 audit Q1; coord2).
+    why: 'D277 / lit_06 audit Q1: author contributions (p.12) ''Z. Y., H. J. and Z. H. developed the fabrication process and
+      fabricated the samples'', all three at Qaleido Photonics (p.1); org added in org round 5'
+  cmp_lit_ye2023_inverse_taper_edge:
+    fab_org_ids: org_qaleido_photonics
+    notes: Inverse-taper design referenced to ref. 39; taper geometry not stated. Fabricated by Z. Y., H. J. and Z. H. (author
+      contributions, p.12), all affiliated with Qaleido Photonics (Hangzhou); fab_org_ids org_qaleido_photonics (D80b; lit_06
+      audit Q1; coord2).
+    why: 'D277 / lit_06 audit Q1: author contributions (p.12) ''Z. Y., H. J. and Z. H. developed the fabrication process and
+      fabricated the samples'', all three at Qaleido Photonics (p.1); org added in org round 5'

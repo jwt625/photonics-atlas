@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import { link } from '../../lib/paths';
 	import { store } from '../../lib/state.svelte';
 	import { CORPORA, matches, sortOrgs, type SortDir } from '../../lib/orgs';
 	import type { Org } from '../../lib/types';
@@ -59,6 +60,15 @@
 	let rows = $derived(sortOrgs(orgs.filter((o) => matches(o, q) && (!type || o.type === type) && (!country || o.country === country)), sortKey, sortDir));
 	let sel = $derived<Org | undefined>(selId ? store.byId.get(selId) : undefined);
 	const name = (id: string) => store.byId.get(id)?.name ?? id;
+	const LENS: [string, string, string][] = [
+		['cmp_fab', 'fab', 'components whose source states the org fabricated them'],
+		['cmp_fac', 'facility', 'components made in the org as facility'],
+		['sup', 'supply', 'supply usage rows'],
+		['proc', 'processes', 'foundry process observations (foundry or broker)'],
+		['std', 'standards', 'standards with the org as body'],
+		['ppl', 'people', 'public persons with a public observation at the org'],
+		['obs', 'obs', 'public affiliation observations']
+	];
 </script>
 
 <div class="page">
@@ -92,7 +102,12 @@
 	</div>
 	<aside class="detail">
 		{#if sel}
-			<h2>{sel.name}</h2>
+			<h2>{sel.name} <a class="hub" href={link('/orgs/hub') + '?id=' + encodeURIComponent(sel.id)} data-tip="Org hub: registry, components, supply, people and sources in one page">hub</a></h2>
+			{#if sel.lens && Object.keys(sel.lens).length}
+				<div class="lens num">
+					{#each LENS as [k, l, t]}{#if sel.lens[k]}<span data-tip={t}><b>{sel.lens[k]}</b> {l}</span>{/if}{/each}
+				</div>
+			{/if}
 			<dl>
 				<dt>id</dt><dd class="mono">{sel.id}</dd>
 				<dt>type</dt><dd>{sel.type}</dd>
@@ -157,6 +172,9 @@
 	.t tbody tr.sel { background: var(--sel); }
 	.detail { min-height: 0; overflow: auto; padding: 8px 10px; background: var(--surface); }
 	h2 { margin: 0 0 6px; font-size: 14px; }
+	h2 .hub { font-size: 11px; font-weight: 400; margin-left: 6px; }
+	.lens { display: flex; flex-wrap: wrap; gap: 2px 10px; margin: 0 0 6px; font-size: 11px; color: var(--ink-3); }
+	.lens b { color: var(--ink); font-weight: 600; }
 	h3 { margin: 10px 0 4px; font-size: 11px; color: var(--ink-3); font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; }
 	dl { display: grid; grid-template-columns: 80px 1fr; gap: 2px 8px; margin: 0; }
 	dt { color: var(--ink-3); }

@@ -1,0 +1,423 @@
+# Audit patch lit_02 (fresh-context audit 2026-10-22, DevLog/audits/2026-10-22-lit_02-audit.md).
+# Blocks in one file: A = findings (wrong / imprecise), B = D111 / D82d unit-rescaling convention (28 rows,
+#   droppable as a block if the coordinator does not enforce D111 on design dimensions), C = misses (add_metrics).
+# Block B ids: every metrics entry whose why starts with "D111 / D82d".
+metrics:
+  cmp_lit_mu2026_to_phase_shifter-m3:
+    parameter: length_um
+    notes: '324 um long TO phase shifter per arm as printed (p.11 Sec. 5); the TiN heater length itself is not stated (D111: phase-section length stays length_um).'
+    why: 'D111: heater_length_um only when the paper states the heater length; p.11 states a 324-um-long TO phase shifter (TiN heater over a 3-pass folded waveguide), not the heater length'
+  cmp_lit_mu2026_inverse_taper_coupler-m1:
+    n_samples: ''
+    why: 'p.8: the twelve samples of the coupling-loss measurement cover both coupler designs; the per-design count is not stated'
+    notes: Minimum measured LD-to-waveguide coupling loss (Table 3). Twelve samples of both coupler designs together were measured this way (p.8); per-design count not stated. Paper attributes ~1.2 dB excess
+      to misalignment vs simulation.
+  cmp_lit_mu2026_taper_coupler-m1:
+    n_samples: ''
+    why: 'p.8: the twelve samples of the coupling-loss measurement cover both coupler designs; the per-design count is not stated'
+    notes: Minimum measured coupling loss (Table 3). Twelve samples of both coupler designs together were measured this way (p.8); per-design count not stated. Paper attributes ~0.5 dB excess to misalignment
+      vs simulation.
+  cmp_lit_maeda2023_membrane_dr_laser-m1:
+    temperature_k: ''
+    notes: L-I measurement temperature not stated (spectra and eyes at 25 C); output into a large-area PD.
+    why: 'never invent conditions: the L-I temperature is not stated (p.4-5; 25 C is stated only for spectra and eyes)'
+  cmp_lit_dangel2013_silicone_wg_flex-m2:
+    basis: author_estimate
+    method: loss_breakdown
+    notes: Bound over 760-860 nm stated in the text (p.7) from the white-light VIS-NIR spectrum of one 10 cm straight waveguide, corrected to the 850 nm single-wavelength loss by subtracting an estimated
+      4.08 dB coupling loss (assumes negligible SM-fiber launch loss). Sample type (flex or rigid) not stated; attached to the flex row with this caveat.
+    why: 'D44/D76: the spectrum is baseline-corrected with an estimated 4.08 dB coupling loss that rests on the assumption of negligible SM-fiber launch loss (p.7); a single 10 cm waveguide, not a cutback'
+  cmp_lit_dangel2013_silicone_wg_flex-m3:
+    basis: author_estimate
+    method: loss_breakdown
+    notes: Bound over 600-1100 nm stated in the text (p.7) from the white-light VIS-NIR spectrum of one 10 cm straight waveguide, corrected to the 850 nm single-wavelength loss by subtracting an estimated
+      4.08 dB coupling loss (assumes negligible SM-fiber launch loss). Sample type (flex or rigid) not stated; attached to the flex row with this caveat.
+    why: 'D44/D76: the spectrum is baseline-corrected with an estimated 4.08 dB coupling loss that rests on the assumption of negligible SM-fiber launch loss (p.7); a single 10 cm waveguide, not a cutback'
+  cmp_lit_jahed2022_vcsel_gc_flipchip-m4:
+    includes: VCSEL-to-input-GC coupling, SiN waveguide + tapers, output GC to the flip-chip GaAs PD
+    notes: Power-to-PD conversion not stated (vendor responsivity 0.4 A/W is given on p.7, but its use for this number is not stated).
+    why: 'never invent: the paper does not say how detected power was obtained from the PD (p.7); remove the asserted photocurrent / 0.4 A/W conversion'
+  cmp_lit_heim2025_vernier_ring-m6:
+    basis: derived
+    notes: ECTL waveguide 2.6 um x 80 nm. Printed as 2.6 um; unit rescaling (D82d / D111).
+    why: 'D111 / D82d: unit rescaling of a printed dimension is derived with the printed value in notes (printed 2.6 um)'
+  cmp_lit_heim2025_coil_resonator-m5:
+    basis: derived
+    notes: 10-m coil length. Printed as 10 m; unit rescaling (D82d / D111).
+    why: 'D111 / D82d: unit rescaling of a printed dimension is derived with the printed value in notes (printed 10 m)'
+  cmp_lit_heim2025_coil_resonator-m6:
+    basis: derived
+    notes: coil waveguide 6 um x 80 nm. Printed as 6 um; unit rescaling (D82d / D111).
+    why: 'D111 / D82d: unit rescaling of a printed dimension is derived with the printed value in notes (printed 6 um)'
+  cmp_lit_heim2025_coil_resonator-m8:
+    basis: derived
+    notes: bus-resonator directional coupler gap. Printed as 2.5 um; unit rescaling (D82d / D111).
+    why: 'D111 / D82d: unit rescaling of a printed dimension is derived with the printed value in notes (printed 2.5 um)'
+  cmp_lit_heim2025_coil_resonator-m9:
+    basis: derived
+    notes: bus-resonator coupling length. Printed as 1.5 mm; unit rescaling (D82d / D111).
+    why: 'D111 / D82d: unit rescaling of a printed dimension is derived with the printed value in notes (printed 1.5 mm)'
+  cmp_lit_heim2025_rsoa_butt-m3:
+    basis: derived
+    notes: Si3N4 input waveguide width at the RSOA facet (tapers to 2.6 um). Printed as 18 um; unit rescaling (D82d / D111).
+    why: 'D111 / D82d: unit rescaling of a printed dimension is derived with the printed value in notes (printed 18 um)'
+  cmp_lit_lu2024_pcw_dfb-m17:
+    basis: derived
+    notes: cavity length; grating section 400 um (no registry parameter). Printed as 1.3 mm; unit rescaling (D82d / D111).
+    why: 'D111 / D82d: unit rescaling of a printed dimension is derived with the printed value in notes (printed 1.3 mm)'
+  cmp_lit_lu2024_pcw_dfb-m19:
+    basis: derived
+    notes: shallow p-InP ridge depth. Printed as about 2 um; unit rescaling (D82d / D111).
+    why: 'D111 / D82d: unit rescaling of a printed dimension is derived with the printed value in notes (printed about 2 um)'
+  cmp_lit_liang2025_soa_dfb-m8:
+    basis: derived
+    notes: SOA section length. Printed as 1 mm; unit rescaling (D82d / D111).
+    why: 'D111 / D82d: unit rescaling of a printed dimension is derived with the printed value in notes (printed 1 mm)'
+  cmp_lit_maeda2023_si_inp_taper-m3:
+    basis: derived
+    notes: InP ridge taper tip. Printed as 0.1 um; unit rescaling (D82d / D111).
+    why: 'D111 / D82d: unit rescaling of a printed dimension is derived with the printed value in notes (printed 0.1 um)'
+  cmp_lit_maeda2023_si_inp_taper-m4:
+    basis: derived
+    notes: InP ridge taper start width. Printed as 1 um; unit rescaling (D82d / D111).
+    why: 'D111 / D82d: unit rescaling of a printed dimension is derived with the printed value in notes (printed 1 um)'
+  cmp_lit_maeda2023_si_inp_taper-m5:
+    basis: derived
+    notes: Si taper tip. Printed as 0.08 um; unit rescaling (D82d / D111).
+    why: 'D111 / D82d: unit rescaling of a printed dimension is derived with the printed value in notes (printed 0.08 um)'
+  cmp_lit_maeda2023_si_inp_taper-m6:
+    basis: derived
+    notes: Si waveguide end width under the coupon edge. Printed as 2 um; unit rescaling (D82d / D111).
+    why: 'D111 / D82d: unit rescaling of a printed dimension is derived with the printed value in notes (printed 2 um)'
+  cmp_lit_billah2018_pwb_hcsel_si-m7:
+    basis: derived
+    notes: Si nanowire taper tip. Printed as 0.13 um; unit rescaling (D82d / D111).
+    why: 'D111 / D82d: unit rescaling of a printed dimension is derived with the printed value in notes (printed 0.13 um)'
+  cmp_lit_billah2018_pwb_hcsel_si-m8:
+    basis: derived
+    notes: Si waveguide width at the end of the Si taper. Printed as 0.5 um; unit rescaling (D82d / D111).
+    why: 'D111 / D82d: unit rescaling of a printed dimension is derived with the printed value in notes (printed 0.5 um)'
+  cmp_lit_billah2018_pwb_hcsel_si-m10:
+    basis: derived
+    notes: polymer PWB taper end width. Printed as 0.8 um; unit rescaling (D82d / D111).
+    why: 'D111 / D82d: unit rescaling of a printed dimension is derived with the printed value in notes (printed 0.8 um)'
+  cmp_lit_billah2018_pwb_hcsel_si-m11:
+    basis: derived
+    notes: polymer PWB taper end height. Printed as 0.5 um; unit rescaling (D82d / D111).
+    why: 'D111 / D82d: unit rescaling of a printed dimension is derived with the printed value in notes (printed 0.5 um)'
+  cmp_lit_billah2018_pwb_hcsel_si-m12:
+    basis: derived
+    notes: PWB waveguide section width (2.0 x 1.4 um). Printed as 2.0 um; unit rescaling (D82d / D111).
+    why: 'D111 / D82d: unit rescaling of a printed dimension is derived with the printed value in notes (printed 2.0 um)'
+  cmp_lit_billah2018_si_nanowire_wg-m2:
+    basis: derived
+    notes: Si nanowire width. Printed as 0.5 um; unit rescaling (D82d / D111).
+    why: 'D111 / D82d: unit rescaling of a printed dimension is derived with the printed value in notes (printed 0.5 um)'
+  cmp_lit_mangal2020_polymer_mm_waveguide-m2:
+    basis: derived
+    notes: which side is the width is not stated; 20 um taken as width, consistent with the 20 um design core width (p.4). Printed as 20 um (of a measured 20 x 25 um2 cross-section) (measured value); unit
+      rescaling (D82d / D111).
+    why: 'D111 / D82d: unit rescaling of a printed dimension is derived with the printed value in notes (printed 20 um (of a measured 20 x 25 um2 cross-section))'
+  cmp_lit_mangal2020_polymer_mm_waveguide-m3:
+    basis: derived
+    notes: see the width row. Printed as 25 um (of a measured 20 x 25 um2 cross-section) (measured value); unit rescaling (D82d / D111).
+    why: 'D111 / D82d: unit rescaling of a printed dimension is derived with the printed value in notes (printed 25 um (of a measured 20 x 25 um2 cross-section))'
+  cmp_lit_suda2025_polymer_sm_wg_fr4-m7:
+    basis: derived
+    notes: core width over eight waveguides. Printed as 8.7 um +/- 0.2 um (std 0.14 um) (measured value); unit rescaling (D82d / D111).
+    why: 'D111 / D82d: unit rescaling of a printed dimension is derived with the printed value in notes (printed 8.7 um +/- 0.2 um (std 0.14 um))'
+  cmp_lit_suda2025_polymer_sm_wg_fr4-m8:
+    basis: derived
+    notes: core height over eight waveguides. Printed as 6.9 um +/- 0.2 um (std 0.12 um) (measured value); unit rescaling (D82d / D111).
+    why: 'D111 / D82d: unit rescaling of a printed dimension is derived with the printed value in notes (printed 6.9 um +/- 0.2 um (std 0.12 um))'
+  cmp_lit_suda2025_polymer_sm_wg_fr4-m9:
+    basis: derived
+    notes: waveguide length. Printed as 11 mm; unit rescaling (D82d / D111).
+    why: 'D111 / D82d: unit rescaling of a printed dimension is derived with the printed value in notes (printed 11 mm)'
+  cmp_lit_dangel2013_silicone_wg_on_si-m2:
+    basis: derived
+    notes: core width. Printed as 50 um (50 x 50 um2 cross-section); unit rescaling (D82d / D111).
+    why: 'D111 / D82d: unit rescaling of a printed dimension is derived with the printed value in notes (printed 50 um (50 x 50 um2 cross-section))'
+  cmp_lit_dangel2013_silicone_wg_on_si-m3:
+    basis: derived
+    notes: core height. Printed as 50 um (50 x 50 um2 cross-section); unit rescaling (D82d / D111).
+    why: 'D111 / D82d: unit rescaling of a printed dimension is derived with the printed value in notes (printed 50 um (50 x 50 um2 cross-section))'
+  cmp_lit_dangel2013_silicone_wg_flex-m5:
+    basis: derived
+    notes: 'optical: bending loss negligible down to R = 4 mm, out-of-plane. Printed as 4 mm (Rmin) (measured value); unit rescaling (D82d / D111).'
+    why: 'D111 / D82d: unit rescaling of a printed dimension is derived with the printed value in notes (printed 4 mm (Rmin))'
+  cmp_lit_mu2026_taper_coupler-m3:
+    basis: derived
+    notes: width at the socket facet (down-taper to 400 nm); entered as width_nm, not tip_width_nm, because the facet end is the wide end. Printed as 3 um; unit rescaling (D82d / D111).
+    why: 'D111 / D82d: unit rescaling of a printed dimension is derived with the printed value in notes (printed 3 um)'
+add_metrics:
+- value_max: ''
+  qualifier: lt
+  statistic: ''
+  n_samples: ''
+  wavelength_nm: ''
+  wavelength_max_nm: ''
+  band: ''
+  wavelength_inferred: ''
+  polarization: ''
+  mode: ''
+  temperature_k: '283.15'
+  bias_v: ''
+  ref_plane: ''
+  scope: ''
+  includes: ''
+  excludes: ''
+  condition: injection current 180 mA; time-delay self-homodyne
+  method: direct
+  basis: measured
+  locator: p.8; p.9 Fig. 9(a)
+  notes: '''decreases to less than 100 kHz'' at 180 mA.'
+  metric_id: cmp_lit_lu2024_pcw_dfb-m20
+  component_id: cmp_lit_lu2024_pcw_dfb
+  parameter: linewidth_hz
+  value: '100000'
+  unit: Hz
+  why: 'miss: stated linewidth operating point (p.8 Sec. 4.2)'
+- value_max: ''
+  qualifier: approx
+  statistic: ''
+  n_samples: ''
+  wavelength_nm: ''
+  wavelength_max_nm: ''
+  band: ''
+  wavelength_inferred: ''
+  polarization: ''
+  mode: ''
+  temperature_k: '294.15'
+  bias_v: ''
+  ref_plane: on_chip
+  scope: ''
+  includes: ''
+  excludes: ''
+  condition: 185 mA (device failure current); on-chip WPE of the 60.7 mW device, taper coupler
+  method: direct
+  basis: derived
+  locator: p.8 Sec. 4.1
+  notes: 'On-chip WPE: on-chip power is the off-chip reading minus the test-structure edge-coupler loss (p.7).'
+  metric_id: cmp_lit_mu2026_ingan_ld_flipchip-m16
+  component_id: cmp_lit_mu2026_ingan_ld_flipchip
+  parameter: wpe_pct
+  value: '5.3'
+  unit: '%'
+  why: 'miss: stated WPE operating point of the 60.7 mW device (p.8 Sec. 4.1)'
+- value_max: ''
+  qualifier: approx
+  statistic: ''
+  n_samples: ''
+  wavelength_nm: ''
+  wavelength_max_nm: ''
+  band: ''
+  wavelength_inferred: ''
+  polarization: ''
+  mode: ''
+  temperature_k: '294.15'
+  bias_v: ''
+  ref_plane: on_chip
+  scope: ''
+  includes: ''
+  excludes: ''
+  condition: sample LD1 (taper coupler), at peak power 42.1 mW (rollover > 144 mA)
+  method: direct
+  basis: derived
+  locator: p.18 Supp. S3, Fig. S4(a)
+  notes: On-chip WPE (on-chip power derived as above).
+  metric_id: cmp_lit_mu2026_ingan_ld_flipchip-m17
+  component_id: cmp_lit_mu2026_ingan_ld_flipchip
+  parameter: wpe_pct
+  value: '5.5'
+  unit: '%'
+  why: 'miss: stated WPE of sample LD1 (Supp. S3)'
+- value_max: ''
+  qualifier: ''
+  statistic: ''
+  n_samples: ''
+  wavelength_nm: '850'
+  wavelength_max_nm: ''
+  band: ''
+  wavelength_inferred: ''
+  polarization: te
+  mode: ''
+  temperature_k: ''
+  bias_v: ''
+  ref_plane: ''
+  scope: fiber_to_fiber
+  includes: input staircase GC, 3840 um SM waveguide + two 300 um tapers, output single-etch GC
+  excludes: ''
+  condition: SMF-to-SMF; SMF (printed 70 HP, 5.0 um MFD) at 11 deg, < 25 um height at both GCs; tunable laser at 850 nm
+  method: direct
+  basis: measured
+  locator: p.6 Sec. IV
+  notes: Channel insertion loss; split by the authors into 9.0 + 0.3 + 9.2 dB (rows m1 here and on the output GC / waveguide rows).
+  metric_id: cmp_lit_jahed2022_input_gc_staircase-m12
+  component_id: cmp_lit_jahed2022_input_gc_staircase
+  parameter: insertion_loss_db
+  value: '18.5'
+  unit: dB
+  why: 'miss: the measured channel loss from which the per-coupler values are derived (D83a fiber_to_fiber in any class)'
+- value_max: ''
+  qualifier: ''
+  statistic: ''
+  n_samples: ''
+  wavelength_nm: '850'
+  wavelength_max_nm: ''
+  band: ''
+  wavelength_inferred: ''
+  polarization: te
+  mode: ''
+  temperature_k: ''
+  bias_v: ''
+  ref_plane: ''
+  scope: fiber_to_fiber
+  includes: input staircase GC, SM waveguide + tapers, output single-etch GC into 62.5 um GI MMF
+  excludes: ''
+  condition: SMF in (11 deg), 62.5 um GI MMF (NA 0.275) out; 850 nm
+  method: direct
+  basis: measured
+  locator: p.6 Sec. IV
+  notes: Printed as an insertion loss of '-14.5 dB' (sign as printed).
+  metric_id: cmp_lit_jahed2022_input_gc_staircase-m13
+  component_id: cmp_lit_jahed2022_input_gc_staircase
+  parameter: insertion_loss_db
+  value: '14.5'
+  unit: dB
+  why: 'miss: stated SMF-to-MMF channel loss (p.6)'
+- value_max: ''
+  qualifier: ''
+  statistic: ''
+  n_samples: ''
+  wavelength_nm: '850'
+  wavelength_max_nm: ''
+  band: ''
+  wavelength_inferred: ''
+  polarization: ''
+  mode: ''
+  temperature_k: ''
+  bias_v: ''
+  ref_plane: ''
+  scope: device_total
+  includes: VCSEL-to-input-GC coupling, SiN waveguide + tapers, output GC to 62.5 um GI MMF
+  excludes: ''
+  condition: second VCSEL sample flip-chipped at 11.6 deg (target 11 deg); MMF at the output GC
+  method: direct
+  basis: measured
+  locator: p.9 Sec. IV
+  notes: Printed as a coupling loss; sample-level value of the same design.
+  metric_id: cmp_lit_jahed2022_vcsel_gc_flipchip-m8
+  component_id: cmp_lit_jahed2022_vcsel_gc_flipchip
+  parameter: insertion_loss_db
+  value: '19.1'
+  unit: dB
+  why: 'miss: stated link loss of a second mounted sample with the same GC designs (p.9)'
+- value_max: ''
+  qualifier: ''
+  statistic: ''
+  n_samples: ''
+  wavelength_nm: '850'
+  wavelength_max_nm: ''
+  band: ''
+  wavelength_inferred: ''
+  polarization: ''
+  mode: ''
+  temperature_k: ''
+  bias_v: ''
+  ref_plane: ''
+  scope: device_total
+  includes: VCSEL-to-input-GC coupling, SiN waveguide + tapers, output GC to the flip-chip GaAs PD
+  excludes: ''
+  condition: VCSEL sample flip-chipped at 10.5 deg (target 11 deg); PD at the output GC
+  method: direct
+  basis: measured
+  locator: p.9 Sec. IV
+  notes: Printed as a coupling loss; sample-level value of the same design.
+  metric_id: cmp_lit_jahed2022_vcsel_gc_flipchip-m9
+  component_id: cmp_lit_jahed2022_vcsel_gc_flipchip
+  parameter: insertion_loss_db
+  value: '21.5'
+  unit: dB
+  why: 'miss: stated link loss of a third mounted sample with the same GC designs (p.9)'
+- value_max: ''
+  qualifier: ''
+  statistic: ''
+  n_samples: ''
+  wavelength_nm: ''
+  wavelength_max_nm: ''
+  band: ''
+  wavelength_inferred: ''
+  polarization: ''
+  mode: ''
+  temperature_k: ''
+  bias_v: ''
+  ref_plane: ''
+  scope: ''
+  includes: ''
+  excludes: ''
+  condition: ''
+  method: ''
+  basis: design_target
+  locator: p.6 Sec. IV
+  notes: 3.3 um lower SiO2 cladding of the PIC.
+  metric_id: cmp_lit_jahed2022_output_gc_single_etch-m9
+  component_id: cmp_lit_jahed2022_output_gc_single_etch
+  parameter: box_thickness_um
+  value: '3.3'
+  unit: um
+  why: 'miss (D153 geometry): stated PIC stack, entered on the input GC and waveguide rows but not here'
+- value_max: ''
+  qualifier: ''
+  statistic: ''
+  n_samples: ''
+  wavelength_nm: ''
+  wavelength_max_nm: ''
+  band: ''
+  wavelength_inferred: ''
+  polarization: ''
+  mode: ''
+  temperature_k: ''
+  bias_v: ''
+  ref_plane: ''
+  scope: ''
+  includes: ''
+  excludes: ''
+  condition: ''
+  method: ''
+  basis: design_target
+  locator: p.6 Sec. IV
+  notes: 2.0 um upper SiO2 cladding (CMP).
+  metric_id: cmp_lit_jahed2022_output_gc_single_etch-m10
+  component_id: cmp_lit_jahed2022_output_gc_single_etch
+  parameter: cladding_thickness_um
+  value: '2.0'
+  unit: um
+  why: 'miss (D153 geometry): stated PIC stack'
+- value_max: ''
+  qualifier: ''
+  statistic: ''
+  n_samples: ''
+  wavelength_nm: '1310'
+  wavelength_max_nm: ''
+  band: ''
+  wavelength_inferred: 'true'
+  polarization: tm
+  mode: ''
+  temperature_k: ''
+  bias_v: ''
+  ref_plane: ''
+  scope: ''
+  includes: ''
+  excludes: ''
+  condition: 'near-field width (horizontal), waveguide #3'
+  method: direct
+  basis: measured
+  locator: p.3 Sec. III-A, Fig. 4(d)
+  notes: Level of the mode-size definition not stated; NFP measured with an O-band TLS, wavelength not stated (1310 nm of the input fiber MFD inferred).
+  metric_id: cmp_lit_suda2025_polymer_sm_wg_fr4-m10
+  component_id: cmp_lit_suda2025_polymer_sm_wg_fr4
+  parameter: mfd_chip_um
+  value: '9.0'
+  unit: um
+  why: 'miss: stated TM near-field width (p.3), only noted in m4'

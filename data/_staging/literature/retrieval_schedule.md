@@ -6,18 +6,18 @@ Generated 2026-10-22 by `scripts/lit_build_queue.py` from `cache_list.csv`; queu
 
 | route | papers |
 |---|---:|
-| arxiv | 194 |
+| arxiv | 195 |
 | oa_publisher | 23 |
-| publisher_browser | 81 |
-| optica_browser | 423 |
-| ieee_browser | 202 |
+| publisher_browser | 87 |
+| optica_browser | 418 |
+| ieee_browser | 200 |
 | ieee_search | 23 |
 | manual | 54 |
 | total | 1000 |
 
-arXiv copy source: given 180, doi 0, title 6, api 8.
+arXiv copy source: given 181, doi 0, title 6, api 8.
 
-arXiv route gained by matching (rows without arXiv id in cache_list): 24 of 830; paywalled 0 of 182, Optica 7 of 455, IEEE 1 of 201. API queries cached 814 of 814 needed.
+arXiv route gained by matching (rows without arXiv id in cache_list): 24 of 829; paywalled 0 of 182, Optica 7 of 450, IEEE 1 of 199. API queries cached 813 of 813 needed.
 
 IEEE twins (Crossref, prefix 10.1109 / 10.23919, title similarity >= 0.93, shared surname, year within 1) of paywalled non-IEEE rows: 2 found in 104 of 104 lookups (only the 26 conference rows qualify); paywalled Optica rows routed to ieee_browser via a twin: 2 of 67; other publishers: 0. The Optica / journal DOI stays the identity (uid unchanged).
 
@@ -27,13 +27,13 @@ IEEE twins (Crossref, prefix 10.1109 / 10.23919, title similarity >= 0.93, share
 |---:|---|---:|---:|---:|---:|---:|---:|---:|---:|---|
 | 1 | 2026-10-22 | 20 | 2 | 8 | 43 | 20 | 2 | 5 | 100 | 1,2,3 / 1 / 1 |
 | 2 | 2026-10-23 | 20 | 2 | 8 | 42 | 21 | 2 | 5 | 100 | 4,5,6 / 2 / 2 |
-| 3 | 2026-10-24 | 20 | 2 | 8 | 42 | 21 | 2 | 5 | 100 | 7,8,9 / 3 / 3 |
+| 3 | 2026-10-24 | 20 | 2 | 10 | 40 | 21 | 2 | 5 | 100 | 7,8,9 / 3 / 3 |
 | 4 | 2026-10-25 | 20 | 2 | 8 | 42 | 20 | 3 | 5 | 100 | 10,11,12 / 4 / 4 |
-| 5 | 2026-10-26 | 19 | 3 | 8 | 42 | 20 | 3 | 5 | 100 | 13,14,15 / 5 / 5 |
-| 6 | 2026-10-27 | 19 | 3 | 8 | 42 | 20 | 3 | 5 | 100 | 16,17,18 / 6 / 6 |
-| 7 | 2026-10-28 | 19 | 3 | 8 | 42 | 20 | 2 | 6 | 100 | 19,20,21 / 7 / 7 |
+| 5 | 2026-10-26 | 19 | 3 | 9 | 42 | 19 | 3 | 5 | 100 | 13,14,15 / 5 / 5 |
+| 6 | 2026-10-27 | 19 | 3 | 9 | 42 | 19 | 3 | 5 | 100 | 16,17,18 / 6 / 6 |
+| 7 | 2026-10-28 | 19 | 3 | 9 | 41 | 20 | 2 | 6 | 100 | 19,20,21 / 7 / 7 |
 | 8 | 2026-10-29 | 19 | 2 | 9 | 42 | 20 | 2 | 6 | 100 | 22,23,24 / 8 / 8 |
-| 9 | 2026-10-30 | 19 | 2 | 8 | 43 | 20 | 2 | 6 | 100 | 25,26,27 / 9 / 9 |
+| 9 | 2026-10-30 | 20 | 2 | 9 | 41 | 20 | 2 | 6 | 100 | 25,26,27 / 9 / 9 |
 | 10 | 2026-10-31 | 19 | 2 | 8 | 43 | 20 | 2 | 6 | 100 | 28,29,30 / 10 / 10 |
 
 ## Per class and day
@@ -113,9 +113,9 @@ Manual (5):
 uv run python scripts/lit_fetch_oa.py --day 3   # arxiv 20 + oa_publisher 2
 uv run python scripts/lit_fetch_browser.py --site optica --day 3 --session 7   # optica_browser 14
 uv run python scripts/lit_fetch_browser.py --site optica --day 3 --session 8   # optica_browser 14
-uv run python scripts/lit_fetch_browser.py --site optica --day 3 --session 9   # optica_browser 14
+uv run python scripts/lit_fetch_browser.py --site optica --day 3 --session 9   # optica_browser 12
 uv run python scripts/lit_fetch_browser.py --site ieee --day 3 --session 3   # ieee_browser 21 + ieee_search 2
-uv run python scripts/lit_fetch_browser.py --site publisher --day 3 --session 3   # publisher_browser 8
+uv run python scripts/lit_fetch_browser.py --site publisher --day 3 --session 3   # publisher_browser 10
 ```
 
 Manual (5):
@@ -156,8 +156,8 @@ uv run python scripts/lit_fetch_oa.py --day 5   # arxiv 19 + oa_publisher 3
 uv run python scripts/lit_fetch_browser.py --site optica --day 5 --session 13   # optica_browser 14
 uv run python scripts/lit_fetch_browser.py --site optica --day 5 --session 14   # optica_browser 14
 uv run python scripts/lit_fetch_browser.py --site optica --day 5 --session 15   # optica_browser 14
-uv run python scripts/lit_fetch_browser.py --site ieee --day 5 --session 5   # ieee_browser 20 + ieee_search 3
-uv run python scripts/lit_fetch_browser.py --site publisher --day 5 --session 5   # publisher_browser 8
+uv run python scripts/lit_fetch_browser.py --site ieee --day 5 --session 5   # ieee_browser 19 + ieee_search 3
+uv run python scripts/lit_fetch_browser.py --site publisher --day 5 --session 5   # publisher_browser 9
 ```
 
 Manual (5):
@@ -177,8 +177,8 @@ uv run python scripts/lit_fetch_oa.py --day 6   # arxiv 19 + oa_publisher 3
 uv run python scripts/lit_fetch_browser.py --site optica --day 6 --session 16   # optica_browser 14
 uv run python scripts/lit_fetch_browser.py --site optica --day 6 --session 17   # optica_browser 14
 uv run python scripts/lit_fetch_browser.py --site optica --day 6 --session 18   # optica_browser 14
-uv run python scripts/lit_fetch_browser.py --site ieee --day 6 --session 6   # ieee_browser 20 + ieee_search 3
-uv run python scripts/lit_fetch_browser.py --site publisher --day 6 --session 6   # publisher_browser 8
+uv run python scripts/lit_fetch_browser.py --site ieee --day 6 --session 6   # ieee_browser 19 + ieee_search 3
+uv run python scripts/lit_fetch_browser.py --site publisher --day 6 --session 6   # publisher_browser 9
 ```
 
 Manual (5):
@@ -197,9 +197,9 @@ Manual (5):
 uv run python scripts/lit_fetch_oa.py --day 7   # arxiv 19 + oa_publisher 3
 uv run python scripts/lit_fetch_browser.py --site optica --day 7 --session 19   # optica_browser 14
 uv run python scripts/lit_fetch_browser.py --site optica --day 7 --session 20   # optica_browser 14
-uv run python scripts/lit_fetch_browser.py --site optica --day 7 --session 21   # optica_browser 14
+uv run python scripts/lit_fetch_browser.py --site optica --day 7 --session 21   # optica_browser 13
 uv run python scripts/lit_fetch_browser.py --site ieee --day 7 --session 7   # ieee_browser 20 + ieee_search 2
-uv run python scripts/lit_fetch_browser.py --site publisher --day 7 --session 7   # publisher_browser 8
+uv run python scripts/lit_fetch_browser.py --site publisher --day 7 --session 7   # publisher_browser 9
 ```
 
 Manual (6):
@@ -238,12 +238,12 @@ Manual (6):
 ### Day 9 (2026-10-30): 100 papers
 
 ```
-uv run python scripts/lit_fetch_oa.py --day 9   # arxiv 19 + oa_publisher 2
+uv run python scripts/lit_fetch_oa.py --day 9   # arxiv 20 + oa_publisher 2
 uv run python scripts/lit_fetch_browser.py --site optica --day 9 --session 25   # optica_browser 15
 uv run python scripts/lit_fetch_browser.py --site optica --day 9 --session 26   # optica_browser 14
-uv run python scripts/lit_fetch_browser.py --site optica --day 9 --session 27   # optica_browser 14
+uv run python scripts/lit_fetch_browser.py --site optica --day 9 --session 27   # optica_browser 12
 uv run python scripts/lit_fetch_browser.py --site ieee --day 9 --session 9   # ieee_browser 20 + ieee_search 2
-uv run python scripts/lit_fetch_browser.py --site publisher --day 9 --session 9   # publisher_browser 8
+uv run python scripts/lit_fetch_browser.py --site publisher --day 9 --session 9   # publisher_browser 9
 ```
 
 Manual (6):

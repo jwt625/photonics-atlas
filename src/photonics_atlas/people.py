@@ -8,6 +8,7 @@ person). Everything else that looks like the same name goes to the local review 
 
 from __future__ import annotations
 
+import hashlib
 import json
 import re
 from collections import Counter, defaultdict
@@ -20,7 +21,7 @@ import yaml
 
 from .adapters import ofc, pk
 from .csvio import read_csv, split_list
-from .paths import CROSSWALK, REGISTRY, input_path
+from .paths import CROSSWALK, REGISTRY, ROOT, input_path
 from .textnorm import ascii_fold, strip_emails
 
 # Family names too common for a name match alone: eo-modulator-atlas scripts/build_people.py COMMON (68 names, DevLog-020
@@ -151,9 +152,14 @@ def compatible(a: Name, b: Name, common: bool = False) -> bool:
     """Same family name; the full initials sequences agree (one a prefix of the other); leading full given names agree
     where both have one (D90); a full given name printed after an initial must be one of the other side's full given
     names when it has any (D95: "J. Y. Gene" !~ "Jon"); for common family names a one-syllable full given name is not
-    compatible with two or more initials (D95: "Qing" !~ "Q. T.")."""
+    compatible with two or more initials (D95: "Qing" !~ "Q. T."). Two non-abbreviated names whose given names join to
+    the same letters (hyphen, camel-case or spacing variants: "Qaitun" ~ "Qai-Tun" ~ "QaiTun" ~ "Qai Tun") are
+    compatible before the D95 checks (D211). Examples are fictitious."""
     if a.fam != b.fam or not a.inits or not b.inits:
         return False
+    # D211: one spelling of the same full given names (no initials on either side); D95 is about initials
+    if a.given == a.fulls and b.given == b.fulls and "".join(a.given) == "".join(b.given):
+        return True
     if any(x != y for x, y in zip(a.inits, b.inits, strict=False)):
         return False
     for x, y in ((a, b), (b, a)):
@@ -192,7 +198,8 @@ def completeness(name: str) -> tuple[int, int]:
 
 @dataclass
 class Aff:
-    """One affiliation row of a slot (EO/PK row or the OFC element)."""
+    """One affiliation row of a slot (EO/PK row or the OFC element). OFC header rows (D214) carry their own obs id,
+    printed name, kind and grade; the slot's identity fields are not taken from them (D217)."""
 
     order: int
     printed_org: str
@@ -201,6 +208,10 @@ class Aff:
     country: str
     role: str
     locator: str
+    oid: str = ""  # D214: explicit obs id (OFC header rows); empty = derived from source, author index and order
+    printed_name: str = ""  # D218: header printed form (observation and alias only)
+    kind: str = ""
+    grade: str = ""
 
 
 @dataclass
@@ -223,6 +234,8 @@ class Slot:
     kind: str = ""  # publication | conference
     affs: list[Aff] = field(default_factory=list)
     lin: dict[str, Any] = field(default_factory=dict)
+    hdr: list[Aff] = field(default_factory=list)  # D214: OFC header rows of this slot (observations only, D217)
+    hdr_status: str = ""  # D215: confirmed | conflict | unmapped ('' = no header rows)
 
     @property
     def name(self) -> str:
@@ -238,6 +251,8 @@ class Inputs:
     dropped: Counter[str]
     hubs: frozenset[str] = frozenset()
     dense: frozenset[str] = frozenset()
+    headers: Counter[str] = field(default_factory=Counter)  # D214: header merge counts
+    committed: dict[str, str] = field(default_factory=dict)  # D219d: slot id -> person id in data/people/ tables
 
 
 def org_root(orgs: dict[str, dict[str, str]], oid: str) -> str:
@@ -449,6 +464,127 @@ def _lin_slots() -> list[Slot]:
     return out
 
 
+# ---------------------------------------------------------------- OFC 2026 paper headers (DevLog-008, D214-D219)
+
+HEADER_ALIAS_NOTE = "OFC paper header form; not used for identity (D218)"
+HEADERS_REL = Path("data") / "_staging" / "people" / "ofc_headers"
+HEADER_STAMP = "check_stamp.txt"
+HEADER_GRADE_B = {"listing_order", "layout"}  # D240 / D246: grade B marker bases; every other basis is grade A
+SLOT_OF_OBS_RE = re.compile(r"^(.+#a\d+)\.")  # obs id -> '<source_id>#a<author_index>'
+HEADER_ID_RE = re.compile(r"#a(\d+)\.h(\d+)\.(\d+)\.m(\d+)$")  # D219e
+
+
+def header_batches(root: Path = ROOT) -> tuple[list[Path], list[Path]]:
+    """Batch directories whose derived files belong to the current headers.yaml (D248 stamp), and the stale ones."""
+    base = root / HEADERS_REL
+    ok: list[Path] = []
+    stale: list[Path] = []
+    for d in sorted(x for x in base.iterdir() if x.is_dir()) if base.exists() else []:
+        st, yp = d / HEADER_STAMP, d / "headers.yaml"
+        if not (d / "header_rows.csv").exists():
+            continue
+        good = st.exists() and yp.exists()
+        good = good and st.read_text(encoding="utf-8").split()[-1] == hashlib.sha256(yp.read_bytes()).hexdigest()
+        (ok if good else stale).append(d)
+    return ok, stale
+
+
+def header_rows(root: Path = ROOT) -> list[dict[str, str]]:
+    """Staged OFC header rows of every current batch (DevLog-008 D171; one row per slot x affiliation x org)."""
+    ok, _ = header_batches(root)
+    return [r for d in ok for r in read_csv(d / "header_rows.csv")]
+
+
+def header_obs_id(r: dict[str, str]) -> str:
+    """D214: own namespace, so committed metadata ids keep their meaning (D10). Base id of a header row; each
+    observation adds '.m<n>' (D219e: n = position of the registry org in the row's org list, always present, 1 for an
+    unmapped or single org), so a later one-to-several mapping adds ids and never renames one."""
+    return f"{r['source_id']}#a{r['author_index']}.h{r['aff_order']}.{r['org_k']}"
+
+
+def header_status(
+    meta_ids: Iterable[str],
+    meta_printed: str,
+    rows: list[dict[str, str]],
+    orgs: dict[str, dict[str, str]],
+) -> str:
+    """D215: does the paper header confirm the metadata affiliation of a slot? Read from the rows (batch audit S4),
+    on registry roots with the crosswalk current at build time. confirmed: every metadata root is among the header
+    roots (present addresses and joint-printed orgs included), or the folded metadata string equals a printed header
+    org ("org" or "unit, org") and the metadata org is unmapped or shares a root with a header row (D219a); conflict: both sides mapped, not confirmed, and every header org string mapped;
+    unmapped: anything else (one side has no registry id)."""
+    printed = {fold(r["org_name"]) for r in rows} | {fold(f"{r['unit']}, {r['org_name']}") for r in rows if r["unit"]}
+    meta = set(meta_ids)
+    hdr = {o for r in rows for o in split_list(r["org_ids"])}
+    meta_roots, hdr_roots = {org_root(orgs, o) for o in meta}, {org_root(orgs, o) for o in hdr}
+    if meta and hdr and meta_roots <= hdr_roots:
+        return "confirmed"
+    # D219a: a folded-name match confirms only when the metadata org is unmapped or a header row carries one of its
+    # roots; fold() drops parenthesized text, so a mapped metadata org is never replaced by an unmapped header string
+    if meta_printed and fold(meta_printed) in printed and (not meta or meta_roots & hdr_roots):
+        return "confirmed"
+    if meta and hdr and all(r["org_ids"] for r in rows):
+        return "conflict"
+    return "unmapped"
+
+
+def committed_slots(root: Path = ROOT) -> dict[str, str]:
+    """D219d: slot id -> person id in the committed people tables (observations by slot; LIN persons by lin_id)."""
+    d = root / "data" / "people"
+    out: dict[str, str] = {}
+    obs, xref = d / "affiliation_observations.csv", d / "person_xref.csv"
+    for r in read_csv(obs) if obs.exists() else []:
+        m = SLOT_OF_OBS_RE.match(r["obs_id"])
+        if m:
+            src, i = m.group(1).rsplit("#a", 1)
+            out.setdefault(f"{src}#{i}", r["person_id"])
+    for x in read_csv(xref) if xref.exists() else []:
+        if x["scheme"] == "lin_id":
+            out[f"lin:{x['value']}"] = x["person_id"]
+    return out
+
+
+def attach_headers(slots: list[Slot], rows: list[dict[str, str]], orgs: dict[str, dict[str, str]]) -> Counter[str]:
+    """D214-D218: header rows become extra observations of their OFC metadata slot (D62: the slot is the identity
+    unit; identity names and org keys stay the metadata ones, D217)."""
+    by_slot: dict[str, list[dict[str, str]]] = defaultdict(list)
+    for r in rows:
+        by_slot[f"{r['source_id']}#{r['author_index']}"].append(r)
+    stats: Counter[str] = Counter()
+    seen: set[str] = set()
+    for s in slots:
+        rs = by_slot.get(s.sid)
+        if s.corpus != "ofc2026" or not rs:
+            continue
+        seen.add(s.sid)
+        rs = sorted(rs, key=lambda r: (int(r["aff_order"]), int(r["org_k"])))
+        for r in rs:
+            s.hdr.append(
+                Aff(
+                    order=int(r["aff_order"]),
+                    printed_org=r["org_name"],
+                    org_ids=split_list(r["org_ids"]),
+                    unit=r["unit"],
+                    country=r["country"],
+                    role=r["aff_role"],
+                    locator=r["locator"],
+                    oid=header_obs_id(r),
+                    printed_name=clean_text(r["printed_name"]),
+                    kind="publication",
+                    grade=r["evidence_grade"],
+                )
+            )
+        meta = s.affs[0]
+        s.hdr_status = header_status(meta.org_ids, meta.printed_org, rs, orgs)
+        stats[f"slots {s.hdr_status}"] += 1
+        for r in rs:
+            stats[f"rows grade {r['evidence_grade']}"] += 1
+    stats["rows without a kept OFC slot (EO duplicate or not in the registry)"] = sum(
+        len(v) for k, v in by_slot.items() if k not in seen
+    )
+    return +stats
+
+
 def load_inputs() -> Inputs:
     orgs = {r["org_id"]: r for r in read_csv(REGISTRY / "organizations.csv")}
     sources = {r["source_id"]: r for r in read_csv(REGISTRY / "sources.csv")}
@@ -472,6 +608,7 @@ def load_inputs() -> Inputs:
         s.variants = [v for v in dict.fromkeys(parse(n) for n in s.names) if v.fam]
         s.roots = frozenset(org_root(orgs, o) for a in s.affs for o in a.org_ids if o in orgs)
         s.lineages = frozenset(k for r in s.roots for k in lineage.get(r, {r}))
+    headers = attach_headers(slots, header_rows(), orgs)  # after roots: header orgs are not identity keys (D217)
     common = common_families(slots)
     for s in slots:
         s.coauthors = frozenset(coauthor_key(n, common) for n in s.coauthor_names) - {""}
@@ -484,6 +621,8 @@ def load_inputs() -> Inputs:
         dropped=dropped,
         hubs=hub_keys(slots),
         dense=dense_keys(slots, orgs),
+        headers=headers,
+        committed=committed_slots(),
     )
 
 
@@ -586,6 +725,7 @@ class Pair:
     b: int
     basis: str  # merge basis, or '' for a review-only pair
     flags: tuple[str, ...]
+    need: tuple[str, ...] = ()  # D219c: coauthor keys that must resolve to one person at union time (else review)
 
 
 def shared_coauthors(a: Slot, b: Slot, hubs: frozenset[str] = frozenset()) -> set[str]:
@@ -603,6 +743,10 @@ def coauthor_support(a: Slot, b: Slot, hubs: frozenset[str] = frozenset(), commo
     """D92/D96: one shared non-hub coauthor; for non-common family names also >= 2 shared coauthors of any kind."""
     h = pair_hubs(a, b, hubs)
     return bool(shared_coauthors(a, b, h)) or (not common and len(shared_coauthors(a, b)) >= 2)
+
+
+def key_family(key: str) -> str:
+    return key.rsplit(" ", 1)[-1]
 
 
 def _evidence(a: Slot, b: Slot, hubs: frozenset[str]) -> int:
@@ -637,8 +781,17 @@ def evaluate(
     if not compat_any:
         return None
     co = coauthor_support(a, b, hubs, common_any)
-    if org and co:
+    need: tuple[str, ...] = ()
+    if co and common_any:
+        # D219c: for common family names the supporting coauthor has a non-common family name, or its two slots
+        # resolve to one person (checked at union time); a name-key match alone never supports the join
+        keys = shared_coauthors(a, b, pair_hubs(a, b, hubs))
+        if not any(key_family(k) not in common for k in keys):
+            need = tuple(sorted(keys))
+    if org and co and not need:
         return Pair(0, 0, "compatible_name_shared_org_coauthor", ())
+    if need:
+        co = False  # fallback flags if the coauthor never resolves to one person
     eo_split = bool(a.eo_pid and b.eo_pid and a.eo_pid != b.eo_pid and full_any)
     if not (exact_any or org or eo_split):
         return None
@@ -654,6 +807,8 @@ def evaluate(
         )
         if on
     ]
+    if need and org:
+        return Pair(0, 0, "compatible_name_shared_org_coauthor", (*flags, "coauthor_unresolved"), need)
     return Pair(0, 0, "", tuple(flags))
 
 
@@ -747,29 +902,61 @@ def resolve(inp: Inputs, blocks: set[str] | None = None) -> Identity:
     merges: Counter[str] = Counter()
     review: list[Pair] = [p for p in pairs.values() if not p.basis]
     ambiguous = ambiguous_slots(slots, pairs, inp.common)
+    by_src: dict[str, list[int]] = defaultdict(list)
+    for i, s in enumerate(slots):
+        if s.source_id:
+            by_src[s.source_id].append(i)
+
+    def committed_pair(a: int, b: int) -> bool:
+        pa = inp.committed.get(slots[a].sid)
+        return bool(pa) and pa == inp.committed.get(slots[b].sid)
+
+    def resolved(a: int, b: int, keys: tuple[str, ...]) -> bool:
+        """D219c: a shared coauthor key whose slots on the two sources are already one person."""
+        for k in keys:
+            xa = [x for x in by_src[slots[a].source_id] if k in slots[x].selfkeys and x != a]
+            xb = [x for x in by_src[slots[b].source_id] if k in slots[x].selfkeys and x != b]
+            if any(cl.find(x) == cl.find(y) for x in xa for y in xb):
+                return True
+        return False
+
     for basis in ("orcid", "exact_name_shared_org", "compatible_name_shared_org_coauthor"):
         todo = [(k, pr) for k, pr in pairs.items() if pr.basis == basis]
         # strongest evidence first (D90): more shared coauthors, then deterministic slot order
         todo.sort(key=lambda kv: (-_evidence(slots[kv[0][0]], slots[kv[0][1]], inp.hubs), kv[0]))
-        for (a, b), _pr in todo:
-            why = cl.blocker(a, b)
-            if not why and basis != "orcid":
-                if a in ambiguous or b in ambiguous:
-                    why = "blocked_name_ambiguous"
-                elif cl.name_conflict(a, b):
-                    why = "blocked_name_conflict"
-            if why == "same":
-                pass
-            elif why:
-                review.append(Pair(a, b, "", (why, basis)))
-                continue
-            else:
-                cl.union(a, b)
-                edges.append((a, b, basis))
-                merges[basis] += 1
-            for k in (a, b):
-                if k not in join or BASIS_RANK[basis] < BASIS_RANK[join[k]]:
-                    join[k] = basis
+        # D219c: pairs whose support needs a resolved coauthor wait until it is one person (fixpoint over passes, so
+        # support is never circular: a coauthor counts only once it was joined by other evidence)
+        # D219d: the stricter D219c evidence applies only to joins not already in the committed tables; committed
+        # joins keep their place in the order (unchanged pending the owner's decision on D219c)
+        pending = [kv for kv in todo if kv[1].need and not committed_pair(kv[0][0], kv[0][1])]
+        todo = [kv for kv in todo if not kv[1].need or committed_pair(kv[0][0], kv[0][1])]
+        while True:
+            ready = [kv for kv in pending if resolved(kv[0][0], kv[0][1], kv[1].need)]
+            done = {kv[0] for kv in ready}
+            pending = [kv for kv in pending if kv[0] not in done]
+            batch, todo = todo + ready, []
+            if not batch:
+                break
+            for (a, b), _pr in batch:
+                why = cl.blocker(a, b)
+                if not why and basis != "orcid":
+                    if a in ambiguous or b in ambiguous:
+                        why = "blocked_name_ambiguous"
+                    elif cl.name_conflict(a, b):
+                        why = "blocked_name_conflict"
+                if why == "same":
+                    pass
+                elif why:
+                    review.append(Pair(a, b, "", (why, basis)))
+                    continue
+                else:
+                    cl.union(a, b)
+                    edges.append((a, b, basis))
+                    merges[basis] += 1
+                for k in (a, b):
+                    if k not in join or BASIS_RANK[basis] < BASIS_RANK[join[k]]:
+                        join[k] = basis
+        review += [Pair(a, b, "", pr.flags) for (a, b), pr in pending]  # D219c: coauthor never resolved
     # Low/I5: one EO person split into several registry persons is always queued, whatever the evidence.
     by_eo: dict[str, dict[int, int]] = defaultdict(dict)
     for i, s in enumerate(slots):
@@ -834,7 +1021,10 @@ def obs_ids(s: Slot) -> list[tuple[str, Aff, str]]:
     out: list[tuple[str, Aff, str]] = []
     if s.corpus == "lin":
         return out
-    for a in s.affs:
+    for a in ([] if s.hdr_status == "confirmed" else s.affs) + s.hdr:  # D215: a confirmed metadata row is dropped
+        if a.oid:  # D219e: header rows always carry the org index
+            out.extend((f"{a.oid}.m{n}", a, oid) for n, oid in enumerate(a.org_ids or [""], start=1))
+            continue
         base = f"{s.source_id}#a{s.index}.{a.order}"
         if len(a.org_ids) <= 1:
             out.append((base, a, a.org_ids[0] if a.org_ids else ""))
@@ -926,6 +1116,18 @@ def alias_rows(pid: str, dname: str, members: list[Slot]) -> list[dict[str, str]
             "lang": "",
             "origin": s.corpus,
         }
+    for s in sorted((s for s in members if s.hdr), key=lambda s: s.sid):  # D218: header printed forms, last
+        for n in dict.fromkeys(a.printed_name for a in s.hdr):
+            if n == dname or n in out or not n:
+                continue
+            out[n] = {
+                "person_id": pid,
+                "alias": n,
+                "alias_type": "abbreviated" if parse(n).abbreviated else "printed_variant",
+                "lang": "",
+                "origin": "ofc2026",
+                "notes": HEADER_ALIAS_NOTE,
+            }
     return [out[k] for k in sorted(out)]
 
 
@@ -955,6 +1157,11 @@ def assign_ids(
             eo_old[x["value"]].add(x["person_id"])
         elif x["scheme"] == "orcid":
             orcid_old[x["value"]].add(x["person_id"])
+    by_slot: dict[str, Counter[str]] = defaultdict(Counter)  # D217: old ids looked up by slot, not by obs id
+    for oid, pid in old_obs.items():
+        m = SLOT_OF_OBS_RE.match(oid)
+        if m:
+            by_slot[m.group(1)][pid] += 1
     out: dict[int, str] = {}
     claimed: set[str] = set()
     for c, ms in clusters.items():
@@ -968,9 +1175,8 @@ def assign_ids(
             continue
         cnt: Counter[str] = Counter()
         for s in ms:
-            for oid, _, _ in obs_ids(s):
-                if oid in old_obs:
-                    cnt[old_obs[oid]] += 2
+            for p, n in by_slot.get(f"{s.source_id}#a{s.index}", Counter()).items():
+                cnt[p] += 2 * n
             for p in eo_old.get(s.eo_pid, set()):
                 cnt[p] += 1
         for o in {s.orcid for s in ms if s.orcid}:
@@ -1059,3 +1265,29 @@ def demoted_by_queue(queue: Iterable[dict[str, str]], n_obs: dict[str, int]) -> 
 
 def read_optional(path: Path) -> list[dict[str, str]]:
     return read_csv(path) if path.exists() else []
+
+
+def same_as_redirects(
+    people_rows: dict[str, dict[str, str]],
+    orphans: list[str],
+    old_obs: dict[str, str],
+    new_obs: dict[str, str],
+) -> dict[str, str]:
+    """D212: an id kept without records (D65) that was absorbed by a merge redirects to the surviving person: the one
+    person now holding all of its previous observations, else its existing same_as. Chains are followed to the end
+    (the target is never itself redirected); an id that holds records again gets no redirect."""
+    out: dict[str, str] = {}
+    for pid in orphans:
+        holders = {new_obs[o] for o, p in old_obs.items() if p == pid and o in new_obs}
+        target = next(iter(holders)) if len(holders) == 1 else people_rows[pid].get("same_as", "")
+        if target and target != pid:
+            out[pid] = target
+    final: dict[str, str] = {}
+    for pid, t in out.items():
+        seen = {pid}
+        while t in out and t not in seen:
+            seen.add(t)
+            t = out[t]
+        if t not in seen:  # a cycle cannot hold a surviving person
+            final[pid] = t
+    return final

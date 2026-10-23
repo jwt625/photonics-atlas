@@ -86,7 +86,7 @@ request_notes:
   "NanoLN, Jinan Jingzheng Electronics Co., Ltd.": "printed variant of NanoLN (same org, not a separate org)"
   "Shanghai Novel Si Integration Technology": "distinct org; printed variant: Novel Si Integration Technology"
   "Novel Si Integration Technology": "printed variant of Shanghai Novel Si Integration Technology (same org, not a separate org)"
-  "Shin-Etsu": "still open: not added in org curation round 2 (2026-10-20); witmer2020 usage row appends once it is a registry org"
+  "Shin-Etsu": "brand-level registry org org_shin_etsu since 2026-10-22 (D203); the supplying Shin-Etsu company is not stated"
 
 # Category of an org's wafer_supplier rows when the cell's qualifier has no keyword (D57).
 wafer_org_defaults:
@@ -98,6 +98,7 @@ wafer_org_defaults:
 # basis goes to the row note; why stays here.
 wafer_categories:
   - {paper: chen2024, org: org_jinan_jingzheng_electronics, category: A2.1, basis: "paper p.5 and EO process_name: x-cut TFLN wafer", why: "paper p.5: commercially available 4-inch x-cut TFLN wafer (NONOLN); no EO device rows (audit round 2 #5)"}
+  - {paper: witmer2020, org: org_shin_etsu, category: A1, basis: "EO devices.csv witmer2020-converter substrate: float-zone SOI", why: "D204: EO devices.csv substrate 'float-zone SOI (Shin-Etsu)'; the wafer_supplier cell has no qualifier, so the keyword rule falls back to top-level A"}
 
 # Process observations (D58). Fields copied only from the paper's EO process_name text; wafer_mm from "8-inch" is the
 # nominal 200 mm (noted). Attribution: the text names the org, or the org is the paper's only non-facility fab org.

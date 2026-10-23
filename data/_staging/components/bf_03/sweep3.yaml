@@ -1,0 +1,10 @@
+# Convention sweep 3 (coordinator, 2026-10-22, DevLog-007 D256): unit / prefix conversions of non-dimension values found mechanically and verified at the locator; derived unless the source prints the stored-unit form for the same quantity.
+# Batches with an extaudit.yaml carry their sweep 3 ops there; this file is used only where no extaudit.yaml exists.
+# Replay order: patch, sweep, gapfill, addendum, geometry, geoaudit, coord, sweep2, coord2, extaudit, sweep3.
+metrics:
+  cmp_shamsansari2021_dfb_flipchip-m3:
+    basis: derived
+    notes: 'Below 1 MHz after integration; consistent with values measured before integration (authors). Printed ''below 1
+      MHz'' (measured value), stored in Hz: prefix conversion, basis derived (D256 / D82d).'
+    why: 'sweep 3 (D256): p.2 prints ''below 1 MHz''; the stored-unit form is printed nowhere in the source text, so the conversion
+      is derived'

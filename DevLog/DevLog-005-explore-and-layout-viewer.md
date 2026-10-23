@@ -1,7 +1,7 @@
 # DevLog-005: Explore panel and component layout viewer
 
-Date: 2026-10-20. Builds on DevLog-002 (component atlas, D30-D50, D71-D84). Decisions here are D100-D112 (D85-D99 are
-taken or reserved by other DevLogs).
+Date: 2026-10-20. Builds on DevLog-002 (component atlas, D30-D50, D71-D84). Decisions here are D100-D113 and D220-D229
+(UI-audit fixes, 2026-10-22); D85-D99 are taken or reserved by other DevLogs.
 
 ## Request (2026-10-20, Wentao)
 
@@ -33,6 +33,18 @@ taken or reserved by other DevLogs).
 | D112 | Templates that stay without a hero or typical row (no source reports the required dimensions with a measured primary metric): dc hero, y_branch, awg hero, gc_1d SOI hero, heater_ps hero (no source states a heater length, D111 / D113); the gallery shows these gaps instead of filling them | honesty rule D104 |
 | D113 | (geometry-audit rulings) Optional blocks applied where the dimension is stated or follows from stated values by subtraction (guo2026 sidewall / slab, hu2026a LN core, he2019 LN stack, W4B.6 stack, li2022b GC slab, boynton2020 port counts, CEA-Leti PD cladding); not applied when it rests on a reading or an assumption (liu2025b edge-coupler core from the slab reading, wu2025 Si-TFLN gap from an as-spun BCB thickness). Study-wide design spans are not a component's dimension (Th1D.6 width / BOX ranges deleted). Racetrack straight sections and DC coupling sections are coupling_length_um; Ge / absorber lengths absorber_length_um; MMI bodies of mode converters mmi_*. Showcase: ring_bus hero is ranked under D105 (radius required only): M1D.4 replaces montifiore2026; heater_ps has no hero (heater length never stated); waveguide_xsec hero wang2024b (0.08 dB/cm, full LTOI stack) and transition hero churaev2023 (< 0.1 dB, 100 um taper, both layers) replace m4d5 and kohli2025; kieninger2020 (mmi typical), theurer2026 (ridge_laser typical, template-level median: laser.soa_dfb has 4 rows) and the SOI-only ge_pd set are kept with the deviation recorded | geometry audits (couplers; passives + actives) |
 
+| D220 | (UI audit 1) Laser cross-section: the layer that `core_thickness_nm` / `etch_depth_nm` describe is named by the rows' own condition / notes text. A `laser.heterogeneous` component whose rows name a non-III-V layer (M1G.3: "Si waveguide height", "Si rib etch depth") is drawn as that waveguide (rib from the etch depth, `width_nm` when reported) under a dashed III-V mesa at `ridge_width_um`; III-V layer heights, bonding layer and BOX are not template dimensions (dashed, no number). Rows naming III-V stay the core / active layer; `inp_membrane` is drawn as a membrane on oxide (W4E.5) | generic names are ambiguous for heterogeneous lasers (D102); the row text is the only role statement available until role-specific parameters exist |
+| D221 | (UI audit 2) Primary metric pick passes: measured + template scope, measured + any scope (scope printed), any basis + template scope, then the rest; better value, then metric id within a pass. Over the 34 showcase rows only Tu2D.4 edge coupler changes (< 0.15 dB simulated per_facet -> < 0.6 dB measured per_coupler) | a simulated value must not represent a component that has measured rows |
+| D222 | (UI audit 3) Transition cross-section "at the lower-layer input" draws the upper layer at `tip_width_nm` (dashed, not reported, when absent; same fallback as the top view), never at its final `width_nm` | the section must match the top view at that position |
+| D223 | (UI audit 7) Platform-qualified showcase gaps: `gaps: [{role, platform_family}]` per template in `component_layouts.yaml` (family keys of `app/src/lib/explore/colors.ts`); the gallery shows "no <family> <role>" while no card of that role has that family. First entry: gc_1d `{role: hero, platform_family: soi}` (D112) | D112 lists gc_1d SOI hero as a gap; role-only gaps could not show it |
+| D224 | (UI audit 10, 11) Cards and the primary line show a compact value: lengths >= 1000 in the next unit (10000 nm -> 10 µm, 390000 µm -> 390 mm), Hz with an SI prefix, other values >= 1e5 in exponent form (566000000 -> 5.66e8), exact decimal rescale of the stored string; the stored string stays in the tooltip. The statistic (median, mean, best, ...) follows the basis. Scene labels keep the stored string (D104 test). Explore hover cards use the viewer's unit labels (µm; dimensionless "1" hidden) | readability without changing any stored value |
+| D225 | (UI audit 5) Scale labelling per view: no reported length drawn -> "SCHEMATIC, NOT TO SCALE", no scale bar (also on gallery thumbnails); reported lengths with some dashed shapes -> "PARTLY SCHEMATIC" (scale bar applies to the solid shapes); "TRUE SCALE" only when no shape is schematic. Current data (2026-10-20 view, 397 served components x 2 views): top 6 true / 119 partly / 272 schematic; cross-section 8 / 97 / 292 | D104: template default sizes must not read as real sizes |
+| D226 | (UI audit 6) A heater without `heater_offset_um` is drawn centred but dashed, with the label "offset not reported" | the centred position is an assumption (D104) |
+| D227 | (UI audit 8, 9) Explore panel a is two stacked sub-panels (grating couplers top, edge couplers bottom) sharing the wavelength axis, coloured by platform family, instead of one panel with a GC / edge symbol: symbols already encode basis (measured / modelled / bound), and the two loss ranges differ. Both sub-panels are titled "Loss per coupler" (scopes per_coupler, per_facet, loopback_half; an edge coupler's per-facet loss is its loss per coupler); panel c stays strict per facet. Panel b accepts per_coupler / loopback_half only (no per_facet for GCs) | records the as-built deviation from D101(a); title matches the accepted scopes |
+| D228 | (UI audit 12) A waveguide length more than 1000x its width is drawn with a break (two short runs and a break mark), labelled with the stored length across the drawn extent; the view is "PARTLY SCHEMATIC" (x extent not to scale, routing shape not drawn) | a 39 cm spiral drawn as one stretched bar conveys nothing |
+| D229 | (UI audit 4) Cladding reference: for an overlay SSC the cladding thickness is drawn from the overlay top (li2026aa: 2 µm over the 4.2 µm SiON), elsewhere from the core top. The solid cladding band never exceeds the labelled thickness; the fill beside an overlay and any extent above the reported thickness (layers taller than the cladding) are dashed, not reported | D104: no drawn extent without a row |
+| D229a | The app honours `primary_by_class` (component_layouts.yaml, DevLog-007 D164 / D251): `primaryFor(class, template)` returns the class entry, else `primary`; used by `primaryMetric` (gallery hero / fallback cards, the /layout?id= primary line incl. its scope). The gallery group header lists the template primary plus each class override (mmi: `excess_loss_db per_component; crossing.mmi: crossing_loss_db per_component`); the card value tooltip starts with the parameter. New platform enum values `gap_on_insulator` and `iii_v_on_si_epi` join the III-V family (label now "III-V (InP, GaAs, GaP)"; same colour slot, colour never encodes rank). `build_views.py` passes the templates dict verbatim, so `primary_by_class` reaches components.json on the next views rebuild (no script change) | a crossing reports loss per crossing, not excess loss; III-V-on-insulator / III-V epitaxy on Si are III-V material platforms |
+
 ## Registry additions (D102), contract v5
 
 Geometry parameters (kind geometry): `box_thickness_um`, `cladding_thickness_um` (all classes); `layer2_thickness_nm`,
@@ -48,9 +60,9 @@ Geometry parameters (kind geometry): `box_thickness_um`, `cladding_thickness_um`
 - [x] Dashboard crosswalk panel hidden; table / pane scrolling fixed and verified (D-none, commit 046e961).
 - [x] DevLog-005 plan; registry additions; `component_layouts.yaml`; showcase table schema.
 - [x] Explore page (subagent, D100-D101): 12 panels, 20 tests, screenshots reviewed (panel c changed to edge-coupler loss per facet by platform: no chip-side MFD in the data).
-- [ ] Fresh-context UI audit of Explore and the layout viewer.
+- [x] Fresh-context UI audit of Explore and the layout viewer (`DevLog/audits/2026-10-22-ui-audit-explore-layout.md`, 23 findings); fix stream D220-D229 (bugs 1-4, deviations 5-7, record 8, conventions 9 and 12, nits 10, 11, 23). Open: nits 13-22.
 - [x] Layout viewer (subagent, D103-D104, D108): 12 template scenes in scene.ts, gallery, components-panel section, /layout?id=, honesty test over all served components; screenshots reviewed.
-- [x] Geometry pass: 3 family batches (D105-D107, D109-D110), showcase selection (35 rows), applied as geometry.yaml in 22 batches.
+- [x] Geometry pass: 3 family batches (D105-D107, D109-D110), showcase selection (34 rows), applied as geometry.yaml in 22 batches.
 - [x] Fresh-context audits of the geometry pass (couplers: 91 ops, 0 wrong values, 8 basis / role fixes, 2 heroes swapped; passives + actives: 105 ops, 0 wrong, 14 role repoints, 12 misses, ring / heater showcase rulings); applied as geoaudit.yaml (D113).
 - [ ] Views rebuild, validator, tests, app check / build, screenshots; commit and push; update README.
 
@@ -58,3 +70,26 @@ Geometry parameters (kind geometry): `box_thickness_um`, `cladding_thickness_um`
 
 - 2026-10-20 16:55: feedback items 1-2 fixed and pushed; plan written.
 - 2026-10-20 18:40: geometry pass done (couplers 16 showcase / 81 rows + 9 edits; passives 9 / 32 + 15; actives 10 / 34 + 35 edits after dropping 4 heater-length rows); D111 registry additions; combined per batch as geometry.yaml, no id collisions.
+- 2026-10-22 22:26: UI-audit fix stream (D220-D229). Per finding: 1 fixed (D220; M1G.3 drawn as Si rib under a dashed
+  III-V mesa, W4E.5 as InP membrane on oxide); 2 fixed (D221; only Tu2D.4 changes among the 34 showcase rows); 3 fixed
+  (D222); 4 fixed (D229); 5 fixed (D225); 6 fixed (D226); 7 fixed (D223; needs the views rebuild to reach
+  components.json, verified with the yaml entry injected into the served JSON); 8 recorded (D227, no UI change); 9 fixed
+  (D227: edge sub-panel retitled, panel b per_coupler / loopback_half); 10 fixed (D224); 11 fixed (D224); 12 fixed
+  (D228); 23 fixed (TODO count 35 -> 34). Deferred (not in this fix stream's scope): 13 ring bus / two-bus note, 14 Th1D.6
+  rib and cladding heuristics, 15 panel j palette, 16 pinned-card placement, 17 card hint / description length, 18
+  gap-card order, 19 dc split_ratio_pct companion, 20 log minor tick labels, 21 /components deep link and detail table
+  width, 22 source year vs venue (data). Files: app/src/lib/layout/{resolve,scene,gallery}.ts, Scene.svelte,
+  layout.test.ts, app/src/lib/components.svelte.ts, app/src/lib/explore/PointTip.svelte,
+  app/src/routes/{layout,explore}/+page.svelte, data/schema/component_layouts.yaml (gc_1d gaps). Checks: pnpm check 0
+  errors; vitest 42 passed (9 new); pnpm build ok; uv run pytest -q 213 passed. Screenshots (1400 x 850, scratchpad
+  ui_fix/, not committed) reviewed for every fixed case. Follow-ups for the coordinator: views rebuild (D223 gaps);
+  optional role-specific laser parameters (Si waveguide vs III-V thickness) so D220 no longer reads row text.
+- 2026-10-22 23:10: D229a. primary_by_class honoured in app/src/lib/layout/resolve.ts (`primaryFor`, `Primary.spec`),
+  app/src/lib/components.svelte.ts (`PrimarySpec`, `LayoutTemplate.primary_by_class`), app/src/routes/layout/+page.svelte
+  (primary line scope, group header overrides, card tooltip parameter); platform families in
+  app/src/lib/explore/colors.ts. scripts/build_views.py unchanged (verified in memory: `build_components()['layouts']
+  ['mmi']['primary_by_class']` present; no views written). Tests: layout.test.ts +2 (class override in primaryMetric,
+  gallery cards with and without showcase rows), logic.test.ts +2 expectations and +1 test (every platform enum value of
+  components.schema.yaml maps to a family except other / plasmonic_mim / al2o3). Checks: pnpm check 0 errors; vitest 57
+  passed; pnpm build ok; uv run pytest -q tests/test_views.py tests/test_showcase.py 13 passed. Pending: views rebuild
+  (coordinator) so the served components.json carries primary_by_class.

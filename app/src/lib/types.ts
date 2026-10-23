@@ -29,6 +29,8 @@ export interface Org {
 	rows: Record<string, number>;
 	printed: Printed[];
 	events: string[];
+	/** per-lens counts (DevLog-010 D191): cmp_fab, cmp_fac, sup, proc, std, ppl, obs; non-zero keys only */
+	lens?: Record<string, number>;
 	notes: string;
 }
 export interface Participant {

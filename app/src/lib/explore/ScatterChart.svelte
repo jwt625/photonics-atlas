@@ -6,7 +6,7 @@
 	import PointTip from './PointTip.svelte';
 	import { ui } from '../state.svelte';
 	import { groupColor, plotTheme, GROUP_ORDER } from './colors';
-	import type { Omitted, Pt } from './logic';
+	import { logDtick, type Omitted, type Pt } from './logic';
 
 	interface PanelSpec {
 		pts: Pt[];
@@ -140,6 +140,8 @@
 			visible: omitted.plotted > 0
 		};
 		const title = (t: string) => ({ text: t, standoff: 4, font: { size: 11, color: th.ink2 } });
+		// UI audit 20: log axes label 1 / 2 / 5 per decade (or decades only), not every minor tick
+		const yTicks = (pi: number) => (yLog ? { dtick: logDtick(panels[pi]?.pts.map((t) => t.y) ?? []) } : {});
 		const l: Record<string, any> = {
 			paper_bgcolor: 'rgba(0,0,0,0)',
 			plot_bgcolor: 'rgba(0,0,0,0)',
@@ -153,6 +155,7 @@
 				...axBase,
 				title: title(xTitle),
 				type: xLog ? 'log' : 'linear',
+				...(xLog && !xTickvals ? { dtick: logDtick(panels.flatMap((p) => p.pts.map((t) => t.x))) } : {}),
 				...(xTickvals ? { tickmode: 'array', tickvals: xTickvals, ticktext: xTicktext } : {}),
 				...(xRange ? { range: xRange, autorange: false } : {}),
 				anchor: 'y',
@@ -160,10 +163,10 @@
 			}
 		};
 		if (nPan === 1) {
-			l.yaxis = { ...axBase, title: title(panels[0]?.yTitle ?? ''), type: yLog ? 'log' : 'linear' };
+			l.yaxis = { ...axBase, title: title(panels[0]?.yTitle ?? ''), type: yLog ? 'log' : 'linear', ...yTicks(0) };
 		} else {
-			l.yaxis = { ...axBase, domain: [0, 0.46], title: title(panels[1]?.yTitle ?? ''), type: yLog ? 'log' : 'linear', anchor: 'x' };
-			l.yaxis2 = { ...axBase, domain: [0.54, 1], title: title(panels[0]?.yTitle ?? ''), type: yLog ? 'log' : 'linear', anchor: 'x' };
+			l.yaxis = { ...axBase, domain: [0, 0.46], title: title(panels[1]?.yTitle ?? ''), type: yLog ? 'log' : 'linear', anchor: 'x', ...yTicks(1) };
+			l.yaxis2 = { ...axBase, domain: [0.54, 1], title: title(panels[0]?.yTitle ?? ''), type: yLog ? 'log' : 'linear', anchor: 'x', ...yTicks(0) };
 			l.annotations = panels
 				.map((p, i) => (p.tag ? { text: p.tag, xref: 'paper', yref: 'paper', x: 1, xanchor: 'right', y: i === 0 ? 1 : 0.46, yanchor: 'top', showarrow: false, font: { size: 10, color: th.muted } } : null))
 				.filter(Boolean);
@@ -274,7 +277,7 @@
 					<button class="x" aria-label="Unpin" data-tip="Unpin" onclick={() => (pins = pins.filter((q) => `${q.panel}|${q.id}` !== p.key))}>
 						<svg viewBox="0 0 10 10" width="8" height="8"><path d="M1 1 L9 9 M9 1 L1 9" stroke="currentColor" stroke-width="1.4" /></svg>
 					</button>
-					<PointTip {pt} {classLabel} />
+					<PointTip {pt} {classLabel} pinned />
 				</div>
 			{/if}
 		{/each}

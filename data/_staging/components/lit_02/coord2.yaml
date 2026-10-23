@@ -1,0 +1,38 @@
+# Org round 5 coordinator assignments (DevLog-001 D277, 2026-10-22): fab / facility org ids left empty in
+# lit_02 only because the org was missing from the registry; orgs added by org curation batch_7. Applied last,
+# on top of patch.yaml, coord.yaml, gapfill.yaml and sweep2.yaml (current staging CSVs); notes replace the
+# 'not in the registry' wording.
+components:
+  cmp_lit_mu2026_ingan_ld_flipchip:
+    fab_org_ids: org_ams_osram_international
+    notes: 'Hybrid flip-chip assembly (laser.heterogeneous used for a laser bonded on a PIC; flip-chip, not transfer-printed).
+      LDs designed and fabricated by ams OSRAM (p.4, p.15): fab_org_ids org_ams_osram_international (p.1 affiliation ''ams
+      OSRAM International GmbH''; coord2); Si chip by AMF (org_amf, on the coupler rows). All powers are on-chip (SiN-waveguide-coupled),
+      computed by subtracting the separately measured fiber edge-coupler loss from the off-chip power (p.7). 40 bonded samples
+      (20 per coupler design); post-bonding in-plane misalignment sigma 635 nm (X) / 665 nm (Y), mean 268 / -7 nm, 85 % within
+      +/-1 um (p.6); max tilts in Table 2 (p.7). Not entered: emission FWHM 0.05-0.10 nm (OSA-resolution limited, and no FWHM
+      parameter for lasers), 15.5 % power drop at 80 mA from 14 to 80 C, series-resistance / emission changes after bonding-heat
+      exposure (Supp. S5), +12.6 % mean power after PDMS underfill + epoxy encapsulation (5 samples, Supp. S4; calculated
+      Fresnel reflection 24.8 % -> 9.4 %). PIC demo (p.11-13): DC/AC (1 MHz) power monitoring with the integrated Si PD; PD
+      has no quantitative own result (18 GHz bandwidth is cited from ref. 26), so it is not a row.'
+    why: 'D277 / lit_02 batch report and audit: laser diodes ''fabricated by ams OSRAM'' (p.4), co-authors at ams OSRAM International
+      GmbH (p.1); org added in org round 5'
+  cmp_lit_dangel2013_silicone_wg_on_si:
+    fab_org_ids: org_dow_corning
+    notes: 'Benchmark waveguides on rigid Si wafers made by spin coating and UV photolithography mask exposure (p.7); Fig.
+      7(a) caption places mask-exposure patterning at Dow Corning (DCC): fab_org_ids org_dow_corning (coord2). Facets diced,
+      not polished, index-matching fluid applied (p.6). Not entered (no registry parameter): reliability on sets fabricated
+      on Si - no measurable propagation-loss change after 2000 h at 85 C / 85 % rH (Fig. 19) or 500 thermal-shock cycles -40
+      / +120 C, and +0.016 +/- 0.005 dB/cm after five lead-free reflows up to 260 C (10 waveguides) (p.8).'
+    why: 'D277 / lit_02 audit: Fig. 7(a) caption places the mask-exposure patterning of the rigid waveguides at Dow Corning
+      (DCC); org added in org round 5'
+  cmp_lit_heim2025_coil_resonator:
+    fab_org_ids: org_honeywell
+    notes: 'Bus-coupled coil waveguide resonator used as the PDH reference cavity; die 21.6 mm x 26 mm per Supp. Note 3 (main
+      text p.4 says a 25 mm x 25 mm chip); spiral center-to-center spacing 25 um, central S-bend diameter ~3.6 mm; bus tapered
+      6 -> 1.5 um for fiber edge coupling (no coupling loss stated); packaged with PM-SMF28 pigtails (p.17). Fabricated in
+      the same 80 nm Si3N4 process as the ECTL; acknowledgements thank a Honeywell staff member for help fabricating the coil
+      (p.16): fab_org_ids org_honeywell, borderline (D84b: staff help fabricating the coil; lit_02 audit ruling 5; coord2).
+      Process layer thicknesses from the Methods (p.11), stated for the platform.'
+    why: 'D277 / lit_02 audit ruling 5: D84b places the coil fabrication at Honeywell (p.16 ''help fabricating the coil resonator''),
+      borderline with note, once the org exists (added in org round 5)'

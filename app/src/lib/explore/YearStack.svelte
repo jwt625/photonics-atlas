@@ -61,6 +61,7 @@
 	badge={`${total - data.noYear}/${total}`}
 	badgeTip={`${total - data.noYear} of ${total} components in the filter plotted; ${data.noYear} without a source year`}
 >
+	{#snippet controls()}<span class="tag" data-tip="Colours in this panel encode class family, not platform family (page legend)">colour = class family</span>{/snippet}
 	{#if data.years.length}
 		<Plot data={traces} {layout} {onrelayout} />
 	{:else}
@@ -69,6 +70,12 @@
 </Frame>
 
 <style>
+	.tag {
+		font-size: 10px;
+		color: var(--ink-3);
+		border: 1px solid var(--line);
+		padding: 0 4px;
+	}
 	.empty {
 		height: 100%;
 		display: flex;

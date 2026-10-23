@@ -262,3 +262,42 @@ def test_ieee_routes_share_sessions() -> None:
     ]
     out = q.order_and_sessions(rows, 1)
     assert Counter(r["session"] for r in out) == Counter({1: 18, 2: 17})
+
+
+def test_delta_slots_keeps_rows_and_hands_over_day_slots() -> None:
+    def qrow(pid: str, day: int, route: str, session: str, cls: str) -> dict[str, str]:
+        return {
+            "day": str(day), "date": f"d{day}", "route": route, "session": session, "paper_id": pid, "uid": pid,
+            "doi": "", "arxiv_id": "", "arxiv_match": "", "arxiv_match_score": "", "ieee_doi": "",
+            "ieee_match_score": "", "route_url": "", "access": "oa", "primary_class": cls, "score": "9",
+            "title": pid, "status": "",
+        }  # fmt: skip
+
+    old = [
+        qrow("a", 1, "optica_browser", "1", "laser"),
+        qrow("b", 3, "optica_browser", "5", "laser"),
+        qrow("c", 3, "arxiv", "", "wdm"),
+        qrow("d", 3, "ieee_browser", "3", "wdm"),
+    ]
+
+    def new(pid: str, route: str, cls: str) -> dict[str, Any]:
+        return {"paper_id": pid, "uid": pid, "route": route, "primary_class": cls, "score": "9", "rank": "1",
+                "selection_reason": "rank", "arxiv_id_q": "", "arxiv_match": ""}  # fmt: skip
+
+    rows = [
+        new("a", "arxiv", "laser"),
+        new("x", "arxiv", "laser"),
+        new("c", "arxiv", "wdm"),
+        new("y", "ieee_browser", "wdm"),
+    ]
+    out = q.delta_slots(rows, old, 2)
+    assert [r["paper_id"] for r in out] == ["a", "x", "c", "y"]
+    assert out[0]["_verbatim"] is old[0] and out[0]["route"] == "optica_browser"  # kept as queued
+    assert (out[1]["day"], out[1]["session"]) == (3, "")  # arxiv takes the optica slot's day, no session
+    assert (out[3]["day"], out[3]["session"]) == (3, 3)  # same site: the displaced row's session
+    try:
+        q.delta_slots([new("x", "arxiv", "laser"), *rows[1:]], old, 2)  # displaces day-1 row a
+    except ValueError as e:
+        assert "frozen" in str(e)
+    else:
+        raise AssertionError("frozen displacement not rejected")

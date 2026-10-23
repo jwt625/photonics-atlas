@@ -22,7 +22,12 @@ export const FAMILIES: { key: string; label: string; short: string; platforms: s
 		platforms: ['lnoi_rib', 'lnoi_strip', 'lnoi_loaded_sin', 'lnoi_loaded_si', 'lnoi_loaded_oxide', 'suspended_lnoi', 'lnos_rib']
 	},
 	{ key: 'eo', label: 'Other EO (LT, BTO)', short: 'LT / BTO', platforms: ['ltoi_rib', 'ltoi_loaded_sin', 'bto_on_si', 'bto_on_sin', 'bto_on_oxide_substrate'] },
-	{ key: 'iii_v', label: 'III-V (InP, GaAs)', short: 'III-V', platforms: ['inp', 'inp_membrane', 'gaas', 'suspended_gaas', 'algaas'] },
+	{
+		key: 'iii_v',
+		label: 'III-V (InP, GaAs, GaP)',
+		short: 'III-V',
+		platforms: ['inp', 'inp_membrane', 'gaas', 'suspended_gaas', 'algaas', 'gap_on_insulator', 'iii_v_on_si_epi']
+	},
 	{ key: 'glass', label: 'Glass / silica / polymer', short: 'Glass / polymer', platforms: ['glass', 'silica', 'ge_silica', 'polymer'] }
 ];
 
@@ -76,4 +81,11 @@ export function plotTheme(t: Theme): PlotTheme {
 	return t === 'dark'
 		? { surface: '#1a1a19', ink: '#f2f1ec', ink2: '#c3c2b7', muted: '#898781', grid: '#2c2c2a', line: '#383835', accent: '#3987e5' }
 		: { surface: '#fcfcfb', ink: '#0b0b0b', ink2: '#52514e', muted: '#6f6d68', grid: '#e1e0d9', line: '#c3c2b7', accent: '#2a78d6' };
+}
+
+/** Categorical slot colour (palette order above) for identity series outside the platform / class mappings (supply
+ *  vendors, people corpora; DevLog-010 D194, D196); slot < 0 or beyond the palette -> neutral OTHER grey. */
+export function slotColor(slot: number, theme: Theme): string {
+	const p = theme === 'dark' ? DARK : LIGHT;
+	return slot >= 0 && slot < p.length ? p[slot] : OTHER;
 }

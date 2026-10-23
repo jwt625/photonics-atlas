@@ -1,0 +1,9 @@
+# Ext audit corrections (coordinator, 2026-10-22, DevLog-007 D256-D259; audit record DevLog/audits/2026-10-22-registry-ext-gapfill-sweep-audit.md) plus convention sweep 3 ops (D256: unit / prefix conversions of non-dimension values) for this batch.
+# Replay order: patch, sweep, gapfill, addendum, geometry, geoaudit, coord, sweep2, coord2, extaudit, sweep3 (files absent in a batch are skipped).
+metrics:
+  cmp_boynton2020_vertical_coupler-m3:
+    basis: derived
+    notes: 'tapers 0.2 to 1.2 um wide; the top layer then widens from 1.2 to 1.6 um over 100 um. D157: printed as 0.2 um (design_target
+      value), stored in nm: unit rescale, basis derived.'
+    why: 'D157 sweep (audit miss): printed 0.2 um, stored 200 nm (pure unit rescale of a printed dimension is derived; the
+      only 200 nm in the text is the LN film; verified at p.4)'

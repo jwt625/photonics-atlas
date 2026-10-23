@@ -1,0 +1,19 @@
+# Org round 5 coordinator assignments (DevLog-001 D277, 2026-10-22): fab / facility org ids left empty in
+# lit_04 only because the org was missing from the registry; orgs added by org curation batch_7. Applied last,
+# on top of patch.yaml, coord.yaml, gapfill.yaml and sweep2.yaml (current staging CSVs); notes replace the
+# 'not in the registry' wording.
+components:
+  cmp_lit_yue2026_opa_16ch_cladding_free:
+    facility_org_ids: org_simit_material_device_and_characterization_platform;org_shanghaitech_material_and_device_lab
+    notes: 'Chip fabricated by authors affiliated with SIMIT-CAS (author contributions, p.17; D83c). Facilities acknowledged
+      for sample fabrication (p.16): ''SIMIT material-device and characterization platform'' and ''ShanghaiTech Material and
+      Device Lab (SMDL)'', facility_org_ids org_simit_material_device_and_characterization_platform;org_shanghaitech_material_and_device_lab
+      (coord2). Packaging by SJTU-Pinghu Institute staff (thanks, not entered). PM lensed fiber attached to edge couplers
+      (p.15). Entered in the D169 gap-fill: SLSR above 8 dB for over 4 h (m5, p.11, Fig. 6(a)); phase-steering range -20 to
+      20 deg in theta_x (m6, p.12, Fig. 6(c)); wavelength-steering range 9 deg in theta_y (m7, p.12); wavelength-steering
+      slope -0.09 deg/nm (m8, Fig. 6(d) inset fit). Not entered: EO phase-modulator V_pi 4.4 V (Fig. 3(f), EO metric). Far-field
+      FWHM 2.6 deg x 1.6 deg (p.7, Fig. 3) not entered: the text does not say which OPA variant (cladded or cladding-free)
+      Fig. 3 shows. 16 channels entered as n_channels m9 (D169 gap-fill). Sibling SiO2-cladded LT OPA (focusing-stability
+      time ~16 min) and cladded LN control OPA have no registry-parameter metric, not rows.'
+    why: 'D277 / lit_04 batch report and audit: ''The sample fabrication is supported by SIMIT material-device and characterization
+      platform and ShanghaiTech Material and Device Lab (SMDL)'' (p.16) -> facility; both added in org round 5'

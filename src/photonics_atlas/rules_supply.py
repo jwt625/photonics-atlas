@@ -14,6 +14,7 @@ from __future__ import annotations
 
 import datetime as dt
 import re
+import unicodedata
 from collections import Counter
 from pathlib import Path
 from typing import Any, Protocol
@@ -27,6 +28,8 @@ CATEGORIES = ROOT / "data" / "schema" / "supply_categories.yaml"
 CATEGORY_ID = re.compile(r"^[A-K]([0-9]+(\.[0-9]+)?)?$")
 PAGE = re.compile(r"^(p\.~?[0-9]+|pNA)")
 EO_PAGE = re.compile(r"^p\.[0-9]+")
+# D209: corpora whose cached texts carry exact page markers (text.md `<!-- page N -->`): page locators are p.N.
+EXACT_PAGE_CORPORA = {"eo", "pk", "lit"}
 OFC_PAGE = re.compile(r"^(p\.~[0-9]+|pNA)")
 ATLAS_CORPORA = {"eo", "pk"}
 # D54: role -> allowed top-level categories.
@@ -102,6 +105,25 @@ def usage_id(source_id: str, org_id: str, role: str, product_id: str = "") -> st
     return base + (f"_{slug(product_id.removeprefix('product_'))}" if product_id else "")
 
 
+def canonical_model(model: str) -> str:
+    """Product identity key of a model (D290): NFKC, uppercase, every separator (space, hyphen, underscore, slash,
+    pipe, parentheses) dropped; '+' and '.' kept. MLA 150 / MLA-150 / MLA150 and COMSOL / Comsol are one model;
+    EBPG 5200+ and EBPG 5200 are two; N4372 and N4372E are two."""
+    s = unicodedata.normalize("NFKD", model.replace("\u00b5", "u").replace("\u03bc", "u"))
+    s = "".join(c for c in s if not unicodedata.combining(c)).upper()  # accents folded (TherMoire = TherMoire, D320)
+    s = re.sub(r"[^A-Z0-9+.]", "", s)
+    return re.sub(r"\.(?![A-Z0-9])|(?<![A-Z0-9])\.", "", s)
+
+
+def model_slug(model: str) -> str:
+    """Model slug of a product id: the canonical model lowercased, '+' -> 'plus' (D206, D290)."""
+    return canonical_model(model).lower().replace("+", "plus")
+
+
+def product_id(org_id: str, model: str) -> str:
+    return f"product_{org_id.removeprefix('org_')}-{model_slug(model)}"
+
+
 def process_id(org_id: str, source_id: str) -> str:
     return f"proc_{org_id.removeprefix('org_')}_{slug(source_id)}"
 
@@ -158,7 +180,7 @@ def _category(table: str, rid: str, r: dict[str, str], cats: dict[str, dict[str,
     cid = r["category_id"]
     if cid not in cats:
         rep.err(f"{table} {rid}: category_id {cid!r} not in supply_categories.yaml")
-    elif len(cid) == 1 and not r.get("notes"):
+    elif len(cid) == 1 and not r.get("notes") and any(str(c.get("parent") or "") == cid for c in cats.values()):
         rep.warn(f"{table} {rid}: top-level category {cid} without a note (subcategory not stated?)")
 
 
@@ -183,8 +205,8 @@ def _evidence(table: str, rid: str, r: dict[str, str], corpus: str, native: str,
             rep.err(f"{table} {rid}: atlas anchor {m['file']}/{m['col']} not allowed for {table} (allowed: {ok})")
     elif not PAGE.match(loc):
         rep.err(f"{table} {rid}: {ext} rows need a page locator (p.N / p.~N / pNA)")
-    elif corpus == "eo" and not EO_PAGE.match(loc):
-        rep.err(f"{table} {rid}: eo: page locators are p.N (EO text.md page)")
+    elif corpus in EXACT_PAGE_CORPORA and not EO_PAGE.match(loc):
+        rep.err(f"{table} {rid}: {corpus}: page locators are p.N (text.md page marker, D209)")
     elif corpus == "ofc2026" and not OFC_PAGE.match(loc):
         rep.err(f"{table} {rid}: ofc2026 page locators are p.~N or pNA (D4)")
 
@@ -213,6 +235,8 @@ def rules(ok: dict[str, Rows], full: dict[str, Rows], rep: _Report) -> None:
         _category("products", pid, r, cats, rep)
         if not pid.startswith(f"product_{oid.removeprefix('org_')}-"):
             rep.err(f"products {pid}: id must start with product_{oid.removeprefix('org_')}- (vendor slug, D8)")
+        elif pid != product_id(oid, r["model"]):
+            rep.err(f"products {pid}: id must be {product_id(oid, r['model'])} (org + canonical model, D290)")
         ds = r["datasheet_source_id"]
         if ds and corpus_of(ds) not in ("ds", ""):
             rep.err(f"products {pid}: datasheet_source_id {ds} is not a ds: source")

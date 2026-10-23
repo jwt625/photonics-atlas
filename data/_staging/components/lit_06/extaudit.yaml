@@ -1,0 +1,25 @@
+# Ext audit corrections (coordinator, 2026-10-22, DevLog-007 D256-D259; audit record DevLog/audits/2026-10-22-registry-ext-gapfill-sweep-audit.md) plus convention sweep 3 ops (D256: unit / prefix conversions of non-dimension values) for this batch.
+# Replay order: patch, sweep, gapfill, addendum, geometry, geoaudit, coord, sweep2, coord2, extaudit, sweep3 (files absent in a batch are skipped).
+components:
+  cmp_lit_tanizawa2015_mz_element_tm:
+    notes: 'Test element on the same die. DC waveguides 430 nm wide with a 430 nm gap (Fig. 8(a); gap entered as m13). 3-dB
+      DCs designed for TM (larger dimensional tolerance); designed cross state without heating. Crosstalk-below-35-dB bandwidth
+      4.3 nm (bar) and 2.3 nm (cross, envelope fit, Fig. 4(b)) (entered as xt_bandwidth_nm m11 / m12). Cross-state trimming
+      power 1.5 mW typical (entered as power_consumption_w m10). ''We fabricated the 32 x 32 switch'' (300 mm SOI, ArF immersion
+      lithography) (p.3 Sec. 2); 13 of 15 authors at AIST, 2 at Furukawa Electric: fab org set to AIST (borderline D80b, facility
+      not named).'
+    why: 'G_lit_06: stale ''not entered'' for the 1.5 mW trimming power (m10 holds it); the envelope fit is drawn only for
+      the cross state (p.5 Fig. 4 render)'
+metrics:
+  cmp_lit_tanizawa2015_mz_element_tm-m11:
+    condition: crosstalk (leakage / intended output) below -35 dB, bar state; width read on the measured leakage trace
+    notes: minimum crosstalk below -40 dB at about 1545 nm (m1); the envelope fit is drawn only in the cross-state panel Fig.
+      4(b), the bar-state 4.3 nm is marked on the measured trace in Fig. 4(a) (p.5)
+    why: 'G_lit_06: p.4 envelope definition follows the cross-state TE-floor discussion and Fig. 4 shows the envelope fit
+      only in panel (b); bar condition / notes misattributed it'
+  cmp_lit_deng2026_topic_ring-m1:
+    basis: derived
+    notes: '''FSRs spanning from 3.20 THz to 3.12 THz''; dFSR/dL = -0.31 +/- 0.01 THz/um and d(lambda)/dL = 67.5 +/- 0.6 nm/um
+      from linear regression (Fig. 6, no registry parameter). Printed in THz (measured values), stored in GHz: prefix conversion,
+      basis derived (D256 / D82d).'
+    why: 'ext audit (D82d, outside the D255 dimension scope): p.10 Sec. 2 prints 3.20 / 3.12 THz, stored 3200 / 3120 GHz'

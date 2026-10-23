@@ -14,8 +14,9 @@ reaches >= 90% of OFC author rows with no wrong mappings. A wrong mapping is wor
   `relationships`, `established`). Use `grep -i` or a short `uv run python -I` script; do not load it into context whole.
 - OFC paper text headers: `../PlayGround/20260320_OFC/extracted_text/<code>-*.md` (sibling repo, read-only). Read only
   the first ~40 lines (title, authors, affiliations with addresses) to disambiguate a string (e.g. which "Soochow
-  University", which "Institute of Microelectronics"). Never copy e-mail addresses anywhere. Not open access: quote
-  nothing beyond the affiliation line you rely on.
+  University", which "Institute of Microelectronics"). Never copy e-mail addresses anywhere. Not open access
+  (D172 / D244, DevLog-001 D339): quote only organization, unit, city and country as printed; never a street, building,
+  PO box, room or postal code.
 - No web access. No edits to any file except your own `batch_N/decisions.csv`.
 
 ## Rules
@@ -40,8 +41,10 @@ reaches >= 90% of OFC author rows with no wrong mappings. A wrong mapping is wor
    states it (say which in `evidence`). `org_type` from the ROR record or the name's own words (University,
    Institute, Laboratory, Inc./Ltd./GmbH/Corporation -> company); otherwise `unknown`. Never classify from memory.
 6. `skip` when unresolvable (ambiguous with no header evidence, not an organization, garbled). Give the reason.
-7. Every row needs `evidence`: registry row id, ROR id, or `ofc2026:<code> p.1 affiliation` (header line you used),
-   plus a short why.
+7. Every row needs `evidence`: registry row id, ROR id, or `ofc2026:<code> p.1 affiliation` (the header block you
+   used), plus a short why. Evidence quoting an OFC 2026 header (restricted corpus, D172 / D244) carries only
+   organization, unit, city and country as printed; never a street, building, PO box, room or postal code. Same rule
+   for registry notes, override entries, resolution files and DevLog text (D339).
 8. Variants of one org across rows must all point to the same org_id; if you create a new org, reuse its proposed id
    for all its variants in your batch. Proposed new ids: `org_<lowercase ascii words joined by _>` from the name,
    legal suffix dropped (e.g. `org_zte`, `org_kddi_research`).

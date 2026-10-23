@@ -1,0 +1,627 @@
+# Audit patch lit_01 (fresh-context audit 2026-10-22, DevLog/audits/2026-10-22-lit_01-audit.md).
+# Fragments by paper group (garciablanco2025 zhang2023 ronn2019 | kuznetsov2025 li2025 vazquezcordova2014 |
+# zhang2023a mckenna2022 shi2024 | cheng2025 song2025a starnault2026) plus batch-wide consistency ops (D111 / D82d
+# unit rescaling -> derived; equal-split facet values -> loopback_half). Open questions are not patched.
+components:
+  cmp_lit_zhang2023_utp_inp_soa_switch:
+    platform: other
+    fab_org_ids: org_imec
+    notes: 'Coupon 45 um wide, printed in an 80 x 1050 um recess; FIB cross-section shows 230 nm lateral misalignment (p.7).
+      Differential resistance 10 ohm at 100 mA (Fig. 5(a)) has no amplifier parameter: not entered. Gain is on-chip (setup,
+      grating couplers and MZI switch loss calibrated out; switch IL 1.4 dB is cited from [30], not entered). Platform other:
+      light is amplified in the printed InP coupon on the c-Si / poly-Si waveguide (hybrid, D71), stack in core_material.
+      fab_org_ids: imec (SiPh host, p.5 iSiPP50G, p.10 SiPh circuit fabrication at imec); DVS-BCB spray-coating done at EV
+      Group (p.5, p.10) is a bonding-film step, note only (rule 12). Who fabricated the InP SOA coupons is not stated (design
+      in ref. [31]); printing with an X-Celeprint uTP-100 tool.'
+    why: 'rule 11 / D71: the gain region guides light in the hybrid InP-coupon-on-Si stack, not SOI (precedent laser.heterogeneous
+      / laser.tunable rows use other); rule 12: a company that only supplied a film (EV Group BCB spray-coating, p.5 / p.10)
+      is a note, not fab_org_ids'
+  cmp_lit_zhang2023_iii_v_si_taper_utp:
+    class: waveguide_platform.transition
+    platform: other
+    fab_org_ids: org_imec
+    notes: 'Printed InP coupon bonded on the SiPh chip (BCB): an inter-material transition on one chip (D48 / rule 10; precedents
+      vanackere2023 printed LN coupon, akazawa2026 bonded InGaAsP/Si taper), not a chip_chip_coupler. TE mode simulation insets
+      in Fig. 4(f) without a number. Coupling figure stated for the transmitter printing site (220 nm x 3 um c-Si + 160 nm
+      poly-Si slab, p.10); BCB < 50 nm there vs 75 nm in the switch. SiPh chip fabricated at imec (p.10; switch on imec iSiPP50G,
+      p.5); DVS-BCB spray-coating done at EV Group (p.5, p.10), note only (rule 12). Who fabricated the InP SOA coupons is
+      not stated (design in ref. [31]); printing with an X-Celeprint uTP-100 tool.'
+    why: 'D48 / skill rule 10: transitions bonded on the same chip are waveguide_platform.transition (micro-transfer-printed
+      coupon on the SiPh chip, p.5-7, p.10); platform = hybrid value (other, D71); EV Group film step is a note (rule 12)'
+  cmp_lit_zhang2023_wtl1_vernier_ring_laser:
+    platform: other
+    fab_org_ids: org_imec
+    why: 'rule 11 / D71: III-V/Si laser (Si ring cavity + printed InP gain), hybrid stack -> other (precedent laser.tunable
+      rows: other); rule 12: EV Group BCB spray-coating (p.10) is a film step, note only (the row note already records it)'
+  cmp_lit_zhang2023_mzi_switch_1x2_soa:
+    fab_org_ids: org_imec
+    why: 'rule 12: EV Group only spray-coated the DVS-BCB bonding film (p.5), note only (the row note already records it);
+      imec iSiPP50G foundry platform kept (p.5)'
+  cmp_lit_ronn2019_er_al2o3_si3n4_slot_amp_250um:
+    fab_org_ids: ''
+    notes: 'Er:Al2O3 150 nm by ALD (830 supercycles, 300 C), ~4.9e21 Er/cm3; Si3N4 slot (~100 nm slot, ~460 x 460 nm rails,
+      SEM) on 5.5 um LPCVD SiO2 + 500 nm thermal oxide; TE coupled. Net modal and net material gain per unit length (Table
+      1) have no registry parameter (gap reported) and are not entered; signal enhancement is not a net gain, not entered.
+      Confinement factor 0.311 / 0.315 (calculated) not entered. Fabrication: the authors state they fabricated the devices
+      (p.2), authors at Aalto, C2N (CNRS / Universite Paris-Sud), Southampton and UEF; author contributions (p.9) credit X.L.,
+      C.R. and W.Z. (C2N) with the waveguide design and fabrication and J.R. (Aalto) with designing the gain material and
+      its deposition (design, not a fabrication statement): fab_org_ids empty (D80b; C2N not in the registry, reported). Micronova
+      Nanofabrication Centre thanked for providing the facilities (p.9; facility_org_ids candidate, not in the registry, reported).'
+    why: 'D80b: no statement names Aalto as fabricator; the contributions (p.9) name only C2N authors for fabrication and
+      credit J.R. with designing the deposition'
+  cmp_lit_ronn2019_er_al2o3_si3n4_slot_amp_700um:
+    fab_org_ids: ''
+    notes: 'Er:Al2O3 150 nm by ALD (830 supercycles, 300 C), ~4.9e21 Er/cm3; Si3N4 slot (~100 nm slot, ~460 x 460 nm rails,
+      SEM) on 5.5 um LPCVD SiO2 + 500 nm thermal oxide; TE coupled. Net modal and net material gain per unit length (Table
+      1) have no registry parameter (gap reported) and are not entered; signal enhancement is not a net gain, not entered.
+      Confinement factor 0.311 / 0.315 (calculated) not entered. Fabrication: the authors state they fabricated the devices
+      (p.2), authors at Aalto, C2N (CNRS / Universite Paris-Sud), Southampton and UEF; author contributions (p.9) credit X.L.,
+      C.R. and W.Z. (C2N) with the waveguide design and fabrication and J.R. (Aalto) with designing the gain material and
+      its deposition (design, not a fabrication statement): fab_org_ids empty (D80b; C2N not in the registry, reported). Micronova
+      Nanofabrication Centre thanked for providing the facilities (p.9; facility_org_ids candidate, not in the registry, reported).'
+    why: 'D80b: no statement names Aalto as fabricator; the contributions (p.9) name only C2N authors for fabrication'
+  cmp_lit_ronn2019_er_al2o3_si3n4_slot_amp_1200um:
+    fab_org_ids: ''
+    notes: 'Er:Al2O3 150 nm by ALD (830 supercycles, 300 C), ~4.9e21 Er/cm3; Si3N4 slot (~100 nm slot, ~460 x 460 nm rails,
+      SEM) on 5.5 um LPCVD SiO2 + 500 nm thermal oxide; TE coupled. Net modal and net material gain per unit length (Table
+      1) have no registry parameter (gap reported) and are not entered; signal enhancement is not a net gain, not entered.
+      Confinement factor 0.311 / 0.315 (calculated) not entered. Fabrication: the authors state they fabricated the devices
+      (p.2), authors at Aalto, C2N (CNRS / Universite Paris-Sud), Southampton and UEF; author contributions (p.9) credit X.L.,
+      C.R. and W.Z. (C2N) with the waveguide design and fabrication and J.R. (Aalto) with designing the gain material and
+      its deposition (design, not a fabrication statement): fab_org_ids empty (D80b; C2N not in the registry, reported). Micronova
+      Nanofabrication Centre thanked for providing the facilities (p.9; facility_org_ids candidate, not in the registry, reported).'
+    why: 'D80b: no statement names Aalto as fabricator; the contributions (p.9) name only C2N authors for fabrication'
+  cmp_lit_ronn2019_er_al2o3_si3n4_slot_waveguide_unpumped:
+    fab_org_ids: ''
+    notes: 'Same cross-section as the amplifier rows; loss dominated by Er absorption (paper). ALD Al2O3 background loss 0.62
+      +/- 0.01 dB/cm at 1533 nm on a reference sample (Supplementary Note 4, film not a waveguide component) not entered.
+      Fabrication: the authors state they fabricated the devices (p.2); author contributions (p.9) credit C2N authors with
+      the waveguide design and fabrication and J.R. (Aalto) with designing the gain material and its deposition: fab_org_ids
+      empty (D80b; C2N not in the registry, reported). Micronova Nanofabrication Centre thanked for providing the facilities
+      (p.9; not in the registry, reported).'
+    why: 'D80b: no statement names Aalto as fabricator; the contributions (p.9) name only C2N authors for fabrication'
+  cmp_lit_kuznetsov2025_gap_opa_spiral_780nm:
+    notes: 'Single CW pump at 1550 nm, degenerate FWM; signal scanned 1550-1630 nm (laser limit), OSA 2 nm RBW, Max Hold.
+      Net gain > 10 dB over 70 nm entered as a gain_db bound over 1560-1630 nm (m10); the estimated > 140 nm (17 THz) symmetric
+      10-dB region (p.4) rests on an assumed symmetric spectrum and has no amplifier gain-bandwidth parameter: not entered
+      (gap). Idler conversion efficiency spectra (Fig. 2(d)) not read. Abstract''s up-to-35 dB parametric gain and 0.25 mm2
+      footprint not attributed to a specific spiral in the text; gain entered on this row (Fig. 2(e) internal signal gain
+      peaks near 37 dB at 4.13 W, reading), footprint on both rows. Measured beta2 = -124 fs2/mm (Methods, Ext. Data Fig.
+      3) and simulated gamma 165 /W/m (Aeff 0.26 um2) have no registry parameter: not entered (gap). Spirals: Archimedean,
+      bend radius from 250 um to about 80 um, fit one 525 x 525 um EBL field. Acknowledgements (p.11): the authors fabricated
+      the sample at the Binnig and Rohrer Nanotechnology Center (BRNC) at IBM Research Europe - Zurich; author contributions
+      credit A.N. (EPFL and IBM Research Europe - Zurich) with the fabrication: fab_org_ids = IBM Research Zurich (D83c, org
+      where fabrication was done), facility BRNC (mohl2025 precedent).'
+    why: note made consistent with the added m10 (net gain > 10 dB over 70 nm, p.4)
+  cmp_lit_starnault2026_eo_tw_circulator_o_band_10mm:
+    notes: 'Two cascaded travelling-wave MZMs between 2x2 MMIs, single-ended electrodes, both biased at maximum; non-reciprocity
+      from co- vs counter-propagating RF (no magnets, no resonators). Packaged with epoxy-attached fibre arrays; ports 1->2
+      counter-propagating (low loss), 2->1 isolated, 2->3 circulated with residual 2fRF pulses. MZM Vpi and EO bandwidth are
+      modulator metrics (no modulator class in this atlas; this lit paper is not in the EO atlas): not entered. Mean RF drive
+      per modulator and same-wavelength BiDi 800G link results are not component parameters: not entered. Isolation-bandwidth
+      (THz) has no nonreciprocal parameter: the fixed-parameter >= 15 dB window is entered as an isolation row over the wavelength
+      range. O-band device: 6-dB EO bandwidth > 110 GHz and 5-GHz Vpi 2.5 V (not entered). AM-FM drive bandwidth 54.8 GHz;
+      driven at the RF amplifier 3 dB compression point (5.3 V, 18.5 dBm); measured 37.4 dB exceeds the simulated 35.2 dB
+      limit (p.5). Loss terms (p.5 text, Fig. 2(c) caption) are consistent as excess + passive: port 1 -> 2 0.04 + 0.77 =
+      0.81 dB, port 2 -> 3 minimum 5.8 + 0.77 = 6.57 dB, so the printed 5.8 dB minimum is the excess term and 6.57 dB the
+      minimum total (same arithmetic as the C+L device: 0.07 + 0.84 = 0.91, 4.9 + 0.84 = 5.74). Methods (p.10): PICs designed
+      and manufactured by HyperLight in its commercial TFLN foundry process; author contributions: fabrication led by the
+      HyperLight authors (p.11): fab_org_ids = HyperLight.'
+    why: 'audit: the note called 5.8 vs 6.57 dB a conflict and left the 0.77 dB passive loss out as ambiguous; the stated
+      values add up exactly as excess + passive (p.5 text; p.4 Fig. 2(c) caption; Fig. 2(c) port 2 -> 3 curve minimum near
+      1310 nm about 6.5 dB), see metric fixes m7 and new m10 / m11'
+metrics:
+  cmp_lit_zhang2023_utp_inp_soa_switch-m1:
+    basis: author_estimate
+    notes: Saturates at about 10 dB; abstract gives 10 dB small-signal gain near 1560 nm. On-chip gain obtained by calibrating
+      out setup, grating-coupler and MZI-switch losses (p.7); the switch IL 1.4 dB is cited from [30] and the grating-coupler
+      loss origin is not stated, hence author_estimate (D44).
+    why: 'D44: the value rests on a cited input (switch IL 1.4 dB from [30], p.7) and a calibration of unstated origin'
+  cmp_lit_zhang2023_wtl1_vernier_ring_laser-m1:
+    basis: author_estimate
+    notes: About 2 mW (3 dBm), calculated back by the authors from the measured output to the power in the waveguide at the
+      laser output port (p.11); the out-coupling loss used is not stated (origin not stated), hence author_estimate.
+    why: 'D44 / D76: on-chip power from a correction of unstated origin (p.11 Sec. 5); precedent lit_03 hu2023 m4 (coupler
+      loss of unstated origin removed -> author_estimate)'
+  cmp_lit_zhang2023_iii_v_si_taper_utp-m1:
+    scope: per_component
+    why: 'D76: on-chip transitions take scope per_component (per_interface stays chip-chip); class repointed to waveguide_platform.transition
+      (D48)'
+  cmp_lit_kuznetsov2025_gap_opa_spiral_780nm-m9:
+    basis: derived
+    why: 'D111 / D82d: 55500 um is a unit rescaling of the printed 5.55 cm (p.2 Fig. 1(d) caption; p.8 Methods); printed value
+      already in notes'
+  cmp_lit_kuznetsov2025_gap_opa_spiral_790nm-m12:
+    basis: derived
+    why: 'D111 / D82d: unit rescaling of the printed 5.55 cm (p.2 Fig. 1(d) caption)'
+  cmp_lit_kuznetsov2025_gap_spiral_waveguide_790nm-m6:
+    basis: derived
+    why: 'D111 / D82d: unit rescaling of the printed 5.55 cm (p.2 Fig. 1(d) caption)'
+  cmp_lit_kuznetsov2025_gap_opa_spiral_790nm-m4:
+    basis: derived
+    notes: Below 4 dB; the authors compute the on-chip NF from the measured gain and noise density with 2.5 dB input-facet
+      loss removed (p.5; Methods p.10); the 2.5 dB/facet comes from their own transmission and OFDR loss with identical facets
+      assumed (p.9), the same input as cmp_lit_kuznetsov2025_gap_inverse_taper-m1 (derived).
+    why: 'D80a: model-parameter extraction / arithmetic on own measurements with a stated assumption (symmetric facets, a
+      halving) is derived; consistent with the facet-loss row m1 and the on-chip power row m2, both derived. p.9 Methods (Transmission
+      characterization), p.10 Methods (noise figure)'
+  cmp_lit_kuznetsov2025_gap_spiral_waveguide_790nm-m2:
+    locator: p.8 Methods (Dispersion engineering); p.16 Ext. Data Fig. 5 caption
+    why: 'locator: the Ext. Data Fig. 5 caption is on text.md page 16, not 12'
+  cmp_lit_kuznetsov2025_gap_inverse_taper-m1:
+    statistic: mean
+    why: 'p.9 Methods: the paper calls the 2.5 dB/facet an average coupling loss (skill rule 7 / statistic enum); skill rule
+      6 / D43: an equal split of a two-facet transmission is loopback_half (precedents cmp_feng2022_facet_lensed_fiber-m1,
+      cmp_xu2026b_edge_coupler-m1; same fix as zhang2023a / mckenna2022 facet rows in this patch); p.9 Methods'
+    scope: loopback_half
+    includes: one facet
+    notes: Average coupling loss rate as high as 2.5 dB per facet, estimated from the 12 % fibre-to-fibre transmission and
+      the OFDR propagation loss with identical input and output facets assumed (p.9); wavelength not stated (measurement span
+      1260-1630 nm).
+  cmp_lit_li2025_er_tfln_edwa_8p5cm-m7:
+    basis: derived
+    why: 'D111 / D82d: 85000 um is a unit rescaling of the printed ~8.5 cm (p.3); printed value in notes'
+  cmp_lit_li2025_er_tfln_edwa_8p5cm-m6:
+    qualifier: ''
+    why: 'p.6: net gain emerges when the input pump power is larger than 10 mW; the threshold is stated as 10 mW without about
+      / approximately (skill rule 7: no qualifier without a stated bound or approximation)'
+  cmp_lit_vazquezcordova2014_al2o3er_spiral_12p9cm_1p92e20-m4:
+    basis: derived
+    why: 'D111 / D82d: unit rescaling of the printed 12.91 cm (p.10 Sec. 4.3)'
+  cmp_lit_vazquezcordova2014_al2o3er_spiral_24p5cm_0p95e20-m4:
+    basis: derived
+    why: 'D111 / D82d: unit rescaling of the printed 24.45 cm (p.10 Sec. 4.3)'
+  cmp_lit_vazquezcordova2014_diced_facet_butt_coupling-m1:
+    wavelength_nm: '1630'
+    wavelength_max_nm: '1640'
+    wavelength_inferred: 'true'
+    notes: Coupling efficiencies of order 10% (authors estimate from total IL minus propagation loss and Er absorption, identical
+      input / output coupling assumed). No wavelength is stated with the value; the IL probe was scanned 1630-1640 nm (p.5),
+      range entered as inferred.
+    why: 'D46 / skill rule 7-8: 1635 nm was a batch-chosen midpoint; the value holds for the 1630-1640 nm probe scan (p.5
+      Sec. 3) and is not stated with a wavelength (p.6 Sec. 4); skill rule 6 / D43: coupling from the insertion loss with
+      similar input and output coupling assumed (p.6 Sec. 3) is half of a two-facet measurement, loopback_half (precedents
+      feng2022, xu2026b)'
+    scope: loopback_half
+    includes: one facet
+  cmp_lit_vazquezcordova2014_diced_facet_butt_coupling-m2:
+    wavelength_nm: '1630'
+    wavelength_max_nm: '1640'
+    notes: Same IL-minus-propagation procedure, probe scanned 1630-1640 nm (p.5 Sec. 3); wavelength range inferred.
+    why: 'D46: probe scan range instead of the batch-chosen 1635 nm midpoint (p.5 Sec. 3; value p.10 Sec. 4.3); skill rule
+      6 / D43: coupling from the insertion loss with similar input and output coupling assumed (p.6 Sec. 3) is half of a two-facet
+      measurement, loopback_half (precedents feng2022, xu2026b)'
+    scope: loopback_half
+    includes: one facet
+  cmp_lit_vazquezcordova2014_diced_facet_butt_coupling-m3:
+    wavelength_nm: '1630'
+    wavelength_max_nm: '1640'
+    notes: Same IL-minus-propagation procedure, probe scanned 1630-1640 nm (p.5 Sec. 3); wavelength range inferred.
+    why: 'D46: probe scan range instead of the batch-chosen 1635 nm midpoint (p.5 Sec. 3; value p.10 Sec. 4.3); skill rule
+      6 / D43: coupling from the insertion loss with similar input and output coupling assumed (p.6 Sec. 3) is half of a two-facet
+      measurement, loopback_half (precedents feng2022, xu2026b)'
+    scope: loopback_half
+    includes: one facet
+  cmp_lit_zhang2023a_er_yb_lnoi_ring_r100-m5:
+    basis: author_estimate
+    notes: alpha = 2 pi n_eff / (lambda Q_i) with n_eff = lambda^2 / (2 pi R FSR) (p.4 Eq. (1)); the FSR value is not printed,
+      so the index input is not stated; includes Yb / Er absorption at 974 nm. Paper wording "estimated" / "deduced".
+    why: 'D76: propagation loss computed from Q is author_estimate when an input (ng / FSR) is not stated; p.4 gives the formula
+      but no FSR or index value'
+  cmp_lit_zhang2023a_er_yb_lnoi_ring_r100-m6:
+    basis: author_estimate
+    notes: alpha = 2 pi n_eff / (lambda Q_i) with n_eff = lambda^2 / (2 pi R FSR) (p.4 Eq. (1)); the FSR value is not printed,
+      so the index input is not stated; includes Er absorption at 1531 nm. Paper wording "estimated" / "deduced".
+    why: 'D76: propagation loss computed from Q is author_estimate when an input (ng / FSR) is not stated; p.4 gives the formula
+      but no FSR or index value'
+  cmp_lit_zhang2023a_cleaved_facet_lensed_fiber-m1:
+    scope: loopback_half
+    includes: one facet
+    basis: author_estimate
+    notes: Authors estimate 9.73 dB per facet from the fiber-to-fiber insertion loss (value not printed) minus the ring-derived
+      propagation loss (itself author_estimate, ring m5), split equally between the two cleaved facets (p.4).
+    why: 'skill rule 6 / D43: half of a two-facet measurement is loopback_half (precedent cmp_feng2022_facet_lensed_fiber-m1,
+      lensed fibers, cleaved facets); D44: rests on the ring-derived loss of unstated index input and an unprinted total,
+      hence author_estimate (p.4)'
+  cmp_lit_zhang2023a_cleaved_facet_lensed_fiber-m2:
+    scope: loopback_half
+    includes: one facet
+    basis: author_estimate
+    notes: Authors estimate 8.66 dB per facet from the fiber-to-fiber insertion loss (value not printed) minus the ring-derived
+      propagation loss (itself author_estimate, ring m6), split equally between the two cleaved facets (p.4).
+    why: 'skill rule 6 / D43: half of a two-facet measurement is loopback_half (precedent cmp_feng2022_facet_lensed_fiber-m1);
+      D44: rests on the ring-derived loss of unstated index input and an unprinted total, hence author_estimate (p.4)'
+  cmp_lit_mckenna2022_ppln_racetrack_opo-m1:
+    temperature_k: ''
+    condition: on-chip SH-band pump; modal detuning mu set by temperature and detuned from zero for the threshold measurement
+      (temperature of this measurement not stated); non-degenerate OPO
+    notes: About 73 uW, extracted by fitting the output-vs-input curve with eq. (4) (standard fit of own data). The 25.65
+      C printed on p.4 is the near-degenerate (mu ~ 0) operating point, not the threshold measurement.
+    why: 'p.4: 25.65 C is the optimal near-degenerate operating point; the next sentence says that for the threshold measurement
+      mu is detuned from zero (mu is set by temperature), so the 298.8 K condition is not the stated condition of this value'
+  cmp_lit_mckenna2022_laser_diced_facet_lensed_fiber-m3:
+    scope: loopback_half
+    includes: one facet (input); on-chip bus waveguide loss not separated
+    notes: Input-to-output transmission with 780HP lensed fibers at both edges, input and output coupling assumed identical
+      by the authors (based on experience with other devices on the chip), giving 13% input coupling efficiency (p.7 Methods
+      C; Table I eta_SH, OPO device).
+    why: 'skill rule 6 / D43: half (equal split) of a two-facet transmission measurement is loopback_half, not per_facet;
+      the equal-split assumption is stated on p.7 Methods C'
+  cmp_lit_shi2024_lpln_shg_2p5mm-m1:
+    statistic: mean
+    why: 'p.8 Methods c: the 4615 %/W/cm2 is the average over all measured points of Fig. 2(b), with the standard deviation
+      (82) as the uncertainty'
+  cmp_lit_cheng2025_aom_isolator_two_ridge_device_a-m2:
+    basis: derived
+    method: loss_breakdown
+    notes: 'Printed ''-2.16 dB'' (sign as printed); ''as low as'' in the abstract. IL decreases with RF drive (Fig. 3(b)).
+      The authors compute the isolator IL from the S2AS / S2S transmissions (grating-coupler loss solved out), the AOM efficiency
+      E_AO and the measured waveguide, transition and mode-multiplexer loss terms (Eq. S.22-S.24, p.16 Supp. Sec. VI.C: ''we
+      can calculate insertion loss''); the mode-multiplexer term is referred to ref. [30].'
+    why: 'D80a / D82d: the IL is an explicit calculation on the source''s own measurements (p.16 Supp. Sec. VI.C, Eq. S.22-S.24),
+      not a direct reading; de_embedded scope kept'
+  cmp_lit_cheng2025_aom_isolator_two_ridge_device_b-m2:
+    basis: derived
+    method: loss_breakdown
+    notes: Printed '-8.09 dB' (sign as printed). Computed by the authors from the S2AS / S2S transmissions, E_AO and the measured
+      loss terms (Eq. S.22-S.24, p.16 Supp. Sec. VI.C); the mode-multiplexer term is referred to ref. [30].
+    why: 'D80a / D82d: as device_a-m2 (p.16 Supp. Sec. VI.C)'
+  cmp_lit_cheng2025_aom_intermodal_frequency_shifter-m1:
+    includes: mode multiplexers M1 / M2, the 7.64 mm two-ridge delay, the single-to-two-ridge transitions and the undriven
+      second AOM on the port 1 -> port 4 path
+    condition: Device A (liquid-HF release), single AOM driven at ~2.36 GHz, 32.39 dBm microwave drive; heterodyne frequency-resolved
+      measurement of the blue-shifted output
+    why: p.4 Sec. III.A and Fig. 3(a) label the measurement Device A; the defined efficiency is port 1 -> port 4 of the whole
+      isolator, so the path also includes the delay line and transitions (p.4; Fig. 1(a))
+  cmp_lit_cheng2025_two_ridge_waveguide_lhf-m1:
+    locator: p.16 Supp. Sec. VI.C
+    why: 'D82b: supplement locator needs the section label (loss analysis, Sec. VI.C, p.16)'
+  cmp_lit_cheng2025_two_ridge_waveguide_lhf-m2:
+    locator: p.16 Supp. Sec. VI.C
+    why: 'D82b: supplement locator needs the section label (p.16)'
+  cmp_lit_cheng2025_aom_to_two_ridge_transition-m1:
+    locator: p.16 Supp. Sec. VI.C
+    why: 'D82b: supplement locator needs the section label (p.16)'
+  cmp_lit_song2025a_mo_si_three_port_circulator-m5:
+    basis: design_target
+    why: 'skill rule 4 / D82a: nominal 220 nm SOI device layer is a stated dimension, not a datasheet value of a purchased
+      part (p.10 Sec. 4); merged precedent: core_thickness_nm 82 design_target, 0 specification'
+  cmp_lit_song2025a_mo_si_four_port_router-m5:
+    basis: design_target
+    why: as three_port_circulator-m5 (p.10 Sec. 4)
+  cmp_lit_song2025a_mo_si_5x5_router-m5:
+    basis: design_target
+    why: as three_port_circulator-m5 (p.10 Sec. 4)
+  cmp_lit_starnault2026_eo_tw_circulator_cl_band_13mm-m4:
+    band: c_band
+    notes: Carrier near 1557.6 nm on the Fig. 2(d) wavelength axis (1556.8-1558.4 nm, read off the axis); band from the axis,
+      not stated in the text.
+    why: 'D46: the optical spectrum of Fig. 2(d) (p.4) is taken in the C band (axis 1556.8-1558.4 nm), not over the C+L band'
+  cmp_lit_starnault2026_eo_tw_circulator_cl_band_13mm-m6:
+    condition: passive loss (RF off) of the circulator paths, ports 1 -> 2 and 2 -> 3
+    notes: 0.84 dB passive losses (p.4; abstract p.1). The Fig. 2(b) caption bounds add up as passive + excess for both paths
+      (0.84 + 0.07 = 0.91 dB port 1 -> 2; 0.84 + 4.9 = 5.74 dB port 2 -> 3). Whether fibre-array coupling is included is not
+      stated.
+    why: 'p.4 text and p.4 Fig. 2(b) caption: the passive loss enters both port paths, not port 1 -> 2 only'
+  cmp_lit_starnault2026_eo_tw_circulator_o_band_10mm-m7:
+    scope: on_chip_excess
+    excludes: passive loss (0.77 dB)
+    condition: port 2 -> 3 minimal modulation-induced excess loss (residual 2fRF pulses), AM-FM
+    notes: Printed as the minimal loss of port 2 -> 3 at 1310 nm (p.5), in the sentence after the excess / passive loss values;
+      the Fig. 2(c) caption minimum total 6.57 dB = 5.8 + 0.77 dB passive, the same excess + passive arithmetic as the C+L
+      device, so 5.8 is the excess term (inference by arithmetic). Minimum total entered as m11.
+    why: 'p.5 text and p.4 Fig. 2(c) caption: 5.8 + 0.77 = 6.57 exactly; the 2 -> 3 curve of Fig. 2(c) (total loss) has its
+      minimum of about 6.5 dB near 1310 nm; the apparent conflict is excess vs total'
+  cmp_lit_garciablanco2025_edwa_al2o3er_30cm-m8:
+    basis: derived
+    why: 'D111 / D82d: a value that differs from the printed number by a unit rescaling is derived (printed value in notes);
+      consistent with the kuznetsov2025 / li2025 / vazquezcordova2014 length rows in this patch'
+  cmp_lit_garciablanco2025_edwa_al2o3er_30cm-m9:
+    basis: derived
+    why: 'D111 / D82d: a value that differs from the printed number by a unit rescaling is derived (printed value in notes);
+      consistent with the kuznetsov2025 / li2025 / vazquezcordova2014 length rows in this patch'
+  cmp_lit_garciablanco2025_si3n4_edge_coupler-m4:
+    basis: derived
+    notes: waveguide width at the end of the taper; printed 1.2 um (design); unit rescaled (D111 / D82d)
+    why: 'D111 / D82d: a value that differs from the printed number by a unit rescaling is derived (printed value in notes);
+      consistent with the kuznetsov2025 / li2025 / vazquezcordova2014 length rows in this patch'
+  cmp_lit_garciablanco2025_si3n4_triplex_ads_waveguide-m2:
+    basis: derived
+    notes: Si3N4 passive waveguide width; printed 1.2 um (design); unit rescaled (D111 / D82d)
+    why: 'D111 / D82d: a value that differs from the printed number by a unit rescaling is derived (printed value in notes);
+      consistent with the kuznetsov2025 / li2025 / vazquezcordova2014 length rows in this patch'
+  cmp_lit_garciablanco2025_dc_pump_signal_wdm-m3:
+    basis: derived
+    notes: coupling gap printed 0.9 um (design); unit rescaled (D111 / D82d)
+    why: 'D111 / D82d: a value that differs from the printed number by a unit rescaling is derived (printed value in notes);
+      consistent with the kuznetsov2025 / li2025 / vazquezcordova2014 length rows in this patch'
+  cmp_lit_garciablanco2025_vertical_coupler_si3n4_al2o3-m5:
+    basis: derived
+    notes: upper (Al2O3:Er3+) waveguide width; printed 1.75 um (design); unit rescaled (D111 / D82d)
+    why: 'D111 / D82d: a value that differs from the printed number by a unit rescaling is derived (printed value in notes);
+      consistent with the kuznetsov2025 / li2025 / vazquezcordova2014 length rows in this patch'
+  cmp_lit_garciablanco2025_vertical_coupler_si3n4_al2o3-m6:
+    basis: derived
+    notes: lower (Si3N4) waveguide width; printed 1.2 um (design); unit rescaled (D111 / D82d)
+    why: 'D111 / D82d: a value that differs from the printed number by a unit rescaling is derived (printed value in notes);
+      consistent with the kuznetsov2025 / li2025 / vazquezcordova2014 length rows in this patch'
+  cmp_lit_zhang2023_wtl1_vernier_ring_laser-m6:
+    basis: derived
+    why: 'D111 / D82d: a value that differs from the printed number by a unit rescaling is derived (printed value in notes);
+      consistent with the kuznetsov2025 / li2025 / vazquezcordova2014 length rows in this patch'
+  cmp_lit_ronn2019_mm_strip_edge_coupler-m2:
+    basis: derived
+    why: 'D111 / D82d: a value that differs from the printed number by a unit rescaling is derived (printed value in notes);
+      consistent with the kuznetsov2025 / li2025 / vazquezcordova2014 length rows in this patch'
+  cmp_lit_li2025_er_tfln_edwa_8p5cm-m8:
+    basis: derived
+    why: 'D111 / D82d: a value that differs from the printed number by a unit rescaling is derived (printed value in notes);
+      consistent with the kuznetsov2025 / li2025 / vazquezcordova2014 length rows in this patch'
+  cmp_lit_vazquezcordova2014_al2o3er_spiral_12p9cm_1p92e20-m5:
+    basis: derived
+    notes: channel width printed 1.5 um (design); unit rescaled (D111 / D82d)
+    why: 'D111 / D82d: a value that differs from the printed number by a unit rescaling is derived (printed value in notes);
+      consistent with the kuznetsov2025 / li2025 / vazquezcordova2014 length rows in this patch'
+  cmp_lit_vazquezcordova2014_al2o3er_spiral_12p9cm_1p92e20-m6:
+    basis: derived
+    notes: layer thickness printed 1.0 um (design); unit rescaled (D111 / D82d)
+    why: 'D111 / D82d: a value that differs from the printed number by a unit rescaling is derived (printed value in notes);
+      consistent with the kuznetsov2025 / li2025 / vazquezcordova2014 length rows in this patch'
+  cmp_lit_vazquezcordova2014_al2o3er_spiral_24p5cm_0p95e20-m5:
+    basis: derived
+    notes: channel width printed 1.5 um (design); unit rescaled (D111 / D82d)
+    why: 'D111 / D82d: a value that differs from the printed number by a unit rescaling is derived (printed value in notes);
+      consistent with the kuznetsov2025 / li2025 / vazquezcordova2014 length rows in this patch'
+  cmp_lit_vazquezcordova2014_al2o3er_spiral_24p5cm_0p95e20-m6:
+    basis: derived
+    notes: layer thickness printed 1.0 um (design); unit rescaled (D111 / D82d)
+    why: 'D111 / D82d: a value that differs from the printed number by a unit rescaling is derived (printed value in notes);
+      consistent with the kuznetsov2025 / li2025 / vazquezcordova2014 length rows in this patch'
+  cmp_lit_vazquezcordova2014_al2o3er_channel_waveguide-m5:
+    basis: derived
+    notes: channel width printed 1.5 um (design); unit rescaled (D111 / D82d)
+    why: 'D111 / D82d: a value that differs from the printed number by a unit rescaling is derived (printed value in notes);
+      consistent with the kuznetsov2025 / li2025 / vazquezcordova2014 length rows in this patch'
+  cmp_lit_vazquezcordova2014_al2o3er_channel_waveguide-m6:
+    basis: derived
+    notes: layer thickness printed 1.0 um (design); unit rescaled (D111 / D82d)
+    why: 'D111 / D82d: a value that differs from the printed number by a unit rescaling is derived (printed value in notes);
+      consistent with the kuznetsov2025 / li2025 / vazquezcordova2014 length rows in this patch'
+  cmp_lit_zhang2023a_er_yb_lnoi_amp_5mm-m4:
+    basis: derived
+    why: 'D111 / D82d: a value that differs from the printed number by a unit rescaling is derived (printed value in notes);
+      consistent with the kuznetsov2025 / li2025 / vazquezcordova2014 length rows in this patch'
+  cmp_lit_zhang2023a_er_yb_lnoi_amp_5mm-m5:
+    basis: derived
+    why: 'D111 / D82d: a value that differs from the printed number by a unit rescaling is derived (printed value in notes);
+      consistent with the kuznetsov2025 / li2025 / vazquezcordova2014 length rows in this patch'
+  cmp_lit_mckenna2022_ppln_racetrack_shg-m6:
+    basis: derived
+    notes: ridge width printed 1.2 um; unit rescaled (D111 / D82d)
+    why: 'D111 / D82d: a value that differs from the printed number by a unit rescaling is derived (printed value in notes);
+      consistent with the kuznetsov2025 / li2025 / vazquezcordova2014 length rows in this patch'
+  cmp_lit_mckenna2022_ppln_racetrack_shg-m11:
+    basis: derived
+    notes: PECVD SiO2 cladding printed 700 nm; unit rescaled (D111 / D82d)
+    why: 'D111 / D82d: a value that differs from the printed number by a unit rescaling is derived (printed value in notes);
+      consistent with the kuznetsov2025 / li2025 / vazquezcordova2014 length rows in this patch'
+  cmp_lit_mckenna2022_ppln_racetrack_shg-m12:
+    basis: derived
+    why: 'D111 / D82d: a value that differs from the printed number by a unit rescaling is derived (printed value in notes);
+      consistent with the kuznetsov2025 / li2025 / vazquezcordova2014 length rows in this patch'
+  cmp_lit_mckenna2022_ppln_racetrack_opo-m2:
+    basis: derived
+    notes: ridge width printed 1.2 um; unit rescaled (D111 / D82d)
+    why: 'D111 / D82d: a value that differs from the printed number by a unit rescaling is derived (printed value in notes);
+      consistent with the kuznetsov2025 / li2025 / vazquezcordova2014 length rows in this patch'
+  cmp_lit_mckenna2022_ppln_racetrack_opo-m7:
+    basis: derived
+    notes: PECVD SiO2 cladding printed 700 nm; unit rescaled (D111 / D82d)
+    why: 'D111 / D82d: a value that differs from the printed number by a unit rescaling is derived (printed value in notes);
+      consistent with the kuznetsov2025 / li2025 / vazquezcordova2014 length rows in this patch'
+  cmp_lit_mckenna2022_ppln_racetrack_opo-m8:
+    basis: derived
+    why: 'D111 / D82d: a value that differs from the printed number by a unit rescaling is derived (printed value in notes);
+      consistent with the kuznetsov2025 / li2025 / vazquezcordova2014 length rows in this patch'
+  cmp_lit_shi2024_lpln_shg_2p5mm-m6:
+    basis: derived
+    notes: device length printed 2.5 mm; unit rescaled (D111 / D82d)
+    why: 'D111 / D82d: a value that differs from the printed number by a unit rescaling is derived (printed value in notes);
+      consistent with the kuznetsov2025 / li2025 / vazquezcordova2014 length rows in this patch'
+  cmp_lit_starnault2026_eo_tw_circulator_cl_band_13mm-m10:
+    basis: derived
+    notes: electrode length of each MZM (C+L device); printed 13 mm; unit rescaled (D111 / D82d)
+    why: 'D111 / D82d: a value that differs from the printed number by a unit rescaling is derived (printed value in notes);
+      consistent with the kuznetsov2025 / li2025 / vazquezcordova2014 length rows in this patch'
+  cmp_lit_starnault2026_eo_tw_circulator_o_band_10mm-m9:
+    basis: derived
+    notes: electrode length of each MZM (O-band device); printed 10 mm; unit rescaled (D111 / D82d)
+    why: 'D111 / D82d: a value that differs from the printed number by a unit rescaling is derived (printed value in notes);
+      consistent with the kuznetsov2025 / li2025 / vazquezcordova2014 length rows in this patch'
+add_metrics:
+- metric_id: cmp_lit_ronn2019_er_al2o3_si3n4_slot_waveguide_unpumped-m2
+  component_id: cmp_lit_ronn2019_er_al2o3_si3n4_slot_waveguide_unpumped
+  parameter: width_nm
+  value: '460'
+  unit: nm
+  qualifier: approx
+  basis: measured
+  locator: p.5 Fig. 3(b)
+  notes: width of each Si3N4 slot rail, ~460 x 460 nm2 rails and ~100 nm slot (SEM, before and after the Er:Al2O3 deposition,
+    Fig. 3 caption)
+  why: 'miss (D153 / D106 geometry): Fig. 3 caption (p.5) states the SEM-measured rail size for the hybrid waveguide (Fig.
+    3(b))'
+- metric_id: cmp_lit_ronn2019_er_al2o3_si3n4_slot_waveguide_unpumped-m3
+  component_id: cmp_lit_ronn2019_er_al2o3_si3n4_slot_waveguide_unpumped
+  parameter: core_thickness_nm
+  value: '460'
+  unit: nm
+  qualifier: approx
+  basis: measured
+  locator: p.5 Fig. 3(b)
+  notes: Si3N4 rail height ~460 nm (SEM, Fig. 3 caption); 150 nm ALD Er:Al2O3 coating on top (p.2)
+  why: 'miss (D153 / D106 geometry): Fig. 3 caption (p.5) states the SEM-measured rail size for the hybrid waveguide'
+- metric_id: cmp_lit_ronn2019_er_al2o3_si3n4_slot_waveguide_unpumped-m4
+  component_id: cmp_lit_ronn2019_er_al2o3_si3n4_slot_waveguide_unpumped
+  parameter: box_thickness_um
+  value: '6.0'
+  unit: um
+  basis: derived
+  locator: p.2 Results (Waveguide fabrication)
+  notes: 5.5 um LPCVD SiO2 + 0.5 um thermal oxide = 6.0 um lower cladding (sum), as for the uncoated slot waveguide row
+  why: 'miss (D153 geometry): lower cladding stated on p.2; entered on the uncoated row (m4) but not on the hybrid waveguide'
+- metric_id: cmp_lit_kuznetsov2025_gap_opa_spiral_780nm-m10
+  component_id: cmp_lit_kuznetsov2025_gap_opa_spiral_780nm
+  parameter: gain_db
+  value: '10'
+  unit: dB
+  qualifier: gt
+  wavelength_nm: '1560'
+  wavelength_max_nm: '1630'
+  wavelength_inferred: 'true'
+  ref_plane: fiber
+  condition: off-chip (fibre-to-fibre) net signal gain above 10 dB over a 70 nm bandwidth; CW pump 4.13 W at 1550 nm at the
+    input lensed fibre
+  method: direct
+  basis: measured
+  locator: p.4 Results; Fig. 2(e)
+  notes: The 70 nm span is placed on the 1560-1630 nm range over which the internal signal gain is computed (p.4); Fig. 2(e)
+    4.13 W curve stays above the off-chip net-gain threshold across that range. The > 140 nm estimate assumes a symmetric
+    spectrum (not entered).
+  why: 'miss: p.4 states fibre-to-fibre net gain > 10 dB over 70 nm; skill rule 7 (one value holding over a range -> wavelength_nm
+    + wavelength_max_nm)'
+- metric_id: cmp_lit_kuznetsov2025_gap_spiral_waveguide_790nm-m7
+  component_id: cmp_lit_kuznetsov2025_gap_spiral_waveguide_790nm
+  parameter: min_bend_radius_um
+  value: '80'
+  unit: um
+  qualifier: approx
+  basis: design_target
+  locator: p.8 Methods (Dispersion engineering)
+  notes: Archimedean spiral; bend radius changes from 250 um to about 80 um
+  why: 'miss (D153 geometry; waveguide_xsec template optional top dimension): stated on p.8'
+- metric_id: cmp_lit_kuznetsov2025_gap_spiral_waveguide_790nm-m8
+  component_id: cmp_lit_kuznetsov2025_gap_spiral_waveguide_790nm
+  parameter: insertion_loss_db
+  value: '9.21'
+  unit: dB
+  wavelength_nm: '1550'
+  scope: fiber_to_fiber
+  includes: two lensed-fibre / inverse-taper facets + 5.55 cm spiral
+  condition: low-power calibrated transmission (comb-calibrated scanning laser), lensed fibres; transmission oscillates (facet
+    reflections, multimode interference)
+  method: direct
+  basis: derived
+  locator: p.9 Methods (Transmission characterization); p.16 Ext. Data Fig. 5(a)
+  notes: 'Overall transmission 12% around 1550 nm (p.9; Ext. Data Fig. 5 caption: up to 12% in certain regions); 10*log10(1/0.12)
+    = 9.21 dB'
+  why: 'miss: stated fibre-to-fibre transmission of the passive spiral (the input of the 2.5 dB/facet derivation); % -> dB
+    conversion is derived (D33 / D82d)'
+- metric_id: cmp_lit_kuznetsov2025_gap_inverse_taper-m5
+  component_id: cmp_lit_kuznetsov2025_gap_inverse_taper
+  parameter: box_thickness_um
+  value: '2'
+  unit: um
+  basis: design_target
+  locator: p.8 Methods (Device fabrication)
+  notes: Si wafer capped with 2 um SiO2 (bonding substrate)
+  why: miss (D153; edge_taper template optional xsec dimension), stated p.8, same stack as the spiral rows
+- metric_id: cmp_lit_kuznetsov2025_gap_inverse_taper-m6
+  component_id: cmp_lit_kuznetsov2025_gap_inverse_taper
+  parameter: cladding_thickness_um
+  value: '2'
+  unit: um
+  basis: design_target
+  locator: p.8 Methods (Device fabrication)
+  notes: 2 um PECVD SiO2 (TEOS) top cladding
+  why: miss (D153; edge_taper template optional xsec dimension), stated p.8
+- metric_id: cmp_lit_li2025_sion_ssc_edge_coupler-m7
+  component_id: cmp_lit_li2025_sion_ssc_edge_coupler
+  parameter: box_thickness_um
+  value: '4.7'
+  unit: um
+  basis: specification
+  locator: p.3
+  notes: buried oxide of the Er:LNOI wafer (supplier stack)
+  why: 'miss (D153; edge_taper template optional xsec dimension): p.3 states the 4.7 um BOX of the wafer the SSC is built
+    on (entered on the amplifier row only)'
+- metric_id: cmp_lit_vazquezcordova2014_al2o3er_channel_waveguide-m9
+  component_id: cmp_lit_vazquezcordova2014_al2o3er_channel_waveguide
+  parameter: min_bend_radius_um
+  value: '2000'
+  unit: um
+  basis: derived
+  locator: p.4 Sec. 2
+  notes: minimum bending radius R = 2 mm selected for the spirals (simulated extra bend loss < 1e-6 dB/cm); printed 2 mm,
+    converted to um
+  why: 'miss (D153 geometry; waveguide_xsec template optional top dimension): stated p.4'
+- metric_id: cmp_lit_zhang2023a_er_yb_lnoi_amp_5mm-m10
+  component_id: cmp_lit_zhang2023a_er_yb_lnoi_amp_5mm
+  parameter: slab_thickness_nm
+  value: '200'
+  unit: nm
+  basis: derived
+  locator: p.2 Sec. 2
+  notes: 600 nm LN:Er,Yb film minus 400 nm etch depth (both p.2 Sec. 2); computed value
+  why: 'miss (D153 / D113 subtraction rule): slab follows from the stated film thickness and etch depth (p.2 Sec. 2)'
+- metric_id: cmp_lit_shi2024_lpln_shg_2p5mm-m7
+  component_id: cmp_lit_shi2024_lpln_shg_2p5mm
+  parameter: slab_thickness_nm
+  value: '200'
+  unit: nm
+  basis: derived
+  locator: p.3; p.7 Methods
+  notes: 600 nm TFLN minus 400 nm etch depth (p.3, p.7 Methods a); computed value (the component core_material already states
+    the 200 nm slab)
+  why: 'miss (D153 / D113 subtraction rule): slab follows from the stated film thickness and etch depth (p.3; p.7 Methods)'
+- metric_id: cmp_lit_cheng2025_aom_intermodal_frequency_shifter-m3
+  component_id: cmp_lit_cheng2025_aom_intermodal_frequency_shifter
+  parameter: insertion_loss_db
+  value: '8.2'
+  unit: dB
+  statistic: best
+  band: c_band
+  wavelength_inferred: 'true'
+  scope: device_total
+  includes: mode multiplexers M1 / M2, the 7.64 mm two-ridge delay, the single-to-two-ridge transitions and the second AOM
+    on the port 1 -> port 4 path
+  condition: Device B (vapor-HF release), 32 dBm RF drive; heterodyne frequency-resolved measurement of the blue-shifted output
+  method: direct
+  basis: measured
+  locator: p.11 Supp. Fig. S6(c)
+  notes: Printed '-8.2dB' (sign as printed) in the device B panel, the counterpart of device A's -4.6 dB; consistent with
+    the stated 3.6 dB efficiency reduction by vapor-HF residues (p.10 Supp. Sec. V.A). Probe wavelength not stated with the
+    value; C band inferred from the measurement band.
+  why: 'miss: device B AOM peak scattering efficiency printed in Supp. Fig. S6(c) (p.11) with the 3.6 dB difference stated
+    on p.10'
+- metric_id: cmp_lit_starnault2026_eo_tw_circulator_o_band_10mm-m10
+  component_id: cmp_lit_starnault2026_eo_tw_circulator_o_band_10mm
+  parameter: insertion_loss_db
+  value: '0.77'
+  unit: dB
+  band: o_band
+  scope: unspecified
+  condition: passive loss (RF off) of the circulator paths, ports 1 -> 2 and 2 -> 3
+  method: direct
+  basis: measured
+  locator: p.5 Results
+  notes: Stated with the excess losses (p.5); the Fig. 2(c) caption values add up as passive + excess (0.77 + 0.04 = 0.81
+    dB port 1 -> 2; 0.77 + 5.8 = 6.57 dB port 2 -> 3). Whether fibre-array coupling is included is not stated (as the C+L
+    0.84 dB, m6 of that row).
+  why: 'miss: O-band passive loss 0.77 dB (p.5) was left out as ambiguous; the caption sums resolve it to both paths'
+- metric_id: cmp_lit_starnault2026_eo_tw_circulator_o_band_10mm-m11
+  component_id: cmp_lit_starnault2026_eo_tw_circulator_o_band_10mm
+  parameter: insertion_loss_db
+  value: '6.57'
+  unit: dB
+  statistic: best
+  band: o_band
+  scope: unspecified
+  condition: port 2 -> 3 loss as plotted (RF on), AM-FM
+  method: direct
+  basis: measured
+  locator: p.4 Fig. 2(c) caption
+  notes: Minimum total port 2 -> 3 loss (caption); = 5.8 dB excess (m7) + 0.77 dB passive (m10); curve minimum near 1310 nm.
+    Reference plane not stated (as m8 / m9 of the C+L row).
+  why: 'miss: the caption minimum total port 2 -> 3 loss is the counterpart of the entered C+L caption values (cl_band m8
+    / m9)'

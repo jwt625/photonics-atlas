@@ -534,3 +534,14 @@ export function topCounts(map: Map<string, number>, n: number | null): [string, 
 }
 
 export { OTHER_GROUP };
+
+/**
+ * Plotly dtick for a log axis (UI audit 20): labels at 1, 2, 5 per decade ('D2') when the positive values span at most
+ * three decades, one label per decade beyond that. Plotly's own choice labels every minor tick ('D1': 2 3 ... 9).
+ * Undefined when there is no positive value (axis left to Plotly).
+ */
+export function logDtick(vals: (number | null | undefined)[]): 'D2' | 1 | undefined {
+	const v = vals.filter((x): x is number => typeof x === 'number' && Number.isFinite(x) && x > 0);
+	if (!v.length) return undefined;
+	return Math.log10(Math.max(...v) / Math.min(...v)) <= 3 ? 'D2' : 1;
+}

@@ -1,0 +1,34 @@
+# Ext audit corrections (coordinator, 2026-10-22, DevLog-007 D256-D259; audit record DevLog/audits/2026-10-22-registry-ext-gapfill-sweep-audit.md) plus convention sweep 3 ops (D256: unit / prefix conversions of non-dimension values) for this batch.
+# Replay order: patch, sweep, gapfill, addendum, geometry, geoaudit, coord, sweep2, coord2, extaudit, sweep3 (files absent in a batch are skipped).
+metrics:
+  cmp_lit_kim2019_opa_32el-m6:
+    band: c_band
+    wavelength_inferred: 'true'
+    notes: '''achieving SLSR of 8.5 dB''; Table I small variant 8.5 dB. Wavelength not stated for this measurement; C band
+      inferred as for the beam-divergence rows m1 / m2 of the same calibrated beam (Fig. 12).'
+    why: rule 8 / consistency with m1 / m2 (same calibrated Fig. 12 beam, c_band inferred); kim2019 p.9 Sec. V gives no wavelength
+      for the SLSR
+  cmp_lit_kim2019_opa_32el-m7:
+    band: c_band
+    wavelength_inferred: 'true'
+    notes: '''over 16 deg in theta via phase shifter control'' read as the demonstrated span (Table I steering range phi/theta
+      18.5/16 deg, no bound), so no qualifier. Wavelength not stated for the phase-steering run; C band inferred as for m1
+      / m2.'
+    why: rule 8 / consistency with m1 / m2; phase steering at an unstated wavelength (p.9 Sec. V)
+  cmp_lit_kim2019_opa_125el-m6:
+    band: c_band
+    wavelength_inferred: 'true'
+    notes: 'Table I ''Sidelobe Suppression'', This Work, large variant (125 elements): 7.4 dB; not in the running text. Wavelength
+      not stated; C band inferred as for the beam-divergence rows m1 / m2.'
+    why: rule 8 / consistency with m1 / m2 of the same component (c_band inferred); Table I p.10 gives no wavelength
+  cmp_lit_shikama2017_fifo_6mode_19core-m8:
+    scope: device_total
+    includes: FI device and its PC connection to the FM-MCF
+    excludes: setup (measured as the excess loss on insertion of the FI device and the FM-MCF)
+    wavelength_inferred: 'true'
+    notes: '''the mode dependent loss of the total output power was less than 1.7 dB for all the cores''; measured as the
+      excess loss of the total output power on insertion of the FI device and the FM-MCF (p.5 Sec. IV.A), indicates cladding-mode
+      leakage at butt coupling. Wavelength not stated for this value; C band inferred as for m2 (same Fig. 9 measurement).'
+    why: shikama2017 p.5 Sec. IV.A defines the measurement as excess loss on insertion of FI device and FM-MCF (setup referenced
+      out, old note said not stated); scope / includes / excludes as on sibling m7; C band not stated for this value, so wavelength_inferred
+      true as on sibling m2

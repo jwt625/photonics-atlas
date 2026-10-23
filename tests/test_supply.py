@@ -60,6 +60,9 @@ def test_category_tree() -> None:
 
 def test_usage_rows_are_atlas_imports_with_anchors() -> None:
     for r in read_csv(ROOT / "data" / "supply" / "product_usage.csv"):
+        if r["extraction"] == "scan_review":  # merged scanner batches (D206) carry page locators instead
+            assert r["locator"].startswith(("p.", "pNA"))
+            continue
         assert r["extraction"] == "atlas_import" and r["basis"] == "stated"
         pid = r["source_id"].removeprefix("eo:")
         assert r["locator"] in (
@@ -98,7 +101,12 @@ def test_rebuild_reproduces_tables() -> None:
         ("standards", stds, "standard_id"),
         ("reliability_tests", tests, "test_id"),
     ):
-        disk = {r[key]: r for r in read_csv(ROOT / "data" / "supply" / f"{table}.csv")}
+        # merged scanner batches (extraction scan_review, D206 / D299) are not seed rows
+        disk = {
+            r[key]: r
+            for r in read_csv(ROOT / "data" / "supply" / f"{table}.csv")
+            if r.get("extraction") != "scan_review"
+        }
         built = {r[key]: {c: r.get(c, "") for c in columns(table)} for r in rows}
         assert built == disk, table
 

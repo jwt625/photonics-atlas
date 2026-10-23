@@ -91,8 +91,8 @@
 		<aside class="tree">
 			<button class:on={!cls} onclick={() => ((cls = ''), (param = ''))}>All classes <span class="num">{view.components.length}</span></button>
 			{#each Object.entries(view.classes) as [k, v]}
-				<button class:on={cls === k} disabled={!classCounts[k]} onclick={() => ((cls = k), (param = ''))} data-tip={Object.values(v.subtypes).join('\n')}>
-					{v.label} <span class="num">{classCounts[k] ?? ''}</span>
+				<button class:on={cls === k} disabled={!classCounts[k]} onclick={() => ((cls = k), (param = ''))} data-tip={[v.label, ...Object.values(v.subtypes)].join('\n')}>
+					<span class="cl">{v.label}</span> <span class="num">{classCounts[k] ?? ''}</span>
 				</button>
 			{/each}
 		</aside>
@@ -172,6 +172,8 @@
 	.tree button { text-align: left; display: flex; justify-content: space-between; border: none; background: transparent; height: 22px; }
 	.tree button.on { background: var(--sel); color: var(--ink); }
 	.tree button:disabled { color: var(--ink-3); cursor: default; }
+	.tree button { gap: 6px; min-width: 0; }
+	.tree .cl { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 	.main { min-width: 0; min-height: 0; display: grid; grid-template-rows: auto minmax(0, 1fr); border-right: 1px solid var(--border); }
 	.bar { display: flex; gap: 6px; align-items: center; padding: 6px 8px; background: var(--surface); border-bottom: 1px solid var(--border); }
 	.bar input { flex: 1; }

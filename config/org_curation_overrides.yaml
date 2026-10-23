@@ -28,6 +28,56 @@ rows:
   # P0 data audit 2.8 (config/registry_corrections.yaml): header address Cambridge, UK -> the Cambridge lab, scoped.
   "Toshiba Europe Ltd":
     {action: alias, org_id: org_toshiba_europe_cambridge_research_laboratory, alias_type: printed_variant, scope: ofc2026}
+  # D203 (2026-10-22, supply org request, DevLog-003 TODO 11): batch_5 skipped "Shin-Etsu" (eo:witmer2020 SOI wafer
+  # supplier) because ROR has only specific Shin-Etsu companies (ShinEtsu Chemical 05tq4a167, SHIN-ETSU Polymer
+  # 01p5rb272, SHIN-ETSU Electric WIRE 04jyxj812) and the paper does not say which one. Coordinator decision: a
+  # brand-level org named exactly as printed (as PK's brand-level "Panasonic"), no ROR id, no parent, no country, type
+  # unknown; which Shin-Etsu company supplied the wafers stays unstated (no mapping to a specific company).
+  "Shin-Etsu":
+    action: new_org
+    org_id: org_shin_etsu
+    alias_type: ""
+    new_name: Shin-Etsu
+    name_basis: printed
+    ror_id: ""
+    org_type: unknown
+    country: ""
+    parent_org_id: ""
+    evidence: "eo:witmer2020 text 'The SOI used here is float-zone SOI from Shin-Etsu' (EO devices.csv witmer2020-converter substrate 'float-zone SOI (Shin-Etsu)'); no registry row; ROR has no brand-level Shin-Etsu record"
+    notes: "brand-level org (D203): the printed string names the brand only; the supplying Shin-Etsu company is not stated"
+  # D333 (org round 6, 2026-10-23): batch_4 skipped "University of Georgia" (two ROR records, no header text). The OFC
+  # header of W2A.57 prints Athens, GA, which picks the US record. Same spec as the batch_8 row (D339: address text
+  # reduced to org / unit / city / country, W3).
+  "University of Georgia":
+    action: "new_org"
+    org_id: "org_university_of_georgia"
+    alias_type: ""
+    new_name: "University of Georgia"
+    name_basis: "ror"
+    ror_id: "https://ror.org/00te3t702"
+    org_type: "university"
+    country: "US"
+    parent_org_id: ""
+    evidence: "ROR 00te3t702 University of Georgia (US, education, funder, active); ofc2026:W2A.57 p.1 affiliation (Photonics and Soft Robotics Lab, School of Electrical and Computer Engineering, College of Engineering, University of Georgia, Athens, GA)"
+    notes: "D333: two ROR records share the name (US 00te3t702, GE 02bjhwk41); the header address (Athens, GA) picks the US record; overrides the batch_4 skip (no header text then)"
+    origin: "ofc2026"
+  # D336 / D339 (org round 6; round-6 audit W2 overturns the D305 parent): batch_4 skipped and D278 (batch_7) rejected
+  # the bare string because its host differs by paper. The lab is its own org and the bare string maps to it; no
+  # parent: every Beijing block that prints it also prints China Telecom Research Institute, the YOFC blocks map to
+  # org_yofc. Same spec as the batch_8 row; this row also replaces the batch_4 and batch_7 skips.
+  "State Key Laboratory of Optical Fiber and Cable Manufacture Technology":
+    action: "new_org"
+    org_id: "org_state_key_laboratory_of_optical_fiber_and_cable_manufacture_technology"
+    alias_type: ""
+    new_name: "State Key Laboratory of Optical Fiber and Cable Manufacture Technology"
+    name_basis: "printed"
+    ror_id: ""
+    org_type: "research_institute"
+    country: "CN"
+    parent_org_id: ""
+    evidence: "ofc2026:M1F.5, M1J.4, M2C.3, Th1I.5, Th4C.1, Th4C.4, Tu2C.5, Tu2F.3, Tu3E.5, W1E.2, W1G.2, W4H.6 p.1 affiliation (Beijing; every block also prints China Telecom Research Institute); ofc2026:M2J.1, M4E.4, M1B.5 p.1 affiliation (printed as a unit of YOFC, Wuhan; those rows map to org_yofc); no ROR record"
+    notes: "D336 / D339 (audit W2): the bare string maps to the lab itself; no parent: the 61 header rows that map to the lab are 12 Beijing papers whose block also prints China Telecom Research Institute (first in 9 of 12), none prints YOFC; the YOFC prints map to org_yofc; two printed hosts, relation to each not stated by a local source (D335 / D337 rule); D305's YOFC parent withdrawn until a primary source states the host"
+    origin: "ofc2026"
 unify_ids:
   # ROR-pass duplicate folded into the lineage org (DevLog-001).
   org_yangtze_optical_fibre_and_cable_joint_stock: org_yofc
@@ -38,3 +88,15 @@ orgs:
   org_state_key_laboratory_of_mobile_network_and_mobile_multimedia_technology:
     {name: State Key Laboratory of Mobile Networks and Mobile Multimedia Technology, name_basis: ror,
      name_source: "https://ror.org/05cd55294", ror_id: "https://ror.org/05cd55294", parent_org_id: org_zte, country: CN, origin: ofc2026;ror}
+  # D203: the name source is the EO paper, not an OFC string (merge default label).
+  org_shin_etsu: {name_source: "eo:witmer2020"}
+  # D311 (org round 5 audit I2): ROR 00tbs6p91 `established` 1901 is the founding year of the parent NIST, not of
+  # CNST; the CNST founding is not stated by any local source.
+  org_center_for_nanoscale_science_and_technology: {founded_on: ""}
+  # D339 (round-6 audit I5): the two orgs created by round-6 override rows carry round-6 provenance, not the batch_4
+  # label the merge takes from the first batch row with the printed string.
+  org_university_of_georgia:
+    notes: "curated (round 6 override, D333): ROR 00te3t702 University of Georgia (US, education, funder, active); ofc2026:W2A.57 p.1 affiliation (Photonics and Soft Robotics Lab, School of Electrical and Computer Engineering, College of Engineering, University of Georgia, Athens, GA); D333: two ROR records share the name (US 00te3t702, GE 02bjhwk41); the header address (Athens, GA) picks the US record; overrides the batch_4 skip (no header text then)"
+  org_state_key_laboratory_of_optical_fiber_and_cable_manufacture_technology:
+    name_source: "ofc2026 printed (round 6 override, D336)"
+    notes: "curated (round 6 override, D336): ofc2026:M1F.5, M1J.4, M2C.3, Th1I.5, Th4C.1, Th4C.4, Tu2C.5, Tu2F.3, Tu3E.5, W1E.2, W1G.2, W4H.6 p.1 affiliation (Beijing; every block also prints China Telecom Research Institute); ofc2026:M2J.1, M4E.4, M1B.5 p.1 affiliation (printed as a unit of YOFC, Wuhan; those rows map to org_yofc); no ROR record; D336 / D339 (audit W2): the bare string maps to the lab itself; no parent: the 61 header rows that map to the lab are 12 Beijing papers whose block also prints China Telecom Research Institute (first in 9 of 12), none prints YOFC; the YOFC prints map to org_yofc; two printed hosts, relation to each not stated by a local source (D335 / D337 rule); D305's YOFC parent withdrawn until a primary source states the host"

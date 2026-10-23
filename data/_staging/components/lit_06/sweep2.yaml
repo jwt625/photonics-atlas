@@ -1,0 +1,19 @@
+# Convention sweep 2 (coordinator, 2026-10-22, DevLog-007 D157 / D162 / D253-D255): D157 unit-rescale basis fixes found
+# mechanically (value absent in the stored unit, present in another unit in the source text) and verified at the locator;
+# D162 fill_factor = tooth fraction. Replay order: patch, sweep, gapfill, addendum, geometry, geoaudit, coord, sweep2.
+metrics:
+  cmp_lit_fu2023_trilayer_coupler-m8:
+    basis: derived
+    notes: 'g = vertical gap between 150 nm and 50 nm SiN layers; routing-layer separation 2g + 50 nm. D157: printed as 1 um (design_target value), stored in nm: unit rescale, basis derived.'
+    why: 'D157 sweep: printed 1 um, stored 1000 nm (pure unit rescale of a printed dimension is derived; verified at p.4 Sec. 2)'
+  cmp_lit_fu2023_trilayer_coupler-m11:
+    basis: derived
+    notes: 'W0 = 2.0 um, 150 nm layer waveguide width (role from Fig. 3(c) label). D157: printed as 2 um (design_target value), stored in nm: unit rescale, basis derived.'
+    why: 'D157 sweep: printed 2 um, stored 2000 nm (pure unit rescale of a printed dimension is derived; verified at p.4 Sec. 2, Fig. 3(c))'
+  cmp_lit_fu2023_trilayer_coupler-m12:
+    basis: derived
+    notes: 'W2 = 4.0 um, 50 nm transition-layer width (role from Fig. 3(c) label). D157: printed as 4 um (design_target value), stored in nm: unit rescale, basis derived.'
+    why: 'D157 sweep: printed 4 um, stored 4000 nm (pure unit rescale of a printed dimension is derived; verified at p.4 Sec. 2, Fig. 3(c))'
+  cmp_lit_qiao2017_gc_610nm-m3:
+    notes: 60 % duty converted to a fraction. Tooth vs gap fraction not defined in the paper (D253).
+    why: 'D253 sweep: fill_factor definition not stated in the paper; noted'

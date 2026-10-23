@@ -1,0 +1,11 @@
+# Convention sweep 3 (coordinator, 2026-10-22, DevLog-007 D256): unit / prefix conversions of non-dimension values found mechanically and verified at the locator; derived unless the source prints the stored-unit form for the same quantity.
+# Batches with an extaudit.yaml carry their sweep 3 ops there; this file is used only where no extaudit.yaml exists.
+# Replay order: patch, sweep, gapfill, addendum, geometry, geoaudit, coord, sweep2, coord2, extaudit, sweep3.
+metrics:
+  cmp_ofc2026_w4e2_pcsel_200um-m7:
+    basis: derived
+    notes: 'O-band device; no wavelength stated with the value. Paper: linewidth ''estimated as pi S_f'' from its measured
+      frequency noise; inverse dependence on output power shown in Fig. 3(c). Printed 82 kHz (measured value), stored in Hz:
+      prefix conversion, basis derived (D256 / D82d).'
+    why: 'sweep 3 (D256): abstract and Sec. 3 prints 82 kHz; the stored-unit form is printed nowhere in the source text, so
+      the conversion is derived'

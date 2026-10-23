@@ -18,7 +18,7 @@
 version: 1
 
 classes:
-  fiber_chip_coupler: {label: "Fiber-chip coupler", subtypes: {grating: "grating coupler (1D, apodized, 2D/PSGC, dual-layer, bottom reflector, focusing, photonic-crystal)", edge: "edge coupler / spot-size converter (inverse taper, trident, cantilever, SiN/SiON/polymer SSC)", photonic_wire_bond: "freeform polymer wire bond from a fiber / fiber array to an on-chip coupler"}}
+  fiber_chip_coupler: {label: "Fiber-chip coupler", subtypes: {grating: "grating coupler (1D, apodized, 2D/PSGC, dual-layer, bottom reflector, focusing, photonic-crystal)", edge: "edge coupler / spot-size converter (inverse taper, trident, cantilever, SiN/SiON/polymer SSC)", photonic_wire_bond: "freeform polymer wire bond from a fiber / fiber array to an on-chip coupler", other: "other (3D-printed out-of-plane coupler, tapered-fiber interface; D138)"}}
   chip_chip_coupler: {label: "Chip-chip coupler", subtypes: {evanescent: "evanescent / adiabatic die-to-wafer or tip-to-tip", butt: "butt coupling (laser-to-PIC)", photonic_wire_bond: "photonic wire bond", other: "other"}}
   micro_optics: {label: "Micro-optics", subtypes: {facet_lens: "facet-attached (3D-printed) microlens", integrated_lens: "integrated microlens (SiON etc.)", metalens: "metalens / metasurface optic", vertical_taper: "vertical tapered waveguide / reflector to PD or fiber", other: "other"}}
   fiber_interface: {label: "Fiber interface", subtypes: {fau: "fiber array unit", v_groove: "V-groove attach", fan_out: "MCF fan-in/fan-out, glass waveguide fan-out", connector: "detachable / expanded-beam connector", other: "other"}}
@@ -33,7 +33,7 @@ classes:
   photodetector: {label: "Photodetector", subtypes: {ge_waveguide: "Ge / GeSi waveguide PD", apd: "avalanche PD", vertical: "vertical-illumination PD", iii_v_on_platform: "III-V PD integrated on Si / SiN / TFLN", graphene: "graphene / 2D PD", snspd: "superconducting nanowire single-photon detector", spad: "single-photon avalanche diode", other: "other"}}
   laser: {label: "Laser / light source", subtypes: {dfb: "DFB", soa_dfb: "SOA-integrated DFB", dbr: "DBR", ecl: "external-cavity laser", sil: "self-injection-locked laser", pcsel: "photonic-crystal surface-emitting laser", vcsel: "VCSEL", els_module: "external laser source / ELSFP module", comb: "comb source", heterogeneous: "heterogeneous / transfer-printed laser on a PIC", tunable: "widely tunable laser (Vernier rings, sampled grating)", other: "other"}}
   amplifier: {label: "Optical amplifier", subtypes: {soa: "semiconductor optical amplifier", rare_earth: "Er / rare-earth waveguide amplifier", parametric: "parametric amplifier", other: "other"}}
-  nonreciprocal: {label: "Isolator / circulator", subtypes: {isolator: "isolator", circulator: "circulator"}}
+  nonreciprocal: {label: "Isolator / circulator", subtypes: {isolator: "isolator", circulator: "circulator", other: "other non-reciprocal device (multi-port router, D169)"}}
   waveguide_platform: {label: "Waveguide / platform loss", subtypes: {straight: "straight waveguide propagation loss", bend: "bend loss", transition: "on-chip inter-layer / inter-material transition (monolithic or bonded on the same chip; between separate dies -> chip_chip_coupler)", slow_light: "slow-light / Bragg-loaded waveguide section (non-resonant)", other: "other"}}
   reflector: {label: "Reflector / band-stop", subtypes: {bragg: "Bragg grating reflector", phc_mirror: "photonic-crystal mirror", band_stop: "band-stop photonic-crystal / grating waveguide", loop_mirror: "loop / Sagnac mirror", other: "other"}}
   frequency_converter: {label: "Frequency converter", subtypes: {shg: "second-harmonic generation (PPLN etc.)", sfg_dfg: "sum / difference frequency generation", other: "other"}}
@@ -55,50 +55,50 @@ parameters:
   bw_3db_nm: {unit: nm, kind: performance, conditions: [], classes: [fiber_chip_coupler, chip_chip_coupler, micro_optics, splitter, wdm, polarization, mode_converter, resonator, amplifier, waveguide_platform, laser, reflector],
     def: "full width at -3 dB (or FWHM of a power spectrum when the paper calls it 3 dB)"}
   bw_1db_ghz: {unit: GHz, kind: performance, conditions: [], classes: [wdm, resonator], def: "1-dB passband width in frequency"}
-  bw_3db_ghz: {unit: GHz, kind: performance, conditions: [], classes: [wdm, resonator], def: "3-dB passband width in frequency"}
+  bw_3db_ghz: {unit: GHz, kind: performance, conditions: [], classes: [wdm, resonator, switch_fabric], def: "3-dB passband width in frequency"}
   bw_fwhm_nm: {unit: nm, kind: performance, conditions: [], classes: [fiber_chip_coupler, wdm, reflector, resonator, micro_optics], def: "full width at half maximum as the source states it (not equated with a 3-dB width unless the source does)"}
-  bw_10db_nm: {unit: nm, kind: performance, conditions: [], classes: [wdm, reflector], def: "full width at -10 dB"}
+  bw_10db_nm: {unit: nm, kind: performance, conditions: [], classes: [wdm, reflector, mode_converter], def: "full width at -10 dB"}
   center_wavelength_nm: {unit: nm, kind: performance, conditions: [], classes: [fiber_chip_coupler, micro_optics, wdm, resonator, laser, polarization], def: "peak / center wavelength of the response"}
-  pdl_db: {unit: dB, kind: performance, conditions: [wavelength], classes: [fiber_chip_coupler, chip_chip_coupler, micro_optics, fiber_interface, wdm, polarization, splitter, switch_fabric, nonreciprocal], def: "polarization-dependent loss"}
-  wdl_db: {unit: dB, kind: performance, conditions: [], classes: [micro_optics, fiber_interface, fiber_chip_coupler], def: "wavelength-dependent loss over the stated range"}
+  pdl_db: {unit: dB, kind: performance, conditions: [wavelength], classes: [fiber_chip_coupler, chip_chip_coupler, micro_optics, fiber_interface, wdm, polarization, splitter, switch_fabric, nonreciprocal, waveguide_platform, crossing], def: "polarization-dependent loss"}
+  wdl_db: {unit: dB, kind: performance, conditions: [], classes: [micro_optics, fiber_interface, fiber_chip_coupler, crossing], def: "wavelength-dependent loss over the stated range"}
   back_reflection_db: {unit: dB, kind: performance, conditions: [wavelength], classes: [fiber_chip_coupler, chip_chip_coupler, micro_optics, fiber_interface], def: "back-reflection magnitude, positive dB below the input"}
   power_handling_dbm: {unit: dBm, kind: performance, conditions: [], classes: [fiber_chip_coupler, waveguide_platform, wdm, resonator], def: "highest input power without degradation as stated (stable up to X -> X with gt)"}
   # --- coupler geometry and alignment
   fiber_angle_deg: {unit: deg, kind: geometry, conditions: [], classes: [fiber_chip_coupler, micro_optics], def: "fiber tilt from the chip normal (sign as printed)"}
-  period_nm: {unit: nm, kind: geometry, conditions: [], classes: [fiber_chip_coupler, wdm, free_space_emitter, resonator, reflector, laser, amplifier], def: "grating period (a discrete set of periods: one row per period, or a range with the set in condition)"}
-  fill_factor: {unit: "1", kind: geometry, conditions: [], classes: [fiber_chip_coupler, free_space_emitter, reflector, laser], def: "grating fill factor (duty cycle)"}
+  period_nm: {unit: nm, kind: geometry, conditions: [], classes: [fiber_chip_coupler, wdm, free_space_emitter, resonator, reflector, laser, amplifier, mode_converter], def: "grating period (a discrete set of periods: one row per period, or a range with the set in condition)"}
+  fill_factor: {unit: "1", kind: geometry, conditions: [], classes: [fiber_chip_coupler, free_space_emitter, reflector, laser], def: "grating fill factor = tooth (unetched) width / period (D162 / D253); a paper that defines the etched-gap fraction is converted (1 - value, basis derived, printed value and definition in notes)"}
   mfd_chip_um: {unit: um, kind: performance, conditions: [], classes: [fiber_chip_coupler, chip_chip_coupler, micro_optics, laser, amplifier, waveguide_platform], def: "mode-field diameter at the chip facet (1/e^2 unless the note says otherwise)"}
   mfd_fiber_um: {unit: um, kind: performance, conditions: [], classes: [fiber_chip_coupler, micro_optics, fiber_interface], def: "mode-field diameter of the fiber / beam the component couples to"}
   tip_width_nm: {unit: nm, kind: geometry, conditions: [], classes: [fiber_chip_coupler, chip_chip_coupler, waveguide_platform, mode_converter], def: "taper tip width"}
-  taper_length_um: {unit: um, kind: geometry, conditions: [], classes: [fiber_chip_coupler, chip_chip_coupler, mode_converter, waveguide_platform, splitter, crossing], def: "taper length"}
+  taper_length_um: {unit: um, kind: geometry, conditions: [], classes: [fiber_chip_coupler, chip_chip_coupler, mode_converter, waveguide_platform, splitter, crossing, wdm], def: "taper length"}
   tol_1db_lateral_um: {unit: um, kind: performance, conditions: [], classes: [fiber_chip_coupler, chip_chip_coupler, micro_optics, fiber_interface], def: "lateral misalignment for 1 dB excess loss (half-width, +/- value)"}
   tol_1db_longitudinal_um: {unit: um, kind: performance, conditions: [], classes: [fiber_chip_coupler, chip_chip_coupler, micro_optics, fiber_interface], def: "longitudinal (z) misalignment for 1 dB excess loss"}
   beam_diameter_um: {unit: um, kind: performance, conditions: [], classes: [micro_optics, fiber_interface, free_space_emitter], def: "beam diameter at the interface (expanded / collimated beam)"}
   lens_height_um: {unit: um, kind: geometry, conditions: [], classes: [micro_optics], def: "lens height"}
   lens_radius_um: {unit: um, kind: geometry, conditions: [], classes: [micro_optics], def: "lens radius of curvature or aperture radius as stated"}
-  pitch_um: {unit: um, kind: geometry, conditions: [], classes: [fiber_interface, fiber_chip_coupler, micro_optics, laser, photodetector, splitter, wdm, mode_converter, crossing, amplifier], def: "channel pitch"}
-  n_channels: {unit: count, kind: geometry, conditions: [], classes: [fiber_interface, wdm, laser, photodetector, switch_fabric, micro_optics, fiber_chip_coupler, amplifier, nonreciprocal], def: "number of channels / ports / wavelengths"}
+  pitch_um: {unit: um, kind: geometry, conditions: [], classes: [fiber_interface, fiber_chip_coupler, micro_optics, laser, photodetector, splitter, wdm, mode_converter, crossing, amplifier, free_space_emitter], def: "channel pitch"}
+  n_channels: {unit: count, kind: geometry, conditions: [], classes: [fiber_interface, wdm, laser, photodetector, switch_fabric, micro_optics, fiber_chip_coupler, amplifier, nonreciprocal, free_space_emitter], def: "number of channels / ports / wavelengths"}
   # --- splitters and crossings
   imbalance_db: {unit: dB, kind: performance, conditions: [], classes: [splitter], def: "output power imbalance |P1/P2| in dB"}
   split_ratio_pct: {unit: "%", kind: performance, conditions: [], classes: [splitter], def: "power fraction to the stated port (cross / bar as noted)"}
   coupling_variation: {unit: "1", kind: performance, conditions: [], classes: [splitter], def: "variation of the power coupling coefficient over the stated wavelength span"}
   phase_error_deg: {unit: deg, kind: performance, conditions: [], classes: [splitter], def: "phase error (90-degree hybrid)"}
-  gap_nm: {unit: nm, kind: geometry, conditions: [], classes: [splitter, resonator, wdm, waveguide_platform, chip_chip_coupler, phase_shifter], def: "coupling gap (vertical gap for inter-layer transitions)"}
+  gap_nm: {unit: nm, kind: geometry, conditions: [], classes: [splitter, resonator, wdm, waveguide_platform, chip_chip_coupler, phase_shifter, crossing, switch_fabric], def: "coupling gap (vertical gap for inter-layer transitions and multilevel crossings; switch_fabric: gap of its directional couplers; D258)"}
   crossing_loss_db: {unit: dB, kind: performance, conditions: [wavelength], classes: [crossing], def: "insertion loss per crossing, positive dB"}
-  crosstalk_db: {unit: dB, kind: performance, conditions: [], classes: [crossing, switch_fabric, mode_converter, splitter, wdm, fiber_interface, fiber_chip_coupler, chip_chip_coupler], def: "crosstalk suppression magnitude, positive dB; for wdm only when the type (adjacent / non-adjacent / cumulative) is not stated, with the stated wording in condition"}
+  crosstalk_db: {unit: dB, kind: performance, conditions: [], classes: [crossing, switch_fabric, mode_converter, splitter, wdm, fiber_interface, fiber_chip_coupler, chip_chip_coupler, nonreciprocal], def: "crosstalk suppression magnitude, positive dB; for wdm only when the type (adjacent / non-adjacent / cumulative) is not stated, with the stated wording in condition"}
   # --- resonators
-  q_loaded: {unit: "1", kind: performance, conditions: [wavelength], classes: [resonator, wdm], def: "loaded quality factor (an unqualified Q goes here with a note)"}
-  q_intrinsic: {unit: "1", kind: performance, conditions: [wavelength], classes: [resonator, wdm], def: "intrinsic quality factor; extraction model / reference resonator in notes"}
-  fsr_nm: {unit: nm, kind: performance, conditions: [], classes: [resonator, wdm, photodetector], def: "free spectral range"}
-  fsr_ghz: {unit: GHz, kind: performance, conditions: [], classes: [resonator, wdm, laser], def: "free spectral range in frequency"}
+  q_loaded: {unit: "1", kind: performance, conditions: [wavelength], classes: [resonator, wdm, frequency_converter], def: "loaded quality factor (an unqualified Q goes here with a note)"}
+  q_intrinsic: {unit: "1", kind: performance, conditions: [wavelength], classes: [resonator, wdm, frequency_converter], def: "intrinsic quality factor; extraction model / reference resonator in notes"}
+  fsr_nm: {unit: nm, kind: performance, conditions: [], classes: [resonator, wdm, photodetector, laser], def: "free spectral range in wavelength (laser: longitudinal-mode spacing of the laser cavity or the FSR of an intracavity filter, which one in condition; comb / coupled resonators: which resonator in condition; D169, D258)"}
+  fsr_ghz: {unit: GHz, kind: performance, conditions: [], classes: [resonator, wdm, laser, frequency_converter], def: "free spectral range in frequency (laser: longitudinal-mode spacing of the laser cavity or the FSR of an intracavity filter, which one in condition; comb / coupled resonators: which resonator in condition; frequency converter: which mode family, e.g. fundamental-harmonic modes, in condition; D258)"}
   radius_um: {unit: um, kind: geometry, conditions: [], classes: [resonator, wdm, laser, photodetector], def: "ring / disk radius (racetrack: bend radius; length in notes)"}
-  extinction_db: {unit: dB, kind: performance, conditions: [], classes: [resonator, polarization, switch_fabric, wdm, reflector, amplifier, splitter], def: "notch depth, stopband contrast or on/off extinction magnitude, positive dB; for a splitter the extinction of an interferometer built from it, as stated (type in condition)"}
+  extinction_db: {unit: dB, kind: performance, conditions: [], classes: [resonator, polarization, switch_fabric, wdm, reflector, amplifier, splitter, phase_shifter, mode_converter], def: "notch depth, stopband contrast or on/off extinction magnitude, positive dB; for a splitter or phase shifter the extinction of an interferometer / amplitude contrast as stated, for a mode converter the mode-rejection / extinction ratio (type in condition)"}
   finesse: {unit: "1", kind: performance, conditions: [], classes: [resonator], def: "finesse as reported"}
   linewidth_pm: {unit: pm, kind: performance, conditions: [wavelength], classes: [resonator, wdm], def: "resonance full width as reported (not converted to a 3-dB width or Q)"}
-  n_periods: {unit: count, kind: geometry, conditions: [], classes: [reflector, resonator, fiber_chip_coupler, wdm, free_space_emitter], def: "number of grating periods / photonic-crystal cells"}
+  n_periods: {unit: count, kind: geometry, conditions: [], classes: [reflector, resonator, fiber_chip_coupler, wdm, free_space_emitter, mode_converter], def: "number of grating periods / photonic-crystal cells"}
   stopband_width_nm: {unit: nm, kind: performance, conditions: [], classes: [reflector], def: "stopband full width at the stated contrast level (level in condition)"}
   reflectivity_pct: {unit: "%", kind: performance, conditions: [wavelength], classes: [reflector, wdm], def: "power reflectivity"}
-  slsr_db: {unit: dB, kind: performance, conditions: [], classes: [wdm, reflector], def: "sidelobe suppression ratio, positive dB"}
+  slsr_db: {unit: dB, kind: performance, conditions: [], classes: [wdm, reflector, free_space_emitter], def: "sidelobe suppression ratio, positive dB (free-space emitter: far-field main lobe over the highest sidelobe / grating lobe, as stated)"}
   kappa_per_cm: {unit: 1/cm, kind: performance, conditions: [], classes: [reflector, laser, wdm], def: "grating coupling coefficient"}
   linewidth_mhz: {unit: MHz, kind: performance, conditions: [wavelength], classes: [resonator, wdm], def: "loaded resonance full width in frequency as reported (an intrinsic loss rate goes in kappa_intrinsic_mhz)"}
   kappa_intrinsic_mhz: {unit: MHz, kind: performance, conditions: [wavelength], classes: [resonator, wdm], def: "intrinsic energy decay rate kappa_0 / 2 pi"}
@@ -114,13 +114,13 @@ parameters:
   crosstalk_adjacent_db: {unit: dB, kind: performance, conditions: [], classes: [wdm], def: "adjacent-channel crosstalk suppression magnitude, positive dB (at center unless noted)"}
   crosstalk_nonadjacent_db: {unit: dB, kind: performance, conditions: [], classes: [wdm], def: "non-adjacent-channel crosstalk suppression magnitude, positive dB"}
   crosstalk_cumulative_db: {unit: dB, kind: performance, conditions: [], classes: [wdm], def: "cumulative (integrated) crosstalk suppression magnitude, positive dB"}
-  thermal_drift_pm_per_k: {unit: pm/K, kind: performance, conditions: [], classes: [wdm, resonator, laser], def: "wavelength drift per kelvin"}
+  thermal_drift_pm_per_k: {unit: pm/K, kind: performance, conditions: [], classes: [wdm, resonator, laser, frequency_converter], def: "wavelength drift per kelvin"}
   tuning_power_mw: {unit: mW, kind: performance, conditions: [], classes: [wdm, resonator, splitter, laser, phase_shifter], def: "heater / tuning power for the stated range (per channel or per FSR in notes)"}
   n_arms: {unit: count, kind: geometry, conditions: [], classes: [wdm], def: "AWG arms / echelle facets"}
   diffraction_order: {unit: count, kind: geometry, conditions: [], classes: [wdm], def: "grating / AWG diffraction order"}
   n_stages: {unit: count, kind: geometry, conditions: [], classes: [wdm], def: "cascaded MZI stages"}
   # --- polarization
-  per_db: {unit: dB, kind: performance, conditions: [], classes: [polarization, laser, fiber_interface], def: "polarization extinction ratio, positive dB"}
+  per_db: {unit: dB, kind: performance, conditions: [], classes: [polarization, laser, fiber_interface, waveguide_platform], def: "polarization extinction ratio, positive dB"}
   # --- phase shifters
   p_pi_mw: {unit: mW, kind: performance, conditions: [wavelength], classes: [phase_shifter, switch_fabric], def: "electrical power for a pi phase shift"}
   v_pi_v: {unit: V, kind: performance, conditions: [], classes: [phase_shifter, switch_fabric], def: "voltage for a pi phase shift (2pi values in notes)"}
@@ -136,7 +136,7 @@ parameters:
   responsivity_a_per_w: {unit: A/W, kind: performance, conditions: [wavelength], classes: [photodetector], def: "responsivity; reference plane (internal / fiber-referred) in ref_plane"}
   dark_current_na: {unit: nA, kind: performance, conditions: [bias], classes: [photodetector], def: "dark current at the stated bias"}
   bw3db_ghz: {unit: GHz, kind: performance, conditions: [], classes: [photodetector, laser, amplifier], def: "3-dB electrical / modulation bandwidth (bias in bias_v)"}
-  capacitance_ff: {unit: fF, kind: performance, conditions: [], classes: [photodetector, laser], def: "device capacitance"}
+  capacitance_ff: {unit: fF, kind: performance, conditions: [], classes: [photodetector, laser, phase_shifter], def: "device capacitance"}
   saturation_power_dbm: {unit: dBm, kind: performance, conditions: [], classes: [photodetector], def: "saturation input power as defined by the paper"}
   quantum_efficiency_pct: {unit: "%", kind: performance, conditions: [wavelength], classes: [photodetector], def: "external / internal quantum efficiency (type in notes)"}
   # --- lasers and amplifiers
@@ -151,7 +151,7 @@ parameters:
   repetition_rate_ghz: {unit: GHz, kind: performance, conditions: [], classes: [laser], def: "pulse repetition rate of a mode-locked laser / comb"}
   pulse_width_fs: {unit: fs, kind: performance, conditions: [], classes: [laser], def: "pulse duration (definition in condition)"}
   timing_jitter_fs: {unit: fs, kind: performance, conditions: [], classes: [laser], def: "timing jitter (integration range in condition)"}
-  pump_threshold_mw: {unit: mW, kind: performance, conditions: [], classes: [laser, amplifier], def: "optical pump threshold"}
+  pump_threshold_mw: {unit: mW, kind: performance, conditions: [], classes: [laser, amplifier, frequency_converter], def: "optical pump threshold"}
   tuning_efficiency_pm_per_v: {unit: pm/V, kind: performance, conditions: [], classes: [phase_shifter, wdm, resonator, laser], def: "resonance / wavelength shift per volt of a non-thermal actuator (piezo, Pockels bias)"}
   tuning_range_nm: {unit: nm, kind: performance, conditions: [], classes: [laser, wdm, resonator], def: "wavelength tuning range"}
   rin_integrated_pct: {unit: "%", kind: performance, conditions: [], classes: [laser], def: "RIN integrated over the band given in condition"}
@@ -177,6 +177,35 @@ parameters:
   phase_shift_pi: {unit: pi, kind: performance, conditions: [], classes: [phase_shifter], def: "phase shift reached / retained, in units of pi (rad values converted, basis derived)"}
   retention_time_s: {unit: s, kind: performance, conditions: [], classes: [phase_shifter, switch_fabric], def: "retention time of a non-volatile state as stated"}
   mech_resonance_khz: {unit: kHz, kind: performance, conditions: [], classes: [phase_shifter, switch_fabric], def: "mechanical resonance frequency of a MEMS actuator"}
+  # --- D169 (lit registry extension, 2026-10-22; DevLog-007): gaps confirmed by the lit_01-lit_06 audits
+  dark_count_rate_hz: {unit: Hz, kind: performance, conditions: [], classes: [photodetector], def: "dark count rate of a single-photon detector (counts per second; bias current / excess bias and temperature in condition / temperature_k)"}
+  afterpulse_probability_pct: {unit: "%", kind: performance, conditions: [], classes: [photodetector], def: "afterpulsing probability as defined by the paper (hold-off / dead time and detection efficiency in condition)"}
+  timing_jitter_ps: {unit: ps, kind: performance, conditions: [], classes: [photodetector], def: "detector timing jitter (FWHM or rms in condition); pulse-train jitter of a laser: timing_jitter_fs"}
+  max_count_rate_mhz: {unit: MHz, kind: performance, conditions: [], classes: [photodetector], def: "maximum count rate of a single-photon detector as stated (criterion in condition when given)"}
+  recovery_time_ns: {unit: ns, kind: performance, conditions: [], classes: [photodetector], def: "recovery / reset time of a single-photon detector as defined by the paper (e.g. 1/e decay of the output pulse, dead time; definition in condition)"}
+  critical_current_ua: {unit: uA, kind: performance, conditions: [], classes: [photodetector], def: "critical (switching) current of a superconducting nanowire at the stated temperature (definition in condition)"}
+  series_resistance_ohm: {unit: ohm, kind: performance, conditions: [], classes: [photodetector, laser, amplifier], def: "device series resistance (method in notes: I-V slope, equivalent-circuit S11 fit); amplifier added D258"}
+  excess_noise_factor: {unit: "1", kind: performance, conditions: [], classes: [photodetector], def: "APD excess noise factor F at the stated multiplication gain (gain in condition)"}
+  dark_current_density_ma_per_cm2: {unit: mA/cm2, kind: performance, conditions: [bias], classes: [photodetector], def: "dark current per junction area at the stated bias (A/cm2 values converted, basis derived)"}
+  endurance_cycles: {unit: count, kind: performance, conditions: [], classes: [phase_shifter], def: "switching / programming cycles demonstrated as stated (degradation criterion in condition)"}
+  n_levels: {unit: count, kind: performance, conditions: [], classes: [phase_shifter], def: "number of distinguishable non-volatile levels (states) demonstrated"}
+  gain_db_per_cm: {unit: dB/cm, kind: performance, conditions: [wavelength], classes: [amplifier], def: "gain per unit length as stated (internal / net in condition)"}
+  gain_bandwidth_nm: {unit: nm, kind: performance, conditions: [], classes: [amplifier], def: "wavelength span over which the stated gain criterion holds (criterion, e.g. internal net gain > 0 dB, in condition); a 3-dB gain width is bw_3db_nm"}
+  power_conversion_efficiency_pct: {unit: "%", kind: performance, conditions: [], classes: [amplifier, frequency_converter], def: "optical power conversion efficiency as defined by the paper (pump-to-signal, fundamental-to-harmonic, pump-to-signal+idler; definition and reference plane in condition); laser wall-plug: wpe_pct"}
+  conversion_efficiency_pct_per_w_cm2: {unit: "%/W/cm2", kind: performance, conditions: [wavelength], classes: [frequency_converter], def: "length-normalized nonlinear conversion efficiency as reported (%/W/cm2)"}
+  thermal_resistance_k_per_w: {unit: K/W, kind: performance, conditions: [], classes: [laser], def: "thermal resistance (active-region temperature rise per W of dissipated power; method in notes)"}
+  characteristic_temperature_k: {unit: K, kind: performance, conditions: [], classes: [laser], def: "characteristic temperature T0 of the threshold current (temperature range in condition)"}
+  isolation_bw_nm: {unit: nm, kind: performance, conditions: [], classes: [nonreciprocal], def: "full width over which isolation exceeds the stated level (level in condition)"}
+  steering_range_deg: {unit: deg, kind: performance, conditions: [], classes: [free_space_emitter], def: "beam-steering range (field of view) as stated; axis and full vs +/- span in condition"}
+  steering_efficiency_deg_per_nm: {unit: deg/nm, kind: performance, conditions: [], classes: [free_space_emitter], def: "emission-angle change per nm of wavelength (sign as printed)"}
+  mdl_db: {unit: dB, kind: performance, conditions: [], classes: [fiber_interface], def: "mode-dependent loss (spread of loss over the guided modes, per core or total as stated in condition)"}
+  dgd_ps: {unit: ps, kind: performance, conditions: [], classes: [waveguide_platform], def: "differential group delay between polarization (or mode) eigenstates over the stated length (length in condition; per-length values: ps/m printed in notes)"}
+  coupling_angle_deg: {unit: deg, kind: geometry, conditions: [], classes: [splitter], def: "angle subtended by the curved coupling section of a bent directional coupler"}
+  q_external: {unit: "1", kind: performance, conditions: [wavelength], classes: [resonator], def: "external (coupling) quality factor"}
+  bw_fwhm_ghz: {unit: GHz, kind: performance, conditions: [], classes: [wdm], def: "channel passband full width at half maximum in frequency, as the source states it (not equated with a 3-dB width unless the source does)"}
+  drop_efficiency_pct: {unit: "%", kind: performance, conditions: [], classes: [wdm], def: "drop-port power transmission at resonance (linear, as reported; dB form: drop_loss_db)"}
+  bw_0p5db_ghz: {unit: GHz, kind: performance, conditions: [], classes: [switch_fabric], def: "0.5-dB passband width in frequency (WSS channel)"}
+  xt_bandwidth_nm: {unit: nm, kind: performance, conditions: [], classes: [switch_fabric], def: "full width over which crosstalk stays below the stated level (level and port state in condition)"}
   # --- isolators
   isolation_db: {unit: dB, kind: performance, conditions: [wavelength], classes: [nonreciprocal], def: "isolation magnitude, positive dB"}
   # --- waveguides / platform
@@ -197,7 +226,7 @@ parameters:
   grating_length_um: {unit: um, kind: geometry, conditions: [], classes: [fiber_chip_coupler, free_space_emitter, reflector], def: "grating region length along propagation"}
   grating_width_um: {unit: um, kind: geometry, conditions: [], classes: [fiber_chip_coupler, free_space_emitter, reflector], def: "lateral width of the grating region"}
   bus_width_nm: {unit: nm, kind: geometry, conditions: [], classes: [resonator, wdm], def: "bus waveguide width (ring / racetrack waveguide width: width_nm)"}
-  coupling_length_um: {unit: um, kind: geometry, conditions: [], classes: [resonator, wdm, splitter], def: "length of the straight coupling section (racetrack, directional coupler)"}
+  coupling_length_um: {unit: um, kind: geometry, conditions: [], classes: [resonator, wdm, splitter, mode_converter], def: "length of the straight coupling section (racetrack, directional coupler)"}
   mmi_width_um: {unit: um, kind: geometry, conditions: [], classes: [splitter, crossing, wdm, mode_converter], def: "width of the multimode section"}
   mmi_length_um: {unit: um, kind: geometry, conditions: [], classes: [splitter, crossing, wdm, mode_converter], def: "length of the multimode section"}
   port_width_um: {unit: um, kind: geometry, conditions: [], classes: [splitter, crossing, wdm, mode_converter], def: "access-taper width where it meets the multimode section"}

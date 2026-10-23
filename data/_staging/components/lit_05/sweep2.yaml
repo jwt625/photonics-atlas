@@ -1,0 +1,49 @@
+# Convention sweep 2 (coordinator, 2026-10-22, DevLog-007 D157 / D162 / D253-D255): D157 unit-rescale basis fixes found
+# mechanically (value absent in the stored unit, present in another unit in the source text) and verified at the locator;
+# D162 fill_factor = tooth fraction. Replay order: patch, sweep, gapfill, addendum, geometry, geoaudit, coord, sweep2.
+metrics:
+  cmp_lit_huang2019a_mode_filter_lpg-m7:
+    basis: derived
+    notes: 'D157: printed as 1 mm (design_target value), stored in um: unit rescale, basis derived.'
+    why: 'D157 sweep: printed 1 mm, stored 1000 um (pure unit rescale of a printed dimension is derived; verified at p.2 Sec. II)'
+  cmp_lit_huang2019a_mode_filter_lpg-m8:
+    basis: derived
+    notes: 'D157: printed as 26 mm (design_target value), stored in um: unit rescale, basis derived.'
+    why: 'D157 sweep: printed 26 mm, stored 26000 um (pure unit rescale of a printed dimension is derived; verified at p.3 Sec. III)'
+  cmp_lit_qi2025_fp_slr_cavity-m4:
+    basis: derived
+    notes: 'D157: printed as 7 mm (design_target value), stored in um: unit rescale, basis derived.'
+    why: 'D157 sweep: printed 7 mm, stored 7000 um (pure unit rescale of a printed dimension is derived; verified at p.4 Sec. III A)'
+  cmp_lit_qi2025_fp_slr_cavity-m5:
+    basis: derived
+    notes: 'D157: printed as 1.2 um (design_target value), stored in nm: unit rescale, basis derived.'
+    why: 'D157 sweep: printed 1.2 um, stored 1200 nm (pure unit rescale of a printed dimension is derived; verified at p.3 Fig. 3(a))'
+  cmp_lit_qi2025_dc_180um-m2:
+    basis: derived
+    notes: 'D157: printed as 0.9 um (design_target value), stored in nm: unit rescale, basis derived.'
+    why: 'D157 sweep: printed 0.9 um, stored 900 nm (pure unit rescale of a printed dimension is derived; verified at p.3 Sec. III A)'
+  cmp_lit_qi2025_dc_180um-m4:
+    basis: derived
+    notes: 'D157: printed as 1.2 um (design_target value), stored in nm: unit rescale, basis derived.'
+    why: 'D157 sweep: printed 1.2 um, stored 1200 nm (pure unit rescale of a printed dimension is derived; verified at p.3 Fig. 3(a))'
+  cmp_lit_qi2025_tops_standard-m4:
+    basis: derived
+    notes: 'D157: printed as 0.3 mm (design_target value), stored in um: unit rescale, basis derived.'
+    why: 'D157 sweep: printed 0.3 mm, stored 300 um (pure unit rescale of a printed dimension is derived; verified at p.4 Sec. III A)'
+  cmp_lit_qi2025_tops_undercut-m4:
+    basis: derived
+    notes: 'D157: printed as 0.3 mm (design_target value), stored in um: unit rescale, basis derived.'
+    why: 'D157 sweep: printed 0.3 mm, stored 300 um (pure unit rescale of a printed dimension is derived; verified at p.4 Sec. III A)'
+  cmp_lit_xu2022_retroreflector_te1-m5:
+    basis: derived
+    notes: 'D157: printed as 20 um (design_target value), stored in nm: unit rescale, basis derived.'
+    why: 'D157 sweep: printed 20 um, stored 20000 nm (pure unit rescale of a printed dimension is derived; verified at p.3-4 Sec. 2)'
+  cmp_lit_xu2022_adc_te0_te1-m8:
+    basis: derived
+    notes: 'D157: printed as 1.428 um (design_target value), stored in nm: unit rescale, basis derived.'
+    why: 'D157 sweep: printed 1.428 um, stored 1428 nm (pure unit rescale of a printed dimension is derived; verified at p.5 Sec. 2)'
+  cmp_lit_song2021a_gc_polysi_overlay-m5:
+    basis: derived
+    qualifier: approx
+    notes: duty cycle near 50%. Printed 'near 50%' (duty cycle); stored as the fraction 0.5, unit conversion derived (D157), qualifier approx (rule 7).
+    why: 'D157 sweep: printed ''near 50%'' stored as 0.5 (unit conversion, derived; ''near'' -> approx)'

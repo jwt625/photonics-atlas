@@ -46,6 +46,8 @@
 	// axis specs -----------------------------------------------------------------------------------------------
 	const COUPLER_SCOPES = ['per_coupler', 'per_facet', 'loopback_half'];
 	const IL_COUPLER: AxisSpec = { label: 'Loss per coupler', params: ['insertion_loss_db'], scopes: COUPLER_SCOPES };
+	// panel b: grating couplers have no facet; per_facet is not a GC scope (D227)
+	const IL_GC: AxisSpec = { label: 'Loss per coupler', params: ['insertion_loss_db'], scopes: ['per_coupler', 'loopback_half'] };
 	const BW1: AxisSpec = { label: '1-dB bandwidth', params: ['bw_1db_nm'] };
 	const IL_FACET: AxisSpec = { label: 'Loss per facet', params: ['insertion_loss_db'], scopes: ['per_facet', 'loopback_half'] };
 	const PROP: AxisSpec = { label: 'Propagation loss', params: ['prop_loss_db_per_cm'] };
@@ -77,7 +79,7 @@
 
 	const A0 = $derived(buildVsWavelength(gc, IL_COUPLER, { measuredOnly: mo, yLog: aY, panel: 0 }));
 	const A1 = $derived(buildVsWavelength(ec, IL_COUPLER, { measuredOnly: mo, yLog: aY, panel: 1 }));
-	const B = $derived(buildScatter(gc, BW1, IL_COUPLER, { measuredOnly: mo, xLog: bX, yLog: bY }));
+	const B = $derived(buildScatter(gc, BW1, IL_GC, { measuredOnly: mo, xLog: bX, yLog: bY }));
 	const C = $derived(buildStrip(ec, IL_FACET, { measuredOnly: mo, yLog: cY }));
 	const D = $derived(
 		buildStrip(domain(shown, ['waveguide_platform.straight', 'waveguide_platform.slow_light', 'waveguide_platform.other', 'resonator.ring', 'resonator.coupled_rings'], PROP.params), PROP, {
@@ -142,10 +144,10 @@
 				<div class="grid">
 					<ScatterChart
 						letter="a"
-						desc="Fiber-chip coupler loss per coupler against wavelength: grating couplers (top), edge couplers (bottom). Loss rows with scope per_coupler, per_facet or loopback_half; x is the wavelength stated with the loss row (range start for a range), else the component's center wavelength row. Band-only rows have no x."
+						desc="Fiber-chip coupler loss per coupler against wavelength: grating couplers (top), edge couplers (bottom). Loss rows with scope per_coupler, per_facet or loopback_half (an edge coupler's per-facet loss is its loss per coupler; panel c accepts per_facet / loopback_half only); x is the wavelength stated with the loss row (range start for a range), else the component's center wavelength row. Band-only rows have no x."
 						panels={[
 							{ pts: A0.pts, yTitle: 'Loss per coupler (dB)', tag: 'grating' },
-							{ pts: A1.pts, yTitle: 'Loss per facet (dB)', tag: 'edge' }
+							{ pts: A1.pts, yTitle: 'Loss per coupler (dB)', tag: 'edge' }
 						]}
 						xTitle="Wavelength (nm)"
 						allowX={false}

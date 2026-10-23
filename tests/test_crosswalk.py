@@ -69,3 +69,28 @@ def test_no_org_name_key_collision_among_matchable() -> None:
         norm_key(o["name"]) for o in read_csv(REGISTRY / "organizations.csv") if o["no_name_match"] != "true"
     )
     assert [k for k, n in keys.items() if n > 1] == []
+
+
+def test_no_name_match_org_not_routed_by_ror_display() -> None:
+    """D310: a no_name_match org is matched only through its aliases, also not through its ROR display / label
+    (Italy's CNR, ROR display "National Research Council")."""
+    m = load_matcher()
+    assert m.match("National Research Council", "ofc2026") == ([], "unmapped")
+    assert m.match("Consiglio Nazionale delle Ricerche", "ofc2026") == (["org_national_research_council"], "alias")
+    assert m.match("ams", "ofc2026") == ([], "unmapped")
+    assert m.match("ams AG", "lit") == (["org_ams_ag"], "alias")
+
+
+def test_ror_labels_split_from_json_dump() -> None:
+    """D313: ROR labels come one per name from the JSON dump (the CSV joins variants of one language with ", ")."""
+    from photonics_atlas.adapters import ror
+
+    idx = ror.load()
+    rec = idx.records["https://ror.org/04mte1k06"]
+    assert "National Research Council of Canada" in rec.labels
+    assert "Senju Metal Industry Co., Ltd." in idx.records["https://ror.org/009571x53"].labels
+    m = load_matcher()
+    assert m.match("National Research Council of Canada", "ofc2026") == (
+        ["org_national_research_council_canada"],
+        "ror",
+    )

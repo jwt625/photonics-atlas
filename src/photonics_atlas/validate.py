@@ -50,7 +50,7 @@ NAME_BASIS_ORIGIN: dict[str, set[str]] = {
     "lineage": {"lin"},
     "pk_atlas": {"pk"},
     "cited_source": {"web"},
-    "printed": {"ofc2026", "eo", "pk"},
+    "printed": {"ofc2026", "eo", "pk", "lit"},
 }
 RESTRICTED_CORPORA = {"ofc2026", "pk"}  # D4, D23: facts and locators only
 LOCATOR_MAX = 300  # quote <= 200 chars (D7) plus position text
@@ -265,9 +265,9 @@ def _alias_rules(t: dict[str, list[dict[str, str]]], full: dict[str, list[dict[s
     names: dict[str, str] = {}
     own: dict[str, str] = {}
     for r in full["organizations"]:
-        own[r["org_id"]] = norm_key(r["name"])
         if r["no_name_match"] == "true":
-            continue
+            continue  # its name is not matched, so an alias with the name's key is needed, not redundant (D201, D270)
+        own[r["org_id"]] = norm_key(r["name"])
         k = norm_key(r["name"])
         if k in names:
             rep.err(
@@ -521,6 +521,8 @@ def _component_rules(t: dict[str, list[dict[str, str]]], full: dict[str, list[di
         s = src.get(c["source_id"]) if c else None
         if s and s["corpus"] == "eo" and not re.match(r"^p\.[0-9]+", r["locator"]):
             rep.err(f"component_metrics {mid}: eo: locator must start with p.N (EO text.md page)")
+        if s and s["corpus"] == "lit" and not re.match(r"^p\.[0-9]+", r["locator"]):
+            rep.err(f"component_metrics {mid}: lit: locator must start with p.N (references/<id>/text.md page)")
         if s and s["corpus"] == "ofc2026" and not re.match(r"^(p\.~[0-9]+|pNA)", r["locator"]):
             rep.err(f"component_metrics {mid}: ofc2026 locator must start with p.~N or pNA (approximate page, D4)")
         key = tuple(

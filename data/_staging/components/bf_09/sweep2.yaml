@@ -1,0 +1,12 @@
+# Convention sweep 2 (coordinator, 2026-10-22, DevLog-007 D157 / D162 / D253-D255): D157 unit-rescale basis fixes found
+# mechanically (value absent in the stored unit, present in another unit in the source text) and verified at the locator;
+# D162 fill_factor = tooth fraction. Replay order: patch, sweep, gapfill, addendum, geometry, geoaudit, coord, sweep2.
+metrics:
+  cmp_cai2025_ring_2um-m3:
+    basis: derived
+    notes: 'Ring waveguide width as stated (Si3N4 width). D157: printed as 2 um (design_target value), stored in nm: unit rescale, basis derived.'
+    why: 'D157 sweep: printed 2 um, stored 2000 nm (pure unit rescale of a printed dimension is derived; verified at p.3 Fig. 1 caption)'
+  cmp_valdez2023a_sin_feeder_waveguide-m2:
+    basis: derived
+    notes: 'Feeder width as stated. D157: printed as 0.5 um (design_target value), stored in nm: unit rescale, basis derived.'
+    why: 'D157 sweep: printed 0.5 um, stored 500 nm (pure unit rescale of a printed dimension is derived; verified at p.1 Sec. II)'

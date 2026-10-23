@@ -1,0 +1,39 @@
+# Audit patch lit_03 (fresh-context audit 2026-10-22, DevLog/audits/2026-10-22-lit_03-audit.md).
+# 3 metric corrections + 2 missed metric rows. No component changes (open questions in the audit record).
+metrics:
+  cmp_lit_hu2023_peaked_ge_pd-m1:
+    bias_v: '-4'
+    condition: 'photocurrent 0.8 mA; bias from Table 1 (this-work row: 4 V reverse, the same row lists 1 A/W, 6 nA, 80 GHz); Sec. 3.2 states 80 GHz without a bias'
+    notes: 'flat optic-electro S21 without over-peaking; Fig. 4(b) 4 V and 6 V curves both reach about 80 GHz, the 2 V curve is lower; intrinsic (un-peaked) PD 42 GHz'
+    why: 'Table 1 (p.8) states the operating bias 4 V for the 80 GHz entry; bias_v left empty although stated (sign convention reverse = negative, as in m2 / m6)'
+  cmp_lit_hu2023_peaked_ge_pd-m4:
+    basis: author_estimate
+    notes: 'calculated by the authors from the external responsivity with the SSC coupling loss excluded (0.5 A/W x 2); the 3 dB/facet coupling loss is of unstated origin (p.3 Sec. 2, cmp_lit_hu2023_ssc-m1 author_estimate)'
+    why: 'D44 / D76: result rests on an input of unstated origin (the -3 dB/facet SSC loss); precedent ofc2026 th3f8 on-chip responsivity from a nominal GC loss = author_estimate'
+  cmp_lit_mourgelas2021_chg_pedestal_wg-m2:
+    wavelength_inferred: 'true'
+    notes: "'losses as low as 0.5 dB/cm' for TM (p.6); wavelength not stated with the value, range = Fig. 5(b) sweep axis 7-11 um (TM 1 points near 0.5 dB/cm at several wavelengths)"
+    why: 'D46 / skill rule 8: wavelength range taken from the plot axis, not stated with the value'
+add_metrics:
+- metric_id: cmp_lit_virot2014_ge_apd-m19
+  component_id: cmp_lit_virot2014_ge_apd
+  parameter: avalanche_gain
+  value: '15'
+  unit: '1'
+  bias_v: '-7'
+  condition: '-23 dBm optical power coupled, 1550 nm'
+  basis: measured
+  locator: 'p.4 Sec. 10 Gbps measurements, Fig. 4(e)'
+  notes: gain referenced to the 0 V photocurrent (Methods p.6)
+  why: 'miss: p.4 states measured gain 15 at -23 dBm and -7 V (same sentence as the entered gain 20 at -26 dBm)'
+- metric_id: cmp_lit_virot2014_ge_apd-m20
+  component_id: cmp_lit_virot2014_ge_apd
+  parameter: avalanche_gain
+  value: '11'
+  unit: '1'
+  bias_v: '-7'
+  condition: '-14.6 dBm optical power coupled, 1550 nm'
+  basis: measured
+  locator: 'p.4 Sec. 10 Gbps measurements, Fig. 4(d)'
+  notes: gain referenced to the 0 V photocurrent (Methods p.6)
+  why: 'miss: p.4 and the Fig. 4(d) caption state gain 11 at -14.6 dBm and -7 V'

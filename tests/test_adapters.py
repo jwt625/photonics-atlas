@@ -7,7 +7,8 @@ from .conftest import needs_inputs
 @needs_inputs
 def test_counts_match_devlog_inventory() -> None:
     assert (len(eo.orgs()), len(eo.affiliations()), len(eo.papers())) == (284, 2880, 233)
-    assert (len(pk.orgs()), len(pk.affiliations()), len(pk.papers())) == (144, 1996, 296)
+    # PK updated 2026-10-22 (advanced-packaging-atlas commit b1daf52, affiliations for 57 more papers): was (144, 1996, 296)
+    assert (len(pk.orgs()), len(pk.affiliations()), len(pk.papers())) == (181, 2405, 296)
     assert (len(lineage.orgs()), len(lineage.events()), len(lineage.sources())) == (172, 23, 282)
     pres = ofc.presentations()
     assert len(pres) == 830

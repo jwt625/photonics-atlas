@@ -3,7 +3,7 @@
 // source does not report gets a schematic size (a fixed proportion of a reported neighbour), a dashed outline and the
 // label "not reported". No source figure is reproduced or traced: shapes are generic template outlines.
 import type { Component } from '../components.svelte';
-import { MATERIALS, stackOf, type Stack } from './materials';
+import { MATERIALS, scanMaterials, stackOf, type Stack } from './materials';
 import { resolveDim, segmentRows, type Dim, type Resolved, type View } from './resolve';
 
 export type Pt = [number, number];
@@ -50,10 +50,14 @@ export interface Scene {
 	notes: string[];
 	/** The aspect toggle is offered (linear structures); false for rings and the schematic AWG. */
 	stretch: boolean;
-	/** Whole scene is a schematic (not to scale in any mode). */
+	/** Whole scene is a schematic (not to scale in any mode): no reported length is drawn in this view (D225). */
 	schematic: boolean;
+	/** Reported dimensions are drawn to scale but some shapes are schematic (dashed, template proportions) (D225). */
+	partial: boolean;
 	inset?: { c: Pt; half: number };
 }
+
+const LEN_UNITS = new Set(['nm', 'um', 'mm', 'cm']);
 
 const fmtList = (xs: string[]) => xs.join(', ');
 
@@ -126,7 +130,11 @@ class B {
 		if (miss.length) notes.unshift('required not reported: ' + fmtList(miss) + ' (drawn schematically)');
 		const alts = Object.values(this.r.dims).filter((d) => d.row && d.alts.length && d.views.includes(this.view) && !this.segs.has(d.param));
 		if (alts.length) notes.push('several rows: ' + fmtList(alts.map((d) => d.param)) + ' (first row drawn; others on hover)');
-		return { view: this.view, title, shapes: this.shapes, marks: this.marks, labels: this.labels, notes, stretch: true, schematic: false, ...o };
+		// D225: a view with no reported length drawn is a schematic (no scale bar); with some dashed shapes it is partly
+		// schematic (reported dimensions to scale, dashed shapes at template proportions).
+		const anchored = this.marks.some((m) => m.dim.row && LEN_UNITS.has(m.dim.row.unit));
+		const partial = this.shapes.some((x) => x.schematic && !x.line && x.role !== 'substrate');
+		return { view: this.view, title, shapes: this.shapes, marks: this.marks, labels: this.labels, notes, stretch: true, schematic: !anchored, partial, ...o };
 	}
 }
 
@@ -207,7 +215,9 @@ function xsecStack(b: B, o: XsecOpts = {}): Scene {
 	if (o.layer2) {
 		[t2] = b.or('layer2_thickness_nm', () => t);
 		[g] = b.or('gap_nm', () => 0.5 * t);
-		w2 = o.wParam === 'lower_width_nm' && b.has('width_nm') ? b.v('width_nm') : w;
+		// D222: the section is at the lower-layer input, where the upper taper starts at its tip (tip_width_nm); same
+		// schematic fallback as the top view.
+		[w2] = b.or('tip_width_nm', () => 0.2 * w);
 		top = t + g + t2;
 	}
 	if (o.absorber) {
@@ -224,7 +234,10 @@ function xsecStack(b: B, o: XsecOpts = {}): Scene {
 		hx = b.has('heater_offset_um') ? b.v('heater_offset_um') : 0;
 	}
 	if (air) clad = 0;
-	const cladTop = air ? top : Math.max(t + clad, top);
+	// D229: an overlay SSC's cladding is measured from the overlay top; elsewhere from the core top. The solid band never
+	// exceeds the labelled thickness: fill beside the overlay and above the reported thickness is drawn dashed.
+	const cBase = ov ? to : t;
+	const cladTop = air ? top : cBase + clad;
 	const hTop = o.heater ? t + gh + th : 0;
 	const yTop = Math.max(cladTop, hTop, top);
 	const X = Math.max(1.5 * (w + 2 * dxs), 0.8 * wo, 0.8 * wh + Math.abs(hx), 0.8 * wa, 0.55 * (yTop + box), 0.8);
@@ -235,17 +248,20 @@ function xsecStack(b: B, o: XsecOpts = {}): Scene {
 	b.rect(-X, -lo - sub, X, -lo, st.substrate, 'substrate', [], { schematic: true, alpha: 0.5, tip: 'substrate thickness is not a template dimension: truncated band' });
 	if (st.box === 'sio2' || st.box === 'glass' || st.box === 'polymer') b.rect(-X, -box, X, 0, st.box, 'BOX / lower cladding', ['box_thickness_um'], {}, 'box');
 	else if (st.box === 'air') b.text([0, -box / 2], 'air (suspended)', 'middle');
-	if (!air) b.rect(-X, 0, X, cladTop, st.cladding, 'cladding', ['cladding_thickness_um'], { alpha: 0.45 }, 'cladding');
-	else b.text([X, yTop], 'air', 'end', -4, -4);
+	if (!air) {
+		if (ov) b.rect(-X, 0, X, cBase, st.cladding, 'cladding beside the overlay', [], { alpha: 0.3, schematic: true, tip: 'fill beside the overlay: not a reported thickness (dashed)' }, 'cladding');
+		b.rect(-X, ov ? cBase : 0, X, cladTop, st.cladding, 'cladding', ['cladding_thickness_um'], { alpha: 0.45, tip: ov ? 'cladding thickness drawn from the overlay top (planar top surface schematic)' : '' }, 'cladding');
+		if (top > cladTop) b.rect(-X, cladTop, X, top, st.cladding, 'cladding above the reported thickness', [], { alpha: 0.3, schematic: true, tip: 'layers reach above the reported cladding thickness: cladding extent there not reported (dashed)' }, 'cladding');
+	} else b.text([X, yTop], 'air', 'end', -4, -4);
 	if (ov && os > 0) b.rect(-X, 0, X, os, st.overlay, 'overlay slab', ['overlay_slab_thickness_um'], {}, 'overlay');
 	if (ov) b.rect(-wo / 2, os > 0 ? os : 0, wo / 2, to, st.overlay, 'overlay', ['overlay_width_um', 'overlay_thickness_um'], {}, 'overlay');
 	if (slab > 0) b.rect(-X, 0, X, slab, st.core, 'slab', slabParams, {}, 'core');
 	b.poly([[-w / 2 - dxs, slab], [w / 2 + dxs, slab], [w / 2, t], [-w / 2, t]], st.core, 'core', tP, {
 		tip: ang !== 90 ? 'width drawn at the ridge top; sidewall angle from the data' : b.r.template.xsec.optional.includes('sidewall_angle_deg') ? 'sidewalls drawn vertical (angle not reported)' : ''
 	}, 'core');
-	if (o.layer2) b.rect(-w2 / 2, t + g, w2 / 2, t + g + t2, st.layer2, 'second layer', ['layer2_thickness_nm', 'gap_nm'], { schematic: o.wParam === 'lower_width_nm' && b.has('width_nm') ? undefined : true, tip: 'second-layer width: width_nm when reported, else drawn at the core width' }, 'layer2');
+	if (o.layer2) b.rect(-w2 / 2, t + g, w2 / 2, t + g + t2, st.layer2, 'upper layer (taper tip)', ['layer2_thickness_nm', 'gap_nm', 'tip_width_nm'], { tip: 'upper layer at its taper tip (tip_width_nm), as in the top view at the lower-layer input' }, 'layer2');
 	if (o.absorber) b.rect(-wa / 2, t, wa / 2, t + ta, st.absorber, 'absorber', ['absorber_width_um', 'absorber_thickness_nm'], {}, 'absorber');
-	if (o.heater) b.rect(hx - wh / 2, t + gh, hx + wh / 2, t + gh + th, st.heater, 'heater', ['heater_width_um', 'heater_gap_um', 'heater_thickness_nm'], {}, 'heater');
+	if (o.heater) b.rect(hx - wh / 2, t + gh, hx + wh / 2, t + gh + th, st.heater, 'heater', ['heater_width_um', 'heater_gap_um', 'heater_thickness_nm', 'heater_offset_um'], { tip: b.has('heater_offset_um') ? '' : 'lateral position not reported: drawn centred (schematic)' }, 'heater');
 
 	// Marks: left chain (box, slab, etch, cladding), right chain (core and stacked layers), widths on top.
 	const R = X, L = -X;
@@ -253,12 +269,13 @@ function xsecStack(b: B, o: XsecOpts = {}): Scene {
 	if (slab > 0 && slabParams[0] === 'slab_thickness_nm') b.mark('slab_thickness_nm', 'v', 0, slab, [L, L], L, -8);
 	if (etch !== null) b.mark('etch_depth_nm', 'v', t - etch, t, [-w / 2 - dxs, -w / 2], L, -8);
 	else if (b.r.dims.etch_depth_nm && b.r.dims.etch_depth_nm.views.includes('xsec') && slab > 0) b.mark('etch_depth_nm', 'v', slab, t, [-w / 2, -w / 2], L, -8);
-	if (!air) b.mark('cladding_thickness_um', 'v', t, t + clad, [L, L], L, -8);
+	if (!air) b.mark('cladding_thickness_um', 'v', cBase, cBase + clad, [L, L], L, -8);
 	b.mark('core_thickness_nm', 'v', 0, t, [w / 2, w / 2], R, 8);
 	if (o.layer2) {
 		b.mark('gap_nm', 'v', t, t + g, [w / 2, w2 / 2], R, 8);
 		b.mark('layer2_thickness_nm', 'v', t + g, t + g + t2, [w2 / 2, w2 / 2], R, 8);
-		if (o.wParam === 'lower_width_nm') b.mark('width_nm', 'h', -w2 / 2, w2 / 2, [t + g + t2, t + g + t2], yTop, 30);
+		const tipD = b.d('tip_width_nm');
+		b.mark({ ...tipD, views: [...tipD.views, 'xsec'] }, 'h', -w2 / 2, w2 / 2, [t + g + t2, t + g + t2], yTop, 30);
 	}
 	if (o.absorber) {
 		b.mark('absorber_thickness_nm', 'v', t, t + ta, [wa / 2, wa / 2], R, 8);
@@ -274,6 +291,7 @@ function xsecStack(b: B, o: XsecOpts = {}): Scene {
 		b.mark('heater_width_um', 'h', hx - wh / 2, hx + wh / 2, [t + gh + th, t + gh + th], yTop, 30);
 		b.mark('heater_thickness_nm', 'v', t + gh, t + gh + th, [hx - wh / 2, hx - wh / 2], L, -8);
 		if (hx) b.mark('heater_offset_um', 'h', 0, hx, [t, t + gh], yTop, 48);
+		else if (!b.has('heater_offset_um')) b.val('heater_offset_um', [hx + wh / 2, t + gh + th], 'offset', 'start', 6, -4);
 	}
 	b.mark(wp, 'h', -w / 2, w / 2, [t, t], yTop, 12);
 	if (ang !== 90) b.val('sidewall_angle_deg', [w / 2 + dxs / 2, slab + (t - slab) / 2], 'sidewall', 'start', 6, 0);
@@ -329,27 +347,71 @@ function gcSection(b: B): Scene {
 	return b.scene('cross-section along propagation');
 }
 
+/** D220: the layer that core_thickness_nm / etch_depth_nm describe in a laser row is named by the rows' own condition /
+ *  notes text (heterogeneous lasers report either the Si waveguide or the III-V layer under these generic names). */
+function laserLayerMat(b: B): string | undefined {
+	const text = ['core_thickness_nm', 'etch_depth_nm']
+		.map((p) => b.d(p).row)
+		.map((m) => (m ? (m.condition ?? '') + ' ' + (m.notes ?? '') : ''))
+		.join(' ');
+	return scanMaterials(text)[0]?.mat;
+}
+
 function laserSection(b: B): Scene {
-	const st = b.st;
+	const st = b.st, c = b.r.comp;
 	const [wr] = b.or('ridge_width_um', () => 2);
+	const iii = st.core === 'inp' || st.core === 'gaas' ? st.core : 'inp';
+	const wgMat = laserLayerMat(b);
+	if (c.class === 'laser.heterogeneous' && wgMat && wgMat !== 'inp' && wgMat !== 'gaas') return hetLaserSection(b, wgMat, wr, iii);
 	const [ta] = b.or('core_thickness_nm', () => 0.15 * wr);
 	const [h] = b.or('etch_depth_nm', () => 0.75 * wr);
 	const X = Math.max(2.2 * wr, 2 * h);
 	const lowN = 1.2 * h;
-	const iii = st.core === 'inp' || st.core === 'gaas' ? st.core : 'inp';
+	const membrane = c.platform === 'inp_membrane';
 	if (st.box === 'none') b.rect(-X, -lowN, X, 0, st.substrate, 'substrate / lower cladding', [], { schematic: true, alpha: 0.6, tip: 'lower cladding / substrate thickness is not a template dimension' });
-	else {
+	else if (membrane) {
+		b.rect(-X, -lowN - 0.4 * lowN, X, -lowN, 'si', 'substrate', [], { schematic: true, alpha: 0.5 });
+		b.rect(-X, -lowN, X, 0, 'sio2', 'BOX / bottom reflector', [], { schematic: true, tip: 'layers under the membrane: not template dimensions' });
+		b.notes.push('III-V membrane on oxide: layers under the membrane not drawn individually (not template dimensions)');
+	} else {
 		b.rect(-X, -lowN - 0.4 * lowN, X, -lowN, 'si', 'substrate', [], { schematic: true, alpha: 0.5 });
 		b.rect(-X, -lowN, X, -0.35 * lowN, 'sio2', 'BOX', [], { schematic: true, tip: 'BOX / bonding layer: not a template dimension' });
 		b.rect(-X, -0.35 * lowN, X, 0, iii, 'III-V lower cladding', [], { schematic: true });
-		b.notes.push('heterogeneous stack: Si waveguide below the III-V not drawn (not a template dimension)');
+		b.notes.push('layers below the III-V drawn schematically (not template dimensions; no waveguide row below the III-V)');
 	}
-	b.rect(-X, 0, X, ta, 'active', 'active layer', ['core_thickness_nm'], { tip: 'active / core layer (material not parsed)' }, 'active');
+	b.rect(-X, 0, X, ta, membrane ? iii : 'active', membrane ? 'III-V membrane' : 'active layer', ['core_thickness_nm'], { tip: membrane ? 'membrane (core) layer: core_thickness_nm' : 'active / core layer (material not parsed)' }, membrane ? 'core' : 'active');
 	b.rect(-wr / 2, ta, wr / 2, ta + h, iii, 'ridge', ['ridge_width_um', 'etch_depth_nm'], {}, 'ridge');
 	b.mark('ridge_width_um', 'h', -wr / 2, wr / 2, [ta + h, ta + h], ta + h, 12);
 	b.mark('core_thickness_nm', 'v', 0, ta, [X, X], X, 8);
 	b.mark('etch_depth_nm', 'v', ta, ta + h, [-wr / 2, -wr / 2], -X, -8);
 	b.notes.push('shallow ridge drawn (active layer not etched); contacts not drawn');
+	return b.scene('cross-section (lateral)');
+}
+
+/** Heterogeneous laser whose core_thickness_nm / etch_depth_nm rows describe the waveguide under the III-V (D220): the
+ *  waveguide is drawn from its rows (width_nm when reported), the III-V mesa at ridge_width_um; III-V layer heights,
+ *  bonding layer and BOX are not template dimensions (dashed). */
+function hetLaserSection(b: B, wgMat: string, wr: number, iii: string): Scene {
+	const [t] = b.or('core_thickness_nm', () => 0.15 * wr);
+	const etch = b.has('etch_depth_nm') ? b.v('etch_depth_nm') : null;
+	const slab = etch !== null && etch < t ? t - etch : 0;
+	const wd = b.r.dims.width_nm ?? resolveDim(b.r.comp, 'width_nm', ['xsec'], false, 'waveguide width under the III-V');
+	const ws = wd.num !== null && wd.num > 0 ? wd.num : 0.4 * wr;
+	const gb = 0.15 * t, hm = 0.6 * wr, lowN = Math.max(3 * t, 0.5 * wr);
+	const X = Math.max(1.6 * wr, 1.5 * ws);
+	const yb = t + gb;
+	const wName = MATERIALS[wgMat] ?? wgMat;
+	b.rect(-X, -lowN - 0.4 * lowN, X, -lowN, 'si', 'substrate', [], { schematic: true, alpha: 0.5 });
+	b.rect(-X, -lowN, X, 0, 'sio2', 'BOX', [], { schematic: true, tip: 'BOX thickness: not a template dimension' });
+	if (slab > 0) b.rect(-X, 0, X, slab, wgMat, wName + ' slab', ['core_thickness_nm', 'etch_depth_nm'], {}, 'core');
+	b.rect(-ws / 2, slab, ws / 2, t, wgMat, wName + ' waveguide', ['core_thickness_nm'], { schematic: !b.has('core_thickness_nm') || wd.num === null, tip: 'layer named in the row text (D220)' + (wd.num === null ? '; width not reported' : '') }, 'core');
+	b.rect(-X, t, X, yb, 'unknown', 'bonding / interlayer', [], { schematic: true, tip: 'bonding layer: not a template dimension' });
+	b.rect(-wr / 2, yb, wr / 2, yb + hm, iii, 'III-V mesa', ['ridge_width_um'], { schematic: true, tip: 'mesa width: ridge_width_um; III-V layer heights (active, cladding) not reported' }, 'ridge');
+	b.mark('ridge_width_um', 'h', -wr / 2, wr / 2, [yb + hm, yb + hm], yb + hm, 12);
+	b.mark('core_thickness_nm', 'v', 0, t, [slab > 0 ? X : ws / 2, ws / 2], X, 8);
+	if (etch !== null) b.mark('etch_depth_nm', 'v', t - etch, t, [-ws / 2, -ws / 2], -X, -8);
+	b.mark(wd, 'h', -ws / 2, ws / 2, [slab, slab], 0, -14);
+	b.notes.push(`heterogeneous stack: core_thickness_nm / etch_depth_nm drawn on the ${wName} waveguide (layer named in the row text); III-V layer heights, bonding layer and BOX not reported (dashed)`);
 	return b.scene('cross-section (lateral)');
 }
 
@@ -465,6 +527,18 @@ function wgTop(b: B): Scene {
 		return b.scene('top view (bend at the minimum radius)', { stretch: false });
 	}
 	const [L] = b.or('length_um', () => 30 * w);
+	if (b.has('length_um') && L > 1000 * w) {
+		// D228: a length far beyond the width is drawn with a break (drafting convention): two short runs, a break mark,
+		// the length as a label across the whole drawn extent. The x extent is not to scale.
+		const a = 16 * w, gp = 4 * w, E = 2 * a + gp;
+		b.rect(0, -w / 2, a, w / 2, core, 'waveguide (start)', ['width_nm'], { tip: 'length drawn with a break: x extent not to scale' }, 'core');
+		b.rect(a + gp, -w / 2, E, w / 2, core, 'waveguide (end)', ['width_nm'], { tip: 'length drawn with a break: x extent not to scale' }, 'core');
+		for (const x of [a + 0.25 * gp, a + 0.75 * gp]) b.shapes.push({ rings: [[[x - 0.6 * w, -1.6 * w], [x + 0.6 * w, 1.6 * w]]], mat: 'unknown', role: 'break', schematic: false, line: true, tip: 'break: the waveguide continues (length on the label; layout shape, e.g. spiral, not drawn)' });
+		b.mark('length_um', 'h', 0, E, [-w / 2, -w / 2], -w / 2, -14);
+		b.mark('width_nm', 'v', -w / 2, w / 2, [0, 0], 0, -8);
+		b.notes.push('length drawn with a break (length far above the width): x extent not to scale; routing shape not drawn');
+		return b.scene('top view', { stretch: false, partial: true, schematic: !b.has('width_nm') });
+	}
 	b.rect(0, -w / 2, L, w / 2, core, 'waveguide', ['width_nm', 'length_um'], {}, 'core');
 	b.mark('length_um', 'h', 0, L, [-w / 2, -w / 2], -w / 2, -14);
 	b.mark('width_nm', 'v', -w / 2, w / 2, [0, 0], 0, -8);
@@ -508,7 +582,8 @@ function ringTop(b: B): Scene {
 	b.mark('gap_nm', 'v', -R - w / 2 - g, -R - w / 2, [-0.3 * half, -0.3 * half], -0.3 * half, 0, true);
 	b.mark('width_nm', 'v', -R - w / 2, -R + w / 2, [-0.8 * half, -0.8 * half], -0.8 * half, 0, true);
 	b.mark('bus_width_nm', 'v', yb - wb / 2, yb + wb / 2, [0.3 * half, 0.3 * half], 0.3 * half, 0, true);
-	if (cls === 'wdm.mrr') b.notes.push('single bus drawn (drop port not a template dimension)');
+	// UI audit 13: also rings whose label states a second bus (add-drop / two-bus)
+	if (cls === 'wdm.mrr' || /add[-/]drop|\b(two|double|dual)[- ]bus/i.test(b.r.comp.label)) b.notes.push('single bus drawn (drop port not a template dimension)');
 	if (cls === 'resonator.coupled_rings') b.notes.push('coupled rings: one ring drawn');
 	return b.scene('top view', { stretch: false, inset: { c: [0, yc], half } });
 }

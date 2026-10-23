@@ -3,13 +3,13 @@
 	// dimension table. No id: gallery of showcase components per template. Query parameters are read client-side only.
 	import { onMount } from 'svelte';
 	import { afterNavigate } from '$app/navigation';
-	import { comp, fmtValue, loadComponents, type Metric } from '../../lib/components.svelte';
+	import { comp, fmtValue, loadComponents, type Metric, type PrimarySpec } from '../../lib/components.svelte';
 	import { link } from '../../lib/paths';
 	import { gallery } from '../../lib/layout/gallery';
 	import LayoutViews from '../../lib/layout/LayoutViews.svelte';
 	import { buildScenes } from '../../lib/layout/scene';
 	import Scene from '../../lib/layout/Scene.svelte';
-	import { primaryMetric, resolve, rowLabel, unitLabel, type Dim } from '../../lib/layout/resolve';
+	import { basisStat, compactLabel, primaryMetric, resolve, rowLabel, unitLabel, type Dim } from '../../lib/layout/resolve';
 
 	let id = $state('');
 	const readId = () => (id = new URLSearchParams(location.search).get('id') ?? '');
@@ -27,7 +27,9 @@
 	const groups = $derived(view && !id ? gallery(view) : []);
 	const dims = $derived(r ? Object.values(r.dims).sort((a, b) => Number(b.required) - Number(a.required) || (a.row ? 0 : 1) - (b.row ? 0 : 1)) : []);
 	const href = (cid: string) => link('/layout') + '?id=' + encodeURIComponent(cid);
-	const primText = (m: Metric | null, scopeMatch = true) => (m ? rowLabel(m) + (scopeMatch ? '' : ' (' + (m.scope ?? 'no scope') + ')') : 'not reported');
+	const specText = (ps: PrimarySpec) => ps.parameter + (ps.scope ? ' ' + ps.scope : '');
+	const primText = (m: Metric | null, scopeMatch = true) => (m ? compactLabel(m) + (scopeMatch ? '' : ' (' + (m.scope ?? 'no scope') + ')') : 'not reported');
+	const storedTip = (m: Metric) => (compactLabel(m) !== rowLabel(m) ? 'stored value: ' + rowLabel(m) + '\n' : '');
 	const tipRow = (m: Metric) => [m.basis, m.scope, m.statistic, m.condition, 'locator ' + m.locator, m.notes].filter(Boolean).join('\n');
 	const altTip = (d: Dim) => d.alts.map((a) => `${rowLabel(a)} [${a.basis}] ${a.condition ?? ''} (${a.locator})`).join('\n');
 </script>
@@ -57,10 +59,10 @@
 				</div>
 				{#if prim}
 					<div class="prim">
-						<span class="k" data-tip={view.parameters[prim.param]?.def ?? ''}>{prim.param}{r.template.primary.scope ? ' (' + r.template.primary.scope + ')' : ''}</span>
-						<span class="v" class:nr={!prim.row} data-tip={prim.row ? tipRow(prim.row) + (prim.scopeMatch ? '' : '\nno row with the template scope: best row of another scope shown') : 'no row with this parameter'}>{primText(prim.row, prim.scopeMatch)}</span>
-						{#if prim.row}<span class="muted">{prim.row.basis}{prim.n > 1 ? ', best of ' + prim.n + ' rows' : ''}</span>{/if}
-						{#each prim.companions as cp}<span class="k">{cp.param}</span><span class="v" data-tip={tipRow(cp.row)}>{rowLabel(cp.row)}</span>{/each}
+						<span class="k" data-tip={view.parameters[prim.param]?.def ?? ''}>{prim.param}{prim.spec.scope ? ' (' + prim.spec.scope + ')' : ''}</span>
+						<span class="v" class:nr={!prim.row} data-tip={prim.row ? storedTip(prim.row) + tipRow(prim.row) + (prim.scopeMatch ? '' : '\nno measured row with the template scope: measured row of another scope shown') : 'no row with this parameter'}>{primText(prim.row, prim.scopeMatch)}</span>
+						{#if prim.row}<span class="muted">{basisStat(prim.row)}{prim.n > 1 ? ', ' + prim.n + ' rows' : ''}</span>{/if}
+						{#each prim.companions as cp}<span class="k">{cp.param}</span><span class="v" data-tip={storedTip(cp.row) + tipRow(cp.row)}>{compactLabel(cp.row)}</span>{/each}
 					</div>
 				{/if}
 			</header>
@@ -111,29 +113,33 @@
 					<span>{g.t.label}</span>
 					<span class="mono muted">{g.id}</span>
 					<span class="muted num" data-tip="components whose class the template serves / with at least one template dimension">{g.served} components, {g.withGeometry} with geometry</span>
-					<span class="muted" data-tip="primary metric (D107)">{g.t.primary.parameter}{g.t.primary.scope ? ' ' + g.t.primary.scope : ''}</span>
+					<span class="muted" data-tip="primary metric (D107){Object.keys(g.t.primary_by_class ?? {}).length ? '; class overrides (D229a)' : ''}">{specText(g.t.primary)}{#each Object.entries(g.t.primary_by_class ?? {}) as [cls, ps]}; {cls}: {specText(ps)}{/each}</span>
 				</h2>
 				<div class="cards">
-					{#each g.cards as cd (cd.c.component_id + cd.role)}
-						{@const sc = buildScenes(cd.r)}
-						<a class="card" href={href(cd.c.component_id)} data-tip={[cd.c.label, cd.show?.criterion, cd.show?.rationale].filter(Boolean).join('\n')}>
-							<div class="ch">
-								<span class="role {cd.role}">{cd.role}</span>
-								<span class="lbl">{cd.c.label}</span>
+					{#each g.items as it (it.kind + (it.kind === 'card' ? it.card.c.component_id : it.gap.platform) + it.role)}
+						{#if it.kind === 'card'}
+							{@const cd = it.card}
+							{@const sc = buildScenes(cd.r)}
+							<a class="card" href={href(cd.c.component_id)} data-tip={[cd.c.label, cd.show?.criterion, cd.show?.rationale].filter(Boolean).join('\n')}>
+								<div class="ch">
+									<span class="role {cd.role}">{cd.role}</span>
+									<span class="lbl">{cd.c.label}</span>
+								</div>
+								<Scene scene={cd.r.templateId === 'waveguide_xsec' ? sc.xsec : sc.top} height={96} thumb />
+								<div class="cf">
+									<span class="muted">{cd.c.platform ?? ''}</span>
+									<span class="pv" class:nr={!cd.primary.row} data-tip={cd.primary.row ? cd.primary.param + '\n' + storedTip(cd.primary.row) + tipRow(cd.primary.row) : undefined}>{primText(cd.primary.row, cd.primary.scopeMatch)}{#if cd.primary.row}<span class="bs">{basisStat(cd.primary.row)}</span>{/if}</span>
+									{#if !cd.primary.row && cd.primary.companions[0]}{@const cp = cd.primary.companions[0]}<span class="cp" data-tip={cp.param + '\n' + storedTip(cp.row) + tipRow(cp.row)}><span class="bs">{cp.param.replace(/_(pct|db)$/, '')}</span> {compactLabel(cp.row)}</span>{/if}
+									<span class="muted num" data-tip="template dimensions reported / total">{cd.r.reported}/{cd.r.total}</span>
+								</div>
+							</a>
+						{:else}
+							{@const gap = it.gap}
+							<div class="card gap" data-tip="D112: no source in the atlas reports the required dimensions together with a measured primary metric for this {gap.platform ? gap.platform + ' ' : ''}role">
+								<div class="ch"><span class="role {gap.role}">{gap.role}</span><span class="lbl">no {gap.platform ? gap.platform + ' ' : ''}{gap.role}{gap.platform ? '' : ' component'}</span></div>
+								<div class="gapbody">not selected: no qualifying source</div>
 							</div>
-							<Scene scene={cd.r.templateId === 'waveguide_xsec' ? sc.xsec : sc.top} height={96} thumb />
-							<div class="cf">
-								<span class="muted">{cd.c.platform ?? ''}</span>
-								<span class="pv" class:nr={!cd.primary.row}>{primText(cd.primary.row, cd.primary.scopeMatch)}{#if cd.primary.row}<span class="bs">{cd.primary.row.basis}</span>{/if}</span>
-								<span class="muted num" data-tip="template dimensions reported / total">{cd.r.reported}/{cd.r.total}</span>
-							</div>
-						</a>
-					{/each}
-					{#each g.gaps as gap}
-						<div class="card gap" data-tip="D112: no source in the atlas reports the required dimensions together with a measured primary metric for this role">
-							<div class="ch"><span class="role {gap}">{gap}</span><span class="lbl">no {gap} component</span></div>
-							<div class="gapbody">not selected: no qualifying source</div>
-						</div>
+						{/if}
 					{/each}
 				</div>
 			</section>
@@ -147,7 +153,8 @@
 	.err { padding: 12px; color: var(--crit); }
 	.hd { margin-bottom: 8px; }
 	h1 { margin: 2px 0 4px; font-size: 15px; font-weight: 600; }
-	h2 { display: flex; align-items: baseline; gap: 10px; margin: 0 0 6px; font-size: 12px; font-weight: 600; }
+	h2 { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 10px; margin: 0 0 6px; font-size: 12px; font-weight: 600; }
+	h2 > span { white-space: nowrap; }
 	h3 { margin: 10px 0 4px; font-size: 11px; color: var(--ink-3); font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; }
 	.crumbs { font-size: 11px; color: var(--ink-3); }
 	.meta { display: flex; flex-wrap: wrap; gap: 4px 12px; font-size: 11px; color: var(--ink-2); }
@@ -180,7 +187,8 @@
 	.ch { display: flex; align-items: center; gap: 6px; min-width: 0; }
 	.ch .lbl { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 11px; }
 	.cf { display: flex; gap: 8px; align-items: baseline; font-size: 11px; }
-	.cf .pv { flex: 1; text-align: right; font-weight: 600; }
+	.cf .pv { flex: 1; text-align: right; font-weight: 600; white-space: nowrap; }
+	.cp { font-weight: 600; white-space: nowrap; }
 	.bs { margin-left: 4px; font-weight: 400; color: var(--ink-3); font-size: 10px; }
 	.card.gap { border-style: dashed; background: transparent; }
 	.gapbody { height: 96px; display: flex; align-items: center; justify-content: center; color: var(--ink-3); font-size: 11px; border: 1px dashed var(--grid); }

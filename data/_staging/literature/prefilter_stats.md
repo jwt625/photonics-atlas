@@ -1,6 +1,6 @@
 # Literature prefilter statistics (DevLog-006 S2)
 
-Generated 2026-10-21 by `scripts/lit_prefilter.py` from `cache/literature/pool/*.jsonl` (git-ignored). Counts only.
+Generated 2026-10-22 by `scripts/lit_prefilter.py` from `cache/literature/pool/*.jsonl` (git-ignored). Counts only.
 Re-run over the growing pool rewrites this file.
 
 ## Pool by lane (raw records)
@@ -9,69 +9,69 @@ Re-run over the growing pool rewrites this file.
 |---|---|---|
 | arxiv | 212 | 40594 |
 | conferences | 89 | 49295 |
-| journals | 252 | 116973 |
+| journals | 291 | 131871 |
 | seeds | 23 | 11641 |
-| total | 576 | 218503 |
+| total | 615 | 233401 |
 
 ## Merge
 
 | step | n |
 |---|---|
-| raw records | 218503 |
+| raw records | 233401 |
 | unreadable lines skipped | 0 |
 | dropped type editorial | 3 |
 | dropped type erratum | 9 |
-| dropped type letter | 28 |
+| dropped type letter | 31 |
 | dropped type paratext | 13 |
-| works after merge | 202302 |
-| duplicate records merged | 16148 |
-| works with more than one record | 14011 |
-| of which across lanes | 11349 |
-| of which preprint + published version | 8683 |
+| works after merge | 215863 |
+| duplicate records merged | 17482 |
+| works with more than one record | 15195 |
+| of which across lanes | 12574 |
+| of which preprint + published version | 9657 |
 
 ## Known-id exclusion (work already in a local corpus; a work can be in several)
 
 | corpus | index entries | works matched |
 |---|---|---|
-| eo_candidates | 461 | 366 |
-| eo_papers | 233 | 183 |
+| eo_candidates | 461 | 369 |
+| eo_papers | 233 | 184 |
 | ofc2026 | 830 | 19 |
 | pk_cache_list | 300 | 17 |
 | pk_papers | 296 | 17 |
 | sources:blog | 128 | 6 |
-| sources:eo | 233 | 183 |
+| sources:eo | 233 | 184 |
 | sources:lin | 282 | 2 |
 | sources:ofc2026 | 830 | 19 |
 | sources:pk | 296 | 17 |
 | sources:web | 57 | 0 |
-| works excluded as known | | 405 |
+| works excluded as known | | 408 |
 
 ## Prefilter status (works)
 
 | status | n |
 |---|---|
-| no_class_hit | 116900 |
-| candidate | 46958 |
-| excluded:bulk_free_space | 5480 |
-| excluded:fiber_laser_amplifier | 5250 |
-| excluded:metamaterial_theory | 4593 |
-| excluded:biomedical_imaging | 4531 |
-| excluded:thz_free_space | 4143 |
-| excluded:led_display | 3739 |
-| excluded:eo_modulator_only | 2648 |
-| excluded:fiber_sensing | 1794 |
-| excluded:non_optical | 1311 |
-| excluded:solar_cells | 1285 |
-| excluded:lidar_system | 1165 |
-| excluded:plasmonic_sensing | 1085 |
-| seed_b_no_title_hit | 411 |
-| known | 405 |
-| excluded:astronomy | 353 |
+| no_class_hit | 124885 |
+| candidate | 49708 |
+| excluded:bulk_free_space | 5610 |
+| excluded:fiber_laser_amplifier | 5425 |
+| excluded:metamaterial_theory | 5026 |
+| excluded:biomedical_imaging | 4677 |
+| excluded:thz_free_space | 4575 |
+| excluded:led_display | 4146 |
+| excluded:eo_modulator_only | 2726 |
+| excluded:non_optical | 1911 |
+| excluded:fiber_sensing | 1826 |
+| excluded:solar_cells | 1438 |
+| excluded:plasmonic_sensing | 1303 |
+| excluded:lidar_system | 1172 |
+| known | 408 |
+| seed_b_no_title_hit | 380 |
+| excluded:astronomy | 358 |
+| non_paper | 115 |
 | seed_b_pre2005_no_cue | 104 |
-| non_paper | 77 |
 | review_seed | 70 |
 
-Candidates (class hit, not known / excluded): 46958.
+Candidates (class hit, not known / excluded): 49708.
 
 ## Per class (best class; cap = max(cap_min, cap_mult x budget))
 
@@ -79,158 +79,158 @@ cap_min 250, cap_mult 8, min_rule_score 3 (abstract-only hits 5), seed tiers: A 
 
 | group | class | budget | any-hit | best-class candidates | title-hit | below min score | cap | kept | kept A | kept B only | kept lanes | kept lanes+B |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
-| G1 | fiber_chip_coupler | 60 | 1893 | 1174 | 914 | 134 | 480 | 480 | 18 | 114 | 348 | 98 |
-| G1 | fiber_interface | 30 | 866 | 547 | 332 | 152 | 250 | 250 | 6 | 12 | 232 | 6 |
-| G1 | free_space_emitter | 40 | 1700 | 1355 | 1080 | 214 | 320 | 320 | 12 | 20 | 288 | 32 |
-| G1 | micro_optics | 35 | 797 | 593 | 420 | 120 | 280 | 280 | 4 | 13 | 263 | 21 |
-| G2 | crossing | 30 | 265 | 131 | 99 | 18 | 250 | 113 | 0 | 20 | 93 | 39 |
-| G2 | mode_converter | 35 | 1867 | 1169 | 1008 | 158 | 280 | 280 | 3 | 24 | 253 | 26 |
-| G2 | polarization | 45 | 1845 | 1470 | 1248 | 165 | 360 | 360 | 0 | 75 | 285 | 80 |
-| G2 | splitter | 50 | 2233 | 1170 | 843 | 197 | 400 | 400 | 4 | 38 | 358 | 35 |
-| G3 | reflector | 30 | 1875 | 1094 | 927 | 134 | 250 | 250 | 3 | 37 | 210 | 27 |
-| G3 | resonator | 60 | 9983 | 6688 | 5060 | 1208 | 480 | 480 | 28 | 33 | 419 | 27 |
-| G3 | wdm | 80 | 2951 | 1663 | 1447 | 152 | 640 | 640 | 3 | 58 | 579 | 63 |
-| G4 | nonreciprocal | 30 | 938 | 712 | 553 | 137 | 250 | 250 | 7 | 45 | 198 | 32 |
-| G4 | phase_shifter | 60 | 3355 | 2253 | 1934 | 221 | 480 | 480 | 8 | 59 | 413 | 44 |
-| G4 | switch_fabric | 45 | 2351 | 1497 | 1245 | 225 | 360 | 360 | 7 | 66 | 287 | 30 |
-| G5 | photodetector | 70 | 6046 | 5137 | 3365 | 1074 | 560 | 560 | 19 | 41 | 500 | 29 |
-| G6 | amplifier | 45 | 2107 | 1363 | 1043 | 201 | 360 | 360 | 6 | 72 | 282 | 39 |
-| G6 | frequency_converter | 30 | 3568 | 2426 | 1964 | 348 | 250 | 250 | 14 | 31 | 205 | 15 |
-| G6 | laser | 90 | 15192 | 12962 | 11780 | 1055 | 720 | 720 | 46 | 44 | 630 | 70 |
-| G7 | chip_chip_coupler | 40 | 397 | 164 | 135 | 20 | 320 | 144 | 2 | 17 | 125 | 14 |
-| G7 | waveguide_platform | 60 | 5494 | 3390 | 2897 | 319 | 480 | 480 | 22 | 93 | 365 | 80 |
-| | total | 965 | | 46958 | 38294 | | | 7457 | 212 | 912 | 6333 | 807 |
+| G1 | fiber_chip_coupler | 60 | 1952 | 1214 | 942 | 138 | 480 | 480 | 18 | 103 | 359 | 97 |
+| G1 | fiber_interface | 30 | 885 | 562 | 336 | 155 | 250 | 250 | 6 | 10 | 234 | 8 |
+| G1 | free_space_emitter | 40 | 1789 | 1429 | 1130 | 229 | 320 | 320 | 12 | 18 | 290 | 33 |
+| G1 | micro_optics | 35 | 843 | 630 | 445 | 125 | 280 | 280 | 4 | 13 | 263 | 21 |
+| G2 | crossing | 30 | 271 | 134 | 100 | 19 | 250 | 115 | 0 | 20 | 95 | 39 |
+| G2 | mode_converter | 35 | 1917 | 1198 | 1028 | 166 | 280 | 280 | 3 | 24 | 253 | 26 |
+| G2 | polarization | 45 | 1986 | 1601 | 1350 | 190 | 360 | 360 | 0 | 70 | 290 | 81 |
+| G2 | splitter | 50 | 2316 | 1230 | 875 | 211 | 400 | 400 | 4 | 35 | 361 | 38 |
+| G3 | reflector | 30 | 1986 | 1156 | 970 | 150 | 250 | 250 | 3 | 34 | 213 | 30 |
+| G3 | resonator | 60 | 10632 | 7208 | 5406 | 1321 | 480 | 480 | 28 | 30 | 422 | 28 |
+| G3 | wdm | 80 | 3003 | 1693 | 1469 | 154 | 640 | 640 | 3 | 56 | 581 | 64 |
+| G4 | nonreciprocal | 30 | 1027 | 790 | 606 | 158 | 250 | 250 | 7 | 40 | 203 | 37 |
+| G4 | phase_shifter | 60 | 3576 | 2427 | 2089 | 236 | 480 | 480 | 8 | 58 | 414 | 44 |
+| G4 | switch_fabric | 45 | 2450 | 1562 | 1282 | 246 | 360 | 360 | 7 | 64 | 289 | 32 |
+| G5 | photodetector | 70 | 6481 | 5497 | 3563 | 1163 | 560 | 560 | 19 | 38 | 503 | 26 |
+| G6 | amplifier | 45 | 2200 | 1420 | 1084 | 213 | 360 | 360 | 6 | 70 | 284 | 40 |
+| G6 | frequency_converter | 30 | 3728 | 2544 | 2040 | 375 | 250 | 250 | 14 | 30 | 206 | 13 |
+| G6 | laser | 90 | 16045 | 13680 | 12418 | 1119 | 720 | 720 | 46 | 35 | 639 | 65 |
+| G7 | chip_chip_coupler | 40 | 407 | 166 | 136 | 20 | 320 | 146 | 2 | 16 | 128 | 15 |
+| G7 | waveguide_platform | 60 | 5749 | 3567 | 3031 | 346 | 480 | 480 | 22 | 89 | 369 | 83 |
+| | total | 965 | | 49708 | 40300 | | | 7461 | 212 | 853 | 6396 | 820 |
 
 ## Kept per subtype (kept works whose best class has this subtype hit)
 
 | class.subtype | kept | candidates |
 |---|---|---|
-| fiber_chip_coupler | 23 | 147 |
-| fiber_chip_coupler.edge | 143 | 295 |
-| fiber_chip_coupler.grating | 315 | 697 |
-| fiber_chip_coupler.photonic_wire_bond | 14 | 65 |
-| fiber_interface.connector | 25 | 43 |
-| fiber_interface.fan_out | 158 | 379 |
-| fiber_interface.fau | 41 | 83 |
-| fiber_interface.other | 13 | 24 |
-| fiber_interface.v_groove | 36 | 51 |
+| fiber_chip_coupler | 22 | 150 |
+| fiber_chip_coupler.edge | 141 | 303 |
+| fiber_chip_coupler.grating | 317 | 724 |
+| fiber_chip_coupler.photonic_wire_bond | 15 | 67 |
+| fiber_interface.connector | 24 | 43 |
+| fiber_interface.fan_out | 157 | 384 |
+| fiber_interface.fau | 42 | 85 |
+| fiber_interface.other | 13 | 25 |
+| fiber_interface.v_groove | 37 | 58 |
 | free_space_emitter | 1 | 1 |
-| free_space_emitter.grating_emitter | 36 | 177 |
-| free_space_emitter.metasurface | 75 | 462 |
-| free_space_emitter.other | 234 | 768 |
-| micro_optics.facet_lens | 53 | 87 |
-| micro_optics.integrated_lens | 49 | 98 |
-| micro_optics.metalens | 149 | 294 |
-| micro_optics.other | 34 | 110 |
-| micro_optics.vertical_taper | 25 | 49 |
+| free_space_emitter.grating_emitter | 35 | 182 |
+| free_space_emitter.metasurface | 80 | 494 |
+| free_space_emitter.other | 229 | 809 |
+| micro_optics.facet_lens | 53 | 92 |
+| micro_optics.integrated_lens | 48 | 101 |
+| micro_optics.metalens | 149 | 316 |
+| micro_optics.other | 34 | 116 |
+| micro_optics.vertical_taper | 25 | 51 |
 | crossing.mmi | 43 | 46 |
-| crossing.multilevel | 1 | 1 |
-| crossing.other | 109 | 127 |
+| crossing.multilevel | 1 | 2 |
+| crossing.other | 111 | 129 |
 | crossing.swg | 22 | 22 |
-| mode_converter.converter | 154 | 472 |
-| mode_converter.mdm_mux | 168 | 659 |
-| mode_converter.other | 31 | 211 |
-| polarization.compensator | 18 | 248 |
-| polarization.other | 105 | 455 |
-| polarization.pbs | 201 | 502 |
-| polarization.psr | 132 | 483 |
-| splitter.adiabatic | 33 | 55 |
-| splitter.directional_coupler | 137 | 389 |
-| splitter.hybrid_90 | 23 | 56 |
-| splitter.mmi | 139 | 401 |
-| splitter.other | 154 | 372 |
-| splitter.y_branch | 42 | 137 |
-| reflector.band_stop | 41 | 147 |
-| reflector.bragg | 160 | 673 |
-| reflector.loop_mirror | 23 | 115 |
-| reflector.other | 64 | 243 |
-| reflector.phc_mirror | 22 | 100 |
-| resonator.bragg | 5 | 72 |
-| resonator.coupled_rings | 28 | 493 |
-| resonator.disk | 108 | 1472 |
-| resonator.other | 350 | 4095 |
-| resonator.photonic_crystal | 51 | 1078 |
-| resonator.ring | 250 | 2472 |
-| wdm.awg | 148 | 285 |
-| wdm.bragg_cdc | 66 | 127 |
-| wdm.cascaded_mzi | 40 | 90 |
+| mode_converter.converter | 157 | 489 |
+| mode_converter.mdm_mux | 166 | 664 |
+| mode_converter.other | 30 | 219 |
+| polarization.compensator | 18 | 258 |
+| polarization.other | 104 | 488 |
+| polarization.pbs | 202 | 535 |
+| polarization.psr | 130 | 548 |
+| splitter.adiabatic | 35 | 57 |
+| splitter.directional_coupler | 133 | 413 |
+| splitter.hybrid_90 | 20 | 57 |
+| splitter.mmi | 140 | 412 |
+| splitter.other | 157 | 385 |
+| splitter.y_branch | 43 | 152 |
+| reflector.band_stop | 42 | 158 |
+| reflector.bragg | 160 | 710 |
+| reflector.loop_mirror | 23 | 117 |
+| reflector.other | 64 | 261 |
+| reflector.phc_mirror | 22 | 110 |
+| resonator.bragg | 5 | 75 |
+| resonator.coupled_rings | 28 | 517 |
+| resonator.disk | 107 | 1594 |
+| resonator.other | 351 | 4418 |
+| resonator.photonic_crystal | 51 | 1156 |
+| resonator.ring | 254 | 2617 |
+| wdm.awg | 146 | 286 |
+| wdm.bragg_cdc | 66 | 128 |
+| wdm.cascaded_mzi | 39 | 90 |
 | wdm.eg | 24 | 60 |
 | wdm.interleaver | 24 | 57 |
-| wdm.mrr | 65 | 136 |
-| wdm.other | 468 | 1204 |
+| wdm.mrr | 63 | 136 |
+| wdm.other | 469 | 1233 |
 | wdm.tff | 1 | 18 |
-| nonreciprocal | 67 | 348 |
-| nonreciprocal.circulator | 41 | 78 |
-| nonreciprocal.isolator | 152 | 304 |
-| phase_shifter.ferroelectric_nonvolatile | 75 | 446 |
-| phase_shifter.mems | 115 | 420 |
-| phase_shifter.other | 112 | 388 |
-| phase_shifter.phase_change | 117 | 719 |
-| phase_shifter.thermo_optic | 206 | 696 |
-| switch_fabric.mems | 45 | 185 |
-| switch_fabric.mzi_mesh | 124 | 424 |
-| switch_fabric.other | 313 | 1062 |
-| switch_fabric.wss | 58 | 297 |
-| photodetector.apd | 127 | 740 |
-| photodetector.ge_waveguide | 187 | 547 |
-| photodetector.graphene | 29 | 315 |
-| photodetector.iii_v_on_platform | 115 | 444 |
-| photodetector.other | 520 | 4440 |
-| photodetector.snspd | 40 | 471 |
-| photodetector.spad | 51 | 454 |
-| photodetector.vertical | 30 | 157 |
-| amplifier.other | 274 | 975 |
-| amplifier.parametric | 66 | 248 |
-| amplifier.rare_earth | 132 | 337 |
-| amplifier.soa | 131 | 565 |
-| frequency_converter.other | 127 | 1249 |
-| frequency_converter.sfg_dfg | 115 | 778 |
-| frequency_converter.shg | 155 | 1159 |
+| nonreciprocal | 71 | 397 |
+| nonreciprocal.circulator | 40 | 88 |
+| nonreciprocal.isolator | 149 | 323 |
+| phase_shifter.ferroelectric_nonvolatile | 73 | 467 |
+| phase_shifter.mems | 116 | 484 |
+| phase_shifter.other | 111 | 402 |
+| phase_shifter.phase_change | 124 | 772 |
+| phase_shifter.thermo_optic | 201 | 734 |
+| switch_fabric.mems | 44 | 189 |
+| switch_fabric.mzi_mesh | 121 | 428 |
+| switch_fabric.other | 315 | 1121 |
+| switch_fabric.wss | 58 | 299 |
+| photodetector.apd | 126 | 780 |
+| photodetector.ge_waveguide | 182 | 579 |
+| photodetector.graphene | 30 | 339 |
+| photodetector.iii_v_on_platform | 112 | 463 |
+| photodetector.other | 522 | 4771 |
+| photodetector.snspd | 38 | 482 |
+| photodetector.spad | 49 | 462 |
+| photodetector.vertical | 30 | 181 |
+| amplifier.other | 272 | 1016 |
+| amplifier.parametric | 66 | 261 |
+| amplifier.rare_earth | 136 | 350 |
+| amplifier.soa | 129 | 578 |
+| frequency_converter.other | 126 | 1301 |
+| frequency_converter.sfg_dfg | 116 | 814 |
+| frequency_converter.shg | 156 | 1216 |
 | laser | 1 | 1 |
-| laser.comb | 202 | 4231 |
-| laser.dbr | 21 | 155 |
-| laser.dfb | 174 | 1520 |
-| laser.ecl | 43 | 300 |
-| laser.els_module | 9 | 86 |
-| laser.heterogeneous | 120 | 631 |
-| laser.other | 529 | 7615 |
-| laser.pcsel | 5 | 161 |
-| laser.sil | 39 | 291 |
+| laser.comb | 201 | 4372 |
+| laser.dbr | 23 | 159 |
+| laser.dfb | 177 | 1586 |
+| laser.ecl | 42 | 306 |
+| laser.els_module | 9 | 88 |
+| laser.heterogeneous | 110 | 653 |
+| laser.other | 540 | 8160 |
+| laser.pcsel | 6 | 172 |
+| laser.sil | 40 | 293 |
 | laser.soa_dfb | 12 | 35 |
-| laser.tunable | 109 | 911 |
-| laser.vcsel | 67 | 1296 |
+| laser.tunable | 110 | 950 |
+| laser.vcsel | 65 | 1365 |
 | chip_chip_coupler | 36 | 41 |
-| chip_chip_coupler.butt | 45 | 45 |
+| chip_chip_coupler.butt | 46 | 46 |
 | chip_chip_coupler.evanescent | 9 | 11 |
-| chip_chip_coupler.other | 56 | 69 |
+| chip_chip_coupler.other | 57 | 70 |
 | waveguide_platform | 1 | 1 |
-| waveguide_platform.bend | 52 | 211 |
-| waveguide_platform.other | 332 | 1967 |
-| waveguide_platform.slow_light | 53 | 522 |
-| waveguide_platform.straight | 337 | 1360 |
-| waveguide_platform.transition | 19 | 112 |
+| waveguide_platform.bend | 51 | 218 |
+| waveguide_platform.other | 335 | 2069 |
+| waveguide_platform.slow_light | 50 | 558 |
+| waveguide_platform.straight | 340 | 1417 |
+| waveguide_platform.transition | 19 | 124 |
 
 ## Kept per group (scoring batches)
 
 | group | kept |
 |---|---|
 | G1 | 1330 |
-| G2 | 1153 |
+| G2 | 1155 |
 | G3 | 1370 |
 | G4 | 1090 |
 | G5 | 560 |
 | G6 | 1330 |
-| G7 | 624 |
+| G7 | 626 |
 
 ## Per-lane contribution and abstract coverage (a work counts for every lane that found it)
 
 | lane | works merged | abstract % (merged) | candidates | kept | abstract % (kept) | only this lane (kept) |
 |---|---|---|---|---|---|---|
-| arxiv | 40574 | 100.0 | 7830 | 906 | 100.0 | 414 |
-| conferences | 47553 | 98.6 | 12745 | 1101 | 99.9 | 998 |
-| journals | 116882 | 94.0 | 26577 | 4953 | 100.0 | 3816 |
-| seeds | 9255 | 87.9 | 4643 | 1931 | 99.8 | 953 |
-| all | 202302 | 95.7 | 46958 | 7457 | 99.9 | |
+| arxiv | 40573 | 100.0 | 7841 | 877 | 100.0 | 376 |
+| conferences | 47553 | 98.6 | 12746 | 1026 | 99.9 | 930 |
+| journals | 131775 | 94.6 | 29768 | 5148 | 100.0 | 3956 |
+| seeds | 9255 | 87.9 | 4674 | 1885 | 99.8 | 891 |
+| all | 215863 | 96.0 | 49708 | 7461 | 99.9 | |
 
 Abstract = at least 100 characters after tag stripping.
 
@@ -238,14 +238,14 @@ Abstract = at least 100 characters after tag stripping.
 
 | score | kept | candidates |
 |---|---|---|
-| 10 | 5628 | 7805 |
-| 9 | 1374 | 7009 |
-| 8 | 219 | 7246 |
-| 7 | 149 | 6624 |
-| 6 | 54 | 5421 |
-| 5 | 17 | 4004 |
-| 4 | 7 | 3919 |
-| 3 | 6 | 2462 |
-| 2 | 1 | 1220 |
-| 1 | 1 | 656 |
-| 0 | 1 | 592 |
+| 10 | 5695 | 8148 |
+| 9 | 1332 | 7410 |
+| 8 | 213 | 7690 |
+| 7 | 131 | 7058 |
+| 6 | 57 | 5755 |
+| 5 | 17 | 4233 |
+| 4 | 7 | 4185 |
+| 3 | 6 | 2637 |
+| 2 | 1 | 1269 |
+| 1 | 1 | 701 |
+| 0 | 1 | 622 |

@@ -1,0 +1,59 @@
+# Ext audit corrections (coordinator, 2026-10-22, DevLog-007 D256-D259; audit record DevLog/audits/2026-10-22-registry-ext-gapfill-sweep-audit.md) plus convention sweep 3 ops (D256: unit / prefix conversions of non-dimension values) for this batch.
+# Replay order: patch, sweep, gapfill, addendum, geometry, geoaudit, coord, sweep2, coord2, extaudit, sweep3 (files absent in a batch are skipped).
+components:
+  cmp_lit_zhang2023_utp_inp_soa_switch:
+    notes: 'Coupon 45 um wide, printed in an 80 x 1050 um recess; FIB cross-section shows 230 nm lateral misalignment (p.7).
+      Differential resistance 10 ohm at 100 mA (Fig. 5(a)) entered as series_resistance_ohm m5 (D258). Gain is on-chip (setup,
+      grating couplers and MZI switch loss calibrated out; switch IL 1.4 dB is cited from [30], not entered). Platform other:
+      light is amplified in the printed InP coupon on the c-Si / poly-Si waveguide (hybrid, D71), stack in core_material.
+      fab_org_ids: imec (SiPh host, p.5 iSiPP50G, p.10 SiPh circuit fabrication at imec); DVS-BCB spray-coating done at EV
+      Group (p.5, p.10) is a bonding-film step, note only (rule 12). Who fabricated the InP SOA coupons is not stated (design
+      in ref. [31]); printing with an X-Celeprint uTP-100 tool.'
+    why: 'D258: series_resistance_ohm allowed for amplifier; the 10 ohm value is now entered (m5)'
+metrics:
+  cmp_lit_ronn2019_er_al2o3_si3n4_slot_amp_250um-m3:
+    notes: 'Printed 20.1 +/- 7.31 dB/cm (Table 1). Authors'' arithmetic on measured signal enhancement and the measured unpumped
+      loss (Eq. 1; same basis as gain_db m3 of the 1200 um component): derived. p.6 text: ''up to'' this value with 4.5 mW
+      injected pump. Net material gain per length (lower bound, alpha0 ~ 0 assumed) not entered.'
+    why: Notes referred to 'the gain_db row m3', which does not exist on this component (m3 is this row; gain_db m3 is on
+      the 1200 um component)
+  cmp_lit_ronn2019_er_al2o3_si3n4_slot_amp_700um-m3:
+    notes: 'Printed 16.9 +/- 4.70 dB/cm (Table 1). Authors'' arithmetic on measured signal enhancement and the measured unpumped
+      loss (Eq. 1; same basis as gain_db m3 of the 1200 um component): derived. Net material gain per length (lower bound,
+      alpha0 ~ 0 assumed) not entered.'
+    why: Notes referred to 'the gain_db row m3', which does not exist on this component (m3 is this row; gain_db m3 is on
+      the 1200 um component)
+  cmp_lit_song2025a_mo_si_four_port_router-m9:
+    locator: p.9 Fig. 4(d)-(e)
+    notes: Printed theoretical crosstalk of -21 dB (positive magnitude entered). The p.9 text cites Fig. 4(e) for the theoretical
+      spectra; the Fig. 4 caption (p.8) labels (d) the four-port spectra and (e) the phase gradients.
+    why: Text and caption label the four-port spectra panel differently; match the sibling isolation row m3 locator
+  cmp_lit_mckenna2022_ppln_racetrack_opo-m1:
+    basis: derived
+    notes: 'Printed about 73 uW; uW -> mW: prefix conversion, basis derived (D256 / D82d). Extracted by fitting the output-vs-input
+      curve with eq. (4) (standard fit of own data). The 25.65 C printed on p.4 is the near-degenerate (mu ~ 0) operating
+      point, not the threshold measurement.'
+    why: 'D82d / D256 (ext audit Q1): a prefix conversion makes the value derived (sibling SHG row m15, 690 uW -> 0.69 mW,
+      already derived)'
+  cmp_lit_mckenna2022_ppln_racetrack_shg-m5:
+    condition: FSR of the fundamental-harmonic (FH) modes (zeta_1 of the FH mode frequencies)
+    why: 'D258: fsr_ghz definition asks which mode family in condition; p.2 gives zeta_1 of the FH modes as the FSR'
+delete_components:
+- id: cmp_lit_zhang2023_wtl1_vernier_ring_laser
+  why: 'D259 (ext audit Q5): WTL1 and its integrated transmitter are the authors'' OFC 2022 paper (ref. [32], cited in the
+    p.10 design paragraph); Fig. 10 (all WTL1 laser results, p.11-12) is reproduced from it with permission. Values restated
+    from the authors'' own earlier paper are cited values (skill rule 3 / D80i): component and its 8 metric rows (m1-m8) removed'
+add_metrics:
+- metric_id: cmp_lit_zhang2023_utp_inp_soa_switch-m5
+  component_id: cmp_lit_zhang2023_utp_inp_soa_switch
+  parameter: series_resistance_ohm
+  value: '10'
+  unit: ohm
+  condition: differential resistance from the I-V curve at 100 mA SOA bias; temperature-controlled stage at 20 C (Sec. 4 setup)
+  method: direct
+  basis: measured
+  locator: p.7 Sec. 4, Fig. 5(a)
+  notes: Printed 'a differential resistance of 10 ohm at 100 mA' (I-V slope, Fig. 5(a); D254 convention). The Fig. 5 caption
+    marks the figure as reproduced from the authors' ECTC 2022 paper (ref. [29]); the value is stated in this paper's Sec.
+    4 text.
+  why: 'D258 (ext audit Q4 / R3): series_resistance_ohm allowed for amplifier; confirmed skipped value'

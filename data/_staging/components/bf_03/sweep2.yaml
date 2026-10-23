@@ -1,0 +1,12 @@
+# Convention sweep 2 (coordinator, 2026-10-22, DevLog-007 D157 / D162 / D253-D255): D157 unit-rescale basis fixes found
+# mechanically (value absent in the stored unit, present in another unit in the source text) and verified at the locator;
+# D162 fill_factor = tooth fraction. Replay order: patch, sweep, gapfill, addendum, geometry, geoaudit, coord, sweep2.
+metrics:
+  cmp_shamsansari2021_dfb_tfln_butt-m2:
+    basis: derived
+    notes: 'horn coupler width at the coupling region. D157: printed as 8.2 um (design_target value), stored in nm: unit rescale, basis derived.'
+    why: 'D157 sweep: printed 8.2 um, stored 8200 nm (pure unit rescale of a printed dimension is derived; verified at p.2)'
+  cmp_rahman2025_sin1_ring-m4:
+    basis: derived
+    notes: 'ring waveguide width. D157: printed as 1.7 um (design_target value), stored in nm: unit rescale, basis derived.'
+    why: 'D157 sweep: printed 1.7 um, stored 1700 nm (pure unit rescale of a printed dimension is derived; verified at p.4 Sec. IV-A)'

@@ -1,0 +1,254 @@
+# Audit patch lit_04 (fresh-context audit 2026-10-22, DevLog/audits/2026-10-22-lit_04-audit.md).
+# 36 metric corrections, 1 metric deletion (D111), 10 missed metric rows, 2 component note fixes.
+# Not patchable with scripts/patch_component_staging.py (no component-delete op): the proposed deletion of
+# cmp_lit_djogo2026_mcf_fanout_probe (skill rule 13, measurement equipment) is listed under the key
+# proposed_delete_components, which the script ignores; coordinator decision (audit record, open question 1).
+proposed_delete_components:
+- id: cmp_lit_djogo2026_mcf_fanout_probe
+  with_metrics: [cmp_lit_djogo2026_mcf_fanout_probe-m1]
+  why: 'skill rule 13 / D45: the commercial MCF fanout is the measurement probe (p.4-5 Sec. III "applied to probe the 7-channel groups"; also used for active alignment during packaging), not a device under test; its 1.0 dB loss is a calibration term, already recorded in the excludes of cmp_lit_djogo2026_interposer_c1_packaged-m1'
+components:
+  cmp_lit_jia2017_suspended_ssc:
+    notes: 'Abstract (p.1): "We fabricated the device together with other photonic circuits"; all authors IME A*STAR (p.1) -> fab org_astar_ime (D72 / D80b explicit statement); Sec. III (p.2): fabricated in the IME MPW platform with circuits from other parties. Platform = facet layer (suspended oxide waveguide, D82f). Losses calibrated with the Si waveguide loss of a 3.5 mm connecting waveguide (p.2). Cross-wafer uniformity within 0.4 dB (p.5, Table II), Table I ranges 0.35 dB (TE) and 0.15 dB (TM). UV-cured simple package: variation 0.5 dB after curing and over 1 h / 1 day (p.5, Fig. 8), no per-coupler value entered. Modelled scattering loss < 0.1 dB/facet (Tien''s model, p.4) not entered.'
+    why: 'fab basis: the cited Sec. III wording ("our MPW platform", passive) alone would not qualify (D84a); the abstract states "We fabricated" (D80b), so the fab id stands with the right evidence'
+  cmp_lit_djogo2026_interposer_c1_packaged:
+    notes: '6 seven-core MCFs (37 um core pitch; waveguide hexagon widened to 38.5 um) in self-aligning sockets, routed by 3D waveguides and 40 TIR micro-mirrors onto a 4 x 10 SiP grating-coupler grid; epoxy-bonded to the SiP chip (p.4-6). Fabricated by femtosecond laser writing + HF etching (FLICE) in a 1 mm fused-silica wafer (p.3 Sec. III, passive wording; all authors University of Toronto, no explicit fabrication statement -> fab_org_ids empty, D80b). Socket density 133 channels/mm2 (p.4). Re-measured two weeks after packaging: degradation < 0.1 dB (p.7). Channel 8 spectrum -2.9 to -4.0 dB over a 420 nm source bandwidth (p.6, Fig. 6(b)) entered as wdl_db (m7); two-pass interposer losses 3.0 dB (ch 8) and 3.2 dB (ch 10) at 1504 nm (p.6) are loss-budget terms of the loop, not entered. MCF: Chiral Photonics MCF-007_2.'
+    why: 'stale note after the added wdl_db row (m7)'
+metrics:
+  cmp_lit_sulway2023_ntfc-m3:
+    basis: derived
+    notes: 'Fig. 3(d) measures only 2.00-2.20 um; second-order polynomial fit normalised to peak; the figure annotates a one-sided -1 dB width of 147.5 nm from 2.00 um and the caption calls the 295 nm (= 2 x 147.5 nm) 1-dB bandwidth "inferred" (symmetric-fit assumption)'
+    why: 'D80a: model extraction with an assumption (symmetric polynomial extrapolated beyond the measured span), not a direct reading of own data -> derived (p.5 Fig. 3(d) render)'
+  cmp_lit_sulway2023_ntfc-m4:
+    basis: derived
+    notes: 'Fitted 3-dB bandwidth; lies far beyond the measured 2.00-2.20 um span (lowest measured point about -1.6 dB at 2.20 um, Fig. 3(d)); extrapolation of the second-order polynomial fit'
+    why: 'D80a: fit extrapolation with an assumed functional form -> derived (p.5 Fig. 3(d) render)'
+  cmp_lit_jia2017_suspended_ssc-m16:
+    basis: design_target
+    why: 'skill rule 4 / D82a / D106: stated layer dimensions are design_target unless SEM / AFM-measured; merged precedent box_thickness_um 38 rows design_target, 0 specification'
+  cmp_lit_djogo2026_interposer_c1_packaged-m1:
+    basis: author_estimate
+    notes: 'Printed -2.75 dB average, sigma 0.96 dB; measured loss minus the MCF fanout average 1.0 dB (sigma 0.1 dB), whose origin (measured or datasheet) the paper does not state (p.5)'
+    why: 'D44: rests on a subtracted term of unstated origin; consistent with cmp_lit_djogo2026_mcf_fanout_probe-m1 = author_estimate (origin not stated)'
+  cmp_lit_djogo2026_interposer_design_a3-m3:
+    basis: author_estimate
+    notes: 'Printed -1.54 dB (Table II, Loss Estimate Fanout Avg.); calculated from Table I loss parameters, with bending-loss components taken from prior work [6,25] (p.3 Sec. II)'
+    why: 'skill rule 4 / D44: estimate resting on cited inputs (bend loss components "assessed from prior work [6,25]", p.3) -> author_estimate, not simulated'
+  cmp_lit_djogo2026_interposer_design_a3-m4:
+    basis: author_estimate
+    notes: 'Printed -2.34 dB (Table II, Loss Estimate Full Circuit Avg.); calculated from Table I parameters including the TIR mirror loss 0.4-0.8 dB cited from [24] (p.4) and bend losses from prior work [6,25]'
+    why: 'skill rule 4 / D44: rests on cited inputs (TIR mirror loss [24], bend loss [6,25]) -> author_estimate'
+  cmp_lit_djogo2026_interposer_design_b2-m3:
+    basis: author_estimate
+    notes: 'Printed -1.12 dB (Table II, Loss Estimate Fanout Avg.); calculated from Table I loss parameters, with bending-loss components taken from prior work [6,25] (p.3 Sec. II)'
+    why: 'skill rule 4 / D44: estimate resting on cited inputs -> author_estimate'
+  cmp_lit_djogo2026_interposer_design_b2-m4:
+    basis: author_estimate
+    notes: 'Printed -2.03 dB (Table II, Loss Estimate Full Circuit Avg.); calculated from Table I parameters including the TIR mirror loss 0.4-0.8 dB cited from [24] (p.4) and bend losses from prior work [6,25]'
+    why: 'skill rule 4 / D44: rests on cited inputs -> author_estimate'
+  cmp_lit_djogo2026_interposer_design_c1-m3:
+    basis: author_estimate
+    notes: 'Printed -1.20 dB (Table II, Loss Estimate Fanout Avg.); calculated from Table I loss parameters, with bending-loss components taken from prior work [6,25] (p.3 Sec. II)'
+    why: 'skill rule 4 / D44: estimate resting on cited inputs -> author_estimate'
+  cmp_lit_djogo2026_interposer_design_c1-m4:
+    basis: author_estimate
+    notes: 'Printed -2.06 dB (Table II, Loss Estimate Full Circuit Avg.); calculated from Table I parameters including the TIR mirror loss 0.4-0.8 dB cited from [24] (p.4) and bend losses from prior work [6,25]'
+    why: 'skill rule 4 / D44: rests on cited inputs -> author_estimate'
+  cmp_lit_djogo2026_sip_gc_loop-m2:
+    statistic: best
+    wavelength_nm: ''
+    band: c_band
+    why: 'consistency with m1: half of the minimum (best) 4.9 dB loop loss; the paper gives "near the 1550 nm telecommunication band" (p.3), entered as band like m1'
+  cmp_lit_yue2026_opa_16ch_cladding_free-m3:
+    basis: design_target
+    notes: 'LT membrane of the TFLT-on-insulator stack; the authors prepared the stack themselves by ion cutting and wafer bonding (p.15 Methods)'
+    why: 'not a purchased part: "We prepared the wafer from an optical-grade LT bulk wafer" (p.15); stated layer dimension -> design_target (skill rule 4, D106)'
+  cmp_lit_yue2026_opa_16ch_cladding_free-m4:
+    basis: design_target
+    notes: 'Buried SiO2 of the author-prepared TFLT-on-insulator stack (p.15 Methods)'
+    why: 'as m3: author-prepared stack, stated dimension -> design_target'
+  cmp_lit_mehta2016_focusing_grating_emitter_674-m3:
+    basis: derived
+    notes: 'Ion-based beam profile: Gaussian fit of Rabi rate vs ion position gives a 1/e2 half-width of 2.8 um; the authors convert it to the intensity waist w0 = 2.0 um (Rabi rate proportional to sqrt(I), 2.8 / sqrt(2))'
+    why: 'D80a: explicit conversion of the fitted Rabi-rate width into an intensity waist (by the authors) -> derived'
+  cmp_lit_mehta2016_input_grating_coupler_674-m2:
+    basis: author_estimate
+    why: 'D82a: a design-stated performance value ("designed to couple to a 30 um-diameter beam", p.2) without a stated simulation is author_estimate; design_target is for dimensions only'
+  cmp_lit_kim2019_l_shaped_to_phase_shifter-m1:
+    wavelength_inferred: 'true'
+    notes: '20 mW/pi from COMSOL thermal simulation; no wavelength stated with the value, 1550 nm from the thermo-optic coefficient quoted in the same paragraph (p.6)'
+    why: 'D46 / skill rule 8: wavelength not stated with the value'
+  cmp_lit_sulway2023_ntfc-m9:
+    basis: design_target
+    why: 'skill rule 4 / D82a / D106: stated layer dimensions are design_target unless SEM / AFM-measured; specification is for datasheet values of a purchased part (fiber MFD); merged precedent: core_thickness_nm 75 and box_thickness_um 38 rows design_target, 0 specification (2026-10-22)'
+  cmp_lit_sulway2023_ntfc-m10:
+    basis: design_target
+    why: 'skill rule 4 / D82a / D106: stated layer dimensions are design_target unless SEM / AFM-measured; specification is for datasheet values of a purchased part (fiber MFD); merged precedent: core_thickness_nm 75 and box_thickness_um 38 rows design_target, 0 specification (2026-10-22)'
+  cmp_lit_zhang2021_buried_3d_ssc_50um-m5:
+    basis: design_target
+    why: 'skill rule 4 / D82a / D106: stated layer dimensions are design_target unless SEM / AFM-measured; specification is for datasheet values of a purchased part (fiber MFD); merged precedent: core_thickness_nm 75 and box_thickness_um 38 rows design_target, 0 specification (2026-10-22)'
+  cmp_lit_zhang2021_buried_3d_ssc_50um-m6:
+    basis: design_target
+    why: 'skill rule 4 / D82a / D106: stated layer dimensions are design_target unless SEM / AFM-measured; specification is for datasheet values of a purchased part (fiber MFD); merged precedent: core_thickness_nm 75 and box_thickness_um 38 rows design_target, 0 specification (2026-10-22)'
+  cmp_lit_zhang2021_buried_3d_ssc_100um-m5:
+    basis: design_target
+    why: 'skill rule 4 / D82a / D106: stated layer dimensions are design_target unless SEM / AFM-measured; specification is for datasheet values of a purchased part (fiber MFD); merged precedent: core_thickness_nm 75 and box_thickness_um 38 rows design_target, 0 specification (2026-10-22)'
+  cmp_lit_zhang2021_buried_3d_ssc_100um-m6:
+    basis: design_target
+    why: 'skill rule 4 / D82a / D106: stated layer dimensions are design_target unless SEM / AFM-measured; specification is for datasheet values of a purchased part (fiber MFD); merged precedent: core_thickness_nm 75 and box_thickness_um 38 rows design_target, 0 specification (2026-10-22)'
+  cmp_lit_zhang2021_buried_3d_ssc_150um-m5:
+    basis: design_target
+    why: 'skill rule 4 / D82a / D106: stated layer dimensions are design_target unless SEM / AFM-measured; specification is for datasheet values of a purchased part (fiber MFD); merged precedent: core_thickness_nm 75 and box_thickness_um 38 rows design_target, 0 specification (2026-10-22)'
+  cmp_lit_zhang2021_buried_3d_ssc_150um-m6:
+    basis: design_target
+    why: 'skill rule 4 / D82a / D106: stated layer dimensions are design_target unless SEM / AFM-measured; specification is for datasheet values of a purchased part (fiber MFD); merged precedent: core_thickness_nm 75 and box_thickness_um 38 rows design_target, 0 specification (2026-10-22)'
+  cmp_lit_zhang2021_buried_3d_ssc_200um-m5:
+    basis: design_target
+    why: 'skill rule 4 / D82a / D106: stated layer dimensions are design_target unless SEM / AFM-measured; specification is for datasheet values of a purchased part (fiber MFD); merged precedent: core_thickness_nm 75 and box_thickness_um 38 rows design_target, 0 specification (2026-10-22)'
+  cmp_lit_zhang2021_buried_3d_ssc_200um-m6:
+    basis: design_target
+    why: 'skill rule 4 / D82a / D106: stated layer dimensions are design_target unless SEM / AFM-measured; specification is for datasheet values of a purchased part (fiber MFD); merged precedent: core_thickness_nm 75 and box_thickness_um 38 rows design_target, 0 specification (2026-10-22)'
+  cmp_lit_zhang2021_buried_3d_ssc_250um-m5:
+    basis: design_target
+    why: 'skill rule 4 / D82a / D106: stated layer dimensions are design_target unless SEM / AFM-measured; specification is for datasheet values of a purchased part (fiber MFD); merged precedent: core_thickness_nm 75 and box_thickness_um 38 rows design_target, 0 specification (2026-10-22)'
+  cmp_lit_zhang2021_buried_3d_ssc_250um-m6:
+    basis: design_target
+    why: 'skill rule 4 / D82a / D106: stated layer dimensions are design_target unless SEM / AFM-measured; specification is for datasheet values of a purchased part (fiber MFD); merged precedent: core_thickness_nm 75 and box_thickness_um 38 rows design_target, 0 specification (2026-10-22)'
+  cmp_lit_zhang2021_buried_3d_ssc_300um-m5:
+    basis: design_target
+    why: 'skill rule 4 / D82a / D106: stated layer dimensions are design_target unless SEM / AFM-measured; specification is for datasheet values of a purchased part (fiber MFD); merged precedent: core_thickness_nm 75 and box_thickness_um 38 rows design_target, 0 specification (2026-10-22)'
+  cmp_lit_zhang2021_buried_3d_ssc_300um-m6:
+    basis: design_target
+    why: 'skill rule 4 / D82a / D106: stated layer dimensions are design_target unless SEM / AFM-measured; specification is for datasheet values of a purchased part (fiber MFD); merged precedent: core_thickness_nm 75 and box_thickness_um 38 rows design_target, 0 specification (2026-10-22)'
+  cmp_lit_zhang2021_thin_si_rib_wg-m3:
+    basis: design_target
+    why: 'skill rule 4 / D82a / D106: stated layer dimensions are design_target unless SEM / AFM-measured; specification is for datasheet values of a purchased part (fiber MFD); merged precedent: core_thickness_nm 75 and box_thickness_um 38 rows design_target, 0 specification (2026-10-22)'
+  cmp_lit_zhang2021_thin_si_rib_wg-m4:
+    basis: design_target
+    why: 'skill rule 4 / D82a / D106: stated layer dimensions are design_target unless SEM / AFM-measured; specification is for datasheet values of a purchased part (fiber MFD); merged precedent: core_thickness_nm 75 and box_thickness_um 38 rows design_target, 0 specification (2026-10-22)'
+  cmp_lit_jia2017_suspended_ssc-m16:
+    basis: design_target
+    why: 'skill rule 4 / D82a / D106: stated layer dimensions are design_target unless SEM / AFM-measured; specification is for datasheet values of a purchased part (fiber MFD); merged precedent: core_thickness_nm 75 and box_thickness_um 38 rows design_target, 0 specification (2026-10-22)'
+  cmp_lit_kim2019_opa_32el-m5:
+    basis: design_target
+    why: 'skill rule 4 / D82a / D106: stated layer dimensions are design_target unless SEM / AFM-measured; specification is for datasheet values of a purchased part (fiber MFD); merged precedent: core_thickness_nm 75 and box_thickness_um 38 rows design_target, 0 specification (2026-10-22)'
+  cmp_lit_kim2019_opa_125el-m5:
+    basis: design_target
+    why: 'skill rule 4 / D82a / D106: stated layer dimensions are design_target unless SEM / AFM-measured; specification is for datasheet values of a purchased part (fiber MFD); merged precedent: core_thickness_nm 75 and box_thickness_um 38 rows design_target, 0 specification (2026-10-22)'
+  cmp_lit_kim2019_l_shaped_to_phase_shifter-m10:
+    basis: design_target
+    why: 'skill rule 4 / D82a / D106: stated layer dimensions are design_target unless SEM / AFM-measured; specification is for datasheet values of a purchased part (fiber MFD); merged precedent: core_thickness_nm 75 and box_thickness_um 38 rows design_target, 0 specification (2026-10-22)'
+  cmp_lit_wilson2019_gap_strip_wg-m5:
+    basis: design_target
+    why: 'skill rule 4 / D82a / D106: stated layer dimensions are design_target unless SEM / AFM-measured; specification is for datasheet values of a purchased part (fiber MFD); merged precedent: core_thickness_nm 75 and box_thickness_um 38 rows design_target, 0 specification (2026-10-22)'
+delete_metrics:
+- id: cmp_lit_kim2019_l_shaped_to_phase_shifter-m7
+  why: 'D111: heater_length_um only when the paper states the heater length; p.6 states the phase-shifter length (32 um, kept as length_um m6), the N-doped slab heater length is not stated'
+add_metrics:
+- metric_id: cmp_lit_zhang2021_buried_3d_ssc_50um-m8
+  component_id: cmp_lit_zhang2021_buried_3d_ssc_50um
+  parameter: layer2_thickness_nm
+  value: '1500'
+  unit: nm
+  condition: 'buried poly-Si large waveguide (second guiding layer), height 1.5 um at the thick end of the SSC'
+  basis: design_target
+  locator: 'p.3 Sec. 2.A; p.1 Abstract'
+  notes: 'Large waveguide 3 um wide x 1.5 um high (p.3); thickness limited by the 2 um BOX'
+  why: 'miss (D153 / D102): transition_bilayer template requires layer2_thickness_nm; the 1.5 um height is stated but was only in the component notes'
+- metric_id: cmp_lit_zhang2021_buried_3d_ssc_100um-m8
+  component_id: cmp_lit_zhang2021_buried_3d_ssc_100um
+  parameter: layer2_thickness_nm
+  value: '1500'
+  unit: nm
+  condition: 'buried poly-Si large waveguide (second guiding layer), height 1.5 um at the thick end of the SSC'
+  basis: design_target
+  locator: 'p.3 Sec. 2.A; p.1 Abstract'
+  notes: 'Large waveguide 3 um wide x 1.5 um high (p.3); thickness limited by the 2 um BOX'
+  why: 'miss (D153 / D102): transition_bilayer template requires layer2_thickness_nm; the 1.5 um height is stated but was only in the component notes'
+- metric_id: cmp_lit_zhang2021_buried_3d_ssc_150um-m8
+  component_id: cmp_lit_zhang2021_buried_3d_ssc_150um
+  parameter: layer2_thickness_nm
+  value: '1500'
+  unit: nm
+  condition: 'buried poly-Si large waveguide (second guiding layer), height 1.5 um at the thick end of the SSC'
+  basis: design_target
+  locator: 'p.3 Sec. 2.A; p.1 Abstract'
+  notes: 'Large waveguide 3 um wide x 1.5 um high (p.3); thickness limited by the 2 um BOX'
+  why: 'miss (D153 / D102): transition_bilayer template requires layer2_thickness_nm; the 1.5 um height is stated but was only in the component notes'
+- metric_id: cmp_lit_zhang2021_buried_3d_ssc_200um-m8
+  component_id: cmp_lit_zhang2021_buried_3d_ssc_200um
+  parameter: layer2_thickness_nm
+  value: '1500'
+  unit: nm
+  condition: 'buried poly-Si large waveguide (second guiding layer), height 1.5 um at the thick end of the SSC'
+  basis: design_target
+  locator: 'p.3 Sec. 2.A; p.1 Abstract'
+  notes: 'Large waveguide 3 um wide x 1.5 um high (p.3); thickness limited by the 2 um BOX'
+  why: 'miss (D153 / D102): transition_bilayer template requires layer2_thickness_nm; the 1.5 um height is stated but was only in the component notes'
+- metric_id: cmp_lit_zhang2021_buried_3d_ssc_250um-m8
+  component_id: cmp_lit_zhang2021_buried_3d_ssc_250um
+  parameter: layer2_thickness_nm
+  value: '1500'
+  unit: nm
+  condition: 'buried poly-Si large waveguide (second guiding layer), height 1.5 um at the thick end of the SSC'
+  basis: design_target
+  locator: 'p.3 Sec. 2.A; p.1 Abstract'
+  notes: 'Large waveguide 3 um wide x 1.5 um high (p.3); thickness limited by the 2 um BOX'
+  why: 'miss (D153 / D102): transition_bilayer template requires layer2_thickness_nm; the 1.5 um height is stated but was only in the component notes'
+- metric_id: cmp_lit_zhang2021_buried_3d_ssc_300um-m8
+  component_id: cmp_lit_zhang2021_buried_3d_ssc_300um
+  parameter: layer2_thickness_nm
+  value: '1500'
+  unit: nm
+  condition: 'buried poly-Si large waveguide (second guiding layer), height 1.5 um at the thick end of the SSC'
+  basis: design_target
+  locator: 'p.3 Sec. 2.A; p.1 Abstract'
+  notes: 'Large waveguide 3 um wide x 1.5 um high (p.3); thickness limited by the 2 um BOX'
+  why: 'miss (D153 / D102): transition_bilayer template requires layer2_thickness_nm; the 1.5 um height is stated but was only in the component notes'
+- metric_id: cmp_lit_zhang2021_poly_si_thick_wg-m4
+  component_id: cmp_lit_zhang2021_poly_si_thick_wg
+  parameter: mfd_chip_um
+  value: '2.9'
+  unit: um
+  qualifier: approx
+  band: c_band
+  wavelength_inferred: 'true'
+  polarization: te
+  condition: 'calculated mode of the 3 um x 1.5 um thick waveguide (Fig. 1(f)); horizontal MFD (vertical in m5)'
+  basis: simulated
+  locator: 'p.6 Sec. 3; p.3 Fig. 1(f)'
+  notes: 'Printed "about 2.9 um x 1.5 um" calculated MFD; wavelength not stated with the value, 1550 nm design band; MFD definition not stated'
+  why: 'miss: mfd_chip_um allowed for waveguide_platform (D77); stated calculated value (D82a simulated)'
+- metric_id: cmp_lit_zhang2021_poly_si_thick_wg-m5
+  component_id: cmp_lit_zhang2021_poly_si_thick_wg
+  parameter: mfd_chip_um
+  value: '1.5'
+  unit: um
+  qualifier: approx
+  band: c_band
+  wavelength_inferred: 'true'
+  polarization: te
+  condition: 'calculated mode of the 3 um x 1.5 um thick waveguide (Fig. 1(f)); vertical MFD (horizontal in m4)'
+  basis: simulated
+  locator: 'p.6 Sec. 3; p.5 Sec. 3'
+  notes: 'Printed "about 2.9 um x 1.5 um" (p.6); p.5 also states the SSC enlarged the 220 nm SOI waveguide mode to approximately 1.5 um'
+  why: 'miss: as m4'
+- metric_id: cmp_lit_djogo2026_interposer_c1_packaged-m7
+  component_id: cmp_lit_djogo2026_interposer_c1_packaged
+  parameter: wdl_db
+  value: '1.1'
+  unit: dB
+  condition: 'channel 8 of the C-1 interposer; insertion loss -2.9 to -4.0 dB across the 420 nm bandwidth of the broadband source; wavelength limits not stated'
+  basis: derived
+  locator: 'p.6 Sec. IV; p.7 Fig. 6(b)'
+  notes: '4.0 - 2.9 dB = 1.1 dB; one example channel; whether the MCF probe loss was removed for this spectrum is not stated'
+  why: 'miss: wdl_db allowed for fiber_interface; stated loss range over a stated span (p.6 "ranging between -2.9 to -4.0 dB across a source bandwidth of 420 nm for channel 8")'
+- metric_id: cmp_lit_wilson2019_gap_kerr_comb_r50-m3
+  component_id: cmp_lit_wilson2019_gap_kerr_comb_r50
+  parameter: width_nm
+  value: '550'
+  unit: nm
+  basis: design_target
+  locator: 'p.4'
+  notes: 'Ring waveguide width of the threshold device ("50-um radius, 550-nm-wide ring resonator"); thickness 300 nm as the platform rows'
+  why: 'miss (D153): stated device geometry, already in the label but not entered'

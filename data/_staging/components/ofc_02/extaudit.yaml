@@ -1,0 +1,46 @@
+# Ext audit corrections (coordinator, 2026-10-22, DevLog-007 D256-D259; audit record DevLog/audits/2026-10-22-registry-ext-gapfill-sweep-audit.md) plus convention sweep 3 ops (D256: unit / prefix conversions of non-dimension values) for this batch.
+# Replay order: patch, sweep, gapfill, addendum, geometry, geoaudit, coord, sweep2, coord2, extaudit, sweep3 (files absent in a batch are skipped).
+metrics:
+  cmp_ofc2026_th1d4_fs_glass_wg-m2:
+    basis: derived
+    notes: '''approximately 18-20 um'' for the fabricated waveguides; how measured not stated (micrographs Fig. 2). D157:
+      printed as 18-20 um (measured value), stored in nm: unit rescale, basis derived.'
+    why: 'S3 audit, D157 miss: pNA Sec. 2 prints the cross-section diameter as approx. 18-20 um; stored 18000..20000 nm is
+      a pure unit rescale (derived); missed by the sweep2 scan (range form)'
+  cmp_ofc2026_th1h1_dual_mode_dfb-m11:
+    basis: derived
+    notes: 'Printed 634.2 kHz (measured value), stored in Hz: prefix conversion, basis derived (D256 / D82d).'
+    why: 'sweep 3 (D256): p.~2 Sec. 3 prints 634.2 kHz; the stored-unit form is printed nowhere in the source text, so the
+      conversion is derived'
+  cmp_ofc2026_th1h1_dual_mode_dfb-m12:
+    basis: derived
+    notes: 'Sec. 4 (p.~3) gives this value ''under the 120 mA operation''. Printed 369.2 kHz (measured value), stored in Hz:
+      prefix conversion, basis derived (D256 / D82d).'
+    why: 'sweep 3 (D256): p.~2 Sec. 3 prints 369.2 kHz; the stored-unit form is printed nowhere in the source text, so the
+      conversion is derived'
+  cmp_ofc2026_th1h1_dual_mode_dfb-m13:
+    basis: derived
+    notes: 'Printed 722.9 kHz (measured value), stored in Hz: prefix conversion, basis derived (D256 / D82d).'
+    why: 'sweep 3 (D256): p.~2 Sec. 3 prints 722.9 kHz; the stored-unit form is printed nowhere in the source text, so the
+      conversion is derived'
+  cmp_ofc2026_th1h1_dual_mode_dfb-m14:
+    basis: derived
+    notes: 'Sec. 4 (p.~3) gives this value ''under the 120 mA operation''. Printed 463.2 kHz (measured value), stored in Hz:
+      prefix conversion, basis derived (D256 / D82d).'
+    why: 'sweep 3 (D256): p.~2 Sec. 3 prints 463.2 kHz; the stored-unit form is printed nowhere in the source text, so the
+      conversion is derived'
+  cmp_ofc2026_w3e3_twin_rtf_laser-m1:
+    basis: derived
+    notes: 'Printed ~350 kHz (measured value), stored in Hz: prefix conversion, basis derived (D256 / D82d).'
+    why: 'sweep 3 (D256): p.~2 Sec. 3 prints ~350 kHz; the stored-unit form is printed nowhere in the source text, so the
+      conversion is derived'
+  cmp_ofc2026_w3e3_twin_rtf_laser-m2:
+    basis: derived
+    notes: 'Printed ~300 kHz (20 C) (measured value), stored in Hz: prefix conversion, basis derived (D256 / D82d).'
+    why: 'sweep 3 (D256): p.~2 Sec. 3 prints ~300 kHz (20 C); the stored-unit form is printed nowhere in the source text,
+      so the conversion is derived'
+  cmp_ofc2026_w3e3_twin_rtf_laser-m4:
+    basis: derived
+    notes: 'Printed ~500 kHz (70 C) (measured value), stored in Hz: prefix conversion, basis derived (D256 / D82d).'
+    why: 'sweep 3 (D256): p.~2 Sec. 3 prints ~500 kHz (70 C); the stored-unit form is printed nowhere in the source text,
+      so the conversion is derived'

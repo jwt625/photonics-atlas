@@ -1,0 +1,246 @@
+# D169 gap-fill (subagent, 2026-10-22); replay order patch, sweep, gapfill, addendum, geometry, geoaudit, coord, sweep2
+components:
+  cmp_lit_nan2025_3d_crossing:
+    notes: 'Test sample: 20 top Ta2O5 waveguides (127 um pitch), each with two interlayer couplers and crossing 300 bottom LN waveguides at 10 um spacing (p.5 Sec. 3). fab_org_ids borderline (D84a): the paper describes its own CMP-based fabrication method and points to the authors'' earlier work for the PLACE process details (p.4); all authors list East China Normal University. Interlayer-gap 1.5 um is SEM-measured (entered as gap_nm m7, D169 gap-fill). The interlayer coupler (LN-to-Ta2O5 transition) has only simulated values in Fig. 3 whose panel labels conflict with the caption and text; not entered as a row.'
+    why: 'D169 gap-fill: gap_nm now allowed for crossing; rewrite the not-entered sentence only'
+  cmp_lit_bock2010_swg_crossing_300:
+    notes: 'No fab org: authors state they used e-beam lithography to fabricate the structures (p.6) but are split between NRC Canada and the University of Ottawa (not unambiguous, rule 12). Design B: pitch chirped 200 -> 300 nm, width 450 -> 300 nm, segment length 150 nm, 50 um SWG tapers with bridging segments, 350 um SWG section; crossings 0-80 on a 6.1 mm chip (p.6 Sec. 4). PDL < 0.02 dB and loss variation < 0.02 dB (TE) / 0.06 dB (TM) over 1520-1580 nm entered as pdl_db m13 and wdl_db m14 / m15 (D169 gap-fill).'
+    why: 'D169 gap-fill: pdl_db and wdl_db now allowed for crossing; rewrite the not-entered sentence only'
+  cmp_lit_bock2010_swg_crossing_400:
+    notes: 'No fab org: authors state they used e-beam lithography to fabricate the structures (p.6) but are split between NRC Canada and the University of Ottawa (not unambiguous, rule 12). Design A: pitch chirped 200 -> 400 nm, width 450 -> 300 nm, segment length 150 -> 200 nm (p.6 Sec. 4). PDL < 0.005 dB entered as pdl_db m6 (D169 gap-fill).'
+    why: 'D169 gap-fill: pdl_db now allowed for crossing; rewrite the not-entered sentence only'
+  cmp_lit_elsaeed2024_bent_dc_50:
+    notes: 'Fabricated on imec''s iSiPP300 platform (p.4). Coupling ratios from 6 cascaded identical DCs (slope of linear regression, p.4 Fig. 3). Wavelength span 80 nm read as 1260-1340 nm from the Fig. 5 / Fig. 8 axes. Coupling angle 8.5 deg entered as coupling_angle_deg m15 (D169 gap-fill); all bends are curvature-continuous low-loss bends (p.2 Fig. 1).'
+    why: 'D169 gap-fill: coupling_angle_deg now exists for splitter; rewrite the no-parameter clause only'
+  cmp_lit_elsaeed2024_bent_dc_40:
+    notes: 'Fabricated on imec''s iSiPP300 platform (p.4). Coupling ratios from 6 cascaded identical DCs (slope of linear regression, p.4 Fig. 3). Wavelength span 80 nm read as 1260-1340 nm from the Fig. 5 / Fig. 8 axes. Coupling angle 12 deg entered as coupling_angle_deg m6 (D169 gap-fill); example of the arbitrary-ratio model (p.6-7 Fig. 12).'
+    why: 'D169 gap-fill: coupling_angle_deg now exists for splitter; rewrite the no-parameter clause only'
+  cmp_lit_elsaeed2024_bent_dc_60:
+    notes: 'Fabricated on imec''s iSiPP300 platform (p.4). Coupling ratios from 6 cascaded identical DCs (slope of linear regression, p.4 Fig. 3). Wavelength span 80 nm read as 1260-1340 nm from the Fig. 5 / Fig. 8 axes. Coupling angle 6 deg entered as coupling_angle_deg m6 (D169 gap-fill); example of the arbitrary-ratio model (p.6-7 Fig. 12).'
+    why: 'D169 gap-fill: coupling_angle_deg now exists for splitter; rewrite the no-parameter clause only'
+  cmp_lit_elsaeed2024_bent_dc_70:
+    notes: 'Fabricated on imec''s iSiPP300 platform (p.4). Coupling ratios from 6 cascaded identical DCs (slope of linear regression, p.4 Fig. 3). Wavelength span 80 nm read as 1260-1340 nm from the Fig. 5 / Fig. 8 axes. Coupling angle 4 deg entered as coupling_angle_deg m6 (D169 gap-fill); example of the arbitrary-ratio model (p.6-7 Fig. 12).'
+    why: 'D169 gap-fill: coupling_angle_deg now exists for splitter; rewrite the no-parameter clause only'
+  cmp_lit_huang2019a_mode_filter_lpg:
+    notes: 'Fabricated with the authors'' in-house microfabrication facilities (p.2 Sec. III); three of four authors at City University of Hong Kong, one at UESTC (borderline fab_org_ids, D84b-like). Rejection ratios (18.4 dB vs E21, 16.9 dB vs E12 at 1550 nm), 10-dB rejection bandwidths (~190 nm, ~140 nm; author estimate assuming wavelength-flat higher-mode losses), RW2 -10 dB bandwidths (197 nm; 182 nm at 66 C) and grating period / count entered in the D169 gap-fill (m9-m16); RW2 -15 dB bandwidths (97 / 90 nm) not entered (no -15 dB width parameter).'
+    why: 'D169 gap-fill: extinction_db, bw_10db_nm, period_nm, n_periods now allowed for mode_converter; rewrite the not-entered sentence only'
+  cmp_lit_qi2025_fp_slr_cavity:
+    notes: 'Authors state they fabricate the devices (p.3 Sec. III A); fabrication performed at SNSF and SNF (acknowledgments p.7). One co-author at Sandia; fab org Stanford. Values at a highly reflective operating point (120 mW heater power). Qe = 40e6 (p.5) entered as q_external m11 (D169 gap-fill); the 3% round-trip loss not entered (no round-trip-loss parameter).'
+    why: 'D169 gap-fill: q_external now exists for resonator; rewrite the not-entered sentence only'
+add_metrics:
+- metric_id: cmp_lit_nan2025_3d_crossing-m7
+  component_id: cmp_lit_nan2025_3d_crossing
+  parameter: gap_nm
+  value: '1500'
+  unit: nm
+  condition: vertical SiO2 interlayer (transition layer) thickness between the bottom LN and top Ta2O5 waveguides, FIB cross-section
+  basis: derived
+  locator: p.5 Sec. 3; p.13 Fig. 4(e)
+  notes: 'Printed 1.5 um (SEM of the FIB cross-section), converted to nm; also stated as the interlayer spacing on p.3.'
+  why: 'D169 gap-fill: gap_nm now allowed for crossing; SEM interlayer gap 1.5 um (audit registry gaps)'
+- metric_id: cmp_lit_bock2010_swg_crossing_300-m13
+  component_id: cmp_lit_bock2010_swg_crossing_300
+  parameter: pdl_db
+  value: '0.02'
+  unit: dB
+  qualifier: lt
+  wavelength_nm: '1530'
+  wavelength_max_nm: '1560'
+  scope: per_component
+  condition: per crossing, from the TE and TM cutback slopes (ASE source, 3-dB band 1530-1560 nm)
+  method: cutback
+  basis: derived
+  locator: p.7 Sec. 5; p.10 Sec. 6
+  notes: 'Printed PDL < 0.02 dB; |TE - TM| of the per-crossing losses m1 / m2 (0.037 - 0.023 = 0.014 dB). Conclusion: ''minimal (0.02 dB)''.'
+  why: 'D169 gap-fill: pdl_db now allowed for crossing; design B PDL < 0.02 dB (audit registry gaps)'
+- metric_id: cmp_lit_bock2010_swg_crossing_300-m14
+  component_id: cmp_lit_bock2010_swg_crossing_300
+  parameter: wdl_db
+  value: '0.02'
+  unit: dB
+  qualifier: lt
+  wavelength_nm: '1520'
+  wavelength_max_nm: '1580'
+  polarization: te
+  scope: per_component
+  condition: variation of the loss per crossing over 1520-1580 nm (tunable ECL; slope of 10, 20, 40, 80 crossings per wavelength)
+  method: cutback
+  basis: measured
+  locator: p.9 Sec. 5; p.9 Fig. 7
+  notes: 'Printed ''below 0.02 dB for TE''.'
+  why: 'D169 gap-fill: wdl_db now allowed for crossing; loss variation < 0.02 dB TE (audit registry gaps)'
+- metric_id: cmp_lit_bock2010_swg_crossing_300-m15
+  component_id: cmp_lit_bock2010_swg_crossing_300
+  parameter: wdl_db
+  value: '0.06'
+  unit: dB
+  qualifier: lt
+  wavelength_nm: '1520'
+  wavelength_max_nm: '1580'
+  polarization: tm
+  scope: per_component
+  condition: variation of the loss per crossing over 1520-1580 nm (tunable ECL; slope of 10, 20, 40, 80 crossings per wavelength)
+  method: cutback
+  basis: measured
+  locator: p.9 Sec. 5; p.9 Fig. 7
+  notes: 'Printed ''below ... 0.06 dB for TM''; TM ripple (~0.06 dB) attributed to SWG-coupler reflections (Fabry-Perot effect).'
+  why: 'D169 gap-fill: wdl_db now allowed for crossing; loss variation < 0.06 dB TM (audit registry gaps)'
+- metric_id: cmp_lit_bock2010_swg_crossing_400-m6
+  component_id: cmp_lit_bock2010_swg_crossing_400
+  parameter: pdl_db
+  value: '0.005'
+  unit: dB
+  qualifier: lt
+  wavelength_nm: '1530'
+  wavelength_max_nm: '1560'
+  scope: per_component
+  condition: per crossing, from the TE and TM cutback slopes (ASE source, 3-dB band 1530-1560 nm)
+  method: cutback
+  basis: derived
+  locator: p.7 Sec. 5
+  notes: 'Printed PDL < 0.005 dB; |TE - TM| of the per-crossing losses m1 / m2 (0.070 - 0.067 = 0.003 dB).'
+  why: 'D169 gap-fill: pdl_db now allowed for crossing; design A (final pitch 400 nm) PDL < 0.005 dB (audit registry gaps)'
+- metric_id: cmp_lit_elsaeed2024_bent_dc_50-m15
+  component_id: cmp_lit_elsaeed2024_bent_dc_50
+  parameter: coupling_angle_deg
+  value: '8.5'
+  unit: deg
+  condition: coupling angle theta of the bent coupling section (R 25 um, gap 0.1 um)
+  basis: design_target
+  locator: p.7 Fig. 12 caption; p.5 Fig. 8 caption; p.3 Sec. II
+  why: 'D169 gap-fill: coupling_angle_deg now exists for splitter; Fig. 12(b) 0.5 device: 25 um and 8.5 deg'
+- metric_id: cmp_lit_elsaeed2024_bent_dc_40-m6
+  component_id: cmp_lit_elsaeed2024_bent_dc_40
+  parameter: coupling_angle_deg
+  value: '12'
+  unit: deg
+  condition: coupling angle theta of the bent coupling section (R 23 um, gap 0.1 um)
+  basis: design_target
+  locator: p.7 Fig. 12 caption
+  why: 'D169 gap-fill: coupling_angle_deg now exists for splitter; Fig. 12(a) 0.4 device: 23 um and 12 deg'
+- metric_id: cmp_lit_elsaeed2024_bent_dc_60-m6
+  component_id: cmp_lit_elsaeed2024_bent_dc_60
+  parameter: coupling_angle_deg
+  value: '6'
+  unit: deg
+  condition: coupling angle theta of the bent coupling section (R 29 um, gap 0.1 um)
+  basis: design_target
+  locator: p.7 Fig. 12 caption
+  why: 'D169 gap-fill: coupling_angle_deg now exists for splitter; Fig. 12(c) 0.6 device: 29 um and 6 deg'
+- metric_id: cmp_lit_elsaeed2024_bent_dc_70-m6
+  component_id: cmp_lit_elsaeed2024_bent_dc_70
+  parameter: coupling_angle_deg
+  value: '4'
+  unit: deg
+  condition: coupling angle theta of the bent coupling section (R 34 um, gap 0.1 um)
+  basis: design_target
+  locator: p.7 Fig. 12 caption
+  why: 'D169 gap-fill: coupling_angle_deg now exists for splitter; Fig. 12(d) 0.7 device: 34 um and 4 deg'
+- metric_id: cmp_lit_huang2019a_mode_filter_lpg-m9
+  component_id: cmp_lit_huang2019a_mode_filter_lpg
+  parameter: extinction_db
+  value: '18.4'
+  unit: dB
+  wavelength_nm: '1550'
+  condition: E11-mode rejection ratio against the E21 mode (difference of fiber-to-fiber insertion losses, index-matched)
+  method: direct
+  basis: derived
+  locator: p.4 Sec. IV
+  notes: 'Printed 18.4 dB; = IL(E11) - IL(E21) = 29.7 - 11.3 dB (m1, m2).'
+  why: 'D169 gap-fill: extinction_db now allowed for mode_converter (mode rejection); 18.4 dB vs E21 (audit registry gaps)'
+- metric_id: cmp_lit_huang2019a_mode_filter_lpg-m10
+  component_id: cmp_lit_huang2019a_mode_filter_lpg
+  parameter: extinction_db
+  value: '16.9'
+  unit: dB
+  wavelength_nm: '1550'
+  condition: E11-mode rejection ratio against the E12 mode (difference of fiber-to-fiber insertion losses, index-matched)
+  method: direct
+  basis: derived
+  locator: p.4 Sec. IV
+  notes: 'Printed 16.9 dB; = IL(E11) - IL(E12) = 29.7 - 12.8 dB (m1, m3).'
+  why: 'D169 gap-fill: extinction_db now allowed for mode_converter (mode rejection); 16.9 dB vs E12 (audit registry gaps)'
+- metric_id: cmp_lit_huang2019a_mode_filter_lpg-m11
+  component_id: cmp_lit_huang2019a_mode_filter_lpg
+  parameter: bw_10db_nm
+  value: '190'
+  unit: nm
+  qualifier: approx
+  wavelength_nm: '1440'
+  wavelength_max_nm: '1630'
+  condition: bandwidth of 10-dB E11-mode rejection against the E21 mode
+  basis: author_estimate
+  locator: p.4 Sec. IV; p.1 Abstract
+  notes: 'Printed ~190 nm (1440-1630 nm); estimated from the RW2 E11 spectrum assuming wavelength-insensitive higher-mode insertion losses (only BPM-confirmed; higher-mode loss spectra not measured).'
+  why: 'D169 gap-fill: bw_10db_nm now allowed for mode_converter; ~190 nm (audit registry gaps)'
+- metric_id: cmp_lit_huang2019a_mode_filter_lpg-m12
+  component_id: cmp_lit_huang2019a_mode_filter_lpg
+  parameter: bw_10db_nm
+  value: '140'
+  unit: nm
+  qualifier: approx
+  wavelength_nm: '1450'
+  wavelength_max_nm: '1590'
+  condition: bandwidth of 10-dB E11-mode rejection against the E12 mode
+  basis: author_estimate
+  locator: p.4 Sec. IV; p.1 Abstract
+  notes: 'Printed ~140 nm (1450-1590 nm); estimated from the RW2 E11 spectrum assuming wavelength-insensitive higher-mode insertion losses (only BPM-confirmed; higher-mode loss spectra not measured).'
+  why: 'D169 gap-fill: bw_10db_nm now allowed for mode_converter; ~140 nm (audit registry gaps)'
+- metric_id: cmp_lit_huang2019a_mode_filter_lpg-m13
+  component_id: cmp_lit_huang2019a_mode_filter_lpg
+  parameter: bw_10db_nm
+  value: '197'
+  unit: nm
+  wavelength_nm: '1438'
+  wavelength_max_nm: '1635'
+  condition: -10 dB (>90% mode conversion) width of the E11 transmission dip of reference structure RW2 (same LPG, single-mode tapered ends), supercontinuum + OSA, TE and TM (stated polarization-insensitive)
+  method: direct
+  basis: measured
+  locator: p.4 Sec. IV; p.3 Fig. 6(a)
+  notes: 'Measured on RW2, not on the filter itself; the authors take the RW2 rejection band as the filter operation range. Fig. 6(b) gives 197 nm as the 18 C starting value of the TE temperature sweep.'
+  why: 'D169 gap-fill: bw_10db_nm now allowed for mode_converter; RW2 -10 dB width 197 nm measured (audit registry gaps)'
+- metric_id: cmp_lit_huang2019a_mode_filter_lpg-m14
+  component_id: cmp_lit_huang2019a_mode_filter_lpg
+  parameter: bw_10db_nm
+  value: '182'
+  unit: nm
+  polarization: te
+  temperature_k: '339.15'
+  condition: -10 dB width of the E11 transmission dip of reference structure RW2 at 66 C (heater under the device)
+  method: direct
+  basis: measured
+  locator: p.4 Sec. IV; p.3 Fig. 6(b)
+  notes: 'Printed: decreases from 197 to 182 nm as the temperature rises from 18 to 66 C (TE); 66 C converted to K. Edge wavelengths not stated.'
+  why: 'D169 gap-fill: bw_10db_nm now allowed for mode_converter; RW2 182 nm at 66 C listed as a gap in the batch report'
+- metric_id: cmp_lit_huang2019a_mode_filter_lpg-m15
+  component_id: cmp_lit_huang2019a_mode_filter_lpg
+  parameter: period_nm
+  value: '302000'
+  unit: nm
+  condition: long-period grating period (sidewall corrugation), chosen for E11-E31 resonance at 1570 nm
+  basis: derived
+  locator: p.2 Sec. II
+  notes: 'Printed 302 um (design choice), converted to nm.'
+  why: 'D169 gap-fill: period_nm now allowed for mode_converter; LPG period 302 um (audit registry gaps)'
+- metric_id: cmp_lit_huang2019a_mode_filter_lpg-m16
+  component_id: cmp_lit_huang2019a_mode_filter_lpg
+  parameter: n_periods
+  value: '42'
+  unit: count
+  condition: total LPG periods of the three-section pi-phase-shifted grating (L2 = 14 periods, L1 + L3 = 28; L = 12.68 mm)
+  basis: design_target
+  locator: p.2 Sec. II
+  why: 'D169 gap-fill: n_periods now allowed for mode_converter; 42 periods (audit registry gaps)'
+- metric_id: cmp_lit_qi2025_fp_slr_cavity-m11
+  component_id: cmp_lit_qi2025_fp_slr_cavity
+  parameter: q_external
+  value: '40000000'
+  unit: '1'
+  wavelength_nm: '1569'
+  wavelength_inferred: 'true'
+  condition: highly reflective operating point (120 mW heater power), before undercut; symmetric double-sided model (kappa_i + 2 kappa_e), external coupling per SLR
+  method: direct
+  basis: measured
+  locator: p.5 Sec. III B; p.4 Fig. 4(c) inset; p.5 Sec. III C
+  notes: 'Printed 40 x 10^6, fitted on the same mode as Qi 2.0e6 (m1); wavelength read from the Fig. 4(c) inset axis (about 1569.04 nm, inside the 1560-1570 nm external-coupling dip of Fig. 4(d)). Also the largest measurable Qe (p.5 Sec. III C).'
+  why: 'D169 gap-fill: q_external now exists for resonator; Qe 40e6 (audit registry gaps)'

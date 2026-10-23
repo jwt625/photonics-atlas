@@ -1,0 +1,22 @@
+# Ext audit corrections (coordinator, 2026-10-22, DevLog-007 D256-D259; audit record DevLog/audits/2026-10-22-registry-ext-gapfill-sweep-audit.md) plus convention sweep 3 ops (D256: unit / prefix conversions of non-dimension values) for this batch.
+# Replay order: patch, sweep, gapfill, addendum, geometry, geoaudit, coord, sweep2, coord2, extaudit, sweep3 (files absent in a batch are skipped).
+metrics:
+  cmp_guo2026_gc_532-m5:
+    value: '0.3'
+    basis: derived
+    locator: p.6 Passive component characterization; p.5 Fig. 2(b)
+    notes: Printed optimized duty cycle rho = 0.7 (p.6; design_target value). Fig. 2(b) GC sketch places the rho bracket over
+      the etched groove opening (gap fraction); stored as the tooth fraction 1 - 0.7 = 0.3 (D253, D257).
+    why: 'S2 audit, ruling D257 (Q2): Fig. 2(b) defines rho as the etched-gap width per period, so D253 gap-fraction conversion
+      applies (not the undefined case)'
+  cmp_guo2026_gc_532-m3:
+    notes: Maximal simulated efficiency at p = 285 nm, duty cycle rho 0.7 (gap fraction per Fig. 2(b); tooth fraction 0.3);
+      stated as 3.5 dB per coupler.
+    why: 'S2 audit: align duty-cycle wording with the converted fill_factor row m5'
+  cmp_guo2026_wg_ridge_0p4um-m2:
+    basis: design_target
+    locator: p.6; p.7 Fig. 4(b); p.5 Fig. 2(a)
+    notes: Printed 0.4 um in the text (p.4, p.6) and on the Fig. 4(b) axis; the Fig. 2(a) ridge cross-section inset labels
+      the width 400 nm (stored unit), so not a pure unit rescale (D255 figure-label exclusion, as cmp_guo2026_gc_532-m11).
+    why: 'S2 audit: source prints the stored-unit value 400 nm in Fig. 2(a) for the same ridge; D255 excludes such rows; D256
+      (Q3) keeps the basis and cites that locator'

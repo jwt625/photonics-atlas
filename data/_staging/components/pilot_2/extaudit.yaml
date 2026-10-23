@@ -1,0 +1,8 @@
+# Ext audit corrections (coordinator, 2026-10-22, DevLog-007 D256-D259; audit record DevLog/audits/2026-10-22-registry-ext-gapfill-sweep-audit.md) plus convention sweep 3 ops (D256: unit / prefix conversions of non-dimension values) for this batch.
+# Replay order: patch, sweep, gapfill, addendum, geometry, geoaudit, coord, sweep2, coord2, extaudit, sweep3 (files absent in a batch are skipped).
+metrics:
+  cmp_didier2026_tops-m1:
+    basis: derived
+    notes: 'Text and plot label 1.42 W; caption 1.43 W. Printed in W (measured value), stored in mW: prefix conversion, basis
+      derived (D256 / D82d).'
+    why: 'ext audit (D82d, outside the D255 dimension scope): p.3 prints 1.42 W, stored 1420 mW'

@@ -17,7 +17,7 @@ cmp_boynton2020_fiber_chip_interface-m1,cmp_boynton2020_fiber_chip_interface,ins
 cmp_boynton2020_air_tfln_interface-m1,cmp_boynton2020_air_tfln_interface,transition_loss_db,0.96,,dB,,,,,,c_band,true,,,,,,per_component,,,,,simulated,p.11 Table 2,source sign -0.96 dB; simulated loss per element; wavelength not stated for the simulated element losses; C-band inferred from the 1550 nm operation of the MZM
 cmp_boynton2020_vertical_coupler-m1,cmp_boynton2020_vertical_coupler,transition_loss_db,0.15,,dB,,,,,,c_band,true,,,,,,per_component,,,,,simulated,p.11 Table 2,source sign -0.15 dB; simulated loss per element; wavelength not stated for the simulated element losses; C-band inferred from the 1550 nm operation of the MZM
 cmp_boynton2020_vertical_coupler-m2,cmp_boynton2020_vertical_coupler,taper_length_um,250,,um,,,,,,,,,,,,,,,,,,design_target,p.4,"two overlaying linear tapers, one in each SiN layer"
-cmp_boynton2020_vertical_coupler-m3,cmp_boynton2020_vertical_coupler,tip_width_nm,200,,nm,,,,,,,,,,,,,,,,,,design_target,p.4,tapers 0.2 to 1.2 um wide; the top layer then widens from 1.2 to 1.6 um over 100 um
+cmp_boynton2020_vertical_coupler-m3,cmp_boynton2020_vertical_coupler,tip_width_nm,200,,nm,,,,,,,,,,,,,,,,,,derived,p.4,"tapers 0.2 to 1.2 um wide; the top layer then widens from 1.2 to 1.6 um over 100 um. D157: printed as 0.2 um (design_target value), stored in nm: unit rescale, basis derived."
 cmp_boynton2020_vertical_coupler-m4,cmp_boynton2020_vertical_coupler,gap_nm,250,,nm,,,,,,,,,,,,,,,,,,design_target,p.4,targeted SiO2 thickness between the bottom and top SiN layers after CMP
 cmp_boynton2020_mmi_2x2-m1,cmp_boynton2020_mmi_2x2,excess_loss_db,0.55,,dB,,,,,,c_band,true,,,,,,per_component,,,,,simulated,p.11 Table 2,source sign -0.55 dB; 'MMI coupler' simulated loss per element in the loss budget; wavelength not stated for the simulated element losses; C-band inferred from the 1550 nm operation of the MZM
 cmp_boynton2020_mmi_2x2-m2,cmp_boynton2020_mmi_2x2,mmi_length_um,330,,um,,,,,,,,,,,,,,,,,,design_target,p.7,MMI 3 dB coupler 330 um x 12 um (length).
@@ -54,7 +54,7 @@ cmp_kohli2023_ppc_150nm_slot-m2,cmp_kohli2023_ppc_150nm_slot,insertion_loss_db,1
 cmp_kohli2023_ppc_150nm_slot-m3,cmp_kohli2023_ppc_150nm_slot,taper_length_um,15,,um,,,,,,,,,,,,,,,,,,design_target,p.3,
 cmp_luan2026a_gc_2um-m1,cmp_luan2026a_gc_2um,insertion_loss_db,6,,dB,,,,,,nir_above_u,,,,,,,unspecified,,,,unspecified,measured,p.4; Fig. 3(b),6 dB at the 2 um waveband; per coupler or for both couplers not stated
 cmp_luan2026a_gc_2um-m2,cmp_luan2026a_gc_2um,fiber_angle_deg,8,,deg,,,,,,,,,,,,,,,,,,design_target,p.3,designed coupling angle matching a commercial fiber array
-cmp_luan2026a_gc_2um-m3,cmp_luan2026a_gc_2um,width_nm,14000,,nm,,,,,,,,,,,,,,,,,,design_target,p.4,grating width 14 um
+cmp_luan2026a_gc_2um-m3,cmp_luan2026a_gc_2um,width_nm,14000,,nm,,,,,,,,,,,,,,,,,,derived,p.4,"grating width 14 um. D157: printed as 14 um (design_target value), stored in nm: unit rescale, basis derived."
 cmp_luan2026a_gc_2um-m4,cmp_luan2026a_gc_2um,taper_length_um,400,,um,,,,,,,,,,,,,,,,,,design_target,p.4,adiabatic taper to the grating
 cmp_luan2026a_gc_1550-m1,cmp_luan2026a_gc_1550,insertion_loss_db,4,,dB,,,,,,c_band,,,,,,,unspecified,,,,unspecified,measured,p.5; Fig. 4(a),measured loss 'of the grating coupler' at the 1.55 um waveband; per coupler or for both not stated
 cmp_luan2026a_gc_1550-m2,cmp_luan2026a_gc_1550,fiber_angle_deg,8,,deg,,,,,,,,,,,,,,,,,,design_target,p.3,coupling angle stated for both GC designs

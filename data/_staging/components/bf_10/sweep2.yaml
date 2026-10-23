@@ -1,0 +1,20 @@
+# Convention sweep 2 (coordinator, 2026-10-22, DevLog-007 D157 / D162 / D253-D255): D157 unit-rescale basis fixes found
+# mechanically (value absent in the stored unit, present in another unit in the source text) and verified at the locator;
+# D162 fill_factor = tooth fraction. Replay order: patch, sweep, gapfill, addendum, geometry, geoaudit, coord, sweep2.
+metrics:
+  cmp_wang2024b_racetrack_2um_optical-m6:
+    basis: derived
+    notes: 'Waveguide width of the loss resonators. D157: printed as 2 um (design_target value), stored in nm: unit rescale, basis derived.'
+    why: 'D157 sweep: printed 2 um, stored 2000 nm (pure unit rescale of a printed dimension is derived; verified at p.3)'
+  cmp_wang2024b_racetrack_2um_acoustic-m4:
+    basis: derived
+    notes: 'D157: printed as 2 um (design_target value), stored in nm: unit rescale, basis derived.'
+    why: 'D157 sweep: printed 2 um, stored 2000 nm (pure unit rescale of a printed dimension is derived; verified at p.10 Extended Data Fig. 1 caption)'
+  cmp_wang2024b_spiral_1p75um-m4:
+    basis: derived
+    notes: 'Spiral length 39 cm. D157: printed as 39 cm (design_target value), stored in um: unit rescale, basis derived.'
+    why: 'D157 sweep: printed 39 cm, stored 390000 um (pure unit rescale of a printed dimension is derived; verified at p.11 Extended Data Fig. 2(a) caption)'
+  cmp_wang2024b_spiral_1p75um-m5:
+    basis: derived
+    notes: 'D157: printed as 1.75 um (design_target value), stored in nm: unit rescale, basis derived.'
+    why: 'D157 sweep: printed 1.75 um, stored 1750 nm (pure unit rescale of a printed dimension is derived; verified at p.3; Extended Data Fig. 2(a) caption)'

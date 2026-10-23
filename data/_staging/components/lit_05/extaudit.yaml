@@ -1,0 +1,99 @@
+# Ext audit corrections (coordinator, 2026-10-22, DevLog-007 D256-D259; audit record DevLog/audits/2026-10-22-registry-ext-gapfill-sweep-audit.md) plus convention sweep 3 ops (D256: unit / prefix conversions of non-dimension values) for this batch.
+# Replay order: patch, sweep, gapfill, addendum, geometry, geoaudit, coord, sweep2, coord2, extaudit, sweep3 (files absent in a batch are skipped).
+components:
+  cmp_lit_huang2019a_mode_filter_lpg:
+    notes: Fabricated with the authors' in-house microfabrication facilities (p.2 Sec. III); three of four authors at City
+      University of Hong Kong, one at UESTC (borderline fab_org_ids, D84b-like). Rejection ratios (18.4 dB vs E21, 16.9 dB
+      vs E12 at 1550 nm), 10-dB rejection bandwidths (~190 nm, ~140 nm; author estimate assuming wavelength-flat higher-mode
+      losses), RW2 -10 dB bandwidths (197 nm; 182 nm at 66 C), grating period / count and the calculated -10 dB bandwidth
+      (142 nm) entered in the D169 gap-fill (m9-m17); RW2 -15 dB bandwidths (97 / 90 nm) and calculated -15 / -20 dB widths
+      not entered (no -15 / -20 dB width parameter).
+    why: 'G_lit_05 audit: mention the simulated -10 dB width row m17 added below'
+  cmp_lit_bock2010_swg_crossing_fdtd:
+    notes: Simulation-only layout (3 um, 12-segment tapers; pitch 200 -> 300 nm; segment length 150 nm), not the fabricated
+      50 um-taper design (p.3-5). Simulated loss variation < 0.1 dB (TE and TM, 1520-1580 nm) entered as wdl_db m3 (D169).
+    why: 'G_lit_05 audit: mention the simulated wdl_db row m3 added below'
+metrics:
+  cmp_lit_huang2019a_mode_filter_lpg-m11:
+    notes: Printed ~190 nm (1440-1630 nm); estimated assuming wavelength-insensitive higher-mode insertion losses (BPM-confirmed);
+      higher-mode loss spectra not measured. Which E11 spectrum the estimate uses is not stated.
+    why: 'G_lit_05 audit: the text does not say the estimate uses the RW2 spectrum (p.4 Sec. IV)'
+  cmp_lit_huang2019a_mode_filter_lpg-m12:
+    notes: Printed ~140 nm (1450-1590 nm); estimated assuming wavelength-insensitive higher-mode insertion losses (BPM-confirmed);
+      higher-mode loss spectra not measured. Which E11 spectrum the estimate uses is not stated.
+    why: 'G_lit_05 audit: the text does not say the estimate uses the RW2 spectrum (p.4 Sec. IV)'
+  cmp_lit_huang2019a_mode_filter_lpg-m13:
+    polarization: both
+    why: 'G_lit_05 audit: one value stated for the TE and TM spectra (p.4 Sec. IV, Fig. 6(a))'
+  cmp_lit_qi2025_fp_slr_cavity-m11:
+    condition: highly reflective operating point (120 mW heater power; undercut state not stated, presumably before undercut
+      given the 120 mW tuning power); symmetric double-sided model (kappa_i + 2 kappa_e), external coupling per SLR
+    why: 'G_lit_05 audit: the text does not state that the Fig. 4 measurement precedes the undercut (p.5 Sec. III B; Sec.
+      IV)'
+  cmp_lit_elsaeed2024_bent_dc_40-m3:
+    locator: p.2 Fig. 1 caption; p.7 Fig. 12 caption
+    notes: Fig. 1 caption gives the nominal gap of all DCs as 100 nm; Fig. 12 caption prints 0.1 um.
+    why: 'D157 audit: stored 100 nm is printed in nm at p.2 Fig. 1 caption (all DCs); cite it, basis stays design_target'
+  cmp_lit_elsaeed2024_bent_dc_40-m4:
+    locator: p.2 Fig. 1 caption; p.7 Fig. 11 caption
+    notes: Fig. 1 caption (and p.4) give the waveguide width of all DCs as 380 nm; Fig. 11 caption prints 0.38 um.
+    why: 'D157 audit: stored 380 nm is printed in nm at p.2 Fig. 1 caption (all DCs); cite it, basis stays design_target'
+  cmp_lit_elsaeed2024_bent_dc_60-m3:
+    locator: p.2 Fig. 1 caption; p.7 Fig. 12 caption
+    notes: Fig. 1 caption gives the nominal gap of all DCs as 100 nm; Fig. 12 caption prints 0.1 um.
+    why: 'D157 audit: stored 100 nm is printed in nm at p.2 Fig. 1 caption (all DCs); cite it, basis stays design_target'
+  cmp_lit_elsaeed2024_bent_dc_60-m4:
+    locator: p.2 Fig. 1 caption; p.7 Fig. 11 caption
+    notes: Fig. 1 caption (and p.4) give the waveguide width of all DCs as 380 nm; Fig. 11 caption prints 0.38 um.
+    why: 'D157 audit: stored 380 nm is printed in nm at p.2 Fig. 1 caption (all DCs); cite it, basis stays design_target'
+  cmp_lit_elsaeed2024_bent_dc_70-m3:
+    locator: p.2 Fig. 1 caption; p.7 Fig. 12 caption
+    notes: Fig. 1 caption gives the nominal gap of all DCs as 100 nm; Fig. 12 caption prints 0.1 um.
+    why: 'D157 audit: stored 100 nm is printed in nm at p.2 Fig. 1 caption (all DCs); cite it, basis stays design_target'
+  cmp_lit_elsaeed2024_bent_dc_70-m4:
+    locator: p.2 Fig. 1 caption; p.7 Fig. 11 caption
+    notes: Fig. 1 caption (and p.4) give the waveguide width of all DCs as 380 nm; Fig. 11 caption prints 0.38 um.
+    why: 'D157 audit: stored 380 nm is printed in nm at p.2 Fig. 1 caption (all DCs); cite it, basis stays design_target'
+  cmp_lit_elsaeed2024_straight_dc_50-m4:
+    locator: p.2 Fig. 1 caption; p.5 Fig. 8 caption
+    notes: Fig. 1 caption gives the nominal gap of all DCs as 100 nm; Fig. 8 caption prints 0.1 um.
+    why: 'D157 audit: stored 100 nm is printed in nm at p.2 Fig. 1 caption (all DCs); cite it, basis stays design_target'
+  cmp_lit_nevlacsil2020_mmi_te_tm-m4:
+    locator: p.4 Sec. 2; p.5 Table 2
+    why: 'D157 audit: stored 700 nm is printed in nm at p.4 Sec. 2 (crossing single-mode width); Table 2 prints 0.7 um; match
+      sibling rows, basis stays design_target'
+  cmp_lit_nevlacsil2020_smwg_crossing-m4:
+    locator: p.4 Sec. 2; p.5 Table 2
+    why: 'D157 audit: stored 700 nm is printed in nm at p.4 Sec. 2 (crossing single-mode width); Table 2 prints 0.7 um; match
+      sibling rows, basis stays design_target'
+add_metrics:
+- metric_id: cmp_lit_huang2019a_mode_filter_lpg-m17
+  component_id: cmp_lit_huang2019a_mode_filter_lpg
+  parameter: bw_10db_nm
+  value: '142'
+  unit: nm
+  wavelength_nm: '1500'
+  wavelength_max_nm: '1642'
+  polarization: te
+  condition: -10 dB (90% conversion) width of the calculated E11 transmission of the three-section pi-phase-shifted LPG (L1
+    = 6, L2 = 14, L3 = 22 periods, kappa 372 /m), transfer-matrix method
+  basis: simulated
+  locator: p.2 Sec. II; p.2 Fig. 2(a)
+  notes: 'Printed 142 nm (1500-1642 nm) for the chosen length distribution; TM results stated almost the same. Measured RW2
+    width: m13.'
+  why: 'G_lit_05 audit: D169 bw_10db_nm for mode_converter; design-stage simulated width missed by the gap-fill'
+- metric_id: cmp_lit_bock2010_swg_crossing_fdtd-m3
+  component_id: cmp_lit_bock2010_swg_crossing_fdtd
+  parameter: wdl_db
+  value: '0.1'
+  unit: dB
+  qualifier: lt
+  wavelength_nm: '1520'
+  wavelength_max_nm: '1580'
+  polarization: both
+  scope: per_component
+  condition: simulated loss variation of the wf = 350 nm SWG crossing over 1520-1580 nm, TE and TM (3D FDTD)
+  basis: simulated
+  locator: p.5 Sec. 3; p.5 Fig. 2
+  notes: Printed loss variation < 0.1 dB for TE and TM polarizations.
+  why: 'G_lit_05 audit: D169 wdl_db for crossing; simulated value of the FDTD design row missed by the gap-fill'

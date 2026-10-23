@@ -169,3 +169,21 @@ Phases run as tranches with a DevLog each, pilot-then-batch, fresh-context audit
 - 2026-10-20: P0 done ([DevLog-001](DevLog-001-p0-foundation.md)): registry 864 orgs / 370 aliases / 55 events / 1826 sources; crosswalk EO/PK/LIN 100%, OFC 99.79% of author rows; two fresh-context audits applied.
 - 2026-10-20 15:00: P1 back-fill and OFC pass done and audited (554 components, 1791 metrics); P2 supply and P3 people corrections each audited twice and fixed. Details in DevLog-001..004.
 - 2026-10-20 16:45: repo github.com/jwt625/photonics-atlas created (gh, public) and pushed in 8 commits after a staged-file scan (no absolute paths, secrets, e-mail addresses, private references; restricted OFC / PK text not committed, facts and locators only); GitHub Pages (workflow build, BASE_PATH /photonics-atlas) live at https://outside5sigma.com/photonics-atlas/, first deploy run green, dashboard / orgs / components checked in a browser.
+- 2026-10-22 22:00 PDT: session "go ahead with your TODOs" (Wentao). Coordinator dispatches parallel streams (<= 10
+  subagents at once), each with its own files and DevLog; decision ranges: DevLog-007 lit distill D150-D169,
+  DevLog-008 OFC header extraction D170-D179, DevLog-009 Intel SiPh pilot D180-D189, DevLog-010 views and org hub
+  D190-D199, DevLog-003 supply additions D200-D209, DevLog-004 people additions D210-D219, DevLog-005 UI audit fixes
+  D220-D229, DevLog-006 retrieval additions D148-D149 and D230-D239. Wave 1: lit_01-06 distill, people input
+  sync, Explore / layout UI audit, OpenAlex broad-journal increment, OFC header pilot. Wave 2: distill audits, people
+  audit 2, supply org requests + vendor scanner, Intel pilot, day-2 retrieval (2026-10-23), views / org hub.
+- 2026-10-23 09:35 PDT: owner: "most of these questions have obvious answers. Go ahead and push." Defaults applied
+  (coordinator): (1) the two unpushed local commits (9f7557b, 9b365a7) were folded into one commit so the pre-scrub
+  OFC address text never enters public history; pushed after ruff / mypy / pytest 307 / validate_db 0 errors / app check
+  + 57 tests + build. (2) Address text in already-pushed rows (2026-10-20, ~24 curation rows) is scrubbed going forward;
+  no force-push. (3) D219c stays measured-not-applied; D219d (stricter coauthor evidence for new joins only) is the rule.
+  (4) People schema extension for web / bio observations deferred; the Intel pilot stays in staging. (5) Seed names
+  "Mario Fiorentino" / "Guo Peng" stay unresolved (no evidence; never matched on name). (6) Supply: network / transport
+  equipment and discrete electronic dies stay under top-level codes with notes until a tree revision. (7) The two OFC
+  organizer-metadata affiliation strings that contain an institutional address stay as printed exact match keys
+  (organizer metadata, not paper text; institutional, not personal). (8) No org co-affiliation matrix (no flow views
+  from people data).

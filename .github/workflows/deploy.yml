@@ -21,6 +21,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # Privacy gate (DevLog-010 D199a): no review person / observation id in the committed views. tests/test_views.py
+      # reads only committed files (data/, app/static/data/); it needs no sibling input repos.
+      - uses: astral-sh/setup-uv@v6
+        with:
+          python-version: "3.12"
+
+      - name: Privacy tests (generated views)
+        run: uv run --extra dev pytest -q tests/test_views.py
+
       - uses: actions/setup-node@v4
         with:
           node-version: 24

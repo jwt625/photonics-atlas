@@ -26,11 +26,14 @@ Steps:
      Browser rows are split into sessions per day and site (ieee <= 30 incl. ieee_search, optica <= 20, publisher
      <= 20; global integer session numbers per site). Optica is capped at --optica-day-cap per day (default 45); a
      tail beyond cap x days would go to extra days after day N.
+  --delta (D232): after an increment selection, keep every previous queue row verbatim and give each incoming paper
+     the day slot (and, same site, the session) of a displaced paper of its primary class; displaced rows on days
+     <= --freeze-days abort the run.
 Outputs: data/_staging/literature/retrieval_queue.csv, data/_staging/literature/retrieval_schedule.md,
          cache/literature/arxiv_match/local_matches.jsonl.
 
 Usage: uv run python scripts/lit_build_queue.py [--dry-run] [--api] [--max-queries N] [--max-minutes M] [--ieee-twins]
-         [--max-ieee-queries N] [--optica-day-cap 45] [--start 2026-10-22] [--days 10]
+         [--max-ieee-queries N] [--optica-day-cap 45] [--start 2026-10-22] [--days 10] [--delta [--freeze-days 2]]
 """
 
 from __future__ import annotations
@@ -534,6 +537,67 @@ def order_and_sessions(rows: list[dict[str, Any]], n_days: int) -> list[dict[str
     return out
 
 
+def delta_slots(rows: list[dict[str, Any]], old_q: list[dict[str, str]], freeze_days: int) -> list[dict[str, Any]]:
+    """Increment rebuild (D232). `rows` = new cache_list rows with computed matches / route; `old_q` = previous queue
+    rows in file order. A retained paper keeps its previous queue row verbatim (`_verbatim`; route, day, session and
+    match columns copied into the row for the schedule). An incoming paper takes the day slot of a displaced paper of
+    the same primary class (same route first, then same site, then any; incoming in priority order), in that row's
+    file position; its session is the slot's when the site matches, else the least-loaded session of its site on that
+    day, '' for non-browser routes. Raises ValueError when a displaced row is on a frozen day (<= freeze_days), a uid
+    changed under a kept paper_id, or the incoming and displaced class counts differ."""
+    new_by = {r["paper_id"]: r for r in rows}
+    old_ids = {q["paper_id"] for q in old_q}
+    for q in old_q:
+        r = new_by.get(q["paper_id"])
+        if r is not None and r["uid"] != q["uid"]:
+            raise ValueError(f"{q['paper_id']}: uid changed {q['uid']} -> {r['uid']}")
+    displaced = [q for q in old_q if q["paper_id"] not in new_by]
+    frozen = [q["paper_id"] for q in displaced if int(q["day"]) <= freeze_days]
+    if frozen:
+        raise ValueError(f"displaced rows on frozen days: {frozen}")
+    incoming = [r for r in rows if r["paper_id"] not in old_ids]
+    if Counter(r["primary_class"] for r in incoming) != Counter(q["primary_class"] for q in displaced):
+        raise ValueError("incoming / displaced class counts differ")
+    copy = ("route", "route_url", "session", "arxiv_match", "arxiv_match_score", "ieee_doi", "ieee_match_score")
+    out: list[dict[str, Any]] = []
+    for q in old_q:
+        r = new_by.get(q["paper_id"])
+        if r is not None:
+            out.append({**r, **{k: q[k] for k in copy}, "day": int(q["day"]), "arxiv_id_q": q["arxiv_id"],
+                        "_verbatim": q})  # fmt: skip
+    load: Counter[tuple[int, str, int]] = Counter(
+        (r["day"], SITE[r["route"]], int(r["session"])) for r in out if SITE.get(r["route"])
+    )
+    slot_of: dict[str, dict[str, Any]] = {}
+    free = list(displaced)
+    for r in sorted(incoming, key=priority):
+        same = [q for q in free if q["primary_class"] == r["primary_class"]]
+        site = SITE.get(r["route"])
+        q = next(
+            (x for x in same if x["route"] == r["route"]),
+            next((x for x in same if site and SITE.get(x["route"]) == site), same[0]),
+        )
+        free.remove(q)
+        r["day"] = int(q["day"])
+        if site and SITE.get(q["route"]) == site:
+            r["session"] = int(q["session"])
+        elif site:
+            cands = [k for k in load if k[0] == r["day"] and k[1] == site]
+            if not cands:
+                raise ValueError(f"no {site} session on day {r['day']} for {r['paper_id']}")
+            r["session"] = min(cands, key=lambda k: (load[k], k[2]))[2]
+        else:
+            r["session"] = ""
+        if site:
+            load[(r["day"], site, int(r["session"]))] += 1
+        slot_of[q["paper_id"]] = r
+    final: list[dict[str, Any]] = []
+    it = iter(out)
+    for q in old_q:
+        final.append(slot_of[q["paper_id"]] if q["paper_id"] in slot_of else next(it))
+    return final
+
+
 # --------------------------------------------------------------------------------------------------------- outputs
 
 
@@ -662,6 +726,12 @@ def main() -> None:
         default=DAY_CAP["optica_browser"],
         help="max optica_browser papers per day; the tail goes to extra days (0 = no cap)",
     )
+    ap.add_argument(
+        "--delta",
+        action="store_true",
+        help="increment rebuild: keep previous queue rows verbatim, incoming papers take displaced rows' day slots",
+    )
+    ap.add_argument("--freeze-days", type=int, default=2, help="--delta: displaced rows on days <= N are an error")
     args = ap.parse_args()
 
     with RunLog("lit_build_queue", dry_run=args.dry_run) as log:
@@ -766,10 +836,25 @@ def main() -> None:
             r["ieee_match_score"] = f"{t[1]:.4f}" if t else ""
             r["route"], r["route_url"] = route_for(r, r["arxiv_id_q"], r["ieee_doi"])
         day_cap = {"optica_browser": args.optica_day_cap} if args.optica_day_cap > 0 else {}
-        n_days = assign_days(rows, args.days, day_cap)
-        if n_days > args.days:
-            log.info(f"warning: daily caps {day_cap} need {n_days - args.days} extra day(s) after day {args.days}")
-        rows = order_and_sessions(rows, n_days)
+        if args.delta:
+            with QUEUE.open(encoding="utf-8", newline="") as f:
+                old_q = list(csv.DictReader(f))
+            computed = {r["paper_id"]: r["route"] for r in rows}
+            rows = delta_slots(rows, old_q, args.freeze_days)
+            n_days = max(r["day"] for r in rows)
+            moved = [r["paper_id"] for r in rows if "_verbatim" in r and r["route"] != computed[r["paper_id"]]]
+            new_ids = [r["paper_id"] for r in rows if "_verbatim" not in r]
+            log.info(f"delta: kept {len(rows) - len(new_ids)} rows verbatim, incoming {new_ids}")
+            log.info(f"delta: kept rows whose recomputed route differs (kept as queued): {moved}")
+            for r in rows:
+                if "_verbatim" not in r:
+                    log.info(f"  incoming {r['paper_id']} {r['primary_class']} day {r['day']} {r['route']} "
+                             f"session {r['session']!r} arxiv {r['arxiv_id_q'] or '-'}")  # fmt: skip
+        else:
+            n_days = assign_days(rows, args.days, day_cap)
+            if n_days > args.days:
+                log.info(f"warning: daily caps {day_cap} need {n_days - args.days} extra day(s) after day {args.days}")
+            rows = order_and_sessions(rows, n_days)
         start = dt.date.fromisoformat(args.start)
         dates = [(start + dt.timedelta(days=i)).isoformat() for i in range(n_days)]
         for rt, cap in day_cap.items():
@@ -819,7 +904,9 @@ def main() -> None:
         log.event("summary", "ok", routes=dict(Counter(r["route"] for r in rows)), gains=gains)
 
         out_rows = [
-            {
+            r["_verbatim"]
+            if "_verbatim" in r
+            else {
                 **{k: r.get(k, "") for k in COLUMNS},
                 "date": dates[r["day"] - 1],
                 "arxiv_id": r["arxiv_id_q"],

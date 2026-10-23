@@ -1,6 +1,7 @@
 # Schema for the supply-chain atlas tables (data/supply/*.csv). Loaded with registry.schema.yaml and
 # components.schema.yaml by scripts/validate_db.py. v1 2026-10-20 (DevLog-003, decisions D51-D60; reliability_tests
-# measurand / variant / qualifier / scope columns added 2026-10-20 by the D60 amendment after the fresh-context audit).
+# measurand / variant / qualifier / scope columns added 2026-10-20 by the D60 amendment after the fresh-context audit;
+# extraction scan_review and the derived product id added 2026-10-22, D206 / D209).
 # Category tree: data/schema/supply_categories.yaml. Table rules: src/photonics_atlas/rules_supply.py.
 #
 # Rules (binding, in addition to registry rules (a)-(h)):
@@ -29,7 +30,8 @@ patterns:
 enums:
   supply_usage_role: [fabrication, facility_use, mpw_access, post_processing, wafer_supply, material_supply, fab_tool, test_instrument, packaging_material, assembly_tool, fiber_component, laser_source, software, standard_reference]
   supply_basis: [stated, inferred_from_model]
-  supply_extraction: [atlas_import, manual, auto_regex, auto_sentence]
+  # scan_review (D206, 2026-10-22): candidate of scripts/scan_vendor_models.py confirmed by a reviewer reading the page.
+  supply_extraction: [atlas_import, manual, auto_regex, auto_sentence, scan_review]
   supply_product_status: [active, discontinued, unknown]
   supply_spec_basis: [datasheet_spec, datasheet_typical, stated_in_paper, measured, derived]
   supply_platform: [siph, sin, si_sin, tfln, tflt, inp, bto, oeo_hybrid, plasmonic_organic, sige_bicmos, cmos, other]
@@ -48,7 +50,7 @@ tables:
     built: true
     key: [product_id]
     columns:
-      - {name: product_id, type: str, pattern: supply_product_id, required: true, desc: "product_<org slug>-<model slug> (org slug = org_id without org_), immutable (D8)"}
+      - {name: product_id, type: str, pattern: supply_product_id, required: true, desc: "product_<org slug>-<model slug> (org slug = org_id without org_; model slug from the printed model, rules_supply.product_id, D206), immutable (D8)"}
       - {name: org_id, type: fk, ref: organizations.org_id, required: true, desc: "vendor as of the source; renames/acquisitions are org_events"}
       - {name: category_id, type: str, pattern: supply_category_id, required: true}
       - {name: model, type: str, required: true, desc: "model / part number as the vendor writes it"}

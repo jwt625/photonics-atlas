@@ -13,6 +13,8 @@
 		{ href: '/', label: 'Dashboard' },
 		{ href: '/orgs', label: 'Organizations' },
 		{ href: '/components', label: 'Components' },
+		{ href: '/supply', label: 'Supply' },
+		{ href: '/people', label: 'People' },
 		{ href: '/layout', label: 'Layouts' },
 		{ href: '/explore', label: 'Explore' },
 		{ href: '/about', label: 'About' }
@@ -67,7 +69,7 @@
 <style>
 	.app { height: 100vh; display: grid; grid-template-columns: minmax(0, 1fr); grid-template-rows: var(--hdr) minmax(0, 1fr) auto; }
 	header { min-width: 0; display: flex; align-items: center; gap: 14px; padding: 0 10px; background: var(--surface); border-bottom: 1px solid var(--border); }
-	.brand { color: var(--ink); font-weight: 600; letter-spacing: 0.02em; }
+	.brand { color: var(--ink); font-weight: 600; letter-spacing: 0.02em; white-space: nowrap; }
 	.brand:hover { text-decoration: none; }
 	nav { display: flex; gap: 2px; height: 100%; }
 	nav a { display: flex; align-items: center; padding: 0 10px; color: var(--ink-2); border-bottom: 2px solid transparent; }
@@ -78,6 +80,10 @@
 	footer .sep { color: var(--line); }
 	main { min-height: 0; min-width: 0; overflow: hidden; }
 	.err { padding: 12px; color: var(--crit); }
+	@media (max-width: 1050px) {
+		header > .muted { display: none; }
+		nav a { padding: 0 7px; }
+	}
 	@media (max-width: 700px) {
 		.app { grid-template-rows: auto minmax(0, 1fr) auto; }
 		header { flex-wrap: wrap; gap: 6px 10px; padding: 6px 10px; }

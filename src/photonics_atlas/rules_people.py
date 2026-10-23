@@ -21,9 +21,19 @@ from collections import defaultdict
 from pathlib import Path
 from typing import Any
 
-from .csvio import read_csv
+from .csvio import read_csv, split_list
 from .paths import ROOT
-from .people import SPELLED_EMAIL_RE, clean_text
+from .people import (
+    HEADER_GRADE_B,
+    HEADER_ID_RE,
+    SLOT_OF_OBS_RE,
+    SPELLED_EMAIL_RE,
+    clean_text,
+    header_batches,
+    header_obs_id,
+    header_rows,
+    header_status,
+)
 from .textnorm import EMAIL_RE
 
 # Paths relative to the validate root (data/_local/ is local-only and git-ignored, D64).
@@ -31,6 +41,9 @@ QUEUE_REL = Path("data") / "_local" / "people" / "review_queue.csv"
 PEOPLE_REL = Path("data") / "people"
 TABLES = ("people", "person_aliases", "person_xref", "affiliation_observations")
 KIND_OF_CORPUS = {"eo": "publication", "pk": "publication", "ofc2026": "conference"}
+# D214: OFC 2026 also gives paper-header rows (kind publication, own obs id namespace #a<i>.h<j>.<k>[.<m>])
+KINDS_OF_CORPUS = {"eo": {"publication"}, "pk": {"publication"}, "ofc2026": {"conference", "publication"}}
+HEADER_LOCATOR_RE = re.compile(r"^p\.~[0-9]+")
 GRADE_OF_KIND = {"publication": "A", "conference": "B"}
 RULE_BASES = {"exact_name_shared_org", "compatible_name_shared_org_coauthor"}
 ORIGIN_GRADE = {"eo_person_id": "A", "pk_name_key": "A", "ofc_name": "B"}
@@ -163,9 +176,21 @@ def rules(
     for o, pids in sorted(owners.items()):
         if len(pids) > 1:
             rep.err(f"ORCID {o} held by {len(pids)} persons {sorted(pids)} (one iD, one person)")
-    for pid in people:
-        if not xref_by.get(pid):
+    for pid, p in people.items():
+        tgt = p.get("same_as", "")
+        if not xref_by.get(pid) and not tgt:
             rep.warn(f"people {pid}: no person_xref row (person kept without records)")
+        if not tgt:
+            continue
+        # D212: redirect of a committed id absorbed by a merge
+        if tgt == pid or tgt not in people:
+            rep.err(f"people {pid}: same_as {tgt!r} is not another person in people.csv (D212)")
+        elif people[tgt].get("same_as"):
+            rep.err(f"people {pid}: same_as {tgt} is itself redirected to {people[tgt]['same_as']} (D212)")
+        if xref_by.get(pid):
+            rep.err(f"people {pid}: redirected (same_as {tgt}) but still holds person_xref rows (D212)")
+        if p["visibility"] != "review":
+            rep.err(f"people {pid}: redirected (same_as {tgt}) must have visibility review (D212)")
 
     # D94: person visibility; research_status validated only for LIN people.
     obs_by: dict[str, list[dict[str, str]]] = defaultdict(list)
@@ -201,6 +226,13 @@ def rules(
     xw: dict[tuple[str, str], set[str]] = defaultdict(set)
     for r in full.get("org_crosswalk", []):
         xw[(r["corpus"], clean_text(r["printed"]))] |= {x.strip() for x in r["org_ids"].split(";") if x.strip()}
+    _, hdr_stale = header_batches(base)
+    for d in hdr_stale:
+        rep.warn(f"OFC header batch {d.name}: check stamp does not match headers.yaml; its rows are not used (D248)")
+    hdr = {header_obs_id(h): h for h in header_rows(base)}
+    hdr_of_slot: dict[str, list[dict[str, str]]] = defaultdict(list)
+    for h in hdr.values():
+        hdr_of_slot[f"{h['source_id']}#a{h['author_index']}"].append(h)
     session = {}
     for r in full["sources"]:
         m = SESSION_RE.search(r["notes"]) if r["corpus"] == "ofc2026" else None
@@ -223,15 +255,26 @@ def rules(
             continue  # orphan, reported by the fk check
         if s["same_as"]:
             rep.err(f"affiliation_observations {oid}: cites duplicate {sid} (canonical {s['same_as']}, p6)")
-        want_kind = KIND_OF_CORPUS.get(s["corpus"])
-        if want_kind is None:
+        kinds = KINDS_OF_CORPUS.get(s["corpus"])
+        hm = HEADER_ID_RE.search(oid) if s["corpus"] == "ofc2026" else None
+        if kinds is None:
             rep.err(f"affiliation_observations {oid}: source corpus {s['corpus']} is not eo, pk or ofc2026")
-        elif r["kind"] != want_kind:
-            rep.err(f"affiliation_observations {oid}: {s['corpus']} source gives kind {want_kind}, not {r['kind']}")
-        if GRADE_OF_KIND.get(r["kind"]) != r["evidence_grade"]:
+        elif r["kind"] not in kinds:
             rep.err(
-                f"affiliation_observations {oid}: kind {r['kind']} is grade {GRADE_OF_KIND.get(r['kind'])}, "
-                f"not {r['evidence_grade']} (p4)"
+                f"affiliation_observations {oid}: {s['corpus']} source gives kind {'/'.join(sorted(kinds))}, not {r['kind']}"
+            )
+        elif s["corpus"] == "ofc2026" and (r["kind"] == "publication") != bool(hm):
+            rep.err(
+                f"affiliation_observations {oid}: an ofc2026 publication row is a paper-header row with an "
+                "#a<i>.h<j>.<k> id, and a header id is a publication row (D214)"
+            )
+        if hm:
+            want_grade = header_row_checks(oid, r, hm, hdr, rep)
+        else:
+            want_grade = GRADE_OF_KIND.get(r["kind"], "")
+        if want_grade and want_grade != r["evidence_grade"]:
+            rep.err(
+                f"affiliation_observations {oid}: kind {r['kind']} is grade {want_grade}, not {r['evidence_grade']} (p4)"
             )
         corpus = s["corpus"]
         want_on = {
@@ -242,7 +285,9 @@ def rules(
         if want_on and r["active_on"] != want_on:
             rep.err(f"affiliation_observations {oid}: active_on {r['active_on']} != source date {want_on} (D67)")
         key = (corpus, clean_text(r["printed_org"]))
-        if key in xw:
+        if hm:
+            pass  # D214: header org ids come from the staged header row (checked above), not from the crosswalk
+        elif key in xw:
             ok_ids = xw[key]
             if (r["org_id"] or "") not in ok_ids and not (r["org_id"] == "" and not ok_ids):
                 rep.err(
@@ -266,6 +311,24 @@ def rules(
             rep.err(f"affiliation_observations {oid}: OFC metadata has one affiliation per author (aff_role primary)")
         if r["org_id"] == "" and r["printed_org"] and r["visibility"] == "public" and s["corpus"] != "ofc2026":
             rep.warn(f"affiliation_observations {oid}: printed org {r['printed_org']!r} not mapped to the registry")
+
+    orgs = {o["org_id"]: o for o in full.get("organizations", [])}
+    slot_obs: dict[str, list[dict[str, str]]] = defaultdict(list)
+    for r in full["affiliation_observations"]:
+        m = SLOT_OF_OBS_RE.match(r["obs_id"])
+        if r["obs_id"].startswith("ofc2026:") and m:
+            slot_obs[m.group(1)].append(r)
+    for slot, rows in sorted(slot_obs.items()):
+        meta = [r for r in rows if not HEADER_ID_RE.search(r["obs_id"])]
+        if not meta or len(meta) == len(rows):
+            continue
+        hrows = hdr_of_slot.get(slot, [])
+        meta_ids = xw.get(("ofc2026", clean_text(meta[0]["printed_org"])), set())
+        status = header_status(meta_ids, meta[0]["printed_org"], hrows, orgs) if hrows else ""
+        if status == "confirmed":
+            rep.err(f"affiliation_observations {slot}: metadata row kept although the paper header confirms it (D215)")
+        if status == "conflict" and any(r["visibility"] != "review" for r in rows):
+            rep.err(f"affiliation_observations {slot}: header / metadata conflict, every row must be review (D216)")
 
     if not review_queue.exists():
         rep.warn(f"{review_queue.name} (local review queue) absent: D64 visibility of queued persons not checked")
@@ -300,3 +363,32 @@ def rules(
             for b in ps[i + 1 :]:
                 if frozenset((a, b)) not in pairs:
                     rep.err(f"EO person {v} split into {a} and {b} but the pair is not in the review queue (D64)")
+
+
+def header_row_checks(oid: str, r: dict[str, str], hm: re.Match[str], hdr: dict[str, dict[str, str]], rep: Any) -> str:
+    """D214 / D218: an OFC header observation copies its staged header row (DevLog-008 D171): org id (the m-th id when
+    one printed org maps to several), printed org, unit, country, role, locator, printed name and grade (B only for the
+    listing_order / layout marker bases, D240 / D246). Returns the expected grade ('' when the row is missing)."""
+    h = hdr.get(oid[: hm.start()] + f"#a{hm.group(1)}.h{hm.group(2)}.{hm.group(3)}")
+    if h is None:
+        rep.err(f"affiliation_observations {oid}: no staged OFC header row with a current check stamp (D214)")
+        return ""
+    ids = split_list(h["org_ids"])
+    m = int(hm.group(4))
+    if not 1 <= m <= max(len(ids), 1):
+        rep.err(f"affiliation_observations {oid}: org suffix does not fit the header row's org ids {ids}")
+    want = {
+        "org_id": ids[m - 1] if 0 < m <= len(ids) else "",
+        "printed_org": h["org_name"],
+        "unit": h["unit"],
+        "country": h["country"],
+        "aff_role": h["aff_role"],
+        "locator": h["locator"],
+        "printed_name": clean_text(h["printed_name"]),
+    }
+    for c, v in want.items():
+        if r[c] != v:
+            rep.err(f"affiliation_observations {oid}: {c} {r[c]!r} != header row {v!r} (D214)")
+    if not HEADER_LOCATOR_RE.match(r["locator"]):
+        rep.err(f"affiliation_observations {oid}: header locator must start with 'p.~<page>' (D4)")
+    return "B" if h["marker_basis"] in HEADER_GRADE_B else "A"

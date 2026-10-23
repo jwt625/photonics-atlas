@@ -23,7 +23,9 @@ this repo reads them through read-only adapters and maps their organizations int
   classes incl. WDM), long-format `data/components/component_metrics.csv` (554 components, 1791 values on 2026-10-20);
   back-filled from the EO atlas papers, packaging-atlas papers and OFC 2026 component papers (facts only), every batch
   audited. Corrections are replayable per batch: `patch.yaml` (audit), `sweep.yaml` (conventions), `gapfill.yaml`
-  (registry additions) and later audit addenda (`addendum.yaml`), applied in that order with
+  (registry additions) and later audit addenda (`addendum.yaml`), then `geometry.yaml`, `geoaudit.yaml`,
+  `coord.yaml`, `sweep2.yaml`, `coord2.yaml` (org round 5 fab / facility), `extaudit.yaml` (registry-extension audit,
+  incl. sweep 3 ops) `sweep3.yaml` (sweep 3 in batches without an `extaudit.yaml`) and `extaudit2.yaml` (lit_01 only, D259a), applied in that order with
   `scripts/patch_component_staging.py`, then
   `scripts/merge_component_staging.py --replace`.
 - P2 supply chain foundation ([DevLog-003](DevLog/DevLog-003-p2-supply-chain.md)): category tree A-K,
@@ -79,6 +81,8 @@ Atlas tranches on top of the registry (each validated by `validate_db.py` throug
 | `merge_component_staging.py <batch>` | appends a validated distillation batch to `data/components/` (`--replace` for patched batches) |
 | `patch_component_staging.py <batch> <patch.yaml>` | applies coordinator / audit corrections to a staging batch (idempotent) |
 | `build_supply_seed.py` | append-only supply tables in `data/supply/` from EO papers and packaging metrics (`data/supply/curation.yaml`) |
+| `scan_vendor_models.py` | vendor / model candidates from cached paper texts (`config/supply_scanner.yaml`): git-ignored JSONL with context in `data/_local/supply/scan/`, text-free `candidates.csv` per batch in `data/_staging/supply/products/<batch>/` |
+| `build_supply_staging.py <batch>` | reviewed batch (`review.csv`) -> staged `products.csv` / `product_usage.csv` with page checks and validation; vendor gaps to `data/_staging/supply/org_requests.csv`; `--merge` appends to `data/supply/` (after audit) |
 | `build_people.py`, then `derive_transitions.py` | people tables in `data/people/`; review queue and transitions in git-ignored `data/_local/people/` |
 
 `validate_db.py` (reader) checks everything against the schema.

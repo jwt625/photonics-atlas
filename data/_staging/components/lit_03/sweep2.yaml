@@ -1,0 +1,112 @@
+# Convention sweep 2 (coordinator, 2026-10-22, DevLog-007 D157 / D162 / D253-D255): D157 unit-rescale basis fixes found
+# mechanically (value absent in the stored unit, present in another unit in the source text) and verified at the locator;
+# D162 fill_factor = tooth fraction. Replay order: patch, sweep, gapfill, addendum, geometry, geoaudit, coord, sweep2.
+metrics:
+  cmp_lit_hu2023_peaked_ge_pd-m7:
+    basis: derived
+    notes: 'designed bottom width of the Ge film. D157: printed as 600 nm (design_target value), stored in um: unit rescale, basis derived.'
+    why: 'D157 sweep: printed 600 nm, stored 0.6 um (pure unit rescale of a printed dimension is derived; verified at p.3 Sec. 2)'
+  cmp_lit_hu2023_peaked_ge_pd-m8:
+    basis: derived
+    notes: 'actual bottom Ge width from cross-sectional TEM, ''about 580 nm''. D157: printed as 580 nm (measured value), stored in um: unit rescale, basis derived.'
+    why: 'D157 sweep: printed 580 nm, stored 0.58 um (pure unit rescale of a printed dimension is derived; verified at p.3 Sec. 2, Fig. 1(c))'
+  cmp_lit_hu2023_unpeaked_ge_pd-m5:
+    basis: derived
+    notes: 'designed bottom width of the Ge film. D157: printed as 600 nm (design_target value), stored in um: unit rescale, basis derived.'
+    why: 'D157 sweep: printed 600 nm, stored 0.6 um (pure unit rescale of a printed dimension is derived; verified at p.3 Sec. 2)'
+  cmp_lit_song2021_si_px40-m5:
+    basis: derived
+    notes: 'InGaAs absorption layer thickness. D157: printed as 1 um (design_target value), stored in nm: unit rescale, basis derived.'
+    why: 'D157 sweep: printed 1 um, stored 1000 nm (pure unit rescale of a printed dimension is derived; verified at p.3 Sec. II.C; p.5 Sec. IV.D)'
+  cmp_lit_song2021_si_px30-m3:
+    basis: derived
+    notes: 'InGaAs absorption layer thickness. D157: printed as 1 um (design_target value), stored in nm: unit rescale, basis derived.'
+    why: 'D157 sweep: printed 1 um, stored 1000 nm (pure unit rescale of a printed dimension is derived; verified at p.3 Sec. II.C; p.5 Sec. IV.D)'
+  cmp_lit_song2021_si_px20-m3:
+    basis: derived
+    notes: 'InGaAs absorption layer thickness. D157: printed as 1 um (design_target value), stored in nm: unit rescale, basis derived.'
+    why: 'D157 sweep: printed 1 um, stored 1000 nm (pure unit rescale of a printed dimension is derived; verified at p.3 Sec. II.C; p.5 Sec. IV.D)'
+  cmp_lit_song2021_inp_px40-m3:
+    basis: derived
+    notes: 'InGaAs absorption layer thickness. D157: printed as 1 um (design_target value), stored in nm: unit rescale, basis derived.'
+    why: 'D157 sweep: printed 1 um, stored 1000 nm (pure unit rescale of a printed dimension is derived; verified at p.3 Sec. II.C; p.5 Sec. IV.D)'
+  cmp_lit_song2021_inp_px30-m3:
+    basis: derived
+    notes: 'InGaAs absorption layer thickness. D157: printed as 1 um (design_target value), stored in nm: unit rescale, basis derived.'
+    why: 'D157 sweep: printed 1 um, stored 1000 nm (pure unit rescale of a printed dimension is derived; verified at p.3 Sec. II.C; p.5 Sec. IV.D)'
+  cmp_lit_song2021_inp_px20-m3:
+    basis: derived
+    notes: 'InGaAs absorption layer thickness. D157: printed as 1 um (design_target value), stored in nm: unit rescale, basis derived.'
+    why: 'D157 sweep: printed 1 um, stored 1000 nm (pure unit rescale of a printed dimension is derived; verified at p.3 Sec. II.C; p.5 Sec. IV.D)'
+  cmp_lit_song2021_hs_d10-m4:
+    basis: derived
+    notes: 'InGaAs absorption layer thickness. D157: printed as 1 um (design_target value), stored in nm: unit rescale, basis derived.'
+    why: 'D157 sweep: printed 1 um, stored 1000 nm (pure unit rescale of a printed dimension is derived; verified at p.5 Sec. IV.D)'
+  cmp_lit_song2021_hs_d15-m3:
+    basis: derived
+    notes: 'InGaAs absorption layer thickness. D157: printed as 1 um (design_target value), stored in nm: unit rescale, basis derived.'
+    why: 'D157 sweep: printed 1 um, stored 1000 nm (pure unit rescale of a printed dimension is derived; verified at p.5 Sec. IV.D)'
+  cmp_lit_song2021_hs_d20-m3:
+    basis: derived
+    notes: 'InGaAs absorption layer thickness. D157: printed as 1 um (design_target value), stored in nm: unit rescale, basis derived.'
+    why: 'D157 sweep: printed 1 um, stored 1000 nm (pure unit rescale of a printed dimension is derived; verified at p.5 Sec. IV.D)'
+  cmp_lit_song2021_hs_d25-m3:
+    basis: derived
+    notes: 'InGaAs absorption layer thickness. D157: printed as 1 um (design_target value), stored in nm: unit rescale, basis derived.'
+    why: 'D157 sweep: printed 1 um, stored 1000 nm (pure unit rescale of a printed dimension is derived; verified at p.5 Sec. IV.D)'
+  cmp_lit_song2021_hs_d30-m3:
+    basis: derived
+    notes: 'InGaAs absorption layer thickness. D157: printed as 1 um (design_target value), stored in nm: unit rescale, basis derived.'
+    why: 'D157 sweep: printed 1 um, stored 1000 nm (pure unit rescale of a printed dimension is derived; verified at p.5 Sec. IV.D)'
+  cmp_lit_song2021_hs_d40-m3:
+    basis: derived
+    notes: 'InGaAs absorption layer thickness. D157: printed as 1 um (design_target value), stored in nm: unit rescale, basis derived.'
+    why: 'D157 sweep: printed 1 um, stored 1000 nm (pure unit rescale of a printed dimension is derived; verified at p.5 Sec. IV.D)'
+  cmp_lit_hosseini2015_pzt_w10-m2:
+    basis: derived
+    notes: 'top electrode (active) length 10 mm. D157: printed as 10 mm (design_target value), stored in um: unit rescale, basis derived.'
+    why: 'D157 sweep: printed 10 mm, stored 10000 um (pure unit rescale of a printed dimension is derived; verified at p.5 Sec. Experimental validation)'
+  cmp_lit_hosseini2015_pzt_w10-m4:
+    basis: derived
+    notes: 'Si3N4 core width. D157: printed as 4.4 um (design_target value), stored in nm: unit rescale, basis derived.'
+    why: 'D157 sweep: printed 4.4 um, stored 4400 nm (pure unit rescale of a printed dimension is derived; verified at p.3 Sec. Basic device principle)'
+  cmp_lit_hosseini2015_pzt_w20-m2:
+    basis: derived
+    notes: 'top electrode (active) length 10 mm. D157: printed as 10 mm (design_target value), stored in um: unit rescale, basis derived.'
+    why: 'D157 sweep: printed 10 mm, stored 10000 um (pure unit rescale of a printed dimension is derived; verified at p.5 Sec. Experimental validation)'
+  cmp_lit_hosseini2015_pzt_w20-m4:
+    basis: derived
+    notes: 'Si3N4 core width. D157: printed as 4.4 um (design_target value), stored in nm: unit rescale, basis derived.'
+    why: 'D157 sweep: printed 4.4 um, stored 4400 nm (pure unit rescale of a printed dimension is derived; verified at p.3 Sec. Basic device principle)'
+  cmp_lit_hosseini2015_pzt_w30-m5:
+    basis: derived
+    notes: 'top electrode (active) length 10 mm. D157: printed as 10 mm (design_target value), stored in um: unit rescale, basis derived.'
+    why: 'D157 sweep: printed 10 mm, stored 10000 um (pure unit rescale of a printed dimension is derived; verified at p.5 Sec. Experimental validation)'
+  cmp_lit_hosseini2015_pzt_w30-m7:
+    basis: derived
+    notes: 'Si3N4 core width. D157: printed as 4.4 um (design_target value), stored in nm: unit rescale, basis derived.'
+    why: 'D157 sweep: printed 4.4 um, stored 4400 nm (pure unit rescale of a printed dimension is derived; verified at p.3 Sec. Basic device principle)'
+  cmp_lit_hosseini2015_pzt_w40-m2:
+    basis: derived
+    notes: 'top electrode (active) length 10 mm. D157: printed as 10 mm (design_target value), stored in um: unit rescale, basis derived.'
+    why: 'D157 sweep: printed 10 mm, stored 10000 um (pure unit rescale of a printed dimension is derived; verified at p.5 Sec. Experimental validation)'
+  cmp_lit_hosseini2015_pzt_w40-m4:
+    basis: derived
+    notes: 'Si3N4 core width. D157: printed as 4.4 um (design_target value), stored in nm: unit rescale, basis derived.'
+    why: 'D157 sweep: printed 4.4 um, stored 4400 nm (pure unit rescale of a printed dimension is derived; verified at p.3 Sec. Basic device principle)'
+  cmp_lit_oz2023_mos2_heater-m7:
+    basis: derived
+    notes: '~30 nm SiO2 (HSQ) between waveguide top and MoS2, SEM cross-section. D157: printed as 30 nm (measured value), stored in um: unit rescale, basis derived.'
+    why: 'D157 sweep: printed 30 nm, stored 0.03 um (pure unit rescale of a printed dimension is derived; verified at p.7; p.8 Fig. 2(b))'
+  cmp_lit_mourgelas2021_chg_pedestal_wg-m3:
+    basis: derived
+    notes: 'average IG3 thickness 4.1 +/- 0.2 um. D157: printed as 4.1 um (measured value), stored in nm: unit rescale, basis derived.'
+    why: 'D157 sweep: printed 4.1 um, stored 4100 nm (pure unit rescale of a printed dimension is derived; verified at p.3 Sec. Optical layer deposition)'
+  cmp_lit_mourgelas2021_chg_pedestal_wg-m4:
+    basis: derived
+    notes: '~26.5 um waveguide width on an 18.5 um pedestal (SEM). D157: printed as 26.5 um (measured value), stored in nm: unit rescale, basis derived.'
+    why: 'D157 sweep: printed 26.5 um, stored 26500 nm (pure unit rescale of a printed dimension is derived; verified at p.4 Results, Fig. 2)'
+  cmp_lit_mourgelas2021_chg_pedestal_wg-m6:
+    basis: derived
+    notes: '~250 nm IG2 capping layer. D157: printed as 250 nm (design_target value), stored in um: unit rescale, basis derived.'
+    why: 'D157 sweep: printed 250 nm, stored 0.25 um (pure unit rescale of a printed dimension is derived; verified at p.3 Sec. Optical layer deposition)'

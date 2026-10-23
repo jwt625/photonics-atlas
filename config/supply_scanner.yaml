@@ -1,0 +1,733 @@
+# Vendor / model dictionary for scripts/scan_vendor_models.py (DevLog-003 D205). Hand decisions; the scanner only
+# proposes candidates, a reviewer decides (D206). Ported 2026-10-22 from the 2026-10-20 scratch lists (vendors.py,
+# modelreg.py; supply report section 3), registry ids checked by hand on 2026-10-22.
+#
+# vendors: name = vendor as commonly printed; org = registry org_id, '' when the vendor is not in the registry (a gap,
+#   D208) or the printed name is ambiguous between registry orgs (note says which); cat = top-level category hint (or a
+#   subcategory when the vendor sells one kind of item); re = Python regex, case-sensitive, matched with word
+#   boundaries added around the whole alternation.
+# models: re = model regex (word-bounded); vendor = a vendors[].name; cat = subcategory hint; type = short item type;
+#   infer: false when the model alone does not identify the vendor as of the source (lineage renames such as
+#   Agilent -> Keysight, Ando -> Yokogawa, Finisar -> II-VI -> Coherent): such rows need the vendor printed (basis
+#   stated), never inferred_from_model.
+# registry_org_types: registry orgs of these types are matched by name and alias in addition to the gazetteer.
+# stoplist: registry names / aliases never matched as vendor surface forms (common words, ambiguous acronyms).
+version: 1
+
+registry_org_types: [company, startup, foundry, business_unit, industrial_lab]
+# D299a: shared cleanrooms are proposed in methods and acknowledgement text only (facility_use, B7).
+registry_facility_types: [facility]
+
+stoplist:
+  - Apple
+  - Meta
+  - Google
+  - Amazon
+  - Microsoft
+  - Alibaba
+  - Tencent
+  - Baidu
+  - Oracle
+  - Cisco
+  - IBM
+  - Nokia
+  - Ericsson
+  - Samsung
+  - Huawei
+  - ZTE
+  - Facebook
+  - Fujitsu
+  - NEC
+  - Hitachi
+  - Toshiba
+  - Sony
+  - Intel Corporation
+  - Intel
+  - TSMC
+  - ASE
+  - SPIL
+  - AMD
+  - Qualcomm
+  - Broadcom
+  - Marvell
+  - NVIDIA
+  - Mellanox
+  - Ciena
+  - Infinera
+  - Juniper
+  - Arista
+  - Corning
+  - Panasonic
+  - Canon
+  - Nikon
+  - Sharp
+  - Kyocera
+  - Dow
+  - DuPont
+  - AGC
+  - JSR
+  - Ansys
+  - Synopsys
+  - Cadence
+  - Siemens
+  - Bosch
+  - Philips
+  - Thales
+  - Airbus
+  - Boeing
+  - Raytheon
+  - Lockheed Martin
+  - Northrop Grumman
+  - Honeywell
+  - General Electric
+  - Texas Instruments
+  - Analog Devices
+  - Micron
+  - SK hynix
+  - Hynix
+  - Xilinx
+  - Altera
+  - HP
+  - HPE
+  - Hewlett Packard Enterprise
+  - Hewlett Packard Labs
+  - Bell Labs
+  - NTT
+  - KDDI
+  - Orange
+  - Verizon
+  - AT&T
+  - Deutsche Telekom
+  - China Mobile
+  - China Telecom
+  - China Unicom
+  - SoftBank
+  - Rakuten
+  - Optica
+  - Photonics
+  - Lightwave
+  - Coherent
+  - Pixel
+  - Source
+  - Nubis
+  - Credo
+  - Ayar
+  - Celestial
+  - Lumiphase
+  - Lightmatter
+  - Luminous
+  - Quantum
+  - Aurora
+  - Phoenix
+  - Atlas
+  - Apollo
+  - Polaris
+  - Vector
+  - Matrix
+  - Nexus
+  - Vertex
+  - Zeta
+  - Alpha
+  - Beta
+  - Gamma
+  - Delta
+  - Sigma
+  - Omega
+
+# Lineage: a model of vendor K printed next to a predecessor or related brand merges into one candidate with the
+# printed vendor (D295); rows keep the vendor as printed (D6, D207).
+lineage:
+  Keysight: [Agilent, Hewlett-Packard]
+  Agilent: [Hewlett-Packard]
+  Yokogawa: [Ando]
+  Finisar: [II-VI, Coherent]
+  Ansys: [Lumerical]
+  Bruker: [Veeco]
+  Cambridge NanoTech: [Veeco]
+  FormFactor: [Cascade Microtech]
+  FEI: [Thermo Fisher Scientific]
+  New Focus: [Newport]
+  Newport: [New Focus]
+  EXFO: [Yenista]
+
+# Registry forms of <= 4 capitals are acronyms that over-match (SLM, IDT, MEC, ...; audit finding 4); listed ones
+# are kept. Short vendor names that matter are gazetteer entries with context (SHF, PI, AMF, JDSU, ...).
+registry_short_forms_keep: []
+
+usage_cues: '\b(using|used|use|uses|measured|measure|recorded|monitored|generated|amplified|detected|driven|probed|purchased|procured|bought|obtained|supplied|provided|commercial|commercially|fabricated|patterned|exposed|written|deposited|grown|etched|milled|bonded|diced|polished|cured|dispensed|aligned|attached|mounted|placed|characterized|captured|imaged|simulated|calculated|employed|lent|loaned)\b'
+
+vendors:
+  # ---- A. platform materials and substrates
+  - {name: NanoLN, org: org_jinan_jingzheng_electronics, cat: A2.1, re: 'NanoLN|NANOLN|NONOLN|Jinan Jingzheng'}
+  - {name: Partow Technologies, org: '', cat: A2, re: 'Partow'}
+  - {name: Soitec, org: org_soitec, cat: A1, re: 'Soitec|SOITEC'}
+  - {name: Shin-Etsu, org: org_shin_etsu, cat: A, re: 'Shin[- ]?Etsu'}
+  - {name: SIMIT, org: org_shanghai_institute_of_microsystem_and_information_technology, cat: A, re: 'SIMIT|Shanghai Institute of Microsystem'}
+  - {name: Novel Si Integration Technology, org: org_shanghai_novel_si_integration_technology, cat: A2.2, re: 'Novel Si|NOVEL Si|NSIT', case: true}
+  - {name: NGK Insulators, org: org_ngk_insulators, cat: A2.3, re: 'NGK'}
+  - {name: CrysTec, org: org_crystec, cat: A6, re: 'CrysTec'}
+  - {name: MTI Corp, org: '', cat: A6, re: 'MTI Corp(oration)?'}
+  - {name: La Luce Cristallina, org: org_la_luce_cristallina, cat: A2.4, re: 'Luce Cristallina'}
+  - {name: Polaris Electro-Optics, org: org_polaris_electro_optics, cat: A4, re: 'Polaris Electro-Optics|Polaris Electro Optics'}
+  - {name: Graphenea, org: org_graphenea_semiconductor, cat: A5, re: 'Graphenea'}
+  - {name: Grolltex, org: org_grolltex, cat: A5, re: 'Grolltex'}
+  - {name: IQE, org: org_iqe, cat: A3, re: 'IQE'}
+  - {name: SUMCO, org: '', cat: A, re: 'SUMCO'}
+  - {name: Siltronic, org: '', cat: A, re: 'Siltronic'}
+  - {name: Okmetic, org: '', cat: A1, re: 'Okmetic'}
+  - {name: Sumitomo Metal Mining, org: '', cat: A, re: 'Sumitomo Metal Mining'}
+  - {name: Yamaju Ceramics, org: '', cat: A, re: 'Yamaju'}
+  - {name: HC Photonics, org: '', cat: A, re: 'HC Photonics'}
+  - {name: University Wafer, org: '', cat: A, re: 'University ?Wafer', case: true}
+  - {name: AXT, org: '', cat: A3, re: 'AXT'}
+  - {name: Lightwave Logic, org: org_lightwave_logic, cat: A4, re: 'Lightwave Logic', case: true}
+  - {name: NLM Photonics, org: org_nlm_photonics, cat: A4, re: 'NLM Photonics|NLM'}
+  - {name: Soluxra, org: org_soluxra, cat: A4, re: 'Soluxra'}
+  - {name: Lumiphase, org: org_lumiphase, cat: B5, re: 'Lumiphase'}
+  - {name: Corning, org: org_corning, cat: D, re: '(?<!Dow\s)Corning(?! Research)(?! Optical)'}
+  - {name: Schott, org: org_schott, cat: A7, re: 'Schott|SCHOTT'}
+  - {name: AGC, org: org_agc, cat: A7, re: 'AGC Inc\.?|AGC(?=\s+(EN-?A1|glass|Glass))|Asahi Glass'}  # bare AGC = automatic gain control (audit finding 4)
+  - {name: Nippon Electric Glass, org: '', cat: A7, re: 'Nippon Electric Glass'}
+  # ---- B. foundries, MPW, OSAT
+  - {name: Advanced Micro Foundry, org: org_amf, cat: B1, re: 'Advanced Micro Foundry|AMF'}
+  - {name: Applied Nanotools, org: org_applied_nanotools, cat: B1, re: 'Applied Nanotools'}
+  - {name: LioniX, org: org_lionix_international, cat: B2, re: 'LioniX|Lionix'}
+  - {name: LIGENTEC, org: org_ligentec, cat: B2, re: 'LIGENTEC|Ligentec|LiGenTec'}
+  - {name: imec, org: org_imec, cat: B1, re: 'imec|IMEC'}
+  - {name: Tower Semiconductor, org: org_tower_semiconductor, cat: B1, re: 'Tower Semiconductor|TowerJazz|Tower Jazz'}
+  - {name: GlobalFoundries, org: org_globalfoundries, cat: B1, re: 'GlobalFoundries|Global Foundries|GLOBALFOUNDRIES'}
+  - {name: CORNERSTONE, org: org_cornerstone, cat: B1, re: 'CORNERSTONE|Cornerstone', case: true}
+  - {name: Fraunhofer HHI, org: org_fraunhofer_heinrich_hertz_institute, cat: B4, re: 'HHI|Heinrich[- ]Hertz'}
+  - {name: SMART Photonics, org: org_smart_photonics, cat: B4, re: 'SMART Photonics|Smart Photonics|SMART photonics', case: true}
+  - {name: JePPIX, org: org_jeppix, cat: B6, re: 'JePPIX'}
+  - {name: AIM Photonics, org: org_aim_photonics, cat: B1, re: 'AIM Photonics|AIM photonics'}
+  - {name: IHP, org: org_ihp_leibniz_institute_for_high_performance_microelectronics, cat: B1, re: 'IHP'}
+  - {name: CEA-Leti, org: org_cea_leti, cat: B1, re: 'CEA[- ]Leti|LETI|Leti'}
+  - {name: VTT, org: '', cat: B1, re: 'VTT'}
+  - {name: CUMEC, org: org_chongqing_united_microelectronics_center, cat: B1, re: 'CUMEC|Chongqing United Microelectronics'}
+  - {name: Sandia National Laboratories, org: org_sandia_national_laboratories, cat: B, re: 'Sandia', case: true}
+  - {name: Luxtelligence, org: org_luxtelligence, cat: B3, re: 'Luxtelligence|LUXTELLIGENCE'}
+  - {name: CSEM, org: org_csem, cat: B3, re: 'CSEM'}
+  - {name: HyperLight, org: org_hyperlight, cat: B3, re: 'HyperLight|Hyperlight'}
+  - {name: CompoundTek, org: org_compoundtek, cat: B1, re: 'CompoundTek'}
+  - {name: SilTerra, org: '', cat: B1, re: 'SilTerra|Silterra'}
+  - {name: X-FAB, org: '', cat: B1, re: 'X-FAB|XFAB'}
+  - {name: SkyWater, org: '', cat: B1, re: 'SkyWater|Skywater'}
+  - {name: SMIC, org: org_semiconductor_manufacturing_international, cat: B1, re: 'SMIC|Semiconductor Manufacturing International'}
+  - {name: A*STAR IME, org: '', cat: B1, re: 'Institute of Microelectronics,? A\*STAR|A\*STAR IME'}
+  - {name: Enosemi, org: org_enosemi, cat: B5, re: 'Enosemi'}
+  - {name: Polariton Technologies, org: org_polariton, cat: B5, re: 'Polariton Technologies'}
+  - {name: CMC Microsystems, org: org_cmc_microsystems, cat: B6, re: 'CMC Microsystems'}
+  - {name: Europractice, org: '', cat: B6, re: 'Europractice|EUROPRACTICE'}
+  - {name: III-V Lab, org: org_iii_v_lab, cat: B4, re: 'III-V Lab'}
+  - {name: Silicon Austria Labs, org: '', cat: B, re: 'Silicon Austria Labs'}
+  - {name: Samsung Foundry, org: '', cat: B1, re: 'Samsung Foundry'}
+  - {name: Amkor, org: org_amkor_technology, cat: B8, re: 'Amkor'}
+  - {name: ASE, org: org_ase, cat: B8, re: 'Advanced Semiconductor Engineering|ASE Group'}
+  - {name: SPIL, org: org_spil, cat: B8, re: 'SPIL|Siliconware'}
+  - {name: JCET, org: '', cat: B8, re: 'JCET'}
+  - {name: Deca Technologies, org: org_deca_technologies, cat: B8, re: 'Deca Technologies'}
+  - {name: Fabrinet, org: '', cat: B8, re: 'Fabrinet'}
+  # ---- C. lasers and active components
+  - {name: Lumentum, org: org_lumentum, cat: C, re: 'Lumentum'}
+  - {name: Finisar, org: org_finisar, cat: C, re: 'Finisar|FINISAR'}
+  - {name: II-VI, org: org_ii_vi, cat: C, re: 'II-VI'}
+  - {name: Coherent, org: '', resolve: false, cat: C, re: 'Coherent Corp\.?|Coherent,? Inc\.?'}  # ambiguous: org_coherent (Coherent Corp., ex II-VI) vs org_coherent_inc (laser maker acquired 2022); reviewer decides
+  - {name: NeoPhotonics, org: org_neophotonics, cat: C, re: 'NeoPhotonics'}
+  - {name: Mitsubishi Electric, org: org_mitsubishi_electric, cat: C, re: 'Mitsubishi Electric'}
+  - {name: NTT Electronics, org: '', cat: C, re: 'NTT Electronics|NTT-?AT|NTT Advanced Technology'}
+  - {name: NTT Innovative Devices, org: org_ntt_innovative_devices, cat: C, re: 'NTT Innovative Devices'}
+  - {name: Sumitomo Osaka Cement, org: org_sumitomo_osaka_cement, cat: C7, re: 'Sumitomo Osaka Cement'}
+  - {name: Sumitomo Electric, org: org_sumitomo_electric_industries, cat: D, re: 'Sumitomo Electric(?! Device)'}
+  - {name: Sumitomo Electric Device Innovations, org: org_sumitomo_electric_device_innovations, cat: C, re: 'Sumitomo Electric Device Innovations'}
+  - {name: Fujitsu Optical Components, org: '', cat: C, re: 'Fujitsu Optical Components'}
+  - {name: Eospace, org: '', cat: C7, re: 'EOSPACE|Eospace|EOspace'}
+  - {name: iXblue, org: '', cat: C7, re: 'iXblue|iXBlue|Exail|Photline'}
+  - {name: Furukawa Electric, org: org_furukawa_electric, cat: C, re: 'Furukawa Electric|Furukawa'}
+  - {name: Oclaro, org: org_oclaro, cat: C, re: 'Oclaro'}
+  - {name: Innolight, org: org_innolight, cat: C3, re: 'Innolight|InnoLight|INNOLIGHT'}
+  - {name: Eoptolink, org: org_eoptolink, cat: C3, re: 'Eoptolink'}
+  - {name: Accelink, org: org_accelink, cat: C, re: 'Accelink'}
+  - {name: Applied Optoelectronics, org: '', cat: C, re: 'Applied Optoelectronics'}
+  - {name: Sivers Photonics, org: '', cat: C, re: 'Sivers'}
+  - {name: Almae, org: '', cat: C, re: 'Almae'}
+  - {name: X-Celeprint, org: '', cat: F5, re: 'X-Celeprint|X-celeprint|XCeleprint'}
+  # ---- D. fiber, arrays, connectors
+  - {name: Fujikura, org: org_fujikura, cat: D, re: 'Fujikura'}
+  - {name: OFS, org: '', cat: D1, re: 'OFS'}
+  - {name: Nufern, org: org_nufern, cat: D1, re: 'Nufern'}
+  - {name: YOFC, org: org_yofc, cat: D1, re: 'YOFC'}
+  - {name: Molex, org: '', cat: D3, re: 'Molex'}
+  - {name: US Conec, org: '', cat: D3, re: 'US Conec|USConec'}
+  - {name: Senko, org: '', cat: D3, re: 'Senko|SENKO'}
+  - {name: Diamond SA, org: '', cat: D3, re: 'Diamond SA', case: true}
+  - {name: OZ Optics, org: org_oz_optics, cat: D2, re: 'OZ Optics|Oz Optics'}
+  - {name: Chiral Photonics, org: org_chiral_photonics, cat: D2, re: 'Chiral Photonics', case: true}
+  - {name: PLC Connections, org: '', cat: D2, re: 'PLC Connections'}
+  - {name: Fiberguide, org: '', cat: D1, re: 'Fiberguide'}
+  - {name: FiberLabs, org: org_fiberlabs, cat: H10, re: 'FiberLabs|Fiberlabs'}
+  - {name: Linq Photonics, org: '', cat: D, re: 'Linq Photonics'}
+  - {name: Pixel Photonics, org: org_pixel_photonics, cat: D, re: 'Pixel Photonics', case: true}
+  - {name: Teramount, org: '', cat: D, re: 'Teramount'}
+  - {name: Hirose, org: '', cat: D3, re: 'Hirose', case: true}
+  - {name: Kohoku Kogyo, org: '', cat: D, re: 'Kohoku'}
+  - {name: Huber+Suhner, org: org_huber_suhner, cat: D3, re: 'Huber\s?\+\s?Suhner|HUBER\+SUHNER'}
+  # ---- E. packaging materials
+  - {name: Dymax, org: org_dymax, cat: E1, re: 'Dymax|DYMAX'}
+  - {name: Norland, org: '', cat: E1, re: 'Norland'}
+  - {name: Epoxy Technology, org: org_epo_tek, cat: E1, re: 'EPO-TEK|Epo-Tek|Epotek|EpoTek|EPOTEK|Epoxy Technology', case: true}
+  - {name: Henkel, org: '', resolve: false, cat: E, re: 'Henkel|Loctite|LOCTITE'}  # printed Loctite resolves to the registry brand org org_loctite by name in the build; Henkel itself not in the registry (D318)
+  - {name: DELO, org: org_delo, cat: E1, re: 'DELO|Delo(?= [A-Z]{1,3}\d)'}
+  - {name: Panacol, org: '', cat: E1, re: 'Panacol'}
+  - {name: Master Bond, org: '', cat: E1, re: 'Master ?Bond', case: true}
+  - {name: Namics, org: '', cat: E3, re: 'Namics|NAMICS', case: true}  # dy-namics (D326a)
+  - {name: Nagase, org: '', cat: E, re: 'Nagase'}
+  - {name: Resonac, org: org_resonac, cat: E, re: 'Resonac|Hitachi Chemical|Showa Denko'}
+  - {name: Ajinomoto, org: org_ajinomoto, cat: E4, re: 'Ajinomoto'}
+  - {name: Sumitomo Bakelite, org: org_sumitomo_bakelite, cat: E, re: 'Sumitomo Bakelite'}
+  - {name: Nitto Denko, org: '', cat: E, re: 'Nitto Denko|NITTO DENKO'}
+  - {name: Dow Corning, org: org_dow_corning, cat: E, re: 'Dow Corning|DOW CORNING'}
+  - {name: Dow, org: org_dow, cat: E, re: 'Dow(?! Corning)|DOW(?!\s+CORNING)'}
+  - {name: DuPont, org: org_dupont, cat: E4, re: 'DuPont|Dupont'}
+  - {name: HD MicroSystems, org: '', cat: E4, re: 'HD MicroSystems|HD Microsystems'}
+  - {name: JSR, org: org_jsr, cat: E4, re: 'JSR'}
+  - {name: Toray, org: '', cat: E4, re: 'Toray(?! Engineering)'}
+  - {name: Asahi Kasei, org: org_asahi_kasei, cat: E4, re: 'Asahi Kasei'}
+  - {name: Taiyo Ink, org: org_taiyo_ink_mfg, cat: E4, re: 'Taiyo Ink'}
+  - {name: Senju Metal, org: org_senju_metal_industry, cat: E5, re: 'SENJU|Senju'}
+  - {name: Indium Corporation, org: '', cat: E5, re: 'Indium Corp(oration)?'}
+  - {name: Heraeus, org: org_heraeus, cat: E5, re: 'Heraeus'}
+  - {name: Kyocera, org: '', cat: E, re: 'Kyocera|KYOCERA'}
+  - {name: Rogers, org: '', cat: E4, re: 'Rogers Corp(oration)?|Rogers(?=\s+(RO\s?)?[34]\d{3})'}
+  - {name: Mitsubishi Gas Chemical, org: '', cat: E4, re: 'Mitsubishi Gas Chemical'}
+  - {name: Panasonic, org: org_panasonic, cat: E4, re: 'Panasonic(?! Connect)'}
+  - {name: Nissan Chemical, org: org_nissan_chemical, cat: E, re: 'Nissan Chemical'}
+  - {name: Dai Nippon Printing, org: org_dai_nippon_printing, cat: E, re: 'Dai Nippon Printing'}
+  - {name: Unimicron, org: org_unimicron, cat: E4, re: 'Unimicron'}
+  - {name: Ibiden, org: '', cat: E4, re: 'Ibiden|IBIDEN'}
+  - {name: ChemOptics, org: '', cat: E, re: 'ChemOptics'}
+  - {name: Cotronics, org: org_cotronics, cat: E7, re: 'Cotronics'}
+  # ---- F. packaging and assembly equipment
+  - {name: Vanguard Automation, org: '', cat: F4, re: 'Vanguard Automation|Vanguard Photonics'}
+  - {name: Nanoscribe, org: '', cat: F4, re: 'Nanoscribe'}
+  - {name: ficonTEC, org: org_ficontec, cat: F1, re: 'ficonTEC|Ficontec|FiconTEC|FICONTEC'}
+  - {name: Palomar Technologies, org: '', cat: F2, re: 'Palomar'}
+  - {name: Finetech, org: org_finetech, cat: F2, re: 'Finetech|FINEtech'}
+  - {name: Besi, org: '', cat: F2, re: 'Besi|BESI'}
+  - {name: ASMPT, org: org_asmpt, cat: F2, re: 'ASMPT|ASM Pacific|AMICRA|Amicra'}
+  - {name: Kulicke & Soffa, org: org_kulicke_and_soffa, cat: F2, re: 'Kulicke (&|and) Soffa|Kulicke'}
+  - {name: Toray Engineering, org: '', cat: F2, re: 'Toray Engineering'}
+  - {name: Shinkawa, org: '', cat: F2, re: 'Shinkawa'}
+  - {name: SET, org: '', cat: F2, re: 'Smart Equipment Technology'}
+  - {name: MRSI, org: '', cat: F2, re: 'MRSI'}
+  - {name: F&K Delvotec, org: '', cat: F3, re: 'Delvotec'}
+  - {name: West Bond, org: '', cat: F3, re: 'West ?Bond|Westbond|WEST·BOND'}
+  - {name: TPT, org: '', cat: F3, re: 'TPT'}
+  - {name: Hesse, org: '', cat: F3, re: 'Hesse Mechatronics|Hesse GmbH|Bondjet'}
+  - {name: PacTech, org: '', cat: F9, re: 'PacTech|Pac Tech'}
+  - {name: Tosetz, org: '', cat: F9, re: 'Tosetz'}
+  - {name: APIC Yamada, org: org_apic_yamada, cat: F7, re: 'APIC YAMADA|Apic Yamada'}
+  - {name: Towa, org: '', cat: F7, re: 'TOWA|Towa'}
+  - {name: AIMECHATEC, org: org_aimechatec, cat: F8, re: 'AIMECHATEC'}
+  - {name: Panasonic Connect, org: org_panasonic_connect, cat: F2, re: 'Panasonic Connect'}
+  - {name: Yamaha Motor, org: '', cat: F, re: 'Yamaha'}
+  - {name: Shibaura, org: '', cat: F, re: 'Shibaura'}
+  - {name: Sakura Seiki, org: org_sakura_seiki, cat: F9, re: 'Sakura Seiki'}
+  - {name: Musashi Engineering, org: org_musashi_engeneering, cat: F6, re: 'Musashi|MUSASHI'}
+  - {name: Nordson, org: org_nordson, cat: F6, re: 'Nordson|Dage|DAGE'}
+  - {name: EV Group, org: org_ev_group, cat: F8, re: 'EVG|EV Group'}
+  - {name: SUSS MicroTec, org: '', resolve: false, cat: F8, re: 'SUSS MicroTec|SUSS|Suss|Süss|Karl Suss'}  # registry has only SUSS MicroTec Lithography (subsidiary)
+  # ---- G. fab tools and consumables
+  - {name: Raith, org: org_raith, cat: G1, re: 'Raith|RAITH'}
+  - {name: Vistec, org: '', resolve: false, cat: G1, re: 'Vistec'}  # registry has Vistec Lithography (acquired by Raith, org event); printed Vistec left to the reviewer (D318)
+  - {name: JEOL, org: '', cat: G1, re: 'JEOL'}
+  - {name: Elionix, org: org_elionix, cat: G1, re: 'Elionix|ELIONIX'}
+  - {name: Heidelberg Instruments, org: org_heidelberg_instruments, cat: G2, re: 'Heidelberg Instruments|Heidelberg(?! University)'}
+  - {name: ASML, org: org_asml, cat: G2, re: 'ASML'}
+  - {name: Canon, org: '', cat: G2, re: 'Canon', case: true}
+  - {name: Nikon, org: '', cat: G2, re: 'Nikon'}
+  - {name: Plasma-Therm, org: '', cat: G3, re: 'Plasma-?Therm|Plasmatherm|PlasmaTherm'}
+  - {name: Lam Research, org: '', cat: G3, re: 'Lam Research'}
+  - {name: Applied Materials, org: org_applied_materials, cat: G4, re: 'Applied Materials', case: true}
+  - {name: Tokyo Electron, org: '', cat: G, re: 'Tokyo Electron'}
+  - {name: SAMCO, org: org_samco, cat: G3, re: 'SAMCO|Samco'}
+  - {name: ULVAC, org: org_ulvac, cat: G4, re: 'ULVAC|Ulvac'}
+  - {name: SPTS, org: '', cat: G3, re: 'SPTS'}
+  - {name: Trion, org: '', cat: G3, re: 'Trion', case: true}
+  - {name: Oxford Instruments, org: org_oxford_instruments, cat: G3, re: 'Oxford Instruments|Oxford Plasma'}
+  - {name: Veeco, org: org_veeco, cat: G4, re: 'Veeco'}
+  - {name: Cambridge NanoTech, org: '', cat: G4, re: 'Cambridge Nano[Tt]ech|Ultratech'}
+  - {name: Picosun, org: '', cat: G4, re: 'Picosun'}
+  - {name: Beneq, org: '', cat: G4, re: 'Beneq'}
+  - {name: Kurt J. Lesker, org: '', cat: G4, re: 'Kurt J\. Lesker|Lesker'}
+  - {name: Kitagawa Seiki, org: org_kitagawa_seiki, cat: F, re: 'Kitagawa Seiki|KITAGAWA SEIKI'}
+  - {name: AJA International, org: '', cat: G4, re: 'AJA International|AJA'}
+  - {name: Angstrom Engineering, org: '', cat: G4, re: 'Angstrom Engineering'}
+  - {name: Denton Vacuum, org: '', cat: G4, re: 'Denton Vacuum', case: true}
+  - {name: Temescal, org: '', cat: G4, re: 'Temescal'}
+  - {name: Intlvac, org: '', cat: G3, re: 'Intlvac'}
+  - {name: DISCO, org: org_disco, cat: G5, re: 'DISCO|Disco'}
+  - {name: Logitech, org: '', cat: G5, re: 'Logitech'}
+  - {name: Ebara, org: '', cat: G5, re: 'Ebara|EBARA', case: true}
+  - {name: Okamoto, org: '', cat: G5, re: 'Okamoto Machine'}
+  - {name: Allied High Tech, org: '', cat: G5, re: 'Allied High Tech|Allied(?= Multi[Pp]rep)'}
+  - {name: Allresist, org: '', cat: G6, re: 'Allresist'}
+  - {name: Kayaku, org: '', cat: G6, re: 'MicroChem|Microchem|Kayaku'}
+  - {name: micro resist technology, org: '', cat: G6, re: 'micro resist technology|Micro Resist Technology', case: true}
+  - {name: Zeon, org: '', cat: G6, re: 'Zeon|ZEON'}
+  - {name: Merck, org: '', cat: G6, re: 'Merck|MicroChemicals'}
+  - {name: Fujifilm, org: '', cat: G6, re: 'Fujifilm|FUJIFILM'}
+  - {name: Brewer Science, org: org_brewer_science, cat: G6, re: 'Brewer Science'}
+  - {name: Tescan, org: '', cat: G7, re: 'Tescan|TESCAN'}
+  - {name: FEI, org: org_fei, cat: G7, re: 'FEI'}  # Thermo Fisher / Thermo Scientific are separate brands (R21, D344)
+  - {name: Thermo Fisher Scientific, org: '', cat: G7, re: 'Thermo Fisher Scientific|Thermo Fisher|ThermoFisher|Thermo Scientific|Thermoscientific|TFS(?= (Helios|Quanta|Talos|Titan|Scios|Apreo))'}
+  - {name: Zeiss, org: org_carl_zeiss, cat: G7, re: 'Zeiss|ZEISS'}
+  - {name: Hitachi High-Tech, org: org_hitachi_high_tech, cat: G7, re: 'Hitachi High-?Tech(nologies)?'}
+  - {name: Bruker, org: org_bruker, cat: G7, re: 'Bruker'}
+  - {name: KLA, org: org_kla, cat: G7, re: 'KLA-Tencor|KLA|Tencor'}
+  - {name: Filmetrics, org: '', cat: G7, re: 'Filmetrics'}
+  - {name: J.A. Woollam, org: '', cat: G7, re: 'Woollam'}
+  - {name: Horiba, org: '', cat: G7, re: 'Horiba|HORIBA'}
+  - {name: Rigaku, org: '', cat: G7, re: 'Rigaku'}
+  - {name: Malvern Panalytical, org: '', cat: G7, re: 'PANalytical|Panalytical'}
+  - {name: Park Systems, org: '', cat: G7, re: 'Park Systems', case: true}
+  - {name: Asylum Research, org: '', cat: G7, re: 'Asylum Research|Asylum', case: true}
+  - {name: Keyence, org: org_keyence, cat: G7, re: 'Keyence|KEYENCE'}
+  - {name: Olympus, org: '', cat: G7, re: 'Olympus|Evident Scientific'}
+  - {name: Leica, org: '', cat: G7, re: 'Leica'}
+  - {name: Mitutoyo, org: '', cat: G7, re: 'Mitutoyo'}
+  - {name: Sonoscan, org: '', cat: G7, re: 'Sonoscan'}
+  - {name: IONTOF, org: '', cat: G7, re: 'IONTOF'}
+  - {name: Mahr, org: '', cat: G7, re: 'Mahr'}
+  - {name: Nanometrics, org: '', cat: G7, re: 'Nanometrics'}
+  # ---- H. characterization and test instruments
+  - {name: Keysight, org: org_keysight_technologies, cat: H, re: 'Keysight|KEYSIGHT'}
+  - {name: Agilent, org: org_agilent_technologies, cat: H, re: 'Agilent|AGILENT'}
+  - {name: Hewlett-Packard, org: org_hewlett_packard, cat: H, re: 'Hewlett[- ]Packard(?!\s+(Enterprise|Labs|Laboratories))'}
+  - {name: Anritsu, org: org_anritsu, cat: H, re: 'Anritsu|ANRITSU'}
+  - {name: Tektronix, org: org_tektronix, cat: H, re: 'Tektronix|TEKTRONIX'}
+  - {name: Keithley, org: '', cat: H12, re: 'Keithley|KEITHLEY'}
+  - {name: Rohde & Schwarz, org: org_rohde_and_schwarz, cat: H, re: 'Rohde (&|and) Schwarz|Rohde & Schwartz|Rhode (&|and) Schwartz?|Rohde'}
+  - {name: Yokogawa, org: org_yokogawa_electric, cat: H, re: 'Yokogawa|YOKOGAWA'}
+  - {name: Ando, org: org_ando_electric, cat: H, re: 'Ando Electric|ANDO'}
+  - {name: EXFO, org: '', resolve: false, cat: H, re: 'EXFO|Exfo'}  # registry has only EXFO Solutions (printed OFC affiliation)
+  - {name: Teledyne LeCroy, org: '', cat: H7, re: 'Teledyne LeCroy|LeCroy|Lecroy'}
+  - {name: SHF, org: org_shf_communication_technologies, cat: H8, re: 'SHF'}
+  - {name: MultiLane, org: org_multilane, cat: H6, re: 'MultiLane|Multilane', case: true}
+  - {name: Micram, org: org_micram_microelectronic, cat: H6, re: 'Micram|MICRAM'}
+  - {name: Active Technologies, org: org_active_technologies, cat: H6, re: 'Active Technologies', case: true}
+  - {name: Zurich Instruments, org: org_zurich_instruments, cat: H17, re: 'Zurich Instruments'}
+  - {name: Stanford Research Systems, org: '', cat: H17, re: 'Stanford Research Systems?'}
+  - {name: Swabian Instruments, org: '', cat: H15, re: 'Swabian'}
+  - {name: Single Quantum, org: org_single_quantum, cat: H15, re: 'Single Quantum', case: true}
+  - {name: ID Quantique, org: '', cat: H15, re: 'ID Quantique|IDQ'}
+  - {name: PicoQuant, org: '', cat: H15, re: 'PicoQuant'}
+  - {name: Thorlabs, org: org_thorlabs, cat: H, re: 'Thorlabs|ThorLabs|THORLABS'}
+  - {name: Newport, org: org_newport, cat: H, re: 'Newport'}
+  - {name: New Focus, org: org_new_focus, cat: H4, re: 'New ?Focus', case: true}
+  - {name: Santec, org: org_santec_corporation, cat: H, re: 'Santec|santec|SANTEC'}
+  - {name: Toptica, org: '', resolve: false, cat: H1, re: 'Toptica|TOPTICA'}  # registry has only TOPTICA Photonics Inc. (US entity)
+  - {name: NKT Photonics, org: '', cat: H1, re: 'NKT Photonics|NKT'}
+  - {name: ID Photonics, org: '', cat: H1, re: 'ID Photonics'}
+  - {name: Pure Photonics, org: '', cat: H1, re: 'Pure Photonics', case: true}
+  - {name: M Squared, org: '', cat: H1, re: 'M Squared|M-Squared', case: true}
+  - {name: Spectra-Physics, org: '', cat: H1, re: 'Spectra[- ]Physics'}
+  - {name: IPG Photonics, org: '', cat: H1, re: 'IPG Photonics'}
+  - {name: Luna Innovations, org: '', cat: H16, re: 'Luna Innovations|Luna Technologies|Luna Inc\.?'}
+  - {name: Optilab, org: '', cat: H4, re: 'Optilab'}
+  - {name: Amonics, org: org_amonics, cat: H10, re: 'Amonics'}
+  - {name: Keopsys, org: '', cat: H10, re: 'Keopsys'}
+  - {name: PriTel, org: '', cat: H10, re: 'PriTel'}
+  - {name: Hamamatsu, org: '', cat: H4, re: 'Hamamatsu'}
+  - {name: Ophir, org: '', cat: H3, re: 'Ophir'}
+  - {name: Discovery Semiconductors, org: '', cat: H4, re: 'Discovery Semiconductors'}
+  - {name: Mini-Circuits, org: '', cat: H8, re: 'Mini[- ]Circuits|MiniCircuits'}
+  - {name: Fairview Microwave, org: org_fairview_microwave, cat: H8, re: 'Fairview Microwave'}
+  - {name: AT Microwaves, org: org_at_microwaves, cat: H8, re: 'AT Microwaves'}
+  - {name: Koheron, org: org_koheron, cat: H4, re: 'Koheron'}
+  - {name: Menlo Systems, org: org_menlo_systems, cat: H4, re: 'Menlo ?Sys- ?tems|Menlo ?Systems'}
+  - {name: Arroyo Instruments, org: org_arroyo_instruments, cat: H17, re: 'Arroyo Instruments'}
+  - {name: Maple Leaf Photonics, org: org_maple_leaf_photonics, cat: H9, re: 'Maple Leaf Photonics|Maple Leaf(?= (semi-automated|probe|automated))'}
+  - {name: GW Instek, org: '', cat: H17, re: 'GW Instek|GWINSTEK'}
+  - {name: Marki Microwave, org: '', cat: H8, re: 'Marki'}
+  - {name: Centellax, org: org_centellax, cat: H8, re: 'Centellax'}
+  - {name: GGB Industries, org: org_ggb_industries, cat: H9, re: 'GGB Industries|GGB'}
+  - {name: FormFactor, org: org_formfactor, cat: H9, re: 'FormFactor|Formfactor'}
+  - {name: Cascade Microtech, org: org_cascade_microtech, cat: H9, re: 'Cascade Microtech'}
+  - {name: MPI, org: '', cat: H9, re: 'MPI Corp(oration)?|MPI Probes?|MPI TS\d+[A-Z0-9-]*'}
+  - {name: Virginia Diodes, org: '', cat: H5, re: 'Virginia Diodes'}  # never bare VDI (D299b: funding agency VDI Technology Center)
+  - {name: OML, org: '', cat: H5, re: 'OML'}
+  - {name: Southwest Microwave, org: '', cat: H8, re: 'Southwest Microwave'}
+  - {name: QUBIG, org: '', cat: H8, re: 'QUBIG|QuBIG|Qubig'}
+  - {name: Physik Instrumente, org: org_physik_instrumente, cat: H13, re: 'Physik Instrumente|PI(?= [A-Z]{1,2, case: true}-\d)'}
+  - {name: Aerotech, org: '', cat: H13, re: 'Aerotech'}
+  - {name: SmarAct, org: '', cat: H13, re: 'SmarAct|Smaract'}
+  - {name: attocube, org: '', cat: H13, re: 'attocube|Attocube'}
+  - {name: Suruga Seiki, org: '', cat: H13, re: 'Suruga'}
+  - {name: Mad City Labs, org: '', cat: H13, re: 'Mad City Labs'}
+  - {name: Montana Instruments, org: '', cat: H14, re: 'Montana Instruments'}
+  - {name: Lake Shore, org: '', cat: H14, re: 'Lake ?Shore', case: true}
+  - {name: Bluefors, org: '', cat: H14, re: 'Bluefors|BlueFors'}
+  - {name: Novoptel, org: '', cat: H11, re: 'Novoptel'}
+  - {name: General Photonics, org: '', cat: H11, re: 'General Photonics', case: true}
+  - {name: Agiltron, org: '', cat: H11, re: 'Agiltron'}
+  # ---- J. software
+  - {name: Ansys, org: org_ansys, cat: J, re: 'Ansys|ANSYS'}
+  - {name: Lumerical, org: org_lumerical, cat: J, re: 'Lumerical(?=,?\s+(Inc|Solutions))'}  # bare Lumerical is the software name (Lumerical Inc., then Ansys)
+  - {name: COMSOL, org: org_comsol, cat: J, re: 'COMSOL|Comsol'}
+  - {name: Synopsys, org: '', cat: J, re: 'Synopsys'}
+  - {name: Photon Design, org: '', cat: J, re: 'Photon Design', case: true}
+  - {name: Flexcompute, org: org_flexcompute, cat: J, re: 'Flexcompute'}
+  - {name: Sonnet, org: '', cat: J, re: 'Sonnet Software|Sonnet', case: true}
+  - {name: MSC Software, org: org_msc_software, cat: J, re: 'MSC Software'}
+  - {name: Dassault CST, org: '', cat: J, re: 'CST Studio|CST Microwave|Dassault Syst[e\u00e8]mes'}  # bare CST is an acronym (D326a)
+  - {name: Cadence, org: org_cadence, cat: J, re: 'Cadence', case: true}
+  - {name: Luceda, org: org_luceda_photonics, cat: J, re: 'Luceda'}
+  - {name: VPIphotonics, org: org_vpiphotonics, cat: J, re: 'VPIphotonics'}
+  - {name: KLayout, org: '', cat: J, re: 'KLayout|Klayout'}
+  - {name: gdsfactory, org: '', cat: J, re: 'gdsfactory|GDSFactory'}
+
+  # ---- added 2026-10-22 after the pilot audit (recall misses, D294; product-name forms moved to models, D292)
+  - {name: Yenista, org: '', cat: H, re: 'Yenista'}
+  - {name: JDSU, org: org_jdsu, cat: C, re: 'JDSU|JDS Uniphase'}
+  - {name: Evatec, org: '', cat: G4, re: 'Evatec'}
+  - {name: VIGO, org: '', cat: H4, re: 'VIGO System|VIGO Photonics|Vigo(?=\s+PV)|VIGO(?=\s+PV)'}
+  - {name: Akrometrix, org: '', cat: G7, re: 'Akrometrix|AKROMETRIX'}
+  - {name: Shinko Electric Industries, org: org_shinko_electric_industries, cat: B8, re: 'Shinko Electric|SHINKO ELECTRIC'}
+  - {name: Teledyne FLIR, org: '', cat: H17, re: 'Teledyne FLIR|FLIR(?=\s+(Systems|[A-Z]\d))'}
+  - {name: AtaiTec, org: '', cat: J, re: 'AtaiTec|Ataitec'}
+  - {name: Aixtron, org: org_aixtron, cat: G4, re: 'Aixtron|AIXTRON'}  # registry has AIXTRON Ltd (subsidiary); brand-level entity is a curation question
+  - {name: Moorfield Nanotechnology, org: '', cat: G4, re: 'Moorfield'}
+  - {name: Graphene Platform, org: '', cat: A5, re: 'Graphene Platform', case: true}
+  - {name: Eravant, org: '', cat: H8, re: 'Eravant|SAGE Millimeter'}
+  - {name: LPKF Laser & Electronics, org: org_lpkf_laser_and_electronics, cat: F9, re: 'LPKF'}
+  - {name: Pasternack, org: '', cat: H8, re: 'Pasternack'}
+  - {name: Gel-Pak, org: '', cat: F, re: 'Gel-?Pak'}
+  - {name: Voltcraft, org: '', cat: H17, re: 'Voltcraft|VOLTCRAFT'}
+  - {name: ams OSRAM, org: org_ams_osram_international, cat: C, re: 'ams[- ]OSRAM|ams OSRAM|OSRAM|Osram'}
+  - {name: Metricon, org: '', cat: H, re: 'Metricon'}
+  - {name: Cree, org: '', cat: C, re: 'Cree(?=,?\s+(Inc|LED))'}
+models:
+  # Keysight (Agilent / HP lineage: 8163x, 816xx, 86100x, N77xx and 8168x were sold under more than one name)
+  - {re: 'M8199[AB]?', vendor: Keysight, cat: H6, type: AWG}
+  - {re: 'M8194A', vendor: Keysight, cat: H6, type: AWG}
+  - {re: 'M8195A', vendor: Keysight, cat: H6, type: AWG}
+  - {re: 'M8196A', vendor: Keysight, cat: H6, type: AWG}
+  - {re: 'M80(40|42|45|46|50|59)A?|M8009A?', vendor: Keysight, cat: H6, type: BERT / pattern generator / clock / remote head}
+  - {re: 'P50[0-2][0-9][AB]', vendor: Keysight, cat: H5, type: VNA}
+  - {re: 'N529[01]A', vendor: Keysight, cat: H5, type: VNA, infer: false}
+  - {re: 'Advanced\s?Design\s?System|(?<=Keysight\s)ADS|PathWave\s?ADS', vendor: Keysight, cat: J, type: RF circuit simulation, infer: false}
+  - {re: 'DSOX\d{4}[AT]', vendor: Keysight, cat: H7, type: oscilloscope, infer: false}
+  - {re: 'PathWave(\s?EM\s?Design|\s?[A-Z0-9][\w+]*)?', vendor: Keysight, cat: J, type: design software}
+  - {re: 'N1000A?|DCA-X', vendor: Keysight, cat: H7, type: DCA sampling oscilloscope}
+  - {re: '86100[A-D]', vendor: Keysight, cat: H7, type: DCA sampling oscilloscope, infer: false}
+  - {re: 'N10(30|32|46|92)A', vendor: Keysight, cat: H7, type: sampling module}
+  - {re: 'UXR\s?\d{4}AP?', vendor: Keysight, cat: H7, type: real-time oscilloscope}
+  - {re: 'DSO[XZ]?\s?\d{4,5}[A-Z]?', vendor: Keysight, cat: H7, type: real-time oscilloscope, infer: false}
+  - {re: 'N437[2-5][A-E]?', vendor: Keysight, cat: H5, type: lightwave component analyzer, infer: false}
+  - {re: 'N52[2-4]\d[AB]', vendor: Keysight, cat: H5, type: VNA, infer: false}
+  - {re: 'PNA-X', vendor: Keysight, cat: H5, type: VNA, infer: false}
+  - {re: 'E5080[AB]|E5071C|N9917A', vendor: Keysight, cat: H5, type: VNA, infer: false}
+  - {re: 'N774[4-7][A-C]', vendor: Keysight, cat: H3, type: optical power meter, infer: false}
+  - {re: '816[34][AB]|81634[AB]|81635A|81636B|81624B', vendor: Keysight, cat: H3, type: optical power meter / mainframe, infer: false}
+  - {re: 'N777[6-9]C|N771[14]A|8160[0-9][A-C]|8194[0-9]A|8196[0-9]A|8198[0-9]A', vendor: Keysight, cat: H1, type: tunable laser source, infer: false}
+  - {re: '8168[0-9][A-F]', vendor: Agilent, cat: H1, type: tunable laser, infer: false}
+  - {re: 'N778[5-8][BC]', vendor: Keysight, cat: H11, type: polarization synthesizer / analyzer, infer: false}
+  - {re: 'N90[1-4]0[AB]', vendor: Keysight, cat: H17, type: signal / spectrum analyzer, infer: false}
+  - {re: 'E825[67]D|E826[37]D|N518[1-3][AB]|N517[1-3]B|N5193A', vendor: Keysight, cat: H17, type: RF signal generator, infer: false}
+  - {re: 'B29[0-9]{2}[AB]', vendor: Keysight, cat: H12, type: source measure unit, infer: false}
+  - {re: 'E363[0-9]{2}A|E3631A', vendor: Keysight, cat: H12, type: DC power supply, infer: false}
+  - {re: '81110A|81150A|81160A', vendor: Keysight, cat: H17, type: pulse / function generator, infer: false}
+  - {re: '4142B|4155[A-C]|4156[A-C]', vendor: Hewlett-Packard, cat: H12, type: DC parameter analyzer, infer: false}
+  # Anritsu
+  - {re: 'MS464[0-9][AB]', vendor: Anritsu, cat: H5, type: VNA}
+  - {re: 'ME78[0-9]{2}[A-Z]{0,2}', vendor: Anritsu, cat: H5, type: broadband VNA system}
+  - {re: 'MN4765[AB](-\d{4})?', vendor: Anritsu, cat: H4, type: O/E calibration module}
+  - {re: 'MG369[0-9][A-C]', vendor: Anritsu, cat: H17, type: RF signal generator}
+  - {re: 'MP1800A|MP1900A|MP1763[BC]|MP2110A', vendor: Anritsu, cat: H6, type: BERT / signal quality analyzer}
+  - {re: 'MS97[14]0[AB]', vendor: Anritsu, cat: H2, type: optical spectrum analyzer}
+  - {re: 'MS2[0-9]{3}[A-C]', vendor: Anritsu, cat: H17, type: spectrum analyzer, infer: false}
+  # Yokogawa / Ando
+  - {re: 'AQ63[0-9]{2}[A-E]?', vendor: Yokogawa, cat: H2, type: optical spectrum analyzer, infer: false}
+  - {re: 'AQ2[0-9]{3}[A-Z]?', vendor: Yokogawa, cat: H3, type: optical power meter / source, infer: false}
+  # Santec
+  - {re: 'TSL-?\s?[5-7][0-9]0', vendor: Santec, cat: H1, type: tunable laser}
+  - {re: 'MPM-2[0-9]{2}H?', vendor: Santec, cat: H3, type: multiport power meter}
+  - {re: 'OTF-[0-9]{3}', vendor: Santec, cat: H11, type: tunable optical filter}
+  - {re: 'PCU-1[0-9]{2}', vendor: Santec, cat: H11, type: polarization control unit}
+  # EXFO
+  - {re: 'T[125]00S(-HP)?', vendor: EXFO, cat: H1, type: tunable laser, infer: false}
+  - {re: 'CTP10', vendor: EXFO, cat: H11, type: component test platform, infer: false}
+  - {re: 'XTA-?50|XTM-?50', vendor: EXFO, cat: H11, type: tunable filter, infer: false}
+  # SHF
+  - {re: 'S80[47][BC]?|SHF\s?80[47][BC]?', vendor: SHF, cat: H8, type: broadband RF amplifier}
+  - {re: 'SHF\s?827|M827B', vendor: SHF, cat: H8, type: RF amplifier}
+  - {re: 'BT110[RB]|BT65R|BT45R', vendor: SHF, cat: H8, type: bias tee}
+  - {re: 'SHF\s?12104A|12104A|SHF\s?12103A', vendor: SHF, cat: H6, type: BERT / pattern generator}
+  - {re: 'SHF\s?C603[AB]?|C603[AB]', vendor: SHF, cat: H8, type: multiplexer}
+  - {re: 'T850[BC]', vendor: SHF, cat: H8, type: linear driver}
+  # Rohde & Schwarz
+  - {re: 'SMA100[AB]|SMB100[AB]|SMW200A|SMU\s?200A|SGS100A|SMF100A', vendor: Rohde & Schwarz, cat: H17, type: RF signal generator}
+  - {re: 'ZN[AB]\s?\d{2}|ZVA\s?\d{2}', vendor: Rohde & Schwarz, cat: H5, type: VNA}
+  - {re: 'FSW\s?-?\d{2}|FSU\s?\d{2}', vendor: Rohde & Schwarz, cat: H17, type: signal / spectrum analyzer}
+  - {re: 'NRP\d{2,3}[TSA](\.\d{2})?', vendor: Rohde & Schwarz, cat: H, type: RF power sensor}  # no RF power-meter node (H3 = optical power meters)
+  - {re: 'RTA4004|RTP\d{3}[A-Z]?|RTO\d{4}', vendor: Rohde & Schwarz, cat: H7, type: oscilloscope}
+  # Tektronix / Keithley
+  - {re: 'DPO7\d{4}SX|DPO7\d{4}[A-D]?|MSO[456]\d[B]?|MDO4\d{3}[A-C]?|DSA8[23]00', vendor: Tektronix, cat: H7, type: oscilloscope}
+  - {re: 'AWG70\d{2}[AB]?|AWG7\d{3}[A-C]?', vendor: Tektronix, cat: H6, type: AWG}
+  - {re: 'AFG3\d{4}|AFG2021', vendor: Tektronix, cat: H17, type: function generator}
+  - {re: 'Keithley\s?2[0-9]{3}[A-Z]?|Keithley\s?6[0-9]{3}[A-Z]?', vendor: Keithley, cat: H12, type: source meter / electrometer}
+  # Coherent lineage (Finisar, II-VI, Coherent): vendor from the printed text only
+  - {re: 'XPDV\d{4}R?|XPD\s?\d{4}R', vendor: Finisar, cat: H4, type: high-speed photodetector, infer: false}
+  - {re: 'BPDV\d{4}R?', vendor: Finisar, cat: H4, type: balanced photodetector, infer: false}
+  - {re: 'WaveShaper\s?\d{4,5}[A-Z]?', vendor: Finisar, cat: H11, type: programmable optical filter, infer: false}
+  # Thorlabs
+  - {re: 'PDFA-?100[A-Z0-9]*|EDFA-?100[A-Z0-9]*', vendor: Thorlabs, cat: H10, type: fiber amplifier}
+  - {re: 'BOA\d{3,4}[A-Z]?|SOA\d{4}[A-Z]?', vendor: Thorlabs, cat: H10, type: semiconductor optical amplifier, infer: false}
+  - {re: 'DET0\dC[FA]?C?(/M)?|DET0\d[ACF]{1,3}', vendor: Thorlabs, cat: H4, type: photodetector}
+  - {re: 'PDA\d{2,3}[A-Z]\d?(-EC)?|PDB4\d{2}[A-Z](-AC|-DC)?', vendor: Thorlabs, cat: H4, type: amplified photodetector}
+  - {re: 'RXM\d{2}[A-Z]{1,2}', vendor: Thorlabs, cat: H4, type: photoreceiver}
+  - {re: 'APD4\d{2}[A-Z]\d?(/M)?', vendor: Thorlabs, cat: H4, type: avalanche photodetector}
+  - {re: 'S1[0-9]{2}[CV]{1,2}', vendor: Thorlabs, cat: H3, type: power sensor}
+  - {re: 'PM100[ADUX]|PM400|PM320E', vendor: Thorlabs, cat: H3, type: power meter console}
+  - {re: 'FPC03[0-2]|FPC56[0-2]', vendor: Thorlabs, cat: H11, type: fiber polarization controller}
+  - {re: 'MAX3\d{2}[A-Z]?(/M)?|NanoMax', vendor: Thorlabs, cat: H13, type: positioning stage}
+  - {re: 'LN\d{2}S(-FC)?', vendor: Thorlabs, cat: C7, type: LN modulator}
+  - {re: 'OSA\s?20[1-5]C?|OSA\s?305', vendor: Thorlabs, cat: H2, type: optical spectrum analyzer}
+  - {re: 'ITC\d{4}|LDC\d{3}[A-Z]?|TED\d{3}[A-Z]?|CLD1015', vendor: Thorlabs, cat: H17, type: laser / TEC controller}
+  - {re: 'HVA200', vendor: Thorlabs, cat: H8, type: high-voltage amplifier}
+  # Newport / New Focus
+  - {re: 'New ?Focus\s?(1014|1024|1414|1444|1471|1544-?[AB]?|1554-?[AB]?|1611|1623|1647|1811|1817|2053|2117)', vendor: New Focus, cat: H4, type: photoreceiver}
+  - {re: 'TLB-?6[0-9]{3}|Velocity\s?TLB-?\d{4}', vendor: New Focus, cat: H1, type: tunable laser}
+  - {re: 'TBF-?15\d{2}', vendor: Newport, cat: H11, type: tunable bandpass filter, infer: false}
+  # Probes / RF
+  - {re: 'Infinity\s?(Probe|I\d{2,3})|I110-A(-GSG)?|I67-A(-GSG)?', vendor: FormFactor, cat: H9, type: RF probe, infer: false}
+  - {re: 'ACP-?\d{2}', vendor: FormFactor, cat: H9, type: RF probe, infer: false}
+  - {re: 'CM300[a-zA-Z0-9-]*|EPS150[A-Z0-9-]*|Summit\s?1[12][0-9]*[A-Z]*', vendor: FormFactor, cat: H9, type: probe station, infer: false}
+  - {re: 'Picoprobe\s?\d{2,3}[A-Z]?|Model\s?(40|50|67|110)A', vendor: GGB Industries, cat: H9, type: RF probe}
+  - {re: 'T110A|T67A|T50A|T40A|TS2000[A-Z0-9-]*|TS150[A-Z0-9-]*', vendor: MPI, cat: H9, type: RF probe / probe station}
+  - {re: 'DAC10\d{3}|DAC1002|DAC4', vendor: Micram, cat: H6, type: DAC}
+  - {re: '(?<=Metricon\s)20[01]0', vendor: Metricon, cat: H, type: prism coupler}
+  - {re: 'ARB\s?Rider\s?AWG-\d{4}', vendor: Active Technologies, cat: H6, type: AWG}
+  - {re: 'AFG-\d{4}', vendor: GW Instek, cat: H17, type: function generator, infer: false}
+  - {re: 'FMAM\d{3,4}', vendor: Fairview Microwave, cat: H8, type: RF amplifier}
+  - {re: 'AT-\s?(LNA|BBLF)-[0-9A-Z-]+', vendor: AT Microwaves, cat: H8, type: RF amplifier}
+  - {re: 'TIA\d{3}-\s?[0-9]+[a-zA-Z]*(-SMA)?', vendor: Koheron, cat: H4, type: transimpedance amplifier, infer: false}
+  - {re: 'FD310[-A-Z0-9]*[A-Z0-9]', vendor: Menlo Systems, cat: H4, type: photodetector}
+  - {re: 'AMP-?FL\d{4}[A-Z0-9-]*', vendor: FiberLabs, cat: H10, type: fiber amplifier}
+  - {re: 'MARC\s?20\d{2}(\.\d)?', vendor: MSC Software, cat: J, type: FEM software}
+  - {re: 'VH-\d{4}', vendor: Kitagawa Seiki, cat: F, type: vacuum press, infer: false}
+  - {re: 'Duralco\s?\d{3}', vendor: Cotronics, cat: E7, type: thermally conductive epoxy}
+  - {re: 'Ablestik\s?[A-Z0-9][\w-]*[\w]|Ablebond\s?[A-Z0-9][\w-]*[\w]', vendor: Henkel, cat: E, type: adhesive}
+  - {re: 'ZX85-\d{1,2}G([\w.+/-]*[\w+])?|ZHL-\d{1,2}W?([\w.+/-]*[\w+])?|ZVA-\d{3}([\w.+/-]*[\w+])?|ZFL-\d{3,4}([\w.+/-]*[\w+])?', vendor: Mini-Circuits, cat: H8, type: RF amplifier / bias tee}
+  - {re: 'ML40\d{2}[A-Z]{0,3}', vendor: MultiLane, cat: H6, type: BERT}
+  - {re: 'SR8[36]\d[A-Z]?|SR844|SR850', vendor: Stanford Research Systems, cat: H17, type: lock-in amplifier}
+  - {re: 'LDC50[0-2]|PTC10|SIM9\d{2}|DG645|CTC100', vendor: Stanford Research Systems, cat: H17, type: laser / temperature controller}
+  - {re: 'HF2LI|UHFLI|MFLI|HDAWG', vendor: Zurich Instruments, cat: H17, type: lock-in / AWG}
+  - {re: 'OBR\s?4[0-9]{3}|OBR\s?6415|OVA\s?5000', vendor: Luna Innovations, cat: H16, type: OFDR reflectometer, infer: false}
+  - {re: 'C5658|C12741(-\d{2})?', vendor: Hamamatsu, cat: H4, type: photodetector module}
+  - {re: 'Koheras(\s?[A-Z0-9][\w+]*)?|BASIK', vendor: NKT Photonics, cat: H1, type: fiber laser}
+  - {re: 'CTL\s?(950|1500|1550)|DL\s?pro|DL100', vendor: Toptica, cat: H1, type: tunable diode laser}
+  - {re: 'CoBrite[A-Z0-9]*', vendor: ID Photonics, cat: H1, type: tunable laser}
+  - {re: 'LD400|XLD\d{3,4}', vendor: Bluefors, cat: H14, type: dilution refrigerator}
+  - {re: 'Cryostation\s?s?\d{2,3}', vendor: Montana Instruments, cat: H14, type: cryostat}
+  - {re: 'Time\s?Tagger(\s?(Ultra|20|X))?', vendor: Swabian Instruments, cat: H15, type: time tagger}
+  - {re: 'HydraHarp\s?\d{3}|PicoHarp\s?\d{3}|MultiHarp\s?\d{3}', vendor: PicoQuant, cat: H15, type: time tagger}
+  - {re: 'LNFA-\d{2}', vendor: PriTel, cat: H10, type: fiber amplifier}
+  - {re: 'AEDFA-[A-Z0-9-]*[A-Z0-9]', vendor: Amonics, cat: H10, type: EDFA}
+  - {re: 'PD-\d{2}-M|APR-\d{2}', vendor: Optilab, cat: H4, type: photodetector, infer: false}
+  - {re: 'H-206|H-811|H-824|P-6[0-9]{2}\.[A-Z0-9]+|M-\d{3}\.[A-Z0-9]+|RS-40', vendor: Physik Instrumente, cat: H13, type: hexapod / piezo / stage}
+  - {re: 'WR\s?\d\.\d\s?(VNAX|AMC|SAX|MixAMC)|VNAX', vendor: Virginia Diodes, cat: H5, type: VNA frequency extender}
+  # Fab tools
+  - {re: 'EBPG\s?5[0-9]{3}\+?|EBPG', vendor: Raith, cat: G1, type: EBL, infer: false}
+  - {re: 'Voyager|eLINE(\s?[Pp]lus)?|Raith\s?150(\s?Two)?', vendor: Raith, cat: G1, type: EBL}
+  - {re: 'JBX-?\s?\d{4}[A-Z]{0,2}', vendor: JEOL, cat: G1, type: EBL}
+  - {re: 'JSM-?\d{4}[A-Z0-9]*|JIB-?\d{4}[A-Z0-9]*|JEM-?\d{4}[A-Z0-9]*', vendor: JEOL, cat: G7, type: SEM / FIB / TEM}
+  - {re: 'ELS-?\s?[GF]\d{2,3}|ELS-?BODEN[A-Z0-9-]*|ELS-7\d{3}|Boden-?150', vendor: Elionix, cat: G1, type: EBL}
+  - {re: 'MLA\s?-?[13]50|MLA\s?300|DWL\s?\d{2,4}[A-Z0-9]*\+?|uPG\s?\d{3}|µPG\s?\d{3}', vendor: Heidelberg Instruments, cat: G2, type: maskless lithography}
+  - {re: 'PAS\s?5500(/[0-9]+[A-Z]?)?', vendor: ASML, cat: G2, type: DUV stepper}
+  - {re: 'MA6|MA/BA6|MJB4|MA8|MA/BA8', vendor: SUSS MicroTec, cat: G2, type: mask aligner}
+  - {re: 'XBS300|XBC300|ACS300', vendor: SUSS MicroTec, cat: F8, type: bonder / debonder / track}
+  - {re: 'EVG\s?\d{3}[A-Z]{0,2}|Gemini\s?FB\s?XT', vendor: EV Group, cat: F8, type: bonder / aligner}
+  - {re: 'DAD\s?3[0-9]{3}|DAG\s?8[0-9]{2}|DFD\s?6[0-9]{3}|DGP\s?8[0-9]{3}|DAS\s?8[0-9]{3}|DFL\s?7[0-9]{3}', vendor: DISCO, cat: G5, type: dicing / grinding}
+  - {re: 'PlasmaPro\s?\d{2,3}[A-Z0-9]*|Plasmalab\s?[A-Z0-9][\w+]*|ICP\s?380', vendor: Oxford Instruments, cat: G3, type: ICP-RIE / PECVD}
+  - {re: 'Versaline', vendor: Plasma-Therm, cat: G3, type: ICP / HDP-CVD}
+  - {re: 'RIE-?\d{3}i[A-Z0-9]*|NR10', vendor: SAMCO, cat: G3, type: etcher, infer: false}
+  - {re: 'Omega\s?(fxP|Synapse|c2L)|Rapier', vendor: SPTS, cat: G3, type: etcher}
+  - {re: 'M-2000[A-Z0-9]*|VASE|alpha-SE', vendor: J.A. Woollam, cat: G7, type: ellipsometer}
+  - {re: 'Savannah(\s?[A-Z0-9][\w+]*)?|Fiji\s?F?\d{3}[A-Z0-9]*|Fiji(?=,?\s+(Veeco|Cambridge|Ultratech))', vendor: Cambridge NanoTech, cat: G4, type: ALD, infer: false}
+  - {re: 'Dektak(\s?[A-Z0-9][\w+]*)?|Dimension\s?(Icon|FastScan|3100)', vendor: Bruker, cat: G7, type: profilometer / AFM, infer: false}
+  - {re: 'Helios(\s?\d)?(\s?[A-Z0-9][\w+]*)?|Nova\s?NanoSEM(\s?\d+)?|Quanta(\s?\d{3}[A-Z0-9]*)?|Titan(\s?[A-Z0-9][\w+]*)?|Talos(\s?[A-Z0-9][\w+]*)?', vendor: FEI, cat: G7, type: SEM / FIB / TEM, infer: false}
+  - {re: 'VK-X\d{3,4}[A-Z0-9]*|VHX-\d{3,4}[A-Z0-9]*|VR-\d{4}', vendor: Keyence, cat: G7, type: confocal / digital microscope}
+  - {re: 'VX3600', vendor: Keyence, cat: G7, type: laser confocal}
+  # Packaging tools
+  - {re: 'FEMTO\s?2|Fineplacer(\s?(sigma|lambda|pico|femto|matrix|[A-Z0-9][\w+]*))?|FINEPLACER(\s?[A-Za-z0-9]+)?', vendor: Finetech, cat: F2, type: die bonder}
+  - {re: 'AL1200|CL1200|A1000|AL2000', vendor: ficonTEC, cat: F1, type: active alignment / assembly}
+  - {re: 'APAMA[A-Z0-9]*|Apama|APTURA', vendor: Kulicke & Soffa, cat: F2, type: TCB bonder}
+  - {re: 'TCnext|TC-?advanced|TCadvanced', vendor: Besi, cat: F2, type: TCB bonder}
+  - {re: 'MD-P300|NPM-WX', vendor: Panasonic Connect, cat: F2, type: flip-chip bonder / mounter}
+  - {re: 'VCM-\s?3\d0[A-Z0-9]*', vendor: APIC Yamada, cat: F7, type: compression molding}
+  - {re: 'FAD2500[A-Z0-9]*', vendor: Musashi Engineering, cat: F6, type: jet dispenser}
+  - {re: '4C204', vendor: Tosetz, cat: F9, type: plating}
+  - {re: 'SNR-1065GT', vendor: Senju Metal, cat: F9, type: reflow oven}
+  - {re: 'YWV-4635S', vendor: Sakura Seiki, cat: F9, type: flux cleaner}
+  - {re: 'Dage\s?4000[A-Za-z0-9]*|XD7600[A-Z0-9]*|Quadra\s?\d', vendor: Nordson, cat: G7, type: bond tester / X-ray}
+  - {re: 'Photonic Professional GT2?|Quantum X', vendor: Nanoscribe, cat: F4, type: 2PP writer}
+  # Fiber
+  - {re: 'SMF-?28[a-zA-Z+]*', vendor: Corning, cat: D1, type: single-mode fiber}
+  - {re: 'HI\s?1060(\s?FLEX)?|HI1060', vendor: Corning, cat: D1, type: single-mode fiber}
+  - {re: 'UHNA\d?', vendor: Nufern, cat: D1, type: high-NA fiber, infer: false}
+  - {re: 'PM1550([\w.+/-]*[\w+])?|PM980([\w.+/-]*[\w+])?|780HP|1060XP|S630-HP|SM600|SM980([\w.+/-]*[\w+])?|630HP|S405-XP|S\d{3}-XP', vendor: Nufern, cat: D1, type: fiber, infer: false}
+  - {re: 'TSMJ-[\w.+/-]*[\w+]', vendor: OZ Optics, cat: D2, type: lensed fiber}
+  - {re: 'FSM-?\s?100P\+?|FSM-?\s?\d{2}[SR]\+?', vendor: Fujikura, cat: D5, type: fusion splicer}
+  # Materials
+  - {re: 'EPO-TEK\s?[A-Z0-9][A-Z0-9\-]*', vendor: Epoxy Technology, cat: E1, type: epoxy}
+  - {re: 'OG\s?\d{3}(-\d+)?', vendor: Epoxy Technology, cat: E1, type: optical epoxy, infer: false}
+  - {re: 'NOA\s?\d{2,3}[A-Z]?', vendor: Norland, cat: E1, type: UV adhesive}
+  - {re: 'OP-\d{1,3}[A-Z]{0,3}(-\w+)?|Dymax\s?\d{3,4}\w*', vendor: Dymax, cat: E1, type: UV adhesive, infer: false}
+  - {re: 'ECE\s?5000[A-Z0-9]*|BlueWave\s?[A-Z0-9][\w+]*', vendor: Dymax, cat: F6, type: UV curing lamp}
+  - {re: 'U84\d{2}(-\d+)?[A-Z0-9]*|H9890(-\d+)?', vendor: Namics, cat: E3, type: underfill / adhesive}
+  - {re: 'GL-?102|GX-?92P?|GZ41|GY11|GX-?T31|ABF\s?G[A-Z0-9-]+', vendor: Ajinomoto, cat: E4, type: build-up film}
+  - {re: 'CYCLOTENE(\s?[A-Z0-9][\w+-]*)?|Cyclotene(\s?[A-Z0-9][\w+-]*)?|XP80', vendor: DuPont, cat: E4, type: BCB, infer: false}
+  - {re: 'MS6020', vendor: Fujifilm, cat: G6, type: Cu cleaning}
+  - {re: 'MEGTRON\s?\d|R-1566S|R-G740M|G740M', vendor: Panasonic, cat: E4, type: laminate / RCC}
+  - {re: 'D\s?263\s?(T\s?eco|M|bio)?|Borofloat\s?33|BOROFLOAT\s?33|BF33', vendor: Schott, cat: A7, type: glass}
+  - {re: 'EN-?A1', vendor: AGC, cat: A7, type: alkali-free glass}
+  - {re: 'Eagle\s?XG|EAGLE\s?XG|Willow', vendor: Corning, cat: A7, type: glass, infer: false}
+  - {re: 'Sylgard\s?\d{3}|SYLGARD\s?\d{3}', vendor: Dow Corning, cat: E, type: silicone, infer: false}
+  - {re: 'ZEP-?\s?520A?', vendor: Zeon, cat: G6, type: EBL resist}
+  - {re: 'ma-N\s?2\d{3}|mr-[A-Za-z0-9][\w-]*[A-Za-z0-9]', vendor: micro resist technology, cat: G6, type: resist}
+  - {re: 'FOX-?\s?1[0-9]|XR-1541(-\d+)?|XR-1561(-\d+)?', vendor: Dow Corning, cat: G6, type: HSQ resist, infer: false}
+  - {re: 'AR-P\s?\d{3,4}(\.\d+)?|CSAR(\s?\d+)?', vendor: Allresist, cat: G6, type: EBL resist}
+  - {re: 'S18\d{2}|SPR-?\s?3612|SPR\s?220(-\d+(\.\d+)?)?|SPR\s?955(-[A-Z0-9.]+)?|SU-8(\s?\d+)?', vendor: Kayaku, cat: G6, type: photoresist, infer: false}
+  - {re: 'AZ\s?\d{4}[A-Z0-9]*|AZ\s?nLOF\s?\d{4}|nLOF\s?\d{4}', vendor: Merck, cat: G6, type: photoresist, infer: false}
+  - {re: 'PMMA\s?\d{3}K\s?A\d', vendor: Kayaku, cat: G6, type: EBL resist, infer: false}
+  # Software
+  - {re: 'Ansys\s?Lumerical|Lumerical(\s?(FDTD|MODE|INTERCONNECT|CHARGE|HEAT|DEVICE|varFDTD))?|Ansys\s?HFSS|HFSS', vendor: Ansys, cat: J, type: simulation software, infer: false}
+  - {re: 'COMSOL\s?Multiphysics', vendor: COMSOL, cat: J, type: FEM software}
+  - {re: 'CST\s?Studio\s?Suite|CST\s?Microwave\s?Studio', vendor: Dassault CST, cat: J, type: EM software, infer: false}
+  - {re: 'Tidy3D', vendor: Flexcompute, cat: J, type: FDTD software}
+  - {re: 'FIMMWAVE|FIMMPROP', vendor: Photon Design, cat: J, type: mode solver}
+  - {re: 'RSoft|OptoDesigner', vendor: Synopsys, cat: J, type: photonic design software, infer: false}
+  # ---- added 2026-10-22 after the pilot audit (D292, D294, D295)
+  - {re: '45SPCLO|45CLO|Fotonix', vendor: GlobalFoundries, cat: B1, type: SiPh process}
+  - {re: 'iSiPP\d+[A-Z]*', vendor: imec, cat: B1, type: SiPh platform}
+  - {re: 'NanoSOI', vendor: Applied Nanotools, cat: B1, type: SOI process}
+  - {re: 'TriPleX', vendor: LioniX, cat: B2, type: SiN platform}
+  - {re: 'Katiobond\s?[A-Z0-9][\w-]*[\w]|Photobond\s?[A-Z0-9][\w-]*[\w]|OB\d{4}', vendor: DELO, cat: E1, type: adhesive, infer: false}
+  - {re: 'Vitralit\s?[A-Z0-9][\w-]*[\w]', vendor: Panacol, cat: E1, type: adhesive}
+  - {re: 'Multi[Pp]rep(\s?System)?', vendor: Allied High Tech, cat: G5, type: polishing system}
+  - {re: 'OrmoComp|OrmoClear|OrmoCore', vendor: micro resist technology, cat: G6, type: hybrid polymer}
+  - {re: 'IPKISS', vendor: Luceda, cat: J, type: design framework}
+  - {re: 'VPI\s?Transmission\s?Maker|VPItransmissionMaker', vendor: VPIphotonics, cat: J, type: system simulation}
+  - {re: 'TBS\s?\d{4}[A-Z]?|TDS\s?\d{4}[A-Z]?', vendor: Tektronix, cat: H7, type: oscilloscope}
+  - {re: 'RO\s?[34]\d{3}[A-Z]?', vendor: Rogers, cat: E4, type: laminate}
+  - {re: 'PVM-[0-9A-Z.-]*[0-9A-Z]|PVI-[0-9A-Z.-]*[0-9A-Z]', vendor: VIGO, cat: H4, type: MCT detector}
+  - {re: 'TherMoire(\s?AXP)?', vendor: Akrometrix, cat: G7, type: shadow moire}
+  - {re: 'X6540sc|A\d{3,4}sc', vendor: Teledyne FLIR, cat: H17, type: infrared camera}
+  - {re: 'MiniLab\s?\d{2,3}', vendor: Moorfield Nanotechnology, cat: G4, type: evaporator}
+  - {re: 'SFA-\d{9}-\s?\d{2}[A-Z]{2}-[A-Z]\d', vendor: Eravant, cat: H8, type: active multiplier}
+  - {re: 'Protoflow\s?[A-Z]', vendor: LPKF Laser & Electronics, cat: F9, type: reflow oven}
+  - {re: 'PE\d[A-Z]{2}\d{4}', vendor: Pasternack, cat: H8, type: RF component, infer: false}
+  - {re: 'SB2(-[A-Z]+)?', vendor: PacTech, cat: F9, type: solder ball jetting, infer: false}
+  - {re: 'CCS\s?2D', vendor: Aixtron, cat: G4, type: MOCVD reactor}

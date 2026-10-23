@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import csv
+import json
 import re
 from collections import defaultdict
 from dataclasses import dataclass, field
@@ -61,6 +62,32 @@ def ror_version() -> str:
         return str(yaml.safe_load(f)["ror_version"])
 
 
+def _json_names(path: Path) -> dict[str, tuple[list[str], list[str], list[str]]]:
+    """Labels, aliases and acronyms per record from the JSON dump, where every name is its own object (D313). The CSV
+    dump joins several names of one language group with ", " inside a cell, which cannot be split safely (names
+    such as "Senju Metal Industry Co., Ltd." contain commas)."""
+    with path.open(encoding="utf-8") as f:
+        data = json.load(f)
+    out: dict[str, tuple[list[str], list[str], list[str]]] = {}
+    for rec in data:
+        labels: list[str] = []
+        aliases: list[str] = []
+        acronyms: list[str] = []
+        for n in rec.get("names") or []:
+            v = (n.get("value") or "").strip()
+            types = n.get("types") or []
+            if not v:
+                continue
+            if "label" in types:
+                labels.append(v)
+            if "alias" in types:
+                aliases.append(v)
+            if "acronym" in types:
+                acronyms.append(v)
+        out[rec["id"]] = (labels, aliases, acronyms)
+    return out
+
+
 def load(cache_dir: Path | None = None) -> RorIndex:
     d = cache_dir or input_path("ror_cache")
     path = d / f"{ror_version()}-ror-data.csv"
@@ -69,6 +96,10 @@ def load(cache_dir: Path | None = None) -> RorIndex:
             f"{path} missing: download the pinned ROR dump (config/inputs.yaml ror_version, README)"
         )
     idx = RorIndex(version=path.stem)
+    # D313: names from the JSON dump when it is cached next to the CSV; otherwise the CSV cells split on "; " only
+    # (known gap: comma-joined variants of one language group then stay one string).
+    jpath = path.with_suffix(".json")
+    jnames = _json_names(jpath) if jpath.exists() else {}
     csv.field_size_limit(10_000_000)
     with path.open(newline="", encoding="utf-8") as f:
         for r in csv.DictReader(f):
@@ -93,6 +124,8 @@ def load(cache_dir: Path | None = None) -> RorIndex:
                 acronyms=_names(r["names.types.acronym"]),
                 parents=parents,
             )
+            if rec.ror_id in jnames:
+                rec.labels, rec.aliases, rec.acronyms = jnames[rec.ror_id]
             idx.records[rec.ror_id] = rec
             for n in [rec.name, *rec.labels]:
                 k = norm_key(n)

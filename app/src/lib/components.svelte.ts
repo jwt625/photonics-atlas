@@ -41,8 +41,17 @@ export interface Component {
 	verified_on: string;
 	notes?: string;
 	fab_orgs: string[];
+	/** registry org ids, `;`-separated, as in components.csv (present only when non-empty) */
+	fab_org_ids?: string;
+	facility_org_ids?: string;
 	source: { id: string; title: string; year: string; venue: string; url: string; access: string };
 	metrics: Metric[];
+}
+/** Primary metric spec of a layout template (D107). */
+export interface PrimarySpec {
+	parameter: string;
+	scope?: string;
+	better: 'lower' | 'higher';
 }
 /** One layout template of data/schema/component_layouts.yaml (DevLog-005 D103, D107). */
 export interface LayoutTemplate {
@@ -50,7 +59,11 @@ export interface LayoutTemplate {
 	applies_to: string[];
 	top: { required: string[]; optional: string[] };
 	xsec: { required: string[]; optional: string[] };
-	primary: { parameter: string; scope?: string; better: 'lower' | 'higher' };
+	primary: PrimarySpec;
+	/** Class-specific primary overriding `primary` (DevLog-007 D164 / D251; DevLog-005 D229a). */
+	primary_by_class?: Record<string, PrimarySpec>;
+	/** Platform-qualified showcase gaps (D112, D223): role + platform family key of explore/colors.ts. */
+	gaps?: { role: string; platform_family: string }[];
 }
 /** One row of data/components/component_showcase.csv (D105). */
 export interface ShowcaseRow {

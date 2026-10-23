@@ -1,0 +1,290 @@
+# D169 gap-fill (subagent, 2026-10-22); replay order patch, sweep, gapfill, addendum, geometry, geoaudit, coord, sweep2
+components:
+  cmp_lit_lu2024_pcw_dfb:
+    notes: 'Partially corrugated waveguide DFB: front section with first-order grating (400 um), back section without grating,
+      HR (~0.95) / AR facets (p.2, p.9). Fabrication described passively (p.6), no fabricating org stated: fab_org_ids empty
+      (one author affiliation is Ningbo Ori-Chip Optoelectronics, not stated as fabricator). Front-facet power measured with
+      a large-area PD on a TEC-controlled copper heat sink (chip on bar, p.6). Not entered (no registry parameter): grating
+      length 400 um, turn-on voltage 0.74 V, MQW confinement factor ~3.8 % (design); longitudinal mode spacing (fsr_nm), series
+      resistance and thermal resistance entered in the D169 gap-fill. Table 1 simulated sibling designs (1.4 / 1.5 / 1.6 mm)
+      were not fabricated and are not rows.'
+    why: 'D169 gap-fill: mode spacing, series resistance and thermal resistance now entered (m21-m24)'
+  cmp_lit_mu2026_ingan_ld_flipchip:
+    notes: 'Hybrid flip-chip assembly (laser.heterogeneous used for a laser bonded on a PIC; flip-chip, not transfer-printed).
+      LDs designed and fabricated by ams OSRAM (p.4, p.15): ams OSRAM is not in the registry (reported), so fab_org_ids empty;
+      Si chip by AMF (org_amf, on the coupler rows). All powers are on-chip (SiN-waveguide-coupled), computed by subtracting
+      the separately measured fiber edge-coupler loss from the off-chip power (p.7). 40 bonded samples (20 per coupler design);
+      post-bonding in-plane misalignment sigma 635 nm (X) / 665 nm (Y), mean 268 / -7 nm, 85 % within +/-1 um (p.6); max tilts
+      in Table 2 (p.7). Not entered: emission FWHM 0.05-0.10 nm (OSA-resolution limited, and no FWHM parameter for lasers),
+      15.5 % power drop at 80 mA from 14 to 80 C, series-resistance / emission changes after bonding-heat exposure (Supp.
+      S5), +12.6 % mean power after PDMS underfill + epoxy encapsulation (5 samples, Supp. S4; calculated Fresnel reflection
+      24.8 % -> 9.4 %). PIC demo (p.11-13): DC/AC (1 MHz) power monitoring with the integrated Si PD; PD has no quantitative
+      own result (18 GHz bandwidth is cited from ref. 26), so it is not a row.'
+    why: 'D169 gap-fill: T0 187 K now entered (m18)'
+  cmp_lit_maeda2023_membrane_dr_laser:
+    notes: 'Distributed-reflector laser: 140 um DFB active section + 60 um rear DBR on a 160 x 700 um2 coupon; no Si waveguide
+      under the active region (confinement factor ~12 %, design) (p.2). Abstract says the authors fabricate the lasers, but
+      author affiliations span NTT Device Technology Labs, Keio and U. Tokyo, so the fabricating org is not unambiguous (D72/D80b):
+      fab_org_ids empty. Output power received by a large-area PD (p.4); L-I kinks from chip-facet reflection (ripple FSR
+      ~0.35 nm). Not entered (no registry parameter): 40 / 50 Gbit/s NRZ eyes with ER 3.2 / 2.5 dB and 0.78 / 0.63 pJ/bit
+      (p.6, system-level). Self-heating tuning and temperature coefficient measured on another sample from the same wafer
+      (p.5).'
+    why: 'D169 gap-fill: thermal resistance ~700 K/W now entered (m15)'
+  cmp_lit_suda2025_polymer_sm_wg_fr4:
+    notes: 'Eight 11 mm waveguides at 250 um pitch (pitch_um not allowed for waveguide_platform) on high-Tg FR4 (p.2). Fabrication
+      described passively (all authors AIST, no explicit fabrication statement): fab_org_ids empty; material supplied by Nissan
+      Chemical (note only). Not entered (no parameter): temperature rise 4.4 C measured (thermal camera) vs 4.9 C simulated
+      at +20 dBm, 1311 nm (p.7); PDL, DGD and PER entered in the D169 gap-fill. Simulation inputs 0.3 dB/facet coupling and
+      0.5 dB/cm propagation are assumptions (p.7), not entered. The Furukawa ELS is test equipment (not a row).'
+    why: 'D169 gap-fill: PDL, DGD and PER now entered (m11-m21)'
+add_metrics:
+- metric_id: cmp_lit_suda2025_polymer_sm_wg_fr4-m11
+  component_id: cmp_lit_suda2025_polymer_sm_wg_fr4
+  parameter: pdl_db
+  value: '0.50'
+  unit: dB
+  qualifier: lt
+  n_samples: '8'
+  band: o_band
+  condition: across the O band, all eight waveguides; 11 mm waveguide; PDL = difference of TE and TM fiber-to-fiber insertion
+    loss (lensed PM fibers in and out, depolarized O-band SLD 1260-1360 nm + polarizer, OSA; reference = direct lensed-fiber
+    coupling)
+  method: direct
+  basis: measured
+  locator: p.3-4 Sec. III-B, Fig. 7
+  notes: 'Worst case ~0.5 dB (waveguide #7, p.4). Includes the two fiber-waveguide facets (fiber-to-fiber measurement).'
+  why: 'D169 gap-fill: pdl_db now allowed for waveguide_platform; PDL < 0.50 dB over the O band (lit_02 audit)'
+- metric_id: cmp_lit_suda2025_polymer_sm_wg_fr4-m12
+  component_id: cmp_lit_suda2025_polymer_sm_wg_fr4
+  parameter: pdl_db
+  value: '0.25'
+  unit: dB
+  qualifier: lt
+  n_samples: '8'
+  wavelength_nm: '1310'
+  condition: at 1310 nm, all eight waveguides; 11 mm waveguide; PDL = difference of TE and TM fiber-to-fiber insertion loss
+    (lensed PM fibers in and out, depolarized O-band SLD 1260-1360 nm + polarizer, OSA; reference = direct lensed-fiber coupling)
+  method: direct
+  basis: measured
+  locator: p.4 Sec. III-B, Fig. 7
+  notes: Includes the two fiber-waveguide facets (fiber-to-fiber measurement).
+  why: 'D169 gap-fill: pdl_db now allowed for waveguide_platform; PDL < 0.25 dB at 1310 nm (lit_02 audit)'
+- metric_id: cmp_lit_suda2025_polymer_sm_wg_fr4-m13
+  component_id: cmp_lit_suda2025_polymer_sm_wg_fr4
+  parameter: dgd_ps
+  value: '0.2'
+  unit: ps
+  qualifier: lt
+  n_samples: '8'
+  band: o_band
+  condition: waveguide length 11 mm; O-band tunable laser + optical component analyzer, Jones matrix eigenanalysis, system
+    without the waveguide as reference; all eight waveguides
+  method: direct
+  basis: measured
+  locator: p.4 Sec. III-C, Fig. 8
+  notes: Per length printed as < 18 ps/m.
+  why: 'D169 gap-fill: dgd_ps (new); DGD < 0.2 ps over 11 mm (lit_02 audit)'
+- metric_id: cmp_lit_suda2025_polymer_sm_wg_fr4-m14
+  component_id: cmp_lit_suda2025_polymer_sm_wg_fr4
+  parameter: per_db
+  value: '25.6'
+  unit: dB
+  statistic: mean
+  n_samples: '8'
+  wavelength_nm: '1271'
+  polarization: te
+  condition: TE launch (input azimuth 0 deg), output polarizer at 0 / 90 deg, PER = P1 / P2; tunable laser at CWDM4 wavelengths;
+    setup limit (focusing modules aligned without waveguide) 37.0 dB
+  method: direct
+  basis: measured
+  locator: p.5 Sec. III-D, Fig. 10
+  notes: Max / min 31.0 / 22.2 dB over the eight waveguides; std 2.8 dB (next row). All eight > 20 dB at all four wavelengths.
+  why: 'D169 gap-fill: per_db now allowed for waveguide_platform; PER mean at 1271 nm (lit_02 audit)'
+- metric_id: cmp_lit_suda2025_polymer_sm_wg_fr4-m15
+  component_id: cmp_lit_suda2025_polymer_sm_wg_fr4
+  parameter: per_db
+  value: '2.8'
+  unit: dB
+  statistic: std
+  n_samples: '8'
+  wavelength_nm: '1271'
+  polarization: te
+  condition: TE launch (input azimuth 0 deg), output polarizer at 0 / 90 deg, PER = P1 / P2; tunable laser at CWDM4 wavelengths;
+    setup limit (focusing modules aligned without waveguide) 37.0 dB
+  method: direct
+  basis: measured
+  locator: p.5 Sec. III-D, Fig. 10
+  notes: Standard deviation over the eight waveguides as printed.
+  why: 'D169 gap-fill: per_db std at 1271 nm (paper states standard deviation; statistic std row)'
+- metric_id: cmp_lit_suda2025_polymer_sm_wg_fr4-m16
+  component_id: cmp_lit_suda2025_polymer_sm_wg_fr4
+  parameter: per_db
+  value: '25.0'
+  unit: dB
+  statistic: mean
+  n_samples: '8'
+  wavelength_nm: '1291'
+  polarization: te
+  condition: TE launch (input azimuth 0 deg), output polarizer at 0 / 90 deg, PER = P1 / P2; tunable laser at CWDM4 wavelengths;
+    setup limit (focusing modules aligned without waveguide) 37.0 dB
+  method: direct
+  basis: measured
+  locator: p.5 Sec. III-D, Fig. 10
+  notes: Max / min 28.6 / 21.0 dB over the eight waveguides; std 2.4 dB (next row). All eight > 20 dB at all four wavelengths.
+  why: 'D169 gap-fill: per_db now allowed for waveguide_platform; PER mean at 1291 nm (lit_02 audit)'
+- metric_id: cmp_lit_suda2025_polymer_sm_wg_fr4-m17
+  component_id: cmp_lit_suda2025_polymer_sm_wg_fr4
+  parameter: per_db
+  value: '2.4'
+  unit: dB
+  statistic: std
+  n_samples: '8'
+  wavelength_nm: '1291'
+  polarization: te
+  condition: TE launch (input azimuth 0 deg), output polarizer at 0 / 90 deg, PER = P1 / P2; tunable laser at CWDM4 wavelengths;
+    setup limit (focusing modules aligned without waveguide) 37.0 dB
+  method: direct
+  basis: measured
+  locator: p.5 Sec. III-D, Fig. 10
+  notes: Standard deviation over the eight waveguides as printed.
+  why: 'D169 gap-fill: per_db std at 1291 nm (paper states standard deviation; statistic std row)'
+- metric_id: cmp_lit_suda2025_polymer_sm_wg_fr4-m18
+  component_id: cmp_lit_suda2025_polymer_sm_wg_fr4
+  parameter: per_db
+  value: '26.2'
+  unit: dB
+  statistic: mean
+  n_samples: '8'
+  wavelength_nm: '1311'
+  polarization: te
+  condition: TE launch (input azimuth 0 deg), output polarizer at 0 / 90 deg, PER = P1 / P2; tunable laser at CWDM4 wavelengths;
+    setup limit (focusing modules aligned without waveguide) 37.0 dB
+  method: direct
+  basis: measured
+  locator: p.5 Sec. III-D, Fig. 10
+  notes: Max / min 34.4 / 22.5 dB over the eight waveguides; std 3.5 dB (next row). All eight > 20 dB at all four wavelengths.
+  why: 'D169 gap-fill: per_db now allowed for waveguide_platform; PER mean at 1311 nm (lit_02 audit)'
+- metric_id: cmp_lit_suda2025_polymer_sm_wg_fr4-m19
+  component_id: cmp_lit_suda2025_polymer_sm_wg_fr4
+  parameter: per_db
+  value: '3.5'
+  unit: dB
+  statistic: std
+  n_samples: '8'
+  wavelength_nm: '1311'
+  polarization: te
+  condition: TE launch (input azimuth 0 deg), output polarizer at 0 / 90 deg, PER = P1 / P2; tunable laser at CWDM4 wavelengths;
+    setup limit (focusing modules aligned without waveguide) 37.0 dB
+  method: direct
+  basis: measured
+  locator: p.5 Sec. III-D, Fig. 10
+  notes: Standard deviation over the eight waveguides as printed.
+  why: 'D169 gap-fill: per_db std at 1311 nm (paper states standard deviation; statistic std row)'
+- metric_id: cmp_lit_suda2025_polymer_sm_wg_fr4-m20
+  component_id: cmp_lit_suda2025_polymer_sm_wg_fr4
+  parameter: per_db
+  value: '25.3'
+  unit: dB
+  statistic: mean
+  n_samples: '8'
+  wavelength_nm: '1331'
+  polarization: te
+  condition: TE launch (input azimuth 0 deg), output polarizer at 0 / 90 deg, PER = P1 / P2; tunable laser at CWDM4 wavelengths;
+    setup limit (focusing modules aligned without waveguide) 37.0 dB
+  method: direct
+  basis: measured
+  locator: p.5 Sec. III-D, Fig. 10
+  notes: Max / min 30.7 / 21.6 dB over the eight waveguides; std 3.1 dB (next row). All eight > 20 dB at all four wavelengths.
+  why: 'D169 gap-fill: per_db now allowed for waveguide_platform; PER mean at 1331 nm (lit_02 audit)'
+- metric_id: cmp_lit_suda2025_polymer_sm_wg_fr4-m21
+  component_id: cmp_lit_suda2025_polymer_sm_wg_fr4
+  parameter: per_db
+  value: '3.1'
+  unit: dB
+  statistic: std
+  n_samples: '8'
+  wavelength_nm: '1331'
+  polarization: te
+  condition: TE launch (input azimuth 0 deg), output polarizer at 0 / 90 deg, PER = P1 / P2; tunable laser at CWDM4 wavelengths;
+    setup limit (focusing modules aligned without waveguide) 37.0 dB
+  method: direct
+  basis: measured
+  locator: p.5 Sec. III-D, Fig. 10
+  notes: Standard deviation over the eight waveguides as printed.
+  why: 'D169 gap-fill: per_db std at 1331 nm (paper states standard deviation; statistic std row)'
+- metric_id: cmp_lit_lu2024_pcw_dfb-m21
+  component_id: cmp_lit_lu2024_pcw_dfb
+  parameter: thermal_resistance_k_per_w
+  value: '30'
+  unit: K/W
+  qualifier: approx
+  temperature_k: '283.15'
+  condition: heat sink 10 C; active-region temperature shift (from the lasing-wavelength shift via 0.178 nm/K) vs thermal
+    power over injection currents
+  method: direct
+  basis: measured
+  locator: p.7-8 Sec. 4.2, Fig. 7(d)
+  notes: Slope of temperature shift vs thermal power (Fig. 7(d)); 'calculated of about 30 K/W'. Chip p-side up on a copper
+    heat sink.
+  why: 'D169 gap-fill: thermal_resistance_k_per_w (new); ~30 K/W (lit_02 audit)'
+- metric_id: cmp_lit_lu2024_pcw_dfb-m22
+  component_id: cmp_lit_lu2024_pcw_dfb
+  parameter: series_resistance_ohm
+  value: '1.8'
+  unit: ohm
+  qualifier: approx
+  temperature_k: '268.15'
+  condition: CW, heat sink -5 C
+  method: direct
+  basis: measured
+  locator: p.7 Sec. 4.2, Fig. 6
+  notes: 'From the V-I curve (method: I-V); turn-on voltage 0.74 V.'
+  why: 'D169 gap-fill: series_resistance_ohm (new, laser); ~1.8 ohm (lit_02 audit)'
+- metric_id: cmp_lit_lu2024_pcw_dfb-m23
+  component_id: cmp_lit_lu2024_pcw_dfb
+  parameter: fsr_nm
+  value: '0.29'
+  unit: nm
+  qualifier: approx
+  temperature_k: '298.15'
+  condition: longitudinal-mode spacing; optical spectrum at 25 C
+  method: direct
+  basis: measured
+  locator: p.6 Sec. 4.1, Fig. 5(b)
+  notes: Agrees with the simulated ~0.3 nm (next row).
+  why: 'D169 gap-fill: fsr_nm now allowed for laser (longitudinal-mode spacing); 0.29 nm (lit_02 audit)'
+- metric_id: cmp_lit_lu2024_pcw_dfb-m24
+  component_id: cmp_lit_lu2024_pcw_dfb
+  parameter: fsr_nm
+  value: '0.3'
+  unit: nm
+  qualifier: approx
+  condition: longitudinal-mode spacing of the 1.3 mm / 400 um grating design; coupled-wave model
+  basis: simulated
+  locator: p.5 Sec. 2
+  notes: Design calculation (as m5 / m9).
+  why: 'D169 gap-fill: fsr_nm for laser; simulated ~0.3 nm listed in the component note'
+- metric_id: cmp_lit_mu2026_ingan_ld_flipchip-m18
+  component_id: cmp_lit_mu2026_ingan_ld_flipchip
+  parameter: characteristic_temperature_k
+  value: '187'
+  unit: K
+  condition: heat-sink temperature 14-80 C; representative flip-chip-bonded LD sample (threshold 16 -> 22 mA)
+  method: direct
+  basis: measured
+  locator: p.10 Sec. 4.2, Fig. 6(a)
+  notes: '''calculated from the measured L-I data, was estimated'' (standard fit of own data).'
+  why: 'D169 gap-fill: characteristic_temperature_k (new); T0 187 K (lit_02 audit)'
+- metric_id: cmp_lit_maeda2023_membrane_dr_laser-m15
+  component_id: cmp_lit_maeda2023_membrane_dr_laser
+  parameter: thermal_resistance_k_per_w
+  value: '700'
+  unit: K/W
+  condition: stage temperature 25 / 50 / 80 C; self-heating tuning coefficient divided by temperature coefficient, per W of
+    input electrical power; another sample on the same wafer
+  method: direct
+  basis: derived
+  locator: p.5 Sec. III-A, Fig. 11
+  notes: 'Paper''s own arithmetic: 0.051 nm/mW (fit, m5) / 0.073 nm/K (m6) = ~0.70 K/mW; printed 700 K/W (p.5), ''about 700
+    K/W'' (p.2 Sec. I). Normalized to input electrical power, not dissipated power.'
+  why: 'D169 gap-fill: thermal_resistance_k_per_w (new); ~700 K/W on the laser row (lit_02 audit)'
