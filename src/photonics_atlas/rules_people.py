@@ -52,6 +52,7 @@ KINDS_OF_CORPUS = {
     "lit": {"publication"},  # D370: lit slots have paper-header rows only (DevLog-011)
 }
 HEADER_LOCATOR_RE = re.compile(r"^p\.~[0-9]+")
+LIT_HEADER_LOCATOR_RE = re.compile(r"^p\.[0-9]+")  # DevLog-011 D353: lit headers cite exact text.md pages
 GRADE_OF_KIND = {"publication": "A", "conference": "B"}
 RULE_BASES = {"exact_name_shared_org", "compatible_name_shared_org_coauthor"}
 ORIGIN_GRADE = {"eo_person_id": "A", "pk_name_key": "A", "ofc_name": "B", "lit_name_key": "A"}
@@ -402,6 +403,9 @@ def header_row_checks(oid: str, r: dict[str, str], hm: re.Match[str], hdr: dict[
     for c, v in want.items():
         if r[c] != v:
             rep.err(f"affiliation_observations {oid}: {c} {r[c]!r} != header row {v!r} (D214)")
-    if not HEADER_LOCATOR_RE.match(r["locator"]):
+    if oid.startswith("lit:"):
+        if not LIT_HEADER_LOCATOR_RE.match(r["locator"]):
+            rep.err(f"affiliation_observations {oid}: lit header locator must start with 'p.<page>' (D353)")
+    elif not HEADER_LOCATOR_RE.match(r["locator"]):
         rep.err(f"affiliation_observations {oid}: header locator must start with 'p.~<page>' (D4)")
     return "B" if h["marker_basis"] in HEADER_GRADE_B else "A"

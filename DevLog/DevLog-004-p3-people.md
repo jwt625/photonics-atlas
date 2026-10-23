@@ -341,3 +341,11 @@ Funnel (strict) after round 2: persons with observations 6377, >= 2 org groups 2
   but NOT built: `LIT_MERGE = False` in src/photonics_atlas/people.py keeps the build identical to the committed tables.
   Turn it on after DevLog-011 D381-D383, implement D378-D379, then dry-run, real build, second run identical,
   derive_transitions, build_views. Owner decision pending: D219c (stricter coauthor rule for existing joins).
+- 2026-10-23 16:20 PDT (coordinator, owner: "make it visible, postpone the perfect checker fix"): `LIT_MERGE = True`;
+  backup (scratchpad people_backup_pre_lit_merge_20261023.zip), dry-run equal to the 11:21 D377 numbers (merges
+  120 / 1986 / 1742, 655 review pairs, 14 redirects), real build, second run byte-identical, derive_transitions.
+  persons 6922 -> 7583 (public 6770), observations 11604 -> 12941 (public 11485; 1106 public lit observations). Committed
+  rows changed: person_dirk_r_englund public -> review; person_leopold_virot and person_p_ossieur review -> public;
+  person_leopold_virot_2 and person_peter_ossieur redirect (same_as). No committed id removed. Validator fix: lit header
+  locators are exact pages `p.N` (D353), the `p.~N` rule stays for OFC. test_ofc_header_rules scoped to OFC rows.
+  188 + new warnings: lit printed orgs not yet in the registry (next org round).

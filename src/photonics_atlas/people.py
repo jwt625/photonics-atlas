@@ -473,7 +473,7 @@ HEADERS_REL = Path("data") / "_staging" / "people" / "ofc_headers"
 LIT_HEADERS_REL = Path("data") / "_staging" / "people" / "lit_headers"  # DevLog-011 D351
 # DevLog-011 / DevLog-004 D370-D377: the lit merge is implemented but stays off until its first real build (after the
 # D380-D383 header fixes); off, the build reproduces the committed tables.
-LIT_MERGE = False
+LIT_MERGE = True
 HEADER_DIRS_REL = (HEADERS_REL, LIT_HEADERS_REL) if LIT_MERGE else (HEADERS_REL,)
 HEADER_CORPORA = {"ofc2026", "lit"}
 HEADER_STAMP = "check_stamp.txt"

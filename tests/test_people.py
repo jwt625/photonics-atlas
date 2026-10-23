@@ -929,7 +929,13 @@ def test_ofc_header_rules(data: Path) -> None:
     gone = P.header_obs_id(staged[0])
     write_csv(hdr_path, list(staged[0]), staged[1:])
     obs = read_csv(data / "data" / "people" / "affiliation_observations.csv")
-    hdr = [o for o in obs if P.HEADER_ID_RE.search(o["obs_id"]) and not o["obs_id"].startswith(gone)]
+    hdr = [  # OFC header rows only (lit header rows have their own rules, D370-D377)
+        o
+        for o in obs
+        if o["obs_id"].startswith("ofc2026:")
+        and P.HEADER_ID_RE.search(o["obs_id"])
+        and not o["obs_id"].startswith(gone)
+    ]
     only_hdr = {_slot_of(o["obs_id"]) for o in hdr}
     only_hdr -= {_slot_of(o["obs_id"]) for o in obs if not P.HEADER_ID_RE.search(o["obs_id"])}
     a_row = next(o for o in hdr if o["evidence_grade"] == "A")
