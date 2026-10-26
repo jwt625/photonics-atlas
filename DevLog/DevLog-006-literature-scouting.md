@@ -388,3 +388,15 @@ Progress (2026-10-22 22:20-22:28 PDT):
   PDF re-request, manual reset only); Wiley / De Gruyter skipped by their D147 breakers. Extraction + registration: `lit`
   corpus 116 sources (+52), validate_db 0 errors. Manual list regenerated: 110 rows. IEEE day-2 session (21 papers)
   waits for the user's sign-in (`--site ieee --run --day 2 --wait-login`). Distill batches lit_07-lit_11 (DevLog-007).
+- 2026-10-25 22:20-23:00 PDT, IEEE day-2 session (tmux `lit_ieee_d2`, run log
+  `logs/lit_fetch_browser_ieee_20261025T222033.log`): the owner signed in in the same window (`--wait-login`, access
+  probed every 15 s, institutional session detected after 16 s). 23 / 23 ok, no retries, no challenge, breaker not
+  armed: 21 `ieee_browser` + both `ieee_search` rows (mangal2018 arnumber 8385874, cabanillas2021 arnumber 9489934,
+  title similarity 1.000 each; 0 `no_ieee_copy`). Spacing 61-118 s, 60 saved-PDF / 2 h cap not reached. Extraction
+  (`lit_extract.py --pending`, 23 papers, 143 pages, 647,866 chars, 0 garbled, 0 low_text) and registration
+  (`lit_register_sources.py`, `lit` corpus 116 -> 139) run after the session; validate_db 0 errors / 213 warnings
+  (unchanged baseline). 12 of the 23 carry an IEEE institutional stamp -> `restricted_local_only` as before.
+  `lit_manual_list.py` regenerated: 110 rows (the IEEE rows were queued, not manual). Cache now 139 / 1000; day-2 queue
+  slots 77 / 100 (54 from the automated part + these 23; the remaining 23 are manual, `no_access`, D147 or blocked
+  rows), days 3-4 (2026-10-24 / 2026-10-25) not run. `extracted_on` is the UTC date, hence 2026-10-26 for this run. The 23 papers need distill
+  batches (DevLog-007).

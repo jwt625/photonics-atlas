@@ -154,3 +154,8 @@ Later retrieval days (DevLog-006 S7) add batches lit_07+ as papers are cached. D
   lit_07 44 / 205, lit_08 36 / 246, lit_09 77 / 423, lit_10 32 / 216, lit_11 52 / 386 (components / metrics). Not
   audited or merged: paused by the owner after this step. Next: one fresh-context audit per batch, coordinator rulings,
   merge, then a registry extension for the gaps listed in the five reports.
+- 2026-10-25 23:35 PDT: day-2 IEEE session done (DevLog-006 S7), 23 more cached `lit` papers (umeki2010 dumon2004
+  starnault2024 mu2016 pintus2017 yang2020 dumais2017 ibrahimi2021 ozdemir2021 akiyama2022 lin2025 desmet2020
+  mangal2019a kim2021 neutens2025 konoike2020 zhang2023d arabhavi2020 taha2021 mangal2018 cabanillas2021 jean2019
+  zhang2019a), extracted and registered. They need their own batches (lit_12 / lit_13, ~8-12 papers by class family);
+  not dispatched. Staged backlog before them: lit_07-lit_11 (241 components / 1476 metrics), still unaudited.
