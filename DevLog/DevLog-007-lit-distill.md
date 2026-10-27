@@ -159,3 +159,5 @@ Later retrieval days (DevLog-006 S7) add batches lit_07+ as papers are cached. D
   mangal2019a kim2021 neutens2025 konoike2020 zhang2023d arabhavi2020 taha2021 mangal2018 cabanillas2021 jean2019
   zhang2019a), extracted and registered. They need their own batches (lit_12 / lit_13, ~8-12 papers by class family);
   not dispatched. Staged backlog before them: lit_07-lit_11 (241 components / 1476 metrics), still unaudited.
+- 2026-10-26 18:51 PDT: day-3 retrieval added 80 more cached `lit` papers (DevLog-006 S7), extracted and registered
+  (`lit` corpus 219). Not distilled, not batched; they follow lit_07-lit_11 in the audit queue.

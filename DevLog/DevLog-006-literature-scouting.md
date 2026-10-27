@@ -400,3 +400,17 @@ Progress (2026-10-22 22:20-22:28 PDT):
   slots 77 / 100 (54 from the automated part + these 23; the remaining 23 are manual, `no_access`, D147 or blocked
   rows), days 3-4 (2026-10-24 / 2026-10-25) not run. `extracted_on` is the UTC date, hence 2026-10-26 for this run. The 23 papers need distill
   batches (DevLog-007).
+- 2026-10-26 17:33-18:51 PDT, day 3 (schedule slot 2026-10-24), tmux `lit_day3` +
+  `lit_ieee_d3`, logs `logs/lit_daily_day3_20261026T173346.log`,
+  `logs/lit_fetch_browser_ieee_20261026T1734*.log`. Automated part: arXiv / OA 21 ok, 1 `not_pdf`
+  (10.1117/1.apn.5.1.016009, SPIE returned a 212 B HTML page -> breaker `logs/.lit_blocked_www.spiedigitallibrary.org.json`);
+  Optica sessions 7-9: 34 ok, 6 `no_access` (ol-38-18-3608, ol-28-15-1302, ao-51-34-8090, ol-39-4-965,
+  ol-45-2-527, oe-23-21-27213); publisher session: 3 ok, 6 skipped by the standing D147 breakers (Wiley 1,
+  De Gruyter 2, ACS 3), 1 already cached. IEEE session: no sign-in needed (the institutional session persisted in the
+  profile), 22 ok + 1 `no_ieee_copy` (cabanillas2021a, IPRSN 2021, 0 Xplore hits), spacing 61-120 s, no challenge.
+  Total 80 new papers, all extracted (`lit_extract.py --pending`: 779 pages, 2,685,947 chars, 0 garbled, 0 low_text,
+  12 institutional stamps) and registered (`lit` corpus 139 -> 219, sources.csv 1965 -> 2045 rows). Access: 51
+  open_access / 20 arxiv / 9 paywalled; redistribution 74 restricted_local_only / 6 open_license_ok. validate_db
+  0 errors / 213 warnings. `lit_manual_list.py`: 118 rows. Cache 219 / 1000; day-3 queue slots 81 / 100 (the other 19
+  are the 5 manual, 6 Optica `no_access`, 6 D147 skips, 1 SPIE `not_pdf`, 1 `no_ieee_copy` rows). Days 4-5
+  (2026-10-25 / 2026-10-26) still unrun. The 80 papers need distill batches (DevLog-007).
