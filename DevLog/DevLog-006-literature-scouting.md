@@ -414,3 +414,17 @@ Progress (2026-10-22 22:20-22:28 PDT):
   0 errors / 213 warnings. `lit_manual_list.py`: 118 rows. Cache 219 / 1000; day-3 queue slots 81 / 100 (the other 19
   are the 5 manual, 6 Optica `no_access`, 6 D147 skips, 1 SPIE `not_pdf`, 1 `no_ieee_copy` rows). Days 4-5
   (2026-10-25 / 2026-10-26) still unrun. The 80 papers need distill batches (DevLog-007).
+- 2026-10-27 19:15-20:37 PDT, day 4 (schedule slot 2026-10-25), tmux `lit_day4` + `lit_ieee_d4`, logs
+  `logs/lit_daily_day4_20261027T1915*.log`, `logs/lit_fetch_browser_ieee_20261027T1915*.log`. Automated part: arXiv /
+  OA 21 ok, 1 blocked (challenge page at stars.library.ucf.edu -> breaker until 2026-10-28T02:45Z); Optica sessions
+  10-12: 34 ok, 8 `no_access`; publisher: 3 ok, 5 skipped by the standing D147 breakers (Wiley 3, ACS 1,
+  De Gruyter 1). IEEE: no sign-in needed, 23 / 23 ok (20 `ieee_browser` + all 3 `ieee_search`). Total 81 new papers,
+  extracted (793 pages, 2,658,514 chars; 3 with a garbled text layer: yoshida2023 p.7, fang2021 p.22-26, qiu2025 p.1)
+  and registered (`lit` 219 -> 300, sources.csv 2045 -> 2126). Access 51 open_access / 20 arxiv / 10 paywalled;
+  redistribution 69 restricted_local_only / 12 open_license_ok; 15 institutional stamps. validate_db 0 errors / 213
+  warnings. Manual list 127 rows. Cache 300 / 1000; day-4 slots 81 / 100 (5 manual, 8 Optica `no_access`, 5 D147
+  skips, 1 blocked). Open item: in Optica session 12 three `no_access` rows repeat the same `viewmedia` URI
+  (oe-32-20-35743: ni2024, li2023, sysak2008), i.e. the fetcher reused a stale PDF link after the first failure;
+  li2023 (10.1364/oe.502187) and sysak2008 (10.1364/oe.16.012478) are flagged OA and are worth a `--paper-ids` retry
+  before they are counted as paywalled. Days 5-6 (2026-10-26 / 2026-10-27) still unrun. The 81 papers need distill
+  batches (DevLog-007).
