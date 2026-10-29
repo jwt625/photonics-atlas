@@ -58,6 +58,8 @@ from pathlib import Path
 from typing import Any
 from urllib.parse import parse_qs, urljoin, urlsplit
 
+import pymupdf
+
 from photonics_atlas.paths import CACHE, LOGS, ROOT, STAGING
 from photonics_atlas.runlog import RunLog
 
@@ -178,6 +180,33 @@ def optica_pdf_url(html: str, page_url: str) -> str | None:
         return None
     prefix = f"{OPTICA_BASE}/{journal}" if journal else OPTICA_BASE
     return f"{prefix}/viewmedia.cfm?uri={uri}&seq=0"
+
+
+def is_stale_uri(uri: str | None, pid: str, seen: dict[str, str]) -> bool:
+    """True when an Optica article uri (landing or PDF link) already belonged to another paper in this run: a
+    navigation that did not land leaves an earlier article in the tab (day 4: lee2022 got ni2024's PDF; day 5: a link
+    two papers back). The Optica full-text view does not print the DOI, so the check is by article uri."""
+    return bool(uri) and seen.get(uri or "", pid) != pid
+
+
+TITLE_WORD_RE = re.compile(r"[a-z0-9]{4,}")
+
+
+def pdf_title_match(body: bytes, title: str) -> bool | None:
+    """Whether the first two pages of a fetched PDF carry the expected title words (>= 60 % of the title's words of
+    4+ characters); None when it cannot be told (no title, no readable text layer)."""
+    words = set(TITLE_WORD_RE.findall(title.lower()))
+    if not words:
+        return None
+    try:
+        with pymupdf.open(stream=body, filetype="pdf") as doc:  # type: ignore[no-untyped-call]
+            text = " ".join(doc[i].get_text("text") for i in range(min(2, doc.page_count)))
+    except Exception:  # noqa: BLE001  unreadable PDF: cannot tell
+        return None
+    found = set(TITLE_WORD_RE.findall(text.lower()))
+    if sum(c.isalpha() for c in text) < 300:
+        return None
+    return len(words & found) / len(words) >= 0.6
 
 
 def embedded_pdf_url(html: str, page_url: str) -> str | None:
@@ -683,6 +712,7 @@ class Fetcher:
         self.rl = rl
         self.page = main_page(ctx)
         self.extra: dict[str, Any] = {}
+        self.seen_uris: dict[str, str] = {}  # Optica article uri -> paper_id of this run
 
     def _retry_wait(self, pid: str, what: str, attempt: int) -> None:
         wait = CHALLENGE_WAIT_S + random.uniform(0, 2)
@@ -831,9 +861,24 @@ class Fetcher:
         if JSCHECK_RE.search(html):
             snapshot(self.site, pid, html)
             return "blocked", b"", "landing stuck on the JS check interstitial"
+        uri = optica_uri_from_url(page_url)[1]
+        if is_stale_uri(uri, pid, self.seen_uris):
+            snapshot(self.site, pid, html)
+            return (
+                "resolve_failed",
+                b"",
+                f"landing is the article {uri} of {self.seen_uris[uri or '']} ({page_url[:90]})",
+            )
         pdf_url = optica_pdf_url(html, page_url)
         if not pdf_url:
             return "no_pdf_link", b"", f"landing {page_url[:120]}"
+        link_uri = optica_uri_from_url(pdf_url)[1]
+        if is_stale_uri(link_uri, pid, self.seen_uris):
+            snapshot(self.site, pid, html)
+            return "resolve_failed", b"", f"PDF link is the article {link_uri} of {self.seen_uris[link_uri or '']}"
+        for u in (uri, link_uri):
+            if u:
+                self.seen_uris[u] = pid
         time.sleep(random.uniform(4.0, 8.0))
         return self.open_pdf(pid, pdf_url, page_url)
 
@@ -1038,6 +1083,8 @@ def run(site: Site, a: argparse.Namespace) -> int:
                 except Exception as exc:  # noqa: BLE001  navigation timeout etc.: logged, no retry loop
                     kind, body, detail = "error", b"", f"{type(exc).__name__}: {str(exc)[:200]}"
                 done += 1
+                if kind == "pdf" and pdf_title_match(body, t.get("title") or "") is False:
+                    kind, body, detail = "wrong_pdf", b"", f"PDF pages 1-2 do not carry the title ({detail[:100]})"
                 res = save_pdf(t, site, body, detail, f.extra) if kind == "pdf" else kind
                 if res == "blocked":
                     set_breaker(site, detail, pid, host)

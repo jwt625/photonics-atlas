@@ -8,6 +8,7 @@ import importlib.util
 import json
 import sys
 from types import ModuleType
+from typing import Any
 
 from photonics_atlas.paths import ROOT
 
@@ -398,3 +399,26 @@ def test_xplore_article_page_with_captcha_css_is_not_a_challenge() -> None:
     assert not is_challenge(html, 200)
     assert not is_challenge("<style>.captcha{padding:0}</style>", 200)
     assert is_challenge('<div class="g-recaptcha" data-sitekey="x"></div>', 200)
+
+
+def test_is_stale_uri_rejects_an_article_of_another_paper() -> None:
+    seen = {"oe-32-20-35743": "ni2024", "oe-33-19-41423": "shoaa2025"}
+    assert m.is_stale_uri("oe-32-20-35743", "lee2022", seen)
+    assert not m.is_stale_uri("oe-32-20-35743", "ni2024", seen)
+    assert not m.is_stale_uri("oe-30-10-12345", "lee2022", seen)
+    assert not m.is_stale_uri(None, "lee2022", seen)
+
+
+def test_pdf_title_match() -> None:
+    import pymupdf
+
+    fitz: Any = pymupdf  # pymupdf is only partially typed
+    doc = fitz.open()
+    page = doc.new_page()
+    body_text = "Photonic integrated circuit with sampled grating lasers fabricated on InP. " * 6
+    page.insert_textbox(fitz.Rect(36, 36, 560, 800), body_text)
+    pdf = doc.tobytes()
+    assert m.pdf_title_match(pdf, "Photonic integrated circuit with sampled grating lasers") is True
+    assert m.pdf_title_match(pdf, "Ultra-low-crosstalk waveguide crossings based on multimode interference") is False
+    assert m.pdf_title_match(pdf, "") is None
+    assert m.pdf_title_match(b"not a pdf", "Photonic integrated circuit") is None
