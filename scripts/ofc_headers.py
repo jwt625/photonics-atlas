@@ -449,7 +449,7 @@ class AffIn(_M):
     marker_trailing: bool = False  # D286e: block printed as "Org, City, Country (1)", marker after the block
     clause: bool = False  # D366 (prose): an "and (also) with" clause of the previous block's statement
     skip_prefix: str = ""  # D366 (prose): printed address-like span between the verb and the first field; not stored
-    skip_between: str = ""  # D380: printed building / site name between unit and org; verified, never stored
+    skip_between: str = ""  # D380 building / site name between unit and org (D410 "<postal box>"); never stored
 
     @property
     def mo(self) -> list[MoreOrg]:
@@ -1234,11 +1234,12 @@ def _window_checks(b: AffIn, w: str, ws: str, tag: str, errs: list[str]) -> None
                 errs.append(f"{tag}: more_orgs unit and org are not one contiguous printed segment (D367)")
         if x.country and not _country_hit(x.country, ws):
             errs.append(f"{tag}: more_orgs country {x.country!r} is not printed in this block (D367)")
-    if b.skip_between and alnum(b.skip_between) not in w:
+    postal = b.skip_between == POSTAL_BOX
+    if b.skip_between and not postal and alnum(b.skip_between) not in w:
         errs.append(f"{tag}: skip_between {b.skip_between!r} not inside this printed block (D380)")
     if b.unit and b.org and not b.org_from_prefix:
         u, o = re.escape(alnum(b.unit)), re.escape(alnum(b.org))
-        k = re.escape(alnum(b.skip_between)) if b.skip_between else ""
+        k = POSTAL_BOX_RE if postal else re.escape(alnum(b.skip_between)) if b.skip_between else ""
         gap = "[a-z]{0,10}" + (k + "[a-z]{0,10}" if k else "")
         if not (re.search(u + gap + o, w) or re.search(o + gap + u, w)):
             errs.append(f"{tag}: unit and org are not one contiguous printed segment (D246)")
@@ -1251,6 +1252,9 @@ def _window_checks(b: AffIn, w: str, ws: str, tag: str, errs: list[str]) -> None
         errs.append(f"{tag}: country {b.country!r} is not printed in this block (D246)")
 
 
+# D410: a postal-box code printed between unit and org (e.g. "CP 123/4") is verified by pattern and never stored
+POSTAL_BOX = "<postal box>"
+POSTAL_BOX_RE = "(?:cp|bp|pobox|postbus|postfach|box)[0-9]+"
 VERB_RE = "(?:is|are|was|were)(?:also|now|currently|presently)?with(?:the)?"
 CLAUSE_RE = "(?:and(?:is|are|was|were)?(?:also)?|also)with(?:the)?"  # D366: "<names> is with A, and (also) with B" clause of one statement
 # D366: a statement subject starts after a real sentence boundary: ")" (contact parentheses), ";", a blank line, a
@@ -1397,9 +1401,11 @@ def _prose_checks(p: PaperIn, n: str, t: str, idx: list[int], src: str, errs: li
         vs = v.start()
         if not _starts_word(t, idx, vs):
             continue
-        if v.group(0).startswith("and"):  # a clause belongs to the statement it follows
+        if v.group(0).startswith("and"):  # a clause belongs to the statement it follows, in the same sentence
             if last_verb is None or not last_verb[1] or vs - last_verb[0] > 300:
                 continue
+            if PROSE_CUT_RE.search(t[idx[last_verb[2] - 1] + 1 : idx[vs]]):
+                continue  # body text after the statement ended ("... high-volume and with a high yield")
             names_author = True
         else:
             subject, names = _subject(t, idx, vs)
@@ -1410,7 +1416,7 @@ def _prose_checks(p: PaperIn, n: str, t: str, idx: list[int], src: str, errs: li
                     compatible(au.name, c) for au in p.authors for c in names
                 )
                 names_prev = names_author
-            last_verb = (vs, names_author)
+            last_verb = (vs, names_author, v.end())
         if names_author and not any(abs(vs - r) <= 3 for r in recorded):
             snippet = " ".join(t[max(0, idx[vs] - 60) : idx[vs]].split()[-6:])
             errs.append(f"{src}: statement '... {snippet} {v.group(0)} ...' names an author but is not recorded (D361)")

@@ -661,6 +661,12 @@ def lit_duplicates(sources: dict[str, dict[str, str]]) -> dict[str, str]:
     return out
 
 
+def lit_list_name_ok(name: str) -> bool:
+    """D413 (DevLog-011): an author-list name in a non-Latin script (Greek, Cyrillic) folds to no name key and would
+    make an unnamed person; such list positions get no slot (their header rows stay staged, like header-only authors)."""
+    return bool(re.search(r"[a-z]", ascii_fold(name).lower()))
+
+
 def _lit_slots(sources: dict[str, dict[str, str]], dropped: Counter[str]) -> list[Slot]:
     """D370: one slot per position of a lit paper's author list (DevLog-011 D359: lit:<paper_id>#<i>, i = list
     position); slot names = the list names (never the header printed forms, D218); no metadata affiliation."""
@@ -677,6 +683,9 @@ def _lit_slots(sources: dict[str, dict[str, str]], dropped: Counter[str]) -> lis
         if not names:
             dropped["lit: paper without an author list"] += 1
         for i, n in enumerate(names, start=1):
+            if not lit_list_name_ok(n):
+                dropped["lit: author-list name without Latin letters (no name key), D413"] += 1
+                continue
             out.append(
                 Slot(
                     sid=f"{sid}#{i}",

@@ -252,3 +252,41 @@ Slots without rows (12): ma2026 x3 (unreadable paper), list authors not printed 
 - [ ] Org round for the 75 lit org requests (data/_staging/people/lit_headers/org_requests.csv), then
       `check all --corpus lit` + aggregate + people rebuild.
 - [x] Lit authors in the people atlas (DevLog-004 2026-10-23 16:20): built and served.
+
+## Session 2026-10-29 (Wentao: "check cached papers that have not been ingested, and start parsing and ingesting them")
+
+| # | Decision | Rationale |
+|---|---|---|
+| D406 | (lit_h11 zhang2023d) D361 coverage: an "and (also) with" clause belongs to the preceding statement only when no sentence boundary (`PROSE_CUT_RE`, D366) lies between the statement verb and the clause; body text such as "... high-volume and with a high yield" after the footnote statement is not a clause. `_prose_checks` change + test (`test_d366` case on lit_h11 zhang2023d); lit `check all` 0 errors, OFC `check all` 0 errors / 48 warnings, every finished batch's derived files byte-identical to the pre-change snapshot; 115 header tests pass | false positive on real text |
+| D410 | (lit_h10 vandekerckhove2025) A postal-box code printed between unit and org ("CP ...", "BP ...", "P.O. Box ...") is recorded as `skip_between: "<postal box>"`: the checker verifies a box-code pattern in the unit-org gap and the code is never stored (YAML, derived files). Tests: clean case and missing-token case; lit `check all` 0 errors, OFC unchanged | no postal data in committed files |
+| D412 | Author-list artefacts become slot names (D359): "Daoxin Dai A" (wang2014, bauters2013; committed 2026-10-23), "Jelena Vuckovic A" (white2022 / white2024; committed), "Marc de" (de2020), "Zhou Z" (gao2026). Follow-up: a curated, replayable author-list correction file applied in `lit_author_lists` and `ofc_headers.lit_papers`, with same_as redirects for the committed ids; not done this session | never publish a truncated name as a person |
+| D413 | An author-list name without Latin letters (Greek / Cyrillic: lahijani2026 #5, tebeneva2024 #5) gets no lit slot: it folded to no name key and produced `person_unnamed` ids without xref rows. `people.lit_list_name_ok`; the build counts them as dropped; their header rows stay staged; `test_real_people_tables` expects rows only for created slots (also excludes the two slots_from_header papers, which have no author list) | identity key required |
+| D400 | The 184 `lit` papers cached on retrieval days 2-4 (not in lit_h01-lit_h04) queued with `queue --corpus lit --size 27`: lit_h05-lit_h10 (27 papers each) and lit_h11 (22); one extraction subagent per batch under `CONTRACT.md`, check to 0 errors, then `aggregate --corpus lit`, a fresh-context audit, and the people rebuild (`LIT_MERGE` already on, DevLog-004) | DevLog-011 scope: every cached `lit` paper |
+
+- [x] lit_h05-lit_h11 extraction (subagents), `check --corpus lit` 0 errors each (2026-10-29 02:35; D406 checker fix for lit_h11).
+- [x] `aggregate --corpus lit`; fresh-context audits ([batches 2](audits/2026-10-29-lit-header-batches-2-audit.md): lit_h05-lit_h11, 936 slots checked, 922 ok, 5 fixed; [batches 3](audits/2026-10-29-lit-header-batches-3-audit.md): lit_h12-lit_h15, 451 slots checked, 435 ok, 4 fixed; GO).
+- [x] People rebuild with the new lit slots, validate_db, views rebuild (03:36, below).
+
+### Progress 2026-10-29
+
+- 01:27 queue: lit_h05-lit_h11 (184 papers); lee2022 removed from lit_h07 (its cached file was another paper, DevLog-007 D397): 183 papers.
+- 01:58-02:35 extraction (one subagent per batch), all `check --corpus lit` 0 errors:
+
+| batch | papers ok / partial / unreadable | slots recorded / total | rows | notes |
+|---|---|---|---|---|
+| lit_h05 | 26 / 0 / 1 | 220 / 229 | 272 | cheung2022 unreadable (statement words run together in text and PDF layer); explicit slots bogaerts2007a Pluk, cai2021 Li (list typo) |
+| lit_h06 | 27 / 0 / 0 | 229 / 231 | 304 | author_list_differs dietrich2018 (preprint header), gao2026 C. Zhang |
+| lit_h07 | 26 / 0 / 0 | 194 / 196 | 261 | slots_from_header isichenko2023 (no author list); author_list_differs ishii2003, lapointe2025 (preprint cover) |
+| lit_h08 | 24 / 2 / 1 | 236 / 249 | 296 | partial liu2025a, naraine2024 (glued statements); morenopozas2025 prints no affiliation |
+| lit_h09 | 25 / 1 / 1 | 179 / 212 | 237 | ryf2002 unreadable (57 names, two orgs, no markers); psaila2024 partial |
+| lit_h10 | 27 / 0 / 0 | 240 / 240 | 338 | |
+| lit_h11 | 22 / 0 / 0 | 166 / 169 | 203 | D406; author_list_differs winkler2024, zhang2025, zhu2024 |
+
+- `aggregate --corpus lit`: 199 org-request strings, 0 conflicts, 9 header-only authors (local list).
+- Checker gaps seen (not fixed): "was with A and is now with B" (present address not recordable: ishii2003, ozdemir2021); "Current address:" cue (beeck2021); plain ", with A" clauses (recorded as more_orgs); statements with run-together words (cheung2022, psaila2024, liu2025a, naraine2024); 300-character statement window (liu2022a); hyphenated country across a line break (ozdemir2021).
+- Before commit: fresh-context audit of lit_h05-lit_h11 incl. a privacy scan (a postal-box code was put in a `skip_between` span: vandekerckhove2025).
+- 03:01 day-5 papers queued: lit_h12-lit_h14 (27 each), lit_h15 (1); extracted 03:05-03:12 (all `check` 0 errors), audited (GO).
+- `check all --corpus lit`: 381 papers (369 ok, 6 partial, 6 unreadable), 0 errors; `aggregate`: 252 org-request strings, 0 conflicts, 10 header-only authors.
+- 03:27-03:37 people rebuild: backup `cache/backup/people_before_lit_h05-h15_build_20261029T102710Z.zip`; first build exposed D413 (two unnamed persons); `data/people/` restored from HEAD, rebuilt with D413, second run byte-identical, derive_transitions, build_views, app build + 58 app tests. people 7583 -> 8991, observations 12941 -> 15759; no committed person or observation id removed; 54 committed persons changed (mostly public -> review: new lit name collisions under the D219 rules; one same_as redirect). Slots: lit 3068 (dropped: 2 papers without author list, 2 non-Latin names, 98 authors without header rows).
+- Checks 03:40: ruff clean (one pre-existing format diff in tests/test_lit_seeds.py, untouched), mypy clean, pytest 361 passed, validate_db 0 errors / 712 warnings (the new lit printed orgs not yet in the registry: org round).
+- Open (next): D412 author-list corrections; org round for the lit org requests; checker gaps (present address inside a statement, "Current address:", plain ", with A" clauses, run-together words, blocks printed above the title, 300-character window, contact masking eating a glued place); D382 forced matches (si2026, uddin2023, dong2010, li2024a, oh2023); a pre-existing EO-atlas observation (eo:niels2025) carries a postal-box code in its unit field (upstream data).

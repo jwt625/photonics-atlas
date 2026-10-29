@@ -533,7 +533,16 @@ def test_real_people_tables() -> None:
     assert len(ofc_slots) == 6056 - 532
     hdr = [o for o in obs if P.HEADER_ID_RE.search(o["obs_id"])]
     sources = {r["source_id"]: r for r in read_csv(ROOT / "data" / "registry" / "sources.csv")}
-    staged = {P.header_obs_id(h) for h in P.header_rows() if not sources[h["source_id"]]["same_as"]}
+    lists = P.lit_author_lists([sid.split(":", 1)[1] for sid in sources if sid.startswith("lit:")])
+
+    def has_slot(h: dict[str, str]) -> bool:  # lit: a slot per author-list position (D359, D413); OFC: every row
+        if not h["source_id"].startswith("lit:"):
+            return True
+        names = lists.get(h["source_id"].split(":", 1)[1], [])
+        i = int(h["author_index"])
+        return 0 < i <= len(names) and P.lit_list_name_ok(names[i - 1])
+
+    staged = {P.header_obs_id(h) for h in P.header_rows() if not sources[h["source_id"]]["same_as"] and has_slot(h)}
     assert {re.sub(r"(\.h\d+\.\d+)\.m\d+$", r"\1", o["obs_id"]) for o in hdr} == staged
     assert all(o["kind"] == "publication" for o in hdr)
     assert not any(sources[o["source_id"]]["same_as"] for o in obs)

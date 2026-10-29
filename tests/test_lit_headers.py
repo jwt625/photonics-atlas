@@ -240,6 +240,14 @@ D366: dict[str, tuple[str, str, Mut | None, str]] = {
         "more_orgs locality 'Brussels' not inside",
     ),
     "clauses (clean)": ("lit_h03", "qi2024", None, ""),
+    "postal box between unit and org (clean, D410)": ("lit_h10", "vandekerckhove2025", None, ""),
+    "postal box token without a printed box code (D410)": (
+        "lit_h10",
+        "vandekerckhove2025",
+        lambda d: _aff(d, "vandekerckhove2025", 2).pop("skip_between"),
+        "D246",
+    ),
+    "body text 'and with' after the statement sentence (clean)": ("lit_h11", "zhang2023d", None, ""),
     "omitted clause is caught": (
         "lit_h03",
         "qi2024",
