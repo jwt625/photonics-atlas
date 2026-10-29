@@ -1,0 +1,180 @@
+# Audit patch lit_10 (fresh-context audit 2026-10-29, DevLog/audits/2026-10-29-lit_10-audit.md).
+# 216 metrics: 213 ok / 3 imprecise / 0 wrong; 32 components: 26 ok / 6 imprecise / 0 wrong; 11 misses added.
+# Not covered here (coordinator decisions, see the audit file): registry orgs Kyoto University Nano Technology Hub
+# (ashida2017 facility) and ANFF ACT node (suk2025 facility, borderline), registry gaps (passband ripple, DC coupling
+# coefficient, split-tolerance bandwidth, optical self-heating shift, PhC hole radius, GC polarization selectivity,
+# platform sicoi), test_structure convention for headline devices.
+components:
+  cmp_lit_gao2021_cmp_microring_d200:
+    cladding: ''
+    why: 'skill workflow step 3: cladding only if stated; the row itself says ''not stated otherwise''; p.2-3 give no cladding (ring contacted by a separate ridge-waveguide chip, p.3)'
+  cmp_lit_suk2025_as2s3_single_layer:
+    cladding: ''
+    why: 'cladding only if stated: p.2-3 give no cladding for the single-layer rings (top is the 10 nm Ge33As12Se55 passivation layer, p.2; flip-chip bus placed above, p.3)'
+  cmp_lit_suk2025_as2se3_single_layer:
+    cladding: ''
+    why: as as2s3_single_layer (p.2-3)
+  cmp_lit_suk2025_ge11as24se64_single_layer:
+    cladding: ''
+    why: as as2s3_single_layer (p.2-3)
+  cmp_lit_suk2025_ge33as12se55_single_layer:
+    cladding: ''
+    why: as as2s3_single_layer (p.2-3)
+  cmp_lit_zhang2013a_arc_butt_y_junction:
+    core_material: 'Si submicron waveguide (wafer, process and dimensions not stated for this structure)'
+    notes: 'Mentioned in the introduction as the authors'' own experimental observation (''in our experiment'', p.2 Sec. 1); design dimensions, wafer, process, test structure and wavelength not stated; platform soi from the paper''s submicron-silicon-waveguide context. fab_org_ids empty: no fabrication statement for this structure (rule 12).'
+    why: 'p.2 Sec. 1: the arc-plus-butt Y-junction is only an observation ''in our experiment''; the 8-inch / 248 nm process of Sec. 2.2 (p.4) is stated for the PSO Y-junction chip, so attributing it to this structure was an inference'
+metrics:
+  cmp_lit_jeong2013_crow5_arf_crow3-m1:
+    qualifier: ''
+    statistic: best
+    notes: 'printed ''as low as 0.2 dB'' at the passband center (p.7); summary (p.12) prints < 0.2 dB'
+    why: 'skill rule 7: ''as low as'' -> statistic best, not qualifier approx (p.7 Sec. 3.2 ''as low as 0.2 dB at the center of passband'')'
+  cmp_lit_radulaski2018_perturbed_cavity_bus-m2:
+    includes: 'input grating coupler (10 dB) and the bus waveguide past three cavities; output path not stated'
+    why: 'p.13-14: the paper names the input grating (10 dB loss) and the bus waveguide; it does not describe the output collection, so ''output path'' in includes was an inference'
+  cmp_lit_suk2025_trilayer_as2se3_midir-m3:
+    notes: 'printed Qint exceeded 10^7 across 3.2-4.6 um (p.4, abstract, conclusion); the Fig. 4(b) measured points fall below 10^7 near 3.4 um (hydrocarbon absorption) and near 4.02 um (S-H band, mean 8.6 x 10^6 in m4); entered as printed'
+    why: 'p.5 Fig. 4(b): measured Qint points dip below 10^7 near 3.4 um as well as at 4.02 um; the old note mentioned only the 4.02 um dip at about 10^7'
+add_metrics:
+- metric_id: cmp_lit_wang2021_sic_microdisk_d160-m12
+  component_id: cmp_lit_wang2021_sic_microdisk_d160
+  parameter: q_loaded
+  value: '5400000'
+  unit: '1'
+  band: c_band
+  wavelength_inferred: 'true'
+  polarization: tm
+  mode: TM fundamental
+  condition: Lorentzian fit, 36 MHz FWHM; tapered-fiber coupling
+  method: direct
+  basis: measured
+  locator: p.4 Fig. 2(d)
+  notes: 'value annotated in the Fig. 2(d) panel (QL = 5.4 x 10^6, with Qi = 7.0 x 10^6 and 36 MHz); wavelength not stated, band from the C-band tunable laser (p.9)'
+  why: 'miss: the TM loaded Q is printed in Fig. 2(d) next to the entered 36 MHz linewidth (m5) and Qi (m6)'
+- metric_id: cmp_lit_wang2021_sic_microdisk_raman_laser-m5
+  component_id: cmp_lit_wang2021_sic_microdisk_raman_laser
+  parameter: center_wavelength_nm
+  value: '1603.3'
+  unit: nm
+  polarization: te
+  condition: first-order Raman lasing, CW pump near 1552.2 nm, TE modes
+  method: direct
+  basis: measured
+  locator: p.5 Results; p.6 Fig. 5(a)
+  notes: printed Raman lasing at 1603.3 nm (204.03 cm^-1 Stokes shift)
+  why: 'miss: lasing wavelength stated on p.5; center_wavelength_nm is allowed for laser'
+- metric_id: cmp_lit_wang2021_sic_microdisk_raman_laser-m6
+  component_id: cmp_lit_wang2021_sic_microdisk_raman_laser
+  parameter: center_wavelength_nm
+  value: '1657.5'
+  unit: nm
+  polarization: te
+  condition: cascaded second-order Raman lasing, pump near 1552.5 nm
+  method: direct
+  basis: measured
+  locator: p.6 Fig. 5(a)
+  notes: wavelength label of the second-order Raman line in the Fig. 5(a) bottom panel (204.04 cm^-1 shift)
+  why: 'miss: the second-order lasing line is labeled in Fig. 5(a) (panel ''2nd raman lasing'', unambiguous)'
+- metric_id: cmp_lit_nikbakht2022_mzi_switch_shifted_dc-m6
+  component_id: cmp_lit_nikbakht2022_mzi_switch_shifted_dc
+  parameter: xt_bandwidth_nm
+  value: '100'
+  unit: nm
+  wavelength_nm: '1500'
+  wavelength_max_nm: '1600'
+  polarization: te
+  condition: extinction ratio >= 10 dB between ports P1 / P2 in both states (0 V bar, 3 V cross)
+  method: direct
+  basis: measured
+  locator: p.7 Sec. 3.2; p.8 Fig. 8(b); p.1 Abstract
+  notes: printed '100 nm bandwidth at a -10dB extinction ratio' (1500-1600 nm)
+  why: 'miss: D169 parameter xt_bandwidth_nm (switch_fabric) holds the stated width over which the -10 dB level holds (p.7)'
+- metric_id: cmp_lit_suk2025_as2se3_single_layer-m3
+  component_id: cmp_lit_suk2025_as2se3_single_layer
+  parameter: core_thickness_nm
+  value: '1300'
+  unit: nm
+  basis: derived
+  locator: p.4 Fig. 2 caption
+  notes: printed 'The thickness of all ChGs is 1.3 um'
+  why: 'miss (D153 geometry): the Fig. 2 caption states 1.3 um for all four single-layer resonators; only the As2S3 row carried it'
+- metric_id: cmp_lit_suk2025_ge11as24se64_single_layer-m3
+  component_id: cmp_lit_suk2025_ge11as24se64_single_layer
+  parameter: core_thickness_nm
+  value: '1300'
+  unit: nm
+  basis: derived
+  locator: p.4 Fig. 2 caption
+  notes: printed 'The thickness of all ChGs is 1.3 um'
+  why: miss (D153 geometry), as as2se3_single_layer-m3
+- metric_id: cmp_lit_suk2025_ge33as12se55_single_layer-m3
+  component_id: cmp_lit_suk2025_ge33as12se55_single_layer
+  parameter: core_thickness_nm
+  value: '1300'
+  unit: nm
+  basis: derived
+  locator: p.4 Fig. 2 caption
+  notes: printed 'The thickness of all ChGs is 1.3 um'
+  why: miss (D153 geometry), as as2se3_single_layer-m3
+- metric_id: cmp_lit_yu2025_dual_pol_mode_splitter-m30
+  component_id: cmp_lit_yu2025_dual_pol_mode_splitter
+  parameter: crosstalk_db
+  value: '21.7'
+  unit: dB
+  qualifier: gt
+  wavelength_nm: '1500'
+  wavelength_max_nm: '1580'
+  polarization: te
+  mode: TE0
+  condition: 3D FDTD, TE0 input, design with tilted region and improvement region
+  basis: simulated
+  locator: p.6 Sec. 2; p.6 Fig. 3(c)
+  notes: printed below -21.7 dB over 1500-1580 nm
+  why: 'miss: simulated band CT stated on p.6 beside the simulated IL ranges already entered (m19-m22)'
+- metric_id: cmp_lit_yu2025_dual_pol_mode_splitter-m31
+  component_id: cmp_lit_yu2025_dual_pol_mode_splitter
+  parameter: crosstalk_db
+  value: '27.8'
+  unit: dB
+  statistic: best
+  wavelength_nm: '1500'
+  wavelength_max_nm: '1580'
+  polarization: te
+  mode: TE0
+  condition: 3D FDTD, TE0 input, design with tilted region; wavelength of the minimum not stated
+  basis: simulated
+  locator: p.6 Sec. 2; p.6 Fig. 3(c)
+  notes: printed minimum of -27.8 dB
+  why: 'miss: simulated best TE0 CT stated on p.6'
+- metric_id: cmp_lit_yu2025_dual_pol_mode_splitter-m32
+  component_id: cmp_lit_yu2025_dual_pol_mode_splitter
+  parameter: crosstalk_db
+  value: '15.9'
+  unit: dB
+  qualifier: gt
+  wavelength_nm: '1500'
+  wavelength_max_nm: '1580'
+  polarization: te
+  mode: TE1
+  condition: 3D FDTD, TE1 input, design with tilted region
+  basis: simulated
+  locator: p.6 Sec. 2; p.6 Fig. 3(d)
+  notes: printed below -15.9 dB
+  why: 'miss: simulated TE1 band CT stated on p.6'
+- metric_id: cmp_lit_yu2025_dual_pol_mode_splitter-m33
+  component_id: cmp_lit_yu2025_dual_pol_mode_splitter
+  parameter: crosstalk_db
+  value: '11.3'
+  value_max: '18.4'
+  unit: dB
+  statistic: range
+  wavelength_nm: '1500'
+  wavelength_max_nm: '1580'
+  polarization: tm
+  mode: TM0, TM1
+  condition: 3D FDTD, TM0 and TM1 inputs (one range stated for both), design with tilted region
+  basis: simulated
+  locator: p.6 Sec. 2; p.6 Fig. 3(e)-(f)
+  notes: printed CT of TM0 and TM1 stabilizes between -11.3 and -18.4 dB; the same paragraph's 'all modes below -12.1 dB' contradicts the -11.3 dB end and is not entered
+  why: 'miss: simulated TM band CT stated on p.6 (one value for two modes of one component, one row)'

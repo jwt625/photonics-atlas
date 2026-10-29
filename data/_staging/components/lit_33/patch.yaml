@@ -1,0 +1,240 @@
+# Audit patch lit_33 (fresh-context audit 2026-10-29, DevLog/audits/2026-10-29-lit_33-audit.md).
+# 102 metrics: 88 ok / 13 imprecise / 1 wrong (deleted); 23 components: 21 ok / 1 changed (notes) / 1 deleted; misses:
+# 2 components, 14 metrics added (stone2022 coupling-test rings).
+# Not covered here (coordinator decisions, see the audit file): Myfab Chalmers / Michigan Tech MFF + ACMAL registry rows,
+# registry gaps (incl. the proposed sohn2018 conversion-contrast parameter).
+components:
+  cmp_lit_sohn2018_aln_racetrack_intermodal_converter:
+    notes: 'Fab: the authors state they fabricate the device and deposit / pattern the AlN (p.4, Methods p.14); all authors at the University of Illinois at Urbana-Champaign: fab org_university_of_illinois_urbana_champaign. No facility acknowledged (p.15: funding only). Same racetrack as the resonator.ring row (D396); conversion function; cheng2025 precedent puts acousto-optic intermodal frequency shifters in mode_converter.converter. Conversion efficiency = anti-Stokes sideband output / input power in the waveguide, kept linear in coupling_efficiency_pct as printed (registry convention for linear efficiencies; cheng2025 printed dB and kept insertion_loss_db). Non-reciprocity not entered: the frequency-shifted sideband for non-phase-matched (forward) probing is about 15 dB below the phase-matched (backward) sideband at the same detuning (p.10, mode pair 1; abstract: mode conversion asymmetry up to 15 dB); this is a conversion contrast, not a transmission isolation, so isolation_db does not apply (registry gap). Also not entered: -3 dB (FWHM) bandwidth about 1.14 GHz of the modulation effect from the fit (p.10; no GHz bandwidth parameter for mode_converter, registry gap); Stokes sideband 45 dB below anti-Stokes (p.10; no sideband-suppression parameter); optomechanical coupling coefficient beta 0.209 GHz/nm (0.204 in Supp. S4) and Gph 0.609 GHz at 17.8 dBm (no parameter); IDT electro-acoustic efficiency 3.9 % and S11 dip at 4.82 GHz (acoustic transducer, not a photonic component); theoretical linear-isolator and AOFS proposals (Supp. S5-S6, simulated concepts).'
+    why: 'the nonreciprocal.isolator row is deleted (isolation_db does not match the 15 dB conversion contrast, p.10); its not-entered list and the cross-note move to this row, the remaining row for the conversion function (D396)'
+metrics:
+  cmp_lit_shimizu2023_cascaded_ppln_opa-m1:
+    notes: 'module (fiber-pigtailed OPA) gain with a reference bypass path (Fig. 5(a)); 8.7-THz bandwidth with > 15 dB gain; polarization-diverse configuration. Band edges as printed in the abstract (1545.32-1618.86 nm); p.5-6 Sec. III prints the band as 194.0-185.3 THz (185.3 THz = 1617.9 nm), the 1618.86 nm edge equals the 185.187 THz WDM edge of Sec. IV'
+    why: 'p.1 Abstract 1545.32-1618.86 nm vs p.5-6 Sec. III 194.0 to 185.3 THz: the in-paper inconsistency of the upper edge is recorded'
+  cmp_lit_shimizu2023_cascaded_ppln_opa-m2:
+    notes: '1618.86 - 1545.32 nm from the band edges printed in the abstract; printed as 8.7 THz (194.0-185.3 THz, p.5-6), which gives 72.6 nm (c / 185.3 THz = 1617.9 nm); the abstract''s 1618.86 nm edge equals the 185.187 THz WDM edge of Sec. IV; extension ~0.9 THz over the conventional OPA without more pump power'
+    why: 'p.1 Abstract vs p.5-6 Sec. III: the two printed forms of the band give 73.5 vs 72.6 nm; the note records which edges were used'
+  cmp_lit_shimizu2023_conventional_ppln_opa-m1:
+    basis: measured
+    notes: 'gain criterion as printed (15-dB-gain bandwidth ~7.8 THz from f0, in good agreement with simulation); the wavelength range is converted: 194.0 THz (printed 1545.32 nm) to 194.0 - 7.8 = 186.2 THz -> 1610.06 nm (c / f)'
+    why: 'p.5 Sec. III: the value (15 dB gain bound) is the measured criterion as printed; only the wavelength condition is converted, so the value keeps its basis (D82d applies to the value), as on the cascaded row m1'
+  cmp_lit_ye2021_sin_spiral_opa_1p42m-m5:
+    qualifier: approx
+    why: 'p.5: ''the measured on-chip NF is about 1.2 +/- 0.4 dB at 1556 nm'' (about -> approx, skill rule 7)'
+  cmp_lit_ye2021_sin_spiral_waveguide_1p42m-m1:
+    statistic: ''
+    condition: 'OFDR, tunable laser swept 1520-1600 nm; the waveguide of the Fig. 1(d) OFDR trace'
+    notes: 'printed 1.4 dB/m; dB/m -> dB/cm (D82d); wavelength range = OFDR sweep (Supp. p.9). One waveguide (Fig. 1(d) trace, p.3 caption), the value used for the OPA simulations (p.3, Supp. p.11); not stated as the best of the 20 waveguides (mean of the 12 defect-free ones 1.7 dB/m, m2)'
+    why: 'p.2 / p.3 Fig. 1(d) caption: ''OFDR trace of one Si3N4 waveguide ... 1.4 dB/m''; the paper does not call it the best waveguide, so statistic best is an inference'
+  cmp_lit_stone2022_sin_pulley_ring_uopo-m1:
+    basis: derived
+    notes: 'printed CE about 14.5 %; wavelength from the printed 454 THz (c / f = 660.3 nm); on-chip signal and pump powers are OSA / fiber readings corrected by the per-device measured coupling and path losses (App. B, p.6), so CE is arithmetic on own measurements (D394 / D166 analogue). Table II lists Pin 36 / 35 mW for the 454 THz entries vs 34 mW in the text (text used)'
+    why: 'p.6 App. B: on-chip powers estimated from OSA readings and the measured lensed-fiber / path losses; D394: de-embedded on-chip output power is derived; D166: on-chip values from own fiber values and own losses are derived (ye2021 CE in this batch is derived on the same ground)'
+  cmp_lit_stone2022_sin_pulley_ring_uopo-m2:
+    basis: derived
+    notes: 'printed CE about 12 %; wavelength from the printed 315 THz (c / f = 951.7 nm); on-chip powers de-embedded with the measured losses (App. B), as m1'
+    why: D394 / D166, as m1 (p.5 Sec. III, p.6 App. B)
+  cmp_lit_stone2022_sin_pulley_ring_uopo-m3:
+    basis: derived
+    notes: 'printed 3.5 % to 14.5 %; wavelength span as printed (260-510 THz window); on-chip powers de-embedded with the measured losses (App. B), as m1'
+    why: D394 / D166, as m1 (p.1 Sec. I, p.6 App. B)
+  cmp_lit_wang2026c_sic_ring_opo_r120_w5-m1:
+    polarization: ''
+    mode: ''
+    notes: 'printed approximately 5 million, unqualified Q -> q_loaded (registry convention); loaded vs intrinsic not stated; mode and polarization of the Q measurement not stated (details in the uncached Supporting Information; the OPO runs in the TE00 family, Fig. 2(b))'
+    why: 'p.3 Sec. 2.2: ''The measured cavity quality factor is approximately 5 million (see Supporting Information) at ~ 1550 nm'' names no mode; TE00 / te were inferred from the OPO mode family'
+  cmp_lit_karki2019_bmf_ridge_wg_isolator-m1:
+    wavelength_nm: ''
+    wavelength_max_nm: ''
+    band: c_band
+    notes: 'printed at least 25 dB across the C band (abstract) and ~25 dB (p.6); the bound is stated for the C band: the Fig. 8(c) trace (measured 1520-1580 nm) is about 25-25.3 dB up to ~1565 nm and falls to about 24 dB at 1580 nm'
+    why: 'p.1 Abstract ''>=25 dB ... across the entire infrared optical C-band''; p.5 Fig. 8(c) render shows the isolation below 25 dB above ~1570 nm, so the 1520-1580 nm range overstates the stated bound'
+  cmp_lit_karki2019_bmf_ridge_wg_isolator-m2:
+    wavelength_nm: ''
+    wavelength_max_nm: ''
+    band: c_band
+    notes: 'printed at most 3.5 dB across the C band (abstract); just over 3 dB in the conclusion; Fig. 8(c) about 3.3-3.4 dB over the measured 1520-1580 nm'
+    why: 'p.1 Abstract states the <=3.5 dB bound for the C band (same sentence as m1); band as stated'
+  cmp_lit_karki2019_bmf_slab_wg_isolator-m2:
+    qualifier: ''
+    notes: 'printed total insertion loss 1.5 dB (conclusion, no qualifier); Fig. 8(b) trace about 1.2-1.8 dB over 1520-1580 nm'
+    why: 'p.6 Sec. IV prints ''total insertion loss of 1.5 dB'' without about / ~; qualifier approx was not printed'
+  cmp_lit_sohn2018_aln_racetrack_intermodal_converter-m1:
+    wavelength_inferred: 'true'
+    notes: 'printed maximum 17 % sideband conversion efficiency at 17.8 dBm RF; band inferred: C-band probe laser (1520-1570 nm, Methods p.15); mode pair 1 lies near 194.5 THz on the Fig. 4(c) axis (about 1541 nm), no wavelength printed with the value'
+    why: 'skill rule 8: the value carries no stated wavelength (p.12), the band comes from the probe laser and the Fig. 4(c) frequency axis'
+delete_components:
+- id: cmp_lit_sohn2018_aln_acoustic_nonreciprocal_modulator
+  why: 'its only metric (isolation_db 15 dB) is the contrast of the frequency-shifted sideband between the phase-matched and non-phase-matched probe directions (p.10: forward sideband ~15 dB smaller than backward; abstract: mode conversion asymmetry), not an isolation of transmitted light (the carrier is not blocked in either direction, Fig. 5(a)(i); the linear isolator is only simulated, Supp. S5); registry isolation_db = isolation magnitude. No parameter fits: removed, value and proposed parameter listed as a registry gap; a component without a performance metric is deleted (D49 / D259a). Its notes move to the mode_converter row'
+add_components:
+- component_id: cmp_lit_stone2022_sin_ring_straight_coupler_g125
+  source_id: lit:stone2022
+  class: resonator.ring
+  label: Si3N4 microring with straight-waveguide coupler (WW 375 nm, G 125 nm), coupling-rate test device
+  row_kind: fabricated
+  platform: sin
+  core_material: stoichiometric LPCVD Si3N4 500 nm (nominal H) on 3 um SiO2 on Si, EBL + CF4/CHF3 RIE, annealed 4 h at 1100 C in N2, air-clad (oxide lift-off); nominal ring R 25 um, RW 825 nm; straight bus WW 375 nm, gap G 125 nm (Lp = 0)
+  cladding: air (sides and top); SiO2 below
+  fab_org_ids: org_national_institute_of_standards_and_technology
+  test_structure: 'true'
+  tags: microring;coupling_rate;kappa;sin;visible;nir
+  verified_on: '2026-10-29'
+  notes: 'From the array of SiN microrings with systematic coupling variations fabricated to test the coupled-mode simulations (p.4 Sec. II, App. C). Fab: the authors state they fabricate the array (p.4); all four authors list NIST (affiliation 2) and JQI (NIST/UMD): fab org_national_institute_of_standards_and_technology, as the uOPO row. kappa from mode spectroscopy with a CW Ti:sapphire laser (305-415 THz) and SFG light (460-510 THz), nonlinear least-squares fit of the transmission (Fig. 2 caption). Ring R / RW / H are the nominal values of the Fig. 2 simulations, which the text calls the corresponding simulation for this device (p.3-4); experimental gaps were reduced by about 20 nm vs simulation.'
+  why: 'miss: p.4 Sec. II prints measured coupling rates of this device (kappa about 800 MHz near 350 THz, about 40 MHz near 500 THz); the batch report said kappa was available only as a log-scale scatter'
+- component_id: cmp_lit_stone2022_sin_ring_pulley_coupler_g135_lp3
+  source_id: lit:stone2022
+  class: resonator.ring
+  label: Si3N4 microring with pulley-waveguide coupler (WW 375 nm, G 135 nm, Lp 3 um), coupling-rate test device
+  row_kind: fabricated
+  platform: sin
+  core_material: stoichiometric LPCVD Si3N4 500 nm (nominal H) on 3 um SiO2 on Si, EBL + CF4/CHF3 RIE, annealed 4 h at 1100 C in N2, air-clad (oxide lift-off); nominal ring R 25 um, RW 825 nm; pulley bus WW 375 nm, gap G 135 nm, pulley length Lp 3 um
+  cladding: air (sides and top); SiO2 below
+  fab_org_ids: org_national_institute_of_standards_and_technology
+  test_structure: 'true'
+  tags: microring;pulley_coupler;coupling_rate;kappa;sin;visible;nir
+  verified_on: '2026-10-29'
+  notes: 'From the array of SiN microrings with systematic coupling variations (p.4 Sec. II, App. C); same coupler geometry family as the uOPO population row. Fab: the authors state they fabricate the array (p.4); all four authors list NIST (affiliation 2) and JQI (NIST/UMD): fab org_national_institute_of_standards_and_technology. kappa / gamma from mode spectroscopy (Ti:sapphire 305-415 THz, SFG 460-510 THz), nonlinear least-squares fit (Fig. 2 caption). Pulley length Lp 3 um not entered: coupling_length_um is defined as a straight coupling section and the pulley section is curved (registry gap). Ring R / RW / H nominal values of the Fig. 2 simulations (p.3).'
+  why: 'miss: p.4 Sec. II prints measured kappa 180-400 MHz between 300 and 500 THz and gamma about 300 MHz for this pulley-coupled device'
+add_metrics:
+- metric_id: cmp_lit_stone2022_sin_ring_straight_coupler_g125-m1
+  component_id: cmp_lit_stone2022_sin_ring_straight_coupler_g125
+  parameter: kappa_ext_mhz
+  value: '800'
+  unit: MHz
+  qualifier: approx
+  wavelength_nm: '856.5'
+  condition: near 350 THz; waveguide-resonator coupling rate kappa / 2 pi from mode spectroscopy (CW Ti:sapphire laser)
+  method: direct
+  basis: measured
+  locator: p.4 Sec. II; p.3 Fig. 2(a)
+  notes: 'printed kappa about 800 MHz near 350 THz (Fig. 2 axis kappa / 2 pi); wavelength from the printed 350 THz (c / f = 856.5 nm); standard nonlinear least-squares fit of the transmission spectrum (Fig. 2 caption, D80a); mode family of the kappa measurement not stated'
+  why: 'miss: p.4 Sec. II measured kappa of the straight-coupled device (WW 375 nm, G 125 nm)'
+- metric_id: cmp_lit_stone2022_sin_ring_straight_coupler_g125-m2
+  component_id: cmp_lit_stone2022_sin_ring_straight_coupler_g125
+  parameter: kappa_ext_mhz
+  value: '40'
+  unit: MHz
+  qualifier: approx
+  wavelength_nm: '599.6'
+  condition: near 500 THz; kappa / 2 pi from mode spectroscopy with SFG light (Ti:sapphire + 154 THz laser)
+  method: direct
+  basis: measured
+  locator: p.4 Sec. II; p.3 Fig. 2(a)
+  notes: 'printed kappa about 40 MHz near 500 THz (drops sharply from about 800 MHz near 350 THz); wavelength from the printed 500 THz (c / f = 599.6 nm); standard fit (D80a)'
+  why: 'miss: p.4 Sec. II, second printed kappa of the straight-coupled device'
+- metric_id: cmp_lit_stone2022_sin_ring_straight_coupler_g125-m3
+  component_id: cmp_lit_stone2022_sin_ring_straight_coupler_g125
+  parameter: bus_width_nm
+  value: '375'
+  unit: nm
+  basis: design_target
+  locator: p.4 Sec. II; p.2 Fig. 1(c) caption
+  why: 'miss (D153 geometry): access waveguide width WW of the measured device'
+- metric_id: cmp_lit_stone2022_sin_ring_straight_coupler_g125-m4
+  component_id: cmp_lit_stone2022_sin_ring_straight_coupler_g125
+  parameter: gap_nm
+  value: '125'
+  unit: nm
+  basis: design_target
+  locator: p.4 Sec. II
+  notes: 'ring-waveguide gap G of the measured device (Lp = 0, straight coupler)'
+  why: 'miss (D153 geometry): gap of the measured device'
+- metric_id: cmp_lit_stone2022_sin_ring_straight_coupler_g125-m5
+  component_id: cmp_lit_stone2022_sin_ring_straight_coupler_g125
+  parameter: radius_um
+  value: '25'
+  unit: um
+  basis: design_target
+  locator: p.3 Sec. II
+  notes: 'nominal R (outer radius in Eq. 3) of the Fig. 2 simulations, the corresponding simulation for this device (p.4)'
+  why: 'miss (D153 geometry): nominal ring radius'
+- metric_id: cmp_lit_stone2022_sin_ring_straight_coupler_g125-m6
+  component_id: cmp_lit_stone2022_sin_ring_straight_coupler_g125
+  parameter: width_nm
+  value: '825'
+  unit: nm
+  basis: design_target
+  locator: p.3 Sec. II
+  notes: nominal ring width RW of the Fig. 2 simulations
+  why: 'miss (D153 geometry): nominal ring width'
+- metric_id: cmp_lit_stone2022_sin_ring_straight_coupler_g125-m7
+  component_id: cmp_lit_stone2022_sin_ring_straight_coupler_g125
+  parameter: core_thickness_nm
+  value: '500'
+  unit: nm
+  basis: design_target
+  locator: p.3 Sec. II
+  notes: nominal SiN height H
+  why: 'miss (D153 geometry): nominal film thickness'
+- metric_id: cmp_lit_stone2022_sin_ring_pulley_coupler_g135_lp3-m1
+  component_id: cmp_lit_stone2022_sin_ring_pulley_coupler_g135_lp3
+  parameter: kappa_ext_mhz
+  value: '180'
+  value_max: '400'
+  unit: MHz
+  statistic: range
+  wavelength_nm: '599.6'
+  wavelength_max_nm: '999.3'
+  condition: between 300 and 500 THz; kappa / 2 pi from mode spectroscopy (Ti:sapphire 305-415 THz, SFG 460-510 THz)
+  method: direct
+  basis: measured
+  locator: p.4 Sec. II; p.3 Fig. 2(b)
+  notes: 'printed kappa 180 MHz to 400 MHz between 300 THz and 500 THz (wavelengths c / f: 999.3 and 599.6 nm); standard fit (D80a); agrees with the simulation for G = 150 nm'
+  why: 'miss: p.4 Sec. II measured kappa range of the pulley-coupled device (WW 375 nm, G 135 nm, Lp 3 um)'
+- metric_id: cmp_lit_stone2022_sin_ring_pulley_coupler_g135_lp3-m2
+  component_id: cmp_lit_stone2022_sin_ring_pulley_coupler_g135_lp3
+  parameter: kappa_intrinsic_mhz
+  value: '300'
+  unit: MHz
+  qualifier: approx
+  wavelength_nm: '599.6'
+  wavelength_max_nm: '999.3'
+  condition: intrinsic loss rate gamma = Gamma - kappa, approximately independent of optical frequency over the measured 300-500 THz span
+  method: direct
+  basis: measured
+  locator: p.4 Sec. II
+  notes: 'printed gamma about 300 MHz (gamma = Gamma - kappa, p.3), stated after the pulley-device kappa measurement; wavelength span = the measured 300-500 THz range (c / f)'
+  why: 'miss: p.4 Sec. II ''We also measure gamma ~ 300 MHz that is approximately independent of optical frequency''; kappa_intrinsic_mhz = intrinsic decay rate / 2 pi'
+- metric_id: cmp_lit_stone2022_sin_ring_pulley_coupler_g135_lp3-m3
+  component_id: cmp_lit_stone2022_sin_ring_pulley_coupler_g135_lp3
+  parameter: bus_width_nm
+  value: '375'
+  unit: nm
+  basis: design_target
+  locator: p.4 Sec. II
+  why: 'miss (D153 geometry): pulley waveguide width WW'
+- metric_id: cmp_lit_stone2022_sin_ring_pulley_coupler_g135_lp3-m4
+  component_id: cmp_lit_stone2022_sin_ring_pulley_coupler_g135_lp3
+  parameter: gap_nm
+  value: '135'
+  unit: nm
+  basis: design_target
+  locator: p.4 Sec. II
+  why: 'miss (D153 geometry): ring-pulley gap G'
+- metric_id: cmp_lit_stone2022_sin_ring_pulley_coupler_g135_lp3-m5
+  component_id: cmp_lit_stone2022_sin_ring_pulley_coupler_g135_lp3
+  parameter: radius_um
+  value: '25'
+  unit: um
+  basis: design_target
+  locator: p.3 Sec. II
+  notes: nominal R of the Fig. 2 simulations (Fig. 2(b) is the corresponding simulation for this device, p.4)
+  why: 'miss (D153 geometry): nominal ring radius'
+- metric_id: cmp_lit_stone2022_sin_ring_pulley_coupler_g135_lp3-m6
+  component_id: cmp_lit_stone2022_sin_ring_pulley_coupler_g135_lp3
+  parameter: width_nm
+  value: '825'
+  unit: nm
+  basis: design_target
+  locator: p.3 Sec. II
+  notes: nominal ring width RW of the Fig. 2 simulations
+  why: 'miss (D153 geometry): nominal ring width'
+- metric_id: cmp_lit_stone2022_sin_ring_pulley_coupler_g135_lp3-m7
+  component_id: cmp_lit_stone2022_sin_ring_pulley_coupler_g135_lp3
+  parameter: core_thickness_nm
+  value: '500'
+  unit: nm
+  basis: design_target
+  locator: p.3 Sec. II
+  notes: nominal SiN height H
+  why: 'miss (D153 geometry): nominal film thickness'

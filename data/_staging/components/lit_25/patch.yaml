@@ -1,0 +1,555 @@
+# Audit patch lit_25 (fresh-context audit 2026-10-29, DevLog/audits/2026-10-29-lit_25-audit.md).
+# 306 metrics: 272 ok / 34 imprecise / 0 wrong; 44 components: 17 ok / 27 changed / 0 deleted; 1 miss added.
+# Not covered here (coordinator decisions, see the audit file): C2N platform facility org, merged q_intrinsic sweep,
+# commercial-wafer thickness basis sweep, registry gaps.
+components:
+  cmp_lit_dumon2004_wire_400nm:
+    notes: 'No fab org: the authors state they made and etched the devices (p.1 ''We have made'' the ring and racetrack resonators;
+      p.2 ''we only etched'' the Si top layer) but sit at two orgs (Ghent University-IMEC INTEC group and IMEC vzw Silicon
+      Processing Technology Division) and the place of fabrication is not named (D72 unambiguity; mangal2018 org-split precedent);
+      staff thanks for wafer exposures and mask design name no org (D84b not applicable). Loss from Fabry-Perot cavities (cleaved
+      facets on 3 um ridges, 300 um adiabatic tapers to the wire, wire lengths up to 1 mm), cavity loss from fringe contrast
+      vs wire length (p.2). Printed uncertainty +/- 1.7 dB/cm (Table I).'
+    why: note claimed passive-only fabrication; p.1 'We have made' (ring and racetrack resonators) and p.2 'we only etched'
+      (Si top layer) are active statements. fab_org_ids stays empty because the authors sit at Ghent University-IMEC and IMEC
+      vzw and the paper names no fabrication place (D72)
+  cmp_lit_dumon2004_taper_3um_to_400nm:
+    notes: 'No fab org: the authors state they made and etched the devices (p.1 ''We have made'' the ring and racetrack resonators;
+      p.2 ''we only etched'' the Si top layer) but sit at two orgs (Ghent University-IMEC INTEC group and IMEC vzw Silicon
+      Processing Technology Division) and the place of fabrication is not named (D72 unambiguity; mangal2018 org-split precedent);
+      staff thanks for wafer exposures and mask design name no org (D84b not applicable). Taper inside the Fabry-Perot test
+      cavities (p.2).'
+    why: note claimed passive-only fabrication; p.1 'We have made' (ring and racetrack resonators) and p.2 'we only etched'
+      (Si top layer) are active statements. fab_org_ids stays empty because the authors sit at Ghent University-IMEC and IMEC
+      vzw and the paper names no fabrication place (D72)
+  cmp_lit_dumon2004_wire_440nm:
+    notes: 'No fab org: the authors state they made and etched the devices (p.1 ''We have made'' the ring and racetrack resonators;
+      p.2 ''we only etched'' the Si top layer) but sit at two orgs (Ghent University-IMEC INTEC group and IMEC vzw Silicon
+      Processing Technology Division) and the place of fabrication is not named (D72 unambiguity; mangal2018 org-split precedent);
+      staff thanks for wafer exposures and mask design name no org (D84b not applicable). Loss from Fabry-Perot cavities (cleaved
+      facets on 3 um ridges, 300 um adiabatic tapers to the wire, wire lengths up to 1 mm), cavity loss from fringe contrast
+      vs wire length (p.2). Printed uncertainty +/- 1.8 dB/cm (Table I).'
+    why: note claimed passive-only fabrication; p.1 'We have made' (ring and racetrack resonators) and p.2 'we only etched'
+      (Si top layer) are active statements. fab_org_ids stays empty because the authors sit at Ghent University-IMEC and IMEC
+      vzw and the paper names no fabrication place (D72)
+  cmp_lit_dumon2004_taper_3um_to_440nm:
+    notes: 'No fab org: the authors state they made and etched the devices (p.1 ''We have made'' the ring and racetrack resonators;
+      p.2 ''we only etched'' the Si top layer) but sit at two orgs (Ghent University-IMEC INTEC group and IMEC vzw Silicon
+      Processing Technology Division) and the place of fabrication is not named (D72 unambiguity; mangal2018 org-split precedent);
+      staff thanks for wafer exposures and mask design name no org (D84b not applicable). Taper inside the Fabry-Perot test
+      cavities (p.2).'
+    why: note claimed passive-only fabrication; p.1 'We have made' (ring and racetrack resonators) and p.2 'we only etched'
+      (Si top layer) are active statements. fab_org_ids stays empty because the authors sit at Ghent University-IMEC and IMEC
+      vzw and the paper names no fabrication place (D72)
+  cmp_lit_dumon2004_wire_450nm:
+    notes: 'No fab org: the authors state they made and etched the devices (p.1 ''We have made'' the ring and racetrack resonators;
+      p.2 ''we only etched'' the Si top layer) but sit at two orgs (Ghent University-IMEC INTEC group and IMEC vzw Silicon
+      Processing Technology Division) and the place of fabrication is not named (D72 unambiguity; mangal2018 org-split precedent);
+      staff thanks for wafer exposures and mask design name no org (D84b not applicable). Loss from Fabry-Perot cavities (cleaved
+      facets on 3 um ridges, 300 um adiabatic tapers to the wire, wire lengths up to 1 mm), cavity loss from fringe contrast
+      vs wire length (p.2). Printed uncertainty +/- 0.9 dB/cm (Table I).'
+    why: note claimed passive-only fabrication; p.1 'We have made' (ring and racetrack resonators) and p.2 'we only etched'
+      (Si top layer) are active statements. fab_org_ids stays empty because the authors sit at Ghent University-IMEC and IMEC
+      vzw and the paper names no fabrication place (D72)
+  cmp_lit_dumon2004_taper_3um_to_450nm:
+    notes: 'No fab org: the authors state they made and etched the devices (p.1 ''We have made'' the ring and racetrack resonators;
+      p.2 ''we only etched'' the Si top layer) but sit at two orgs (Ghent University-IMEC INTEC group and IMEC vzw Silicon
+      Processing Technology Division) and the place of fabrication is not named (D72 unambiguity; mangal2018 org-split precedent);
+      staff thanks for wafer exposures and mask design name no org (D84b not applicable). Taper inside the Fabry-Perot test
+      cavities (p.2).'
+    why: note claimed passive-only fabrication; p.1 'We have made' (ring and racetrack resonators) and p.2 'we only etched'
+      (Si top layer) are active statements. fab_org_ids stays empty because the authors sit at Ghent University-IMEC and IMEC
+      vzw and the paper names no fabrication place (D72)
+  cmp_lit_dumon2004_wire_500nm:
+    notes: 'No fab org: the authors state they made and etched the devices (p.1 ''We have made'' the ring and racetrack resonators;
+      p.2 ''we only etched'' the Si top layer) but sit at two orgs (Ghent University-IMEC INTEC group and IMEC vzw Silicon
+      Processing Technology Division) and the place of fabrication is not named (D72 unambiguity; mangal2018 org-split precedent);
+      staff thanks for wafer exposures and mask design name no org (D84b not applicable). Loss from Fabry-Perot cavities (cleaved
+      facets on 3 um ridges, 300 um adiabatic tapers to the wire, wire lengths up to 1 mm), cavity loss from fringe contrast
+      vs wire length (p.2). Printed uncertainty +/- 1.6 dB/cm (Table I). Calculated substrate leakage 1-1.5 dB/cm of the 2.4
+      dB/cm (p.2, Fig. 2 simulation) not entered (contribution, not a component value).'
+    why: note claimed passive-only fabrication; p.1 'We have made' (ring and racetrack resonators) and p.2 'we only etched'
+      (Si top layer) are active statements. fab_org_ids stays empty because the authors sit at Ghent University-IMEC and IMEC
+      vzw and the paper names no fabrication place (D72)
+  cmp_lit_dumon2004_taper_3um_to_500nm:
+    notes: 'No fab org: the authors state they made and etched the devices (p.1 ''We have made'' the ring and racetrack resonators;
+      p.2 ''we only etched'' the Si top layer) but sit at two orgs (Ghent University-IMEC INTEC group and IMEC vzw Silicon
+      Processing Technology Division) and the place of fabrication is not named (D72 unambiguity; mangal2018 org-split precedent);
+      staff thanks for wafer exposures and mask design name no org (D84b not applicable). Taper inside the Fabry-Perot test
+      cavities (p.2).'
+    why: note claimed passive-only fabrication; p.1 'We have made' (ring and racetrack resonators) and p.2 'we only etched'
+      (Si top layer) are active statements. fab_org_ids stays empty because the authors sit at Ghent University-IMEC and IMEC
+      vzw and the paper names no fabrication place (D72)
+  cmp_lit_dumon2004_racetrack_adddrop:
+    notes: 'No fab org: the authors state they made and etched the devices (p.1 ''We have made'' the ring and racetrack resonators;
+      p.2 ''we only etched'' the Si top layer) but sit at two orgs (Ghent University-IMEC INTEC group and IMEC vzw Silicon
+      Processing Technology Division) and the place of fabrication is not named (D72 unambiguity; mangal2018 org-split precedent);
+      staff thanks for wafer exposures and mask design name no org (D84b not applicable). Racetrack with 5 um radius and 3
+      um straight sections (Fig. 5 SEM labels and p.3 text), symmetrically coupled to two bus waveguides. The widths differ
+      between the Fig. 5 caption (500 / 450 nm) and the p.3 text (450 / 415 nm); the text values are used for the loss fit.
+      Coupling factor 0.3 around 1550 nm (p.3) not entered: amplitude or power not stated. Group index change ~1% per ~5 nm
+      width change (~15 nm resonance shift, p.3) has no parameter. Same physical device as cmp_lit_dumon2004_racetrack_loss
+      (resonator.ring row for finesse and round-trip loss, D396).'
+    why: note claimed passive-only fabrication; p.1 'We have made' (ring and racetrack resonators) and p.2 'we only etched'
+      (Si top layer) are active statements. fab_org_ids stays empty because the authors sit at Ghent University-IMEC and IMEC
+      vzw and the paper names no fabrication place (D72)
+  cmp_lit_dumon2004_racetrack_loss:
+    notes: 'No fab org: the authors state they made and etched the devices (p.1 ''We have made'' the ring and racetrack resonators;
+      p.2 ''we only etched'' the Si top layer) but sit at two orgs (Ghent University-IMEC INTEC group and IMEC vzw Silicon
+      Processing Technology Division) and the place of fabrication is not named (D72 unambiguity; mangal2018 org-split precedent);
+      staff thanks for wafer exposures and mask design name no org (D84b not applicable). Racetrack with 5 um radius and 3
+      um straight sections (Fig. 5 SEM labels and p.3 text), symmetrically coupled to two bus waveguides. The widths differ
+      between the Fig. 5 caption (500 / 450 nm) and the p.3 text (450 / 415 nm); the text values are used for the loss fit.
+      Coupling factor 0.3 around 1550 nm (p.3) not entered: amplitude or power not stated. Group index change ~1% per ~5 nm
+      width change (~15 nm resonance shift, p.3) has no parameter. Same physical device as cmp_lit_dumon2004_racetrack_adddrop
+      (wdm.mrr row with the filter metrics, D396).'
+    why: note claimed passive-only fabrication; p.1 'We have made' (ring and racetrack resonators) and p.2 'we only etched'
+      (Si top layer) are active statements. fab_org_ids stays empty because the authors sit at Ghent University-IMEC and IMEC
+      vzw and the paper names no fabrication place (D72)
+  cmp_lit_dumon2004_ring_adddrop:
+    notes: 'No fab org: the authors state they made and etched the devices (p.1 ''We have made'' the ring and racetrack resonators;
+      p.2 ''we only etched'' the Si top layer) but sit at two orgs (Ghent University-IMEC INTEC group and IMEC vzw Silicon
+      Processing Technology Division) and the place of fabrication is not named (D72 unambiguity; mangal2018 org-split precedent);
+      staff thanks for wafer exposures and mask design name no org (D84b not applicable). Ring (not racetrack) made with the
+      same technology (p.1, p.3); dimensions not stated; high add-drop crosstalk (not quantified).'
+    why: note claimed passive-only fabrication; p.1 'We have made' (ring and racetrack resonators) and p.2 'we only etched'
+      (Si top layer) are active statements. fab_org_ids stays empty because the authors sit at Ghent University-IMEC and IMEC
+      vzw and the paper names no fabrication place (D72)
+  cmp_lit_dumon2004_wire_415nm:
+    notes: 'No fab org: the authors state they made and etched the devices (p.1 ''We have made'' the ring and racetrack resonators;
+      p.2 ''we only etched'' the Si top layer) but sit at two orgs (Ghent University-IMEC INTEC group and IMEC vzw Silicon
+      Processing Technology Division) and the place of fabrication is not named (D72 unambiguity; mangal2018 org-split precedent);
+      staff thanks for wafer exposures and mask design name no org (D84b not applicable). Value given in the racetrack discussion;
+      not in Table I and its origin is not stated.'
+    why: note claimed passive-only fabrication; p.1 'We have made' (ring and racetrack resonators) and p.2 'we only etched'
+      (Si top layer) are active statements. fab_org_ids stays empty because the authors sit at Ghent University-IMEC and IMEC
+      vzw and the paper names no fabrication place (D72)
+  cmp_lit_baghban2017_bragg_rect_lb252_dw50:
+    fab_org_ids: org_kth_royal_institute_of_technology
+    notes: 'Fab: the authors state they design, fabricate and characterize the gratings (p.1 Abstract); all authors at KTH
+      (two departments): fab_org_ids org_kth_royal_institute_of_technology (D80b / D72); no facility named (acknowledgments
+      thank one person for experimental assistance and funders only, p.10). Commercial LNOI wafer from Partow Technologies
+      LLC (film supplier, note only). Sidewall modulation w(x) = w0 + dw f(x), dw = 50 nm (corrugation amplitude: no registry
+      parameter). Wavelength not stated with the values; stopband about 1.51-1.53 um in Fig. 5(c), blue-shifting with dw.
+      Computed kappa*LB 1.5-6.9 over all gratings (p.8) not entered (not per device). TMM simulations (Fig. 7) not entered
+      (figure-only curves).'
+    why: 'p.1 Abstract: ''design, fabricate and characterize'' (authors as subject) is an explicit authors-fabricated statement
+      (D80b); all five authors at KTH Royal Institute of Technology (p.1 affiliations, two departments), so the own org is
+      unambiguous (D72, qi2025 ''We fabricate'' precedent)'
+  cmp_lit_baghban2017_bragg_rect_lb252_dw75:
+    fab_org_ids: org_kth_royal_institute_of_technology
+    notes: 'Fab: the authors state they design, fabricate and characterize the gratings (p.1 Abstract); all authors at KTH
+      (two departments): fab_org_ids org_kth_royal_institute_of_technology (D80b / D72); no facility named (acknowledgments
+      thank one person for experimental assistance and funders only, p.10). Commercial LNOI wafer from Partow Technologies
+      LLC (film supplier, note only). Sidewall modulation w(x) = w0 + dw f(x), dw = 75 nm (corrugation amplitude: no registry
+      parameter). Wavelength not stated with the values; stopband about 1.51-1.53 um in Fig. 5(c), blue-shifting with dw.
+      Computed kappa*LB 1.5-6.9 over all gratings (p.8) not entered (not per device). TMM simulations (Fig. 7) not entered
+      (figure-only curves).'
+    why: 'p.1 Abstract: ''design, fabricate and characterize'' (authors as subject) is an explicit authors-fabricated statement
+      (D80b); all five authors at KTH Royal Institute of Technology (p.1 affiliations, two departments), so the own org is
+      unambiguous (D72, qi2025 ''We fabricate'' precedent)'
+  cmp_lit_baghban2017_bragg_rect_lb252_dw100:
+    fab_org_ids: org_kth_royal_institute_of_technology
+    notes: 'Fab: the authors state they design, fabricate and characterize the gratings (p.1 Abstract); all authors at KTH
+      (two departments): fab_org_ids org_kth_royal_institute_of_technology (D80b / D72); no facility named (acknowledgments
+      thank one person for experimental assistance and funders only, p.10). Commercial LNOI wafer from Partow Technologies
+      LLC (film supplier, note only). Sidewall modulation w(x) = w0 + dw f(x), dw = 100 nm (corrugation amplitude: no registry
+      parameter). Wavelength not stated with the values; stopband about 1.51-1.53 um in Fig. 5(c), blue-shifting with dw.
+      Computed kappa*LB 1.5-6.9 over all gratings (p.8) not entered (not per device). TMM simulations (Fig. 7) not entered
+      (figure-only curves).'
+    why: 'p.1 Abstract: ''design, fabricate and characterize'' (authors as subject) is an explicit authors-fabricated statement
+      (D80b); all five authors at KTH Royal Institute of Technology (p.1 affiliations, two departments), so the own org is
+      unambiguous (D72, qi2025 ''We fabricate'' precedent)'
+  cmp_lit_baghban2017_bragg_rect_lb252_dw125:
+    fab_org_ids: org_kth_royal_institute_of_technology
+    notes: 'Fab: the authors state they design, fabricate and characterize the gratings (p.1 Abstract); all authors at KTH
+      (two departments): fab_org_ids org_kth_royal_institute_of_technology (D80b / D72); no facility named (acknowledgments
+      thank one person for experimental assistance and funders only, p.10). Commercial LNOI wafer from Partow Technologies
+      LLC (film supplier, note only). Sidewall modulation w(x) = w0 + dw f(x), dw = 125 nm (corrugation amplitude: no registry
+      parameter). Wavelength not stated with the values; stopband about 1.51-1.53 um in Fig. 5(c), blue-shifting with dw.
+      Computed kappa*LB 1.5-6.9 over all gratings (p.8) not entered (not per device). TMM simulations (Fig. 7) not entered
+      (figure-only curves).'
+    why: 'p.1 Abstract: ''design, fabricate and characterize'' (authors as subject) is an explicit authors-fabricated statement
+      (D80b); all five authors at KTH Royal Institute of Technology (p.1 affiliations, two departments), so the own org is
+      unambiguous (D72, qi2025 ''We fabricate'' precedent)'
+  cmp_lit_baghban2017_bragg_sin_lb252_dw50:
+    fab_org_ids: org_kth_royal_institute_of_technology
+    notes: 'Fab: the authors state they design, fabricate and characterize the gratings (p.1 Abstract); all authors at KTH
+      (two departments): fab_org_ids org_kth_royal_institute_of_technology (D80b / D72); no facility named (acknowledgments
+      thank one person for experimental assistance and funders only, p.10). Commercial LNOI wafer from Partow Technologies
+      LLC (film supplier, note only). Sidewall modulation w(x) = w0 + dw f(x), dw = 50 nm (corrugation amplitude: no registry
+      parameter). Wavelength not stated with the values; stopband about 1.545-1.55 um in Fig. 5(d) for 252.5 um gratings.
+      Computed kappa*LB 1.5-6.9 over all gratings (p.8) not entered (not per device). TMM simulations (Fig. 7) not entered
+      (figure-only curves).'
+    why: 'p.1 Abstract: ''design, fabricate and characterize'' (authors as subject) is an explicit authors-fabricated statement
+      (D80b); all five authors at KTH Royal Institute of Technology (p.1 affiliations, two departments), so the own org is
+      unambiguous (D72, qi2025 ''We fabricate'' precedent)'
+  cmp_lit_baghban2017_bragg_sin_lb252_dw75:
+    fab_org_ids: org_kth_royal_institute_of_technology
+    notes: 'Fab: the authors state they design, fabricate and characterize the gratings (p.1 Abstract); all authors at KTH
+      (two departments): fab_org_ids org_kth_royal_institute_of_technology (D80b / D72); no facility named (acknowledgments
+      thank one person for experimental assistance and funders only, p.10). Commercial LNOI wafer from Partow Technologies
+      LLC (film supplier, note only). Sidewall modulation w(x) = w0 + dw f(x), dw = 75 nm (corrugation amplitude: no registry
+      parameter). Wavelength not stated with the values; stopband about 1.545-1.55 um in Fig. 5(d) for 252.5 um gratings.
+      Computed kappa*LB 1.5-6.9 over all gratings (p.8) not entered (not per device). TMM simulations (Fig. 7) not entered
+      (figure-only curves).'
+    why: 'p.1 Abstract: ''design, fabricate and characterize'' (authors as subject) is an explicit authors-fabricated statement
+      (D80b); all five authors at KTH Royal Institute of Technology (p.1 affiliations, two departments), so the own org is
+      unambiguous (D72, qi2025 ''We fabricate'' precedent)'
+  cmp_lit_baghban2017_bragg_sin_lb252_dw100:
+    fab_org_ids: org_kth_royal_institute_of_technology
+    notes: 'Fab: the authors state they design, fabricate and characterize the gratings (p.1 Abstract); all authors at KTH
+      (two departments): fab_org_ids org_kth_royal_institute_of_technology (D80b / D72); no facility named (acknowledgments
+      thank one person for experimental assistance and funders only, p.10). Commercial LNOI wafer from Partow Technologies
+      LLC (film supplier, note only). Sidewall modulation w(x) = w0 + dw f(x), dw = 100 nm (corrugation amplitude: no registry
+      parameter). Wavelength not stated with the values; stopband about 1.545-1.55 um in Fig. 5(d) for 252.5 um gratings.
+      Computed kappa*LB 1.5-6.9 over all gratings (p.8) not entered (not per device). TMM simulations (Fig. 7) not entered
+      (figure-only curves).'
+    why: 'p.1 Abstract: ''design, fabricate and characterize'' (authors as subject) is an explicit authors-fabricated statement
+      (D80b); all five authors at KTH Royal Institute of Technology (p.1 affiliations, two departments), so the own org is
+      unambiguous (D72, qi2025 ''We fabricate'' precedent)'
+  cmp_lit_baghban2017_bragg_sin_lb252_dw125:
+    fab_org_ids: org_kth_royal_institute_of_technology
+    notes: 'Fab: the authors state they design, fabricate and characterize the gratings (p.1 Abstract); all authors at KTH
+      (two departments): fab_org_ids org_kth_royal_institute_of_technology (D80b / D72); no facility named (acknowledgments
+      thank one person for experimental assistance and funders only, p.10). Commercial LNOI wafer from Partow Technologies
+      LLC (film supplier, note only). Sidewall modulation w(x) = w0 + dw f(x), dw = 125 nm (corrugation amplitude: no registry
+      parameter). Wavelength not stated with the values; stopband about 1.545-1.55 um in Fig. 5(d) for 252.5 um gratings.
+      Computed kappa*LB 1.5-6.9 over all gratings (p.8) not entered (not per device). TMM simulations (Fig. 7) not entered
+      (figure-only curves).'
+    why: 'p.1 Abstract: ''design, fabricate and characterize'' (authors as subject) is an explicit authors-fabricated statement
+      (D80b); all five authors at KTH Royal Institute of Technology (p.1 affiliations, two departments), so the own org is
+      unambiguous (D72, qi2025 ''We fabricate'' precedent)'
+  cmp_lit_baghban2017_bragg_sin_lb505_dw50:
+    fab_org_ids: org_kth_royal_institute_of_technology
+    notes: 'Fab: the authors state they design, fabricate and characterize the gratings (p.1 Abstract); all authors at KTH
+      (two departments): fab_org_ids org_kth_royal_institute_of_technology (D80b / D72); no facility named (acknowledgments
+      thank one person for experimental assistance and funders only, p.10). Commercial LNOI wafer from Partow Technologies
+      LLC (film supplier, note only). Sidewall modulation w(x) = w0 + dw f(x), dw = 50 nm (corrugation amplitude: no registry
+      parameter). Wavelength not stated with the values; stopband about 1.545-1.55 um in Fig. 5(d) for 252.5 um gratings.
+      Computed kappa*LB 1.5-6.9 over all gratings (p.8) not entered (not per device). TMM simulations (Fig. 7) not entered
+      (figure-only curves).'
+    why: 'p.1 Abstract: ''design, fabricate and characterize'' (authors as subject) is an explicit authors-fabricated statement
+      (D80b); all five authors at KTH Royal Institute of Technology (p.1 affiliations, two departments), so the own org is
+      unambiguous (D72, qi2025 ''We fabricate'' precedent)'
+  cmp_lit_baghban2017_bragg_sin_lb505_dw75:
+    fab_org_ids: org_kth_royal_institute_of_technology
+    notes: 'Fab: the authors state they design, fabricate and characterize the gratings (p.1 Abstract); all authors at KTH
+      (two departments): fab_org_ids org_kth_royal_institute_of_technology (D80b / D72); no facility named (acknowledgments
+      thank one person for experimental assistance and funders only, p.10). Commercial LNOI wafer from Partow Technologies
+      LLC (film supplier, note only). Sidewall modulation w(x) = w0 + dw f(x), dw = 75 nm (corrugation amplitude: no registry
+      parameter). Wavelength not stated with the values; stopband about 1.545-1.55 um in Fig. 5(d) for 252.5 um gratings.
+      Computed kappa*LB 1.5-6.9 over all gratings (p.8) not entered (not per device). TMM simulations (Fig. 7) not entered
+      (figure-only curves).'
+    why: 'p.1 Abstract: ''design, fabricate and characterize'' (authors as subject) is an explicit authors-fabricated statement
+      (D80b); all five authors at KTH Royal Institute of Technology (p.1 affiliations, two departments), so the own org is
+      unambiguous (D72, qi2025 ''We fabricate'' precedent)'
+  cmp_lit_baghban2017_bragg_sin_lb505_dw100:
+    fab_org_ids: org_kth_royal_institute_of_technology
+    notes: 'Fab: the authors state they design, fabricate and characterize the gratings (p.1 Abstract); all authors at KTH
+      (two departments): fab_org_ids org_kth_royal_institute_of_technology (D80b / D72); no facility named (acknowledgments
+      thank one person for experimental assistance and funders only, p.10). Commercial LNOI wafer from Partow Technologies
+      LLC (film supplier, note only). Sidewall modulation w(x) = w0 + dw f(x), dw = 100 nm (corrugation amplitude: no registry
+      parameter). Wavelength not stated with the values; stopband about 1.545-1.55 um in Fig. 5(d) for 252.5 um gratings.
+      Computed kappa*LB 1.5-6.9 over all gratings (p.8) not entered (not per device). TMM simulations (Fig. 7) not entered
+      (figure-only curves).'
+    why: 'p.1 Abstract: ''design, fabricate and characterize'' (authors as subject) is an explicit authors-fabricated statement
+      (D80b); all five authors at KTH Royal Institute of Technology (p.1 affiliations, two departments), so the own org is
+      unambiguous (D72, qi2025 ''We fabricate'' precedent)'
+  cmp_lit_baghban2017_bragg_sin_lb505_dw125:
+    fab_org_ids: org_kth_royal_institute_of_technology
+    notes: 'Fab: the authors state they design, fabricate and characterize the gratings (p.1 Abstract); all authors at KTH
+      (two departments): fab_org_ids org_kth_royal_institute_of_technology (D80b / D72); no facility named (acknowledgments
+      thank one person for experimental assistance and funders only, p.10). Commercial LNOI wafer from Partow Technologies
+      LLC (film supplier, note only). Sidewall modulation w(x) = w0 + dw f(x), dw = 125 nm (corrugation amplitude: no registry
+      parameter). Wavelength not stated with the values; stopband about 1.545-1.55 um in Fig. 5(d) for 252.5 um gratings.
+      Computed kappa*LB 1.5-6.9 over all gratings (p.8) not entered (not per device). TMM simulations (Fig. 7) not entered
+      (figure-only curves).'
+    why: 'p.1 Abstract: ''design, fabricate and characterize'' (authors as subject) is an explicit authors-fabricated statement
+      (D80b); all five authors at KTH Royal Institute of Technology (p.1 affiliations, two departments), so the own org is
+      unambiguous (D72, qi2025 ''We fabricate'' precedent)'
+  cmp_lit_baghban2017_wg_760nm:
+    fab_org_ids: org_kth_royal_institute_of_technology
+    notes: 'Fab: the authors state they design, fabricate and characterize the gratings (p.1 Abstract); all authors at KTH
+      (two departments): fab_org_ids org_kth_royal_institute_of_technology (D80b / D72); no facility named (acknowledgments
+      thank one person for experimental assistance and funders only, p.10). Commercial LNOI wafer from Partow Technologies
+      LLC (film supplier, note only). Waveguide lengths 0.5-4 mm with grating couplers and 500 um tapers; fit of fiber-to-fiber
+      transmission vs length (p.5). Unpatterned slab loss 3 dB/cm at 1550 nm (p.3, origin not stated) not entered.'
+    why: 'p.1 Abstract: ''design, fabricate and characterize'' (authors as subject) is an explicit authors-fabricated statement
+      (D80b); all five authors at KTH Royal Institute of Technology (p.1 affiliations, two departments), so the own org is
+      unambiguous (D72, qi2025 ''We fabricate'' precedent)'
+  cmp_lit_baghban2017_wg_2350nm:
+    fab_org_ids: org_kth_royal_institute_of_technology
+    notes: 'Fab: the authors state they design, fabricate and characterize the gratings (p.1 Abstract); all authors at KTH
+      (two departments): fab_org_ids org_kth_royal_institute_of_technology (D80b / D72); no facility named (acknowledgments
+      thank one person for experimental assistance and funders only, p.10). Commercial LNOI wafer from Partow Technologies
+      LLC (film supplier, note only). Waveguide lengths 0.5-4 mm with grating couplers and 500 um tapers; fit of fiber-to-fiber
+      transmission vs length (p.5). Unpatterned slab loss 3 dB/cm at 1550 nm (p.3, origin not stated) not entered.'
+    why: 'p.1 Abstract: ''design, fabricate and characterize'' (authors as subject) is an explicit authors-fabricated statement
+      (D80b); all five authors at KTH Royal Institute of Technology (p.1 affiliations, two departments), so the own org is
+      unambiguous (D72, qi2025 ''We fabricate'' precedent)'
+  cmp_lit_baghban2017_gc_te:
+    fab_org_ids: org_kth_royal_institute_of_technology
+    notes: 'Fab: the authors state they design, fabricate and characterize the gratings (p.1 Abstract); all authors at KTH
+      (two departments): fab_org_ids org_kth_royal_institute_of_technology (D80b / D72); no facility named (acknowledgments
+      thank one person for experimental assistance and funders only, p.10). Commercial LNOI wafer from Partow Technologies
+      LLC (film supplier, note only). Etched surface grating (described as etched-through) in a 12 um wide, 40 um long section,
+      tapered over 500 um to the photonic wire (p.4). Coupling loss from the LW -> 0 intercept of the waveguide cutback, independent
+      of waveguide width (p.5-6). Peak wavelength slightly shifted from the 1550 nm design (Fig. 4(b)).'
+    why: 'p.1 Abstract: ''design, fabricate and characterize'' (authors as subject) is an explicit authors-fabricated statement
+      (D80b); all five authors at KTH Royal Institute of Technology (p.1 affiliations, two departments), so the own org is
+      unambiguous (D72, qi2025 ''We fabricate'' precedent)'
+metrics:
+  cmp_lit_baghban2017_bragg_rect_lb252_dw50-m7:
+    basis: design_target
+    notes: 300 nm Y-cut LN film of the purchased commercial LNOI wafer as stated in the paper (p.3 Sec. 2.1); wafer-stack
+      thickness, not a vendor datasheet quotation (D161)
+    why: 'D161: foundry-stack / own-wafer layer thicknesses are design_target; merged precedent for commercial (NanoLN) LNOI
+      film and oxide thicknesses is design_target (35 rows vs 4 specification); p.3 Sec. 2.1 gives the stack as the wafer
+      description'
+  cmp_lit_baghban2017_bragg_rect_lb252_dw50-m9:
+    basis: design_target
+    notes: 2 um SiO2 bonding layer of the purchased commercial LNOI wafer as stated in the paper (p.3 Sec. 2.1); wafer-stack
+      thickness, not a vendor datasheet quotation (D161)
+    why: 'D161: foundry-stack / own-wafer layer thicknesses are design_target; merged precedent for commercial (NanoLN) LNOI
+      film and oxide thicknesses is design_target (35 rows vs 4 specification); p.3 Sec. 2.1 gives the stack as the wafer
+      description'
+  cmp_lit_baghban2017_bragg_rect_lb252_dw75-m6:
+    basis: design_target
+    notes: 300 nm Y-cut LN film of the purchased commercial LNOI wafer as stated in the paper (p.3 Sec. 2.1); wafer-stack
+      thickness, not a vendor datasheet quotation (D161)
+    why: 'D161: foundry-stack / own-wafer layer thicknesses are design_target; merged precedent for commercial (NanoLN) LNOI
+      film and oxide thicknesses is design_target (35 rows vs 4 specification); p.3 Sec. 2.1 gives the stack as the wafer
+      description'
+  cmp_lit_baghban2017_bragg_rect_lb252_dw75-m8:
+    basis: design_target
+    notes: 2 um SiO2 bonding layer of the purchased commercial LNOI wafer as stated in the paper (p.3 Sec. 2.1); wafer-stack
+      thickness, not a vendor datasheet quotation (D161)
+    why: 'D161: foundry-stack / own-wafer layer thicknesses are design_target; merged precedent for commercial (NanoLN) LNOI
+      film and oxide thicknesses is design_target (35 rows vs 4 specification); p.3 Sec. 2.1 gives the stack as the wafer
+      description'
+  cmp_lit_baghban2017_bragg_rect_lb252_dw100-m6:
+    basis: design_target
+    notes: 300 nm Y-cut LN film of the purchased commercial LNOI wafer as stated in the paper (p.3 Sec. 2.1); wafer-stack
+      thickness, not a vendor datasheet quotation (D161)
+    why: 'D161: foundry-stack / own-wafer layer thicknesses are design_target; merged precedent for commercial (NanoLN) LNOI
+      film and oxide thicknesses is design_target (35 rows vs 4 specification); p.3 Sec. 2.1 gives the stack as the wafer
+      description'
+  cmp_lit_baghban2017_bragg_rect_lb252_dw100-m8:
+    basis: design_target
+    notes: 2 um SiO2 bonding layer of the purchased commercial LNOI wafer as stated in the paper (p.3 Sec. 2.1); wafer-stack
+      thickness, not a vendor datasheet quotation (D161)
+    why: 'D161: foundry-stack / own-wafer layer thicknesses are design_target; merged precedent for commercial (NanoLN) LNOI
+      film and oxide thicknesses is design_target (35 rows vs 4 specification); p.3 Sec. 2.1 gives the stack as the wafer
+      description'
+  cmp_lit_baghban2017_bragg_rect_lb252_dw125-m7:
+    basis: design_target
+    notes: 300 nm Y-cut LN film of the purchased commercial LNOI wafer as stated in the paper (p.3 Sec. 2.1); wafer-stack
+      thickness, not a vendor datasheet quotation (D161)
+    why: 'D161: foundry-stack / own-wafer layer thicknesses are design_target; merged precedent for commercial (NanoLN) LNOI
+      film and oxide thicknesses is design_target (35 rows vs 4 specification); p.3 Sec. 2.1 gives the stack as the wafer
+      description'
+  cmp_lit_baghban2017_bragg_rect_lb252_dw125-m9:
+    basis: design_target
+    notes: 2 um SiO2 bonding layer of the purchased commercial LNOI wafer as stated in the paper (p.3 Sec. 2.1); wafer-stack
+      thickness, not a vendor datasheet quotation (D161)
+    why: 'D161: foundry-stack / own-wafer layer thicknesses are design_target; merged precedent for commercial (NanoLN) LNOI
+      film and oxide thicknesses is design_target (35 rows vs 4 specification); p.3 Sec. 2.1 gives the stack as the wafer
+      description'
+  cmp_lit_baghban2017_bragg_sin_lb252_dw50-m7:
+    basis: design_target
+    notes: 300 nm Y-cut LN film of the purchased commercial LNOI wafer as stated in the paper (p.3 Sec. 2.1); wafer-stack
+      thickness, not a vendor datasheet quotation (D161)
+    why: 'D161: foundry-stack / own-wafer layer thicknesses are design_target; merged precedent for commercial (NanoLN) LNOI
+      film and oxide thicknesses is design_target (35 rows vs 4 specification); p.3 Sec. 2.1 gives the stack as the wafer
+      description'
+  cmp_lit_baghban2017_bragg_sin_lb252_dw50-m9:
+    basis: design_target
+    notes: 2 um SiO2 bonding layer of the purchased commercial LNOI wafer as stated in the paper (p.3 Sec. 2.1); wafer-stack
+      thickness, not a vendor datasheet quotation (D161)
+    why: 'D161: foundry-stack / own-wafer layer thicknesses are design_target; merged precedent for commercial (NanoLN) LNOI
+      film and oxide thicknesses is design_target (35 rows vs 4 specification); p.3 Sec. 2.1 gives the stack as the wafer
+      description'
+  cmp_lit_baghban2017_bragg_sin_lb252_dw75-m7:
+    basis: design_target
+    notes: 300 nm Y-cut LN film of the purchased commercial LNOI wafer as stated in the paper (p.3 Sec. 2.1); wafer-stack
+      thickness, not a vendor datasheet quotation (D161)
+    why: 'D161: foundry-stack / own-wafer layer thicknesses are design_target; merged precedent for commercial (NanoLN) LNOI
+      film and oxide thicknesses is design_target (35 rows vs 4 specification); p.3 Sec. 2.1 gives the stack as the wafer
+      description'
+  cmp_lit_baghban2017_bragg_sin_lb252_dw75-m9:
+    basis: design_target
+    notes: 2 um SiO2 bonding layer of the purchased commercial LNOI wafer as stated in the paper (p.3 Sec. 2.1); wafer-stack
+      thickness, not a vendor datasheet quotation (D161)
+    why: 'D161: foundry-stack / own-wafer layer thicknesses are design_target; merged precedent for commercial (NanoLN) LNOI
+      film and oxide thicknesses is design_target (35 rows vs 4 specification); p.3 Sec. 2.1 gives the stack as the wafer
+      description'
+  cmp_lit_baghban2017_bragg_sin_lb252_dw100-m7:
+    basis: design_target
+    notes: 300 nm Y-cut LN film of the purchased commercial LNOI wafer as stated in the paper (p.3 Sec. 2.1); wafer-stack
+      thickness, not a vendor datasheet quotation (D161)
+    why: 'D161: foundry-stack / own-wafer layer thicknesses are design_target; merged precedent for commercial (NanoLN) LNOI
+      film and oxide thicknesses is design_target (35 rows vs 4 specification); p.3 Sec. 2.1 gives the stack as the wafer
+      description'
+  cmp_lit_baghban2017_bragg_sin_lb252_dw100-m9:
+    basis: design_target
+    notes: 2 um SiO2 bonding layer of the purchased commercial LNOI wafer as stated in the paper (p.3 Sec. 2.1); wafer-stack
+      thickness, not a vendor datasheet quotation (D161)
+    why: 'D161: foundry-stack / own-wafer layer thicknesses are design_target; merged precedent for commercial (NanoLN) LNOI
+      film and oxide thicknesses is design_target (35 rows vs 4 specification); p.3 Sec. 2.1 gives the stack as the wafer
+      description'
+  cmp_lit_baghban2017_bragg_sin_lb252_dw125-m7:
+    basis: design_target
+    notes: 300 nm Y-cut LN film of the purchased commercial LNOI wafer as stated in the paper (p.3 Sec. 2.1); wafer-stack
+      thickness, not a vendor datasheet quotation (D161)
+    why: 'D161: foundry-stack / own-wafer layer thicknesses are design_target; merged precedent for commercial (NanoLN) LNOI
+      film and oxide thicknesses is design_target (35 rows vs 4 specification); p.3 Sec. 2.1 gives the stack as the wafer
+      description'
+  cmp_lit_baghban2017_bragg_sin_lb252_dw125-m9:
+    basis: design_target
+    notes: 2 um SiO2 bonding layer of the purchased commercial LNOI wafer as stated in the paper (p.3 Sec. 2.1); wafer-stack
+      thickness, not a vendor datasheet quotation (D161)
+    why: 'D161: foundry-stack / own-wafer layer thicknesses are design_target; merged precedent for commercial (NanoLN) LNOI
+      film and oxide thicknesses is design_target (35 rows vs 4 specification); p.3 Sec. 2.1 gives the stack as the wafer
+      description'
+  cmp_lit_baghban2017_bragg_sin_lb505_dw50-m7:
+    basis: design_target
+    notes: 300 nm Y-cut LN film of the purchased commercial LNOI wafer as stated in the paper (p.3 Sec. 2.1); wafer-stack
+      thickness, not a vendor datasheet quotation (D161)
+    why: 'D161: foundry-stack / own-wafer layer thicknesses are design_target; merged precedent for commercial (NanoLN) LNOI
+      film and oxide thicknesses is design_target (35 rows vs 4 specification); p.3 Sec. 2.1 gives the stack as the wafer
+      description'
+  cmp_lit_baghban2017_bragg_sin_lb505_dw50-m9:
+    basis: design_target
+    notes: 2 um SiO2 bonding layer of the purchased commercial LNOI wafer as stated in the paper (p.3 Sec. 2.1); wafer-stack
+      thickness, not a vendor datasheet quotation (D161)
+    why: 'D161: foundry-stack / own-wafer layer thicknesses are design_target; merged precedent for commercial (NanoLN) LNOI
+      film and oxide thicknesses is design_target (35 rows vs 4 specification); p.3 Sec. 2.1 gives the stack as the wafer
+      description'
+  cmp_lit_baghban2017_bragg_sin_lb505_dw75-m7:
+    basis: design_target
+    notes: 300 nm Y-cut LN film of the purchased commercial LNOI wafer as stated in the paper (p.3 Sec. 2.1); wafer-stack
+      thickness, not a vendor datasheet quotation (D161)
+    why: 'D161: foundry-stack / own-wafer layer thicknesses are design_target; merged precedent for commercial (NanoLN) LNOI
+      film and oxide thicknesses is design_target (35 rows vs 4 specification); p.3 Sec. 2.1 gives the stack as the wafer
+      description'
+  cmp_lit_baghban2017_bragg_sin_lb505_dw75-m9:
+    basis: design_target
+    notes: 2 um SiO2 bonding layer of the purchased commercial LNOI wafer as stated in the paper (p.3 Sec. 2.1); wafer-stack
+      thickness, not a vendor datasheet quotation (D161)
+    why: 'D161: foundry-stack / own-wafer layer thicknesses are design_target; merged precedent for commercial (NanoLN) LNOI
+      film and oxide thicknesses is design_target (35 rows vs 4 specification); p.3 Sec. 2.1 gives the stack as the wafer
+      description'
+  cmp_lit_baghban2017_bragg_sin_lb505_dw100-m7:
+    basis: design_target
+    notes: 300 nm Y-cut LN film of the purchased commercial LNOI wafer as stated in the paper (p.3 Sec. 2.1); wafer-stack
+      thickness, not a vendor datasheet quotation (D161)
+    why: 'D161: foundry-stack / own-wafer layer thicknesses are design_target; merged precedent for commercial (NanoLN) LNOI
+      film and oxide thicknesses is design_target (35 rows vs 4 specification); p.3 Sec. 2.1 gives the stack as the wafer
+      description'
+  cmp_lit_baghban2017_bragg_sin_lb505_dw100-m9:
+    basis: design_target
+    notes: 2 um SiO2 bonding layer of the purchased commercial LNOI wafer as stated in the paper (p.3 Sec. 2.1); wafer-stack
+      thickness, not a vendor datasheet quotation (D161)
+    why: 'D161: foundry-stack / own-wafer layer thicknesses are design_target; merged precedent for commercial (NanoLN) LNOI
+      film and oxide thicknesses is design_target (35 rows vs 4 specification); p.3 Sec. 2.1 gives the stack as the wafer
+      description'
+  cmp_lit_baghban2017_bragg_sin_lb505_dw125-m7:
+    basis: design_target
+    notes: 300 nm Y-cut LN film of the purchased commercial LNOI wafer as stated in the paper (p.3 Sec. 2.1); wafer-stack
+      thickness, not a vendor datasheet quotation (D161)
+    why: 'D161: foundry-stack / own-wafer layer thicknesses are design_target; merged precedent for commercial (NanoLN) LNOI
+      film and oxide thicknesses is design_target (35 rows vs 4 specification); p.3 Sec. 2.1 gives the stack as the wafer
+      description'
+  cmp_lit_baghban2017_bragg_sin_lb505_dw125-m9:
+    basis: design_target
+    notes: 2 um SiO2 bonding layer of the purchased commercial LNOI wafer as stated in the paper (p.3 Sec. 2.1); wafer-stack
+      thickness, not a vendor datasheet quotation (D161)
+    why: 'D161: foundry-stack / own-wafer layer thicknesses are design_target; merged precedent for commercial (NanoLN) LNOI
+      film and oxide thicknesses is design_target (35 rows vs 4 specification); p.3 Sec. 2.1 gives the stack as the wafer
+      description'
+  cmp_lit_baghban2017_wg_760nm-m3:
+    basis: design_target
+    notes: 300 nm Y-cut LN film of the purchased commercial LNOI wafer as stated in the paper (p.3 Sec. 2.1); wafer-stack
+      thickness, not a vendor datasheet quotation (D161)
+    why: 'D161: foundry-stack / own-wafer layer thicknesses are design_target; merged precedent for commercial (NanoLN) LNOI
+      film and oxide thicknesses is design_target (35 rows vs 4 specification); p.3 Sec. 2.1 gives the stack as the wafer
+      description'
+  cmp_lit_baghban2017_wg_760nm-m5:
+    basis: design_target
+    notes: 2 um SiO2 bonding layer of the purchased commercial LNOI wafer as stated in the paper (p.3 Sec. 2.1); wafer-stack
+      thickness, not a vendor datasheet quotation (D161)
+    why: 'D161: foundry-stack / own-wafer layer thicknesses are design_target; merged precedent for commercial (NanoLN) LNOI
+      film and oxide thicknesses is design_target (35 rows vs 4 specification); p.3 Sec. 2.1 gives the stack as the wafer
+      description'
+  cmp_lit_baghban2017_wg_2350nm-m3:
+    basis: design_target
+    notes: 300 nm Y-cut LN film of the purchased commercial LNOI wafer as stated in the paper (p.3 Sec. 2.1); wafer-stack
+      thickness, not a vendor datasheet quotation (D161)
+    why: 'D161: foundry-stack / own-wafer layer thicknesses are design_target; merged precedent for commercial (NanoLN) LNOI
+      film and oxide thicknesses is design_target (35 rows vs 4 specification); p.3 Sec. 2.1 gives the stack as the wafer
+      description'
+  cmp_lit_baghban2017_wg_2350nm-m5:
+    basis: design_target
+    notes: 2 um SiO2 bonding layer of the purchased commercial LNOI wafer as stated in the paper (p.3 Sec. 2.1); wafer-stack
+      thickness, not a vendor datasheet quotation (D161)
+    why: 'D161: foundry-stack / own-wafer layer thicknesses are design_target; merged precedent for commercial (NanoLN) LNOI
+      film and oxide thicknesses is design_target (35 rows vs 4 specification); p.3 Sec. 2.1 gives the stack as the wafer
+      description'
+  cmp_lit_baghban2017_gc_te-m11:
+    basis: design_target
+    notes: 300 nm Y-cut LN film of the purchased commercial LNOI wafer as stated in the paper (p.3 Sec. 2.1); wafer-stack
+      thickness, not a vendor datasheet quotation (D161)
+    why: 'D161: foundry-stack / own-wafer layer thicknesses are design_target; merged precedent for commercial (NanoLN) LNOI
+      film and oxide thicknesses is design_target (35 rows vs 4 specification); p.3 Sec. 2.1 gives the stack as the wafer
+      description'
+  cmp_lit_baghban2017_gc_te-m13:
+    basis: design_target
+    notes: 2 um SiO2 bonding layer of the purchased commercial LNOI wafer as stated in the paper (p.3 Sec. 2.1); wafer-stack
+      thickness, not a vendor datasheet quotation (D161)
+    why: 'D161: foundry-stack / own-wafer layer thicknesses are design_target; merged precedent for commercial (NanoLN) LNOI
+      film and oxide thicknesses is design_target (35 rows vs 4 specification); p.3 Sec. 2.1 gives the stack as the wafer
+      description'
+  cmp_lit_baghban2017_gc_te-m6:
+    basis: design_target
+    notes: duty cycle 50% printed in the Fig. 2(b) SEM caption with the 1.24 um period; p.6 attributes the peak-wavelength
+      shift to fabrication imperfections affecting the duty cycle, so 50% is the nominal value; definition (tooth or gap fraction)
+      not given, 0.5 either way (D253)
+    why: 'p.4 Fig. 2(b) caption states period and duty cycle of the coupler design; p.6 Sec. 3.1 says the fabricated duty
+      cycle may deviate, so the value is not an SEM measurement (skill rule 4: dimensions are design_target unless SEM / AFM-measured)'
+  cmp_lit_li2024a_ta2o5_microdisk_120um-m2:
+    basis: author_estimate
+    notes: printed 2.05e6, computed by the authors as Qi = 2 QL / (1 + sqrt(TF)) with QL 1.92e6 and minimum transmission TF
+      77% (undercoupled branch of the formula); the coupling regime is not determined from the data or stated
+    why: 'skill rule 4 / coordinator ruling: an intrinsic Q resting on an assumed coupling regime is author_estimate whether
+      or not the paper says it assumes it; p.4-5 Sec. 4 uses the undercoupled formula without a regime determination (same
+      rule as lucia2026 racetrack q_intrinsic rows, p.7-8)'
+  cmp_lit_dumon2004_ring_adddrop-m1:
+    notes: unqualified Q (8000 measured); wavelength not stated; the paper's measurements and its racetrack coupling are at
+      / around 1550 nm (p.2 Table I, p.3), so the C band is the inferred operating band; ring dimensions and spectrum not
+      shown
+    why: 'rule 8 reason in notes: the batch note cited the Fig. 6 spectral span, but Fig. 6 shows the racetrack, not this
+      ring (p.3 Fig. 6 caption)'
+  cmp_lit_cabanillas2021_rac_3db_coupler-m5:
+    wavelength_inferred: 'true'
+    notes: printed IL < 0.3 dB 'limited by the experimental setup' (p.3 Conclusion, no wavelength stated); span 1275-1290
+      nm read from the Fig. 3(b) axis (GCs designed at 1290 nm); Fig. 3(b) boxplots span about -0.15 to 0.27 dB incl. outliers
+    why: the conclusion states no wavelength for the < 0.3 dB bound; 1275-1290 nm comes from the Fig. 3(b) plot axis, so wavelength_inferred
+      is true with the reason (skill rule 8, D46)
+add_metrics:
+- metric_id: cmp_lit_li2024a_ta2o5_microdisk_120um-m10
+  component_id: cmp_lit_li2024a_ta2o5_microdisk_120um
+  parameter: extinction_db
+  value: '1.14'
+  unit: dB
+  wavelength_nm: '1560'
+  polarization: te
+  mode: fundamental WGM
+  condition: notch depth of the Lorentz-fitted fundamental-mode dip (QL 1.92e6); tapered fiber (2 um waist) coupling, 5 uW
+    TE-polarized tunable laser
+  basis: derived
+  locator: p.4 Sec. 4; Fig. 4
+  notes: printed minimum transmission TF 77%; -10 log10(0.77) = 1.14 dB; wavelength printed as about 1560 nm
+  verified_on: '2026-10-29'
+  why: 'miss: p.4 states the minimum transmission 77% of the characterized resonance; extinction_db (resonator notch depth)
+    via a % -> dB conversion is derived (D33 / D82d)'

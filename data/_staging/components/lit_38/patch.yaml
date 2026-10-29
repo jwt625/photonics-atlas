@@ -1,0 +1,76 @@
+# Audit patch lit_38 (fresh-context audit 2026-10-29, DevLog/audits/2026-10-29-lit_38-audit.md).
+# 183 metrics: 177 ok / 6 imprecise / 0 wrong; 29 components: 29 ok; 3 misses added.
+# Not covered here (coordinator / org round): HKUST "Nanoelectronics Fabrication Facilities (NFF)" (yang2014 p.12) vs
+# registry org_nanosystem_fabrication_facility; registry gaps listed in the audit file.
+metrics:
+  cmp_lit_ashida2018_phc_dh_nanocavity-m5:
+    condition: 'all 30 measured cavities (lowest 1.14 x 10^6: text names A8_1 and A8_2, Table I shows the value at A8_1 and A8_3; highest D5_4)'
+    why: 'p.4 Table I render: chip A8 row prints 1.14 x 10^6 in columns 1 and 3 (column 2 empty), while p.4 Sec. IV-B text names A8_1 and A8_2; condition recorded only the text version'
+  cmp_lit_shang2017_1x3_sym-m1:
+    band: c_band
+    wavelength_inferred: 'true'
+    notes: 'printed ratio 1:1:4; converted to % of the total output; wavelength not stated for the 1x3 values: platform band 1530-1565 nm (p.2), 1x3 spectra measured over 1535-1565 nm (Fig. 11(c))'
+    why: 'skill rule 8: no wavelength stated with the 1:1:4 split (p.1, p.9, p.10), operating band stated (p.2 1530-1565 nm) -> band + wavelength_inferred'
+  cmp_lit_shang2017_1x3_sym-m2:
+    band: c_band
+    wavelength_inferred: 'true'
+    notes: 'printed ratio 1:1:4; converted to % of the total output; wavelength not stated for the 1x3 values: platform band 1530-1565 nm (p.2), 1x3 spectra measured over 1535-1565 nm (Fig. 11(c))'
+    why: skill rule 8, as m1
+  cmp_lit_shang2017_1x3_sym-m3:
+    band: c_band
+    wavelength_inferred: 'true'
+    notes: 'printed ratio 1:1:4; converted to % of the total output; wavelength not stated for the 1x3 values: platform band 1530-1565 nm (p.2), 1x3 spectra measured over 1535-1565 nm (Fig. 11(c))'
+    why: skill rule 8, as m1
+  cmp_lit_shang2017_1x3_sym-m4:
+    band: c_band
+    wavelength_inferred: 'true'
+    notes: 'difference of the printed per-port transmissions; wavelength not stated (p.9): platform band 1530-1565 nm (p.2), 1x3 spectra measured over 1535-1565 nm (Fig. 11(c))'
+    why: 'skill rule 8: p.9 prints -7.7 / -7.4 dB without a wavelength; operating band stated on p.2'
+  cmp_lit_shang2017_1x3_offset2um-m1:
+    band: c_band
+    wavelength_inferred: 'true'
+    notes: 'difference of the printed per-port transmissions; port labels conflict between text and figure; no single wavelength stated: band from the measured span 1535-1565 nm (Fig. 11(c)); Fig. 11(d) at 2 um offset reads about -2.7 / -3.6 dB'
+    why: 'skill rule 8: p.9 prints -2.7 / -3.7 dB for the spectrum of Fig. 11(c) (1535-1565 nm) without a wavelength; row had no wavelength or band'
+add_metrics:
+- metric_id: cmp_lit_yang2014_mrr_drop_te0-m11
+  component_id: cmp_lit_yang2014_mrr_drop_te0
+  parameter: q_loaded
+  value: '4000'
+  unit: '1'
+  qualifier: approx
+  wavelength_nm: '1550'
+  wavelength_inferred: 'true'
+  polarization: te
+  condition: 'design calculation: transfer-matrix model of the add-drop ring with field coupling 0.5 at both couplers, lossless couplers, 2 dB/cm propagation loss'
+  basis: simulated
+  locator: p.5-6 Sec. 3
+  notes: 'printed around 4000 (bandwidth ~50 GHz); one model calculation for the three identically designed rings (design field coupling 0.5 for all three, Table 1); calculation wavelength not stated, rings designed for the window around 1550 nm (p.4); measured Q ~3000-4000 stated for the three rings together (p.9) not entered'
+  why: 'miss: p.5-6 Sec. 3 states the modelled loaded Q of the ring design (identical for all three rings, p.2 and p.4); q_loaded allowed for wdm; a design value of a shared design, not a typical value of one representative sample (D254 / D159 do not apply)'
+- metric_id: cmp_lit_yang2014_mrr_drop_te1-m11
+  component_id: cmp_lit_yang2014_mrr_drop_te1
+  parameter: q_loaded
+  value: '4000'
+  unit: '1'
+  qualifier: approx
+  wavelength_nm: '1550'
+  wavelength_inferred: 'true'
+  polarization: te
+  condition: 'design calculation: transfer-matrix model of the add-drop ring with field coupling 0.5 at both couplers, lossless couplers, 2 dB/cm propagation loss'
+  basis: simulated
+  locator: p.5-6 Sec. 3
+  notes: 'printed around 4000 (bandwidth ~50 GHz); one model calculation for the three identically designed rings (design field coupling 0.5 for all three, Table 1); calculation wavelength not stated, rings designed for the window around 1550 nm (p.4); measured Q ~3000-4000 stated for the three rings together (p.9) not entered'
+  why: miss, as mrr_drop_te0-m11
+- metric_id: cmp_lit_yang2014_mrr_drop_te2-m11
+  component_id: cmp_lit_yang2014_mrr_drop_te2
+  parameter: q_loaded
+  value: '4000'
+  unit: '1'
+  qualifier: approx
+  wavelength_nm: '1550'
+  wavelength_inferred: 'true'
+  polarization: te
+  condition: 'design calculation: transfer-matrix model of the add-drop ring with field coupling 0.5 at both couplers, lossless couplers, 2 dB/cm propagation loss'
+  basis: simulated
+  locator: p.5-6 Sec. 3
+  notes: 'printed around 4000 (bandwidth ~50 GHz); one model calculation for the three identically designed rings (design field coupling 0.5 for all three, Table 1); calculation wavelength not stated, rings designed for the window around 1550 nm (p.4); measured Q ~3000-4000 stated for the three rings together (p.9) not entered'
+  why: miss, as mrr_drop_te0-m11

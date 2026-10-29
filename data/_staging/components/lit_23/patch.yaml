@@ -1,0 +1,152 @@
+# Audit patch lit_23 (fresh-context audit 2026-10-29, DevLog/audits/2026-10-29-lit_23-audit.md).
+# 152 metrics: 141 ok / 11 imprecise / 0 wrong; 20 components: 15 ok / 5 changed / 0 deleted; 4 misses added.
+# Not covered here (coordinator / org round): ePIXfab (teng2009 fab) and National Nanofab Center (kim2021 facility)
+# registry rows; registry gaps split_deviation_db, shape_factor, group_delay_ripple_ns, surface_roughness_nm.
+components:
+  cmp_lit_zheng2026a_ta2o5_ring_r300:
+    cladding: ''
+    notes: 'All-pass ring side-coupled to a 1.2 um bus; etch depth in the coupling region shallower than elsewhere (values
+      not stated). AFM rms surface roughness 0.46 nm (p.5, Fig. 2(c); the introduction p.3 prints 0.47 nm) not entered (no
+      registry parameter). The 8.7 um bus-ring gap appears only in the coupling-region simulation (p.6, Fig. 2(d)); not entered
+      as the device gap. Near-critical coupling with a normalized transmission TF of 95% (p.7) not entered (inconsistent with
+      the ~0.09 dip of Fig. 4(b)). Fab empty: fabrication described passively / as "we" with authors split over East China
+      Normal University and SIOM-CAS (not unambiguous). Cladding not stated (no cladding step in the Fig. 1 flow; field left
+      empty).'
+    why: 'skill step 3: cladding only if stated; p.4-5 Sec. 2 and Fig. 1 describe no upper cladding and the text never says
+      air-clad'
+  cmp_lit_zheng2026a_lensed_fiber_butt:
+    cladding: ''
+    notes: 'Input coupling of the Q-measurement setup (p.6); no facet taper stated. Fab empty: fabrication described passively
+      / as "we" with authors split over East China Normal University and SIOM-CAS (not unambiguous). Cladding not stated (field
+      left empty).'
+    why: 'skill step 3: cladding only if stated (p.4-6 Sec. 2: no cladding mentioned)'
+  cmp_lit_teng2009_ring_w350_air:
+    notes: 'Same chip as the polymer-clad row, measured before the PSQ-LH overlay. Racetrack add-drop ring: R 15 um, coupling
+      length 2 um, gap 180 nm, width 350 nm (p.4-5; Fig. 3 SEM). TE only (shallow-etched 70 nm grating couplers). 300 nm wide
+      rings were also designed on the mask but no results are given. Fab: acknowledgement states the SOI circuits were fabricated
+      by CEA-LETI through ePIXfab (p.7); ePIXfab (MPW access provider) is also a fab org under D83d / D398 but is not in the
+      registry: add it to fab_org_ids after the org round.'
+    why: 'p.7 Acknowledgements: fabrication done by CEA-LETI through ePIXfab; D83d / D398: an MPW access provider is a fab
+      role'
+  cmp_lit_teng2009_ring_w350_psq:
+    notes: 'Polymer overlay on the narrowed wire to cancel the Si thermo-optic shift. Racetrack add-drop ring: R 15 um, coupling
+      length 2 um, gap 180 nm, width 350 nm (p.4-5; Fig. 3 SEM). TE only (shallow-etched 70 nm grating couplers). 300 nm wide
+      rings were also designed on the mask but no results are given. Fab: acknowledgement states the SOI circuits were fabricated
+      by CEA-LETI through ePIXfab (p.7); ePIXfab (MPW access provider) is also a fab org under D83d / D398 but is not in the
+      registry: add it to fab_org_ids after the org round. Athermal 350 nm MZIs mentioned without numbers (p.7).'
+    why: 'p.7 Acknowledgements: fabrication done by CEA-LETI through ePIXfab; D83d / D398'
+  cmp_lit_lin2026_wdm_oh_8ch:
+    notes: 'Two inputs (signal, LO), 32 outputs (4 hybrid outputs x 8 wavelengths); the four lattice filters are one design
+      (all-passive, no trimming); optical paths length-matched (p.4-5). Packaged with SMF arrays and wire bonds. System-level
+      results (SFDR 80.8 dB Hz^2/3, IMRR 33.26 dB, 1.024 Tb/s, BERs) not component metrics. The 1x2 / 2x2 MMIs have only simulated
+      IL / imbalance variations (< 0.3 dB C-band, < 0.5 dB over 100 nm; p.5 Fig. 1(c)): not entered (variation over wavelength
+      has no splitter parameter). Fabricated from a Multi-Project Wafer run provided by Applied Nanotools Inc. (p.5). SJTU-Pinghu
+      Institute of Intelligent Optoelectronics thanked for assistance with the chip packaging (p.17 Acknowledgments): a packaging
+      service, not fabrication of this component and not a shared facility; not entered.'
+    why: 'p.17 Acknowledgments: packaging assistance recorded so the org round sees it; rule 12 / D80c facility basis not
+      met'
+metrics:
+  cmp_lit_taddei2019_crow_ring1_notch-m2:
+    basis: author_estimate
+    notes: printed about 100; corresponds to the design FSR 1.4 GHz (p.3 'designed for a FSR of 1.4 GHz', not a measured FSR)
+      divided by the measured 14 MHz FWHM
+    why: 'skill rule 4: a result resting on a nominal / design input is author_estimate; p.4 Sec. III finesse ~100 follows
+      from the 14 MHz FWHM and the design FSR (p.3 Sec. III); no measured FSR is printed'
+  cmp_lit_zheng2026a_ta2o5_ring_r300-m2:
+    condition: Qi = 2 QL / (1 + sqrt(TF)) as printed, with the paper's TF = 95%
+    notes: 'authors computed from the measured QL and TF (under-coupled branch assumed implicitly); resonance wavelength read
+      from the zoom box of Fig. 4(a) (about 1552.4 nm), not stated in text. Arithmetic check: the printed Qi 4.47e6 is reproduced
+      with sqrt(0.05) (transmission minimum 5%, i.e. 1 - 95%), not with sqrt(0.95) (which gives 2.78e6); value kept as printed'
+    why: 'p.7 Sec. 3: formula and TF = 95% as printed; 2 x 2.74e6 / (1 + sqrt(0.05)) = 4.48e6, so the condition text alone
+      would mislead a reader recomputing Qi'
+  cmp_lit_zheng2026a_lensed_fiber_butt-m1:
+    wavelength_inferred: 'true'
+    notes: 'printed ~13%; method of isolating one facet not stated (D167); no wavelength stated with the value: range is the
+      laser scan range of the measurement (p.6)'
+    why: 'skill rule 8 / schema: wavelength not stated with the value (p.6 Sec. 2 gives only the laser scan range), so wavelength_inferred
+      true'
+  cmp_lit_frellsen2016_to_mux_3mode-m1:
+    notes: printed lowest loss around 1.7 dB; whether halved per device is not stated (two-mode values were halved); wavelength
+      of the minimum not stated (1520-1620 nm source); Fig. 6(b) middle-middle path normalized loss is about 1-2 dB at its
+      best, consistent with 1.7 dB being the unhalved mirrored-pair value (reading, not stated); scope kept unspecified
+    why: 'p.7 Sec. 4 / p.8 Fig. 6(b): halving is stated only for the two-mode device (p.5, p.7); the figure supports the cascade
+      reading, recorded for the coordinator without changing the scope'
+  cmp_lit_tian2018_css_mmi_s33-m1:
+    notes: device designation from the measured S (Fig. 6(c)); measurement wavelength not stated, band from the C-band broadband
+      test; polarization TE from the design / simulation (p.6), not restated for the measurement
+    why: 'p.6 Sec. 2.3: TE stated only for the simulations; p.7-8 Sec. 3 (SSC + lensed fiber, ASE source) states no polarization
+      for the measurement; same note as the excess-loss rows of these devices'
+  cmp_lit_tian2018_css_mmi_s50-m1:
+    notes: device designation from the measured S; band from the C-band broadband test; polarization TE from the design /
+      simulation (p.6), not restated for the measurement
+    why: 'p.6 Sec. 2.3: TE stated only for the simulations; p.7-8 Sec. 3 (SSC + lensed fiber, ASE source) states no polarization
+      for the measurement; same note as the excess-loss rows of these devices'
+  cmp_lit_tian2018_css_mmi_s50-m2:
+    notes: value annotated in Fig. 7(b); text says the measured ERs agree with simulation and are steady over 1520-1570 nm;
+      polarization TE from the design / simulation (p.6), not restated for the measurement
+    why: 'p.6 Sec. 2.3: TE stated only for the simulations; p.7-8 Sec. 3 (SSC + lensed fiber, ASE source) states no polarization
+      for the measurement; same note as the excess-loss rows of these devices'
+  cmp_lit_tian2018_css_mmi_s90-m1:
+    notes: device designation from the measured S; band from the C-band broadband test; polarization TE from the design /
+      simulation (p.6), not restated for the measurement
+    why: 'p.6 Sec. 2.3: TE stated only for the simulations; p.7-8 Sec. 3 (SSC + lensed fiber, ASE source) states no polarization
+      for the measurement; same note as the excess-loss rows of these devices'
+  cmp_lit_tian2018_css_mmi_s90-m2:
+    notes: value annotated in Fig. 7(c); polarization TE from the design / simulation (p.6), not restated for the measurement
+    why: 'p.6 Sec. 2.3: TE stated only for the simulations; p.7-8 Sec. 3 (SSC + lensed fiber, ASE source) states no polarization
+      for the measurement; same note as the excess-loss rows of these devices'
+  cmp_lit_tian2018_css_mmi_family-m1:
+    notes: 'printed 25% to 90% (abstract: ratios 1:0.67:1 to 1:18:1); band from the C-band test; polarization TE from the
+      design / simulation (p.6), not restated for the measurement'
+    why: 'p.6 Sec. 2.3: TE stated only for the simulations; p.7-8 Sec. 3 (SSC + lensed fiber, ASE source) states no polarization
+      for the measurement; same note as the excess-loss rows of these devices'
+  cmp_lit_tian2018_css_mmi_family-m2:
+    notes: printed lowest insertion loss around 0.2 dB at 1550 nm; device not identified; polarization TE from the design
+      / simulation (p.6), not restated for the measurement
+    why: 'p.6 Sec. 2.3: TE stated only for the simulations; p.7-8 Sec. 3 (SSC + lensed fiber, ASE source) states no polarization
+      for the measurement; same note as the excess-loss rows of these devices'
+add_metrics:
+- metric_id: cmp_lit_kim2021_adiabatic_3db_coupler-m15
+  component_id: cmp_lit_kim2021_adiabatic_3db_coupler
+  parameter: gap_nm
+  value: '1500'
+  unit: nm
+  condition: S-bend outer gap (Region 1 start, Region 5 end)
+  basis: derived
+  locator: p.2 Sec. II
+  notes: printed 1.5 um (design); um -> nm (D157)
+  why: 'miss (D153 layout geometry): p.2 Sec. II states the Region 1 / 5 S-bend gaps vary from 1.5 um'
+- metric_id: cmp_lit_kim2021_adiabatic_3db_coupler-m16
+  component_id: cmp_lit_kim2021_adiabatic_3db_coupler
+  parameter: taper_length_um
+  value: '16'
+  unit: um
+  condition: 'Region 3: WG1 width taper 550 -> 400 nm at a fixed 200 nm gap (Region 2 gap taper 7.2 um)'
+  basis: design_target
+  locator: p.4 Sec. II
+  notes: printed 16 um
+  why: 'miss (D153 layout geometry): p.4 Sec. II states the Region 2 / 3 lengths 7.2 / 16 um; taper_length_um allowed for
+    splitter'
+- metric_id: cmp_lit_taddei2019_crow8_bandpass-m10
+  component_id: cmp_lit_taddei2019_crow8_bandpass
+  parameter: footprint_um2
+  value: '1925000000'
+  unit: um2
+  condition: fabricated chip 55 mm x 35 mm holding the eight wound-in rings
+  basis: derived
+  locator: p.3 Fig. 4 caption
+  notes: printed 55 mm x 35 mm chip; area 1925 mm2 converted to um2 (D82d)
+  why: 'miss: p.3 Fig. 4 caption states the size of the fabricated filter chip; footprint_um2 is allowed for all classes (lin2026
+    chip footprint entered the same way in this batch)'
+- metric_id: cmp_lit_tian2018_css_mmi_family-m13
+  component_id: cmp_lit_tian2018_css_mmi_family
+  parameter: footprint_um2
+  value: '225'
+  unit: um2
+  qualifier: lt
+  condition: below 15 um x 15 um, stated for this kind of device (all CSS-MMI designs)
+  basis: derived
+  locator: p.2 Abstract; p.3 Sec. 1
+  notes: printed below 15 um x 15 um; 15 x 15 = 225 um2
+  why: 'miss: p.2 Abstract and p.3 state the footprint bound for the device type; entered once on the family row (D165), not
+    on the three selected devices'

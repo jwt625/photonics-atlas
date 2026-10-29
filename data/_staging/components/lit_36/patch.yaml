@@ -1,0 +1,142 @@
+# Audit patch lit_36 (fresh-context audit 2026-10-29, DevLog/audits/2026-10-29-lit_36-audit.md).
+# 211 metrics: 186 ok / 21 imprecise / 4 wrong (deleted); 33 components: 27 ok / 6 notes changed / 0 deleted; 2 misses added.
+# Not covered here (coordinator decisions, see the audit file): University of Glasgow registry org (gallacher2018 borderline
+# fab, D84b), registry gaps.
+components:
+  cmp_lit_jiang2020_zipper_l15_tether:
+    notes: 'Device of Fig. 2(b)-(d), Fig. 3 and Fig. 17 (four L = 15 um nanobenders attached through narrow tethers per the Fig. 2(b) caption; Fig. 3c and Fig. 17 state the same device as Fig. 2). Read in reflection via a reflector-terminated coupling waveguide (side-coupled active and control cavities). As printed (arXiv v1): the Fig. 2(e) tethered points near L = 15 um lie at about 2 nm/V, none near the 5 nm/V of this device (figure reading). fab: author contributions state W.J. and F.M.M. designed and fabricated the devices (both Stanford, p.9); facility: acknowledgements, device fabrication performed at SNSF and SNF (p.9). Not entered: mechanical Q about 20 (air damped; no parameter), mechanical resonances near 1 MHz (mech_resonance_khz not allowed for resonator), Vpi = kappa/(2 alpha_ac) about 1 mV (author computed, v_pi_v not allowed for resonator), 0.6 THz/V (same quantity as 5 nm/V), Fig. 2e tuning coefficients of >40 devices vs L (plot only).'
+    why: 'p.4 Fig. 2(b) caption says tethered; p.4 Fig. 2(e) render: tethered (triangle) points at L = 15 um are about 1.6-2 nm/V, only an untethered point (L = 18 um) reaches about 5.5 nm/V; inconsistency recorded, values unchanged'
+  cmp_lit_lischke2021a_ge100_10:
+    notes: 'fab: author contributions, S.L. (IHP) designed and fabricated the photodiodes (p.9); fabrication entirely on IHP''s 8-inch BiCMOS pilot line (p.2, p.6). IHP''s own cleanroom is not a shared facility. Not entered: calculated fRC / fTT / f3dB (Table 1, model with assumed saturation velocity); bandwidth-efficiency product (registry gap); 1-dB bandwidths >60 GHz at -0.25 V and >67 GHz up to 3.2 mA photocurrent (no 1-dB PD bandwidth parameter); ''no saturation up to 2.5 mA at 8 dBm at the fibre tip'' (p.4; device not tied: Fig. 4c and 4d show both diodes); zero-bias ''>65 GHz'' summary (p.1, p.5; the p.3 statement >70 GHz at zero bias is entered); dark currents up to 125 C (Supplementary Fig. 2, not cached). Fig. 2(f) series-resistance range 8.3-9.2 ohm is printed jointly for both diodes and three chips (not per diode, D159); the per-diode value is taken from Table 1.'
+    why: 'p.9 Author contributions (not p.2 / p.6); p.3 Fig. 2(f) label is one range for both diodes, see the series_resistance_ohm ops'
+  cmp_lit_lischke2021a_ge150_10:
+    notes: 'fab: author contributions, S.L. (IHP) designed and fabricated the photodiodes (p.9); fabrication entirely on IHP''s 8-inch BiCMOS pilot line (p.2, p.6). IHP''s own cleanroom is not a shared facility. Not entered: calculated fRC / fTT / f3dB (Table 1, model with assumed saturation velocity); bandwidth-efficiency product (registry gap); 1-dB bandwidths >60 GHz at -0.25 V and >67 GHz up to 3.2 mA photocurrent (no 1-dB PD bandwidth parameter); ''no saturation up to 2.5 mA at 8 dBm at the fibre tip'' (p.4; device not tied: Fig. 4c and 4d show both diodes); zero-bias ''>65 GHz'' summary (p.1, p.5; the p.3 statement >70 GHz at zero bias is entered); dark currents up to 125 C (Supplementary Fig. 2, not cached). Fig. 2(f) series-resistance range 8.3-9.2 ohm is printed jointly for both diodes and three chips (not per diode, D159); the per-diode value is taken from Table 1.'
+    why: as cmp_lit_lischke2021a_ge100_10
+  cmp_lit_lischke2021a_gc_1d_uniform:
+    notes: 'fab: author contributions, S.L. (IHP) designed and fabricated the photodiodes (p.9); fabrication entirely on IHP''s 8-inch BiCMOS pilot line, GCs patterned in the same flow (p.2, p.6, p.8 Methods). IHP''s own cleanroom is not a shared facility. Test structure: two GCs joined by a short waveguide, measured on six chips (Fig. 4(b)). Peak not at 1550 nm (lower loss expected after optimization, p.4).'
+    why: 'p.9 Author contributions; p.8 Methods: uniform 1D grating couplers realized with a second DUV lithography in the same process'
+  cmp_lit_wilmart2020_gc_oband:
+    notes: 'fab: the fabrication took place in the 200 mm CMOS-compatible pilot line of CEA-LETI (p.1 Sec. II). Paper states GC performance unchanged by the anneal. Not entered (D159): insertion loss ~2 dB and 1-dB bandwidth ~20 nm are printed once for ''the grating fiber coupler'' without saying they hold for both the O- and C-band designs (p.4 Sec. V). GC geometry not stated.'
+    why: 'p.4 Sec. V: IL / bandwidth printed once, singular, after the per-band center wavelengths; the text does not state the values hold for each design (D159 / D254), see delete_metrics'
+  cmp_lit_wilmart2020_gc_cband:
+    notes: 'fab: the fabrication took place in the 200 mm CMOS-compatible pilot line of CEA-LETI (p.1 Sec. II). Paper states GC performance unchanged by the anneal. Not entered (D159): insertion loss ~2 dB and 1-dB bandwidth ~20 nm are printed once for ''the grating fiber coupler'' without saying they hold for both the O- and C-band designs (p.4 Sec. V). GC geometry not stated.'
+    why: as cmp_lit_wilmart2020_gc_oband
+metrics:
+  cmp_lit_jiang2020_zipper_l15_tether-m2:
+    condition: AC tuning coefficient on mechanical resonance (text 'close to 1 MHz'; largest Fig. 3(e) peak at about 0.75 MHz, figure reading), Vac 50 mV, in air
+    why: 'p.6 Fig. 3(e) render: the ~47 nm/V peak sits at about 0.75 MHz (the 750 kHz resonance of Fig. 17), not at 1 MHz; condition now says which peak'
+  cmp_lit_hu2021a_sin_coupled_ge_pd-m1:
+    basis: author_estimate
+    notes: 'printed as evaluated to be approximately 0.61 A/W (abstract: calculated); rests on the cited SSC coupling loss 2.5 dB/facet (ref. [29]) subtracted from the input power (skill rule 4)'
+    why: 'p.2: the -2.5 dB/facet SSC loss is cited to ref. [29] and subtracted in the responsivity analysis; a result resting on a cited input is author_estimate (skill rule 4)'
+  cmp_lit_hu2021a_sin_coupled_ge_pd-m2:
+    basis: author_estimate
+    notes: 'printed as maximum responsivity about 0.9 A/W at 1480 and 1485 nm (abstract: 1485 nm); same de-embedding with the cited SSC loss (ref. [29]) as at 1550 nm (skill rule 4)'
+    why: as m1 (p.2, p.3 Fig. 5(a))
+  cmp_lit_liao2011_ge_pd_type_a-m1:
+    basis: author_estimate
+    notes: 'responsivity estimated by the authors (p.4 ''estimated'') from ~60 uW calculated power at the Ge detector (measured / calculated facet coupling and Si propagation loss, nominal 1% (20 dB) tap ratio) with ~1 mW laser power; rests on a nominal input (skill rule 4)'
+    why: 'p.4 Sec. 2: detector power is calculated with the nominal 1% tap ratio and calculated coupling / propagation losses; a result resting on a nominal input is author_estimate (skill rule 4), not derived'
+  cmp_lit_liao2011_ge_pd_type_a-m2:
+    basis: author_estimate
+    notes: 'average over 1520-1570 nm; same calibration as at 1550 nm (calculated detector power with the nominal 1% tap ratio, skill rule 4); conclusion (p.6) prints 1520-1550 nm'
+    why: as type_a-m1 (p.4-5 Sec. 2)
+  cmp_lit_liao2011_ge_pd_type_a-m3:
+    basis: author_estimate
+    notes: 'same calibration as at 1550 nm (calculated detector power with the nominal 1% tap ratio, skill rule 4)'
+    why: as type_a-m1 (p.5 Sec. 2)
+  cmp_lit_liao2011_ge_pd_type_b-m1:
+    basis: author_estimate
+    notes: 'responsivity estimated by the authors (p.4 ''estimated'') from ~60 uW calculated power at the Ge detector (measured / calculated facet coupling and Si propagation loss, nominal 1% (20 dB) tap ratio) with ~1 mW laser power; rests on a nominal input (skill rule 4)'
+    why: as type_a-m1 (p.4 Sec. 2)
+  cmp_lit_liao2011_ge_pd_type_b-m2:
+    basis: author_estimate
+    notes: 'same calibration as at 1550 nm (calculated detector power with the nominal 1% tap ratio, skill rule 4)'
+    why: as type_a-m1 (p.5 Sec. 2)
+  cmp_lit_liao2011_ge_pd_type_b-m3:
+    basis: author_estimate
+    notes: 'same calibration as at 1550 nm (calculated detector power with the nominal 1% tap ratio, skill rule 4)'
+    why: as type_a-m1 (p.5 Sec. 2)
+  cmp_lit_lischke2021a_ge100_10-m5:
+    value: '9'
+    value_max: ''
+    statistic: ''
+    condition: series resistance from forward-bias I-V linear fits (three chips); Table 1 R = 59 ohm includes the 50-ohm load of the set-up
+    basis: derived
+    locator: p.4 Table 1; p.3 Fig. 2(f); p.4
+    notes: 'Table 1 R 59 ohm minus the 50-ohm load (Table 1 footnote); Fig. 2(f) prints one range 8.3-9.2 ohm for both diodes jointly, not per diode (D159)'
+    why: 'p.3 Fig. 2(f) render: a single label ''R (1/m) = 8.3-9.2 ohm'' for the Ge100_10 and Ge150_10 fits together, so the range endpoints are not tied to a diode (D159); p.4 Table 1 gives R = 59 ohm for each diode including the 50-ohm load'
+  cmp_lit_lischke2021a_ge150_10-m4:
+    value: '9'
+    value_max: ''
+    statistic: ''
+    condition: series resistance from forward-bias I-V linear fits (three chips); Table 1 R = 59 ohm includes the 50-ohm load of the set-up
+    basis: derived
+    locator: p.4 Table 1; p.3 Fig. 2(f); p.4
+    notes: 'Table 1 R 59 ohm minus the 50-ohm load (Table 1 footnote); Fig. 2(f) prints one range 8.3-9.2 ohm for both diodes jointly, not per diode (D159)'
+    why: as ge100_10-m5
+  cmp_lit_lischke2021a_ge100_10-m6:
+    locator: p.4 Sec. Optical performance; p.4 Table 1; p.5 Fig. 4(c)-(d); p.8 Methods
+    why: 'Methods (D.c. optical measurements) are on p.8 of text.md, not p.7'
+  cmp_lit_lischke2021a_ge100_10-m15:
+    locator: p.8 Methods
+    why: 'Methods (Fabrication: 220 nm top Si, 2 um BOX) are on p.8 of text.md'
+  cmp_lit_lischke2021a_ge100_10-m16:
+    locator: p.8 Methods
+    why: as m15
+  cmp_lit_lischke2021a_ge150_10-m5:
+    locator: p.4 Sec. Optical performance; p.4 Table 1; p.5 Fig. 4(c)-(d); p.8 Methods
+    why: as ge100_10-m6
+  cmp_lit_lischke2021a_ge150_10-m14:
+    locator: p.8 Methods
+    why: as ge100_10-m15
+  cmp_lit_lischke2021a_ge150_10-m15:
+    locator: p.8 Methods
+    why: as ge100_10-m15
+  cmp_lit_lischke2021a_gc_1d_uniform-m3:
+    locator: p.8 Methods
+    why: as ge100_10-m15
+  cmp_lit_lischke2021a_gc_1d_uniform-m4:
+    locator: p.8 Methods
+    why: as ge100_10-m15
+  cmp_lit_gallacher2018_ge_rib_4um-m3:
+    statistic: best
+    why: 'p.5 Sec. 4 ''as low as ~1 dB/cm'' -> statistic best (skill rule 7)'
+  cmp_lit_desiatov2019_edge_coupler-m1:
+    band: ''
+    wavelength_nm: '634'
+    wavelength_max_nm: '850'
+    wavelength_inferred: 'true'
+    notes: 'printed as typical fiber to chip coupling loss ~6-10 dB per facet; wavelength not stated with the value, span inferred from the measurement ranges 634-638 and 720-850 nm (p.2), which are not all in the visible band'
+    why: 'p.2 Sec. II: devices characterized at 634-638 nm and 720-850 nm; band visible does not cover 720-850 nm, so the inferred span replaces the band'
+delete_metrics:
+  - id: cmp_lit_wilmart2020_gc_oband-m2
+    why: 'p.4 Sec. V: ''the grating fiber coupler insertion loss (~2 dB)'' printed once, singular, not stated to hold for both the O- and C-band GC designs; D159 / D254, value kept in component notes'
+  - id: cmp_lit_wilmart2020_gc_oband-m3
+    why: 'p.4 Sec. V: bandwidth ~20 nm at -1 dB printed once for ''the grating fiber coupler''; D159 / D254, as m2'
+  - id: cmp_lit_wilmart2020_gc_cband-m2
+    why: as cmp_lit_wilmart2020_gc_oband-m2
+  - id: cmp_lit_wilmart2020_gc_cband-m3
+    why: as cmp_lit_wilmart2020_gc_oband-m3
+add_metrics:
+  - metric_id: cmp_lit_jiang2020_zipper_l15_tether-m9
+    component_id: cmp_lit_jiang2020_zipper_l15_tether
+    parameter: n_periods
+    value: '8'
+    unit: count
+    condition: mirror cells on each side of the cavity; 12 transition cells (cubic interpolation) between the defect cell and the mirror cells
+    basis: design_target
+    locator: p.18 App. B; p.19 App. B
+    notes: zipper-cavity design of Appendix B (same design as period_nm m7)
+    why: 'miss (D153 geometry): p.18-19 App. B states 8 mirror cells per side and 12 transition cells; n_periods allowed for resonator'
+  - metric_id: cmp_lit_desiatov2019_pulley_ring-m15
+    component_id: cmp_lit_desiatov2019_pulley_ring
+    parameter: radius_um
+    value: '50'
+    unit: um
+    qualifier: gt
+    condition: stated for the authors' microrings (radius of the representative ring not stated)
+    basis: design_target
+    locator: p.3 Sec. II
+    notes: printed as microrings with large radii of more than 50 micron; Fig. 2 SEM shows a 100 um radius ring not tied to the Fig. 3 device
+    why: 'miss (D153 geometry): p.3 states the radii of the microrings are more than 50 um'

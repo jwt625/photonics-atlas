@@ -1,0 +1,164 @@
+metric_id,component_id,parameter,value,value_max,unit,qualifier,statistic,n_samples,wavelength_nm,wavelength_max_nm,band,wavelength_inferred,polarization,mode,temperature_k,bias_v,ref_plane,scope,includes,excludes,condition,method,basis,locator,notes
+cmp_lit_dana2024_pl_6mode-m1,cmp_lit_dana2024_pl_6mode,insertion_loss_db,2.7,,dB,,mean,12,1520,1600,,,both,,,,,device_total,"MCF core-to-lantern interface, source interface, MUX, output taper","setup losses (optical switch, fan-out) removed with the bare 7-core fiber baseline","output projected onto a 1 cm2 free-space InGaAs power meter; 6 inputs x 2 polarizations, wavelength-averaged",reference_structure,measured,p.8 Sec. Output power; p.10 Fig. 10(a),printed mean -2.7 dB; Table 1 (p.2) lists typical 2.67 dB and the abstract -2.6 dB for the same measurement
+cmp_lit_dana2024_pl_6mode-m2,cmp_lit_dana2024_pl_6mode,insertion_loss_db,1.197,3.23,dB,,range,12,1520,1600,,,both,,,,,device_total,"MCF core-to-lantern interface, source interface, MUX, output taper",setup losses removed with the bare 7-core fiber baseline,per input / polarization wavelength-averaged loss to free space,reference_structure,measured,p.10 Fig. 10(a),"per-curve means annotated in Fig. 10(a): In1 (central input, no bends) 1.197 / 1.232 dB (X / Y), worst In2 3.23 / 3.202 dB; Table 1 bound < 3.3 dB"
+cmp_lit_dana2024_pl_6mode-m3,cmp_lit_dana2024_pl_6mode,insertion_loss_db,0.9,,dB,,,,1550,,,,both,,,,,per_component,"lantern to an ideal, perfectly aligned virtual six-mode fiber",,off-axis digital holography of the output field per input / polarization; measured 12 x 12 coupling matrix projected on simulated modes of the 15 um core target fiber,direct,derived,p.8 Sec. Off axis digital holography; p.12 Discussion,"IL from the singular values of the measured coupling matrix (Eq. 2), printed -0.9 dB; MDL -4.4 dB from the same matrix not entered (registry gap)"
+cmp_lit_dana2024_pl_6mode-m4,cmp_lit_dana2024_pl_6mode,insertion_loss_db,0.8,,dB,,,,1550,,,,both,,,,,per_component,,,"full 375 um device, simulated coupling matrix to the six-mode fiber modes",,simulated,p.7 Sec. Complete device performance,printed -0.8 dB; simulated MDL -1.4 dB not entered (registry gap)
+cmp_lit_dana2024_pl_6mode-m5,cmp_lit_dana2024_pl_6mode,length_um,375,,um,,,,,,,,,,,,,,,,,,design_target,p.2; p.7,
+cmp_lit_dana2024_pl_6mode-m6,cmp_lit_dana2024_pl_6mode,n_inputs,6,,count,,,,,,,,,,,,,,,,single-mode inputs (six cores of the 7-core fiber),,design_target,p.2,
+cmp_lit_dana2024_pl_6mode-m7,cmp_lit_dana2024_pl_6mode,n_outputs,1,,count,,,,,,,,,,,,,,,,six-mode output waveguide / taper,,design_target,p.2,
+cmp_lit_dana2024_pl_6mode_fiber_butt-m1,cmp_lit_dana2024_pl_6mode_fiber_butt,insertion_loss_db,4.8,,dB,,mean,12,1520,1600,,,both,,,,,device_total,"MCF core-to-lantern interface, lantern, butt coupling to and 1 m of a higher-contrast step-index six-mode fiber (10 um core)",setup losses removed with the bare 7-core fiber baseline,"power at the distal end of the six-mode fiber; 6 inputs x 2 polarizations, wavelength-averaged",reference_structure,measured,p.10-11 Sec. Output power; p.10 Fig. 10(b); p.2 Table 1,"printed wavelength-averaged loss per mode -4.8 dB; Table 1: < 5.4 dB, typical 4.8 dB; 1.7-2.2 dB above the free-space measurement"
+cmp_lit_dana2024_pl_6mode_fiber_butt-m2,cmp_lit_dana2024_pl_6mode_fiber_butt,insertion_loss_db,2.533,5.434,dB,,range,12,1520,1600,,,both,,,,,device_total,lantern and butt coupling to the six-mode fiber,,per input / polarization wavelength-averaged loss,reference_structure,measured,p.10 Fig. 10(b),"per-curve means annotated in Fig. 10(b): In1 2.851 / 2.533 dB (X / Y), worst In2 5.182 / 5.434 dB"
+cmp_lit_dana2024_pl_6mode_fiber_butt-m3,cmp_lit_dana2024_pl_6mode_fiber_butt,n_inputs,6,,count,,,,,,,,,,,,,,,,,,design_target,p.2,
+cmp_lit_dana2024_mux_section-m1,cmp_lit_dana2024_mux_section,insertion_loss_db,0.17,,dB,,,,1550,,,,both,,,,,per_component,,,"FDTD 12 x 12 coupling matrix, single-mode inputs at the MUX input plane",,simulated,p.4 Sec. Mux design,"printed -0.17 dB (96%), equal to the IL estimator value"
+cmp_lit_dana2024_mux_section-m2,cmp_lit_dana2024_mux_section,length_um,83,,um,,,,,,,,,,,,,,,,,,design_target,p.4 Sec. Mux design,
+cmp_lit_dana2024_mux_section-m3,cmp_lit_dana2024_mux_section,n_inputs,6,,count,,,,,,,,,,,,,,,,,,design_target,p.2,
+cmp_lit_dana2024_output_taper-m1,cmp_lit_dana2024_output_taper,insertion_loss_db,0.3,,dB,,,,1550,,,,both,,,,,per_coupler,,16.8 um facet mode overlap to the six-mode fiber (m2),"taper form n = 0.8 (chosen); coupling matrix between the taper input and output modes (Fig. 6(c)), taper section only",,simulated,p.7 Sec. Polymer waveguide taper; Fig. 6(b),printed -0.3 dB (94%); the optimum n = 0.6 gives -0.2 dB but was not chosen (mass / stability)
+cmp_lit_dana2024_output_taper-m2,cmp_lit_dana2024_output_taper,insertion_loss_db,0.2,,dB,,,,1550,,,,both,,,,,per_coupler,,,16.8 um polymer waveguide facet to the 15 um core step-index six-mode fiber (mode overlap only),,simulated,p.6 Sec. Polymer waveguide taper; Fig. 5(a),printed -0.2 dB; MDL -0.5 dB not entered
+cmp_lit_dana2024_output_taper-m3,cmp_lit_dana2024_output_taper,taper_length_um,115,,um,,,,,,,,,,,,,,,,including the first 7 um at constant 2.1 um diameter,,design_target,p.6 Sec. Polymer waveguide taper,Fig. 1(a) and Fig. 6(a) label the output taper 122 um (text 115 um)
+cmp_lit_dana2024_output_taper-m4,cmp_lit_dana2024_output_taper,mfd_fiber_um,11.8,13.0,um,,range,,,,,,,,,,,,,,"target step-index six-mode fiber, 15 um core, mode-dependent field diameters",,specification,p.2 Sec. Photonic Lantern design,
+cmp_lit_dana2024_source_interface-m1,cmp_lit_dana2024_source_interface,coupling_efficiency_pct,97,,%,,,,1550,,,,,,,,,per_coupler,,,fiber core mode (6 um MFD) to the air-clad polymer waveguide fundamental mode at 8.4 um diameter,,simulated,p.5 Sec. Source interface waveguides design,
+cmp_lit_dana2024_source_interface-m2,cmp_lit_dana2024_source_interface,length_um,170,,um,,,,,,,,,,,,,,,,,,design_target,p.5 Sec. Source interface waveguides design,
+cmp_lit_dana2024_source_interface-m3,cmp_lit_dana2024_source_interface,mfd_fiber_um,6,,um,,,,,,,,,,,,,,,,single-mode cores of the 7-core fiber,,specification,p.2; p.13 Sec. Printing on a 7-core fiber,
+cmp_lit_dana2024_source_interface-m4,cmp_lit_dana2024_source_interface,pitch_um,35,,um,,,,,,,,,,,,,,,,core pitch of the 7-core fiber at the input plane,,specification,p.2; p.13 Sec. Printing on a 7-core fiber,
+cmp_lit_si2026_inv_reflector-m1,cmp_lit_si2026_inv_reflector,reflectivity_pct,96,,%,gt,mean,,1500,1600,,,te,,,,,,,,"nominal design, average over the band",,simulated,p.4 Sec. 3.1; p.5 Fig. 2(c),
+cmp_lit_si2026_inv_reflector-m2,cmp_lit_si2026_inv_reflector,reflectivity_pct,97,,%,approx,best,,1500,1600,,,te,,,,,,,,peak over the band (peak wavelength not stated),,simulated,p.4 Sec. 3.1,
+cmp_lit_si2026_inv_reflector-m3,cmp_lit_si2026_inv_reflector,reflectivity_pct,96,,%,gt,,,1500,1600,,,te,,,,,,,,"all simulated cases under +/-10 nm lateral pattern-size bias, across the band",,simulated,p.4 Sec. 3.1; p.5 Fig. 2(c),
+cmp_lit_si2026_inv_reflector-m4,cmp_lit_si2026_inv_reflector,reflectivity_pct,92,96,%,,range,,1500,1600,,,te,,,,,,,,"round-trip-loss-limited effective reflectivity from fitted intrinsic Q of the cavity resonances, ng from measured FSR (Eq. 2-3)",ring_extraction,author_estimate,p.6-7 Sec. 3.2; p.7 Fig. 4(g),printed 0.92-0.96 (fraction converted to %); lower bound on the mirror reflectivity (includes intracavity propagation loss); rests on intrinsic Q whose coupling regime is not stated (D403)
+cmp_lit_si2026_inv_reflector-m5,cmp_lit_si2026_inv_reflector,footprint_um2,4,,um2,,,,,,,,,,,,,,,,,,derived,p.1 Abstract; p.5 Sec. 3.2,printed 2 um x 2 um (design region; SEM consistent)
+cmp_lit_si2026_inv_reflector-m6,cmp_lit_si2026_inv_reflector,width_nm,650,,nm,,,,,,,,,,,,,,,,reflector port width (linear adiabatic tapers to the 500 nm cavity waveguide),,design_target,p.4 Sec. 3.1,
+cmp_lit_si2026_inv_reflector-m7,cmp_lit_si2026_inv_reflector,core_thickness_nm,220,,nm,,,,,,,,,,,,,,,,,,design_target,p.2 Sec. 2.2,
+cmp_lit_si2026_inv_reflector-m8,cmp_lit_si2026_inv_reflector,box_thickness_um,3,,um,,,,,,,,,,,,,,,,,,design_target,p.2 Sec. 2.2,
+cmp_lit_si2026_inv_reflector-m9,cmp_lit_si2026_inv_reflector,cladding_thickness_um,1.5,,um,,,,,,,,,,,,,,,,,,design_target,p.3 Sec. 2.2,
+cmp_lit_si2026_fp_cavity-m1,cmp_lit_si2026_fp_cavity,q_loaded,100000,,1,approx,,,1500,1600,,true,te,,,,,,,,"representative resonance, Lorentzian fit",,measured,p.6 Sec. 3.2; p.7 Fig. 4(f),resonance wavelength not stated; measurement window 1500-1600 nm entered
+cmp_lit_si2026_fp_cavity-m2,cmp_lit_si2026_fp_cavity,linewidth_mhz,1934.1,,MHz,,,,1500,1600,,true,te,,,,,,,,representative resonance of the Q ~1e5 fit,,measured,p.7 Fig. 4(f),value labelled in Fig. 4(f); resonance wavelength not stated
+cmp_lit_si2026_fp_cavity-m3,cmp_lit_si2026_fp_cavity,q_intrinsic,140000,,1,approx,,,1500,1600,,true,te,,,,,,,,same representative resonance,,author_estimate,p.6 Sec. 3.2,extraction model / coupling regime not stated (D403)
+cmp_lit_si2026_fp_cavity-m4,cmp_lit_si2026_fp_cavity,q_loaded,47000,154000,1,approx,range,4,1513.7,1589.7,,,te,,,,,,,,"four representative resonances at 1513.70, 1549.71, 1573.16, 1589.70 nm (fitted linewidths)",,measured,p.7-8 Sec. 3.2,
+cmp_lit_si2026_fp_cavity-m5,cmp_lit_si2026_fp_cavity,linewidth_pm,9.83,33.84,pm,,range,4,1513.7,1589.7,,,te,,,,,,,,fitted FWHM of the four representative resonances,,measured,p.7 Sec. 3.2,
+cmp_lit_si2026_fp_cavity-m6,cmp_lit_si2026_fp_cavity,fsr_nm,0.724,0.763,nm,approx,range,,,,,,,,,,,,,,representative resonances across 1500-1600 nm,,measured,p.6-7 Sec. 3.2,
+cmp_lit_si2026_fp_cavity-m7,cmp_lit_si2026_fp_cavity,finesse,22.6,74.2,1,,range,4,,,,,,,,,,,,,four representative resonances,,derived,p.7 Sec. 3.2,F = FSR / FWHM computed by the authors
+cmp_lit_si2026_fp_cavity-m8,cmp_lit_si2026_fp_cavity,group_index,3.93,4.16,1,,range,,1500,1600,,,te,,,,,,,,"from measured FSR, ng = lambda^2 / (2 L FSR), L = 400 um (Eq. 3)",,derived,p.6 Sec. 3.2,
+cmp_lit_si2026_fp_cavity-m9,cmp_lit_si2026_fp_cavity,group_index,4.15,,1,approx,,,1550,,,,te,,,,,,,,from measured FSR near 1550 nm (Eq. 3),,derived,p.6-7 Sec. 3.2,
+cmp_lit_si2026_fp_cavity-m10,cmp_lit_si2026_fp_cavity,length_um,400,,um,,,,,,,,,,,,,,,,straight cavity length between the reflectors,,design_target,p.5 Sec. 3.2,
+cmp_lit_si2026_fp_cavity-m11,cmp_lit_si2026_fp_cavity,gap_nm,100,,nm,,,,,,,,,,,,,,,,bent bus (coupling) waveguide to cavity gap,,design_target,p.4 Sec. 3.1,
+cmp_lit_si2026_fp_cavity-m12,cmp_lit_si2026_fp_cavity,width_nm,500,,nm,,,,,,,,,,,,,,,,cavity / feeding waveguide width,,design_target,p.3-4 Sec. 3.1,
+cmp_lit_si2026_fp_cavity-m13,cmp_lit_si2026_fp_cavity,core_thickness_nm,220,,nm,,,,,,,,,,,,,,,,,,design_target,p.2 Sec. 2.2,
+cmp_lit_si2026_fp_cavity-m14,cmp_lit_si2026_fp_cavity,box_thickness_um,3,,um,,,,,,,,,,,,,,,,,,design_target,p.2 Sec. 2.2,
+cmp_lit_si2026_fp_cavity-m15,cmp_lit_si2026_fp_cavity,cladding_thickness_um,1.5,,um,,,,,,,,,,,,,,,,,,design_target,p.3 Sec. 2.2,
+cmp_lit_simard2015_mzi_ibg_uniform-m1,cmp_lit_simard2015_mzi_ibg_uniform,kappa_per_cm,28.5,,1/cm,approx,,,,,,,,,,,,,,,from the depth of the transmission notch at port 4 and the grating length,,derived,p.8 Sec. 3; p.9 Fig. 3(c),"printed ~2850 /m, converted to 1/cm; model extraction (D80a)"
+cmp_lit_simard2015_mzi_ibg_uniform-m2,cmp_lit_simard2015_mzi_ibg_uniform,period_nm,276,,nm,,,,,,,,,,,,,,,,,,design_target,p.8 Sec. 3,
+cmp_lit_simard2015_mzi_ibg_uniform-m3,cmp_lit_simard2015_mzi_ibg_uniform,length_um,720,,um,,,,,,,,,,,,,,,,grating length,,design_target,p.8 Sec. 3,
+cmp_lit_simard2015_mzi_ibg_uniform-m4,cmp_lit_simard2015_mzi_ibg_uniform,width_nm,1500,,nm,,,,,,,,,,,,,,,,multimode grating waveguide,,derived,p.8 Sec. 2.4 and Sec. 3,printed 1.5 um
+cmp_lit_simard2015_mzi_ibg_uniform-m5,cmp_lit_simard2015_mzi_ibg_uniform,core_thickness_nm,220,,nm,,,,,,,,,,,,,,,,,,design_target,p.8 Sec. 2.4,
+cmp_lit_simard2015_mzi_ibg_uniform-m6,cmp_lit_simard2015_mzi_ibg_uniform,box_thickness_um,2,,um,,,,,,,,,,,,,,,,,,design_target,p.8 Sec. 2.4,
+cmp_lit_simard2015_mzi_ibg_square-m1,cmp_lit_simard2015_mzi_ibg_square,bw_3db_nm,4,,nm,,,,,,c_band,true,,,,,,,,,"reflection port (port 2), flat-top passband",,measured,p.12 Sec. 4; p.13 Fig. 8(a),wavelength not stated in the text; Fig. 8 axis spans about 1536-1552 nm
+cmp_lit_simard2015_mzi_ibg_square-m2,cmp_lit_simard2015_mzi_ibg_square,slsr_db,15,,dB,gt,,,,,c_band,true,,,,,,,,,reflection port (port 2),,measured,p.12 Sec. 4; p.13 Fig. 8(a),printed better than 15 dB; wavelength from Fig. 8 axis
+cmp_lit_simard2015_mzi_ibg_square-m3,cmp_lit_simard2015_mzi_ibg_square,length_um,1500,,um,,,,,,,,,,,,,,,,grating length,,derived,p.12 Sec. 4,printed 1.5 mm
+cmp_lit_simard2015_mzi_ibg_square-m4,cmp_lit_simard2015_mzi_ibg_square,width_nm,1000,,nm,,,,,,,,,,,,,,,,multimode grating waveguide,,derived,p.8 Sec. 2.4; p.12 Sec. 4,printed 1 um
+cmp_lit_simard2015_mzi_ibg_square-m5,cmp_lit_simard2015_mzi_ibg_square,core_thickness_nm,220,,nm,,,,,,,,,,,,,,,,,,design_target,p.8 Sec. 2.4,
+cmp_lit_simard2015_mzi_ibg_square-m6,cmp_lit_simard2015_mzi_ibg_square,box_thickness_um,2,,um,,,,,,,,,,,,,,,,,,design_target,p.8 Sec. 2.4,
+cmp_lit_simard2015_mmi_2x2-m1,cmp_lit_simard2015_mmi_2x2,excess_loss_db,0.1,,dB,,,,,,c_band,true,,,,,,per_component,,,"designed MMI, mode solver plus in-house propagation",,simulated,p.8 Sec. 2.4,"printed simulated total loss 0.1 dB, stated once for the designed MMIs (both access widths); wavelength not stated, devices operate near 1544 nm (Fig. 3, 8)"
+cmp_lit_simard2015_mmi_2x2-m2,cmp_lit_simard2015_mmi_2x2,mmi_width_um,5,,um,,,,,,,,,,,,,,,,,,design_target,p.8 Sec. 2.4,
+cmp_lit_simard2015_mmi_2x2-m3,cmp_lit_simard2015_mmi_2x2,mmi_length_um,90,,um,,,,,,,,,,,,,,,,,,design_target,p.8 Sec. 2.4,
+cmp_lit_simard2015_mmi_2x2-m4,cmp_lit_simard2015_mmi_2x2,port_width_um,1.5,,um,,,,,,,,,,,,,,,,uniform and phase-shifted MZI-IBGs (Sec. 3),,design_target,p.8 Sec. 2.4,
+cmp_lit_simard2015_mmi_2x2-m6,cmp_lit_simard2015_mmi_2x2,taper_length_um,100,,um,,,,,,,,,,,,,,,,linear adiabatic input / output tapers from the single-mode routing waveguide,,design_target,p.8 Sec. 2.4,
+cmp_lit_simard2015_mmi_2x2-m7,cmp_lit_simard2015_mmi_2x2,n_inputs,2,,count,,,,,,,,,,,,,,,,,,design_target,p.8 Sec. 2.4,
+cmp_lit_simard2015_mmi_2x2-m8,cmp_lit_simard2015_mmi_2x2,n_outputs,2,,count,,,,,,,,,,,,,,,,,,design_target,p.8 Sec. 2.4,
+cmp_lit_simard2015_mmi_2x2-m9,cmp_lit_simard2015_mmi_2x2,core_thickness_nm,220,,nm,,,,,,,,,,,,,,,,,,design_target,p.8 Sec. 2.4,
+cmp_lit_simard2015_mmi_2x2-m10,cmp_lit_simard2015_mmi_2x2,box_thickness_um,2,,um,,,,,,,,,,,,,,,,,,design_target,p.8 Sec. 2.4,
+cmp_lit_ding2026_mc1_racetrack-m1,cmp_lit_ding2026_mc1_racetrack,q_intrinsic,5400000,,1,,best,,1550,,,,tm,TM00,,,,,,,Lorentzian fit,,author_estimate,p.2 Fig. 1(d); p.3,intrinsic Q labelled in Fig. 1 assuming under-coupling (caption): author_estimate (D403); highest intrinsic Q of the samples
+cmp_lit_ding2026_mc1_racetrack-m2,cmp_lit_ding2026_mc1_racetrack,q_loaded,2800000,,1,,,,1550,,,,tm,TM00,,,,,,,same resonance as the 5.4e6 intrinsic Q,,measured,p.2 Fig. 1(d),
+cmp_lit_ding2026_mc1_racetrack-m3,cmp_lit_ding2026_mc1_racetrack,q_intrinsic,4600000,,1,,best,,1550,,,,te,TE00,,,,,,,,,author_estimate,p.2 Fig. 1(d); p.3,intrinsic Q labelled in Fig. 1 assuming under-coupling (caption): author_estimate (D403); highest TE00 value of this resonator
+cmp_lit_ding2026_mc1_racetrack-m4,cmp_lit_ding2026_mc1_racetrack,q_loaded,2700000,,1,,,,1550,,,,te,TE00,,,,,,,,,measured,p.2 Fig. 1(d),
+cmp_lit_ding2026_mc1_racetrack-m5,cmp_lit_ding2026_mc1_racetrack,fsr_ghz,17,,GHz,,,,,,,,,,,,,,,,,,measured,p.3,
+cmp_lit_ding2026_mc1_racetrack-m6,cmp_lit_ding2026_mc1_racetrack,width_nm,3500,,nm,,,,,,,,,,,,,,,,resonator waveguide (uniform),,derived,p.3,printed 3.5 um
+cmp_lit_ding2026_mc1_racetrack-m7,cmp_lit_ding2026_mc1_racetrack,bus_width_nm,1100,,nm,,,,,,,,,,,,,,,,,,derived,p.3,printed 1.1 um
+cmp_lit_ding2026_mc1_racetrack-m8,cmp_lit_ding2026_mc1_racetrack,gap_nm,500,,nm,,,,,,,,,,,,,,,,bus-resonator coupling gap,,design_target,p.3,
+cmp_lit_ding2026_mc1_racetrack-m9,cmp_lit_ding2026_mc1_racetrack,length_um,3900,,um,,,,,,,,,,,,,,,,end-to-end racetrack length as labelled,,derived,p.2 Fig. 1(b),Fig. 1(b) label 3.9 mm
+cmp_lit_ding2026_mc1_racetrack-m10,cmp_lit_ding2026_mc1_racetrack,cladding_thickness_um,2,,um,,,,,,,,,,,,,,,,,,design_target,p.7 Methods,
+cmp_lit_ding2026_mc2_ring-m1,cmp_lit_ding2026_mc2_ring,q_intrinsic,4800000,,1,,best,,1550,,,,te,TE00,,,,,,,,,author_estimate,p.2 Fig. 1(e); p.3,intrinsic Q labelled in Fig. 1 assuming under-coupling (caption): author_estimate (D403); p.5 places a 4.8e6 mode of this resonator at 1572 nm
+cmp_lit_ding2026_mc2_ring-m2,cmp_lit_ding2026_mc2_ring,q_loaded,2800000,,1,,,,1550,,,,te,TE00,,,,,,,,,measured,p.2 Fig. 1(e),
+cmp_lit_ding2026_mc2_ring-m3,cmp_lit_ding2026_mc2_ring,q_intrinsic,4700000,,1,,best,,1550,,,,tm,TM00,,,,,,,,,author_estimate,p.2 Fig. 1(e); p.3,intrinsic Q labelled in Fig. 1 assuming under-coupling (caption): author_estimate (D403)
+cmp_lit_ding2026_mc2_ring-m4,cmp_lit_ding2026_mc2_ring,q_loaded,2700000,,1,,,,1550,,,,tm,TM00,,,,,,,,,measured,p.2 Fig. 1(e),
+cmp_lit_ding2026_mc2_ring-m5,cmp_lit_ding2026_mc2_ring,q_loaded,3500000,,1,,,,1566.1,,,,,,,,,,,,pumped hybridized mode of the soliton experiment,,measured,p.5,"printed as a Q-factor of 3.5e6 for the pumped mode without loaded / intrinsic qualifier (details in Supplementary Sec. 2, not cached); skill rule: an unqualified Q goes to q_loaded with a note. The next sentence compares it with a 4.8e6 mode at 1572 nm (Fig. 1(e) labels a 4.8e6 intrinsic Q for this resonator); the text does not label the 3.5e6 itself"
+cmp_lit_ding2026_mc2_ring-m6,cmp_lit_ding2026_mc2_ring,fsr_ghz,113,,GHz,,,,,,,,,,,,,,,,,,measured,p.3; p.4,
+cmp_lit_ding2026_mc2_ring-m7,cmp_lit_ding2026_mc2_ring,mode_splitting_ghz,66.6,,GHz,,,,,,,,,,,,,,,,"splitting of the TE00 / TM10 hybridized branches at degeneracy, 2G, from the fitted coupling rate G/2pi = 33.3 GHz (coupled-mode fit, Fig. 2(b))",,derived,p.5; p.7 Methods; p.3 Fig. 2(b),"Eq. (1) (p.7 Methods): omega_pm = (omega1 + omega2)/2 pm sqrt(G^2 + (omega1 - omega2)^2 / 4), so the branch splitting at degeneracy is 2G; printed G/2pi = 33.3 GHz (p.5, p.7)"
+cmp_lit_ding2026_mc2_ring-m8,cmp_lit_ding2026_mc2_ring,width_nm,3500,,nm,,,,,,,,,,,,,,,,resonator waveguide (uniform),,derived,p.3,printed 3.5 um
+cmp_lit_ding2026_mc2_ring-m9,cmp_lit_ding2026_mc2_ring,bus_width_nm,1300,,nm,,,,,,,,,,,,,,,,,,derived,p.3,printed 1.3 um
+cmp_lit_ding2026_mc2_ring-m10,cmp_lit_ding2026_mc2_ring,gap_nm,650,,nm,,,,,,,,,,,,,,,,bus-resonator coupling gap,,design_target,p.3,
+cmp_lit_ding2026_mc2_ring-m11,cmp_lit_ding2026_mc2_ring,core_thickness_nm,1200,,nm,,,,,,,,,,,,,,,,,,derived,p.2 Fig. 1(c),SEM label 1.2 um; extracted from the figure label
+cmp_lit_ding2026_mc2_ring-m12,cmp_lit_ding2026_mc2_ring,sidewall_angle_deg,72,,deg,,,,,,,,,,,,,,,,,,extracted_from_figure,p.2 Fig. 1(c),SEM label 72 deg
+cmp_lit_ding2026_mc2_ring-m13,cmp_lit_ding2026_mc2_ring,cladding_thickness_um,2,,um,,,,,,,,,,,,,,,,,,design_target,p.7 Methods; p.2 Fig. 1(c),SEM label 2 um
+cmp_lit_ding2026_mc2_soliton_comb-m1,cmp_lit_ding2026_mc2_soliton_comb,repetition_rate_ghz,113,,GHz,,,,,,,,,,,,,,,,"pump 1566.1 nm, auxiliary pump 1550.3 nm, on-chip pump 150 or 100 mW",,measured,p.5,equals the Microcavity-2 FSR (p.3); the paper calls it the lowest repetition rate for AlN microcombs
+cmp_lit_ding2026_platicon_ring-m1,cmp_lit_ding2026_platicon_ring,q_intrinsic,2400000,,1,,,,,,c_band,true,,,,,,,,,,,author_estimate,p.6,"wavelength not stated (Supplementary Fig. S3, not cached); device pumped at 1551.5 nm; extraction regime not stated (D403)"
+cmp_lit_ding2026_platicon_ring-m2,cmp_lit_ding2026_platicon_ring,fsr_ghz,225.1,,GHz,,,,,,,,,,,,,,,,,,measured,p.6; p.4 Fig. 3(b),D1/2pi labelled in Fig. 3(b)
+cmp_lit_ding2026_platicon_ring-m3,cmp_lit_ding2026_platicon_ring,mode_splitting_ghz,86.0,,GHz,,,,,,,,,,,,,,,,"splitting of the TE00 / TM10 hybridized branches at degeneracy, 2G, from the fitted coupling rate G/2pi = 43.0 GHz (coupled-mode fit, Fig. 3(b))",,derived,p.7 Methods,Eq. (1) (p.7 Methods): branch splitting at degeneracy = 2G; printed G/2pi = 43.0 GHz (p.7)
+cmp_lit_ding2026_mc3_racetrack_780-m1,cmp_lit_ding2026_mc3_racetrack_780,q_intrinsic,2200000,,1,,best,,780,,,,tm,TM00,,,,,,,,,author_estimate,p.2 Fig. 1(f); p.3,intrinsic Q labelled in Fig. 1 assuming under-coupling (caption): author_estimate (D403); highest of the 780 nm samples
+cmp_lit_ding2026_mc3_racetrack_780-m2,cmp_lit_ding2026_mc3_racetrack_780,q_loaded,1400000,,1,,,,780,,,,tm,TM00,,,,,,,,,measured,p.2 Fig. 1(f),
+cmp_lit_ding2026_mc3_racetrack_780-m3,cmp_lit_ding2026_mc3_racetrack_780,q_intrinsic,1600000,,1,,best,,780,,,,te,TE00,,,,,,,,,author_estimate,p.2 Fig. 1(f); p.3,intrinsic Q labelled in Fig. 1 assuming under-coupling (caption): author_estimate (D403)
+cmp_lit_ding2026_mc3_racetrack_780-m4,cmp_lit_ding2026_mc3_racetrack_780,q_loaded,900000,,1,,,,780,,,,te,TE00,,,,,,,,,measured,p.2 Fig. 1(f),
+cmp_lit_ding2026_mc3_racetrack_780-m5,cmp_lit_ding2026_mc3_racetrack_780,width_nm,1200,,nm,,,,,,,,,,,,,,,,resonator waveguide in the coupling region,,derived,p.3,printed 1.2 um
+cmp_lit_ding2026_mc3_racetrack_780-m6,cmp_lit_ding2026_mc3_racetrack_780,width_nm,2500,,nm,,,,,,,,,,,,,,,,resonator waveguide in the remaining region (about 70% of the racetrack),,derived,p.3,printed 2.5 um
+cmp_lit_ding2026_mc3_racetrack_780-m7,cmp_lit_ding2026_mc3_racetrack_780,coupling_length_um,100,,um,,,,,,,,,,,,,,,,line-coupling region,,design_target,p.3,
+cmp_lit_ding2026_mc3_racetrack_780-m8,cmp_lit_ding2026_mc3_racetrack_780,gap_nm,600,,nm,,,,,,,,,,,,,,,,resonator to coupling waveguide,,design_target,p.3,
+cmp_lit_ding2026_mc3_racetrack_780-m9,cmp_lit_ding2026_mc3_racetrack_780,cladding_thickness_um,2,,um,,,,,,,,,,,,,,,,,,design_target,p.7 Methods,
+cmp_lit_ding2026_srl_820-m1,cmp_lit_ding2026_srl_820,pump_threshold_mw,50,,mW,,,,,,,,,,,,,,,,on-chip pump near 780 nm; square-root fit of on-chip SRL power vs pump power,,measured,p.6; p.5 Fig. 4(c),
+cmp_lit_ding2026_srl_820-m2,cmp_lit_ding2026_srl_820,linewidth_hz,220,,Hz,lt,,,,,,,,,,,,,,,fundamental linewidth of the 5 mW SRL from the frequency-noise floor (delayed self-heterodyne),,derived,p.7; p.5 Fig. 4(d),
+cmp_lit_ding2026_srl_820-m3,cmp_lit_ding2026_srl_820,output_power_mw,5,,mW,,,,,,,,,,,,on_chip,,,,on-chip SRL power of the frequency-noise measurement (highest of 3 / 4 / 5 mW shown),,measured,p.7; p.5 Fig. 4(d),
+cmp_lit_ding2026_srl_820-m4,cmp_lit_ding2026_srl_820,tuning_range_nm,6,,nm,,,,,,,,,,,,,,,,"SRL wavelength shift by pumping different modes, limited by the tapered-amplifier bandwidth",,measured,p.6; p.5 Fig. 4(b),
+cmp_lit_ding2026_srl_820-m5,cmp_lit_ding2026_srl_820,fsr_ghz,80,,GHz,,,,,,,,,,,,,,,,FSR of the microresonator (laser cavity),,measured,p.6,
+cmp_lit_ding2026_srl_820-m6,cmp_lit_ding2026_srl_820,center_wavelength_nm,820,,nm,approx,,,,,,,,,,,,,,,"SRL emission, pump near 780 nm",,measured,p.6,
+cmp_lit_zhang2017a_racetrack_best-m1,cmp_lit_zhang2017a_racetrack_best,q_loaded,5000000,,1,,,,1590,,,,,,,,,,,,linewidth calibrated with 500 MHz EO sidebands,,measured,p.1; p.2 Fig. 2(a),
+cmp_lit_zhang2017a_racetrack_best-m2,cmp_lit_zhang2017a_racetrack_best,q_intrinsic,10000000,,1,,,,1590,,,,,,,,,,,,,,author_estimate,p.1,printed 10.0 +/- 0.7 million; regime from the near-critical-coupling transmission (D403)
+cmp_lit_zhang2017a_racetrack_best-m3,cmp_lit_zhang2017a_racetrack_best,linewidth_mhz,38,,MHz,,best,,1590,,,,,,,,,,,,,,measured,p.2 Fig. 2(a),caption: best devices as narrow as 38 MHz
+cmp_lit_zhang2017a_racetrack_best-m4,cmp_lit_zhang2017a_racetrack_best,radius_um,80,,um,,,,,,,,,,,,,,,,bend radius of the racetrack,,design_target,p.1,
+cmp_lit_zhang2017a_racetrack_best-m5,cmp_lit_zhang2017a_racetrack_best,core_thickness_nm,600,,nm,,,,,,,,,,,,,,,,,,design_target,p.1,
+cmp_lit_zhang2017a_racetrack_best-m6,cmp_lit_zhang2017a_racetrack_best,etch_depth_nm,350,,nm,,,,,,,,,,,,,,,,,,design_target,p.1,
+cmp_lit_zhang2017a_racetrack_best-m7,cmp_lit_zhang2017a_racetrack_best,slab_thickness_nm,250,,nm,,,,,,,,,,,,,,,,,,design_target,p.1,
+cmp_lit_zhang2017a_racetrack_best-m8,cmp_lit_zhang2017a_racetrack_best,box_thickness_um,2,,um,,,,,,,,,,,,,,,,,,design_target,p.1,
+cmp_lit_zhang2017a_racetrack_best-m9,cmp_lit_zhang2017a_racetrack_best,cladding_thickness_um,1.5,,um,,,,,,,,,,,,,,,,,,design_target,p.1,
+cmp_lit_zhang2017a_ring_family-m1,cmp_lit_zhang2017a_ring_family,q_intrinsic,1500000,,1,approx,,,1590,,,,,,,,,,,,waveguide width 800 nm,,author_estimate,p.2,intrinsic-Q extraction method not stated
+cmp_lit_zhang2017a_ring_family-m2,cmp_lit_zhang2017a_ring_family,q_intrinsic,4000000,,1,approx,,,1590,,,,,,,,,,,,waveguide width 2.4 um,,author_estimate,p.2,intrinsic-Q extraction method not stated
+cmp_lit_zhang2017a_ring_family-m3,cmp_lit_zhang2017a_ring_family,radius_um,80,,um,,,,,,,,,,,,,,,,,,design_target,p.1,
+cmp_lit_zhang2017a_ring_family-m4,cmp_lit_zhang2017a_ring_family,width_nm,800,,nm,,,,,,,,,,,,,,,,narrowest width of the series,,design_target,p.2,
+cmp_lit_zhang2017a_ring_family-m5,cmp_lit_zhang2017a_ring_family,width_nm,2400,,nm,,,,,,,,,,,,,,,,widest width of the series,,derived,p.2,printed 2.4 um
+cmp_lit_zhang2017a_ring_family-m6,cmp_lit_zhang2017a_ring_family,core_thickness_nm,600,,nm,,,,,,,,,,,,,,,,,,design_target,p.1,
+cmp_lit_zhang2017a_ring_family-m7,cmp_lit_zhang2017a_ring_family,etch_depth_nm,350,,nm,,,,,,,,,,,,,,,,,,design_target,p.1,
+cmp_lit_zhang2017a_ring_family-m8,cmp_lit_zhang2017a_ring_family,slab_thickness_nm,250,,nm,,,,,,,,,,,,,,,,,,design_target,p.1,
+cmp_lit_zhang2017a_ring_family-m9,cmp_lit_zhang2017a_ring_family,box_thickness_um,2,,um,,,,,,,,,,,,,,,,,,design_target,p.1,
+cmp_lit_zhang2017a_ring_family-m10,cmp_lit_zhang2017a_ring_family,cladding_thickness_um,1.5,,um,,,,,,,,,,,,,,,,,,design_target,p.1,
+cmp_lit_zhang2017a_straight_wg-m1,cmp_lit_zhang2017a_straight_wg,prop_loss_db_per_cm,0.027,,dB/cm,,,,1590,,,,,,,,,,,,"Q vs straight-section length of racetracks (R = 80 um, width 2.4 um), fitted line",ring_extraction,derived,p.2; p.2 Fig. 2(d),"printed 2.7 +/- 0.3 dB/m, converted to dB/cm"
+cmp_lit_zhang2017a_straight_wg-m2,cmp_lit_zhang2017a_straight_wg,prop_loss_db_per_cm,0.015,,dB/cm,lt,,,1590,,,,,,,,,,,,upper bound of the intrinsic platform loss: straight-section losses of 1.2 and 2.4 um wide racetracks plus numerical modeling,,author_estimate,p.2,"printed upper bound 1.5 dB/m, converted to dB/cm"
+cmp_lit_zhang2017a_straight_wg-m3,cmp_lit_zhang2017a_straight_wg,width_nm,2400,,nm,,,,,,,,,,,,,,,,,,derived,p.2,printed 2.4 um
+cmp_lit_zhang2017a_straight_wg-m4,cmp_lit_zhang2017a_straight_wg,core_thickness_nm,600,,nm,,,,,,,,,,,,,,,,,,design_target,p.1,
+cmp_lit_zhang2017a_straight_wg-m5,cmp_lit_zhang2017a_straight_wg,etch_depth_nm,350,,nm,,,,,,,,,,,,,,,,,,design_target,p.1,
+cmp_lit_zhang2017a_straight_wg-m6,cmp_lit_zhang2017a_straight_wg,slab_thickness_nm,250,,nm,,,,,,,,,,,,,,,,,,design_target,p.1,
+cmp_lit_zhang2017a_straight_wg-m7,cmp_lit_zhang2017a_straight_wg,box_thickness_um,2,,um,,,,,,,,,,,,,,,,,,design_target,p.1,
+cmp_lit_zhang2017a_straight_wg-m8,cmp_lit_zhang2017a_straight_wg,cladding_thickness_um,1.5,,um,,,,,,,,,,,,,,,,,,design_target,p.1,
+cmp_lit_zhang2017a_bend_r80-m1,cmp_lit_zhang2017a_bend_r80,prop_loss_db_per_cm,0.093,,dB/cm,,,,1590,,,,,,,,,,,,"loss in the 80 um radius bend sections, width 2.4 um",ring_extraction,derived,p.2; p.2 Fig. 2(d),"printed 9.3 +/- 0.9 dB/m, converted to dB/cm"
+cmp_lit_zhang2017a_bend_r80-m2,cmp_lit_zhang2017a_bend_r80,min_bend_radius_um,80,,um,,,,,,,,,,,,,,,,,,design_target,p.1,
+cmp_lit_zhang2017a_bend_r80-m3,cmp_lit_zhang2017a_bend_r80,width_nm,2400,,nm,,,,,,,,,,,,,,,,,,derived,p.2,printed 2.4 um
+cmp_lit_zhang2017a_bend_r80-m4,cmp_lit_zhang2017a_bend_r80,core_thickness_nm,600,,nm,,,,,,,,,,,,,,,,,,design_target,p.1,
+cmp_lit_zhang2017a_bend_r80-m5,cmp_lit_zhang2017a_bend_r80,etch_depth_nm,350,,nm,,,,,,,,,,,,,,,,,,design_target,p.1,
+cmp_lit_zhang2017a_bend_r80-m6,cmp_lit_zhang2017a_bend_r80,slab_thickness_nm,250,,nm,,,,,,,,,,,,,,,,,,design_target,p.1,
+cmp_lit_zhang2017a_bend_r80-m7,cmp_lit_zhang2017a_bend_r80,box_thickness_um,2,,um,,,,,,,,,,,,,,,,,,design_target,p.1,
+cmp_lit_zhang2017a_bend_r80-m8,cmp_lit_zhang2017a_bend_r80,cladding_thickness_um,1.5,,um,,,,,,,,,,,,,,,,,,design_target,p.1,
+cmp_lit_slaby2022_1x3_splitter-m1,cmp_lit_slaby2022_1x3_splitter,excess_loss_db,2.48,,dB,,mean,2,1530,1565,,,,,,,,per_component,,grating couplers and Si-SiN transitions (loopback calibration); simulated s-bend loss of the top / bottom legs,"two splitters on two wafers, C band",reference_structure,author_estimate,p.1; p.2 Fig. 2(c),"printed insertion loss 2.48 dB = loss beyond the ideal 1x3 split (same basis as the simulated 0.91 dB), entered as excess_loss_db (D43); maximum variance 0.67 dB across the C band; rests on simulated s-bend loss"
+cmp_lit_slaby2022_1x3_splitter-m2,cmp_lit_slaby2022_1x3_splitter,excess_loss_db,0.91,,dB,,mean,,1530,1565,,,,,,,,per_component,,,final 3D FDTD (MEEP) design,,simulated,p.1; p.2 Fig. 1(c),printed simulated mean insertion loss 0.91 dB
+cmp_lit_slaby2022_1x3_splitter-m3,cmp_lit_slaby2022_1x3_splitter,split_ratio_pct,30,,%,,mean,2,,,,,,,,,,,,,"top leg, 1530-1565 nm, two wafers",,author_estimate,p.1; p.2 Fig. 2(a-b),maximum variation 11.1%; rests on subtracted simulated s-bend loss
+cmp_lit_slaby2022_1x3_splitter-m4,cmp_lit_slaby2022_1x3_splitter,split_ratio_pct,36,,%,,mean,2,,,,,,,,,,,,,"center leg, 1530-1565 nm, two wafers",,author_estimate,p.1; p.2 Fig. 2(a-b),maximum variation 7.7%; rests on subtracted simulated s-bend loss
+cmp_lit_slaby2022_1x3_splitter-m5,cmp_lit_slaby2022_1x3_splitter,split_ratio_pct,33,,%,,mean,2,,,,,,,,,,,,,"bottom leg, 1530-1565 nm, two wafers",,author_estimate,p.1; p.2 Fig. 2(a-b),maximum variation 13%; rests on subtracted simulated s-bend loss
+cmp_lit_slaby2022_1x3_splitter-m6,cmp_lit_slaby2022_1x3_splitter,split_ratio_pct,33.8,,%,,mean,,,,,,,,,,,,,,"top leg, mean over 1530-1565 nm",,simulated,p.1; p.2 Fig. 1(d),
+cmp_lit_slaby2022_1x3_splitter-m7,cmp_lit_slaby2022_1x3_splitter,split_ratio_pct,32.5,,%,,mean,,,,,,,,,,,,,,"center leg, mean over 1530-1565 nm",,simulated,p.1; p.2 Fig. 1(d),
+cmp_lit_slaby2022_1x3_splitter-m8,cmp_lit_slaby2022_1x3_splitter,split_ratio_pct,33.8,,%,,mean,,,,,,,,,,,,,,"bottom leg, mean over 1530-1565 nm",,simulated,p.1; p.2 Fig. 1(d),
+cmp_lit_slaby2022_1x3_splitter-m9,cmp_lit_slaby2022_1x3_splitter,footprint_um2,49,,um2,,,,,,,,,,,,,,,,design region,,derived,p.1,printed 7 um x 7 um
+cmp_lit_slaby2022_1x3_splitter-m10,cmp_lit_slaby2022_1x3_splitter,n_inputs,1,,count,,,,,,,,,,,,,,,,,,design_target,p.1,
+cmp_lit_slaby2022_1x3_splitter-m11,cmp_lit_slaby2022_1x3_splitter,n_outputs,3,,count,,,,,,,,,,,,,,,,,,design_target,p.1,
+cmp_lit_simard2015_mmi_2x2_w1um-m1,cmp_lit_simard2015_mmi_2x2_w1um,excess_loss_db,0.1,,dB,,,,,,c_band,true,,,,,,per_component,,,"designed MMI, mode solver plus in-house propagation",,simulated,p.8 Sec. 2.4,"printed simulated total loss 0.1 dB, stated once for the designed MMIs (both access widths); wavelength not stated, the filter operates near 1544 nm (Fig. 8)"
+cmp_lit_simard2015_mmi_2x2_w1um-m2,cmp_lit_simard2015_mmi_2x2_w1um,mmi_width_um,5,,um,,,,,,,,,,,,,,,,,,design_target,p.8 Sec. 2.4,
+cmp_lit_simard2015_mmi_2x2_w1um-m3,cmp_lit_simard2015_mmi_2x2_w1um,mmi_length_um,90,,um,,,,,,,,,,,,,,,,,,design_target,p.8 Sec. 2.4,
+cmp_lit_simard2015_mmi_2x2_w1um-m4,cmp_lit_simard2015_mmi_2x2_w1um,port_width_um,1.0,,um,,,,,,,,,,,,,,,,square-shaped filter MZI-IBG (Sec. 4),,design_target,p.8 Sec. 2.4,
+cmp_lit_simard2015_mmi_2x2_w1um-m5,cmp_lit_simard2015_mmi_2x2_w1um,taper_length_um,100,,um,,,,,,,,,,,,,,,,linear adiabatic input / output tapers from the single-mode routing waveguide,,design_target,p.8 Sec. 2.4,
+cmp_lit_simard2015_mmi_2x2_w1um-m6,cmp_lit_simard2015_mmi_2x2_w1um,n_inputs,2,,count,,,,,,,,,,,,,,,,,,design_target,p.8 Sec. 2.4,
+cmp_lit_simard2015_mmi_2x2_w1um-m7,cmp_lit_simard2015_mmi_2x2_w1um,n_outputs,2,,count,,,,,,,,,,,,,,,,,,design_target,p.8 Sec. 2.4,
+cmp_lit_simard2015_mmi_2x2_w1um-m8,cmp_lit_simard2015_mmi_2x2_w1um,core_thickness_nm,220,,nm,,,,,,,,,,,,,,,,,,design_target,p.8 Sec. 2.4,
+cmp_lit_simard2015_mmi_2x2_w1um-m9,cmp_lit_simard2015_mmi_2x2_w1um,box_thickness_um,2,,um,,,,,,,,,,,,,,,,,,design_target,p.8 Sec. 2.4,

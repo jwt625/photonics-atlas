@@ -1,0 +1,18 @@
+# Coordinator rulings on the lit_24 audit (2026-10-29, DevLog-007 D401); applied after patch.yaml.
+delete_metrics:
+- id: cmp_lit_gonzalezandrade2019_slot_splitter_nominal-m1
+  why: 'D401: a per-port "-3 +/- 0.5 dB" transmission is a split deviation, not a component insertion loss or imbalance_db (port ratio); kept out until split_deviation_db exists (lit_23 audit, kim2021 / singh2021); value stays in the component notes of this row set (p.3 Fig. 6)'
+- id: cmp_lit_gonzalezandrade2019_slot_splitter_minus25nm-m1
+  why: D401, as the nominal row
+- id: cmp_lit_gonzalezandrade2019_slot_splitter_plus25nm-m1
+  why: D401, as the nominal row
+components:
+  cmp_lit_gonzalezandrade2019_slot_splitter_nominal:
+    notes: 'Sections: strip-to-slot converter (LA, LB in 2:1 ratio, lengths not stated as numbers), 60 um slot waveguide, 20 um symmetric trapezoidal output tapers; outputs separated to 1.75 um by s-bends. Characterized in a back-to-back MZI (40 um arm unbalance) and in a five-stage cascade (linear regression). 3 um wide edge couplers with lensed PM fiber; no coupler metric stated. Fab: fabrication stated passively (p.2); sample fabrication performed at the Plateforme de Micro-Nano-Technologie/C2N (p.4 Acknowledgements) = a facility statement; the platform is not in the registry (reported) and its owner C2N is not entered (D82c; liu2018 precedent). RENATECH network support = program acknowledgement (D80c). Per-port transmission -3 +/- 0.5 dB over the band (p.3 Fig. 6, five-stage cascade) not entered: split deviation, no registry parameter (D401).'
+    why: 'D401: record the removed split-deviation value in notes'
+  cmp_lit_gonzalezandrade2019_slot_splitter_minus25nm:
+    notes: 'Biased sibling of the nominal splitter (same layout, all widths -25 nm), measured in the five-stage cascade. Fab: fabrication stated passively (p.2); sample fabrication performed at the Plateforme de Micro-Nano-Technologie/C2N (p.4 Acknowledgements) = facility statement; platform not in the registry (reported), owner C2N not entered (D82c). RENATECH = program acknowledgement. Per-port transmission -3 +/- 0.5 dB over the band (p.3 Fig. 6, five-stage cascade) not entered: split deviation, no registry parameter (D401).'
+    why: 'D401: record the removed split-deviation value in notes'
+  cmp_lit_gonzalezandrade2019_slot_splitter_plus25nm:
+    notes: 'Biased sibling of the nominal splitter (same layout, all widths +25 nm), measured in the five-stage cascade. Fab: fabrication stated passively (p.2); sample fabrication performed at the Plateforme de Micro-Nano-Technologie/C2N (p.4 Acknowledgements) = facility statement; platform not in the registry (reported), owner C2N not entered (D82c). RENATECH = program acknowledgement. Per-port transmission -3 +/- 0.5 dB over the band (p.3 Fig. 6, five-stage cascade) not entered: split deviation, no registry parameter (D401).'
+    why: 'D401: record the removed split-deviation value in notes'

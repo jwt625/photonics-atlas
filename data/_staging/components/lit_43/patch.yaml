@@ -1,0 +1,60 @@
+# Audit patch lit_43 (fresh-context audit 2026-10-29, DevLog/audits/2026-10-29-lit_43-audit.md).
+# 117 metrics: 111 ok / 5 imprecise / 1 wrong; 22 components: 20 ok / 2 changed / 0 deleted; 1 miss added.
+# Not covered here (coordinator / registry): TIA Super Clean Room of AIST and Southampton Nanofabrication Centre
+# registry rows (facility), registry gaps listed in the audit file.
+components:
+  cmp_lit_ikeda2020_wss_2x2_16ch:
+    notes: "Sixteen 2x2 single-channel WSSs with different Bragg wavelengths cascaded (p.2 Fig. 2); DC-based polarizer at each input and output port. Each channel passes one MZ switch, two dropping C-DCs and 15 non-dropping C-DCs (p.4). WSS channel 3-dB bandwidth 4.2 nm (16-ch average, p.1 Abstract, p.5 Sec. 3, Fig. 5; per channel about 2.8-5.8 nm, wider at longer wavelength) not entered: it is read from the fiber-to-fiber WSS spectra (Fig. 4), i.e. the passband of the drop path (two C-DCs and the MZ switch), and bw_3db_nm is not allowed for switch_fabric (registry gap; D407). C-DC loss 0.20 dB (p.5) computed from the MZ switch loss 0.13 dB cited from ref. [4]: not entered (rule 3). Chip fabricated using the authors' 300-mm CMOS R&D foundry with 45-nm ArF immersion lithography (p.3; all authors AIST): fab AIST (D84a). Device fabrication supported by TIA Super Clean Room of AIST (p.8 Acknowledgments): not in the registry, facility empty (reported)."
+    why: "p.5 Sec. 3: the 3-dB bandwidth is one of the Fig. 5 quantities 'read from Fig. 4' (fiber-to-fiber WSS spectra); p.1 Abstract lists it with the WSS 16-ch averages; the drop path contains two dropping C-DCs and the MZ switch (p.4), so it is not a single C-DC passband: moved from the C-DC row to this note (D407, coordinator question)"
+  cmp_lit_ikeda2020_cdc:
+    notes: "Add-drop filter of the WSS; anti-reflection pi phase shift between the gratings on the two sidewalls of each waveguide (p.2). Corrugation (modulation) depths dW1 / dW2 40 / 60 nm (Table 1) not entered: no registry parameter (gap). The 16-ch average 3-dB bandwidth 4.2 nm is a WSS drop-path value (see cmp_lit_ikeda2020_wss_2x2_16ch notes), not entered here. 2D FDTD width-apodization study (Fig. 9) gives spectra without numbers. Chip fabricated using the authors' 300-mm CMOS R&D foundry with 45-nm ArF immersion lithography (p.3; all authors AIST): fab AIST (D84a). Device fabrication supported by TIA Super Clean Room of AIST (p.8 Acknowledgments): not in the registry, facility empty (reported)."
+    why: "follows the deletion of cdc-m1 (WSS passband, p.5 Sec. 3 'read from Fig. 4'); the C-DC keeps its Bragg-wavelength range (added m7) as performance metric"
+metrics:
+  cmp_lit_akiyama2021_heater_400um-m1:
+    parameter: tuning_power_mw
+    value: 50.7
+    basis: measured
+    condition: "electrical power for a 2 pi phase shift (P2pi) of the N-doped Si heater pair of an AMZ arm in AMZ triplet 1"
+    notes: "printed P2pi 50.7 mW, evaluated on the fabricated CAT and stated as the same for both heater lengths (p.11); stored per 2 pi as printed, not halved. C-band inferred: measured spectra axis 1520-1580 nm (Fig. 14); channel wavelengths not stated in the text"
+    why: "p.11 Sec. 4 prints the 2 pi value; the registry has no dedicated per-2pi parameter, tuning_power_mw ('for the stated range') holds per-2pi heater powers in merged rows (li2026 opa_tops-m1, ofc2026 w4k3 flm_tops-m1, gao2019 m5); keeps the printed number instead of a derived halving (skill pitfall per 2 pi vs per pi, coordinator question)"
+  cmp_lit_akiyama2021_heater_200um-m1:
+    parameter: tuning_power_mw
+    value: 50.7
+    basis: measured
+    condition: "electrical power for a 2 pi phase shift (P2pi) of the N-doped Si heater pair of an AMZ arm in AMZ triplets 2 and 3"
+    notes: "printed P2pi 50.7 mW, evaluated on the fabricated CAT and stated as the same for both heater lengths (p.11); stored per 2 pi as printed, not halved. C-band inferred: measured spectra axis 1520-1580 nm (Fig. 14); channel wavelengths not stated in the text"
+    why: as heater_400um-m1 (p.11 Sec. 4 'regardless of the lengths')
+  cmp_lit_akiyama2021_cat_sim-m1:
+    locator: "p.1 Abstract; p.10 Sec. 3, Fig. 11"
+    notes: "printed range -50 to -40 dB (abstract), stated for the proposed demultiplexers; Fig. 11 (100 GHz spacing, round-top CAT) plots means of about -59 to -52 dB with standard-deviation bars over hundreds of Monte-Carlo trials, and the text says as small as < -50 dB for a wide range of channel counts (p.10): the abstract range is wider than the Fig. 11 means and which configurations it covers is not stated"
+    why: "p.10 Fig. 11 render: means about -59 (4 ch) to -52 dB (64 ch), not -50 to -40 dB; the note implied Fig. 11 carries the abstract range"
+  cmp_lit_akiyama2021_cat_sim-m2:
+    value: 4
+    value_max: 64
+    statistic: range
+    condition: "simulated configurations 4, 8, 16, 32, 64 ch (Fig. 9)"
+    why: "p.9 Sec. 3, Fig. 9: the design row covers the 4- to 64-ch configurations (row label, cat_sim-m1 range); a single 64 misstates the row's scope"
+  cmp_lit_ikeda2020_dc_polarizer-m1:
+    condition: "printed per path; each path has an input and an output polarizer, and the loss breakdown (6.5 - 1.46 - 1.2 = 2 x 1.92 dB; 8.6 - 2 x 1.92 - 1.2 = 3.56 dB) uses 1.2 dB once per path"
+    notes: "origin not stated; the p.4 arithmetic treats 1.2 dB as the loss of the input + output polarizer pair of one path (per-polarizer value not stated); scope unspecified (no pair scope)"
+    why: "p.4 Sec. 3 and Table 2: both loss breakdowns subtract 1.2 dB once for a path with two polarizers, so the value covers the pair; the note said per-polarizer vs pair was not stated"
+delete_metrics:
+  - id: cmp_lit_ikeda2020_cdc-m1
+    why: "p.5 Sec. 3: the 3-dB bandwidth 4.2 nm is read from the fiber-to-fiber WSS spectra (Fig. 4) and listed with the WSS 16-ch averages (p.1 Abstract, p.8 Conclusion); each channel's drop path has two dropping C-DCs plus the MZ switch (p.4), so it is the WSS channel passband, not one C-DC's; bw_3db_nm is not allowed for switch_fabric: value kept in the WSS row notes (D407, registry gap)"
+add_metrics:
+  - metric_id: cmp_lit_ikeda2020_cdc-m7
+    component_id: cmp_lit_ikeda2020_cdc
+    parameter: center_wavelength_nm
+    value: 1533
+    value_max: 1607
+    unit: nm
+    qualifier: approx
+    statistic: range
+    n_samples: 16
+    polarization: te
+    condition: "Bragg (drop-channel) wavelengths lambda_B of the 16 C-DCs (periods 351-386 nm), read from the fiber-to-fiber WSS spectra; C+L band"
+    basis: extracted_from_figure
+    locator: "p.5 Sec. 3, Fig. 5"
+    notes: "lowest and highest channel positions on the Fig. 5 grating-period-vs-wavelength panel, reading uncertainty about +/- 2 nm; the text ties each channel wavelength to lambda_B = (n1 + n2) Lambda of its C-DC (p.5)"
+    verified_on: 2026-10-29
+    why: "miss: p.5 Sec. 3 and Fig. 5 give the measured Bragg wavelength of each C-DC against its period (linear relation); C-DC performance metric left after the bandwidth row moved to the WSS notes"

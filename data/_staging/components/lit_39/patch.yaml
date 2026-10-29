@@ -1,0 +1,206 @@
+# Audit patch lit_39 (fresh-context audit 2026-10-29, DevLog/audits/2026-10-29-lit_39-audit.md).
+# 155 metrics: 150 ok / 2 imprecise / 3 wrong; 21 components: 15 ok / 6 changed / 0 deleted; 1 component + 9 metrics
+# added by splitting the simard2015 MMI into its two designs. Coordinator items: Peter Brojde Laboratory registry row
+# (dana2024 facility), registry gaps (see the audit file).
+components:
+  cmp_lit_dana2024_pl_6mode:
+    notes: 'fab_org_ids: author contributions (p.15) state the lantern was fabricated on the NanoScribe tool by an author
+      affiliated only with the Hebrew University of Jerusalem, at the Peter Brojde Laboratory for Miniature Integrated Systems
+      (also thanked for 3D nanoprinting on the tool, p.15); that laboratory is not in the registry (facility not entered,
+      reported). Sections (design): source interface 170 um, MUX 83 um, output taper (Fig. 1(a) label 122 um; text 115 um,
+      p.6). Not entered: measured MDL 4.4 dB (holography) and PDL < 0.2 dB (mdl_db / pdl_db not allowed for mode_converter,
+      registry gap); simulated full-device MDL 1.4 dB; highest coupling to higher-order modes -15 dB; OVNA system MDL with
+      a fiber mode-preserving lantern demux (system-level, 18 um core fiber). A prototype printed on a glass substrate (Fig.
+      8(a,b)) has no reported data. 7-core fiber with fan-out supplied by Chiral Photonics (note).'
+    why: 'locator: the acknowledgements and author contributions sit after the <!-- page 15 --> marker of text.md (p.15),
+      not p.14'
+  cmp_lit_dana2024_pl_6mode_fiber_butt:
+    notes: 'fab_org_ids: author contributions (p.15) state the lantern was fabricated on the NanoScribe tool by an author
+      affiliated only with the Hebrew University of Jerusalem, at the Peter Brojde Laboratory for Miniature Integrated Systems
+      (also thanked for 3D nanoprinting on the tool, p.15); that laboratory is not in the registry (facility not entered,
+      reported). Sibling of cmp_lit_dana2024_pl_6mode with the taper shortened for this experiment (p.10). Not entered:
+      authors'' estimate of about 1.4 dB from fiber-coupling imperfections (difference of the two averaged curves, p.11);
+      MDL / PDL (registry gap).'
+    why: 'locator: the acknowledgements and author contributions sit after the <!-- page 15 --> marker of text.md (p.15),
+      not p.14'
+  cmp_lit_dana2024_mux_section:
+    notes: 'fab_org_ids: author contributions (p.15) state the lantern was fabricated on the NanoScribe tool by an author
+      affiliated only with the Hebrew University of Jerusalem, at the Peter Brojde Laboratory for Miniature Integrated Systems
+      (also thanked for 3D nanoprinting on the tool, p.15); that laboratory is not in the registry (facility not entered,
+      reported). Section of the printed lantern with simulated values only (row_kind fabricated, D80e). Simulated MDL -0.29
+      dB not entered (registry gap).'
+    why: 'locator: the acknowledgements and author contributions sit after the <!-- page 15 --> marker of text.md (p.15),
+      not p.14'
+  cmp_lit_dana2024_output_taper:
+    notes: 'fab_org_ids: author contributions (p.15) state the lantern was fabricated on the NanoScribe tool by an author
+      affiliated only with the Hebrew University of Jerusalem, at the Peter Brojde Laboratory for Miniature Integrated Systems
+      (also thanked for 3D nanoprinting on the tool, p.15); that laboratory is not in the registry (facility not entered,
+      reported). Section of the printed lantern with simulated values only (D80e). Simulated MDL -0.5 dB (taper) and higher-order
+      mode transmission of the 7 um filter below -20 dB not entered.'
+    why: 'locator: the acknowledgements and author contributions sit after the <!-- page 15 --> marker of text.md (p.15),
+      not p.14'
+  cmp_lit_dana2024_source_interface:
+    notes: 'fab_org_ids: author contributions (p.15) state the lantern was fabricated on the NanoScribe tool by an author
+      affiliated only with the Hebrew University of Jerusalem, at the Peter Brojde Laboratory for Miniature Integrated Systems
+      (also thanked for 3D nanoprinting on the tool, p.15); that laboratory is not in the registry (facility not entered,
+      reported). Section of the printed lantern with simulated values only (D80e). Not entered: mode purity 95.2% (TE) /
+      94.8% (TM) (no parameter), central-waveguide tapering efficiency 99% (simulated), minimum radius of curvature 166
+      um (min_bend_radius_um not allowed for this class), calculated 0.12 dB excess loss for the measured 0.5 um core-position
+      error (p.13).'
+    why: 'locator: the acknowledgements and author contributions sit after the <!-- page 15 --> marker of text.md (p.15),
+      not p.14'
+  cmp_lit_simard2015_mmi_2x2:
+    label: 50/50 2x2 MMI (5 x 90 um), 1.5 um access waveguides, of the uniform / pi-shifted MZI-IBGs, 220 nm SOI
+    notes: 'fab_org_ids: fabricated in SOI using electron-beam lithography at University of Washington (p.8). CMC Microsystems
+      acknowledged for contribution and technical support (p.14): not entered (no fabrication / MPW statement). The simulated
+      loss is stated once for the designed MMIs (both access widths, p.8) and entered on both MMI rows; the 1.0 um access
+      design is cmp_lit_simard2015_mmi_2x2_w1um. Fitted splitting-ratio asymmetries 8% (input) / 4% (output) for the uniform
+      device (p.10) not entered (definition not given).'
+    why: 'skill rule 9 / D102: the paper uses two MMI designs (1.5 um access waveguides for the Sec. 3 gratings, 1.0 um
+      for the Sec. 4 filter, p.8 Sec. 2.4); one row with two port widths cannot be drawn without guessing; this row keeps
+      the 1.5 um design'
+metrics:
+  cmp_lit_dana2024_output_taper-m1:
+    excludes: 16.8 um facet mode overlap to the six-mode fiber (m2)
+    condition: taper form n = 0.8 (chosen); coupling matrix between the taper input and output modes (Fig. 6(c)), taper
+      section only
+    why: 'p.7 Sec. Polymer waveguide taper and Fig. 6 caption: the -0.3 dB is computed from the coupling matrix between
+      taper input / output modes; the fiber facet overlap (-0.2 dB, p.6, m2) is a separate term, so the per_coupler row
+      must state that it excludes it'
+  cmp_lit_ding2026_mc2_ring-m5:
+    parameter: q_loaded
+    basis: measured
+    notes: 'printed as a Q-factor of 3.5e6 for the pumped mode without loaded / intrinsic qualifier (details in Supplementary
+      Sec. 2, not cached); skill rule: an unqualified Q goes to q_loaded with a note. The next sentence compares it with
+      a 4.8e6 mode at 1572 nm (Fig. 1(e) labels a 4.8e6 intrinsic Q for this resonator); the text does not label the 3.5e6
+      itself'
+    why: 'skill pitfall (unqualified Q -> q_loaded with a note) and coordinator ruling for this batch: p.5 prints the pumped-mode
+      Q without qualifier; the comparison with the 4.8e6 value and its magnitude do not identify it as intrinsic'
+  cmp_lit_ding2026_mc2_ring-m7:
+    value: '66.6'
+    condition: splitting of the TE00 / TM10 hybridized branches at degeneracy, 2G, from the fitted coupling rate G/2pi =
+      33.3 GHz (coupled-mode fit, Fig. 2(b))
+    notes: 'Eq. (1) (p.7 Methods): omega_pm = (omega1 + omega2)/2 pm sqrt(G^2 + (omega1 - omega2)^2 / 4), so the branch
+      splitting at degeneracy is 2G; printed G/2pi = 33.3 GHz (p.5, p.7)'
+    why: 'p.7 Eq. (1) (checked on the PDF render): the branch splitting at degeneracy is 2G, not G; mode_splitting_ghz is
+      the supermode splitting, so the printed coupling rate 33.3 GHz is doubled (derived, D82d) and the note claiming splitting
+      = G is corrected'
+  cmp_lit_ding2026_platicon_ring-m3:
+    value: '86.0'
+    condition: splitting of the TE00 / TM10 hybridized branches at degeneracy, 2G, from the fitted coupling rate G/2pi =
+      43.0 GHz (coupled-mode fit, Fig. 3(b))
+    notes: 'Eq. (1) (p.7 Methods): branch splitting at degeneracy = 2G; printed G/2pi = 43.0 GHz (p.7)'
+    why: 'as cmp_lit_ding2026_mc2_ring-m7: p.7 Eq. (1) gives a splitting of 2G; printed G/2pi = 43.0 GHz is the coupling
+      rate'
+  cmp_lit_simard2015_mmi_2x2-m1:
+    notes: printed simulated total loss 0.1 dB, stated once for the designed MMIs (both access widths); wavelength not stated,
+      devices operate near 1544 nm (Fig. 3, 8)
+    why: note follows the split of the two MMI designs (p.8 Sec. 2.4)
+delete_metrics:
+- id: cmp_lit_simard2015_mmi_2x2-m5
+  why: the 1.0 um access width belongs to the second MMI design (square-shaped filter, p.8 Sec. 2.4), moved to cmp_lit_simard2015_mmi_2x2_w1um-m4
+add_components:
+- component_id: cmp_lit_simard2015_mmi_2x2_w1um
+  source_id: lit:simard2015
+  class: splitter.mmi
+  label: 50/50 2x2 MMI (5 x 90 um), 1.0 um access waveguides, of the square-shaped dispersion-less MZI-IBG, 220 nm SOI
+  row_kind: fabricated
+  host_device_ids: ''
+  platform: soi
+  core_material: Si 220 nm on 2 um BOX
+  cladding: ''
+  fab_org_ids: org_university_washington
+  facility_org_ids: ''
+  process_name: ''
+  test_structure: ''
+  tags: mmi;mzi_ibg
+  verified_on: '2026-10-29'
+  notes: 'fab_org_ids: fabricated in SOI using electron-beam lithography at University of Washington (p.8); the square-shaped
+    filter was made in a different run at the same foundry (p.13). CMC Microsystems acknowledged for contribution and technical
+    support (p.14): not entered (no fabrication / MPW statement). Sibling of cmp_lit_simard2015_mmi_2x2 (1.5 um access);
+    the simulated loss is stated once for the designed MMIs (p.8). The Sec. 4 fitted Delta n_eff and run-to-run loss changes
+    are not entered.'
+  why: 'skill rule 9 / D102: second MMI design of the paper (1.0 um access waveguides for the Sec. 4 filter, p.8 Sec. 2.4),
+    split from cmp_lit_simard2015_mmi_2x2'
+add_metrics:
+- metric_id: cmp_lit_simard2015_mmi_2x2_w1um-m1
+  component_id: cmp_lit_simard2015_mmi_2x2_w1um
+  parameter: excess_loss_db
+  value: '0.1'
+  unit: dB
+  band: c_band
+  wavelength_inferred: 'true'
+  scope: per_component
+  condition: designed MMI, mode solver plus in-house propagation
+  basis: simulated
+  locator: p.8 Sec. 2.4
+  notes: printed simulated total loss 0.1 dB, stated once for the designed MMIs (both access widths); wavelength not stated,
+    the filter operates near 1544 nm (Fig. 8)
+  why: 'p.8 Sec. 2.4: the simulated loss sentence covers both designed MMIs (plural); copied from cmp_lit_simard2015_mmi_2x2-m1
+    (lit_05 audit precedent, one value stated for several designs entered on each)'
+- metric_id: cmp_lit_simard2015_mmi_2x2_w1um-m2
+  component_id: cmp_lit_simard2015_mmi_2x2_w1um
+  parameter: mmi_width_um
+  value: '5'
+  unit: um
+  basis: design_target
+  locator: p.8 Sec. 2.4
+  why: 'p.8 Sec. 2.4: MMI section width 5 um for all MMIs'
+- metric_id: cmp_lit_simard2015_mmi_2x2_w1um-m3
+  component_id: cmp_lit_simard2015_mmi_2x2_w1um
+  parameter: mmi_length_um
+  value: '90'
+  unit: um
+  basis: design_target
+  locator: p.8 Sec. 2.4
+  why: 'p.8 Sec. 2.4: designed MMIs length 90 um'
+- metric_id: cmp_lit_simard2015_mmi_2x2_w1um-m4
+  component_id: cmp_lit_simard2015_mmi_2x2_w1um
+  parameter: port_width_um
+  value: '1.0'
+  unit: um
+  condition: square-shaped filter MZI-IBG (Sec. 4)
+  basis: design_target
+  locator: p.8 Sec. 2.4
+  why: moved from cmp_lit_simard2015_mmi_2x2-m5 (p.8 Sec. 2.4)
+- metric_id: cmp_lit_simard2015_mmi_2x2_w1um-m5
+  component_id: cmp_lit_simard2015_mmi_2x2_w1um
+  parameter: taper_length_um
+  value: '100'
+  unit: um
+  condition: linear adiabatic input / output tapers from the single-mode routing waveguide
+  basis: design_target
+  locator: p.8 Sec. 2.4
+  why: 'p.8 Sec. 2.4: input/output tapers 100 um linear'
+- metric_id: cmp_lit_simard2015_mmi_2x2_w1um-m6
+  component_id: cmp_lit_simard2015_mmi_2x2_w1um
+  parameter: n_inputs
+  value: '2'
+  unit: count
+  basis: design_target
+  locator: p.8 Sec. 2.4
+  why: 2x2 MMI (p.8 Sec. 2.4)
+- metric_id: cmp_lit_simard2015_mmi_2x2_w1um-m7
+  component_id: cmp_lit_simard2015_mmi_2x2_w1um
+  parameter: n_outputs
+  value: '2'
+  unit: count
+  basis: design_target
+  locator: p.8 Sec. 2.4
+  why: 2x2 MMI (p.8 Sec. 2.4)
+- metric_id: cmp_lit_simard2015_mmi_2x2_w1um-m8
+  component_id: cmp_lit_simard2015_mmi_2x2_w1um
+  parameter: core_thickness_nm
+  value: '220'
+  unit: nm
+  basis: design_target
+  locator: p.8 Sec. 2.4
+  why: 'p.8 Sec. 2.4: 220 nm core (D161)'
+- metric_id: cmp_lit_simard2015_mmi_2x2_w1um-m9
+  component_id: cmp_lit_simard2015_mmi_2x2_w1um
+  parameter: box_thickness_um
+  value: '2'
+  unit: um
+  basis: design_target
+  locator: p.8 Sec. 2.4
+  why: 'p.8 Sec. 2.4: 2 um buried oxide (D161)'

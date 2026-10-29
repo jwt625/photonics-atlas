@@ -1,0 +1,257 @@
+# Audit patch lit_22 (fresh-context audit 2026-10-29, DevLog/audits/2026-10-29-lit_22-audit.md).
+# 295 metrics: 291 ok / 3 imprecise / 1 wrong; 49 components: 48 ok / 1 changed / 0 deleted; +1 component, 19 misses added.
+# Not covered here (coordinator decisions): registry orgs (Washington Nanofabrication Facility, MIT Materials Research
+# Laboratory, Lincoln Laboratory Microelectronics Laboratory), registry gaps listed in the audit record.
+components:
+  cmp_lit_chen2024a_qc_dc:
+    notes: 'Non-volatile 2x2 coupler switch: Sb2S3 on the narrower waveguide, phase-matched in the a-state; segments 1 um apart with opposite-polarity
+      PIN heaters (p.4-5). Coupler values (IL, ER, split ratio, endurance-test contrast) on this row; the endurance count and the 4 operation
+      levels are on the sibling phase-shifter row qc_dc_pcm (D396). 52,600 switching events applied in total; Sb2S3 inactive after ~50,000 (p.5-6).
+      Spectra normalized to an on-chip reference waveguide (Fig. 3 caption). Si wafers fabricated by Intel (p.2, p.7 Methods, acknowledgements
+      p.9); Sb2S3 integrated in-house by the authors (contributions p.9; all authors University of Washington), hence both fab orgs. Facilities:
+      Washington Nanofabrication Facility / Molecular Analysis Facility (not in registry) and SNSF (''Part of this work was performed at'', p.9).
+      Measured with 20-degree angled fiber coupling, stage at 26 C (p.7).'
+    why: 'D396: the PCM segments of the QC-DC are characterized as non-volatile actuators (endurance, levels, p.5) and get a phase_shifter.phase_change
+      sibling row; note no longer claims a registry gap'
+metrics:
+  cmp_lit_chen2024a_qc_mzi_unequal-m2:
+    basis: derived
+    notes: printed ~0.059 pi step phase shift; computed by the authors from the 0.41 +/- 0.12 nm uniform spectral step and the MZI FSR (FSR not
+      printed); same basis as sbs_mzi_60um-m1 / -m2
+    why: 'p.7 / p.6 Fig. 4(f) caption: the phase step is the spectral step converted with the FSR (arithmetic on own measurement, D80a); batch-internal
+      consistency with the 60 um MZI phase rows (derived)'
+  cmp_lit_yong2021_ps1_suspended_3pass-m30:
+    value: '2.3'
+    value_max: '3.4'
+    statistic: range
+    wavelength_nm: '445'
+    wavelength_max_nm: '561'
+    condition: estimated phase-shifter loss = cutback loss of a 550 nm waveguide (about 8 - 5.5 dB/cm) x total phase-shifter waveguide length
+      4.259 mm
+    notes: printed 3.4 - 2.3 dB for 445 - 561 nm; the 5.5 dB/cm minimum of the cutback is at 532 nm (5.8 dB/cm at 561 nm, p.10), so the end values
+      are not tied to single wavelengths; arithmetic on own cutback loss
+    why: p.13 Sec. IV states one range for 445-561 nm; the 2.3 dB end corresponds to the 5.5 dB/cm value at 532 nm (p.10), not 561 nm; one range
+      row instead of two per-wavelength rows
+  cmp_lit_ozdemir2021_nrwpd_site_a_pooled-m3:
+    notes: 'printed 1.98e-8 A/cm2 at -2 V (A -> mA); -2 V confirmed by the arithmetic: median 0.05 pA at -2 V over 505 nm x 500 um = 1.98e-8 A/cm2
+      (the -1 V median is 5 fA); the conclusion (p.6) attributing it to -1 V is inconsistent with this'
+    why: 'D159 ruling: bias is unambiguous from p.3 (value stated at -2 V and reproduced by 0.05 pA / 2.525e-6 cm2); note records the check'
+delete_metrics:
+- id: cmp_lit_yong2021_ps1_suspended_3pass-m31
+  why: 'wrong: entered 2.3 dB at 561 nm with "about 5.5 dB/cm at 561 nm", but the cutback gives 5.8 dB/cm at 561 nm and 5.5 at 532 nm (p.10);
+    the p.13 range is now one row (m30)'
+add_components:
+- component_id: cmp_lit_chen2024a_qc_dc_pcm
+  source_id: lit:chen2024a
+  class: phase_shifter.phase_change
+  label: Two-segment Sb2S3 actuator (35 / 70 um, independent PIN heaters) of the quasi-continuous asymmetric DC, O-band
+  row_kind: fabricated
+  platform: soi
+  core_material: Si 300 nm waveguide (400 nm wide in the MRR comparison, p.3) from the Intel 300 mm fab with PIN-doped Si heaters and vias; 4
+    um oxide window opened in-house, ~20 nm Sb2S3 (40 nm sputtered, reduced by the lift-off trench effect) capped by 40 nm ALD Al2O3; Ti/Pt 15/200
+    nm pads
+  cladding: SiO2 top cladding (opened over the Sb2S3); 40 nm Al2O3 cap on the Sb2S3
+  fab_org_ids: org_intel;org_university_washington
+  facility_org_ids: org_stanford_nano_shared_facilities
+  tags: phase_change;sb2s3;non_volatile;pin_heater;multilevel
+  verified_on: '2026-10-29'
+  notes: 'Non-volatile PCM actuator of the QC-DC (coupler row qc_dc holds IL, ER, split ratio and the endurance-test contrast; D396). Segment
+    lengths on qc_dc (m10 / m11). Spectra normalized to an on-chip reference waveguide (Fig. 3 caption). Si wafers fabricated by Intel (p.2, p.7
+    Methods, acknowledgements p.9); Sb2S3 integrated in-house by the authors (contributions p.9; all authors University of Washington), hence
+    both fab orgs. Facilities: Washington Nanofabrication Facility / Molecular Analysis Facility (not in registry) and SNSF (''Part of this work
+    was performed at'', p.9). Measured with 20-degree angled fiber coupling, stage at 26 C (p.7).'
+  why: 'D396 / D254 precedent (meng2023 sibling rows): endurance and level count of the PCM segments (p.5, Fig. 3(c)-(d)) need a phase_shifter
+    row; splitter has no endurance_cycles / n_levels'
+add_metrics:
+- metric_id: cmp_lit_chen2024a_qc_dc_pcm-m1
+  component_id: cmp_lit_chen2024a_qc_dc_pcm
+  parameter: endurance_cycles
+  value: '5000'
+  unit: count
+  qualifier: gt
+  wavelength_nm: '1330'
+  condition: switching events of segment 2 (one event = three pulses; 3 x 7.8 V 500 ns / 3 x 3.3 V 2 ms) with little degradation, cross-port contrast
+    8.5 +/- 1.0 dB; 52,600 events applied in total, contrast 4.5 +/- 0.7 dB after realignment, Sb2S3 inactive after ~50,000
+  method: direct
+  basis: measured
+  locator: p.5-6; p.5 Fig. 3(d)
+  notes: printed >5000 switching events (abstract, p.2) and "after 5,000 switching events" (p.5); counted in switching events (52,600 events =
+    26,300 cycles, caption)
+  why: 'miss after D396 sibling row: endurance stated for the QC-DC segment 2 (p.5, Fig. 3(d) caption)'
+- metric_id: cmp_lit_chen2024a_qc_dc_pcm-m2
+  component_id: cmp_lit_chen2024a_qc_dc_pcm
+  parameter: n_levels
+  value: '4'
+  unit: count
+  condition: segment phase sequences cc / ca / aa / ac; 5 repetitions
+  method: direct
+  basis: measured
+  locator: p.5; p.5 Fig. 3(c)
+  notes: four-level switching (abstract); deterministic levels repeated five times
+  why: 'miss after D396 sibling row: 4 operation levels (p.5, Fig. 3 caption)'
+- metric_id: cmp_lit_yong2021_ps3_suspended_7pass-m25
+  component_id: cmp_lit_yong2021_ps3_suspended_7pass
+  parameter: width_nm
+  value: '550'
+  value_max: '650'
+  unit: nm
+  condition: widths of the 7 folded passes alternating among 600, 650 and 550 nm
+  basis: design_target
+  locator: p.6 Sec. II
+  notes: XTEM (second wafer) shows widths about 100 nm below design (p.8)
+  why: 'miss (D153, heater_ps template xsec requires width_nm): p.6 states the PS3 pass widths'
+- metric_id: cmp_lit_yong2021_ps2_no_undercut-m9
+  component_id: cmp_lit_yong2021_ps2_no_undercut
+  parameter: width_nm
+  value: '550'
+  value_max: '650'
+  unit: nm
+  condition: 'widths of the three folded passes: 600, 650 and 550 nm (PS2 nominally identical to PS1 except trench / undercut)'
+  basis: design_target
+  locator: p.5; p.6 Table I
+  why: 'miss (D153, heater_ps xsec): PS2 nominally identical to PS1 (p.6), PS1 widths p.5'
+- metric_id: cmp_lit_yong2021_ps2_no_undercut-m10
+  component_id: cmp_lit_yong2021_ps2_no_undercut
+  parameter: core_thickness_nm
+  value: '150'
+  unit: nm
+  condition: nominal PECVD SiN thickness
+  basis: design_target
+  locator: p.3; p.6 Sec. III
+  why: 'miss (D153, heater_ps xsec requires core_thickness_nm): 150 nm SiN layer of the platform'
+- metric_id: cmp_lit_ros2022_ring_coupling_tuned-m3
+  component_id: cmp_lit_ros2022_ring_coupling_tuned
+  parameter: core_thickness_nm
+  value: '220'
+  unit: nm
+  basis: design_target
+  locator: p.2; p.12 Methods
+  notes: 220 nm SOI used for all devices of the work (p.2)
+  why: miss (D153, ring_bus xsec requires core_thickness_nm)
+- metric_id: cmp_lit_ros2022_ring_coupling_tuned-m4
+  component_id: cmp_lit_ros2022_ring_coupling_tuned
+  parameter: width_nm
+  value: '500'
+  unit: nm
+  basis: design_target
+  locator: p.12 Methods
+  notes: 500 nm-wide SOI waveguides (Methods); same geometry for all devices (p.2)
+  why: miss (D153, ring_bus xsec requires width_nm)
+- metric_id: cmp_lit_song2024a_bend_adv_r15-m5
+  component_id: cmp_lit_song2024a_bend_adv_r15
+  parameter: core_thickness_nm
+  value: '400'
+  unit: nm
+  qualifier: approx
+  basis: design_target
+  locator: p.3 Sec. II-III
+  notes: ~400 nm LPCVD SiN (p.3 Sec. III); 400 nm chosen for single-mode operation (Sec. II)
+  why: miss (D153, waveguide_xsec / ring_bus xsec requires core_thickness_nm); entered on ring_adv_r15 only
+- metric_id: cmp_lit_song2024a_bend_adv_r20-m5
+  component_id: cmp_lit_song2024a_bend_adv_r20
+  parameter: core_thickness_nm
+  value: '400'
+  unit: nm
+  qualifier: approx
+  basis: design_target
+  locator: p.3 Sec. II-III
+  notes: ~400 nm LPCVD SiN (p.3 Sec. III); 400 nm chosen for single-mode operation (Sec. II)
+  why: miss (D153, waveguide_xsec / ring_bus xsec requires core_thickness_nm); entered on ring_adv_r15 only
+- metric_id: cmp_lit_song2024a_bend_adv_r25-m6
+  component_id: cmp_lit_song2024a_bend_adv_r25
+  parameter: core_thickness_nm
+  value: '400'
+  unit: nm
+  qualifier: approx
+  basis: design_target
+  locator: p.3 Sec. II-III
+  notes: ~400 nm LPCVD SiN (p.3 Sec. III); 400 nm chosen for single-mode operation (Sec. II)
+  why: miss (D153, waveguide_xsec / ring_bus xsec requires core_thickness_nm); entered on ring_adv_r15 only
+- metric_id: cmp_lit_song2024a_bend_circ_r15-m5
+  component_id: cmp_lit_song2024a_bend_circ_r15
+  parameter: core_thickness_nm
+  value: '400'
+  unit: nm
+  qualifier: approx
+  basis: design_target
+  locator: p.3 Sec. II-III
+  notes: ~400 nm LPCVD SiN (p.3 Sec. III); 400 nm chosen for single-mode operation (Sec. II)
+  why: miss (D153, waveguide_xsec / ring_bus xsec requires core_thickness_nm); entered on ring_adv_r15 only
+- metric_id: cmp_lit_song2024a_bend_circ_r20-m5
+  component_id: cmp_lit_song2024a_bend_circ_r20
+  parameter: core_thickness_nm
+  value: '400'
+  unit: nm
+  qualifier: approx
+  basis: design_target
+  locator: p.3 Sec. II-III
+  notes: ~400 nm LPCVD SiN (p.3 Sec. III); 400 nm chosen for single-mode operation (Sec. II)
+  why: miss (D153, waveguide_xsec / ring_bus xsec requires core_thickness_nm); entered on ring_adv_r15 only
+- metric_id: cmp_lit_song2024a_bend_circ_r25-m5
+  component_id: cmp_lit_song2024a_bend_circ_r25
+  parameter: core_thickness_nm
+  value: '400'
+  unit: nm
+  qualifier: approx
+  basis: design_target
+  locator: p.3 Sec. II-III
+  notes: ~400 nm LPCVD SiN (p.3 Sec. III); 400 nm chosen for single-mode operation (Sec. II)
+  why: miss (D153, waveguide_xsec / ring_bus xsec requires core_thickness_nm); entered on ring_adv_r15 only
+- metric_id: cmp_lit_song2024a_bend_circ_r50-m4
+  component_id: cmp_lit_song2024a_bend_circ_r50
+  parameter: core_thickness_nm
+  value: '400'
+  unit: nm
+  qualifier: approx
+  basis: design_target
+  locator: p.3 Sec. II-III
+  notes: ~400 nm LPCVD SiN (p.3 Sec. III); 400 nm chosen for single-mode operation (Sec. II)
+  why: miss (D153, waveguide_xsec / ring_bus xsec requires core_thickness_nm); entered on ring_adv_r15 only
+- metric_id: cmp_lit_song2024a_wg_2p5um-m3
+  component_id: cmp_lit_song2024a_wg_2p5um
+  parameter: core_thickness_nm
+  value: '400'
+  unit: nm
+  qualifier: approx
+  basis: design_target
+  locator: p.3 Sec. II-III
+  notes: ~400 nm LPCVD SiN (p.3 Sec. III); 400 nm chosen for single-mode operation (Sec. II)
+  why: miss (D153, waveguide_xsec / ring_bus xsec requires core_thickness_nm); entered on ring_adv_r15 only
+- metric_id: cmp_lit_song2024a_ring_circ_r15-m6
+  component_id: cmp_lit_song2024a_ring_circ_r15
+  parameter: core_thickness_nm
+  value: '400'
+  unit: nm
+  qualifier: approx
+  basis: design_target
+  locator: p.3 Sec. II-III
+  notes: ~400 nm LPCVD SiN (p.3 Sec. III); 400 nm chosen for single-mode operation (Sec. II)
+  why: miss (D153, waveguide_xsec / ring_bus xsec requires core_thickness_nm); entered on ring_adv_r15 only
+- metric_id: cmp_lit_song2024a_ring_adv_r25-m7
+  component_id: cmp_lit_song2024a_ring_adv_r25
+  parameter: core_thickness_nm
+  value: '400'
+  unit: nm
+  qualifier: approx
+  basis: design_target
+  locator: p.3 Sec. II-III
+  notes: ~400 nm LPCVD SiN (p.3 Sec. III); 400 nm chosen for single-mode operation (Sec. II)
+  why: miss (D153, waveguide_xsec / ring_bus xsec requires core_thickness_nm); entered on ring_adv_r15 only
+- metric_id: cmp_lit_song2024a_ring_circ_r15-m7
+  component_id: cmp_lit_song2024a_ring_circ_r15
+  parameter: width_nm
+  value: '1000'
+  unit: nm
+  condition: ring waveguide width (circular bends, constant w0)
+  basis: design_target
+  locator: p.3 Table II; p.3 Sec. II
+  why: 'miss (D153, ring_bus xsec requires width_nm): circular bends keep w0 = 1 um'
+- metric_id: cmp_lit_song2024a_ring_adv_r25-m8
+  component_id: cmp_lit_song2024a_ring_adv_r25
+  parameter: width_nm
+  value: '1000'
+  unit: nm
+  condition: w0; widened to w_max 1.2 um in the R 25 um advanced bends
+  basis: design_target
+  locator: p.3 Table II
+  why: miss (D153, ring_bus xsec requires width_nm); same form as ring_adv_r15-m8

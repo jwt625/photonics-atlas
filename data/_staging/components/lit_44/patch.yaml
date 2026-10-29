@@ -1,0 +1,33 @@
+# Audit patch lit_44 (fresh-context audit 2026-10-29, DevLog/audits/2026-10-29-lit_44-audit.md).
+# 170 metrics: 161 ok / 0 imprecise / 9 wrong (8 tebeneva2024 out of scope D411, 1 hinumwagner2025 D159);
+# 38 components: 33 ok / 2 changed (notes) / 3 deleted; 1 miss added.
+# Not covered here (coordinator / registry): CEA-Leti MINATEC nanofabrication platform org (brun2014 facility),
+# registry gaps listed in the audit file.
+components:
+  cmp_lit_hinumwagner2025_ring_lpcvd1_w700_r80_g800:
+    notes: 'No fab org: the authors state they fabricate full 200 mm wafers (p.2) but are split between Graz University of Technology and ams-OSRAM Group (several dual-affiliated); the fabrication facility is unnamed (p.18 staff thanks). Journal extension of the authors'' SPIE 2023 conference paper (ref. [43], p.18); values kept (D408). Light in / out through 10 deg grating couplers with SMF-633 fibers on a wafer prober; 850-857 nm sweep (p.8). Propagation loss of dedicated test structures printed as 0.8-1.2 ''dm cm-1'' (p.4): unit garbled, not entered. Die-level variability design of Fig. 16 (60 dies; failed measurements marked). Not entered (D159): text p.10 states the W 500 nm / R 80 um rings reach about 12 dB ER at the 0.8 um gap on LPCVD runs, but in Fig. 14 the LPCVD-1 / LPCVD-2 bars at 0.8 um stay below about 5.5 dB and the about 12 dB W500 / R80 bar is on PECVD-2 (Fig. 14(b)); wafer type of the value ambiguous.'
+    why: 'p.10 Sec. 4 vs p.14 Fig. 14(b)-(d): the 12 dB statement conflicts with the LPCVD panels; the W500 component carrying it is deleted below and the value goes into the notes of the remaining LPCVD-1 row (D159: the bound goes into component notes)'
+  cmp_lit_shoaa2025_sb2se3_ops:
+    notes: 'No fab org: fabrication described in passive voice (p.3); the acknowledgement places the research at the Optoelectronics Research Centre, University of Southampton (p.12): a research centre of the authors'' university (registry alias of org_university_of_southampton), not a shared facility and not a fabrication statement (D80b), so neither fab nor facility entered. Authors at Southampton (ORC, ECS) and IMB-CNM. Measured in asymmetric MZIs with an OPS unit in each arm (p.6, Fig. 2(b)). Not entered: OPS loss 0.13 / 0.15 dB/um (amorphous / crystalline, cutback over 20-80 um, Fig. 3(b); per-length phase-shifter loss rejected in D250); set / reset energy 19.2 / 0.54 uJ (no parameter); pulses 13 V / 300 us and 30 V / 1.5 us; DC crystallization threshold 10.5 V; extracted delta neff 0.017 and simulated 0.04; bare-MZI IL < 3 dB (p.6, no class for the test interferometer); abstract ER ''up to 12.5 dB'' (conflicts with the 15.2 dB peak, p.9).'
+    why: 'p.12 Acknowledgment: the Optoelectronics Research Centre is in org_aliases.csv as unit_printed of org_university_of_southampton, so the note''s ''missing from the registry'' is wrong; the ruling (no fab, no facility) is unchanged'
+  cmp_lit_shoaa2025_polysi_taper:
+    notes: 'No fab org: fabrication described in passive voice (p.3); the acknowledgement places the research at the Optoelectronics Research Centre, University of Southampton (p.12): a research centre of the authors'' university (registry alias of org_university_of_southampton), not a shared facility and not a fabrication statement (D80b), so neither fab nor facility entered. Authors at Southampton (ORC, ECS) and IMB-CNM. Simulated values only (FDTD / EME); untapered interface mode overlap 85 % (p.4, not entered). Taper layer: the 20 nm intrinsic PECVD poly-Si deposited ''to taper the PCM layer'' (p.3 Sec. 2.1), patterned by DUV and ICP; the 80 nm n-doped poly-Si is the heater under the cell (p.6).'
+    why: 'p.3 Sec. 2.1 states the purpose of the 20 nm intrinsic poly-Si layer (tapering, mode-mismatch reduction), so the taper layer is stated; registry note corrected as for the OPS row'
+delete_components:
+  - id: cmp_lit_tebeneva2024_ge_wgm_r1500
+    why: 'D411 (D233 analogue): discrete bulk crystalline Ge disk, a = 1.5 mm, diamond-turned on a lathe from a Czochralski Ge blank and polished, coupled by a Ge prism / hemisphere (p.4-5 Sec. 3, Fig. 1); not chip-integrated, out of the component atlas scope'
+  - id: cmp_lit_tebeneva2024_ge_wgm_r1350
+    why: 'D411: second bulk crystalline Ge disk, a = 1.35 mm, same lathe / polishing process (p.5 Sec. 3); out of scope'
+  - id: cmp_lit_hinumwagner2025_ring_lpcvd_w500_r80_g800
+    why: 'D159: its only performance value (ER about 12 dB, text p.10 "on LPCVD runs") conflicts with Fig. 14 (p.14), where the LPCVD-1 / LPCVD-2 W500 / R80 bars at the 0.8 um gap are about 3 dB and the about 12 dB bar is PECVD-2; wafer identity ambiguous, value not entered; the remaining geometry rows alone do not justify a component (D49 / D259a)'
+add_metrics:
+  - metric_id: cmp_lit_shoaa2025_polysi_taper-m7
+    component_id: cmp_lit_shoaa2025_polysi_taper
+    parameter: layer2_thickness_nm
+    value: 20
+    unit: nm
+    condition: intrinsic PECVD poly-Si taper layer above the SiN strip
+    basis: design_target
+    locator: p.3 Sec. 2.1
+    notes: 'deposited to taper the PCM layer (p.3); thickness as deposited, not measured'
+    why: 'miss (D153 geometry): p.3 Sec. 2.1 names the 20 nm intrinsic poly-Si layer as the taper layer; layer2_thickness_nm allowed for waveguide_platform'

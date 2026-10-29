@@ -1,0 +1,115 @@
+# Audit patch lit_28 (fresh-context audit 2026-10-29, DevLog/audits/2026-10-29-lit_28-audit.md).
+# 237 metrics: 224 ok / 13 imprecise / 0 wrong; 29 components: 28 ok / 1 changed / 0 deleted; 5 misses added.
+# Not covered here (coordinator / org round, see the audit file): LioniX BV (2013 entity), SUSS Micro-Optics and Molex
+# registry rows; merged wang2014 polarizer rows that use extinction_db instead of per_db (follow-up, merged data).
+components:
+  cmp_lit_bauters2013_sn40_5um_fiber_coupling:
+    core_material: Si3N4 40 nm x 5 um core in SiO2 (taper or facet geometry not stated)
+    why: 'p.8 Sec. 4 states only the 40 nm x 5 um core and the simulated 0.87 / 0.91 dB; "no taper" was an inference from the preceding tapering sentence, not stated'
+metrics:
+  cmp_lit_lin2025_sioxalox_ec-m12:
+    condition: 'lateral fiber displacement; the dashed 1.000 dB contour of the Fig. 3(b)-(c) maps (absolute coupling loss, map minimum 0.16 dB TE / 0.20 dB TM) is a circle of about +/-500 nm in lateral and axial (vertical) displacement'
+    notes: 'printed: loss of 1 dB for +/-500 nm and 3 dB for +/-1 um (p.2); the contour is an absolute 1 dB loss level, i.e. about 0.84 dB (TE) / 0.80 dB (TM) above the map minimum, not a 1 dB excess contour; no 3-dB tolerance parameter (D77 / D81)'
+    why: 'p.3 Fig. 3(b)-(c): contour labels 1.000 / 3.000 dB on maps whose colour-bar minimum is 0.1600 (TE) / 0.2000 (TM) dB; the registry parameter is defined for 1 dB excess loss, so the note must state the level'
+  cmp_lit_nauriyal2019_fused_oxide_ssc-m3:
+    statistic: ''
+    wavelength_nm: ''
+    wavelength_max_nm: ''
+    band: unspecified
+    notes: '3.8 dB total - 2.1 dB - 0.4 dB = 1.3 dB; wavelength of this value not stated and not stated as a minimum (Fig. 6 after-fusing points about 1.25-1.88 dB over 1480-1640 nm)'
+    why: 'p.6 Sec. 3 gives 1.3 dB from one total-loss value without wavelength or "minimum"; the 1480-1640 nm span implied the value holds over the range, which Fig. 6 (p.7) contradicts (up to about 1.9 dB near 1500 nm)'
+  cmp_lit_ong2018a_apod_ellip_box232-m5:
+    notes: 'Table 3 lists periods 1-11 and "12-40", but its formula index runs x = 0..27 (28 tail periods, 39 in total); 40 entered as printed in the period column'
+    why: 'p.6 Table 3: "12-40" row with "where x = 0, 1, 2, ..., 27"; in-table inconsistency recorded'
+  cmp_lit_rasel2026_pwb1_offset_0_0-m1:
+    n_samples: ''
+    notes: 'printed 1.41 +/- 0.06 dB (std over "multiple PWBs" of the assembly; each assembly has eight PWBs, number measured not stated); wavelength of the loss measurements not stated'
+    why: 'p.7 Sec. 4.1: error bars from "multiple PWBs for the same assembly"; eight PWBs per assembly does not state that all eight were measured'
+  cmp_lit_rasel2026_pwb2_offset_20_0-m1:
+    n_samples: ''
+    notes: 'printed 1.69 +/- 0.3 dB (std over "multiple PWBs" of the assembly; each assembly has eight PWBs, number measured not stated); wavelength of the loss measurements not stated'
+    why: p.7 Sec. 4.1, as pwb1 m1
+  cmp_lit_rasel2026_pwb3_offset_0_10-m1:
+    n_samples: ''
+    notes: 'printed 2.52 +/- 0.55 dB (std over "multiple PWBs" of the assembly; each assembly has eight PWBs, number measured not stated); wavelength of the loss measurements not stated'
+    why: p.7 Sec. 4.1, as pwb1 m1
+  cmp_lit_rasel2026_pwb4_offset_20_10-m1:
+    n_samples: ''
+    notes: 'printed 2.92 +/- 0.92 dB (std over "multiple PWBs" of the assembly; each assembly has eight PWBs, number measured not stated); wavelength of the loss measurements not stated'
+    why: p.7 Sec. 4.1, as pwb1 m1
+  cmp_lit_rasel2026_pwb_clad_power-m1:
+    qualifier: gt
+    notes: 'no loss degradation up to 29 dBm (stable > 6 h); failed at 30 dBm, so the limit lies between 29 and 30 dBm; EDFA-amplified source, hence C-band inferred (wavelength not stated)'
+    why: 'registry definition of power_handling_dbm: "stable up to X -> X with gt"; p.8 Sec. 4.2 / p.9 Sec. 5 "no loss degradation up to 29 dBm"'
+  cmp_lit_gradkowski2023_eb_mtp_link-m6:
+    basis: derived
+    notes: 'histogram of per-coupler loss (loopback halved, FC/APC and MTP matings accounted, as Table I); wavelength of the cycling test not stated (packaging measurements at 1550 nm)'
+    why: 'D80a: per-coupler values are halved loopback values with stated connector losses removed (p.6 Sec. V), the same arithmetic as m1 / m3 (derived)'
+  cmp_lit_gradkowski2023_eb_mtp_link-m7:
+    basis: derived
+    notes: 'negligible day-to-day difference; per-coupler values from the halved loopback with connector losses accounted (p.6); wavelength of the cycling test not stated'
+    why: D80a, as m6
+  cmp_lit_gradkowski2023_eb_mtp_link-m9:
+    basis: derived
+    notes: 'discussion gives a measured average 14.5 um; single-coupler curve obtained as the square root of the raw loopback translation curve (p.8 Sec. VII)'
+    why: 'p.8 Sec. VII: Fig. 5(a) data "averaged over both directions by taking a square root of the raw translation curve" = halving in dB, arithmetic on own measurement (D80a)'
+  cmp_lit_gradkowski2023_pic_microlens-m1:
+    basis: derived
+    notes: 'Fig. 5(a) solid lines; single-coupler curve = square root of the raw loopback curve (p.8 Sec. VII); same value as for a fiber array to the PIC'
+    why: 'p.8 Sec. VII square-root processing applies to all Fig. 5(a) data (D80a)'
+  cmp_lit_gradkowski2023_refpic_sin_edge-m4:
+    basis: derived
+    why: 'p.3 Fig. 2 caption: the curve "was processed to represent the average effect of a single coupler-fiber interface" (loopback halved, D80a)'
+add_metrics:
+- metric_id: cmp_lit_nauriyal2019_fused_oxide_ssc-m13
+  component_id: cmp_lit_nauriyal2019_fused_oxide_ssc
+  parameter: tol_1db_lateral_um
+  value: '2.4'
+  unit: um
+  band: unspecified
+  polarization: te
+  condition: vertical fiber-to-mode-converter misalignment, +/- value (1 dB penalty)
+  basis: simulated
+  locator: p.4 Sec. 2; p.5 Fig. 5
+  notes: vertical axis in tol_1db_lateral_um with the direction in condition (merged precedent fowler2025 m3, gao2019 m4, tanaka2012 m3); wavelength not stated
+  why: 'miss: p.4 / p.5 Fig. 5 "+/-2.4 um ... vertical"; skipped by the batch as a registry gap, but merged rows store vertical tolerances in tol_1db_lateral_um with the direction in condition'
+- metric_id: cmp_lit_lin2025_sioxalox_ec-m22
+  component_id: cmp_lit_lin2025_sioxalox_ec
+  parameter: tol_1db_lateral_um
+  value: '0.5'
+  unit: um
+  wavelength_nm: '375'
+  wavelength_inferred: 'true'
+  polarization: both
+  condition: 'axial (vertical, out-of-plane) fiber displacement; dashed 1.000 dB contour of the Fig. 3(b)-(c) maps (absolute coupling loss, map minimum 0.16 dB TE / 0.20 dB TM)'
+  basis: simulated
+  locator: p.2 Sec. II; p.3 Fig. 3(b)-(c)
+  notes: 'absolute 1 dB loss level, about 0.84 / 0.80 dB above the map minimum, not a 1 dB excess contour; the paper calls the vertical map axis "axial displacement"; vertical axis in tol_1db_lateral_um with the direction in condition (fowler2025 / gao2019 / tanaka2012 precedent); 375 nm design wavelength'
+  why: 'miss: p.2 "+/-500 nm" applies to both map axes of Fig. 3(b)-(c) (p.3); the batch entered only the lateral axis and noted the vertical one'
+- metric_id: cmp_lit_ong2018a_apod_ellip_box232-m16
+  component_id: cmp_lit_ong2018a_apod_ellip_box232
+  parameter: mfd_fiber_um
+  value: '10.4'
+  unit: um
+  condition: SMF-28 the grating coupler is designed for (9 deg tilt)
+  basis: specification
+  locator: p.1 Sec. 1; p.4 Sec. 2
+  why: 'miss: p.1 states SMF-28 with 10.4 um MFD; p.4 the design maximizes coupling from a 9 deg tilted SMF-28 (design-target fiber, skill rule on mfd_fiber_um)'
+- metric_id: cmp_lit_ong2018a_unif_ellip_box232-m14
+  component_id: cmp_lit_ong2018a_unif_ellip_box232
+  parameter: mfd_fiber_um
+  value: '10.4'
+  unit: um
+  condition: SMF-28 the grating coupler is designed for (9 deg tilt)
+  basis: specification
+  locator: p.1 Sec. 1; p.4 Sec. 2
+  why: miss, as apod_ellip_box232-m16
+- metric_id: cmp_lit_ong2018a_apod_ellip_box6-m13
+  component_id: cmp_lit_ong2018a_apod_ellip_box6
+  parameter: mfd_fiber_um
+  value: '10.4'
+  unit: um
+  condition: SMF-28 the grating coupler is designed for (9 deg tilt)
+  basis: specification
+  locator: p.1 Sec. 1; p.4 Sec. 2; p.8 Sec. 2
+  why: 'miss, as apod_ellip_box232-m16; the 6.0 um BOX design uses the same approach (p.8)'

@@ -1,0 +1,8 @@
+# Coordinator rulings on the lit_37 audit (2026-10-29, DevLog-007 D159); applied after patch.yaml.
+delete_metrics:
+- id: cmp_lit_li2026b_nv_ps_mzi_1mm-m4
+  why: 'D159: p.8 does not say which device was cycled 1e6 times; the attribution to the 1 mm MZI rests on paragraph order only (lit_37 audit Q1); the value stays in the component notes'
+components:
+  cmp_lit_li2026b_nv_ps_mzi_1mm:
+    notes: 'No fab org: ''We therefore fabricated'' (p.6) by authors at HUST, SJTU and HIT (not one org); LT devices were fabricated in the cleanroom of Wuhan ANPI Corporation (p.20): no statement that ANPI fabricated, and a company''s own cleanroom is not a facility (D404). Facility support by the Advanced Micro-Nano Fabrication Center of HUST (p.20): missing from the registry, not entered. Page 9 (Table 1) read from the page render (garbled text layer). Mechanism: domain inversion with a retained defect-dipole built-in field (Pockels). Not entered: programming voltage (switching from 100 V, full reversal 127.5 V), write energy (Table 1: set 2.6 uJ, reset 3.06 uJ, MZI), 100-ms-scale tuning time, electrode gap 6 um and LT width 7 um (no registry parameters); model-estimated delta n 0.613e-3 (bulk) / 0.55e-3 (effective). Endurance of 1e6 switching cycles (p.8) not entered: the cycled device is not identified (D159).'
+    why: 'D159: record the removed endurance value in notes'

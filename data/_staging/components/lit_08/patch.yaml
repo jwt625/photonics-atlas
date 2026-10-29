@@ -1,0 +1,135 @@
+# Audit patch lit_08 (fresh-context audit 2026-10-29, DevLog/audits/2026-10-29-lit_08-audit.md).
+# 246 metrics: 232 ok / 14 imprecise / 0 wrong; 36 components: 31 ok / 5 changed / 0 deleted; 6 misses added.
+# Not covered here (coordinator decisions, see the audit file): koninck2025 platform vs the OFC W2A.10 nano-ridge row
+# (gaas), fowler2025 PIC fab borderline (D84a), registry gaps.
+components:
+  cmp_lit_koninck2025_nr_laser_etched_1mm:
+    notes: 'Grown and fabricated in imec''s 300 mm CMOS pilot line by the authors (contributions p.21: NR growth executed and wafer fabrication coordinated by authors; acknowledgement p.21): fab_org_ids org_imec. Platform iii_v_on_si_epi (monolithic epitaxy on Si; OFC W2A.10 nano-ridge precedent used gaas). Laser wavelength ~1020 nm (nir_below_o). Wafer-scale statistics: more than 300 functional lasers over three lengths, 87 of them 1 mm long (Fig. 5(a) panel label, p.29); total two-facet power and slope from on-wafer NR photodiode photocurrent using the cited PD responsivity 0.65 A/W [48] and a simulated 12.5 % LD-to-PD coupling (p.6, p.20 Methods): those values are author_estimate; thresholds come directly from the I-I curves (measured). Etched facets: 12 deg, ~1000 nm deep (HAADF-STEM, Supp. S1), ~5 % reflectivity (simulated); facet angle convention ambiguous, not entered. minimum threshold 4.5 mA = 1.2 kA/cm2 (p.6).'
+    why: 'p.29 Fig. 5(a) panel label "Laser count = 87" for L = 1 mm; the note claimed the per-length count is not stated'
+  cmp_lit_koninck2025_nr_laser_etched_1p5mm:
+    notes: 'Grown and fabricated in imec''s 300 mm CMOS pilot line by the authors (contributions p.21: NR growth executed and wafer fabrication coordinated by authors; acknowledgement p.21): fab_org_ids org_imec. Platform iii_v_on_si_epi (monolithic epitaxy on Si; OFC W2A.10 nano-ridge precedent used gaas). Laser wavelength ~1020 nm (nir_below_o). Wafer-scale statistics: more than 300 functional lasers over three lengths, 105 of them 1.5 mm long (Fig. 5(b) panel label, p.29); total two-facet power and slope from on-wafer NR photodiode photocurrent using the cited PD responsivity 0.65 A/W [48] and a simulated 12.5 % LD-to-PD coupling (p.6, p.20 Methods): those values are author_estimate; thresholds come directly from the I-I curves (measured). Etched facets: 12 deg, ~1000 nm deep (HAADF-STEM, Supp. S1), ~5 % reflectivity (simulated); facet angle convention ambiguous, not entered.'
+    why: 'p.29 Fig. 5(b) panel label "Laser count = 105" for L = 1.5 mm; the note claimed the per-length count is not stated'
+  cmp_lit_koninck2025_nr_laser_etched_2mm:
+    notes: 'Grown and fabricated in imec''s 300 mm CMOS pilot line by the authors (contributions p.21: NR growth executed and wafer fabrication coordinated by authors; acknowledgement p.21): fab_org_ids org_imec. Platform iii_v_on_si_epi (monolithic epitaxy on Si; OFC W2A.10 nano-ridge precedent used gaas). Laser wavelength ~1020 nm (nir_below_o). Wafer-scale statistics: more than 300 functional lasers over three lengths, 113 of them 2 mm long (Fig. 5(c) panel label, p.29); total two-facet power and slope from on-wafer NR photodiode photocurrent using the cited PD responsivity 0.65 A/W [48] and a simulated 12.5 % LD-to-PD coupling (p.6, p.20 Methods): those values are author_estimate; thresholds come directly from the I-I curves (measured). Single-device rows (Fig. 4(a), Fig. 4(b) / Ext. Data Fig. 2, Fig. 4(c) stress test) are 2 mm lasers whose identity with each other is not stated. Etched facets: 12 deg, ~1000 nm deep (HAADF-STEM, Supp. S1), ~5 % reflectivity (simulated); facet angle convention ambiguous, not entered. minimum threshold 7.1 mA = 0.93 kA/cm2 (p.7).'
+    why: 'p.29 Fig. 5(c) panel label "Laser count = 113" for L = 2 mm; the note claimed the per-length count is not stated; single-device provenance made explicit (p.6-7, p.17, p.23)'
+  cmp_lit_yu2023_freeform_reflector_smf:
+    class: fiber_chip_coupler.other
+    notes: 'SiN waveguides from an AIM Photonics MPW run (p.5, p.9), foundry fabrication performed by authors at the Research Foundation for SUNY (contributions p.9); reflectors designed, fabricated (TPP, Nanoscribe) and characterized by MIT authors (contributions p.9). Class fiber_chip_coupler.other per D138 / D152 (3D-printed out-of-plane fiber-to-chip coupler). Not entered: coupler surface RMS roughness 18 nm, unchanged loss after 250 C anneal (Fig. 6(d)), no damage at 8 kW peak pulses, simulated < 0.1 dB over 28 um out-of-plane (p.6, no parameter). Fig. 4(a) reflector dimension labels (40, 10, 14, 100 um; recess depth 140 um) not tied to a registry dimension unambiguously.'
+    why: 'D138 / D152: fiber_chip_coupler.other is the registry class for 3D-printed out-of-plane couplers; this is a TPP-printed surface-normal SMF-to-SiN coupler (p.3, p.5-7); every metric parameter of the row is allowed for fiber_chip_coupler, and tip_width_nm becomes enterable'
+  cmp_lit_yu2023_freeform_reflector_pcf_design:
+    class: fiber_chip_coupler.other
+    why: 'D138 / D152, as the SMF coupler row (same free-form TPP reflector concept, PCF target fiber; p.5)'
+metrics:
+  cmp_lit_koninck2025_nr_laser_etched_1mm-m1:
+    n_samples: '87'
+    why: 'p.29 Fig. 5(a) panel label "Laser count = 87" (L = 1 mm population of the mean)'
+  cmp_lit_koninck2025_nr_laser_etched_1mm-m2:
+    n_samples: '87'
+    why: p.29 Fig. 5(a), population of the minimum
+  cmp_lit_koninck2025_nr_laser_etched_1mm-m3:
+    n_samples: '87'
+    why: p.29 Fig. 5(a), population of the mean slope
+  cmp_lit_koninck2025_nr_laser_etched_1mm-m4:
+    n_samples: '87'
+    why: p.29 Fig. 5(a), population of the maximum power
+  cmp_lit_koninck2025_nr_laser_etched_1p5mm-m1:
+    n_samples: '105'
+    why: 'p.29 Fig. 5(b) panel label "Laser count = 105" (L = 1.5 mm)'
+  cmp_lit_koninck2025_nr_laser_etched_1p5mm-m2:
+    n_samples: '105'
+    why: p.29 Fig. 5(b)
+  cmp_lit_koninck2025_nr_laser_etched_1p5mm-m3:
+    n_samples: '105'
+    why: p.29 Fig. 5(b)
+  cmp_lit_koninck2025_nr_laser_etched_1p5mm-m4:
+    n_samples: '105'
+    why: p.29 Fig. 5(b)
+  cmp_lit_koninck2025_nr_laser_etched_2mm-m1:
+    n_samples: '113'
+    why: 'p.29 Fig. 5(c) panel label "Laser count = 113" (L = 2 mm)'
+  cmp_lit_koninck2025_nr_laser_etched_2mm-m2:
+    n_samples: '113'
+    why: p.29 Fig. 5(c)
+  cmp_lit_koninck2025_nr_laser_etched_2mm-m3:
+    n_samples: '113'
+    why: p.29 Fig. 5(c)
+  cmp_lit_koninck2025_nr_laser_etched_2mm-m4:
+    n_samples: '113'
+    why: p.29 Fig. 5(c)
+  cmp_lit_yu2023_freeform_reflector_smf-m4:
+    wavelength_inferred: 'true'
+    notes: 'wavelength not stated for Fig. 6(e); 1550 nm taken from the design / headline wavelength of the coupler (p.3, p.6)'
+    why: 'p.7 and Fig. 6(e) give the +/- 2.2 um in-plane tolerance without a wavelength; the row stored 1550 nm as if stated'
+  cmp_lit_fowler2025_opa_24ch-m2:
+    basis: derived
+    notes: 'span of the calibrated steering directions phi = -15 to +15 deg in 5 deg steps (p.7, Fig. 4(c)); 30 deg not printed, computed as 15 - (-15); camera field about +/-20 deg'
+    why: 'D82d: p.7 lists the calibrated angles (-15 ... 15 deg); the 30 deg span is arithmetic on printed values, not a printed number'
+add_metrics:
+- metric_id: cmp_lit_keyvaninia2013_racetrack_filter-m9
+  component_id: cmp_lit_keyvaninia2013_racetrack_filter
+  parameter: box_thickness_um
+  value: '2'
+  unit: um
+  basis: design_target
+  locator: p.6 Sec. 2.4
+  notes: SOI substrate with 2 um buried oxide (SOITEC 200 mm wafer, p.5-6)
+  why: 'miss (D153, ring_bus template xsec): p.6 states the 2 um BOX of the SOI wafer carrying the 220 nm ring layer'
+- metric_id: cmp_lit_koninck2025_nr_laser_etched_1mm-m7
+  component_id: cmp_lit_koninck2025_nr_laser_etched_1mm
+  parameter: slope_efficiency_w_per_a
+  value: '0.5'
+  unit: W/A
+  statistic: best
+  n_samples: '87'
+  ref_plane: chip
+  condition: 'total of both etched facets; on-wafer, CW, room temperature; highest slope of the wafer-level population'
+  method: wafer_prober
+  basis: author_estimate
+  locator: p.3 Introduction; p.8 Discussion; p.29 Fig. 5(e)
+  notes: 'printed "slope efficiencies as high as 0.5 W/A" (p.3; "0.5 A/W" on p.8) without a length; Fig. 5(e) shows only the 1 mm distribution reaching 0.5 W/A (upper whisker about 12.8 uA/mA on the right axis; 1.5 mm and 2 mm maxima below 0.4 W/A); W/A conversion rests on the cited PD responsivity and simulated coupling'
+  why: 'miss: headline best slope efficiency (p.3, p.8), attributable to the 1 mm lasers from Fig. 5(e) (only that box reaches the 0.5 W/A level)'
+- metric_id: cmp_lit_vaskasi2022_dfb_180um-m20
+  component_id: cmp_lit_vaskasi2022_dfb_180um
+  parameter: bw3db_ghz
+  value: '14'
+  unit: GHz
+  qualifier: approx
+  temperature_k: '293.15'
+  condition: small-signal direct modulation (VNA S21), 50 mA bias
+  method: direct
+  basis: measured
+  locator: p.8 Sec. 3.2, Fig. 7(a)
+  notes: 'printed "modulation bandwidth of about 14 GHz" at 50 mA without a criterion; the Fig. 7(a) 20 C response crosses -3 dB near 14 GHz (figure reading); output through the 9 dB grating coupler'
+  why: 'miss: measured small-signal bandwidth (p.8); bw3db_ghz is allowed for laser; the Fig. 7(a) curve confirms the -3 dB reading'
+- metric_id: cmp_lit_vaskasi2022_dfb_180um-m21
+  component_id: cmp_lit_vaskasi2022_dfb_180um
+  parameter: bw3db_ghz
+  value: '9'
+  unit: GHz
+  qualifier: approx
+  temperature_k: '313.15'
+  condition: small-signal direct modulation (VNA S21), 50 mA bias
+  method: direct
+  basis: measured
+  locator: p.8 Sec. 3.2, Fig. 7(a)
+  notes: 'printed "about ... 9 GHz at 50 mA" for 40 C without a criterion; the Fig. 7(a) 40 C response crosses -3 dB near 9 GHz (figure reading)'
+  why: 'miss: measured small-signal bandwidth at 40 C (p.8), as m20'
+- metric_id: cmp_lit_yu2023_freeform_reflector_smf-m13
+  component_id: cmp_lit_yu2023_freeform_reflector_smf
+  parameter: tip_width_nm
+  value: '360'
+  unit: nm
+  basis: design_target
+  locator: p.5 Device fabrication and characterization
+  notes: SiN waveguide adiabatically tapered from 1500 nm to 360 nm at the end tip facing the reflector
+  why: 'miss after the reclass to fiber_chip_coupler.other (tip_width_nm allowed): p.5 states the 360 nm end-tip width'
+- metric_id: cmp_lit_zhang2024a_polymer_wg_lower-m5
+  component_id: cmp_lit_zhang2024a_polymer_wg_lower
+  parameter: box_thickness_um
+  value: '50'
+  unit: um
+  qualifier: approx
+  basis: design_target
+  locator: p.7 Sec. 3, Fig. 6(a)
+  notes: 'lower-layer EpoClad cladding spin-coated on FR4, "approximately 50 um"'
+  why: 'miss (D153, waveguide_xsec template): p.7 step (a) states the lower cladding thickness under the lower-layer cores'

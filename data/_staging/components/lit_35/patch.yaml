@@ -1,0 +1,25 @@
+# Audit patch lit_35 (fresh-context audit 2026-10-29, DevLog/audits/2026-10-29-lit_35-audit.md).
+# 134 metrics: 132 ok / 2 imprecise / 0 wrong; 24 components: 21 ok / 3 changed / 0 deleted; 0 misses added.
+# Not covered here (coordinator decisions, see the audit file): registry rows for SiEPICfab, Muenster Nanofabrication
+# Facility, Myfab Chalmers, 4D Labs (SFU), Alpes Lasers; registry gaps.
+components:
+  cmp_lit_chowdhury2024_onchip_dfb:
+    platform: ''
+    why: 'skill rule 1 / 11: the paper names only a commercial O-band DFB die from MACOM (p.6 Sec. 2.2); its material / epi stack is not stated anywhere in the text (core_material already says structure not stated); merged precedent for unstated laser material is an empty platform (lit:wang2026b, lit:lu2016, OFC TOSA rows)'
+  cmp_lit_chowdhury2024_fiber_pwb_dfb:
+    platform: ''
+    why: 'as onchip_dfb: second die of the same MACOM product (p.6 Sec. 2.3), material not stated'
+  cmp_lit_chowdhury2024_wbg_fp_cavity:
+    process_name: SiEPIC Ebeam ZEP PDK
+    why: 'p.4 Sec. 2.1 prints the PDK as SiEPIC Ebeam ZEP process design kit; SiEPICfab is the MPW / process-flow name (p.3, p.13), not part of the PDK name'
+metrics:
+  cmp_lit_verdier2017_rsoa-m1:
+    wavelength_nm: ''
+    band: cl_band
+    wavelength_inferred: 'true'
+    notes: 'printed 27 dB at 400 mA with no wavelength (p.3 Sec. III-A); band = the stated operating band of the RSOA / lasers (C and L, 1540-1635 nm), inferred (skill rule 8); Fig. 7(a) 400 mA curve is near 27 dB over roughly 1570-1610 nm (figure reading, not used as the condition)'
+    why: 'skill rule 8: an unstated wavelength takes the stated operating band with wavelength_inferred; a peak position read off Fig. 7(a) (broad plateau, no single peak) is a figure reading, not a stated wavelength, and the row basis (measured, value printed in text) cannot also carry extracted_from_figure for the condition'
+  cmp_lit_fang2006_hybrid_laser-m4:
+    condition: printed threshold voltage (definition not stated; threshold current 65 mA at 15 C)
+    notes: 'printed threshold voltage of 2 V (p.5 Sec. 3); the paper does not say whether this is the voltage at lasing threshold or the diode turn-on voltage'
+    why: 'p.5 Sec. 3 prints only "threshold voltage of 2 V"; the row condition asserted "at threshold current", an interpretation the text does not make'

@@ -1,0 +1,92 @@
+# Audit patch lit_30 (fresh-context audit 2026-10-29, DevLog/audits/2026-10-29-lit_30-audit.md).
+# 5 metric corrections (imprecise) + 1 component reclass (testa2018 double-MRR switch element -> switch_fabric.other,
+# D158 analogue) with 4 metric rows deleted because their parameters are not allowed for switch_fabric (registry gap,
+# values kept in the component notes) + 4 missed metric rows. No wrong values.
+components:
+  cmp_lit_testa2018_mrr_switch_element:
+    class: switch_fabric.other
+    notes: "Switch node of the matrix (48 x 16 double-MRR elements): each matrix row already carries one demultiplexed channel (interleaver + AWG upstream, p.8 Sec. VII-A), and the element routes it from row to column, so its function is switching (D158 analogue: a single switch element is switch_fabric.other). Table I spectral values not allowed for switch_fabric and not entered (registry gap): 1-dB bandwidth > 70 GHz (spec > 50 GHz), tuning range > 12 nm (spec > 8 nm) (p.3 Table I); FSR 19 nm of the tuned switch path (p.8 Sec. VI, Fig. 14(b)); inter-die resonance spread up to 9 nm (p.4 Sec. II, Fig. 5(b)); intra-die channels within +/-75 GHz of nominal (p.4, Fig. 6). Thermal crosstalk between rings < 0.5 C simulated (refs [12], [26]) and not detected experimentally. Heater thermal time constant about 4 us (entered on the switch row). Table I values are given as measured against the project specification; per p.8 the isolated component losses are inferred from the full-chip PD-tracking test. Element designs are in refs [12]-[16] (not entered). PIC 'fabricated in the CEA LETI facilities' (p.3 Sec. II): fab CEA-Leti."
+    why: 'D158 analogue + skill rule 10: the element switches an already demultiplexed channel between row and column (p.2 Sec. I, p.8 Sec. VII-A, Fig. 16); the paper calls it switch element / MRR switch; wdm.mrr is for rings used as channel filters'
+metrics:
+  cmp_lit_amorim2017_oadm_mzi_bgw-m4:
+    wavelength_nm: '1550'
+    notes: "printed 'approximately 14 dB between ports'; similar for the transmitted signal; wavelength 'around 1550 nm' (D393)"
+    why: 'D393 / consistency with m1-m3, m5-m6: the OADM is characterized at around 1550 nm (p.1 Abstract, p.6 Sec. III-C); the extinction row had no wavelength'
+  cmp_lit_amorim2017_bgw_dc40-m1:
+    band: ''
+    wavelength_nm: '1550'
+    notes: "printed ~31 dB around 40 % duty cycle; Fig. 5(b) shows both writing polarizations near 31 dB; gratings made to match 'around 1550 nm' (D393; excess-loss reference at 1555 nm)"
+    why: "D393: p.4 Sec. III-A states the BGW properties were investigated at around 1550 nm with the period chosen to match it; band unspecified is only for unstated wavelengths (D46)"
+  cmp_lit_amorim2017_bgw_dc60-m1:
+    band: ''
+    wavelength_nm: '1550'
+    notes: "printed ~29 dB; gratings made to match 'around 1550 nm' (D393)"
+    why: 'as bgw_dc40-m1 (p.4 Sec. III-A)'
+  cmp_lit_sabri2024_mmi_3db-m4:
+    basis: design_target
+    locator: 'p.4 Sec. 3; p.5 Sec. 3'
+    notes: 'printed 0.435 um for the MMI core (p.5); the same SiN layer is printed as 435 nm on p.4'
+    why: 'D256: the stored-unit form (435 nm SiN height) is printed on p.4 Sec. 3, so the row keeps the design basis (as sin_waveguide-m3)'
+  cmp_lit_sabri2024_mmi_3db-m7:
+    basis: design_target
+    locator: 'p.4 Sec. 3; p.5 Sec. 3'
+    notes: 'printed 0.85 um access waveguide width (p.5); the same waveguide base width is printed as 850 nm on p.4'
+    why: 'D256: the stored-unit form (850 nm base width) is printed on p.4 Sec. 3'
+delete_metrics:
+- id: cmp_lit_testa2018_mrr_switch_element-m3
+  why: 'reclass to switch_fabric.other: bw_1db_ghz not allowed for switch_fabric (Table I MRR 1-dB bandwidth > 70 GHz, p.3); value kept in component notes, registry gap'
+- id: cmp_lit_testa2018_mrr_switch_element-m8
+  why: 'reclass to switch_fabric.other: tuning_range_nm not allowed for switch_fabric (Table I > 12 nm, p.3); value kept in component notes, registry gap'
+- id: cmp_lit_testa2018_mrr_switch_element-m9
+  why: 'reclass to switch_fabric.other: fsr_nm not allowed for switch_fabric (FSR 19 nm, p.8 Sec. VI, Fig. 14(b)); value kept in component notes, registry gap'
+- id: cmp_lit_testa2018_mrr_switch_element-m10
+  why: 'reclass to switch_fabric.other: wavelength_spread_nm not allowed for switch_fabric (up to 9 nm inter-die, p.4 Sec. II, Fig. 5(b)); value kept in component notes, registry gap'
+add_metrics:
+- metric_id: cmp_lit_amorim2017_dc_d10_l1p48-m3
+  component_id: cmp_lit_amorim2017_dc_d10_l1p48
+  parameter: min_bend_radius_um
+  value: '80000'
+  unit: um
+  basis: derived
+  locator: 'p.3 Sec. III; p.4 Sec. III-B'
+  notes: "printed 80 mm bend radius used in the fabricated devices; DCs use the optimized S-bend parameters"
+  why: 'miss: same statement as dc_d15_l1p77-m3 (p.3 bend radius for all fabricated devices; p.4 DCs built with the S-bend parameters); D153 geometry'
+- metric_id: cmp_lit_stanton2017_awg_8ch-m18
+  component_id: cmp_lit_stanton2017_awg_8ch
+  parameter: fpr_length_um
+  value: '204.42'
+  unit: um
+  basis: design_target
+  locator: 'p.6 Table 1; p.4 Fig. 1(b)'
+  notes: "Table 1 'Rowland radius r' 204.42 um; Fig. 1(b) draws r across the FPR from the array aperture to the i/o waveguides and r/2 as the focal (Rowland) circle"
+  why: 'miss (D153, awg template fpr_length_um): the Fig. 1(b) schematic labels r as the FPR length, so the Rowland radius r of Table 1 is the FPR length'
+- metric_id: cmp_lit_zhang2019a_pcr_15hole-m8
+  component_id: cmp_lit_zhang2019a_pcr_15hole
+  parameter: insertion_loss_db
+  value: '1.1'
+  unit: dB
+  band: c_band
+  polarization: te
+  scope: per_component
+  includes: PCR reflection and its linear taper (one reflection per arrayed-waveguide path)
+  condition: extra loss of the R-AWG (input 4, 6.7 dB) over the T-AWG on the same chip (input 5, 5.6 dB); bends kept in both layouts so the difference isolates the PCRs
+  method: reference_structure
+  basis: derived
+  locator: 'p.1 Abstract; p.2 Sec. II; p.3 Sec. III'
+  notes: "printed '1.1-dB extra loss' / '1.1-dB power loss higher' than the T-AWG; 6.7 - 5.6 dB; p.2 says the bends are kept 'to obtain the contributions only from PCRs'; input ports differ (4 vs 5)"
+  why: 'miss: the paper attributes the 1.1 dB R-AWG excess to the PCRs (abstract, p.2); derived from two own measured structures (D80a)'
+- metric_id: cmp_lit_testa2018_spgc_pigtailed-m4
+  component_id: cmp_lit_testa2018_spgc_pigtailed
+  parameter: insertion_loss_db
+  value: '4'
+  unit: dB
+  qualifier: approx
+  band: c_band
+  polarization: te
+  scope: per_coupler
+  condition: input fiber to PIC, read by the first on-chip monitor PD in the full-chip add test (packaged switch; 8 dB for the two grating couplers of the path)
+  method: direct
+  basis: measured
+  locator: 'p.8 Sec. VI, Fig. 14(b)'
+  notes: "printed 'about 4 dB' (bottom panel of Fig. 14(b)); 22 dB channel loss decomposed into 8 dB grating-coupler and 14 dB on-chip loss"
+  why: 'miss: in-package coupling loss of one pigtailed grating from the PD-tracked full-chip test, in addition to the p.6 pigtailing value (< 4 dB per grating)'

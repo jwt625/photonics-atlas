@@ -1,0 +1,88 @@
+# Audit patch lit_41 (fresh-context audit 2026-10-29, DevLog/audits/2026-10-29-lit_41-audit.md).
+# 128 metrics: 120 ok / 5 imprecise / 3 wrong; 28 components: 26 ok / 2 changed / 0 deleted; 1 component and 2 metrics added.
+# Not covered here (coordinator): snyder2018 source-row venue (sources.csv prints 2022 72nd ECTC, PDF p.1 prints
+# 2018 IEEE 68th ECTC, DOI 10.1109/ECTC.2018.00130); registry gaps listed in the audit file.
+components:
+  cmp_lit_ong2018_hpf_rect:
+    notes: 'No fab org: fabricated in an unnamed 300 mm CMOS foundry (p.12); acknowledgment of AIM Photonics is a program statement (D80c). Design: 10 batches of 4 periods (Table 2), SWG pitch 600 nm; designed for a 24 um TE plane wave at 10 deg. Number of periods not entered (text p.7: 40 periods; Table 2 last batch 37-42). SEM CDs of Device 2 85-100 % of design (Table 2). -1 dB misalignment tolerance printed 21.4 um x 10.1 um as full extents of the -1 dB region (abstract, p.6, Fig. 8(b)); the x extent is not centred on the peak (Fig. 8(b) red band about -7 to +14 um, audit reading), so it is not entered as tol_1db_lateral_um (half-width definition); the y extent is entered halved (m6). -1 dB / -3 dB areas at 1603 nm 47.0 / 128.5 um2 (Table 3; no registry parameter). Simulated tilt tolerance about 0.4 dB for +/-1 deg and 2.0 dB for +/-3 deg (2D FDTD, Fig. 12(b)) not entered (no parameter).'
+    why: 'p.15 Fig. 8(b): the -1 dB (red) band spans about -7 to +14 um in x around the peak at the origin; tol_1db_lateral_um is defined as a half-width (+/- value), so the asymmetric 21.4 um x extent cannot be halved (m5 deleted); note records the printed extents and why x is out'
+  cmp_lit_keyvaninia2019_inp_prs:
+    notes: 'No fab org: fabrication described passively (MOVPE, EBL, RIE, contact lithography; p.7); authors at Fraunhofer HHI (one now at Bosch). Layout (Fig. 3): W1 1.7 um -> W2 2.7 um -> W3 3.1 um, L1 150 um, L2 1200 um, L3 150 um; Y-coupler angle 0.3 deg, gap 120 nm, branch widths 1.4 um and 1.5 um (text p.5) vs 1.6 um (Fig. 3). Family row (D165): holds the design geometry and the statements made over the mask-width variants -200 to +200 nm (Fig. 8); fabricated widths about 100 nm narrower than the mask (SEM, p.8). The peak PER (24 dB) is tied by the text to the +100 nm mask variant and sits on cmp_lit_keyvaninia2019_inp_prs_mask_p100. Headline PER better than 19 dB over 1520-1620 nm (abstract, p.8 Sec. 5) names no variant (D159): not entered as a metric. Per-variant Fig. 8 readings not entered. AR-coated facets, lensed-fiber input, objective output.'
+    why: 'p.1 Abstract and p.8 Sec. 5 state the 19 dB bound for "the device" without a variant, while Fig. 8 shows five mask variants (D159: headline value not tied to a variant stays a note); p.8 Sec. 4 ties the highest measured PER to the +100 nm variant, moved to that variant row'
+metrics:
+  cmp_lit_benedikovic2015_swg_apod_mirror_gc-m9:
+    basis: derived
+    notes: 'sum of the printed 10 apodized and 15 uniform periods (p.5); total not printed for the apodized design'
+    why: 'p.5 Sec. 2 prints 10 apodized + 15 uniform periods, not 25 (25 is printed only for the reference uniform grating, p.4); explicit arithmetic is derived (D80a / D82d)'
+  cmp_lit_ong2018_hpf_rect-m6:
+    notes: 'printed 10.1 um full extent of the -1 dB region in y (abstract, p.6); halved for the +/- convention; Fig. 8(b) red band roughly symmetric in y about the peak (about +6 / -6 um, audit reading); the 21.4 um x extent is not centred and is not entered (component notes)'
+    why: 'p.15 Fig. 8(b): y extent of the -1 dB band is roughly centred on the peak at the origin, so halving gives the half-width the definition asks for; note now records the symmetry check'
+  cmp_lit_snyder2018_smf_lensed_ec-m8:
+    band: ''
+    wavelength_nm: '1475'
+    wavelength_max_nm: '1625'
+    wavelength_inferred: 'true'
+    notes: 'mode size of around 3 um stated without method (origin not stated) in the paragraph on the 1475-1625 nm alignment measurement (p.5); diameter vs radius not stated'
+    why: 'p.5 Sec. IV: the statement sits in the paragraph on the S/C/L measurement over 1475-1625 nm; cl_band (1530-1625) dropped the S-band part of the stated range'
+  cmp_lit_cheng2023_camn_polarizer_design-m3:
+    basis: design_target
+    locator: p.6 Sec. 2.1.4; p.5 Fig. 3(a)
+    notes: text states W = 0.8 um for the Fig. 3(a) CAMN (p.6); Fig. 3(a) label W = 0.8 um
+    why: 'p.6 Sec. 2.1.4: "the CAMN with the correct width (W = 0.8 um)" for the Fig. 3(a) design; a text-stated dimension is design_target, not extracted_from_figure'
+  cmp_lit_keyvaninia2019_inp_prs-m3:
+    notes: 'printed above 17 dB over the entire C- and L-band for variants from -200 to +100 nm relative to the actual design value (p.8); whether mask or fabricated widths are meant is not stated; Fig. 8 shows the +200 nm mask variant at about 15.6 dB (Port1, 1620 nm) and the -200 nm mask variant at 10-14 dB (audit reading)'
+    why: 'p.8 Fig. 8: the variant set behind the family bound is ambiguous (mask vs actual width, 100 nm SEM shrinkage); value kept on the family row (D165) with the ambiguity recorded'
+delete_metrics:
+  - id: cmp_lit_ong2018_hpf_rect-m5
+    why: 'p.15 Fig. 8(b): the printed 21.4 um x extent of the -1 dB region is not centred on the peak (about -7 to +14 um); halving it does not give the +/- half-width that tol_1db_lateral_um defines; printed value kept in component notes (precedent ishii2003 m4: asymmetric window not entered as a value)'
+  - id: cmp_lit_keyvaninia2019_inp_prs-m1
+    why: 'p.1 Abstract, p.8 Sec. 5: PER better than 19 dB is stated for "the device" without naming one of the five measured mask variants (Fig. 8; no variant curve stays above 19 dB at every point, e.g. +100 nm Port1 about 18.3 dB at 1525 nm); D159 / D165: headline value not tied to a variant goes into component notes'
+  - id: cmp_lit_keyvaninia2019_inp_prs-m2
+    why: 'p.8 Sec. 4 ties the highest measured PER to the +100 nm mask variant; value moved to that variant row (cmp_lit_keyvaninia2019_inp_prs_mask_p100-m1)'
+add_components:
+  - component_id: cmp_lit_keyvaninia2019_inp_prs_mask_p100
+    source_id: lit:keyvaninia2019
+    class: polarization.psr
+    label: 'Mode-evolution polarization rotator-splitter, mask width +100 nm variant (fabricated width about the design value), InGaAsP/InP rib, C+L band'
+    row_kind: fabricated
+    host_device_ids: ''
+    platform: inp
+    core_material: 'InGaAsP (Q1.35) 440 nm on semi-insulating InP (MOVPE), single shallow etch of 120 nm (rib h1 120 nm on h2 320 nm); 150 nm Si3N4 pre-converter taper (150 um) on the input; all waveguide widths +100 nm on the mask relative to the design'
+    cladding: air over the converter (Si3N4 hard mask removed there; kept on the other waveguides)
+    fab_org_ids: ''
+    facility_org_ids: ''
+    process_name: ''
+    test_structure: ''
+    tags: ''
+    verified_on: '2026-10-29'
+    notes: 'Mask-width variant of cmp_lit_keyvaninia2019_inp_prs (same layout, Fig. 3); fabricated widths about 100 nm narrower than the mask (SEM, p.8), so this variant is close to the design width; the text ties the highest measured PER to this variant and to the simulation (p.8). No fab org (fabrication described passively, p.7). Fig. 8 per-wavelength readings not entered.'
+    why: 'D159 / D165: a value tied to a named variant goes on that variant row; p.8 Sec. 4: highest measured PER in Fig. 8 related to the +100 nm deviation'
+add_metrics:
+  - metric_id: cmp_lit_keyvaninia2019_inp_prs_mask_p100-m1
+    component_id: cmp_lit_keyvaninia2019_inp_prs_mask_p100
+    parameter: per_db
+    value: '24'
+    unit: dB
+    statistic: best
+    wavelength_nm: '1520'
+    wavelength_max_nm: '1620'
+    wavelength_inferred: 'true'
+    polarization: both
+    condition: TE0 and TM0 inputs; Port1 and Port2 (Fig. 8)
+    basis: measured
+    locator: p.1 Abstract; p.8 Sec. 4; p.8 Fig. 8
+    notes: printed peak value 24 dB for TE and TM; tied to the +100 nm mask variant by the p.8 text; wavelength of the peak not stated, measured range 1520-1620 nm
+    verified_on: '2026-10-29'
+    why: 'moved from cmp_lit_keyvaninia2019_inp_prs-m2 (p.1 Abstract peak 24 dB; p.8 Sec. 4 ties it to the +100 nm variant; Fig. 8 purple curves peak at about 24.5 dB on both ports)'
+  - metric_id: cmp_lit_cheng2023_camn_pbs-m9
+    component_id: cmp_lit_cheng2023_camn_pbs
+    parameter: length_um
+    value: '5.18'
+    unit: um
+    qualifier: approx
+    condition: CAMN section only (same CAMN as the fabricated polarizer)
+    basis: design_target
+    locator: p.9 Sec. 3.2; p.12 Sec. 3.3
+    notes: p.12 states the PBS CAMN is the same as the polarizer CAMN (total length about 5.18 um, p.9)
+    verified_on: '2026-10-29'
+    why: 'D153 geometry miss: p.12 Sec. 3.3 "The included CAMN is the same as that of the polarizer"; p.9 Sec. 3.2 total CAMN length about 5.18 um (entered on the polarizer as m4)'

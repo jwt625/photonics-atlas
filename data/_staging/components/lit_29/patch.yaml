@@ -1,0 +1,276 @@
+# Audit patch lit_29 (fresh-context audit 2026-10-29, DevLog/audits/2026-10-29-lit_29-audit.md).
+# 168 metrics: 155 ok / 13 imprecise / 0 wrong; 27 components: 20 ok / 7 changed / 0 deleted; 20 misses added.
+# Not covered here (coordinator decisions, see the audit file): registry orgs VTT, Europractice, Southampton
+# Nanofabrication Centre; registry gaps.
+components:
+  cmp_lit_liu2025a_gap_crossing_perp:
+    notes: 'Fabricated by the authors with in-house facilities (p.4 Sec. III; p.5 Fig. 11 in-house fabricated chip); 10 of 13 authors at Guangdong University of Technology, 2 at Sun Yat-sen University,
+      1 at Warsaw University of Technology (p.1): fab_org_ids borderline (D84b, huang2019a precedent). Cross waveguides C1 / C2 (with gaps) cross through waveguides C3 / C4; every measured path passes two
+      crossings (p.2-3, p.4 Fig. 8(a)). Normalization of the butt-coupled transmission not stated. Lateral crossing gap 5 um design (p.3), 4.87 um measured mean of 10 samples (p.5 Fig. 10(c)): not entered
+      (gap_nm is the vertical gap of multilevel crossings; registry gap). Fig. 1(b) labels n_core 1.559 / n_clad 1.569, swapped relative to the text (p.2). Simulated gap sweeps (Fig. 3) not entered.'
+    why: 'p.1 author list: 13 authors, 10 with Guangdong University of Technology affiliations (three schools), 2 Sun Yat-sen University, 1 Warsaw University of Technology; the note said 9 of 12'
+  cmp_lit_liu2025a_gap_crossing_angled:
+    notes: 'Fabricated by the authors with in-house facilities (p.4 Sec. III; p.5 Fig. 11 in-house fabricated chip); 10 of 13 authors at Guangdong University of Technology, 2 at Sun Yat-sen University,
+      1 at Warsaw University of Technology (p.1): fab_org_ids borderline (D84b, huang2019a precedent). Angles: C1 crosses C3 / C4 at 36.8 deg, C2 crosses C3 / C4 at 33.5 deg (p.5 Sec. III; p.6 Fig. 13);
+      each path passes two crossings. Crossing angle not entered (no registry parameter). The text prints a value pair per mode and polarization for the two launch ports without an explicit port order,
+      so each pair is entered as a range. Core height 4 um from the Fig. 1(b) cross-section (m6, audit).'
+    why: 'p.1 author list: 13 authors, 10 with Guangdong University of Technology affiliations (three schools), 2 Sun Yat-sen University, 1 Warsaw University of Technology; the note said 9 of 12'
+  cmp_lit_liu2025a_adiabatic_tapered_dc:
+    notes: 'Fabricated by the authors with in-house facilities (p.4 Sec. III; p.5 Fig. 11 in-house fabricated chip); 10 of 13 authors at Guangdong University of Technology, 2 at Sun Yat-sen University,
+      1 at Warsaw University of Technology (p.1): fab_org_ids borderline (D84b, huang2019a precedent). Only simulated coupling is reported (p.4 Fig. 7(b)); the fabricated DCs (p.4 Fig. 8(b), (c)) are shown
+      by output near-field patterns only (p.5 Fig. 11(b)). Class per D165 (asymmetric DC used for mode conversion). Text labels W3 as an FMC width (typo; SMC per Fig. 7(a)). S-bend length 5 mm not entered.'
+    why: 'p.1 author list: 13 authors, 10 with Guangdong University of Technology affiliations (three schools), 2 Sun Yat-sen University, 1 Warsaw University of Technology; the note said 9 of 12'
+  cmp_lit_weigel2023_mwrn_16x4:
+    class: splitter.other
+    notes: 'Fab empty: fabrication is described in passive voice and the PolyBoard platform is called our technology (p.1, p.3-4), without a statement that the authors or a named org fabricated the chips
+      (D80b; D84a M1D.4 precedent); all authors Fraunhofer HHI. Each path: three cascaded 1x1 3D MMIs and one 4x1 MMI (p.3). Output O2 has higher loss from a fabrication error (omitted compensation layer
+      in layer 2, p.4), not entered. Reproducibility over six devices on two wafers (p.6 Fig. 5: max deviation 1.0 dB between identical devices and outputs, within 1.5 dB except O2) not entered (no parameter).
+      Class splitter.other (audit 2026-10-29): a crossing-free 16-to-4 combining / routing network of 4x1 MMI combiners and vertical 1x1 3D MMIs; it contains no waveguide crossing, and its losses include
+      the inherent 6 dB 4x1 combining loss (p.2-4). 3D MMI losses (1 dB, 2.5 dB for three cascaded, 2.0 dB simulated) come from refs. [27] / [29] and are not entered. The 4x1 MMI has only its inherent 6
+      dB combining loss stated (no own performance; not a row).'
+    why: 'p.1-3: the 16x4 MWRN is crossing-free by design (no waveguide crossing to characterize, no crossing_loss_db possible); each path holds three 1x1 3D MMIs and one 4x1 MMI combiner with an inherent
+      6 dB loss (p.3; p.5 Table I); crossing.multilevel rows (fu2023, nan2025) are single inter-layer crossings. A 16-to-4 combiner network is splitter-family (n_inputs / n_outputs / excess_loss_db / pitch_um
+      all valid for splitter)'
+  cmp_lit_shahwar2025_tir_mzi_pbs:
+    notes: 'Manufactured in an MPW run at VTT (p.7 Sec. 6; all authors VTT, one also Aalto): VTT missing from the registry (fab role). Best device of a set with slightly different mirror angles (p.8 Sec.
+      7). MMI dimensions not entered (MMI parameters not allowed for polarization). Fig. 10 caption gives 15 dB PER over about 120 nm (text: 80 nm) and swaps the TE / TM colours relative to the legend:
+      caption span not entered. Model-fitted polarization crosstalk (-20 / -18 dB, p.11) not entered. Setup PER limit 20 dB (p.10). Design lower-arm angle 117 deg (p.7) vs 117.5 deg fabricated (p.8, p.10).'
+    why: 'page markers of text.md: Sec. 6 Fabrication (VTT MPW statement) is on p.7, Sec. 7 Measurements on p.8-10, crosstalk sentence on p.11; the note cited pages one higher and section numbers one lower'
+  cmp_lit_shahwar2025_tir_mirror_46p5deg:
+    notes: 'Manufactured in an MPW run at VTT (p.7 Sec. 6; all authors VTT, one also Aalto): VTT missing from the registry (fab role). Mirror cascades up to about 100 mirrors (p.9 Fig. 9(a), (b)); footprint
+      < 5 x 15 um2 per mirror (p.7 Sec. 6; entered as m3). Physical mirror angle not entered (no parameter). Wavelength not stated (broadband SLED source).'
+    why: p.7 Sec. 6 holds the VTT MPW statement and the mirror footprint (text.md page markers); the note cited p.8 Sec. 5
+  cmp_lit_shahwar2025_tir_mirror_117p5deg:
+    notes: 'Manufactured in an MPW run at VTT (p.7 Sec. 6; all authors VTT, one also Aalto): VTT missing from the registry (fab role). Mirror cascades up to about 100 mirrors (p.9 Fig. 9(c), (d)); footprint
+      < 5 x 15 um2 per mirror (p.7 Sec. 6; entered as m3). Physical mirror angle not entered (no parameter). Wavelength not stated (broadband SLED source).'
+    why: p.7 Sec. 6 holds the VTT MPW statement and the mirror footprint (text.md page markers); the note cited p.8 Sec. 5
+metrics:
+  cmp_lit_shahwar2025_tir_mzi_pbs-m1:
+    locator: p.8 Sec. 7; p.10 Fig. 10
+    why: 'p.8 Sec. 7: 10 dB PER for 180 nm (text.md line under the p.8 marker); Fig. 10 on p.10'
+  cmp_lit_shahwar2025_tir_mzi_pbs-m2:
+    locator: p.1 Abstract; p.8 Sec. 7
+    why: 'p.8 Sec. 7: 15 dB for 80 nm; the cited p.9-10 Sec. 6 is wrong (Sec. 6 is Fabrication)'
+  cmp_lit_shahwar2025_tir_mzi_pbs-m3:
+    locator: p.8 Sec. 7
+    why: 'p.8 Sec. 7: more than 15 dB for 50 nm'
+  cmp_lit_shahwar2025_tir_mzi_pbs-m4:
+    locator: p.8 Sec. 7
+    why: 'p.8 Sec. 7: TE PER up to 25 dB at 1550 nm'
+  cmp_lit_shahwar2025_tir_mzi_pbs-m5:
+    locator: p.10 Sec. 7; p.10 Fig. 11
+    why: 'p.10 Sec. 7 (Measurements and analysis): overall loss around 2.5 dB; section number was 6'
+  cmp_lit_shahwar2025_tir_mzi_pbs-m8:
+    locator: p.7 Sec. 6
+    why: 'p.7 Sec. 6 Fabrication: 3 um silicon wafers'
+  cmp_lit_shahwar2025_tir_mzi_pbs-m9:
+    locator: p.8 Sec. 6
+    why: 'p.8 Sec. 6: total device footprint 45 x 1900 um2'
+  cmp_lit_shahwar2025_tir_mirror_46p5deg-m1:
+    locator: p.8 Sec. 7; p.9 Fig. 9(a), (b)
+    why: 'p.8 Sec. 7: 0.05 dB TE per 46.5 deg mirror; Fig. 9 on p.9'
+  cmp_lit_shahwar2025_tir_mirror_46p5deg-m2:
+    locator: p.8 Sec. 7; p.9 Fig. 9(a), (b)
+    why: 'p.8 Sec. 7: 0.06 dB TM per 46.5 deg mirror'
+  cmp_lit_shahwar2025_tir_mirror_117p5deg-m1:
+    locator: p.8 Sec. 7; p.9 Fig. 9(c), (d)
+    why: 'p.8 Sec. 7: 0.08 dB TE per 117.5 deg mirror'
+  cmp_lit_shahwar2025_tir_mirror_117p5deg-m2:
+    locator: p.8 Sec. 7; p.9 Fig. 9(c), (d)
+    why: 'p.8 Sec. 7: 0.08 dB TM per 117.5 deg mirror'
+  cmp_lit_oh2023_coupler_a-m10:
+    locator: p.7 Sec. III C; p.8 Fig. 11
+    why: 'p.7 Sec. III C: transmittance 0.7 dB Mode 1 stated before the p.8 marker; Fig. 11 caption on p.8'
+  cmp_lit_oh2023_coupler_a-m11:
+    locator: p.7 Sec. III C; p.8 Fig. 11
+    why: 'p.7 Sec. III C: transmittance 0.6 dB Modes 2-4'
+add_metrics:
+- metric_id: cmp_lit_liu2025a_gap_crossing_angled-m6
+  component_id: cmp_lit_liu2025a_gap_crossing_angled
+  parameter: core_thickness_nm
+  value: '4000'
+  unit: nm
+  condition: polymer core height
+  notes: figure label 4 um (unit conversion); same cross-section as gap_crossing_perp-m7
+  basis: derived
+  locator: p.2 Fig. 1(b)
+  why: 'miss (D153): Fig. 1(b) is the waveguide cross-section of the whole chip (4 um label); entered on gap_crossing_perp-m7 only'
+- metric_id: cmp_lit_liu2025a_adiabatic_tapered_dc-m8
+  component_id: cmp_lit_liu2025a_adiabatic_tapered_dc
+  parameter: core_thickness_nm
+  value: '4000'
+  unit: nm
+  condition: polymer core height
+  notes: figure label 4 um (unit conversion); same cross-section as gap_crossing_perp-m7
+  basis: derived
+  locator: p.2 Fig. 1(b)
+  why: 'miss (D153): Fig. 1(b) is the waveguide cross-section of the whole chip (4 um label); entered on gap_crossing_perp-m7 only'
+- metric_id: cmp_lit_weigel2023_mwrn_16x4-m6
+  component_id: cmp_lit_weigel2023_mwrn_16x4
+  parameter: mmi_width_um
+  value: '54'
+  unit: um
+  condition: planar 4x1 MMI combiner (one per output); 1x1 3D MMIs 1.4 um wide, 173 um long in notes
+  basis: design_target
+  locator: p.2 Sec. II
+  why: 'miss (D153): p.2 Sec. II 4x1 MMI width 54 um; allowed for splitter after the reclass'
+- metric_id: cmp_lit_weigel2023_mwrn_16x4-m7
+  component_id: cmp_lit_weigel2023_mwrn_16x4
+  parameter: mmi_length_um
+  value: '729'
+  unit: um
+  condition: planar 4x1 MMI combiner (one per output)
+  basis: design_target
+  locator: p.2 Sec. II
+  why: 'miss (D153): p.2 Sec. II 4x1 MMI length 729 um'
+- metric_id: cmp_lit_croce2026_srsn_on_sin_apodized_gc-m19
+  component_id: cmp_lit_croce2026_srsn_on_sin_apodized_gc
+  parameter: taper_length_um
+  value: '400'
+  unit: um
+  condition: linear taper from the 14 um grating to the 2.5 um SiN waveguide
+  basis: design_target
+  locator: p.6
+  why: 'miss (D153, gc_1d template top view): p.6 GCs connected to the SiN waveguides by 400 um long linear tapers'
+- metric_id: cmp_lit_croce2026_srsn_on_sin_apodized_gc-m20
+  component_id: cmp_lit_croce2026_srsn_on_sin_apodized_gc
+  parameter: width_nm
+  value: '2500'
+  unit: nm
+  condition: SiN access waveguide (taper end)
+  notes: printed 2.5 um (unit conversion)
+  basis: derived
+  locator: p.6
+  why: 'miss (D153): p.6 straight SiN waveguide width 2.5 um (the GC access waveguide)'
+- metric_id: cmp_lit_zhou2022a_adc_te0_te1_mux-m5
+  component_id: cmp_lit_zhou2022a_adc_te0_te1_mux
+  parameter: core_thickness_nm
+  value: '220'
+  unit: nm
+  condition: top Si (imec MPW SOI)
+  basis: design_target
+  locator: p.4 Sec. II
+  why: 'miss (D153): p.4 MPW SOI with 220 nm top Si; entered on the MWGC row only'
+- metric_id: cmp_lit_zhou2022a_adc_te0_te1_mux-m6
+  component_id: cmp_lit_zhou2022a_adc_te0_te1_mux
+  parameter: box_thickness_um
+  value: '2'
+  unit: um
+  basis: design_target
+  locator: p.4 Sec. II
+  why: 'miss (D153): p.4 2 um buried oxide; entered on the MWGC row only'
+- metric_id: cmp_lit_oh2023_coupler_a-m17
+  component_id: cmp_lit_oh2023_coupler_a
+  parameter: footprint_um2
+  value: '156000'
+  unit: um2
+  qualifier: le
+  condition: lateral size per coupler excluding the input / output fiber spacings; substrate 800 um thick
+  notes: printed no more than 650 um by 240 um by 800 um; 650 x 240 = 156000 um2
+  basis: derived
+  locator: p.5 Sec. II D
+  why: 'miss (D153): p.5 Sec. II D size of each coupler no more than 650 um by 240 um by 800 um (excluding fiber spacings)'
+- metric_id: cmp_lit_oh2023_coupler_b-m14
+  component_id: cmp_lit_oh2023_coupler_b
+  parameter: footprint_um2
+  value: '156000'
+  unit: um2
+  qualifier: le
+  condition: lateral size per coupler excluding the input / output fiber spacings; substrate 800 um thick
+  notes: printed no more than 650 um by 240 um by 800 um; 650 x 240 = 156000 um2
+  basis: derived
+  locator: p.5 Sec. II D
+  why: 'miss (D153): p.5 Sec. II D size of each coupler no more than 650 um by 240 um by 800 um (excluding fiber spacings)'
+- metric_id: cmp_lit_shahwar2025_tir_mirror_46p5deg-m3
+  component_id: cmp_lit_shahwar2025_tir_mirror_46p5deg
+  parameter: footprint_um2
+  value: '75'
+  unit: um2
+  qualifier: lt
+  condition: one TIR mirror
+  notes: printed smaller than 5 x 15 um2
+  basis: derived
+  locator: p.7 Sec. 6
+  why: 'miss (D153): p.7 Sec. 6 each TIR mirror has a footprint smaller than 5 x 15 um2 (only in notes)'
+- metric_id: cmp_lit_shahwar2025_tir_mirror_46p5deg-m4
+  component_id: cmp_lit_shahwar2025_tir_mirror_46p5deg
+  parameter: core_thickness_nm
+  value: '3000'
+  unit: nm
+  condition: Si device layer
+  notes: printed 3 um (unit conversion)
+  basis: derived
+  locator: p.7 Sec. 6
+  why: 'miss (D153, waveguide_xsec template): p.7 Sec. 6 waveguides on 3 um silicon wafers; entered on the PBS row only'
+- metric_id: cmp_lit_shahwar2025_tir_mirror_117p5deg-m3
+  component_id: cmp_lit_shahwar2025_tir_mirror_117p5deg
+  parameter: footprint_um2
+  value: '75'
+  unit: um2
+  qualifier: lt
+  condition: one TIR mirror
+  notes: printed smaller than 5 x 15 um2
+  basis: derived
+  locator: p.7 Sec. 6
+  why: 'miss (D153): p.7 Sec. 6 each TIR mirror has a footprint smaller than 5 x 15 um2 (only in notes)'
+- metric_id: cmp_lit_shahwar2025_tir_mirror_117p5deg-m4
+  component_id: cmp_lit_shahwar2025_tir_mirror_117p5deg
+  parameter: core_thickness_nm
+  value: '3000'
+  unit: nm
+  condition: Si device layer
+  notes: printed 3 um (unit conversion)
+  basis: derived
+  locator: p.7 Sec. 6
+  why: 'miss (D153, waveguide_xsec template): p.7 Sec. 6 waveguides on 3 um silicon wafers; entered on the PBS row only'
+- metric_id: cmp_lit_wang2022b_dynamic_polarization_controller-m6
+  component_id: cmp_lit_wang2022b_dynamic_polarization_controller
+  parameter: core_thickness_nm
+  value: '220'
+  unit: nm
+  condition: top Si
+  basis: design_target
+  locator: p.3 Sec. 2
+  why: 'miss (D153): p.3 Sec. 2 200 mm SOI with 220 nm top Si (CSiP180Al flow); only in core_material'
+- metric_id: cmp_lit_wang2022b_dynamic_polarization_controller-m7
+  component_id: cmp_lit_wang2022b_dynamic_polarization_controller
+  parameter: box_thickness_um
+  value: '2'
+  unit: um
+  basis: design_target
+  locator: p.3 Sec. 2
+  why: 'miss (D153): p.3 Sec. 2 2 um BOX; only in core_material'
+- metric_id: cmp_lit_wang2022b_polarization_splitting_2d_gc-m2
+  component_id: cmp_lit_wang2022b_polarization_splitting_2d_gc
+  parameter: core_thickness_nm
+  value: '220'
+  unit: nm
+  condition: top Si
+  basis: design_target
+  locator: p.3 Sec. 2
+  why: 'miss (D153): p.3 Sec. 2 200 mm SOI with 220 nm top Si (CSiP180Al flow); only in core_material'
+- metric_id: cmp_lit_wang2022b_polarization_splitting_2d_gc-m3
+  component_id: cmp_lit_wang2022b_polarization_splitting_2d_gc
+  parameter: box_thickness_um
+  value: '2'
+  unit: um
+  basis: design_target
+  locator: p.3 Sec. 2
+  why: 'miss (D153): p.3 Sec. 2 2 um BOX; only in core_material'
+- metric_id: cmp_lit_wang2022b_tin_heater_phase_shifter-m7
+  component_id: cmp_lit_wang2022b_tin_heater_phase_shifter
+  parameter: core_thickness_nm
+  value: '220'
+  unit: nm
+  condition: top Si
+  basis: design_target
+  locator: p.3 Sec. 2
+  why: 'miss (D153): p.3 Sec. 2 200 mm SOI with 220 nm top Si (CSiP180Al flow); only in core_material'
+- metric_id: cmp_lit_wang2022b_tin_heater_phase_shifter-m8
+  component_id: cmp_lit_wang2022b_tin_heater_phase_shifter
+  parameter: box_thickness_um
+  value: '2'
+  unit: um
+  basis: design_target
+  locator: p.3 Sec. 2
+  why: 'miss (D153): p.3 Sec. 2 2 um BOX; only in core_material'

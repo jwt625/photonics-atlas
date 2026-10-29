@@ -1,0 +1,129 @@
+# Audit patch lit_14 (fresh-context audit 2026-10-29, DevLog/audits/2026-10-29-lit_14-audit.md).
+# 177 metrics: 162 ok / 12 imprecise / 3 wrong; 39 components: 29 ok / 9 changed / 1 deleted; 4 misses added.
+# Not covered here (coordinator decisions, see the audit file): registry orgs (TIA SCR of AIST, Yale SEAS cleanroom, YINQE),
+# registry gaps, one-device-several-class-rows convention (lit_10 Q3), lapointe2025 source row preprint note.
+components:
+  cmp_lit_white2022_kerr_isolator_il1p8:
+    notes: 'No fab org: the text says ''we fabricate'' the 16-ring array and the two cascaded rings (p.9; Methods passive, p.16), but the authors are at Stanford and UCSB, so the fabricating org is not unambiguous (rule 12; bock2010 precedent). Facility: ''Part of this work was performed at'' SNSF/SNF (p.17). Isolation threshold (input power for 3 dB isolation) has no nonreciprocal parameter (registry gap). Inverse-designed grating couplers at 1550 nm used for coupling (p.16). One of 16 rings with varied coupling strength / asymmetry (Fig. 3b-c). Intro (p.3) prints 17 dB with 1.3 dB IL for the low-loss example vs 1.8 dB in Sec. III (p.9) and abstract; Sec. III entered.'
+    why: 'p.9 Sec. III: ''we fabricate an array of 16 air-clad silicon nitride isolators'' and ''we fabricate two rings''; the note claimed passive-only fabrication. fab_org_ids stays empty (authors at two orgs, rule 12)'
+  cmp_lit_white2022_kerr_isolator_il5p5:
+    notes: 'No fab org: the text says ''we fabricate'' the 16-ring array and the two cascaded rings (p.9; Methods passive, p.16), but the authors are at Stanford and UCSB, so the fabricating org is not unambiguous (rule 12; bock2010 precedent). Facility: ''Part of this work was performed at'' SNSF/SNF (p.17). Isolation threshold (input power for 3 dB isolation) has no nonreciprocal parameter (registry gap). Inverse-designed grating couplers at 1550 nm used for coupling (p.16). One of 16 rings with varied coupling (Fig. 3b-c). Intro (p.3) prints 23 dB with 4.6 dB IL vs 5.5 dB in Sec. III (p.9) and abstract; Sec. III entered.'
+    why: 'p.9 Sec. III: ''we fabricate an array of 16 air-clad silicon nitride isolators'' and ''we fabricate two rings''; the note claimed passive-only fabrication. fab_org_ids stays empty (authors at two orgs, rule 12)'
+  cmp_lit_white2022_kerr_isolator_cascade2:
+    notes: 'No fab org: the text says ''we fabricate'' the 16-ring array and the two cascaded rings (p.9; Methods passive, p.16), but the authors are at Stanford and UCSB, so the fabricating org is not unambiguous (rule 12; bock2010 precedent). Facility: ''Part of this work was performed at'' SNSF/SNF (p.17). Isolation threshold (input power for 3 dB isolation) has no nonreciprocal parameter (registry gap). Inverse-designed grating couplers at 1550 nm used for coupling (p.16). Pump of at least 40 mW needed to overlap the two resonances (Fig. 4e).'
+    why: 'p.9 Sec. III: ''we fabricate an array of 16 air-clad silicon nitride isolators'' and ''we fabricate two rings''; the note claimed passive-only fabrication. fab_org_ids stays empty (authors at two orgs, rule 12)'
+  cmp_lit_white2022_kerr_isolator_dfb_chip:
+    notes: 'No fab org: the text says ''we fabricate'' the 16-ring array and the two cascaded rings (p.9; Methods passive, p.16), but the authors are at Stanford and UCSB, so the fabricating org is not unambiguous (rule 12; bock2010 precedent). Facility: ''Part of this work was performed at'' SNSF/SNF (p.17). Isolation threshold (input power for 3 dB isolation) has no nonreciprocal parameter (registry gap). Inverse-designed grating couplers at 1550 nm used for coupling (p.16). Same isolator concept on the chip butt-coupled to a DFB laser via an oxide-clad inverted taper (design from [4]); slightly lower Q than the air-clad rings (p.11). Direct butt-coupled operation shown with backward pulses (Fig. 5d), no number.'
+    why: 'p.9 Sec. III: ''we fabricate an array of 16 air-clad silicon nitride isolators'' and ''we fabricate two rings''; the note claimed passive-only fabrication. fab_org_ids stays empty (authors at two orgs, rule 12)'
+  cmp_lit_white2022_sin_ring_d200:
+    notes: 'No fab org: the text says ''we fabricate'' the 16-ring array and the two cascaded rings (p.9; Methods passive, p.16), but the authors are at Stanford and UCSB, so the fabricating org is not unambiguous (rule 12; bock2010 precedent). Facility: ''Part of this work was performed at'' SNSF/SNF (p.17). Isolation threshold (input power for 3 dB isolation) has no nonreciprocal parameter (registry gap). Inverse-designed grating couplers at 1550 nm used for coupling (p.16). Value stated for the array of 16 isolator rings (details in Supplemental Section 5, not cached).'
+    why: 'p.9 Sec. III: ''we fabricate an array of 16 air-clad silicon nitride isolators'' and ''we fabricate two rings''; the note claimed passive-only fabrication. fab_org_ids stays empty (authors at two orgs, rule 12)'
+  cmp_lit_matsumoto2018_si_switch_4x4:
+    fab_org_ids: ''
+    notes: 'No fab org: the only fabrication statement names the 300 um Si inverse taper of the dual-core SSC (''fabricated in an advanced process line'' at AIST, p.2-3); the switch itself is described passively (''was fabricated'', p.5) and its design follows refs [2], [14] (D80b). Device fabrication supported by TIA SCR of AIST (p.6 Acknowledgement; facility not in the registry). With the 4ch SOA array: +4.5 dB fiber-to-fiber insertion gain at the gain peak (p.6), not a loss value.'
+    why: 'D80b: p.2-3 names AIST as fabricator of the Si taper only; p.5 Sec. IV-C ''A 4x4 Si optical switch with hybrid-integrated InP-SOA was fabricated'' is passive; extending the taper statement to the switch is inference'
+  cmp_lit_guo2016_aln_ring_shg:
+    fab_org_ids: org_yale_university
+    notes: 'fab_org_ids Yale (borderline, D84a analogue): the authors state a device-processing step themselves (''we anneal our device'', p.3), all three authors are at Yale (p.1), and the acknowledged fabrication facilities are Yale''s (p.5); pattern definition and etch are passive (p.3). Acknowledged facilities Yale SEAS cleanroom and Yale Institute for Nanoscience and Quantum Engineering (p.5) are not in the registry. Geometry not enterable for frequency_converter (registry gap): radius 30 um; pump point-contact bus 0.8 um wide, gap 0.6 um; SH wrap-around bus 80 um long, tapered 0.175 -> 0.125 um, gap 0.5 um (p.3). Temperature-tuning FWHM of the efficiency 7.7 C (fit; 7.8 +/- 1.4 C calculated) and nonlinear coupling g/2pi 0.08 MHz (fit) not entered. SH resonance extinction 0.75 (linear) not entered (no extinction parameter for this class). AlN platform has no enum value (other).'
+    why: 'rule 12 / D80b / D84a: first-person fabrication statement ''we anneal our device in 950 C'' (p.3) by authors who all sit at Yale (p.1); ''Facilities used for device fabrication were supported by Yale SEAS cleanroom and YINQE'' (p.5) places the fabrication at Yale'
+  cmp_lit_pintus2017_ring_circulator_r20:
+    notes: 'No fab org: fabrication described passively (p.1-2); authors at UCSB and Tokyo Institute of Technology. Ring radius / coupling gap not enterable for nonreciprocal (registry gap). Bonded chip 3.5 mm long; input/output waveguide propagation loss estimated 8.7 dB from the Ce:YIG absorption (about 60 dB/cm assumed, p.2, p.6), not entered as a device loss. Estimated ring-waveguide power coupling 10.45% vs optimum 9.0% for a 0.35 nm split (p.7): no coupling parameter for nonreciprocal. Simulated spectra blue-shifted 0.633 nm to match (p.6). Measured isolation 11 dB (P1-P2) and 6.7 dB (P1-P4) at 1558.38 nm (p.7) carries citation [35] (Huang et al., Optica 2017, the authors'' own circulator paper) and the abstract''s 32 dB / 11 dB are the [25] / [35] results: removed under D259a; this row keeps only the simulated single-ring value at the optimum 9% coupling.'
+    why: D259a applied to m1 / m2 (p.7 Sec. IV-A sentence ends with [35]); note records the removal
+  cmp_lit_davenport2016_iii_v_si_taper:
+    core_material: III-V mesa 26 -> 4 -> 0.5 um (InP p-cladding), undercut SCH/MQW tip 150 nm, over Si 500 nm widened to 2 um, then tapered to 0.8 um
+    why: p.6 Table III footnote prints the wet-etched undercut active-region taper width as 150 nm (no approximation)
+metrics:
+  cmp_lit_beeck2021_soa_on_ln-m2:
+    qualifier: gt
+    notes: 'printed ''spans over 45 nm'' (skill rule 7: over -> gt); spectrum centred near 1537 nm (Fig. 2(a), 1510-1590 nm axis)'
+    why: 'p.2: ''The 3 dB bandwidth of the gain at 180 mA spans over 45 nm''; skill rule 7 maps ''over'' to qualifier gt (the 180 mA fit in Fig. 2(a) is consistent with a width above 45 nm)'
+  cmp_lit_davenport2016_iii_v_si_taper-m1:
+    scope: per_component
+    why: one III-V/Si taper instance ('dB/taper', p.7, p.9; 'below 0.1 dB' for the short taper, p.7); transition_loss_db rows are per_component (65 merged precedents; transition_bilayer template primary scope per_component)
+  cmp_lit_davenport2016_iii_v_si_taper-m2:
+    scope: per_component
+    why: one III-V/Si taper instance ('dB/taper', p.7, p.9; 'below 0.1 dB' for the short taper, p.7); transition_loss_db rows are per_component (65 merged precedents; transition_bilayer template primary scope per_component)
+  cmp_lit_davenport2016_iii_v_si_taper-m3:
+    scope: per_component
+    why: one III-V/Si taper instance ('dB/taper', p.7, p.9; 'below 0.1 dB' for the short taper, p.7); transition_loss_db rows are per_component (65 merged precedents; transition_bilayer template primary scope per_component)
+  cmp_lit_davenport2016_iii_v_si_taper-m4:
+    scope: per_component
+    why: one III-V/Si taper instance ('dB/taper', p.7, p.9; 'below 0.1 dB' for the short taper, p.7); transition_loss_db rows are per_component (65 merged precedents; transition_bilayer template primary scope per_component)
+  cmp_lit_davenport2016_iii_v_si_taper-m5:
+    qualifier: ''
+    notes: printed 150 nm (Table III footnote); whether design or inspected value is not stated
+    why: 'p.6 Table III footnote: ''The width of the wet etched undercut active region taper is 150 nm'' (no approximation)'
+  cmp_lit_matsumoto2018_soa_si_fcb_butt-m3:
+    basis: author_estimate
+    notes: Table I total excess loss at the input interface (sum of the gap, horizontal and vertical terms); the paper does not state how the measured misalignments were converted to loss (origin not stated); registry has no excess_loss_db for chip_chip_coupler
+    why: 'skill rule 4: loss-budget terms whose origin the paper does not state are author_estimate; p.5 Table I lists measured gap / misalignment values and the corresponding excess losses without the conversion method (the batch note''s ''via the measured tolerance curves'' is not stated in the text)'
+  cmp_lit_matsumoto2018_soa_si_fcb_butt-m4:
+    basis: author_estimate
+    notes: Table I total excess loss at the output interface (sum of the gap, horizontal and vertical terms); the paper does not state how the measured misalignments were converted to loss (origin not stated); registry has no excess_loss_db for chip_chip_coupler; trench deeper than designed (vertical excess, p.5)
+    why: 'skill rule 4: loss-budget terms whose origin the paper does not state are author_estimate; p.5 Table I lists measured gap / misalignment values and the corresponding excess losses without the conversion method (the batch note''s ''via the measured tolerance curves'' is not stated in the text)'
+  cmp_lit_matsumoto2018_ssc_sion_3x3_lensed-m2:
+    basis: author_estimate
+    notes: 4.6 dB to the two lensed fibers (origin not stated, p.4), halved; input of unstated origin keeps author_estimate (D256a analogue)
+    why: 'skill rule 4: the halved 4.6 dB coupling loss is a loss-budget term whose origin p.4 Sec. IV-A does not state (unlike m1, where p.5 names the on-chip reference waveguide)'
+  cmp_lit_otterstrom2019_multimode_racetrack-m3:
+    basis: measured
+    notes: from the multimode-resonator model fit of the measured thru / drop transmission spectra (p.12 App. B, p.13 App. C2); printed in GHz
+    why: 'D80a: a standard fit of the source''s own data is measured; p.14 Table I FSR printed in GHz (no unit conversion)'
+  cmp_lit_otterstrom2019_multimode_racetrack-m4:
+    basis: measured
+    notes: from the multimode-resonator model fit of the measured thru / drop transmission spectra (p.12 App. B, p.13 App. C2); printed in GHz
+    why: 'D80a: a standard fit of the source''s own data is measured; p.14 Table I FSR printed in GHz (no unit conversion)'
+  cmp_lit_mutter2024_rktp_ie_waveguide-m1:
+    basis: derived
+    notes: 'printed ''corresponds to a low loss of 0.16 dB/cm'' from 92% pump transmission over 22 mm: -10 log10(0.92) / 2.2 cm = 0.165 dB/cm (arithmetic by the authors); coupling-loss treatment not stated'
+    why: 'D80a / D82d: explicit arithmetic on the source''s own measurement (92% transmission over 22 mm converted to dB/cm, p.3) is derived whether the batch or the authors did it'
+delete_metrics:
+- id: cmp_lit_pintus2017_ring_circulator_r20-m1
+  why: 'skill rule 3 / D80i / D259a: p.7 Sec. IV-A sentence giving 11 dB (IR12) ends with [35] (Huang et al., Optica 2017, the authors'' own circulator paper); values the authors restate from their own earlier work are removed'
+- id: cmp_lit_pintus2017_ring_circulator_r20-m2
+  why: 'skill rule 3 / D80i / D259a: same p.7 sentence (6.7 dB IR41) cites [35]'
+delete_components:
+- id: cmp_lit_pintus2017_ring_isolator_r35
+  why: 'D259a: the R 35 um single-ring isolator is the device of the authors'' earlier paper [25] (p.4 ''Recently, we have experimentally demonstrated ... [25]''); the Fig. 8 isolation (> 25 dB for 40-180 mA, its only metric) is data on that earlier device and the paper does not state it is new; with m1 removed the row has no performance metric (D49)'
+add_metrics:
+- metric_id: cmp_lit_davenport2016_iii_v_si_taper-m12
+  component_id: cmp_lit_davenport2016_iii_v_si_taper
+  parameter: width_nm
+  value: '800'
+  unit: nm
+  condition: Si output waveguide width after the Si taper (Siw3)
+  basis: derived
+  locator: p.6 Table III; Fig. 8(a)
+  notes: printed 0.8 um (Table III, um column)
+  why: 'miss (D153, transition_bilayer optional width_nm): p.6 Table III Siw3 0.8 um'
+- metric_id: cmp_lit_matsumoto2018_soa_si_fcb_butt-m11
+  component_id: cmp_lit_matsumoto2018_soa_si_fcb_butt
+  parameter: width_nm
+  value: '1600'
+  unit: nm
+  condition: SOA waveguide width at the start of the width-tapered SSC (tapered linearly to the 0.6 um tip)
+  basis: derived
+  locator: p.2 Sec. II-A; p.4 Sec. IV
+  notes: printed 1.6 um
+  why: 'miss (D153): p.2 Sec. II-A states the SSC width changes linearly from 1.6 um to the tip'
+- metric_id: cmp_lit_matsumoto2018_ssc_sion_7x3_dsf-m9
+  component_id: cmp_lit_matsumoto2018_ssc_sion_7x3_dsf
+  parameter: mfd_fiber_um
+  value: '8'
+  unit: um
+  qualifier: approx
+  condition: DSF fiber array the 7 x 3 um SiON SSC is designed for
+  basis: specification
+  locator: p.3 Sec. II-B
+  notes: printed 'approximately 8-um optical mode' of the purchased DSF array (diameter definition not stated)
+  why: 'miss: p.3 Sec. II-B; the DSF array is the design target of this SSC (registry header: mfd_fiber_um when the fiber is the design target, basis specification)'
+- metric_id: cmp_lit_otterstrom2019_multimode_racetrack-m16
+  component_id: cmp_lit_otterstrom2019_multimode_racetrack
+  parameter: slab_thickness_nm
+  value: '135'
+  unit: nm
+  condition: Si membrane beside the ridge (phonon membrane 2.85 um wide in the suspended Brillouin-active regions; 215 nm layer minus the 80 nm ridge etch)
+  basis: design_target
+  locator: p.14 App. C3
+  notes: printed phonon membrane dimensions 2.85 um x 135 nm
+  why: 'miss (D153 geometry): p.14 App. C3 states the 135 nm membrane thickness'

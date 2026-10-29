@@ -1,0 +1,301 @@
+# Audit patch lit_20 (fresh-context audit 2026-10-29, DevLog/audits/2026-10-29-lit_20-audit.md).
+# 348 metrics: 332 ok / 16 imprecise / 0 wrong; 56 components: 52 ok / 4 imprecise (note); 23 misses added.
+# Not covered here (coordinator decisions, see the audit file): registry orgs Polytechnique Montreal (lemieuxleduc2025 fab)
+# and Sandia MESA facility (wang2016 facility), registry gaps.
+components:
+  cmp_lit_dong2010_undercut_heater_r4:
+    notes: 'fab_org_ids org_kotura borderline (D84b): acknowledgment thanks three Kotura Inc. staff for their work in fabricating the device (p.7); 6 of 9 authors Kotura, 3 Sun Labs / Oracle. Heater on
+      top of the racetrack add-drop resonator (ring row cmp_lit_dong2010_racetrack_r4). Heater length not stated. Tuning powers of the authors'' earlier devices without undercut (27 / 21 mW per FSR, ref.
+      [14]) are cited, not entered (D259).'
+    why: 'p.1 affiliations: six authors at Kotura Inc. (affiliation 1), three at Sun Labs, Oracle (affiliation 2); the note had 7 / 2'
+  cmp_lit_dong2010_racetrack_r4:
+    notes: 'fab_org_ids org_kotura borderline (D84b): acknowledgment thanks three Kotura Inc. staff for their work in fabricating the device (p.7); 6 of 9 authors Kotura, 3 Sun Labs / Oracle. Thermally
+      tuned by the undercut heater row cmp_lit_dong2010_undercut_heater_r4. Bus / drop waveguide gap not stated.'
+    why: 'p.1 affiliations: six authors at Kotura Inc. (affiliation 1), three at Sun Labs, Oracle (affiliation 2); the note had 7 / 2'
+  cmp_lit_dong2010_undercut_heater_r10:
+    notes: 'fab_org_ids org_kotura borderline (D84b): acknowledgment thanks three Kotura Inc. staff for their work in fabricating the device (p.7); 6 of 9 authors Kotura, 3 Sun Labs / Oracle. Heater on
+      top of the racetrack add-drop resonator (ring row cmp_lit_dong2010_racetrack_r10). Heater length not stated. Tuning powers of the authors'' earlier devices without undercut (27 / 21 mW per FSR, ref.
+      [14]) are cited, not entered (D259).'
+    why: 'p.1 affiliations: six authors at Kotura Inc. (affiliation 1), three at Sun Labs, Oracle (affiliation 2); the note had 7 / 2'
+  cmp_lit_dong2010_racetrack_r10:
+    notes: 'fab_org_ids org_kotura borderline (D84b): acknowledgment thanks three Kotura Inc. staff for their work in fabricating the device (p.7); 6 of 9 authors Kotura, 3 Sun Labs / Oracle. Thermally
+      tuned by the undercut heater row cmp_lit_dong2010_undercut_heater_r10. Bus / drop waveguide gap not stated.'
+    why: 'p.1 affiliations: six authors at Kotura Inc. (affiliation 1), three at Sun Labs, Oracle (affiliation 2); the note had 7 / 2'
+metrics:
+  cmp_lit_dong2010_racetrack_r10-m1:
+    notes: through-port spectra plotted 1543-1552 nm (Fig. 4(a) axis); wavelength from the plot axis (inferred)
+    why: 'p.5 Fig. 4(a): the R 10 um spectra span about 1543-1552 nm; the note copied the 1540-1555 nm axis of Fig. 3(a) (R 4 um device)'
+  cmp_lit_dong2010_racetrack_r10-m2:
+    notes: unqualified Q (stated as approximately 8,000 for 'our devices', both radii) entered as loaded; authors attribute the low Q to drop-waveguide coupling; band from the Fig. 4(a) spectra, 1543-1552
+      nm (inferred)
+    why: p.5 Fig. 4(a) axis 1543-1552 nm, not the Fig. 3(a) 1540-1555 nm range
+  cmp_lit_maeder2022_tops_w7p1_l0p4-m1:
+    band: c_band
+    wavelength_inferred: 'true'
+    why: the note states the band is inferred (C-band setup laser, p.3) but band was empty; aligned with the P_pi row of the same paper (tops_w1p1_l1p2-m1)
+  cmp_lit_liu2021a_spiral_0p5m-m2:
+    basis: extracted_from_figure
+    why: 'p.5 Fig. 4(f): value read off a plot (no printed number); figure reading is the origin, the dB/m to dB/cm step is exact (merged precedent lahijani2026 epcc m2: reading + conversion = extracted_from_figure)'
+  cmp_lit_liu2021a_spiral_0p5m-m3:
+    basis: extracted_from_figure
+    why: 'p.5 Fig. 4(f): value read off a plot (no printed number); figure reading is the origin, the dB/m to dB/cm step is exact (merged precedent lahijani2026 epcc m2: reading + conversion = extracted_from_figure)'
+  cmp_lit_liu2021a_spiral_0p5m-m4:
+    basis: extracted_from_figure
+    why: 'p.5 Fig. 4(f): value read off a plot (no printed number); figure reading is the origin, the dB/m to dB/cm step is exact (merged precedent lahijani2026 epcc m2: reading + conversion = extracted_from_figure)'
+  cmp_lit_liu2021a_spiral_0p5m-m5:
+    basis: extracted_from_figure
+    why: 'p.5 Fig. 4(f): value read off a plot (no printed number); figure reading is the origin, the dB/m to dB/cm step is exact (merged precedent lahijani2026 epcc m2: reading + conversion = extracted_from_figure)'
+  cmp_lit_liu2021a_spiral_0p5m-m6:
+    basis: extracted_from_figure
+    why: 'p.5 Fig. 4(f): value read off a plot (no printed number); figure reading is the origin, the dB/m to dB/cm step is exact (merged precedent lahijani2026 epcc m2: reading + conversion = extracted_from_figure)'
+  cmp_lit_liu2021a_spiral_0p5m-m7:
+    basis: extracted_from_figure
+    why: 'p.5 Fig. 4(f): value read off a plot (no printed number); figure reading is the origin, the dB/m to dB/cm step is exact (merged precedent lahijani2026 epcc m2: reading + conversion = extracted_from_figure)'
+  cmp_lit_liu2021a_spiral_1p0m-m2:
+    basis: extracted_from_figure
+    why: 'p.5 Fig. 4(f): value read off a plot (no printed number); figure reading is the origin, the dB/m to dB/cm step is exact (merged precedent lahijani2026 epcc m2: reading + conversion = extracted_from_figure)'
+  cmp_lit_liu2021a_spiral_1p0m-m3:
+    basis: extracted_from_figure
+    why: 'p.5 Fig. 4(f): value read off a plot (no printed number); figure reading is the origin, the dB/m to dB/cm step is exact (merged precedent lahijani2026 epcc m2: reading + conversion = extracted_from_figure)'
+  cmp_lit_liu2021a_spiral_1p0m-m4:
+    basis: extracted_from_figure
+    why: 'p.5 Fig. 4(f): value read off a plot (no printed number); figure reading is the origin, the dB/m to dB/cm step is exact (merged precedent lahijani2026 epcc m2: reading + conversion = extracted_from_figure)'
+  cmp_lit_liu2021a_spiral_1p0m-m5:
+    basis: extracted_from_figure
+    why: 'p.5 Fig. 4(f): value read off a plot (no printed number); figure reading is the origin, the dB/m to dB/cm step is exact (merged precedent lahijani2026 epcc m2: reading + conversion = extracted_from_figure)'
+  cmp_lit_liu2021a_spiral_1p0m-m6:
+    basis: extracted_from_figure
+    why: 'p.5 Fig. 4(f): value read off a plot (no printed number); figure reading is the origin, the dB/m to dB/cm step is exact (merged precedent lahijani2026 epcc m2: reading + conversion = extracted_from_figure)'
+  cmp_lit_liu2021a_spiral_1p0m-m7:
+    basis: extracted_from_figure
+    why: 'p.5 Fig. 4(f): value read off a plot (no printed number); figure reading is the origin, the dB/m to dB/cm step is exact (merged precedent lahijani2026 epcc m2: reading + conversion = extracted_from_figure)'
+  cmp_lit_liu2021a_spiral_1p4m-m1:
+    notes: printed 4.1 dB/m (lowest of the 1.4 m samples), converted to dB/cm; wavelength of Fig. 4(e) not stated; 1550 nm is the laser wavelength named in the Fig. 4(c) caption, inferred; Fig. 4(f) has
+      no 1.4 m sample
+    why: p.5 Fig. 4(f) shows samples A-D of 1.0 m and 0.5 m only; the note claimed a matching 1.4 m sample at 1550 nm
+add_metrics:
+- metric_id: cmp_lit_liu2021a_ring_40ghz-m17
+  component_id: cmp_lit_liu2021a_ring_40ghz
+  parameter: group_index
+  value: '2.1'
+  unit: '1'
+  band: c_band
+  wavelength_inferred: 'true'
+  condition: model input of the thermal-absorption analysis (Eq. 2)
+  basis: author_estimate
+  locator: p.6 Sec. Quantitative analysis of loss limit; Eq. (2)
+  notes: stated as ng = 2.1 for the Si3N4 waveguides; measurement or calculation not stated (origin not stated); wavelength not stated, telecom band inferred (1550 nm comparisons, Fig. 1(a))
+  why: 'miss: p.6 states the group index used in Eq. (2); group_index is allowed for resonator (D75); the 1.0 dB/m loss of m12 also rests on it'
+- metric_id: cmp_lit_zhu2019_tops_soi_trench_noaln-m5
+  component_id: cmp_lit_zhu2019_tops_soi_trench_noaln
+  parameter: width_nm
+  value: '500'
+  unit: nm
+  basis: derived
+  locator: p.1-2 Sec. 2
+  notes: printed 0.5 um, converted to nm; Sec. 2 design dimensions; the fabricated devices of Sec. 3 are not dimensioned separately (as for the SOI no-trench rows)
+  why: 'miss (D153): Si channel width stated for the SOI devices; entered on the SOI no-trench rows only'
+- metric_id: cmp_lit_zhu2019_tops_soi_trench_noaln-m6
+  component_id: cmp_lit_zhu2019_tops_soi_trench_noaln
+  parameter: core_thickness_nm
+  value: '220'
+  unit: nm
+  basis: derived
+  locator: p.1-2 Sec. 2
+  notes: printed 0.22 um, converted to nm; Sec. 2 design dimensions; the fabricated devices of Sec. 3 are not dimensioned separately (as for the SOI no-trench rows)
+  why: 'miss (D153): as m5'
+- metric_id: cmp_lit_zhu2019_tops_soi_trench_noaln-m7
+  component_id: cmp_lit_zhu2019_tops_soi_trench_noaln
+  parameter: heater_width_um
+  value: '1'
+  unit: um
+  condition: TiN
+  basis: design_target
+  locator: p.2 Sec. 2
+  notes: Sec. 2 design dimensions; the fabricated devices of Sec. 3 are not dimensioned separately (as for the SOI no-trench rows)
+  why: 'miss (D153): TiN heater width stated in Sec. 2; entered on the SOI no-trench rows only'
+- metric_id: cmp_lit_zhu2019_tops_soi_trench_noaln-m8
+  component_id: cmp_lit_zhu2019_tops_soi_trench_noaln
+  parameter: heater_gap_um
+  value: '1'
+  unit: um
+  condition: vertical waveguide-to-heater spacing (SiO2)
+  basis: design_target
+  locator: p.2 Sec. 2
+  notes: Sec. 2 design dimensions; the fabricated devices of Sec. 3 are not dimensioned separately (as for the SOI no-trench rows)
+  why: 'miss (D153): 1.0 um SiO2 / 1 um AlN between waveguide and heater (p.2); entered on the SOI no-trench rows only'
+- metric_id: cmp_lit_zhu2019_tops_soi_trench_aln-m5
+  component_id: cmp_lit_zhu2019_tops_soi_trench_aln
+  parameter: width_nm
+  value: '500'
+  unit: nm
+  basis: derived
+  locator: p.1-2 Sec. 2
+  notes: printed 0.5 um, converted to nm; Sec. 2 design dimensions; the fabricated devices of Sec. 3 are not dimensioned separately (as for the SOI no-trench rows)
+  why: 'miss (D153): Si channel width stated for the SOI devices; entered on the SOI no-trench rows only'
+- metric_id: cmp_lit_zhu2019_tops_soi_trench_aln-m6
+  component_id: cmp_lit_zhu2019_tops_soi_trench_aln
+  parameter: core_thickness_nm
+  value: '220'
+  unit: nm
+  basis: derived
+  locator: p.1-2 Sec. 2
+  notes: printed 0.22 um, converted to nm; Sec. 2 design dimensions; the fabricated devices of Sec. 3 are not dimensioned separately (as for the SOI no-trench rows)
+  why: 'miss (D153): as m5'
+- metric_id: cmp_lit_zhu2019_tops_soi_trench_aln-m7
+  component_id: cmp_lit_zhu2019_tops_soi_trench_aln
+  parameter: heater_width_um
+  value: '1'
+  unit: um
+  condition: TiN
+  basis: design_target
+  locator: p.2 Sec. 2
+  notes: Sec. 2 design dimensions; the fabricated devices of Sec. 3 are not dimensioned separately (as for the SOI no-trench rows)
+  why: 'miss (D153): TiN heater width stated in Sec. 2; entered on the SOI no-trench rows only'
+- metric_id: cmp_lit_zhu2019_tops_soi_trench_aln-m8
+  component_id: cmp_lit_zhu2019_tops_soi_trench_aln
+  parameter: heater_gap_um
+  value: '1'
+  unit: um
+  condition: vertical waveguide-to-heater spacing (filled by the 1 um AlN block)
+  basis: design_target
+  locator: p.2 Sec. 2-3
+  notes: Sec. 2 design dimensions; the fabricated devices of Sec. 3 are not dimensioned separately (as for the SOI no-trench rows)
+  why: 'miss (D153): 1.0 um SiO2 / 1 um AlN between waveguide and heater (p.2); entered on the SOI no-trench rows only'
+- metric_id: cmp_lit_zhu2019_tops_asi_notrench_noaln-m5
+  component_id: cmp_lit_zhu2019_tops_asi_notrench_noaln
+  parameter: heater_width_um
+  value: '1'
+  unit: um
+  condition: TiN
+  basis: design_target
+  locator: p.2 Sec. 2
+  notes: Sec. 2 design dimensions; the fabricated devices of Sec. 3 are not dimensioned separately (as for the SOI no-trench rows); component core_material already states the 1 um x 120 nm heater
+  why: 'miss (D153): heater width stated for the TO device design (p.2) and asserted in core_material without a metric row'
+- metric_id: cmp_lit_zhu2019_tops_asi_notrench_noaln-m6
+  component_id: cmp_lit_zhu2019_tops_asi_notrench_noaln
+  parameter: heater_gap_um
+  value: '1'
+  unit: um
+  condition: vertical waveguide-to-heater spacing (SiO2)
+  basis: design_target
+  locator: p.2 Sec. 2
+  notes: Sec. 2 design dimensions; the fabricated devices of Sec. 3 are not dimensioned separately (as for the SOI no-trench rows); component core_material already states the spacing
+  why: 'miss (D153): as m5'
+- metric_id: cmp_lit_zhu2019_tops_asi_notrench_aln-m5
+  component_id: cmp_lit_zhu2019_tops_asi_notrench_aln
+  parameter: heater_width_um
+  value: '1'
+  unit: um
+  condition: TiN
+  basis: design_target
+  locator: p.2 Sec. 2
+  notes: Sec. 2 design dimensions; the fabricated devices of Sec. 3 are not dimensioned separately (as for the SOI no-trench rows); component core_material already states the 1 um x 120 nm heater
+  why: 'miss (D153): heater width stated for the TO device design (p.2) and asserted in core_material without a metric row'
+- metric_id: cmp_lit_zhu2019_tops_asi_notrench_aln-m6
+  component_id: cmp_lit_zhu2019_tops_asi_notrench_aln
+  parameter: heater_gap_um
+  value: '1'
+  unit: um
+  condition: vertical waveguide-to-heater spacing (filled by the 1 um AlN block)
+  basis: design_target
+  locator: p.2 Sec. 2-3
+  notes: Sec. 2 design dimensions; the fabricated devices of Sec. 3 are not dimensioned separately (as for the SOI no-trench rows); component core_material already states the spacing
+  why: 'miss (D153): as m5'
+- metric_id: cmp_lit_zhu2019_tops_asi_trench_noaln-m5
+  component_id: cmp_lit_zhu2019_tops_asi_trench_noaln
+  parameter: heater_width_um
+  value: '1'
+  unit: um
+  condition: TiN
+  basis: design_target
+  locator: p.2 Sec. 2
+  notes: Sec. 2 design dimensions; the fabricated devices of Sec. 3 are not dimensioned separately (as for the SOI no-trench rows); component core_material already states the 1 um x 120 nm heater
+  why: 'miss (D153): heater width stated for the TO device design (p.2) and asserted in core_material without a metric row'
+- metric_id: cmp_lit_zhu2019_tops_asi_trench_noaln-m6
+  component_id: cmp_lit_zhu2019_tops_asi_trench_noaln
+  parameter: heater_gap_um
+  value: '1'
+  unit: um
+  condition: vertical waveguide-to-heater spacing (SiO2)
+  basis: design_target
+  locator: p.2 Sec. 2
+  notes: Sec. 2 design dimensions; the fabricated devices of Sec. 3 are not dimensioned separately (as for the SOI no-trench rows); component core_material already states the spacing
+  why: 'miss (D153): as m5'
+- metric_id: cmp_lit_zhu2019_tops_asi_trench_aln-m5
+  component_id: cmp_lit_zhu2019_tops_asi_trench_aln
+  parameter: heater_width_um
+  value: '1'
+  unit: um
+  condition: TiN
+  basis: design_target
+  locator: p.2 Sec. 2
+  notes: Sec. 2 design dimensions; the fabricated devices of Sec. 3 are not dimensioned separately (as for the SOI no-trench rows); component core_material already states the 1 um x 120 nm heater
+  why: 'miss (D153): heater width stated for the TO device design (p.2) and asserted in core_material without a metric row'
+- metric_id: cmp_lit_zhu2019_tops_asi_trench_aln-m6
+  component_id: cmp_lit_zhu2019_tops_asi_trench_aln
+  parameter: heater_gap_um
+  value: '1'
+  unit: um
+  condition: vertical waveguide-to-heater spacing (filled by the 1 um AlN block)
+  basis: design_target
+  locator: p.2 Sec. 2-3
+  notes: Sec. 2 design dimensions; the fabricated devices of Sec. 3 are not dimensioned separately (as for the SOI no-trench rows); component core_material already states the spacing
+  why: 'miss (D153): as m5'
+- metric_id: cmp_lit_zhu2019_sin_tops_type1_sim-m5
+  component_id: cmp_lit_zhu2019_sin_tops_type1_sim
+  parameter: heater_gap_um
+  value: '1.5'
+  unit: um
+  condition: vertical SiO2 spacing between the TiN heater and the Si3N4 waveguide (Fig. 4(a) label)
+  basis: design_target
+  locator: p.3 Fig. 4(a)-(c)
+  notes: labelled 1.5 um in the schematic (simulated design)
+  why: 'miss (D153): Fig. 4 labels the heater-to-waveguide spacing; m3 / m4 already take the other labels of the same schematic'
+- metric_id: cmp_lit_zhu2019_sin_tops_type1_sim-m6
+  component_id: cmp_lit_zhu2019_sin_tops_type1_sim
+  parameter: box_thickness_um
+  value: '3'
+  unit: um
+  basis: design_target
+  locator: p.3 Fig. 4(a)-(c)
+  notes: labelled 3 um SiO2 below the Si3N4 core in the schematic (simulated design)
+  why: 'miss (D153): as m5'
+- metric_id: cmp_lit_zhu2019_sin_tops_type2_sim-m5
+  component_id: cmp_lit_zhu2019_sin_tops_type2_sim
+  parameter: heater_gap_um
+  value: '1.5'
+  unit: um
+  condition: lateral heater-to-waveguide spacing (Fig. 4(b) label)
+  basis: design_target
+  locator: p.3 Fig. 4(a)-(c)
+  notes: labelled 1.5 um in the schematic (simulated design)
+  why: 'miss (D153): Fig. 4 labels the heater-to-waveguide spacing; m3 / m4 already take the other labels of the same schematic'
+- metric_id: cmp_lit_zhu2019_sin_tops_type2_sim-m6
+  component_id: cmp_lit_zhu2019_sin_tops_type2_sim
+  parameter: box_thickness_um
+  value: '3'
+  unit: um
+  basis: design_target
+  locator: p.3 Fig. 4(a)-(c)
+  notes: labelled 3 um SiO2 below the Si3N4 core in the schematic (simulated design)
+  why: 'miss (D153): as m5'
+- metric_id: cmp_lit_zhu2019_sin_tops_type3_sim-m5
+  component_id: cmp_lit_zhu2019_sin_tops_type3_sim
+  parameter: heater_gap_um
+  value: '1.5'
+  unit: um
+  condition: lateral heater-to-waveguide spacing bridged by the 0.1 um AlN link (Fig. 4(c) label)
+  basis: design_target
+  locator: p.3 Fig. 4(a)-(c)
+  notes: labelled 1.5 um in the schematic (simulated design)
+  why: 'miss (D153): Fig. 4 labels the heater-to-waveguide spacing; m3 / m4 already take the other labels of the same schematic'
+- metric_id: cmp_lit_zhu2019_sin_tops_type3_sim-m6
+  component_id: cmp_lit_zhu2019_sin_tops_type3_sim
+  parameter: box_thickness_um
+  value: '3'
+  unit: um
+  basis: design_target
+  locator: p.3 Fig. 4(a)-(c)
+  notes: labelled 3 um SiO2 below the Si3N4 core in the schematic (simulated design)
+  why: 'miss (D153): as m5'

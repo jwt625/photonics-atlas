@@ -1,0 +1,144 @@
+# Audit patch lit_17 (fresh-context audit 2026-10-29, DevLog/audits/2026-10-29-lit_17-audit.md).
+# 158 metrics: 148 ok / 10 imprecise / 0 wrong; 28 components: 27 ok / 1 changed / 0 deleted; 8 misses added.
+# Not covered here (coordinator decisions, see the audit file): ShiJia Photons registry org (chen2023 SOA vendor),
+# registry gaps (laser frequency drift, laser bw_3db_ghz, threshold current density, micro_optics angular tolerance and
+# NA, heater_gap_um for wdm, printed placement offset).
+components:
+  cmp_lit_ibrahimi2021_sin_fiber_facet:
+    fab_org_ids: org_cea_leti
+    notes: 'Output facet of the Si3N4 chip made at CEA LETI (p.2 Sec. III-A: optical facets defined by deep etching down to the silicon as part of that process). Only the estimated chip-to-fiber coupling loss is given (p.4); facet / taper design not stated.'
+    why: 'p.2 Sec. III-A: ''The passive Si3N4 chips are made at CEA LETI'' and the facet definition is a step of that process; the sibling Si3N4 rows (sin_wg, bragg_mirror) already carry org_cea_leti (rule 12)'
+metrics:
+  cmp_lit_chen2023_dual_mrr_filter-m5:
+    basis: author_estimate
+    notes: 'design value printed 0.08; fraction -> %; stated as a design parameter of the linewidth simulation (p.4), not stated to be simulated or calculated'
+    why: 'D82a: a design-stated performance value is simulated only when the paper says it was simulated / calculated; p.4 Sec. 2.2 states the 0.08 ring-bus coupling as a design parameter next to the Table 1 simulation inputs'
+  cmp_lit_chen2023_dual_mrr_filter-m6:
+    basis: derived
+    notes: printed 1 um x 800 nm; um -> nm
+    why: 'D157 / D256: a pure unit rescaling of a printed dimension is derived; p.3 Sec. 2.1 prints the width only as 1 um'
+  cmp_lit_chen2023_sin_strip_wg-m2:
+    basis: derived
+    notes: printed 1 um; um -> nm
+    why: D157 / D256, as dual_mrr_filter-m6 (p.3 Sec. 2.1)
+  cmp_lit_ibrahimi2021_rsoa-m2:
+    ref_plane: unspecified
+    notes: 'printed 7.5 mW; 10 log10(7.5) = 8.75 dBm; reference plane (facet / fiber) not stated'
+    why: 'p.2 Sec. II-B gives only ''R-SOA output power for a bias current of 300 mA is of 7.5 mW''; ref_plane chip was an assumption (rule 6: unspecified, never a guess)'
+  cmp_lit_ibrahimi2021_bragg_mirror-m6:
+    basis: design_target
+    locator: p.3 Fig. 6; Fig. 5 caption
+    notes: 'Fig. 6 label prints the period as 528 nm (Fig. 5 caption: 0.528 um)'
+    why: 'D256: the source prints the stored-unit form (Fig. 6 ''Grating period = 528 nm''), so the row keeps the dimension basis design_target'
+  cmp_lit_wang2026e_eband_tl-m8:
+    condition: 'lasing-wavelength slope for single-ring heater tuning, Ring1 heater curve of Fig. 7(b); gain current not stated for Fig. 7(b) (100 mA is stated for the Fig. 7(a) map)'
+    notes: 'printed approximately 0.44 nm/mW; nm/mW -> pm/mW; the two printed slopes pair with the Ring1 (rising) and Ring2 (falling) curves of Fig. 7(b); which radius (24 / 22 um) Ring1 has is not stated'
+    why: 'p.8 Sec. 4.3: the 100 mA gain current is stated for the 2D map (Fig. 7(a)) only; Fig. 7(b) legend names the rings (Ring1 / Ring2 heater), so the old note ''which ring is first not stated'' was imprecise'
+  cmp_lit_wang2026e_eband_tl-m9:
+    condition: 'lasing-wavelength slope for single-ring heater tuning, Ring2 heater curve of Fig. 7(b); gain current not stated for Fig. 7(b) (100 mA is stated for the Fig. 7(a) map)'
+    notes: 'printed approximately -0.61 nm/mW; nm/mW -> pm/mW; sign as printed; pairs with the falling Ring2 curve of Fig. 7(b); which radius Ring2 has is not stated'
+    why: p.8 Sec. 4.3 and Fig. 7(b) legend, as m8
+  cmp_lit_mangal2019a_backside_si_microlens-m1:
+    method: direct
+    notes: 'Table I net loss (sum of the listed contributions 4.5 + 3.5 + 1.85 + 1.15 dB); Fig. 7 SMF28-to-TEC40 curve peaks near -11 dB around 1300-1310 nm'
+    why: 'p.4 Fig. 7 / Table I: the 11 dB fiber-to-fiber value is the measured total (Fig. 7 peak), not a value isolated by a loss breakdown; the breakdown terms are separate rows'
+  cmp_lit_psaila2024_glass_micro_optic_bridge-m1:
+    basis: author_estimate
+    notes: 'half the loopback IL minus 0.5 dB fiber-to-glass-waveguide coupling, 0.3 dB Fresnel and 1.5 dB on-PIC half-loop loss; origin of the three subtracted terms not stated; mean of the four per-assembly averages (1.62, 1.23, 1.13, 1.29 dB); wavelength not stated for the loss (target 1310 nm)'
+    why: 'rule 4 / D44: a value resting on loss-budget terms whose origin the paper does not state is author_estimate (p.5 Sec. III gives the 0.5 / 0.3 / 1.5 dB terms without method), not derived'
+  cmp_lit_psaila2024_glass_micro_optic_bridge-m2:
+    basis: author_estimate
+    notes: as m1 (subtracted terms of unstated origin)
+    why: rule 4 / D44, as m1 (p.5 Sec. III)
+add_metrics:
+- metric_id: cmp_lit_chen2023_ecl-m20
+  component_id: cmp_lit_chen2023_ecl
+  parameter: output_power_mw
+  value: '7'
+  unit: mW
+  band: c_band
+  wavelength_inferred: 'true'
+  ref_plane: unspecified
+  condition: tuning operating point; gain chip 88 mW and SOA 75 mW electrical, drive currents unchanged during tuning
+  method: direct
+  basis: measured
+  locator: p.7 Sec. 3.3
+  notes: printed 7 mW output of the ECL device during the tuning measurement; wavelength not stated (C-band tuning 1529.37-1584.13 nm); measurement plane not stated
+  why: 'miss: p.7 Sec. 3.3 states the ECL output power (7 mW) at the tuning operating point; distinct from the 226.3 mW maximum (m5)'
+- metric_id: cmp_lit_chen2023_soa-m5
+  component_id: cmp_lit_chen2023_soa
+  parameter: psat_out_dbm
+  value: '23.8'
+  unit: dBm
+  qualifier: gt
+  ref_plane: unspecified
+  condition: 'lower bound: SOA not driven above its 1.5 A maximum current and saturation not reached; compression criterion not stated; gain chip at 200 mA in the ECL'
+  basis: author_estimate
+  locator: p.7 Sec. 3.2
+  notes: 'printed saturation power greater than 240 mW; 10 log10(240) = 23.80 dBm; inferred by the authors from the absence of saturation up to 1.5 A (D256a: unit conversion keeps author_estimate)'
+  why: 'miss: p.7 Sec. 3.2 states the SOA saturation power as > 240 mW; registry psat_out_dbm is "1-dB compression unless noted", so an unstated criterion is a note, not a reason to skip (precedent cmp_ofc2026_th2a21 m4 lower bound)'
+- metric_id: cmp_lit_ibrahimi2021_mll-m6
+  component_id: cmp_lit_ibrahimi2021_mll
+  parameter: n_channels
+  value: '150'
+  unit: count
+  qualifier: gt
+  condition: optical modes within the -3 dB comb bandwidth of 62 GHz; passive mode locking, R-SOA bias 374 mA
+  method: direct
+  basis: measured
+  locator: p.7 Sec. V; p.4 Sec. IV-B, Fig. 10(a)
+  notes: printed more than 150 optical modes in a -3 dB bandwidth of 62 GHz (conclusion); the 62 GHz width itself has no laser parameter in frequency (registry gap)
+  why: 'miss: comb line count stated on p.7; n_channels is allowed for laser and holds comb line counts in merged rows (boust2020 comb_a m3, OFC Th1F.5 / Th2A.46)'
+- metric_id: cmp_lit_ibrahimi2021_bragg_mirror-m7
+  component_id: cmp_lit_ibrahimi2021_bragg_mirror
+  parameter: grating_length_um
+  value: '1000'
+  unit: um
+  basis: derived
+  locator: p.3 Fig. 6
+  notes: 'Fig. 6 label ''Grating length Lg = 1 mm''; mm -> um; same figure prints the actual period 528 nm and width 2.9 um'
+  why: 'miss (D153 geometry): grating length labelled in Fig. 6 (D157: unit rescaling of a printed dimension is derived)'
+- metric_id: cmp_lit_ibrahimi2021_bragg_mirror-m8
+  component_id: cmp_lit_ibrahimi2021_bragg_mirror
+  parameter: width_nm
+  value: '2900'
+  unit: nm
+  condition: waveguide width of the grating section (tooth width not stated)
+  basis: derived
+  locator: p.3 Fig. 6; p.2 Sec. III-A
+  notes: 'printed 2.9 um (Fig. 6 label wg = 2,9 um; text 2.9 um); um -> nm'
+  why: 'miss (D153 geometry): grating waveguide width labelled in Fig. 6'
+- metric_id: cmp_lit_zhang2023d_dfb_pa-m15
+  component_id: cmp_lit_zhang2023d_dfb_pa
+  parameter: width_nm
+  value: '3000'
+  unit: nm
+  condition: 'continuous Si rib under the co-integrated power amplifier (DFB section 4.5 um, m12)'
+  basis: derived
+  locator: p.2 Sec. II
+  notes: printed 3 um; um -> nm
+  why: 'miss (D153 geometry): p.2 Sec. II states the 3 um Si rib under the PA'
+- metric_id: cmp_lit_zhang2023d_dfb_pa-m16
+  component_id: cmp_lit_zhang2023d_dfb_pa
+  parameter: length_um
+  value: '1140'
+  unit: um
+  condition: III-V amplifier coupon (780 um straight rib plus two 180 um alignment-tolerant tapers; same coupon for DFB and PA; overall coupon 1180 um)
+  basis: design_target
+  locator: p.2 Sec. II
+  why: 'miss (D153 geometry): coupon length stated on p.2; the existing length_um (m10) is the 600 um grating'
+- metric_id: cmp_lit_mangal2019a_downward_gc-m3
+  component_id: cmp_lit_mangal2019a_downward_gc
+  parameter: insertion_loss_db
+  value: '8'
+  unit: dB
+  qualifier: approx
+  band: o_band
+  scope: fiber_to_fiber
+  includes: fiber-attached input GC (glued SMF28) and the downward output GC with SMF28 at the polished backside of the 100 um thinned chip
+  condition: reference measurement without microlens; broadband O-band SLD; peak of the spectrum (about 1300-1310 nm)
+  method: direct
+  basis: extracted_from_figure
+  locator: p.4 Fig. 7
+  notes: 'SMF28-to-SMF28 curve peak read off Fig. 7 at about -8 dB (reading uncertainty about 0.5 dB); consistent with the Table I rows 4.5 + 3.5 dB'
+  why: 'miss: the measured reference spectrum (Fig. 7) is the only measured value involving the downward GC; the 3.5 dB per-GC row is a Table I loss-distribution entry of unstated origin'

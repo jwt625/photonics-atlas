@@ -1,0 +1,304 @@
+# Audit patch lit_18 (fresh-context audit 2026-10-29, DevLog/audits/2026-10-29-lit_18-audit.md).
+# 202 metrics: 187 ok / 14 imprecise / 1 wrong; 38 components: 33 ok / 5 changed / 0 deleted; misses added: 2 components, 12 metrics.
+# lee2022 (wrong cached paper, quarantined, D397) has no rows and is not covered.
+components:
+  cmp_lit_cheung2022_ramzi_moscap_interleaver:
+    notes: 'Fab empty (D80b): all authors Hewlett Packard Enterprise / Hewlett Packard Labs; devices described with passive
+      ''fabricated''; ''past in-house fabrication'' (p.7 Sec. IV) refers to the link-budget numbers only. Directional couplers
+      c0, c1 (design 0.5) and ring coupler kr (design 0.89), Fig. 5(a). Model fit (Fig. 5(d)): c0 = 0.46, c1 = 0.43, kr =
+      0.88 with waveguide loss ~40 dB/cm (p.4; loss not entered: prop_loss not allowed for wdm). Measured with a superluminescent
+      diode 1290-1330 nm at room temperature on a probe station (p.4). Spectrum in Sec. III normalized to a 0.5 um x ~850
+      um straight waveguide (p.5). Not entered: 3D-FDTD +/-20 nm etch -> -/+10 % coupling, 14 % 0.5 dB bandwidth reduction
+      per 10 dB/cm (simulated sensitivities, no parameter), simulated inter-channel XT -16.06 / -16.70 dB (link-level eye
+      metric, p.7). Not entered (audit 2026-10-29, D259a): MOSCAP tuning power 10.0 nW at Vdelay -2 V (~5.0 nA): the p.4 sentence
+      carries ref. [16], the authors'' own earlier MOSCAP (de-)interleaver paper; abstract and conclusion restate it, no own
+      current measurement shown.'
+    why: 'p.4 Sec. II C: the 5.0 nA / 10.0 nW sentence ends with [16] (authors'' Photon. Res. 2022 MOSCAP (de-)interleaver
+      paper, p.8 ref. list); D259a strict: value restated from own earlier work removed; note records it'
+  cmp_lit_tanaka2012_ring_filter_r7p2:
+    class: resonator.ring
+    why: intracavity add-drop ring that selects the lasing mode of one laser (p.4 Sec. 2, p.7 Sec. 4), not a WDM channel filter
+      / filter bank; merged precedent keyvaninia2013 III-V/Si laser intracavity racetrack filter = resonator.ring, and huang2019
+      RAE-DBR intracavity ring in this batch = resonator.ring; all its parameters (fsr_nm, bw_3db_nm, insertion_loss_db, radius_um,
+      geometry) are allowed for resonator
+  cmp_lit_mitchell2026_qcl_bar_integrated:
+    platform: ''
+    notes: 'Fab empty (D80b): processing described passively; authors at University of Southampton (ORC) and University of
+      Sheffield. QCL epi grown by MOVPE at the National Epitaxy Facility, Sheffield (p.4) -> facility_org_ids org_uk_national_epitaxy_facility
+      (growth performed there; borderline vs wafer-supplier note). Operated pulsed (400 / 600 ns). Power into the waveguide
+      calibrated against an identical QCL measured CW in a driver unit (p.6). Operating wavelength 5.7 um stated (p.3), spectrum
+      not shown. Platform empty: substrate / cladding of the InGaAs/AlInAs QCL not stated (p.4); not defaulted (D168 practice).'
+    why: 'p.4 Sec. 2 names only the strain-balanced InGaAs/AlInAs active material; substrate and cladding are not printed,
+      so `inp` was an assumption (skill rule 1; D168 starnault2026: platform never defaulted)'
+  cmp_lit_mitchell2026_qcl_fp_3mm_epi_up:
+    platform: ''
+    notes: 'Fab empty (D80b): processing described passively; authors at University of Southampton (ORC) and University of
+      Sheffield. QCL epi grown by MOVPE at the National Epitaxy Facility, Sheffield (p.4) -> facility_org_ids org_uk_national_epitaxy_facility
+      (growth performed there; borderline vs wafer-supplier note). Threshold current density 0.963 kA/cm2 (RT-CW, 3 mm cavity;
+      no registry parameter, not entered). Platform empty: substrate / cladding of the InGaAs/AlInAs QCL not stated (p.4);
+      not defaulted (D168 practice).'
+    why: 'as qcl_bar_integrated: p.4 Sec. 2 prints no substrate / cladding (skill rule 1, D168)'
+  cmp_lit_morenopozas2025_parabolic_ssc_x570:
+    class: mode_converter.converter
+    notes: '''fabricated with Applied Nanotools'' single etch process'' (p.3) -> fab org_applied_nanotools. Class mode_converter.converter
+      (audit 2026-10-29): on-chip TE0-to-TE0 conversion between two waveguides of the same 220 nm layer. Not entered: output
+      MFD ''up to 200 um'' (p.5, author restatement of the 285 um output width; mfd_chip_um not allowed for mode_converter,
+      registry gap). Table I design (um): Win 0.5, Lt 10, Wap 1.5, Wout 285, F 157.5, L 455, xout 318 (analytic 315 + 3 um),
+      Lcb 203, Lct 23, Lcv 74.6. TE only (TM needs cladding removal, p.3). Not entered: flavors with input offsets +/-100
+      / +/-200 nm degrade IL by up to 0.4 / 1.2 dB at 1550 nm (relative values on sibling layouts, p.5); design trade-offs
+      (Wap 1.3 um: -8 % footprint, +0.4 dB; margins removed: +0.1 dB; xout shift: -0.2 dB) simulated; Table II rows of other
+      works.'
+    why: 'p.1 abstract / p.1 intro: SSC couples light between a 0.5 um and a 285 um wide on-chip waveguide (guided TE0 in,
+      guided TE0 out, IL defined on the fundamental modes, p.3); registry micro_optics subtypes and merged micro_optics rows
+      are fiber / PD / free-space coupling optics, while on-chip guided-mode converters between waveguides (bock2010 wire-to-SWG
+      taper, taghavi2024 strip-to-FLS converter) are mode_converter.converter; mode_converter also allows taper_length_um
+      / port_width_um for the Table I geometry (the distill note was wrong that it disallows bw_1db_nm)'
+metrics:
+  cmp_lit_huang2019_edbr_grating_kl0p375-m1:
+    statistic: ''
+    why: 'p.4 Sec. 4A ''peak reflectivity is roughly 40%'': spectral peak of one grating, not the best of a population (statistic
+      best is for ''as low as'' / best-of-set values)'
+  cmp_lit_huang2019_raedbr_grating_kl1-m1:
+    basis: derived
+    notes: printed 'estimated to be nearly 80%' (p.5), higher than expected for design kL 1; reflection calculated from the
+      photocurrent (transmission through grating x ring drop port) mapped by tuning the ring across one FSR, the same transmission-to-reflection
+      method as the kL 0.375 row (derived)
+    why: 'skill rule 4: basis by how the number was obtained, not the verb ''estimated''; p.4-5 Sec. 4A: reflection computed
+      from the measured transmission (D80a model extraction), consistent with edbr_grating_kl0p375-m1'
+  cmp_lit_huang2019_raedbr_ring-m4:
+    basis: author_estimate
+    notes: printed 0.04 in Table 2 (ring power coupling column next to the designed kL); fraction -> %; origin (design vs
+      measured) not stated (D256a)
+    why: p.6 Table 2 gives no measurement for the ring coupling and sits beside design columns; a value of unstated origin
+      is author_estimate (skill rule 4), kept after the fraction -> % conversion (D256a)
+  cmp_lit_ramirez2022_sbg_dfb_laser-m17:
+    basis: derived
+    notes: printed duty cycle DC_DFB 50 %; % -> fraction (D253)
+    why: 'p.3 Sec. 2 prints ''duty cycle (DCDFB) of 50%''; D253: a percentage stored as a fraction is a unit conversion (derived,
+      D157)'
+  cmp_lit_tanaka2012_flipchip_si_hybrid_laser-m3:
+    basis: author_estimate
+    notes: on-chip power with the 1.4 dB fiber coupling compensated (p.8-9); origin of the 1.4 dB not stated (si_mirror_chip_facet-m2
+      is author_estimate)
+    why: 'p.8 Sec. 4: LI curve ''where the coupling loss to the fiber (1.4 dB) is compensated''; the 1.4 dB has no stated
+      measurement, so the on-chip value rests on a loss term of unstated origin (skill rule 4 author_estimate; D394 derived
+      only for an own measured coupling loss)'
+  cmp_lit_tanaka2012_flipchip_si_hybrid_laser-m4:
+    basis: author_estimate
+    notes: 'abstract: > 10 mW up to 60 C; on-chip with the 1.4 dB fiber coupling (origin not stated) compensated'
+    why: as m3 (p.8-9 Sec. 4)
+  cmp_lit_tanaka2012_flipchip_si_hybrid_laser-m5:
+    basis: author_estimate
+    notes: abstract states 7.6 % at 20 C; WPE defined on the on-chip power with the 1.4 dB fiber coupling (origin not stated)
+      compensated (p.9)
+    why: 'p.9 Sec. 4: output power and WPE ''defined with on-chip lasing power''; rests on the 1.4 dB term of unstated origin
+      (as m3)'
+  cmp_lit_tanaka2012_flipchip_si_hybrid_laser-m6:
+    basis: author_estimate
+    notes: WPE on the on-chip power with the 1.4 dB fiber coupling (origin not stated) compensated (p.9)
+    why: as m5
+  cmp_lit_tanaka2012_flipchip_si_hybrid_laser-m7:
+    basis: author_estimate
+    notes: on-chip (1.4 dB fiber coupling of unstated origin compensated); printed 'about 0.1 W/A'
+    why: 'as m3: slope of the compensated LI curve (p.9 Sec. 4)'
+  cmp_lit_mitchell2026_gos_rib_waveguide-m1:
+    wavelength_inferred: 'true'
+    notes: wavelength = operating 5.7 um of the work (p.3), not stated with the cutback values (p.5); TM from the waveguide
+      design
+    why: 'skill rule 8: the cutback loss on p.5 carries no wavelength and the source of the test-structure measurement is
+      not stated; 5.7 um is the stated operating wavelength (p.3) -> wavelength_inferred true'
+  cmp_lit_mitchell2026_gos_bend_r200um-m1:
+    wavelength_inferred: 'true'
+    notes: wavelength = operating 5.7 um of the work (p.3), not stated with the bend values (p.5)
+    why: as gos_rib_waveguide-m1 (skill rule 8)
+  cmp_lit_mitchell2026_gos_bend_r200um-m2:
+    wavelength_inferred: 'true'
+    notes: bend rows use prop_loss_db_per_cm with radius in condition (D81); wavelength = operating 5.7 um (p.3), not stated
+      with the value (p.5)
+    why: as gos_rib_waveguide-m1 (skill rule 8)
+  cmp_lit_mangal2018_expanded_beam_microlens_interface-m4:
+    basis: design_target
+    notes: optimal radius of curvature from the Zemax ray-trace design (p.2); a dimension, hence design_target
+    why: 'D82a / D76 (lit_05 audit precedent nevlacsil2020 spacing): a dimension chosen by simulation is design_target; simulated
+      is for performance values'
+delete_metrics:
+- id: cmp_lit_cheung2022_ramzi_moscap_interleaver-m5
+  why: 'p.4 Sec. II C: ''... resulting in a tuning power consumption of 10.0 nW [16]''; [16] = the authors'' own Photon. Res.
+    2022 MOSCAP (de-)interleaver paper; no own current measurement in this paper (abstract p.1 and conclusion p.7 restate
+    it); skill rule 3 / D80i / D259a strict -> removed, note on the component'
+- id: cmp_lit_morenopozas2025_parabolic_ssc_x570-m5
+  why: component reclassed to mode_converter.converter, which does not allow mfd_chip_um; the value is an author restatement
+    ('equivalently a mode with a MFD up to 200 um', p.5) of the 285 um output width (m13); kept in the component note, registry
+    gap recorded
+add_components:
+- component_id: cmp_lit_huang2019_edbr_grating_kl0p75
+  source_id: lit:huang2019
+  class: reflector.bragg
+  label: 15 mm low-kappa Si Bragg grating front mirror of the E-DBR (designed kL 0.75), characterized in the laser
+  row_kind: fabricated
+  host_device_ids: ''
+  platform: soi_rib
+  core_material: ULL Si shallow rib, 500 nm Si, 56 nm etch; periodic holes etched through the Si on both sides of the waveguide
+    (kappa set by hole-waveguide distance)
+  cladding: SiO2
+  fab_org_ids: ''
+  facility_org_ids: ''
+  process_name: ''
+  test_structure: ''
+  tags: ''
+  verified_on: '2026-10-29'
+  notes: 'Fab empty (D80b): fabrication described passively (p.4 Sec. 3); authors at UC Santa Barbara (7) and Morton Photonics
+    (1). No facility acknowledged (only equipment loans). Characterized in the laser with the gain section reverse-biased
+    as PD (p.4 Sec. 4A); FWHM 3.3 GHz (Fig. 4(b) label) not entered (no GHz bandwidth parameter for reflector).'
+  why: 'miss: p.4 Sec. 4A and Fig. 4(b) caption (''designed kL 0.375, 0.75, and 3, respectively'') tie the middle Fig. 4(b)
+    panel to this 15 mm grating; it has its own measured transmission / calculated reflection like the kL 0.375 row (lit addendum:
+    capture every characterized component)'
+- component_id: cmp_lit_huang2019_edbr_grating_kl3
+  source_id: lit:huang2019
+  class: reflector.bragg
+  label: 15 mm Si Bragg grating front mirror of the E-DBR (designed kL 3), characterized in the laser
+  row_kind: fabricated
+  host_device_ids: ''
+  platform: soi_rib
+  core_material: ULL Si shallow rib, 500 nm Si, 56 nm etch; periodic holes etched through the Si on both sides of the waveguide
+    (kappa set by hole-waveguide distance)
+  cladding: SiO2
+  fab_org_ids: ''
+  facility_org_ids: ''
+  process_name: ''
+  test_structure: ''
+  tags: ''
+  verified_on: '2026-10-29'
+  notes: 'Fab empty (D80b): fabrication described passively (p.4 Sec. 3); authors at UC Santa Barbara (7) and Morton Photonics
+    (1). No facility acknowledged (only equipment loans). Characterized in the laser with the gain section reverse-biased
+    as PD (p.4 Sec. 4A); FWHM 5.0 GHz (Fig. 4(b) label) not entered (no GHz bandwidth parameter for reflector).'
+  why: 'miss: bottom Fig. 4(b) panel = designed kL 3 by the caption order (''respectively'', p.4); own measured transmission
+    / calculated reflection'
+add_metrics:
+- metric_id: cmp_lit_huang2019_edbr_grating_kl0p75-m1
+  component_id: cmp_lit_huang2019_edbr_grating_kl0p75
+  parameter: reflectivity_pct
+  value: '60'
+  unit: '%'
+  basis: extracted_from_figure
+  locator: p.4 Fig. 4(b)
+  qualifier: approx
+  band: c_band
+  wavelength_inferred: 'true'
+  method: direct
+  condition: peak reflectivity, calculated from the transmission measured with the gain section as PD
+  notes: read off the Fig. 4(b) calculated-R peak (~0.60, axis 'Power [a.u.]' read as a fraction, consistent with the stated
+    ~40 % for the kL 0.375 panel, p.4); reading uncertainty +/- 0.03; reflection calculated from the measured transmission;
+    band from the ~1560 nm lasing spectrum
+  why: 'miss: Fig. 4(b) panel for designed kL 0.75 (caption order, p.4) shows the calculated peak reflection'
+- metric_id: cmp_lit_huang2019_edbr_grating_kl0p75-m2
+  component_id: cmp_lit_huang2019_edbr_grating_kl0p75
+  parameter: length_um
+  value: '15000'
+  unit: um
+  basis: derived
+  locator: p.4 Sec. 4A; p.6 Table 2
+  notes: printed 15 mm; mm -> um
+  why: 'geometry of the new reflector row (D153): 15 mm grating length printed'
+- metric_id: cmp_lit_huang2019_edbr_grating_kl0p75-m3
+  component_id: cmp_lit_huang2019_edbr_grating_kl0p75
+  parameter: kappa_per_cm
+  value: '0.5'
+  unit: 1/cm
+  basis: author_estimate
+  locator: p.4 Sec. 4A; p.6 Table 2
+  condition: design kL 0.75 over L 1.5 cm
+  notes: computed kL / L from the design kL (D256a)
+  why: same convention as edbr_grating_kl0p375-m4 (design kL / L)
+- metric_id: cmp_lit_huang2019_edbr_grating_kl0p75-m4
+  component_id: cmp_lit_huang2019_edbr_grating_kl0p75
+  parameter: period_nm
+  value: '238'
+  unit: nm
+  basis: design_target
+  locator: p.4 Sec. 3
+  condition: grating period (stated for the gratings generally)
+  why: geometry (D153), as edbr_grating_kl0p375-m2
+- metric_id: cmp_lit_huang2019_edbr_grating_kl3-m1
+  component_id: cmp_lit_huang2019_edbr_grating_kl3
+  parameter: reflectivity_pct
+  value: '98'
+  unit: '%'
+  basis: extracted_from_figure
+  locator: p.4 Fig. 4(b)
+  qualifier: approx
+  band: c_band
+  wavelength_inferred: 'true'
+  method: direct
+  condition: peak reflectivity, calculated from the transmission measured with the gain section as PD
+  notes: read off the Fig. 4(b) calculated-R peak (~0.98, axis 'Power [a.u.]' read as a fraction, consistent with the stated
+    ~40 % for the kL 0.375 panel, p.4); reading uncertainty +/- 0.03; reflection calculated from the measured transmission;
+    band from the ~1560 nm lasing spectrum
+  why: 'miss: Fig. 4(b) panel for designed kL 3 (caption order, p.4) shows the calculated peak reflection'
+- metric_id: cmp_lit_huang2019_edbr_grating_kl3-m2
+  component_id: cmp_lit_huang2019_edbr_grating_kl3
+  parameter: length_um
+  value: '15000'
+  unit: um
+  basis: derived
+  locator: p.4 Sec. 4A; p.6 Table 2
+  notes: printed 15 mm; mm -> um
+  why: 'geometry of the new reflector row (D153): 15 mm grating length printed'
+- metric_id: cmp_lit_huang2019_edbr_grating_kl3-m3
+  component_id: cmp_lit_huang2019_edbr_grating_kl3
+  parameter: kappa_per_cm
+  value: '2'
+  unit: 1/cm
+  basis: author_estimate
+  locator: p.4 Sec. 4A; p.6 Table 2
+  condition: design kL 3 over L 1.5 cm
+  notes: computed kL / L from the design kL (D256a)
+  why: same convention as edbr_grating_kl0p375-m4 (design kL / L)
+- metric_id: cmp_lit_huang2019_edbr_grating_kl3-m4
+  component_id: cmp_lit_huang2019_edbr_grating_kl3
+  parameter: period_nm
+  value: '238'
+  unit: nm
+  basis: design_target
+  locator: p.4 Sec. 3
+  condition: grating period (stated for the gratings generally)
+  why: geometry (D153), as edbr_grating_kl0p375-m2
+- metric_id: cmp_lit_ramirez2022_sbg_dfb_laser-m23
+  component_id: cmp_lit_ramirez2022_sbg_dfb_laser
+  parameter: period_nm
+  value: '2400'
+  unit: nm
+  basis: derived
+  locator: p.3 Sec. 2
+  condition: sampling period of the sampled Bragg grating (superstructure, DC 50 %); DFB pitch 240 nm in m16
+  notes: printed 2.4 um; um -> nm
+  why: 'miss (D153 layout geometry): sampling pitch of the SBG is stated beside the DFB pitch (m16) and was only in the component
+    notes'
+- metric_id: cmp_lit_morenopozas2025_parabolic_ssc_x570-m11
+  component_id: cmp_lit_morenopozas2025_parabolic_ssc_x570
+  parameter: taper_length_um
+  value: '10'
+  unit: um
+  basis: design_target
+  locator: p.3 Table I
+  condition: input adiabatic taper length Lt (0.5 um wire to the 1.5 um aperture)
+  why: 'miss (D153): Table I design Lt (input taper length), allowed for mode_converter'
+- metric_id: cmp_lit_morenopozas2025_parabolic_ssc_x570-m12
+  component_id: cmp_lit_morenopozas2025_parabolic_ssc_x570
+  parameter: port_width_um
+  value: '1.5'
+  unit: um
+  basis: design_target
+  locator: p.3 Table I; p.3
+  condition: aperture width Wap where the input taper meets the free-propagation slab
+  why: 'miss (D153): Table I aperture width Wap (taper end width at the free-propagation region)'
+- metric_id: cmp_lit_morenopozas2025_parabolic_ssc_x570-m13
+  component_id: cmp_lit_morenopozas2025_parabolic_ssc_x570
+  parameter: width_nm
+  value: '285000'
+  unit: nm
+  basis: derived
+  locator: p.3 Table I; p.1 Abstract
+  condition: output waveguide width Wout
+  notes: printed 285 um; um -> nm
+  why: 'miss (D153): output waveguide width Wout (the converter''s output role; input width is m6)'

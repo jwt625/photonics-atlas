@@ -1,0 +1,132 @@
+# Audit patch lit_24 (fresh-context audit 2026-10-29, DevLog/audits/2026-10-29-lit_24-audit.md).
+# 190 metrics: 185 ok / 5 imprecise / 0 wrong; 26 components: 22 ok / 4 changed / 0 deleted; 10 misses added.
+# Not covered here (coordinator / registry): Plateforme de Micro-Nano-Technologie/C2N facility row, IMS printed-name
+# alias, registry gaps (see the audit file).
+components:
+  cmp_lit_gentry2015_ring_pair_source:
+    fab_org_ids: ''
+    notes: 'Fabricated within a CMOS foundry without process changes; the foundry is not named (p.2 Sec. 2: performed within a CMOS foundry, delivered from the foundry). The IBM 12SOI 45 nm process is named as used for the device (p.2) and kept in process_name; a process name outside the fabrication statement does not name the fabricating org (rule 12 / D80b), so fab_org_ids is empty. Only post-processing: XeF2 handle removal. Coupled via grating couplers (no stated loss value). Photon-pair metrics (pair rate 165 Hz - 332 kHz, CAR up to 55), stimulated FWM efficiency (-70 to -42 dB), fitted beta_fwm / n2 and the calculated effective mode volume 18.5 um3 (p.3) not entered (no parameter, D250). Measured difference of adjacent FSRs 1.8 GHz (simulated 1.4 GHz) not entered (no dispersion parameter).'
+    why: 'p.2 Sec. 2: the fabrication statement names only an unnamed CMOS foundry; the IBM name appears in the process name (p.2, ref. [46] PDK) and not in a statement that IBM fabricated the device; merged foundry precedents (xu2023a GF 45CLO, elsaeed2024 imec iSiPP300, qiao2017 SMIC) all have a fabrication sentence naming the org; D80b requires an explicit fabrication statement naming the org'
+  cmp_lit_gonzalezandrade2019_slot_splitter_nominal:
+    fab_org_ids: ''
+    notes: 'Sections: strip-to-slot converter (LA, LB in 2:1 ratio, lengths not stated as numbers), 60 um slot waveguide, 20 um symmetric trapezoidal output tapers; outputs separated to 1.75 um by s-bends. Characterized in a back-to-back MZI (40 um arm unbalance) and in a five-stage cascade (linear regression). 3 um wide edge couplers with lensed PM fiber; no coupler metric stated. Fab: fabrication stated passively (p.2); sample fabrication performed at the Plateforme de Micro-Nano-Technologie/C2N (p.4 Acknowledgements) = a facility statement; the platform is not in the registry (reported) and its owner C2N is not entered (D82c; liu2018 precedent). RENATECH network support = program acknowledgement (D80c).'
+    why: 'rule 12: performed at a shared facility = facility_org_ids, not fab; no statement that the authors or a named org fabricated the splitter (p.2 passive "was fabricated"); merged lit:liu2018 rows with the same acknowledgement have fab and facility empty'
+  cmp_lit_gonzalezandrade2019_slot_splitter_minus25nm:
+    fab_org_ids: ''
+    notes: 'Biased sibling of the nominal splitter (same layout, all widths -25 nm), measured in the five-stage cascade. Fab: fabrication stated passively (p.2); sample fabrication performed at the Plateforme de Micro-Nano-Technologie/C2N (p.4 Acknowledgements) = facility statement; platform not in the registry (reported), owner C2N not entered (D82c). RENATECH = program acknowledgement.'
+    why: as the nominal splitter (rule 12, D82c, liu2018 precedent)
+  cmp_lit_gonzalezandrade2019_slot_splitter_plus25nm:
+    fab_org_ids: ''
+    notes: 'Biased sibling of the nominal splitter (same layout, all widths +25 nm), measured in the five-stage cascade. Fab: fabrication stated passively (p.2); sample fabrication performed at the Plateforme de Micro-Nano-Technologie/C2N (p.4 Acknowledgements) = facility statement; platform not in the registry (reported), owner C2N not entered (D82c). RENATECH = program acknowledgement.'
+    why: as the nominal splitter (rule 12, D82c, liu2018 precedent)
+metrics:
+  cmp_lit_hosseinnia2026_ring_r350-m2:
+    parameter: q_intrinsic
+    notes: 'printed ''maintain Q >= 1.0x10^7'' in the sentence after the intrinsic Q > 1.2x10^7 of the R = 400 um ring; ''maintain'' refers back to that intrinsic Q, so the quantity is intrinsic; wavelength from the near-1550 nm characterization setup (p.4)'
+    why: 'p.4 Sec. 4: the sentence context qualifies the Q (maintain the preceding intrinsic Q); a loaded Q >= 1e7 at near-critical coupling would imply an intrinsic Q near 2e7, above the larger R = 400 um ring, inconsistent with the stated trade-off; the unqualified-Q default applies only when nothing qualifies it'
+  cmp_lit_hosseinnia2026_ring_r300-m2:
+    parameter: q_intrinsic
+    notes: 'printed ''maintain Q >= 1.0x10^7'' in the sentence after the intrinsic Q > 1.2x10^7 of the R = 400 um ring; ''maintain'' refers back to that intrinsic Q, so the quantity is intrinsic; wavelength from the near-1550 nm characterization setup (p.4)'
+    why: as ring_r350-m2 (p.4 Sec. 4)
+  cmp_lit_hosseinnia2026_bpf_5pole_1ghz-m7:
+    notes: 'printed 0.1357 from the Butterworth design formulas for the Fig. 1(a) structure; fraction -> %; Eq. (1) design example with the FSR = 70 GHz selected in Sec. 2 (the printed kappas reproduce with 70 GHz), while the fabricated filter uses GFSM rings with 65 GHz design FSR (p.8); the paper does not restate the kappas of the fabricated filter'
+    why: 'p.3 Sec. 2 and p.8 Sec. 6: kappa1 = 0.1357 follows from Eq. (1) with fBW = 1 GHz and fFSR = 70 GHz (65 GHz would give about 0.145); note records which design the values belong to'
+  cmp_lit_hosseinnia2026_bpf_5pole_1ghz-m8:
+    notes: 'printed 2x10^-3; fraction -> %; Eq. (1) design example with FSR = 70 GHz (Sec. 2); fabricated filter rings designed for 65 GHz FSR (p.8); kappas of the fabricated filter not restated'
+    why: as m7 (p.3 Sec. 2, p.8 Sec. 6)
+  cmp_lit_hosseinnia2026_bpf_5pole_1ghz-m9:
+    notes: 'printed 6.2802x10^-4; fraction -> %; Eq. (1) design example with FSR = 70 GHz (Sec. 2); fabricated filter rings designed for 65 GHz FSR (p.8); kappas of the fabricated filter not restated'
+    why: as m7 (p.3 Sec. 2, p.8 Sec. 6)
+add_metrics:
+- metric_id: cmp_lit_hosseinnia2026_ring_r350-m4
+  component_id: cmp_lit_hosseinnia2026_ring_r350
+  parameter: core_thickness_nm
+  value: '170'
+  unit: nm
+  basis: design_target
+  locator: p.3 Sec. 3
+  notes: SiN waveguide thickness chosen for the work (stated once for the platform)
+  why: 'miss (D153 layout geometry): p.3 Sec. 3 waveguide thickness 170 nm for the platform; entered on the R = 400 um and GFSM rows already'
+- metric_id: cmp_lit_hosseinnia2026_ring_r300-m4
+  component_id: cmp_lit_hosseinnia2026_ring_r300
+  parameter: core_thickness_nm
+  value: '170'
+  unit: nm
+  basis: design_target
+  locator: p.3 Sec. 3
+  notes: SiN waveguide thickness chosen for the work (stated once for the platform)
+  why: 'miss (D153): p.3 Sec. 3, as ring_r350-m4'
+- metric_id: cmp_lit_hosseinnia2026_bpf_5pole_1ghz-m10
+  component_id: cmp_lit_hosseinnia2026_bpf_5pole_1ghz
+  parameter: core_thickness_nm
+  value: '170'
+  unit: nm
+  basis: design_target
+  locator: p.3 Sec. 3
+  notes: SiN waveguide thickness chosen for the work (stated once for the platform)
+  why: 'miss (D153): p.3 Sec. 3, as ring_r350-m4'
+- metric_id: cmp_lit_hosseinnia2026_bpf_5pole_520mhz-m4
+  component_id: cmp_lit_hosseinnia2026_bpf_5pole_520mhz
+  parameter: core_thickness_nm
+  value: '170'
+  unit: nm
+  basis: design_target
+  locator: p.3 Sec. 3
+  notes: SiN waveguide thickness chosen for the work (stated once for the platform)
+  why: 'miss (D153): p.3 Sec. 3, as ring_r350-m4'
+- metric_id: cmp_lit_hosseinnia2026_bpf_1pole_7p5ghz-m6
+  component_id: cmp_lit_hosseinnia2026_bpf_1pole_7p5ghz
+  parameter: core_thickness_nm
+  value: '170'
+  unit: nm
+  basis: design_target
+  locator: p.3 Sec. 3
+  notes: SiN waveguide thickness chosen for the work (stated once for the platform)
+  why: 'miss (D153): p.3 Sec. 3, as ring_r350-m4'
+- metric_id: cmp_lit_hosseinnia2026_bpf_3pole-m7
+  component_id: cmp_lit_hosseinnia2026_bpf_3pole
+  parameter: core_thickness_nm
+  value: '170'
+  unit: nm
+  basis: design_target
+  locator: p.3 Sec. 3
+  notes: SiN waveguide thickness chosen for the work (stated once for the platform)
+  why: 'miss (D153): p.3 Sec. 3, as ring_r350-m4'
+- metric_id: cmp_lit_zhu2024_racetrack_length_series_w3-m7
+  component_id: cmp_lit_zhu2024_racetrack_length_series_w3
+  parameter: core_thickness_nm
+  value: '600'
+  unit: nm
+  basis: design_target
+  locator: p.3 Sec. 2
+  notes: LN film thickness of the TFLN wafer used for the devices (D161)
+  why: 'miss (D153): p.3 Sec. 2 fabrication (600 nm LN) applies to all devices; entered on the record-device row only'
+- metric_id: cmp_lit_zhu2024_racetrack_length_series_w3-m8
+  component_id: cmp_lit_zhu2024_racetrack_length_series_w3
+  parameter: etch_depth_nm
+  value: '325'
+  unit: nm
+  qualifier: approx
+  basis: design_target
+  locator: p.3 Sec. 2
+  notes: printed approximately 325 nm
+  why: 'miss (D153): p.3 Sec. 2 etch depth of the fabrication process (all devices)'
+- metric_id: cmp_lit_zhu2024_racetrack_width_series_l10mm-m7
+  component_id: cmp_lit_zhu2024_racetrack_width_series_l10mm
+  parameter: core_thickness_nm
+  value: '600'
+  unit: nm
+  basis: design_target
+  locator: p.3 Sec. 2
+  notes: LN film thickness of the TFLN wafer used for the devices (D161)
+  why: 'miss (D153): p.3 Sec. 2, as length_series_w3-m7'
+- metric_id: cmp_lit_zhu2024_racetrack_width_series_l10mm-m8
+  component_id: cmp_lit_zhu2024_racetrack_width_series_l10mm
+  parameter: etch_depth_nm
+  value: '325'
+  unit: nm
+  qualifier: approx
+  basis: design_target
+  locator: p.3 Sec. 2
+  notes: printed approximately 325 nm
+  why: 'miss (D153): p.3 Sec. 2, as length_series_w3-m8'

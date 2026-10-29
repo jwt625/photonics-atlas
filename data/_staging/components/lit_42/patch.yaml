@@ -1,0 +1,236 @@
+# Audit patch lit_42 (fresh-context audit 2026-10-29, DevLog/audits/2026-10-29-lit_42-audit.md).
+# Coordinator rulings applied: cohen2024 Table I (D259 / D259a / D408), ding2017 / lu2016a EO phase-shifter metrics (skill rule 2),
+# morichetti2021 fab empty (gentry2015 / lit_24). pommarede2017 org_cea and munk2019 empty fab endorsed (no op).
+components:
+  cmp_lit_morichetti2021_vernier_4mrr_filter:
+    fab_org_ids: ''
+    process_name: commercial 220 nm silicon platform (AMF PDK cited, ref. 24)
+    notes: 'Fab empty: fabricated on a 220 nm commercial silicon platform with a citation of the AMF PDK (p.2, ref. 24) and "fabricated in a commercial silicon foundry" (p.6); the foundry is not named in
+      the text, and a PDK citation is not a fabrication statement naming the org (gentry2015 ruling, lit_24). Polifab (Politecnico di Milano) staff thanked for chip assembly support (staff thanks, not a
+      facility; org missing from the registry). Fig. 1 device (no VOAs). Designed for a 40 GHz passband around 1550 nm; MZI couplers provide up to 28.1 % / 23.6 % bus coupling and compensate the coupling
+      dispersion (0.5 %/nm outer, 0.9 %/nm inner). Not entered: in-band ripple about 0.5 dB (25 GHz passband); through-port off-band notches < 1.2 dB deep. The drop off-band rejection > 33 dB over the whole
+      span is entered as crosstalk_db (m9).'
+    why: 'coordinator ruling (gentry2015 precedent, lit_24; D80b): p.2 "fabricated on a 220-nm commercial silicon platform" cites ref. 24 (AMF PDK, p.7 reference list) and p.6 says "fabricated in a commercial
+      silicon foundry" without naming it; a PDK citation is not a fabrication statement naming the org. process_name restated as printed (platform + cited PDK)'
+  cmp_lit_morichetti2021_hitless_filter_voa:
+    fab_org_ids: ''
+    process_name: commercial 220 nm silicon platform (AMF PDK cited, ref. 24)
+    notes: 'Fab empty: fabricated on a 220 nm commercial silicon platform with a citation of the AMF PDK (p.2, ref. 24) and "fabricated in a commercial silicon foundry" (p.6); the foundry is not named in
+      the text, and a PDK citation is not a fabrication statement naming the org (gentry2015 ruling, lit_24). Polifab (Politecnico di Milano) staff thanked for chip assembly support (staff thanks, not a
+      facility; org missing from the registry). Fig. 2 device; passband disconnected by forward-biasing both VOAs (cavity-enhanced loss) before re-tuning by heaters, then reconnected with heater thermal
+      compensation. Hitless retuning shown from ITU channel 60 (1529.55 nm) to channel 34 (1550.12 nm). Through-port ripple below 0.3 dB in the disconnected state (not entered). Design geometry as the Fig.
+      1 filter row.'
+    why: 'coordinator ruling (gentry2015 precedent, lit_24; D80b): p.2 "fabricated on a 220-nm commercial silicon platform" cites ref. 24 (AMF PDK, p.7 reference list) and p.6 says "fabricated in a commercial
+      silicon foundry" without naming it; a PDK citation is not a fabrication statement naming the org. process_name restated as printed (platform + cited PDK)'
+  cmp_lit_morichetti2021_pin_voa:
+    fab_org_ids: ''
+    process_name: commercial 220 nm silicon platform (AMF PDK cited, ref. 24)
+    notes: 'Fab empty: fabricated on a 220 nm commercial silicon platform with a citation of the AMF PDK (p.2, ref. 24) and "fabricated in a commercial silicon foundry" (p.6); the foundry is not named in
+      the text, and a PDK citation is not a fabrication statement naming the org (gentry2015 ruling, lit_24). Polifab (Politecnico di Milano) staff thanked for chip assembly support (staff thanks, not a
+      facility; org missing from the registry). Variable optical attenuator (amplitude actuator) entered as phase_shifter.other (D155 analogue: no attenuator class). n-doped regions on the outer side, p-doped
+      inside; doping 1e20 cm-3; negligible added loss at 0 V.'
+    why: 'coordinator ruling (gentry2015 precedent, lit_24; D80b): p.2 "fabricated on a 220-nm commercial silicon platform" cites ref. 24 (AMF PDK, p.7 reference list) and p.6 says "fabricated in a commercial
+      silicon foundry" without naming it; a PDK citation is not a fabrication statement naming the org. process_name restated as printed (platform + cited PDK)'
+  cmp_lit_morichetti2021_tin_heater:
+    fab_org_ids: ''
+    process_name: commercial 220 nm silicon platform (AMF PDK cited, ref. 24)
+    notes: 'Fab empty: fabricated on a 220 nm commercial silicon platform with a citation of the AMF PDK (p.2, ref. 24) and "fabricated in a commercial silicon foundry" (p.6); the foundry is not named in
+      the text, and a PDK citation is not a fabrication statement naming the org (gentry2015 ruling, lit_24). Polifab (Politecnico di Milano) staff thanked for chip assembly support (staff thanks, not a
+      facility; org missing from the registry). Tunes each MRR over more than one FSR; thermal time response tens of microseconds (p.4); thermal crosstalk mitigation per ref. 32.'
+    why: 'coordinator ruling (gentry2015 precedent, lit_24; D80b): p.2 "fabricated on a 220-nm commercial silicon platform" cites ref. 24 (AMF PDK, p.7 reference list) and p.6 says "fabricated in a commercial
+      silicon foundry" without naming it; a PDK citation is not a fabrication statement naming the org. process_name restated as printed (platform + cited PDK)'
+  cmp_lit_morichetti2021_poldiv_add_drop:
+    fab_org_ids: ''
+    process_name: commercial 220 nm silicon platform (AMF PDK cited, ref. 24)
+    notes: 'Fab empty: fabricated on a 220 nm commercial silicon platform with a citation of the AMF PDK (p.2, ref. 24) and "fabricated in a commercial silicon foundry" (p.6); the foundry is not named in
+      the text, and a PDK citation is not a fabrication statement naming the org (gentry2015 ruling, lit_24). Polifab (Politecnico di Milano) staff thanked for chip assembly support (staff thanks, not a
+      facility; org missing from the registry). PSR and PRC from the AMF PDK (ref. 24, no own numbers). Polarization scrambled in sub-ms during sweeps. Not entered: drop-port transmission variation < 1.6
+      dB under scrambling (incl. about 0.4 dB setup PDL); phase / group delay / dispersion spread (std < 0.05 rad, < 1 ps, < 20 ps/nm); in-band rejection -19 dB used as the induced crosstalk in the BER
+      analysis; 100 Gbit/s DP-QPSK and 200 Gbit/s DP-16QAM BER tests.'
+    why: 'coordinator ruling (gentry2015 precedent, lit_24; D80b): p.2 "fabricated on a 220-nm commercial silicon platform" cites ref. 24 (AMF PDK, p.7 reference list) and p.6 says "fabricated in a commercial
+      silicon foundry" without naming it; a PDK citation is not a fabrication statement naming the org. process_name restated as printed (platform + cited PDK)'
+  cmp_lit_morichetti2021_crossing:
+    fab_org_ids: ''
+    process_name: commercial 220 nm silicon platform (AMF PDK cited, ref. 24)
+    notes: 'Fab empty: fabricated on a 220 nm commercial silicon platform with a citation of the AMF PDK (p.2, ref. 24) and "fabricated in a commercial silicon foundry" (p.6); the foundry is not named in
+      the text, and a PDK citation is not a fabrication statement naming the org (gentry2015 ruling, lit_24). Polifab (Politecnico di Milano) staff thanked for chip assembly support (staff thanks, not a
+      facility; org missing from the registry). Values inferred from measurements on specific test structures (p.6); crossing type not stated.'
+    why: 'coordinator ruling (gentry2015 precedent, lit_24; D80b): p.2 "fabricated on a 220-nm commercial silicon platform" cites ref. 24 (AMF PDK, p.7 reference list) and p.6 says "fabricated in a commercial
+      silicon foundry" without naming it; a PDK citation is not a fabrication statement naming the org. process_name restated as printed (platform + cited PDK)'
+  cmp_lit_morichetti2021_suspended_taper_ec:
+    fab_org_ids: ''
+    process_name: commercial 220 nm silicon platform (AMF PDK cited, ref. 24)
+    notes: 'Fab empty: fabricated on a 220 nm commercial silicon platform with a citation of the AMF PDK (p.2, ref. 24) and "fabricated in a commercial silicon foundry" (p.6); the foundry is not named in
+      the text, and a PDK citation is not a fabrication statement naming the org (gentry2015 ruling, lit_24). Polifab (Politecnico di Milano) staff thanked for chip assembly support (staff thanks, not a
+      facility; org missing from the registry). Mode adapter design from ref. 34 (other authors); loss measured here with small-core fibers.'
+    why: 'coordinator ruling (gentry2015 precedent, lit_24; D80b): p.2 "fabricated on a 220-nm commercial silicon platform" cites ref. 24 (AMF PDK, p.7 reference list) and p.6 says "fabricated in a commercial
+      silicon foundry" without naming it; a PDK citation is not a fabrication statement naming the org. process_name restated as printed (platform + cited PDK)'
+  cmp_lit_cohen2024_filter_2nd_order:
+    notes: 'Channel element of the 1x7 WSS (D407: ring switch element inside a switch matrix, switch_fabric.other). Two racetracks, each about 1500 um round trip, Fourier tapers, standardized couplers Rmin
+      = 5 um; doped-Si heater slabs 1.25 um from the waveguide. Spectral values without a switch_fabric parameter kept here (registry gaps): FSR about 54.5 GHz and extracted average group index 3.54 (p.5);
+      off-resonance roll-off about 5.3 dB/GHz (abstract); design power coupling about 18 % (bus-racetrack) and 0.8 % (racetrack-racetrack) (p.4); bistability above 4.1 dBm on-chip input, linewidth broadening
+      linear in dBm from -6.0 to 4.1 dBm (p.5, Fig. 5). Fab as the WSS row (p.4 Sec. III). Table I test structures (p.3) not entered (D259 / D259a / D408: the sentence presenting Table I attributes the
+      values to the authors'' IPC 2022 paper [21], whose MPW run [21] also carried the structures, p.2): intrinsic Q / structure average loss (dB/cm) / structure loss (dB) / sub-component average loss (dB/cm):
+      R = 20 um ring 4.37e5 / 1.8 / 0.0110 / 1.8; standardized coupler Rmin 3, 4, 5 um 1.43e5, 2.33e5, 3.29e5 / 5.43, 3.32, 2.33 / 0.0099, 0.0075, 0.0064; linear taper 30, 50, 100, 200 um 3.26e5, 5.57e5,
+      8.26e5, 9.68e5 / 2.16, 1.24, 0.82, 0.70 / 0.0062, 0.0047, 0.0062, 0.0117 / 2.09, 0.95, 0.62, 0.59; Fourier taper 11.36 um 1.64e6 / 0.40 / 0.0034 / 3.01; 2 um multimode waveguide 700, 1200 um 1.67e6,
+      1.89e6 / 0.40, 0.35 / 0.0170, 0.0300 / 0.24, 0.25.'
+    why: 'records the values of the 13 deleted Table I test-structure components (coordinator ruling: D259 / D259a / D408; p.3 "The results are shown in Table 1, where we tabulate ... [21]"; p.2 "A subset
+      of results ... presented at the IEEE Photonics Conference [21]")'
+  cmp_lit_ding2017_mzi_element:
+    notes: 'Fabricated in an open-access generic InGaAsP foundry MPW within the EU FP7 PARADIGM project (p.3 Sec. III, 4 mm x 6 mm sector); the foundry is not named: fab empty. Cell characterized as part
+      of the switch (D158). The chip uses 1000 um and (where needed) 900 um long phase modulators; which MZI the crosstalk statement refers to is not stated (a single MZI on this chip). Crosstalk attributed
+      to arm loss mismatch and MMI split-ratio error. MZI capacitance about 0.5 pF (p.7; no switch_fabric parameter). QCSE phase-modulator values not entered (EO modulator metrics stay with the EO atlas,
+      skill rule 2; rows deleted): Vpi 9 V (1000 um) and 9.5 V (900 um) (p.4 Sec. IV-A); power-budget losses 1.2 dB (1000 um) and 1 dB (900 um) (p.4, Fig. 5, origin not stated).'
+    why: records the values of the two deleted QCSE phase-modulator components (coordinator ruling, skill rule 2)
+  cmp_lit_ding2017_soa_230um:
+    notes: 'Fabricated in an open-access generic InGaAsP foundry MPW within the EU FP7 PARADIGM project (p.3 Sec. III, 4 mm x 6 mm sector); the foundry is not named: fab empty. Placed after each MZI. Not
+      entered: transparency current 3.7 mA (p.4; the sentence carries ref. [26]: cited value, skill rule 3 / D80i, also no registry parameter); gain peak 1535.9 nm with 22.5 nm 3-dB bandwidth at 15 mA (p.4;
+      which SOA length not stated, D159).'
+    why: 'p.4 Sec. IV-A: "show transparency currents at 3.7 mA and 4.2 mA, respectively [26]" carries a citation; the reason for not entering it is rule 3, not only the missing parameter'
+  cmp_lit_ding2017_soa_250um:
+    notes: 'Fabricated in an open-access generic InGaAsP foundry MPW within the EU FP7 PARADIGM project (p.3 Sec. III, 4 mm x 6 mm sector); the foundry is not named: fab empty. Placed at the shuffle network
+      to compensate its excess loss. Not entered: transparency current 4.2 mA (p.4; the sentence carries ref. [26]: cited value, skill rule 3 / D80i, also no registry parameter); gain peak 1535.9 nm with
+      22.5 nm 3-dB bandwidth at 15 mA (p.4; which SOA length not stated, D159).'
+    why: 'p.4 Sec. IV-A: "show transparency currents at 3.7 mA and 4.2 mA, respectively [26]" carries a citation; the reason for not entering it is rule 3, not only the missing parameter'
+  cmp_lit_lu2016a_pin_phase_shifter:
+    notes: 'Fabrication done with the CMOS-compatible process in IME Singapore (p.5 Sec. 3); IME acknowledged for device fabrication (p.13): fab org_astar_ime. Heavily doped regions 0.8 um from the waveguide
+      edges; doping ~1e20 cm-3. Table 2 EO switching currents 2.95-5.14 mA per element. FCA insertion-loss increase of about 1 dB in the ON state (p.7-8, p.9) not entered: EO phase-shifter (modulator) insertion
+      loss stays with the EO atlas (skill rule 2); P_pi kept (not an EO-atlas quantity).'
+    why: records the deleted m2 (coordinator ruling on EO phase shifters, skill rule 2)
+metrics:
+  cmp_lit_fan2025_sm_bend_r20-m4:
+    basis: design_target
+    notes: printed 1 um x 0.8 um (p.3); the paper prints the stored-unit form "800 nm thick Si3N4" for the same layer (p.1 title / abstract, p.3); foundry stack (D161)
+    why: 'D256: a row keeps its basis when the source prints the stored-unit form for the same quantity (p.1, p.3 "800-nm thick"); foundry stack thickness is design_target (D161), as on the AWG rows'
+  cmp_lit_morichetti2021_pin_voa-m6:
+    qualifier: ''
+    statistic: best
+    notes: printed "can be as fast as 400 ns" (p.4; text says Fig. 1f, the panel is Fig. 2(f)); ns -> us; overall connection process time, definition not stated
+    why: 'skill rule 7: "as fast as" is a best-case statement (statistic best), not an approximation; p.4 Results'
+delete_metrics:
+- id: cmp_lit_lu2016a_pin_phase_shifter-m2
+  why: 'coordinator ruling (skill rule 2): the about 1 dB FCA loss increase of the p-i-n EO phase shifter in the ON state (p.7-8 Sec. 4.1, p.9) is a modulator insertion loss; stays with the EO atlas. Value
+    kept in component notes'
+delete_components:
+- id: cmp_lit_cohen2024_ring_r20
+  why: 'coordinator ruling D259 / D259a / D408: the sentence presenting Table I (p.3 Sec. II) attributes the tabulated values to the authors'' IPC 2022 paper ("...structure of interest [21]"), and the test
+    structures were designed on the MPW run of [21] (p.2); all metrics of this test-structure row are Table I values (geometry rows alone do not keep a component, D49). Values recorded in the filter_2nd_order
+    notes'
+- id: cmp_lit_cohen2024_stdcoupler_rmin3
+  why: 'coordinator ruling D259 / D259a / D408: the sentence presenting Table I (p.3 Sec. II) attributes the tabulated values to the authors'' IPC 2022 paper ("...structure of interest [21]"), and the test
+    structures were designed on the MPW run of [21] (p.2); all metrics of this test-structure row are Table I values (geometry rows alone do not keep a component, D49). Values recorded in the filter_2nd_order
+    notes'
+- id: cmp_lit_cohen2024_stdcoupler_rmin4
+  why: 'coordinator ruling D259 / D259a / D408: the sentence presenting Table I (p.3 Sec. II) attributes the tabulated values to the authors'' IPC 2022 paper ("...structure of interest [21]"), and the test
+    structures were designed on the MPW run of [21] (p.2); all metrics of this test-structure row are Table I values (geometry rows alone do not keep a component, D49). Values recorded in the filter_2nd_order
+    notes'
+- id: cmp_lit_cohen2024_stdcoupler_rmin5
+  why: 'coordinator ruling D259 / D259a / D408: the sentence presenting Table I (p.3 Sec. II) attributes the tabulated values to the authors'' IPC 2022 paper ("...structure of interest [21]"), and the test
+    structures were designed on the MPW run of [21] (p.2); all metrics of this test-structure row are Table I values (geometry rows alone do not keep a component, D49). Values recorded in the filter_2nd_order
+    notes'
+- id: cmp_lit_cohen2024_linear_taper_30um
+  why: 'coordinator ruling D259 / D259a / D408: the sentence presenting Table I (p.3 Sec. II) attributes the tabulated values to the authors'' IPC 2022 paper ("...structure of interest [21]"), and the test
+    structures were designed on the MPW run of [21] (p.2); all metrics of this test-structure row are Table I values (geometry rows alone do not keep a component, D49). Values recorded in the filter_2nd_order
+    notes'
+- id: cmp_lit_cohen2024_linear_taper_50um
+  why: 'coordinator ruling D259 / D259a / D408: the sentence presenting Table I (p.3 Sec. II) attributes the tabulated values to the authors'' IPC 2022 paper ("...structure of interest [21]"), and the test
+    structures were designed on the MPW run of [21] (p.2); all metrics of this test-structure row are Table I values (geometry rows alone do not keep a component, D49). Values recorded in the filter_2nd_order
+    notes'
+- id: cmp_lit_cohen2024_linear_taper_100um
+  why: 'coordinator ruling D259 / D259a / D408: the sentence presenting Table I (p.3 Sec. II) attributes the tabulated values to the authors'' IPC 2022 paper ("...structure of interest [21]"), and the test
+    structures were designed on the MPW run of [21] (p.2); all metrics of this test-structure row are Table I values (geometry rows alone do not keep a component, D49). Values recorded in the filter_2nd_order
+    notes'
+- id: cmp_lit_cohen2024_linear_taper_200um
+  why: 'coordinator ruling D259 / D259a / D408: the sentence presenting Table I (p.3 Sec. II) attributes the tabulated values to the authors'' IPC 2022 paper ("...structure of interest [21]"), and the test
+    structures were designed on the MPW run of [21] (p.2); all metrics of this test-structure row are Table I values (geometry rows alone do not keep a component, D49). Values recorded in the filter_2nd_order
+    notes'
+- id: cmp_lit_cohen2024_fourier_taper_11um
+  why: 'coordinator ruling D259 / D259a / D408: the sentence presenting Table I (p.3 Sec. II) attributes the tabulated values to the authors'' IPC 2022 paper ("...structure of interest [21]"), and the test
+    structures were designed on the MPW run of [21] (p.2); all metrics of this test-structure row are Table I values (geometry rows alone do not keep a component, D49). Values recorded in the filter_2nd_order
+    notes'
+- id: cmp_lit_cohen2024_mm_waveguide_2um
+  why: 'coordinator ruling D259 / D259a / D408: the sentence presenting Table I (p.3 Sec. II) attributes the tabulated values to the authors'' IPC 2022 paper ("...structure of interest [21]"), and the test
+    structures were designed on the MPW run of [21] (p.2); all metrics of this test-structure row are Table I values (geometry rows alone do not keep a component, D49). Values recorded in the filter_2nd_order
+    notes'
+- id: cmp_lit_cohen2024_racetrack_fourier_mm700
+  why: 'coordinator ruling D259 / D259a / D408: the sentence presenting Table I (p.3 Sec. II) attributes the tabulated values to the authors'' IPC 2022 paper ("...structure of interest [21]"), and the test
+    structures were designed on the MPW run of [21] (p.2); all metrics of this test-structure row are Table I values (geometry rows alone do not keep a component, D49). Values recorded in the filter_2nd_order
+    notes'
+- id: cmp_lit_cohen2024_racetrack_lin100_mm700
+  why: 'coordinator ruling D259 / D259a / D408: the sentence presenting Table I (p.3 Sec. II) attributes the tabulated values to the authors'' IPC 2022 paper ("...structure of interest [21]"), and the test
+    structures were designed on the MPW run of [21] (p.2); all metrics of this test-structure row are Table I values (geometry rows alone do not keep a component, D49). Values recorded in the filter_2nd_order
+    notes'
+- id: cmp_lit_cohen2024_racetrack_lin100_mm1200
+  why: 'coordinator ruling D259 / D259a / D408: the sentence presenting Table I (p.3 Sec. II) attributes the tabulated values to the authors'' IPC 2022 paper ("...structure of interest [21]"), and the test
+    structures were designed on the MPW run of [21] (p.2); all metrics of this test-structure row are Table I values (geometry rows alone do not keep a component, D49). Values recorded in the filter_2nd_order
+    notes'
+- id: cmp_lit_ding2017_qcse_pm_1000um
+  why: 'coordinator ruling (skill rule 2): EO (QCSE) phase modulator; its performance rows are modulator metrics (Vpi 9 V, p.4 Sec. IV-A; power-budget modulator loss 1.2 dB, Fig. 5) that stay with the EO
+    atlas; with them removed only length_um remains (D49). Values recorded in the mzi_element notes'
+- id: cmp_lit_ding2017_qcse_pm_900um
+  why: 'coordinator ruling (skill rule 2): EO (QCSE) phase modulator; its performance rows are modulator metrics (Vpi 9.5 V, p.4 Sec. IV-A; power-budget modulator loss 1 dB, Fig. 5) that stay with the EO
+    atlas; with them removed only length_um remains (D49). Values recorded in the mzi_element notes'
+add_metrics:
+- metric_id: cmp_lit_cohen2024_filter_2nd_order-m5
+  component_id: cmp_lit_cohen2024_filter_2nd_order
+  parameter: width_nm
+  value: '500'
+  unit: nm
+  condition: single-mode coupling region (standardized couplers)
+  notes: printed 0.5 um
+  basis: derived
+  locator: p.2 Sec. II; p.4 Sec. III
+  verified_on: '2026-10-29'
+  why: 'miss (D153 geometry): p.2 Sec. II "Our racetrack filters comprise ... adiabatic tapers from 0.5 um wide to 2 um wide waveguides"; unit conversion derived (D256)'
+- metric_id: cmp_lit_cohen2024_filter_2nd_order-m6
+  component_id: cmp_lit_cohen2024_filter_2nd_order
+  parameter: width_nm
+  value: '2000'
+  unit: nm
+  condition: multimode racetrack sections (fundamental mode)
+  notes: printed 2 um
+  basis: derived
+  locator: p.2 Sec. II; p.4 Sec. III
+  verified_on: '2026-10-29'
+  why: 'miss (D153 geometry): p.2 Sec. II "2 um wide multimode waveguides"; unit conversion derived (D256)'
+- metric_id: cmp_lit_cohen2024_filter_2nd_order-m7
+  component_id: cmp_lit_cohen2024_filter_2nd_order
+  parameter: core_thickness_nm
+  value: '220'
+  unit: nm
+  notes: 220 nm thick SOI wafers of the AIM Photonics MPW (foundry stack, D161)
+  basis: design_target
+  locator: p.4 Sec. III
+  verified_on: '2026-10-29'
+  why: 'miss (D153 geometry): p.4 Sec. III "Photonics-grade 220 nm thick SOI wafers" for the WSS chips'
+- metric_id: cmp_lit_eid2016_mrr_bent_cdc-m25
+  component_id: cmp_lit_eid2016_mrr_bent_cdc
+  parameter: min_bend_radius_um
+  value: '5'
+  unit: um
+  condition: bus-waveguide bend radius Rwg next to the bent CDCs
+  basis: design_target
+  locator: p.7 Sec. 4; p.3 Fig. 1
+  verified_on: '2026-10-29'
+  why: 'miss (D153 geometry): p.7 Sec. 4 "in the bends we use Rwg = 5 um"; min_bend_radius_um is allowed for wdm'
+- metric_id: cmp_lit_lu2016a_connection_wg-m2
+  component_id: cmp_lit_lu2016a_connection_wg
+  parameter: width_nm
+  value: '2000'
+  unit: nm
+  condition: widened straight sections of the connection waveguides (bends and other sections 0.5 um)
+  notes: printed 2 um
+  basis: derived
+  locator: p.5 Sec. 3; p.8 Sec. 4.2
+  verified_on: '2026-10-29'
+  why: 'miss (D153 geometry): p.5 "straight sections of connection waveguides are widened to 2 um"; unit conversion derived (D256)'
+- metric_id: cmp_lit_lu2016a_connection_wg-m3
+  component_id: cmp_lit_lu2016a_connection_wg
+  parameter: taper_length_um
+  value: '200'
+  unit: um
+  condition: linear tapers from 0.5 um to the 2 um wide straight sections
+  basis: design_target
+  locator: p.5 Sec. 3
+  verified_on: '2026-10-29'
+  why: 'miss (D153 geometry): p.5 "using 200-um-long linear tapers"; taper_length_um is allowed for waveguide_platform'

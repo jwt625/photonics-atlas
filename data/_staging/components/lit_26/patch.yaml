@@ -1,0 +1,540 @@
+# Audit patch lit_26 (fresh-context audit 2026-10-29, DevLog/audits/2026-10-29-lit_26-audit.md).
+# 340 metrics: 331 ok / 9 imprecise / 0 wrong; 44 components: 42 ok / 2 changed / 0 deleted;
+# misses added: 11 components (lin2019 per-design rows) and 16 metrics.
+# Not covered here (coordinator / registry): MCN / ANFF facility orgs (wang2017), Core Facility Platform of
+# Electronics of ShanghaiTech University (li2026), registry gaps listed in the audit file.
+components:
+  cmp_lit_zhang2020_euler_racetrack:
+    fab_org_ids: ''
+    notes: 'Fabricated by the MPW foundry printed only as ''Institute of Microelectronics, China'' (p.4 Sec. 3): the parent
+      org is not named and the bare name is not unique (the registry maps the alias ''Institute of Microelectronics'' to A*STAR
+      IME), so fab_org_ids stays empty (audit 2026-10-29). All-pass racetrack, 260 um long straight sections; Euler bends
+      Rmax 600 um / Rmin 15 um; access-waveguide minimum bend radius 16.36 um (no registry parameter). Focusing GCs for fiber
+      coupling (no performance stated). Mode splitting observed (Fig. 5(c)), splitting value not stated. Table 1 rows of other
+      works not entered.'
+    why: 'rule 12 / D80b unambiguity: p.4 Sec. 3 prints only ''Institute of Microelectronics, China'' (no CAS); org_aliases
+      maps the bare name to org_astar_ime, so mapping to IME CAS rests on outside knowledge'
+  cmp_lit_lin2019_asym_y_junction_family:
+    notes: 'Array-level row (D165): 11 designs varying r1 = 0.12, 0.22, 0.32, 0.42, 0.52, 0.72, 0.92, 1.12, 1.32, 1.52, 1.7
+      um (Table 1, p.3); r1 = 1.70 um is the symmetric 50:50 design. Holds the family-level values (excess loss bound, PSR
+      range, simulated loss and 1-dB bandwidth) and the shared geometry; per-design measured PSRs read off Fig. 3(a) (p.4)
+      are on the sibling rows cmp_lit_lin2019_y_r1_* (audit 2026-10-29). Fabricated with EBL at Applied Nanotools in a commercial
+      CMOS-compatible SOI process (p.3 Sec. 3). Measured with n = 1 / 2 / 3 / 5 devices cascaded weak-to-weak and strong-to-strong,
+      GC paths calibrated by an io1-io2 reference (p.3). Not entered (no parameter): PSR slope vs r1 about 0.08 dB / 10 nm
+      (r1 > 0.22 um) and 0.54 dB / 10 nm (r1 <= 0.22 um) (p.4-5), simulated split-ratio variation below 1 dB over 100 nm (p.1),
+      simulated PSR change below 0.07 dB for 280-380 K (p.6, Fig. 6).'
+    why: p.4 page render Fig. 3(a) is readable (only the embedded img_p04_1.png is flipped); per-design rows added (skill
+      rule 9), note pointer updated
+metrics:
+  cmp_lit_zhang2020_euler_racetrack-m3:
+    basis: author_estimate
+    notes: computed by the authors as Qi ~ 2 pi ng / (alpha lambda) from the fitted loss 0.3 dB/cm and ng ~3.8; origin of
+      ng not stated; major TE0 resonance near 1524 nm (Fig. 5(a) axis, 1520-1524 nm sweep); design wavelength stated as around
+      1550 nm
+    why: 'skill rule 4: the Qi rests on ng ~3.8 whose origin p.5 Sec. 3 does not state (same treatment as the batch''s chen2026a
+      0.07 dB/m row, author_estimate for an unstated ng)'
+  cmp_lit_zhang2020_euler_racetrack-m4:
+    basis: measured
+    notes: from the Lorentzian transmission-matrix fit of the measured resonance (standard fit of own data); major TE0 resonance
+      near 1524 nm (Fig. 5(a) axis, 1520-1524 nm sweep); design wavelength stated as around 1550 nm
+    why: 'D80a: a standard fit of own data is measured; p.5 Sec. 3 ''According to the data fitting'' states no model assumption
+      (D394 analogue)'
+  cmp_lit_li2026_agf_modulated_wg-m1:
+    basis: measured
+    notes: 'loss of each delay line from the fringe extinction ratio of the Y-branch-loop interferometer (Supp. Sec. 7, not
+      cached), averaged over delay lengths: standard fit of own data (D394); wavelength not stated, band of the 1500-1600
+      nm spectra assumed'
+    why: 'D394 / D80a: propagation loss from interferometer fringe contrast of own data is measured (p.6 Sec. 2.1)'
+  cmp_lit_li2026_straight_wg-m1:
+    basis: measured
+    notes: 'loss of each delay line from the fringe extinction ratio of the Y-branch-loop interferometer (Supp. Sec. 7, not
+      cached), averaged over delay lengths: standard fit of own data (D394); wavelength not stated, band of the 1500-1600
+      nm spectra assumed'
+    why: D394 / D80a, as agf_modulated_wg-m1 (p.6 Sec. 2.1 'averaged propagation loss ... 3.72 dB/cm')
+  cmp_lit_li2026_opa_tops-m1:
+    basis: measured
+    notes: printed approximately 39 mW for a full 2 pi phase shift of the fabricated OPA phase shifters; method not stated
+    why: 'D167: an own-device value stated directly without shown arithmetic is measured (p.10 Methods: the driven phase shifters
+      ''required approximately 39 mW'')'
+  cmp_lit_lin2019_asym_y_junction_family-m3:
+    wavelength_nm: '1535'
+    wavelength_max_nm: '1580'
+    notes: 'text: simulated excess losses 0.22-0.36 dB for all structures, summarized in Fig. 5(a) over 1535-1580 nm; the
+      abstract states below 0.36 dB over 100 nm (span endpoints not stated)'
+    why: 'p.5 Fig. 5 caption: simulated excess loss spectrum in the range of 1535-1580 nm; the 1500-1600 nm endpoints are
+      not stated anywhere'
+  cmp_lit_lin2019_asym_y_junction_family-m4:
+    notes: stated 1-dB bandwidth of the Y-branch wider than 100 nm for all PSRs; the reference quantity is not defined (the
+      abstract pairs it with a simulated split-ratio variation below 1 dB over 100 nm)
+    why: 'p.5 Sec. 4 / p.1 Abstract: the paper''s ''1-dB bandwidth'' refers to the PSR, not to transmission within 1 dB of
+      peak (registry def); stated in notes'
+  cmp_lit_spencer2015_qws_grating_2mm-m1:
+    wavelength_nm: '1549.1'
+    notes: also printed as 946 MHz (linewidth_mhz row); resonance wavelength not stated in the text, read off the Fig. 6 inset
+      axis (1549.10-1549.15 nm), about +/- 0.05 nm
+    why: 'p.7 Fig. 6 inset: the lambda/4 resonance sits between 1549.10 and 1549.15 nm, not at the 1550 nm design value'
+  cmp_lit_spencer2015_qws_grating_2mm-m2:
+    wavelength_nm: '1549.1'
+    notes: printed 204 thousand, computed by the authors from the FWHM; resonance wavelength read off the Fig. 6 inset axis
+      (1549.10-1549.15 nm)
+    why: as m1 (p.7 Fig. 6 inset)
+add_components:
+- component_id: cmp_lit_lin2019_y_r1_0p12
+  source_id: lit:lin2019
+  class: splitter.y_branch
+  label: 'Asymmetric Si Y-junction, device #1, r1 0.12 um / r2 0.06 um, 220 nm SOI'
+  row_kind: fabricated
+  host_device_ids: ''
+  platform: soi_strip
+  core_material: Si 220 nm on 2 um BOX; 500 nm input / output waveguides; smooth S-curve splitting region (L 2.32 um, 2w 1.4
+    um, R1 1.7 um, R2 1 um, output gap 200 nm), top boundary r1 0.12 um / r2 0.06 um (Table 1)
+  cladding: ''
+  fab_org_ids: org_applied_nanotools
+  facility_org_ids: ''
+  process_name: ''
+  test_structure: ''
+  tags: arbitrary_ratio;compact_splitter
+  verified_on: '2026-10-29'
+  notes: Per-design row (skill rule 9) of the family cmp_lit_lin2019_asym_y_junction_family (shared geometry, family excess
+    loss < 0.5 dB and simulated values there). Measured with n = 1 cascaded devices per branch (p.3); EBL at Applied Nanotools
+    (p.3 Sec. 3).
+  why: 'miss: Fig. 3(a) (p.4) plots the measured PSR at 1550 nm for each Table 1 design; skill rule 9 (one row per physical
+    design), lin2019 device #1'
+- component_id: cmp_lit_lin2019_y_r1_0p22
+  source_id: lit:lin2019
+  class: splitter.y_branch
+  label: 'Asymmetric Si Y-junction, device #2, r1 0.22 um / r2 0.11 um, 220 nm SOI'
+  row_kind: fabricated
+  host_device_ids: ''
+  platform: soi_strip
+  core_material: Si 220 nm on 2 um BOX; 500 nm input / output waveguides; smooth S-curve splitting region (L 2.32 um, 2w 1.4
+    um, R1 1.7 um, R2 1 um, output gap 200 nm), top boundary r1 0.22 um / r2 0.11 um (Table 1)
+  cladding: ''
+  fab_org_ids: org_applied_nanotools
+  facility_org_ids: ''
+  process_name: ''
+  test_structure: ''
+  tags: arbitrary_ratio;compact_splitter
+  verified_on: '2026-10-29'
+  notes: Per-design row (skill rule 9) of the family cmp_lit_lin2019_asym_y_junction_family (shared geometry, family excess
+    loss < 0.5 dB and simulated values there). Measured with n = 2 cascaded devices per branch (p.3); EBL at Applied Nanotools
+    (p.3 Sec. 3).
+  why: 'miss: Fig. 3(a) (p.4) plots the measured PSR at 1550 nm for each Table 1 design; skill rule 9 (one row per physical
+    design), lin2019 device #2'
+- component_id: cmp_lit_lin2019_y_r1_0p32
+  source_id: lit:lin2019
+  class: splitter.y_branch
+  label: 'Asymmetric Si Y-junction, device #3, r1 0.32 um / r2 0.17 um, 220 nm SOI'
+  row_kind: fabricated
+  host_device_ids: ''
+  platform: soi_strip
+  core_material: Si 220 nm on 2 um BOX; 500 nm input / output waveguides; smooth S-curve splitting region (L 2.32 um, 2w 1.4
+    um, R1 1.7 um, R2 1 um, output gap 200 nm), top boundary r1 0.32 um / r2 0.17 um (Table 1)
+  cladding: ''
+  fab_org_ids: org_applied_nanotools
+  facility_org_ids: ''
+  process_name: ''
+  test_structure: ''
+  tags: arbitrary_ratio;compact_splitter
+  verified_on: '2026-10-29'
+  notes: Per-design row (skill rule 9) of the family cmp_lit_lin2019_asym_y_junction_family (shared geometry, family excess
+    loss < 0.5 dB and simulated values there). Measured with n = 2 cascaded devices per branch (p.3); EBL at Applied Nanotools
+    (p.3 Sec. 3).
+  why: 'miss: Fig. 3(a) (p.4) plots the measured PSR at 1550 nm for each Table 1 design; skill rule 9 (one row per physical
+    design), lin2019 device #3'
+- component_id: cmp_lit_lin2019_y_r1_0p42
+  source_id: lit:lin2019
+  class: splitter.y_branch
+  label: 'Asymmetric Si Y-junction, device #4, r1 0.42 um / r2 0.23 um, 220 nm SOI'
+  row_kind: fabricated
+  host_device_ids: ''
+  platform: soi_strip
+  core_material: Si 220 nm on 2 um BOX; 500 nm input / output waveguides; smooth S-curve splitting region (L 2.32 um, 2w 1.4
+    um, R1 1.7 um, R2 1 um, output gap 200 nm), top boundary r1 0.42 um / r2 0.23 um (Table 1)
+  cladding: ''
+  fab_org_ids: org_applied_nanotools
+  facility_org_ids: ''
+  process_name: ''
+  test_structure: ''
+  tags: arbitrary_ratio;compact_splitter
+  verified_on: '2026-10-29'
+  notes: Per-design row (skill rule 9) of the family cmp_lit_lin2019_asym_y_junction_family (shared geometry, family excess
+    loss < 0.5 dB and simulated values there). Measured with n = 2 cascaded devices per branch (p.3); EBL at Applied Nanotools
+    (p.3 Sec. 3).
+  why: 'miss: Fig. 3(a) (p.4) plots the measured PSR at 1550 nm for each Table 1 design; skill rule 9 (one row per physical
+    design), lin2019 device #4'
+- component_id: cmp_lit_lin2019_y_r1_0p52
+  source_id: lit:lin2019
+  class: splitter.y_branch
+  label: 'Asymmetric Si Y-junction, device #5, r1 0.52 um / r2 0.29 um, 220 nm SOI'
+  row_kind: fabricated
+  host_device_ids: ''
+  platform: soi_strip
+  core_material: Si 220 nm on 2 um BOX; 500 nm input / output waveguides; smooth S-curve splitting region (L 2.32 um, 2w 1.4
+    um, R1 1.7 um, R2 1 um, output gap 200 nm), top boundary r1 0.52 um / r2 0.29 um (Table 1)
+  cladding: ''
+  fab_org_ids: org_applied_nanotools
+  facility_org_ids: ''
+  process_name: ''
+  test_structure: ''
+  tags: arbitrary_ratio;compact_splitter
+  verified_on: '2026-10-29'
+  notes: Per-design row (skill rule 9) of the family cmp_lit_lin2019_asym_y_junction_family (shared geometry, family excess
+    loss < 0.5 dB and simulated values there). Measured with n = 3 cascaded devices per branch (p.3); EBL at Applied Nanotools
+    (p.3 Sec. 3).
+  why: 'miss: Fig. 3(a) (p.4) plots the measured PSR at 1550 nm for each Table 1 design; skill rule 9 (one row per physical
+    design), lin2019 device #5'
+- component_id: cmp_lit_lin2019_y_r1_0p72
+  source_id: lit:lin2019
+  class: splitter.y_branch
+  label: 'Asymmetric Si Y-junction, device #6, r1 0.72 um / r2 0.41 um, 220 nm SOI'
+  row_kind: fabricated
+  host_device_ids: ''
+  platform: soi_strip
+  core_material: Si 220 nm on 2 um BOX; 500 nm input / output waveguides; smooth S-curve splitting region (L 2.32 um, 2w 1.4
+    um, R1 1.7 um, R2 1 um, output gap 200 nm), top boundary r1 0.72 um / r2 0.41 um (Table 1)
+  cladding: ''
+  fab_org_ids: org_applied_nanotools
+  facility_org_ids: ''
+  process_name: ''
+  test_structure: ''
+  tags: arbitrary_ratio;compact_splitter
+  verified_on: '2026-10-29'
+  notes: Per-design row (skill rule 9) of the family cmp_lit_lin2019_asym_y_junction_family (shared geometry, family excess
+    loss < 0.5 dB and simulated values there). Measured with n = 3 cascaded devices per branch (p.3); EBL at Applied Nanotools
+    (p.3 Sec. 3).
+  why: 'miss: Fig. 3(a) (p.4) plots the measured PSR at 1550 nm for each Table 1 design; skill rule 9 (one row per physical
+    design), lin2019 device #6'
+- component_id: cmp_lit_lin2019_y_r1_0p92
+  source_id: lit:lin2019
+  class: splitter.y_branch
+  label: 'Asymmetric Si Y-junction, device #7, r1 0.92 um / r2 0.53 um, 220 nm SOI'
+  row_kind: fabricated
+  host_device_ids: ''
+  platform: soi_strip
+  core_material: Si 220 nm on 2 um BOX; 500 nm input / output waveguides; smooth S-curve splitting region (L 2.32 um, 2w 1.4
+    um, R1 1.7 um, R2 1 um, output gap 200 nm), top boundary r1 0.92 um / r2 0.53 um (Table 1)
+  cladding: ''
+  fab_org_ids: org_applied_nanotools
+  facility_org_ids: ''
+  process_name: ''
+  test_structure: ''
+  tags: arbitrary_ratio;compact_splitter
+  verified_on: '2026-10-29'
+  notes: Per-design row (skill rule 9) of the family cmp_lit_lin2019_asym_y_junction_family (shared geometry, family excess
+    loss < 0.5 dB and simulated values there). Measured with n = 3 cascaded devices per branch (p.3); EBL at Applied Nanotools
+    (p.3 Sec. 3).
+  why: 'miss: Fig. 3(a) (p.4) plots the measured PSR at 1550 nm for each Table 1 design; skill rule 9 (one row per physical
+    design), lin2019 device #7'
+- component_id: cmp_lit_lin2019_y_r1_1p12
+  source_id: lit:lin2019
+  class: splitter.y_branch
+  label: 'Asymmetric Si Y-junction, device #8, r1 1.12 um / r2 0.65 um, 220 nm SOI'
+  row_kind: fabricated
+  host_device_ids: ''
+  platform: soi_strip
+  core_material: Si 220 nm on 2 um BOX; 500 nm input / output waveguides; smooth S-curve splitting region (L 2.32 um, 2w 1.4
+    um, R1 1.7 um, R2 1 um, output gap 200 nm), top boundary r1 1.12 um / r2 0.65 um (Table 1)
+  cladding: ''
+  fab_org_ids: org_applied_nanotools
+  facility_org_ids: ''
+  process_name: ''
+  test_structure: ''
+  tags: arbitrary_ratio;compact_splitter
+  verified_on: '2026-10-29'
+  notes: Per-design row (skill rule 9) of the family cmp_lit_lin2019_asym_y_junction_family (shared geometry, family excess
+    loss < 0.5 dB and simulated values there). Measured with n = 5 cascaded devices per branch (p.3); EBL at Applied Nanotools
+    (p.3 Sec. 3).
+  why: 'miss: Fig. 3(a) (p.4) plots the measured PSR at 1550 nm for each Table 1 design; skill rule 9 (one row per physical
+    design), lin2019 device #8'
+- component_id: cmp_lit_lin2019_y_r1_1p32
+  source_id: lit:lin2019
+  class: splitter.y_branch
+  label: 'Asymmetric Si Y-junction, device #9, r1 1.32 um / r2 0.77 um, 220 nm SOI'
+  row_kind: fabricated
+  host_device_ids: ''
+  platform: soi_strip
+  core_material: Si 220 nm on 2 um BOX; 500 nm input / output waveguides; smooth S-curve splitting region (L 2.32 um, 2w 1.4
+    um, R1 1.7 um, R2 1 um, output gap 200 nm), top boundary r1 1.32 um / r2 0.77 um (Table 1)
+  cladding: ''
+  fab_org_ids: org_applied_nanotools
+  facility_org_ids: ''
+  process_name: ''
+  test_structure: ''
+  tags: arbitrary_ratio;compact_splitter
+  verified_on: '2026-10-29'
+  notes: Per-design row (skill rule 9) of the family cmp_lit_lin2019_asym_y_junction_family (shared geometry, family excess
+    loss < 0.5 dB and simulated values there). Measured with n = 5 cascaded devices per branch (p.3); EBL at Applied Nanotools
+    (p.3 Sec. 3).
+  why: 'miss: Fig. 3(a) (p.4) plots the measured PSR at 1550 nm for each Table 1 design; skill rule 9 (one row per physical
+    design), lin2019 device #9'
+- component_id: cmp_lit_lin2019_y_r1_1p52
+  source_id: lit:lin2019
+  class: splitter.y_branch
+  label: 'Asymmetric Si Y-junction, device #10, r1 1.52 um / r2 0.89 um, 220 nm SOI'
+  row_kind: fabricated
+  host_device_ids: ''
+  platform: soi_strip
+  core_material: Si 220 nm on 2 um BOX; 500 nm input / output waveguides; smooth S-curve splitting region (L 2.32 um, 2w 1.4
+    um, R1 1.7 um, R2 1 um, output gap 200 nm), top boundary r1 1.52 um / r2 0.89 um (Table 1)
+  cladding: ''
+  fab_org_ids: org_applied_nanotools
+  facility_org_ids: ''
+  process_name: ''
+  test_structure: ''
+  tags: arbitrary_ratio;compact_splitter
+  verified_on: '2026-10-29'
+  notes: Per-design row (skill rule 9) of the family cmp_lit_lin2019_asym_y_junction_family (shared geometry, family excess
+    loss < 0.5 dB and simulated values there). Measured with n = 5 cascaded devices per branch (p.3); EBL at Applied Nanotools
+    (p.3 Sec. 3).
+  why: 'miss: Fig. 3(a) (p.4) plots the measured PSR at 1550 nm for each Table 1 design; skill rule 9 (one row per physical
+    design), lin2019 device #10'
+- component_id: cmp_lit_lin2019_y_r1_1p70
+  source_id: lit:lin2019
+  class: splitter.y_branch
+  label: 'Asymmetric Si Y-junction, device #11, r1 1.70 um / r2 1 um, 220 nm SOI'
+  row_kind: fabricated
+  host_device_ids: ''
+  platform: soi_strip
+  core_material: Si 220 nm on 2 um BOX; 500 nm input / output waveguides; smooth S-curve splitting region (L 2.32 um, 2w 1.4
+    um, R1 1.7 um, R2 1 um, output gap 200 nm), top boundary r1 1.70 um / r2 1 um (Table 1); symmetric 50:50 design
+  cladding: ''
+  fab_org_ids: org_applied_nanotools
+  facility_org_ids: ''
+  process_name: ''
+  test_structure: ''
+  tags: arbitrary_ratio;compact_splitter
+  verified_on: '2026-10-29'
+  notes: Per-design row (skill rule 9) of the family cmp_lit_lin2019_asym_y_junction_family (shared geometry, family excess
+    loss < 0.5 dB and simulated values there). Measured with n = 5 cascaded devices per branch (p.3); EBL at Applied Nanotools
+    (p.3 Sec. 3).
+  why: 'miss: Fig. 3(a) (p.4) plots the measured PSR at 1550 nm for each Table 1 design; skill rule 9 (one row per physical
+    design), lin2019 device #11'
+add_metrics:
+- metric_id: cmp_lit_lin2019_y_r1_0p12-m1
+  component_id: cmp_lit_lin2019_y_r1_0p12
+  parameter: imbalance_db
+  value: '17.5'
+  unit: dB
+  wavelength_nm: '1550'
+  polarization: te
+  mode: TE0
+  condition: measured PSR = 10 log10(PR / (1 - PR)), weaker over stronger branch; 1 cascaded device(s), GC path calibrated
+    with the io1-io2 reference
+  basis: extracted_from_figure
+  locator: p.4 Fig. 3(a)
+  notes: read off Fig. 3(a) (red point at r1 0.12 um; -20 to 0 dB axis), reading uncertainty about +/- 0.3 dB; printed sign
+    negative, stored as magnitude
+  why: 'miss: measured per-design PSR, Fig. 3(a) red point at r1 = 0.12 um (p.4)'
+- metric_id: cmp_lit_lin2019_y_r1_0p22-m1
+  component_id: cmp_lit_lin2019_y_r1_0p22
+  parameter: imbalance_db
+  value: '12.2'
+  unit: dB
+  wavelength_nm: '1550'
+  polarization: te
+  mode: TE0
+  condition: measured PSR = 10 log10(PR / (1 - PR)), weaker over stronger branch; 2 cascaded device(s), GC path calibrated
+    with the io1-io2 reference
+  basis: extracted_from_figure
+  locator: p.4 Fig. 3(a)
+  notes: read off Fig. 3(a) (red point at r1 0.22 um; -20 to 0 dB axis), reading uncertainty about +/- 0.3 dB; printed sign
+    negative, stored as magnitude
+  why: 'miss: measured per-design PSR, Fig. 3(a) red point at r1 = 0.22 um (p.4)'
+- metric_id: cmp_lit_lin2019_y_r1_0p22-m2
+  component_id: cmp_lit_lin2019_y_r1_0p22
+  parameter: imbalance_db
+  value: '12.6'
+  unit: dB
+  wavelength_nm: '1550'
+  polarization: te
+  mode: TE0
+  condition: 3D-FDTD design PSR (weaker over stronger branch)
+  basis: simulated
+  locator: p.5 Sec. 4; p.4 Fig. 3(b-d)
+  notes: printed PSR -12.6 dB for r1 = 0.22 um, stored as magnitude
+  why: 'miss: p.5 states the simulated PSR of the r1 = 0.22 um structure (Fig. 3(b-d) field plots)'
+- metric_id: cmp_lit_lin2019_y_r1_0p32-m1
+  component_id: cmp_lit_lin2019_y_r1_0p32
+  parameter: imbalance_db
+  value: '11.2'
+  unit: dB
+  wavelength_nm: '1550'
+  polarization: te
+  mode: TE0
+  condition: measured PSR = 10 log10(PR / (1 - PR)), weaker over stronger branch; 2 cascaded device(s), GC path calibrated
+    with the io1-io2 reference
+  basis: extracted_from_figure
+  locator: p.4 Fig. 3(a)
+  notes: read off Fig. 3(a) (red point at r1 0.32 um; -20 to 0 dB axis), reading uncertainty about +/- 0.3 dB; printed sign
+    negative, stored as magnitude
+  why: 'miss: measured per-design PSR, Fig. 3(a) red point at r1 = 0.32 um (p.4)'
+- metric_id: cmp_lit_lin2019_y_r1_0p42-m1
+  component_id: cmp_lit_lin2019_y_r1_0p42
+  parameter: imbalance_db
+  value: '9.7'
+  unit: dB
+  wavelength_nm: '1550'
+  polarization: te
+  mode: TE0
+  condition: measured PSR = 10 log10(PR / (1 - PR)), weaker over stronger branch; 2 cascaded device(s), GC path calibrated
+    with the io1-io2 reference
+  basis: extracted_from_figure
+  locator: p.4 Fig. 3(a)
+  notes: read off Fig. 3(a) (red point at r1 0.42 um; -20 to 0 dB axis), reading uncertainty about +/- 0.3 dB; printed sign
+    negative, stored as magnitude
+  why: 'miss: measured per-design PSR, Fig. 3(a) red point at r1 = 0.42 um (p.4)'
+- metric_id: cmp_lit_lin2019_y_r1_0p52-m1
+  component_id: cmp_lit_lin2019_y_r1_0p52
+  parameter: imbalance_db
+  value: '8.4'
+  unit: dB
+  wavelength_nm: '1550'
+  polarization: te
+  mode: TE0
+  condition: measured PSR = 10 log10(PR / (1 - PR)), weaker over stronger branch; 3 cascaded device(s), GC path calibrated
+    with the io1-io2 reference
+  basis: extracted_from_figure
+  locator: p.4 Fig. 3(a)
+  notes: read off Fig. 3(a) (red point at r1 0.52 um; -20 to 0 dB axis), reading uncertainty about +/- 0.3 dB; printed sign
+    negative, stored as magnitude
+  why: 'miss: measured per-design PSR, Fig. 3(a) red point at r1 = 0.52 um (p.4)'
+- metric_id: cmp_lit_lin2019_y_r1_0p72-m1
+  component_id: cmp_lit_lin2019_y_r1_0p72
+  parameter: imbalance_db
+  value: '7.0'
+  unit: dB
+  wavelength_nm: '1550'
+  polarization: te
+  mode: TE0
+  condition: measured PSR = 10 log10(PR / (1 - PR)), weaker over stronger branch; 3 cascaded device(s), GC path calibrated
+    with the io1-io2 reference
+  basis: extracted_from_figure
+  locator: p.4 Fig. 3(a)
+  notes: read off Fig. 3(a) (red point at r1 0.72 um; -20 to 0 dB axis), reading uncertainty about +/- 0.3 dB; printed sign
+    negative, stored as magnitude
+  why: 'miss: measured per-design PSR, Fig. 3(a) red point at r1 = 0.72 um (p.4)'
+- metric_id: cmp_lit_lin2019_y_r1_0p92-m1
+  component_id: cmp_lit_lin2019_y_r1_0p92
+  parameter: imbalance_db
+  value: '5.4'
+  unit: dB
+  wavelength_nm: '1550'
+  polarization: te
+  mode: TE0
+  condition: measured PSR = 10 log10(PR / (1 - PR)), weaker over stronger branch; 3 cascaded device(s), GC path calibrated
+    with the io1-io2 reference
+  basis: extracted_from_figure
+  locator: p.4 Fig. 3(a)
+  notes: read off Fig. 3(a) (red point at r1 0.92 um; -20 to 0 dB axis), reading uncertainty about +/- 0.3 dB; printed sign
+    negative, stored as magnitude
+  why: 'miss: measured per-design PSR, Fig. 3(a) red point at r1 = 0.92 um (p.4)'
+- metric_id: cmp_lit_lin2019_y_r1_0p92-m2
+  component_id: cmp_lit_lin2019_y_r1_0p92
+  parameter: imbalance_db
+  value: '5.5'
+  unit: dB
+  wavelength_nm: '1550'
+  polarization: te
+  mode: TE0
+  condition: 3D-FDTD design PSR (weaker over stronger branch)
+  basis: simulated
+  locator: p.5 Sec. 4; p.4 Fig. 3(b-d)
+  notes: printed PSR -5.5 dB for r1 = 0.92 um, stored as magnitude
+  why: 'miss: p.5 states the simulated PSR of the r1 = 0.92 um structure (Fig. 3(b-d) field plots)'
+- metric_id: cmp_lit_lin2019_y_r1_1p12-m1
+  component_id: cmp_lit_lin2019_y_r1_1p12
+  parameter: imbalance_db
+  value: '3.6'
+  unit: dB
+  wavelength_nm: '1550'
+  polarization: te
+  mode: TE0
+  condition: measured PSR = 10 log10(PR / (1 - PR)), weaker over stronger branch; 5 cascaded device(s), GC path calibrated
+    with the io1-io2 reference
+  basis: extracted_from_figure
+  locator: p.4 Fig. 3(a)
+  notes: read off Fig. 3(a) (red point at r1 1.12 um; -20 to 0 dB axis), reading uncertainty about +/- 0.3 dB; printed sign
+    negative, stored as magnitude
+  why: 'miss: measured per-design PSR, Fig. 3(a) red point at r1 = 1.12 um (p.4)'
+- metric_id: cmp_lit_lin2019_y_r1_1p32-m1
+  component_id: cmp_lit_lin2019_y_r1_1p32
+  parameter: imbalance_db
+  value: '2.2'
+  unit: dB
+  wavelength_nm: '1550'
+  polarization: te
+  mode: TE0
+  condition: measured PSR = 10 log10(PR / (1 - PR)), weaker over stronger branch; 5 cascaded device(s), GC path calibrated
+    with the io1-io2 reference
+  basis: extracted_from_figure
+  locator: p.4 Fig. 3(a)
+  notes: read off Fig. 3(a) (red point at r1 1.32 um; -20 to 0 dB axis), reading uncertainty about +/- 0.3 dB; printed sign
+    negative, stored as magnitude
+  why: 'miss: measured per-design PSR, Fig. 3(a) red point at r1 = 1.32 um (p.4)'
+- metric_id: cmp_lit_lin2019_y_r1_1p52-m1
+  component_id: cmp_lit_lin2019_y_r1_1p52
+  parameter: imbalance_db
+  value: '0.9'
+  unit: dB
+  wavelength_nm: '1550'
+  polarization: te
+  mode: TE0
+  condition: measured PSR = 10 log10(PR / (1 - PR)), weaker over stronger branch; 5 cascaded device(s), GC path calibrated
+    with the io1-io2 reference
+  basis: extracted_from_figure
+  locator: p.4 Fig. 3(a)
+  notes: read off Fig. 3(a) (red point at r1 1.52 um; -20 to 0 dB axis), reading uncertainty about +/- 0.3 dB; printed sign
+    negative, stored as magnitude
+  why: 'miss: measured per-design PSR, Fig. 3(a) red point at r1 = 1.52 um (p.4)'
+- metric_id: cmp_lit_lin2019_y_r1_1p70-m1
+  component_id: cmp_lit_lin2019_y_r1_1p70
+  parameter: imbalance_db
+  value: '0'
+  unit: dB
+  wavelength_nm: '1550'
+  polarization: te
+  mode: TE0
+  condition: measured PSR = 10 log10(PR / (1 - PR)), weaker over stronger branch; 5 cascaded device(s), GC path calibrated
+    with the io1-io2 reference
+  basis: extracted_from_figure
+  locator: p.4 Fig. 3(a)
+  notes: read off Fig. 3(a) (red point at r1 1.70 um; -20 to 0 dB axis), reading uncertainty about +/- 0.3 dB; printed sign
+    negative, stored as magnitude
+  why: 'miss: measured per-design PSR, Fig. 3(a) red point at r1 = 1.70 um (p.4)'
+- metric_id: cmp_lit_lin2019_y_r1_1p70-m2
+  component_id: cmp_lit_lin2019_y_r1_1p70
+  parameter: imbalance_db
+  value: '0'
+  unit: dB
+  wavelength_nm: '1550'
+  polarization: te
+  mode: TE0
+  condition: 3D-FDTD design PSR (weaker over stronger branch)
+  basis: simulated
+  locator: p.5 Sec. 4; p.4 Fig. 3(b-d)
+  notes: printed PSR 0 dB for r1 = 1.70 um, stored as magnitude
+  why: 'miss: p.5 states the simulated PSR of the r1 = 1.70 um structure (Fig. 3(b-d) field plots)'
+- metric_id: cmp_lit_spencer2015_qws_grating_2mm-m8
+  component_id: cmp_lit_spencer2015_qws_grating_2mm
+  parameter: linewidth_mhz
+  value: '946'
+  unit: MHz
+  wavelength_nm: '1549.1'
+  wavelength_inferred: 'true'
+  polarization: te
+  condition: transmission resonance FWHM
+  method: direct
+  basis: measured
+  locator: p.6 Sec. 4.2; p.7 Fig. 6
+  notes: printed 7.6 pm (946 MHz); resonance wavelength read off the Fig. 6 inset axis (1549.10-1549.15 nm)
+  why: 'miss: p.6 Sec. 4.2 prints the FWHM in MHz as well; linewidth_mhz is allowed for resonator'
+- metric_id: cmp_lit_xu2018_swg_slot_adiabatic_3db-m18
+  component_id: cmp_lit_xu2018_swg_slot_adiabatic_3db
+  parameter: pitch_um
+  value: '2'
+  unit: um
+  basis: design_target
+  locator: p.3 Sec. 2; p.7 Table 1
+  notes: centre-to-centre spacing WS of the two input / output port waveguides
+  why: 'miss (D153 geometry): Table 1 WS = 2 um, port spacing; pitch_um is allowed for splitter'

@@ -1,0 +1,495 @@
+# Audit patch lit_07 (fresh-context audit 2026-10-29, DevLog/audits/2026-10-29-lit_07-audit.md).
+# 205 metrics: 185 ok / 20 imprecise / 0 wrong; 44 components: 33 ok / 11 changed / 0 deleted; misses: 1 component + 20 metrics added.
+# Not covered here (coordinator decisions, see the audit record): missing registry orgs (Surrey Ion Beam Centre,
+# Helmut Schmidt University, Glasgow, Minnesota, C2N platform, PhotonX), white2024 fab (Stanford + UW vs Stanford only),
+# garciablanco2025 m3 basis alignment, registry gaps.
+components:
+  cmp_lit_riemensberger2022_twopa_2m_spiral:
+    cladding: SiO2 (preforms etched into the SiO2 substrate; TEOS + low-temperature oxide top cladding, annealed 1200 C)
+    why: 'p.5 Methods: patterns dry-etched to the SiO2 substrate; top cladding TEOS + low-temperature oxide; the paper does
+      not say thermal oxide (grep: no thermal / wet oxide in text)'
+  cmp_lit_riemensberger2022_sin_spiral_waveguide_2m:
+    cladding: SiO2 (preforms etched into the SiO2 substrate; TEOS + low-temperature oxide top cladding, annealed 1200 C)
+    why: p.5 Methods, as the TWOPA row
+  cmp_lit_riemensberger2022_sin_inverse_taper_lensed_fiber:
+    cladding: SiO2 (preforms etched into the SiO2 substrate; TEOS + low-temperature oxide top cladding, annealed 1200 C)
+    why: p.5 Methods, as the TWOPA row
+  cmp_lit_suntsov2021_rpe_ppln_ridge_10um:
+    notes: 'Fab: the authors state in the Conclusion that they fabricated the PPLN ridge waveguides (p.7); all authors at
+      Helmut Schmidt University, Hamburg, which is not in the registry (reported): fab_org_ids empty. Best of the 10 um wide
+      ridges, operated at 120 C to mitigate photorefractive damage (PRD). Not entered (no frequency_converter parameter):
+      QPM tuning-curve FWHM 0.22 nm (p.5, registry gap), SH output 0.84 W at 1.2 W coupled pump and the 1 W headline (p.1,
+      p.6-7), 97% pump depletion (p.6), measured QPM wavelength 1551.4 nm (p.5), measured mode sizes 8.1 x 6.4 um (pump) and
+      8.0 x 4.8 um (SH) at 1/e2 (p.5), lens-to-waveguide coupling efficiency 0.94 (overlap estimate, p.4-5), PRD onset above
+      1.6 W coupled pump at QPM (p.6). Output facet cut at 5.6 deg after the loss measurement (p.2).'
+    why: 'lit:suntsov2021 is restricted_local_only: the quoted Conclusion phrase is replaced by a paraphrase (rights rule,
+      lit addendum); sidewall deviation now entered as sidewall_angle_deg (m10), measured QPM wavelength and PRD onset listed'
+  cmp_lit_suntsov2021_rpe_ppln_ridge_waveguides:
+    notes: 'Fab: the authors state in the Conclusion that they fabricated the PPLN ridge waveguides (p.7); all authors at
+      Helmut Schmidt University, Hamburg, which is not in the registry (reported): fab_org_ids empty. Array-level row (D165):
+      ridges 7-15 um wide on one 50 mm chip; losses from the Fabry-Perot resonator method on perpendicular facets with the
+      bulk air/LiNbO3 reflectance (0.132 at 1550 nm) taken as facet reflectance, before the output facet was angled (p.2,
+      p.4).'
+    why: 'restricted_local_only source: quote replaced by a paraphrase; FP reflectance assumption stated (p.4)'
+  cmp_lit_white2024_kerr_ring_backscatter_sil:
+    core_material: Si3N4 ring (cross-section, film and process not stated for this comparison device)
+    cladding: ''
+    why: 'p.9-10 Fig. 3(b) / caption: the comparison device is described only by its lower Q and an inset image; the paper
+      does not state that it shares the ULS process or cladding (the previous core_material text said the paper assumes the
+      same process, which it does not)'
+  cmp_lit_white2024_dfb_laser_chip_free_running:
+    notes: 'Laser chip provided by the UCSB co-authors (p.17 Author Contributions); no fabrication statement: fab empty (D80b).
+      The Methods frequency-splitting setup names the DFB laser as PhotonX (p.15); whether this is the same chip as the UCSB-provided
+      one is not stated, and PhotonX is not in the registry: fab not set. Free-running reference of the self-injection-locked
+      row.'
+    why: 'p.15 Methods: DFB laser (PhotonX) coupled directly to the chip; p.17: UCSB co-authors provided the semiconductor
+      laser chip; vendor identity recorded for the coordinator (rule 12 vendor of a purchased device under test)'
+  cmp_lit_liu2018_fp_p11_n280:
+    class: resonator.photonic_crystal
+    why: 'registry: resonator.photonic_crystal = photonic-crystal / Fabry-Perot cavity; this is a Fabry-Perot cavity of two
+      Bragg-grating mirrors around a 70 um straight waveguide (p.4 Sec. 3, Fig. 3(a)); merged precedent for mirror-bounded
+      FP cavities: berman2026, qi2025 fp_slr_cavity, xu2022 fp_retro_*'
+  cmp_lit_liu2018_fp_p116_n280:
+    class: resonator.photonic_crystal
+    why: 'registry: resonator.photonic_crystal = photonic-crystal / Fabry-Perot cavity; this is a Fabry-Perot cavity of two
+      Bragg-grating mirrors around a 70 um straight waveguide (p.4 Sec. 3, Fig. 3(a)); merged precedent for mirror-bounded
+      FP cavities: berman2026, qi2025 fp_slr_cavity, xu2022 fp_retro_*'
+  cmp_lit_liu2018_fp_p11_n500:
+    class: resonator.photonic_crystal
+    why: 'registry: resonator.photonic_crystal = photonic-crystal / Fabry-Perot cavity; this is a Fabry-Perot cavity of two
+      Bragg-grating mirrors around a 70 um straight waveguide (p.4 Sec. 3, Fig. 3(a)); merged precedent for mirror-bounded
+      FP cavities: berman2026, qi2025 fp_slr_cavity, xu2022 fp_retro_*'
+  cmp_lit_liu2018_bragg_wg_p088_n280:
+    notes: 'Fab: device fabrication ''performed at'' the Plateforme de Micro-Nano-Technologie/C2N (p.6 Acknowledgments): facility
+      not in the registry (reported; its owner C2N is in the registry as a research institute, not entered per D82c); SiGe
+      graded layers grown by LEPECVD (passive, p.4; L-NESS Politecnico di Milano co-authors); no explicit fabricator statement:
+      fab_org_ids empty. Sibling gratings with the same period: N = 210 entered as cmp_lit_liu2018_bragg_wg_p088_n210 (Fig.
+      2(c) and 2(d) agree, about -9 dB); N = 250 not entered (D159): Fig. 2(b) / 2(c) dip about -14.4 dB vs Fig. 2(d) minimum
+      transmittance about -12.8 dB.'
+    why: audit added the N = 210 sibling (Fig. 2(c) and 2(d) readings agree); the N = 250 disagreement is between Fig. 2(b)/(c)
+      and Fig. 2(d) (p.3), not between (c) and (d) only
+metrics:
+  cmp_lit_liu2022_er_sin_spiral_waveguide-m1:
+    statistic: ''
+    notes: Peak (spectral maximum at 1535 nm) of the wavelength-dependent OFDR loss of the 0.5-m spiral (linear fit of back-reflection
+      vs distance in spectral windows); slightly above the ~1.75 dB/cm ring-linewidth peak (p.14). Single device, so no statistic.
+    why: 'p.14 Supp. Note 7: 2.14 dB/cm is the peak of the OFDR loss spectrum of one spiral, not the best of several devices;
+      statistic best (best device / lowest loss) misstates it'
+  cmp_lit_liu2022_er_sin_spiral_waveguide-m3:
+    basis: author_estimate
+    notes: Printed < 2.5 dB background loss for a 0.5-m-long waveguide (p.3); 2.5 dB / 50 cm = 0.05 dB/cm. The background
+      loss after annealing is the one "extrapolated from intrinsic resonance linewidth measurement of a doped microring" (p.3),
+      i.e. the ring-extracted per-length loss (n_eff not stated, as microring m5 / m6) applied to 0.5 m, not a measurement
+      on the spiral. Wavelength not stated (outside the erbium band).
+    why: 'p.3: the < 2.5 dB is the ring-extrapolated background loss scaled to 0.5 m; the ring loss rows (n_eff not stated)
+      are author_estimate (D76), so this value rests on the same unstated input'
+  cmp_lit_akin2024_ingap_ring_shg_r5-m1:
+    band: ''
+    wavelength_nm: '1533.5'
+    wavelength_inferred: 'true'
+    notes: 'Peak eta = PSHG / Pp^2 = 440,000%/W (printed in text and Fig. 1(d) caption). Pump wavelength not stated in text:
+      about 1533.5 nm read off the Fig. 1(d) pump-wavelength axis (SH peak between 1533.5 and 1533.55 nm ticks, reading uncertainty
+      +/- 0.03 nm); 1550 nm band TE00 pump'
+    why: 'p.2 Fig. 1(d): the SHG spectrum is plotted against pump wavelength 1533.45-1533.6 nm with the peak near 1533.53
+      nm; a plot-axis wavelength is more specific than the inferred band (schema wavelength_inferred: plot axis)'
+  cmp_lit_suntsov2021_rpe_ppln_ridge_waveguides-m1:
+    wavelength_inferred: ''
+    notes: 'Printed (0.15 +/- 0.03) dB/cm, losses evaluated around 1550 nm with the FP resonator formula on low-power laser
+      scans; facet reflectance = bulk extraordinary-wave value 0.132 at 1550 nm (p.4). Model-parameter extraction (FP resonator
+      formula) with an assumed facet reflectance (bulk Fresnel value, not measured) as the stated model input: measured (standard fit of own data, D80a; ruling D394).'
+    why: 'p.4: "evaluated propagation losses around 1550 nm" states the wavelength; wavelength_inferred true misstates it
+      (D46); basis: the loss is extracted from the FP fringe contrast with the bulk air/LN reflectance 0.132 taken as the
+      facet reflectance (p.4), a model-parameter extraction with a stated assumption (D80a: derived), as liu2022 back-reflection
+      rows'
+    basis: measured
+  cmp_lit_suntsov2021_rpe_ppln_ridge_waveguides-m2:
+    wavelength_inferred: ''
+    notes: 'Printed (0.27 +/- 0.04) dB/cm for the 7-8 um wide ridges, evaluated around 1550 nm (FP resonator formula, facet
+      reflectance 0.132; p.4). Model-parameter extraction (FP resonator formula) with an assumed facet reflectance (bulk Fresnel
+      value, not measured) as the stated model input: measured (standard fit of own data, D80a; ruling D394).'
+    why: 'p.4 states the wavelength, as m1; basis: the loss is extracted from the FP fringe contrast with the bulk air/LN
+      reflectance 0.132 taken as the facet reflectance (p.4), a model-parameter extraction with a stated assumption (D80a:
+      derived), as liu2022 back-reflection rows'
+    basis: measured
+  cmp_lit_white2024_uls_kerr_isolator_ring-m3:
+    basis: design_target
+    locator: p.11; p.16 Methods (4000 x 310 nm)
+    notes: multimode ring width printed 4 um (p.11) and 4000 nm in the TRN simulation geometry (p.16)
+    why: 'D256: the source prints the stored-unit form (4000 x 310 nm, p.16) for the same ring width, so the row keeps its
+      basis (design dimension, design_target) instead of derived'
+  cmp_lit_white2024_uls_ring_resonator-m2:
+    basis: design_target
+    locator: p.11; p.16 Methods (4000 x 310 nm)
+    notes: multimode ring width printed 4 um (p.11) and 4000 nm in the TRN simulation geometry (p.16)
+    why: D256, as uls_kerr_isolator_ring-m3
+  cmp_lit_liu2018_bragg_wg_p088_n280-m1:
+    polarization: unspecified
+    condition: rejection (minimum transmittance) of the stopband; polarization not stated (TM design mode, Fig. 1(a)); free-space
+      coupled tunable QCL (pulsed)
+    wavelength_inferred: ''
+    why: 'polarization: the text and captions state TM only for the simulated guided mode (p.2 Fig. 1(a)); the measurement
+      polarization is not stated (p.4-5; setup in a cited reference); wavelength: the operating wavelength of this grating
+      is stated (p.4: rejection centred at 6.4 um; Fig. 2(b) caption: operation at 5.4, 6.4 and 7.3 um), not inferred'
+  cmp_lit_liu2018_bragg_wg_p074_n250-m1:
+    polarization: unspecified
+    condition: measured stopband minimum transmittance; polarization not stated (TM design mode, Fig. 1(a)); free-space coupled
+      tunable QCL (pulsed)
+    wavelength_inferred: ''
+    why: 'polarization: the text and captions state TM only for the simulated guided mode (p.2 Fig. 1(a)); the measurement
+      polarization is not stated (p.4-5; setup in a cited reference); wavelength: the operating wavelength of this grating
+      is stated (p.4: rejection centred at 6.4 um; Fig. 2(b) caption: operation at 5.4, 6.4 and 7.3 um), not inferred'
+  cmp_lit_liu2018_bragg_wg_p102_n250-m1:
+    polarization: unspecified
+    condition: measured stopband minimum transmittance; polarization not stated (TM design mode, Fig. 1(a)); free-space coupled
+      tunable QCL (pulsed)
+    wavelength_inferred: ''
+    why: 'polarization: the text and captions state TM only for the simulated guided mode (p.2 Fig. 1(a)); the measurement
+      polarization is not stated (p.4-5; setup in a cited reference); wavelength: the operating wavelength of this grating
+      is stated (p.4: rejection centred at 6.4 um; Fig. 2(b) caption: operation at 5.4, 6.4 and 7.3 um), not inferred'
+  cmp_lit_liu2018_fp_p11_n280-m1:
+    polarization: unspecified
+    condition: -3 dB resonance bandwidth, Lorentz fit of the central resonance; polarization not stated (TM design mode, Fig.
+      1(a)); free-space coupled tunable QCL (pulsed)
+    notes: 'measurement-limited: QCL linewidth below 1 /cm (about 6.5 nm at 8 um) and 1 nm scan steps (p.5)'
+    why: 'polarization: the text and captions state TM only for the simulated guided mode (p.2 Fig. 1(a)); the measurement
+      polarization is not stated (p.4-5; setup in a cited reference); p.5: the laser linewidth and 1 nm scan steps limit the
+      measured bandwidth / Q; the bandwidth rows lacked this caveat'
+  cmp_lit_liu2018_fp_p11_n280-m2:
+    polarization: unspecified
+    basis: measured
+    notes: 'Printed loaded Q = lambda / -3 dB bandwidth of the Lorentz fit of the central resonance (R-squared 0.97, p.6);
+      standard fit of own data (D80a); measurement-limited: QCL linewidth below 1 /cm (about 6.5 nm at 8 um) and 1 nm scan
+      steps (p.5); 7.95 um / 5.3 nm gives 1500, the printed 1514 implies an unrounded bandwidth'
+    why: 'polarization: the text and captions state TM only for the simulated guided mode (p.2 Fig. 1(a)); the measurement
+      polarization is not stated (p.4-5; setup in a cited reference); D80a: a Lorentzian-fit Q of the source''s own data is
+      measured, not derived (p.4-5 / p.5 print the Q from the measured -3 dB bandwidth)'
+  cmp_lit_liu2018_fp_p11_n280-m9:
+    polarization: unspecified
+    notes: Printed about -1.3 dB for both FP resonators of Fig. 3(c); normalization not stated. polarization not stated for
+      the measurements (the design mode of Fig. 1(a) is TM)
+    why: 'polarization: the text and captions state TM only for the simulated guided mode (p.2 Fig. 1(a)); the measurement
+      polarization is not stated (p.4-5; setup in a cited reference)'
+  cmp_lit_liu2018_fp_p116_n280-m1:
+    polarization: unspecified
+    condition: -3 dB resonance bandwidth, Lorentz fit of the central resonance; polarization not stated (TM design mode, Fig.
+      1(a)); free-space coupled tunable QCL (pulsed)
+    notes: 'measurement-limited: QCL linewidth below 1 /cm (about 6.5 nm at 8 um) and 1 nm scan steps (p.5)'
+    why: 'polarization: the text and captions state TM only for the simulated guided mode (p.2 Fig. 1(a)); the measurement
+      polarization is not stated (p.4-5; setup in a cited reference); p.5: the laser linewidth and 1 nm scan steps limit the
+      measured bandwidth / Q; the bandwidth rows lacked this caveat'
+  cmp_lit_liu2018_fp_p116_n280-m2:
+    polarization: unspecified
+    basis: measured
+    notes: 'Printed loaded Q = lambda / -3 dB bandwidth of the Lorentz fit of the central resonance (R-squared 0.97, p.6);
+      standard fit of own data (D80a); measurement-limited: QCL linewidth below 1 /cm (about 6.5 nm at 8 um) and 1 nm scan
+      steps (p.5)'
+    why: 'polarization: the text and captions state TM only for the simulated guided mode (p.2 Fig. 1(a)); the measurement
+      polarization is not stated (p.4-5; setup in a cited reference); D80a: a Lorentzian-fit Q of the source''s own data is
+      measured, not derived (p.4-5 / p.5 print the Q from the measured -3 dB bandwidth)'
+  cmp_lit_liu2018_fp_p116_n280-m9:
+    polarization: unspecified
+    notes: Printed about -1.3 dB for both FP resonators of Fig. 3(c); normalization not stated. polarization not stated for
+      the measurements (the design mode of Fig. 1(a) is TM)
+    why: 'polarization: the text and captions state TM only for the simulated guided mode (p.2 Fig. 1(a)); the measurement
+      polarization is not stated (p.4-5; setup in a cited reference)'
+  cmp_lit_liu2018_fp_p11_n500-m1:
+    polarization: unspecified
+    condition: -3 dB resonance bandwidth, Lorentz fit of the central resonance; polarization not stated (TM design mode, Fig.
+      1(a)); free-space coupled tunable QCL (pulsed)
+    notes: 'measurement-limited: QCL linewidth below 1 /cm (about 6.5 nm at 8 um) and 1 nm scan steps (p.5)'
+    why: 'polarization: the text and captions state TM only for the simulated guided mode (p.2 Fig. 1(a)); the measurement
+      polarization is not stated (p.4-5; setup in a cited reference); p.5: the laser linewidth and 1 nm scan steps limit the
+      measured bandwidth / Q; the bandwidth rows lacked this caveat'
+  cmp_lit_liu2018_fp_p11_n500-m2:
+    polarization: unspecified
+    basis: measured
+    notes: 'Printed loaded Q = lambda / -3 dB bandwidth of the Lorentz fit of the central resonance (R-squared 0.97, p.6);
+      standard fit of own data (D80a); measurement-limited: QCL linewidth below 1 /cm (about 6.5 nm at 8 um) and 1 nm scan
+      steps (p.5)'
+    why: 'polarization: the text and captions state TM only for the simulated guided mode (p.2 Fig. 1(a)); the measurement
+      polarization is not stated (p.4-5; setup in a cited reference); D80a: a Lorentzian-fit Q of the source''s own data is
+      measured, not derived (p.4-5 / p.5 print the Q from the measured -3 dB bandwidth)'
+  cmp_lit_liu2018_bragg_mirror_p11_n280-m1:
+    polarization: unspecified
+    notes: Printed around 88% (estimated); estimation method not stated (origin not stated). polarization not stated for the
+      measurements (the design mode of Fig. 1(a) is TM)
+    why: 'polarization: the text and captions state TM only for the simulated guided mode (p.2 Fig. 1(a)); the measurement
+      polarization is not stated (p.4-5; setup in a cited reference)'
+  cmp_lit_liu2018_bragg_mirror_p116_n280-m1:
+    polarization: unspecified
+    notes: Printed around 85% (estimated); estimation method not stated (origin not stated). polarization not stated for the
+      measurements (the design mode of Fig. 1(a) is TM)
+    why: 'polarization: the text and captions state TM only for the simulated guided mode (p.2 Fig. 1(a)); the measurement
+      polarization is not stated (p.4-5; setup in a cited reference)'
+add_components:
+- component_id: cmp_lit_liu2018_bragg_wg_p088_n210
+  source_id: lit:liu2018
+  class: reflector.bragg
+  label: Ge-rich graded SiGe surface-corrugated Bragg grating waveguide, period 0.88 um, N = 210 (6.4 um band)
+  row_kind: fabricated
+  platform: other
+  core_material: 'Ge-rich graded Si(1-x)Ge(x) on Si: Ge fraction rising linearly to pure Ge across the 6 um core (LEPECVD);
+    waveguide etch 4 um, width 5 um; top-surface grating shallow etch 0.4 um over a 3.5 um wide region (r = 70%), duty cycle
+    0.5'
+  cladding: air (top); Si substrate below the graded layer
+  tags: mid_ir;lwir;sige;bragg
+  verified_on: '2026-10-29'
+  notes: 'Fab: device fabrication ''performed at'' the Plateforme de Micro-Nano-Technologie/C2N (p.6 Acknowledgments): facility
+    not in the registry (reported; its owner C2N is in the registry as a research institute, not entered per D82c); SiGe graded
+    layers grown by LEPECVD (passive, p.4; L-NESS Politecnico di Milano co-authors); no explicit fabricator statement: fab_org_ids
+    empty. Sibling of cmp_lit_liu2018_bragg_wg_p088_n280 (same period, N = 210); minimum transmittance only plotted (Fig.
+    2(c), 2(d)).'
+  why: 'miss: N = 210 grating of the 0.88 um series is measured in Fig. 2(c) and its minimum transmittance plotted in Fig.
+    2(d) (p.3); both readings agree (about -9.1 dB); sibling design = new row (rule 9)'
+add_metrics:
+- metric_id: cmp_lit_liu2022_er_sin_microring_100ghz-m7
+  component_id: cmp_lit_liu2022_er_sin_microring_100ghz
+  parameter: fsr_ghz
+  value: '100'
+  unit: GHz
+  condition: nominal FSR naming the ring ('100 GHz FSR'); measured FSR not stated
+  basis: author_estimate
+  locator: p.14 Supp. Note 7; p.15 Fig. S5(b)
+  notes: '"100 GHz FSR Er:Si3N4 microring resonator" (Fig. S5(b) caption); design-stated FSR with no stated simulation or
+    measurement (D82a)'
+  why: 'miss: p.14-15 state the ring FSR (100 GHz); fsr_ghz is allowed for resonator; D82a basis for a design-stated performance
+    value'
+- metric_id: cmp_lit_liu2022_er_sin_spiral_waveguide-m4
+  component_id: cmp_lit_liu2022_er_sin_spiral_waveguide
+  parameter: width_nm
+  value: '2100'
+  unit: nm
+  basis: derived
+  locator: p.1; p.13 Supp. Note 5
+  notes: Printed cross section 0.7 x 2.1 um2 for the up-to-0.5-m spiral waveguides (p.1); converted to nm. Implanted waveguides
+    show a geometry deviation (volume expansion, Fig. S1(c)).
+  why: 'miss (D153 geometry): p.1 states the spiral cross section; entered on the 21 cm EDWA row (m11) but not on the 0.5-m
+    spiral row'
+- metric_id: cmp_lit_liu2022_er_sin_spiral_waveguide-m5
+  component_id: cmp_lit_liu2022_er_sin_spiral_waveguide
+  parameter: core_thickness_nm
+  value: '700'
+  unit: nm
+  basis: derived
+  locator: p.1; p.13 Supp. Note 5
+  notes: Printed cross section 0.7 x 2.1 um2 (p.1); converted to nm.
+  why: 'miss (D153 geometry): p.1 cross section, as m4'
+- metric_id: cmp_lit_liu2022_edwa_50cm-m4
+  component_id: cmp_lit_liu2022_edwa_50cm
+  parameter: width_nm
+  value: '2100'
+  unit: nm
+  basis: derived
+  locator: p.1; p.13 Supp. Note 5
+  notes: Printed cross section 0.7 x 2.1 um2 for the up-to-0.5-m spiral waveguides (p.1); converted to nm.
+  why: 'miss (D153 geometry): p.1 cross section applies to the 0.5-m spiral; the 21 cm EDWA row carries it (m10 / m11), the
+    50 cm row did not'
+- metric_id: cmp_lit_liu2022_edwa_50cm-m5
+  component_id: cmp_lit_liu2022_edwa_50cm
+  parameter: core_thickness_nm
+  value: '700'
+  unit: nm
+  basis: derived
+  locator: p.1; p.13 Supp. Note 5
+  notes: Printed cross section 0.7 x 2.1 um2 (p.1); converted to nm.
+  why: 'miss (D153 geometry): as m4'
+- metric_id: cmp_lit_riemensberger2022_twopa_2m_spiral-m7
+  component_id: cmp_lit_riemensberger2022_twopa_2m_spiral
+  parameter: gain_db
+  value: '12'
+  unit: dB
+  statistic: best
+  band: c_band
+  condition: numerical calculation (full nonlinear frequency-domain equations) with estimated Aeff 1.67 um2 and gamma 0.51
+    /W/m; peak signal gain
+  basis: simulated
+  locator: p.4; Fig. 2(c)
+  notes: 'printed: numerical calculations predict a peak gain of 12 dB, in agreement with the measured 12 dB (m1); n2 input
+    taken from cited measurements (ref. 46)'
+  why: 'miss: p.4 states the simulated peak gain of the same 2 m spiral; simulated performance values of the fabricated device
+    are entered (D80e, lit_05 precedent)'
+- metric_id: cmp_lit_akin2024_ingap_ring_shg_r5-m2
+  component_id: cmp_lit_akin2024_ingap_ring_shg_r5
+  parameter: core_thickness_nm
+  value: '110'
+  unit: nm
+  basis: design_target
+  locator: p.2 Results
+  notes: 110 nm thick InGaP grown by MOCVD for this study (D161); same film as the other akin2024 rows
+  why: 'miss (D153 geometry): p.2 states the 110 nm InGaP film used for all devices of the study; the ring SHG row had no
+    geometry (radius_um 5 um not allowed for frequency_converter, see registry gaps)'
+- metric_id: cmp_lit_suntsov2021_rpe_ppln_ridge_10um-m10
+  component_id: cmp_lit_suntsov2021_rpe_ppln_ridge_10um
+  parameter: sidewall_angle_deg
+  value: '83'
+  value_max: '87'
+  unit: deg
+  condition: 'asymmetric diced ridge: left sidewall 83 deg, right sidewall 87 deg to the film plane (asymmetric blade profile)'
+  basis: derived
+  locator: p.3; Fig. 1(b)
+  notes: printed side-wall deviation from verticality 7 deg (left) and 3 deg (right) for the fabricated ridges; stored as
+    angle to the film plane (90 - deviation)
+  why: 'miss (D153 geometry): p.3 states the sidewall deviation of the fabricated ridges; sidewall_angle_deg is allowed for
+    all classes (90 = vertical), conversion is derived (D82d)'
+- metric_id: cmp_lit_suntsov2021_rpe_ppln_ridge_waveguides-m3
+  component_id: cmp_lit_suntsov2021_rpe_ppln_ridge_waveguides
+  parameter: width_nm
+  value: '7000'
+  value_max: '15000'
+  unit: nm
+  statistic: range
+  condition: set of target ridge widths on one chip; measured widths within 0.3 um of target (profilometer at 4 um below the
+    ridge top)
+  basis: derived
+  locator: p.2-3
+  notes: printed ridge widths 7 um to 15 um; converted to nm
+  why: 'miss (D153 geometry): p.2 states the ridge width range of the array row'
+- metric_id: cmp_lit_suntsov2021_rpe_ppln_ridge_waveguides-m4
+  component_id: cmp_lit_suntsov2021_rpe_ppln_ridge_waveguides
+  parameter: etch_depth_nm
+  value: '25000'
+  unit: nm
+  condition: diced ridge height (precision diamond-blade dicing)
+  basis: derived
+  locator: p.2
+  notes: printed ridge height 25 um; converted to nm (same convention as ridge_10um m9)
+  why: 'miss (D153 geometry): p.2 ridge height of the array'
+- metric_id: cmp_lit_suntsov2021_rpe_ppln_ridge_waveguides-m5
+  component_id: cmp_lit_suntsov2021_rpe_ppln_ridge_waveguides
+  parameter: sidewall_angle_deg
+  value: '83'
+  value_max: '87'
+  unit: deg
+  condition: 'asymmetric diced ridge: left sidewall 83 deg, right sidewall 87 deg to the film plane (asymmetric blade profile)'
+  basis: derived
+  locator: p.3; Fig. 1(b)
+  notes: printed side-wall deviation from verticality 7 deg (left) and 3 deg (right); stored as angle to the film plane (90
+    - deviation)
+  why: 'miss (D153 geometry): p.3 sidewall deviation of the fabricated ridge waveguides'
+- metric_id: cmp_lit_suntsov2021_rpe_ppln_ridge_waveguides-m6
+  component_id: cmp_lit_suntsov2021_rpe_ppln_ridge_waveguides
+  parameter: power_handling_dbm
+  value: '35.44'
+  unit: dBm
+  qualifier: approx
+  band: c_band
+  wavelength_inferred: 'true'
+  temperature_k: '393.15'
+  condition: coupled pump power away from the QPM condition with no signs of photorefractive damage (no power fluctuation
+    or mode-profile degradation); at QPM, PRD onset above 1.6 W coupled pump
+  basis: derived
+  locator: p.6
+  notes: 'printed Pp-in about 3.5 W; 10 log10(3500 mW) = 35.44 dBm (D256 conversion). Pump near 1551 nm (QPM 1551.4 nm, off-QPM
+    reference 1552.6 nm): C band inferred. Stated for "our ridge waveguides" (family), hence the array row; 120 C operating
+    temperature of all SHG measurements (p.5)'
+  why: 'miss: p.6 states the off-QPM power level without PRD; power_handling_dbm is allowed for waveguide_platform (stable
+    up to X)'
+- metric_id: cmp_lit_yan2024_mo_sin_mzi_isolator_circulator-m13
+  component_id: cmp_lit_yan2024_mo_sin_mzi_isolator_circulator
+  parameter: isolation_bw_nm
+  value: '40'
+  unit: nm
+  qualifier: lt
+  wavelength_nm: '1540'
+  wavelength_max_nm: '1580'
+  polarization: tm
+  condition: theoretical 20-dB isolation bandwidth recomputed for the as-fabricated device (simulation-inferred RPS widths
+    about 450 / 980 nm, 0.22 rad RPS deviation, split about 0.48:0.52)
+  basis: simulated
+  locator: p.5; Fig. 4(a)
+  notes: printed less than 40 nm (1540-1580 nm), consistent with the measured 29 nm (m5); about 10 nm drift between theoretical
+    and measured minima
+  why: 'miss: p.5 states the simulated 20-dB isolation bandwidth of the device with its fabrication errors (row_kind fabricated
+    may carry simulated values, D80e)'
+- metric_id: cmp_lit_yan2024_mo_sin_mzi_isolator_circulator-m14
+  component_id: cmp_lit_yan2024_mo_sin_mzi_isolator_circulator
+  parameter: insertion_loss_db
+  value: '0.8'
+  unit: dB
+  qualifier: le
+  wavelength_nm: '1440'
+  wavelength_max_nm: '1680'
+  polarization: tm
+  scope: on_chip_excess
+  includes: forward-transmission phase-mismatch loss only
+  method: unspecified
+  basis: simulated
+  locator: p.4; Fig. 3(d)
+  notes: printed maximum forward propagation loss 0.8 dB caused by the non-zero forward phase difference over 1440-1680 nm
+    (ideal design); counterpart of the loss-optimized design m2 (< 0.3 dB)
+  why: 'miss: p.4 states the simulated maximum phase-error loss of this design (it sat only in the m10 note); parallels cmp_lit_yan2024_mo_sin_isolator_loss_optimized_design-m2'
+- metric_id: cmp_lit_yan2024_mo_sin_isolator_dual_band_design-m2
+  component_id: cmp_lit_yan2024_mo_sin_isolator_dual_band_design
+  parameter: insertion_loss_db
+  value: '2'
+  unit: dB
+  qualifier: approx
+  wavelength_nm: '1550'
+  polarization: tm
+  scope: on_chip_excess
+  includes: forward-transmission phase-mismatch loss only
+  method: unspecified
+  basis: simulated
+  locator: p.6; Fig. 5(d)
+  notes: printed forward transmission loss reaches nearly 2 dB around 1550 nm due to the forward phase mismatch
+  why: 'miss: p.6 states the simulated forward loss of the dual-band design (it sat only in the m1 note); parallels the loss-optimized
+    design m2'
+- metric_id: cmp_lit_yan2024_sin_adiabatic_3db_coupler_tm-m6
+  component_id: cmp_lit_yan2024_sin_adiabatic_3db_coupler_tm
+  parameter: split_ratio_pct
+  value: '49.2'
+  unit: '%'
+  qualifier: ge
+  wavelength_nm: '1500'
+  wavelength_max_nm: '1600'
+  polarization: tm
+  condition: weaker output port; designed coupler (FDTD, Methods C)
+  basis: simulated
+  locator: p.5; p.8 Methods C
+  notes: printed splitting ratio better than 0.508:0.492 over 1500-1600 nm (theoretical); fraction converted to %, stays simulated
+    (D83f)
+  why: 'miss: p.5 states the simulated split of the designed coupler; the component note said it was not entered, but simulated
+    values on a fabricated component are allowed (D80e) and m2 holds the measured counterpart'
+- metric_id: cmp_lit_liu2018_bragg_wg_p088_n210-m1
+  component_id: cmp_lit_liu2018_bragg_wg_p088_n210
+  parameter: extinction_db
+  value: '9.1'
+  unit: dB
+  qualifier: approx
+  wavelength_nm: '6400'
+  polarization: unspecified
+  condition: measured stopband minimum transmittance; polarization not stated (TM design mode, Fig. 1(a)); free-space coupled
+    tunable QCL (pulsed)
+  basis: extracted_from_figure
+  locator: p.3 Fig. 2(c), 2(d); p.4
+  notes: Cyan N = 210 curve of Fig. 2(c) minimum and the Fig. 2(d) experiment point at N = 210 both read about -9.1 dB (+/-
+    0.5 dB); rejection centred at 6.4 um for the 0.88 um period (p.4)
+  why: 'miss: measured N = 210 grating (p.3 Fig. 2(c), 2(d)); value read off the figure, both panels agree'
+- metric_id: cmp_lit_liu2018_bragg_wg_p088_n210-m2
+  component_id: cmp_lit_liu2018_bragg_wg_p088_n210
+  parameter: period_nm
+  value: '880'
+  unit: nm
+  basis: derived
+  locator: p.4; p.3 Fig. 2(c), 2(d)
+  notes: Printed grating period 0.88 um; converted to nm.
+  why: geometry of the added N = 210 row (p.4 constant grating period of 0.88 um)
+- metric_id: cmp_lit_liu2018_bragg_wg_p088_n210-m3
+  component_id: cmp_lit_liu2018_bragg_wg_p088_n210
+  parameter: n_periods
+  value: '210'
+  unit: count
+  basis: design_target
+  locator: p.3 Fig. 2(c)
+  why: 'geometry of the added N = 210 row (Fig. 2(c) legend N = 210; caption: periods from 210 to 280)'
+- metric_id: cmp_lit_liu2018_fp_p11_n280-m10
+  component_id: cmp_lit_liu2018_fp_p11_n280
+  parameter: center_wavelength_nm
+  value: '7906'
+  unit: nm
+  condition: simulated transmittance, period 1.1 um, N = 280, L_cav 70 um
+  basis: simulated
+  locator: p.4 Sec. 3; p.5 Fig. 3(b)
+  notes: Printed simulated resonant peak at 7.906 um; converted to nm (arithmetic on a simulated value stays simulated, D83f);
+    measured resonance at 7.95 um (m1 / m2 condition)
+  why: 'miss: p.4 states the simulated resonance wavelength of this design'

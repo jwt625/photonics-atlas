@@ -1,0 +1,93 @@
+# Audit patch lit_32 (fresh-context audit 2026-10-29, DevLog/audits/2026-10-29-lit_32-audit.md).
+# 246 metrics: 243 ok / 2 imprecise / 1 wrong; 26 components: 25 ok / 1 imprecise / 0 wrong (one more note updated after a miss); 5 misses added.
+# Not covered here (coordinator decisions, see the audit file): Service Center for Physical Sciences at Westlake
+# University (sun2026a facility, not in the registry); suzuki2021 / yang2020 journal extensions of the authors' own OFC
+# papers (D259 scope); registry gaps.
+components:
+  cmp_lit_mikkelsen2018_sin_inverse_taper_ec:
+    test_structure: 'true'
+    why: 'p.4 Measurements: the edge-coupler loss was determined from a straight waveguide calibration structure (dedicated
+      test structure)'
+  cmp_lit_sun2026a_dc_fpr_unit:
+    notes: 'Two Bragg mode-conversion reflectors (TE0_r <-> TE1) form the F-P cavity; asymmetric mode directional couplers
+      phase-match TE0 bus to TE1. Heaters P1 (global, wavelength tuning) and P2 (local, intensity tuning). FSR-free single-peak
+      bandwidth > 300 nm (simulated; measured devices show a single peak within the measurable range) entered as fsr_nm
+      > 300 (m14, Table 1 FSR column). Separate devices for O, S and C bands (Fig. 2(e)-(g)). Undercut gives a nearly eightfold
+      tuning-efficiency improvement and 12-inch MPW wafer-scale results (Supp. Notes 5-6, not cached; no numbers in the
+      main text). Size 150 x 10 um from Table 1. Methods (p.16): 220 nm SOI, 100 kV EBL, ICP-RIE 150 nm etch, 800 nm PECVD
+      SiO2, Pt/Au heaters, XeF2 undercut, wire bonding to a PCB. Author contributions (p.17): chip fabrication and packaging
+      by authors at Westlake University and Zhejiang University -> fab org_westlake_university + org_zhejiang_university
+      (D80b, two orgs); Crealights staff assisted with wafer-scale device fabrication (MPW, not a fab statement, D395).
+      Acknowledgment (p.17) of the Westlake Center for Micro/Nano Fabrication and Instrumentation, the Service Center for
+      Physical Sciences at Westlake University (not in the registry) and the ZJU Micro-Nano Fabrication Center for providing
+      facilities -> facility_org_ids. Supplement not cached.'
+    why: 'consequence of the added fsr_nm row m14 (p.13 Table 1 FSR > 300 nm): the note said the value had no registry parameter'
+metrics:
+  cmp_lit_ryf2002_mems_oxc_1296-m2:
+    notes: printed '-58dB' with the minus as a cp1252 en dash that the PDF shows as a stray glyph (p.2 page render; the
+      same encoding turns the apostrophe of fabric's into a stray glyph on the same page); no bound word, so no qualifier
+    why: 'p.2 render: the glyph before 58dB is the same mis-encoded en dash seen elsewhere on the page (fabric''s apostrophe),
+      i.e. a minus sign, not a garbled bound; value and empty qualifier confirmed, note corrected'
+  cmp_lit_hulyal2025_awg_rowland_8x100ghz-m15:
+    condition: output waveguide width w_o (Table S1)
+    notes: Supp. note 3 describes parabolic tapers from 2 um to the 1.8 um arrayed waveguide at the star-coupler aperture,
+      so the aperture width of the Rowland output ports (2 um vs w_o = 1.8 um) is not unambiguous; Table S1 value entered
+    why: 'p.13 Table S1 (w_o = 1.8 um) vs p.13 Supp. note 3 (tapers from 2 um at the star coupler): the condition claimed
+      the width at the star coupler; ambiguity recorded'
+delete_metrics:
+- id: cmp_lit_yang2020_wss_24x1x12_lcos_a-m11
+  why: n_channels is defined as the number of channels / ports / wavelengths; 24 is the number of independent 1 x 12 WSSs
+    in the module (p.1 Abstract, p.3 Sec. II-B), already in the component label; per-WSS ports are in m9 / m10
+add_metrics:
+- metric_id: cmp_lit_akiyama2022_cat_32ch_demux-m18
+  component_id: cmp_lit_akiyama2022_cat_32ch_demux
+  parameter: width_nm
+  value: 350
+  unit: nm
+  condition: Si waveguide core width of the PIC circuits (core 350 x 200 nm)
+  basis: design_target
+  locator: p.2 Sec. II
+  why: 'p.2 Sec. II: ''Si waveguides having a core size of 350 x 200 nm'' (D153 layout geometry; core size kept only in
+    core_material)'
+- metric_id: cmp_lit_akiyama2022_cat_32ch_demux-m19
+  component_id: cmp_lit_akiyama2022_cat_32ch_demux
+  parameter: core_thickness_nm
+  value: 200
+  unit: nm
+  condition: Si waveguide core thickness (200-nm SOI PIC)
+  basis: design_target
+  locator: p.2 Sec. II
+  why: 'p.2 Sec. II: 200-nm SOI PIC, core size 350 x 200 nm (D153; D161 stack thickness design_target)'
+- metric_id: cmp_lit_hulyal2025_double_layer_taper-m8
+  component_id: cmp_lit_hulyal2025_double_layer_taper
+  parameter: box_thickness_um
+  value: 4.7
+  unit: um
+  basis: design_target
+  locator: p.3 Sec. III
+  why: 'p.3 Sec. III: 4.7 um thermal SiO2 buried oxide of the LTOI wafer; edge_taper template xsec dimension (D153), entered
+    on the sibling AWG / ring rows but not on the taper'
+- metric_id: cmp_lit_hulyal2025_double_layer_taper-m9
+  component_id: cmp_lit_hulyal2025_double_layer_taper
+  parameter: cladding_thickness_um
+  value: 0.8
+  unit: um
+  basis: derived
+  locator: p.4 Sec. III
+  notes: printed 800 nm SiO2 cladding (unit conversion)
+  why: 'p.4 Sec. III: 800 nm ICP-CVD SiO2 cladding on the optical layer; edge_taper template xsec dimension (D153); unit
+    conversion derived (D256) as on the sibling rows'
+- metric_id: cmp_lit_sun2026a_dc_fpr_unit-m14
+  component_id: cmp_lit_sun2026a_dc_fpr_unit
+  parameter: fsr_nm
+  value: 300
+  unit: nm
+  qualifier: gt
+  condition: FSR-free (single-resonance) bandwidth of the DC-FPR; measured devices show a single peak within the measurable
+    range
+  basis: simulated
+  locator: p.6 Results, Fig. 2(c); p.13 Table 1
+  notes: Table 1 FSR (nm) column lists >300 for this work; the main text states single-mode operation over >300 nm from
+    optical simulations (p.6)
+  why: p.13 Table 1 prints FSR > 300 nm for the DC-FPR (this-work row) and p.6 gives its origin (simulation); the batch
+    reported it as a registry gap, but fsr_nm with qualifier gt holds it

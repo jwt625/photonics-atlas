@@ -1,0 +1,164 @@
+# Audit patch lit_12 (fresh-context audit 2026-10-29, DevLog/audits/2026-10-29-lit_12-audit.md).
+# 130 metrics: 116 ok / 14 imprecise / 0 wrong; 26 components: 26 ok / 0 changed / 0 deleted; 8 misses added.
+# Not covered here (coordinator / registry decisions, see the audit file): missing facility orgs (KNI, USTC center,
+# NanoLab at TU/e (printed with an at sign), Birck Nanotechnology Center), registry gaps.
+metrics:
+  cmp_lit_ledezma2022_ppln_opa_6mm-m2:
+    basis: derived
+    notes: 'printed ~50 dB/cm alongside ~30 dB; the authors'' arithmetic 30 dB / 0.6 cm on the measured gain (D80a); abstract: larger than 50 dB/cm'
+    why: 'D80a: explicit arithmetic on own measurements (gain divided by the 6 mm length, p.4 Sec. 3A) is derived whether the batch or the authors did it; merged precedent ronn2019 / zhang2023a gain_db_per_cm derived'
+  cmp_lit_ledezma2022_ppln_opa_6mm-m3:
+    basis: derived
+    notes: '''estimated OPA gain'' Gs = E_OPG / a, with a and b fitted to E_OPG = a exp(b sqrt(E_pump)) under stated model assumptions (sinh^2(gL) approximated by 0.25 exp(2gL) above ~10 dB; g proportional to sqrt(E_pump)); model-parameter extraction with stated assumptions -> derived (D80a). Chip temperature not stated for this measurement'
+    why: 'p.4 Sec. 3B: the gain is not read from the data but computed from a fitted model whose assumptions the paper states; D80a ''model-parameter extraction with stated assumptions is derived'' (batch report call 5)'
+  cmp_lit_ledezma2022_ppln_opa_6mm-m4:
+    basis: derived
+    qualifier: gt
+    notes: 'printed ''exceeding 66 dB ... (110 dB/cm)'' = 66 dB / 0.6 cm; same OPG model extraction as m3 (D80a); abstract: exceeding 100 dB/cm over 600 nm of bandwidth'
+    why: 'p.4 Sec. 3B: ''exceeding'' governs the 66 dB and its per-length form (qualifier was empty while m3 has gt); basis as m3 (D80a)'
+  cmp_lit_minami2023_aowc_c_l-m1:
+    ref_plane: module
+    condition: 'C-to-L conversion (signal in C band, idler in L band); CW input at -14 dBm; CE = idler output / signal input, calculated from the input and output spectra of the AO-WC (reference plane: AO-WC input and output ports); signal-to-idler CE includes parametric gain, so values above 100 % are net conversion gain; pump 1572.89 nm, ~30 dBm into the DFG PPLN'
+    why: 'p.3 Sec. III-B: CE ''calculated by comparing the input and output spectra of the AO-WC''; power_conversion_efficiency_pct definition requires the reference plane in condition'
+  cmp_lit_minami2023_aowc_c_l-m2:
+    ref_plane: module
+    condition: 'C-to-L conversion; CW input at -14 dBm; CE = idler output / signal input from the AO-WC input and output spectra (module ports); includes parametric gain (values above 100 % = net conversion gain); pump 1572.89 nm, ~30 dBm into the DFG PPLN'
+    why: as m1 (p.3 Sec. III-B)
+  cmp_lit_minami2023_aowc_c_l-m3:
+    ref_plane: module
+    condition: 'L-to-C conversion (signal in L band, idler in C band); CW input at -14 dBm; CE = idler output / signal input from the AO-WC input and output spectra (module ports); includes parametric gain (values above 100 % = net conversion gain); pump 1572.89 nm, ~30 dBm into the DFG PPLN'
+    why: as m1 (p.3 Sec. III-B)
+  cmp_lit_minami2023_aowc_c_l-m4:
+    ref_plane: module
+    condition: 'L-to-C conversion; CW input at -14 dBm; CE = idler output / signal input from the AO-WC input and output spectra (module ports); includes parametric gain (values above 100 % = net conversion gain); pump 1572.89 nm, ~30 dBm into the DFG PPLN'
+    why: as m1 (p.3 Sec. III-B)
+  cmp_lit_rao2019_nanoppln_shg_0p3mm-m1:
+    wavelength_inferred: ''
+    locator: p.6 Sec. 3; p.5 Fig. 2(f); p.1 Abstract
+    notes: 'calculated uncertainty +/-410 %/W/cm2; abstract: up to 4600 %/W/cm2 ''pumped around 1540 nm'' (stated approximately, D393); Fig. 2(f) peak near 1540 nm'
+    why: 'D393: an approximately stated wavelength (p.1 Abstract ''pumped around 1540 nm'', tied to the 4600 value) is stated, wavelength_inferred empty'
+  cmp_lit_rao2019_nanoppln_shg_0p3mm-m2:
+    wavelength_inferred: ''
+    locator: p.6 Sec. 3; p.1 Abstract
+    notes: '4600 %/W/cm2 x (0.03 cm)^2 (length 0.3 mm); wavelength as m1 (abstract ''around 1540 nm'', D393)'
+    why: D393, as m1
+  cmp_lit_ghosh2012_mmi_unequal_outputs-m7:
+    parameter: port_width_um
+    value: '0.8'
+    unit: um
+    condition: input access waveguide width at the multimode section (no taper described)
+    basis: design_target
+    notes: printed 0.8 um input waveguide width (stored as printed)
+    why: 'D102 / D153 role-specific geometry: the MMI access-waveguide width is port_width_um, not the generic width_nm; p.2 Sec. II prints 0.8 um, so the printed-unit value keeps design_target'
+  cmp_lit_tian2021_aom_isolator_main-m2:
+    wavelength_nm: ''
+    band: c_band
+    locator: p.1 Abstract; p.3 Sec. I; p.9 Sec. II
+    condition: 'maximum isolation stated for 20 dBm (100 mW) RF power applied to each actuator, phases (120, -120) deg; measurement and wavelength of the 10 dB value not identified'
+    notes: 'headline value (abstract, p.3, p.9 ''isolation of 10 dB under an RF power of 20 dBm''); not tied to Fig. 4(c), whose isolation points stay near 9 dB, nor to the printed 9.3 dB (Fig. 3(d)) / 9.5 dB (Fig. 5(a)); Fig. 5(d) points scatter up to about 10 dB. Band: C-band resonances of this device (1539.6-1545.6 nm, Fig. 5(a)); the second (950 nm gap) device has smaller isolation (Supp. Note 5), so the value belongs to this device'
+    why: 'p.7 Fig. 4(c) render: isolation reaches about 8.8 dB at 20-21 dBm, so the Fig. 4 wavelength (1544.1 nm) and drive 2.968 GHz attached to the 10 dB row are not its conditions; wavelength not stated -> band with wavelength_inferred (rule 8)'
+  cmp_lit_tian2021_aom_isolator_950nm_gap-m1:
+    wavelength_inferred: ''
+    notes: 'printed 0.1 dB (98 % transmission); Supp. Fig. 4 caption states the TE00 center wavelength lambda0 = 1553 nm of these spectra'
+    why: 'p.21 Supp. Fig. 4(b)-(c) caption states lambda0 (1553 nm) for the measured spectra: a stated wavelength (rule 8 / D393)'
+  cmp_lit_tian2021_sin_microring_r118-m1:
+    wavelength_inferred: ''
+    notes: 'printed 0.68 GHz (p.4) and ''680 MHz linewidth'' (p.9); ''at around 1546 nm wavelength'' (p.4, stated approximately, D393)'
+    why: 'D393: p.4 states the TE00 / TM00 pair ''at around 1546 nm'', an approximately stated wavelength'
+  cmp_lit_tian2021_sin_microring_r118-m2:
+    wavelength_inferred: ''
+    notes: 'printed 1.16 GHz; GHz -> MHz (D256); ''at around 1546 nm wavelength'' (p.4, D393)'
+    why: D393, as m1
+add_metrics:
+- metric_id: cmp_lit_liu2025_qd_dfb-m12
+  component_id: cmp_lit_liu2025_qd_dfb
+  parameter: linewidth_hz
+  value: '2240000'
+  unit: Hz
+  condition: instantaneous linewidth from the frequency-noise spectrum (OE4000 phase-noise analyzer), 120 mA
+  method: direct
+  basis: derived
+  locator: p.6 Fig. 6(c)
+  notes: 'printed 2.24 MHz in the Fig. 6(c) legend (120 mA); MHz -> Hz (D256)'
+  why: 'miss: Fig. 6(c) legend prints a linewidth per drive current; only the 100 mA and 230 mA values were entered (one row per operating point, D32)'
+- metric_id: cmp_lit_liu2025_qd_dfb-m13
+  component_id: cmp_lit_liu2025_qd_dfb
+  parameter: linewidth_hz
+  value: '3100000'
+  unit: Hz
+  condition: instantaneous linewidth from the frequency-noise spectrum (OE4000), 150 mA
+  method: direct
+  basis: derived
+  locator: p.6 Fig. 6(c)
+  notes: 'printed 3.10 MHz in the Fig. 6(c) legend (150 mA); MHz -> Hz (D256)'
+  why: miss, as m12
+- metric_id: cmp_lit_liu2025_qd_dfb-m14
+  component_id: cmp_lit_liu2025_qd_dfb
+  parameter: linewidth_hz
+  value: '1310000'
+  unit: Hz
+  condition: instantaneous linewidth from the frequency-noise spectrum (OE4000), 180 mA
+  method: direct
+  basis: derived
+  locator: p.6 Fig. 6(c)
+  notes: 'printed 1.31 MHz in the Fig. 6(c) legend (180 mA); MHz -> Hz (D256)'
+  why: miss, as m12
+- metric_id: cmp_lit_liu2025_qd_dfb-m15
+  component_id: cmp_lit_liu2025_qd_dfb
+  parameter: linewidth_hz
+  value: '1110000'
+  unit: Hz
+  condition: instantaneous linewidth from the frequency-noise spectrum (OE4000), 200 mA
+  method: direct
+  basis: derived
+  locator: p.6 Fig. 6(c)
+  notes: 'printed 1.11 MHz in the Fig. 6(c) legend (200 mA); MHz -> Hz (D256)'
+  why: miss, as m12
+- metric_id: cmp_lit_rao2019_nanoppln_shg_0p3mm-m4
+  component_id: cmp_lit_rao2019_nanoppln_shg_0p3mm
+  parameter: conversion_efficiency_pct_per_w_cm2
+  value: '2800'
+  unit: '%/W/cm2'
+  wavelength_nm: '1540'
+  wavelength_inferred: 'true'
+  polarization: te
+  mode: TE0
+  condition: CW SHG, peak normalized efficiency after the initial poling procedure (before the four depoling / repoling sequences)
+  method: direct
+  basis: measured
+  locator: p.6 Sec. 3; p.5 Fig. 2(e)
+  notes: 'printed 2800 %/W/cm2 for the second device after the initial poling (repeatability check); pump wavelength not stated for this value, taken as the ~1540 nm operating point of the devices (abstract)'
+  why: 'miss: p.6 states the 0.3 mm device reached 2800 %/W/cm2 after the initial poling; a distinct operating state of the same physical design (D32)'
+- metric_id: cmp_lit_rao2019_nanoppln_shg_0p6mm-m9
+  component_id: cmp_lit_rao2019_nanoppln_shg_0p6mm
+  parameter: conversion_efficiency_pct_per_w_cm2
+  value: '5500'
+  unit: '%/W/cm2'
+  wavelength_nm: '1540'
+  polarization: te
+  mode: TE0
+  condition: theoretical peak normalized SHG efficiency of the waveguide (1.5 um ridge, 100 nm etch, 300 nm X-cut film), 1540 nm pump -> 770 nm
+  basis: simulated
+  locator: p.5 Sec. 3; p.3 Fig. 1(a)
+  notes: 'printed 5500 %/W/cm2 as the theoretical peak efficiency against the measured 2800 %/W/cm2; the Fig. 2(c) simulation applies a correction factor for this mismatch'
+  why: 'miss: p.5 states the device''s theoretical peak efficiency (5500) next to the measured value; simulated values of a fabricated component are entered (D80e)'
+- metric_id: cmp_lit_ghosh2012_mmi_unequal_outputs-m11
+  component_id: cmp_lit_ghosh2012_mmi_unequal_outputs
+  parameter: port_width_um
+  value: '0.9'
+  unit: um
+  condition: wide output waveguide (to the 0.9 um MZI arm)
+  basis: design_target
+  locator: p.2 Sec. II
+  notes: printed 0.9 um
+  why: 'miss (D153 layout geometry): p.2 Sec. II prints the two MMI output waveguide widths 0.9 and 0.4 um'
+- metric_id: cmp_lit_ghosh2012_mmi_unequal_outputs-m12
+  component_id: cmp_lit_ghosh2012_mmi_unequal_outputs
+  parameter: port_width_um
+  value: '0.4'
+  unit: um
+  condition: narrow output waveguide (to the 0.4 um MZI arm)
+  basis: design_target
+  locator: p.2 Sec. II
+  notes: printed 0.4 um
+  why: miss, as m11

@@ -1,0 +1,93 @@
+# Audit patch lit_34 (fresh-context audit 2026-10-29, DevLog/audits/2026-10-29-lit_34-audit.md).
+# 172 metrics: 160 ok / 12 imprecise / 0 wrong; 49 components: 41 ok / 8 changed / 0 deleted; 1 miss added.
+# barwicz2017 values verified on page renders made from source.pdf in the audit scratchpad (garbled text layer).
+components:
+  cmp_lit_kumar2024_tunable_laser:
+    notes: 'Fab: fabricated using Intel''s heterogeneous 300-mm III-V/Si process (die-to-wafer bonding), all authors Intel (p.1 Sec. II, p.5 Sec. IV; D84a own process); Si photonics wafer processing credited to the authors'' device fabrication partners (p.6 Acknowledgment). Packaged on a PCB daughterboard with TEC, non-hermetic. Wafer-level open-loop data (about 300 lasers on 10 wafers: median tuning > 50 nm, median SMSR > 55 dB, p.5) not entered: the tested design (standalone or SOA-integrated) is not stated (D159). Front Sagnac mirror and rings: separate rows.'
+    why: 'brief / skill rule 14: notes carry no building or location identifiers; the fab building and city named in the p.6 Acknowledgment are dropped, fact kept'
+  cmp_lit_kumar2024_tunable_laser_soa:
+    notes: 'Fab: fabricated using Intel''s heterogeneous 300-mm III-V/Si process (die-to-wafer bonding), all authors Intel (p.1 Sec. II, p.5 Sec. IV; D84a own process); Si photonics wafer processing credited to the authors'' device fabrication partners (p.6 Acknowledgment). Locking to an external athermal MZI reference keeps the frequency error < 1 GHz over a 1.3 C temperature change (p.5, Fig. 12), not entered (no matching parameter). The booster SOA has no separate gain value.'
+    why: 'brief / skill rule 14: notes carry no building or location identifiers; the fab building and city named in the p.6 Acknowledgment are dropped, fact kept'
+  cmp_lit_kumar2024_ring_fsr1p36:
+    notes: 'Fab: fabricated using Intel''s heterogeneous 300-mm III-V/Si process (die-to-wafer bonding), all authors Intel (p.1 Sec. II, p.5 Sec. IV; D84a own process); Si photonics wafer processing credited to the authors'' device fabrication partners (p.6 Acknowledgment). Intracavity ring (D400). The paper does not map the two FSRs to Ring 1 / Ring 2 (p.2).'
+    why: 'brief / skill rule 14: notes carry no building or location identifiers; the fab building and city named in the p.6 Acknowledgment are dropped, fact kept'
+  cmp_lit_kumar2024_ring_fsr1p39:
+    notes: 'Fab: fabricated using Intel''s heterogeneous 300-mm III-V/Si process (die-to-wafer bonding), all authors Intel (p.1 Sec. II, p.5 Sec. IV; D84a own process); Si photonics wafer processing credited to the authors'' device fabrication partners (p.6 Acknowledgment). Intracavity ring (D400). The paper does not map the two FSRs to Ring 1 / Ring 2 (p.2).'
+    why: 'brief / skill rule 14: notes carry no building or location identifiers; the fab building and city named in the p.6 Acknowledgment are dropped, fact kept'
+  cmp_lit_kumar2024_sagnac_front_mirror:
+    notes: 'Fab: fabricated using Intel''s heterogeneous 300-mm III-V/Si process (die-to-wafer bonding), all authors Intel (p.1 Sec. II, p.5 Sec. IV; D84a own process); Si photonics wafer processing credited to the authors'' device fabrication partners (p.6 Acknowledgment).'
+    why: 'brief / skill rule 14: notes carry no building or location identifiers; the fab building and city named in the p.6 Acknowledgment are dropped, fact kept'
+  cmp_lit_hassan2020_metalens_tm_fem_2p3um:
+    class: mode_converter.converter
+    notes: 'Fab: carried out by K.H. and P.B. (Univ. Grenoble Alpes, CEA, LETI) and J.-A.D. (Vistec Electron Beam GmbH, not in the registry) on a 200 mm SOI pilot line (p.6 Author contributions; p.4 Experiments and Methods); fabricators at two orgs named in the contributions -> both orgs (D80b); fab_org_ids holds CEA-Leti only until the Vistec Electron Beam org exists. The paper calls it an integrated metalens (quarter-period GRIN lens) and treats it as a mode converter from a 3 um multimode to a 350 nm single-mode waveguide (p.2); classed mode_converter.converter (in-plane guided waveguide-to-waveguide conversion, audit lit_34). Strip period 250 nm and fill factor 0.2-0.8 not entered (subwavelength_period_nm / fill_factor not allowed for mode_converter, registry gap). Several lengths measured (Fig. 5(b)); the experimental optimum is 2.3 um vs FEM 2.022 um (within 15%).'
+    why: 'p.2 Results: the device is a mode converter between a multimode and a single-mode waveguide (in-plane, guided); registry micro_optics subtypes are beam-shaping optics to fiber / PD / free space (all merged micro_optics.metalens rows are free-space metasurfaces); merged in-plane SWG / reflector converters are mode_converter.converter (bock2010, hung2020, morenopozas2025)'
+  cmp_lit_hassan2020_metalens_tm_emt_design:
+    class: mode_converter.converter
+    notes: Design-only comparison (Table 1, Fig. 3); not fabricated. Classed mode_converter.converter like the fabricated FEM design (audit lit_34).
+    why: same device type as the fabricated lens (p.2-4); class follows that row
+  cmp_lit_hassan2020_abrupt_junction:
+    class: mode_converter.converter
+    why: reference structure of the same function (p.5 butt coupling of the multimode to the single-mode waveguide); merged precedent ono2016 butt joint without taper is mode_converter.converter; same class keeps the lens and its reference comparable
+metrics:
+  cmp_lit_barwicz2017_metamaterial_coupler-m2:
+    value: '0.45'
+    notes: read off the simulated curve labelled metamaterial vertical (solid red) at -1.0 dB; pixel-calibrated reading of the Fig. 2(d) render at 600 dpi against the 0.5 um grid (400 px/um) at the -1.0 dB grid line, uncertainty +/-0.02 um; wavelength not stated
+    why: 'p.2 Fig. 2(d) render: solid red curve crosses -1.0 dB at x = 0.44-0.45 um (pixel columns 299-306, 0 um at 124.5, 1.0 um at 524.5); 0.48 is outside the reading'
+  cmp_lit_barwicz2017_nanotaper_coupler-m1:
+    value: '0.9'
+    notes: read off the simulated curve labelled nanotaper horizontal (dashed blue) at -1.0 dB; pixel-calibrated reading of the Fig. 2(d) render at 600 dpi against the 0.5 um grid (400 px/um) at the -1.0 dB grid line, uncertainty +/-0.02 um; wavelength not stated
+    why: 'p.2 Fig. 2(d) render: dashed blue curve crosses -1.0 dB at 0.89-0.90 um (pixel columns 479-486); 0.95 is outside the reading'
+  cmp_lit_barwicz2017_nanotaper_coupler-m2:
+    value: '0.4'
+    notes: read off the simulated curve labelled nanotaper vertical (dashed red) at -1.0 dB; pixel-calibrated reading of the Fig. 2(d) render at 600 dpi against the 0.5 um grid (400 px/um) at the -1.0 dB grid line, uncertainty +/-0.02 um; wavelength not stated
+    why: 'p.2 Fig. 2(d) render: dashed red curve crosses -1.0 dB at 0.39-0.40 um (pixel columns 279-286)'
+  cmp_lit_xu2021_hybrid_ecl-m6:
+    basis: derived
+    notes: printed 105 kHz (unit conversion kHz -> Hz, derived per D256; Lorentzian = pi * S0 from a standard fit of own FM-noise data)
+    why: 'D256: a kHz -> Hz conversion is derived unless the source prints the Hz form for the same quantity; p.7 prints 105 kHz only (S0 = 3.3e4 Hz is a different quantity)'
+  cmp_lit_andreou2019_vernier_ring_laser-m9:
+    basis: derived
+    notes: printed 109 kHz (unit conversion kHz -> Hz, derived per D256)
+    why: 'D256: a kHz -> Hz conversion is derived unless the source prints the Hz form for the same quantity; p.5 prints 109 kHz'
+  cmp_lit_andreou2019_vernier_ring_laser-m10:
+    basis: derived
+    notes: 'printed below 110 kHz (unit conversion kHz -> Hz, derived per D256); abstract: typical 110 kHz over the C-band'
+    why: 'D256: a kHz -> Hz conversion is derived unless the source prints the Hz form for the same quantity; p.5 prints below 110 kHz'
+  cmp_lit_andreou2019_vernier_ring_laser-m11:
+    basis: derived
+    notes: printed 95 kHz (unit conversion kHz -> Hz, derived per D256); wavelength of the minimum not stated
+    why: 'D256: a kHz -> Hz conversion is derived unless the source prints the Hz form for the same quantity; p.5 prints 95 kHz'
+  cmp_lit_andreou2019_vernier_ring_laser-m12:
+    basis: derived
+    notes: printed about 140 kHz (unit conversion kHz -> Hz, derived per D256)
+    why: 'D256: a kHz -> Hz conversion is derived unless the source prints the Hz form for the same quantity; p.6 prints about 140 kHz'
+  cmp_lit_andreou2019_vernier_ring_laser-m13:
+    basis: derived
+    notes: printed about 230 kHz (unit conversion kHz -> Hz, derived per D256)
+    why: 'D256: a kHz -> Hz conversion is derived unless the source prints the Hz form for the same quantity; p.7 prints about 230 kHz'
+  cmp_lit_kumar2024_tunable_laser-m4:
+    basis: derived
+    notes: printed less than 16 kHz (unit conversion kHz -> Hz, derived per D256)
+    why: 'D256: a kHz -> Hz conversion is derived unless the source prints the Hz form for the same quantity; p.3 prints less than 16 kHz'
+  cmp_lit_kumar2024_tunable_laser-m8:
+    basis: derived
+    notes: printed < 30 kHz (unit conversion kHz -> Hz, derived per D256)
+    why: 'D256: a kHz -> Hz conversion is derived unless the source prints the Hz form for the same quantity; p.4 prints < 30 kHz'
+  cmp_lit_kumar2024_tunable_laser-m5:
+    wavelength_inferred: 'true'
+    notes: wavelength not stated with the RIN; taken from the linewidth statement of the same super-mode measurement (p.3, 1300 nm)
+    why: 'p.3 Sec. III-A: 1300 nm is stated for the linewidth only; skill rule 8 -> wavelength_inferred true with the reason'
+  cmp_lit_hassan2020_metalens_tm_fem_2p3um-m1:
+    notes: printed 85% (-0.6 dB) as stated; 10*log10(0.85) = 0.71 dB, value kept as printed; normalized to the reference; FDTD predicts 90%
+    why: 'p.5: the paper prints both 85% and -0.6 dB, which differ by 0.1 dB; note records the inconsistency (value as printed, D82d)'
+add_metrics:
+- metric_id: cmp_lit_hassan2020_metalens_tm_fem_2p3um-m7
+  component_id: cmp_lit_hassan2020_metalens_tm_fem_2p3um
+  parameter: width_nm
+  value: '350'
+  unit: nm
+  condition: single-mode output waveguide width w
+  basis: design_target
+  locator: p.3; Fig. 2
+  notes: printed w = 350 nm (p.3) and 0.35 um (Fig. 2 caption); multimode input width W in m4
+  why: 'miss (D153 layout geometry): p.3 states w = 350 nm for the single-mode waveguide; m4 holds only W'

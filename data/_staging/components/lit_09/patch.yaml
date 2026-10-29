@@ -1,0 +1,1055 @@
+# Audit patch lit_09 (fresh-context audit 2026-10-29, DevLog/audits/2026-10-29-lit_09-audit.md).
+# 423 metrics: 393 ok / 30 imprecise / 0 wrong; 77 components: 58 ok / 19 changed / 0 deleted; 46 misses added.
+# Not covered here (coordinator decisions, see the audit file): alexander2026 devices 09-16 PDE / DCR (Fig. 4 legend
+# vs Table S1), NQFF Singapore facility, cheung2023 UCSB facility (kept, borderline), FIRST Center alias, registry gaps.
+components:
+  cmp_lit_seo2025_type1_tops_l240:
+    notes: 'Proposed design: finite-slab rib connected directly to the standard single-mode rib (SMR) waveguide. Measured
+      in symmetric MZIs (1x2 MMIs, S-bends, focusing GCs), TOPS in both arms; six identical TOPSes per length averaged (p.7-8).
+      Fabricated by the commercial foundry service Applied Nanotools Inc. (p.6) on SOI with 500 nm Si and 1 um BOX; two rounds
+      of e-beam lithography and Si dry etch. Headline averages over all lengths (Table 2 ''Total''): Pi 55.9 +/- 2.99 mW,
+      IL 0.193 +/- 0.099 dB (type-1); 79.6 +/- 3.72 mW, 0.089 +/- 0.107 dB (type-2): not entered (average over three component
+      rows). Not entered: thermal crosstalk phase in the adjacent victim TOPS 0.012 pi (type-1) / 0.022 pi (type-2) at D =
+      200 um, L = 240 um (p.9, Fig. 8(c)-(d), no registry parameter); simulated V2pi 3.19 V and design-study Ppi values for
+      other BOX / cladding / heater widths (p.5-6, p.11-12). MZI extinction ratios of several MZIs below 20 dB regardless
+      of TOPS type (p.8, attributed to MMIs): not entered. Single-device Ppi (p.7, Fig. 7) and rise / fall times (p.10, Fig.
+      9) of the L = 240 um devices entered as statistic single beside the Table 2 / Table 3 means (audit 2026-10-29).'
+    why: audit adds the single-device Ppi (p.7) and rise / fall (p.10) of the L = 240 um devices; the note said they were
+      not entered
+  cmp_lit_seo2025_type2_tops_l240:
+    notes: 'Reference TOPS on the conventional SMR waveguide, fabricated on the same chip. Measured in symmetric MZIs (1x2
+      MMIs, S-bends, focusing GCs), TOPS in both arms; six identical TOPSes per length averaged (p.7-8). Fabricated by the
+      commercial foundry service Applied Nanotools Inc. (p.6) on SOI with 500 nm Si and 1 um BOX; two rounds of e-beam lithography
+      and Si dry etch. Headline averages over all lengths (Table 2 ''Total''): Pi 55.9 +/- 2.99 mW, IL 0.193 +/- 0.099 dB
+      (type-1); 79.6 +/- 3.72 mW, 0.089 +/- 0.107 dB (type-2): not entered (average over three component rows). Not entered:
+      thermal crosstalk phase in the adjacent victim TOPS 0.012 pi (type-1) / 0.022 pi (type-2) at D = 200 um, L = 240 um
+      (p.9, Fig. 8(c)-(d), no registry parameter); simulated V2pi 3.19 V and design-study Ppi values for other BOX / cladding
+      / heater widths (p.5-6, p.11-12). MZI extinction ratios of several MZIs below 20 dB regardless of TOPS type (p.8, attributed
+      to MMIs): not entered. Single-device Ppi (p.7, Fig. 7) and rise / fall times (p.10, Fig. 9) of the L = 240 um devices
+      entered as statistic single beside the Table 2 / Table 3 means (audit 2026-10-29).'
+    why: audit adds the single-device Ppi (p.7) and rise / fall (p.10) of the L = 240 um devices; the note said they were
+      not entered
+  cmp_lit_alexander2026_lateral_spad_01:
+    test_structure: ''
+    notes: 'Device ID 01 of Table S1 (p.11), one of 16 lateral doping variants (only the 16 um long lateral devices were characterized,
+      p.4). Input via lensed-fiber inverse-taper edge coupler (cmp_lit_alexander2026_edge_coupler), SiN waveguide and Si-SiN
+      end-fire interface (cmp_lit_alexander2026_si_sin_endfire). Fabricated on 8-inch wafers at the commercial foundry Advanced
+      Micro Foundry on a SiN-on-SOI platform (p.4 Sec. III). PDE and DCR at the headline operating point (Pin 500 pW, Vex
+      1.5 V) read off Fig. S3 / Fig. 4 (device IDs 01-08 agree between Fig. 4, Fig. S3 and Table S1); the Vex 0.5 / 1.0 V
+      bars of Fig. S3 not entered. Family-level statements not entered (D254 / D159: device identity not stated): DCR on the
+      order of 1e7 cps and PDE ~1 % across variants (p.4), lateral linear-mode photocurrent ~100 uA at 1 mW (~0.5 A/W) ''with
+      a few exceptions'' (p.5), afterpulsing 25-30 % overall / 1.5-2.2 % largest peak, ~2.2 ns peak interval, ~15 / ~18 ns
+      decay for ''a typical SPAD'' (p.9 Supp. SIII).'
+    why: 'skill workflow step 3 / schema: test_structure true = measured on a dedicated test structure; the SPAD is the device
+      under test itself, wire-bonded to the quench circuit (p.3 Sec. II-C, p.4 Sec. III); merged photodetector rows leave
+      it empty; notes updated for the PDE / DCR rows added from Fig. S3 / Fig. 4 (p.10, p.5)'
+  cmp_lit_alexander2026_lateral_spad_02:
+    test_structure: ''
+    notes: 'Device ID 02 of Table S1 (p.11), one of 16 lateral doping variants (only the 16 um long lateral devices were characterized,
+      p.4). Input via lensed-fiber inverse-taper edge coupler (cmp_lit_alexander2026_edge_coupler), SiN waveguide and Si-SiN
+      end-fire interface (cmp_lit_alexander2026_si_sin_endfire). Fabricated on 8-inch wafers at the commercial foundry Advanced
+      Micro Foundry on a SiN-on-SOI platform (p.4 Sec. III). PDE and DCR at the headline operating point (Pin 500 pW, Vex
+      1.5 V) read off Fig. S3 / Fig. 4 (device IDs 01-08 agree between Fig. 4, Fig. S3 and Table S1); the Vex 0.5 / 1.0 V
+      bars of Fig. S3 not entered. Family-level statements not entered (D254 / D159: device identity not stated): DCR on the
+      order of 1e7 cps and PDE ~1 % across variants (p.4), lateral linear-mode photocurrent ~100 uA at 1 mW (~0.5 A/W) ''with
+      a few exceptions'' (p.5), afterpulsing 25-30 % overall / 1.5-2.2 % largest peak, ~2.2 ns peak interval, ~15 / ~18 ns
+      decay for ''a typical SPAD'' (p.9 Supp. SIII).'
+    why: 'skill workflow step 3 / schema: test_structure true = measured on a dedicated test structure; the SPAD is the device
+      under test itself, wire-bonded to the quench circuit (p.3 Sec. II-C, p.4 Sec. III); merged photodetector rows leave
+      it empty; notes updated for the PDE / DCR rows added from Fig. S3 / Fig. 4 (p.10, p.5)'
+  cmp_lit_alexander2026_lateral_spad_03:
+    test_structure: ''
+    notes: 'Device ID 03 of Table S1 (p.11), one of 16 lateral doping variants (only the 16 um long lateral devices were characterized,
+      p.4). Input via lensed-fiber inverse-taper edge coupler (cmp_lit_alexander2026_edge_coupler), SiN waveguide and Si-SiN
+      end-fire interface (cmp_lit_alexander2026_si_sin_endfire). Fabricated on 8-inch wafers at the commercial foundry Advanced
+      Micro Foundry on a SiN-on-SOI platform (p.4 Sec. III). Maximum PDE printed (m4, p.5); DCR at the same operating point
+      (Pin 500 pW, Vex 1.5 V) read off Fig. S3 / Fig. 4; the Vex 0.5 / 1.0 V bars of Fig. S3 not entered. The abstract calls
+      this w = 0 device a p-i-n+ SPAD; Table S1 and p.5 give w = 0 (p-n+). Family-level statements not entered (D254 / D159:
+      device identity not stated): DCR on the order of 1e7 cps and PDE ~1 % across variants (p.4), lateral linear-mode photocurrent
+      ~100 uA at 1 mW (~0.5 A/W) ''with a few exceptions'' (p.5), afterpulsing 25-30 % overall / 1.5-2.2 % largest peak, ~2.2
+      ns peak interval, ~15 / ~18 ns decay for ''a typical SPAD'' (p.9 Supp. SIII).'
+    why: 'skill workflow step 3 / schema: test_structure true = measured on a dedicated test structure; the SPAD is the device
+      under test itself, wire-bonded to the quench circuit (p.3 Sec. II-C, p.4 Sec. III); merged photodetector rows leave
+      it empty; notes updated for the PDE / DCR rows added from Fig. S3 / Fig. 4 (p.10, p.5)'
+  cmp_lit_alexander2026_lateral_spad_04:
+    test_structure: ''
+    notes: 'Device ID 04 of Table S1 (p.11), one of 16 lateral doping variants (only the 16 um long lateral devices were characterized,
+      p.4). Input via lensed-fiber inverse-taper edge coupler (cmp_lit_alexander2026_edge_coupler), SiN waveguide and Si-SiN
+      end-fire interface (cmp_lit_alexander2026_si_sin_endfire). Fabricated on 8-inch wafers at the commercial foundry Advanced
+      Micro Foundry on a SiN-on-SOI platform (p.4 Sec. III). PDE and DCR at the headline operating point (Pin 500 pW, Vex
+      1.5 V) read off Fig. S3 / Fig. 4 (device IDs 01-08 agree between Fig. 4, Fig. S3 and Table S1); the Vex 0.5 / 1.0 V
+      bars of Fig. S3 not entered. Family-level statements not entered (D254 / D159: device identity not stated): DCR on the
+      order of 1e7 cps and PDE ~1 % across variants (p.4), lateral linear-mode photocurrent ~100 uA at 1 mW (~0.5 A/W) ''with
+      a few exceptions'' (p.5), afterpulsing 25-30 % overall / 1.5-2.2 % largest peak, ~2.2 ns peak interval, ~15 / ~18 ns
+      decay for ''a typical SPAD'' (p.9 Supp. SIII).'
+    why: 'skill workflow step 3 / schema: test_structure true = measured on a dedicated test structure; the SPAD is the device
+      under test itself, wire-bonded to the quench circuit (p.3 Sec. II-C, p.4 Sec. III); merged photodetector rows leave
+      it empty; notes updated for the PDE / DCR rows added from Fig. S3 / Fig. 4 (p.10, p.5)'
+  cmp_lit_alexander2026_lateral_spad_05:
+    test_structure: ''
+    notes: 'Device ID 05 of Table S1 (p.11), one of 16 lateral doping variants (only the 16 um long lateral devices were characterized,
+      p.4). Input via lensed-fiber inverse-taper edge coupler (cmp_lit_alexander2026_edge_coupler), SiN waveguide and Si-SiN
+      end-fire interface (cmp_lit_alexander2026_si_sin_endfire). Fabricated on 8-inch wafers at the commercial foundry Advanced
+      Micro Foundry on a SiN-on-SOI platform (p.4 Sec. III). PDE and DCR at the headline operating point (Pin 500 pW, Vex
+      1.5 V) read off Fig. S3 / Fig. 4 (device IDs 01-08 agree between Fig. 4, Fig. S3 and Table S1); the Vex 0.5 / 1.0 V
+      bars of Fig. S3 not entered. Family-level statements not entered (D254 / D159: device identity not stated): DCR on the
+      order of 1e7 cps and PDE ~1 % across variants (p.4), lateral linear-mode photocurrent ~100 uA at 1 mW (~0.5 A/W) ''with
+      a few exceptions'' (p.5), afterpulsing 25-30 % overall / 1.5-2.2 % largest peak, ~2.2 ns peak interval, ~15 / ~18 ns
+      decay for ''a typical SPAD'' (p.9 Supp. SIII).'
+    why: 'skill workflow step 3 / schema: test_structure true = measured on a dedicated test structure; the SPAD is the device
+      under test itself, wire-bonded to the quench circuit (p.3 Sec. II-C, p.4 Sec. III); merged photodetector rows leave
+      it empty; notes updated for the PDE / DCR rows added from Fig. S3 / Fig. 4 (p.10, p.5)'
+  cmp_lit_alexander2026_lateral_spad_06:
+    test_structure: ''
+    notes: 'Device ID 06 of Table S1 (p.11), one of 16 lateral doping variants (only the 16 um long lateral devices were characterized,
+      p.4). Input via lensed-fiber inverse-taper edge coupler (cmp_lit_alexander2026_edge_coupler), SiN waveguide and Si-SiN
+      end-fire interface (cmp_lit_alexander2026_si_sin_endfire). Fabricated on 8-inch wafers at the commercial foundry Advanced
+      Micro Foundry on a SiN-on-SOI platform (p.4 Sec. III). PDE and DCR at the headline operating point (Pin 500 pW, Vex
+      1.5 V) read off Fig. S3 / Fig. 4 (device IDs 01-08 agree between Fig. 4, Fig. S3 and Table S1); the Vex 0.5 / 1.0 V
+      bars of Fig. S3 not entered. Family-level statements not entered (D254 / D159: device identity not stated): DCR on the
+      order of 1e7 cps and PDE ~1 % across variants (p.4), lateral linear-mode photocurrent ~100 uA at 1 mW (~0.5 A/W) ''with
+      a few exceptions'' (p.5), afterpulsing 25-30 % overall / 1.5-2.2 % largest peak, ~2.2 ns peak interval, ~15 / ~18 ns
+      decay for ''a typical SPAD'' (p.9 Supp. SIII).'
+    why: 'skill workflow step 3 / schema: test_structure true = measured on a dedicated test structure; the SPAD is the device
+      under test itself, wire-bonded to the quench circuit (p.3 Sec. II-C, p.4 Sec. III); merged photodetector rows leave
+      it empty; notes updated for the PDE / DCR rows added from Fig. S3 / Fig. 4 (p.10, p.5)'
+  cmp_lit_alexander2026_lateral_spad_07:
+    test_structure: ''
+    notes: 'Device ID 07 of Table S1 (p.11), one of 16 lateral doping variants (only the 16 um long lateral devices were characterized,
+      p.4). Input via lensed-fiber inverse-taper edge coupler (cmp_lit_alexander2026_edge_coupler), SiN waveguide and Si-SiN
+      end-fire interface (cmp_lit_alexander2026_si_sin_endfire). Fabricated on 8-inch wafers at the commercial foundry Advanced
+      Micro Foundry on a SiN-on-SOI platform (p.4 Sec. III). PDE and DCR at the headline operating point (Pin 500 pW, Vex
+      1.5 V) read off Fig. S3 / Fig. 4 (device IDs 01-08 agree between Fig. 4, Fig. S3 and Table S1); the Vex 0.5 / 1.0 V
+      bars of Fig. S3 not entered. Family-level statements not entered (D254 / D159: device identity not stated): DCR on the
+      order of 1e7 cps and PDE ~1 % across variants (p.4), lateral linear-mode photocurrent ~100 uA at 1 mW (~0.5 A/W) ''with
+      a few exceptions'' (p.5), afterpulsing 25-30 % overall / 1.5-2.2 % largest peak, ~2.2 ns peak interval, ~15 / ~18 ns
+      decay for ''a typical SPAD'' (p.9 Supp. SIII).'
+    why: 'skill workflow step 3 / schema: test_structure true = measured on a dedicated test structure; the SPAD is the device
+      under test itself, wire-bonded to the quench circuit (p.3 Sec. II-C, p.4 Sec. III); merged photodetector rows leave
+      it empty; notes updated for the PDE / DCR rows added from Fig. S3 / Fig. 4 (p.10, p.5)'
+  cmp_lit_alexander2026_lateral_spad_08:
+    test_structure: ''
+    notes: 'Device ID 08 of Table S1 (p.11), one of 16 lateral doping variants (only the 16 um long lateral devices were characterized,
+      p.4). Input via lensed-fiber inverse-taper edge coupler (cmp_lit_alexander2026_edge_coupler), SiN waveguide and Si-SiN
+      end-fire interface (cmp_lit_alexander2026_si_sin_endfire). Fabricated on 8-inch wafers at the commercial foundry Advanced
+      Micro Foundry on a SiN-on-SOI platform (p.4 Sec. III). PDE and DCR at the headline operating point (Pin 500 pW, Vex
+      1.5 V) read off Fig. S3 / Fig. 4 (device IDs 01-08 agree between Fig. 4, Fig. S3 and Table S1); the Vex 0.5 / 1.0 V
+      bars of Fig. S3 not entered. Family-level statements not entered (D254 / D159: device identity not stated): DCR on the
+      order of 1e7 cps and PDE ~1 % across variants (p.4), lateral linear-mode photocurrent ~100 uA at 1 mW (~0.5 A/W) ''with
+      a few exceptions'' (p.5), afterpulsing 25-30 % overall / 1.5-2.2 % largest peak, ~2.2 ns peak interval, ~15 / ~18 ns
+      decay for ''a typical SPAD'' (p.9 Supp. SIII).'
+    why: 'skill workflow step 3 / schema: test_structure true = measured on a dedicated test structure; the SPAD is the device
+      under test itself, wire-bonded to the quench circuit (p.3 Sec. II-C, p.4 Sec. III); merged photodetector rows leave
+      it empty; notes updated for the PDE / DCR rows added from Fig. S3 / Fig. 4 (p.10, p.5)'
+  cmp_lit_alexander2026_lateral_spad_09:
+    test_structure: ''
+    notes: 'Device ID 09 of Table S1 (p.11), one of 16 lateral doping variants (only the 16 um long lateral devices were characterized,
+      p.4). Input via lensed-fiber inverse-taper edge coupler (cmp_lit_alexander2026_edge_coupler), SiN waveguide and Si-SiN
+      end-fire interface (cmp_lit_alexander2026_si_sin_endfire). Fabricated on 8-inch wafers at the commercial foundry Advanced
+      Micro Foundry on a SiN-on-SOI platform (p.4 Sec. III). Per-device PDE / DCR not entered (D159): the Fig. 4 legend (p.5)
+      labels the bars of device IDs 09-12 (Fig. S3, p.10) as w = 0.45 um and those of 13-16 as w = 0.6 um, while Table S1
+      and Fig. S1 (w 0.6 um, Delta 0.45 um, Vbr 17.5 V = device 11) give the opposite; breakdown from Table S1 by device ID.
+      Family-level statements not entered (D254 / D159: device identity not stated): DCR on the order of 1e7 cps and PDE ~1
+      % across variants (p.4), lateral linear-mode photocurrent ~100 uA at 1 mW (~0.5 A/W) ''with a few exceptions'' (p.5),
+      afterpulsing 25-30 % overall / 1.5-2.2 % largest peak, ~2.2 ns peak interval, ~15 / ~18 ns decay for ''a typical SPAD''
+      (p.9 Supp. SIII).'
+    why: 'skill workflow step 3 / schema: test_structure true = measured on a dedicated test structure; the SPAD is the device
+      under test itself, wire-bonded to the quench circuit (p.3 Sec. II-C, p.4 Sec. III); merged photodetector rows leave
+      it empty; notes record the Fig. 4 vs Table S1 w-label conflict for device IDs 09-16 (p.5 Fig. 4(a)-(b) bars match Fig.
+      S3 devices 09-12 under the w = 0.45 um legend; p.11 Table S1 lists 09-12 as w = 0.60 um)'
+  cmp_lit_alexander2026_lateral_spad_10:
+    test_structure: ''
+    notes: 'Device ID 10 of Table S1 (p.11), one of 16 lateral doping variants (only the 16 um long lateral devices were characterized,
+      p.4). Input via lensed-fiber inverse-taper edge coupler (cmp_lit_alexander2026_edge_coupler), SiN waveguide and Si-SiN
+      end-fire interface (cmp_lit_alexander2026_si_sin_endfire). Fabricated on 8-inch wafers at the commercial foundry Advanced
+      Micro Foundry on a SiN-on-SOI platform (p.4 Sec. III). Per-device PDE / DCR not entered (D159): the Fig. 4 legend (p.5)
+      labels the bars of device IDs 09-12 (Fig. S3, p.10) as w = 0.45 um and those of 13-16 as w = 0.6 um, while Table S1
+      and Fig. S1 (w 0.6 um, Delta 0.45 um, Vbr 17.5 V = device 11) give the opposite; breakdown from Table S1 by device ID.
+      Family-level statements not entered (D254 / D159: device identity not stated): DCR on the order of 1e7 cps and PDE ~1
+      % across variants (p.4), lateral linear-mode photocurrent ~100 uA at 1 mW (~0.5 A/W) ''with a few exceptions'' (p.5),
+      afterpulsing 25-30 % overall / 1.5-2.2 % largest peak, ~2.2 ns peak interval, ~15 / ~18 ns decay for ''a typical SPAD''
+      (p.9 Supp. SIII).'
+    why: 'skill workflow step 3 / schema: test_structure true = measured on a dedicated test structure; the SPAD is the device
+      under test itself, wire-bonded to the quench circuit (p.3 Sec. II-C, p.4 Sec. III); merged photodetector rows leave
+      it empty; notes record the Fig. 4 vs Table S1 w-label conflict for device IDs 09-16 (p.5 Fig. 4(a)-(b) bars match Fig.
+      S3 devices 09-12 under the w = 0.45 um legend; p.11 Table S1 lists 09-12 as w = 0.60 um)'
+  cmp_lit_alexander2026_lateral_spad_11:
+    test_structure: ''
+    notes: 'Device ID 11 of Table S1 (p.11), one of 16 lateral doping variants (only the 16 um long lateral devices were characterized,
+      p.4). Input via lensed-fiber inverse-taper edge coupler (cmp_lit_alexander2026_edge_coupler), SiN waveguide and Si-SiN
+      end-fire interface (cmp_lit_alexander2026_si_sin_endfire). Fabricated on 8-inch wafers at the commercial foundry Advanced
+      Micro Foundry on a SiN-on-SOI platform (p.4 Sec. III). Per-device PDE / DCR not entered (D159): the Fig. 4 legend (p.5)
+      labels the bars of device IDs 09-12 (Fig. S3, p.10) as w = 0.45 um and those of 13-16 as w = 0.6 um, while Table S1
+      and Fig. S1 (w 0.6 um, Delta 0.45 um, Vbr 17.5 V = device 11) give the opposite; breakdown from Table S1 by device ID.
+      Family-level statements not entered (D254 / D159: device identity not stated): DCR on the order of 1e7 cps and PDE ~1
+      % across variants (p.4), lateral linear-mode photocurrent ~100 uA at 1 mW (~0.5 A/W) ''with a few exceptions'' (p.5),
+      afterpulsing 25-30 % overall / 1.5-2.2 % largest peak, ~2.2 ns peak interval, ~15 / ~18 ns decay for ''a typical SPAD''
+      (p.9 Supp. SIII).'
+    why: 'skill workflow step 3 / schema: test_structure true = measured on a dedicated test structure; the SPAD is the device
+      under test itself, wire-bonded to the quench circuit (p.3 Sec. II-C, p.4 Sec. III); merged photodetector rows leave
+      it empty; notes record the Fig. 4 vs Table S1 w-label conflict for device IDs 09-16 (p.5 Fig. 4(a)-(b) bars match Fig.
+      S3 devices 09-12 under the w = 0.45 um legend; p.11 Table S1 lists 09-12 as w = 0.60 um)'
+  cmp_lit_alexander2026_lateral_spad_12:
+    test_structure: ''
+    notes: 'Device ID 12 of Table S1 (p.11), one of 16 lateral doping variants (only the 16 um long lateral devices were characterized,
+      p.4). Input via lensed-fiber inverse-taper edge coupler (cmp_lit_alexander2026_edge_coupler), SiN waveguide and Si-SiN
+      end-fire interface (cmp_lit_alexander2026_si_sin_endfire). Fabricated on 8-inch wafers at the commercial foundry Advanced
+      Micro Foundry on a SiN-on-SOI platform (p.4 Sec. III). Per-device PDE / DCR not entered (D159): the Fig. 4 legend (p.5)
+      labels the bars of device IDs 09-12 (Fig. S3, p.10) as w = 0.45 um and those of 13-16 as w = 0.6 um, while Table S1
+      and Fig. S1 (w 0.6 um, Delta 0.45 um, Vbr 17.5 V = device 11) give the opposite; breakdown from Table S1 by device ID.
+      Family-level statements not entered (D254 / D159: device identity not stated): DCR on the order of 1e7 cps and PDE ~1
+      % across variants (p.4), lateral linear-mode photocurrent ~100 uA at 1 mW (~0.5 A/W) ''with a few exceptions'' (p.5),
+      afterpulsing 25-30 % overall / 1.5-2.2 % largest peak, ~2.2 ns peak interval, ~15 / ~18 ns decay for ''a typical SPAD''
+      (p.9 Supp. SIII).'
+    why: 'skill workflow step 3 / schema: test_structure true = measured on a dedicated test structure; the SPAD is the device
+      under test itself, wire-bonded to the quench circuit (p.3 Sec. II-C, p.4 Sec. III); merged photodetector rows leave
+      it empty; notes record the Fig. 4 vs Table S1 w-label conflict for device IDs 09-16 (p.5 Fig. 4(a)-(b) bars match Fig.
+      S3 devices 09-12 under the w = 0.45 um legend; p.11 Table S1 lists 09-12 as w = 0.60 um)'
+  cmp_lit_alexander2026_lateral_spad_13:
+    test_structure: ''
+    notes: 'Device ID 13 of Table S1 (p.11), one of 16 lateral doping variants (only the 16 um long lateral devices were characterized,
+      p.4). Input via lensed-fiber inverse-taper edge coupler (cmp_lit_alexander2026_edge_coupler), SiN waveguide and Si-SiN
+      end-fire interface (cmp_lit_alexander2026_si_sin_endfire). Fabricated on 8-inch wafers at the commercial foundry Advanced
+      Micro Foundry on a SiN-on-SOI platform (p.4 Sec. III). Per-device PDE / DCR not entered (D159): the Fig. 4 legend (p.5)
+      labels the bars of device IDs 09-12 (Fig. S3, p.10) as w = 0.45 um and those of 13-16 as w = 0.6 um, while Table S1
+      and Fig. S1 (w 0.6 um, Delta 0.45 um, Vbr 17.5 V = device 11) give the opposite; breakdown from Table S1 by device ID.
+      Family-level statements not entered (D254 / D159: device identity not stated): DCR on the order of 1e7 cps and PDE ~1
+      % across variants (p.4), lateral linear-mode photocurrent ~100 uA at 1 mW (~0.5 A/W) ''with a few exceptions'' (p.5),
+      afterpulsing 25-30 % overall / 1.5-2.2 % largest peak, ~2.2 ns peak interval, ~15 / ~18 ns decay for ''a typical SPAD''
+      (p.9 Supp. SIII).'
+    why: 'skill workflow step 3 / schema: test_structure true = measured on a dedicated test structure; the SPAD is the device
+      under test itself, wire-bonded to the quench circuit (p.3 Sec. II-C, p.4 Sec. III); merged photodetector rows leave
+      it empty; notes record the Fig. 4 vs Table S1 w-label conflict for device IDs 09-16 (p.5 Fig. 4(a)-(b) bars match Fig.
+      S3 devices 09-12 under the w = 0.45 um legend; p.11 Table S1 lists 09-12 as w = 0.60 um)'
+  cmp_lit_alexander2026_lateral_spad_14:
+    test_structure: ''
+    notes: 'Device ID 14 of Table S1 (p.11), one of 16 lateral doping variants (only the 16 um long lateral devices were characterized,
+      p.4). Input via lensed-fiber inverse-taper edge coupler (cmp_lit_alexander2026_edge_coupler), SiN waveguide and Si-SiN
+      end-fire interface (cmp_lit_alexander2026_si_sin_endfire). Fabricated on 8-inch wafers at the commercial foundry Advanced
+      Micro Foundry on a SiN-on-SOI platform (p.4 Sec. III). Per-device PDE / DCR not entered (D159): the Fig. 4 legend (p.5)
+      labels the bars of device IDs 09-12 (Fig. S3, p.10) as w = 0.45 um and those of 13-16 as w = 0.6 um, while Table S1
+      and Fig. S1 (w 0.6 um, Delta 0.45 um, Vbr 17.5 V = device 11) give the opposite; breakdown from Table S1 by device ID.
+      Family-level statements not entered (D254 / D159: device identity not stated): DCR on the order of 1e7 cps and PDE ~1
+      % across variants (p.4), lateral linear-mode photocurrent ~100 uA at 1 mW (~0.5 A/W) ''with a few exceptions'' (p.5),
+      afterpulsing 25-30 % overall / 1.5-2.2 % largest peak, ~2.2 ns peak interval, ~15 / ~18 ns decay for ''a typical SPAD''
+      (p.9 Supp. SIII).'
+    why: 'skill workflow step 3 / schema: test_structure true = measured on a dedicated test structure; the SPAD is the device
+      under test itself, wire-bonded to the quench circuit (p.3 Sec. II-C, p.4 Sec. III); merged photodetector rows leave
+      it empty; notes record the Fig. 4 vs Table S1 w-label conflict for device IDs 09-16 (p.5 Fig. 4(a)-(b) bars match Fig.
+      S3 devices 09-12 under the w = 0.45 um legend; p.11 Table S1 lists 09-12 as w = 0.60 um)'
+  cmp_lit_alexander2026_lateral_spad_15:
+    test_structure: ''
+    notes: 'Device ID 15 of Table S1 (p.11), one of 16 lateral doping variants (only the 16 um long lateral devices were characterized,
+      p.4). Input via lensed-fiber inverse-taper edge coupler (cmp_lit_alexander2026_edge_coupler), SiN waveguide and Si-SiN
+      end-fire interface (cmp_lit_alexander2026_si_sin_endfire). Fabricated on 8-inch wafers at the commercial foundry Advanced
+      Micro Foundry on a SiN-on-SOI platform (p.4 Sec. III). Per-device PDE / DCR not entered (D159): the Fig. 4 legend (p.5)
+      labels the bars of device IDs 09-12 (Fig. S3, p.10) as w = 0.45 um and those of 13-16 as w = 0.6 um, while Table S1
+      and Fig. S1 (w 0.6 um, Delta 0.45 um, Vbr 17.5 V = device 11) give the opposite; breakdown from Table S1 by device ID.
+      Family-level statements not entered (D254 / D159: device identity not stated): DCR on the order of 1e7 cps and PDE ~1
+      % across variants (p.4), lateral linear-mode photocurrent ~100 uA at 1 mW (~0.5 A/W) ''with a few exceptions'' (p.5),
+      afterpulsing 25-30 % overall / 1.5-2.2 % largest peak, ~2.2 ns peak interval, ~15 / ~18 ns decay for ''a typical SPAD''
+      (p.9 Supp. SIII).'
+    why: 'skill workflow step 3 / schema: test_structure true = measured on a dedicated test structure; the SPAD is the device
+      under test itself, wire-bonded to the quench circuit (p.3 Sec. II-C, p.4 Sec. III); merged photodetector rows leave
+      it empty; notes record the Fig. 4 vs Table S1 w-label conflict for device IDs 09-16 (p.5 Fig. 4(a)-(b) bars match Fig.
+      S3 devices 09-12 under the w = 0.45 um legend; p.11 Table S1 lists 09-12 as w = 0.60 um)'
+  cmp_lit_alexander2026_lateral_spad_16:
+    test_structure: ''
+    notes: 'Device ID 16 of Table S1 (p.11), one of 16 lateral doping variants (only the 16 um long lateral devices were characterized,
+      p.4). Input via lensed-fiber inverse-taper edge coupler (cmp_lit_alexander2026_edge_coupler), SiN waveguide and Si-SiN
+      end-fire interface (cmp_lit_alexander2026_si_sin_endfire). Fabricated on 8-inch wafers at the commercial foundry Advanced
+      Micro Foundry on a SiN-on-SOI platform (p.4 Sec. III). Per-device PDE / DCR not entered (D159): the Fig. 4 legend (p.5)
+      labels the bars of device IDs 09-12 (Fig. S3, p.10) as w = 0.45 um and those of 13-16 as w = 0.6 um, while Table S1
+      and Fig. S1 (w 0.6 um, Delta 0.45 um, Vbr 17.5 V = device 11) give the opposite; breakdown from Table S1 by device ID.
+      Family-level statements not entered (D254 / D159: device identity not stated): DCR on the order of 1e7 cps and PDE ~1
+      % across variants (p.4), lateral linear-mode photocurrent ~100 uA at 1 mW (~0.5 A/W) ''with a few exceptions'' (p.5),
+      afterpulsing 25-30 % overall / 1.5-2.2 % largest peak, ~2.2 ns peak interval, ~15 / ~18 ns decay for ''a typical SPAD''
+      (p.9 Supp. SIII).'
+    why: 'skill workflow step 3 / schema: test_structure true = measured on a dedicated test structure; the SPAD is the device
+      under test itself, wire-bonded to the quench circuit (p.3 Sec. II-C, p.4 Sec. III); merged photodetector rows leave
+      it empty; notes record the Fig. 4 vs Table S1 w-label conflict for device IDs 09-16 (p.5 Fig. 4(a)-(b) bars match Fig.
+      S3 devices 09-12 under the w = 0.45 um legend; p.11 Table S1 lists 09-12 as w = 0.60 um)'
+  cmp_lit_alexander2026_vertical_spad:
+    test_structure: ''
+    notes: 'Single vertical doping design (p.2); only the 9 um long vertical device was characterized (p.4). Fabricated on
+      8-inch wafers at the commercial foundry Advanced Micro Foundry on a SiN-on-SOI platform (p.4 Sec. III). DCR at the headline
+      operating point (Pin 500 pW, Vex 1.2 V) read off Fig. S3 / Fig. 4; the Vex 0.5 / 1.0 V bars not entered. Family-level
+      statements not entered (D254 / D159: device identity not stated): DCR on the order of 1e7 cps and PDE ~1 % across variants
+      (p.4), lateral linear-mode photocurrent ~100 uA at 1 mW (~0.5 A/W) ''with a few exceptions'' (p.5), afterpulsing 25-30
+      % overall / 1.5-2.2 % largest peak, ~2.2 ns peak interval, ~15 / ~18 ns decay for ''a typical SPAD'' (p.9 Supp. SIII).'
+    why: 'skill workflow step 3 / schema: test_structure true = measured on a dedicated test structure; the SPAD is the device
+      under test itself, wire-bonded to the quench circuit (p.3 Sec. II-C, p.4 Sec. III); merged photodetector rows leave
+      it empty; notes updated for the DCR row added from Fig. S3 / Fig. 4'
+metrics:
+  cmp_lit_baghdadi2021_dual_slot_noem_ps-m3:
+    basis: derived
+    notes: printed upper-bound estimate 0.04 dB (p.5), abstract "less than 0.04 dB"; obtained by normalizing the 0 V test-structure
+      spectra to reference test structures with the same couplers and routing (device minus reference, explicit arithmetic
+      on own measurements); methodology in Supplement 1 (not cached); wavelength not stated with the value, spectra swept
+      near 1550 nm
+    why: 'D80a: difference of two structures is derived (p.5 Sec. 4: spectra at 0 V normalized to test structures containing
+      the same coupling and routing components); lit_05 nevlacsil2020 precedent'
+  cmp_lit_dong2021_piezo_ps-m1:
+    method: unspecified
+    why: 'p.4 Sec. B / p.7 Discussion: the -3.5 dB is the measured typical MZI insertion loss; the bends + DC 2.7 dB and propagation
+      + taper 0.8 dB terms (p.7, Supp. Sec. 2 p.14-16) decompose it after the fact, so loss_breakdown is not how the value
+      was isolated (measurement structure not stated)'
+  cmp_lit_dong2021_piezo_ps-m7:
+    locator: p.5 Sec. B; p.4 Fig. 2(e)
+    why: Fig. 2 (eigenfrequency label 253 MHz) is on text.md page 4 (render page_04), not p.3
+  cmp_lit_murray2015_dev1_unetched-m1:
+    wavelength_inferred: 'true'
+    condition: electrical heater power per pi of the MZI switch (Table 2 tuning efficiency)
+    locator: p.9 Table 2
+    notes: printed 14 mW/pi; device 1 is not in Fig. 7 (devices 2-5 only), so the 1550 nm operating wavelength stated for
+      the Fig. 7 measurements (p.10) is inferred for device 1
+    why: 'p.10: Fig. 7 and its sinusoidal fits and the 1550 nm statement cover devices 2-5 only; Table 2 (p.9) is the only
+      source of the device-1 value'
+  cmp_lit_seo2025_type1_tops_l210-m3:
+    notes: 7.74 +/- 2.33 us; 10 % and 90 % levels marked by dotted lines in Fig. 9(a)
+    why: 'p.10 Fig. 9(a): the 10 % and 90 % levels of Vn are drawn as dotted lines, so the 10-90 % definition is shown; the
+      note said it was not stated'
+  cmp_lit_seo2025_type1_tops_l210-m4:
+    notes: 6.92 +/- 1.8 us; 10 % and 90 % levels marked by dotted lines in Fig. 9(a)
+    why: 'p.10 Fig. 9(a): the 10 % and 90 % levels of Vn are drawn as dotted lines, so the 10-90 % definition is shown; the
+      note said it was not stated'
+  cmp_lit_seo2025_type1_tops_l240-m3:
+    notes: '7.09 +/- 1.15 us; abstract: response time 7.09 us; 10 % and 90 % levels marked by dotted lines in Fig. 9(a)'
+    why: 'p.10 Fig. 9(a): the 10 % and 90 % levels of Vn are drawn as dotted lines, so the 10-90 % definition is shown; the
+      note said it was not stated'
+  cmp_lit_seo2025_type1_tops_l240-m4:
+    notes: 6.93 +/- 1.07 us; 10 % and 90 % levels marked by dotted lines in Fig. 9(a)
+    why: 'p.10 Fig. 9(a): the 10 % and 90 % levels of Vn are drawn as dotted lines, so the 10-90 % definition is shown; the
+      note said it was not stated'
+  cmp_lit_seo2025_type1_tops_l270-m3:
+    notes: 8.51 +/- 2.61 us; 10 % and 90 % levels marked by dotted lines in Fig. 9(a)
+    why: 'p.10 Fig. 9(a): the 10 % and 90 % levels of Vn are drawn as dotted lines, so the 10-90 % definition is shown; the
+      note said it was not stated'
+  cmp_lit_seo2025_type1_tops_l270-m4:
+    notes: 7.06 +/- 2.68 us; 10 % and 90 % levels marked by dotted lines in Fig. 9(a)
+    why: 'p.10 Fig. 9(a): the 10 % and 90 % levels of Vn are drawn as dotted lines, so the 10-90 % definition is shown; the
+      note said it was not stated'
+  cmp_lit_seo2025_type2_tops_l210-m3:
+    notes: 5.85 +/- 0.363 us; 10 % and 90 % levels marked by dotted lines in Fig. 9(a)
+    why: 'p.10 Fig. 9(a): the 10 % and 90 % levels of Vn are drawn as dotted lines, so the 10-90 % definition is shown; the
+      note said it was not stated'
+  cmp_lit_seo2025_type2_tops_l210-m4:
+    notes: 7.56 +/- 2.58 us; 10 % and 90 % levels marked by dotted lines in Fig. 9(a)
+    why: 'p.10 Fig. 9(a): the 10 % and 90 % levels of Vn are drawn as dotted lines, so the 10-90 % definition is shown; the
+      note said it was not stated'
+  cmp_lit_seo2025_type2_tops_l240-m3:
+    notes: 6.67 +/- 0.796 us; 10 % and 90 % levels marked by dotted lines in Fig. 9(a)
+    why: 'p.10 Fig. 9(a): the 10 % and 90 % levels of Vn are drawn as dotted lines, so the 10-90 % definition is shown; the
+      note said it was not stated'
+  cmp_lit_seo2025_type2_tops_l240-m4:
+    notes: 7.22 +/- 1.36 us; 10 % and 90 % levels marked by dotted lines in Fig. 9(a)
+    why: 'p.10 Fig. 9(a): the 10 % and 90 % levels of Vn are drawn as dotted lines, so the 10-90 % definition is shown; the
+      note said it was not stated'
+  cmp_lit_seo2025_type2_tops_l270-m3:
+    notes: 7.78 +/- 1.9 us; 10 % and 90 % levels marked by dotted lines in Fig. 9(a)
+    why: 'p.10 Fig. 9(a): the 10 % and 90 % levels of Vn are drawn as dotted lines, so the 10-90 % definition is shown; the
+      note said it was not stated'
+  cmp_lit_seo2025_type2_tops_l270-m4:
+    notes: 7.12 +/- 1.7 us; 10 % and 90 % levels marked by dotted lines in Fig. 9(a)
+    why: 'p.10 Fig. 9(a): the 10 % and 90 % levels of Vn are drawn as dotted lines, so the 10-90 % definition is shown; the
+      note said it was not stated'
+  cmp_lit_seo2025_type1_tops_l240-m6:
+    condition: 2D transient heat simulation (70 x 100 um domain, y-uniform), step Ppi -> 0; TOPS rise time = fall time of
+      the normalized Delta T at (x, z) = (0, 0.240) um
+    notes: 'printed: simulated fall and rise times both 7.81 us (p.11); the TOPS fall / rise times correspond to the rise
+      / fall of Delta Tn'
+    why: 'p.11 Sec. 3.2: ''simulated fall and rise times ... correspond to the rise and fall times of Delta Tn'', so the TOPS
+      rise time is the Delta Tn fall after a step Ppi -> 0; the condition described the opposite step'
+  cmp_lit_seo2025_type2_tops_l240-m6:
+    condition: 2D transient heat simulation (70 x 100 um domain, y-uniform), step Ppi -> 0; TOPS rise time = fall time of
+      the normalized Delta T at (x, z) = (0, 0.240) um
+    notes: 'printed: simulated fall and rise times both 7.11 us (p.11); the TOPS fall / rise times correspond to the rise
+      / fall of Delta Tn'
+    why: 'p.11 Sec. 3.2: ''simulated fall and rise times ... correspond to the rise and fall times of Delta Tn'', so the TOPS
+      rise time is the Delta Tn fall after a step Ppi -> 0; the condition described the opposite step'
+  cmp_lit_seo2025_type1_tops_l240-m5:
+    locator: p.5 Sec. 2.2
+    notes: design value (wh 7 um, L 240 um), with simulated V2pi 3.19 V (2pi value, p.5); Ppi converges to 48.6 mW for g >=
+      10 um (p.5 Fig. 5(a)); measured average is 5 mW higher (p.8); simulation wavelength not stated, 1550 nm inferred from
+      the device operating wavelength (p.7)
+    why: 'p.5: 48.6 mW stated on p.5; p.8: type-1 measured average 5 mW (type-2 7 mW) above the calculation, the note said
+      5-7 mW; inferred wavelength lacked its reason'
+  cmp_lit_seo2025_type2_tops_l240-m5:
+    locator: p.6 Sec. 2.2
+    notes: reference design (wh 7 um, L 240 um, equivalent ws 20.8 um, g 0 um), with simulated V2pi 3.19 V (2pi value, p.6);
+      measured average is 7 mW higher (p.8); simulation wavelength not stated, 1550 nm inferred from the device operating
+      wavelength (p.7)
+    why: 'p.6: type-2 Ppi 69.6 mW stated on p.6; p.8: type-2 measured average 7 mW above the calculation; inferred wavelength
+      lacked its reason'
+  cmp_lit_alexander2026_vertical_spad-m3:
+    notes: 'reference plane not stated: Pin = 1 mW is the power launched into the lensed fiber (Fig. 2(a)), but the lateral
+      ''~100 uA ... ~0.5 A/W'' (p.5) is not photocurrent / Pin (that would be 0.1 A/W), so the normalization behind the A/W
+      values is unstated; Fig. 4(c) shows the vertical photocurrent'
+    why: 'p.5 Sec. III-A: ~100 uA at Pin = 1 mW quoted as ~0.5 A/W; the previous note claimed the A/W values are fiber-input
+      referred, which the arithmetic contradicts'
+  cmp_lit_flory2020_mote2_45nm-m1:
+    condition: ratio of photocurrent to optical power delivered to the photodetector; bias up to -0.6 V (Fig. 3(c))
+    notes: printed 150 mA/W (converted to A/W); input power for Fig. 3(c) not stated (150 uW is the Fig. 3(a) power)
+    why: 'p.4 / p.5 Fig. 3 caption: 150 uW is stated for the Fig. 3(a) I-V curves only; the Fig. 3(c) responsivity sweep gives
+      no power'
+  cmp_lit_tossoun2019_qd_pd_30um-m5:
+    notes: top Si of the SOI (400 nm, p.2); the passive Si waveguides are '320 nm thick' (p.2), etch depth not stated
+    why: 'p.2 Sec. 2: ''grating couplers and 320 nm thick passive Si waveguides were etched''; the previous note turned the
+      320 nm thickness into an etch depth'
+  cmp_lit_tossoun2019_qd_pd_60um-m5:
+    notes: top Si of the SOI (400 nm, p.2); the passive Si waveguides are '320 nm thick' (p.2), etch depth not stated
+    why: 'p.2 Sec. 2: ''grating couplers and 320 nm thick passive Si waveguides were etched''; the previous note turned the
+      320 nm thickness into an etch depth'
+  cmp_lit_tossoun2019_qd_pd_90um-m5:
+    notes: top Si of the SOI (400 nm, p.2); the passive Si waveguides are '320 nm thick' (p.2), etch depth not stated
+    why: 'p.2 Sec. 2: ''grating couplers and 320 nm thick passive Si waveguides were etched''; the previous note turned the
+      320 nm thickness into an etch depth'
+  cmp_lit_ding2022_fwm_2um_20cm-m1:
+    qualifier: approx
+    notes: printed 'around -8.52 dB' (p.8; abstract and Table 1 print -8.52 dB); 100 x 10^(-0.852) = 14.06 %
+    why: 'p.8 Sec. 3: the highest FWM CE is around -8.52 dB (rule 7: around -> approx)'
+  cmp_lit_ding2022_fwm_0p45um_1cm-m1:
+    qualifier: approx
+    why: 'p.8 Sec. 3: CE for the 0.45 um spiral is around -15.4 dB (rule 7: around -> approx); notes already quote it'
+  cmp_lit_ding2022_wg_0p45um-m1:
+    notes: method and band assumed to follow the 2 um spiral measurement (not restated); simulation also gives 5.6 dB/cm (p.3);
+      Table 1 (p.9) prints 5.5 dB/cm for the 450 x 220 nm strip (in-paper inconsistency)
+    why: p.9 Table 1 lists linear loss 5.5 dB/cm for this waveguide vs 5.6 dB/cm in p.7 Sec. 3 and the conclusion; inconsistency
+      recorded
+  cmp_lit_ding2022_euler_sbend-m1:
+    qualifier: ''
+    statistic: best
+    why: 'p.3 Sec. 2.1: excess loss as low as 0.001 dB (rule 7: as low as -> statistic best, not approx)'
+  cmp_lit_ding2022_gc-m1:
+    scope: unspecified
+    notes: '''measured coupling loss is about 4.2 dB''; per coupler or per pair not stated; wavelength not stated (C-band
+      experiments)'
+    why: 'p.7 Sec. 3 does not say whether 4.2 dB is per coupler; rule 6: unspecified when the paper does not say (the row
+      note admitted per_coupler was assumed)'
+add_metrics:
+- metric_id: cmp_lit_cheung2023_ctm_ring_filter-m10
+  component_id: cmp_lit_cheung2023_ctm_ring_filter
+  parameter: width_nm
+  value: '500'
+  unit: nm
+  condition: III-V/Si CTM waveguide used throughout the paper (ring and bus sections with CTM cells)
+  basis: design_target
+  locator: p.19 Supp. Note 1; p.3
+  notes: design width 500 nm stated for the single-mode CTM waveguides used throughout the paper
+  why: 'miss (D153): p.19 Supp. Note 1 states the design dimensions of the CTM waveguides used throughout the paper (height
+    300, width 500, etch depth 170 nm); the ring filter row had no geometry'
+- metric_id: cmp_lit_cheung2023_ctm_ring_filter-m11
+  component_id: cmp_lit_cheung2023_ctm_ring_filter
+  parameter: core_thickness_nm
+  value: '300'
+  unit: nm
+  condition: Si height of the III-V/Si CTM waveguide (top Si thinned from 350 nm)
+  basis: design_target
+  locator: p.19 Supp. Note 1; p.20 Supp. Note 2
+  why: 'miss (D153): p.19 design height 300 nm used throughout the paper'
+- metric_id: cmp_lit_cheung2023_ctm_ring_filter-m12
+  component_id: cmp_lit_cheung2023_ctm_ring_filter
+  parameter: etch_depth_nm
+  value: '170'
+  unit: nm
+  condition: rib etch of the III-V/Si CTM waveguide
+  basis: design_target
+  locator: p.19 Supp. Note 1; p.20 Supp. Note 2
+  why: 'miss (D153): p.19 design etch depth 170 nm used throughout the paper; p.20 rib waveguides etched 170 nm'
+- metric_id: cmp_lit_cheung2023_si_wg_500-m4
+  component_id: cmp_lit_cheung2023_si_wg_500
+  parameter: box_thickness_um
+  value: '2'
+  unit: um
+  basis: design_target
+  locator: p.20 Supp. Note 2
+  notes: 2 um BOX of the 100 mm SOI wafer
+  why: 'miss (D153): p.20 Supp. Note 2 states the 2 um BOX of the SOI wafer all devices start from'
+- metric_id: cmp_lit_cheung2023_si_wg_800-m3
+  component_id: cmp_lit_cheung2023_si_wg_800
+  parameter: core_thickness_nm
+  value: '300'
+  unit: nm
+  basis: design_target
+  locator: p.20 Supp. Note 2
+  notes: top Si thinned from 350 nm to 300 nm
+  why: 'miss (D153): p.20 Supp. Note 2 top Si 300 nm; the 0.5 um sibling row has it (m3), the 0.8 um row did not'
+- metric_id: cmp_lit_cheung2023_si_wg_800-m4
+  component_id: cmp_lit_cheung2023_si_wg_800
+  parameter: box_thickness_um
+  value: '2'
+  unit: um
+  basis: design_target
+  locator: p.20 Supp. Note 2
+  notes: 2 um BOX of the 100 mm SOI wafer
+  why: 'miss (D153): p.20 Supp. Note 2 states the 2 um BOX'
+- metric_id: cmp_lit_dong2021_euler_bend-m3
+  component_id: cmp_lit_dong2021_euler_bend
+  parameter: width_nm
+  value: '400'
+  unit: nm
+  condition: 400 nm-wide single-mode SiN turn between the actuation-region tapers
+  basis: design_target
+  locator: p.3 Sec. A; p.4 Fig. 2(b)
+  why: 'miss (D153): p.3 Sec. A each loop tapers back to a 400 nm-wide single-mode turn; Fig. 2(b) labels 400 nm'
+- metric_id: cmp_lit_dong2021_euler_bend-m4
+  component_id: cmp_lit_dong2021_euler_bend
+  parameter: core_thickness_nm
+  value: '300'
+  unit: nm
+  basis: design_target
+  locator: p.3 Sec. A; p.14 Table S1
+  notes: SiNx nominal thickness
+  why: 'miss (D153): p.3 300 nm SiN optical layer; p.14 Table S1 nominal 300 nm'
+- metric_id: cmp_lit_dong2021_sin_5um_wg-m3
+  component_id: cmp_lit_dong2021_sin_5um_wg
+  parameter: core_thickness_nm
+  value: '300'
+  unit: nm
+  basis: design_target
+  locator: p.3 Sec. A; p.14 Table S1
+  notes: SiNx nominal thickness
+  why: 'miss (D153): p.3 300 nm SiN optical layer; p.14 Table S1 nominal 300 nm'
+- metric_id: cmp_lit_murray2015_dev1_unetched-m9
+  component_id: cmp_lit_murray2015_dev1_unetched
+  parameter: width_nm
+  unit: nm
+  basis: design_target
+  locator: p.8 Table 1
+  value: '500'
+  condition: all 3 waveguide passes under the heater (identical widths)
+  notes: Table 1 w_i = 500, 500, 500 nm
+  why: 'miss: waveguide width under the heater stated in Table 1 (p.8); width_nm is required by the heater_ps layout cross-section
+    (D153)'
+- metric_id: cmp_lit_murray2015_dev2_unetched-m11
+  component_id: cmp_lit_murray2015_dev2_unetched
+  parameter: width_nm
+  unit: nm
+  basis: design_target
+  locator: p.8 Table 1
+  value: '400'
+  value_max: '650'
+  statistic: range
+  condition: dissimilar waveguide passes under the heater, widths in pass order 500, 400, 550, 650, 500 nm
+  notes: range over the dissimilar pass widths of Table 1; adjacent passes differ by >= 100 nm, next-to-adjacent by >= 50
+    nm (p.7)
+  why: 'miss: pass widths stated in Table 1 (p.8); width_nm is required by the heater_ps layout cross-section (D153); entered
+    as the range with the full pass sequence in condition so no width is guessed'
+- metric_id: cmp_lit_murray2015_dev2_underetched-m9
+  component_id: cmp_lit_murray2015_dev2_underetched
+  parameter: width_nm
+  unit: nm
+  basis: design_target
+  locator: p.8 Table 1
+  value: '400'
+  value_max: '650'
+  statistic: range
+  condition: dissimilar waveguide passes under the heater, widths in pass order 500, 400, 550, 650, 500 nm
+  notes: range over the dissimilar pass widths of Table 1; adjacent passes differ by >= 100 nm, next-to-adjacent by >= 50
+    nm (p.7)
+  why: 'miss: pass widths stated in Table 1 (p.8); width_nm is required by the heater_ps layout cross-section (D153); entered
+    as the range with the full pass sequence in condition so no width is guessed'
+- metric_id: cmp_lit_murray2015_dev3_unetched-m10
+  component_id: cmp_lit_murray2015_dev3_unetched
+  parameter: width_nm
+  unit: nm
+  basis: design_target
+  locator: p.8 Table 1
+  value: '400'
+  value_max: '650'
+  statistic: range
+  condition: dissimilar waveguide passes under the heater, widths in pass order 500, 400, 550, 650, 500 nm
+  notes: range over the dissimilar pass widths of Table 1; adjacent passes differ by >= 100 nm, next-to-adjacent by >= 50
+    nm (p.7)
+  why: 'miss: pass widths stated in Table 1 (p.8); width_nm is required by the heater_ps layout cross-section (D153); entered
+    as the range with the full pass sequence in condition so no width is guessed'
+- metric_id: cmp_lit_murray2015_dev3_underetched-m8
+  component_id: cmp_lit_murray2015_dev3_underetched
+  parameter: width_nm
+  unit: nm
+  basis: design_target
+  locator: p.8 Table 1
+  value: '400'
+  value_max: '650'
+  statistic: range
+  condition: dissimilar waveguide passes under the heater, widths in pass order 500, 400, 550, 650, 500 nm
+  notes: range over the dissimilar pass widths of Table 1; adjacent passes differ by >= 100 nm, next-to-adjacent by >= 50
+    nm (p.7)
+  why: 'miss: pass widths stated in Table 1 (p.8); width_nm is required by the heater_ps layout cross-section (D153); entered
+    as the range with the full pass sequence in condition so no width is guessed'
+- metric_id: cmp_lit_murray2015_dev4_unetched-m9
+  component_id: cmp_lit_murray2015_dev4_unetched
+  parameter: width_nm
+  unit: nm
+  basis: design_target
+  locator: p.8 Table 1
+  value: '400'
+  value_max: '650'
+  statistic: range
+  condition: dissimilar waveguide passes under the heater, widths in pass order 500, 600, 400, 550, 650, 450, 600, 400, 500
+    nm
+  notes: range over the dissimilar pass widths of Table 1; adjacent passes differ by >= 100 nm, next-to-adjacent by >= 50
+    nm (p.7)
+  why: 'miss: pass widths stated in Table 1 (p.8); width_nm is required by the heater_ps layout cross-section (D153); entered
+    as the range with the full pass sequence in condition so no width is guessed'
+- metric_id: cmp_lit_murray2015_dev4_underetched-m11
+  component_id: cmp_lit_murray2015_dev4_underetched
+  parameter: width_nm
+  unit: nm
+  basis: design_target
+  locator: p.8 Table 1
+  value: '400'
+  value_max: '650'
+  statistic: range
+  condition: dissimilar waveguide passes under the heater, widths in pass order 500, 600, 400, 550, 650, 450, 600, 400, 500
+    nm
+  notes: range over the dissimilar pass widths of Table 1; adjacent passes differ by >= 100 nm, next-to-adjacent by >= 50
+    nm (p.7)
+  why: 'miss: pass widths stated in Table 1 (p.8); width_nm is required by the heater_ps layout cross-section (D153); entered
+    as the range with the full pass sequence in condition so no width is guessed'
+- metric_id: cmp_lit_murray2015_dev5_unetched-m9
+  component_id: cmp_lit_murray2015_dev5_unetched
+  parameter: width_nm
+  unit: nm
+  basis: design_target
+  locator: p.8 Table 1
+  value: '400'
+  value_max: '650'
+  statistic: range
+  condition: dissimilar waveguide passes under the heater, widths in pass order 500, 600, 400, 550, 650, 450, 600, 400, 500
+    nm
+  notes: range over the dissimilar pass widths of Table 1; adjacent passes differ by >= 100 nm, next-to-adjacent by >= 50
+    nm (p.7)
+  why: 'miss: pass widths stated in Table 1 (p.8); width_nm is required by the heater_ps layout cross-section (D153); entered
+    as the range with the full pass sequence in condition so no width is guessed'
+- metric_id: cmp_lit_murray2015_dev5_underetched-m11
+  component_id: cmp_lit_murray2015_dev5_underetched
+  parameter: width_nm
+  unit: nm
+  basis: design_target
+  locator: p.8 Table 1
+  value: '400'
+  value_max: '650'
+  statistic: range
+  condition: dissimilar waveguide passes under the heater, widths in pass order 500, 600, 400, 550, 650, 450, 600, 400, 500
+    nm
+  notes: range over the dissimilar pass widths of Table 1; adjacent passes differ by >= 100 nm, next-to-adjacent by >= 50
+    nm (p.7)
+  why: 'miss: pass widths stated in Table 1 (p.8); width_nm is required by the heater_ps layout cross-section (D153); entered
+    as the range with the full pass sequence in condition so no width is guessed'
+- metric_id: cmp_lit_seo2025_type1_tops_l240-m16
+  component_id: cmp_lit_seo2025_type1_tops_l240
+  value: '55.7'
+  notes: printed measured Ppi 55.7 mW for the L = 240 um type-1 TOPS (single device; Table 2 mean 54.7 mW in m1); wavelength
+    not stated with the value, 1550 nm inferred from the component characterization (p.7)
+  why: 'miss: p.7 Sec. 3.1 states the measured Ppi of the Fig. 7(a) device'
+  parameter: p_pi_mw
+  unit: mW
+  statistic: single
+  n_samples: '1'
+  wavelength_nm: '1550'
+  wavelength_inferred: 'true'
+  polarization: te
+  condition: half the heater-power difference between two consecutive transmittance dips of the symmetric MZI (P from SMU
+    V and I); one device of the Fig. 7 MZI
+  method: direct
+  basis: measured
+  locator: p.7 Sec. 3.1, Fig. 7
+- metric_id: cmp_lit_seo2025_type2_tops_l240-m16
+  component_id: cmp_lit_seo2025_type2_tops_l240
+  value: '80.9'
+  notes: printed measured Ppi 80.9 mW for the L = 240 um type-2 TOPS (single device; Table 2 mean 78.6 mW in m1); wavelength
+    not stated with the value, 1550 nm inferred from the component characterization (p.7)
+  why: 'miss: p.7 Sec. 3.1 states the measured Ppi of the Fig. 7(b) device'
+  parameter: p_pi_mw
+  unit: mW
+  statistic: single
+  n_samples: '1'
+  wavelength_nm: '1550'
+  wavelength_inferred: 'true'
+  polarization: te
+  condition: half the heater-power difference between two consecutive transmittance dips of the symmetric MZI (P from SMU
+    V and I); one device of the Fig. 7 MZI
+  method: direct
+  basis: measured
+  locator: p.7 Sec. 3.1, Fig. 7
+- metric_id: cmp_lit_seo2025_type1_tops_l240-m17
+  component_id: cmp_lit_seo2025_type1_tops_l240
+  parameter: rise_time_us
+  value: '7.00'
+  unit: us
+  statistic: single
+  n_samples: '1'
+  condition: rectangular drive 0 V to Vpi, 0.1 Hz, 50 % duty; rising edge (falling heater-voltage step) of the normalized
+    PD output Vn; one device
+  method: direct
+  basis: measured
+  locator: p.10 Sec. 3.2, Fig. 9(b)
+  notes: printed 7.00 us for the L = 240 um device of Fig. 9(b); 10 % and 90 % levels marked in Fig. 9(a)
+  why: 'miss: p.10 Sec. 3.2 states the single-device rise time of the Fig. 9(b) device'
+- metric_id: cmp_lit_seo2025_type1_tops_l240-m18
+  component_id: cmp_lit_seo2025_type1_tops_l240
+  parameter: fall_time_us
+  value: '7.24'
+  unit: us
+  statistic: single
+  n_samples: '1'
+  condition: rectangular drive 0 V to Vpi, 0.1 Hz, 50 % duty; falling edge (rising heater-voltage step) of the normalized
+    PD output Vn; one device
+  method: direct
+  basis: measured
+  locator: p.10 Sec. 3.2, Fig. 9(a)
+  notes: printed 7.24 us for the L = 240 um device of Fig. 9(a); 10 % and 90 % levels marked in Fig. 9(a)
+  why: 'miss: p.10 Sec. 3.2 states the single-device fall time of the Fig. 9(a) device'
+- metric_id: cmp_lit_seo2025_type2_tops_l240-m17
+  component_id: cmp_lit_seo2025_type2_tops_l240
+  parameter: rise_time_us
+  value: '7.33'
+  unit: us
+  statistic: single
+  n_samples: '1'
+  condition: rectangular drive 0 V to Vpi, 0.1 Hz, 50 % duty; rising edge (falling heater-voltage step) of the normalized
+    PD output Vn; one device
+  method: direct
+  basis: measured
+  locator: p.10 Sec. 3.2, Fig. 9(d)
+  notes: printed 7.33 us for the L = 240 um device of Fig. 9(d); 10 % and 90 % levels marked in Fig. 9(a)
+  why: 'miss: p.10 Sec. 3.2 states the single-device rise time of the Fig. 9(d) device'
+- metric_id: cmp_lit_seo2025_type2_tops_l240-m18
+  component_id: cmp_lit_seo2025_type2_tops_l240
+  parameter: fall_time_us
+  value: '7.14'
+  unit: us
+  statistic: single
+  n_samples: '1'
+  condition: rectangular drive 0 V to Vpi, 0.1 Hz, 50 % duty; falling edge (rising heater-voltage step) of the normalized
+    PD output Vn; one device
+  method: direct
+  basis: measured
+  locator: p.10 Sec. 3.2, Fig. 9(c)
+  notes: printed 7.14 us for the L = 240 um device of Fig. 9(c); 10 % and 90 % levels marked in Fig. 9(a)
+  why: 'miss: p.10 Sec. 3.2 states the single-device fall time of the Fig. 9(c) device'
+- metric_id: cmp_lit_seo2025_type1_tops_l240-m19
+  component_id: cmp_lit_seo2025_type1_tops_l240
+  parameter: fall_time_us
+  value: '7.81'
+  unit: us
+  condition: 2D transient heat simulation (70 x 100 um domain, y-uniform), step 0 -> Ppi; TOPS fall time = rise time of the
+    normalized Delta T at (x, z) = (0, 0.240) um
+  method: unspecified
+  basis: simulated
+  locator: p.11 Sec. 3.2, Fig. 9
+  notes: 'printed: simulated fall and rise times both 7.81 us (rise in m6)'
+  why: 'miss: p.11 states the simulated fall time (only the rise was entered)'
+- metric_id: cmp_lit_seo2025_type2_tops_l240-m19
+  component_id: cmp_lit_seo2025_type2_tops_l240
+  parameter: fall_time_us
+  value: '7.11'
+  unit: us
+  condition: 2D transient heat simulation (70 x 100 um domain, y-uniform), step 0 -> Ppi; TOPS fall time = rise time of the
+    normalized Delta T at (x, z) = (0, 0.240) um
+  method: unspecified
+  basis: simulated
+  locator: p.11 Sec. 3.2, Fig. 9
+  notes: 'printed: simulated fall and rise times both 7.11 us (rise in m6)'
+  why: 'miss: p.11 states the simulated fall time (only the rise was entered)'
+- metric_id: cmp_lit_alexander2026_lateral_spad_01-m4
+  component_id: cmp_lit_alexander2026_lateral_spad_01
+  parameter: quantum_efficiency_pct
+  value: '0.40'
+  unit: '%'
+  qualifier: approx
+  wavelength_nm: '685'
+  polarization: te
+  ref_plane: on_chip
+  excludes: fiber-chip coupling, waveguide propagation, Si-SiN end-fire loss (9.62 dB total)
+  condition: photon detection efficiency, Pin = 500 pW, Vex = 1.5 V above Vbr; free-running, room temperature, passive current-mode
+    quenching (820 kOhm quench, 50 Ohm sense), comparator threshold 8 mV
+  method: direct
+  basis: extracted_from_figure
+  locator: p.10 Supp. Fig. S3(a); p.5 Fig. 4(a)
+  notes: red bar (Vex 1.5 V) of device 01 read off the bar chart, reading uncertainty +/- 0.03 %; same value in Fig. 4(a)
+    (w = 0 um, Delta = 0 um); PDE normalized with the cutback-measured 9.62 dB insertion loss (Eq. 1-2, p.4)
+  why: 'miss: headline PDE of device 01 plotted in Fig. 4(a) / Fig. S3(a) (p.5, p.10); the component otherwise holds only
+    a breakdown voltage'
+- metric_id: cmp_lit_alexander2026_lateral_spad_01-m5
+  component_id: cmp_lit_alexander2026_lateral_spad_01
+  parameter: dark_count_rate_hz
+  value: '45000000'
+  unit: Hz
+  qualifier: approx
+  condition: n_dark with the shutter closed during the Pin = 500 pW measurement; Vex = 1.5 V above Vbr; room temperature,
+    passive current-mode quenching (820 kOhm), comparator threshold 8 mV
+  method: direct
+  basis: extracted_from_figure
+  locator: p.10 Supp. Fig. S3(b); p.5 Fig. 4(b)
+  notes: red bar (Vex 1.5 V) of device 01 read off the bar chart (axis in 1e6 /s), reading uncertainty +/- 1e6 /s; same value
+    in Fig. 4(b) (w = 0 um, Delta = 0 um)
+  why: 'miss: DCR of device 01 at the headline Vex plotted in Fig. 4(b) / Fig. S3(b) (p.5, p.10)'
+- metric_id: cmp_lit_alexander2026_lateral_spad_02-m4
+  component_id: cmp_lit_alexander2026_lateral_spad_02
+  parameter: quantum_efficiency_pct
+  value: '0.62'
+  unit: '%'
+  qualifier: approx
+  wavelength_nm: '685'
+  polarization: te
+  ref_plane: on_chip
+  excludes: fiber-chip coupling, waveguide propagation, Si-SiN end-fire loss (9.62 dB total)
+  condition: photon detection efficiency, Pin = 500 pW, Vex = 1.5 V above Vbr; free-running, room temperature, passive current-mode
+    quenching (820 kOhm quench, 50 Ohm sense), comparator threshold 8 mV
+  method: direct
+  basis: extracted_from_figure
+  locator: p.10 Supp. Fig. S3(a); p.5 Fig. 4(a)
+  notes: red bar (Vex 1.5 V) of device 02 read off the bar chart, reading uncertainty +/- 0.03 %; same value in Fig. 4(a)
+    (w = 0 um, Delta = 0.3 um); PDE normalized with the cutback-measured 9.62 dB insertion loss (Eq. 1-2, p.4)
+  why: 'miss: headline PDE of device 02 plotted in Fig. 4(a) / Fig. S3(a) (p.5, p.10); the component otherwise holds only
+    a breakdown voltage'
+- metric_id: cmp_lit_alexander2026_lateral_spad_02-m5
+  component_id: cmp_lit_alexander2026_lateral_spad_02
+  parameter: dark_count_rate_hz
+  value: '42000000'
+  unit: Hz
+  qualifier: approx
+  condition: n_dark with the shutter closed during the Pin = 500 pW measurement; Vex = 1.5 V above Vbr; room temperature,
+    passive current-mode quenching (820 kOhm), comparator threshold 8 mV
+  method: direct
+  basis: extracted_from_figure
+  locator: p.10 Supp. Fig. S3(b); p.5 Fig. 4(b)
+  notes: red bar (Vex 1.5 V) of device 02 read off the bar chart (axis in 1e6 /s), reading uncertainty +/- 1e6 /s; same value
+    in Fig. 4(b) (w = 0 um, Delta = 0.3 um)
+  why: 'miss: DCR of device 02 at the headline Vex plotted in Fig. 4(b) / Fig. S3(b) (p.5, p.10)'
+- metric_id: cmp_lit_alexander2026_lateral_spad_03-m6
+  component_id: cmp_lit_alexander2026_lateral_spad_03
+  parameter: dark_count_rate_hz
+  value: '20500000'
+  unit: Hz
+  qualifier: approx
+  condition: n_dark with the shutter closed during the Pin = 500 pW measurement; Vex = 1.5 V above Vbr; room temperature,
+    passive current-mode quenching (820 kOhm), comparator threshold 8 mV
+  method: direct
+  basis: extracted_from_figure
+  locator: p.10 Supp. Fig. S3(b); p.5 Fig. 4(b)
+  notes: red bar (Vex 1.5 V) of device 03 read off the bar chart (axis in 1e6 /s), reading uncertainty +/- 1e6 /s; same value
+    in Fig. 4(b) (w = 0 um, Delta = 0.45 um)
+  why: 'miss: DCR of device 03 at the headline Vex plotted in Fig. 4(b) / Fig. S3(b) (p.5, p.10)'
+- metric_id: cmp_lit_alexander2026_lateral_spad_04-m4
+  component_id: cmp_lit_alexander2026_lateral_spad_04
+  parameter: quantum_efficiency_pct
+  value: '1.87'
+  unit: '%'
+  qualifier: approx
+  wavelength_nm: '685'
+  polarization: te
+  ref_plane: on_chip
+  excludes: fiber-chip coupling, waveguide propagation, Si-SiN end-fire loss (9.62 dB total)
+  condition: photon detection efficiency, Pin = 500 pW, Vex = 1.5 V above Vbr; free-running, room temperature, passive current-mode
+    quenching (820 kOhm quench, 50 Ohm sense), comparator threshold 8 mV
+  method: direct
+  basis: extracted_from_figure
+  locator: p.10 Supp. Fig. S3(a); p.5 Fig. 4(a)
+  notes: red bar (Vex 1.5 V) of device 04 read off the bar chart, reading uncertainty +/- 0.03 %; same value in Fig. 4(a)
+    (w = 0 um, Delta = 0.6 um); PDE normalized with the cutback-measured 9.62 dB insertion loss (Eq. 1-2, p.4)
+  why: 'miss: headline PDE of device 04 plotted in Fig. 4(a) / Fig. S3(a) (p.5, p.10); the component otherwise holds only
+    a breakdown voltage'
+- metric_id: cmp_lit_alexander2026_lateral_spad_04-m5
+  component_id: cmp_lit_alexander2026_lateral_spad_04
+  parameter: dark_count_rate_hz
+  value: '20000000'
+  unit: Hz
+  qualifier: approx
+  condition: n_dark with the shutter closed during the Pin = 500 pW measurement; Vex = 1.5 V above Vbr; room temperature,
+    passive current-mode quenching (820 kOhm), comparator threshold 8 mV
+  method: direct
+  basis: extracted_from_figure
+  locator: p.10 Supp. Fig. S3(b); p.5 Fig. 4(b)
+  notes: red bar (Vex 1.5 V) of device 04 read off the bar chart (axis in 1e6 /s), reading uncertainty +/- 1e6 /s; same value
+    in Fig. 4(b) (w = 0 um, Delta = 0.6 um)
+  why: 'miss: DCR of device 04 at the headline Vex plotted in Fig. 4(b) / Fig. S3(b) (p.5, p.10)'
+- metric_id: cmp_lit_alexander2026_lateral_spad_05-m4
+  component_id: cmp_lit_alexander2026_lateral_spad_05
+  parameter: quantum_efficiency_pct
+  value: '1.47'
+  unit: '%'
+  qualifier: approx
+  wavelength_nm: '685'
+  polarization: te
+  ref_plane: on_chip
+  excludes: fiber-chip coupling, waveguide propagation, Si-SiN end-fire loss (9.62 dB total)
+  condition: photon detection efficiency, Pin = 500 pW, Vex = 1.5 V above Vbr; free-running, room temperature, passive current-mode
+    quenching (820 kOhm quench, 50 Ohm sense), comparator threshold 8 mV
+  method: direct
+  basis: extracted_from_figure
+  locator: p.10 Supp. Fig. S3(a); p.5 Fig. 4(a)
+  notes: red bar (Vex 1.5 V) of device 05 read off the bar chart, reading uncertainty +/- 0.03 %; same value in Fig. 4(a)
+    (w = 0.3 um, Delta = 0 um); PDE normalized with the cutback-measured 9.62 dB insertion loss (Eq. 1-2, p.4)
+  why: 'miss: headline PDE of device 05 plotted in Fig. 4(a) / Fig. S3(a) (p.5, p.10); the component otherwise holds only
+    a breakdown voltage'
+- metric_id: cmp_lit_alexander2026_lateral_spad_05-m5
+  component_id: cmp_lit_alexander2026_lateral_spad_05
+  parameter: dark_count_rate_hz
+  value: '23500000'
+  unit: Hz
+  qualifier: approx
+  condition: n_dark with the shutter closed during the Pin = 500 pW measurement; Vex = 1.5 V above Vbr; room temperature,
+    passive current-mode quenching (820 kOhm), comparator threshold 8 mV
+  method: direct
+  basis: extracted_from_figure
+  locator: p.10 Supp. Fig. S3(b); p.5 Fig. 4(b)
+  notes: red bar (Vex 1.5 V) of device 05 read off the bar chart (axis in 1e6 /s), reading uncertainty +/- 1e6 /s; same value
+    in Fig. 4(b) (w = 0.3 um, Delta = 0 um)
+  why: 'miss: DCR of device 05 at the headline Vex plotted in Fig. 4(b) / Fig. S3(b) (p.5, p.10)'
+- metric_id: cmp_lit_alexander2026_lateral_spad_06-m4
+  component_id: cmp_lit_alexander2026_lateral_spad_06
+  parameter: quantum_efficiency_pct
+  value: '1.57'
+  unit: '%'
+  qualifier: approx
+  wavelength_nm: '685'
+  polarization: te
+  ref_plane: on_chip
+  excludes: fiber-chip coupling, waveguide propagation, Si-SiN end-fire loss (9.62 dB total)
+  condition: photon detection efficiency, Pin = 500 pW, Vex = 1.5 V above Vbr; free-running, room temperature, passive current-mode
+    quenching (820 kOhm quench, 50 Ohm sense), comparator threshold 8 mV
+  method: direct
+  basis: extracted_from_figure
+  locator: p.10 Supp. Fig. S3(a); p.5 Fig. 4(a)
+  notes: red bar (Vex 1.5 V) of device 06 read off the bar chart, reading uncertainty +/- 0.03 %; same value in Fig. 4(a)
+    (w = 0.3 um, Delta = 0.3 um); PDE normalized with the cutback-measured 9.62 dB insertion loss (Eq. 1-2, p.4)
+  why: 'miss: headline PDE of device 06 plotted in Fig. 4(a) / Fig. S3(a) (p.5, p.10); the component otherwise holds only
+    a breakdown voltage'
+- metric_id: cmp_lit_alexander2026_lateral_spad_06-m5
+  component_id: cmp_lit_alexander2026_lateral_spad_06
+  parameter: dark_count_rate_hz
+  value: '31000000'
+  unit: Hz
+  qualifier: approx
+  condition: n_dark with the shutter closed during the Pin = 500 pW measurement; Vex = 1.5 V above Vbr; room temperature,
+    passive current-mode quenching (820 kOhm), comparator threshold 8 mV
+  method: direct
+  basis: extracted_from_figure
+  locator: p.10 Supp. Fig. S3(b); p.5 Fig. 4(b)
+  notes: red bar (Vex 1.5 V) of device 06 read off the bar chart (axis in 1e6 /s), reading uncertainty +/- 1e6 /s; same value
+    in Fig. 4(b) (w = 0.3 um, Delta = 0.3 um)
+  why: 'miss: DCR of device 06 at the headline Vex plotted in Fig. 4(b) / Fig. S3(b) (p.5, p.10)'
+- metric_id: cmp_lit_alexander2026_lateral_spad_07-m4
+  component_id: cmp_lit_alexander2026_lateral_spad_07
+  parameter: quantum_efficiency_pct
+  value: '0.56'
+  unit: '%'
+  qualifier: approx
+  wavelength_nm: '685'
+  polarization: te
+  ref_plane: on_chip
+  excludes: fiber-chip coupling, waveguide propagation, Si-SiN end-fire loss (9.62 dB total)
+  condition: photon detection efficiency, Pin = 500 pW, Vex = 1.5 V above Vbr; free-running, room temperature, passive current-mode
+    quenching (820 kOhm quench, 50 Ohm sense), comparator threshold 8 mV
+  method: direct
+  basis: extracted_from_figure
+  locator: p.10 Supp. Fig. S3(a); p.5 Fig. 4(a)
+  notes: red bar (Vex 1.5 V) of device 07 read off the bar chart, reading uncertainty +/- 0.03 %; same value in Fig. 4(a)
+    (w = 0.3 um, Delta = 0.45 um); PDE normalized with the cutback-measured 9.62 dB insertion loss (Eq. 1-2, p.4)
+  why: 'miss: headline PDE of device 07 plotted in Fig. 4(a) / Fig. S3(a) (p.5, p.10); the component otherwise holds only
+    a breakdown voltage'
+- metric_id: cmp_lit_alexander2026_lateral_spad_07-m5
+  component_id: cmp_lit_alexander2026_lateral_spad_07
+  parameter: dark_count_rate_hz
+  value: '37000000'
+  unit: Hz
+  qualifier: approx
+  condition: n_dark with the shutter closed during the Pin = 500 pW measurement; Vex = 1.5 V above Vbr; room temperature,
+    passive current-mode quenching (820 kOhm), comparator threshold 8 mV
+  method: direct
+  basis: extracted_from_figure
+  locator: p.10 Supp. Fig. S3(b); p.5 Fig. 4(b)
+  notes: red bar (Vex 1.5 V) of device 07 read off the bar chart (axis in 1e6 /s), reading uncertainty +/- 1e6 /s; same value
+    in Fig. 4(b) (w = 0.3 um, Delta = 0.45 um)
+  why: 'miss: DCR of device 07 at the headline Vex plotted in Fig. 4(b) / Fig. S3(b) (p.5, p.10)'
+- metric_id: cmp_lit_alexander2026_lateral_spad_08-m4
+  component_id: cmp_lit_alexander2026_lateral_spad_08
+  parameter: quantum_efficiency_pct
+  value: '0.96'
+  unit: '%'
+  qualifier: approx
+  wavelength_nm: '685'
+  polarization: te
+  ref_plane: on_chip
+  excludes: fiber-chip coupling, waveguide propagation, Si-SiN end-fire loss (9.62 dB total)
+  condition: photon detection efficiency, Pin = 500 pW, Vex = 1.5 V above Vbr; free-running, room temperature, passive current-mode
+    quenching (820 kOhm quench, 50 Ohm sense), comparator threshold 8 mV
+  method: direct
+  basis: extracted_from_figure
+  locator: p.10 Supp. Fig. S3(a); p.5 Fig. 4(a)
+  notes: red bar (Vex 1.5 V) of device 08 read off the bar chart, reading uncertainty +/- 0.03 %; same value in Fig. 4(a)
+    (w = 0.3 um, Delta = 0.6 um); PDE normalized with the cutback-measured 9.62 dB insertion loss (Eq. 1-2, p.4)
+  why: 'miss: headline PDE of device 08 plotted in Fig. 4(a) / Fig. S3(a) (p.5, p.10); the component otherwise holds only
+    a breakdown voltage'
+- metric_id: cmp_lit_alexander2026_lateral_spad_08-m5
+  component_id: cmp_lit_alexander2026_lateral_spad_08
+  parameter: dark_count_rate_hz
+  value: '45500000'
+  unit: Hz
+  qualifier: approx
+  condition: n_dark with the shutter closed during the Pin = 500 pW measurement; Vex = 1.5 V above Vbr; room temperature,
+    passive current-mode quenching (820 kOhm), comparator threshold 8 mV
+  method: direct
+  basis: extracted_from_figure
+  locator: p.10 Supp. Fig. S3(b); p.5 Fig. 4(b)
+  notes: red bar (Vex 1.5 V) of device 08 read off the bar chart (axis in 1e6 /s), reading uncertainty +/- 1e6 /s; same value
+    in Fig. 4(b) (w = 0.3 um, Delta = 0.6 um)
+  why: 'miss: DCR of device 08 at the headline Vex plotted in Fig. 4(b) / Fig. S3(b) (p.5, p.10)'
+- metric_id: cmp_lit_alexander2026_vertical_spad-m6
+  component_id: cmp_lit_alexander2026_vertical_spad
+  parameter: dark_count_rate_hz
+  value: '30000000'
+  unit: Hz
+  qualifier: approx
+  condition: n_dark with the shutter closed during the Pin = 500 pW measurement; Vex = 1.2 V above Vbr 8.0 V; room temperature,
+    passive current-mode quenching (820 kOhm), comparator threshold 8 mV
+  method: direct
+  basis: extracted_from_figure
+  locator: p.10 Supp. Fig. S3(b); p.5 Fig. 4(b)
+  notes: red bar (Vex 1.2 V) of the vertical device read off the bar chart (axis in 1e6 /s), reading uncertainty +/- 1e6 /s;
+    same value in Fig. 4(b)
+  why: 'miss: DCR of the vertical SPAD at the PDE operating point plotted in Fig. 4(b) / Fig. S3(b) (p.5, p.10)'
+- metric_id: cmp_lit_ding2022_wg_1p6um-m3
+  component_id: cmp_lit_ding2022_wg_1p6um
+  parameter: core_thickness_nm
+  value: '220'
+  unit: nm
+  basis: design_target
+  locator: p.6 Sec. 2.2
+  notes: hco = 220 nm for all waveguides considered in the paper (standard 220 nm SOI)
+  why: 'miss (D153 geometry): p.6 states hco = 220 nm for the silicon waveguides of the paper; the 2 um row carries it, the
+    1.6 um row did not'
+- metric_id: cmp_lit_ding2022_wg_0p45um-m3
+  component_id: cmp_lit_ding2022_wg_0p45um
+  parameter: core_thickness_nm
+  value: '220'
+  unit: nm
+  basis: design_target
+  locator: p.9 Table 1
+  notes: Table 1 prints 450 x 220 nm
+  why: 'miss (D153 geometry): p.9 Table 1 prints the 450 x 220 nm cross-section'
+- metric_id: cmp_lit_ding2022_euler_sbend-m4
+  component_id: cmp_lit_ding2022_euler_sbend
+  parameter: core_thickness_nm
+  value: '220'
+  unit: nm
+  basis: design_target
+  locator: p.6 Sec. 2.2
+  notes: hco = 220 nm (standard 220 nm SOI); S-bend is part of the 2 um spirals
+  why: 'miss (D153 geometry): p.6 states hco = 220 nm'
+- metric_id: cmp_lit_ding2022_fwm_2um_20cm-m6
+  component_id: cmp_lit_ding2022_fwm_2um_20cm
+  parameter: power_conversion_efficiency_pct
+  value: '31.6'
+  unit: '%'
+  qualifier: approx
+  wavelength_nm: '1550.15'
+  condition: theoretical model, coupled pump power increased to 0.4 W (not available in the experiment); degenerate pump,
+    CE = idler / output signal
+  basis: simulated
+  locator: p.8 Sec. 3, Fig. 6(a)
+  notes: printed about -5 dB (100 x 10^(-0.5) = 31.6 %); arithmetic on a simulated value stays simulated (D83f)
+  why: 'miss: p.8 states an efficiency of about -5 dB achievable at 0.4 W pump according to the theoretical model (Fig. 6(a))'

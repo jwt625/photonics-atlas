@@ -1,0 +1,77 @@
+# Audit patch lit_16 (fresh-context audit 2026-10-29, DevLog/audits/2026-10-29-lit_16-audit.md).
+# 173 metrics: 167 ok / 3 imprecise / 3 wrong; 33 components: 29 ok / 4 changed (notes only) / 0 deleted; 4 misses added.
+# Not covered here (coordinator decisions, see the audit file): MIT.nano registry org (he2026 facility), PCSEL coupling
+# coefficient parameter, focal-spot FWHM parameter and the other registry gaps.
+components:
+  cmp_lit_ishii2003_vcsel_wg_microlens_469:
+    notes: 'fab_org_ids empty: all authors at NTT Microsystem Integration Laboratories, but the paper only says the authors developed the fabrication techniques (D80b). The fiber-to-waveguide (PD side) tolerance of Fig. 15 (about +/-50 um, p.5) is not entered: the text ties the 469 um lens only to the input position shown in the Fig. 14 inset; the lens at the output side of the Fig. 15 sample is not identified (could be this lens or the 352 um lens of Fig. 13(b)), D159.'
+    why: 'p.5 Sec. V: the 469 um microlens is formed at the input position of the waveguide as shown in the Fig. 14 inset; Fig. 15 uses an LED input and a lens at the output side whose identity is not stated (D159); records why the deleted m2 value is not entered'
+  cmp_lit_ishii2003_wg_microlens_352:
+    notes: 'fab_org_ids empty: all authors at NTT Microsystem Integration Laboratories, but the paper only says the authors developed the fabrication techniques (D80b). The Fig. 15 fiber-to-waveguide tolerance (about +/-50 um, p.5) uses an LED-fed waveguide with an output-side lens whose identity is not stated; not entered on this row or the 469 um row (D159).'
+    why: 'p.5 Sec. V and Fig. 15: sample identity ambiguous between the 352 um and 469 um lens rows (D159); bound recorded in component notes'
+  cmp_lit_wang2023c_metasurface_on_ld:
+    notes: 'fab_org_ids empty: the conclusion states the authors fabricated the metasurfaces, but the authors sit at SINANO (CAS), Suzhou Laboratory, Jiangsu Institute of Advanced Semiconductors and Soochow University (not unambiguous, rule 12). Not entered: focal-spot intensity FWHM about 0.738 um at 149.7 um from the metasurface, about 0.74 um for 30-55 mA (p.7, Fig. 6(c)(d); a focused-spot FWHM is not beam_diameter_um, registry gap), nanograting transmittance ~80 % (tied to the authors'' earlier work [39] on p.3, restated p.7; D259), circular-polarization degree > 0.99 (p.7; no parameter), measured focal distance 149.7 um and calculated NA ~0.55 (p.7; no parameter), nanobrick period 250 nm and nanograting period 220 nm (p.5; subwavelength_period_nm not allowed for micro_optics), metalens-only imaging of USAF group 3 element 4 to ~0.57 um line width (p.6). Nanobrick height below the 600 nm design is blamed for the efficiency gap (p.7).'
+    why: 'p.7 Sec. 3: the 0.738 um value is the intensity FWHM of the focused spot 149.7 um from the metasurface; beam_diameter_um is defined as the beam diameter at the interface (expanded / collimated beam), so the value is removed (metric m2 deleted) and recorded here as a registry gap'
+  cmp_lit_wang2023c_metalens_design_50um:
+    notes: 'Simulation-only scaled design (NA ~0.55, same as the fabricated 200 um lens). Not entered: simulated focal-spot intensity FWHM about 0.495 um (p.4, Fig. 3(d); focused-spot FWHM is not beam_diameter_um, registry gap), focal length F 37.5 um (design, no parameter).'
+    why: 'p.4 Sec. 2.2: 0.495 um is the FWHM of the focal spot of the F 37.5 um design, not a beam diameter at an interface; metric m2 deleted, value recorded here'
+metrics:
+  cmp_lit_bernabe2012_gc_14deg-m1:
+    wavelength_inferred: 'true'
+    notes: printed close to 6 dB with a pointer to Fig. 5; the text gives no wavelength; 1560 nm is the peak of the Fig. 5 curve (about -6.1 dB, plotted as negative coupling loss) read off the plot axis; de-embedding not stated
+    why: 'p.5 Sec. 3 states the ~6 dB without a wavelength; the 1560 nm comes from the Fig. 5 plot axis (p.6), which components.schema.yaml lists as an inferred wavelength (wavelength_inferred: true)'
+  cmp_lit_bernabe2012_gc_14deg-m14:
+    qualifier: ''
+    statistic: typical
+    notes: printed as typically 10 um at 1550 nm for a standard SMF, which the GC output mode is designed to match
+    why: 'p.4 Sec. 3 "typically 10um at 1550nm": skill rule 7 maps "typical" to statistic typical, not qualifier approx'
+  cmp_lit_ishii2003_optobump_design-m2:
+    qualifier: approx
+    why: 'p.3 Sec. III: "a large tolerance of about 100 um" for FL 780 um; the halved value inherits the "about"'
+delete_metrics:
+- id: cmp_lit_ishii2003_vcsel_wg_microlens_469-m2
+  why: 'p.5 Sec. V: the 469 um lens is tied only to the Fig. 14 (VCSEL-to-waveguide) experiment; the Fig. 15 fiber-to-waveguide sample (LED-fed waveguide, lens at the output side) does not identify its lens and resembles the Fig. 13(b) 352 um sample; D159: not entered on either row, bound in component notes'
+- id: cmp_lit_wang2023c_metasurface_on_ld-m2
+  why: 'p.7 Sec. 3: focal-spot intensity FWHM 0.738 um at 149.7 um from the metasurface; beam_diameter_um = beam diameter at the interface (expanded / collimated beam); a focused-spot FWHM is a different quantity (skill rule 5: widths at different definitions are not mixed); registry gap focal_spot_fwhm_um, value in component notes'
+- id: cmp_lit_wang2023c_metalens_design_50um-m2
+  why: 'p.4 Sec. 2.2: simulated focal-spot FWHM 0.495 um; same parameter mismatch as metasurface_on_ld-m2; value in component notes'
+add_metrics:
+- metric_id: cmp_lit_mu2016_sin_wg-m2
+  component_id: cmp_lit_mu2016_sin_wg
+  parameter: core_thickness_nm
+  value: '92.1'
+  unit: nm
+  condition: Si3N4 layer (LPCVD), ellipsometry
+  basis: measured
+  locator: p.3 Sec. III
+  notes: +/-0.6 nm; 90 nm design (p.2 Sec. II)
+  why: 'miss (D153 geometry): p.3 Sec. III measured Si3N4 thickness 92.1 +/- 0.6 nm, stated for the Si3N4 chip whose straight waveguides carry the m1 loss; the coupler rows hold it, the straight-waveguide row did not'
+- metric_id: cmp_lit_mu2016_sin_wg-m3
+  component_id: cmp_lit_mu2016_sin_wg
+  parameter: width_nm
+  value: '2000'
+  unit: nm
+  condition: Si3N4 waveguide
+  basis: derived
+  locator: p.2 Sec. II
+  notes: printed W_Si3N4 = 2 um
+  why: 'miss (D153 geometry): p.2 Sec. II selected Si3N4 waveguide width 2 um; um -> nm conversion is derived (D157)'
+- metric_id: cmp_lit_mu2016_sin_wg-m4
+  component_id: cmp_lit_mu2016_sin_wg
+  parameter: box_thickness_um
+  value: '15'
+  unit: um
+  condition: thermal oxide
+  basis: design_target
+  locator: p.3 Sec. III
+  why: 'miss (D153 geometry): p.3 Sec. III Si3N4 deposited on a silicon wafer with a 15 um thermal oxide'
+- metric_id: cmp_lit_ishii2003_optobump_design-m4
+  component_id: cmp_lit_ishii2003_optobump_design
+  parameter: tol_1db_lateral_um
+  value: '19'
+  unit: um
+  condition: placement accuracy of Microlens 2 (board-side lens) for a coupling-efficiency decrease below 1 dB, Y direction; ray trace
+  basis: simulated
+  locator: p.3 Sec. III
+  notes: 'printed +/-19 um (Y); X direction printed +16/-21 um (asymmetric, not entered as a value); lens-placement tolerance, distinct from the package-to-board tolerance in m2'
+  why: 'miss: p.3 Sec. III states the Microlens 2 positional accuracy for < 1 dB decrease (+16/-21 um X, +/-19 um Y); tol_1db_lateral_um is allowed for micro_optics and its definition (+/- half-width for 1 dB) matches the symmetric Y value'

@@ -1,0 +1,119 @@
+# Audit patch lit_21 (fresh-context audit 2026-10-29, DevLog/audits/2026-10-29-lit_21-audit.md).
+# 371 metrics: 363 ok / 8 imprecise / 0 wrong; 53 components: 52 ok / 1 changed / 0 deleted; 1 component added
+# (fang2021 Sb2S3 / ITO cell, D396) carrying 2 moved metric rows + 1 geometry row; 3 misses added.
+# Not covered here (coordinator decisions, see the audit file): Washington Nanofabrication Facility / Molecular
+# Analysis Facility registry row (fang2021 facility_org_ids), registry gaps.
+components:
+  cmp_lit_fang2021_sbs_ito_ring_switch:
+    notes: 'Ring switch with an on-chip ITO heater over the Sb2S3 (Fig. 4(a)-(b)); this row holds the ring-level response (non-volatile SET shift, transmission contrast); the Sb2S3 / ITO phase-change cell of the same device is cmp_lit_fang2021_sbs_ito_cell (D396; jayatilleka2021 / song2016 ring + cell precedent), which holds the SET power and the cell length. Fabrication: author contributions (p.21) state that Z.F. fabricated the devices; all authors at the University of Washington (fab_org_ids per D72 / D80b). Part of the work was conducted at the Washington Nanofabrication Facility / Molecular Analysis Facility (p.21): org missing from the registry, facility_org_ids left empty. Not entered: endurance not reported; ring radius not stated for this device; simulated shift 0.456 nm (Fig. S1, supplement not cached); 0.48 nm for the fully etched waveguide (p.13) is the per-length fit applied to 8 um, not a separate device.'
+    why: 'D396: the electrically actuated Sb2S3 / ITO cell is characterized in its own right (SET power 13 mW, 8 um cell, p.13 Sec. 2.3); cell-level values move to a phase_shifter.phase_change row, ring-level values stay here'
+metrics:
+  cmp_lit_naraine2024_sin_film_slab-m1:
+    locator: p.3 Sec. II-A; p.3 Fig. 1(b)
+    why: 'Fig. 1 is on p.3 of text.md (caption and render page_03.png), not p.5 (p.5 holds Fig. 2)'
+  cmp_lit_naraine2024_sin_film_slab-m2:
+    locator: p.3 Sec. II-A; p.3 Fig. 1(b)
+    why: Fig. 1 is on p.3, as m1
+  cmp_lit_naraine2024_sin_film_slab-m3:
+    locator: p.3-4 Sec. II-A; p.3 Fig. 1(b) inset
+    why: Fig. 1 is on p.3, as m1
+  cmp_lit_naraine2024_sin_film_slab-m4:
+    locator: p.3-4 Sec. II-A; p.3 Fig. 1(b) inset
+    why: Fig. 1 is on p.3, as m1
+  cmp_lit_naraine2024_sin_film_slab-m5:
+    locator: p.3-4 Sec. II-A; p.3 Fig. 1(b) inset
+    why: Fig. 1 is on p.3, as m1
+  cmp_lit_song2016_pmc_mrr-m5:
+    condition: 'OFF-state resonance at 1578.5 nm; value is the transmission loss at the dip on the normalized Fig. 2(a) axis, whose off-resonance level sits near -1 dB (ON state at the same wavelength: ~2 dB)'
+    notes: 'printed as a loss of ~14.7 dB at the OFF resonance (p.5); the notch depth relative to the off-resonance transmission is not stated (about 1 dB smaller on the Fig. 2(a) axis)'
+    why: 'p.5 and p.3 Fig. 2(a) (axis "Transmission loss (dB)", baseline near -1 dB): the printed 14.7 dB is the loss at the dip, not a stated notch depth; condition / notes say so'
+delete_metrics:
+- id: cmp_lit_fang2021_sbs_ito_ring_switch-m3
+  why: 'D396: the SET power (13 mW, p.13 Sec. 2.3) actuates the Sb2S3 / ITO cell; moved to cmp_lit_fang2021_sbs_ito_cell-m1'
+- id: cmp_lit_fang2021_sbs_ito_ring_switch-m4
+  why: 'D396: the 8 um Sb2S3 length under the ITO heater is a cell dimension (p.13 Sec. 2.3), not a ring length; moved to cmp_lit_fang2021_sbs_ito_cell-m2'
+add_components:
+- component_id: cmp_lit_fang2021_sbs_ito_cell
+  source_id: lit:fang2021
+  class: phase_shifter.phase_change
+  label: Electrically switched Sb2S3 phase-change cell, 8 um x 20 nm under a 200 nm ITO heater, in the rib-SOI ring switch, C-band
+  row_kind: fabricated
+  platform: soi_rib
+  core_material: Si 220 nm rib, 140 nm etch / 80 nm slab, 3 um BOX; 20 nm Sb2S3 + 200 nm ITO sputtered without breaking vacuum (lift-off); Au/Cr 60/30 nm pads
+  fab_org_ids: org_university_washington
+  tags: phase_change;sb2s3;non_volatile;ito_heater
+  verified_on: '2026-10-29'
+  notes: 'Phase-change tuning cell of cmp_lit_fang2021_sbs_ito_ring_switch (one physical device, two classes, D396): this row holds the cell-level electrical actuation (SET power, cell length, ITO heater), the ring row the optical response (0.4 nm non-volatile shift, > 30 dB contrast). Fabrication: author contributions (p.21) state that Z.F. fabricated the devices; all authors at the University of Washington (fab_org_ids per D72 / D80b). Part of the work was conducted at the Washington Nanofabrication Facility / Molecular Analysis Facility (p.21): org missing from the registry, facility_org_ids left empty. Not entered: RESET by a 6 V, 200 ns square pulse with 8 ns trailing edge (slight blue shift; RESET spectrum does not overlap the original, p.14-15; no pulse parameter); simulated PCM temperature 650 K (Fig. S1, supplement not cached); endurance not reported.'
+  why: 'D396 (one row per class for one physical device) and the jayatilleka2021 / song2016 precedents (ring row + tuning-cell row): p.12-13 Sec. 2.3 characterizes the ITO-heated Sb2S3 cell electrically (SET at 13 mW in a 0-1 V sweep, Fig. 4(d) inset I-V / power)'
+add_metrics:
+- metric_id: cmp_lit_fang2021_sbs_ito_cell-m1
+  component_id: cmp_lit_fang2021_sbs_ito_cell
+  parameter: tuning_power_mw
+  value: '13'
+  unit: mW
+  condition: electrical power at which the 0-1 V DC sweep across the ITO heater triggered SET (crystallization) of the 8 um Sb2S3
+  method: direct
+  basis: measured
+  locator: p.13 Sec. 2.3; p.14 Fig. 4(d) inset
+  notes: moved from cmp_lit_fang2021_sbs_ito_ring_switch-m3 (D396)
+  why: 'D396: cell-level SET power, p.13 ''DC voltage sweep from 0 to 1V at power of 13mW'''
+- metric_id: cmp_lit_fang2021_sbs_ito_cell-m2
+  component_id: cmp_lit_fang2021_sbs_ito_cell
+  parameter: length_um
+  value: '8'
+  unit: um
+  condition: Sb2S3 length under the ITO heater
+  basis: design_target
+  locator: p.13 Sec. 2.3
+  notes: moved from cmp_lit_fang2021_sbs_ito_ring_switch-m4 (D396)
+  why: 'D396: cell dimension, p.13 ''8um-long SbS'''
+- metric_id: cmp_lit_fang2021_sbs_ito_cell-m3
+  component_id: cmp_lit_fang2021_sbs_ito_cell
+  parameter: heater_thickness_nm
+  value: '200'
+  unit: nm
+  condition: ITO heater layer over the Sb2S3
+  basis: design_target
+  locator: p.20 Sec. 4
+  notes: ITO (transparent conductor), not metal; same value on the ring row (m9)
+  why: 'D153 geometry of the new cell row: p.20 ''200nm thick ITO layer'''
+- metric_id: cmp_lit_fang2021_sbs20_si_ring-m7
+  component_id: cmp_lit_fang2021_sbs20_si_ring
+  parameter: width_nm
+  value: '500'
+  unit: nm
+  condition: Si waveguide width labelled in the mode-simulation cross-section of 20 nm Sb2S3 on 220 nm SOI (Fig. 2(a))
+  basis: extracted_from_figure
+  locator: p.8 Fig. 2(a)
+  notes: figure label (500nm next to the 220nm label), no reading uncertainty; the text does not state the fabricated ring width, and the caption ties the simulated geometry to the experiment only for the Sb2S3 sidewall coverage
+  why: 'miss (D153 / D105 labelled figure dimension): p.8 Fig. 2(a) labels the simulated SOI waveguide 500 nm x 220 nm'
+- metric_id: cmp_lit_lischke2020_ge300_pd-m11
+  component_id: cmp_lit_lischke2020_ge300_pd
+  parameter: capacitance_ff
+  value: '8'
+  unit: fF
+  qualifier: approx
+  bias_v: '-2'
+  condition: C-V characteristics extracted from S-parameters, 9 wafer sites, PD length 20 um
+  method: direct
+  basis: extracted_from_figure
+  locator: p.2 Sec. III; p.4 Fig. 7
+  notes: read off the Fig. 7 Ge-300 curves at -2 V (curves between about 7 and 9 fF; reading uncertainty about +/-1 fF); no value printed
+  why: 'miss: p.4 Fig. 7 plots the measured Ge-300 capacitance vs voltage; skill rule 4 allows extracted_from_figure values with the reading uncertainty'
+- metric_id: cmp_lit_naraine2024_sin_film_slab-m6
+  component_id: cmp_lit_naraine2024_sin_film_slab
+  parameter: prop_loss_db_per_cm
+  value: '0.1'
+  unit: dB/cm
+  qualifier: lt
+  statistic: mean
+  n_samples: '4'
+  wavelength_nm: '1570'
+  polarization: te
+  mode: TE0 slab
+  condition: prism coupling (Metricon 2010/M), planar film; wavelengths above 1570 nm up to the end of the measured range (Fig. 1(b) axis ends at 1.65 um)
+  method: direct
+  basis: measured
+  locator: p.3 Sec. II-A; p.3 Fig. 1(b)
+  notes: printed '<0.1 dB/cm within uncertainty for wavelengths above 1570 nm'; means of four LPCVD runs
+  why: 'miss: bound stated on p.3 Sec. II-A for the planar film'

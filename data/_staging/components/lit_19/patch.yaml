@@ -1,0 +1,144 @@
+# Audit patch lit_19 (fresh-context audit 2026-10-29, DevLog/audits/2026-10-29-lit_19-audit.md).
+# 172 metrics: 154 ok / 13 imprecise / 5 wrong (deleted); 29 components: 14 ok / 15 changed / 0 deleted; 2 misses added.
+# Not covered here (coordinator decisions, see the audit file): ePIXfab registry row (abdulla2011 fab), TSRI fab vs
+# facility role (hung2020), gap_nm widening for in-plane crossing trenches (lahijani2026), registry gaps.
+components:
+  cmp_lit_hung2020_polysi_gc:
+    facility_org_ids: org_taiwan_semiconductor_research_institute
+    why: 'rule 12 / D42: p.11 Acknowledgments ''chip fabrication support provided by Taiwan Semiconductor Research Institute (TSRI)'' is an acknowledged fabrication support; registry org_taiwan_semiconductor_research_institute exists (fab_org_ids role under D83d is an open question)'
+  cmp_lit_hung2020_polysi_strip_wg:
+    facility_org_ids: org_taiwan_semiconductor_research_institute
+    why: as polysi_gc (p.11 Acknowledgments, TSRI chip fabrication support; one chip for all components)
+  cmp_lit_hung2020_polysi_swg_wg:
+    facility_org_ids: org_taiwan_semiconductor_research_institute
+    why: as polysi_gc (p.11 Acknowledgments)
+  cmp_lit_hung2020_strip_swg_converter:
+    facility_org_ids: org_taiwan_semiconductor_research_institute
+    why: as polysi_gc (p.11 Acknowledgments)
+  cmp_lit_hung2020_polysi_ref_ring:
+    facility_org_ids: org_taiwan_semiconductor_research_institute
+    why: as polysi_gc (p.11 Acknowledgments)
+  cmp_lit_hung2020_strip_cladmod_bragg_760:
+    facility_org_ids: org_taiwan_semiconductor_research_institute
+    why: as polysi_gc (p.11 Acknowledgments)
+  cmp_lit_hung2020_strip_cladmod_bragg_570:
+    facility_org_ids: org_taiwan_semiconductor_research_institute
+    why: as polysi_gc (p.11 Acknowledgments)
+  cmp_lit_hung2020_swg_cladmod_bragg_d850:
+    facility_org_ids: org_taiwan_semiconductor_research_institute
+    why: as polysi_gc (p.11 Acknowledgments)
+  cmp_lit_hung2020_swg_cladmod_bragg_d200_l300:
+    facility_org_ids: org_taiwan_semiconductor_research_institute
+    why: as polysi_gc (p.11 Acknowledgments)
+  cmp_lit_hung2020_swg_cladmod_bragg_d1050_l1500:
+    facility_org_ids: org_taiwan_semiconductor_research_institute
+    why: as polysi_gc (p.11 Acknowledgments)
+  cmp_lit_jean2019_swg1_slow_light_dc40_w1000:
+    cladding: ''
+    why: 'skill workflow step 3: cladding only if stated; p.2-4 never name the cladding material (gaps ''filled with cladding'', analytic n2 = 1.44 only), so the column stays empty instead of ''not stated'''
+  cmp_lit_jean2019_swg2_slow_light_dc50_w800:
+    cladding: ''
+    why: as swg1 (cladding not stated, p.2-4)
+  cmp_lit_lahijani2026_epcc_1550_gap100_design:
+    core_material: 'suspended Si membrane (simulation; device-layer thickness used for the Fig. 4 / S6 designs not stated: the optimization uses the nominal 250 nm, the 240 nm recalculation is stated only for Figs. 1d-f, 2b and S4)'
+    why: 'p.16-18 Supp. Sec. 3: topology optimization at the nominal 250 nm; 240 nm stated for Fig. S4 and Figs. 1d-f, 2b only; the single-wavelength designs (p.18-19, Fig. S6) carry no thickness, so ''240 nm (simulation)'' is not supported'
+  cmp_lit_lahijani2026_epcc_1550_gap60_design:
+    core_material: 'suspended Si membrane (simulation; device-layer thickness used for the Fig. 4 / S6 designs not stated: the optimization uses the nominal 250 nm, the 240 nm recalculation is stated only for Figs. 1d-f, 2b and S4)'
+    why: as gap100_design (p.16-19 Supp. Sec. 3)
+  cmp_lit_lahijani2026_epcc_1550_gap20_design:
+    core_material: 'suspended Si membrane (simulation; device-layer thickness used for the Fig. 4 / S6 designs not stated: the optimization uses the nominal 250 nm, the 240 nm recalculation is stated only for Figs. 1d-f, 2b and S4)'
+    why: as gap100_design (p.16-19 Supp. Sec. 3)
+metrics:
+  cmp_lit_hu2023a_suspended_si_ssc-m1:
+    notes: 'printed as approximately -3.0 dB/facet coupling loss at 1550 nm (sign as printed), stated without method (D167); polarization not stated'
+    why: 'registry convention (loss positive dB, source sign quoted in notes): p.3 prints ''-3.0 dB/facet'''
+  cmp_lit_lischke2021_ge300_lateral_pin_pd_1310-m4:
+    notes: 'read off the C-V plot at -2 V, reading uncertainty about +/- 0.5 fF. Curve assignment from the Fig. 2 (right) legend (red = 2nd lot, 1310 nm couplers; black = 1st lot [2]); the p.2 text calls the 2nd-lot curves black, but its own reading (wider depletion, i.e. lower capacitance in the 2nd lot) matches the legend; first-lot curves slightly higher'
+    why: 'p.2 text vs Fig. 2 (right) legend conflict on the curve colour of the follow-up lot; the note must record which source fixed the assignment (D156: kept because the legend ties the curves unambiguously)'
+  cmp_lit_santini2017_utc_pd_5x25-m6:
+    notes: 'slightly higher roll-off attributed to the longer transmission lines; wavelength not stated; value as printed in the text: in Fig. 2 (right) some PD traces touch the -3 dB line near 28-31 GHz before recovering'
+    why: 'p.3 Fig. 2 (right) render vs the p.4 statement ''above 40 GHz for both test diode and coherent receiver''; value kept as printed, discrepancy recorded'
+  cmp_lit_santini2017_soa_bulk_500um-m1:
+    condition: SOA drive 140 mA, input -20 dBm; inferred by the authors from the receiver responsivity with vs without SOA
+    notes: 'printed ''Therefore, the SOA gain is above 20 dB'' after the 4-5 A/W (5.5-6.8 A/W with AR) result (p.5); the arithmetic is not shown (the ratio 4-5 A/W vs 0.045 A/W without SOA is about 19.5-20.5 dB)'
+    why: 'p.5 Sec. 3 does not state that AR-corrected values were used; the condition / note must not attribute an unstated derivation'
+  cmp_lit_santini2017_coherent_rx_soa-m4:
+    wavelength_nm: '1560'
+    band: ''
+    wavelength_inferred: ''
+    temperature_k: '293.15'
+    notes: 'printed as slightly above 1.25 A/W without AR coating; Fig. 5(a) legend states lambda 1560 nm and T 20 C (converted to K)'
+    why: 'p.5 Fig. 5(a) legend prints signal input, lambda = 1560 nm, T = 20 C: the wavelength is stated, not inferred (skill rule 8)'
+  cmp_lit_santini2017_coherent_rx_soa-m5:
+    wavelength_nm: '1560'
+    band: ''
+    wavelength_inferred: ''
+    temperature_k: '293.15'
+    notes: 'printed as above -4 dBm (-5.5 dBm assuming ideal AR coating, m7); Fig. 5(b) legend states lambda 1560 nm, I_SOA 140 mA, T 20 C (converted to K)'
+    why: 'p.5 Fig. 5(b) legend prints lambda = 1560 nm, I_SOA = 140 mA, T = 20 C: the wavelength is stated, not inferred (skill rule 8)'
+  cmp_lit_hung2020_strip_swg_converter-m2:
+    condition: 'ring cut-back: round-trip loss difference between the reference ring and the zero-length SWG intercept, divided over the four strip-SWG converters of each ring (two SWG sections)'
+    why: 'p.6 Fig. 4 caption ''four SWG-strip converters'' and the Fig. 4(a) schematic (two SWG sections of 150 / 650 / 900 um per ring = 300 / 1300 / 1800 um total): four converters per ring, not two'
+  cmp_lit_jean2019_swg1_slow_light_dc40_w1000-m1:
+    basis: derived
+    notes: 'ng,swg = (tau c - ng,strip Lstrip) / Lswg (Eq. 2, p.4) from the OVA group delay, with simulated ng,strip (4.1803-4.1939) and Lswg 2.0 mm (model inputs stated); band-edges designed within the C-band (p.1); maximum limited by the finite tapers'
+    why: 'D80a: model-parameter extraction with stated assumptions is derived (precedent: merged chen2023 / jeong2013 ng rows derived); p.4 Sec. III-B Eq. 2 subtracts a simulated strip-waveguide delay'
+  cmp_lit_jean2019_swg1_slow_light_dc40_w1000-m4:
+    basis: derived
+    notes: 'printed as 4.10; ng from Eq. 2 (p.4: OVA group delay minus simulated strip delay, Lswg 2.0 mm)'
+    why: D80a, as m1
+  cmp_lit_jean2019_swg2_slow_light_dc50_w800-m1:
+    basis: derived
+    notes: 'ng,swg = (tau c - ng,strip Lstrip) / Lswg (Eq. 2, p.4) from the OVA group delay, with simulated ng,strip and Lswg 2.0 mm'
+    why: D80a, as swg1-m1
+  cmp_lit_jean2019_swg2_slow_light_dc50_w800-m2:
+    basis: derived
+    notes: 'stated as near the wavelength of 1550 nm (D393); ng from Eq. 2 (p.4: OVA group delay minus simulated strip delay, Lswg 2.0 mm)'
+    why: D80a, as swg1-m1
+  cmp_lit_luke2020_wafer_scale_rib_wg-m1:
+    locator: p.2 Sec. III; p.3 Sec. III; Fig. 3(c)
+    why: 'the 0.27 dB/cm average is stated on p.2 in Sec. III (Measurement, starts p.2) and again on p.3; Sec. II is Device Fabrication'
+  cmp_lit_luke2020_wafer_scale_rib_wg-m2:
+    locator: p.2 Sec. III; p.3-4 Sec. III; Fig. 3(c)
+    why: 'the 0.05 dB/cm standard deviation is first stated on p.2 (Sec. III) and restated across the p.3-4 page break'
+delete_metrics:
+- id: cmp_lit_lahijani2026_epcc_tapered_100nm-m4
+  why: 'registry gap_nm for crossing = vertical gap of a multilevel crossing (definition, D169 / D258); the 100 nm value is an in-plane electrical isolation trench cut through the suspended waveguide (p.2-3), not covered; value stays in the label; registry gap proposed in the audit record'
+- id: cmp_lit_lahijani2026_epcc_curvefit_100nm-m3
+  why: as tapered-m4 (in-plane isolation trench, p.14 Supp. Sec. 3; gap_nm definition does not cover it)
+- id: cmp_lit_lahijani2026_epcc_1550_gap100_design-m2
+  why: as tapered-m4 (isolation gap of the Fig. 4(a) design, p.5)
+- id: cmp_lit_lahijani2026_epcc_1550_gap60_design-m2
+  why: as tapered-m4 (isolation gap of the Fig. 4(b) design, p.5)
+- id: cmp_lit_lahijani2026_epcc_1550_gap20_design-m3
+  why: as tapered-m4 (isolation gap of the Fig. 4(c) design, p.5)
+add_metrics:
+- metric_id: cmp_lit_santini2017_coherent_rx_soa-m6
+  component_id: cmp_lit_santini2017_coherent_rx_soa
+  parameter: responsivity_a_per_w
+  value: '0.011'
+  unit: A/W
+  qualifier: gt
+  band: c_band
+  wavelength_inferred: 'true'
+  temperature_k: '293.15'
+  ref_plane: fiber
+  includes: hybrid, waveguides; ideal AR coating assumed
+  condition: per PD, LO input (no SOA on the LO path), with AR coating (not applied; corrected value)
+  basis: author_estimate
+  locator: p.5 Sec. 3
+  notes: 'printed as >0.011 A/W with an AR coating for the LO path (measured without AR: 0.008-0.01 A/W, m3); rests on an assumed AR coating; wavelength not stated, C-band receiver; 20 C test support (p.4)'
+  why: 'miss: p.5 states the AR-corrected LO-path responsivity next to the measured 0.008-0.01 A/W; the batch entered the AR-corrected signal-path values (m2) but not this one'
+- metric_id: cmp_lit_santini2017_coherent_rx_soa-m7
+  component_id: cmp_lit_santini2017_coherent_rx_soa
+  parameter: saturation_power_dbm
+  value: '-5.5'
+  unit: dBm
+  qualifier: gt
+  wavelength_nm: '1560'
+  temperature_k: '293.15'
+  condition: 3-dB saturation input power of the receiver responsivity, signal input, SOA 140 mA, ideal AR coating assumed (not applied)
+  basis: author_estimate
+  locator: p.5 Sec. 3; Fig. 5(b)
+  notes: 'printed in parentheses after ''above -4 dBm'' as -5.5 dBm assuming ideal AR coating; rests on an assumed AR coating; Fig. 5(b) legend lambda 1560 nm, I_SOA 140 mA, T 20 C'
+  why: 'miss: p.5 states the AR-corrected saturation input power beside the measured bound (m5); consistent with the entered AR-corrected responsivities (m2)'

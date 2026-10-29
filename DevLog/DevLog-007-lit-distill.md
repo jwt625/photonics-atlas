@@ -67,6 +67,39 @@ Progress, 2026-10-22 22:00.
 | lit_09 | phase_shifter, photodetector, waveguide_platform | baghdadi2021 cheung2023 dong2021 murray2015 seo2025 alexander2026 flory2020 nozaki2016 tossoun2019 ding2022 |
 | lit_10 | resonator, splitter, mode_converter | ashida2017 gao2021 jeong2013 radulaski2018 suk2025 wang2021 camus2020 nikbakht2022 zhang2013a yu2025 |
 | lit_11 | crossing, fiber_chip_coupler, fiber_interface, switch_fabric, waveguide_platform, wdm | ni2025a shen2019 zaoui2014 ma2026 nauriyal2023 seok2019 song2008 suzuki2025 huang2026 shamsansari2022 davis2020 deng2026a |
+| lit_12 | amplifier, frequency_converter, nonreciprocal | ledezma2022 liu2025 cheng2024 minami2023 rao2019 ghosh2012 ma2021 tian2021 |
+| lit_13 | amplifier, frequency_converter, nonreciprocal | cai2021 qiu2025 starnault2024 abe2025 umeki2010 vandekerckhove2025 wang2026b liu2023 pintus2019 |
+| lit_14 | amplifier, frequency_converter, nonreciprocal | beeck2021 davenport2016 matsumoto2018 otterstrom2019 guo2016 mutter2024 lapointe2025 pintus2017 white2022 |
+| lit_15 | laser, chip_chip_coupler, free_space_emitter | boust2020 gao2019 isichenko2023 notaros2019 fard2021 loi2019 lu2016 dostart2020 |
+| lit_16 | laser, chip_chip_coupler, micro_optics, free_space_emitter | yoshida2023 bernabe2012 mu2016 dietrich2018 ishii2003 wang2023c he2026 tyler2019 |
+| lit_17 | laser, chip_chip_coupler, micro_optics | chen2023 ibrahimi2021 liu2025b wang2026e zhang2023d juvert2018 mangal2019a psaila2024 uddin2023 |
+| lit_18 | laser, chip_chip_coupler, micro_optics | cheung2022 huang2019 lee2022 ramirez2022 tanaka2012 winkler2024 mitchell2026 mangal2018 morenopozas2025 |
+| lit_19 | phase_shifter, photodetector, waveguide_platform | abdulla2011 hu2023a lischke2021 santini2017 hung2020 jean2019 lahijani2026 luke2020 |
+| lit_20 | phase_shifter, photodetector, waveguide_platform | dong2010 maeder2022 wang2016 zhu2019 lemieuxleduc2025 maiti2020 reddy2020 liu2021a ono2016 |
+| lit_21 | phase_shifter, photodetector, waveguide_platform | fang2021 gebregiorgis2025 song2016 arabhavi2020 lischke2020 li2026a naraine2024 neutens2025 ou2021 |
+| lit_22 | phase_shifter, photodetector, waveguide_platform | chen2024a delaney2021 ros2022 yong2021 ozdemir2021 vivien2012 ma2018 morin2021 song2024a |
+| lit_23 | resonator, splitter, mode_converter | taddei2019 teng2009 zheng2026a kim2021 lin2026 singh2021 tian2018 frellsen2016 |
+| lit_24 | resonator, splitter, mode_converter | gentry2015 hosseinnia2026 liu2022a sinclair2020 zhu2024 gonzalezandrade2019 oka2023 wang2014 |
+| lit_25 | resonator, splitter, mode_converter, reflector | dirani2019 dumon2004 li2024a lucia2026 cabanillas2021 huang2018 zhou2021 baghban2017 |
+| lit_26 | resonator, splitter, reflector | chen2026a zhang2020 li2026 lin2019 xu2018 spencer2015 wang2017 |
+| lit_27 | crossing, fiber_chip_coupler, fiber_interface, polarization | zhang2025 atsumi2018 he2019 korcek2023 zhou2023 amirtharaj2025 kopp2023 aamer2012 gao2026 |
+| lit_28 | crossing, fiber_chip_coupler, fiber_interface, polarization | dumais2017 ni2025b lin2025 nauriyal2019 ong2018a rasel2026 gradkowski2023 zhang2022 bauters2013 chen2021 |
+| lit_29 | crossing, fiber_chip_coupler, fiber_interface, polarization | liu2025a weigel2023 croce2026 zhou2022a desmet2020 oh2023 tian2023 pruessner2024 shahwar2025 wang2022b |
+| lit_30 | wdm, switch_fabric | amorim2017 sabri2024 stanton2017 taha2021 zhang2019a konoike2020 seok2016 sharma2022 testa2018 |
+| lit_31 | wdm, switch_fabric | arafat2024 gebregiorgis2023 liu2020 pathak2014 dheer2018 gao2025a han2015 xia2026 yamaguchi2024 zali2026 |
+| lit_32 | wdm, switch_fabric | akiyama2022 bogaerts2007a brouckaert2007 hulyal2025 mikkelsen2018 sattari2020 sun2026a suzuki2021 ryf2002 yang2020 |
+| lit_33 | amplifier, frequency_converter, nonreciprocal | shimizu2023 ye2021 carpenter2020 stone2022 wang2026c ghosh2012a karki2019 sohn2018 |
+| lit_34 | laser, chip_chip_coupler, micro_optics, free_space_emitter | barwicz2017 theurer2020 xu2021 chen2025 sotirova2024 andreou2019 kumar2024 hassan2020 maier2022 |
+| lit_35 | laser, chip_chip_coupler, micro_optics, free_space_emitter | chowdhury2024 pfister2025 yulaev2024 fang2006 girardi2025 hakobyan2025 verdier2017 chang2022 |
+| lit_36 | phase_shifter, photodetector, waveguide_platform | jiang2020 de2020 hu2021a liao2011 lischke2021a desiatov2019 gallacher2018 wilmart2020 |
+| lit_37 | phase_shifter, photodetector, waveguide_platform | gelerkremer2022 zhang2019 ding2019 huang2014 li2026b sia2022 singaravelu2019 |
+| lit_38 | resonator, splitter, mode_converter | leonsaval2014 yang2014 ashida2018 takata2023 shang2017 |
+| lit_39 | resonator, splitter, mode_converter, reflector | dana2024 si2026 simard2015 ding2026 zhang2017a slaby2022 |
+| lit_40 | fiber_chip_coupler, fiber_interface, polarization | dangel2018 tiecke2015 hwang2017 margaria2025 miller2011 guerber2018 lin2022 |
+| lit_41 | fiber_chip_coupler, fiber_interface, polarization | benedikovic2015 ong2018 snyder2018 xie2016 cheng2023 keyvaninia2019 |
+| lit_42 | wdm, switch_fabric | cohen2024 ding2017 lu2016a eid2016 fan2025 morichetti2021 munk2019 pommarede2017 |
+| lit_43 | wdm, switch_fabric, polarization, laser | akiyama2021 ikeda2020 li2023 zheng2023 kwon2020 skandalos2026 |
+| lit_44 | resonator, splitter, waveguide_platform, phase_shifter | hinumwagner2025 liu2026 tebeneva2024 brun2014 shoaa2025 |
 
 Later retrieval days (DevLog-006 S7) add batches lit_07+ as papers are cached. Day 2 (2026-10-23): lit_07-lit_11 (52 papers).
 
@@ -78,7 +111,38 @@ Later retrieval days (DevLog-006 S7) add batches lit_07+ as papers are cached. D
 - [x] Registry extension (gaps from all six batch reports + audits), gap-fill per batch (`gapfill.yaml`), convention sweep over `data/components/` (D157 unit rescale, D162 fill_factor), template primary for crossings (D164).
 - [x] Org round 5: missing fab / facility orgs from the batch reports, then `coord2.yaml` fab assignments per batch (DevLog-001 round 5 entry, D277; applied and merged 23:15-23:17).
 - [x] Ext audit corrections (D256-D259) as `extaudit.yaml` and convention sweep 3 (D256) as `extaudit.yaml` / `sweep3.yaml`; replay order patch, sweep, gapfill, addendum, geometry, geoaudit, coord, sweep2, coord2, extaudit, sweep3, extaudit2 (lit_01, D259a).
-- [ ] Batches for papers cached on later retrieval days.
+- [x] Batches for papers cached on later retrieval days (through day 5).
+- [x] (2026-10-29) Audit lit_07-lit_11 (fresh context, `patch.yaml` each), rulings, apply, merge.
+- [x] (2026-10-29) Distill lit_12-lit_32 (184 papers of days 2-4), audit each, rulings, apply, merge.
+- [x] (2026-10-29) Day-5 papers (DevLog-006 S7) into batches lit_33-lit_44, distilled, audited, merged (final: 2170 components / 12107 metrics in data/components; staging == merged for lit_07-lit_44).
+- [ ] Registry extension for the gaps in the lit_07+ reports and audits (D81 rule), then gap-fill.
+- [x] views rebuild + validate_db / pytest / ruff / mypy, changed-file scan (03:40). - [ ] commit (owner).
+
+## Session 2026-10-29 (Wentao: "run a new batch of caching; check cached papers that have not been ingested, and start parsing and ingesting them following the skills")
+
+| # | Decision | Rationale |
+|---|---|---|
+| D390 | 184 cached `lit` papers without a batch (days 2-4) split into lit_12-lit_32 (7-10 papers, grouped by `primary_class` family as lit_07-lit_11, balanced by page count, 64-94 pages per batch) | D150 |
+| D391 | Pipeline per batch: distill subagent -> fresh-context audit subagent (`DevLog/audits/2026-10-29-<batch>-audit.md` + `patch.yaml`, validated on a scratchpad copy) -> coordinator rulings -> `patch_component_staging.py` -> `merge_component_staging.py`; merges are serialized by the coordinator, backup zip of `data/components/` before the first merge. At most 10 subagents at once; lit_07-lit_11 audits go first | D150, DevLog-002 D50 |
+| D393 | (lit_11 audit Q1) A wavelength stated approximately ("around 1330 nm", "near 1550 nm") is a stated wavelength: `wavelength_inferred` empty (skill rule 8 covers only unstated wavelengths); merged rows that set it for such statements are a follow-up sweep | lit_11 audit |
+| D394 | (lit_07 audit Q3) A propagation loss from Fabry-Perot fringe contrast with the bulk Fresnel facet reflectance as the model input is `measured` (standard fit of own data, D80a), the reflectance stated in notes; suntsov2021 m1 / m2 patch ops edited from derived. De-embedded on-chip output power (fiber power minus own measured coupling loss) is `derived` (D166 analogue; merged garciablanco2025 m3 = follow-up sweep) | lit_07 audit |
+| D395 | (lit_07 audit Q2) "fabricated the devices with assistance from <co-authors>" names the fabricating author's org only; the assisting co-authors' orgs are not fab orgs (white2024: Stanford only, `lit_07/coord.yaml`) | rule 12, D80b |
+| D396 | (lit_10 Q3, lit_14 Q2) One physical device characterized in functions of different classes (a disk as resonator, SHG converter and Raman laser; an SOA also measured as a laser before AR coating; a racetrack as amplifier, isolator and passive resonator) is one component row per class, each with its own metrics and a cross-note; skill rule 9 (one row per design) applies within a class | class-specific parameters; wang2021, davenport2016, otterstrom2019 |
+| D397 | (lit_18 distill) The cached lee2022 file is another paper (ni2024, OE 32(20) 35743): day-4 Optica session 12 took the PDF link from the previous article left in the tab (the same stale `viewmedia` URI gave li2023 / sysak2008 `no_access`). Fix (final, 02:45): `fetch_optica` rejects a landing or PDF-link article `uri` already seen for another paper in the run (`is_stale_uri`; the day-5 re-run showed a link from two papers back: kumar2025's oe-33-23-48160 offered for radosavljevic2017, `no_access`), and every browser fetch checks that pages 1-2 of the PDF carry >= 60 % of the title words before saving (`pdf_title_match`, else `wrong_pdf`; unreadable text layer = not judged); tests added. Two earlier versions: a DOI-on-landing check gave false `resolve_failed` (the Optica full-text view prints no DOI; session 15 stopped after 2 rows and re-run), a previous-paper-only uri check missed the two-back case; `references/lee2022` moved to `cache/literature/quarantine/`, row `lit:lee2022` removed from `sources.csv`; lee2022 / li2023 / sysak2008 re-fetched with `--paper-ids`. A page-1 title check over all 300 cached texts found no other mismatch (lapointe2025 = preprint title) | never ingest a wrong paper |
+| D398 | (lit_19 audit Q1) An MPW access provider acknowledged for "chip fabrication support" next to the foundry's MPW run is a fab org (D83d, CMC precedent), not a facility: hung2020 fab = TSMC + TSRI (`lit_19/coord.yaml`) | D83d |
+| D399 | (lit_18 audit Q1) "applied flip-chip bonding to build the interface" with all authors at one company is a statement that the authors built the assembly: fab = that company on the assembled rows only (tanaka2012 interface + hybrid laser: org_fujitsu, `lit_18/coord.yaml`; gao2019 precedent), not on chip parts whose fabrication is not stated; a "we fabricated" sentence about an earlier report is not used | rule 12, D80b |
+| D400 | (lit_18 audit Q2) A ring inside a laser cavity (mode-selection filter or ring mirror) is `resonator.ring`; `wdm.mrr` stays for rings used as channel filters in a WDM path (skill rule 10; precedent keyvaninia2013, OFC Th2A.10). Follow-up: gao2019 intracavity ring (lit_15, wdm.mrr) reclass in a cross-batch coord patch | consistency |
+| D401 | (lit_23 / lit_24 audits) A per-port "3 +/- x dB" transmission of a 1x2 / 2x2 splitter is a split deviation: not `imbalance_db` (port ratio) and not a component insertion loss; kept out with the value in notes until a `split_deviation_db` parameter exists (kim2021, singh2021, xu2018, gonzalezandrade2019: 3 rows deleted in `lit_24/coord.yaml`) | one rule for both batches |
+| D402 | (lit_25 audit Q3) Layer thicknesses of a purchased wafer (commercial SOI / LNOI) are `design_target` like foundry stacks (D161 extended; 721 merged thickness rows design_target incl. NanoLN LNOI); the 18 merged thickness rows with `specification` are a follow-up sweep | consistency |
+| D403 | (lit_25 audit Q1) `q_intrinsic` computed from loaded Q and extinction with an assumed coupling regime (stated or not) is `author_estimate` (skill rule 4); `derived` only when the regime is determined from the data. Merged derived rows (gao2021, wang2021, li2026a, zhang2023a) are a follow-up check | skill rule 4 |
+| D404 | (lit_27 audit Q3, Q4) A pure polarization rotator is `polarization.psr` (the subtype is the rotator family; pintus2019 precedent; aamer2012 reclassed in `lit_27/coord.yaml`). A company's own cleanroom used by outside authors is not a shared facility (gao2026 ANPI removed) | registry subtype definition; rule 12 |
+| D405 | The 72 day-5 papers (lit corpus 299 -> 371) go to lit_33-lit_42 (5-9 papers, same grouping, at most 10 per batch); page-1 title check: all match (barwicz2017 has a font-garbled text layer, flagged in source.json: values from page renders only) | D390 |
+| D407 | (lit_30 audit Q2) A ring (or double-ring) switch element inside a switch matrix, each port carrying one demultiplexed channel, is `switch_fabric.other` (D158 analogue); its spectral values wait in notes for a switch_fabric registry extension (testa2018, 4 rows) | function of the element |
+| D408 | (lit_32 audit Q2) A journal extension of the authors' own conference paper keeps its values; D259 / D259a apply only where the value sentence or figure attributes the value to the earlier paper (suzuki2021, yang2020) | D259 scope |
+| D409 | (lit_37 distill) The cached gelerkremer2022 (day 5, repository copy) is only the 1-page Author Correction: moved to `cache/literature/quarantine/`, row `lit:gelerkremer2022` removed, manual copy needed. No other cached text is 1 page or a correction / erratum. The page-1 title check does not catch this case (a correction repeats the title) | never ingest a wrong document |
+| D410 | (header stream, DevLog-011) see DevLog-011 | |
+| D411 | (lit_44 distill) Scope: integrated / chip-scale photonic components and fiber-coupled passive parts; a discrete bulk (mm-scale polished crystalline) resonator is out of scope (D233 analogue), its rows are deleted in the audit patch with the reason (tebeneva2024, if the text confirms bulk) | atlas scope |
+| D392 | Distill subagents write their report to `<batch>/BATCH_REPORT.md` themselves (the contract's "do not write report files" is lifted for this session, to keep the coordinator context small); audits write the audit record and patch themselves | coordinator context |
 
 ## Progress
 
@@ -163,3 +227,20 @@ Later retrieval days (DevLog-006 S7) add batches lit_07+ as papers are cached. D
   (`lit` corpus 219). Not distilled, not batched; they follow lit_07-lit_11 in the audit queue.
 - 2026-10-27 20:37 PDT: day-4 retrieval added 81 more (`lit` corpus 300). Not distilled, not batched. Backlog before
   them: lit_07-lit_11 (241 components / 1476 metrics) unaudited, plus 184 day-3 / day-4 papers without batches.
+- 2026-10-29 01:28-03:20 PDT (session D390-D411; coordinator log of every ruling: the audit records
+  `DevLog/audits/2026-10-29-lit_NN-audit.md` and the batch `coord.yaml` files). Backup before the first merge:
+  `cache/backup/components_before_lit07-32_merge_20261029T082722Z.zip`. Fresh audits of lit_07-lit_11 (distilled
+  2026-10-23) and of every new batch lit_12-lit_41; each patch validated on a scratchpad copy (re-run 0 changes,
+  dry-run 0 errors), applied and merged in order; coordinator rulings as `coord.yaml` in lit_07 (D395), lit_18 (D399),
+  lit_19 (D398), lit_24 (D401), lit_27 (D404), lit_28 (D402), lit_37 (D159). Audit totals over lit_07-lit_41: 0-4 wrong
+  rows per batch (mostly D159 / D259a / parameter-definition mismatches, all deleted with notes), misses added in
+  every batch (mostly D153 geometry). Wrong-document finds: lee2022 (D397), gelerkremer2022 (D409). Privacy: one audit
+  removed an Intel building / city from kumar2024 notes; scan of data/components, staging, header YAMLs, audits and
+  DevLogs for e-mail / street / postal / building patterns clean apart from the D410 postal-box case (fixed).
+  Follow-ups collected for the next passes: org round (about 60 missing fab / facility orgs and aliases listed in the
+  audit records: e.g. C2N platform, Myfab Chalmers, WNF / MAF, AEPONYX, VTT, Europractice, Quandela, SiEPICfab,
+  Vistec, TIA SCR AIST, University of Zilina, LioniX BV, HKUST NFF), registry extension (gaps in every audit record),
+  convention sweeps (D393 approximate wavelengths, D394 / D166 de-embedded powers, D402 purchased-wafer thickness
+  basis, D403 q_intrinsic basis, D256 fraction -> % split ratios, wang2014 polarizer extinction -> per_db, gao2019
+  intracavity ring -> resonator.ring per D400, OFC W2A.10 platform), EO-atlas candidates (starnault2026, desiatov2019,
+  wilmart2020, li2026b, sia2022, lin2022, li2023, kwon2020, gao2026), metadata fix snyder2018 venue.

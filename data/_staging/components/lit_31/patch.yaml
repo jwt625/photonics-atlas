@@ -1,0 +1,324 @@
+# Audit patch lit_31 (fresh-context audit 2026-10-29, DevLog/audits/2026-10-29-lit_31-audit.md).
+# 36 metric corrections (imprecise; no wrong rows) + 13 missed metric rows. No component changes.
+metrics:
+  cmp_lit_pathak2014_awg_4x200_grid5nm-m4:
+    basis: author_estimate
+    notes: Table I FSR column; one value shared by the 1 nm and 5 nm grid devices; origin (measured or design) not stated
+    why: 'p.4 Table I prints one FSR per configuration for both grid versions (all measured columns IL / XT / CXT are per grid) and the text never says whether the FSR is measured or designed: origin not
+      stated -> author_estimate (skill rule 4)'
+  cmp_lit_pathak2014_awg_4x200_grid1nm-m4:
+    basis: author_estimate
+    notes: Table I FSR column; one value shared by the 1 nm and 5 nm grid devices; origin (measured or design) not stated
+    why: 'p.4 Table I prints one FSR per configuration for both grid versions (all measured columns IL / XT / CXT are per grid) and the text never says whether the FSR is measured or designed: origin not
+      stated -> author_estimate (skill rule 4)'
+  cmp_lit_pathak2014_awg_4x400_grid5nm-m4:
+    basis: author_estimate
+    notes: Table I FSR column; one value shared by the 1 nm and 5 nm grid devices; origin (measured or design) not stated
+    why: 'p.4 Table I prints one FSR per configuration for both grid versions (all measured columns IL / XT / CXT are per grid) and the text never says whether the FSR is measured or designed: origin not
+      stated -> author_estimate (skill rule 4)'
+  cmp_lit_pathak2014_awg_4x400_grid1nm-m4:
+    basis: author_estimate
+    notes: Table I FSR column; one value shared by the 1 nm and 5 nm grid devices; origin (measured or design) not stated
+    why: 'p.4 Table I prints one FSR per configuration for both grid versions (all measured columns IL / XT / CXT are per grid) and the text never says whether the FSR is measured or designed: origin not
+      stated -> author_estimate (skill rule 4)'
+  cmp_lit_pathak2014_awg_8x200_grid5nm-m4:
+    basis: author_estimate
+    notes: Table I FSR column; one value shared by the 1 nm and 5 nm grid devices; origin (measured or design) not stated
+    why: 'p.4 Table I prints one FSR per configuration for both grid versions (all measured columns IL / XT / CXT are per grid) and the text never says whether the FSR is measured or designed: origin not
+      stated -> author_estimate (skill rule 4)'
+  cmp_lit_pathak2014_awg_8x200_grid1nm-m4:
+    basis: author_estimate
+    notes: Table I FSR column; one value shared by the 1 nm and 5 nm grid devices; origin (measured or design) not stated
+    why: 'p.4 Table I prints one FSR per configuration for both grid versions (all measured columns IL / XT / CXT are per grid) and the text never says whether the FSR is measured or designed: origin not
+      stated -> author_estimate (skill rule 4)'
+  cmp_lit_pathak2014_awg_8x400_grid5nm-m4:
+    basis: author_estimate
+    notes: Table I FSR column; one value shared by the 1 nm and 5 nm grid devices; origin (measured or design) not stated
+    why: 'p.4 Table I prints one FSR per configuration for both grid versions (all measured columns IL / XT / CXT are per grid) and the text never says whether the FSR is measured or designed: origin not
+      stated -> author_estimate (skill rule 4)'
+  cmp_lit_pathak2014_awg_8x400_grid1nm-m4:
+    basis: author_estimate
+    notes: Table I FSR column; one value shared by the 1 nm and 5 nm grid devices; origin (measured or design) not stated
+    why: 'p.4 Table I prints one FSR per configuration for both grid versions (all measured columns IL / XT / CXT are per grid) and the text never says whether the FSR is measured or designed: origin not
+      stated -> author_estimate (skill rule 4)'
+  cmp_lit_pathak2014_awg_16x200_grid5nm-m4:
+    basis: author_estimate
+    notes: Table I FSR column; one value shared by the 1 nm and 5 nm grid devices; origin (measured or design) not stated
+    why: 'p.4 Table I prints one FSR per configuration for both grid versions (all measured columns IL / XT / CXT are per grid) and the text never says whether the FSR is measured or designed: origin not
+      stated -> author_estimate (skill rule 4)'
+  cmp_lit_pathak2014_awg_16x200_grid1nm-m4:
+    basis: author_estimate
+    notes: Table I FSR column; one value shared by the 1 nm and 5 nm grid devices; origin (measured or design) not stated
+    why: 'p.4 Table I prints one FSR per configuration for both grid versions (all measured columns IL / XT / CXT are per grid) and the text never says whether the FSR is measured or designed: origin not
+      stated -> author_estimate (skill rule 4)'
+  cmp_lit_pathak2014_awg_16x400_grid5nm-m4:
+    basis: author_estimate
+    notes: Table I FSR column; one value shared by the 1 nm and 5 nm grid devices; origin (measured or design) not stated
+    why: 'p.4 Table I prints one FSR per configuration for both grid versions (all measured columns IL / XT / CXT are per grid) and the text never says whether the FSR is measured or designed: origin not
+      stated -> author_estimate (skill rule 4)'
+  cmp_lit_pathak2014_awg_16x400_grid1nm-m4:
+    basis: author_estimate
+    notes: Table I FSR column; one value shared by the 1 nm and 5 nm grid devices; origin (measured or design) not stated
+    why: 'p.4 Table I prints one FSR per configuration for both grid versions (all measured columns IL / XT / CXT are per grid) and the text never says whether the FSR is measured or designed: origin not
+      stated -> author_estimate (skill rule 4)'
+  cmp_lit_pathak2014_awg_4x200_grid5nm-m1:
+    notes: 'printed -1.9 -> -2.3 dB; operating wavelength not stated (16-channel spectra: about 1.55-1.58 um for 16 x 200 GHz, Fig. 6; about 1.51-1.57 um for 16 x 400 GHz, Fig. 7)'
+    why: note said both 16-channel devices span 1.51-1.57 um; Fig. 6 (16 x 200 GHz, p.3) spans about 1.55-1.58 um
+  cmp_lit_pathak2014_awg_4x200_grid1nm-m1:
+    notes: 'printed -1.7 -> -2.6 dB; operating wavelength not stated (16-channel spectra: about 1.55-1.58 um for 16 x 200 GHz, Fig. 6; about 1.51-1.57 um for 16 x 400 GHz, Fig. 7)'
+    why: note said both 16-channel devices span 1.51-1.57 um; Fig. 6 (16 x 200 GHz, p.3) spans about 1.55-1.58 um
+  cmp_lit_pathak2014_awg_4x400_grid5nm-m1:
+    notes: 'printed -2.2 -> -2.5 dB; operating wavelength not stated (16-channel spectra: about 1.55-1.58 um for 16 x 200 GHz, Fig. 6; about 1.51-1.57 um for 16 x 400 GHz, Fig. 7)'
+    why: note said both 16-channel devices span 1.51-1.57 um; Fig. 6 (16 x 200 GHz, p.3) spans about 1.55-1.58 um
+  cmp_lit_pathak2014_awg_4x400_grid1nm-m1:
+    notes: 'printed -1.8 -> -2.2 dB; operating wavelength not stated (16-channel spectra: about 1.55-1.58 um for 16 x 200 GHz, Fig. 6; about 1.51-1.57 um for 16 x 400 GHz, Fig. 7)'
+    why: note said both 16-channel devices span 1.51-1.57 um; Fig. 6 (16 x 200 GHz, p.3) spans about 1.55-1.58 um
+  cmp_lit_pathak2014_awg_8x200_grid5nm-m1:
+    notes: 'printed -1.5 -> -2.7 dB; operating wavelength not stated (16-channel spectra: about 1.55-1.58 um for 16 x 200 GHz, Fig. 6; about 1.51-1.57 um for 16 x 400 GHz, Fig. 7)'
+    why: note said both 16-channel devices span 1.51-1.57 um; Fig. 6 (16 x 200 GHz, p.3) spans about 1.55-1.58 um
+  cmp_lit_pathak2014_awg_8x200_grid1nm-m1:
+    notes: 'printed -1.9 -> -3.1 dB; operating wavelength not stated (16-channel spectra: about 1.55-1.58 um for 16 x 200 GHz, Fig. 6; about 1.51-1.57 um for 16 x 400 GHz, Fig. 7)'
+    why: note said both 16-channel devices span 1.51-1.57 um; Fig. 6 (16 x 200 GHz, p.3) spans about 1.55-1.58 um
+  cmp_lit_pathak2014_awg_8x400_grid5nm-m1:
+    notes: 'printed -2.3 -> -3.7 dB; operating wavelength not stated (16-channel spectra: about 1.55-1.58 um for 16 x 200 GHz, Fig. 6; about 1.51-1.57 um for 16 x 400 GHz, Fig. 7)'
+    why: note said both 16-channel devices span 1.51-1.57 um; Fig. 6 (16 x 200 GHz, p.3) spans about 1.55-1.58 um
+  cmp_lit_pathak2014_awg_8x400_grid1nm-m1:
+    notes: 'printed -1.3 -> -2.7 dB; operating wavelength not stated (16-channel spectra: about 1.55-1.58 um for 16 x 200 GHz, Fig. 6; about 1.51-1.57 um for 16 x 400 GHz, Fig. 7)'
+    why: note said both 16-channel devices span 1.51-1.57 um; Fig. 6 (16 x 200 GHz, p.3) spans about 1.55-1.58 um
+  cmp_lit_pathak2014_awg_16x200_grid5nm-m1:
+    wavelength_nm: '1550'
+    wavelength_max_nm: '1580'
+    notes: printed -1.6 -> -3.6 dB; wavelength not stated with the value, inferred from the Fig. 6 plot range (about 1.55-1.58 um, 16 x 200 GHz spectra)
+    why: p.3 Fig. 6 (16 x 200 GHz spectra) spans about 1.55-1.58 um (render checked), not 1.51-1.57 um (that is Fig. 7, 16 x 400 GHz)
+  cmp_lit_pathak2014_awg_16x200_grid1nm-m1:
+    wavelength_nm: '1550'
+    wavelength_max_nm: '1580'
+    notes: printed -2.0 -> -3.7 dB; wavelength not stated with the value, inferred from the Fig. 6 plot range (about 1.55-1.58 um, 16 x 200 GHz spectra)
+    why: p.3 Fig. 6 (16 x 200 GHz spectra) spans about 1.55-1.58 um (render checked), not 1.51-1.57 um (that is Fig. 7, 16 x 400 GHz)
+  cmp_lit_pathak2014_awg_16x400_grid5nm-m1:
+    notes: printed -1.5 -> -3.5 dB; wavelength not stated with the value, inferred from the Fig. 7 plot range (about 1.51-1.57 um, 16 x 400 GHz spectra)
+    why: note cited Fig. 6 / 7; the 16 x 400 GHz spectra are Fig. 7 only (p.4, axis about 1.51-1.57 um); value and range unchanged
+  cmp_lit_pathak2014_awg_16x400_grid1nm-m1:
+    notes: printed -1.5 -> -3.5 dB; wavelength not stated with the value, inferred from the Fig. 7 plot range (about 1.51-1.57 um, 16 x 400 GHz spectra)
+    why: note cited Fig. 6 / 7; the 16 x 400 GHz spectra are Fig. 7 only (p.4, axis about 1.51-1.57 um); value and range unchanged
+  cmp_lit_liu2020_tin_heater_array-m2:
+    basis: simulated
+    notes: designed resistance calculated from the Fig. 3(b) equivalent circuit (R1 6646, R2 7334, R3 / R4 70 ohm); measured ~4400 ohm in m1
+    why: 'p.4 Sec. 2: the heater resistance ''is calculated to be'' 3630 ohm from the Fig. 3(b) equivalent circuit (Table 1 ''designed resistance''): a calculated design performance value is simulated (D82a)'
+  cmp_lit_dheer2018_dilated_se-m3:
+    basis: measured
+    notes: Table I loss per unit at 1550 nm; the text states all Table I losses are obtained from test structures (p.3), the cross-state SE structure itself is not described
+    why: 'p.3 Sec. IV: ''The reported losses are obtained from test structures'' (Table I, p.4); the 0.6 dB cross-state SE loss is a Table I loss per unit, so its origin is stated (test structures): measured,
+      not author_estimate'
+  cmp_lit_gao2025a_adc_3db-m1:
+    basis: derived
+    notes: wavelength span of the extraction not stated with the value (Table 1 deviations use 1520-1580 nm). printed as fractions 0.45:0.55 to 0.52:0.48; first term converted to %
+    why: 'p.7 Sec. 3 prints the splitting ratio only as fractions (0.45:0.55 to 0.52:0.48); stored in % = unit conversion, and the paper never prints the % form: derived (D82d / D256)'
+  cmp_lit_gao2025a_adc_3db-m2:
+    basis: derived
+    notes: printed as fractions 0.44:0.56 to 0.56:0.44; first term converted to %
+    why: 'p.7 Sec. 3 prints the splitting ratio only as fractions (0.44:0.56 to 0.56:0.44); stored in % = unit conversion, and the paper never prints the % form: derived (D82d / D256)'
+  cmp_lit_gao2025a_adc_3db_dw_m20-m1:
+    basis: derived
+    notes: printed as fractions 0.44:0.56 to 0.51:0.49; first term converted to %
+    why: 'p.8 Table 1 prints the splitting ratio only as fractions (0.44:0.56 to 0.51:0.49); stored in % = unit conversion, and the paper never prints the % form: derived (D82d / D256)'
+  cmp_lit_gao2025a_adc_3db_dw_m20-m2:
+    basis: derived
+    notes: printed as fractions 0.42:0.58 to 0.56:0.44; first term converted to %
+    why: 'p.8 Table 1 prints the splitting ratio only as fractions (0.42:0.58 to 0.56:0.44); stored in % = unit conversion, and the paper never prints the % form: derived (D82d / D256)'
+  cmp_lit_gao2025a_adc_3db_dw_p20-m1:
+    basis: derived
+    notes: printed as fractions 0.47:0.53 to 0.50:0.50; first term converted to %
+    why: 'p.8 Table 1 prints the splitting ratio only as fractions (0.47:0.53 to 0.50:0.50); stored in % = unit conversion, and the paper never prints the % form: derived (D82d / D256)'
+  cmp_lit_gao2025a_adc_3db_dw_p20-m2:
+    basis: derived
+    notes: printed as fractions 0.43:0.57 to 0.54:0.46; first term converted to %
+    why: 'p.8 Table 1 prints the splitting ratio only as fractions (0.43:0.57 to 0.54:0.46); stored in % = unit conversion, and the paper never prints the % form: derived (D82d / D256)'
+  cmp_lit_gao2025a_adc_3db_dg_m20-m1:
+    basis: derived
+    notes: printed as fractions 0.46:0.54 to 0.47:0.53; first term converted to %
+    why: 'p.8 Table 1 prints the splitting ratio only as fractions (0.46:0.54 to 0.47:0.53); stored in % = unit conversion, and the paper never prints the % form: derived (D82d / D256)'
+  cmp_lit_gao2025a_adc_3db_dg_m20-m2:
+    basis: derived
+    notes: printed as fractions 0.45:0.55 to 0.54:0.46; first term converted to %
+    why: 'p.8 Table 1 prints the splitting ratio only as fractions (0.45:0.55 to 0.54:0.46); stored in % = unit conversion, and the paper never prints the % form: derived (D82d / D256)'
+  cmp_lit_gao2025a_adc_3db_dg_p20-m1:
+    basis: derived
+    notes: printed as fractions 0.47:0.53 to 0.52:0.48; first term converted to %
+    why: 'p.8 Table 1 prints the splitting ratio only as fractions (0.47:0.53 to 0.52:0.48); stored in % = unit conversion, and the paper never prints the % form: derived (D82d / D256)'
+  cmp_lit_gao2025a_adc_3db_dg_p20-m2:
+    basis: derived
+    notes: printed as fractions 0.43:0.57 to 0.55:0.45; first term converted to %
+    why: 'p.8 Table 1 prints the splitting ratio only as fractions (0.43:0.57 to 0.55:0.45); stored in % = unit conversion, and the paper never prints the % form: derived (D82d / D256)'
+add_metrics:
+- metric_id: cmp_lit_pathak2014_awg_16x400_grid5nm-m13
+  component_id: cmp_lit_pathak2014_awg_16x400_grid5nm
+  parameter: crosstalk_db
+  value: '37'
+  unit: dB
+  condition: simulated crosstalk floor below the peak of channel 8; semi-analytical AWG model (IPKISS) with grid-snapping phase errors only (no sidewall-roughness errors, bend discretization not included)
+  basis: simulated
+  locator: p.3 Sec. IV, Fig. 5
+  notes: 'Fig. 5 arrow label 37 dB (49 dB for the 1 nm grid); text: crosstalk improved by 12 dB from 5 to 1 nm grid'
+  why: 'miss: simulated crosstalk floor printed as a Fig. 5 label for this grid version (render p.3 checked); simulated values allowed on fabricated rows (D80e)'
+- metric_id: cmp_lit_pathak2014_awg_16x400_grid1nm-m13
+  component_id: cmp_lit_pathak2014_awg_16x400_grid1nm
+  parameter: crosstalk_db
+  value: '49'
+  unit: dB
+  condition: simulated crosstalk floor below the peak of channel 8; semi-analytical AWG model (IPKISS) with grid-snapping phase errors only (no sidewall-roughness errors, bend discretization not included)
+  basis: simulated
+  locator: p.3 Sec. IV, Fig. 5
+  notes: 'Fig. 5 arrow label 49 dB (37 dB for the 5 nm grid); text: crosstalk improved by 12 dB from 5 to 1 nm grid'
+  why: 'miss: simulated crosstalk floor printed as a Fig. 5 label for this grid version (render p.3 checked); simulated values allowed on fabricated rows (D80e)'
+- metric_id: cmp_lit_han2015_switch_unit_cell-m12
+  component_id: cmp_lit_han2015_switch_unit_cell
+  parameter: footprint_um2
+  value: '25600'
+  unit: um2
+  basis: derived
+  locator: p.4 Sec. 3.A
+  notes: printed unit cell size 160 um x 160 um, multiplied
+  why: 'miss: unit cell size stated (D153 layout geometry)'
+- metric_id: cmp_lit_han2015_mmi_crossing-m10
+  component_id: cmp_lit_han2015_mmi_crossing
+  parameter: box_thickness_um
+  value: '3'
+  unit: um
+  basis: design_target
+  locator: p.3 Sec. 3.A
+  notes: 3 um BOX of the 150 mm SOI wafers (D161 / D402)
+  why: 'miss: BOX thickness of the crossing stack stated (D153); the crossings are anchored (only DCs and actuators are released)'
+- metric_id: cmp_lit_xia2026_mcs_path_soa-m12
+  component_id: cmp_lit_xia2026_mcs_path_soa
+  parameter: gain_db
+  value: '0'
+  unit: dB
+  wavelength_nm: '1550'
+  temperature_k: '293.15'
+  ref_plane: fiber
+  condition: net fiber-to-fiber gain, port 1, booster / gate 120 / 120 mA, CW 1550 nm, -15 dBm input (Fig. 3(b) operating point)
+  basis: measured
+  locator: p.4 Sec. 2.2, Fig. 3(b)
+  notes: stated with the Fig. 3(b) switching measurement; together with an OSNR decrease of 4.6 dB (no registry parameter)
+  why: 'miss: net fiber-to-fiber gain stated for the CW 120 / 120 mA operating point (m2 holds port 1 at 100 / 100 mA with the ZR signal)'
+- metric_id: cmp_lit_zali2026_switch_path_soa-m11
+  component_id: cmp_lit_zali2026_switch_path_soa
+  parameter: gain_db
+  value: '16'
+  unit: dB
+  value_max: '25'
+  statistic: range
+  band: c_band
+  wavelength_inferred: 'true'
+  temperature_k: '293.15'
+  ref_plane: chip
+  basis: author_estimate
+  condition: path 1I-5O, gate current 40 -> 100 mA, booster 100 mA, +7 dBm input
+  locator: p.8 Sec. 4.3, Fig. 6(a)
+  notes: path gain from fiber powers plus total passive and coupling losses (losses measured directly or taken from literature, supplement not cached); wavelength not stated; C-band device
+  why: 'miss: path gain stated at another operating point (operating points are metric conditions, skill rule 9); basis as the batch rows (rule 4)'
+- metric_id: cmp_lit_zali2026_switch_path_soa-m12
+  component_id: cmp_lit_zali2026_switch_path_soa
+  parameter: gain_db
+  value: '25.8'
+  unit: dB
+  value_max: '27'
+  statistic: range
+  band: c_band
+  wavelength_inferred: 'true'
+  temperature_k: '293.15'
+  ref_plane: chip
+  basis: author_estimate
+  condition: path 1I-5O, booster current 40 -> 100 mA, gate 80 mA, +3 dBm input
+  locator: p.8 Sec. 4.3, Fig. 6(c)
+  notes: path gain from fiber powers plus total passive and coupling losses (losses measured directly or taken from literature, supplement not cached); wavelength not stated; C-band device
+  why: 'miss: path gain stated at another operating point (operating points are metric conditions, skill rule 9); basis as the batch rows (rule 4)'
+- metric_id: cmp_lit_zali2026_switch_path_soa-m13
+  component_id: cmp_lit_zali2026_switch_path_soa
+  parameter: gain_db
+  value: '22.8'
+  unit: dB
+  value_max: '23.8'
+  statistic: range
+  band: c_band
+  wavelength_inferred: 'true'
+  temperature_k: '293.15'
+  ref_plane: chip
+  basis: author_estimate
+  condition: path 1I-5O, booster current 40 -> 100 mA, gate 80 mA, +7 dBm input
+  locator: p.8 Sec. 4.3, Fig. 6(c)
+  notes: path gain from fiber powers plus total passive and coupling losses (losses measured directly or taken from literature, supplement not cached); wavelength not stated; C-band device
+  why: 'miss: path gain stated at another operating point (operating points are metric conditions, skill rule 9); basis as the batch rows (rule 4)'
+- metric_id: cmp_lit_zali2026_switch_path_soa-m14
+  component_id: cmp_lit_zali2026_switch_path_soa
+  parameter: gain_db
+  value: '17'
+  unit: dB
+  value_max: '27'
+  statistic: range
+  band: c_band
+  wavelength_inferred: 'true'
+  polarization: te
+  temperature_k: '293.15'
+  ref_plane: chip
+  basis: author_estimate
+  condition: path 8I-3O, TE, gate current 40 -> 100 mA, booster 100 mA, +4.6 dBm input
+  locator: p.9 Sec. 4.3, Fig. 7(a)
+  notes: path gain from fiber powers plus total passive and coupling losses (losses measured directly or taken from literature, supplement not cached); wavelength not stated; C-band device
+  why: 'miss: path gain stated at another operating point (operating points are metric conditions, skill rule 9); basis as the batch rows (rule 4)'
+- metric_id: cmp_lit_zali2026_switch_path_soa-m15
+  component_id: cmp_lit_zali2026_switch_path_soa
+  parameter: gain_db
+  value: '22'
+  unit: dB
+  value_max: '26'
+  statistic: range
+  band: c_band
+  wavelength_inferred: 'true'
+  temperature_k: '293.15'
+  ref_plane: chip
+  basis: author_estimate
+  condition: path 8I-3O, booster current 40 -> 100 mA (gate current and input power not stated with the value; Fig. 7(c) uses +4.6 / +8.6 dBm)
+  locator: p.9 Sec. 4.3, Fig. 7(c)
+  notes: path gain from fiber powers plus total passive and coupling losses (losses measured directly or taken from literature, supplement not cached); wavelength not stated; C-band device
+  why: 'miss: path gain stated at another operating point (operating points are metric conditions, skill rule 9); basis as the batch rows (rule 4)'
+- metric_id: cmp_lit_zali2026_switch_path_soa-m16
+  component_id: cmp_lit_zali2026_switch_path_soa
+  parameter: gain_db
+  value: '22'
+  unit: dB
+  qualifier: approx
+  wavelength_nm: '1570'
+  temperature_k: '293.15'
+  ref_plane: chip
+  basis: author_estimate
+  condition: path 8I-3O, booster 80 mA, +8.6 dBm input, at the 1570 nm gain peak
+  locator: p.7 Sec. 4.2, Fig. 5(e)
+  notes: path gain from fiber powers plus total passive and coupling losses (losses measured directly or taken from literature, supplement not cached); printed 'about 22 dB'; companion of m2 (25 dB at +4.6
+    dBm)
+  why: 'miss: path gain stated at another operating point (operating points are metric conditions, skill rule 9); basis as the batch rows (rule 4)'
+- metric_id: cmp_lit_zali2026_switch_path_soa-m17
+  component_id: cmp_lit_zali2026_switch_path_soa
+  parameter: gain_db
+  value: '20'
+  unit: dB
+  band: c_band
+  wavelength_inferred: 'true'
+  temperature_k: '293.15'
+  ref_plane: chip
+  basis: author_estimate
+  condition: path 3I-2O (350 um booster, 500 um gate), 80 mA, +8.6 dBm input, peak gain
+  locator: p.7 Sec. 4.2, Fig. 4(a)
+  notes: path gain from fiber powers plus total passive and coupling losses (losses measured directly or taken from literature, supplement not cached); peak wavelength for this input power not stated; C-band
+    device
+  why: 'miss: path gain stated at another operating point (operating points are metric conditions, skill rule 9); basis as the batch rows (rule 4)'
+- metric_id: cmp_lit_zali2026_wg_crossing-m2
+  component_id: cmp_lit_zali2026_wg_crossing
+  parameter: core_thickness_nm
+  value: '500'
+  unit: nm
+  basis: design_target
+  locator: p.4 Sec. 3
+  notes: 'regrown passive layerstack: 500 nm InGaAsP (Q1.25) core under a thin p-InP cladding (D161)'
+  why: 'miss: passive waveguide core thickness stated (D153 layout geometry)'

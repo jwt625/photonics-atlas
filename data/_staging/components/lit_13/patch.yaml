@@ -1,0 +1,260 @@
+# Audit patch lit_13 (fresh-context audit 2026-10-29, DevLog/audits/2026-10-29-lit_13-audit.md).
+# 160 metrics: 140 ok / 17 imprecise / 3 wrong; 29 components: 24 ok / 5 changed / 0 deleted; 5 misses added.
+# Class ruling: abe2025 -> frequency_converter.sfg_dfg (one class with umeki2010); conversion gains / efficiencies in
+# power_conversion_efficiency_pct (ding2022 precedent) until a conversion-gain parameter exists (coordinator question).
+# Not covered here (coordinator): InPhenix registry org (starnault2024 QW / bulk fab), registry gaps.
+components:
+  cmp_lit_abe2025_ppln_opa_wc:
+    class: frequency_converter.sfg_dfg
+    notes: 'Subsystem of two PPLN OPA modules (X / Y polarization, input and output PBS) pumped by one PPLN SHG module, Peltier-controlled
+      (p.2 Fig. 1(a)); the output used is the converted (idler) light, C/L <-> U band. Classed frequency_converter.sfg_dfg
+      (audit lit_13: one class for the PPLN DFG / OPA wavelength converters of abe2025 and umeki2010; ding2022 FWM wavelength-converter
+      precedent). Conversion gain (converted output / signal input) stored as power_conversion_efficiency_pct (dB -> %, derived)
+      until a conversion-gain parameter exists. Conversion NF not entered (no frequency_converter NF parameter): Tx about
+      6 dB over 1624.23-1675.99 nm, Rx about 5 dB, beyond-U-band Tx 6-8 dB over 1675.99-1719.24 nm (p.2-3, Fig. 2-3). Two
+      units, post-OPA (Tx) and pre-OPA (Rx), same configuration, Rx run at a higher SH-pump power: operating points in condition.
+      Modules described as the authors'' own development, all authors NTT, no fabrication statement: fab_org_ids empty (D80b).
+      Gain flatness <= 3 dB within the conversion bands (p.2) has no parameter. Input total-power tolerance ~16 dBm (1 dB
+      SNR penalty with ~4 dB gain reduction, Fig. 4, sentence cites [26]) is not a saturation-power definition: not entered.
+      X / Y path-length difference <= 0.5 mm (p.2) is an assembly setting.'
+    why: 'Class ruling (batch report call 1): both abe2025 and umeki2010 are PPLN chi(2) DFG / OPA wavelength converters whose
+      output is the converted light (p.2 Sec. II-A ''wavelength-converted with the PPLN for OPA''; title); registry frequency_converter.sfg_dfg
+      = sum / difference frequency generation; merged precedent ding2022 FWM wavelength converter = frequency_converter with
+      idler/signal CE in power_conversion_efficiency_pct, while amplifier.parametric holds signal-gain devices (riemensberger2022,
+      kuznetsov2025). umeki2010 module metrics (%/W) cannot live in amplifier'
+  cmp_lit_umeki2010_ppznln_dfg_module:
+    notes: 'Authors state they fabricated the waveguide and the module (p.1 Abstract, p.5 Sec. IV); all authors NTT Photonics
+      Laboratories: fab_org_ids org_ntt (D72). Lens coupling and laser welding, Peltier + thermistor, AR-coated facets, TM
+      input via 1.55 um PM fibers (p.5). Values reproduced from the authors'' earlier paper ref. [20] are not entered (D259
+      / D259a): SHG efficiency 2400%/W at 1563.2 nm and the 0.2 nm phase-matching FWHM (Fig. 4 [20]), 148 mW SH from 160 mW
+      pump / 92% (Fig. 8 [20]); abstract and conclusion restate them. Internal (+8 dB) and external fiber-to-fiber (+4 dB)
+      wavelength conversion efficiencies entered as power_conversion_efficiency_pct (dB -> %, audit lit_13, ding2022 precedent);
+      the +9 dB signal parametric gain (p.6) has no frequency_converter parameter. Same +8 / +4 dB for four WDM signals 1555.3-1557.7
+      nm (p.7, Fig. 15). Convertible region +/-30 nm from the QPM peak (p.6).'
+    why: notes said the +8 / +4 dB conversion efficiencies had no parameter; they are now entered (m6, m7), see add_metrics
+  cmp_lit_vandekerckhove2025_ppln_sin_shg_inhouse:
+    platform: lnoi_loaded_sin
+    notes: 'Author contributions: three authors fabricated the nonlinear waveguides (poling, transfer printing; p.9-10), all
+      with the Ghent University - imec affiliation. Normalized efficiency eta = P_SH / (P_F^2 L^2) from on-chip powers obtained
+      with the measured lensed-fiber coupling losses at both wavelengths (Methods p.9), L = 0.9 mm interaction length. Phase-matching
+      3-dB bandwidth has no frequency_converter parameter (see registry gaps). 25 deg angled SiN-to-hybrid transitions: only
+      simulated curves (Supp. Fig. S1), no stated value; propagation and transition losses not separated (Supp. p.12). LN
+      surface roughness 0.20 / 0.22 nm RMS (AFM, Supp. Fig. S2) not a registry parameter. SPDC photon pairs (CAR 1154 at 28
+      kHz on-chip PCR, -40.0 dBm on-chip average pump, p.7 Fig. 6) not entered: platform of the SPDC device not stated and
+      photon-pair metrics are not in the registry (D250). Phase matching at 1620 nm instead of the 1550 nm target, attributed
+      to the LN thickness deviation (p.4). Thermo-optic phase-matching shift 0.18 nm/K (p.5, Fig. 5(d), 20-60 C) is printed
+      as a property of "our platform"; the text does not name the device (Fig. 5(d) phase matching near 1560-1570 nm points
+      to a foundry-platform device, in-house device at 1620 nm): not entered on either row (D159, audit lit_13).'
+    why: 'platform: hybrid PPLN film on a Si3N4 strip (p.3 ''hybrid PPLN/SiN geometry''); merged precedents for LN on SiN
+      (vanackere2023 transfer-printed LN coupon on SiN, churaev2023 bonded LN on SiN) use lnoi_loaded_sin, not other (rule
+      11, D47); notes: D159 ruling on the 0.18 nm/K value'
+  cmp_lit_vandekerckhove2025_ppln_sin_shg_foundry:
+    platform: lnoi_loaded_sin
+    notes: 'Author contributions: three authors fabricated the nonlinear waveguides (poling, transfer printing; p.9-10), all
+      with the Ghent University - imec affiliation. Normalized efficiency eta = P_SH / (P_F^2 L^2) from on-chip powers obtained
+      with the measured lensed-fiber coupling losses at both wavelengths (Methods p.9), L = 0.9 mm interaction length. Phase-matching
+      3-dB bandwidth has no frequency_converter parameter (see registry gaps). 25 deg angled SiN-to-hybrid transitions: only
+      simulated curves (Supp. Fig. S1), no stated value; propagation and transition losses not separated (Supp. p.12). LN
+      surface roughness 0.20 / 0.22 nm RMS (AFM, Supp. Fig. S2) not a registry parameter. SPDC photon pairs (CAR 1154 at 28
+      kHz on-chip PCR, -40.0 dBm on-chip average pump, p.7 Fig. 6) not entered: platform of the SPDC device not stated and
+      photon-pair metrics are not in the registry (D250). SiN wafer developed and fabricated on imec''s 200 mm pilot line
+      (acknowledgment and contributions, p.9-10): org_imec (niels2026 precedent). Dual-waveguide monitor / circuit pairs on
+      four chips along one wafer radius show overlapping phase matching (Fig. 4(d), no numbers). Post-printing tuning (Fig.
+      5(c), starting at 1560 nm): SiO2 deposition shifts phase matching down to 1520 nm, LN thinning (modified RCA-1) up to
+      1590 nm; no frequency_converter tuning-range parameter. Simulated thickness sensitivity 2.8 nm per nm LN (Fig. 4(a))
+      not entered. Thermo-optic phase-matching shift 0.18 nm/K (p.5, Fig. 5(d), 20-60 C) is printed as a property of "our
+      platform"; the text does not name the device (Fig. 5(d) phase matching near 1560-1570 nm points to a foundry-platform
+      device, in-house device at 1620 nm): not entered on either row (D159, audit lit_13).'
+    why: as the in-house row (lnoi_loaded_sin precedent); notes record the D159 removal of m3
+  cmp_lit_wang2026b_ppln_mrr_qfc:
+    notes: 'No fab org: the chip is described as designed and fabricated in passive voice (p.4, p.8) and the authors sit at
+      USTC units, the Jinan Institute of Quantum Technology and the Hefei National Laboratory (not unambiguous, D80b). Ring
+      radius 74 um, coupler A bus 600 nm / gap 700 nm (signal + pump in), coupler B bus 300 nm / gap 390 nm (SF out); azimuthal
+      orders ms 550, mp 875, msf 1584, poling order M 159 (p.7); radius_um, gap_nm and bus_width_nm are not allowed for frequency_converter
+      (registry gap). Simulated coupling strengths kappa^2 (p.7, Supp. Note 1) not entered. Q values from a dedicated copy
+      of the MRR on the same chip without the SF path (coupler-B ports 300 nm, p.9). On-chip noise ~7k cps at the maximum-QE
+      point (p.11) has no parameter. Chip temperature 40.5 C (p.10). Hybrid chip 12 x 12 mm2 with a butt-coupled DFB pump
+      (separate rows). On-chip quantum (photon-number) conversion efficiency QE = P_sf lambda_sf / (P_s lambda_s) of 57% at
+      360 uW on-chip pump (p.10-11, Fig. 4(b)) and the Q-derived maximum ~70% (p.9) are photon-number efficiencies, not power
+      ratios: not entered (power_conversion_efficiency_pct is a power ratio; registry gap, audit lit_13).'
+    why: records the QE values removed from m8 / m9 (see delete_metrics)
+metrics:
+  cmp_lit_cai2021_er_lnoi_ridge_waveguide-m3:
+    wavelength_inferred: 'true'
+    notes: printed near ~2.5 dB/cm = cutback total loss minus calculated Er absorption (calculated input); wavelength not
+      stated beyond the 1531.6 / 1550 nm pair; C band inferred from the two signal wavelengths of the total-minus-absorption
+      difference (4.63 - 1.78 and 3.08 - 0.56 dB/cm, p.4)
+    why: 'rule 8: band given without a stated wavelength must carry wavelength_inferred true (p.4 Sec. 3A gives no wavelength
+      for ~2.5 dB/cm)'
+  cmp_lit_qiu2025_er_sin_amp_30cm-m3:
+    band: c_band
+    wavelength_inferred: 'true'
+    notes: peak wavelength not stated (p.2); C band inferred from the signal curves of Fig. 1(f) (1557-1570 nm), where the
+      1560 nm curve reaches about 13.6 dB at -7 dBm input
+    why: 'rule 8: the operating band is stated (1560 nm signal, Fig. 1(d)-(f) 1555-1575 nm), so band with wavelength_inferred,
+      not unspecified'
+  cmp_lit_qiu2025_er_sin_amp_30cm-m4:
+    band: c_band
+    wavelength_inferred: 'true'
+    notes: printed (16 dB on-chip) next to 13.5 dB off-chip (p.2); peak wavelength not stated, C band inferred as m3
+    why: rule 8, as m3
+  cmp_lit_qiu2025_inverse_taper_edge-m1:
+    scope: loopback_half
+    notes: stated as an estimate from measurements on a short dummy waveguide (test structure, rule 4); per-facet value of
+      a two-facet back-to-back structure, split not shown (D167)
+    why: 'p.2: 75% per fiber-chip interface from a short dummy waveguide, i.e. one facet of a two-coupler measurement: scope
+      loopback_half (rule 6, D43; same treatment as wang2026b lensed_fiber_edge-m1 in this batch)'
+  cmp_lit_starnault2024_qd_soa-m6:
+    value: '5.45'
+    qualifier: ''
+    locator: p.8 Sec. V-B; p.8 Sec. V-A; p.4 Fig. 2(c)
+    notes: printed 5.45 dB for the QD SOA at the -9 dBm 4-WDM coherent operating point (p.8 Sec. V-B); also printed as lower
+      than 5.5 dB at -9 dBm (p.8 Sec. V-A, V-B); wavelength of the NF characterization (1302 nm, p.4-5) assumed for this reading
+      of Fig. 2(c)
+    why: p.8 Sec. V-B prints the value itself (5.45 dB vs PDFA 6.3 dB) for the same -9 dBm input; the < 5.5 dB bound is the
+      rounded statement
+  cmp_lit_abe2025_ppln_opa_wc-m1:
+    parameter: power_conversion_efficiency_pct
+    value: '1000'
+    unit: '%'
+    basis: derived
+    condition: post-OPA (Tx) conversion gain = converted (idler) output / signal input, C/L-band WDM input converted to the
+      U band; 50-GHz comb-like ASE bins; loss of other transmitter components considered; pump 1612.44 nm (EDFA-amplified
+      LD) frequency-doubled to an 806.22 nm SH pump in a PPLN SHG module
+    notes: printed 10 dB conversion gain (p.2); 100 x 10^(10/10) = 1000 %; Fig. 2 Tx gain about 8-10.5 dB across the band
+    why: 'class ruling (component op): gain_db is not allowed for frequency_converter; the conversion gain is the converted-output
+      / signal-input power ratio, stored like ding2022 CE (dB -> %, derived, D82d)'
+  cmp_lit_abe2025_ppln_opa_wc-m3:
+    parameter: power_conversion_efficiency_pct
+    value: '1995'
+    unit: '%'
+    basis: derived
+    condition: pre-OPA (Rx) conversion gain = converted output / signal input, U band converted back to the C/L band (output
+      wavelengths); higher SH-pump power than Tx; pump 1612.44 nm (EDFA-amplified LD) frequency-doubled to an 806.22 nm SH
+      pump in a PPLN SHG module
+    notes: printed more than 13 dB (p.2); 100 x 10^1.3 = 1995 %; output range = the WDM source range 1553.53-1600.81 nm (p.3
+      Sec. II-C); Fig. 2 Rx gain about 12.5-15 dB
+    why: class ruling, as m1
+  cmp_lit_umeki2010_ppznln_dfg_module-m3:
+    qualifier: ''
+    statistic: best
+    notes: printed as low as 4 dB over the entire convertible region; span 1550-1610 nm read from the Fig. 10(b) axis (trace
+      about -3.6 to -3.8 dB transmittance); 50 C entered as 323.15 K
+    why: 'rule 7: ''as low as'' -> statistic best, not qualifier approx (p.6 Sec. IV)'
+  cmp_lit_vandekerckhove2025_ppln_sin_shg_inhouse-m8:
+    basis: derived
+    notes: printed 0.9 mm interaction length (1 mm film, 50 um unpoled at each end, p.9-10); mm -> um
+    why: 'D157 / D256: unit rescaling of a printed dimension (0.9 mm; 900 um not printed) is derived'
+  cmp_lit_vandekerckhove2025_ppln_sin_shg_foundry-m8:
+    basis: derived
+    notes: printed 0.9 mm interaction length (1 mm film, 50 um unpoled at each end, p.9-10); mm -> um
+    why: D157 / D256, as inhouse-m8
+  cmp_lit_wang2026b_ppln_mrr_qfc-m10:
+    basis: derived
+    notes: printed 1.73 um (p.7); um -> nm
+    why: 'D157 / D256: microring width printed only as 1.73 um'
+  cmp_lit_wang2026b_dc_signal_pump_combiner-m3:
+    basis: derived
+    notes: printed 0.75 um (p.8); um -> nm
+    why: 'D157 / D256: DC waveguide width printed only as 0.75 um'
+  cmp_lit_wang2026b_dc_signal_pump_combiner-m4:
+    basis: derived
+    notes: printed 0.9 um (p.8); um -> nm
+    why: 'D157 / D256: DC gap printed only as 0.9 um'
+  cmp_lit_pintus2019_te_circulator_broadband-m3:
+    basis: derived
+    notes: bandwidth-integrated isolation ratio IR(BW) of Eq. (17) computed from the measured spectra (arithmetic on own measurements,
+      D80a); attributed to the broadband device as in the abstract
+    why: 'p.8 Sec. III-B: the 14 nm figure comes from the IR(BW) integral formula, not a direct reading of the spectra (D80a)'
+delete_metrics:
+- id: cmp_lit_abe2025_ppln_opa_wc-m2
+  why: 'class ruling: nf_db is not allowed for frequency_converter; value (Tx NF about 6 dB, p.2) kept in component notes,
+    registry gap reported'
+- id: cmp_lit_abe2025_ppln_opa_wc-m4
+  why: 'class ruling: Rx NF about 5 dB (p.2) moved to component notes, registry gap'
+- id: cmp_lit_abe2025_ppln_opa_wc-m5
+  why: 'class ruling: beyond-U-band NF 6-8 dB (p.3) moved to component notes, registry gap'
+- id: cmp_lit_vandekerckhove2025_ppln_sin_shg_foundry-m3
+  why: 'D159: p.5 prints 0.18 nm/K for ''our platform'' (Fig. 5(d)) without naming the device; attribution by the plotted
+    wavelength is an inference (D156); bound kept in both component notes'
+- id: cmp_lit_wang2026b_ppln_mrr_qfc-m8
+  why: 'p.10 defines QE = P_sf lambda_sf / (P_s lambda_s), a photon-number efficiency; power_conversion_efficiency_pct is
+    a power ratio (as a power ratio the same point is about 139%): wrong parameter; value kept in component notes, registry
+    gap (quantum_efficiency_pct for frequency_converter)'
+- id: cmp_lit_wang2026b_ppln_mrr_qfc-m9
+  why: 'p.9 eta_max = (1 - Qs,l/Qs,0)(1 - Qsf,l/Qsf,0) is the same photon-number efficiency as m8: wrong parameter; value
+    kept in component notes'
+add_metrics:
+- metric_id: cmp_lit_starnault2024_qd_soa-m7
+  component_id: cmp_lit_starnault2024_qd_soa
+  parameter: nf_db
+  value: '5.3'
+  unit: dB
+  wavelength_nm: '1302'
+  wavelength_inferred: 'true'
+  ref_plane: module
+  condition: input -13 dBm (single-carrier coherent operating point); bias point not stated (Fig. 2(c) shows two per SOA)
+  method: direct
+  basis: measured
+  locator: p.9 Sec. V-B; p.4 Fig. 2(c)
+  notes: wavelength of the NF characterization (1302 nm, p.4-5) assumed for this reading of Fig. 2(c)
+  why: 'miss: p.9 Sec. V-B prints the QD SOA NF of 5.3 dB at the -13 dBm operating point'
+- metric_id: cmp_lit_starnault2024_qw_soa-m6
+  component_id: cmp_lit_starnault2024_qw_soa
+  parameter: nf_db
+  value: '6.2'
+  unit: dB
+  wavelength_nm: '1302'
+  wavelength_inferred: 'true'
+  ref_plane: module
+  condition: input -13 dBm (single-carrier coherent operating point); bias point not stated (Fig. 2(c) shows two per SOA)
+  method: direct
+  basis: measured
+  locator: p.9 Sec. V-B; p.4 Fig. 2(c)
+  notes: wavelength of the NF characterization (1302 nm, p.4-5) assumed for this reading of Fig. 2(c)
+  why: 'miss: p.9 Sec. V-B prints the QW SOA NF of 6.2 dB at -13 dBm input'
+- metric_id: cmp_lit_starnault2024_bulk_soa-m6
+  component_id: cmp_lit_starnault2024_bulk_soa
+  parameter: nf_db
+  value: '6.8'
+  unit: dB
+  wavelength_nm: '1302'
+  wavelength_inferred: 'true'
+  ref_plane: module
+  condition: input -13 dBm (single-carrier coherent operating point); bias point not stated (Fig. 2(c) shows two per SOA)
+  method: direct
+  basis: measured
+  locator: p.9 Sec. V-B; p.4 Fig. 2(c)
+  notes: wavelength of the NF characterization (1302 nm, p.4-5) assumed for this reading of Fig. 2(c)
+  why: 'miss: p.9 Sec. V-B prints the bulk SOA NF of 6.8 dB at -13 dBm input'
+- metric_id: cmp_lit_umeki2010_ppznln_dfg_module-m6
+  component_id: cmp_lit_umeki2010_ppznln_dfg_module
+  parameter: power_conversion_efficiency_pct
+  value: '631'
+  unit: '%'
+  wavelength_nm: '1560'
+  temperature_k: '323.15'
+  condition: internal wavelength conversion efficiency = converted-signal level (1607.5 nm) / signal level at zero pump (Fig.
+    12 definition); SHG/DFG cascade, 1583.4 nm pump, 600 mW input pump into the module, signal 1560 nm, module at 50 C
+  method: direct
+  basis: derived
+  locator: p.6 Sec. V; p.6 Fig. 12, Fig. 13
+  notes: printed +8 dB; 100 x 10^0.8 = 631 %; same +8 dB for four WDM signals 1555.3-1557.7 nm (p.7, Fig. 15); signal parametric
+    gain +9 dB not entered (no parameter)
+  why: 'miss: p.6 states the internal wavelength conversion efficiency of +8 dB; under the class ruling (abe2025 / ding2022
+    precedent) a conversion efficiency in dB is stored in power_conversion_efficiency_pct (dB -> %, derived, D82d)'
+- metric_id: cmp_lit_umeki2010_ppznln_dfg_module-m7
+  component_id: cmp_lit_umeki2010_ppznln_dfg_module
+  parameter: power_conversion_efficiency_pct
+  value: '251'
+  unit: '%'
+  wavelength_nm: '1560'
+  temperature_k: '323.15'
+  ref_plane: module
+  condition: external (fiber-to-fiber) wavelength conversion efficiency = internal +8 dB with the 4 dB module insertion loss
+    taken into account; same operating point as m6
+  method: direct
+  basis: derived
+  locator: p.6-7 Sec. V; p.1 Abstract
+  notes: 'printed +4 dB (abstract: +4 dB fiber-to-fiber gain); 100 x 10^0.4 = 251 %; same +4 dB for the four WDM signals (p.7)'
+  why: 'miss: p.6-7 states the external wavelength conversion efficiency of +4 dB; stored as m6'

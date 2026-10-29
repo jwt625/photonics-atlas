@@ -1,0 +1,130 @@
+# Audit patch lit_37 (fresh-context audit 2026-10-29, DevLog/audits/2026-10-29-lit_37-audit.md).
+# 154 metrics: 152 ok / 2 imprecise / 0 wrong; 29 components: 29 ok / 0 changed / 0 deleted; 13 misses added (layout geometry).
+# Not covered here (coordinator decisions, see the audit file): li2026b endurance attribution (kept), registry orgs
+# (MIT Materials Research Laboratory, HUST Advanced Micro-Nano Fabrication Center), registry gaps.
+metrics:
+  cmp_lit_li2026b_ltoi_ring-m1:
+    basis: author_estimate
+    wavelength_inferred: 'true'
+    notes: 'per-resonance labels 7.24 / 7.72 / 6.50 / 7.16 / 7.52 x 10^6 (Fig. 1(g)); text: intrinsic Q above 7 x 10^6; Lorentzian fits, coupling regime not stated (D403); wavelength span from the Fig. 1(g) axis'
+    why: 'D403: q_intrinsic from Lorentzian fits of a single-port spectrum rests on a coupling regime the paper does not state (p.5 Fig. 1(g) caption, p.6 Sec. 2.1); wavelength span read off the Fig. 1(g) axis like m2 (inferred there)'
+  cmp_lit_singaravelu2019_two_tier_ssc_ox180-m3:
+    condition: standard deviation of the per-wavelength loss-per-SSC values over 1520-1620 nm (spectral spread of one device set, not a spread over devices)
+    why: 'p.4 Fig. 3(b): the annotated Std. Dev = 0.092 belongs to the loss-per-coupler spectrum (mean 0.298 dB over the 100 nm band); the row did not say what the std is taken over'
+add_metrics:
+- metric_id: cmp_lit_huang2014_si_sin_tc_lo0-m5
+  component_id: cmp_lit_huang2014_si_sin_tc_lo0
+  parameter: core_thickness_nm
+  value: '220'
+  unit: nm
+  condition: Si layer
+  basis: design_target
+  locator: p.2 Sec. 2
+  why: 'miss (D153): same stack as the Lo = 50 um sibling (p.2 Sec. 2, 220 nm SOI); transition_bilayer template requires core_thickness_nm'
+- metric_id: cmp_lit_huang2014_si_sin_tc_lo0-m6
+  component_id: cmp_lit_huang2014_si_sin_tc_lo0
+  parameter: layer2_thickness_nm
+  value: '600'
+  unit: nm
+  condition: PECVD Si3N4
+  basis: design_target
+  locator: p.3 Sec. 2
+  why: 'miss (D153): p.3 Sec. 2 600 nm PECVD Si3N4 for OL2, shared by all six TC sets (p.5); template requires layer2_thickness_nm'
+- metric_id: cmp_lit_huang2014_si_sin_tc_lo0-m7
+  component_id: cmp_lit_huang2014_si_sin_tc_lo0
+  parameter: gap_nm
+  value: '100'
+  unit: nm
+  condition: IDL1 oxide spacer above the Si layer after CMP
+  basis: design_target
+  locator: p.3 Sec. 2
+  why: 'miss (D153): p.3 Sec. 2 IDL1 thinned to 100 nm above Si; entered on the Lo = 50 um sibling (m7), same spacer for every TC set'
+- metric_id: cmp_lit_huang2014_si_sin_tc_lo0-m8
+  component_id: cmp_lit_huang2014_si_sin_tc_lo0
+  parameter: box_thickness_um
+  value: '3'
+  unit: um
+  basis: design_target
+  locator: p.2 Sec. 2
+  why: 'miss (D153): p.2 Sec. 2 3 um BOX; entered on the Lo = 50 um sibling (m11)'
+- metric_id: cmp_lit_singaravelu2019_two_tier_ssc_ox246-m4
+  component_id: cmp_lit_singaravelu2019_two_tier_ssc_ox246
+  parameter: core_thickness_nm
+  value: '300'
+  unit: nm
+  condition: Si layer (two 150 nm tiers)
+  basis: design_target
+  locator: p.3 Sec. 2
+  why: 'miss (D153): p.3 Sec. 2 300 nm SOI two-tier taper; p.4 the 246 nm devices use the designed taper dimensions; template requires core_thickness_nm'
+- metric_id: cmp_lit_singaravelu2019_two_tier_ssc_ox246-m5
+  component_id: cmp_lit_singaravelu2019_two_tier_ssc_ox246
+  parameter: layer2_thickness_nm
+  value: '600'
+  unit: nm
+  condition: PECVD SiN
+  basis: design_target
+  locator: p.3 Sec. 2
+  why: 'miss (D153): p.3 Sec. 2 600 nm PECVD SiN over the SSCs; template requires layer2_thickness_nm'
+- metric_id: cmp_lit_singaravelu2019_two_tier_ssc_ox303-m4
+  component_id: cmp_lit_singaravelu2019_two_tier_ssc_ox303
+  parameter: core_thickness_nm
+  value: '300'
+  unit: nm
+  condition: Si layer (two 150 nm tiers)
+  basis: design_target
+  locator: p.3 Sec. 2
+  why: miss (D153), as ox246-m4
+- metric_id: cmp_lit_singaravelu2019_two_tier_ssc_ox303-m5
+  component_id: cmp_lit_singaravelu2019_two_tier_ssc_ox303
+  parameter: layer2_thickness_nm
+  value: '600'
+  unit: nm
+  condition: PECVD SiN
+  basis: design_target
+  locator: p.3 Sec. 2
+  why: miss (D153), as ox246-m5
+- metric_id: cmp_lit_li2026b_nv_ps_weighted_2mm-m4
+  component_id: cmp_lit_li2026b_nv_ps_weighted_2mm
+  parameter: core_thickness_nm
+  value: '400'
+  unit: nm
+  condition: x-cut LT film
+  basis: design_target
+  locator: p.4 Sec. 2.1
+  why: 'miss (D153): p.4 Sec. 2.1 400-nm x-cut LTOI film for every device; entered on the 1 mm sibling (m7)'
+- metric_id: cmp_lit_li2026b_nv_ps_weighted_2mm-m5
+  component_id: cmp_lit_li2026b_nv_ps_weighted_2mm
+  parameter: etch_depth_nm
+  value: '240'
+  unit: nm
+  condition: rib etch in the non-volatile tuning (poling) region
+  basis: design_target
+  locator: p.4 Sec. 2.1
+  why: 'miss (D153): p.4 Sec. 2.1 the dedicated poling region is etched 240 nm (Fig. 1(b)); the component core_material already states it; entered on the 1 mm sibling (m8)'
+- metric_id: cmp_lit_li2026b_nv_ring_tuned-m2
+  component_id: cmp_lit_li2026b_nv_ring_tuned
+  parameter: core_thickness_nm
+  value: '400'
+  unit: nm
+  condition: x-cut LT film
+  basis: design_target
+  locator: p.4 Sec. 2.1
+  why: miss (D153), as nv_ps_weighted_2mm-m4
+- metric_id: cmp_lit_li2026b_nv_bias_mzm-m3
+  component_id: cmp_lit_li2026b_nv_bias_mzm
+  parameter: core_thickness_nm
+  value: '400'
+  unit: nm
+  condition: x-cut LT film
+  basis: design_target
+  locator: p.4 Sec. 2.1
+  why: miss (D153), as nv_ps_weighted_2mm-m4
+- metric_id: cmp_lit_li2026b_nv_balancer_mzm-m2
+  component_id: cmp_lit_li2026b_nv_balancer_mzm
+  parameter: core_thickness_nm
+  value: '400'
+  unit: nm
+  condition: x-cut LT film
+  basis: design_target
+  locator: p.4 Sec. 2.1
+  why: miss (D153), as nv_ps_weighted_2mm-m4

@@ -1,0 +1,171 @@
+# Audit patch lit_15 (fresh-context audit 2026-10-29, DevLog/audits/2026-10-29-lit_15-audit.md).
+# 173 metrics: 162 ok / 11 imprecise / 0 wrong; 36 components: 24 ok / 12 changed / 0 deleted; 7 misses added.
+# Not covered here (coordinator / registry decisions, see the audit file): CNSE alias for org_suny_polytechnic_institute,
+# VERTILAS GmbH registry org (lu2016 VCSEL vendor), registry gaps.
+components:
+  cmp_lit_boust2020_sin_ring_a:
+    notes: 'No fab org: the authors state they fabricated the Si3N4 chip (''We start the fabrication process'', p.2 Sec. III-A; ''We have developed a Si3N4/SiO2 on silicon fabrication platform'', p.6 Sec. V) but the place is not stated and the authors sit at III-V Lab, CEA-Leti, LTM (UGA / CNRS) and Institut FOTON (not unambiguous, D72 / D83c). Bus waveguide 20 mm long with input adiabatic taper and a single-mode S-bend after the ring (p.3). Q_i printed as twice Q_L, i.e. critical coupling assumed (gap designed for coupling close to critical, p.3). Parametric threshold 300 uW (formula estimate) entered on the comb A row. Propagation loss 10 dB/m of 1.6 um x 800 nm waveguides not entered: stated with reference to the co-authors'' earlier process paper [19] (D80i / D259).'
+    why: 'p.2 Sec. III-A ''We start the fabrication process'' and p.6 Sec. V are authors'' fabrication statements, so ''passive voice'' was inaccurate; fab stays empty because the org is ambiguous (four orgs). p.3: the gap is designed for near-critical coupling, which is the assumption behind Qi = 2 QL'
+  cmp_lit_boust2020_sin_ring_b:
+    notes: 'No fab org: the authors state they fabricated the Si3N4 chip (''We start the fabrication process'', p.2 Sec. III-A) but the place is not stated and the authors sit at III-V Lab, CEA-Leti, LTM (UGA / CNRS) and Institut FOTON (not unambiguous, D72 / D83c). Cross-section printed as 800 x 1500 nm2 (p.5 Sec. IV-C).'
+    why: p.2 Sec. III-A authors' fabrication statement (not passive voice); org ambiguous, fab stays empty
+  cmp_lit_boust2020_dfb_sin_butt:
+    notes: 'No fab org: DFB fabricated in passive voice (p.2 Sec. II); Si3N4 chip fabricated by the authors (p.2 Sec. III-A) at an unstated place; authors at III-V Lab, CEA-Leti, LTM (UGA / CNRS) and Institut FOTON (not unambiguous, D72 / D83c). Passive-waveguide far field 22 x 34 deg (full angle at 1/e2, horizontal x vertical; p.3) not entered: beam_divergence_deg not allowed for chip_chip_coupler (registry gap). Additional 0.5 dB stated for the reflection at the Si3N4 chip input (p.3), not entered as a separate row.'
+    why: p.2 Sec. III-A authors' fabrication statement for the Si3N4 chip (not passive voice); org ambiguous, fab stays empty
+  cmp_lit_boust2020_comb_a:
+    notes: 'No fab org: DFB fabricated in passive voice (p.2 Sec. II); Si3N4 chip fabricated by the authors (p.2 Sec. III-A) at an unstated place; authors at III-V Lab, CEA-Leti, LTM (UGA / CNRS) and Institut FOTON (not unambiguous, D72 / D83c). Multiple-mode-spaced (not single-soliton, unstable) comb at DFB 647 mA, pump paused at 1575.36 nm (p.4-5); the abstract calls 113.5 GHz a repetition rate, the body a line spacing; no pulses characterized, so entered as channel_spacing_ghz (D82g / D83b). Not entered: 30-dB comb bandwidth 13.6 THz / 113 nm (no comb-span parameter, D81 rejected), RF beat note 6.3 MHz FWHM at 113.5 GHz (no parameter), estimated maximum injection power 110 mW (no parameter).'
+    why: p.2 Sec. III-A authors' fabrication statement (not passive voice); comb parameter ruling (m1) recorded in the row note
+  cmp_lit_boust2020_comb_b_sil:
+    notes: 'No fab org: DFB fabricated in passive voice (p.2 Sec. II); Si3N4 chip fabricated by the authors (p.2 Sec. III-A) at an unstated place; authors at III-V Lab, CEA-Leti, LTM (UGA / CNRS) and Institut FOTON (not unambiguous, D72 / D83c). 17-soliton perfect soliton crystal deduced from the spectrum (p.6); pulses not characterized (autocorrelation named as future work), line spacing kept in channel_spacing_ghz (D83b). Not entered: estimated maximum injection power 133 mW (no parameter).'
+    why: p.2 Sec. III-A authors' fabrication statement (not passive voice); D83b basis for channel_spacing_ghz recorded
+  cmp_lit_gao2019_siph_tunable_laser:
+    fab_org_ids: ''
+    notes: 'No fab org: all authors NeoPhotonics, but the paper states no fabrication or assembly by the authors for the packaged laser (''we have demonstrated'', ''developed prototype''; assembly steps in passive voice, p.3-4 Sec. II-C); the acknowledgment thanks named persons for optical assembly and testing support without stating their affiliation (p.7), so D84b (own-org staff) does not apply (D80b). SiPh chips fabricated on 220 nm SOI in an unnamed commercial foundry (p.2 Sec. II-B). Front facet reflects 30 % (p.2, design statement; no laser reflectivity parameter). Not entered: frequency error within +/-1 GHz against SOA current steps and +/-0.5 GHz over 10-80 C package temperature with the on-chip sensors (drift up to 7.3 GHz / +/-5 GHz without; no frequency-accuracy parameter), EVM of the 64 Gbaud QAM tests (system level). Sub-components without own metrics (gain chip, SOA, phase section, MMI, SiN SSC) are not rows.'
+    why: 'D80b: ''developed'' / ''demonstrated'' and passive assembly do not qualify; p.7 acknowledgment names persons with no affiliation, so it cannot place the assembly at NeoPhotonics under D84b'
+  cmp_lit_gao2019_gain_siph_butt:
+    fab_org_ids: ''
+    notes: 'No fab org: active-alignment butt coupling stated in passive voice (p.3-4 Sec. II-C); the acknowledgment thanks named persons for optical assembly without stating their affiliation (p.7), so D84b does not apply (D80b). SiPh chips fabricated on 220 nm SOI in an unnamed commercial foundry (p.2 Sec. II-B). Simulated 1-dB misalignment tolerances (+/-0.9 um horizontal, +/-0.4 um vertical; p.3-4, Fig. 4) entered as tol_1db_lateral_um (fowler2025 precedent for the vertical axis).'
+    why: 'D80b / D84b as for the laser row; tolerance note corrected: D81 rejected only 0.5 / 3 dB tolerances, tol_1db_lateral_um is allowed for chip_chip_coupler'
+  cmp_lit_gao2019_gain_soa_lens:
+    fab_org_ids: ''
+    notes: 'No fab org: lens coupling stated in passive voice (p.4 Sec. II-C); the acknowledgment thanks named persons for optical assembly without stating their affiliation (p.7), so D84b does not apply (D80b). SOA described as in-house designed (p.2), fabrication place not stated.'
+    why: 'D80b: no fabrication / assembly statement naming the authors for this coupling; p.7 acknowledgment carries no affiliation (D84b not applicable)'
+  cmp_lit_gao2019_gain_soa_flipchip:
+    notes: 'fab_org_ids org_neophotonics: the authors state they developed the passive flip-chip process and built the sub-assemblies (''the initial gain chip/SOA sub-assemblies we have built'', p.4 Sec. II-C) and all authors are at NeoPhotonics (D72 / D80b). Later development than the packaged prototype (p.4).'
+    why: 'p.4 Sec. II-C ''we have built'' is an explicit authors'' assembly statement; with all authors at one company the org is unambiguous (D72), so the fab org no longer rests on the acknowledgment (D84b)'
+  cmp_lit_fard2021_sin_pwg_taper:
+    notes: 'Si3N4 interposer fabricated at AIM Photonics foundry incl. the top-cladding etch (p.2 Sec. III); the polymer waveguide (SU-8 core, OrmoCore cladding, Heidelberg MLA150 maskless lithography) was made in a passive-voice process (no fab statement naming the authors). Si3N4-to-polymer transition on the same interposer (D48: waveguide_platform.transition). Assembly loss breakdown in Table I: full assembly 4.84 dB, edge coupling 2.44 dB, PWG 0.18 dB, Si3N4 waveguide 0.75 dB, two tapers 1.47 dB. Lateral misalignment tolerance +/-4 um for 1 dB penalty per coupler (measured with 0 / 2 / 4 um offset samples, p.3 Fig. 5; simulated window 4.4 um, p.2 Fig. 2) not entered: tol_1db_lateral_um is not allowed for waveguide_platform (registry gap; D250 deferred it without a measured value).'
+    why: 'D81 rejected only 0.5 / 3 dB tolerances; the 1-dB tolerance has a parameter, blocked here by its class allowance (registry gap with a measured skipped value)'
+  cmp_lit_loi2019_laser_su8_butt_design:
+    notes: 'Design simulation (FIMMWAVE / Lumerical); the fabricated SU-8 waveguide is 7.5 um wide, 1.5 um thick (target 1 um), 2 mm long, aligned within 0.7 um laterally, and has no measured coupling value (not a row; abstract prints its cross-section as 7 x 1.5 um2). Simulated 1-dB misalignment tolerances entered (m6 lateral, m7 vertical). Longitudinal tolerance about 1.2 um not entered: it is a Rayleigh-range estimate, not a 1-dB criterion (p.3 Eq. 1).'
+    why: 'D81 rejected only 0.5 / 3 dB tolerances; tol_1db_lateral_um is allowed for chip_chip_coupler and p.3 Sec. II-B states the < 1 dB windows'
+  cmp_lit_lu2016_vcsel_gc_active:
+    notes: 'No fab org for the Si-PIC or the assembly (passive voice; authors at Tyndall, Ghent University CMST and VERTILAS). Excess penalty versus fiber coupling 4.5 dB (printed -4.5 dB; FDTD -3.7 dB) not entered (no parameter for a relative penalty). 1-dB alignment tolerance +/-1.6 um in both directions entered as m2. VCSEL mode MFD about 15 um vs fiber about 11 um at the GC (p.4) is a VCSEL beam property on this setup, noted only.'
+    why: 'D81 rejected only 0.5 / 3 dB tolerances; tol_1db_lateral_um is allowed for chip_chip_coupler (p.5 Sec. 2, p.6 Fig. 6 caption)'
+metrics:
+  cmp_lit_boust2020_sin_ring_a-m3:
+    notes: 'printed Qi = 5.6e6 as twice Q_L (''thus representing''), i.e. critical coupling assumed; the gap was designed for coupling close to critical (p.3)'
+    why: 'p.3 Sec. III-A: ''should result in a coupling close to critical''; the note said the assumption was not stated'
+  cmp_lit_boust2020_sin_ring_a-m9:
+    condition: resonator waveguide width (the printed sentence also names the bus waveguide; garbled, p.3)
+    why: 'p.3 Sec. III-A ''cross section for the resonator waveguide for the bus waveguide'' (as printed, also in the page render) does not state unambiguously that the bus has the same width (D156); condition no longer asserts it'
+  cmp_lit_boust2020_sin_ring_b-m1:
+    band: l_band
+    notes: 'printed as estimated to be about 1.0e6; method not stated; band inferred from the DFB pump near 1575 nm (p.4), which lies in the L-band (above 1565 nm)'
+    why: 'the pump wavelengths stated in the paper are 1575.31-1575.36 nm (p.3-4), above the C-band edge; c_band was an inaccurate inference'
+  cmp_lit_boust2020_dfb_sin_butt-m1:
+    band: l_band
+    notes: 'printed as estimated around 0.6 dB from the computed overlap of the measured far fields; assumptions not stated; band inferred from the DFB emission near 1575 nm (p.3-4, L-band)'
+    why: 'DFB pump at 1575.36 nm (p.4 Sec. IV-B), above 1565 nm; c_band was an inaccurate inference'
+  cmp_lit_boust2020_comb_a-m1:
+    parameter: channel_spacing_ghz
+    notes: 'abstract says repetition rate, body (p.4) says line spacing equal to the ring FSR; the comb is an unstable multiple-mode-spaced comb (p.4-5) and no pulses are characterized, so channel_spacing_ghz (D82g non-pulsed comb, D83b); RF beat note measured at 113.5 GHz (Fig. 5(c))'
+    why: 'registry def of repetition_rate_ghz = pulse repetition rate; D82g puts line spacing of a non-pulsed comb in channel_spacing_ghz; p.4-5 the comb is an MMS (not soliton) state and the sub-combs are not exact multiples of the FSR'
+  cmp_lit_notaros2019_er_dfb_laser-m3:
+    basis: derived
+    notes: 'printed 40 mW launch-power threshold ''estimated'' from the pump-power sweep (p.4); the launched (on-chip) pump power is the fiber power with the 6.2 dB facet loss (own estimate ''from experiment'') calibrated out, i.e. de-embedded: derived (D394 / D166 analogue)'
+    why: 'p.4 Sec. IV: facet coupling loss ''was calibrated out'' of the launched power; p.5 calls it ''launched on-chip pump power''; de-embedded on-chip power is derived (D394)'
+  cmp_lit_notaros2019_sin_si_transition-m1:
+    wavelength_inferred: ''
+    notes: 'measured loss of the transition carrying the signal, stated as 1599 nm in the same paragraph (p.4)'
+    why: 'p.4 Sec. III: the transition couples ''the signal'' and the paragraph names the 1599 nm signal wavelength; a stated wavelength is not inferred (rule 8, D393)'
+  cmp_lit_notaros2019_pump_signal_dc_filter-m1:
+    condition: 'port not stated with the value; the signal exits the tap port (Fig. 2(e)-(f): tap curve high near 1.6 um, thru curve high near 1 um)'
+    why: 'p.3 Fig. 2(e)-(f) render: the signal output is the tap (coupled) port, the pump the thru port; the condition ''signal (thru) port'' was wrong; the text (p.4) does not say which port the 500 nm width refers to'
+  cmp_lit_lu2016_gc_standard-m2:
+    qualifier: ''
+    why: 'p.4 / p.8 print -5.9 dB without an approximation word; qualifier only when stated (rule 7)'
+  cmp_lit_dostart2020_euler_ubend-m3:
+    basis: design_target
+    locator: p.5 Sec. 3; p.11 Supp. Component Loss Measurements
+    notes: 'single-mode width printed as 500 nm (p.5 Sec. 3) and 0.5 um (p.11 Supp.)'
+    why: 'D256: the source prints the stored-unit form (''single-mode width (500 nm)'', p.5 Sec. 3), so the row keeps the dimension basis design_target with that locator'
+  cmp_lit_dostart2020_adiabatic_taper-m3:
+    basis: design_target
+    locator: p.5 Sec. 3; p.11 Supp. Component Loss Measurements
+    notes: 'single-mode end; width printed as 500 nm (p.5 Sec. 3) and 0.5 um (p.11 Supp.)'
+    why: 'D256: stored-unit form printed on p.5 Sec. 3 (''single-mode width (500 nm)''); basis design_target'
+add_metrics:
+- metric_id: cmp_lit_boust2020_dfb_laser-m12
+  component_id: cmp_lit_boust2020_dfb_laser
+  parameter: center_wavelength_nm
+  value: '1575.36'
+  unit: nm
+  condition: pump wavelength at which the scan was paused for comb A (DFB bias 647 mA, Fig. 5), butt-coupled to ring A
+  method: direct
+  basis: measured
+  locator: p.4 Sec. IV-B; Fig. 5(a)
+  notes: lasing wavelength tuned by the bias current; the free-running wavelength alone is not stated
+  why: 'miss: p.4 Sec. IV-B states the pump (DFB lasing) wavelength 1575.36 nm at the comb A operating point'
+- metric_id: cmp_lit_boust2020_dfb_laser-m13
+  component_id: cmp_lit_boust2020_dfb_laser
+  parameter: fsr_nm
+  value: '0.203'
+  unit: nm
+  condition: longitudinal-mode spacing of the DFB cavity (spectral modulation in the laser spectrum); 647 mA, 23.7 C
+  method: direct
+  basis: derived
+  locator: p.2 Fig. 2(b) caption
+  notes: printed 203 pm; pm -> nm (D256); same quantity as m6 (24.6 GHz)
+  why: 'miss: the wavelength form 203 pm is printed with the 24.6 GHz value; ring A carries both fsr_nm and fsr_ghz'
+- metric_id: cmp_lit_gao2019_gain_siph_butt-m3
+  component_id: cmp_lit_gao2019_gain_siph_butt
+  parameter: tol_1db_lateral_um
+  value: '0.9'
+  unit: um
+  condition: horizontal misalignment between gain chip and SiPh SSC for 1 dB excess coupling loss, +/- value
+  method: unspecified
+  basis: simulated
+  locator: p.3-4 Sec. II-C; Fig. 4
+  notes: simulated alignment sensitivity (Fig. 4 blue curve)
+  why: 'miss: p.3-4 states +/-0.9 um horizontal for 1 dB excess loss; tol_1db_lateral_um is allowed for chip_chip_coupler (D81 rejected only 0.5 / 3 dB tolerances)'
+- metric_id: cmp_lit_gao2019_gain_siph_butt-m4
+  component_id: cmp_lit_gao2019_gain_siph_butt
+  parameter: tol_1db_lateral_um
+  value: '0.4'
+  unit: um
+  condition: vertical misalignment between gain chip and SiPh SSC for 1 dB excess coupling loss, +/- value
+  method: unspecified
+  basis: simulated
+  locator: p.4 Sec. II-C; Fig. 4
+  notes: simulated alignment sensitivity (Fig. 4 red curve); vertical axis in tol_1db_lateral_um as in fowler2025 m3
+  why: 'miss: p.4 states +/-0.4 um along the vertical direction for 1 dB excess loss'
+- metric_id: cmp_lit_lu2016_vcsel_gc_active-m2
+  component_id: cmp_lit_lu2016_vcsel_gc_active
+  parameter: tol_1db_lateral_um
+  value: '1.6'
+  unit: um
+  wavelength_nm: '1546.15'
+  wavelength_inferred: 'true'
+  condition: VCSEL scanned across (X) and along (Y) the symmetrical axis of the grating coupler, same value in both directions, +/- value; active alignment, I_D 10 mA
+  method: direct
+  basis: measured
+  locator: p.5 Sec. 2; p.6 Fig. 6 caption
+  notes: wavelength from the VCSEL emission at 10 mA (p.3 Fig. 2 caption), not stated with the tolerance
+  why: 'miss: p.5 and p.6 Fig. 6 state the measured 1-dB alignment tolerance +/-1.6 um; tol_1db_lateral_um is allowed for chip_chip_coupler'
+- metric_id: cmp_lit_loi2019_laser_su8_butt_design-m6
+  component_id: cmp_lit_loi2019_laser_su8_butt_design
+  parameter: tol_1db_lateral_um
+  value: '0.7'
+  unit: um
+  wavelength_nm: '1340'
+  polarization: tm
+  condition: lateral (x) misalignment of the laser to the 1 x 3.2 um SU-8 waveguide for < 1 dB loss in coupling efficiency
+  method: unspecified
+  basis: simulated
+  locator: p.3 Sec. II-B; Fig. 2(a)
+  notes: Lumerical / FIMMWAVE simulation of the fundamental TM transmission
+  why: 'miss: p.3 states < 1 dB loss for dx < 0.7 um (simulated); allowed for chip_chip_coupler'
+- metric_id: cmp_lit_loi2019_laser_su8_butt_design-m7
+  component_id: cmp_lit_loi2019_laser_su8_butt_design
+  parameter: tol_1db_lateral_um
+  value: '0.2'
+  unit: um
+  wavelength_nm: '1340'
+  polarization: tm
+  condition: 'vertical (y) misalignment for < 1 dB loss; asymmetric window: +0.2 um (laser up) and -0.7 um (laser down), smaller side entered'
+  method: unspecified
+  basis: simulated
+  locator: p.3 Sec. II-B; Fig. 2(b)
+  notes: printed dy < +0.2 um and dy < -0.7 um; asymmetry attributed to oxide below and air above the polymer
+  why: 'miss: p.3 states the vertical < 1 dB window (simulated); vertical axis in tol_1db_lateral_um as in fowler2025 m3'

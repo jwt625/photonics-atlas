@@ -1,0 +1,249 @@
+# Audit patch lit_40 (fresh-context audit 2026-10-29, DevLog/audits/2026-10-29-lit_40-audit.md).
+# 103 metrics: 87 ok / 16 imprecise (4 of them moved to new design rows) / 0 wrong; 27 components: 25 ok / 2 changed
+# (notes) / 0 deleted; 2 Lc 1.5 mm design rows added (dangel2018, skill rule 9) with 4 moved values, 2 Fig. 17 misses and
+# 7 geometry rows; 1 further miss (margaria2025 bottom DBR pairs). Validated on a scratchpad copy: 37 changes, re-run 0,
+# merge dry-run "+29 components, +112 metrics; errors 0".
+# Not covered here (coordinator decisions, see the audit file): Quandela SAS registry org (margaria2025 fab), lin2022 EO
+# MZI as EO-atlas candidate, registry gaps.
+components:
+  cmp_lit_dangel2018_flipchip_taper:
+    notes: 'fab_org_ids org_ibm_research_zurich: the authors (all IBM Research - Zurich) state they structured the 4-inch SOI wafers by e-beam lithography and dry etching (p.6 Sec. V); the polymer waveguides are the authors'' own SM PWG technology (p.4 Sec. IV, D84a). Polymers developed by Dow Corning (acknowledgment, material supplier only). Flip-chip assembly described passively. Coupler loss from the S-shaped test unit (two couplers) compared with adjacent bare reference PWGs; the paper uses it as the single-coupler loss (p.8 loss breakdown). Family row (D165) for values stated over a taper-length range: measured lengths 0.5 / 1.0 / 1.5 / 2.0 mm (Fig. 17) and 0.5-3.0 mm on the 186-I/O assembly (Fig. 23). Values tied to Lc 1.5 mm (Fig. 17-19) are on cmp_lit_dangel2018_flipchip_taper_lc1p5 (skill rule 9).'
+    why: 'cross-note for the Lc 1.5 mm design row split off under skill rule 9 (p.8 Sec. VI-B, VI-C: Fig. 18 and Fig. 19 are stated for Lc = 1.5 mm)'
+  cmp_lit_dangel2018_fiber_pwg_si_interface:
+    notes: 'fab_org_ids org_ibm_research_zurich: the authors (all IBM Research - Zurich) state they structured the 4-inch SOI wafers by e-beam lithography and dry etching (p.6 Sec. V); the polymer waveguides are the authors'' own SM PWG technology (p.4 Sec. IV, D84a). Polymers developed by Dow Corning (acknowledgment, material supplier only). Family row (D165): 50 coupler I/Os with Lc >= 1.0 mm on one 186-I/O assembly (Fig. 22-24). Per-facet IL = fiber-PWG butt coupling + PWG propagation + PWG-SiWG coupler (loss breakdown p.8: 1.5 + 1.5 + 0.5 dB, TE). The Lc 1.5 mm IL/facet (Fig. 20) is on cmp_lit_dangel2018_fiber_pwg_si_interface_lc1p5. The abstract''s ''less than 3.5 dB across the O-band'' is not entered: Fig. 20 shows up to about 4.7 dB (TE) at 1370 nm.'
+    why: 'cross-note for the Lc 1.5 mm design row split off under skill rule 9 (p.8 Sec. VI-D: the IL/facet values refer to Fig. 20, Lc = 1.5 mm)'
+metrics:
+  cmp_lit_dangel2018_flipchip_taper-m1:
+    scope: per_component
+    why: 'consistency with the direct-processed rows (m1 / m2 per_component) and skill rule 6: one on-chip coupler isolated against a bare reference PWG (p.7 Sec. VI-A)'
+  cmp_lit_dangel2018_flipchip_taper-m2:
+    scope: per_component
+    notes: 'printed as an upper bound; coupler loss = S-shaped test unit (two couplers + S-bend) vs bare reference PWG, used by the paper as the single-coupler loss (p.8 breakdown); halving not stated. Fig. 17 TM points at Lc 1.5 and 2.0 mm read about 0.65-0.7 dB, above the printed bound'
+    why: 'p.8 Fig. 17 render: TM squares at Lc 1.5 / 2.0 mm sit near 0.68 / 0.65 dB while the text prints < 0.6 dB for Lc >= 1.0 mm; value kept as printed, inconsistency noted; scope as m1'
+  cmp_lit_hwang2017_apodized_gc_1310-m1:
+    basis: author_estimate
+    notes: 'printed 2.5 dB/facet; origin not stated: the paper describes no optical measurement of the switch chip and states that testing of the package is ongoing (p.4 Conclusions); abstract says the couplers are designed for 1300 nm'
+    why: 'skill rule 4: a value of unstated origin is author_estimate; D167 covers a per-facet value whose arithmetic is not shown, not a value with no measurement in the paper (p.4 Conclusions: testing ongoing; lit_05 huang2019a precedent)'
+  cmp_lit_lin2022_psr_mode_evolution-m1:
+    wavelength_inferred: 'true'
+    notes: 'Fig. 1(c) includes the off-chip coupling loss; de-embedding to the on-chip value not described; wavelength not stated with the value, span from the Fig. 1(c) axis (inferred)'
+    why: 'components.schema.yaml wavelength_inferred: true when the wavelength comes from a plot axis; p.3 states the < 0.12 dB without a wavelength'
+  cmp_lit_lin2022_rib_waveguide_2um-m1:
+    wavelength_inferred: 'true'
+    notes: 'printed near 0.11 dB/cm; extraction method not described; wavelength not stated with the value, span from the Fig. S3(a) axis (inferred)'
+    why: 'p.15 Supp. III states the loss without a wavelength; 1520-1590 nm is the Fig. S3(a) axis (schema: plot axis = inferred)'
+  cmp_lit_margaria2025_micropillar_fiber_pigtail-m1:
+    notes: 'printed 75(5) %; inferred from the output-fiber brightness 20.8 % divided by the free-space first-lens brightness 46.8 % (assumed unaltered by pigtailing), splice 90 % and filter 66 % transmissions; operating wavelength not printed; the micropillar of the lateral-alignment example has its fundamental mode at 945.8 nm at room temperature (p.4 Fig. 2(e); identity with the pigtailed device not stated); band inferred'
+    why: 'p.4: Fig. 2(e) is presented as the result of the alignment measurement on a micropillar; the text does not say it is the pigtailed device, so the note must not claim it'
+  cmp_lit_margaria2025_micropillar_fiber_pigtail-m2:
+    notes: 'operating wavelength not printed; the micropillar of the lateral-alignment example has its fundamental mode at 945.8 nm at room temperature (p.4 Fig. 2(e); identity with the pigtailed device not stated); band inferred'
+    why: as pigtail-m1 (p.4 Fig. 2(e))
+  cmp_lit_margaria2025_micropillar_fiber_pigtail-m3:
+    notes: 'operating wavelength not printed; the micropillar of the lateral-alignment example has its fundamental mode at 945.8 nm at room temperature (p.4 Fig. 2(e); identity with the pigtailed device not stated); band inferred'
+    why: as pigtail-m1 (p.4 Fig. 2(e))
+  cmp_lit_margaria2025_micropillar_fiber_pigtail-m4:
+    notes: 'operating wavelength not printed; the micropillar of the lateral-alignment example has its fundamental mode at 945.8 nm at room temperature (p.4 Fig. 2(e); identity with the pigtailed device not stated); band inferred'
+    why: as pigtail-m1 (p.4 Fig. 2(e))
+  cmp_lit_margaria2025_micropillar_fiber_pigtail-m5:
+    notes: 'operating wavelength not printed; the micropillar of the lateral-alignment example has its fundamental mode at 945.8 nm at room temperature (p.4 Fig. 2(e); identity with the pigtailed device not stated); band inferred'
+    why: as pigtail-m1 (p.4 Fig. 2(e))
+  cmp_lit_margaria2025_uhna3_780hp_splice-m1:
+    notes: 'printed 90(2) %; operating wavelength not printed; the micropillar of the lateral-alignment example has its fundamental mode at 945.8 nm at room temperature (p.4 Fig. 2(e); identity with the pigtailed device not stated); band inferred'
+    why: as pigtail-m1 (p.4 Fig. 2(e))
+  cmp_lit_margaria2025_qd_micropillar_cavity-m1:
+    notes: 'printed Q around 13,000 for the resulting micropillars; unqualified Q -> q_loaded; operating wavelength not printed; the micropillar of the lateral-alignment example has its fundamental mode at 945.8 nm at room temperature (p.4 Fig. 2(e)); band inferred'
+    why: as pigtail-m1 (p.4 Fig. 2(e)); the family row needs no device identity
+delete_metrics:
+  - id: cmp_lit_dangel2018_flipchip_taper-m3
+    why: 'moved to cmp_lit_dangel2018_flipchip_taper_lc1p5-m1: the O + C band bound is stated for Lc = 1.5 mm only (p.8 Sec. VI-B, Fig. 18 caption); skill rule 9'
+  - id: cmp_lit_dangel2018_flipchip_taper-m4
+    why: 'moved to cmp_lit_dangel2018_flipchip_taper_lc1p5-m2: the misalignment test units have Lc = 1.5 mm (p.8 Fig. 19 caption); skill rule 9'
+  - id: cmp_lit_dangel2018_fiber_pwg_si_interface-m1
+    why: 'moved to cmp_lit_dangel2018_fiber_pwg_si_interface_lc1p5-m1: the 1310 nm IL/facet refers to Fig. 20, Lc = 1.5 mm (p.8 Sec. VI-D, p.9 Fig. 20 caption); skill rule 9'
+  - id: cmp_lit_dangel2018_fiber_pwg_si_interface-m2
+    why: 'moved to cmp_lit_dangel2018_fiber_pwg_si_interface_lc1p5-m2 (TM), as m1'
+add_components:
+  - component_id: cmp_lit_dangel2018_flipchip_taper_lc1p5
+    source_id: lit:dangel2018
+    class: chip_chip_coupler.evanescent
+    label: Flip-chip-bonded Si inverse taper to SM polymer waveguide on glass, adiabatic coupler, Lc 1.5 mm
+    row_kind: fabricated
+    platform: other
+    core_material: 'Si wire 350 nm wide, 158 or 170 nm thick (both tested) on 2 um BOX, three-segment taper 350 -> 90 nm (LS1 = LS3 = 60 um, LS2 = 1380 um for Lc 1.5 mm), Si chip flip-chip bonded face down; siloxane polymer waveguides on a 6-inch glass wafer, upper cladding opened over the coupler windows'
+    cladding: 'UV-curable optical adhesive underfill; PWG claddings 25 um (lower) and 25 um (upper, opened)'
+    fab_org_ids: org_ibm_research_zurich
+    test_structure: 'true'
+    tags: adiabatic;polymer_waveguide;flip_chip
+    verified_on: '2026-10-29'
+    notes: 'fab_org_ids org_ibm_research_zurich: the authors (all IBM Research - Zurich) state they structured the 4-inch SOI wafers by e-beam lithography and dry etching (p.6 Sec. V); the polymer waveguides are the authors'' own SM PWG technology (p.4 Sec. IV, D84a). Lc 1.5 mm design of the flip-chip family row cmp_lit_dangel2018_flipchip_taper (skill rule 9). Coupler loss from the S-shaped test unit (two couplers + S-bend) vs adjacent bare reference PWGs, used by the paper as the single-coupler loss (p.8 breakdown); halving not stated. Segment lengths from the p.4 Sec. III-C example.'
+    why: 'skill rule 9: Fig. 18 (O + C band), Fig. 19 (lateral tolerance) and the Fig. 17 point are tied to the Lc 1.5 mm design (p.8 captions); the family row keeps the values stated over Lc ranges (D165), as the xu2022 design rows beside its family row (lit_05)'
+  - component_id: cmp_lit_dangel2018_fiber_pwg_si_interface_lc1p5
+    source_id: lit:dangel2018
+    class: fiber_chip_coupler.other
+    label: SMF to Si waveguide interface via flip-chip polymer waveguide (butt-coupled PWG + adiabatic taper, Lc 1.5 mm)
+    row_kind: fabricated
+    platform: polymer
+    core_material: 'SM siloxane polymer waveguide (Dow Corning test core formulation) on glass, about 1 cm long, adiabatically coupled to a flip-chip-bonded Si taper (Si 158 / 170 nm, 350 nm wire, 90 nm tip, Lc 1.5 mm)'
+    fab_org_ids: org_ibm_research_zurich
+    test_structure: 'true'
+    tags: adiabatic;polymer_waveguide;flip_chip
+    verified_on: '2026-10-29'
+    notes: 'fab_org_ids org_ibm_research_zurich: the authors (all IBM Research - Zurich) state they structured the 4-inch SOI wafers by e-beam lithography and dry etching (p.6 Sec. V); the polymer waveguides are the authors'' own SM PWG technology (p.4 Sec. IV, D84a). Lc 1.5 mm design of the family row cmp_lit_dangel2018_fiber_pwg_si_interface (skill rule 9). Per-facet IL = fiber-PWG butt coupling + PWG propagation + PWG-SiWG coupler (loss breakdown p.8: 1.5 + 1.5 + 0.5 dB, TE).'
+    why: 'skill rule 9: the 1310 nm IL/facet values refer to Fig. 20, stated for Lc = 1.5 mm (p.8 Sec. VI-D, p.9 Fig. 20 caption)'
+add_metrics:
+  - metric_id: cmp_lit_dangel2018_flipchip_taper_lc1p5-m1
+    component_id: cmp_lit_dangel2018_flipchip_taper_lc1p5
+    parameter: transition_loss_db
+    value: '1.5'
+    unit: dB
+    qualifier: lt
+    band: unspecified
+    polarization: both
+    scope: per_component
+    condition: 'Lc 1.5 mm; over the entire O-band and C-band (Fig. 18 swept segments about 1260-1380 nm and 1460-1580 nm); S-shaped test unit vs bare reference PWG'
+    method: reference_structure
+    basis: measured
+    locator: p.8 Sec. VI-B; Fig. 18
+    notes: 'one value stated for both bands (rule 7); printed as an upper bound; coupler loss = S-shaped test unit (two couplers + S-bend) vs bare reference PWG, used by the paper as the single-coupler loss (p.8 breakdown); halving not stated'
+    why: 'moved from cmp_lit_dangel2018_flipchip_taper-m3 (Lc 1.5 mm, Fig. 18 caption)'
+  - metric_id: cmp_lit_dangel2018_flipchip_taper_lc1p5-m2
+    component_id: cmp_lit_dangel2018_flipchip_taper_lc1p5
+    parameter: tol_1db_lateral_um
+    value: '2'
+    unit: um
+    qualifier: approx
+    wavelength_nm: '1310'
+    polarization: both
+    condition: 'Lc 1.5 mm; test units with designed lateral SiWG-PWG offsets -3 to +3 um; about 1 dB additional loss within +/-2 um'
+    method: direct
+    basis: measured
+    locator: p.8 Sec. VI-C; Fig. 19(b); p.1 Abstract
+    why: 'moved from cmp_lit_dangel2018_flipchip_taper-m4 (Fig. 19 caption: Lc = 1.5 mm)'
+  - metric_id: cmp_lit_dangel2018_flipchip_taper_lc1p5-m3
+    component_id: cmp_lit_dangel2018_flipchip_taper_lc1p5
+    parameter: transition_loss_db
+    value: '1.3'
+    unit: dB
+    qualifier: approx
+    wavelength_nm: '1310'
+    polarization: te
+    scope: per_component
+    condition: 'Lc 1.5 mm; S-shaped test unit vs bare reference PWG; index matching fluid at the fiber ports'
+    method: reference_structure
+    basis: extracted_from_figure
+    locator: p.8 Fig. 17
+    notes: 'read off the Fig. 17 marker, +/-0.05 dB; coupler loss = S-shaped test unit (two couplers + S-bend) vs bare reference PWG, used by the paper as the single-coupler loss (p.8 breakdown); halving not stated'
+    why: 'miss: Fig. 17 shows the measured 1310 nm coupler loss of each flip-chip taper length; the Lc 1.5 mm TE point (about 1.28 dB) is this design''s primary metric'
+  - metric_id: cmp_lit_dangel2018_flipchip_taper_lc1p5-m4
+    component_id: cmp_lit_dangel2018_flipchip_taper_lc1p5
+    parameter: transition_loss_db
+    value: '0.7'
+    unit: dB
+    qualifier: approx
+    wavelength_nm: '1310'
+    polarization: tm
+    scope: per_component
+    condition: 'Lc 1.5 mm; S-shaped test unit vs bare reference PWG; index matching fluid at the fiber ports'
+    method: reference_structure
+    basis: extracted_from_figure
+    locator: p.8 Fig. 17
+    notes: 'read off the Fig. 17 marker, +/-0.05 dB (about 0.68 dB, above the < 0.6 dB the text prints for Lc >= 1.0 mm); coupler loss = S-shaped test unit (two couplers + S-bend) vs bare reference PWG, used by the paper as the single-coupler loss; halving not stated'
+    why: 'miss: Fig. 17 Lc 1.5 mm TM point (render p.8)'
+  - metric_id: cmp_lit_dangel2018_flipchip_taper_lc1p5-m5
+    component_id: cmp_lit_dangel2018_flipchip_taper_lc1p5
+    parameter: taper_length_um
+    value: '1500'
+    unit: um
+    condition: total taper length Lc
+    basis: derived
+    locator: p.8 Sec. VI-B; Fig. 18-19
+    notes: printed Lc = 1.5 mm; mm -> um
+    why: design geometry of the new row (D153; D157 unit conversion derived)
+  - metric_id: cmp_lit_dangel2018_flipchip_taper_lc1p5-m6
+    component_id: cmp_lit_dangel2018_flipchip_taper_lc1p5
+    parameter: tip_width_nm
+    value: '90'
+    unit: nm
+    condition: Si taper tip (Si chip face down above the PWG)
+    basis: design_target
+    locator: p.6 Sec. V
+    why: design geometry of the new row (D153), as family m7
+  - metric_id: cmp_lit_dangel2018_flipchip_taper_lc1p5-m7
+    component_id: cmp_lit_dangel2018_flipchip_taper_lc1p5
+    parameter: width_nm
+    value: '350'
+    unit: nm
+    condition: Si wire outside the taper (Si chip face down above the PWG)
+    basis: design_target
+    locator: p.6 Sec. V
+    why: design geometry of the new row (D153), as family m8
+  - metric_id: cmp_lit_dangel2018_flipchip_taper_lc1p5-m8
+    component_id: cmp_lit_dangel2018_flipchip_taper_lc1p5
+    parameter: core_thickness_nm
+    value: '158'
+    value_max: '170'
+    unit: nm
+    condition: Si waveguide height; two heights tested (158 and 170 nm), not stated per measurement
+    basis: design_target
+    locator: p.6 Sec. V
+    why: design geometry of the new row (D153), as family m9
+  - metric_id: cmp_lit_dangel2018_flipchip_taper_lc1p5-m9
+    component_id: cmp_lit_dangel2018_flipchip_taper_lc1p5
+    parameter: box_thickness_um
+    value: '2'
+    unit: um
+    condition: BOX of the SOI chip
+    basis: design_target
+    locator: p.6 Sec. V
+    why: design geometry of the new row (D153), as family m10
+  - metric_id: cmp_lit_dangel2018_fiber_pwg_si_interface_lc1p5-m1
+    component_id: cmp_lit_dangel2018_fiber_pwg_si_interface_lc1p5
+    parameter: insertion_loss_db
+    value: '3.5'
+    unit: dB
+    qualifier: lt
+    wavelength_nm: '1310'
+    polarization: te
+    scope: per_facet
+    includes: SMF-PWG butt coupling (index matching fluid), about 1 cm PWG (test core polymer), PWG-SiWG adiabatic coupler
+    condition: Lc 1.5 mm; flip-chip-bonded sample
+    method: unspecified
+    basis: measured
+    locator: p.8 Sec. VI-D; p.9 Fig. 20
+    notes: derivation of the per-facet value from the I2 -> O3 transmission not stated (D167)
+    why: 'moved from cmp_lit_dangel2018_fiber_pwg_si_interface-m1 (Fig. 20 caption: Lc = 1.5 mm)'
+  - metric_id: cmp_lit_dangel2018_fiber_pwg_si_interface_lc1p5-m2
+    component_id: cmp_lit_dangel2018_fiber_pwg_si_interface_lc1p5
+    parameter: insertion_loss_db
+    value: '3.0'
+    unit: dB
+    qualifier: lt
+    wavelength_nm: '1310'
+    polarization: tm
+    scope: per_facet
+    includes: SMF-PWG butt coupling (index matching fluid), about 1 cm PWG (test core polymer), PWG-SiWG adiabatic coupler
+    condition: Lc 1.5 mm; flip-chip-bonded sample
+    method: unspecified
+    basis: measured
+    locator: p.8 Sec. VI-D; p.9 Fig. 20
+    notes: derivation of the per-facet value from the I2 -> O3 transmission not stated (D167)
+    why: 'moved from cmp_lit_dangel2018_fiber_pwg_si_interface-m2 (Fig. 20 caption: Lc = 1.5 mm)'
+  - metric_id: cmp_lit_dangel2018_fiber_pwg_si_interface_lc1p5-m3
+    component_id: cmp_lit_dangel2018_fiber_pwg_si_interface_lc1p5
+    parameter: taper_length_um
+    value: '1500'
+    unit: um
+    condition: total Si taper length Lc of the PWG-SiWG coupler
+    basis: derived
+    locator: p.9 Fig. 20
+    notes: printed Lc = 1.5 mm; mm -> um
+    why: design geometry of the new row (D153; D157 unit conversion derived)
+  - metric_id: cmp_lit_margaria2025_qd_micropillar_cavity-m3
+    component_id: cmp_lit_margaria2025_qd_micropillar_cavity
+    parameter: n_periods
+    value: '40'
+    unit: count
+    condition: bottom DBR pairs (lambda/4 GaAs / Al0.95Ga0.05As)
+    basis: design_target
+    locator: p.2
+    why: 'miss (D153 geometry): p.2 states 20 (top) / 40 (bottom) pairs; m2 holds only the top count'
