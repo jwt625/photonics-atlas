@@ -195,3 +195,9 @@ Phases run as tranches with a DevLog each, pilot-then-batch, fresh-context audit
   day 3+; (6) proposed, not started: material tags per component (multi-valued, derived from platform + printed
   core_material via a curated mapping) with a Material filter on Components / Explore / Layout and a dashboard
   breakdown - waits for the owner's go.
+- 2026-10-29 01:22-03:45 PDT, owner: "run a new batch of caching; check cached papers that have not been ingested, and
+  start parsing and ingesting them following the skills." Retrieval day 5 (DevLog-006): `lit` corpus 300 -> 381
+  (stale-link bug found and guarded, two wrong documents quarantined). Component ingest (DevLog-007, D390-D411): lit_07-
+  lit_44 audited and merged (lit_07-lit_11 backlog + 33 new batches): components 807 -> 2170, metrics 3575 -> 12107.
+  People ingest (DevLog-011, D400, D406, D410, D412, D413): header batches lit_h05-lit_h15 (265 papers), two audits,
+  people rebuilt (persons 7583 -> 8991, observations 12941 -> 15759), views rebuilt. Not committed.
