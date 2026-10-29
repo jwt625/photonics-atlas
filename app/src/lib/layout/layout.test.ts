@@ -2,6 +2,7 @@ import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
 import type { Component, ComponentsView, Metric } from '../components.svelte';
+import { platformFamily } from '../explore/colors';
 import { gallery } from './gallery';
 import { scanMaterials, stackOf } from './materials';
 import { compactLabel, pickOrder, primaryFor, primaryMetric, resolve, segmentRows, templateFor } from './resolve';
@@ -228,8 +229,12 @@ describe('gallery', () => {
 	});
 	it('platform-qualified gaps (D223): shown while no card of that role has the platform family', () => {
 		const layouts = { ...VIEW.layouts!, gc_1d: { ...VIEW.layouts!.gc_1d, gaps: [{ role: 'hero', platform_family: 'soi' }] } };
-		const gc = gallery({ ...VIEW, layouts }).find((x) => x.id === 'gc_1d')!;
+		// data-independent: drop the served SOI gc_1d hero rows (one exists since D414), then the gap shows
+		const plat = new Map(VIEW.components.map((c) => [c.component_id, c.platform]));
+		const soiHero = (s: { template: string; role: string; component_id: string }) => s.template === 'gc_1d' && s.role === 'hero' && platformFamily(plat.get(s.component_id)) === 'soi';
+		const gc = gallery({ ...VIEW, layouts, showcase: (VIEW.showcase ?? []).filter((s) => !soiHero(s)) }).find((x) => x.id === 'gc_1d')!;
 		expect(gc.gaps).toContainEqual({ role: 'hero', platform: 'SOI' });
+		if ((VIEW.showcase ?? []).some(soiHero)) expect(gallery({ ...VIEW, layouts }).find((x) => x.id === 'gc_1d')!.gaps.some((g) => g.platform)).toBe(false);
 		const lnGap = gallery({ ...VIEW, layouts: { ...layouts, gc_1d: { ...layouts.gc_1d, gaps: [{ role: 'hero', platform_family: 'ln' }] } } }).find((x) => x.id === 'gc_1d')!;
 		expect(lnGap.gaps.some((g) => g.platform)).toBe(false);
 	});
