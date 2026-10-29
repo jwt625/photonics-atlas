@@ -428,3 +428,20 @@ Progress (2026-10-22 22:20-22:28 PDT):
   li2023 (10.1364/oe.502187) and sysak2008 (10.1364/oe.16.012478) are flagged OA and are worth a `--paper-ids` retry
   before they are counted as paywalled. Days 5-6 (2026-10-26 / 2026-10-27) still unrun. The 81 papers need distill
   batches (DevLog-007).
+- 2026-10-29 01:22-02:55 PDT, day 5 (schedule slot 2026-10-26), owner request "run a new batch of caching". tmux `lit_day5`
+  (`logs/lit_daily_day5_20261029T012244.log`) + `lit_ieee_d5` (`logs/lit_ieee_day5_tmux_20261029.log`), follow-up tmux
+  `lit_day5b` (`logs/lit_day5_rerun_*.log`). arXiv / OA 21 ok, 1 blocked (researching.cn TLS verify failure again,
+  breaker re-armed); Optica sessions 13 / 14: 14 ok, 11 ok + 2 `no_access`; publisher: 6 ok, 3 Wiley rows skipped by
+  the standing D147 breaker; IEEE: no sign-in needed at 01:22, 20 ok, 1 Xplore search 504 (chowdhury2022), 1
+  `no_ieee_copy` (colbourne2018). Stale-link bug (DevLog-007 D397): the day-4 lee2022 PDF was ni2024's article
+  (`references/lee2022` moved to `cache/literature/quarantine/`, `lit:lee2022` removed from sources.csv); fetcher guard
+  added (article-uri reuse check + PDF pages 1-2 title check, tests). A first guard version (DOI on landing) misfired on
+  session 15 (2 false `resolve_failed`): process stopped, session 15 re-run with the final guard: 10 ok, 4 `no_access`.
+  Retries: li2023 ok; lee2022 `no_access` and sysak2008 `resolve_failed` (Optica keeps redirecting both DOIs to a
+  previously requested `viewmedia` article: guard caught it; manual copies needed); chowdhury2022 not retried (IEEE
+  institutional session expired at 02:54: needs the owner's sign-in, `--site ieee --run --paper-ids chowdhury2022
+  --wait-login`). Extraction + registration: 72 + 11 new papers, page-1 title check all match (barwicz2017 font-garbled
+  text layer, flagged); gelerkremer2022 (repository copy) was only the 1-page Author Correction: quarantined, row removed
+  (D409). `lit` corpus 300 -> 381 (net: +83 new, -2 quarantined). validate_db 0 errors / 214 warnings. Manual list
+  regenerated: 134 rows (the generator does not list sysak2008 `resolve_failed`, gelerkremer2022 quarantined or
+  chowdhury2022 not-signed-in: listed here). Days 6-10 (schedule 2026-10-27 .. 2026-10-31) not run.
