@@ -290,3 +290,42 @@ Slots without rows (12): ma2026 x3 (unreadable paper), list authors not printed 
 - 03:27-03:37 people rebuild: backup `cache/backup/people_before_lit_h05-h15_build_20261029T102710Z.zip`; first build exposed D413 (two unnamed persons); `data/people/` restored from HEAD, rebuilt with D413, second run byte-identical, derive_transitions, build_views, app build + 58 app tests. people 7583 -> 8991, observations 12941 -> 15759; no committed person or observation id removed; 54 committed persons changed (mostly public -> review: new lit name collisions under the D219 rules; one same_as redirect). Slots: lit 3068 (dropped: 2 papers without author list, 2 non-Latin names, 98 authors without header rows).
 - Checks 03:40: ruff clean (one pre-existing format diff in tests/test_lit_seeds.py, untouched), mypy clean, pytest 361 passed, validate_db 0 errors / 712 warnings (the new lit printed orgs not yet in the registry: org round).
 - Open (next): D412 author-list corrections; org round for the lit org requests; checker gaps (present address inside a statement, "Current address:", plain ", with A" clauses, run-together words, blocks printed above the title, 300-character window, contact masking eating a glued place); D382 forced matches (si2026, uddin2023, dong2010, li2024a, oh2023); a pre-existing EO-atlas observation (eo:niels2025) carries a postal-box code in its unit field (upstream data).
+
+### Progress 2026-10-29 late (DevLog-007 D415)
+
+- 23:31 queue: lit_h16 (29 day-6 papers, `queue --corpus lit --size 29`).
+- lit_h16 extraction (one subagent), `check --corpus lit` 0 errors / 1 warning (bauters2011 explicit slot):
+
+| batch | papers ok / partial / unreadable | slots recorded / total | rows | notes |
+|---|---|---|---|---|
+| lit_h16 | 27 / 2 / 0 | 231 / 238 | 259 | partial chang2026a (letter markers glued to the block's first word: new checker gap; 3 blocks unrecorded, 1 author unreadable), sun2022 (two blocks print the same marker); author_list_differs chang2026a, he2023, jin2021, ye2019; "Current address:" cue (ji2017, koyaz2026); 19 unmapped org strings |
+
+- Fresh-context audit dispatched (`DevLog/audits/2026-10-29-lit-header-batches-4-audit.md`), then `aggregate --corpus lit` and the people rebuild.
+- 23:48 audit ([record](audits/2026-10-29-lit-header-batches-4-audit.md)): all 29 papers / 238 slots read, 0 wrong,
+  11 imprecise (6 fixed: nader2025 University of Colorado campus Boulder on 6 slots, as lit_h06 / lit_h09; 5 are
+  checker gaps), verdict GO. `check lit_h16` 0 errors / 1 warning; `aggregate --corpus lit`: 265 org-request strings
+  (was 252), 0 conflicts, 13 header-only authors. Privacy scan clean.
+
+| # | Ruling (coordinator, 2026-10-29) | Rationale |
+|---|---|---|
+| D416 | lit_h16 audit questions: (1) chang2026a block b stays unrecorded until the glued-letter-marker checker gap (G1) is fixed, then recorded with the institute as org like lit_h03 / h04 / h10 / h13 (no one-off org = academy form); (2) ledezma2022 (lit_h07) Caltech `more_orgs` on the printed JPL block: normalize to the parent rule (no parent copied) in the D412 / checker follow-up pass, not now; (3) chang2026a author list (Ting Xu twice, Yulin Wu missing) and (4) zhang2025b "Daoxin Dai A" go into the D412 author-list correction file; Ting Xu slot 4 confirmed; (5) yang2024 "University of Wisconsin - Madison" kept as printed in `org`, mapped by alias in the org round | consistency with committed batches; no re-work of committed rows in this pass |
+
+- 23:52 people rebuild: backup `cache/backup/people_before_lit_h16_build_20261030T065136Z.zip`; dry-run then build:
+  lit slots 3068 -> 3299 (+231), dropped without header rows 98 -> 105; people 8991 -> 9134 (+143), observations
+  15759 -> 16022; vs HEAD no person or observation id removed, 14 persons / 16 observations changed;
+  derive_transitions (local only), build_views.
+
+### Progress 2026-10-30 (DevLog-007 D421)
+
+- 00:21 queue: lit_h17 / lit_h18 (35 papers each, `queue --corpus lit --size 35`); extraction (one subagent each), audits ([h17](audits/2026-10-30-lit-header-batch-h17-audit.md), [h18](audits/2026-10-30-lit-header-batch-h18-audit.md)), both GO:
+
+| batch | papers ok / partial / unreadable | slots recorded / total | rows | audit |
+|---|---|---|---|---|
+| lit_h17 | 30 / 5 / 0 | 236 / 247 | 255 (A) | 0 wrong, 20 imprecise (3 fixed: keyvaninia2012 III-V Lab parents dropped from more_orgs, -9 rows; 17 are checker gaps G1-G6) |
+| lit_h18 | 34 / 1 / 0 | 213 / 214 | 242 (A 234, B 8 layout) | 0 wrong, 3 imprecise (2 fixed: mcnab2003 IBM Watson block country US) |
+
+| # | Ruling (coordinator, 2026-10-30) | Rationale |
+|---|---|---|
+| D426 | lit_h17 / lit_h18 audit questions accepted as recommended: pernice2012 dagger recorded as marker "w" (the only form both text layers carry); keyvaninia2012 III-V Lab parents dropped (parent rule; lit_h02 keyvaninia2013 normalized in the D412 follow-up); cabezon2012 research group as org + Universidad de Zaragoza more_orgs kept until a verified skip span for building / street text exists (G6); D412 correction list adds piggott2015 / a2011 / a2013 "Daoxin Dai A" / "Jelena Vuckovic A" forms and kang2008 #1 (list Yunlu vs printed Y. / Yimin Kang); D416 (5) extended: dash-joined joint orgs (Ghent University - imec, IBM Research - Zurich) kept as printed, aliases in the org round, older split forms left; barwicz2016 Asahi Glass + AGC Electronics as two orgs; dropped-syllable name matches (fang2010, feng2011) accepted and listed for review; re-record after checker fixes: G1 hyphenated subject name, G2 pronoun statement after a comma, G3 org printed once after unit-only blocks, G4 present-address-only marker (yang2010, chen2000, keyvaninia2019), G5 org name inside an earlier block, G6 building / street span between unit and org; test `test_real_people_tables` now allows lit grade-B layout rows (D286f) | audit records 2026-10-30 h17 / h18 |
+
+- 01:00 `aggregate --corpus lit`: 300 org-request strings, 0 conflicts, 14 header-only authors; `check all --corpus lit`: 482 papers (461 ok, 13 partial, 6 unreadable), 0 errors / 36 warnings. People rebuild (backup `cache/backup/people_before_lit_h17-h18_build_20261030T080025Z.zip`): lit slots 3299 -> 3748, dropped without header rows 105 -> 117; people 9134 -> 9409, observations 16022 -> 16543; vs HEAD (8991 / 15759) no person or observation id removed, 31 persons / 50 observations changed; derive_transitions, build_views, app build + 58 app tests.

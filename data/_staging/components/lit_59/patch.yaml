@@ -1,0 +1,89 @@
+# Audit patch lit_59 (fresh-context audit 2026-10-30, DevLog/audits/2026-10-30-lit_59-audit.md).
+# 156 metrics: 150 ok / 5 imprecise / 1 wrong (guan2014a psr crosstalk as per_db, deleted pending a registry ruling);
+# 27 components: 24 ok / 3 changed / 0 deleted; misses: 4 metrics added (ma2013 simulated wdl_db x2, fang2010 wire
+# box / cladding thickness).
+# Not covered here (coordinator / org round): OpSIS (ma2013 fab, D398), Boulder Microfabrication Facility (chiles2017
+# facility), Freescale Semiconductor (mekis2010 fab); registry gaps listed in the audit file.
+components:
+  cmp_lit_bogaerts2007_double_etch_crossing:
+    fab_org_ids: ''
+    notes: 'Four parabolically broadened arms (expander would reach 2.5 um centre width) with a shallow-etched cross widening linearly 500 -> 800 nm over the 6 um crossing (p.2; Fig. 2(b) labels 0.5 / 0.8 / 2.5 / 6 um). Shallow etch depth not stated (double-etch scheme of ref. [1]). Measured on waveguides with 0, 5, 10 and 21 crossings via vertical grating fiber couplers (p.2-3); polarization not stated. Abstract prints 97.5 % transmission as ''-1.7 dB''; the body (p.1, p.3) and Fig. 4(b) give -0.16 dB, consistent with 97.5 %: the abstract figure is a typo, not entered. Measurements repeated for waveguide widths 440-550 nm with ''similar'' performance (p.3; no values). Fab empty: ''We fabricated the circuits'' on commercial 200 mm SOI with 248 nm DUV lithography (p.2), all four authors at the joint affiliation Ghent University - IMEC (Photonics Research Group) and no acknowledgment naming a processing line, so the fabricating org is not unambiguous (brouckaert2007 precedent: same group and year, same statement, fab empty; bogaerts2007a / pathak2014 have org_imec only through a P-line acknowledgment or imec-only co-authors; audit lit_59 Q2). Not entered: 2-D EME transmissions of the comparison crossings (direct 67.6 %, two-fold elliptical 61.6 %, four-fold elliptical 31.9 %, Fig. 1(a)-(c)) and the -0.4 / -0.1 dB values of ref. [4].'
+    why: 'p.1 affiliation (single joint affiliation Ghent University - IMEC), p.2 "We fabricated the circuits", p.3 acknowledgment (fellowship and programs only): rule 12 / D80b need an unambiguous org; the closest merged precedent (lit:brouckaert2007, identical situation) has fab empty'
+  cmp_lit_fang2010_nanotaper_sio2_clad_ref:
+    core_material: Si nano-taper under SiO2 cladding (tip width, thickness and taper length not stated)
+    fab_org_ids: ''
+    process_name: ''
+    notes: 'Reference structure ''similar to'' ref. [17] (Si nano-tip covered only by SiO2 cladding, no suspended waveguide), measured in this work with the same lensed and cleaved fibers (p.7); tip width, thickness and taper length not stated. Values stated once for both TE and TM. Fab empty: the paper''s fabrication statement (''we designed and fabricated'' the suspended converter, p.3) and process flow (p.4-5, Fig. 3) cover the suspended converter and its cut-back structures only; where the SiO2-clad reference was made is not stated (rule 12).'
+    why: 'p.7 Sec. 3 is the only description of the reference structure; p.3-5 fabrication statement and process flow describe the suspended converter; the 220 nm SOI / 200 mm / 248 nm DUV attributes were carried over from the converter without a statement'
+  cmp_lit_guan2014a_psr_1310:
+    notes: 'Measured in two calibration structures (TE-input and TM-input) with PSRs designed identical; GC loss removed with the average of four TE and four TM SPGC loops (p.3, Figs. 5-6). Not entered: polarization crosstalk better than 20 dB over 1290-1330 nm (p.1 abstract, p.3 Sec. III C, p.4 Fig. 7(b)), defined as the TE0-input power reaching the TE0 mode at the TM output port (and the TM0-input counterpart) after GC normalization, i.e. relative to the input power; it is not a polarization extinction ratio (wanted / unwanted power at one port: the wanted TM0-to-TE0 path itself loses 1-2 dB, Fig. 7(a)) and crosstalk_db is not allowed for polarization (registry gap, also gao2026 / lit_27; audit lit_59 Q3). Sub-elements: cmp_lit_guan2014a_dc_pbs, cmp_lit_guan2014a_bilevel_taper, cmp_lit_guan2014a_amzi_te1_te0; test GCs: cmp_lit_guan2014a_spgc_te, cmp_lit_guan2014a_spgc_tm. Fab empty: fabrication described passively on an 8-inch SOI wafer (p.3 Sec. III A) without a fabricating org; authors at NUS, University of Delaware and IME A*STAR (D80b). OpSIS appears only as a grant program (p.1). 248 nm DUV, three masks (220 / 160 / 90 nm), oxide cladding (p.3).'
+    why: 'the crosstalk row m6 is deleted (see delete_metrics); its value and definition move to the component notes'
+metrics:
+  cmp_lit_ma2013_crossing_1550-m5:
+    statistic: best
+    why: 'p.7 Sec. 3.2 "as low as 0.05 dB": skill rule 7 maps "as low as" to statistic best'
+  cmp_lit_ma2013_crossing_1550-m8:
+    qualifier: gt
+    notes: 'printed about -37 dB; the signal lies at the noise floor of the test system and the real crosstalk is lower (p.7), abstract / conclusion: lower than -37 dB for both crossings, so stored as a bound; span = Fig. 3(c) axis'
+    why: 'p.7 Sec. 3.2 (noise floor, "real crosstalk should be even smaller"), p.1 abstract and p.9 conclusion ("lower / less than -37 dB"): the value is a lower bound on the suppression, as the five-die m9 row already stores it'
+  cmp_lit_fang2010_suspended_sio2_ssc-m5:
+    wavelength_nm: 1550
+    why: 'p.6 Sec. 3 "tolerances ... at 1550 nm", p.7 Fig. 7 caption "at 1550 nm": the stated wavelength belongs in the wavelength column (it was only in condition)'
+  cmp_lit_fang2010_suspended_sio2_ssc-m6:
+    wavelength_nm: 1550
+    why: 'p.6 Sec. 3 / p.7 Fig. 7 caption: tolerances characterized at 1550 nm'
+  cmp_lit_mekis2010_psgc_diamond-m1:
+    basis: derived
+    locator: p.8 Sec. V B; p.8 Eq. (9); p.8 Fig. 11
+    notes: 'printed lowest loss in the S-band 3.2 dB for both polarizations; Fig. 11 peak near 1491 nm; single-coupler response computed with Eq. (9), T = P / sqrt((Pp + Ps) / 2), from the three-PSGC test structure assuming identical couplers (D80a; valdez2025 Eq. 8 precedent, lit_50)'
+    why: 'p.7-8 Sec. V B: the single-coupler loss is the authors'' arithmetic (Eq. 9) on their own test-structure powers, which is derived under D80a (lit_50 valdez2025 ruling); the distiller''s own note describes this extraction'
+delete_metrics:
+  - id: cmp_lit_guan2014a_psr_1310-m6
+    why: 'p.3 Sec. III C / p.4 Fig. 7(b): the paper''s crosstalk is the wrong-input power at an output port relative to the input power (GC-normalized efficiency, -20 to -35 dB), not a ratio of wanted to unwanted power at the port; per_db (polarization extinction ratio) would overstate the PER by the 1-2 dB conversion loss of the wanted path. lu2015 / chen2021 / cheng2023 per_db rows are port ratios (PER definitions), so they are not precedents for this definition. crosstalk_db is not allowed for polarization (registry gap, lit_27 gao2026). Value and definition kept in component notes (D401 pattern); audit lit_59 Q3'
+add_metrics:
+  - metric_id: cmp_lit_ma2013_crossing_1550-m18
+    component_id: cmp_lit_ma2013_crossing_1550
+    parameter: wdl_db
+    value: 0.1
+    unit: dB
+    qualifier: approx
+    wavelength_nm: 1500
+    wavelength_max_nm: 1600
+    polarization: te
+    condition: '3D FDTD, variation of the transmittance over the simulated 100 nm range centred at 1550 nm (TE0 input)'
+    basis: simulated
+    locator: p.5 Sec. 2.2; p.5 Fig. 2(a)
+    notes: 'printed around 0.1 dB for both crossings; range = Fig. 2(a) axis'
+    why: 'miss: p.5 Sec. 2.2 states the simulated transmittance variation over the 100 nm range for both crossings; wdl_db is allowed for crossing; the matching simulated crosstalk statement (m11) is already entered on both rows'
+  - metric_id: cmp_lit_ma2013_crossing_1310-m17
+    component_id: cmp_lit_ma2013_crossing_1310
+    parameter: wdl_db
+    value: 0.1
+    unit: dB
+    qualifier: approx
+    wavelength_nm: 1260
+    wavelength_max_nm: 1360
+    polarization: te
+    condition: '3D FDTD, variation of the transmittance over the simulated 100 nm range centred at 1310 nm (TE0 input)'
+    basis: simulated
+    locator: p.5 Sec. 2.2; p.5 Fig. 2(b)
+    notes: 'printed around 0.1 dB for both crossings; range = Fig. 2(b) axis'
+    why: 'miss: p.5 Sec. 2.2, stated for both crossings (as m10 simulated crosstalk)'
+  - metric_id: cmp_lit_fang2010_si_wire_450nm-m5
+    component_id: cmp_lit_fang2010_si_wire_450nm
+    parameter: box_thickness_um
+    value: 2
+    unit: um
+    basis: design_target
+    locator: p.4 Sec. 2
+    why: 'miss (D153, waveguide_xsec optional): p.4 "SOI wafers with 220 nm top Si layer and 2 um buried oxide"; already entered on the converter row (m11) but not on the wire row'
+  - metric_id: cmp_lit_fang2010_si_wire_450nm-m6
+    component_id: cmp_lit_fang2010_si_wire_450nm
+    parameter: cladding_thickness_um
+    value: 4
+    unit: um
+    condition: PECVD SiO2 deposited after the Si etches, surrounding the Si waveguide
+    basis: design_target
+    locator: p.5 Sec. 2
+    notes: 'deposited thickness as printed (4 um PECVD SiO2); no planarization or measured thickness stated'
+    why: 'miss (D153, waveguide_xsec optional): p.5 "a 4 um PECVD SiO2 layer is deposited. So, the SiO2 surrounds the Si waveguide"; the component cladding field already names it'

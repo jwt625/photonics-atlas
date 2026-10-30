@@ -1,0 +1,228 @@
+# Audit patch lit_55 (fresh-context audit 2026-10-30, DevLog/audits/2026-10-30-lit_55-audit.md).
+# 285 metrics: 266 ok / 19 imprecise / 0 wrong; 35 components: 34 ok / 1 imprecise (platform) / 0 wrong / 0 deleted,
+# 4 changed (1 platform + notes, 3 notes that follow the added misses);
+# 5 misses added (yin2007 x3, kang2008 x2). Not covered here: coordinator rulings on the open questions and registry gaps
+# listed in the audit file.
+components:
+  cmp_lit_mcnab2003_fs_ssc:
+    platform: polymer
+    notes: 'Optimized for TE only (PhC circuit); the polymer extends past the taper vertex to relax cleaving tolerance (p.6).
+      Coupling uncertainty between devices below 0.2 dB (p.7, p.10). Misalignment: 3-dB loss at +/- 1 um lateral or vertical
+      displacement (Fig. 4 inset; no 1-dB value; 3-dB tolerances not a registry parameter, D250). Fig. 2(c) SEM shows a 3
+      um thick polymer ''in this case'' (not the 2 x 2 um2 design). Test fibers: tapered microlensed PM input fiber (2.1 um
+      beam waist), tapered SMF output (1.85 um waist). Polymer defined by a final lithography step (p.6). Fab org_ibm_watson:
+      wafers etched in the 200 mm CMOS line at IBM Watson Research Center (p.6 Sec. 3); e-beam lithography on a Leica VB6-HR.
+      Acknowledgment thanks MRL staff at the IBM Watson facility (staff thanks, company-own cleanroom: no facility entry,
+      D404). Platform polymer (audit 2026-10-30, D82f): the 2 x 2 um2 epoxy polymer waveguide extends lengthwise past the
+      taper vertex to the cleaved facet (p.6), so the fiber-facing layer is the polymer; the Si inverse taper is in core_material.'
+    why: 'D82f: edge couplers / SSCs take the platform of the layer at the fiber-facing facet; p.6 Sec. 3 the polymer waveguide
+      extends past the taper vertex to relax cleaving tolerance and supports guiding by itself (index about 1.58 above the
+      oxide); merged precedent: polymer facets are platform polymer'
+  cmp_lit_kang2008_ge_si_sacm_apd_30um:
+    notes: 'Breakdown voltage thermal coefficient 0.05 %/degC (12 mV/K, 200-340 K, Fig. 3; no registry parameter). Effective
+      k about 0.1 from McIntyre fits (no parameter). Gain = APD responsivity / primary responsivity of the co-fabricated PIN
+      (cmp_lit_kang2008_ge_si_pin_ref). Punch-through between 12 and 20 V. Calculated transit-limited bandwidth 13 GHz at
+      low gain (p.6) entered as simulated m13 (audit 2026-10-30). Fab empty: ''We designed and fabricated'' (abstract) but
+      authors at Intel (US, Israel), UCSB, U. Virginia and an independent address (D154). Mesa diameters 10-200 um on the
+      same wafer; values below are for 30 um devices. Layer stack (Fig. 1 labels): p+ Ge 0.1 um, i-Ge 1 um, p-Si charge 0.1
+      um, i-Si multiplication 0.5 um, on low-doped Si; a-Si / Si3N4 passivation, Si3N4 anti-reflection at 1310 nm.'
+    why: notes follow the added miss m13 (p.6 Sec. 3 theoretical 13 GHz bandwidth of the 30 um device)
+  cmp_lit_kang2008_ge_si_pin_ref:
+    notes: 'Fabricated in parallel with the APDs on the same chip to calibrate the unity-gain responsivity (p.3); diameter
+      of the measured PIN not stated. Expected responsivity 0.55 A/W calculated with an absorption coefficient of 0.706 um-1
+      (p.4; entered as simulated m5, audit 2026-10-30). Fab empty: ''We designed and fabricated'' (abstract) but authors at
+      Intel (US, Israel), UCSB, U. Virginia and an independent address (D154). Mesa diameters 10-200 um on the same wafer;
+      values below are for 30 um devices. Layer stack (Fig. 1 labels): p+ Ge 0.1 um, i-Ge 1 um, p-Si charge 0.1 um, i-Si multiplication
+      0.5 um, on low-doped Si; a-Si / Si3N4 passivation, Si3N4 anti-reflection at 1310 nm.'
+    why: notes follow the added miss m5 (p.4 Sec. 3 expected responsivity 0.55 A/W)
+  cmp_lit_yin2007_ge_a_7p4x50:
+    notes: 'Detector A. Si rib on 1.5 um SOI (100 ohm-cm, 1 um BOX): 1.4 um wide, 0.6 um etch; the substrate under the detectors
+      is locally B-implanted (anode); lateral tapers to the wider Ge waveguide; selective Ge epitaxy (0.1 um LT buffer + 1.2
+      um at 700 C) planarized by CMP to 0.8 um (intrinsic 0.7 um), Ge anneal, P implant on top (vertical n-i-p), n+ implant
+      pulled 0.4 um in from the Ge sidewalls, 1 um Al contacts (p.2, p.4). Polarization dependence smaller than 1 dB (p.4;
+      pdl_db not allowed for photodetector). Pad capacitance 23 fF measured (p.5, not the diode). Open 40 Gb/s eyes (Fig.
+      4). Fab empty: processing described passively, all authors at Intel (D80b). Impulse response FFT gives a 31 GHz optical
+      bandwidth for detector A, consistent with the frequency domain (p.6; entered as m18, audit 2026-10-30). Predicted electrical
+      bandwidth 27 GHz from modeling entered as simulated m17. Responsivities: input power at the Ge (about 126 uW) computed
+      from the measured 3.0 dB facet loss and 0.55 dB/cm rib loss (p.4), hence derived.'
+    why: notes follow the added misses m17 / m18 (p.6 Sec. 3)
+metrics:
+  cmp_lit_mcnab2003_w1_phc_membrane-m1:
+    basis: derived
+    notes: '24.2 +/- 2.4 dB/cm = cut-back slope of the strip-normalized transmission at 1505 nm (20.7 +/- 2.4 dB/cm, Fig.
+      6 inset) plus the 3.5 dB/cm strip loss of this paper, added per Eq. (2) (p.11): explicit arithmetic on own measurements,
+      derived (D80a); Table 1 prints 24, error 2.4'
+    why: 'p.11 Sec. 4.5.B: the corrected figure results from the addition of alpha_strip (3.5 dB/cm, own measurement p.6)
+      to the fitted 20.7 dB/cm slope; D80a: explicit arithmetic on the source''s own measurements is derived whether the authors
+      or the batch did it'
+  cmp_lit_vlasov2004_strip_wg_445-m4:
+    qualifier: ''
+    basis: derived
+    notes: '''5-8dB/cm around 1700nm'' (p.7) read from the Fig. 3 loss spectrum, which the authors compute as the averaged
+      4.7 mm spectrum minus the averaged 21 mm spectrum divided by the length difference (p.6): two-structure difference,
+      derived (D80a); ''around'' qualifies the wavelength (D393), not the value'
+    why: 'p.6 Sec. 3.1: loss spectrum = difference of two waveguide lengths / length difference (D80a: difference of two structures
+      is derived; the 3.6 / 6.8 / 3.5 dB/cm linear fits stay measured); qualifier: the printed value range carries no approximation
+      word (skill rule 7)'
+  cmp_lit_vlasov2004_bend_r1-m1:
+    basis: derived
+    notes: '0.086 +/- 0.005 dB/turn over most of 1325-1525 nm; much higher (0.2-0.3 dB/turn) at longer wavelengths (p.8; not
+      entered, wavelength span not stated) Bend loss per turn = (10-bend spectrum - 20-bend spectrum) / 10, spectra averaged
+      over 4 devices, fixed 4.5 mm length (p.8 Sec. 4.1): difference of two structures divided by N, derived (D80a).'
+    why: 'p.8 Sec. 4.1: the per-bend loss spectra are the difference of the 10- and 20-bend sets divided by 10 (D80a: difference
+      of two structures / cascade divided by N is derived); merged measured bend rows are multi-point slope fits (papadovasilakis2023a,
+      song2024a)'
+  cmp_lit_vlasov2004_bend_r1-m2:
+    basis: derived
+    notes: 'Bend loss per turn = (10-bend spectrum - 20-bend spectrum) / 10, spectra averaged over 4 devices, fixed 4.5 mm
+      length (p.8 Sec. 4.1): difference of two structures divided by N, derived (D80a).'
+    why: 'p.8 Sec. 4.1: the per-bend loss spectra are the difference of the 10- and 20-bend sets divided by 10 (D80a: difference
+      of two structures / cascade divided by N is derived); merged measured bend rows are multi-point slope fits (papadovasilakis2023a,
+      song2024a)'
+  cmp_lit_vlasov2004_bend_r1-m3:
+    basis: derived
+    notes: '0.1 +/- 0.01 dB/turn Bend loss per turn = (10-bend spectrum - 20-bend spectrum) / 10, spectra averaged over 4
+      devices, fixed 4.5 mm length (p.8 Sec. 4.1): difference of two structures divided by N, derived (D80a).'
+    why: 'p.8 Sec. 4.1: the per-bend loss spectra are the difference of the 10- and 20-bend sets divided by 10 (D80a: difference
+      of two structures / cascade divided by N is derived); merged measured bend rows are multi-point slope fits (papadovasilakis2023a,
+      song2024a)'
+  cmp_lit_vlasov2004_bend_r2-m1:
+    basis: derived
+    notes: '0.013 +/- 0.005 dB/turn Bend loss per turn = (10-bend spectrum - 20-bend spectrum) / 10, spectra averaged over
+      4 devices, fixed 4.5 mm length (p.8 Sec. 4.1): difference of two structures divided by N, derived (D80a).'
+    why: 'p.8 Sec. 4.1: the per-bend loss spectra are the difference of the 10- and 20-bend sets divided by 10 (D80a: difference
+      of two structures / cascade divided by N is derived); merged measured bend rows are multi-point slope fits (papadovasilakis2023a,
+      song2024a)'
+  cmp_lit_vlasov2004_bend_r2-m2:
+    basis: derived
+    notes: 'Bend loss per turn = (10-bend spectrum - 20-bend spectrum) / 10, spectra averaged over 4 devices, fixed 4.5 mm
+      length (p.8 Sec. 4.1): difference of two structures divided by N, derived (D80a).'
+    why: 'p.8 Sec. 4.1: the per-bend loss spectra are the difference of the 10- and 20-bend sets divided by 10 (D80a: difference
+      of two structures / cascade divided by N is derived); merged measured bend rows are multi-point slope fits (papadovasilakis2023a,
+      song2024a)'
+  cmp_lit_vlasov2004_bend_r2-m3:
+    basis: derived
+    notes: '0.015 +/- 0.01 dB/turn Bend loss per turn = (10-bend spectrum - 20-bend spectrum) / 10, spectra averaged over
+      4 devices, fixed 4.5 mm length (p.8 Sec. 4.1): difference of two structures divided by N, derived (D80a).'
+    why: 'p.8 Sec. 4.1: the per-bend loss spectra are the difference of the 10- and 20-bend sets divided by 10 (D80a: difference
+      of two structures / cascade divided by N is derived); merged measured bend rows are multi-point slope fits (papadovasilakis2023a,
+      song2024a)'
+  cmp_lit_vlasov2004_bend_r5-m1:
+    basis: derived
+    notes: 'conclusion: below 0.005 dB/turn; Sec. 4.1: within the +/- 0.005 dB/turn uncertainty; wavelength from Table 2 (1500
+      nm). TM: negligible, within uncertainty (p.9, no number) Bend loss per turn = (10-bend spectrum - 20-bend spectrum)
+      / 10, spectra averaged over 4 devices, fixed 4.5 mm length (p.8 Sec. 4.1): difference of two structures divided by N,
+      derived (D80a).'
+    why: 'p.8 Sec. 4.1: the per-bend loss spectra are the difference of the 10- and 20-bend sets divided by 10 (D80a: difference
+      of two structures / cascade divided by N is derived); merged measured bend rows are multi-point slope fits (papadovasilakis2023a,
+      song2024a)'
+  cmp_lit_yin2007_ge_a_7p4x50-m2:
+    basis: derived
+    notes: 'printed 51 mA/cm2 as corresponding to the 169 nA dark current at -2 V ''based on the effective active area'' (p.3-4);
+      area not printed; audit check: 169 nA / ((7.4 - 2 x 0.4) x 50 um2) = 51 mA/cm2, i.e. the n+ implant pulled in 0.4 um
+      per side (p.4); derived (D80a)'
+    why: 'p.3-4: the density is the authors'' arithmetic on the measured current and an area (D80a); kang2008 densities stated
+      directly stay measured'
+  cmp_lit_yin2007_ge_b_4p4x100-m2:
+    basis: derived
+    notes: 'printed 74 mA/cm2 as corresponding to the 267 nA dark current at -2 V ''based on the effective active area'' (p.3-4);
+      area not printed; audit check: 267 nA / ((4.4 - 2 x 0.4) x 100 um2) = 74 mA/cm2, i.e. the n+ implant pulled in 0.4 um
+      per side (p.4); derived (D80a)'
+    why: 'p.3-4: the density is the authors'' arithmetic on the measured current and an area (D80a); kang2008 densities stated
+      directly stay measured'
+  cmp_lit_vivien2009_ge_pin_15x3-m2:
+    basis: derived
+    notes: printed 'about 60 mA/cm2' as corresponding to the 18 nA dark current at -1 V (p.4); area basis not stated (18 nA
+      over the 15 x 3 um2 mesa gives 40 mA/cm2); derived (D80a)
+    why: 'p.4 Sec. 3: the density is stated as the conversion of the measured 18 nA (D80a: authors'' arithmetic on own measurement);
+      the printed value does not follow from the stated mesa area, recorded in notes'
+  cmp_lit_vivien2009_ge_pin_15x3-m8:
+    ref_plane: on_chip
+    why: 'p.5: QE printed as corresponding to the on-chip (reference-branch) responsivity of 1 A/W (m3, ref_plane on_chip)'
+  cmp_lit_yin2007_ge_a_7p4x50-m4:
+    ref_plane: on_chip
+    why: 'p.4: QE printed as corresponding to the responsivity referred to the power reaching the Ge (m3, ref_plane on_chip)'
+  cmp_lit_yin2007_ge_b_4p4x100-m4:
+    ref_plane: on_chip
+    why: 'p.4: QE printed as corresponding to the responsivity referred to the power reaching the Ge (m3, ref_plane on_chip)'
+  cmp_lit_yin2007_ge_a_7p4x50-m14:
+    notes: printed rib width 1.4 um (um -> nm) of the single-mode feed waveguide; lateral tapers widen the Si to the wider
+      Ge detector (p.2, Fig. 1(a)-(b)), so this is not the Si width under the absorber (not stated)
+    why: 'p.2 Sec. 2 and Fig. 1(a) render (page 3): a taper connects the 1.4 um SM waveguide to the wider Ge waveguide detector;
+      the ge_pd cross-section must not draw a 1.4 um rib under a 7.4 / 4.4 um absorber without this note'
+  cmp_lit_yin2007_ge_b_4p4x100-m14:
+    notes: printed rib width 1.4 um (um -> nm) of the single-mode feed waveguide; lateral tapers widen the Si to the wider
+      Ge detector (p.2, Fig. 1(a)-(b)), so this is not the Si width under the absorber (not stated)
+    why: 'p.2 Sec. 2 and Fig. 1(a) render (page 3): a taper connects the 1.4 um SM waveguide to the wider Ge waveguide detector;
+      the ge_pd cross-section must not draw a 1.4 um rib under a 7.4 / 4.4 um absorber without this note'
+  cmp_lit_derose2011_ge_w1p3_l4-m4:
+    notes: 'Table 1 footnote: 1.53 um, 1 V reverse bias, 300 uA; the Fig. 5(b) caption shows this device at 2 V reverse bias
+      with a 45 GHz roll-off, and its inset (300 uA) shows the bandwidth saturating from about 0.8 V (page 7 render: about
+      45 GHz at 0.8-2 V); bias_v follows Table 1'
+    why: 'p.5 Table 1 footnote (1 V) vs p.7 Fig. 5(b) caption (2 V): the conflict was only in the component notes; the inset
+      render shows saturation, so the value holds at both biases'
+  cmp_lit_campenhout2010_nisi_heater_w1-m3:
+    qualifier: ''
+    why: p.2 'as low as 1 V' -> statistic best only (skill rule 7); no approximation word printed
+add_metrics:
+- metric_id: cmp_lit_yin2007_ge_a_7p4x50-m17
+  component_id: cmp_lit_yin2007_ge_a_7p4x50
+  parameter: bw3db_ghz
+  value: 27
+  unit: GHz
+  condition: predicted electrical (power) 3-dB bandwidth from modeling (transit time and RC delay, 0.7 um intrinsic Ge); bias
+    not stated
+  basis: simulated
+  locator: p.6 Sec. 3
+  notes: '''predicted electrical bandwidths'' 27 / 26 GHz for detectors A / B, consistent with the measured 26 / 24.1 GHz
+    (p.5-6)'
+  why: 'miss: p.6 Sec. 3 states the modeled electrical bandwidth of this design (D82a: computed performance is simulated)'
+- metric_id: cmp_lit_yin2007_ge_a_7p4x50-m18
+  component_id: cmp_lit_yin2007_ge_a_7p4x50
+  parameter: bw3db_ghz
+  value: 31
+  unit: GHz
+  wavelength_nm: 1550
+  condition: optical 3-dB bandwidth from the FFT of an impulse-response measurement at 1550 nm; bias not stated
+  basis: measured
+  locator: p.6 Sec. 3
+  notes: second method, agrees with the 31.3 GHz frequency-domain value (m6)
+  why: 'miss: p.6 Sec. 3 states a separately measured bandwidth of detector A (impulse response), previously only in component
+    notes'
+- metric_id: cmp_lit_yin2007_ge_b_4p4x100-m17
+  component_id: cmp_lit_yin2007_ge_b_4p4x100
+  parameter: bw3db_ghz
+  value: 26
+  unit: GHz
+  condition: predicted electrical (power) 3-dB bandwidth from modeling (transit time and RC delay, 0.7 um intrinsic Ge); bias
+    not stated
+  basis: simulated
+  locator: p.6 Sec. 3
+  notes: '''predicted electrical bandwidths'' 27 / 26 GHz for detectors A / B, consistent with the measured 26 / 24.1 GHz
+    (p.5-6)'
+  why: 'miss: p.6 Sec. 3 states the modeled electrical bandwidth of this design (D82a: computed performance is simulated)'
+- metric_id: cmp_lit_kang2008_ge_si_sacm_apd_30um-m13
+  component_id: cmp_lit_kang2008_ge_si_sacm_apd_30um
+  parameter: bw3db_ghz
+  value: 13
+  unit: GHz
+  wavelength_nm: 1310
+  condition: theoretical bandwidth at low gain for a 30 um diameter device, transit-time dominated; series resistance and
+    parasitic capacitance assumed negligible
+  basis: simulated
+  locator: p.6 Sec. 3
+  notes: measured 10 GHz (m8); the authors attribute the gap to parasitic effects (contact-layer doping, pad capacitance)
+  why: 'miss: p.6 Sec. 3 ''Theoretical calculation shows'' 13 GHz for this device; a computed performance value of the paper''s
+    own device is simulated (D82a), not a cited value (rule 3)'
+- metric_id: cmp_lit_kang2008_ge_si_pin_ref-m5
+  component_id: cmp_lit_kang2008_ge_si_pin_ref
+  parameter: responsivity_a_per_w
+  value: 0.55
+  unit: A/W
+  wavelength_nm: 1310
+  ref_plane: unspecified
+  condition: expected unity-gain responsivity calculated with an absorption coefficient of 0.706 um-1 for Ge at 1310 nm
+  basis: simulated
+  locator: p.4 Sec. 3
+  notes: measured 0.54 A/W (m1); origin of the absorption coefficient not stated
+  why: 'miss: p.4 Sec. 3 states the calculated expected responsivity of this structure (D82a: computed performance is simulated)'

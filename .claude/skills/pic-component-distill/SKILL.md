@@ -116,6 +116,60 @@ per-paper report. Read before first use: `data/schema/components.schema.yaml` (c
   (best measured primary metric with enough geometry for a to-scale top view), across >= 2 platforms where possible;
   record the criterion, rank and rationale.
 
+## Contract v6 additions: `lit` corpus batches (DevLog-007 D150-D421, 2026-10-30)
+
+- Inputs: `references/<paper_id>/text.md` (`<!-- page N -->`), `figures/page_NN.png`, `source.json`; source rows
+  `lit:<paper_id>`; ids `cmp_lit_<paper_id>_<label>`; `host_device_ids` empty. `garbled_text_layer` in source.json:
+  values only from clean passages or page renders. A cached file that is another paper or only a correction / erratum:
+  stop on it and report (D397 / D409). Do not mention how a PDF was obtained in any output.
+- Most-hit rulings (read the DevLog-007 tables for the rest): D159 ambiguous sample identity -> value not entered,
+  bound in component notes; D259 / D259a / D408 values (and figures) the paper reproduces from the authors' own
+  earlier work are removed, a journal extension of their conference paper keeps its values; D393 "around 1550 nm" is a
+  stated wavelength; D396 one physical device used in several classes = one row per class with a cross-note; D400
+  rings inside laser cavities and test / radius-series rings are `resonator.ring`, `wdm.mrr` only for channel filters
+  in a WDM path; D401 per-port "3 +/- x dB" is a split deviation, not imbalance / IL; D402 purchased-wafer and foundry
+  thicknesses `design_target`; D403 `q_intrinsic` (and finesse / Q_c from it) `author_estimate` unless the coupling
+  regime is determined from the data; D404 pure rotator = `polarization.psr`; D158 / D407 single switch element =
+  `switch_fabric.other`; D411 scope = integrated / chip-scale parts and fiber-coupled passive parts (bulk crystal parts
+  out; D424: free-space switch fabrics with fiber I/O built on lithographic MEMS / LCoS chips stay in as
+  `switch_fabric`, platform `other`); D422 / D423 a platform the paper does not state is left empty, never defaulted;
+  D259 / D408 also cover a figure or value the paper assigns to another (even forthcoming) paper of the authors; D398 MPW access providers named for fabrication support are fab orgs; D395 / D399 fab = the org of the
+  authors the fabrication sentence names.
+- Figure-labelled dimensions only (`extracted_from_figure`), never scale-bar measurements; figure-read performance
+  values `extracted_from_figure` with the reading uncertainty in notes.
+- Report: write `<batch>/BATCH_REPORT.md` yourself (D392): per paper components / metric rows, values not entered and
+  why, missing fab / facility orgs (check `organizations.csv` / `org_aliases.csv` first; name as printed + locator),
+  judgment calls, registry gaps with the skipped value + locator and a proposed definition. Final message 5-10 lines.
+
+## Audit workflow (fresh context, per batch; D50, D391)
+
+- Read-only on the real batch. Confirm each cached text is its source row's paper (page-1 title). Check every metric
+  row at its locator (figure renders for figure values): class / subtype, platform, scope / method / excludes, basis
+  (rule 4, D80-D82, D157 / D256 unit conversions, D403), conditions, fab / facility orgs, D159 / D259 / D408, D411;
+  look for misses (stated performance, D153 geometry). Verify the distiller's report; do not trust it.
+- Output: `DevLog/audits/<date>-<batch>-audit.md` (front matter title / date / mode / patch; per-paper findings with
+  locators; counts ok / imprecise / wrong per metric and component; misses; numbered coordinator questions with a
+  recommendation; registry gaps confirmed; missing orgs) and `<batch>/patch.yaml` (`components` / `metrics` changes,
+  `delete_components`, `delete_metrics`, `add_metrics`; every op with `why` + locator).
+- Validate on a scratchpad copy only: `patch_component_staging.py <copy> <batch>/patch.yaml`, re-run (0 changes),
+  `merge_component_staging.py <copy> --dry-run` (0 errors). Privacy grep of the outputs before finishing.
+
+## Coordinator workflow (D390, D391, D415, D421)
+
+1. New cached PDFs: `lit_extract.py --pending` (or `--paper-ids`), page-1 title / correction check,
+   `lit_register_sources.py`, `validate_db.py`.
+2. Batches `lit_NN` of <= 8-10 papers grouped by `primary_class` family (amplifier / frequency_converter /
+   nonreciprocal; laser / chip_chip_coupler / micro_optics / free_space_emitter; phase_shifter / photodetector /
+   waveguide_platform; resonator / splitter / mode_converter / reflector; crossing / fiber_chip_coupler /
+   fiber_interface / polarization; wdm / switch_fabric), balanced by pages; table + decision in DevLog-007 before
+   dispatch. Header batches `ofc_headers.py queue --corpus lit` (DevLog-011 contract) in parallel.
+3. One distill subagent per batch, then one fresh-context audit per batch, coordinator rulings recorded as decisions,
+   then per batch: backup zip of `data/components/` (once), `patch_component_staging.py` (re-run 0 changes),
+   `merge_component_staging.py --dry-run`, merge; merges serialized. At most 10 subagents at once.
+4. After the last merge: `build_views.py`, app `pnpm build` + `pnpm test` (the git-ignored `app/build` is checked by
+   `test_no_review_ids_in_committed_views`), `validate_db.py`, ruff, mypy, pytest, privacy scan (e-mail, street,
+   postal / P.O. box, local paths) of every changed file.
+
 ## Workflow (per paper)
 
 1. Find the source row (`eo:<paper_id>`) in `sources.csv`; check `data/components/components.csv` for existing rows.

@@ -1,0 +1,188 @@
+# Audit patch lit_46 (fresh-context audit 2026-10-29, DevLog/audits/2026-10-29-lit_46-audit.md).
+# 191 metrics: 170 ok / 4 imprecise (notes) / 17 wrong (basis, D403); 27 components: 27 ok, 0 changed / 0 deleted; 11 misses added.
+# Not covered here (coordinator / registry): missing facility orgs (Washington Nanofabrication Facility, Molecular Analysis
+# Facility, Argonne Center for Nanoscale Materials), registry gaps listed in the audit file.
+metrics:
+  cmp_lit_jin2021_ring_30ghz-m1:
+    basis: author_estimate
+    notes: 'Intrinsic Q from the fit of the asymmetric mode doublet; author_estimate (D403): the doublet-lineshape fit of the transmission (p.2 Sec. Results, Fig. 1(c); p.9 Methods) gives the loaded linewidth and depth, which do not fix under- vs over-coupling; the under-coupled branch is taken from the design (pulley coupler designed under-coupled, p.11 Supp. Sec. I); the ring-down (p.2) checks only the loaded Q.'
+    why: 'D403 / skill rule 4: p.11 Supp. Sec. I states the coupler is designed under-coupled so that the intrinsic Q can be measured; the regime is a design assumption, not determined from the data (amplitude transmission is symmetric under swapping intrinsic and external rates; ring-down p.2 gives only Q_L). Locator p.2 Fig. 1(c)'
+  cmp_lit_jin2021_ring_30ghz-m3:
+    basis: author_estimate
+    notes: 'Highest Q of the paper; std 13.5 M (next row). author_estimate (D403): the doublet-lineshape fit of the transmission (p.2 Sec. Results, Fig. 1(c); p.9 Methods) gives the loaded linewidth and depth, which do not fix under- vs over-coupling; the under-coupled branch is taken from the design (pulley coupler designed under-coupled, p.11 Supp. Sec. I); the ring-down (p.2) checks only the loaded Q.'
+    why: 'D403: same doublet-fit extraction and assumed under-coupled regime as m1 (p.2 Sec. Results; p.11-12 Supp. Sec. I); locator p.3 Sec. Results; p.1 abstract; p.6 Table I'
+  cmp_lit_jin2021_ring_30ghz-m4:
+    basis: author_estimate
+    notes: 'author_estimate (D403): the doublet-lineshape fit of the transmission (p.2 Sec. Results, Fig. 1(c); p.9 Methods) gives the loaded linewidth and depth, which do not fix under- vs over-coupling; the under-coupled branch is taken from the design (pulley coupler designed under-coupled, p.11 Supp. Sec. I); the ring-down (p.2) checks only the loaded Q.'
+    why: 'D403: same doublet-fit extraction and assumed under-coupled regime as m1 (p.2 Sec. Results; p.11-12 Supp. Sec. I); locator p.3 Sec. Results'
+  cmp_lit_jin2021_ring_30ghz-m5:
+    basis: author_estimate
+    notes: 'Wavelength not stated with the value; 1556 nm = DFB lasing wavelength into the bus (p.3). author_estimate (D403): the doublet-lineshape fit of the transmission (p.2 Sec. Results, Fig. 1(c); p.9 Methods) gives the loaded linewidth and depth, which do not fix under- vs over-coupling; the under-coupled branch is taken from the design (pulley coupler designed under-coupled, p.11 Supp. Sec. I); the ring-down (p.2) checks only the loaded Q.'
+    why: 'D403: same doublet-fit extraction and assumed under-coupled regime as m1 (p.2 Sec. Results; p.11-12 Supp. Sec. I); locator p.4 Sec. Hertz-linewidth integrated laser'
+  cmp_lit_jin2021_ring_30ghz-m6:
+    basis: author_estimate
+    notes: 'Figure label Q0=159 M. author_estimate (D403): the doublet-lineshape fit of the transmission (p.2 Sec. Results, Fig. 1(c); p.9 Methods) gives the loaded linewidth and depth, which do not fix under- vs over-coupling; the under-coupled branch is taken from the design (pulley coupler designed under-coupled, p.11 Supp. Sec. I); the ring-down (p.2) checks only the loaded Q.'
+    why: 'D403: same doublet-fit extraction and assumed under-coupled regime as m1 (p.2 Sec. Results; p.11-12 Supp. Sec. I); locator p.12 Supp. Fig. S2'
+  cmp_lit_jin2021_ring_30ghz-m8:
+    basis: author_estimate
+    notes: 'Figure label Q0=155 M. author_estimate (D403): the doublet-lineshape fit of the transmission (p.2 Sec. Results, Fig. 1(c); p.9 Methods) gives the loaded linewidth and depth, which do not fix under- vs over-coupling; the under-coupled branch is taken from the design (pulley coupler designed under-coupled, p.11 Supp. Sec. I); the ring-down (p.2) checks only the loaded Q.'
+    why: 'D403: same doublet-fit extraction and assumed under-coupled regime as m1 (p.2 Sec. Results; p.11-12 Supp. Sec. I); locator p.12 Supp. Fig. S2'
+  cmp_lit_jin2021_ring_30ghz-m10:
+    basis: author_estimate
+    notes: 'Figure label Q0=137 M. author_estimate (D403): the doublet-lineshape fit of the transmission (p.2 Sec. Results, Fig. 1(c); p.9 Methods) gives the loaded linewidth and depth, which do not fix under- vs over-coupling; the under-coupled branch is taken from the design (pulley coupler designed under-coupled, p.11 Supp. Sec. I); the ring-down (p.2) checks only the loaded Q.'
+    why: 'D403: same doublet-fit extraction and assumed under-coupled regime as m1 (p.2 Sec. Results; p.11-12 Supp. Sec. I); locator p.12 Supp. Fig. S2'
+  cmp_lit_jin2021_ring_30ghz-m12:
+    basis: author_estimate
+    notes: 'Figure label Q0=157 M. author_estimate (D403): the doublet-lineshape fit of the transmission (p.2 Sec. Results, Fig. 1(c); p.9 Methods) gives the loaded linewidth and depth, which do not fix under- vs over-coupling; the under-coupled branch is taken from the design (pulley coupler designed under-coupled, p.11 Supp. Sec. I); the ring-down (p.2) checks only the loaded Q.'
+    why: 'D403: same doublet-fit extraction and assumed under-coupled regime as m1 (p.2 Sec. Results; p.11-12 Supp. Sec. I); locator p.12 Supp. Fig. S2'
+  cmp_lit_jin2021_ring_30ghz-m14:
+    basis: author_estimate
+    notes: 'Figure label Q0=199 M. author_estimate (D403): the doublet-lineshape fit of the transmission (p.2 Sec. Results, Fig. 1(c); p.9 Methods) gives the loaded linewidth and depth, which do not fix under- vs over-coupling; the under-coupled branch is taken from the design (pulley coupler designed under-coupled, p.11 Supp. Sec. I); the ring-down (p.2) checks only the loaded Q.'
+    why: 'D403: same doublet-fit extraction and assumed under-coupled regime as m1 (p.2 Sec. Results; p.11-12 Supp. Sec. I); locator p.12 Supp. Fig. S2'
+  cmp_lit_jin2021_ring_30ghz-m16:
+    basis: author_estimate
+    notes: 'Figure label Q0=227 M. author_estimate (D403): the doublet-lineshape fit of the transmission (p.2 Sec. Results, Fig. 1(c); p.9 Methods) gives the loaded linewidth and depth, which do not fix under- vs over-coupling; the under-coupled branch is taken from the design (pulley coupler designed under-coupled, p.11 Supp. Sec. I); the ring-down (p.2) checks only the loaded Q.'
+    why: 'D403: same doublet-fit extraction and assumed under-coupled regime as m1 (p.2 Sec. Results; p.11-12 Supp. Sec. I); locator p.12 Supp. Fig. S2'
+  cmp_lit_jin2021_ring_30ghz-m18:
+    basis: author_estimate
+    notes: 'Figure label Q0=233 M. author_estimate (D403): the doublet-lineshape fit of the transmission (p.2 Sec. Results, Fig. 1(c); p.9 Methods) gives the loaded linewidth and depth, which do not fix under- vs over-coupling; the under-coupled branch is taken from the design (pulley coupler designed under-coupled, p.11 Supp. Sec. I); the ring-down (p.2) checks only the loaded Q.'
+    why: 'D403: same doublet-fit extraction and assumed under-coupled regime as m1 (p.2 Sec. Results; p.11-12 Supp. Sec. I); locator p.12 Supp. Fig. S2'
+  cmp_lit_jin2021_ring_30ghz-m20:
+    basis: author_estimate
+    notes: 'Figure label Q0=278 M. author_estimate (D403): the doublet-lineshape fit of the transmission (p.2 Sec. Results, Fig. 1(c); p.9 Methods) gives the loaded linewidth and depth, which do not fix under- vs over-coupling; the under-coupled branch is taken from the design (pulley coupler designed under-coupled, p.11 Supp. Sec. I); the ring-down (p.2) checks only the loaded Q.'
+    why: 'D403: same doublet-fit extraction and assumed under-coupled regime as m1 (p.2 Sec. Results; p.11-12 Supp. Sec. I); locator p.12 Supp. Fig. S2'
+  cmp_lit_jin2021_racetrack_10ghz-m1:
+    basis: author_estimate
+    notes: 'Wavelength from the supplement (p.12); lower than the 5 GHz racetrack, attributed to straight-bend transition loss. author_estimate (D403): intrinsic Q inferred from transmission scans (p.2 Sec. Results); the racetracks are designed for critical coupling at 1550 nm (p.12 Supp. Sec. I) and no regime determination from the data is stated.'
+    why: 'D403: q_intrinsic with the coupling regime taken from the design (critical coupling, p.12 Supp. Sec. I), not from the data; locator p.4 Sec. Hertz-linewidth integrated laser; p.12 Supp. Sec. I'
+  cmp_lit_jin2021_racetrack_5ghz-m1:
+    basis: author_estimate
+    notes: 'author_estimate (D403): intrinsic Q inferred from transmission scans (p.2 Sec. Results); the racetracks are designed for critical coupling at 1550 nm (p.12 Supp. Sec. I) and no regime determination from the data is stated.'
+    why: 'D403: q_intrinsic with the coupling regime taken from the design (critical coupling, p.12 Supp. Sec. I), not from the data; locator p.4 Sec. Hertz-linewidth integrated laser; p.12 Supp. Sec. I'
+  cmp_lit_jin2021_ring_30ghz-m23:
+    basis: author_estimate
+    notes: 'Computed by the authors from Q 260 M and FSR 30 GHz (Table I). author_estimate: rests on the intrinsic Q (260 M), whose coupling regime is assumed (D403, skill rule 4).'
+    why: 'skill rule 4 / D403: the intrinsic finesse is computed from Q_i, which rests on the assumed under-coupled regime; p.6 Table I'
+  cmp_lit_nader2025_ta2o5_ring_1064-m1:
+    basis: author_estimate
+    notes: 'Extraction model not stated; text rounds to 2.5e6. author_estimate (D403): Q_i and Q_c come from one fit of the Fig. 4(c) dip; the coupling regime is not stated (labels Q_c 3.20e7 > Q_i imply the under-coupled branch was chosen), not determined from the data.'
+    why: 'D403 (li2026b precedent, lit_38 audit): Lorentzian-type fit with the regime not stated -> author_estimate; p.8 Fig. 4(c) label; p.7 Sec. 4'
+  cmp_lit_nader2025_ta2o5_ring_1064-m3:
+    basis: author_estimate
+    notes: 'Figure label Qc. author_estimate (D403): from the same fit as Q_i with the coupling regime not stated.'
+    why: 'D403: Q_c and Q_i are the two branches of one fit; regime not stated; p.8 Fig. 4(c) label'
+  cmp_lit_zhang2026a_dfb4_soa_array-m22:
+    notes: Printed 500.38 kHz; kHz -> Hz (D256). Bias as in the Fig. 15 caption (IY 200 mA, ISOA 150 mA); the p.11 text swaps them (ISOA 200 mA, IY 150 mA). Fig. 16 / 17 captions and p.12 text use IY 200 / ISOA 150 mA.
+    why: 'p.11 Sec. 3 text vs p.11 Fig. 15 caption: IY / ISOA values swapped; the condition follows the caption without noting the conflict'
+  cmp_lit_zhang2026a_dfb4_soa_array-m23:
+    notes: Printed 488.03 kHz; kHz -> Hz (D256). Bias as in the Fig. 15 caption (IY 200 mA, ISOA 150 mA); the p.11 text swaps them (ISOA 200 mA, IY 150 mA). Fig. 16 / 17 captions and p.12 text use IY 200 / ISOA 150 mA.
+    why: 'p.11 Sec. 3 text vs p.11 Fig. 15 caption: IY / ISOA values swapped; the condition follows the caption without noting the conflict'
+  cmp_lit_zhang2026a_dfb4_soa_array-m24:
+    notes: Printed 526.41 kHz; kHz -> Hz (D256). Bias as in the Fig. 15 caption (IY 200 mA, ISOA 150 mA); the p.11 text swaps them (ISOA 200 mA, IY 150 mA). Fig. 16 / 17 captions and p.12 text use IY 200 / ISOA 150 mA.
+    why: 'p.11 Sec. 3 text vs p.11 Fig. 15 caption: IY / ISOA values swapped; the condition follows the caption without noting the conflict'
+  cmp_lit_zhang2026a_dfb4_soa_array-m25:
+    notes: Printed 519.96 kHz; kHz -> Hz (D256). Bias as in the Fig. 15 caption (IY 200 mA, ISOA 150 mA); the p.11 text swaps them (ISOA 200 mA, IY 150 mA). Fig. 16 / 17 captions and p.12 text use IY 200 / ISOA 150 mA.
+    why: 'p.11 Sec. 3 text vs p.11 Fig. 15 caption: IY / ISOA values swapped; the condition follows the caption without noting the conflict'
+add_metrics:
+- metric_id: cmp_lit_jin2021_racetrack_10ghz-m4
+  component_id: cmp_lit_jin2021_racetrack_10ghz
+  parameter: min_bend_radius_um
+  value: 1000
+  unit: um
+  condition: minimum bend radius chosen for all resonators of the paper
+  notes: Printed 1 mm; mm -> um (D157).
+  basis: derived
+  locator: p.11 Supp. Sec. I
+  why: 'miss (D153 geometry): p.11 Supp. Sec. I states the minimum bend radius of the resonators designed in this work is 1 mm; min_bend_radius_um allowed for resonator (radius_um not used: the racetrack bends have sine-curve transitions)'
+- metric_id: cmp_lit_jin2021_racetrack_10ghz-m5
+  component_id: cmp_lit_jin2021_racetrack_10ghz
+  parameter: box_thickness_um
+  value: 14.5
+  unit: um
+  condition: thermal SiO2
+  basis: design_target
+  locator: p.2 Fig. 1(a)
+  why: 'miss (D153 geometry): Fig. 1(a) cross-section (p.2) is the stack of the ultra-low-loss waveguide; all resonators were fabricated on the same wafer (p.2)'
+- metric_id: cmp_lit_jin2021_racetrack_10ghz-m6
+  component_id: cmp_lit_jin2021_racetrack_10ghz
+  parameter: cladding_thickness_um
+  value: 2
+  unit: um
+  condition: LPCVD SiO2
+  basis: design_target
+  locator: p.2 Fig. 1(a); p.2 Sec. Results
+  why: 'miss (D153 geometry): Fig. 1(a) cross-section (p.2) is the stack of the ultra-low-loss waveguide; all resonators were fabricated on the same wafer (p.2)'
+- metric_id: cmp_lit_jin2021_racetrack_5ghz-m5
+  component_id: cmp_lit_jin2021_racetrack_5ghz
+  parameter: min_bend_radius_um
+  value: 1000
+  unit: um
+  condition: minimum bend radius chosen for all resonators of the paper
+  notes: Printed 1 mm; mm -> um (D157).
+  basis: derived
+  locator: p.11 Supp. Sec. I
+  why: 'miss (D153 geometry): p.11 Supp. Sec. I states the minimum bend radius of the resonators designed in this work is 1 mm; min_bend_radius_um allowed for resonator (radius_um not used: the racetrack bends have sine-curve transitions)'
+- metric_id: cmp_lit_jin2021_racetrack_5ghz-m6
+  component_id: cmp_lit_jin2021_racetrack_5ghz
+  parameter: box_thickness_um
+  value: 14.5
+  unit: um
+  condition: thermal SiO2
+  basis: design_target
+  locator: p.2 Fig. 1(a)
+  why: 'miss (D153 geometry): Fig. 1(a) cross-section (p.2) is the stack of the ultra-low-loss waveguide; all resonators were fabricated on the same wafer (p.2)'
+- metric_id: cmp_lit_jin2021_racetrack_5ghz-m7
+  component_id: cmp_lit_jin2021_racetrack_5ghz
+  parameter: cladding_thickness_um
+  value: 2
+  unit: um
+  condition: LPCVD SiO2
+  basis: design_target
+  locator: p.2 Fig. 1(a); p.2 Sec. Results
+  why: 'miss (D153 geometry): Fig. 1(a) cross-section (p.2) is the stack of the ultra-low-loss waveguide; all resonators were fabricated on the same wafer (p.2)'
+- metric_id: cmp_lit_jin2021_sin_ull_waveguide-m3
+  component_id: cmp_lit_jin2021_sin_ull_waveguide
+  parameter: box_thickness_um
+  value: 14.5
+  unit: um
+  condition: thermal SiO2
+  basis: design_target
+  locator: p.2 Fig. 1(a)
+  why: 'miss (D153 geometry): Fig. 1(a) cross-section (p.2) is the stack of the ultra-low-loss waveguide; all resonators were fabricated on the same wafer (p.2)'
+- metric_id: cmp_lit_jin2021_sin_ull_waveguide-m4
+  component_id: cmp_lit_jin2021_sin_ull_waveguide
+  parameter: cladding_thickness_um
+  value: 2
+  unit: um
+  condition: LPCVD SiO2
+  basis: design_target
+  locator: p.2 Fig. 1(a); p.2 Sec. Results
+  why: 'miss (D153 geometry): Fig. 1(a) cross-section (p.2) is the stack of the ultra-low-loss waveguide; all resonators were fabricated on the same wafer (p.2)'
+- metric_id: cmp_lit_zhang2025b_folded_to_ps-m5
+  component_id: cmp_lit_zhang2025b_folded_to_ps
+  parameter: core_thickness_nm
+  value: 300
+  unit: nm
+  condition: Si3N4 waveguide layer
+  basis: design_target
+  locator: p.2 Sec. 2; p.8 Sec. 4
+  why: 'miss (D153 geometry): the OPA is on the 300 nm Si3N4 SNOI layer (p.2, p.8); heater_ps template cross-section needs core_thickness_nm'
+- metric_id: cmp_lit_zhang2025b_mmi_1x2-m4
+  component_id: cmp_lit_zhang2025b_mmi_1x2
+  parameter: core_thickness_nm
+  value: 300
+  unit: nm
+  condition: Si3N4 waveguide layer
+  basis: design_target
+  locator: p.2 Sec. 2; p.8 Sec. 4
+  why: 'miss (D153 geometry): 300 nm Si3N4 layer of the whole OPA (p.2, p.8), entered on the GC, antenna and waveguide rows but not on the MMI'
+- metric_id: cmp_lit_zhang2025b_arrowhead_antenna-m7
+  component_id: cmp_lit_zhang2025b_arrowhead_antenna
+  parameter: etch_depth_nm
+  value: 300
+  unit: nm
+  condition: grating etch (full etch of the 300 nm Si3N4 layer)
+  notes: Stated with the SEM image of Fig. 6(b); whether the depth was measured on the SEM is not stated, so design_target.
+  basis: design_target
+  locator: p.9 Sec. 4; Fig. 6(b)
+  why: 'miss (D153 geometry): p.9 states the antenna has a 300 nm deep etching step (full etch of the 300 nm Si3N4 layer)'

@@ -445,3 +445,15 @@ Progress (2026-10-22 22:20-22:28 PDT):
   (D409). `lit` corpus 300 -> 381 (net: +83 new, -2 quarantined). validate_db 0 errors / 214 warnings. Manual list
   regenerated: 134 rows (the generator does not list sysak2008 `resolve_failed`, gelerkremer2022 quarantined or
   chowdhury2022 not-signed-in: listed here). Days 6-10 (schedule 2026-10-27 .. 2026-10-31) not run.
+- 2026-10-29 22:55-23:33 PDT, day 6 (schedule slot 2026-10-27), tmux `lit_day6`
+  (`logs/lit_daily_day6_20261029T225515.log`), stopped by the owner at 23:33 ("kill day 6 retrieval. We have been rate
+  limited / blocked by Optica"): tmux session and fetcher processes killed by the coordinator. Before the stop: arXiv /
+  OA part done (`logs/lit_fetch_oa_20261029T225515.*`); Optica session 16: 9 ok, 4 `no_access`, 1 `resolve_failed`
+  (lu2015a, stale uri of thomson2007, guard caught it); session 17: 1 ok (zhang2025b), soganc2013 `no_access` on the
+  stale uri oe-24-6-5715 already offered for zhuang2016 (logged no_access, not wrong_pdf: nothing saved), huang2016
+  `resolve_failed` (guard), then from 23:27 `TargetClosedError` on trappen2020, streshinsky2013, selvaraja2014,
+  jung2020 (browser gone; `error` rows are retried on the next run, the fetcher only skips papers with source.pdf).
+  Not run: Optica session 18, publisher session, IEEE session (22 rows), the runbook's extract / register tail.
+  29 papers cached in total; the coordinator extracted (deng2024 garbled text layer), title-checked (29 / 29) and
+  registered them (`lit` 381 -> 410; DevLog-007 D415). Optica: no breaker file was armed by the fetcher; do not run
+  any Optica session until the owner says the block has cleared.

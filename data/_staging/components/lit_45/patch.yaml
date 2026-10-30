@@ -1,0 +1,42 @@
+# Audit patch lit_45 (fresh-context audit 2026-10-29, DevLog/audits/2026-10-29-lit_45-audit.md).
+# 62 metrics: 62 ok / 0 imprecise / 0 wrong (2 endorsed figure attributions get their evidence in notes);
+# 14 components: 11 ok / 2 changed (koyaz2026 fab org, D83c) / 1 notes (xu2026 ring, follows the miss); 1 miss added.
+# Not covered here (coordinator / registry): Jet Propulsion Laboratory org for the 5 kittlaus2020a rows (fab),
+# UNIL Cellular Imaging Facility (not entered), registry gaps listed in the audit file.
+components:
+  cmp_lit_koyaz2026_bwdfg_w1p26:
+    fab_org_ids: org_epfl
+    notes: 'Fab: ''we performed periodic poling'' with the 4.5 mm top electrodes before the waveguide etch (p.4 Sec. 3) is a fabrication statement by the authors (EPFL PHOSL / ANEMS, one author Q.ANT), and the acknowledgement places the fabrication of the LN waveguides at the EPFL Center of MicroNanoTechnology (p.7): fab org_epfl (D83c; brun2014 lit_44 precedent), facility CMi. Two-photon imaging at the UNIL Cellular Imaging Facility (p.7; not in the registry) imaged the poling test that preceded the investigated waveguides (p.4): not entered. Third-order QPM (effective 475 nm). The same waveguide also shows BWSHG (phase-matched near 1980.4 nm, Fig. 5(b)); no value in the text is tied to it (the ''up to 1.8 %/W'' belongs to the 1.30 um trace in the Fig. 5(b) render), so no BWSHG row for this waveguide. Not entered: idler tuning 1244-1290 nm via pump (765-781 nm) and temperature tuning (no frequency_converter tuning-range parameter, registry gap); phase-matched BWDFG signal near 1983.4 nm (p.6, no frequency_converter centre-wavelength parameter); ~0.5 nm signal tuning -> ~17 nm idler shift; DFG slopes 1.1 / 0.97; ~5 nm offset between simulated and measured QPM; simulated bandwidth <= 0.2 nm, > 50 nm FWHM near 916 nm pump, projected 1250-2200 nm idler coverage (simulated).'
+    why: 'p.4 Sec. 3 (authors performed the poling) + p.7 Acknowledgement (LN waveguide fabrication at EPFL CMi): D83c places fabrication at EPFL (precedent brun2014 in lit_44: authors split over two orgs, acknowledged platform names the fabricating org; liu2022 / riemensberger2022 EPFL CMi rows); borderline, see audit question 2'
+  cmp_lit_koyaz2026_bwshg_w1p30:
+    fab_org_ids: org_epfl
+    notes: 'Fab: ''we performed periodic poling'' with the 4.5 mm top electrodes before the waveguide etch (p.4 Sec. 3) is a fabrication statement by the authors (EPFL PHOSL / ANEMS, one author Q.ANT), and the acknowledgement places the fabrication of the LN waveguides at the EPFL Center of MicroNanoTechnology (p.7): fab org_epfl (D83c; brun2014 lit_44 precedent), facility CMi. Two-photon imaging at the UNIL Cellular Imaging Facility (p.7; not in the registry) imaged the poling test that preceded the investigated waveguides (p.4): not entered. Third-order QPM (effective 475 nm). Sibling of the w 1.26 um BWDFG waveguide on the same poling. Not entered: 3-dB bandwidth < 0.1 nm of the BWSHG peak (p.6; no frequency_converter bandwidth parameter, registry gap); QPM pump wavelength (not printed for this waveguide; Fig. 5(b) peak near 1981.5 nm); FSHG peaks 60 nm apart; ~4.7-5 nm systematic offset from simulation (Fig. 5(c), waveguide series 1.0-1.8 um, no per-waveguide efficiencies).'
+    why: 'same evidence as the BWDFG row (p.4 Sec. 3, p.7 Acknowledgement; D83c); QPM wavelength note made precise (p.6 prints 1980.4 nm only for the 1.26 um waveguide)'
+  cmp_lit_xu2026_er_gd2o3_ring_r150:
+    notes: 'Fab empty: ''we fabricated'' but the authors are at NTT (Basic Research / Device Technology Laboratories) and Nihon University (rule 12); no fabrication place stated. No facility acknowledged. Supplement 1 (growth, design, setup, Figs. S7-S16) not cached. Cached arXiv v1 title starts ''High-gain optical amplification ...'' (journal title differs slightly; same arXiv id). Passive resonator function; lasing rows are the laser.other component (D396; the paper does not state that the lasing ring is the Fig. 2 device). Dip depth > 10 dB for most resonances entered as extinction_db (m6); the 1538.3 nm resonance used for the Q is about 9 dB deep in Fig. 2(d). Not entered: CDC arc length 15 deg (no resonator parameter); effective loss 9.0 dB/cm computed from the loaded Q (includes coupling loss, group index not stated); resonance width ~0.03 nm (p.8, stated as a linewidth without FWHM / 3-dB definition; consistent with the loaded Q).'
+    why: 'follows the added extinction_db miss (p.4 Sec. 2: most resonances much deeper than 10 dB), which the old notes listed as not entered; Fig. 2(d) render checked'
+metrics:
+  cmp_lit_xu2026_er_gd2o3_wg_amp_1p5mm-m1:
+    notes: 'printed 23.9 +/- 0.8 dB/cm; arithmetic on own measurements (D166, ronn2019 / cai2021 precedent). Fig. 3(b) does not name the waveguide length; attributed to the 1.5 mm waveguide (sample identity resolved by the figures, D159 not triggered): the highest Fig. 3(b) pump point (about 41.5 mW) equals the 41.6 mW of the 1.5 mm Fig. 3(a) measurement; the Fig. 3(a) pump-off dip (about 9.7 dB below the baseline over 0.15 cm, about 65 dB/cm) matches alpha_wg,abs 63.6 dB/cm of Fig. 3(b), and the pump-on peak (about 13.7 dB above the dip) matches the last Fig. 3(b) point (about 91 dB/cm x 0.15 cm); Fig. 3(c) gives about 3.6 dB total internal gain at 1.5 mm (about 24 dB/cm) vs about 5.5 dB at 2.4 mm and 13 dB at 6 mm. Readings +/- 0.3 dB.'
+    why: 'audit question 2: p.6 Fig. 3(a)-(c) renders read; three independent figure checks tie Fig. 3(b) to the 1.5 mm waveguide, so the judgment call is endorsed and its evidence recorded'
+  cmp_lit_koyaz2026_bwshg_w1p30-m1:
+    notes: 'printed ''reaching values up to 1.8 %/W'' for the two waveguides; the Fig. 5(b) render places the 1.8 %/W peak (top of the axis) on the blue w = 1.30 um trace near 1981.5 nm; the orange 1.26 um trace peaks at about 0.85 %/W (not entered). The printed value is the peak of the unaveraged trace with free-space Fabry-Perot fringes; the averaged (black) envelope of the blue trace peaks at about 0.8 %/W (reading +/- 0.1). Pump powers corrected for the dichroic transmission to outcoupled powers (derived, D166 / D394 analogue)'
+    why: 'audit question 2: p.5 Fig. 5(b) render read; attribution endorsed (only the blue trace reaches 1.8 %/W, legend ties colour to width, D156 not triggered); raw-vs-averaged caveat recorded'
+add_metrics:
+  - metric_id: cmp_lit_xu2026_er_gd2o3_ring_r150-m6
+    component_id: cmp_lit_xu2026_er_gd2o3_ring_r150
+    parameter: extinction_db
+    value: 10
+    unit: dB
+    qualifier: gt
+    statistic: typical
+    wavelength_nm: 1480
+    wavelength_max_nm: 1600
+    wavelength_inferred: 'true'
+    temperature_k: 2.3
+    condition: resonance dip depth of most resonances in the Fig. 2(c) transmission spectrum of the waveguide-coupled microring at 2.3 K (operation near critical coupling)
+    method: direct
+    basis: measured
+    locator: p.4 Sec. 2; p.5 Fig. 2(c)
+    notes: 'printed: most resonances have dip depths much larger than 10 dB; wavelength span = Fig. 2(c) axis 1480-1600 nm (inferred, no wavelength stated with the bound); not every resonance (the 1538.3 nm Q resonance is about 9 dB deep, Fig. 2(d))'
+    why: 'miss: stated resonator performance (p.4 Sec. 2) left in the component notes; extinction_db (notch depth) is allowed for resonator; Fig. 2(c) render checked'

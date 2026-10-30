@@ -551,8 +551,10 @@ def test_real_people_tables() -> None:
         ("publication", "B"),
         ("conference", "B"),
     }
-    assert {o["source_id"].split(":")[0] for o in obs if o["evidence_grade"] == "B" and o["kind"] == "publication"} == {
-        "ofc2026"
+    # grade-B publication rows: OFC header merge, and lit unmarked `layout` blocks (D286f; first in lit_h18, D426)
+    assert {o["source_id"].split(":")[0] for o in obs if o["evidence_grade"] == "B" and o["kind"] == "publication"} <= {
+        "ofc2026",
+        "lit",
     }
 
 

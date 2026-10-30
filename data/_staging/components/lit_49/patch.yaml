@@ -1,0 +1,108 @@
+# Audit patch lit_49 (fresh-context audit 2026-10-29, DevLog/audits/2026-10-29-lit_49-audit.md).
+# 141 metrics: 123 ok / 3 imprecise / 15 wrong (basis / parameter / wavelength); 20 components: 14 ok / 6 changed (notes,
+# core_material); 0 deleted; 0 misses added. Not covered here (coordinator / registry): OpSIS org (simard2013 fab, audit Q1),
+# registry gaps listed in the audit record.
+components:
+  cmp_lit_ji2017_ring_p1_standard:
+    core_material: LPCVD Si3N4 730 nm on thermally oxidized Si; standard process of the authors' earlier work (ref. [44]); mask and etch recipe of that process not detailed in this paper
+    notes: 'Devices partially fabricated at the CUNY Advanced Science Research Center and the Cornell NanoScale Facility (p.5 Acknowledgment; facilities). No fab org: the authors state they fabricated the devices but sit at Cornell, Columbia and Georgia Tech (ambiguous). Coupling gap not stated. Measured in the under-coupled regime per the authors (p.3 Sec. 3); the Fig. 3(a) dip is a single deep dip without visible splitting. Process (1) is the standard process of the authors'' earlier work (ref. [44]); the ring and its numbers are measured in this paper.'
+    why: 'p.2 Sec. 2: the photoresist mask / standard CHF3-O2 sentence is generic background, the process-1 recipe is only referenced (ref. [44]); p.3 Fig. 3(a) render: single dip, so the split-doublet note does not apply to this ring'
+  cmp_lit_ji2017_ring_p4_full:
+    notes: 'Devices partially fabricated at the CUNY Advanced Science Research Center and the Cornell NanoScale Facility (p.5 Acknowledgment; facilities). No fab org: the authors state they fabricated the devices but sit at Cornell, Columbia and Georgia Tech (ambiguous). Coupling gap not stated. Rings measured in the under-coupled regime; the transmission dips are split doublets (backscatter mode splitting) and the stated FWHM refers to the marked dip (Fig. 3 / Fig. 5). Also the 2.5 um ring of the Sec. 5 width comparison, fabricated on the same wafer as the 10 um ring with ''the optimized fabrication process'' (p.4; same design, entered here with its own conditions; identity with the Fig. 3(d) device and the process number are not stated; placed on process 4 because the abstract pairs the 2.5 um ring of the loss comparison with the 37 M record Q, process 2 is only the optimized etch (p.3), and the Sec. 5 loss 0.79 dB/m matches process 4 (0.8 dB/m), not process 2 (1.8 dB/m)). Used as the Kerr OPO: cmp_lit_ji2017_opo_2p5um_ring (D396). Not entered: bulk-absorption loss 0.13 +/- 0.05 dB/m and absorption-limited Q >= 170 M, sidewall scattering 0.41 dB/m, top / bottom scattering 0.007 / 0.24 dB/m (p.4-5: model-based decomposition with simulated interaction factors and Payne-Lacey estimates; material-level, not a component value); AFM roughness / correlation lengths (no parameter).'
+    why: 'p.1 Abstract, p.3 Sec. 3, p.4 Sec. 5: evidence for the process-4 assignment of the Sec. 5 2.5 um ring recorded (audit Q4); assignment kept'
+  cmp_lit_ji2017_ring_10um_wide:
+    notes: 'Devices partially fabricated at the CUNY Advanced Science Research Center and the Cornell NanoScale Facility (p.5 Acknowledgment; facilities). No fab org: the authors state they fabricated the devices but sit at Cornell, Columbia and Georgia Tech (ambiguous). Coupling gap not stated. Coupling regime of the Sec. 5 rings not stated (the under-coupled statement, p.3, refers to the Fig. 3 rings); Fig. 5(c) TE resonance is a split doublet with the FWHM marked on one dip, Fig. 5(d) TM resonance is a single deep dip. Comparison ring for the loss decomposition of Sec. 5 (see cmp_lit_ji2017_ring_p4_full for the values not entered). Ring-down lifetime 25.6 +/- 1.3 ns (TM, p.4 Fig. 5(e)) has no parameter.'
+    why: 'p.3 Sec. 3 vs p.4 Sec. 5 and Fig. 5(c)-(d) renders: the under-coupled statement covers only the process rings; the 10 um TM dip is single and near zero transmission'
+  cmp_lit_ye2019_soliton_comb_100ghz:
+    core_material: LPCVD Si3N4, thickness of this ring not stated (~600 or 740 nm films in this work) (two depositions, 350 nm + second layer, 1100 C N2 anneals, crack barriers), EBL (maN-2405) + CHF3 / O2 ICP-RIE (sidewall ~85 deg), post-etch 1100 C anneal, on 3 um thermal SiO2 (3-inch Si)
+    why: core_material text garbled by the generator ('740 (not stated for this ring) nm'); p.6 Sec. 4 gives only '100 GHz' and anomalous dispersion for this ring
+  cmp_lit_simard2013_interleaved_spiral_ibg:
+    notes: 'Fab: chips fabricated using the OpSIS service through IME A*STAR (p.11 Acknowledgments): fab_org_ids org_astar_ime; OpSIS is not in the registry (report). Measured by OFDR with the coupling losses removed and time filtering of the cleaved-fiber reflections; reflection spectra in dB vs wavelength offset, Bragg wavelength ~1557.6 nm from the Fig. 5(e) lambda_B axis (Figs. 3(b) / 4(b): ~1557.8 nm). Shown spectra are typical; over thirty gratings characterized with similar responses (p.7). Access: compact focusing GCs, 2 mm single-TE 500 nm waveguides and 125 um adiabatic tapers on each side (no performance stated, no rows). Third-order grating; the retrieved index-modulation amplitude ~0.07e-3 (Fig. 3(c), 4(c)) has no parameter. Interleaved spiral: R0 59 um, delta-w 15 um, alpha 0.671, N 1.345, three spirals spaced 5 um, minimum radius of curvature 20 um (side spirals) / 25 um (central), each 2 mm long (p.10, p.9 Fig. 5(a)). Which of the three gratings the Fig. 5(d) spectrum belongs to is not stated. footprint_um2 is the total area of the three interleaved gratings.'
+    why: 'Fig. 5(e) render: the lambda_B reference line sits at about 1557.6 nm, not 1557.8 nm (Figs. 3(b) / 4(b) only)'
+  cmp_lit_simard2013_spiral_cbg_gaussian_apodized:
+    notes: 'Fab: chips fabricated using the OpSIS service through IME A*STAR (p.11 Acknowledgments): fab_org_ids org_astar_ime; OpSIS is not in the registry (report). Measured by OFDR with the coupling losses removed and time filtering of the cleaved-fiber reflections; reflection spectra in dB vs wavelength offset, Bragg wavelength ~1557.5 nm from the Fig. 6(b) lambda_B axis (Figs. 3(b) / 4(b): ~1557.8 nm). Shown spectra are typical; over thirty gratings characterized with similar responses (p.7). Access: compact focusing GCs, 2 mm single-TE 500 nm waveguides and 125 um adiabatic tapers on each side (no performance stated, no rows). Third-order grating; the retrieved index-modulation amplitude ~0.07e-3 (Fig. 3(c), 4(c)) has no parameter. Phase apodization (technique of the authors'' earlier work, ref. [16]) with modulation period 17.5 um; retrieved index modulation follows the designed Gaussian with 1 mm FWHM (p.11, Fig. 6(c)); no parameter. Spiral parameters for this grating not stated. The statement that the sidelobe suppression improves by more than 20 dB with an ideal Bragg-wavelength profile is a calculation (green curve), not a device value: not entered.'
+    why: 'Fig. 6(b) render: the lambda_B reference line sits at about 1557.5 nm, not 1557.8 nm (Figs. 3(b) / 4(b) only)'
+metrics:
+  cmp_lit_he2023_ring_390nm-m3:
+    notes: 'Q_int = 2 Q_L / (1 + sqrt(10^(-ER/10))) for the under-coupled regime (regime assumed by design, D403); the printed under-coupled formula with the printed Q_L 1.2 M and ER 2.4 dB gives about 1.36 M, not the printed 1.5 M (Fig. 2(a) inset: 1.19 M / 2.39 dB / 1.51 M); printed value kept, fit details not stated'
+    why: 'p.4 Sec. 3 formula recomputed: 2 Q_L / (1 + sqrt(10^(-ER/10))) does not reproduce the printed Q_int; value kept as printed (authors'' number), discrepancy recorded'
+  cmp_lit_he2023_ring_488nm-m3:
+    notes: 'under-coupled formula as at 390 nm (D403); text p.4 mislabels it loaded Q; the printed under-coupled formula with the printed Q_L 1.4 M and ER 3.2 dB gives about 1.65 M, not the printed 1.9 M (Fig. 2(b) inset: 1.4 M / 3.2 dB / 1.9 M); printed value kept, fit details not stated'
+    why: 'p.4 Sec. 3 formula recomputed: 2 Q_L / (1 + sqrt(10^(-ER/10))) does not reproduce the printed Q_int; value kept as printed (authors'' number), discrepancy recorded'
+  cmp_lit_ji2017_ring_10um_wide-m8:
+    basis: design_target
+    locator: p.4 Sec. 5; p.4 Fig. 5(a)
+    notes: text prints 10 um; Fig. 5(a) label prints 10000 nm (stored-unit form, D256)
+    why: 'D256: the source prints the stored-unit form (Fig. 5(a) label ''10000 nm'', render p.4), so the row keeps design_target instead of derived'
+  cmp_lit_ye2019_ring_normal_600x1850-m2:
+    basis: author_estimate
+    notes: fit of own resonance data; how the under / over-coupling branch was assigned is not stated, so the intrinsic value rests on an assumed regime (D403; lit_38 li2026b precedent)
+    why: 'D403: p.4 Sec. 3 gives fitted intrinsic Q without stating how the coupling regime was determined; Lorentzian fits with the regime not stated are author_estimate (lit_38 audit li2026b)'
+  cmp_lit_ye2019_ring_anomalous_740x2000-m2:
+    basis: author_estimate
+    notes: fit of own resonance data; how the under / over-coupling branch was assigned is not stated, so the intrinsic value rests on an assumed regime (D403; lit_38 li2026b precedent)
+    why: 'D403: p.4 Sec. 3 gives fitted intrinsic Q without stating how the coupling regime was determined; Lorentzian fits with the regime not stated are author_estimate (lit_38 audit li2026b)'
+  cmp_lit_ye2019_ring_normal_600x1850-m3:
+    basis: author_estimate
+    notes: printed ~3 dB/m; dB/m -> dB/cm (D256a); equivalent loss of the mean intrinsic Q, which rests on an assumed coupling regime (D403); conversion inputs (group index) not stated
+    why: 'p.4 Sec. 3: the loss is the authors'' conversion of the mean intrinsic Q (D403 author_estimate), so it inherits that basis (he2023 / ji2017 loss rows in this batch); D256a keeps author_estimate after the unit conversion'
+  cmp_lit_ye2019_ring_normal_600x1850-m4:
+    basis: author_estimate
+    notes: printed highest probable intrinsic linewidth between 15-18 MHz; histogram of fitted intrinsic linewidths of 6 rings with different gaps, coupling-regime assignment not stated (D403)
+    why: 'D403 as for m2: intrinsic linewidths from fits with the regime assignment not stated (p.4 Sec. 3, Fig. 2(c))'
+  cmp_lit_ye2019_ring_anomalous_740x2000-m3:
+    basis: author_estimate
+    notes: printed highest probable intrinsic linewidth around 15 MHz; histogram of fitted intrinsic linewidths, coupling-regime assignment not stated (D403)
+    why: D403 as for m2 (p.4 Sec. 3, Fig. 2(g))
+  cmp_lit_ye2019_ring_anomalous_740x2000-m5:
+    basis: author_estimate
+    notes: 'printed intrinsic linewidth ~11.7 MHz from the fit of a near-critically coupled resonance with FWHM 19.8 MHz: the under-coupled branch is taken (the over-coupled branch would give about 8.1 MHz), regime determination not stated (D403); resonance wavelength not stated; within the 1520-1620 nm comb-calibrated sweep'
+    why: 'D403: near (not exactly) critical coupling leaves two solutions (11.7 or 8.1 MHz); the paper does not say how the branch was chosen (p.4 Sec. 3, Fig. 2(h)). The normal-ring representative (Fig. 2(d), 23.4 / 11.7 MHz) is exactly critical, intrinsic = FWHM / 2 on either branch, so it stays measured'
+  cmp_lit_ye2019_soliton_comb_0p9thz-m1:
+    parameter: channel_spacing_ghz
+    notes: printed line spacing 0.9 THz (Fig. 3 caption) and ring FSR ~0.9 THz (p.6); THz -> GHz (D256); the paper calls it line spacing and does not characterize pulses for this comb, so channel_spacing_ghz (D83b)
+    why: 'D83b: Kerr-comb line spacing stays channel_spacing_ghz unless the paper says repetition rate or characterizes pulses; for this comb p.6 Sec. 4 and the Fig. 3 caption say FSR / line spacing only (the dark-pulse comb, ''repetition rate'' p.6, and the 100 GHz comb, ''repetition rate'' p.7, keep repetition_rate_ghz)'
+  cmp_lit_simard2013_spiral_ibg_uncompensated-m1:
+    basis: extracted_from_figure
+    method: ofdr
+    locator: p.8 Fig. 3(a)-(b); p.7 Sec. 3
+    notes: peak of the red (measured) curve read as ~-12.5 dB (+/- 0.5 dB) off the reflection axis, converted 100 x 10^(-12.5/10) = 5.6 %; Bragg wavelength read off the Fig. 3(b) lambda_B axis (~1557.8 nm, +/- 0.1 nm); TE assumed from the single-TE access waveguides (polarization not stated)
+    why: 'figure read-off then unit conversion is extracted_from_figure (merged precedent: ding2019 PD responsivity, liu2021a loss, lahijani2026 T -> dB); reading verified on the Fig. 3(a) render (peak -12.5 dB); method ofdr stated p.7 Sec. 3'
+  cmp_lit_simard2013_spiral_ibg_compensated-m2:
+    basis: extracted_from_figure
+    method: ofdr
+    locator: p.8 Fig. 4(a)-(b); p.7 Sec. 3
+    notes: peak of the red (measured) curve read as ~-10.5 dB (+/- 0.5 dB) off the reflection axis, converted 100 x 10^(-10.5/10) = 8.9 %; Bragg wavelength read off the Fig. 4(b) lambda_B axis (~1557.8 nm, +/- 0.1 nm); TE assumed from the single-TE access waveguides (polarization not stated)
+    why: 'figure read-off then unit conversion is extracted_from_figure (merged precedent: ding2019 PD responsivity, liu2021a loss, lahijani2026 T -> dB); reading verified on the Fig. 4(a) render (peak -10.5 dB); method ofdr stated p.7 Sec. 3'
+  cmp_lit_simard2013_interleaved_spiral_ibg-m1:
+    basis: extracted_from_figure
+    method: ofdr
+    locator: p.9 Fig. 5(d)-(e); p.7 Sec. 3
+    notes: peak of the red (measured) curve read as ~-11 dB (+/- 0.5 dB) off the reflection axis, converted 100 x 10^(-11/10) = 7.9 %; Bragg wavelength read off the Fig. 5(e) lambda_B axis (~1557.6 nm, +/- 0.1 nm); TE assumed from the single-TE access waveguides (polarization not stated)
+    why: 'figure read-off then unit conversion is extracted_from_figure (merged precedent: ding2019 PD responsivity, liu2021a loss, lahijani2026 T -> dB); reading verified on the Fig. 5(d) render (peak -11 dB); method ofdr stated p.7 Sec. 3; Fig. 5(e) lambda_B line at about 1557.6 nm, not 1557.8 nm'
+    wavelength_nm: '1557.6'
+  cmp_lit_simard2013_spiral_cbg_gaussian_apodized-m1:
+    basis: extracted_from_figure
+    method: ofdr
+    locator: p.10 Fig. 6(a)-(b); p.7 Sec. 3
+    notes: peak of the red (measured) curve read as ~-17 dB (+/- 0.5 dB) off the reflection axis, converted 100 x 10^(-17/10) = 2.0 %; Bragg wavelength read off the Fig. 6(b) lambda_B axis (~1557.5 nm, +/- 0.1 nm); TE assumed from the single-TE access waveguides (polarization not stated)
+    why: 'figure read-off then unit conversion is extracted_from_figure (merged precedent: ding2019 PD responsivity, liu2021a loss, lahijani2026 T -> dB); reading verified on the Fig. 6(a) render (peak -17 dB); method ofdr stated p.7 Sec. 3; Fig. 6(b) lambda_B line at about 1557.5 nm, not 1557.8 nm'
+    wavelength_nm: '1557.5'
+  cmp_lit_simard2013_spiral_ibg_uncompensated-m6:
+    basis: derived
+    notes: 'printed 2 mm; mm -> um (D157 / D256: the 2000 um form is not printed)'
+    why: 'D157 / D256: the paper prints only ''2 mm'' / ''2-mm'' (p.1, p.4, p.7, p.10); a unit rescale of a printed dimension is derived'
+  cmp_lit_simard2013_spiral_ibg_compensated-m7:
+    basis: derived
+    notes: 'printed 2 mm; mm -> um (D157 / D256: the 2000 um form is not printed)'
+    why: 'D157 / D256: the paper prints only ''2 mm'' / ''2-mm'' (p.1, p.4, p.7, p.10); a unit rescale of a printed dimension is derived'
+  cmp_lit_simard2013_interleaved_spiral_ibg-m6:
+    basis: derived
+    notes: printed path length 2 mm, each spiral the same length (p.10); mm -> um (D157 / D256)
+    why: 'D157 / D256: the paper prints only ''2 mm'' / ''2-mm'' (p.1, p.4, p.7, p.10); a unit rescale of a printed dimension is derived; p.10 Sec. 4.2 states the interleaved path length'
+    locator: p.10 Sec. 4.2
+  cmp_lit_simard2013_spiral_cbg_gaussian_apodized-m6:
+    basis: derived
+    notes: printed 2 mm for the gratings of the chip (p.4); Fig. 6(b)-(c) z-axis spans -1 to 1 mm; mm -> um (D157 / D256)
+    why: 'D157 / D256: the paper prints only ''2 mm'' / ''2-mm'' (p.1, p.4, p.7, p.10); a unit rescale of a printed dimension is derived; the Sec. 4.1 locator covers the uniform gratings only, the apodized grating length rests on p.4 and the Fig. 6 z-axis'
+    locator: p.4 Sec. 2; p.10 Fig. 6(b)-(c)

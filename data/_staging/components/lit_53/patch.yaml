@@ -1,0 +1,82 @@
+# Audit patch lit_53 (fresh-context audit 2026-10-30, DevLog/audits/2026-10-30-lit_53-audit.md).
+# 101 metrics: 93 ok / 7 imprecise / 1 wrong (matsuo2013 a430-m5 lasing wavelength of an unidentified device, deleted);
+# 13 components: 6 ok / 7 changed / 0 deleted; misses: 1 metric added (acoleyen2009 static main-lobe angle).
+# Coordinator rulings asked in the audit file: matsuo2013 dynamic row (Q1), chen2000 class (Q2), hutchison2016
+# platform (Q3, patched to empty), chen2000 fab org (Q4, patched; drop the op to keep the distiller's empty value).
+components:
+  cmp_lit_hutchison2016_opa_uniform:
+    platform: ''
+    notes: 'Fab org_intel: ''we have designed and fabricated'' (p.4) with all authors at Intel Labs and the wafers made in a 300 mm CMOS facility by ''our fabrication process engineers'' (p.1, p.4 acknowledgment). Platform empty: the text states Si rib waveguides with a 0.4 um Si thickness made in a 300 mm CMOS facility but never names the substrate (no SOI, BOX or insulator statement); a platform the source does not state is not defaulted (D168 starnault2026 precedent; audit lit_53 Q3). Uniform pitch value not stated; grating lobes about 10 deg apart near normal (p.4). Divergence statistics and the wavelength steering were measured on this device (p.3); the paper states the non-uniform OPA has the same typical beam width and wavelength behaviour (not entered there). Resolution (> 500 spots, > 60,000 2D points) is computed from divergence and range (not entered).'
+    why: 'p.1-p.4: the only stack statements are Si thickness 0.4 um, 0.2 um rib etch and a 300 mm CMOS facility; SOI / BOX / insulator never appear in the text, so platform soi is a default from outside knowledge (D168: never defaulted)'
+  cmp_lit_hutchison2016_opa_nonuniform:
+    platform: ''
+    notes: 'Fab org_intel: ''we have designed and fabricated'' (p.4) with all authors at Intel Labs and the wafers made in a 300 mm CMOS facility by ''our fabrication process engineers'' (p.1, p.4 acknowledgment). Platform empty: the text states Si rib waveguides with a 0.4 um Si thickness made in a 300 mm CMOS facility but never names the substrate (no SOI, BOX or insulator statement); a platform the source does not state is not defaulted (D168 starnault2026 precedent; audit lit_53 Q3). Emitter positions not given in the main text (Supplement 1 not cached). Divergence: the paper says only that the same typical beam width as the uniform OPA was measured (p.3, p.3 Fig. 4 caption); no value entered here. Abstract 0.14 deg divergence ''in both axes'' is the uniform-device statistic (p.3).'
+    why: 'p.1-p.4: substrate never stated (see opa_uniform); Fig. 4 caption is on p.3'
+  cmp_lit_hutchison2016_input_gc:
+    platform: ''
+    notes: 'Fab org_intel: ''we have designed and fabricated'' (p.4) with all authors at Intel Labs and the wafers made in a 300 mm CMOS facility by ''our fabrication process engineers'' (p.1, p.4 acknowledgment). Platform empty: the substrate is never stated (no SOI, BOX or insulator statement; audit lit_53 Q3). Used for fixed-wavelength testing; diced off for edge coupling in the wavelength-steering measurement (p.2, p.4). Not optimized for bandwidth (p.2).'
+    why: 'same chip as the OPAs; substrate never stated (D168)'
+  cmp_lit_matsuo2013_leap_laser_a430:
+    label: 'Electrically driven lambda-scale embedded active-region (LEAP) photonic-crystal nanocavity laser, lattice constant 430 nm, near 1568 nm'
+    notes: 'Fab org_ntt: ''the device we fabricated'' (p.2) with all authors at NTT Photonics Laboratories / NTT Basic Research Laboratories, NTT Corporation (D154 parent); staff thanked for fabricating the device (p.9, not a facility). PhC lattice constant has no registry parameter (in label). Design: cavity Q about 2.7e5 and mode volume about 0.15 um3 without output waveguide, about 3000 with it (FDTD, p.3; no laser Q parameter, D250). Earlier devices with an InGaAs sacrificial layer (0.39 mA threshold, 180 fJ/b) are the authors'' earlier work [19], [20] (not entered). Device with a = 430 nm stated for Fig. 5 (p.4-5); Figs. 6-7 attributed to it (same static section; the Fig. 6 threshold region around 8 uA matches the 7.8 uA kink; emission near 1567.8 nm, Fig. 6). Fig. 8 is not attributed (D159): its device lases near 1558 nm (CW 40-200 uA; pulsed 1557.85 nm shifting to 1559.07 nm), about 10 nm from this device and about 31 nm from the a = 440 nm device (Fig. 9(b)), so the paper does not identify it; its pulsed wavelength and the 16.6 K active-region temperature rise at 300 uA (p.6-7, no parameter) are not entered. Fiber coupling: output collected into a single-mode fiber with a 10 dB coupling loss; waveguide power = detected + 10 dB (p.5). Not entered: Q 32,600 from the threshold linewidth (no laser Q parameter), rate-equation fits beta 0.4 / 0.1 and eta_i 0.09 / 0.14 (p.6).'
+    why: 'p.5 Fig. 6(a)/(b) render: the a = 430 nm device emits at 1567.7-1568.0 nm (L band, not C band); p.7 Fig. 8(a)/(b) render: the Fig. 8 device lases at 1557.8-1559.1 nm, so it is not the Fig. 6 device (self-heating gives about 1.6 nm, 16.6 K x 0.097 nm/K) and not the a = 440 nm device (p.7 Fig. 9(b): 1589-1596 nm)'
+  cmp_lit_matsuo2013_leap_laser_a440:
+    label: 'Electrically driven LEAP photonic-crystal nanocavity laser, lattice constant 440 nm (high-temperature device), about 1589-1596 nm'
+    why: 'p.7 Fig. 9(b) render: lasing wavelength 1589-1596 nm over 25-95 C at 200 uA (L band); the label said C band'
+  cmp_lit_matsuo2013_leap_laser_dynamic:
+    label: 'Electrically driven LEAP photonic-crystal nanocavity laser, device of the dynamic measurements (lattice constant and wavelength not stated)'
+    notes: 'Fab org_ntt: ''the device we fabricated'' (p.2) with all authors at NTT Photonics Laboratories / NTT Basic Research Laboratories, NTT Corporation (D154 parent); staff thanked for fabricating the device (p.9, not a facility). Design: cavity Q about 2.7e5 and mode volume about 0.15 um3 without output waveguide, about 3000 with it (FDTD, p.3; no laser Q parameter, D250). Earlier devices with an InGaAs sacrificial layer (0.39 mA threshold, 180 fJ/b) are the authors'' earlier work [19], [20] (not entered). Sec. IV-B (Figs. 10-13) does not identify the measured device, and the paper shows at least three devices (a = 430 nm near 1567.8 nm, Fig. 6; an unidentified device near 1558 nm, Fig. 8; a = 440 nm near 1589 nm at 25 C, Fig. 9(b)), so the dynamic values are kept on this separate row and not attached to a named device (audit lit_53 Q1). Not entered (no registry parameter): D-factor 42.4 GHz/mA^0.5, modulation current efficiency factor 53.8 GHz/mA^0.5, K-factor 0.20 ns and the derived 44 GHz maximum intrinsic bandwidth (p.8), 12.5 Gb/s NRZ direct modulation at 14.0 fJ/b (p.8-9), CR time constant 7 ps (model input).'
+    why: 'no wavelength is stated or plotted for Sec. IV-B (p.7-9, Figs. 10-13), so C band in the label is unsupported; p.5 Fig. 6, p.7 Figs. 8-9: three different lasing wavelengths, so the a = 430 / 440 nm binary in the notes was incomplete'
+  cmp_lit_chen2000_vertical_taper_mst:
+    fab_org_ids: org_university_of_southern_california
+    notes: 'Class fiber_chip_coupler.edge (registry: edge coupler / spot-size converter incl. polymer SSC) rather than micro_optics.vertical_taper (all 10 merged rows of that subtype are out-of-plane mirrors / suspended tapers to PDs; audit lit_53 Q2). Taper made by O2 RIE with a shadow mask or a gray-scale photoresist taper (p.5-7). Fab org_university_of_southern_california: the authors describe making the tapers themselves (p.5 Sec. 3.1 ''the first method we use'' is O2 RIE with a shadow mask; p.6 Al shadow-mask experiment; p.7 a linear taper ''made in our experiment''), all authors at USC (D399 analogue; audit lit_53 Q4). Main result not entered (no registry parameter): reduction of fiber coupling loss per tapered end vs the untapered end, Table 1 (p.9): TE 1.8 +/- 0.3 / 1.7 +/- 0.3 / 1.4 +/- 0.4 / 1.8 +/- 0.4 dB and TM 2.2 +/- 0.1 / 1.9 +/- 0.3 / 2.1 +/- 0.3 / 1.8 +/- 0.5 dB for 4 / 5 / 6 / 9 um widths (8-9 waveguides each); Fig. 19: 9 um, TE 1.8 +/- 0.4, TM 1.8 +/- 0.5 dB. Also not entered: 1.4 dB/cm propagation loss (from a previous cutback measurement, p.9), 0.5 dB endface reflection term, Fig. 11 scattering losses of RIE-etched surfaces 0.93 / 0.05 dB/cm (structure and method not stated), simulated 1 dB tolerances of index difference (0.008) and core thickness (0.4 um), fiber vertical offset 2.3 um (p.3). Test fiber: 1.3 um pigtailed laser, fiber mode size 10.5 um (1/e2, measured), no index matching (p.8).'
+    why: 'p.5 Sec. 3.1, p.6, p.7 Sec. 3.2: first-person account of the taper fabrication (process steps the authors performed), all authors at the University of Southern California (p.1); D399 accepted a first-person assembly statement with one author org; org_university_of_southern_california is in the registry'
+metrics:
+  cmp_lit_hutchison2016_opa_nonuniform-m1:
+    qualifier: ''
+    notes: 'wavelength not stated for Fig. 5; device operated in the 1260-1360 nm range (p.3). Printed 80 deg (abstract, p.4) with ''measurement limited'' (NA 0.7 objective, p.4; Fig. 5(b) gray viewable range): the device range may be larger, but the paper prints no bound, so no qualifier (morichetti2021 tuning-range precedent)'
+    why: 'p.1 abstract / p.4: 80 deg is printed without over / at least; skill rule 7 maps only printed bound words to qualifiers; merged precedent cmp_lit_morichetti2021_vernier_4mrr_filter-m10 (limited by the measurement equipment) has no qualifier'
+  cmp_lit_hutchison2016_opa_nonuniform-m2:
+    notes: 'value printed on Fig. 5(b) (render checked: 8.9 dB arrow on the fourth beam); the caption calls it the worst side-lobe level of the five measurements, the text (p.4) calls the marked case typical; camera dynamic range limits the side-lobe profile (p.4). Wavelength not stated (O-band device)'
+    why: 'p.4 text vs Fig. 5 caption wording; the row keeps the caption meaning (statistic empty)'
+  cmp_lit_sysak2008_sgdbr-m2:
+    notes: 'printed ''output power up to 1.0 mW'' (p.7) and maximum output power of 1.0 mW (p.9 conclusion); the abstract (p.1) and p.2 print > 1.0 mW / > 1 mW for the same laser (inconsistent wording, the measurement section value kept); low power attributed to the high loss of the etched gratings'
+    why: 'p.1 abstract and p.2 Sec. 1 state > 1 mW, p.7 and p.9 state up to / maximum 1.0 mW: the discrepancy belongs in notes'
+  cmp_lit_sysak2008_sgdbr_eam_laser-m1:
+    condition: 'CW, 170 mA gain current, stage 10 C; measurement method not restated for Design B (Sec. 5.1 used an integrating sphere for the stand-alone laser)'
+    why: 'p.8 Sec. 5.2 does not state the power-measurement method; the integrating sphere is stated only for Design A (p.6-7 Sec. 5.1)'
+  cmp_lit_matsuo2013_leap_laser_a430-m4:
+    wavelength_nm: 1567.8
+    band: ''
+    wavelength_inferred: ''
+    notes: 'paper converts it to Q 32,600; peak wavelength at threshold read from Fig. 6(b) right axis (about 1567.8 nm, +/- 0.02 nm), spectra in Fig. 6(a) span 1567.7-1568.0 nm'
+    why: 'p.5 Fig. 6(a)/(b) render: the emission of this device is at 1567.7-1568.0 nm (L band); c_band inferred and the note "lasing near 1558 nm (Fig. 8)" were wrong (Fig. 8 is another device)'
+  cmp_lit_matsuo2013_leap_laser_a440-m1:
+    wavelength_nm: 1589
+    wavelength_max_nm: 1596
+    band: ''
+    wavelength_inferred: ''
+    condition: 'lasing wavelength vs heat-sink temperature, CW, 25-95 C, I = 200 uA (Fig. 9(b) label)'
+    locator: 'p.6; p.7 Fig. 9(b)'
+    notes: 'printed 0.097 nm/K (text and Fig. 9(b) label); nm -> pm. Wavelength span read from the Fig. 9(b) axis (about 1588.8 nm at 25 C to 1595.7 nm at 95 C, +/- 0.3 nm)'
+    why: 'p.7 Fig. 9(b) render: wavelengths 1589-1596 nm (L band, not C band) at I = 200 uA; the figure is on p.7'
+  cmp_lit_matsuo2013_leap_laser_dynamic-m2:
+    locator: 'p.8 Sec. IV-B; p.9 Fig. 13'
+    why: 'the bias statement is in the p.8 text; Fig. 13 and its caption are on p.9'
+delete_metrics:
+  - id: cmp_lit_matsuo2013_leap_laser_a430-m5
+    why: 'D159: the pulsed lasing at 1557.85 nm (p.6, p.7 Fig. 8(b)) belongs to the Fig. 8 device, which lases near 1558 nm (Fig. 8(a), 40-200 uA CW); the a = 430 nm device of Figs. 5-6 emits near 1567.8 nm (p.5 Fig. 6) and the a = 440 nm device near 1589 nm at 25 C (p.7 Fig. 9(b)), so the paper does not identify the Fig. 8 device; value kept in the a430 component notes'
+add_metrics:
+  - metric_id: cmp_lit_acoleyen2009_opa_16ch_heater-m19
+    component_id: cmp_lit_acoleyen2009_opa_16ch_heater
+    parameter: emission_angle_deg
+    value: 20
+    unit: deg
+    wavelength_nm: 1550
+    polarization: te
+    condition: 'phi (transverse) angle of the main far-field peak at 0 mA heater current, offset from 0 deg by the fixed phase shifters (slightly wider waveguide sections)'
+    method: direct
+    basis: measured
+    locator: p.3; Fig. 4 inset (a)
+    notes: 'printed phi0 = 20 deg; the thermo-optic steering (m1) starts from this peak'
+    why: 'miss: p.3 states the measured position of the main peak of the heated OPA at 0 mA (Fig. 4 inset (a)); emission_angle_deg covers free_space_emitter emission angles with the axis in condition'

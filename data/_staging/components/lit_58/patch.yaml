@@ -1,0 +1,102 @@
+# Audit patch lit_58 (fresh-context audit 2026-10-30, DevLog/audits/2026-10-30-lit_58-audit.md).
+# 118 metrics: 115 ok / 3 imprecise / 0 wrong; 20 components: 19 ok / 1 changed (notes) / 0 deleted;
+# misses: 7 metrics added (jones2013 transition cross-section and widths, zhang2013 multimode section length,
+# huang2013 BOX thickness on two rows).
+# Not covered here (coordinator / org round / registry): OpSIS (streshinsky2013 MPW access, D398 / D418), Sandia MESA
+# facility (no component role recommended), registry gaps listed in the audit file.
+components:
+  cmp_lit_jones2013_nos_crossing_gap410:
+    notes: 'Four-port crossing: Si routing waveguides transition up into Si3N4 (100 um adiabatic vertical transitions, cmp_lit_jones2013_si_sin_vertical_transition) and the Si3N4 guide crosses a Si guide perpendicularly, with 5 um radius Si bends (p.4 Sec. 2, Fig. 2). The crosstalk device''s gap is printed 410 nm in the abstract and conclusion (p.1, p.12) and 400 nm in Sec. 5 (p.11); buffer oxide measured by ellipsometry with a +/- 50 nm vertical measurement error (p.5); Fig. 9 plots the largest-gap measured points at about 410-420 nm. Fig. 9 data points at that gap read about 43-44 dB (TE) and about 47 dB (TM) crosstalk suppression (read off the p.9 render, about +/- 1 dB), both below the stated 46 / 49 dB noise floors, while the text prints 49.4 dB TE / 44.3 dB TM for port 1 (p.11, p.1, p.12); the paper does not say whether the Fig. 9 points are port-1 or geometric-mean (Eq. 4) values, so the text values are kept as printed. Si3N4 layer thickness 250 nm and width 1.2 um not entered as metrics on the crossing (crossing has no second-layer parameter; in core_material; entered on the transition row). Not entered: simulated maxima of the Si3N4-input excess loss 15 / 3.4 dB (TE / TM) at small gaps (p.10, gap not stated), simulated 40 dB crosstalk at 125 nm gap (p.10, design-space statement), Fig. 9 measured crosstalk points at other gaps (plotted only), Fig. 10 transition / crossing loss trade-off curves. Conclusion prints ''< 90 dB crosstalk suppression for a 1 um vertical gap'' (p.12), inconsistent with ''> 100 dB'' for > 1 um (p.12 top): neither entered on this row. Fab: all fabrication carried out in a silicon photonic process within the CMOS foundry at Sandia National Laboratories'' MESA facility (p.4 Sec. 2): fab org_sandia_national_laboratories; the MESA facility is Sandia''s own and not a shared facility (boynton2020 / wang2016 precedent), facility empty.'
+    why: 'p.9 Fig. 9 render: the largest-gap points sit at about 410-420 nm (supports the 410 nm reading) and read about 43-44 dB TE / 47 dB TM, which disagrees with the text''s port-1 TE / TM assignment; recorded so a reader sees the source conflict; MESA facility wording aligned with the merged Sandia precedents (rule 12, D80: the owner of a named facility is not a facility)'
+metrics:
+  cmp_lit_jones2013_nos_crossing_gap410-m1:
+    notes: 'printed 49.4 dB (49.40 dB in the conclusion); abstract ''exceeding 49 dB''; for gaps > 200 nm the measurements are near the noise floor and the true crosstalk may be lower (p.11), hence ge. The printed value exceeds the stated 46 dB TE noise floor (Eq. 5, p.11): inconsistency in the source. Fig. 9(a) TE data point at the largest gap (about 410-420 nm) reads about 43-44 dB (+/- 1 dB); whether Fig. 9 plots port 1 or the geometric mean (Eq. 4) is not stated'
+    why: 'p.9 Fig. 9(a) render vs p.11 Eq. (5) and text: source conflict recorded; value kept as printed (stated three times, p.1 / p.11 / p.12)'
+  cmp_lit_jones2013_nos_crossing_gap410-m2:
+    notes: 'printed 44.3 dB (44.34 dB in the conclusion); near the noise floor, true crosstalk may be lower (p.11). Fig. 9(b) TM data point at the largest gap (about 410-420 nm) reads about 47 dB (+/- 1 dB); whether Fig. 9 plots port 1 or the geometric mean (Eq. 4) is not stated'
+    why: 'p.9 Fig. 9(b) render vs p.11 text: source conflict recorded; value kept as printed'
+  cmp_lit_jones2013_nos_crossing_gap410-m3:
+    statistic: best
+    wavelength_nm: 1500
+    wavelength_max_nm: 1600
+    wavelength_inferred: 'true'
+    notes: 'printed ''crosstalk values as low as -65 dB'' for TE (p.11): ''as low as'' -> statistic best (skill rule 7); the simulation sentence states no wavelength (the 1550 nm belongs to the preceding measurement sentence), so the simulated band of Figs. 8-9 (1500-1600 nm, p.9) is entered as inferred (rule 8)'
+    why: 'p.11 Sec. 5: ''Simulation data suggests that crosstalk values as low as -65 dB for TE and -60 dB for TM ... may be expected'' carries no wavelength; p.9 Sec. 4.3 states the simulated range 1500-1600 nm; rule 7 maps ''as low as'' to statistic best'
+  cmp_lit_jones2013_nos_crossing_gap410-m4:
+    statistic: best
+    wavelength_nm: 1500
+    wavelength_max_nm: 1600
+    wavelength_inferred: 'true'
+    notes: 'printed ''as low as ... -60 dB for TM'' (p.11): statistic best (skill rule 7); conclusion: both inputs and polarizations expected to exceed 60 dB in this geometry (p.12); no wavelength in the simulation sentence, simulated band 1500-1600 nm entered as inferred (rule 8)'
+    why: 'same sentence as m3 (p.11 Sec. 5); p.9 Sec. 4.3 simulated range'
+  cmp_lit_jones2013_nos_crossing_gap410-m8:
+    notes: 'printed 410 nm (abstract, conclusion); Sec. 5 calls the same device ''400 nm vertical gap'' (p.11) and the tested range ''between zero and 400 nm'' (p.10); +/- 50 nm measurement error (p.5); Fig. 9 plots the largest-gap data points at about 410-420 nm (p.9 render), consistent with 410 nm'
+    why: 'p.9 Fig. 9 render supports the 410 nm value; p.10 Sec. 5 tested range added as the second 400 nm statement (tossoun2024 / D417 precedent: one device, printed numbers disagree, keep the value stated twice with the conflict in notes)'
+  cmp_lit_fukuda2006_dc_pbs_two_stage-m2:
+    wavelength_inferred: 'true'
+    notes: 'printed maximum extinction ratios for both ports 23 dB (p.6, p.8); the wavelength is not stated for the two-stage measurement and Fig. 8 is unlabelled; 1552.52 nm is taken from the single-stage waveplate method (''in the same manner as above'', p.6), hence inferred'
+    why: 'p.6 Sec. 3.2 and p.7 Fig. 8 render: no wavelength for the two-stage waveplate measurement; rule 8 (unstated wavelength -> inferred with reason)'
+add_metrics:
+  - metric_id: cmp_lit_jones2013_si_sin_vertical_transition-m3
+    component_id: cmp_lit_jones2013_si_sin_vertical_transition
+    parameter: core_thickness_nm
+    value: 230
+    unit: nm
+    condition: 'Si layer (lower), final device-layer thickness after thermal oxidation (20 nm consumed)'
+    basis: design_target
+    locator: p.4 Sec. 2
+    why: 'miss (D153; transition_bilayer xsec required dimension): p.4 Sec. 2 states the 230 nm Si layer (notaros2019 convention: core = Si, layer2 = Si3N4)'
+  - metric_id: cmp_lit_jones2013_si_sin_vertical_transition-m4
+    component_id: cmp_lit_jones2013_si_sin_vertical_transition
+    parameter: layer2_thickness_nm
+    value: 250
+    unit: nm
+    condition: 'CVD Si3N4 (upper layer)'
+    basis: design_target
+    locator: p.4 Sec. 2; p.6 Fig. 3 caption
+    why: 'miss (D153; transition_bilayer xsec required dimension): p.4 Sec. 2 states 250 nm thick Si3N4 waveguides'
+  - metric_id: cmp_lit_jones2013_si_sin_vertical_transition-m5
+    component_id: cmp_lit_jones2013_si_sin_vertical_transition
+    parameter: width_nm
+    value: 1200
+    unit: nm
+    condition: 'Si3N4 (upper) waveguide width'
+    basis: design_target
+    locator: p.4 Sec. 2; p.6 Fig. 3 caption
+    notes: 'printed 1.2 um (p.4) and 1200 nm (Fig. 3 caption, 250 X 1200 nm)'
+    why: 'miss (D153; transition_bilayer top optional, upper-layer width = width_nm): p.4 Sec. 2; the stored-unit form 1200 nm is printed in the p.6 Fig. 3 caption (D256)'
+  - metric_id: cmp_lit_jones2013_si_sin_vertical_transition-m6
+    component_id: cmp_lit_jones2013_si_sin_vertical_transition
+    parameter: lower_width_nm
+    value: 400
+    unit: nm
+    condition: 'Si (lower) waveguide width'
+    basis: design_target
+    locator: p.4 Sec. 2
+    why: 'miss (D153; transition_bilayer top optional, lower-layer width = lower_width_nm): p.4 Sec. 2 states 400 nm wide Si waveguides'
+  - metric_id: cmp_lit_zhang2013_swn_mmi_crossing-m10
+    component_id: cmp_lit_zhang2013_swn_mmi_crossing
+    parameter: mmi_length_um
+    value: 1.88
+    unit: um
+    condition: 'Ls, length of the multimode section between adjacent crossings in the cascaded array (Fig. 1(a)); transmission-optimized value for nc = 2.5 with 20 crossings'
+    basis: design_target
+    locator: p.3; p.3 Fig. 3(e); p.1 Fig. 1(a); p.4
+    notes: 'consistent with the fabricated 3.08 um pitch = Ls + W_MMI (1.88 + 1.2 um, Fig. 1(a) geometry); Lin 2.27 um (first section after the input taper) has no role parameter'
+    why: 'miss (D153; mmi template top required dimension): p.3 states Ls = 1.88 um for nc = 2.5; Fig. 1(a) labels Ls as the multimode section between crossings; the p.4 pitch 3.08 um equals Ls + W_MMI, so the value applies to the fabricated SWN grid. Not added for the conventional grid (its fabricated pitch is not stated)'
+  - metric_id: cmp_lit_huang2013_hnsw_polarizer_w71_l1-m6
+    component_id: cmp_lit_huang2013_hnsw_polarizer_w71_l1
+    parameter: box_thickness_um
+    value: 2
+    unit: um
+    basis: design_target
+    locator: p.5 Sec. 3
+    why: 'miss (D153 cross-section geometry; present on the S2 row m7): p.5 Sec. 3 states the 2 um BOX of the 8-inch SOI wafer used for both device sets'
+  - metric_id: cmp_lit_huang2013_hnsw_active_wg_w144-m5
+    component_id: cmp_lit_huang2013_hnsw_active_wg_w144
+    parameter: box_thickness_um
+    value: 2
+    unit: um
+    basis: design_target
+    locator: p.5 Sec. 3
+    why: 'miss (D153; waveguide_xsec optional dimension): p.5 Sec. 3 states the 2 um BOX'

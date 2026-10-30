@@ -1,0 +1,44 @@
+# Audit patch lit_52 (fresh-context audit 2026-10-30, DevLog/audits/2026-10-30-lit_52-audit.md).
+# 91 metrics: 80 ok / 7 imprecise / 4 wrong (soganc2013 inferred tol_1db_lateral_um rows, deleted);
+# 14 components: 12 ok / 2 changed / 0 deleted; misses: none added.
+# Not covered here (coordinator / registry): ePIXfab (fab org on lindenmann2012 pwb_soi_soi, pwb_prototypes_2_4,
+# soi_gc and cabezon2012 vgc_vgc once registered, D398; same pending org as teng2009 / abdulla2011), registry gaps
+# listed in the audit file.
+components:
+  cmp_lit_soganc2013_flipchip_3seg:
+    notes: 'Fab: the authors (all IBM Research - Zurich) state they fabricated the polymer waveguides and established the flip-chip bonding process (p.11 Sec. 5; bonding p.7 Sec. 3): fab on the assembled coupler (D399). SOI processing is stated passively (p.7); a named individual is thanked for contributing to it (p.11). Taper segments 75 -> 150 nm over 50 um, 150 -> 250 nm over 500 um, 250 -> 425 nm over 150 um (p.5-6). Offsets normalized from the designed -3..+3 um scan to -2..+4 um for an estimated ~1 um bonding misalignment (p.9). Highest misalignment loss within the +/-2 um lateral offset window (Table 2, p.10): TE 0.9 / 0.6 / 0.6 dB, TM 0.7 / 0.3 / 0.3 dB at 1530 / 1550 / 1570 nm (abstract and p.11 restate the 1570 / 1550 nm values as < 0.6 dB TE, < 0.3 dB TM). The paper states no 1-dB tolerance, the offsets are sampled in 1 um steps and the window is centred on the normalized zero offset while several loss minima lie at -1 or +1 um (Fig. 8), so no tol_1db_lateral_um row is entered (audit lit_52; registry gap: misalignment loss at a stated offset). No significant temperature-dependent loss up to 70 C (p.10-11, Fig. 9, 1550 nm TM). Lowest Sample 1 fiber-to-fiber loss of the input-to-cross channel at 1570 nm: 5.2 dB (three-segment) / 5.0 dB (one-segment); reference channel 3.2 dB (p.9). Geometry roles: tip_width_nm / width_nm = Si taper (chip face down above the polymer waveguide); lower_width_nm / layer2_thickness_nm = polymer core (dangel2018 precedent).'
+    why: 'the four tol_1db_lateral_um rows are deleted (see delete_metrics); the Table 2 misalignment-loss values they carried in condition move to the component notes so the stated values stay recorded (p.10 Table 2, Fig. 8 render)'
+  cmp_lit_soganc2013_flipchip_1seg:
+    notes: 'Fab: the authors (all IBM Research - Zurich) state they fabricated the polymer waveguides and established the flip-chip bonding process (p.11 Sec. 5; bonding p.7 Sec. 3): fab on the assembled coupler (D399). SOI processing is stated passively (p.7); a named individual is thanked for contributing to it (p.11). Comparison design to the three-segment taper (p.6). Offsets normalized from the designed -3..+3 um scan to -2..+4 um for an estimated ~1 um bonding misalignment (p.9). Highest misalignment loss within the +/-2 um lateral offset window (Table 3, p.10): TE 2.8 / 2.6 / 2.2 dB, TM 2.3 / 2.0 / 2.0 dB at 1530 / 1550 / 1570 nm. The paper states no 1-dB tolerance and the window is centred on the normalized zero offset, so no tol_1db_lateral_um row is entered (audit lit_52; registry gap: misalignment loss at a stated offset). No significant temperature-dependent loss up to 70 C (p.10-11, Fig. 9, 1550 nm TM). Lowest Sample 1 fiber-to-fiber loss of the input-to-cross channel at 1570 nm: 5.2 dB (three-segment) / 5.0 dB (one-segment); reference channel 3.2 dB (p.9). Geometry roles: tip_width_nm / width_nm = Si taper (chip face down above the polymer waveguide); lower_width_nm / layer2_thickness_nm = polymer core (dangel2018 precedent).'
+    why: 'the two tol_1db_lateral_um rows are deleted (see delete_metrics); the Table 3 misalignment-loss values move to the component notes (p.10 Table 3)'
+metrics:
+  cmp_lit_lindenmann2012_pwb_soi_soi-m1:
+    scope: per_interface
+    why: 'skill rule 6: per_interface is the scope of a chip-chip coupler instance; one PWB link (both Si-taper / PWB transitions + PWB) is the interface, as in all 7 merged chip_chip_coupler.photonic_wire_bond insertion_loss_db rows (billah2018, xu2021); no merged chip_chip_coupler insertion_loss_db row uses per_component; includes / excludes unchanged (p.7 Sec. 5, p.8 Fig. 3 caption)'
+  cmp_lit_lindenmann2012_pwb_soi_soi-m2:
+    scope: per_interface
+    why: 'same as m1 (p.7 Sec. 5, p.8 Fig. 3)'
+  cmp_lit_lindenmann2012_pwb_prototypes_2_4-m1:
+    scope: per_interface
+    why: 'same as pwb_soi_soi-m1 (p.8 Sec. 5)'
+  cmp_lit_lindenmann2012_pwb_prototypes_2_4-m2:
+    scope: per_interface
+    why: 'same as pwb_soi_soi-m1 (p.8 Sec. 5)'
+  cmp_lit_lindenmann2012_pwb_prototypes_2_4-m3:
+    scope: per_interface
+    why: 'same as pwb_soi_soi-m1 (p.8 Sec. 5)'
+  cmp_lit_sun2013_npa_8x8_active-m1:
+    condition: 'vertical direction; focused beam steered by about 6 deg from its no-voltage position to the edge of its interference order (one-sided displacement as printed, not a +/- span)'
+    why: 'steering_range_deg definition requires the axis and full vs +/- span in condition; p.4 Fig. 4(c) caption "steered by 6 deg to the edge of each interference order" and p.5 "beam-steering for about 6 deg" describe a displacement from the Fig. 4(b) no-voltage beam'
+  cmp_lit_sun2013_npa_8x8_active-m2:
+    condition: 'horizontal direction; focused beam steered by about 6 deg from its no-voltage position to the edge of its interference order (one-sided displacement as printed, not a +/- span)'
+    why: 'same as m1 (p.4 Fig. 4(d) caption; p.5)'
+delete_metrics:
+  - id: cmp_lit_soganc2013_flipchip_3seg-m8
+    why: 'not a stated value: the paper prints the highest misalignment loss within a fixed +/-2 um window about the normalized zero offset (Table 2, p.10), not a 1-dB tolerance; the window is not centred on the loss minimum (Fig. 8 render: 3-seg TE minima at -1 / +1 um) and offsets are sampled in 1 um steps, so "> 2 um half-width about the optimum" does not follow (skill rule 1); values kept in component notes; dangel2018 lc1p5-m2 precedent differs (that paper states about 1 dB within +/-2 um)'
+  - id: cmp_lit_soganc2013_flipchip_3seg-m9
+    why: 'same as 3seg-m8 (TM; Table 2 p.10; Fig. 8(c) 3-seg TM minimum at +1 um)'
+  - id: cmp_lit_soganc2013_flipchip_1seg-m7
+    why: 'same reasoning as 3seg-m8: a 1-dB tolerance is not stated; Table 3 (p.10) gives the highest misalignment loss in the +/-2 um window; values kept in component notes'
+  - id: cmp_lit_soganc2013_flipchip_1seg-m8
+    why: 'same as 1seg-m7 (TM; Table 3 p.10)'

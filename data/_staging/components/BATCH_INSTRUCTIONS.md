@@ -47,3 +47,6 @@ For batches named `lit_NN` the papers are this repo's literature cache, not the 
 - These are dedicated component papers: capture every component the paper characterizes (headline device, reference
   structures with their own measured numbers, on-chip building blocks with stated performance), plus the layout
   geometry the paper states (D102 role-specific geometry parameters, `data/schema/component_layouts.yaml`).
+- (D392, 2026-10-29) Write the report yourself to `<batch>/BATCH_REPORT.md` (this replaces "Do not write report
+  files" above); the final message is a 5-10 line summary. Rulings and the audit / coordinator steps: skill sections
+  "Contract v6 additions", "Audit workflow", "Coordinator workflow".

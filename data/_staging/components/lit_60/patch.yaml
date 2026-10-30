@@ -1,0 +1,60 @@
+# Audit patch lit_60 (fresh-context audit 2026-10-30, DevLog/audits/2026-10-30-lit_60-audit.md).
+# 148 metrics: 138 ok / 10 imprecise / 0 wrong; 14 components: 14 ok / 0 changed / 0 deleted;
+# misses: 2 metrics added (campenhout2009 p-i-n phase-shifter length on the WIMZ and reference-MZ rows).
+# Not covered here (coordinator / org round / registry): LioniX BV (a2011 fab), AIST Nano-Processing Facility
+# (shoji2010 facility), registry gaps listed in the audit file.
+metrics:
+  cmp_lit_campenhout2009_wimz_switch-m2:
+    condition: 'off state, input a1: leakage T11 (a1 -> b1) relative to the T12 main path (Fig. 3(a)); same level for input a2 (T22 leakage, Fig. 3(b)); outputs normalized to the sum of both outputs'
+    why: 'p.3 Sec. 2.1 defines the off state as a1 fully transferred to b2, and the p.6 Fig. 3 render shows T12(off) near 0 dB and T11(off) dipping to about -20 dB; the p.6 sentence names the main path ("from a1 to b2"), so "a1 -> b2 leakage" inverted the ports'
+  cmp_lit_campenhout2009_wimz_switch-m9:
+    locator: p.8 Sec. 4.2; p.7 Fig. 4(a)
+    why: 'Fig. 4 is printed on text.md page 7 (render page_07.png); the -20 dB statement is on p.8 Sec. 4.2'
+  cmp_lit_campenhout2009_wimz_switch-m11:
+    condition: 'off-on transition, switching time to 20-dB extinction of T21 (t20dB_on; extinction-level time, not a 10-90 % rise time); 5 ns drive pulses at Von with 0.45 ns 10-90 % edges; coherent TE source at 1518 nm'
+    locator: p.8 Sec. 4.3; p.7 Fig. 4(b)
+    why: 'm11 and m12 had identical conditions and differed only in notes; the registry rise_time_us definition is "10-90 % rise time unless noted", so the extinction-level definition belongs in condition (han2015 "time to 90 % power" precedent); p.8 Sec. 4.3 text, Fig. 4(b) on p.7 (render)'
+  cmp_lit_campenhout2009_wimz_switch-m12:
+    condition: 'off-on transition, switching time to 10-dB extinction of T21 (t10dB_on; extinction-level time, not a 10-90 % rise time); 5 ns drive pulses at Von with 0.45 ns 10-90 % edges; coherent TE source at 1518 nm'
+    locator: p.8 Sec. 4.3; p.7 Fig. 4(b)
+    why: 'definition into condition (as m11); p.8 Sec. 4.3, Fig. 4(b) on p.7'
+  cmp_lit_campenhout2009_wimz_switch-m13:
+    condition: 'on-off transition, switching time to 20-dB extinction (t20dB_off; extinction-level time, not a 90-10 % fall time); 5 ns drive pulses at Von with 0.45 ns 10-90 % edges; coherent TE source at 1518 nm'
+    locator: p.8 Sec. 4.3; p.7 Fig. 4(b)
+    why: 'm13 and m14 had identical conditions and differed only in notes; fall_time_us is "90-10 % fall time unless noted"; p.8 Sec. 4.3, Fig. 4(b) on p.7'
+  cmp_lit_campenhout2009_wimz_switch-m14:
+    condition: 'on-off transition, switching time to 10-dB extinction (t10dB_off; extinction-level time, not a 90-10 % fall time); 5 ns drive pulses at Von with 0.45 ns 10-90 % edges; coherent TE source at 1518 nm'
+    locator: p.8 Sec. 4.3; p.7 Fig. 4(b)
+    why: 'definition into condition (as m13); p.8 Sec. 4.3, Fig. 4(b) on p.7'
+  cmp_lit_campenhout2009_wimz_switch-m16:
+    locator: p.9 Sec. 4.4; p.8 Fig. 5(b)
+    why: 'Fig. 5 is printed on text.md page 8 (render); the -17 dB sentence is on p.9'
+  cmp_lit_feng2011_pin_voa-m2:
+    locator: p.5 Sec. 3; p.6 Fig. 7
+    why: 'Fig. 7 (VOA frequency response) is on text.md page 6; the 3 MHz sentence is on p.5'
+  cmp_lit_shoji2010_mzi_element-m3:
+    locator: p.3 Sec. 3; p.4 Fig. 3(a)
+    why: 'Fig. 3 is printed on text.md page 4 (render page_04.png); the 16 dB sentence is on p.3'
+  cmp_lit_a2011_awg_16x200ghz-m10:
+    notes: 'Fig. 5(b) fit label 0.0108 nm/C (text and abstract: about 0.011 nm/C); nm/C -> pm/K. The paper''s two panels for channel #9 disagree on its wavelength: Fig. 5(b) axis 1307.0-1308.2 nm, Fig. 5(a) spectra peaking near 1325.5-1326.6 nm (axis 1322-1330 nm); wavelength_nm left empty'
+    why: 'p.7 Fig. 5 render: the condition cites the Fig. 5(b) axis only; the in-paper inconsistency with Fig. 5(a) is recorded so the wavelength is not read as settled'
+add_metrics:
+  - metric_id: cmp_lit_campenhout2009_wimz_switch-m31
+    component_id: cmp_lit_campenhout2009_wimz_switch
+    parameter: length_um
+    value: 200
+    unit: um
+    condition: lateral p-i-n diode phase-shifter length L (one MZ arm)
+    basis: design_target
+    locator: p.3 Sec. 2.1
+    notes: 'printed 200-um-long p-i-n diode, L = 200 um; consistent with rs = Rs x L (8 ohm, 1.6 ohm mm, p.7)'
+    why: 'miss (D153 geometry): p.3 Sec. 2.1 states the 200 um p-i-n phase shifter used in the switch; qiao2017 precedent enters the PIN phase-shift arm length as length_um on switch_fabric rows (lit_06)'
+  - metric_id: cmp_lit_campenhout2009_ref_mz_design-m8
+    component_id: cmp_lit_campenhout2009_ref_mz_design
+    parameter: length_um
+    value: 200
+    unit: um
+    condition: p-i-n phase-shifter length L assumed in the transfer-matrix simulation
+    basis: design_target
+    locator: p.3 Sec. 2.1
+    why: 'miss (D153 geometry): p.3 Sec. 2.1 "phase-shifter length L = 200 um" for the simulated reference MZ (qiao2017 precedent)'

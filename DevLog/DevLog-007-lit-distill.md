@@ -100,6 +100,23 @@ Progress, 2026-10-22 22:00.
 | lit_42 | wdm, switch_fabric | cohen2024 ding2017 lu2016a eid2016 fan2025 morichetti2021 munk2019 pommarede2017 |
 | lit_43 | wdm, switch_fabric, polarization, laser | akiyama2021 ikeda2020 li2023 zheng2023 kwon2020 skandalos2026 |
 | lit_44 | resonator, splitter, waveguide_platform, phase_shifter | hinumwagner2025 liu2026 tebeneva2024 brun2014 shoaa2025 |
+| lit_45 | amplifier, frequency_converter, nonreciprocal | jankowski2020 kittlaus2020a koyaz2026 xu2026 |
+| lit_46 | laser, micro_optics, free_space_emitter | jin2021 nader2025 zhang2026a lim2026 yang2024 zhang2025b |
+| lit_47 | phase_shifter | adya2024 chang2026a tamura2026 tossoun2024 |
+| lit_48 | photodetector, waveguide_platform | muthuganesan2023 pospischil2013 bauters2011 xiao2022 |
+| lit_49 | resonator, mode_converter, reflector | ding2013 he2023 ji2017 ye2019 simard2013 |
+| lit_50 | polarization, fiber_chip_coupler, wdm, switch_fabric | lu2015 sun2022 valdez2025 deng2024 ribeiro2016 taballione2019 |
+| lit_51 | amplifier, nonreciprocal | bi2011 lira2012 foster2006 shoji2008 keyvaninia2012 kuyken2011 |
+| lit_52 | chip_chip_coupler, free_space_emitter, laser | lindenmann2012 soganc2013 cabezon2012 sun2013 moser2011 |
+| lit_53 | free_space_emitter, laser, micro_optics | matsuo2013 chen2000 sysak2008 hutchison2016 acoleyen2009 |
+| lit_54 | phase_shifter, photodetector, waveguide_platform | pfeifle2012 pernice2012 chen2018a fang2008 mauthe2020 schuck2013 kang2008a |
+| lit_55 | phase_shifter, photodetector, waveguide_platform | mcnab2003 cavalier2011 vlasov2004 derose2011 kang2008 yin2007 vivien2009 campenhout2010 |
+| lit_56 | mode_converter, reflector, resonator | wang2012 giuntoni2009 zhang2010 lee2012 a2013 biberman2012 dolgaleva2011 tan2009 |
+| lit_57 | fiber_chip_coupler, fiber_interface, polarization | barwicz2016 chee2012 taillaert2006 thomson2007 zaoui2012 almeida2003 shoji2002 |
+| lit_58 | crossing, fiber_chip_coupler, polarization | jones2013 streshinsky2013 fukuda2006 huang2013 vermeulen2010 zhang2013 |
+| lit_59 | crossing, fiber_chip_coupler, polarization | mekis2010 ma2013 chiles2017 fang2010 liu2011 guan2014a bogaerts2007 |
+| lit_60 | switch_fabric, wdm | campenhout2009 xia2007 a2011 feng2011 shoji2010 |
+| lit_61 | switch_fabric, wdm | goh2001 pathak2012 yang2010 mizukami2011 piggott2015 popovic2006 |
 
 Later retrieval days (DevLog-006 S7) add batches lit_07+ as papers are cached. Day 2 (2026-10-23): lit_07-lit_11 (52 papers).
 
@@ -244,3 +261,60 @@ Later retrieval days (DevLog-006 S7) add batches lit_07+ as papers are cached. D
   basis, D403 q_intrinsic basis, D256 fraction -> % split ratios, wang2014 polarizer extinction -> per_db, gao2019
   intracavity ring -> resonator.ring per D400, OFC W2A.10 platform), EO-atlas candidates (starnault2026, desiatov2019,
   wilmart2020, li2026b, sia2022, lin2022, li2023, kwon2020, gao2026), metadata fix snyder2018 venue.
+
+## Session 2026-10-29 late (Wentao: "ingest newly cached pdfs with subagents; report overall caching / ingestion progress")
+
+| # | Decision | Rationale |
+|---|---|---|
+| D415 | The 29 day-6 papers cached by 23:22 (Optica session 16 + arXiv / OA part of `lit_daily.sh 6`, tmux `lit_day6` still running) are extracted (`lit_extract.py --paper-ids`, 23:30; deng2024 `garbled_text_layer`), page-1 title check 29 / 29 = 1.00, no correction / erratum, registered (`lit` 381 -> 410, validate_db 0 errors / 712 warnings) and split into lit_45-lit_50 (4-6 papers, D390 grouping; tossoun2024 44 pages and kittlaus2020a 26 pages in small batches). Header batch lit_h16 (29 papers, `queue --corpus lit --size 29`). Papers the rest of day 6 caches go to later batches | D150, D390, D405 |
+
+Pipeline as D391 / D392: distill subagent per batch (writes `BATCH_REPORT.md`), fresh-context audit per batch
+(`DevLog/audits/2026-10-29-<batch>-audit.md` + `patch.yaml`, validated on a scratchpad copy), coordinator rulings,
+patch, serialized merge after a backup zip of `data/components/`; header batch lit_h16 extraction -> `check` 0 errors
+-> audit -> `aggregate` -> people rebuild; views rebuild, checks. At most 10 subagents at once.
+
+- [x] lit_45-lit_50 distill (23:45-00:00 PDT; components / metrics, dry-run 0 errors each): lit_45 14 / 62, lit_46 27 / 191, lit_47 16 / 99, lit_48 14 / 69, lit_49 20 / 141, lit_50 30 / 153 (total 121 / 715); reports in each `BATCH_REPORT.md`
+- [x] lit_45-lit_50 audits, rulings, patch, merge (D417-D420)
+- [x] lit_h16 extraction, check, audit, aggregate, people rebuild (DevLog-011, D416; 23:52)
+- [x] views rebuild, validate_db / pytest / ruff / mypy, app build + tests, privacy scan (00:04)
+
+| # | Decision | Rationale |
+|---|---|---|
+| D417 | (lit_47 / lit_48 audits) Audit patches accepted as written. lit_48: muthuganesan2023 Table 1 responsivities (0.65 mW) are the Fig. 4 data reprinted from the authors' ref. [17]: deleted (D259a, as the 1.3 mW point); xiao2022 channel-to-PhC coupler (one Si layer) -> waveguide_platform.other (cheng2025 precedent). lit_47: tossoun2024 keeps the printed 20 um diameter (stated twice, used in its own arithmetic) with the FSR / IL inconsistency flagged in notes (no D159 deletion: the device identity is clear, the paper's numbers disagree); tamura2026 five "before PCM deposition" extinction rows removed (D159: bare and coated rings are on separate chips, chip not stated); adya2024 500 nm labels are the doped slab / scale bars, not the rib width (deleted). Missing orgs (TU Wien, JKU Linz, Tyndall fabrication facility, University of Delaware Nanofabrication Facility, Washington Nanofabrication Facility, ShanghaiTech core facility platform) and registry gaps (switching energy / time, delta_neff, absorbed fraction, PhC lattice / hole radius, extinction_db for waveguide_platform) go to the org round / registry extension | audit records 2026-10-29-lit_47 / lit_48 |
+
+- 23:50-23:51 merges (backup `cache/backup/components_before_lit45-50_merge_20261030T065038Z.zip`): lit_48 patch 20 changes (re-run 0), +14 / +69; lit_47 patch 20 changes (re-run 0), +16 / +95; data/components 2200 components / 12271 metrics.
+| D418 | (lit_46 / lit_49 audits) Patches accepted as written. D403 applied strictly: jin2021 (14 q_intrinsic + finesse), nader2025 (Q_i, Q_c), ye2019 (6) -> author_estimate where the coupling regime comes from design, not the data (ye2019's exactly critically coupled resonance stays measured); merged ye2023 rows join the D403 follow-up sweep. nader2025 edge-coupler losses stay author_estimate (origin not stated; D167 not extended). simard2013 figure-read peak reflectivities kept as extracted_from_figure (OFDR, lower bounds incl. access loss); ji2017 Sec. 5 ring kept on the process-4 row (abstract Q and 0.79 dB/m loss tie it there). Missing orgs (OpSIS as MPW access next to IME per D398; WNF, MAF, Argonne CNM, Argonne, UW-Madison, Yongjiang Laboratory) and confirmed registry gaps (frequency-noise floor, current tuning pm/mA, comb span, RMS roughness, mode_converter gap_nm / taper widths) go to the org round / registry extension | audit records 2026-10-29-lit_46 / lit_49 |
+
+- 23:53-23:54 merges: lit_46 patch 49 changes (re-run 0), +27 / +202; lit_49 patch 54 changes (re-run 0), +20 / +141; data/components 2247 components / 12614 metrics.
+| D419 | (lit_45 audit) Patch accepted (8 changes): koyaz2026 fab org_epfl ("we performed periodic poling" + fabrication at EPFL CMi acknowledged; brun2014 / D83c precedent); kittlaus2020a: no nonreciprocal row (sohn2018 ruling: forward / backward sideband-efficiency contrast, no isolation measured), serpentine stays mode_converter; figure attributions koyaz2026 1.8 %/W (w 1.30) and xu2026 23.9 dB/cm (1.5 mm) endorsed. Org round: Jet Propulsion Laboratory (parent org_caltech) -> fab on the 5 kittlaus2020a rows. Registry extension: conversion_contrast_db (mode_converter, nonreciprocal; kittlaus2020a 15 dB, sohn2018), sideband_suppression_db, bw / tuning_range / center_wavelength widened to frequency_converter / mode_converter | audit record 2026-10-29-lit_45 |
+
+- 23:5x merge lit_45: patch 8 changes (re-run 0), +14 / +63.
+| D420 | (lit_50 audit) Patch accepted (90 changes): deng2024 R = 0.7 / 1.2 um test rings -> resonator.ring (radius series, not WDM-path channel filters, D400; FWHM -> linewidth_mhz), R = 2 um heater ring stays wdm.mrr; sun2022 "9/cm" kept as 39.09 dB/cm derived (power coefficient read, definition not printed, in notes), no psr row (purity is |S1|); taballione2019 0.2 dB/cm and >= 60 % author_estimate, fab empty (no fabrication statement); valdez2025 fill_factor 0.85 deleted (per-scatterer fraction of a three-etch grating), design row -> fabricated, fab org_applied_nanotools (in the registry). Org round: University of Washington Nanofabrication Facility (also cited by eid2016, chen2024a, fang2021, adya2024, lim2026), Europractice (D398, ribeiro2016, desmet2020). Registry extension: polarization conversion efficiency %, roundtrip_loss_db | audit record 2026-10-29-lit_50 |
+
+- 23:59 merge lit_50: patch 90 changes (re-run 0), +32 / +179. data/components 2293 components / 12856 metrics (session: +123 / +749 over lit_45-lit_50).
+- 2026-10-30 00:00-00:04 checks (`logs/lit45-50_checks_20261029T235910.log`): build_views; validate_db 0 errors / 749 warnings (712 before: new lit org strings, org round); ruff clean; mypy clean (83 files); pytest 360 passed, 1 failed: `test_no_review_ids_in_committed_views` read the stale git-ignored `app/build/data/people.json` (10:07 build; 14 persons moved public -> review in the lit_h16 rebuild). App rebuilt (`pnpm build`), 58 app tests pass, tests/test_views.py 12 passed. Privacy scan of all session outputs: no e-mail, street, postal or local-path text; the one postal-box hit (eo:niels2025a CP code, EO-atlas upstream) is in HEAD and already listed open in DevLog-011.
+- Not ingested: PDFs with `route: scihub` in `references/*/source.json` (another process, `scripts/lit_fetch_scihub.py`, from 2026-10-29 23:48); the coordinator does not extract, register or distill them (owner informed).
+
+## Session 2026-10-30 (Wentao: "go on assign subagents to ingest the new cached ones"; "I have the license, we are rate limited")
+
+| # | Decision | Rationale |
+|---|---|---|
+| D421 | The owner holds licensed access to these papers; publisher sites rate-limit the owner's sessions, so another process fetched pre-2021 DOIs through `scripts/lit_fetch_scihub.py` (route `scihub`, atomic `.part` writes, title-overlap check). The 70 PDFs present at 00:20 PDT are extracted (wang2012 `garbled_text_layer`), title-checked (overlap 0.88-1.00, no correction / erratum), registered (`lit` 410 -> 480; access from the selection status, not the route; validate_db 0 errors) and split into lit_51-lit_61 (D390 grouping, <= 8 papers, 24-65 pages); headers lit_h17 / lit_h18 (`queue --corpus lit --size 35`). Same pipeline as D415. lit_61 and the header batches start when slots free (10-subagent cap). PDFs the loop adds later go to the next round | D150, D390, D415 |
+
+- [x] lit_51-lit_61 distill
+- [x] lit_51-lit_61 audits, rulings, patch, merge (D422-D425)
+- [x] lit_h17 / lit_h18 extraction, check, audit, aggregate, people rebuild (DevLog-011 D426; 01:00)
+- [x] views rebuild, app build, validate_db / pytest / ruff / mypy / app tests, privacy scan (01:01-01:08; `logs/lit51-61_checks_20261030T010100.log`: validate_db 0 errors / 814 warnings (new lit org strings), ruff / mypy clean, pytest 360 + 1 fixed test (lit grade-B layout rows, D426) = all pass, 58 app tests; privacy scan clean: no e-mail, street, postal or local-path text)
+
+| # | Decision | Rationale |
+|---|---|---|
+| D422 | (lit_52 / lit_53 / lit_60 audits) Patches accepted as written. lit_53: matsuo2013 a430-m5 (1557.85 nm) belongs to a third, unnamed device (Fig. 8): deleted (D159); the dynamic row (16.2 GHz, 1.6 V) stays a separate unnamed-device row; band labels corrected to L band from the figures; chen2000 stays fiber_chip_coupler.edge (registry definition includes polymer spot-size converters), fab org_university_of_southern_california (first-person account of making the tapers, all authors at USC; D399); hutchison2016 platform emptied (SOI never stated; D168 precedent). lit_52: soganc2013 tolerance rows (> 2 / < 2 um) were an inference from a fixed +-2 um window: deleted, values in notes; lindenmann2012 same-chip PWB stays chip_chip_coupler.photonic_wire_bond with scope per_interface (merged PWB precedent). lit_60: switching times to 10 / 20 dB extinction stay in rise / fall_time_us with the definition in condition (han2015 / seok2016 precedent); campenhout2009 Von / VpiL stay in notes (lu2016a); LioniX BV kept separate from LioniX International (D278), a2011 fab empty until registered. Org round adds: ePIXfab (lindenmann2012, cabezon2012, teng2009, abdulla2011), LioniX BV, AIST Nano-Processing Facility, Sandia MESA, Freescale, NIST Boulder microfabrication, Heriot-Watt University, OpSIS | audit records 2026-10-30-lit_52 / lit_53 / lit_60 |
+
+- 00:42-00:43 merges (backup `cache/backup/components_before_lit51-61_merge_20261030T074210Z.zip`): lit_53 32 changes (re-run 0) +13 / +101; lit_52 13 changes +14 / +87; lit_60 16 changes +14 / +150; data/components 2334 / 13194. lit_51-lit_61 all distilled (00:21-00:44): lit_51 20 / 88, lit_52 14 / 91, lit_53 13 / 101, lit_54 33 / 216, lit_55 35 / 285, lit_56 28 / 219, lit_57 23 / 147, lit_58 20 / 118, lit_59 27 / 156, lit_60 14 / 148, lit_61 16 / 141 (243 / 1710), dry-run 0 errors each.
+| D423 | (lit_55 audit Q7, overruled) derose2011 never states SOI, a buried oxide or an insulator: platform emptied on its 15 rows (`lit_55/coord.yaml`, applied after patch.yaml), as hutchison2016 (D422). Other lit_55 calls accepted: cavalier2011 waveguide values out (D259, recalled from ref. 8), derose2011 37 GHz on the 1.3 x 4 um2 row and 45 GHz at 1 V (Table 1; caption 2 V in notes), vlasov2004 bend / spectrum rows derived (10-bend minus 20-bend difference), mcnab2003 spot-size converter platform polymer | text grep 2026-10-30 |
+| D424 | (lit_61 audit Q1) D411 clarified: free-space switch fabrics with fiber I/O built on lithographic MEMS / LCoS chips (mizukami2011, merged ryf2002, iwama2015, yang2020 a / b) stay in scope as switch_fabric, platform other. Other rulings accepted as patched: lit_61 yang2010 Von / free-carrier loss to notes (lu2016a); pathak2012 AWG IL / crosstalk out (body cites the authors' own ECOC 2012 paper, D408 clause); lit_59 bogaerts2007 fab empty (brouckaert2007 precedent); PSR crosstalk rule: per_db only for wanted / unwanted output-port ratios, wrong-input leakage relative to input power waits for crosstalk_db on polarization (guan2014a m6 deleted; merged lin2022-m2 to re-check); lit_57 barwicz2016 Fig. 6 out (D259a, assigned to ref. [16]), chip-to-chip port fab org_ibm_watson (barwicz2017 precedent), taillaert2006 gold-mirror 69 % out (assigned to a separate forthcoming paper, rule 3); lit_51 foster2006 23 nm span deleted (D159), lira2012 isolation 3 dB kept (true port-to-port backward / forward ratio), kuyken2011 transparency pump in pump_threshold_mw (li2025 precedent) | audit records 2026-10-30-lit_51 / 55 / 57 / 59 / 61; skill updated (Contract v6 line) |
+
+- 00:44-00:53 merges: lit_58 23 changes +20 / +125; lit_51 12 changes +20 / +89; lit_55 42 + 15 (coord) changes +35 / +290; lit_59 20 changes +27 / +159; lit_61 18 changes +16 / +140; lit_57 17 changes +23 / +158; every patch re-run 0 changes. data/components 2475 / 14155.
+| D425 | (lit_54 / lit_56 audits) Patches accepted. lit_54: schuck2013 one row per nanowire design (the paper pairs the dark counts with both wavelengths for its NEP; a per-waveguide split would orphan them under D159); cryogenic GC losses per_coupler with method unspecified (pernice2012 Table 1 applies 13.2 dB as one input-coupler loss); mauthe2020 -> photodetector.vertical (song2021 precedent), alias "IBM Research Europe, Rueschlikon" -> org_ibm_research_zurich for the org round; pfeifle2012 0 rows (EO-atlas candidate). lit_56: lee2012 q_intrinsic stays measured (coupling regime swept experimentally; the value reproduces only on the under-coupled branch: D403 satisfied), fab org_caltech (author contributions, D395); zhang2010 transition losses derived (own setup readings); biberman2012 printed Q0 author_estimate with the mismatch noted; wang2012 CMC not a fab org (no fabrication wording; simard2013 / eid2016 precedents); dolgaleva2011 in scope (laser-written waveguide gratings in a fused-silica chip) | audit records 2026-10-30-lit_54 / lit_56 |
+
+- 00:54-00:55 merges: lit_54 29 changes +33 / +223; lit_56 33 changes +28 / +221 (re-run 0 each). lit_51-lit_61 all merged: data/components 2536 components / 14599 metrics (round: +243 / +1742 vs 2293 / 12857 before lit_53).

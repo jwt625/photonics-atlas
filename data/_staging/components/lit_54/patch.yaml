@@ -1,0 +1,191 @@
+# Audit patch lit_54 (fresh-context audit 2026-10-30, DevLog/audits/2026-10-30-lit_54-audit.md).
+# 216 metrics: 204 ok / 12 imprecise / 0 wrong; 33 components: 30 ok / 3 changed (mauthe2020 class -> vertical,
+# notes) / 0 deleted; 7 misses added (kang2008a simulated low-gain bandwidth, 6 pernice2012 BOX rows).
+# Not covered here (coordinator / registry): alias IBM Research Europe -> org_ibm_research_zurich (mauthe2020),
+# schuck2013 row structure (question 1, kept), registry gaps listed in the audit file.
+components:
+  cmp_lit_mauthe2020_ingaas_pin_w60:
+    class: photodetector.vertical
+    notes: 'Class photodetector.vertical (audit 2026-10-30): top illumination with the fiber at 10 deg from the normal (p.6
+      Methods); precedent song2021 top-illuminated InGaAs PDs grown on Si (iii_v_on_si_epi, photodetector.vertical). Responsivity
+      and high-speed measurements were performed on cross-like structures whose contact design fits the RF probes (p.6 Methods;
+      Supp. Note 4 not cached). Fig. 6(a) S21 curves of the 60 / 200 / 500 nm devices: bias stated only for 200 nm. Free-space
+      (top) illuminated, not waveguide coupled (p.2). Responsivity up to 0.68 A/W at -2 V and 1346 nm with QE up to 62 % (p.4;
+      incident power estimated from fiber position and device area, Supp. Note 10 not cached) is stated for ''the measured
+      device'' without its width: not entered (D159). Junction capacitance below 0.1 fF suggested by the scaled dimensions
+      (p.3), not tied to a width: not entered. LED operation (EL near 1600 nm, about 1 um wide device, Fig. 5(b)) has no values.
+      fab: author contributions (p.7) S.M. designed and fabricated the diodes; S.M. at IBM Research Europe, Rueschlikon (printed
+      name; registry org_ibm_research_zurich, alias missing).'
+    why: 'registry subtype vertical = vertical-illumination PD; the device is top-illuminated through free space (p.2 Results,
+      p.6 Methods: fiber NA 0.14 at 10 deg from the normal); merged precedent cmp_lit_song2021_hs_d10..d40 (top-illuminated
+      InGaAs p-i-n on Si, platform iii_v_on_si_epi) is photodetector.vertical'
+  cmp_lit_mauthe2020_ingaas_pin_w200:
+    class: photodetector.vertical
+    notes: 'Class photodetector.vertical (audit 2026-10-30): top illumination with the fiber at 10 deg from the normal (p.6
+      Methods); precedent song2021 top-illuminated InGaAs PDs grown on Si (iii_v_on_si_epi, photodetector.vertical). Responsivity
+      and high-speed measurements were performed on cross-like structures whose contact design fits the RF probes (p.6 Methods;
+      Supp. Note 4 not cached). Fig. 4(b) I-V vs power and Fig. 5(a) PL / spectral response use a 200 nm device. Fig. 6(a)
+      S21 curves of the 60 / 200 / 500 nm devices: bias stated only for 200 nm. Free-space (top) illuminated, not waveguide
+      coupled (p.2). Responsivity up to 0.68 A/W at -2 V and 1346 nm with QE up to 62 % (p.4; incident power estimated from
+      fiber position and device area, Supp. Note 10 not cached) is stated for ''the measured device'' without its width: not
+      entered (D159). Junction capacitance below 0.1 fF suggested by the scaled dimensions (p.3), not tied to a width: not
+      entered. LED operation (EL near 1600 nm, about 1 um wide device, Fig. 5(b)) has no values. fab: author contributions
+      (p.7) S.M. designed and fabricated the diodes; S.M. at IBM Research Europe, Rueschlikon (printed name; registry org_ibm_research_zurich,
+      alias missing).'
+    why: 'registry subtype vertical = vertical-illumination PD; the device is top-illuminated through free space (p.2 Results,
+      p.6 Methods: fiber NA 0.14 at 10 deg from the normal); merged precedent cmp_lit_song2021_hs_d10..d40 (top-illuminated
+      InGaAs p-i-n on Si, platform iii_v_on_si_epi) is photodetector.vertical'
+  cmp_lit_mauthe2020_ingaas_pin_w500:
+    class: photodetector.vertical
+    notes: 'Class photodetector.vertical (audit 2026-10-30): top illumination with the fiber at 10 deg from the normal (p.6
+      Methods); precedent song2021 top-illuminated InGaAs PDs grown on Si (iii_v_on_si_epi, photodetector.vertical). Responsivity
+      and high-speed measurements were performed on cross-like structures whose contact design fits the RF probes (p.6 Methods;
+      Supp. Note 4 not cached). 32 Gb/s NRZ eye at -2 V measured on a 500 nm wide device (Fig. 6(b), no parameter). Fig. 6(a)
+      S21 curves of the 60 / 200 / 500 nm devices: bias stated only for 200 nm. Free-space (top) illuminated, not waveguide
+      coupled (p.2). Responsivity up to 0.68 A/W at -2 V and 1346 nm with QE up to 62 % (p.4; incident power estimated from
+      fiber position and device area, Supp. Note 10 not cached) is stated for ''the measured device'' without its width: not
+      entered (D159). Junction capacitance below 0.1 fF suggested by the scaled dimensions (p.3), not tied to a width: not
+      entered. LED operation (EL near 1600 nm, about 1 um wide device, Fig. 5(b)) has no values. fab: author contributions
+      (p.7) S.M. designed and fabricated the diodes; S.M. at IBM Research Europe, Rueschlikon (printed name; registry org_ibm_research_zurich,
+      alias missing).'
+    why: 'registry subtype vertical = vertical-illumination PD; the device is top-illuminated through free space (p.2 Results,
+      p.6 Methods: fiber NA 0.14 at 10 deg from the normal); merged precedent cmp_lit_song2021_hs_d10..d40 (top-illuminated
+      InGaAs p-i-n on Si, platform iii_v_on_si_epi) is photodetector.vertical'
+metrics:
+  cmp_lit_pernice2012_ring_g200-m1:
+    condition: Lorentzian fit to a resonance dip of the Fig. 4(c) transmission spectrum (port of the spectrum not stated)
+    why: 'p.7 Fig. 4(c) render: the spectrum is plotted as ''Transmission'' with resonance dips; the text (p.7) and caption
+      name no port for the spectral Q (the caption''s ''drop port'' refers to the time-domain schematic)'
+  cmp_lit_pernice2012_nbn_covered_wg-m2:
+    wavelength_inferred: ''
+    locator: p.3; p.9 Methods
+    notes: printed '1 dB attenuation per um of detector length' (dB/um -> dB/cm); the FDTD absorption results are obtained
+      with a CW source at 1,550 nm (p.9 Methods)
+    why: 'p.9 Methods (Numerical simulation of the detector absorption): the simulation is excited at 1,550 nm, so the wavelength
+      is stated, not inferred (skill rule 8)'
+  cmp_lit_pernice2012_focusing_gc-m1:
+    notes: 'printed -13.1 +/- 0.7 dB (statistical spread over the calibration devices); per_coupler: the paper applies the
+      coupling loss as the single input-coupler loss (p.5, p.8-9): the Table 1 system efficiencies equal OCDE x 0.5 x 10^(-L/10)
+      with L about 13.2 dB for all four devices (audit arithmetic: 2.11 / 1.27 / 2.09 / 2.19 % from 88 / 53 / 87 / 91 %),
+      i.e. one coupler, the device-specific loss taken on the control port (p.9); isolation method not described; peak wavelength
+      not stated, C band from the GC window 1520-1555 nm'
+    why: 'audit question 2 (scope): evidence that the value refers to one input coupler (p.5 Table 1 arithmetic, p.9 control-port
+      calibration); scope per_coupler kept, method unspecified'
+  cmp_lit_schuck2013_nbtin_w75_l40-m15:
+    condition: jitter from the Gaussian fit weighted with the derivative of the measured rising edge plus a background term;
+      FWHM / rms not restated for this value (the unweighted fit, m14, is a FWHM)
+    why: 'p.4 and p.5 Fig. 4(c) caption print 51.5 ps as ''SSPD jitter value'' / ''jitter value'' without FWHM; only the 48.4
+      ps Gaussian fit is called FWHM (timing_jitter_ps definition: FWHM or rms in condition)'
+  cmp_lit_schuck2013_gc_1542-m1:
+    condition: typical coupling loss from the fiber array into the waveguide; calibrated per device in the liquid-helium cryostat
+      (temperature of the calibration not stated)
+    why: 'p.5 Methods: the calibration temperature is not stated; 1.6 K is the temperature of the critical-current / dark-count
+      measurements (p.2, p.5), not stated for the coupler calibration'
+  cmp_lit_schuck2013_gc_768-m1:
+    condition: typical coupling loss from the fiber array into the waveguide; calibrated per device in the liquid-helium cryostat
+      (temperature of the calibration not stated)
+    why: 'p.5 Methods: the calibration temperature is not stated; 1.6 K is the temperature of the critical-current / dark-count
+      measurements (p.2, p.5), not stated for the coupler calibration'
+  cmp_lit_mauthe2020_ingaas_pin_w60-m1:
+    statistic: best
+    why: 'p.3: ''as low as 1.7 nA'' for 60 nm wide devices (skill rule 7: ''as low as'' -> statistic best)'
+  cmp_lit_mauthe2020_ingaas_pin_w60-m6:
+    statistic: best
+    notes: '''footprints as low as ~0.06 um2'' (p.3, abstract); the paper does not name the width: 0.06 um2 = 60 nm x about
+      1 um, the smallest width of the 60-500 nm series (p.2), hence on this row'
+    why: 'p.3: ''as low as'' -> statistic best (skill rule 7); the attribution to the 60 nm row rests on the stated dimensions
+      (p.2), now in notes'
+  cmp_lit_mauthe2020_ingaas_pin_w200-m2:
+    notes: 'abstract: 3 dB bandwidth exceeding about 25 GHz; S21 measured from 100 MHz to 30 GHz on a cross-like test structure
+      (p.6 Methods; Supp. Note 4 not cached); the 3-dB point is stated to lie beyond the about 25-30 GHz capability (p.4)'
+    why: 'p.6 Methods: responsivity and high-speed measurements are performed on cross-like structures; the printed bound
+      is kept as stated'
+  cmp_lit_kang2008a_ge_si_apd_30um-m6:
+    condition: defined at a dark current of 10 uA; temperature not stated with the value (the Fig. 3(a) I-V of a typical APD
+      is at room temperature)
+    why: 'p.2 render: the value sentence states no temperature; only the Fig. 3(a) caption (APD I-V) says room temperature'
+  cmp_lit_kang2008a_ge_si_apd_30um-m7:
+    condition: at biases up to -5 V; temperature not stated with the value (the Fig. 3(a) I-V of a typical APD is at room
+      temperature)
+    why: 'p.2 render: the value sentence states no temperature; only the Fig. 3(a) caption (APD I-V) says room temperature'
+  cmp_lit_kang2008a_ge_si_piin_ref-m2:
+    condition: p-i-i-n reference device; temperature not stated with the value (the Fig. 3(a) I-V of a typical APD is at room
+      temperature)
+    why: 'p.2 render: the value sentence states no temperature; only the Fig. 3(a) caption (APD I-V) says room temperature'
+  cmp_lit_chen2018a_msm_70um-m3:
+    n_samples: '9'
+    why: 'p.7: the 17.2 % corresponds to the average responsivity over the nine finger designs (as m1 / m2, n_samples 9)'
+add_metrics:
+- metric_id: cmp_lit_kang2008a_ge_si_apd_30um-m12
+  component_id: cmp_lit_kang2008a_ge_si_apd_30um
+  parameter: bw3db_ghz
+  value: 13
+  unit: GHz
+  condition: calculated low-gain bandwidth of a 30 um diameter device, transit-time dominated (carrier transit time and RC
+    limits; Fig. 4(b) blue line)
+  method: unspecified
+  basis: simulated
+  locator: p.3; p.3 Fig. 4(b) caption
+  notes: theoretical calculation by the authors; measured maximum 11.5 GHz (m3)
+  why: 'miss: p.3 states the calculated low-gain bandwidth of a 30 um device (13 GHz); design-stated computed performance
+    enters as simulated (D80-D82)'
+- metric_id: cmp_lit_pernice2012_nbn_covered_wg-m5
+  component_id: cmp_lit_pernice2012_nbn_covered_wg
+  parameter: box_thickness_um
+  value: 3
+  unit: um
+  basis: design_target
+  locator: p.8 Methods
+  notes: commercial SOI wafer BOX (D402)
+  why: 'miss (D153 geometry): p.8 Methods states the 3 um BOX of the SOI wafer used for all detectors and optical components;
+    the other pernice2012 rows on the same stack (sspd I-IV, si_wg_750) carry it'
+- metric_id: cmp_lit_pernice2012_ring_g100-m8
+  component_id: cmp_lit_pernice2012_ring_g100
+  parameter: box_thickness_um
+  value: 3
+  unit: um
+  basis: design_target
+  locator: p.8 Methods
+  notes: commercial SOI wafer BOX (D402)
+  why: 'miss (D153 geometry): p.8 Methods states the 3 um BOX of the SOI wafer used for all detectors and optical components;
+    the other pernice2012 rows on the same stack (sspd I-IV, si_wg_750) carry it'
+- metric_id: cmp_lit_pernice2012_ring_g200-m9
+  component_id: cmp_lit_pernice2012_ring_g200
+  parameter: box_thickness_um
+  value: 3
+  unit: um
+  basis: design_target
+  locator: p.8 Methods
+  notes: commercial SOI wafer BOX (D402)
+  why: 'miss (D153 geometry): p.8 Methods states the 3 um BOX of the SOI wafer used for all detectors and optical components;
+    the other pernice2012 rows on the same stack (sspd I-IV, si_wg_750) carry it'
+- metric_id: cmp_lit_pernice2012_focusing_gc-m4
+  component_id: cmp_lit_pernice2012_focusing_gc
+  parameter: box_thickness_um
+  value: 3
+  unit: um
+  basis: design_target
+  locator: p.8 Methods
+  notes: commercial SOI wafer BOX (D402)
+  why: 'miss (D153 geometry): p.8 Methods states the 3 um BOX of the SOI wafer used for all detectors and optical components;
+    the other pernice2012 rows on the same stack (sspd I-IV, si_wg_750) carry it'
+- metric_id: cmp_lit_pernice2012_sspd_l10_w100-m7
+  component_id: cmp_lit_pernice2012_sspd_l10_w100
+  parameter: box_thickness_um
+  value: 3
+  unit: um
+  basis: design_target
+  locator: p.8 Methods
+  notes: commercial SOI wafer BOX (D402)
+  why: 'miss (D153 geometry): p.8 Methods states the 3 um BOX of the SOI wafer used for all detectors and optical components;
+    the other pernice2012 rows on the same stack (sspd I-IV, si_wg_750) carry it'
+- metric_id: cmp_lit_pernice2012_sspd_l40_w100-m7
+  component_id: cmp_lit_pernice2012_sspd_l40_w100
+  parameter: box_thickness_um
+  value: 3
+  unit: um
+  basis: design_target
+  locator: p.8 Methods
+  notes: commercial SOI wafer BOX (D402)
+  why: 'miss (D153 geometry): p.8 Methods states the 3 um BOX of the SOI wafer used for all detectors and optical components;
+    the other pernice2012 rows on the same stack (sspd I-IV, si_wg_750) carry it'

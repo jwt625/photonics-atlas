@@ -1,0 +1,63 @@
+# Audit patch lit_51 (fresh-context audit 2026-10-30, DevLog/audits/2026-10-30-lit_51-audit.md).
+# 88 metrics: 83 ok / 4 imprecise / 1 wrong; 20 components: 18 ok / 2 notes (follow a deleted row and two added misses);
+# 0 components deleted; 2 misses added. After the patch: 20 components, 89 metrics.
+# Not covered here (coordinator / registry): frequency-unit isolation bandwidth and nonreciprocal resonance-split
+# parameters (bi2011), bw_fwhm_nm for amplifier (keyvaninia2012); see the audit file.
+components:
+  cmp_lit_foster2006_si_fwm_opa_300x550_6p4mm:
+    notes: 'No fab org: waveguides ''fabricated as previously described'' (ref. 29, passive, p.2); all authors at Cornell (two schools) but no fabrication statement (D80b). Acknowledged Center for Nanoscale Systems support is funding (NSF / NYSTAR), not a facility. Same waveguide as the frequency_converter row (D396). Not entered: net on/off gain span 1512-1535 nm (23 nm) stated for ''the 6.4-mm-long waveguides'' (p.3): in the Fig. 3(a) render the 300 x 550 nm 6.4 mm trace is above 0 dB only from about 1516.5 to 1533.5 nm, the 1512-1514 nm points above 0 dB belong to the 300 x 600 nm 6.4 mm trace, so the span is the union of two waveguides (D159 / D254); 28 nm net on/off gain span of the abstract (union over the 6.4 mm and 17 mm waveguides, D254); the +3 dB to -2 dB peak conversion efficiencies for signals 1511-1545 nm (p.3; the +3 dB at 1511 nm is not on the plotted 300 x 550 nm 1510 nm trace of Fig. 3(c), which ends near +0.8 dB, so the waveguide is not identified, D159); 300 nm x 600 nm 6.4 mm waveguide (Fig. 3(a) only, no printed value); simulated GVD / FWM gain (Fig. 2(a)-(b)).'
+    why: 'follows the deletion of m2 (gain_bandwidth_nm 23 nm): p.3 "For the 6.4-mm-long waveguides ... from 1,512 nm to 1,535 nm" vs p.2 Fig. 3(a) render (300 x 550 nm trace crosses 0 dB near 1516.5 and 1533.5 nm; the 300 x 600 nm trace is at about +1.1 dB at 1513 nm); Fig. 3(c) render for the +3 dB statement'
+  cmp_lit_kuyken2011_si_wire_midir_opa_2cm:
+    notes: 'No fab org: wire fabricated on a 200 mm SOI wafer in an unnamed CMOS pilot line (p.1, passive); authors at Ghent University-imec, Columbia University and IBM T. J. Watson (D80b). No facility acknowledged. On-chip gain = peak power of the pulsed signal / idler at the waveguide end over the coupled input cw signal power (p.2), from OSA spectra corrected by the cutback-measured coupling loss: derived (D166). Same wire as the frequency_converter, waveguide and coupler rows (D396). Not entered: fitted beta2 -0.6 ps2/m and beta4 5.1e-4 ps4/m, gamma ~150 /W/m (no parameters, D81); differential gain 10.4 / 2.7 dB/W; MI span 1911-2486 nm; earlier 4 mm wire results (ref. [4], D259).'
+    why: 'follows the two added misses (m10 on-chip gain > 40 dB, p.1 Abstract / p.1; m11 off-chip transparency pump power about 8 W, p.3 Fig. 4(b)), which the old notes listed as not entered'
+metrics:
+  cmp_lit_foster2006_si_fwm_opa_300x550_6p4mm-m1:
+    wavelength_nm: 1510
+    wavelength_max_nm: 1590
+    notes: 'printed peak net on/off gain 1.9 dB (p.3, Fig. 2(c) statement for the 300 x 550 nm, 6.4 mm waveguide at 11.0 W); signal wavelength of the peak not printed: range = the stated signal tuning range 1510-1590 nm (p.2); the Fig. 2(c) signal is near 1525 nm and the Fig. 3(a) 300 x 550 nm 6.4 mm trace peaks near 1519 nm (about 1.9 dB). The 1512-1535 nm span previously used here is the union of two 6.4 mm waveguides (component notes)'
+    why: 'p.3 / p.2 Fig. 3(a) render: the 1512-1535 nm span is stated for "the 6.4-mm-long waveguides" and starts on the 300 x 600 nm trace; same convention as the 215 x 445 nm m1 and the converter rows (signal tuning range, p.2)'
+  cmp_lit_lira2012_interband_transition_isolator-m2:
+    notes: 'printed ''around 70 dB'' for this specific device (p.4); method and reference plane (fibre-to-fibre or on-chip) not stated; band inferred from the Fig. 4 measurement window (axis about 1548-1568 nm, labelled ticks 1550-1565 nm; isolation dip at 1558 nm)'
+    why: 'p.4 Fig. 4 render: the measured traces span about 1548-1568 nm, not 1550-1567 nm'
+  cmp_lit_shoji2008_ceyig_si_mzi_isolator-m6:
+    includes: 'excess loss of the interferometer as the paper terms it (remainder of the 8 dB isolator loss after the listed terms; its origin is not itemized)'
+    why: 'p.4 prints only "the excess loss of the interferometer is only 4 dB"; the attribution to MMIs / interference imperfection in the old includes is not in the text'
+  cmp_lit_keyvaninia2012_iii_v_on_si_soa_w3_l200-m1:
+    value: 8.1
+    notes: 'read off the Fig. 4 40 mA trace at 1560 nm (the wavelength of maximum gain stated on p.2 for 40 mA): about 8.1 dB, reading +/- 0.3 dB (the 40 mA trace is about 8.1-8.6 dB between 1553 and 1578 nm, highest near 1565-1575 nm; the 50 mA trace reaches about 9.3 dB); the Fig. 4 axis is printed ''SOA Chip Gain (dBm)'' (unit typo; Fig. 5 prints dB)'
+    why: 'p.3 Fig. 4 render (zoomed, 10 dB and 5 dB gridlines as scale): the 40 mA trace at 1560 nm lies at about 8.1 dB, not 8.5 dB'
+delete_metrics:
+  - id: cmp_lit_foster2006_si_fwm_opa_300x550_6p4mm-m2
+    why: 'D159 / D254: p.3 states the 1512-1535 nm net on/off gain span for "the 6.4-mm-long waveguides" (plural); p.2 Fig. 3(a) render: the 300 x 550 nm 6.4 mm trace is above 0 dB only from about 1516.5 to 1533.5 nm, the span start (1512-1514 nm) is the 300 x 600 nm 6.4 mm trace; value moved to the component notes'
+add_metrics:
+  - metric_id: cmp_lit_kuyken2011_si_wire_midir_opa_2cm-m10
+    component_id: cmp_lit_kuyken2011_si_wire_midir_opa_2cm
+    parameter: gain_db
+    value: 40
+    unit: dB
+    qualifier: gt
+    statistic: best
+    wavelength_nm: 2209
+    wavelength_max_nm: 2498
+    wavelength_inferred: 'true'
+    polarization: te
+    ref_plane: on_chip
+    condition: 'on-chip parametric signal gain in the broadband phase-matched region (stated next to, and separately from, the narrowband Raman-assisted peak gain > 50 dB); cw signal probed 2209-2498 nm in 8 nm steps; pulsed pump 2173 nm (~2 ps FWHM, 76 MHz) with peak on-chip power ~13.5 W; cw probe signal coupled < 0.06 mW; quasi-TE; lensed fibres'
+    method: direct
+    basis: derived
+    locator: p.1 Abstract; p.1; p.2 Fig. 3(b)
+    notes: 'printed ''parametric amplification >40 dB'' (abstract) and ''on-chip parametric gain, exceeding 40 dB'' (p.1); wavelength not printed with the value: range = the cw signal probe range (inferred); the Fig. 3(b) render shows the broadband signal-gain maximum of about 42-43 dB near 2300-2330 nm, outside the Raman-assisted peak near 2440 nm; on-chip basis derived (D166). Distinct from m1 (39.5 dB at 2356 nm, Fig. 4(a) linear regime)'
+    why: 'miss: stated headline on-chip FWM gain (p.1 Abstract, p.1) was listed as not entered on the assumption that the 39.5 dB Fig. 4(a) point covers it; 39.5 dB is below the stated > 40 dB and is a different measurement (Fig. 4(a) input-power sweep); off-chip counterpart > 20 dB is already m5'
+  - metric_id: cmp_lit_kuyken2011_si_wire_midir_opa_2cm-m11
+    component_id: cmp_lit_kuyken2011_si_wire_midir_opa_2cm
+    parameter: pump_threshold_mw
+    value: 8000
+    unit: mW
+    qualifier: approx
+    ref_plane: on_chip
+    condition: 'input peak pump power (on-chip, pulsed 2173 nm, ~2 ps FWHM, 76 MHz) at which off-chip optical transparency is reached, i.e. the on-chip signal / idler gain compensates the 20 dB total fibre-chip coupling loss; signal 2356 nm at -23.3 dBm; cleaved-facet lensed-fibre coupling; quasi-TE'
+    method: direct
+    basis: derived
+    locator: p.3; p.3 Fig. 4(b)
+    notes: 'printed ''about 8 W'' (p.3); W -> mW (D256) and the coupling-loss compensation on own measured values (D166): derived; same quantity as the merged li2025 row (pump power above which fiber-to-fiber net gain emerges)'
+    why: 'miss: stated amplifier performance (p.3, Fig. 4(b)) listed as not entered for lack of a transparency parameter; pump_threshold_mw is allowed for amplifier and the li2025 precedent uses it for the net-gain onset'

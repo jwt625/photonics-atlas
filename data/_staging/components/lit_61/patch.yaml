@@ -1,0 +1,58 @@
+# Audit patch lit_61 (fresh-context audit 2026-10-30, DevLog/audits/2026-10-30-lit_61-audit.md).
+# 141 metrics: 130 ok / 9 imprecise / 2 wrong; 16 components: 16 ok (1 notes update after two metric deletions), 0 deleted;
+# misses: 1 metric added (yang2010 element p-i-n phase-shifter length, campenhout2009 / qiao2017 precedent).
+# Not covered here (coordinator rulings): mizukami2011 scope under D411 (kept, see audit Q1); pathak2012 AWG -2.6 dB /
+# 21.5 dB stay out (audit Q2); registry gaps listed in the audit file.
+components:
+  cmp_lit_yang2010_mzi_element_2x2:
+    notes: 'Element of cmp_lit_yang2010_switch_4x4 (six copies); 50 % directional couplers set the bandwidth (design from [9]); typical element shown in Fig. 2 (p.3-4 Sec. 2.2). Output powers normalized to the summed transmission of both ports at 0 V. Centred for operation at 1530 nm. Nanosecond switching reported previously [9]: not entered. D158: single element -> switch_fabric.other. Not entered (D422 / lu2016a precedent, as campenhout2009): forward bias 1.06 V to reach the on (bar) state (Von of the carrier-injection phase shifter) and the 1.0 dB on-state insertion loss from free-carrier absorption (outputs normalized to the 0 V port sum, i.e. the loss of the EO phase shifter) (p.3 Sec. 2.2, Fig. 2(c)). Fabricated on 200 mm SOI in a standard CMOS line (193 nm DUV, rib waveguides with 50 nm slab, n+/p+ contacts 500 nm from the core, NiSi contacts, W vias, Cu interconnects; SiOxNy spot-size converters for lensed fibers; p.4 Sec. 3): no fab org named, all authors IBM T. J. Watson Research Center (one now IMEC): fab empty (D80b).'
+    why: 'records the two deleted on-state values (m4, m5) in notes, as the lit_60 campenhout2009 row does (D422)'
+metrics:
+  cmp_lit_goh2001_double_mzi_unit-m3:
+    wavelength_inferred: 'true'
+    why: 'same loss-budget paragraph (p.5 Sec. IV-A) as cmp_lit_goh2001_waveguide_0p75-m1 / m2, which carry 1550 nm with wavelength_inferred; the paragraph states no wavelength and the row note already says the wavelength is taken from the Sec. IV-A measurement; made consistent'
+  cmp_lit_goh2001_intersection-m1:
+    wavelength_nm: 1550
+    wavelength_inferred: 'true'
+    why: 'p.6 Sec. IV-B states no wavelength with the -66.7 dB test-waveguide value and the row had neither wavelength nor band (skill rule 8); the Sec. IV measurements use 1.55 um light (p.5 Sec. IV-A), same treatment as the waveguide rows of this paper'
+  cmp_lit_pathak2012_poldiv_awg_16x200-m3:
+    basis: author_estimate
+    why: 'design channel spacing (p.4 Sec. 3, design section) is a performance parameter stated as design: author_estimate (contract v4 D80-D82; merged wdm precedent 28 author_estimate vs 0 design_target rows for channel_spacing_ghz; lit_60 audit)'
+  cmp_lit_pathak2012_poldiv_awg_16x200-m4:
+    basis: author_estimate
+    why: 'as m3 (channel_spacing_nm, design value 1.6 nm, p.4 Sec. 3)'
+  cmp_lit_pathak2012_poldiv_awg_16x200-m5:
+    polarization: ''
+    locator: p.1 Abstract; p.8 Conclusion
+    why: 'the estimated fiber-to-fiber loss states no input polarization (p.1, p.8; the circuit is polarization-diversity, the measurements use controlled polarizations Pol-1 to Pol-4), so "unpolarized" was not stated; the conclusion on p.8 is unnumbered (no Sec. 7)'
+  cmp_lit_pathak2012_poldiv_awg_16x200-m15:
+    basis: extracted_from_figure
+    notes: 'Fig. 3(c) label 150nm (slab under the 70 nm shallow-etched aperture); consistent with the 220 nm layer minus the 70 nm shallow etch (p.4 Sec. 3)'
+    why: 'p.4 render: Fig. 3(c) prints the 150 nm slab as a figure label, so the stored value is printed, not computed (skill: figure-labelled dimensions extracted_from_figure; D256)'
+  cmp_lit_pathak2012_2d_gc_focusing-m2:
+    basis: derived
+    notes: 'printed 1.52 um (um -> nm); the paper prints this wavelength only in um (p.6 text, Fig. 6 axis)'
+    why: 'D256: a unit conversion keeps its basis only when the source prints the stored-unit form somewhere; p.6 Sec. 5 prints 1.52 um and Fig. 6 (p.7) is in um'
+  cmp_lit_popovic2006_filter_1stage-m6:
+    qualifier: lt
+    notes: 'printed < 0.3 dB (p.3 render; the extracted text drops the < sign); normalization reference not stated; wavelength not stated with the value (spectra measured near 1535-1540 nm)'
+    why: 'p.3 page render: "Adjacent channel insertion loss in the through port of a single stage is <0.3 dB"; the text layer lost the bound'
+  cmp_lit_popovic2006_filter_1stage-m13:
+    basis: author_estimate
+    why: 'the 100 GHz grid is the design target of the filters (p.2 "designed for 40 GHz channels on a 100 GHz WDM grid"); channel spacing is a performance parameter: author_estimate (as pathak2012 m3, merged wdm precedent)'
+delete_metrics:
+  - id: cmp_lit_yang2010_mzi_element_2x2-m4
+    why: 'p.3 Sec. 2.2: the 1.0 dB on-state loss is free-carrier absorption of the p-i-n phase shifter with outputs normalized to the 0 V port sum, i.e. the loss of the EO phase shifter (skill rule 2); D422 kept the identical campenhout2009 FCA-only loss in notes (lu2016a precedent); value moved to component notes'
+  - id: cmp_lit_yang2010_mzi_element_2x2-m5
+    why: 'p.3 Sec. 2.2: 1.06 V is the forward bias (Von) of the carrier-injection switch; D422 rules campenhout2009 Von / VpiL stay in notes (lu2016a precedent); value moved to component notes (it stays as bias_v condition on m3)'
+add_metrics:
+  - metric_id: cmp_lit_yang2010_mzi_element_2x2-m6
+    component_id: cmp_lit_yang2010_mzi_element_2x2
+    parameter: length_um
+    value: 200
+    unit: um
+    condition: active p-i-n diode phase-shifter length in one MZI arm
+    basis: design_target
+    locator: p.3 Sec. 2.2
+    notes: printed 200-um-long active p-i-n diode
+    why: 'miss (D153 geometry): p.3 Sec. 2.2 states the 200 um p-i-n diode in one arm; the lit_60 patch (accepted, D422) added the same quantity as length_um on campenhout2009 switch rows (qiao2017 precedent)'

@@ -1,0 +1,119 @@
+# Audit patch lit_57 (fresh-context audit 2026-10-30, DevLog/audits/2026-10-30-lit_57-audit.md).
+# 147 metrics: 147 ok / 0 imprecise / 0 wrong; 23 components: 19 ok / 4 changed / 0 deleted;
+# misses: 11 metrics added (D153 cross-section geometry of sibling / same-wafer GC rows: zaoui2012 no-mirror, 595 nm,
+# 605 nm; taillaert2006 oxide-clad SOI GC and Al2O3-coated InP GC).
+# Recommendation patched for coordinator question 2: barwicz2016 chip-to-chip row fab org_ibm_watson (drop that op to
+# keep it empty). Not covered here (coordinator / registry): Heriot-Watt University (thomson2007 fab), registry gaps.
+components:
+  cmp_lit_taillaert2006_soi_uniform_gc:
+    notes: 'Two GCs joined by 400 um adiabatic tapers, 12 um wide waveguides and a 450 nm photonic wire, 3 mm between couplers (p.6). Same design as the simulated basic grating of Sec. 2.2 (630 nm, 70 nm etch, fill factor 0.5, 10 deg, 1 um BOX, air), so the simulated values sit on this row; Sec. 3.2 compares the measurement with those simulation results (p.7). Measured lateral alignment (Fig. 9: 1 um error -> < 0.5 dB) not entered (no 0.5 dB parameter; the Fig. 9 measured -1 dB contour is asymmetric and not read). Oxide-clad variant: cmp_lit_taillaert2006_soi_uniform_gc_oxclad. Not entered: 69 % measured on a coupler with a gold mirror (p.8): the sentence carries ref. 20 (F. Van Laere, to be published) and the coupler is not described (no structure, wavelength or method), so no row; alignment-tolerance simulations for the Fig. 6 design (2 deg -> 0.5 dB, 55 um distance -> 0.5 dB, 1 um lateral -> < 0.5 dB; no 0.5 dB tolerance parameter, D250). Fab empty: ''we used deep UV lithography'' (p.6) with authors at Ghent University (Photonics Research Group) and the University of St Andrews (not one org, D154); wafers purchased from SOITEC (supplier note only).'
+    why: 'p.8 and reference list (p.8): ref. 20 is "F. Van Laere: to be published", not earlier work, so D259 is not the reason; the value stays out because the sentence attributes it to that separate publication (rule 3) and the device is not described (coordinator question 4 recommendation)'
+  cmp_lit_taillaert2006_gc_nonuniform_design:
+    cladding: ''
+    notes: 'About 35 % lost to the substrate (p.4). Top cladding not stated for this design (p.4 Sec. 2.4 names only the 925 nm oxide buffer). Simulated design (2D EME times lateral overlap, Gaussian 10.4 um, TE).'
+    why: 'skill workflow step 3: cladding only if stated; the batch row held the text "not stated" in the cladding column (p.4 Sec. 2.4, Fig. 5 caption state no top cladding)'
+  cmp_lit_barwicz2016_chip_chip_port_b:
+    fab_org_ids: org_ibm_watson
+    notes: 'Secondary Si photonic die with loopbacks, ports A-D with 37.5 / 75 / 150 / 250 um non-linear adiabatic transitions (p.8-9, Fig. 13(a)). Only port B has a printed value; port A penalty attributed to the short converter, port C to a facet defect (figure only, not entered; the A / B / D curves overlap within the reading uncertainty near their peaks). Mode overlap > 95 % with InP couplers (simulated design, Fig. 12) and 0.1 dB penalty over 100 nm (wdl_db not allowed for chip_chip_coupler) not entered. Fab org_ibm_watson: the acknowledgment states that most of the photonic chips were fabricated at the Microelectronic Research Laboratory, IBM T. J. Watson Research Center, and names only the Fig. 6 device (IBM Microelectronics Foundry) as fabricated elsewhere (p.9); both dies of this assembly are Si photonic chips; own lab of the authors, not a shared facility (D404; barwicz2017 precedent, same lab statement).'
+    why: 'p.9 Acknowledgment: "most" of the photonic chips at the IBM Watson MRL with one named exception (the Fig. 6 converter, not entered); the primary and secondary dies of Fig. 13 are Si photonic chips (p.8 caption, p.9); merged barwicz2017 chip-chip and converter rows carry org_ibm_watson on the same MRL statement (coordinator question 2, recommendation; drop this op to keep fab empty)'
+  cmp_lit_barwicz2016_compliant_polymer_interface:
+    notes: 'Optical path of Fig. 8 (p.5-6): MT fiber butt-coupled to a fiber-matched polymer waveguide, adiabatic transformation to a routing waveguide, adiabatic crossing to the Si nanotaper. Device measured with automated ribbon-to-chip assembly but active alignment at the ribbon-to-MTP end (no ferrule assembled, Fig. 9(a)-(b)). Not entered: -2.4 dB / 1.5 dB penalty of ref. [24] (cited), re-alignment accuracies of refs. [21]-[22] (cited), 2 um lateral tolerance (computational, ref. [18]). Fab empty: the acknowledgment (p.9) places most of the photonic chips at the Microelectronic Research Laboratory, IBM T. J. Watson Research Center, which covers the Si die of this interface but not the polymer ribbon that guides most of the path; the ribbon fabrication is not stated (polymer material refs. [19], [20]; process refinement [25]; a co-author at AGC).'
+    why: 'p.9 Acknowledgment covers photonic chips only; the component (platform polymer) is mostly the polymer ribbon whose fabricator is not stated (p.6); rationale aligned with the chip-to-chip row ruling'
+add_metrics:
+  - metric_id: cmp_lit_zaoui2012_gc_no_mirror_p600-m7
+    component_id: cmp_lit_zaoui2012_gc_no_mirror_p600
+    parameter: core_thickness_nm
+    value: 250
+    unit: nm
+    basis: design_target
+    locator: p.4 Sec. 3; p.6
+    notes: 'top-Si thickness of the standard SOITEC wafer; the no-mirror coupler is fabricated on the same wafer (p.6)'
+    why: 'miss (D153, gc_1d xsec required): p.4 Sec. 3 wafer 250 nm top Si; p.6 "fabricated on the same wafer without mirror"; purchased-wafer thickness design_target (D402)'
+  - metric_id: cmp_lit_zaoui2012_gc_no_mirror_p600-m8
+    component_id: cmp_lit_zaoui2012_gc_no_mirror_p600
+    parameter: etch_depth_nm
+    value: 70
+    unit: nm
+    basis: design_target
+    locator: p.4 Sec. 3; p.3
+    notes: 'grating etch of the wafer process (all gratings dry etched to 70 nm)'
+    why: 'miss (D153, gc_1d xsec required): p.4 Sec. 3 grating etch 70 nm in the process applied to the wafer'
+  - metric_id: cmp_lit_zaoui2012_gc_al_mirror_p595-m4
+    component_id: cmp_lit_zaoui2012_gc_al_mirror_p595
+    parameter: core_thickness_nm
+    value: 250
+    unit: nm
+    basis: design_target
+    locator: p.4 Sec. 3
+    notes: 'top-Si thickness of the standard SOITEC wafer used for all fabricated couplers'
+    why: 'miss (D153, gc_1d xsec required): p.4 Sec. 3 wafer 250 nm top Si (D402)'
+  - metric_id: cmp_lit_zaoui2012_gc_al_mirror_p595-m5
+    component_id: cmp_lit_zaoui2012_gc_al_mirror_p595
+    parameter: etch_depth_nm
+    value: 70
+    unit: nm
+    basis: design_target
+    locator: p.4 Sec. 3; p.3
+    notes: 'grating etch of the wafer process'
+    why: 'miss (D153, gc_1d xsec required): p.4 Sec. 3 grating etch 70 nm'
+  - metric_id: cmp_lit_zaoui2012_gc_al_mirror_p605-m4
+    component_id: cmp_lit_zaoui2012_gc_al_mirror_p605
+    parameter: core_thickness_nm
+    value: 250
+    unit: nm
+    basis: design_target
+    locator: p.4 Sec. 3
+    notes: 'top-Si thickness of the standard SOITEC wafer used for all fabricated couplers'
+    why: 'miss (D153, gc_1d xsec required): p.4 Sec. 3 wafer 250 nm top Si (D402)'
+  - metric_id: cmp_lit_zaoui2012_gc_al_mirror_p605-m5
+    component_id: cmp_lit_zaoui2012_gc_al_mirror_p605
+    parameter: etch_depth_nm
+    value: 70
+    unit: nm
+    basis: design_target
+    locator: p.4 Sec. 3; p.3
+    notes: 'grating etch of the wafer process'
+    why: 'miss (D153, gc_1d xsec required): p.4 Sec. 3 grating etch 70 nm'
+  - metric_id: cmp_lit_taillaert2006_soi_uniform_gc_oxclad-m3
+    component_id: cmp_lit_taillaert2006_soi_uniform_gc_oxclad
+    parameter: core_thickness_nm
+    value: 220
+    unit: nm
+    basis: design_target
+    locator: p.6 Sec. 3.1
+    notes: 'purchased SOI wafer top layer; the oxide was deposited on some of the Sec. 3 SOI samples (p.7)'
+    why: 'miss (D153, gc_1d xsec required): p.6 Sec. 3.1 220 nm Si on all SOI structures; p.7 oxide on "some SOI samples" (D402)'
+  - metric_id: cmp_lit_taillaert2006_soi_uniform_gc_oxclad-m4
+    component_id: cmp_lit_taillaert2006_soi_uniform_gc_oxclad
+    parameter: etch_depth_nm
+    value: 70
+    unit: nm
+    basis: design_target
+    locator: p.6 Sec. 3.1
+    notes: 'grating etch of the SOI process (first lithography and etch step, 70 nm)'
+    why: 'miss (D153, gc_1d xsec required): p.6 Sec. 3.1 gratings etched 70 nm in the SOI process; the period of the oxide-clad samples is not restated (p.7), so period_nm is not added'
+  - metric_id: cmp_lit_taillaert2006_inp_membrane_gc_al2o3-m5
+    component_id: cmp_lit_taillaert2006_inp_membrane_gc_al2o3
+    parameter: period_nm
+    value: 660
+    unit: nm
+    basis: design_target
+    locator: p.7 Sec. 4.2
+    notes: 'same coupler as cmp_lit_taillaert2006_inp_membrane_gc, measured again after the Al2O3 deposition (p.7 Sec. 4.4)'
+    why: 'miss (D153, gc_1d top required): p.7 Sec. 4.2 period 660 nm; p.7 Sec. 4.4 the coated coupler is the measured uncoated coupler after a 240 nm Al2O3 layer'
+  - metric_id: cmp_lit_taillaert2006_inp_membrane_gc_al2o3-m6
+    component_id: cmp_lit_taillaert2006_inp_membrane_gc_al2o3
+    parameter: etch_depth_nm
+    value: 120
+    unit: nm
+    basis: design_target
+    locator: p.7 Sec. 4.2
+    why: 'miss (D153, gc_1d xsec required): p.7 Sec. 4.2 etch depth 120 nm'
+  - metric_id: cmp_lit_taillaert2006_inp_membrane_gc_al2o3-m7
+    component_id: cmp_lit_taillaert2006_inp_membrane_gc_al2o3
+    parameter: core_thickness_nm
+    value: 300
+    unit: nm
+    basis: design_target
+    locator: p.7 Sec. 4.2-4.3
+    why: 'miss (D153, gc_1d xsec required): p.7 Sec. 4.2-4.3 InP membrane 300 nm'

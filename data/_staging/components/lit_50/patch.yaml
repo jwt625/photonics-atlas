@@ -1,0 +1,436 @@
+# Audit patch lit_50 (fresh-context audit 2026-10-29, DevLog/audits/2026-10-29-lit_50-audit.md).
+# 153 metrics: 136 ok / 16 imprecise / 1 wrong (valdez2025 fill_factor, deleted);
+# 30 components: 20 ok / 10 changed / 0 deleted; misses: 2 components + 27 metrics added (deng2024 Supp. Note5
+# filters, valdez2025 two-coupler transmission, ribeiro2016 core thickness).
+# Not covered here (coordinator / registry): University of Washington WNF (lu2015 facility), Europractice MPW service
+# (ribeiro2016 fab, D398), registry gaps listed in the audit file.
+components:
+  cmp_lit_lu2015_bc3db_coupler_design:
+    row_kind: fabricated
+    notes: 'Sub-element of cmp_lit_lu2015_pbs_point_symmetric (two copies, the second point-symmetry transformed). Only simulated performance (3D FDTD, p.5 Fig. 3); row_kind fabricated because the coupler exists on the fabricated chip inside every PBS (D80e; the id keeps its _design suffix). Design method from the authors'' earlier work [18], but both-side tapers differ from [18] (p.4) and the geometry is this paper''s Fig. 2(b) (labels): S-bend 2 um offset over 5 um, coupling sections 22.5 um and 13 um at 500 nm gap with 500 nm widths, 1 um tapers, 6.2 um phase-shifter section with 400 nm / 600 nm widths (phase-shifter widths not entered: no role parameter). Fab: the devices were fabricated by a named UW staff member at the University of Washington WNF, part of NSF NNIN (p.10 Acknowledgments): fab org_university_washington (eid2016 precedent); the Washington Nanofabrication Facility is missing from the registry (reported), facility empty. EBL on SOI (p.6 Sec. 4.1). CMC Microsystems acknowledged for design software only (not a fab / facility role).'
+    why: 'D80e: row_kind design only for parts not fabricated; p.4-5 Sec. 3 and p.6 Sec. 4.1: the two 3 dB couplers are the building blocks of every fabricated PBS (Fig. 2(a), Fig. 5 SEM)'
+  cmp_lit_valdez2025_twig_1d:
+    fab_org_ids: org_applied_nanotools
+    notes: 'Highest-performing 1D TWIG of a 15-device array of etch-width-bias / alignment-error corrections; this device carries a -5 nm etch-width-bias and a -10 nm alignment-error correction (p.6). Apodized, adjoint-optimized geometry with three scatterers per local period (two full 220 nm etches, one 70 nm partial etch), N = 24 local periods (p.3); initial uniform-grating parameters on cmp_lit_valdez2025_twig_design. Coupler efficiency eta_GC = sqrt(Pout / (Pin Twg)) of the two-coupler structure with the waveguide transmission Twg from the authors'' own Fabry-Perot fit (1.35 dB/cm, cmp_lit_valdez2025_sm_waveguide); maximum structure transmission 47.8 % at 1555.5 nm (p.5, m18). Fabry-Perot fit gives a grating power reflectivity of 4.35 % (p.5; no reflectivity parameter for fiber_chip_coupler, registry gap). Abrupt drop near 1528 nm attributed to the test station (p.6). Fab: devices ''submitted to the commercial foundry Applied Nanotools for fabrication'' (p.4 Sec. 5; also abstract, p.7): fab org_applied_nanotools (registry org). EBL process, minimum CD 70 nm full etch / 160 nm partial etch enforced in the design (p.3).'
+    why: 'p.4 Sec. 5 names Applied Nanotools as the fabricating foundry; org_applied_nanotools exists in data/registry/organizations.csv (61 merged rows use it), so the batch note "missing from the registry" is wrong'
+  cmp_lit_valdez2025_twig_focusing:
+    fab_org_ids: org_applied_nanotools
+    notes: 'Radial version of the optimized TWIG: radial etches span 22 deg and begin after a 24.35 um offset to reach an approximate 10.4 um MFD (p.4). Highest-performing focusing TWIG of a 15-device array; it carries a -10 nm etch-width-bias and a -10 nm alignment-error correction (p.6). Not entered (array-level trends, Figs. 7-8, p.6): over +/- 10 nm etch-width corrections the peak wavelength shifts by about 30 nm and the peak efficiency drops from 85 % to 50 %; a +10 nm bias device shows back reflections up to 20 % (-7 dB) beyond 1540 nm; alignment-error corrections of +/- 10 nm change little. Same test structure and efficiency extraction as cmp_lit_valdez2025_twig_1d. Fab: devices ''submitted to the commercial foundry Applied Nanotools for fabrication'' (p.4 Sec. 5; also abstract, p.7): fab org_applied_nanotools (registry org). EBL process, minimum CD 70 nm full etch / 160 nm partial etch enforced in the design (p.3).'
+    why: 'p.4 Sec. 5 fabrication statement; org_applied_nanotools is in the registry'
+  cmp_lit_valdez2025_twig_design:
+    row_kind: fabricated
+    fab_org_ids: org_applied_nanotools
+    notes: 'Optimized 2D design from which the 1D and focusing TWIGs are generated (p.4); its uncorrected version (0 nm etch-width bias, 0 nm alignment correction, ''Base Design'') was fabricated in both 15-device arrays (p.5 Sec. 5, p.6 Fig. 7), so row_kind fabricated (D80e) although only simulated values are entered here. Initial (pre-optimization, unapodized, uniform) parameters from Table 1 (p.3): period 637 nm, D 85 %, H1 = H2 = 220 nm, H3 = 70 nm, scatterer offsets d1 = 194 nm and d2 = 246 nm (no role parameter). D is defined per scatterer (each of the three scatterers is W = (1 - D) x period wide, p.2; Eq. (3) weights the unetched waveguide by 3D - 2), so it is not the single tooth / period fill factor of the registry (D253) and is not entered as fill_factor. The optimized local periods and widths are apodized and not printed. Simulated tolerances (Fig. 3, p.4): +/- 10 nm etch-width bias significantly reduces peak efficiency and shifts the spectrum; partial-etch depth error mainly shifts the centre wavelength; +/- 10 nm alignment error has little effect. Fab: devices ''submitted to the commercial foundry Applied Nanotools for fabrication'' (p.4 Sec. 5; also abstract, p.7): fab org_applied_nanotools (registry org). EBL process, minimum CD 70 nm full etch / 160 nm partial etch enforced in the design (p.3).'
+    why: 'D80e: the base design exists on the fabricated chip (p.5 Sec. 5: arrays include 0 nm bias / 0 nm alignment devices; p.6 Fig. 7 "Base Design" curves); fab org from p.4 Sec. 5; fill_factor reasoning moved to notes (deleted metric below)'
+  cmp_lit_valdez2025_sm_waveguide:
+    fab_org_ids: org_applied_nanotools
+    notes: 'Loss from a fit of the Fabry-Perot fringes (FSR 0.029 nm, cavity = the 1.03 cm grating separation) of the best 1D TWIG test structure to an analytical lossy cavity, grating reflectivity free (fit 4.35 %) (p.5, D394 standard fit). The foundry''s reported average -1.2 dB/cm (p.5) is not entered (foundry value, not this paper''s measurement). Fab: devices ''submitted to the commercial foundry Applied Nanotools for fabrication'' (p.4 Sec. 5; also abstract, p.7): fab org_applied_nanotools (registry org). EBL process, minimum CD 70 nm full etch / 160 nm partial etch enforced in the design (p.3).'
+    why: 'p.4 Sec. 5 fabrication statement covers the whole test structure incl. the waveguide; org_applied_nanotools is in the registry'
+  cmp_lit_deng2024_ring_topic_r0p7:
+    class: resonator.ring
+    tags: ring;add_drop;topic_bend
+    notes: 'Smallest radius with single-guided-mode add-drop spectra (p.7, Fig. 5(a),(d)). Standalone add-drop test ring of the radius series used for FSR and roundtrip-loss extraction (Fig. 5(b)-(c)), not a channel filter in a WDM path (the filter rings are R = 2 um, p.7-9), hence resonator.ring (skill rule 10, D400; audit lit_50 Q1). Roundtrip loss plotted only (Fig. 5(c)); no roundtrip-loss parameter (registry gap). Fab org_imec: ''fabrication is done using imec''s most advanced iSiPP300 platform'' with 193 nm immersion lithography (p.7 Fig. 5 caption); all authors at imec; author contributions name the fabricating co-authors (p.11). TOPIC bend angles theta_p,i = 43.2 deg / theta_p,o = 62.35 deg for all rings (p.7).'
+    why: 'p.7 Sec. 3 / Fig. 5: the R = 0.7 um ring demonstrates radius scaling (FSR, roundtrip loss), it is not part of a WDM path; D400 keeps wdm.mrr for channel filters in a WDM path; the eid2016 precedent is a dedicated add-drop filter device'
+  cmp_lit_deng2024_ring_topic_r1p2:
+    class: resonator.ring
+    tags: ring;add_drop;topic_bend
+    notes: 'Wafer-scale add-drop characterization (300 mm wafer, p.7, Fig. 5(e)). Standalone add-drop ring of the radius series (Fig. 5(b)-(c)), not a channel filter in a WDM path (the filter rings are R = 2 um), hence resonator.ring (skill rule 10, D400; audit lit_50 Q1); the drop-port FWHM is stored as linewidth_mhz (resonator widths, D250). Roundtrip loss about 0.05 dB for R >= 1.2 um (p.7; no roundtrip-loss parameter, registry gap). Fab org_imec: ''fabrication is done using imec''s most advanced iSiPP300 platform'' with 193 nm immersion lithography (p.7 Fig. 5 caption); all authors at imec; author contributions name the fabricating co-authors (p.11). TOPIC bend angles theta_p,i = 43.2 deg / theta_p,o = 62.35 deg for all rings (p.7).'
+    why: 'p.7 Sec. 3 / Fig. 5: radius-series test ring, not in the WDM path; D400 / skill rule 10'
+  cmp_lit_deng2024_wdm_32x100ghz:
+    notes: '4-channel cascaded MZI interleaver (spiral phase shifters; first lattice filter with two phase-shifting stages, three DCs with cross-coupling 0.5 / 0.29 / 0.08, second stage double arm length) splitting into 4 buses of 8 rings at 400 GHz, staggered by 100 GHz; 36 heaters driven in parallel, aligned to the CW-WDM MSA 100 GHz grid centred at 1300 nm (p.9, p.11 Methods, Fig. 7). Not entered: filter tuning efficiency 283 GHz/mW per channel (author estimate from the ring and spiral characterizations with an assumed maximum 2 pi per interleaver shifter, p.10-11 Methods; no GHz/mW parameter, registry gap); interleaver as its own row (no own measured values). The untuned 8x400 GHz and 16x200 GHz TOPIC-ring filters of Supplementary Note5 (cached, p.18) are cmp_lit_deng2024_wdm_8x400ghz and cmp_lit_deng2024_wdm_16x200ghz. Fab org_imec: ''fabrication is done using imec''s most advanced iSiPP300 platform'' with 193 nm immersion lithography (p.7 Fig. 5 caption); all authors at imec; author contributions name the fabricating co-authors (p.11). TOPIC bend angles theta_p,i = 43.2 deg / theta_p,o = 62.35 deg for all rings (p.7).'
+    why: 'the supplement is part of the cached text (p.15-18, Supplementary Information with Notes 1-5); the batch note "supplement not cached" is wrong; the two filters are added below'
+  cmp_lit_taballione2019_thermo_optic_ps:
+    notes: 'Designed to allow a 3/2 pi phase shift each (p.3 Sec. 2; fraction confirmed on the page render); a full period of the calibration sinusoid is not reached (p.5). Phase follows phi(U) = c + d U^2, fitted per element (p.4). Not entered: MZI splitting ratio adjustable between 5 % and 95 % on average and phase offset mean about 3.5 rad (std 1.85 rad) (p.5; no matching parameter). Heater geometry not printed (tunable-element length in Table 1 is cited). No fab org: the waveguide technology is described passively (LPCVD stoichiometric Si3N4, double-stripe cross-section citing [33], p.3); co-authors at LioniX International (org_lionix_international) and QuiX BV, but no fabrication statement. QuiX BV is missing from the registry.'
+    why: 'p.3 Sec. 2 (page render): the 128 tunable elements are designed for a 3/2 pi phase shift, not 2 pi as the batch note said'
+  cmp_lit_taballione2019_double_stripe_wg:
+    tags: double_stripe
+    why: 'the word TriPleX appears only in the title of reference [33] (p.14), not in the paper''s own text; tags carry what the paper states'
+metrics:
+  cmp_lit_valdez2025_twig_1d-m1:
+    basis: derived
+    notes: 'eta_GC = sqrt(Pout / (Pin Twg)) (Eq. 8): the authors'' arithmetic on their own two-coupler transmission (47.8 % maximum) and their own fitted waveguide transmission (D80a, halving of a loopback); printed 81.1 %'
+    why: 'p.5 Eq. 8 (render: square root confirmed) and p.5 "According to equation 8 ... we calculate": explicit arithmetic on own measurements is derived (D80a; 71 of 84 merged lit loopback_half rows are derived)'
+  cmp_lit_valdez2025_twig_1d-m2:
+    basis: derived
+    notes: 'printed -0.91 dB (81.1 %); from Eq. 8 (square root of the two-coupler transmission over the fitted waveguide transmission, D80a)'
+    why: 'p.5 Eq. 8 / p.5-6 Sec. 5: computed by the authors from own measurements (D80a)'
+  cmp_lit_valdez2025_twig_focusing-m1:
+    basis: derived
+    notes: 'abstract prints the central wavelength as 1546 nm; eta_GC from Eq. 8 (square root of the two-coupler transmission over the fitted waveguide transmission, D80a)'
+    why: 'p.6 Sec. 5 "similar measurements": same Eq. 8 extraction as the 1D TWIG (D80a)'
+  cmp_lit_valdez2025_twig_focusing-m2:
+    basis: derived
+    notes: 'printed -0.69 dB (85.4 %); from Eq. 8 (D80a)'
+    why: 'p.6 Sec. 5: same Eq. 8 extraction (D80a)'
+  cmp_lit_valdez2025_twig_1d-m11:
+    basis: specification
+    notes: 'nominal Gaussian SMF mode at 1550 nm used as the design target of the overlap figure of merit (p.2 Sec. 2)'
+    why: 'p.2 Sec. 2: 10.4 um is the nominal SMF MFD the coupler is designed for; registry mfd_fiber_um note: basis specification (all 37 merged rows); design_target is for the component''s own dimensions (D82a)'
+  cmp_lit_valdez2025_twig_focusing-m8:
+    basis: specification
+    notes: 'approximate 10.4 um MFD targeted by the 24.35 um radial offset (p.4 Sec. 3); the nominal SMF mode of p.2 Sec. 2'
+    why: 'p.4 Sec. 3 / p.2 Sec. 2: nominal fiber MFD, registry convention specification'
+  cmp_lit_valdez2025_twig_design-m7:
+    basis: specification
+    notes: 'nominal Gaussian SMF mode at 1550 nm used in the figure of merit (p.2 Sec. 2)'
+    why: 'p.2 Sec. 2: nominal fiber MFD, registry convention specification'
+  cmp_lit_deng2024_sin_circular_bend_r15-m1:
+    polarization: ''
+    notes: '+/- 0.026 dB standard deviation; per 180 degrees, so not entered as bend_loss_db_per_90; polarization of the SiN measurement not stated (the TE statement on p.3 covers the simulations only)'
+    why: 'p.6 Fig. 4 caption states stack, width, wavelength and method but no polarization; the p.3 Fig. 2 caption TE statement is for simulations'
+  cmp_lit_deng2024_sin_euler_bend-m1:
+    polarization: ''
+    notes: '+/- 0.03 dB standard deviation; per 180 degrees, so not entered as bend_loss_db_per_90; polarization of the SiN measurement not stated (the TE statement on p.3 covers the simulations only)'
+    why: 'p.6 Fig. 4 caption: no polarization for the SiN measurements'
+  cmp_lit_deng2024_sin_topic_cw_tp52p5-m1:
+    polarization: ''
+    notes: '+/- 0.026 dB standard deviation; per 180 degrees, so not entered as bend_loss_db_per_90; polarization of the SiN measurement not stated (the TE statement on p.3 covers the simulations only)'
+    why: 'p.6 Fig. 4 caption: no polarization for the SiN measurements'
+  cmp_lit_deng2024_sin_topic_cw_tp22p5-m1:
+    polarization: ''
+    notes: '+/- 0.021 dB standard deviation; per 180 degrees, so not entered as bend_loss_db_per_90; polarization of the SiN measurement not stated (the TE statement on p.3 covers the simulations only)'
+    why: 'p.6 Fig. 4 caption: no polarization for the SiN measurements'
+  cmp_lit_deng2024_sin_topic_vw_best-m1:
+    polarization: ''
+    notes: '+/- 0.005 dB standard deviation; per 180 degrees, so not entered as bend_loss_db_per_90; polarization of the SiN measurement not stated (the TE statement on p.3 covers the simulations only)'
+    why: 'p.6 Fig. 4 caption: no polarization for the SiN measurements'
+  cmp_lit_deng2024_sin_traditional_vw_wmax1p4-m1:
+    polarization: ''
+    notes: '+/- 0.006 dB standard deviation; per 180 degrees, so not entered as bend_loss_db_per_90; polarization of the SiN measurement not stated (the TE statement on p.3 covers the simulations only)'
+    why: 'p.6 Fig. 4 caption: no polarization for the SiN measurements'
+  cmp_lit_deng2024_ring_topic_r1p2-m3:
+    parameter: linewidth_mhz
+    value: 167000
+    unit: MHz
+    band: o_band
+    wavelength_inferred: 'true'
+    basis: derived
+    notes: 'printed 167 +/- 4 GHz drop-port FWHM; GHz -> MHz (D256); resonator class has no bw_fwhm_ghz (D250), the loaded resonance width goes in linewidth_mhz; wavelength not stated with the value, O-band from the Fig. 5(e) spectrum (1270-1340 nm axis) and the 1300 nm extraction resonance of the Fig. 5 caption'
+    why: 'follows the resonator.ring reclass of the component (p.7 Sec. 3); linewidth_mhz requires a wavelength condition'
+  cmp_lit_deng2024_wdm_32x100ghz-m2:
+    basis: author_estimate
+    notes: 'nominal CW-WDM MSA grid the filter was tuned to (p.9, p.11 Methods steps 1-4); the Fig. 7(b) channels follow it; a design / target spacing is author_estimate (D82a: design_target only for dimensions)'
+    why: 'D82a: a performance value stated as the design or target is simulated or author_estimate, never design_target'
+  cmp_lit_ribeiro2016_ti_heater-m1:
+    parameter: tuning_power_mw
+    value: 30
+    basis: measured
+    condition: 'full 2 pi phase shift; typical value from the individual heater characterization'
+    notes: 'printed typically 30 mW for a complete 2 pi phase shift (p.3) and around 30 mW (p.9); kept per 2 pi as printed (no per-2 pi parameter; tuning_power_mw for the stated range, lit_43 audit ruling, merged precedents); wavelength not stated with the value (circuit operated at 1550 nm)'
+    why: 'p.3 Sec. 4 prints the 2 pi value; halving it into p_pi_mw (derived) follows the pattern the lit_43 audit replaced by tuning_power_mw as printed'
+delete_metrics:
+  - id: cmp_lit_valdez2025_twig_design-m4
+    why: 'p.2 Sec. 2 / p.3 Eq. (3) and Table 1: D = 85 % is the unetched fraction per scatterer (each of three scatterers per local period is (1 - D) x period wide; Eq. (3) gives the unetched waveguide fraction 3D - 2 = 0.55), not the tooth / period fill factor of a single-etch grating (D253); stored as 0.85 it would make the gc_1d view draw one 85 % tooth per period (Fig. 2(a) shows three etches per period). Value and definition kept in the component notes'
+add_components:
+  - component_id: cmp_lit_deng2024_wdm_8x400ghz
+    source_id: lit:deng2024
+    class: wdm.mrr
+    label: 'Si TOPIC-ring WDM 8x400 GHz demux: 8 add-drop rings (R = 2 um) on one bus, without tuning'
+    row_kind: fabricated
+    platform: soi
+    core_material: 'Si (SOI), nominal 220 nm'
+    fab_org_ids: org_imec
+    tags: mrr;demux;topic_bend;untuned;o_band
+    verified_on: '2026-10-29'
+    notes: 'Supplementary Note5 (cached in text.md, p.18): TOPIC rings configured as an 8x400 GHz WDM filter without tuning (microscope image Fig. S2(a), spectra Fig. S2(c)); rings drop sequentially from one bus, so IL accumulates and channel isolation drops with ring count (p.18). Ring geometry per the Fig. S2 caption: R = 2 um, 380 nm nominal width outside the varying-width regions, TOPIC angles theta_p,i = 43.2 deg / theta_p,o = 62.35 deg, coupling straights varied per ring to set the channel spacing. Gap not entered: the caption gives a 150 nm coupling gap for all rings and, in the next sentence, a nominal ring-bus gap of 158 nm for this 8x400 GHz filter (D159). Same TOPIC ring family as the 32x100 GHz filter (cmp_lit_deng2024_wdm_32x100ghz). Fab org_imec: all authors at imec; author contributions name the co-authors responsible for device fabrication (p.11); the process platform of these filters is not named.'
+    why: 'miss: p.18 Supp. Note5 and Fig. S2(c) report a measured filter with its own IL and channel isolation; the supplement is in the cached text (p.15-18), contrary to the batch report'
+  - component_id: cmp_lit_deng2024_wdm_16x200ghz
+    source_id: lit:deng2024
+    class: wdm.mrr
+    label: 'Si TOPIC-ring WDM 16x200 GHz demux: 16 add-drop rings (R = 2 um) on one bus, without tuning'
+    row_kind: fabricated
+    platform: soi
+    core_material: 'Si (SOI), nominal 220 nm'
+    fab_org_ids: org_imec
+    tags: mrr;demux;topic_bend;untuned;o_band
+    verified_on: '2026-10-29'
+    notes: 'Supplementary Note5 (cached in text.md, p.18): TOPIC rings configured as a 16x200 GHz WDM filter without tuning (microscope image Fig. S2(b), spectra Fig. S2(d)); performance degraded vs 8x400 GHz because the smaller spacing under a fixed FSR lowers the isolation and the sequential drops accumulate IL (p.18). Ring geometry per the Fig. S2 caption: R = 2 um, 380 nm nominal width outside the varying-width regions, 150 nm gap (both caption statements agree for this filter), TOPIC angles theta_p,i = 43.2 deg / theta_p,o = 62.35 deg, coupling straights varied per ring. Fab org_imec: all authors at imec; author contributions name the co-authors responsible for device fabrication (p.11); the process platform of these filters is not named.'
+    why: 'miss: p.18 Supp. Note5 and Fig. S2(d) report a second measured filter (IL, channel isolation)'
+add_metrics:
+  - metric_id: cmp_lit_valdez2025_twig_1d-m18
+    component_id: cmp_lit_valdez2025_twig_1d
+    parameter: coupling_efficiency_pct
+    value: 47.8
+    unit: '%'
+    statistic: best
+    wavelength_nm: 1555.5
+    polarization: te
+    scope: fiber_to_fiber
+    includes: 'input and output 1D TWIG, 1.03 cm 500 nm x 220 nm waveguide'
+    condition: 'maximum transmission Pout / Pin of the two-coupler test structure; cleaved PM fiber in, cleaved SMF28 out, index-matching fluid n = 1.444; normal incidence'
+    method: direct
+    basis: measured
+    locator: p.5 Sec. 5, Fig. 5(a)
+    notes: 'raw two-coupler transmission from which m1 / m2 are computed with Eq. 8 (0.811^2 x 10^(-1.35 x 1.03 / 10) = 0.478)'
+    why: 'miss: p.5 Sec. 5 states the measured maximum structure transmission 47.8 % at 1555.5 nm; fiber-to-fiber totals keep scope fiber_to_fiber (D83a)'
+  - metric_id: cmp_lit_ribeiro2016_ti_heater-m3
+    component_id: cmp_lit_ribeiro2016_ti_heater
+    parameter: core_thickness_nm
+    value: 220
+    unit: nm
+    condition: Si waveguide under the heater
+    basis: design_target
+    locator: p.3 Sec. 3
+    why: 'miss (D153 geometry, heater_ps xsec required dimension): p.3 Sec. 3 states 220 nm thick Si waveguides for the whole circuit'
+  - metric_id: cmp_lit_ribeiro2016_pdk_mmi_2x2-m2
+    component_id: cmp_lit_ribeiro2016_pdk_mmi_2x2
+    parameter: core_thickness_nm
+    value: 220
+    unit: nm
+    basis: design_target
+    locator: p.3 Sec. 3
+    why: 'miss (D153 geometry, mmi xsec): p.3 Sec. 3 states 220 nm thick Si waveguides'
+  - metric_id: cmp_lit_ribeiro2016_tap_dc_1pct-m2
+    component_id: cmp_lit_ribeiro2016_tap_dc_1pct
+    parameter: core_thickness_nm
+    value: 220
+    unit: nm
+    basis: design_target
+    locator: p.3 Sec. 3
+    why: 'miss (D153 geometry, dc xsec): p.3 Sec. 3 states 220 nm thick Si waveguides'
+  - metric_id: cmp_lit_deng2024_wdm_8x400ghz-m1
+    component_id: cmp_lit_deng2024_wdm_8x400ghz
+    parameter: insertion_loss_db
+    value: 0.91
+    unit: dB
+    statistic: mean
+    n_samples: 8
+    band: o_band
+    wavelength_inferred: 'true'
+    scope: unspecified
+    condition: '8 drop channels, filter without tuning'
+    method: direct
+    basis: measured
+    locator: p.18 Supp. Note5, Fig. S2(c)
+    notes: 'printed 0.91 +/- 0.29 dB; Fig. S2(c) plots normalized transmission, normalization reference not stated; wavelength not stated with the value, channels within the 1281-1302 nm axis of Fig. S2(c)'
+    why: 'miss: p.18 Supp. Note5 (text and render)'
+  - metric_id: cmp_lit_deng2024_wdm_8x400ghz-m2
+    component_id: cmp_lit_deng2024_wdm_8x400ghz
+    parameter: insertion_loss_db
+    value: 0.55
+    value_max: 1.29
+    unit: dB
+    statistic: range
+    n_samples: 8
+    band: o_band
+    wavelength_inferred: 'true'
+    scope: unspecified
+    condition: 'best to worst channel, filter without tuning'
+    method: direct
+    basis: measured
+    locator: p.18 Supp. Note5, Fig. S2(c)
+    notes: 'printed 0.55-1.29 dB (also labelled in Fig. S2(c)); normalization reference not stated; channels within the 1281-1302 nm axis'
+    why: 'miss: p.18 Supp. Note5, Fig. S2(c) labels'
+  - metric_id: cmp_lit_deng2024_wdm_8x400ghz-m3
+    component_id: cmp_lit_deng2024_wdm_8x400ghz
+    parameter: il_nonuniformity_db
+    value: 0.74
+    unit: dB
+    basis: derived
+    locator: p.18 Supp. Note5, Fig. S2(c)
+    notes: '1.29 - 0.55 dB'
+    why: 'miss: same arithmetic as the 32x100 GHz row m6'
+  - metric_id: cmp_lit_deng2024_wdm_8x400ghz-m4
+    component_id: cmp_lit_deng2024_wdm_8x400ghz
+    parameter: crosstalk_db
+    value: 17.2
+    unit: dB
+    qualifier: ge
+    condition: 'channel isolation (CI), type not specified; Fig. S2(c) marks it at channel 6; filter without tuning'
+    basis: measured
+    locator: p.18 Supp. Note5, Fig. S2(c)
+    notes: 'printed CI >= 17.2 dB'
+    why: 'miss: p.18 Supp. Note5; crosstalk_db for wdm when the type is not stated (as the 32x100 GHz row m7)'
+  - metric_id: cmp_lit_deng2024_wdm_8x400ghz-m5
+    component_id: cmp_lit_deng2024_wdm_8x400ghz
+    parameter: n_channels
+    value: 8
+    unit: count
+    basis: design_target
+    locator: p.18 Supp. Note5, Fig. S2(a)
+    why: 'miss: p.18 Supp. Note5'
+  - metric_id: cmp_lit_deng2024_wdm_8x400ghz-m6
+    component_id: cmp_lit_deng2024_wdm_8x400ghz
+    parameter: channel_spacing_ghz
+    value: 400
+    unit: GHz
+    condition: nominal channel spacing of the filter configuration
+    basis: author_estimate
+    locator: p.18 Supp. Note5
+    notes: 'design spacing (D82a); coupling straights varied per ring to achieve it (Fig. S2 caption)'
+    why: 'miss: p.18 Supp. Note5'
+  - metric_id: cmp_lit_deng2024_wdm_8x400ghz-m7
+    component_id: cmp_lit_deng2024_wdm_8x400ghz
+    parameter: radius_um
+    value: 2
+    unit: um
+    basis: design_target
+    locator: p.18 Fig. S2 caption
+    why: 'miss (D153 geometry): p.18 Fig. S2 caption'
+  - metric_id: cmp_lit_deng2024_wdm_8x400ghz-m8
+    component_id: cmp_lit_deng2024_wdm_8x400ghz
+    parameter: width_nm
+    value: 380
+    unit: nm
+    condition: nominal ring waveguide width outside the varying-width regions
+    basis: design_target
+    locator: p.18 Fig. S2 caption
+    why: 'miss (D153 geometry): p.18 Fig. S2 caption'
+  - metric_id: cmp_lit_deng2024_wdm_8x400ghz-m9
+    component_id: cmp_lit_deng2024_wdm_8x400ghz
+    parameter: core_thickness_nm
+    value: 220
+    unit: nm
+    condition: nominal SOI thickness
+    basis: design_target
+    locator: p.18 Fig. S2 caption
+    why: 'miss (D153 geometry): p.18 Fig. S2 caption'
+  - metric_id: cmp_lit_deng2024_wdm_8x400ghz-m10
+    component_id: cmp_lit_deng2024_wdm_8x400ghz
+    parameter: coupling_length_um
+    value: 0.898
+    value_max: 1.128
+    unit: um
+    condition: nominal straight segment length in the coupling regions, varied per ring to set the channel spacing
+    basis: design_target
+    locator: p.18 Fig. S2 caption
+    why: 'miss (D153 geometry): p.18 Fig. S2 caption'
+  - metric_id: cmp_lit_deng2024_wdm_8x400ghz-m11
+    component_id: cmp_lit_deng2024_wdm_8x400ghz
+    parameter: power_coupling_pct
+    value: 9
+    unit: '%'
+    qualifier: approx
+    condition: ring-bus power cross-coupling targeted by the gap
+    basis: author_estimate
+    locator: p.18 Fig. S2 caption
+    notes: 'printed ~0.09 (fraction); design value'
+    why: 'miss: p.18 Fig. S2 caption (as m3 of cmp_lit_deng2024_ring_topic_r2_heater)'
+  - metric_id: cmp_lit_deng2024_wdm_16x200ghz-m1
+    component_id: cmp_lit_deng2024_wdm_16x200ghz
+    parameter: insertion_loss_db
+    value: 2.06
+    unit: dB
+    statistic: mean
+    n_samples: 16
+    band: o_band
+    wavelength_inferred: 'true'
+    scope: unspecified
+    condition: '16 drop channels, filter without tuning'
+    method: direct
+    basis: measured
+    locator: p.18 Supp. Note5, Fig. S2(d)
+    notes: 'printed 2.06 +/- 0.32 dB; normalized transmission, normalization reference not stated; wavelength not stated with the value, channels within the 1271-1292 nm axis of Fig. S2(d)'
+    why: 'miss: p.18 Supp. Note5 (text and render)'
+  - metric_id: cmp_lit_deng2024_wdm_16x200ghz-m2
+    component_id: cmp_lit_deng2024_wdm_16x200ghz
+    parameter: insertion_loss_db
+    value: 1.56
+    value_max: 2.6
+    unit: dB
+    statistic: range
+    n_samples: 16
+    band: o_band
+    wavelength_inferred: 'true'
+    scope: unspecified
+    condition: 'best to worst channel, filter without tuning'
+    method: direct
+    basis: measured
+    locator: p.18 Supp. Note5, Fig. S2(d)
+    notes: 'printed 1.56-2.60 dB (also labelled in Fig. S2(d)); normalization reference not stated; channels within the 1271-1292 nm axis'
+    why: 'miss: p.18 Supp. Note5, Fig. S2(d) labels'
+  - metric_id: cmp_lit_deng2024_wdm_16x200ghz-m3
+    component_id: cmp_lit_deng2024_wdm_16x200ghz
+    parameter: il_nonuniformity_db
+    value: 1.04
+    unit: dB
+    basis: derived
+    locator: p.18 Supp. Note5, Fig. S2(d)
+    notes: '2.60 - 1.56 dB'
+    why: 'miss: same arithmetic as the 32x100 GHz row m6'
+  - metric_id: cmp_lit_deng2024_wdm_16x200ghz-m4
+    component_id: cmp_lit_deng2024_wdm_16x200ghz
+    parameter: crosstalk_db
+    value: 10.5
+    unit: dB
+    qualifier: ge
+    condition: 'channel isolation (CI), type not specified; Fig. S2(d) marks it at channel 12; filter without tuning'
+    basis: measured
+    locator: p.18 Supp. Note5, Fig. S2(d)
+    notes: 'printed CI >= 10.5 dB'
+    why: 'miss: p.18 Supp. Note5'
+  - metric_id: cmp_lit_deng2024_wdm_16x200ghz-m5
+    component_id: cmp_lit_deng2024_wdm_16x200ghz
+    parameter: n_channels
+    value: 16
+    unit: count
+    basis: design_target
+    locator: p.18 Supp. Note5, Fig. S2(b)
+    why: 'miss: p.18 Supp. Note5'
+  - metric_id: cmp_lit_deng2024_wdm_16x200ghz-m6
+    component_id: cmp_lit_deng2024_wdm_16x200ghz
+    parameter: channel_spacing_ghz
+    value: 200
+    unit: GHz
+    condition: nominal channel spacing of the filter configuration
+    basis: author_estimate
+    locator: p.18 Supp. Note5
+    notes: 'design spacing (D82a); coupling straights varied per ring to achieve it (Fig. S2 caption)'
+    why: 'miss: p.18 Supp. Note5'
+  - metric_id: cmp_lit_deng2024_wdm_16x200ghz-m7
+    component_id: cmp_lit_deng2024_wdm_16x200ghz
+    parameter: radius_um
+    value: 2
+    unit: um
+    basis: design_target
+    locator: p.18 Fig. S2 caption
+    why: 'miss (D153 geometry): p.18 Fig. S2 caption'
+  - metric_id: cmp_lit_deng2024_wdm_16x200ghz-m8
+    component_id: cmp_lit_deng2024_wdm_16x200ghz
+    parameter: width_nm
+    value: 380
+    unit: nm
+    condition: nominal ring waveguide width outside the varying-width regions
+    basis: design_target
+    locator: p.18 Fig. S2 caption
+    why: 'miss (D153 geometry): p.18 Fig. S2 caption'
+  - metric_id: cmp_lit_deng2024_wdm_16x200ghz-m9
+    component_id: cmp_lit_deng2024_wdm_16x200ghz
+    parameter: core_thickness_nm
+    value: 220
+    unit: nm
+    condition: nominal SOI thickness
+    basis: design_target
+    locator: p.18 Fig. S2 caption
+    why: 'miss (D153 geometry): p.18 Fig. S2 caption'
+  - metric_id: cmp_lit_deng2024_wdm_16x200ghz-m10
+    component_id: cmp_lit_deng2024_wdm_16x200ghz
+    parameter: coupling_length_um
+    value: 0.754
+    value_max: 0.996
+    unit: um
+    condition: nominal straight segment length in the coupling regions, varied per ring to set the channel spacing
+    basis: design_target
+    locator: p.18 Fig. S2 caption
+    why: 'miss (D153 geometry): p.18 Fig. S2 caption'
+  - metric_id: cmp_lit_deng2024_wdm_16x200ghz-m11
+    component_id: cmp_lit_deng2024_wdm_16x200ghz
+    parameter: gap_nm
+    value: 150
+    unit: nm
+    condition: nominal ring-bus coupling gap
+    basis: design_target
+    locator: p.18 Fig. S2 caption
+    notes: 'both caption statements give 150 nm for this filter'
+    why: 'miss (D153 geometry): p.18 Fig. S2 caption'
+  - metric_id: cmp_lit_deng2024_wdm_16x200ghz-m12
+    component_id: cmp_lit_deng2024_wdm_16x200ghz
+    parameter: power_coupling_pct
+    value: 9
+    unit: '%'
+    qualifier: approx
+    condition: ring-bus power cross-coupling targeted by the gap
+    basis: author_estimate
+    locator: p.18 Fig. S2 caption
+    notes: 'printed ~0.09 (fraction); design value'
+    why: 'miss: p.18 Fig. S2 caption'

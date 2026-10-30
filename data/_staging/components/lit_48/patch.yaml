@@ -1,0 +1,73 @@
+# Audit patch lit_48 (fresh-context audit 2026-10-29, DevLog/audits/2026-10-29-lit_48-audit.md).
+# 69 metrics: 62 ok / 4 imprecise / 3 wrong (muthuganesan2023 Table 1 measured responsivities, D259a);
+# 14 components: 10 ok / 4 changed (3 notes, 1 class + notes) / 0 deleted; 3 misses added.
+# Not covered here (coordinator / registry): TU Wien and JKU Linz (pospischil2013 fab), Tyndall fabrication facility
+# (muthuganesan2023), University of Delaware Nanofabrication Facility (xiao2022), registry gaps listed in the audit file.
+components:
+  cmp_lit_muthuganesan2023_pd_butt:
+    notes: 'Coupon printed on SiO2 inside a trench etched through the 500 nm Si and 50 nm into the BOX at the output taper (Fig. 1(d)-(e)); Si waveguide tapered to 7 um width (p.3). Mesa 19 x 9 um2 (Fig. 3 caption, p.4); length / width orientation not stated. Higher dark current attributed to exposed mesa sidewalls (p.4). Simulated power coupled to the PD 40 % (Table 1, p.3). Same prefabricated InGaAs PD coupon (21 x 57 um2, 675 nm thick) used in three Si-PD coupling schemes on one chip (Fig. 1-2). SOI chip from the CORNERSTONE MPW (p.3); coupon fabrication and printing are described passively and the authors sit at Tyndall and Southampton, so fab_org_ids is empty. Acknowledgments thank the Tyndall fabrication facility (not in the registry; org_tyndall_national_institute is the owning institute, not a facility). Not entered (D259 / D259a, audit 2026-10-29): every measured responsivity. The 1.3 mW operating point (0.2 / 0.4 / 0.8 mA, 0.13 / 0.3 / 0.6 A/W; p.5 sentence cites the authors'' own ref. [17]) and Fig. 4 (a)-(d) I-V / responsivity / QE are reprinted from ref. [17] (p.6 caption); the Table 1 measurement column at 0.65 mW (-0.077 mA, printed 0.13 A/W although 0.077 / 0.65 = 0.118) is the same data as the Fig. 4(a) I-V plateau, so it is not entered either. Table 1 simulated responsivity (FDTD of Sec. 2, no attribution) is entered. Simulated fraction of power coupled to the PD (Table 1 ''S %'') has no photodetector parameter: noted per row. Supplement 1 (epitaxy, Table S1 power calculation, Fig. S8-S10 interface loss) not cached.'
+    why: p.5 Table 1 measured currents (-0.077 / -0.18 / -0.35 mA at 0.65 mW) equal the plateaus of Fig. 4(a) (page 6 render), and Fig. 4 is reprinted from the authors' ref. [17] (p.6 caption); notes record the removal of the m1 row (D259a)
+  cmp_lit_muthuganesan2023_pd_grating:
+    notes: 'Coupon printed directly on the start of the 30 um long output grating (PD 19 um long per p.4; Fig. 3 caption gives a 17 x 7 um2 mesa, orientation not stated: dimensions not entered). Simulated: 62 % absorbed, 6 % to air, 29 % to substrate (p.4). Bandwidth limited by the 250 ohm lateral resistance of the thin n-layer (p.4; origin of the value not stated; not entered as series_resistance_ohm). Eye diagrams 50 Gb/s NRZ and 100 Gb/s PAM4 after 12-tap FFE (Fig. 6; no parameter). Same prefabricated InGaAs PD coupon (21 x 57 um2, 675 nm thick) used in three Si-PD coupling schemes on one chip (Fig. 1-2). SOI chip from the CORNERSTONE MPW (p.3); coupon fabrication and printing are described passively and the authors sit at Tyndall and Southampton, so fab_org_ids is empty. Acknowledgments thank the Tyndall fabrication facility (not in the registry; org_tyndall_national_institute is the owning institute, not a facility). Not entered (D259 / D259a, audit 2026-10-29): every measured responsivity. The 1.3 mW operating point (0.2 / 0.4 / 0.8 mA, 0.13 / 0.3 / 0.6 A/W; p.5 sentence cites the authors'' own ref. [17]) and Fig. 4 (a)-(d) I-V / responsivity / QE are reprinted from ref. [17] (p.6 caption); the Table 1 measurement column at 0.65 mW (-0.18 mA, printed 0.3 A/W) is the same data as the Fig. 4(a) I-V plateau, so it is not entered either. Table 1 simulated responsivity (FDTD of Sec. 2, no attribution) is entered. Simulated fraction of power coupled to the PD (Table 1 ''S %'') has no photodetector parameter: noted per row. Supplement 1 (epitaxy, Table S1 power calculation, Fig. S8-S10 interface loss) not cached.'
+    why: p.5 Table 1 measured currents (-0.077 / -0.18 / -0.35 mA at 0.65 mW) equal the plateaus of Fig. 4(a) (page 6 render), and Fig. 4 is reprinted from the authors' ref. [17] (p.6 caption); notes record the removal of the m1 row (D259a)
+  cmp_lit_muthuganesan2023_pd_evanescent:
+    notes: 'Coupon printed on the tapered Si region across a 5 um long trench etched to 300 nm (p.4, Fig. 1(j)); simulated 94 % absorbed (p.4), robust to misalignment. Mesa 17 x 7 um2 (Fig. 3 caption). Lower bandwidth attributed to an open circuit between one ground and the signal pad (p.6). Abstract / conclusion headline 0.6 A/W is the 1.3 mW value from ref. [17] (not entered). Eye diagrams 50 Gb/s NRZ and 100 Gb/s PAM4 after FFE (Fig. 6). Same prefabricated InGaAs PD coupon (21 x 57 um2, 675 nm thick) used in three Si-PD coupling schemes on one chip (Fig. 1-2). SOI chip from the CORNERSTONE MPW (p.3); coupon fabrication and printing are described passively and the authors sit at Tyndall and Southampton, so fab_org_ids is empty. Acknowledgments thank the Tyndall fabrication facility (not in the registry; org_tyndall_national_institute is the owning institute, not a facility). Not entered (D259 / D259a, audit 2026-10-29): every measured responsivity. The 1.3 mW operating point (0.2 / 0.4 / 0.8 mA, 0.13 / 0.3 / 0.6 A/W; p.5 sentence cites the authors'' own ref. [17]) and Fig. 4 (a)-(d) I-V / responsivity / QE are reprinted from ref. [17] (p.6 caption); the Table 1 measurement column at 0.65 mW (-0.35 mA, printed 0.54 A/W) is the same data as the Fig. 4(a) I-V plateau, so it is not entered either. Table 1 simulated responsivity (FDTD of Sec. 2, no attribution) is entered. Simulated fraction of power coupled to the PD (Table 1 ''S %'') has no photodetector parameter: noted per row. Supplement 1 (epitaxy, Table S1 power calculation, Fig. S8-S10 interface loss) not cached.'
+    why: p.5 Table 1 measured currents (-0.077 / -0.18 / -0.35 mA at 0.65 mW) equal the plateaus of Fig. 4(a) (page 6 render), and Fig. 4 is reprinted from the authors' ref. [17] (p.6 caption); notes record the removal of the m1 row (D259a)
+  cmp_lit_xiao2022_channel_phc_coupler:
+    class: waveguide_platform.other
+    notes: 'Class waveguide_platform.other (audit 2026-10-29): strip-to-PhC-waveguide transition within the same 220 nm Si layer (oxide-clad channel WG, oxide-supported PhC WG, suspended PhC WG); no second guiding layer or core material, so not an inter-layer / inter-material transition (precedent cheng2025 suspended single-ridge to two-ridge transition, waveguide_platform.other with transition_loss_db). Coupler of Fig. 1(a) (side view); the Fig. 1(b) micrograph is of a device made by EBL in the university cleanroom (p.7 Methods), the loss statement is tied to the MPW devices with the designed undercut profile (p.3). Isolation method not described. fab: devices fabricated by AIM Photonics and post-processed at the University of Delaware Nanofabrication Facility (p.8 acknowledgments); author contributions: F.W., Y.X. and D.M. (all University of Delaware) performed the post-processing, so org_university_of_delaware is also a fab org. Facility not in the registry (missing orgs). Process details withheld under NDA (p.8). Family statements not entered on one radius (D254): total loss ''around 2 (+/- 1) dB'' and extinction ratio ''around 40 (+/- 4) dB'' across dies for 0.2 mm PhC WGs (p.3, abstract). Chiplet II r = 150 / 155 nm devices: fiber-to-fiber spectra only (Fig. 4(b), no labels). Lattice constant / hole radius have no registry parameter (notes only).'
+    why: 'p.3-4 Sec. 1-2, Fig. 1(a): the coupler joins Si waveguide types in one device layer; waveguide_platform.transition is the inter-layer / inter-material class (registry def, skill rule 10) and its transition_bilayer template needs layer2_thickness_nm, which does not exist here; merged precedent cmp_lit_cheng2025_aom_to_two_ridge_transition'
+metrics:
+  cmp_lit_xiao2022_channel_phc_coupler-m1:
+    band: ''
+    wavelength_nm: 1480
+    wavelength_max_nm: 1580
+    wavelength_inferred: 'true'
+    notes: 'printed ''less than 1 dB insertion loss'' (p.3) and overall loss measured below 1 dB (p.4); whether per coupler or for the input + output pair is not stated; wavelength not stated: span = tunable-laser range of the loss measurements (p.5, p.7 Methods); the chiplet I PhC pass bands lie at about 1480-1520 nm (Fig. 3), the designed C band falls in their stop band'
+    why: 'p.13 Fig. 3(a)-(b) render: transmission through the PhC devices is high only below about 1520 / 1500 nm and 40-60 dB down in the C band, so a C-band wavelength for a loss measured through them is not supportable; the stated laser range (p.5, p.7) is the measurement span'
+  cmp_lit_pospischil2013_facet_lensed-m1:
+    qualifier: ''
+    why: 'p.5: printed ''15+/-1 dB'' with no approximation word; the +/- is an uncertainty (already in notes), not an ''about'' (skill rule 7)'
+  cmp_lit_pospischil2013_trilayer_best-m1:
+    bias_v: 0
+    notes: wavelength not stated for this device; the device characterization of p.5 uses a 1550 nm laser and the same Pin estimate; zero bias per p.8 (devices operated under zero-bias conditions)
+    why: 'p.8: the devices are operated under zero-bias conditions (all devices, as on bilayer m1); p.3 high bandwidth even without S-GND bias'
+  cmp_lit_pospischil2013_bilayer_l24-m2:
+    bias_v: 0
+    notes: f = 0.441 / dt with the measured FWHM dt about 25 ps (Gaussian time-bandwidth product as printed); authors state the device may be faster; zero bias per p.8
+    why: p.8 zero-bias operation; bw3db_ghz definition asks for the bias in bias_v (same device as m1, which carries bias_v 0)
+delete_metrics:
+- id: cmp_lit_muthuganesan2023_pd_butt-m1
+  why: 'D259a / D408: measured responsivity of Table 1 (p.5; -0.077 mA, printed 0.13 A/W although 0.077 / 0.65 = 0.118) is the 0.65 mW I-V data of Fig. 4(a), which the paper reprints from the authors'' own ref. [17] (p.6 caption, render checked); the value sentence for the 1.3 mW point also cites [17] (p.5)'
+- id: cmp_lit_muthuganesan2023_pd_grating-m1
+  why: 'D259a / D408: measured responsivity of Table 1 (p.5; -0.18 mA, printed 0.3 A/W) is the 0.65 mW I-V data of Fig. 4(a), which the paper reprints from the authors'' own ref. [17] (p.6 caption, render checked); the value sentence for the 1.3 mW point also cites [17] (p.5)'
+- id: cmp_lit_muthuganesan2023_pd_evanescent-m1
+  why: 'D259a / D408: measured responsivity of Table 1 (p.5; -0.35 mA, printed 0.54 A/W) is the 0.65 mW I-V data of Fig. 4(a), which the paper reprints from the authors'' own ref. [17] (p.6 caption, render checked); the value sentence for the 1.3 mW point also cites [17] (p.5)'
+add_metrics:
+- metric_id: cmp_lit_pospischil2013_facet_lensed-m2
+  component_id: cmp_lit_pospischil2013_facet_lensed
+  parameter: core_thickness_nm
+  value: 270
+  unit: nm
+  basis: design_target
+  locator: p.9 Methods
+  notes: commercial SOI device layer (D402)
+  why: 'miss (D153 geometry): p.9 Methods states the stack and width of the cleaved reference waveguide (same values as the PD rows); the bauters2011 facet row of this batch carries the same geometry set'
+- metric_id: cmp_lit_pospischil2013_facet_lensed-m3
+  component_id: cmp_lit_pospischil2013_facet_lensed
+  parameter: width_nm
+  value: 600
+  unit: nm
+  basis: design_target
+  locator: p.9 Methods
+  notes: Si waveguide width at the cleaved facet (no taper stated)
+  why: 'miss (D153 geometry): p.9 Methods states the stack and width of the cleaved reference waveguide (same values as the PD rows); the bauters2011 facet row of this batch carries the same geometry set'
+- metric_id: cmp_lit_pospischil2013_facet_lensed-m4
+  component_id: cmp_lit_pospischil2013_facet_lensed
+  parameter: box_thickness_um
+  value: 3
+  unit: um
+  basis: design_target
+  locator: p.9 Methods
+  notes: commercial SOI BOX (D402)
+  why: 'miss (D153 geometry): p.9 Methods states the stack and width of the cleaved reference waveguide (same values as the PD rows); the bauters2011 facet row of this batch carries the same geometry set'
