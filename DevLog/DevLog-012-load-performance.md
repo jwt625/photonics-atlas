@@ -85,7 +85,7 @@ cache; GitHub Pages sets `max-age=600` on everything including hashed chunks.
 | 6 | `?v=` does not version what the host serves; a load spanning a deploy could silently drop rows | Fixed: loaders check totals and show an error asking for a reload; comment corrected |
 | 7 | Ctrl+F and print reach only rendered rows on windowed tables | Accepted trade-off, same as /people; in-page search covers all rows |
 | 8 | Theme icon wrong for light theme before hydration | Fixed: icon follows the attribute through CSS |
-| - | Possible duplicate downloads from removed preload links (speculative) | Checked: every data file requested once on a cold load |
+| - | Possible duplicate downloads from removed preload links (speculative) | Passed locally at first, then confirmed on the live site: hydration removed the links, cancelling parts 0-9 (`ERR_ABORTED`), which restarted about 200 ms later. Fixed: links stay through hydration |
 | - | Worker on the dev server (speculative) | Disabled on `vite dev` |
 
 Found while verifying: first-visit data bypassed the worker, so the next visit waited on the network. The page now
