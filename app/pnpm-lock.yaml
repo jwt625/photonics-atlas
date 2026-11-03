@@ -8,9 +8,9 @@ importers:
 
   .:
     dependencies:
-      plotly.js-dist-min:
-        specifier: ^4.1.1
-        version: 4.1.2
+      plotly.js-cartesian-dist-min:
+        specifier: 4.1.1
+        version: 4.1.1
     devDependencies:
       '@sveltejs/adapter-static':
         specifier: ^4.0.0
@@ -24,9 +24,6 @@ importers:
       '@types/node':
         specifier: ^26.6.3
         version: 26.6.5
-      '@types/plotly.js-dist-min':
-        specifier: ^2.3.4
-        version: 2.3.4
       playwright-core:
         specifier: ^1.63.0
         version: 1.64.1
@@ -214,12 +211,6 @@ packages:
 
   '@types/node@26.6.5':
     resolution: {integrity: sha512-uMzsv9stDdofIZBx4UGh4Z9ZgXnGC9seRDscilBcTHAeOFk67MZg/k9bWVfO+bk4qZmG+l52hRnLwUiH2LnJTg==}
-
-  '@types/plotly.js-dist-min@2.3.4':
-    resolution: {integrity: sha512-ISwLFV6Zs/v3DkaRFLyk2rvYAfVdnYP2VVVy7h+fBDWw52sn7sMUzytkWiN4M75uxr1uz1uiBioePTDpAfoFIg==}
-
-  '@types/plotly.js@3.0.15':
-    resolution: {integrity: sha512-ftBxk2fB7BxxeMpT0IVEb/3HKpYTXO5nCdR5mGEz6gHpLd6GGRFxvDVoG1gpD/gBAgoN36KIyRflxCnOfWlskQ==}
 
   '@vitest/mocker@5.0.5':
     resolution: {integrity: sha512-xLL3lkDegJZw+MGoGaCCsFayDZthGgpAtr3Vziyfc4p7xH89K7KRPcRBBh/kEYm0Aqkt5DtTmkYpBtRV/FrHZg==}
@@ -429,8 +420,8 @@ packages:
     engines: {node: '>=20'}
     hasBin: true
 
-  plotly.js-dist-min@4.1.2:
-    resolution: {integrity: sha512-VSmS9KVNun16S8qFYYp9LlL/XBby4ueeGqB+K9AqRCVsup8dSpGULap4UyR1f2mz4pV3qjWp1sR5chwLgIKPoQ==}
+  plotly.js-cartesian-dist-min@4.1.1:
+    resolution: {integrity: sha512-o8GrFeusncwBIxbBynRJpY4pkgVB6caM+JLpwrLYbbsO7dZ8FJ+SVN2Fr+L7kiG/Z6w4P5O0Jus/Qr5EefHVeg==}
 
   postcss@8.5.31:
     resolution: {integrity: sha512-YUbWYCgErwnMAVkjUnYa+KlMBzGpHwiIt/DE7f0G33AuX2LH9UcTk6KgWxd3zRU+pN3u/C+Xl3EnMLM4Hea7Sg==}
@@ -718,12 +709,6 @@ snapshots:
     dependencies:
       undici-types: 8.9.0
 
-  '@types/plotly.js-dist-min@2.3.4':
-    dependencies:
-      '@types/plotly.js': 3.0.15
-
-  '@types/plotly.js@3.0.15': {}
-
   '@vitest/mocker@5.0.5(vite@8.3.4(@types/node@26.6.5))':
     dependencies:
       '@jridgewell/trace-mapping': 0.3.31
@@ -859,7 +844,7 @@ snapshots:
 
   playwright-core@1.64.1: {}
 
-  plotly.js-dist-min@4.1.2: {}
+  plotly.js-cartesian-dist-min@4.1.1: {}
 
   postcss@8.5.31:
     dependencies:

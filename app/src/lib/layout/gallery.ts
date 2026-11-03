@@ -34,6 +34,17 @@ export interface Gap {
 
 const ROLE_ORDER: Record<string, number> = { hero: 0, typical: 1 };
 
+/** Per template: components whose class it serves / with at least one template dimension. Needs the full view. */
+export function templateCounts(view: ComponentsView): Map<string, { served: number; withGeometry: number }> {
+	return new Map(
+		Object.entries(view.layouts ?? {}).map(([id, t]) => {
+			const served = view.components.filter((c) => t.applies_to.includes(c.class));
+			const withGeometry = served.filter((c) => (resolve(c, view)?.reported ?? 0) > 0).length;
+			return [id, { served: served.length, withGeometry }];
+		})
+	);
+}
+
 export function gallery(view: ComponentsView, perTemplate = 4): Group[] {
 	const byId = new Map(view.components.map((c) => [c.component_id, c]));
 	const out: Group[] = [];

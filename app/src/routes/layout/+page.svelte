@@ -6,7 +6,9 @@
 	import { comp, fmtValue, loadComponents, type Metric, type PrimarySpec } from '../../lib/components.svelte';
 	import { pubTip } from '../../lib/pub';
 	import { link } from '../../lib/paths';
-	import { gallery } from '../../lib/layout/gallery';
+	import { gallery, templateCounts } from '../../lib/layout/gallery';
+	import Preload from '../../lib/Preload.svelte';
+	import Skeleton from '../../lib/Skeleton.svelte';
 	import LayoutViews from '../../lib/layout/LayoutViews.svelte';
 	import { buildScenes } from '../../lib/layout/scene';
 	import Scene from '../../lib/layout/Scene.svelte';
@@ -20,12 +22,20 @@
 	});
 	afterNavigate(readId);
 
-	const view = $derived(comp.view);
-	const c = $derived(view && id ? view.components.find((x) => x.component_id === id) : undefined);
+	// the gallery needs only the showcase components; one component shows as soon as its part has arrived
+	const view = $derived(comp.view ?? comp.partial ?? comp.early);
+	const c = $derived(view && id ? ((comp.view ?? comp.partial)?.components.find((x) => x.component_id === id) ?? comp.early?.components.find((x) => x.component_id === id)) : undefined);
 	const r = $derived(c && view ? resolve(c, view) : null);
 	const prim = $derived(r && c ? primaryMetric(c, r.templateId, r.template) : null);
 	const show = $derived(view && c ? (view.showcase ?? []).filter((s) => s.component_id === c.component_id) : []);
-	const groups = $derived(view && !id ? gallery(view) : []);
+	const hasShowcase = $derived((comp.early?.showcase ?? []).length > 0);
+	const groups = $derived.by(() => {
+		if (id) return [];
+		// without showcase rows the cards are ranked over all components, so that gallery waits for all of them
+		const src = hasShowcase ? comp.early : comp.view;
+		return src ? gallery(src) : [];
+	});
+	const counts = $derived(comp.view && !id ? templateCounts(comp.view) : null);
 	const dims = $derived(r ? Object.values(r.dims).sort((a, b) => Number(b.required) - Number(a.required) || (a.row ? 0 : 1) - (b.row ? 0 : 1)) : []);
 	const href = (cid: string) => link('/layout') + '?id=' + encodeURIComponent(cid);
 	const specText = (ps: PrimarySpec) => ps.parameter + (ps.scope ? ' ' + ps.scope : '');
@@ -35,13 +45,17 @@
 	const altTip = (d: Dim) => d.alts.map((a) => `${rowLabel(a)} [${a.basis}] ${a.condition ?? ''} (${a.locator})`).join('\n');
 </script>
 
+<Preload files={['data/parts/components/meta.json']} />
+
 {#if comp.error}
 	<div class="err">{comp.error}</div>
 {:else if !view}
-	<div class="pad muted">loading</div>
+	<Skeleton />
 {:else if id}
 	<div class="page">
-		{#if !c}
+		{#if !c && !comp.view}
+			<Skeleton />
+		{:else if !c}
 			<p class="muted">No component <span class="mono">{id}</span>. <a href={link('/layout')}>Gallery</a></p>
 		{:else if !r}
 			<p class="muted">Class <span class="mono">{c.class}</span> has no layout template. <a href={link('/components') + '#' + encodeURIComponent(c.component_id)}>Component</a></p>
@@ -112,7 +126,7 @@
 				<h2>
 					<span>{g.t.label}</span>
 					<span class="mono muted">{g.id}</span>
-					<span class="muted num" data-tip="components whose class the template serves / with at least one template dimension">{g.served} components, {g.withGeometry} with geometry</span>
+					{#if counts}{@const n = counts.get(g.id)}<span class="muted num" data-tip="components whose class the template serves / with at least one template dimension">{n?.served} components, {n?.withGeometry} with geometry</span>{/if}
 					<span class="muted" data-tip="primary metric{Object.keys(g.t.primary_by_class ?? {}).length ? ' (per class where stated)' : ''}">{specText(g.t.primary)}{#each Object.entries(g.t.primary_by_class ?? {}) as [cls, ps]}; {cls}: {specText(ps)}{/each}</span>
 				</h2>
 				<div class="cards">

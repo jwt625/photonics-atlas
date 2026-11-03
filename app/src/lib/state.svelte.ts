@@ -1,13 +1,15 @@
-import { staticUrl } from './paths';
+import { getJson } from './paths';
 import type { Org, OrgEvent, Registry } from './types';
 
-export const store = $state<{ reg: Registry | null; byId: Map<string, Org>; evById: Map<string, OrgEvent>; loading: boolean; error: string }>({
-	reg: null,
-	byId: new Map(),
-	evById: new Map(),
-	loading: true,
-	error: ''
-});
+// raw state: the registry is replaced as a whole, never mutated (no deep proxies over thousands of rows)
+class RegistryState {
+	reg = $state.raw<Registry | null>(null);
+	byId = $state.raw<Map<string, Org>>(new Map());
+	evById = $state.raw<Map<string, OrgEvent>>(new Map());
+	loading = $state(true);
+	error = $state('');
+}
+export const store = new RegistryState();
 export const ui = $state<{ theme: 'dark' | 'light' }>({ theme: 'dark' });
 
 let started = false;
@@ -16,9 +18,7 @@ export async function loadRegistry(): Promise<void> {
 	if (started) return;
 	started = true;
 	try {
-		const res = await fetch(staticUrl('data/registry.json'));
-		if (!res.ok) throw new Error(`registry.json: HTTP ${res.status}`);
-		const r = (await res.json()) as Registry;
+		const r = await getJson<Registry>('data/registry.json');
 		store.byId = new Map(r.orgs.map((o) => [o.id, o]));
 		store.evById = new Map(r.events.map((e) => [e.id, e]));
 		store.reg = r;

@@ -1,5 +1,5 @@
 // Supply-chain view (static/data/supply.json, DevLog-010 D191): DevLog-003 tables as generated, non-empty fields only.
-import { staticUrl } from './paths';
+import { getJson } from './paths';
 import type { Pub } from './pub';
 
 export interface SupplyCategory {
@@ -45,9 +45,7 @@ export async function loadSupply(): Promise<void> {
 	if (started) return;
 	started = true;
 	try {
-		const res = await fetch(staticUrl('data/supply.json'));
-		if (!res.ok) throw new Error(`supply.json: HTTP ${res.status}`);
-		sup.view = (await res.json()) as SupplyView;
+		sup.view = await getJson<SupplyView>('data/supply.json');
 	} catch (e) {
 		sup.error = e instanceof Error ? e.message : String(e);
 	}

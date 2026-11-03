@@ -7,9 +7,15 @@
 	import { loadPeople, ppl, type Obs } from '../../lib/people.svelte';
 	import { plotTheme, slotColor } from '../../lib/explore/colors';
 	import Plot from '../../lib/explore/Plot.svelte';
+	import Preload from '../../lib/Preload.svelte';
+	import Skeleton from '../../lib/Skeleton.svelte';
+	import type { Summary } from '../../lib/types';
 	import StackBars from '../../lib/StackBars.svelte';
 	import { coverage, dateNum, orgPeople, orgTable, personStats, typeOf } from '../../lib/views';
 	import { provenance, pubTip } from '../../lib/pub';
+
+	let { data }: { data: { summary: Summary } } = $props();
+	const files = $derived(['data/parts/people/meta.json', ...Array.from({ length: data.summary.parts.people }, (_, i) => `data/parts/people/${i}.json`)]);
 
 	type Mode = 'persons' | 'orgs' | 'coverage';
 	let mode = $state<Mode>('persons');
@@ -200,6 +206,8 @@
 	const withheld = $derived(view ? view.counts.obs_all - view.counts.obs_public : 0);
 </script>
 
+<Preload {files} />
+
 {#if ppl.error}
 	<div class="err">{ppl.error}</div>
 {:else if view}
@@ -339,7 +347,7 @@
 		</aside>
 	</div>
 {:else}
-	<div class="pad muted">loading</div>
+	<Skeleton />
 {/if}
 
 <style>

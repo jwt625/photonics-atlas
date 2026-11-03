@@ -51,6 +51,14 @@ export interface Overview {
 	top_vendors: [string, number][];
 	publications: { n: number; years: number[]; by_type: Record<string, number[]>; no_year: number };
 }
+/** parts/summary.json of app/scripts/shard-data.mjs */
+export interface Summary {
+	generated_on: string;
+	overview: Overview;
+	/** names of the organizations in overview.top_fabs and overview.top_vendors */
+	names: Record<string, string>;
+	parts: { components: number; people: number };
+}
 export interface Registry {
 	generated_on: string;
 	counts: Record<string, number>;

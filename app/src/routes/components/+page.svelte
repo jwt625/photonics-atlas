@@ -2,10 +2,15 @@
 	import { onMount } from 'svelte';
 	import { comp, fmtValue, fmtWavelength, loadComponents, type Component, type Metric } from '../../lib/components.svelte';
 	import { link } from '../../lib/paths';
+	import Preload from '../../lib/Preload.svelte';
+	import Skeleton from '../../lib/Skeleton.svelte';
+	import type { Summary } from '../../lib/types';
 	import LayoutViews from '../../lib/layout/LayoutViews.svelte';
 	import { templateFor } from '../../lib/layout/resolve';
 	import { pubTip, venueYear } from '../../lib/pub';
 
+	let { data }: { data: { summary: Summary } } = $props();
+	const files = $derived(['data/parts/components/meta.json', ...Array.from({ length: data.summary.parts.components }, (_, i) => `data/parts/components/${i}.json`)]);
 	let cls = $state('');
 	let param = $state('');
 	let q = $state('');
@@ -13,6 +18,9 @@
 	let selId = $state('');
 	let sortKey = $state('class');
 	let sortDir = $state<1 | -1>(1);
+	// 18k rows: render a window, grow on scroll
+	const PAGE = 300;
+	let limit = $state(PAGE);
 	let timer: ReturnType<typeof setTimeout> | null = null;
 
 	onMount(() => {
@@ -27,7 +35,8 @@
 	});
 
 	type Row = { c: Component; m: Metric };
-	let view = $derived(comp.view);
+	// rows show part by part as they arrive; counts appear once all have, a spinner until then
+	let view = $derived(comp.view ?? comp.partial);
 	let rows = $derived<Row[]>(view ? view.components.flatMap((c) => c.metrics.map((m) => ({ c, m }))) : []);
 	let classCounts = $derived.by(() => {
 		const n: Record<string, number> = {};
@@ -55,6 +64,14 @@
 			})
 	);
 	let sel = $derived(view?.components.find((c) => c.component_id === selId));
+	$effect(() => {
+		void cls, param, q, sortKey, sortDir;
+		limit = PAGE;
+	});
+	function onScroll(e: Event) {
+		const el = e.currentTarget as HTMLElement;
+		if (el.scrollTop + el.clientHeight > el.scrollHeight - 400) limit += PAGE;
+	}
 	function sortBy(k: string) {
 		if (sortKey === k) sortDir = sortDir === 1 ? -1 : 1;
 		else {
@@ -86,15 +103,17 @@
 	];
 </script>
 
+<Preload {files} />
+
 {#if comp.error}
 	<div class="err">{comp.error}</div>
 {:else if view}
 	<div class="page">
 		<aside class="tree">
-			<button class:on={!cls} onclick={() => ((cls = ''), (param = ''))}>All classes <span class="num">{view.components.length}</span></button>
+			<button class:on={!cls} onclick={() => ((cls = ''), (param = ''))}>All classes <span class="num">{comp.view ? view.components.length : ''}</span></button>
 			{#each Object.entries(view.classes) as [k, v]}
-				<button class:on={cls === k} disabled={!classCounts[k]} onclick={() => ((cls = k), (param = ''))} data-tip={[v.label, ...Object.values(v.subtypes)].join('\n')}>
-					<span class="cl">{v.label}</span> <span class="num">{classCounts[k] ?? ''}</span>
+				<button class:on={cls === k} disabled={!!comp.view && !classCounts[k]} onclick={() => ((cls = k), (param = ''))} data-tip={[v.label, ...Object.values(v.subtypes)].join('\n')}>
+					<span class="cl">{v.label}</span> <span class="num">{comp.view ? (classCounts[k] ?? '') : ''}</span>
 				</button>
 			{/each}
 		</aside>
@@ -102,13 +121,13 @@
 			<div class="bar">
 				<input type="search" placeholder="Search component, publication, platform" value={qLive} oninput={(e) => onInput(e.currentTarget.value)} onkeydown={(e) => e.key === 'Enter' && (q = qLive)} />
 				<select bind:value={param} data-tip="Filter by parameter"><option value="">all parameters</option>{#each params as p}<option>{p}</option>{/each}</select>
-				<span class="muted num">{shown.length} / {rows.length} values</span>
+				{#if comp.view}<span class="muted num">{shown.length} / {rows.length} values</span>{:else}<span class="spinner"></span>{/if}
 			</div>
-			<div class="scroll">
+			<div class="scroll" onscroll={onScroll}>
 				<table class="t num">
 					<thead><tr>{#each cols as [k, l, tip]}<th data-tip={tip} onclick={() => sortBy(k)}>{l}{sortKey === k ? (sortDir === 1 ? ' ^' : ' v') : ''}</th>{/each}</tr></thead>
 					<tbody>
-						{#each shown as r (r.m.metric_id)}
+						{#each shown.slice(0, limit) as r (r.m.metric_id)}
 							<tr class:sel={r.c.component_id === selId} onclick={() => select(r.c.component_id)}>
 								<td class="lbl" data-tip={r.c.label}>{r.c.label}</td>
 								<td data-tip={view.parameters[r.m.parameter]?.def ?? ''}>{r.m.parameter}</td>
@@ -163,6 +182,8 @@
 			{/if}
 		</aside>
 	</div>
+{:else}
+	<Skeleton />
 {/if}
 
 <style>

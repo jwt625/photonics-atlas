@@ -26,6 +26,18 @@
 		{ key: 'lens.sup', label: 'Supply', tip: 'Stated uses of the organization as a vendor, foundry or cleanroom', num: true }
 	];
 
+	// a window of the table, grown on scroll
+	const PAGE = 300;
+	let limit = $state(PAGE);
+	$effect(() => {
+		void q, type, country, sortKey, sortDir;
+		limit = PAGE;
+	});
+	function onScroll(e: Event) {
+		const el = e.currentTarget as HTMLElement;
+		if (el.scrollTop + el.clientHeight > el.scrollHeight - 400) limit += PAGE;
+	}
+
 	onMount(() => {
 		const fromHash = () => {
 			const h = decodeURIComponent(location.hash.slice(1));
@@ -80,7 +92,7 @@
 			<select bind:value={country} data-tip="Filter by country"><option value="">all countries</option>{#each countries as c}<option>{c}</option>{/each}</select>
 			<span class="muted num">{rows.length} / {orgs.length}</span>
 		</div>
-		<div class="scroll">
+		<div class="scroll" onscroll={onScroll}>
 			<table class="t num">
 				<thead>
 					<tr>
@@ -90,7 +102,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					{#each rows as o (o.id)}
+					{#each rows.slice(0, limit) as o (o.id)}
 						<tr class:sel={o.id === selId} onclick={() => select(o.id)}>
 							<td class="name">{o.name}</td><td>{o.type.replace(/_/g, ' ')}</td><td>{o.country}</td><td>{o.status}</td>
 							{#each ['pub', 'ppl', 'cmp_fab', 'sup'] as k}<td class="r">{o.lens?.[k] || ''}</td>{/each}

@@ -1,8 +1,9 @@
 <script lang="ts">
 	import { link } from '../../lib/paths';
-	import { store } from '../../lib/state.svelte';
+	import type { Summary } from '../../lib/types';
 
-	let ov = $derived(store.reg?.overview);
+	let { data }: { data: { summary: Summary } } = $props();
+	let ov = $derived(data.summary.overview);
 </script>
 
 <div class="about">

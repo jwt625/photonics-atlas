@@ -17,11 +17,16 @@
 		type GroupStat
 	} from '../../lib/explore/logic';
 	import { GROUP_ORDER, familyLabel, familyShort, groupColor, plotTheme } from '../../lib/explore/colors';
+	import Preload from '../../lib/Preload.svelte';
+	import type { Summary } from '../../lib/types';
 	import FilterPanel from '../../lib/explore/FilterPanel.svelte';
 	import ScatterChart from '../../lib/explore/ScatterChart.svelte';
 	import YearStack from '../../lib/explore/YearStack.svelte';
 	import TopBars from '../../lib/explore/TopBars.svelte';
 	import HeatChart from '../../lib/explore/HeatChart.svelte';
+
+	let { data }: { data: { summary: Summary } } = $props();
+	const files = $derived(['data/parts/components/meta.json', ...Array.from({ length: data.summary.parts.components }, (_, i) => `data/parts/components/${i}.json`)]);
 
 	onMount(() => {
 		loadComponents();
@@ -119,6 +124,8 @@
 	const noFab = $derived(shown.filter((c) => !c.fab_orgs.length).length);
 	const presentGroups = $derived(GROUP_ORDER.filter((g) => shown.some((c) => familyOf(c) === g)));
 </script>
+
+<Preload {files} />
 
 <div class="page">
 	<div class="side"><FilterPanel {all} nShown={shown.length} {familyName} /></div>

@@ -2,6 +2,8 @@
 	// Supply-chain view (DevLog-010 D190, D194, D195): category tree A-K -> vendor -> usage rows -> papers; foundry
 	// process observations; standards and reliability tests. Hash state: tab, cat, org, std.
 	import { onMount } from 'svelte';
+	import Preload from '../../lib/Preload.svelte';
+	import Skeleton from '../../lib/Skeleton.svelte';
 	import { link } from '../../lib/paths';
 	import { store, ui } from '../../lib/state.svelte';
 	import { loadSupply, sup, type Row, type Usage } from '../../lib/supply.svelte';
@@ -159,6 +161,8 @@
 </script>
 
 <svelte:window bind:innerWidth={winW} />
+
+<Preload files={['data/supply.json']} />
 
 {#if sup.error}
 	<div class="err">{sup.error}</div>
@@ -325,7 +329,7 @@
 		</aside>
 	</div>
 {:else}
-	<div class="pad muted">loading</div>
+	<Skeleton />
 {/if}
 
 <style>

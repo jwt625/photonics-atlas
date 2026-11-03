@@ -1,4 +1,4 @@
-import { staticUrl } from './paths';
+import { getJson } from './paths';
 import type { Pub } from './pub';
 
 export interface Metric {
@@ -82,16 +82,47 @@ export interface ComponentsView {
 	components: Component[];
 }
 
-export const comp = $state<{ view: ComponentsView | null; error: string }>({ view: null, error: '' });
+/** components/meta.json of app/scripts/shard-data.mjs */
+export type ComponentsMeta = Omit<ComponentsView, 'components'> & { parts: number; total: number; showcase_components: Component[] };
+
+// raw state: views are replaced as a whole, never mutated (no deep proxies over thousands of rows)
+class ComponentsState {
+	/** Everything, in canonical order. Null until the last part has arrived: counts and joins read only this. */
+	view = $state.raw<ComponentsView | null>(null);
+	/** Grows part by part, in class order, for pages that can show rows as they arrive. */
+	partial = $state.raw<ComponentsView | null>(null);
+	/** Registries and the showcase components only. */
+	early = $state.raw<ComponentsView | null>(null);
+	error = $state('');
+}
+export const comp = new ComponentsState();
 let started = false;
+
+/** a table re-sorts on every publish: at most one per this many ms, however fast the parts arrive */
+const PUBLISH_MS = 150;
 
 export async function loadComponents(): Promise<void> {
 	if (started) return;
 	started = true;
 	try {
-		const res = await fetch(staticUrl('data/components.json'));
-		if (!res.ok) throw new Error(`components.json: HTTP ${res.status}`);
-		comp.view = (await res.json()) as ComponentsView;
+		const { parts, total, showcase_components, ...meta } = await getJson<ComponentsMeta>('data/parts/components/meta.json');
+		comp.early = { ...meta, components: showcase_components };
+		const pending = Array.from({ length: parts }, (_, i) => getJson<Component[]>(`data/parts/components/${i}.json`));
+		pending.forEach((p) => p.catch(() => {})); // the first failure is reported below, in order
+		const got: Component[] = [];
+		let published = 0;
+		for (const p of pending) {
+			got.push(...(await p));
+			if (performance.now() - published > PUBLISH_MS) {
+				comp.partial = { ...meta, components: got.slice() };
+				published = performance.now();
+				await new Promise((r) => setTimeout(r, 0));
+			}
+		}
+		if (got.length !== total) throw new Error(`components: ${got.length} of ${total} received; the site was updated during this load, please reload`);
+		got.sort((a, b) => (a.component_id < b.component_id ? -1 : 1)); // canonical order of build_views.py
+		comp.view = { ...meta, components: got };
+		comp.partial = comp.view;
 	} catch (e) {
 		comp.error = e instanceof Error ? e.message : String(e);
 	}

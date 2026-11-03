@@ -2,12 +2,20 @@
 	import '../app.css';
 	import { onMount, type Snippet } from 'svelte';
 	import { link } from '../lib/paths';
-	import { page } from '$app/state';
+	import { onNavigate } from '$app/navigation';
+	import { navigating, page } from '$app/state';
+	import { loadComponents } from '../lib/components.svelte';
+	import { loadPeople } from '../lib/people.svelte';
+	import Preload from '../lib/Preload.svelte';
+	import Skeleton from '../lib/Skeleton.svelte';
 	import { loadRegistry, store, ui } from '../lib/state.svelte';
+	import { loadSupply } from '../lib/supply.svelte';
+	import type { Summary } from '../lib/types';
 	import ThemeToggle from '../lib/ThemeToggle.svelte';
 	import Tooltip from '../lib/Tooltip.svelte';
 
-	let { children }: { children: Snippet } = $props();
+	let { children, data }: { children: Snippet; data: { summary: Summary } } = $props();
+	const ov = $derived(data.summary.overview);
 
 	const nav = [
 		{ href: '/', label: 'Dashboard' },
@@ -26,29 +34,40 @@
 		loadRegistry();
 	});
 
+	// the click shows at once: the target tab and a placeholder over the old page, until the new page has mounted
 	const isActive = (href: string) => {
 		const root = link('/').replace(/\/$/, '');
-		const p = page.url.pathname.replace(root, '') || '/';
+		const p = (navigating.to?.url ?? page.url).pathname.replace(root, '') || '/';
 		return href === '/' ? p === '/' : p.startsWith(href);
 	};
+	const changing = $derived(!!navigating.to && navigating.to.route.id !== page.route.id);
+	// a page's first render can take a while (charts, drawings): let the tab and placeholder paint first. The timeout
+	// covers a hidden tab, where animation frames do not run.
+	onNavigate((nav) => {
+		if (nav.to?.route.id === page.route.id) return;
+		return new Promise<void>((done) => {
+			const t = setTimeout(done, 50);
+			requestAnimationFrame(() => setTimeout(() => (clearTimeout(t), done()), 0));
+		});
+	});
+	// a pointer on a tab is a good sign of the next click: start its data
+	const warm: Record<string, () => void> = { '/components': loadComponents, '/explore': loadComponents, '/layout': loadComponents, '/supply': loadSupply, '/people': loadPeople };
 </script>
+
+<Preload files={['data/registry.json']} />
 
 <div class="app">
 	<header>
 		<a class="brand" href={link('/')} data-tip="Shared registry for the PIC component, supply-chain and people atlases">Photonics Atlas</a>
 		<nav>
 			{#each nav as n}
-				<a href={link(n.href)} class:active={isActive(n.href)}>{n.label}</a>
+				<a href={link(n.href)} class:active={isActive(n.href)} onpointerenter={() => warm[n.href]?.()}>{n.label}</a>
 			{/each}
 		</nav>
 		<div class="grow"></div>
-		{#if store.reg}
-			<span class="muted num" data-tip="Components and the publications the atlas cites">
-				{store.reg.overview.components.n} components, {store.reg.overview.publications.n} publications
-			</span>
-		{:else if store.loading}
-			<span class="spinner"></span>
-		{/if}
+		<span class="muted num" data-tip="Components and the publications the atlas cites">
+			{ov.components.n} components, {ov.publications.n} publications
+		</span>
 		<ThemeToggle />
 	</header>
 	<main>
@@ -57,6 +76,7 @@
 		{:else}
 			{@render children()}
 		{/if}
+		{#if changing}<div class="changing"><Skeleton /></div>{/if}
 	</main>
 	<Tooltip />
 	<footer>
@@ -78,7 +98,8 @@
 	.grow { flex: 1; }
 	footer { display: flex; align-items: center; gap: 6px; height: 20px; padding: 0 10px; font-size: 10px; color: var(--ink-3); background: var(--surface); border-top: 1px solid var(--border); white-space: nowrap; overflow: hidden; }
 	footer .sep { color: var(--line); }
-	main { min-height: 0; min-width: 0; overflow: hidden; }
+	main { position: relative; min-height: 0; min-width: 0; overflow: hidden; }
+	.changing { position: absolute; inset: 0; z-index: 5; }
 	.err { padding: 12px; color: var(--crit); }
 	@media (max-width: 1050px) {
 		header > .muted { display: none; }

@@ -1,5 +1,5 @@
 // People view (static/data/people.json, DevLog-010 D191, D192): public persons and public observations only.
-import { staticUrl } from './paths';
+import { getJson } from './paths';
 import type { SrcMeta } from './supply.svelte';
 
 export interface Person {
@@ -74,9 +74,12 @@ export async function loadPeople(): Promise<void> {
 	if (started) return;
 	started = true;
 	try {
-		const res = await fetch(staticUrl('data/people.json'));
-		if (!res.ok) throw new Error(`people.json: HTTP ${res.status}`);
-		ppl.view = decodePeople((await res.json()) as PeopleRaw);
+		const { parts, total, ...meta } = await getJson<Omit<PeopleRaw, 'obs'> & { parts: number; total: number }>('data/parts/people/meta.json');
+		const obsParts = await Promise.all(Array.from({ length: parts }, (_, i) => getJson<PeopleRaw['obs']>(`data/parts/people/${i}.json`)));
+		const obs = obsParts.flat();
+		if (obs.length !== total) throw new Error(`people: ${obs.length} of ${total} received; the site was updated during this load, please reload`);
+		await new Promise((r) => setTimeout(r, 0));
+		ppl.view = decodePeople({ ...meta, obs });
 	} catch (e) {
 		ppl.error = e instanceof Error ? e.message : String(e);
 	}

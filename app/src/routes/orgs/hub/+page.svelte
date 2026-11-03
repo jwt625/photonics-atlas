@@ -11,6 +11,7 @@
 	import { orgComponents, orgPeople, orgPublications } from '../../../lib/views';
 	import { pubTip } from '../../../lib/pub';
 	import EventList from '../../../lib/EventList.svelte';
+	import Skeleton from '../../../lib/Skeleton.svelte';
 
 	let id = $state('');
 	let allPeople = $state(false);
@@ -53,7 +54,7 @@
 
 <div class="page">
 	{#if !store.reg}
-		<p class="muted">loading</p>
+		<Skeleton />
 	{:else if !o}
 		<p class="muted">No organization <span class="mono">{id || '(no id)'}</span>. <a href={link('/orgs')}>Organizations</a></p>
 	{:else}

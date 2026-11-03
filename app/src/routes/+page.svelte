@@ -1,13 +1,15 @@
 <script lang="ts">
-	// Atlas overview (DevLog-010 D199l): every number comes from registry.json `overview`, computed by build_views.py.
+	// Atlas overview (DevLog-010 D199l): every number comes from registry.json `overview`, computed by build_views.py,
+	// through the summary inlined in the prerendered page (DevLog-012).
 	import { link } from '../lib/paths';
-	import { store, ui } from '../lib/state.svelte';
+	import { ui } from '../lib/state.svelte';
 	import { slotColor } from '../lib/explore/colors';
 	import StackBars from '../lib/StackBars.svelte';
+	import type { Summary } from '../lib/types';
 
-	let reg = $derived(store.reg);
-	let ov = $derived(reg?.overview);
-	const name = (id: string) => store.byId.get(id)?.name ?? id;
+	let { data }: { data: { summary: Summary } } = $props();
+	let ov = $derived(data.summary.overview);
+	const name = (id: string) => data.summary.names[id] ?? id;
 	const hub = (id: string) => link('/orgs/hub') + '?id=' + encodeURIComponent(id);
 	let types = $derived(ov ? Object.entries(ov.orgs.by_type).sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0])) : []);
 	let tmax = $derived(types.length ? types[0][1] : 1);
@@ -36,7 +38,7 @@
 	);
 </script>
 
-{#if reg && ov}
+{#if ov}
 	<div class="dash">
 		<section class="tiles">
 			{#each tiles as t}
