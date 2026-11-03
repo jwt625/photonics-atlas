@@ -3,7 +3,7 @@
 | | |
 |---|---|
 | Date | 2026-11-03 |
-| Status | Implemented locally; deployment pending |
+| Status | Deployed and validated live 2026-11-03; first-visit target not met (network bound, see Result) |
 | Scope | app/ (SvelteKit static site), deploy unchanged; views from scripts/build_views.py unchanged |
 
 ## Requirement
@@ -51,14 +51,40 @@ cache; GitHub Pages sets `max-age=600` on everything including hashed chunks.
 - [x] Layout gallery cards from the showcase part, independent of the full download.
 - [x] Plotly cartesian bundle; charts render when scrolled near, one per task.
 - [x] Skeletons on every page while data loads.
-- [ ] Deploy and rerun perf.mjs against the live site.
+- [x] Deploy and rerun perf.mjs against the live site.
 - [ ] Cloudflare cache rule (outside this repo; see Follow-ups).
+
+## Result: deployed site, 2026-11-03
+
+Two passes of `perf.mjs` against the live site after the edge had the new worker, 1440 x 900, edge SJC. Range (median) in ms.
+Logs: `logs/perf/deployed-settled*` (local only). Tab click is measured after a 120 ms hover, as a pointer does.
+
+| Measure | Before | After | At 4x CPU | 100 ms budget |
+|---|---|---|---|---|
+| Tab click to paint | 326-583 (dashboard 40) | 6-64 (8) | 11-65 (13) | Met |
+| Repeat visit, first paint | 152-608 | 88-148 (106) | 116-196 (146) | Median just over; browser floor 64-88 |
+| Repeat visit, content in the page | 91-1988 | 54-110 (74) | | Nearly always met |
+| First visit, first paint | 508-1264 | 216-472 (252) | 212-556 (270) | Not met: network |
+| /components: data on screen after a tab click | 2813 | 48-167 | | |
+| /components: blocked main thread | 1309 | 0 | | |
+| Worst single task, any route | 970 | 189 (dashboard, Plotly) | 470 | |
+
+Validated live: redeploy path from the previous build (new page on the second load, old cache removed, no errors); every
+route answered by the worker offline with the HTTP cache disabled; no cancelled or re-downloaded data on a cold load; hub
+without id, theme icon, card to detail and back.
+
+## Deploy behaviour to expect
+
+Cloudflare caches `.js` at the edge (`cf-cache-status: HIT`, also on service-worker.js) while HTML and JSON stay DYNAMIC. For
+a few minutes after a deploy the edge can serve the previous worker, whose chunks are gone from the origin: its install fails
+as a whole and the site runs from the network, slower but correct. Observed right after the 2026-11-03 09:38 PST deploy; gone
+by 09:43. Measure the live site only after that window.
 
 ## Follow-ups
 
-- First-visit paint cannot beat the first response: TLS done 86 ms, HTML TTFB 186-190 ms, and Cloudflare reports
-  `cf-cache-status: DYNAMIC`. A Cloudflare Cache Rule on this path (cache everything, edge TTL) is the remaining lever; it
-  has to be set in the dashboard and purged on deploy. Not done.
+- First-visit paint cannot beat the first response: TLS done 86-220 ms, HTML TTFB 150-370 ms, and Cloudflare reports
+  `cf-cache-status: DYNAMIC` for HTML and JSON. A Cloudflare Cache Rule is the remaining lever. Not done: with HTML cached at
+  the edge, the worker's `cache: 'reload'` could still pin a stale page, so it needs a purge step in the deploy workflow.
 - `/explore/` and the like with a trailing slash return 404 on the deployed site (pre-existing, not changed here).
 
 ## Progress
@@ -89,4 +115,4 @@ cache; GitHub Pages sets `max-age=600` on everything including hashed chunks.
 | - | Worker on the dev server (speculative) | Disabled on `vite dev` |
 
 Found while verifying: first-visit data bypassed the worker, so the next visit waited on the network. The page now
-re-requests it through the worker when the worker takes over (HTTP cache, no download).
+re-requests it through the worker when the worker takes over (HTTP cache, no download; verified live: `disk sw bytes 0`).
