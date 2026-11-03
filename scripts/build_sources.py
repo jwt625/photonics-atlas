@@ -62,6 +62,7 @@ def eo_rows() -> list[dict[str, object]]:
 
 def pk_rows(log: RunLog) -> list[dict[str, object]]:
     refs = input_path("pk_atlas") / "references"
+    eo_by_doi = {p.doi.lower(): p for p in eo.papers() if p.doi}
     out: list[dict[str, object]] = []
     for p in pk.papers():
         sj = refs / p.paper_id / "source.json"
@@ -69,6 +70,7 @@ def pk_rows(log: RunLog) -> list[dict[str, object]]:
         acc = str(meta.get("access", ""))
         if acc and acc not in PK_ACCESS:
             log.event("pk_access", "unknown_value", paper_id=p.paper_id, access=acc)
+        dup = eo_by_doi.get(p.doi.lower())  # same paper in EO: EO stays canonical, access aligned to it (D23, D445)
         out.append(
             {
                 "source_id": f"pk:{p.paper_id}",
@@ -80,9 +82,10 @@ def pk_rows(log: RunLog) -> list[dict[str, object]]:
                 "doi": p.doi,
                 "url": meta.get("url") or (f"https://doi.org/{p.doi}" if p.doi else ""),
                 "source_type": "journal" if "/tcpmt" in p.doi.lower() else "conference",
-                "access": PK_ACCESS.get(acc, "unknown"),
+                "access": dup.access if dup else PK_ACCESS.get(acc, "unknown"),
                 "redistribution": meta.get("redistribution") or "restricted_local_only",
                 "text_cached": p.source_status == "full_text",
+                "same_as": f"eo:{dup.paper_id}" if dup else "",
                 "notes": f"PK source.json access: {acc}" if acc else "no PK source.json",
             }
         )
@@ -191,7 +194,7 @@ def main() -> int:
                 log.event("source_type", "unknown_value", source_id=r["source_id"], value=r["source_type"])
         counts = Counter(str(r["corpus"]) for r in rows)
         log.info(f"rows by corpus: {dict(counts)}; rows of other corpora kept: {len(keep)}")
-        log.info(f"ofc2026 rows with same_as: {sum(1 for r in rows if r.get('same_as'))}")
+        log.info(f"ofc2026 rows with same_as: {sum(1 for r in rows if r['corpus'] == 'ofc2026' and r.get('same_as'))}")
         log.event("sources", "ok", counts=dict(counts))
         if not args.dry_run:
             write_csv(path, columns("sources"), [*rows, *keep])

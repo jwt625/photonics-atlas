@@ -7,10 +7,11 @@ from photonics_atlas.paths import REGISTRY
 def test_sources_corpora_and_ofc_dedupe() -> None:
     src = read_csv(REGISTRY / "sources.csv")
     c = Counter(s["corpus"] for s in src)
-    assert (c["eo"], c["pk"], c["ofc2026"], c["blog"], c["lin"]) == (233, 296, 830, 128, 282)
+    assert (c["eo"], c["pk"], c["ofc2026"], c["blog"], c["lin"]) == (235, 299, 830, 128, 282)
     dups = [s for s in src if s["same_as"]]
-    assert len(dups) == 54
-    assert all(s["corpus"] == "ofc2026" and s["same_as"].startswith("eo:") for s in dups)
+    assert len(dups) == 56  # 54 OFC + 2 PK (levy2026, song2026; DevLog-007 D445)
+    assert sum(s["corpus"] == "ofc2026" for s in dups) == 54
+    assert all(s["corpus"] in ("ofc2026", "pk") and s["same_as"].startswith("eo:") for s in dups)
     ids = {s["source_id"] for s in src}
     assert all(s["same_as"] in ids for s in dups)
 

@@ -1,0 +1,397 @@
+# Audit patch lit_75 (fresh-context audit 2026-11-02, DevLog/audits/2026-11-02-lit_75-audit.md).
+# 352 metrics: 341 ok / 9 imprecise / 2 wrong (deleted); 28 components: 25 ok / 3 imprecise, 0 deleted; 36 misses added. After the patch: 28 components, 386 metrics.
+# Not covered here (coordinator rulings): audit Q1-Q4; registry gaps in the audit file.
+components:
+  cmp_lit_huh2016_tff_dmux_rosa:
+    fab_org_ids: ''
+    notes: 'Fab empty: the first-person assembly statement with all authors at ETRI (p.2) covers the ROSA built from the receptacle, this DMUX and the APD block; the maker of the filters and optic block is not stated (D399: assembled rows only, not parts whose fabrication is not stated; audit Q1). AOI on each TFF 8 deg, TFF effective width 400 um (p.9). 0.5-dB bandwidth of each lane larger than 3 nm (p.10; no bw_0p5db_nm for wdm). 0.5-dB (10 %) alignment tolerance of the DMUX X -30 to +110 um, Y -260 to +220 um (p.9; D250). Pitch grew from 500 to 510 um, sentence cites the authors'' ref. [7]: not entered (D408). ROSA receiver sensitivity -22.4 / -22.7 / -22.7 / -22.2 dBm for lanes 0-3 at BER 1e-12, 25.78 Gb/s NRZ (p.10; no parameter). ROSA body 10.65 x 6.6 x 5.6 mm3 (p.10). Platform empty: material not stated.'
+    why: p.2 Sec. 1 and p.9 Sec. 4.3 state only the assembly of the three key components; no sentence says ETRI made the molded block or the TFFs; D399 tanaka2012 precedent; the lens and APD rows of the same ROSA are already empty
+  cmp_lit_huh2016_focusing_array_lens_apd:
+    notes: 'Design focal length 600 um (p.3). 0.5-dB (10 % coupling drop) tolerance lens to APD: axial -100 to +150 um, lateral +/-25 um (p.6; no 0.5-dB tolerance parameter, D250). APD-block tolerance X and Y +/-40 um (p.8). Fabricator not stated. Lane pitch 500 um is stated for the DMUX (p.3), not for this lens: no pitch row.'
+    why: records why m3 is deleted (p.3 Sec. 2)
+  cmp_lit_huh2016_apd_array_rosa:
+    notes: 'Discrete APDs with a 4-channel TIA (TIA 3-dB bandwidth typically 20 GHz, input noise 10 pA/rtHz, p.4; electronics, not entered). APD maker and material not stated: platform empty. Active area diameter 20 um (p.6): no diameter parameter. Receiver sensitivity on the wdm.tff row notes. Power penalty below 0.5 dB when beam diameter stays below 200 um (p.4-5). Lane pitch 500 um is stated for the DMUX (p.3), not for the APD array: no pitch row.'
+    why: records why m2 is deleted (p.3 Sec. 2)
+  cmp_lit_palmer2026_cawg_8x400g:
+    notes: 'Fabricated in the Broadex Technologies U.K. cleanroom (p.6). 20 devices, 8 channels each; die test SMF FAU in, MMF FAU out; part of the set pigtailed with SMF FAUs. 8 deg angle-polished facets. Registry gaps: 20-dB bandwidth 479.5 +/- 20.0 GHz, 1-dB / 20-dB ratio 0.63 +/- 0.03 (0.67 best), frequency offset from target below 40 GHz at room temperature (p.7; p.8). Target grid 1295.56-1311.43 nm (Table II): m40-m47, author_estimate. Simulated mode 4.75 x 6.27 um at 1300 nm (p.4). Comparison flat-top AWG of Fig. 9(a) and the no-iris variant of Fig. 9(b) have no printed values: no rows. Abstract and conclusion print PDL below 0.2 dB, body 0.2 dB average.'
+    why: the Table II grid is now entered as the design-stated passband centers (see add_metrics)
+  cmp_lit_palmer2026_ssc_fau_interface:
+    notes: 'Cross-note: facets of the CAWG row. 5-channel input and 12-channel output FAUs, 4 fibers per FAU for alignment loopbacks (p.6). Method of the 0.4 dB not stated (D167). Fab follows the CAWG cleanroom statement (p.6) for the PIC with its spot-size converters; the pigtailing site is not stated.'
+    why: p.6 Sec. V names Broadex for the CAWG samples only; dicing, polishing and pigtailing have no named site
+  cmp_lit_xie2023_taper_slab_array:
+    fab_org_ids: ''
+    notes: Part of the AWG row, which CUMEC fabricated (p.4 acknowledgment); this row holds only the simulated taper. Transmission vs length in Fig. 2(b).
+    why: 'row_kind design: 82 of 82 merged design rows have empty fab_org_ids; same batch cheung2019 design rows are empty'
+  cmp_lit_xie2023_vertical_grating_coupler:
+    core_material: Si 220 nm, 180-nm lithography
+    why: p.1 Abstract and p.2 Sec. II state the single 220 nm etch for the AWG and its taper; the coupler is designed by the tape-out platform (p.2 Sec. III) and its etch is not stated
+metrics:
+  cmp_lit_yi2024a_d1_1x4_400g-m20:
+    notes: C-band operating band of the device (p.2, Table 1); no wavelength with the value. Grating couplers at each end; normalization not stated. Fig. 4(b) peaks read about 2.7 to 3.2 dB by eye, at about 1556-1565 nm. Source sign as positive IL.
+    why: 'p.7 Fig. 4(b): the note said the figure peaks sit at the stated IL; on the render they do not for every design (by-eye reading, consistency check only; printed values kept, D417)'
+  cmp_lit_yi2024a_d2_1x8_400g-m20:
+    notes: 'C-band operating band of the device (p.2, Table 1); no wavelength with the value. Grating couplers at each end; normalization not stated. Fig. 4(d) peaks read about 4.7 dB (ch. 3-6) to 7.2 dB (ch. 1) by eye against the printed 3.9 dB: Table 2 value kept (D417).'
+    why: 'p.7 Fig. 4(d): the note said the figure peaks sit at the stated IL; on the render they do not for every design (by-eye reading, consistency check only; printed values kept, D417)'
+  cmp_lit_yi2024a_d3_1x8_200g-m20:
+    notes: 'C-band operating band of the device (p.2, Table 1); no wavelength with the value. Grating couplers at each end; normalization not stated. Fig. 5(a) central peaks read about 5.2 dB by eye against the printed 4.8 dB: printed value kept (D417).'
+    why: 'p.8 Fig. 5(a): the note said the figure peaks sit at the stated IL; on the render they do not for every design (by-eye reading, consistency check only; printed values kept, D417)'
+  cmp_lit_yi2024a_d3_1x8_200g-m21:
+    notes: C-band operating band of the device (p.2, Table 1); no wavelength with the value. Grating couplers at each end; normalization not stated. Fig. 5(a) edge peaks read about 5.8 dB by eye (printed 5.7 dB).
+    why: 'p.8 Fig. 5(a): the note said the figure peaks sit at the stated IL; on the render they do not for every design (by-eye reading, consistency check only; printed values kept, D417)'
+  cmp_lit_yi2024a_d4_8x8_200g-m20:
+    band: ''
+    wavelength_nm: 1500
+    wavelength_max_nm: 1535
+    notes: Table 2 value, channel not stated. Wavelength inferred from the Fig. 5(d) axis, the only measured spectrum of this device (1500-1535 nm, below the 1550 nm design center); Table 1 labels the designs C-band. Grating couplers at each end; normalization not stated. Peaks read about 4.7 to 6 dB by eye.
+    why: 'p.8 Fig. 5(d): the measured window is mostly below C band, so c_band misdescribes the row'
+  cmp_lit_cheung2019_straight_dc_k050-m2:
+    basis: extracted_from_figure
+    notes: Fig. 14 legend prints Gap=300nm, no reading uncertainty
+    why: 'p.9 Fig. 14: the only place this gap is printed; figure-labelled dimensions are extracted_from_figure (skill contract v6; izumisawa2026 legend precedent, lit_71)'
+  cmp_lit_palmer2026_cawg_8x400g-m5:
+    method: loss_breakdown
+    why: 'p.8 Table VI: value isolated by subtracting 2 x 0.4 dB of fiber coupling, not read directly'
+  cmp_lit_palmer2026_cawg_8x400g-m6:
+    method: loss_breakdown
+    why: 'p.8 Table VI: value isolated by subtracting 2 x 0.4 dB of fiber coupling, not read directly'
+  cmp_lit_palmer2026_cawg_8x400g-m9:
+    condition: printed 300.8 +/- 4.4 GHz
+    why: 'p.6-7 Sec. VI: 3.5 GHz RBW belongs to the OSA spectra of pigtailed samples (Fig. 12); the 20-device statistic also holds die tests with a tunable laser and power meter, no resolution stated'
+delete_metrics:
+- id: cmp_lit_huh2016_focusing_array_lens_apd-m3
+  why: 'p.3 Sec. 2: 500 um is the lane pitch of the DMUX (width of each TFF); no text or figure gives a pitch for the array lens, and the fabricated lanes are 510 um (p.7)'
+- id: cmp_lit_huh2016_apd_array_rosa-m2
+  why: 'p.3 Sec. 2: 500 um is the lane pitch of the DMUX; no text or figure gives an APD pitch'
+add_metrics:
+- metric_id: cmp_lit_yi2024a_d1_1x4_400g-m27
+  component_id: cmp_lit_yi2024a_d1_1x4_400g
+  parameter: center_wavelength_nm
+  value: 1550
+  unit: nm
+  condition: design center
+  notes: Fig. 4(b) channels at about 1556-1565 nm by eye
+  basis: author_estimate
+  locator: p.4 Device structure
+  why: 'miss: p.4 Device structure states the design center of all four designs; design-stated performance is author_estimate (D80; 7 merged wdm.awg center_wavelength_nm rows)'
+- metric_id: cmp_lit_yi2024a_d2_1x8_400g-m23
+  component_id: cmp_lit_yi2024a_d2_1x8_400g
+  parameter: center_wavelength_nm
+  value: 1550
+  unit: nm
+  condition: design center
+  notes: Fig. 4(d) channels at about 1528-1550 nm by eye
+  basis: author_estimate
+  locator: p.4 Device structure
+  why: 'miss: p.4 Device structure states the design center of all four designs; design-stated performance is author_estimate (D80; 7 merged wdm.awg center_wavelength_nm rows)'
+- metric_id: cmp_lit_yi2024a_d3_1x8_200g-m27
+  component_id: cmp_lit_yi2024a_d3_1x8_200g
+  parameter: center_wavelength_nm
+  value: 1550
+  unit: nm
+  condition: design center
+  notes: Fig. 5(a) channels at about 1544-1556 nm by eye
+  basis: author_estimate
+  locator: p.4 Device structure
+  why: 'miss: p.4 Device structure states the design center of all four designs; design-stated performance is author_estimate (D80; 7 merged wdm.awg center_wavelength_nm rows)'
+- metric_id: cmp_lit_yi2024a_d4_8x8_200g-m23
+  component_id: cmp_lit_yi2024a_d4_8x8_200g
+  parameter: center_wavelength_nm
+  value: 1550
+  unit: nm
+  condition: design center
+  notes: Fig. 5(d) measured over 1500-1535 nm only
+  basis: author_estimate
+  locator: p.4 Device structure
+  why: 'miss: p.4 Device structure states the design center of all four designs; design-stated performance is author_estimate (D80; 7 merged wdm.awg center_wavelength_nm rows)'
+- metric_id: cmp_lit_huh2016_focusing_array_lens_apd-m4
+  component_id: cmp_lit_huh2016_focusing_array_lens_apd
+  parameter: n_channels
+  value: 4
+  unit: count
+  condition: array lens for the four lanes
+  basis: design_target
+  locator: p.3 Sec. 2
+  why: 'miss (D153): p.3 the array lens serves the four signals'
+- metric_id: cmp_lit_cheung2019_gaussian_awg_1x4-m34
+  component_id: cmp_lit_cheung2019_gaussian_awg_1x4
+  parameter: width_nm
+  value: 200
+  unit: nm
+  condition: minimum feature size used to set the pitches
+  basis: design_target
+  locator: p.3 Sec. III
+  why: 'miss (D153): p.3 Sec. III states the minimum feature size behind the pitch design; width_nm is "waveguide / feature width as stated" (sun2025 m35 precedent)'
+- metric_id: cmp_lit_cheung2019_flat_top_awg_1x4-m18
+  component_id: cmp_lit_cheung2019_flat_top_awg_1x4
+  parameter: n_inputs
+  value: 1
+  unit: count
+  basis: design_target
+  locator: p.1 Abstract
+  why: 'miss (D153): 1 x 4 stated; the Gaussian row has it'
+- metric_id: cmp_lit_cheung2019_flat_top_awg_1x4-m19
+  component_id: cmp_lit_cheung2019_flat_top_awg_1x4
+  parameter: n_outputs
+  value: 4
+  unit: count
+  basis: design_target
+  locator: p.1 Abstract
+  why: 'miss (D153): 1 x 4 stated; the Gaussian row has it'
+- metric_id: cmp_lit_cheung2019_flat_top_awg_1x4-m20
+  component_id: cmp_lit_cheung2019_flat_top_awg_1x4
+  parameter: pitch_um
+  value: 2.0
+  unit: um
+  condition: arrayed waveguide pitch d
+  notes: 'Table II applies: design same as the Gaussian AWG (p.5)'
+  basis: design_target
+  locator: p.4 Table II; p.5 Sec. III
+  why: 'miss (D153): the distiller carried m6-m9 of Table II to this row (design same as the Gaussian AWG, p.5) but not this one'
+- metric_id: cmp_lit_cheung2019_flat_top_awg_1x4-m21
+  component_id: cmp_lit_cheung2019_flat_top_awg_1x4
+  parameter: pitch_um
+  value: 2.0
+  unit: um
+  condition: input waveguide pitch D at the slab
+  notes: 'Table II applies: design same as the Gaussian AWG (p.5)'
+  basis: design_target
+  locator: p.4 Table II; p.5 Sec. III
+  why: 'miss (D153): the distiller carried m6-m9 of Table II to this row (design same as the Gaussian AWG, p.5) but not this one'
+- metric_id: cmp_lit_cheung2019_flat_top_awg_1x4-m22
+  component_id: cmp_lit_cheung2019_flat_top_awg_1x4
+  parameter: min_bend_radius_um
+  value: 50
+  unit: um
+  qualifier: gt
+  notes: 'Table II applies: design same as the Gaussian AWG (p.5)'
+  basis: design_target
+  locator: p.4 Table II; p.5 Sec. III
+  why: 'miss (D153): the distiller carried m6-m9 of Table II to this row (design same as the Gaussian AWG, p.5) but not this one'
+- metric_id: cmp_lit_cheung2019_flat_top_awg_1x4-m23
+  component_id: cmp_lit_cheung2019_flat_top_awg_1x4
+  parameter: box_thickness_um
+  value: 3.0
+  unit: um
+  notes: 'Table II applies: design same as the Gaussian AWG (p.5); p.2 prints bottom cladding 4 um: conflict kept'
+  basis: design_target
+  locator: p.4 Table II; p.5 Sec. III
+  why: 'miss (D153): the distiller carried m6-m9 of Table II to this row (design same as the Gaussian AWG, p.5) but not this one'
+- metric_id: cmp_lit_cheung2019_lattice_design2-m26
+  component_id: cmp_lit_cheung2019_lattice_design2
+  parameter: n_inputs
+  value: 1
+  unit: count
+  basis: design_target
+  locator: p.1 Abstract; p.5 Sec. IV
+  why: 'miss (D153): 1 x 4 stated'
+- metric_id: cmp_lit_cheung2019_lattice_design2-m27
+  component_id: cmp_lit_cheung2019_lattice_design2
+  parameter: n_outputs
+  value: 4
+  unit: count
+  basis: design_target
+  locator: p.1 Abstract; p.5 Sec. IV
+  why: 'miss (D153): 1 x 4 stated'
+- metric_id: cmp_lit_cheung2019_lattice_design2-m28
+  component_id: cmp_lit_cheung2019_lattice_design2
+  parameter: min_bend_radius_um
+  value: 50
+  unit: um
+  basis: design_target
+  locator: p.2 Sec. II
+  why: 'miss (D153): p.2 all waveguide bends kept to a minimum of 50 um'
+- metric_id: cmp_lit_cheung2019_lattice_design2-m29
+  component_id: cmp_lit_cheung2019_lattice_design2
+  parameter: box_thickness_um
+  value: 4
+  unit: um
+  notes: bottom SiO2 cladding; Table II (AWG) prints BOX 3.0 um
+  basis: design_target
+  locator: p.2 Sec. II
+  why: 'miss (D153): p.2 gives top and bottom cladding for the lattice filters and AWGs; the rows hold only the top value'
+- metric_id: cmp_lit_cheung2019_lattice_design3-m27
+  component_id: cmp_lit_cheung2019_lattice_design3
+  parameter: n_inputs
+  value: 1
+  unit: count
+  basis: design_target
+  locator: p.1 Abstract; p.5 Sec. IV
+  why: 'miss (D153): 1 x 4 stated'
+- metric_id: cmp_lit_cheung2019_lattice_design3-m28
+  component_id: cmp_lit_cheung2019_lattice_design3
+  parameter: n_outputs
+  value: 4
+  unit: count
+  basis: design_target
+  locator: p.1 Abstract; p.5 Sec. IV
+  why: 'miss (D153): 1 x 4 stated'
+- metric_id: cmp_lit_cheung2019_lattice_design3-m29
+  component_id: cmp_lit_cheung2019_lattice_design3
+  parameter: min_bend_radius_um
+  value: 50
+  unit: um
+  basis: design_target
+  locator: p.2 Sec. II
+  why: 'miss (D153): p.2 all waveguide bends kept to a minimum of 50 um'
+- metric_id: cmp_lit_cheung2019_lattice_design3-m30
+  component_id: cmp_lit_cheung2019_lattice_design3
+  parameter: box_thickness_um
+  value: 4
+  unit: um
+  notes: bottom SiO2 cladding; Table II (AWG) prints BOX 3.0 um
+  basis: design_target
+  locator: p.2 Sec. II
+  why: 'miss (D153): p.2 gives top and bottom cladding for the lattice filters and AWGs; the rows hold only the top value'
+- metric_id: cmp_lit_cheung2019_lattice_design3-m31
+  component_id: cmp_lit_cheung2019_lattice_design3
+  parameter: channel_spacing_nm
+  value: 24
+  unit: nm
+  condition: this-work entry of Table I
+  notes: design 25 nm; Table V peak differences 22.99, 26.73, 25.39 nm
+  basis: measured
+  locator: p.2 Table I
+  why: 'miss: Table I this-work entry; the flat-top row uses the same column and Design 2 has its printed spacings, this row had none'
+- metric_id: cmp_lit_cheung2019_lattice_design1-m9
+  component_id: cmp_lit_cheung2019_lattice_design1
+  parameter: n_inputs
+  value: 1
+  unit: count
+  basis: design_target
+  locator: p.7 Fig. 9
+  why: 'miss (D153): caption states 1 x 4; sibling designs carry it'
+- metric_id: cmp_lit_cheung2019_lattice_design1-m10
+  component_id: cmp_lit_cheung2019_lattice_design1
+  parameter: n_outputs
+  value: 4
+  unit: count
+  basis: design_target
+  locator: p.7 Fig. 9
+  why: 'miss (D153): caption states 1 x 4; sibling designs carry it'
+- metric_id: cmp_lit_cheung2019_lattice_design1-m11
+  component_id: cmp_lit_cheung2019_lattice_design1
+  parameter: width_nm
+  value: 1000
+  unit: nm
+  basis: design_target
+  locator: p.3 Sec. II
+  why: 'miss (D153): p.3 single-mode dimensions of the platform; sibling designs carry them'
+- metric_id: cmp_lit_cheung2019_lattice_design1-m12
+  component_id: cmp_lit_cheung2019_lattice_design1
+  parameter: core_thickness_nm
+  value: 150
+  unit: nm
+  basis: design_target
+  locator: p.2 Sec. II
+  why: 'miss (D153): p.2 platform stack; sibling designs carry it'
+- metric_id: cmp_lit_cheung2019_straight_dc_k050-m4
+  component_id: cmp_lit_cheung2019_straight_dc_k050
+  parameter: split_ratio_pct
+  value: 50
+  unit: '%'
+  condition: design coupling; design wavelength 1030 nm in text, 1020 nm in the Fig. 14 caption
+  notes: printed 0.5 as a fraction
+  basis: simulated
+  locator: p.9 Fig. 14
+  why: 'miss: the row is labelled with this design coupling but holds no value for it; the bent rows do (D83f keeps simulated after a fraction to % conversion)'
+- metric_id: cmp_lit_palmer2026_cawg_8x400g-m40
+  component_id: cmp_lit_palmer2026_cawg_8x400g
+  parameter: center_wavelength_nm
+  value: 1295.56
+  unit: nm
+  condition: channel 1, target passband center
+  notes: target grid; measured offsets from target below 40 GHz at room temperature (p.7)
+  basis: author_estimate
+  locator: p.3 Table II
+  why: 'miss: Table II is the design-stated passband center per channel (p.6 "targeted center frequency"); same treatment as huh2016 m2-m5 and the merged AWG rows; the measured offset has no parameter'
+- metric_id: cmp_lit_palmer2026_cawg_8x400g-m41
+  component_id: cmp_lit_palmer2026_cawg_8x400g
+  parameter: center_wavelength_nm
+  value: 1297.8
+  unit: nm
+  condition: channel 2, target passband center
+  notes: target grid; measured offsets from target below 40 GHz at room temperature (p.7)
+  basis: author_estimate
+  locator: p.3 Table II
+  why: 'miss: Table II is the design-stated passband center per channel (p.6 "targeted center frequency"); same treatment as huh2016 m2-m5 and the merged AWG rows; the measured offset has no parameter'
+- metric_id: cmp_lit_palmer2026_cawg_8x400g-m42
+  component_id: cmp_lit_palmer2026_cawg_8x400g
+  parameter: center_wavelength_nm
+  value: 1300.05
+  unit: nm
+  condition: channel 3, target passband center
+  notes: target grid; measured offsets from target below 40 GHz at room temperature (p.7)
+  basis: author_estimate
+  locator: p.3 Table II
+  why: 'miss: Table II is the design-stated passband center per channel (p.6 "targeted center frequency"); same treatment as huh2016 m2-m5 and the merged AWG rows; the measured offset has no parameter'
+- metric_id: cmp_lit_palmer2026_cawg_8x400g-m43
+  component_id: cmp_lit_palmer2026_cawg_8x400g
+  parameter: center_wavelength_nm
+  value: 1302.31
+  unit: nm
+  condition: channel 4, target passband center
+  notes: target grid; measured offsets from target below 40 GHz at room temperature (p.7)
+  basis: author_estimate
+  locator: p.3 Table II
+  why: 'miss: Table II is the design-stated passband center per channel (p.6 "targeted center frequency"); same treatment as huh2016 m2-m5 and the merged AWG rows; the measured offset has no parameter'
+- metric_id: cmp_lit_palmer2026_cawg_8x400g-m44
+  component_id: cmp_lit_palmer2026_cawg_8x400g
+  parameter: center_wavelength_nm
+  value: 1304.58
+  unit: nm
+  condition: channel 5, target passband center
+  notes: target grid; measured offsets from target below 40 GHz at room temperature (p.7)
+  basis: author_estimate
+  locator: p.3 Table II
+  why: 'miss: Table II is the design-stated passband center per channel (p.6 "targeted center frequency"); same treatment as huh2016 m2-m5 and the merged AWG rows; the measured offset has no parameter'
+- metric_id: cmp_lit_palmer2026_cawg_8x400g-m45
+  component_id: cmp_lit_palmer2026_cawg_8x400g
+  parameter: center_wavelength_nm
+  value: 1306.85
+  unit: nm
+  condition: channel 6, target passband center
+  notes: target grid; measured offsets from target below 40 GHz at room temperature (p.7)
+  basis: author_estimate
+  locator: p.3 Table II
+  why: 'miss: Table II is the design-stated passband center per channel (p.6 "targeted center frequency"); same treatment as huh2016 m2-m5 and the merged AWG rows; the measured offset has no parameter'
+- metric_id: cmp_lit_palmer2026_cawg_8x400g-m46
+  component_id: cmp_lit_palmer2026_cawg_8x400g
+  parameter: center_wavelength_nm
+  value: 1309.14
+  unit: nm
+  condition: channel 7, target passband center
+  notes: target grid; measured offsets from target below 40 GHz at room temperature (p.7)
+  basis: author_estimate
+  locator: p.3 Table II
+  why: 'miss: Table II is the design-stated passband center per channel (p.6 "targeted center frequency"); same treatment as huh2016 m2-m5 and the merged AWG rows; the measured offset has no parameter'
+- metric_id: cmp_lit_palmer2026_cawg_8x400g-m47
+  component_id: cmp_lit_palmer2026_cawg_8x400g
+  parameter: center_wavelength_nm
+  value: 1311.43
+  unit: nm
+  condition: channel 8, target passband center
+  notes: target grid; measured offsets from target below 40 GHz at room temperature (p.7)
+  basis: author_estimate
+  locator: p.3 Table II
+  why: 'miss: Table II is the design-stated passband center per channel (p.6 "targeted center frequency"); same treatment as huh2016 m2-m5 and the merged AWG rows; the measured offset has no parameter'
+- metric_id: cmp_lit_xie2023_awg_32x100g-m24
+  component_id: cmp_lit_xie2023_awg_32x100g
+  parameter: channel_spacing_ghz
+  value: 100
+  unit: GHz
+  condition: design
+  notes: 'measured means in nm: m6-m8'
+  basis: author_estimate
+  locator: p.1 Abstract; p.2 Sec. II
+  why: 'miss: the design spacing is the title value of the device and is on no row; 17 merged wdm.awg channel_spacing_ghz rows are author_estimate'
+- metric_id: cmp_lit_afzal2020_swg_cdc_filter-m6
+  component_id: cmp_lit_afzal2020_swg_cdc_filter
+  parameter: width_nm
+  value: 150
+  unit: nm
+  qualifier: approx
+  condition: minimum feature size
+  notes: printed about 150 nm
+  basis: design_target
+  locator: p.2 Sec. 2
+  why: 'miss (D153): p.2 minimum feature size stated as a design rule; pitch and gap are not stated, this is the only dimension'

@@ -1,0 +1,71 @@
+# Audit patch lit_63 (fresh-context audit 2026-11-02, DevLog/audits/2026-11-02-lit_63-audit.md).
+# 157 metrics: 152 ok / 5 imprecise / 0 wrong; 25 components: 23 ok / 2 imprecise (notes) / 0 wrong, 0 deleted;
+# misses: 4 metric rows added (qiu2026 facet back-reflection, WBG film thickness; stern2018 Vernier ring film thickness x 2).
+# Not covered here (coordinator rulings): szelag2017 fab org, Sony Corporation org + hamaguchi2018 fab, registry title of
+# szelag2017, registry gaps; see the audit file.
+components:
+  cmp_lit_qiu2026_mamyshev_mll:
+    notes: 'Fab: author contributions (p.8) name a first author fabricating the device excluding implantation and an HZDR author performing the implantation (Methods: Ion Beam Center of HZDR); EPFL CMi acknowledged for partial fabrication (D83c: CMi -> EPFL). Optically pumped from both ends at 1480 nm through the WBGs; started by an external seed pulse or an extended-cavity Q-switched pulse. No registry parameter, not entered: on-chip pulse energy 1.04 / 1.05 nJ (outputs 1 / 2, both pumps) and 397 / 347 pJ (820 mW pump only), p.4; repetition-rate RF Lorentzian linewidth 0.012 mHz and SSB phase noise -134 dBc/Hz at 10 kHz offset, p.5; 20 dB optical bandwidth 64 / 47 nm, p.4 (comb span, D81). Linear-cavity FSR 175.5 MHz (p.3) equals the repetition rate and is not repeated. 26 lasers on a 2 cm x 1.1 cm chip, over 300 per wafer (p.4). Wafer vendor named in Methods supplied substrates only. Source is arXiv v1 of the Nature paper. Implant totals inconsistent in the paper: p.3 and p.23 print a total of 3.87e15 cm-2, the three Methods doses (8.40e14, 1.41e15, 2.84e15 cm-2, p.8) sum to 5.09e15 cm-2; the printed total is kept. Methods name wafer D20603 (p.8), Fig. 1(d) and S4 name D20602 samples (p.2, p.23); contributions say D206 devices (p.8).'
+    why: 'fluence and sample-id inconsistencies of the paper are not recorded although core_material / label / m1 condition carry those numbers; p.3 Sec. II, p.8 Methods, p.23 Supp. S4'
+  cmp_lit_qiu2026_er_waveguide:
+    notes: 'Fab as the laser row. Estimated peak Er concentration about 0.4 at.% and 22 % mode-dopant overlap (p.3-4) have no parameter. Propagation loss 10 dB/m in Table S2 is a simulation input (from S4), not entered. Group index 2.0023 in Table S2 is a simulation input, not entered. Implant totals inconsistent in the paper: p.3 and p.23 print a total of 3.87e15 cm-2, the three Methods doses (8.40e14, 1.41e15, 2.84e15 cm-2, p.8) sum to 5.09e15 cm-2; the printed total is kept. Methods name wafer D20603 (p.8), Fig. 1(d) and S4 name D20602 samples (p.2, p.23); contributions say D206 devices (p.8).'
+    why: 'fluence and sample-id inconsistencies of the paper are not recorded although core_material / label / m1 condition carry those numbers; p.3 Sec. II, p.8 Methods, p.23 Supp. S4'
+metrics:
+  cmp_lit_qiu2026_mamyshev_mll-m5:
+    notes: 'Authors'' arithmetic on own powers; the reference planes of the ratio are not printed. Audit check: (182 + 184) mW / ((959 + 820) mW x 10^(-1.26/10) = 1331 mW) = 27.5 %, so on-chip outputs over on-chip pumps with the 1.26 dB per-facet loss; off-chip / off-chip is 15.4 %.'
+    why: 'the planes of the printed ratio can be pinned by arithmetic on printed values (p.4 Sec. III, p.26 Supp. S6): only on-chip outputs over de-embedded pumps reproduce 27.5 %; recorded as a note, the paper itself still prints no plane, so ref_plane stays empty'
+  cmp_lit_qiu2026_edge_coupler_uhna7-m3:
+    polarization: 'te'
+    why: 'Fig. S13(a) caption (p.26) states the TE mode; it sat in the condition text only (rule: polarization column when stated)'
+  cmp_lit_song2025_dfb_1p5mm-m6:
+    qualifier: 'le'
+    why: 'p.4 Sec. 2.2 prints the slope efficiency as up to 0.329 mW/mA at 1 A (skill rule 7: up to -> le)'
+  cmp_lit_song2025_dfb_1p5mm-m7:
+    qualifier: 'le'
+    locator: 'p.4, Fig. 4(b); p.2 Sec. 1'
+    why: 'p.2 Sec. 1 prints up to 0.349 mW/mA at 1 A (skill rule 7: up to -> le); p.4 says it slightly increases to the same value'
+  cmp_lit_szelag2017_dfb-m3:
+    qualifier: 'approx'
+    why: 'p.2 Sec. IV prints in the range of 150 uW; the same wording on m8 (range of 10 ohm) already carries approx'
+add_metrics:
+  - metric_id: cmp_lit_qiu2026_edge_coupler_uhna7-m8
+    component_id: cmp_lit_qiu2026_edge_coupler_uhna7
+    parameter: 'back_reflection_db'
+    value: 27
+    unit: 'dB'
+    qualifier: 'approx'
+    wavelength_nm: 1550
+    wavelength_inferred: 'true'
+    condition: 'typical chip-facet back-reflection at the cleaved UHNA7 butt coupling with index-matching gel, device under operation'
+    basis: 'author_estimate'
+    locator: 'p.24 Supp. S5; p.17 Supp. S2; p.20 Supp. S3 A'
+    notes: 'Source sign about -27 dB, paper''s word: estimated, origin not stated; facet named the dominant parasitic reflection source (p.17, p.24). Not measured on the dummy waveguide of this row''s loss values. Table S2 uses 1.0e-3 (-30 dB) as a simulation input, not entered. Wavelength not stated with the value: laser band near 1550 nm (p.20).'
+    why: 'miss: p.24 Supp. S5 states a typical estimated facet back-reflection level; p.17 names the chip facets as the dominant reflection source; back_reflection_db is allowed for fiber_chip_coupler; distiller report lists only the Table S2 simulation inputs'
+  - metric_id: cmp_lit_qiu2026_wbg_pair-m3
+    component_id: cmp_lit_qiu2026_wbg_pair
+    parameter: 'core_thickness_nm'
+    value: 350
+    unit: 'nm'
+    qualifier: 'approx'
+    basis: 'design_target'
+    locator: 'p.8 Methods'
+    notes: 'Final thickness close to 350 nm from 362 nm deposited; same film as row er_waveguide.'
+    why: 'miss (D153 geometry; 59 of 80 merged reflector.bragg rows carry it): same Si3N4 film as the doped waveguide, final thickness p.8 Methods; gratings masked from the implant'
+  - metric_id: cmp_lit_stern2018_vernier_ring_r20-m5
+    component_id: cmp_lit_stern2018_vernier_ring_r20
+    parameter: 'core_thickness_nm'
+    value: 730
+    unit: 'nm'
+    basis: 'design_target'
+    locator: 'p.5 Methods'
+    notes: 'Same 730 nm film as row microresonator.'
+    why: 'miss (D153 geometry; ring_bus template; 118 of 196 merged resonator.ring rows carry it): Si3N4 device layer of all devices, p.5 Methods; held only in core_material'
+  - metric_id: cmp_lit_stern2018_vernier_ring_r22-m5
+    component_id: cmp_lit_stern2018_vernier_ring_r22
+    parameter: 'core_thickness_nm'
+    value: 730
+    unit: 'nm'
+    basis: 'design_target'
+    locator: 'p.5 Methods'
+    notes: 'Same 730 nm film as row microresonator.'
+    why: 'miss (D153 geometry; ring_bus template; 118 of 196 merged resonator.ring rows carry it): Si3N4 device layer of all devices, p.5 Methods; held only in core_material'

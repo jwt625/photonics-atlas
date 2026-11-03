@@ -1,0 +1,264 @@
+# Audit patch lit_74 (fresh-context audit 2026-11-02, DevLog/audits/2026-11-02-lit_74-audit.md).
+# 411 metrics: 396 ok / 9 imprecise / 6 wrong (deleted, values kept in notes); 35 components: 32 ok / 3 imprecise, 0 deleted; 15 misses added.
+# Not covered here (coordinator / org round): fab org for wang2023e (VTT) and jia2025 (Shandong University), both missing from the registry; registry gaps in the audit file.
+components:
+  cmp_lit_mason2025_si_2ch_1600_1615_sim:
+    core_material: Si 220 nm; inverse-designed region + two Bragg filter output waveguides
+    cladding: SiO2
+    why: 'p.8 Fig. 3(d) and p.5 Fig. 2 caption: simulated device, oxide-clad 220 nm Si. The e-beam / RIE / HSQ recipe of p.11 Sec. 4.1 describes the fabricated devices; this row has no fabrication statement'
+  cmp_lit_mason2025_si_3ch_sim:
+    core_material: Si 220 nm; inverse-designed region + three Bragg filter output waveguides
+    cladding: SiO2
+    why: 'p.6 Sec. 2.1 and p.5 Fig. 2(h): three filters, the row said two; p.7 gives simulated values only, so the fabrication recipe of p.11 does not apply'
+  cmp_lit_wijk2020_cascaded_1x210:
+    notes: 'Optical bandwidth 190 nm (abstract, p.8; no operating-span parameter). Abstract gives 4 dB optical loss at the central channel next to the 3 dB comparison: the same 4 dB is the simulated primary-AWG loss of p.4, and the measured AWG 2 central channels sit near 6.3 dB in Fig. 6(c), so it is not entered for this row (see primary row). Reference normalization to a rib waveguide of the same length would already remove the 3 dB propagation term of the excess-loss budget (p.5-6; unresolved in the paper). Dips at the three passband crossings attributed to PECVD film inhomogeneity (p.5). Results reproducible within +/- 10 % (p.5). Comparison size 2.1 x 1.0 cm2 (twice this device) of a conventional 1 x 7 + 7 x (1 x 30) design (Fig. 7): schematic only, no row. Fabrication stated only in the passive; no fab org. Oxidized wafer supplied by Rogue Valley Microdevices (p.2, note only).'
+    why: 'p.6 Sec. 3: the conventional design has the same FSR and resolution, not the same size (Fig. 7 caption: this device is half of it)'
+  cmp_lit_pathak2014a_eg_4x6p4:
+    notes: 'Incidence / diffraction angles 41 / 34 deg, all echelle designs (p.6). Authors state they designed, fabricated and measured the set (p.5 Sec. 3) for imec''s passive SOI platform; authors at Ghent University-imec, with second affiliations UC Davis and Luceda: fab org imec (pathak2014, bogaerts2006 precedent, borderline D80b). Not entered: side-channel IL up to 3 dB at the FSR edge (family statement, p.8, D254); simulated crosstalk maps Fig. 6 (no device values). Wavelength columns give the plot-axis span of the spectrum. Size conflict in the paper: Table 1 prints 700 x 420 um2, text p.6 Sec. 3.2 prints 275 x 245 um2 (the value of the 4 x 6.4 nm AWG); table value entered. Delay L (center slab length) 1055 um, Table 1 (not entered: longer than the 700 x 420 um2 device diagonal of about 816 um, so a folded path and not a one-way free-propagation length; no matching parameter).'
+    why: 'p.7 Table 1: value moved from the deleted fpr_length_um row, same treatment as the AWG Delay L notes'
+  cmp_lit_pathak2014a_eg_8x6p4:
+    notes: 'Incidence / diffraction angles 41 / 34 deg, all echelle designs (p.6). Authors state they designed, fabricated and measured the set (p.5 Sec. 3) for imec''s passive SOI platform; authors at Ghent University-imec, with second affiliations UC Davis and Luceda: fab org imec (pathak2014, bogaerts2006 precedent, borderline D80b). Not entered: side-channel IL up to 3 dB at the FSR edge (family statement, p.8, D254); simulated crosstalk maps Fig. 6 (no device values). Wavelength columns give the plot-axis span of the spectrum. Delay L (center slab length) 1060 um, Table 1 (not entered: longer than the 700 x 385 um2 device diagonal of about 799 um, so a folded path and not a one-way free-propagation length; no matching parameter).'
+    why: 'p.7 Table 1: value moved from the deleted fpr_length_um row, same treatment as the AWG Delay L notes'
+  cmp_lit_pathak2014a_eg_4x10:
+    notes: 'Incidence / diffraction angles 41 / 34 deg, all echelle designs (p.6). Authors state they designed, fabricated and measured the set (p.5 Sec. 3) for imec''s passive SOI platform; authors at Ghent University-imec, with second affiliations UC Davis and Luceda: fab org imec (pathak2014, bogaerts2006 precedent, borderline D80b). Not entered: side-channel IL up to 3 dB at the FSR edge (family statement, p.8, D254); simulated crosstalk maps Fig. 6 (no device values). Wavelength columns give the plot-axis span of the spectrum. Text p.8 rounds IL to 1.6 dB. One output channel in Fig. 5(c) is dotted (damaged or out of laser range, p.8). Delay L (center slab length) 655 um, Table 1 (not entered: longer than the 450 x 220 um2 device diagonal of about 501 um, so a folded path and not a one-way free-propagation length; no matching parameter).'
+    why: 'p.7 Table 1: value moved from the deleted fpr_length_um row, same treatment as the AWG Delay L notes'
+  cmp_lit_pathak2014a_eg_4x20:
+    notes: 'Incidence / diffraction angles 41 / 34 deg, all echelle designs (p.6). Authors state they designed, fabricated and measured the set (p.5 Sec. 3) for imec''s passive SOI platform; authors at Ghent University-imec, with second affiliations UC Davis and Luceda: fab org imec (pathak2014, bogaerts2006 precedent, borderline D80b). Not entered: side-channel IL up to 3 dB at the FSR edge (family statement, p.8, D254); simulated crosstalk maps Fig. 6 (no device values). Wavelength columns give the plot-axis span of the spectrum. Part of a spectrum dotted in Fig. 5(d) (p.8). Delay L (center slab length) 345 um, Table 1 (not entered: longer than the 250 x 155 um2 device diagonal of about 294 um, so a folded path and not a one-way free-propagation length; no matching parameter).'
+    why: 'p.7 Table 1: value moved from the deleted fpr_length_um row, same treatment as the AWG Delay L notes'
+  cmp_lit_wang2023e_peg_1x8_100ghz:
+    notes: 'Measured with a C-band tunable laser and lensed fibers. Characterized separately on the same chip as the cascade. Average noise floor about -31 dB (p.5, Fig. 9(a); no noise-floor parameter). Rowland design, input / output angle 35 / 36 deg, blaze 35.5 deg, grating length 2500 um (Table I). Al reflectivity 92 -> 98 % carries a citation (p.4, ref. [14]): not entered. Journal extension of the authors'' ECOC 2022 paper (p.2; D408, values kept). Rowland circle 2200 um (Table I, p.3; radius or diameter not stated, no registry parameter, brouckaert2007 precedent). Fab: MPW run of the VTT 3 um SOI platform (p.4 Sec. III); VTT is not in the registry, so fab is empty (see report).'
+    why: 'Table I, p.3: value moved from the deleted fpr_length_um row'
+  cmp_lit_wang2023e_peg_1x5_800ghz:
+    notes: 'Measured with a C-band tunable laser and lensed fibers; polarization not stated for this device (TE is printed only for Figs. 3, 6, 8 and the BER runs). Row for the characterized design centred at 1547.72 nm; eight such stages with ITU 34-41 centres are in the cascade (p.3). Average noise floor about -35 dB (p.5, Fig. 9(b); no noise-floor parameter). Input / output angle 30 / 33 deg, blaze 31.5 deg, grating length 600 um (Table II). Rowland circle 500 um (Table II, p.4; radius or diameter not stated, no registry parameter, brouckaert2007 precedent). Fab: MPW run of the VTT 3 um SOI platform (p.4 Sec. III); VTT is not in the registry, so fab is empty (see report).'
+    why: 'Table II, p.4: value moved from the deleted fpr_length_um row; p.4 Fig. 4 and p.5 Fig. 7 captions and text give no polarization'
+  cmp_lit_jia2025_awgr_8x8:
+    notes: 'Measured waveguide section about 6.20 um x 6.05 um (p.3, Fig. 5 inset, order of width / height not stated: not entered). Taper widths in Table I: rows m20 and m24. Shift text conflict: p.6 prints about 0.78 nm for 25 to 60 C, Fig. 10(a) labels 0.08 nm, Fig. 10(b) spans about 0.08 nm; only the latter match -2.23 pm/C. Authors attribute low thermal drift to the negative thermo-optic coefficient. Fig. 9 tolerance simulations not entered (trend statement, p.5). Polarization not stated. Abstract 3-dB bandwidth about 0.8 nm summarizes the range entered. Authors state they designed and fabricated the device (p.2); all authors at Shandong University, which is not in the registry, so fab is empty (see report).'
+    why: 'p.2 Table I: the array-side taper width has a parameter (port_width_um, FPR access width; merged wdm.awg precedents), added as m24'
+metrics:
+  cmp_lit_pathak2014a_eg_8x6p4-m1:
+    wavelength_max_nm: '1547'
+    why: 'p.8 Fig. 5(b) render: the wavelength axis ends near 1.547 um, the row said 1550 nm as plot-axis span'
+  cmp_lit_pathak2014a_eg_4x10-m1:
+    wavelength_max_nm: '1544'
+    why: 'p.8 Fig. 5(c) render: the wavelength axis ends near 1.544 um, the row said 1550 nm as plot-axis span'
+  cmp_lit_wang2023e_peg_1x5_800ghz-m1:
+    polarization: ''
+    why: 'p.5 Sec. IV and Fig. 7, p.4 Sec. II and Fig. 4: no polarization printed for the 1 x 5 PEG, TE is printed for Fig. 3, Fig. 6 and Fig. 8 only (skill rule 1: empty = not reported)'
+  cmp_lit_wang2023e_peg_1x5_800ghz-m2:
+    polarization: ''
+    why: 'p.5 Sec. IV and Fig. 7, p.4 Sec. II and Fig. 4: no polarization printed for the 1 x 5 PEG, TE is printed for Fig. 3, Fig. 6 and Fig. 8 only (skill rule 1: empty = not reported)'
+  cmp_lit_wang2023e_peg_1x5_800ghz-m4:
+    polarization: ''
+    why: 'p.5 Sec. IV and Fig. 7, p.4 Sec. II and Fig. 4: no polarization printed for the 1 x 5 PEG, TE is printed for Fig. 3, Fig. 6 and Fig. 8 only (skill rule 1: empty = not reported)'
+  cmp_lit_wang2023e_peg_1x5_800ghz-m5:
+    polarization: ''
+    why: 'p.5 Sec. IV and Fig. 7, p.4 Sec. II and Fig. 4: no polarization printed for the 1 x 5 PEG, TE is printed for Fig. 3, Fig. 6 and Fig. 8 only (skill rule 1: empty = not reported)'
+  cmp_lit_wang2023e_peg_1x5_800ghz-m6:
+    polarization: ''
+    why: 'p.5 Sec. IV and Fig. 7, p.4 Sec. II and Fig. 4: no polarization printed for the 1 x 5 PEG, TE is printed for Fig. 3, Fig. 6 and Fig. 8 only (skill rule 1: empty = not reported)'
+  cmp_lit_wang2023e_facet_sin_ar-m1:
+    basis: author_estimate
+    notes: printed 2.0 dB per facet only as the term removed from the cascade spectrum; method and origin not stated (cmp_lit_wang2023e_peg_cascaded_1x40-m1 treats the same term the same way)
+    why: 'p.5 Sec. IV: the only appearance is the subtraction term of the cascade IL, which this batch itself calls of unstated origin on m1. D418 and D437 did not extend D167 to such terms; sun2025 GC rows (D428) precedent. See audit Q2'
+  cmp_lit_jia2025_awgr_8x8-m10:
+    locator: p.2 Sec. I; p.2 Sec. II
+    why: 'p.2 render: Table I has no channel-count row; 8 x 8 is stated in Sec. I and Sec. II'
+delete_metrics:
+- id: cmp_lit_pathak2014a_eg_4x6p4-m12
+  why: 'p.7 Table 1: Delay L 1055 um exceeds the 700 x 420 um2 footprint diagonal (about 816 um), so it cannot be the one-way FPR length of the registry definition; the paper defines only center slab length. No merged wdm.eg row uses fpr_length_um. Value kept in component notes'
+- id: cmp_lit_pathak2014a_eg_8x6p4-m12
+  why: 'p.7 Table 1: Delay L 1060 um exceeds the 700 x 385 um2 footprint diagonal (about 799 um), so it cannot be the one-way FPR length of the registry definition; the paper defines only center slab length. No merged wdm.eg row uses fpr_length_um. Value kept in component notes'
+- id: cmp_lit_pathak2014a_eg_4x10-m12
+  why: 'p.7 Table 1: Delay L 655 um exceeds the 450 x 220 um2 footprint diagonal (about 501 um), so it cannot be the one-way FPR length of the registry definition; the paper defines only center slab length. No merged wdm.eg row uses fpr_length_um. Value kept in component notes'
+- id: cmp_lit_pathak2014a_eg_4x20-m12
+  why: 'p.7 Table 1: Delay L 345 um exceeds the 250 x 155 um2 footprint diagonal (about 294 um), so it cannot be the one-way FPR length of the registry definition; the paper defines only center slab length. No merged wdm.eg row uses fpr_length_um. Value kept in component notes'
+- id: cmp_lit_wang2023e_peg_1x8_100ghz-m16
+  why: 'Table I, p.3: the table prints a Rowland circle size, not a free-propagation length; radius or diameter is not stated (on a Rowland mount the pole distance is neither). Merged brouckaert2007 keeps the Rowland radius in notes as no registry parameter (D156). Value kept in component notes'
+- id: cmp_lit_wang2023e_peg_1x5_800ghz-m13
+  why: 'Table II, p.4: the table prints a Rowland circle size, not a free-propagation length; radius or diameter is not stated (on a Rowland mount the pole distance is neither). Merged brouckaert2007 keeps the Rowland radius in notes as no registry parameter (D156). Value kept in component notes'
+add_metrics:
+- metric_id: cmp_lit_mason2025_si_2ch_n300_fig2g-m12
+  component_id: cmp_lit_mason2025_si_2ch_n300_fig2g
+  parameter: crosstalk_db
+  value: '39'
+  unit: dB
+  qualifier: approx
+  statistic: best
+  condition: port 1 stopband, deepest level (absolute normalized transmission), type not stated
+  basis: extracted_from_figure
+  locator: p.5 Fig. 2(g)
+  notes: read off the plot, +/- 1 dB; plotted negative
+  why: 'p.5 Fig. 2(g) enlarged: absolute floor, same reading as the Fig. 3(a) rows; the row held only the 41 dB contrast label'
+- metric_id: cmp_lit_mason2025_si_2ch_n300_fig2g-m13
+  component_id: cmp_lit_mason2025_si_2ch_n300_fig2g
+  parameter: crosstalk_db
+  value: '47'
+  unit: dB
+  qualifier: approx
+  statistic: best
+  condition: port 2 stopband, deepest level (absolute normalized transmission), type not stated
+  basis: extracted_from_figure
+  locator: p.5 Fig. 2(g)
+  notes: read off the plot, +/- 1 dB; plotted negative
+  why: 'p.5 Fig. 2(g) enlarged: absolute floor, same reading as the Fig. 3(a) rows; the row held only the 41 dB contrast label'
+- metric_id: cmp_lit_mason2025_si_2ch_1600_1615_sim-m14
+  component_id: cmp_lit_mason2025_si_2ch_1600_1615_sim
+  parameter: center_wavelength_nm
+  value: '1600'
+  unit: nm
+  condition: design channel wavelength
+  basis: author_estimate
+  locator: p.4 Sec. 2.1
+  notes: printed about 1600 nm and 1615 nm
+  qualifier: approx
+  why: design channel wavelength printed on the cited page, entered on the 3-channel row of this paper but not on the 2-channel rows
+- metric_id: cmp_lit_mason2025_si_2ch_1600_1615_sim-m15
+  component_id: cmp_lit_mason2025_si_2ch_1600_1615_sim
+  parameter: center_wavelength_nm
+  value: '1615'
+  unit: nm
+  condition: design channel wavelength
+  basis: author_estimate
+  locator: p.4 Sec. 2.1
+  notes: printed about 1600 nm and 1615 nm
+  qualifier: approx
+  why: design channel wavelength printed on the cited page, entered on the 3-channel row of this paper but not on the 2-channel rows
+- metric_id: cmp_lit_mason2025_sin_wdm1_n300_sim-m16
+  component_id: cmp_lit_mason2025_sin_wdm1_n300_sim
+  parameter: center_wavelength_nm
+  value: '1515'
+  unit: nm
+  condition: design channel wavelength
+  basis: author_estimate
+  locator: p.7 Sec. 2.1
+  notes: design statement; p.9 prints 1510 / 1530 nm as the design, 1514 / 1530 nm as simulated optima
+  why: design channel wavelength printed on the cited page, entered on the 3-channel row of this paper but not on the 2-channel rows
+- metric_id: cmp_lit_mason2025_sin_wdm1_n300_sim-m17
+  component_id: cmp_lit_mason2025_sin_wdm1_n300_sim
+  parameter: center_wavelength_nm
+  value: '1530'
+  unit: nm
+  condition: design channel wavelength
+  basis: author_estimate
+  locator: p.7 Sec. 2.1
+  notes: design statement; p.9 prints 1510 / 1530 nm as the design, 1514 / 1530 nm as simulated optima
+  why: design channel wavelength printed on the cited page, entered on the 3-channel row of this paper but not on the 2-channel rows
+- metric_id: cmp_lit_mason2025_sin_wdm2_n300-m22
+  component_id: cmp_lit_mason2025_sin_wdm2_n300
+  parameter: center_wavelength_nm
+  value: '1555'
+  unit: nm
+  condition: design channel wavelength
+  basis: author_estimate
+  locator: p.7 Sec. 2.1
+  notes: design statement; p.9 prints 1550 / 1570 nm as the design, 1555 / 1568 nm as simulated optima
+  why: design channel wavelength printed on the cited page, entered on the 3-channel row of this paper but not on the 2-channel rows
+- metric_id: cmp_lit_mason2025_sin_wdm2_n300-m23
+  component_id: cmp_lit_mason2025_sin_wdm2_n300
+  parameter: center_wavelength_nm
+  value: '1570'
+  unit: nm
+  condition: design channel wavelength
+  basis: author_estimate
+  locator: p.7 Sec. 2.1
+  notes: design statement; p.9 prints 1550 / 1570 nm as the design, 1555 / 1568 nm as simulated optima
+  why: design channel wavelength printed on the cited page, entered on the 3-channel row of this paper but not on the 2-channel rows
+- metric_id: cmp_lit_mason2025_sin_wdm2_n100-m14
+  component_id: cmp_lit_mason2025_sin_wdm2_n100
+  parameter: center_wavelength_nm
+  value: '1555'
+  unit: nm
+  condition: design channel wavelength
+  basis: author_estimate
+  locator: p.7 Sec. 2.1
+  notes: design statement; p.9 prints 1550 / 1570 nm as the design
+  why: design channel wavelength printed on the cited page, entered on the 3-channel row of this paper but not on the 2-channel rows
+- metric_id: cmp_lit_mason2025_sin_wdm2_n100-m15
+  component_id: cmp_lit_mason2025_sin_wdm2_n100
+  parameter: center_wavelength_nm
+  value: '1570'
+  unit: nm
+  condition: design channel wavelength
+  basis: author_estimate
+  locator: p.7 Sec. 2.1
+  notes: design statement; p.9 prints 1550 / 1570 nm as the design
+  why: design channel wavelength printed on the cited page, entered on the 3-channel row of this paper but not on the 2-channel rows
+- metric_id: cmp_lit_mason2025_sin_wdm2_n100-m16
+  component_id: cmp_lit_mason2025_sin_wdm2_n100
+  parameter: insertion_loss_db
+  value: '1.3'
+  unit: dB
+  qualifier: approx
+  wavelength_nm: '1569'
+  wavelength_max_nm: '1577'
+  scope: de_embedded
+  excludes: input and output grating couplers (normalized to the output power spectrum of the two GCs)
+  condition: port 1 passband
+  method: reference_structure
+  basis: extracted_from_figure
+  locator: p.10 Fig. 5(g)
+  notes: read off the plot, +/- 0.5 dB; plotted negative
+  why: 'p.10 Fig. 5(g) enlarged: light curves readable; the Si N = 100 row has the same read, this row had crosstalk only'
+- metric_id: cmp_lit_mason2025_sin_wdm2_n100-m17
+  component_id: cmp_lit_mason2025_sin_wdm2_n100
+  parameter: insertion_loss_db
+  value: '1'
+  unit: dB
+  qualifier: approx
+  wavelength_nm: '1553'
+  wavelength_max_nm: '1561'
+  scope: de_embedded
+  excludes: input and output grating couplers (normalized to the output power spectrum of the two GCs)
+  condition: port 2 passband
+  method: reference_structure
+  basis: extracted_from_figure
+  locator: p.10 Fig. 5(g)
+  notes: read off the plot, +/- 0.5 dB; plotted negative
+  why: 'p.10 Fig. 5(g) enlarged: light curves readable; the Si N = 100 row has the same read, this row had crosstalk only'
+- metric_id: cmp_lit_wijk2020_secondary_awg1_1x70-m13
+  component_id: cmp_lit_wijk2020_secondary_awg1_1x70
+  parameter: insertion_loss_db
+  value: '7.3'
+  unit: dB
+  wavelength_nm: '1500'
+  condition: best channel, upper envelope of the AWG 1 band in the cascaded spectrum
+  notes: read off the plot, +/- 0.5 dB; plotted negative; wavelength read off the plot
+  qualifier: approx
+  statistic: best
+  wavelength_inferred: 'true'
+  polarization: te
+  scope: de_embedded
+  includes: primary AWG in the path
+  excludes: fiber coupling and propagation of a same-length rib waveguide (normalized reference)
+  method: reference_structure
+  basis: extracted_from_figure
+  locator: p.6 Fig. 6(a)
+  why: 'p.6 Fig. 6(a) enlarged: AWG 1 band labelled, upper envelope readable; the row held design values only'
+- metric_id: cmp_lit_wijk2020_secondary_awg3_1x70-m13
+  component_id: cmp_lit_wijk2020_secondary_awg3_1x70
+  parameter: insertion_loss_db
+  value: '5.5'
+  unit: dB
+  wavelength_nm: '1620'
+  condition: best channel, upper envelope of the AWG 3 band in the cascaded spectrum
+  notes: read off the plot, +/- 0.5 dB; plotted negative; wavelength read off the plot
+  qualifier: approx
+  statistic: best
+  wavelength_inferred: 'true'
+  polarization: te
+  scope: de_embedded
+  includes: primary AWG in the path
+  excludes: fiber coupling and propagation of a same-length rib waveguide (normalized reference)
+  method: reference_structure
+  basis: extracted_from_figure
+  locator: p.6 Fig. 6(a)
+  why: 'p.6 Fig. 6(a) enlarged: AWG 3 band labelled, upper envelope readable; the row held design values only'
+- metric_id: cmp_lit_jia2025_awgr_8x8-m24
+  component_id: cmp_lit_jia2025_awgr_8x8
+  parameter: port_width_um
+  value: '15'
+  unit: um
+  condition: taper width on array waveguides
+  basis: design_target
+  locator: p.2 Table I
+  why: 'p.2 Table I: array-side taper width, skipped as no parameter; port_width_um with the role in condition fits (merged wdm.awg FPR access widths)'

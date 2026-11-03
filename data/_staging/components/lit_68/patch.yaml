@@ -1,0 +1,201 @@
+# Audit patch lit_68 (fresh-context audit 2026-11-02, DevLog/audits/2026-11-02-lit_68-audit.md).
+# 166 metrics: 128 ok / 37 imprecise / 1 wrong; 22 components: 13 ok / 9 imprecise / 0 wrong; 0 deleted; no metric row added;
+# one component field added (xue2026 APD cladding). Not covered here (coordinator rulings): audit Q1-Q6.
+components:
+  cmp_lit_xue2026_si_ge_sacm_apd:
+    cladding: SiO2
+    why: 'p.2 Fig. 1(b) and p.5 Fig. 4(d) label SiO2 around the device (skill workflow step 3: cladding when stated); field was empty'
+  cmp_lit_xue2026_rear_dbr_5p:
+    notes: 'Cross-note: part of cmp_lit_xue2026_si_ge_sacm_apd (D396); fabricated with the APD, only simulated performance is reported. Simulated operating range 1100-1700 nm with five periods (p.3; contrast level not stated, not entered).'
+    why: 'cross-note named an id that does not exist in the batch (components.csv: cmp_lit_xue2026_si_ge_sacm_apd); D396 cross-note must resolve'
+  cmp_lit_beckerwerth2021_apd_inalas:
+    process_name: compatible with the authors' InP foundry process
+    why: p.1 Sec. I states the devices are fully compatible with the InP foundry process, not that they were made in it; process_name read as the latter
+  cmp_lit_beckerwerth2021_apd_inp:
+    process_name: compatible with the authors' InP foundry process
+    why: 'p.1 Sec. I states the devices are fully compatible with the InP foundry process, not that they were made in it; process_name read as the latter. Notes: p.5-6 Sec. III-C and p.6 Fig. 8 render tie -25.8 dBm to the 22 V measurement; the paper says the maximum RF power is reached at the highest bias, top of the dynamic range -12 dBm'
+    notes: '''We designed, fabricated and characterized'' (p.1), all authors at Fraunhofer HHI; compatible with the authors'' InP foundry process. No registry parameter: RF output power, dynamic range, minimum optical input power. RF power range -42 to -12 dBm at 5 GHz, dynamic range 30 dB (p.5; Fig. 8 reaches about -11 dBm at 26 V); -25.8 dBm is only the maximum of the 22 V curve (p.6); minimum input 37 uW at gain 2, 26 uW at 26 V. Mesa orientation not stated: no width / length rows.'
+  cmp_lit_beckerwerth2021_balanced_apd_mmi_pic:
+    process_name: compatible with the authors' InP foundry process
+    why: p.1 Sec. I states the devices are fully compatible with the InP foundry process, not that they were made in it; process_name read as the latter
+  cmp_lit_beckerwerth2021_mmi_2x2:
+    process_name: compatible with the authors' InP foundry process
+    why: p.1 Sec. I states the devices are fully compatible with the InP foundry process, not that they were made in it; process_name read as the latter
+  cmp_lit_bian2025_ge_pin_ultrafast:
+    notes: 'All authors GlobalFoundries; no sentence states who fabricated the PDs (''in a 300-mm CMOS silicon photonics foundry'', p.1): fab empty (D80b, D84a). Back reflection -36 dB chamfered vs -23 dB flat-Ge reference PD (OFDR, V-groove SiN edge-coupled chips; p.1, Fig. 2(d)): back_reflection_db not allowed for photodetector. BW degradation < 10 GHz up to 3 mW input (p.2). BW-responsivity product > 130 GHz A/W (no parameter). Eyes 120 Gb/s NRZ and 200 Gb/s PAM4 at about 1 mA, -2 V. The wafer statistics and BW are not stated per Ge shape (flat vs chamfered): Fig. 2 caption and Table 1 name them as one device of this work. Flat-Ge reference PD has no value of its own beyond reflection: no row.'
+    why: 'audit decision on the distiller question: p.1 names no fabricating org and no fabrication sentence; platform statements only (D84a); see audit Q1'
+  cmp_lit_bian2025_ge_pin_enhanced:
+    notes: 'All authors GlobalFoundries; no sentence states who fabricated the PDs (''in a 300-mm CMOS silicon photonics foundry'', p.1): fab empty (D80b, D84a). Preliminary results of unspecified enhanced designs (p.1); cross-note cmp_lit_bian2025_ge_pin_ultrafast.'
+    why: 'audit decision on the distiller question: p.1 names no fabricating org and no fabrication sentence; platform statements only (D84a); see audit Q1'
+  cmp_lit_alasio2024_vpin_design_hge300:
+    notes: 'Table I row ''this work, optimized'' tied to HGe 0.3 um through Fig. 7(b) (about 64.9 GHz at -2 V, 63.8 GHz at -1 V) and Fig. 8(b) (about 0.77 A/W): the table names no geometry. Not a fabricated device.'
+    why: 'p.6 Fig. 7(b) PDF vector symbols, frame calibrated 0-70 GHz: -2 V 64.9, -1 V 63.8 GHz; the printed 64 alone does not separate the two curves'
+metrics:
+  cmp_lit_xue2026_si_ge_sacm_apd-m18:
+    value: 2.54
+    why: 'p.4 Fig. 3(e) zoomed render: the M = 14 symbol centre reads 2.54 (axis 1-5 calibrated from the frame; M = 3 symbol reads 1.75, as entered); 2.5 sat at the edge of the stated +/- 0.05'
+  cmp_lit_xue2022_pd_l1um-m1:
+    wavelength_nm: 1310
+    notes: printed at 1.3 um, source wavelength 1310 nm named in the same paragraph (Fig. 5(b)); calculated by the authors from photocurrent and on-chip power
+    why: 'p.4 Sec. 3 and p.5 Fig. 5(b): the value comes from the 1310 nm source, 1.55 uW; check 1.55 uW x 0.1 x 0.4 A/W = 62 nA matches the Fig. 5(b) curve near 6e-8 A'
+  cmp_lit_xue2022_pd_l1um-m2:
+    wavelength_nm: 1550
+    notes: printed at 1.5 um, source wavelength 1550 nm named in the same paragraph (Fig. 5(b)); calculated by the authors from photocurrent and on-chip power
+    why: 'p.4 Sec. 3 and p.5 Fig. 5(b): the value comes from the 1550 nm source, 2.50 uW; Fig. 5(d) reads about 0.13 A/W at 1550 nm and 0.15 A/W near 1500 nm'
+  cmp_lit_xue2022_pd_l1um-m5:
+    wavelength_nm: 1310
+    notes: rests on the simulated coupling efficiency (Fig. 2(g)); abstract 0.4 A/W at 1.3 um is the un-normalized value; printed at 1.3 um; normalizes the Fig. 5(b) value measured with the 1310 nm source
+    why: 'p.5 Sec. 3: normalization of the 1.3 um value by 70 % (0.4 / 0.7, 0.16 / 0.7 round to the printed values); same wavelength as the row it normalizes'
+  cmp_lit_xue2022_pd_l1um-m6:
+    wavelength_nm: 1550
+    notes: rests on the simulated coupling efficiency; abstract 0.2 A/W at 1.5 um is this normalized value; printed at 1.5 um; normalizes the Fig. 5(b) value measured with the 1550 nm source
+    why: 'p.5 Sec. 3: normalization of the 1.5 um value by 70 % (0.4 / 0.7, 0.16 / 0.7 round to the printed values); same wavelength as the row it normalizes'
+  cmp_lit_alasio2024_vpin_device4-m1:
+    value: 37.5
+    notes: read off the experimental (dashed) symbols, reading uncertainty +/- 1 GHz; lowest symbol hidden behind the simulation marker at -3 V
+    why: 'p.6 Fig. 6 Device 4: PDF vector symbols give five samples at -3 V, 42.9 / 41.3 / 41.0 / 40.0 / 37.5 GHz (grid calibrated at 10-50 GHz); 40 GHz missed the sample behind the black triangle. All other Fig. 6 ranges agree with the vector positions within 1 GHz'
+  cmp_lit_alasio2024_vpin_device2-m2:
+    notes: 'read off the experimental (dashed) symbols, reading uncertainty +/- 1 GHz; text p.4 says fcutoff never falls below 30 GHz at -0.8 V; Fig. 6 Device 2 symbols read 26-30 GHz: figure kept, flagged'
+    why: 'p.4 Sec. III vs p.6 Fig. 6: the paper disagrees with itself on this row; figure read confirmed from the PDF vector symbols (26.0-30.3 GHz)'
+  cmp_lit_alasio2024_vpin_device1-m4:
+    wavelength_inferred: 'true'
+    notes: simulated column of Table II; no input plane stated; Table II caption states no wavelength; O-band (1.31 um) focus from p.1 Abstract and the measurements of p.3
+    why: p.3 Table II caption gives bias and power only (skill rule 8); the stated 1310 nm belongs to the LCA measurement (p.3 Sec. II-C)
+  cmp_lit_alasio2024_vpin_device2-m4:
+    wavelength_inferred: 'true'
+    notes: simulated column of Table II; no input plane stated; Table II caption states no wavelength; O-band (1.31 um) focus from p.1 Abstract and the measurements of p.3
+    why: p.3 Table II caption gives bias and power only (skill rule 8); the stated 1310 nm belongs to the LCA measurement (p.3 Sec. II-C)
+  cmp_lit_alasio2024_vpin_device3-m4:
+    wavelength_inferred: 'true'
+    notes: simulated column of Table II; no input plane stated; Table II caption states no wavelength; O-band (1.31 um) focus from p.1 Abstract and the measurements of p.3
+    why: p.3 Table II caption gives bias and power only (skill rule 8); the stated 1310 nm belongs to the LCA measurement (p.3 Sec. II-C)
+  cmp_lit_alasio2024_vpin_device4-m4:
+    wavelength_inferred: 'true'
+    notes: simulated column of Table II; no input plane stated; Table II caption states no wavelength; O-band (1.31 um) focus from p.1 Abstract and the measurements of p.3
+    why: p.3 Table II caption gives bias and power only (skill rule 8); the stated 1310 nm belongs to the LCA measurement (p.3 Sec. II-C)
+  cmp_lit_alasio2024_vpin_device5-m4:
+    wavelength_inferred: 'true'
+    notes: simulated column of Table II; no input plane stated; Table II caption states no wavelength; O-band (1.31 um) focus from p.1 Abstract and the measurements of p.3
+    why: p.3 Table II caption gives bias and power only (skill rule 8); the stated 1310 nm belongs to the LCA measurement (p.3 Sec. II-C)
+  cmp_lit_alasio2024_vpin_device6-m4:
+    wavelength_inferred: 'true'
+    notes: simulated column of Table II; no input plane stated; Table II caption states no wavelength; O-band (1.31 um) focus from p.1 Abstract and the measurements of p.3
+    why: p.3 Table II caption gives bias and power only (skill rule 8); the stated 1310 nm belongs to the LCA measurement (p.3 Sec. II-C)
+  cmp_lit_alasio2024_vpin_design_hge300-m1:
+    wavelength_inferred: 'true'
+    notes: Table I prints no bias; bias assigned from text p.5 (above 60 GHz at -2 V for HGe 0.3 um); Fig. 7(b) at HGe 0.3 um reads about 64.9 GHz at -2 V and 63.8 GHz at -1 V, so the printed 64 fits both; simulation wavelength not stated with the value, O-band (1.31 um) from p.1 Abstract
+    why: 'p.5-7 Sec. IV / V and Fig. 7, Fig. 8 state no wavelength for the simulated values; Table I gives only O-band (skill rule 8). Note: p.6 Fig. 7(b) vector symbols; the bias tie is an inference, stated as such'
+  cmp_lit_alasio2024_vpin_design_hge300-m2:
+    wavelength_inferred: 'true'
+    notes: printed close to 45 GHz; Fig. 7(b) peak at HGe 0.3 um; simulation wavelength not stated with the value; O-band (1.31 um) from p.1 Abstract
+    why: p.5-7 Sec. IV / V and Fig. 7, Fig. 8 state no wavelength for the simulated values; Table I gives only O-band (skill rule 8)
+  cmp_lit_alasio2024_vpin_design_hge300-m3:
+    wavelength_inferred: 'true'
+    notes: simulation wavelength not stated with the value; O-band (1.31 um) from p.1 Abstract
+    why: p.5-7 Sec. IV / V and Fig. 7, Fig. 8 state no wavelength for the simulated values; Table I gives only O-band (skill rule 8)
+  cmp_lit_alasio2024_vpin_design_hge400-m1:
+    wavelength_inferred: 'true'
+    notes: 'text value; the Fig. 7(b) 0 V curve reads about 37.5 GHz at 0.4 um: flagged; simulation wavelength not stated with the value; O-band (1.31 um) from p.1 Abstract'
+    why: p.5-7 Sec. IV / V and Fig. 7, Fig. 8 state no wavelength for the simulated values; Table I gives only O-band (skill rule 8)
+  cmp_lit_alasio2024_vpin_design_hge400-m2:
+    wavelength_inferred: 'true'
+    notes: read off the simulated -2 V curve, reading uncertainty +/- 1 GHz; simulation wavelength not stated with the value; O-band (1.31 um) from p.1 Abstract
+    why: p.5-7 Sec. IV / V and Fig. 7, Fig. 8 state no wavelength for the simulated values; Table I gives only O-band (skill rule 8)
+  cmp_lit_alasio2024_vpin_design_hge400-m3:
+    wavelength_inferred: 'true'
+    notes: 'read off Fig. 8(b), reading uncertainty +/- 0.01 A/W; text: 9 % below Device 2; simulation wavelength not stated with the value; O-band (1.31 um) from p.1 Abstract'
+    why: p.5-7 Sec. IV / V and Fig. 7, Fig. 8 state no wavelength for the simulated values; Table I gives only O-band (skill rule 8)
+  cmp_lit_beckerwerth2021_apd_inalas-m5:
+    wavelength_nm: 1550
+    wavelength_inferred: 'true'
+    notes: wavelength not stated with the value; design wavelength 1550 nm (p.2)
+    why: 'skill rule 8: no wavelength with the value, operating wavelength 1550 nm stated p.2 Sec. II (PIC: 1550 nm, C-band, p.6-7); same treatment as m1 / m2 of the row'
+  cmp_lit_beckerwerth2021_apd_inalas-m7:
+    wavelength_nm: 1550
+    wavelength_inferred: 'true'
+    notes: wavelength not stated with the value; design wavelength 1550 nm (p.2)
+    why: 'skill rule 8: no wavelength with the value, operating wavelength 1550 nm stated p.2 Sec. II (PIC: 1550 nm, C-band, p.6-7); same treatment as m1 / m2 of the row'
+  cmp_lit_beckerwerth2021_apd_inalas-m9:
+    wavelength_nm: 1550
+    wavelength_inferred: 'true'
+    notes: wavelength not stated with the value; design wavelength 1550 nm (p.2)
+    why: 'skill rule 8: no wavelength with the value, operating wavelength 1550 nm stated p.2 Sec. II (PIC: 1550 nm, C-band, p.6-7); same treatment as m1 / m2 of the row'
+  cmp_lit_beckerwerth2021_apd_inalas-m11:
+    wavelength_nm: 1550
+    wavelength_inferred: 'true'
+    notes: wavelength not stated with the value; design wavelength 1550 nm (p.2)
+    why: 'skill rule 8: no wavelength with the value, operating wavelength 1550 nm stated p.2 Sec. II (PIC: 1550 nm, C-band, p.6-7); same treatment as m1 / m2 of the row'
+  cmp_lit_beckerwerth2021_apd_inp-m5:
+    wavelength_nm: 1550
+    wavelength_inferred: 'true'
+    notes: wavelength not stated with the value; design wavelength 1550 nm (p.2)
+    why: 'skill rule 8: no wavelength with the value, operating wavelength 1550 nm stated p.2 Sec. II (PIC: 1550 nm, C-band, p.6-7); same treatment as m1 / m2 of the row'
+  cmp_lit_beckerwerth2021_balanced_apd_mmi_pic-m2:
+    wavelength_nm: 1550
+    wavelength_inferred: 'true'
+    notes: reduced by increased RC delay compared with the single device; wavelength not stated with the value; design wavelength 1550 nm (p.2)
+    why: 'skill rule 8: no wavelength with the value, operating wavelength 1550 nm stated p.2 Sec. II (PIC: 1550 nm, C-band, p.6-7); same treatment as m1 / m2 of the row'
+  cmp_lit_beckerwerth2021_apd_inalas-m6:
+    wavelength_nm: 1550
+    wavelength_inferred: 'true'
+    notes: wavelength not stated with the value; design wavelength 1550 nm (p.2)
+    why: 'skill rule 8: no wavelength with the value, operating wavelength 1550 nm stated p.2 Sec. II (PIC: 1550 nm, C-band, p.6-7); same treatment as m1 / m2 of the row'
+  cmp_lit_beckerwerth2021_apd_inalas-m8:
+    wavelength_nm: 1550
+    wavelength_inferred: 'true'
+    notes: wavelength not stated with the value; design wavelength 1550 nm (p.2)
+    why: 'skill rule 8: no wavelength with the value, operating wavelength 1550 nm stated p.2 Sec. II (PIC: 1550 nm, C-band, p.6-7); same treatment as m1 / m2 of the row'
+  cmp_lit_beckerwerth2021_apd_inalas-m10:
+    wavelength_nm: 1550
+    wavelength_inferred: 'true'
+    notes: wavelength not stated with the value; design wavelength 1550 nm (p.2)
+    why: 'skill rule 8: no wavelength with the value, operating wavelength 1550 nm stated p.2 Sec. II (PIC: 1550 nm, C-band, p.6-7); same treatment as m1 / m2 of the row'
+  cmp_lit_beckerwerth2021_apd_inalas-m12:
+    wavelength_nm: 1550
+    wavelength_inferred: 'true'
+    notes: wavelength not stated with the value; design wavelength 1550 nm (p.2)
+    why: 'skill rule 8: no wavelength with the value, operating wavelength 1550 nm stated p.2 Sec. II (PIC: 1550 nm, C-band, p.6-7); same treatment as m1 / m2 of the row'
+  cmp_lit_beckerwerth2021_apd_inp-m6:
+    wavelength_nm: 1550
+    wavelength_inferred: 'true'
+    notes: wavelength not stated with the value; design wavelength 1550 nm (p.2)
+    why: 'skill rule 8: no wavelength with the value, operating wavelength 1550 nm stated p.2 Sec. II (PIC: 1550 nm, C-band, p.6-7); same treatment as m1 / m2 of the row'
+  cmp_lit_beckerwerth2021_apd_inp-m7:
+    wavelength_nm: 1550
+    wavelength_inferred: 'true'
+    notes: printed M = 40 without a bias; bias read off the peak of the Fig. 6 measured 50 uW curve, reading uncertainty +/- 0.2 V; wavelength not stated with the value; design wavelength 1550 nm (p.2)
+    why: 'skill rule 8: no wavelength with the value, operating wavelength 1550 nm stated p.2 Sec. II (PIC: 1550 nm, C-band, p.6-7); same treatment as m1 / m2 of the row'
+  cmp_lit_beckerwerth2021_apd_inalas-m14:
+    wavelength_nm: 1550
+    wavelength_inferred: 'true'
+    notes: wavelength not stated with the value; design wavelength 1550 nm (p.2)
+    why: 'skill rule 8: no wavelength with the value, operating wavelength 1550 nm stated p.2 Sec. II (PIC: 1550 nm, C-band, p.6-7); same treatment as m1 / m2 of the row'
+  cmp_lit_beckerwerth2021_apd_inp-m8:
+    wavelength_nm: 1550
+    wavelength_inferred: 'true'
+    notes: wavelength not stated with the value; design wavelength 1550 nm (p.2)
+    why: 'skill rule 8: no wavelength with the value, operating wavelength 1550 nm stated p.2 Sec. II (PIC: 1550 nm, C-band, p.6-7); same treatment as m1 / m2 of the row'
+  cmp_lit_beckerwerth2021_apd_inalas-m13:
+    basis: author_estimate
+    method: unspecified
+    wavelength_nm: 1550
+    wavelength_inferred: 'true'
+    notes: differs from M = 12 at 50 uW (p.4), both as printed; stated as the input of the minimum-power arithmetic (170 uA / (0.5 x M) = 34 uW), origin not stated; wavelength not stated with the value; design wavelength 1550 nm (p.2)
+    why: 'p.5 Sec. III-C: the paragraph computes the minimum input from an assumed QE and this gain, with no gain measurement at 34 uW (Fig. 6 starts at 50 uW); skill rule 4'
+  cmp_lit_beckerwerth2021_balanced_apd_mmi_pic-m1:
+    notes: 'bias from the Fig. 11 label (9 V); Fig. 11 APD_p curves read about 0.25 A/W at 1550 nm, below the printed bound: printed value kept, flagged'
+    why: 'p.7 Fig. 11 render vs p.7 Sec. IV text; D422 / D417 practice: printed value stays, inconsistency noted'
+  cmp_lit_wang2025b_ultrathin_ge_lpin_pd-m9:
+    band: c_band
+    wavelength_inferred: 'true'
+    notes: read off the simulated curves at the chosen dimensions, reading uncertainty +/- 2 GHz; the figures do not state the held dimensions; simulation wavelength not stated; C-band from the device input and measurements (p.4)
+    why: 'skill rule 8: p.2 Fig. 1 states no wavelength; C-band grating coupler and Fig. 3(b) C-band data p.4'
+  cmp_lit_wang2025b_ultrathin_ge_lpin_pd-m10:
+    band: c_band
+    wavelength_inferred: 'true'
+    notes: wavelength not stated with the value; C-band from the modulator and grating coupler (p.4)
+    why: 'skill rule 8: p.4 Sec. 3 names a C-band modulator and p.4 Sec. 4A a C-band grating coupler for the eye measurements'
+  cmp_lit_bian2025_ge_pin_ultrafast-m3:
+    basis: author_estimate
+    notes: 'value above the 110 GHz LCA range: Fig. 2(c) data symbols stop near 110 GHz at about -2.7 dB, the solid fit crosses -3 dB beyond them (fit extrapolation, not a read measurement); wavelength from Table 1 (this work 1310 nm)'
+    why: 'p.1 Sec. 2 + p.2 Fig. 2(c) zoomed render: the -3 dB point lies beyond the instrument, so the number is an extrapolation; flory2020 m2 and steckler2025 w300 m6 precedents are author_estimate; see audit Q2'

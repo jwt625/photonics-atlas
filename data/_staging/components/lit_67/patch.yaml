@@ -1,0 +1,284 @@
+# Audit patch lit_67 (fresh-context audit 2026-11-02, DevLog/audits/2026-11-02-lit_67-audit.md).
+# 290 metrics: 270 ok / 20 imprecise / 0 wrong; 42 components: 42 ok (5 notes updates), 0 deleted; misses: 20 geometry rows added.
+# After the patch: 42 components, 310 metrics. Not covered here (coordinator rulings): audit Q1-Q4; missing orgs FBK and the
+# Munster Nanofabrication Facility (fab / facility stay empty until registered); registry gaps listed in the audit file.
+components:
+  cmp_lit_zhang2024b_fe_ring_ps:
+    notes: 'Fab: author contributions (p.10) name two NUS authors. Same lab and gate stack as lit:chen2022; Fig. 4(a), 4(b) and 5 here show the same curves as chen2022 Fig. 19, 10 and 12 with no attribution (D408: values kept, audit Q1); ring values are read at 1 V here, at 3 V in chen2022. All measurements with a 520 nm laser of about 5 mW on the ring and a TEC (p.4, p.10). Read: -5 V, 100 us pulse gives 90 % of the maximum peak shift (10 kHz writing speed, Fig. 2(d)); writing energy 5.05 nJ (Table 1); Pr 7.43 uC/cm2 (Fig. 2(c)); RBER between states up to 2.3e-2 optical, 5.9e-2 electrical: no registry parameters. Quality factors in the uncached supplement (Fig. S3).'
+    why: 'distiller question 5: p.5 Fig. 2, p.8 Fig. 4-5 renders compared with chen2022 p.2 Fig. 10, 12, 16, 19; the previous wording said only that values differ'
+  cmp_lit_zhang2024b_fe_ring_resonator:
+    notes: 'Fab: author contributions (p.10) name two NUS authors. Same lab and gate stack as lit:chen2022; Fig. 4(a), 4(b) and 5 here show the same curves as chen2022 Fig. 19, 10 and 12 with no attribution (D408: values kept, audit Q1); ring values are read at 1 V here, at 3 V in chen2022. All measurements with a 520 nm laser of about 5 mW on the ring and a TEC (p.4, p.10). Same physical device as cmp_lit_zhang2024b_fe_ring_ps. Resonance positions about 1528.2-1528.8 nm over the voltage sweep (Fig. 2(b)). Q values only in the uncached supplement.'
+    why: 'distiller question 5: p.5 Fig. 2, p.8 Fig. 4-5 renders compared with chen2022 p.2 Fig. 10, 12, 16, 19; the previous wording said only that values differ'
+  cmp_lit_zhang2024b_ito_hao_rib:
+    notes: 'Fab: author contributions (p.10) name two NUS authors. Same lab and gate stack as lit:chen2022; Fig. 4(a), 4(b) and 5 here show the same curves as chen2022 Fig. 19, 10 and 12 with no attribution (D408: values kept, audit Q1); ring values are read at 1 V here, at 3 V in chen2022. All measurements with a 520 nm laser of about 5 mW on the ring and a TEC (p.4, p.10). Excess loss of the gate stack over the bare rib; the bare rib loss itself is not printed.'
+    why: 'distiller question 5: p.5 Fig. 2, p.8 Fig. 4-5 renders compared with chen2022 p.2 Fig. 10, 12, 16, 19; the previous wording said only that values differ'
+  cmp_lit_chen2022_fe_soi_switch:
+    notes: 'Fabrication sentence is passive and names no org, so fab_org_ids is empty (D80b) although all authors are at NUS. Green laser illumination during measurement (Fig. 6). -5 V, 100 us pulse gives 90 % of the maximum peak shift (10 kHz writing speed, Fig. 18, Table 1): no registry parameter. Pr 8.11 uC/cm2 at 5 V (Fig. 8). Multi-level shown by sweep voltage (Fig. 15), no level count printed, n_levels not entered. Endurance and retention of Fig. 10-11 are on the MIS capacitor; retention of Fig. 19 on the switch. lit:zhang2024b Fig. 4 shows the same endurance and retention curves (audit Q1).'
+    why: cross-note, p.2 Fig. 10, 12, 19 against zhang2024b p.8 Fig. 4-5
+  cmp_lit_chen2022_ito_hao_wg:
+    notes: Fabrication sentence is passive and names no org, so fab_org_ids is empty (D80b) although all authors are at NUS. Green laser illumination during measurement (Fig. 6). Additional loss of the gate stack; bare rib loss not printed. lit:zhang2024b Fig. 5 shows the same stack-loss curve (audit Q1).
+    why: cross-note, p.2 Fig. 10, 12, 19 against zhang2024b p.8 Fig. 4-5
+metrics:
+  cmp_lit_iseghem2022_lc_wg400g250-m1:
+    wavelength_nm: 1552
+    wavelength_max_nm: 1558
+    wavelength_inferred: 'true'
+    notes: read +/- 0.02 pi; abstract (p.1) says almost 0.9 pi; Table 3 L_pi 57.88 um on 50 um gives the same 0.86 pi; wavelength span is the Fig. 11 axis (p.14), not printed with the value
+    why: 'rule 8: no wavelength printed with the value; the MZI spectra the phase is fitted to span 1552-1558 nm (p.14 Fig. 11 axis, render); siblings m2-m4 of the row carry a wavelength'
+  cmp_lit_iseghem2022_lc_wg450g250-m1:
+    wavelength_nm: 1552
+    wavelength_max_nm: 1558
+    wavelength_inferred: 'true'
+    notes: read +/- 0.02 pi; Table 3 L_pi 176.72 um on 50 um gives the same 0.28 pi; wavelength span is the Fig. 11 axis (p.14), not printed with the value
+    why: 'rule 8: no wavelength printed with the value; the MZI spectra the phase is fitted to span 1552-1558 nm (p.14 Fig. 11 axis, render); siblings m2-m4 of the row carry a wavelength'
+  cmp_lit_iseghem2022_lc_wg400g350-m1:
+    wavelength_nm: 1552
+    wavelength_max_nm: 1558
+    wavelength_inferred: 'true'
+    notes: read +/- 0.02 pi; Table 3 L_pi 126.25 um on 50 um gives the same 0.40 pi; wavelength span is the Fig. 11 axis (p.14), not printed with the value
+    why: 'rule 8: no wavelength printed with the value; the MZI spectra the phase is fitted to span 1552-1558 nm (p.14 Fig. 11 axis, render); siblings m2-m4 of the row carry a wavelength'
+  cmp_lit_chen2024b_sltps_mzi-m17:
+    basis: author_estimate
+    notes: 'printed range (p.1 Abstract only); origin of the 1.3 dB end not stated: smallest magnitude plotted in Fig. 8(c) about 1.9 dB at 1560 nm, the Fig. 8(c) trend line ends near 1.4 dB there; wavelength span is the slow-light range of Fig. 8, not printed with the value'
+    why: 'no arithmetic behind the printed range, so not derived; p.1 Abstract prints 1.3 to 4.4 dB, the p.9 Fig. 8(c) points reach only about 1.9 dB (render) and the 1.3 dB end has no stated origin: skill rule 4'
+  cmp_lit_grottke2020_mems_l250_del450-m1:
+    wavelength_nm: 1535
+    wavelength_max_nm: 1575
+    why: 'rule 8: p.8 Sec. 7 prints the 1535-1575 nm sweep for this device, the phase comes from its fringe positions (Fig. 6(a), (b))'
+  cmp_lit_grottke2020_mems_l250_del450-m2:
+    wavelength_nm: 1535
+    wavelength_max_nm: 1575
+    why: 'rule 8: p.8 Sec. 7 prints the 1535-1575 nm sweep for this device, the phase comes from its fringe positions (Fig. 6(a), (b))'
+  cmp_lit_grottke2020_mems_l250_del450-m7:
+    basis: design_target
+    locator: p.8 Sec. 7; Fig. 6(b), (c) legend
+    notes: printed 0.45 um in the text, 450 nm in the Fig. 6 legend
+    why: 'D256: the stored-unit form is printed, p.8 Fig. 6(b), (c) legend label 450 nm (render), so the row keeps design_target'
+  cmp_lit_grottke2020_bridge_wb1000-m3:
+    basis: derived
+    notes: printed 1 um
+    why: 'D256 / D157: p.6 Sec. 6 and p.5 Sec. 5 print 1 um, the Fig. 4(e) axis is in um; 1000 nm is not printed'
+  cmp_lit_limongi2026_tin_tops_810-m2:
+    statistic: mean
+    why: 'p.7 Sec. III-B2: cut-off read at the -3 dB point of the mean response of the 12 MZIs; same statistic as the p_pi and time-constant rows of this row'
+  cmp_lit_limongi2026_tin_tops_1550-m2:
+    statistic: mean
+    why: 'p.7 Sec. III-B2: cut-off read at the -3 dB point of the mean response of the 12 MZIs; same statistic as the p_pi and time-constant rows of this row'
+  cmp_lit_zhang2024b_fe_ring_ps-m3:
+    qualifier: ge
+    why: 'rule 7: p.8 text and Fig. 4(b) caption print 4e4 at 5 V as a minimum endurance'
+  cmp_lit_zhang2024b_fe_ring_ps-m4:
+    qualifier: gt
+    notes: printed as a minimum endurance (p.8), > 1e6 at 4 V in Table 1 (p.10)
+    why: 'rule 7: p.10 Table 1 prints > 1e6 at 4 V, p.8 prints it as a minimum endurance'
+  cmp_lit_zhang2024b_fe_ring_ps-m6:
+    basis: author_estimate
+    notes: printed more than 10 years (= 3.1536e8 s), 10 yrs (fit) in Table 1; extrapolation of a linear fit of the 1-1000 s data, not measured
+    why: 'skill rule 4: the result rests on extending a linear fit by more than five decades beyond the 1000 s span, and p.2 / p.8 call it estimated; a standard fit of own data (D80a) covers the data range only; D256a keeps author_estimate after the unit conversion. Audit Q2'
+  cmp_lit_chen2022_fe_soi_switch-m2:
+    qualifier: gt
+    locator: p.1 Sec. IV-A; p.2 Fig. 1, Fig. 10, Table 1
+    notes: printed > 4e4 (Fig. 1, Table 1) and as a minimum endurance (Fig. 10 caption)
+    why: 'rule 7: p.2 Fig. 1 and Table 1 print > 4e4 cycles at 5 V, the Fig. 10 caption a minimum endurance'
+  cmp_lit_chen2022_fe_soi_switch-m5:
+    basis: author_estimate
+    notes: printed larger than 10 years (= 3.1536e8 s); extrapolation of a linear fit of the 1-1000 s data, not measured
+    why: 'as zhang2024b fe_ring_ps-m6: p.2 Fig. 19 extends a linear fit of 1-1000 s data to 10 years; skill rule 4, D256a. Audit Q2'
+  cmp_lit_chen2022_fe_soi_ring-m1:
+    bias_v: 3
+    why: p.1 Sec. IV-B states the largest peak difference at 3 V; p.2 Fig. 15, 16 (renders); the zhang2024b row carries its read voltage in bias_v
+  cmp_lit_yan2017_graphene_z_20um-m7:
+    wavelength_nm: 1525
+    wavelength_max_nm: 1545
+    notes: wavelength not printed with the value; span is the pass-band of Fig. 2(c) left of the grey bandgap area (axis reading), not printed with the value
+    why: 'p.4 prints no span with the value and 1530-1540 nm is marked nowhere; p.4 Fig. 2(c) (render) shows the pass-band 1525-1545 nm left of the grey bandgap area, a traceable plot-axis span (schema: wavelength_inferred)'
+  cmp_lit_yan2017_graphene_z_20um-m8:
+    wavelength_nm: 1525
+    wavelength_max_nm: 1545
+    notes: origin not stated; wavelength not printed with the value; span is the pass-band of Fig. 2(c) left of the grey bandgap area (axis reading), not printed with the value
+    why: 'p.4 prints no span with the value and 1530-1540 nm is marked nowhere; p.4 Fig. 2(c) (render) shows the pass-band 1525-1545 nm left of the grey bandgap area, a traceable plot-axis span (schema: wavelength_inferred)'
+  cmp_lit_yan2017_graphene_z_20um-m9:
+    wavelength_nm: 1525
+    wavelength_max_nm: 1545
+    notes: wavelength not printed with the value; span is the pass-band of Fig. 2(c) left of the grey bandgap area (axis reading), not printed with the value
+    why: 'p.4 prints no span with the value and 1530-1540 nm is marked nowhere; p.4 Fig. 2(c) (render) shows the pass-band 1525-1545 nm left of the grey bandgap area, a traceable plot-axis span (schema: wavelength_inferred)'
+  cmp_lit_guo2024_fsgc_2350-m3:
+    basis: derived
+    notes: printed 2.35 um; peak of Fig. 7(a) consistent
+    why: 'D256: p.6 App. B prints 2.35 um as the centre wavelength; 2350 nm appears only as an axis tick of Fig. 7(a)'
+add_metrics:
+- metric_id: cmp_lit_iseghem2022_lc_wg400g250-m9
+  component_id: cmp_lit_iseghem2022_lc_wg400g250
+  parameter: width_nm
+  value: 220
+  unit: nm
+  basis: design_target
+  locator: p.3 Sec. 2.1
+  why: 'D153 miss: wrail 220 nm, stated for all devices (p.3 Sec. 2.1), held only in core_material'
+  condition: Si side-rail width wrail
+- metric_id: cmp_lit_iseghem2022_lc_wg450g250-m9
+  component_id: cmp_lit_iseghem2022_lc_wg450g250
+  parameter: width_nm
+  value: 220
+  unit: nm
+  basis: design_target
+  locator: p.3 Sec. 2.1
+  why: 'D153 miss: wrail 220 nm, stated for all devices (p.3 Sec. 2.1), held only in core_material'
+  condition: Si side-rail width wrail
+- metric_id: cmp_lit_iseghem2022_lc_wg400g350-m9
+  component_id: cmp_lit_iseghem2022_lc_wg400g350
+  parameter: width_nm
+  value: 220
+  unit: nm
+  basis: design_target
+  locator: p.3 Sec. 2.1
+  why: 'D153 miss: wrail 220 nm, stated for all devices (p.3 Sec. 2.1), held only in core_material'
+  condition: Si side-rail width wrail
+- metric_id: cmp_lit_grottke2020_bridge_wb100-m4
+  component_id: cmp_lit_grottke2020_bridge_wb100
+  parameter: width_nm
+  value: 425
+  unit: nm
+  basis: design_target
+  locator: p.6 Sec. 6; p.7 Fig. 4 caption
+  why: 'D153 miss: rail widths of the sweep (p.6 Sec. 6, 425 nm in the p.7 Fig. 4 caption) were only in the label; strip_slot rows carry them'
+  condition: rail width (both rails)
+- metric_id: cmp_lit_grottke2020_bridge_wb100-m5
+  component_id: cmp_lit_grottke2020_bridge_wb100
+  parameter: core_thickness_nm
+  value: 330
+  unit: nm
+  basis: design_target
+  locator: p.4 Sec. 4
+  why: 'D153 miss: Si3N4 330 nm (p.4 Sec. 4); the other test-structure rows of the sweep carry it'
+- metric_id: cmp_lit_grottke2020_bridge_wb1000-m5
+  component_id: cmp_lit_grottke2020_bridge_wb1000
+  parameter: width_nm
+  value: 425
+  unit: nm
+  basis: design_target
+  locator: p.6 Sec. 6; p.7 Fig. 4 caption
+  why: 'D153 miss: rail widths of the sweep (p.6 Sec. 6, 425 nm in the p.7 Fig. 4 caption) were only in the label; strip_slot rows carry them'
+  condition: rail width (both rails)
+- metric_id: cmp_lit_grottke2020_bridge_wb1000-m6
+  component_id: cmp_lit_grottke2020_bridge_wb1000
+  parameter: core_thickness_nm
+  value: 330
+  unit: nm
+  basis: design_target
+  locator: p.4 Sec. 4
+  why: 'D153 miss: Si3N4 330 nm (p.4 Sec. 4); the other test-structure rows of the sweep carry it'
+- metric_id: cmp_lit_grottke2020_bridge_wr2_325-m4
+  component_id: cmp_lit_grottke2020_bridge_wr2_325
+  parameter: width_nm
+  value: 425
+  unit: nm
+  basis: design_target
+  locator: p.6 Sec. 6
+  why: 'D153 miss: the swept rail width of this row (p.6 Sec. 6) was only in the label'
+  condition: rail width wr1
+- metric_id: cmp_lit_grottke2020_bridge_wr2_325-m5
+  component_id: cmp_lit_grottke2020_bridge_wr2_325
+  parameter: width_nm
+  value: 325
+  unit: nm
+  basis: design_target
+  locator: p.6 Sec. 6
+  why: 'D153 miss: as wr1 (p.6 Sec. 6)'
+  condition: rail width wr2
+- metric_id: cmp_lit_grottke2020_bridge_wr2_325-m6
+  component_id: cmp_lit_grottke2020_bridge_wr2_325
+  parameter: core_thickness_nm
+  value: 330
+  unit: nm
+  basis: design_target
+  locator: p.4 Sec. 4
+  why: 'D153 miss: Si3N4 330 nm (p.4 Sec. 4); the other test-structure rows of the sweep carry it'
+- metric_id: cmp_lit_grottke2020_bridge_wr2_600-m4
+  component_id: cmp_lit_grottke2020_bridge_wr2_600
+  parameter: width_nm
+  value: 425
+  unit: nm
+  basis: design_target
+  locator: p.6 Sec. 6
+  why: 'D153 miss: the swept rail width of this row (p.6 Sec. 6) was only in the label'
+  condition: rail width wr1
+- metric_id: cmp_lit_grottke2020_bridge_wr2_600-m5
+  component_id: cmp_lit_grottke2020_bridge_wr2_600
+  parameter: width_nm
+  value: 600
+  unit: nm
+  basis: design_target
+  locator: p.6 Sec. 6
+  why: 'D153 miss: as wr1 (p.6 Sec. 6)'
+  condition: rail width wr2
+- metric_id: cmp_lit_grottke2020_bridge_wr2_600-m6
+  component_id: cmp_lit_grottke2020_bridge_wr2_600
+  parameter: core_thickness_nm
+  value: 330
+  unit: nm
+  basis: design_target
+  locator: p.4 Sec. 4
+  why: 'D153 miss: Si3N4 330 nm (p.4 Sec. 4); the other test-structure rows of the sweep carry it'
+- metric_id: cmp_lit_grottke2020_bridge_wr1_325-m4
+  component_id: cmp_lit_grottke2020_bridge_wr1_325
+  parameter: width_nm
+  value: 325
+  unit: nm
+  basis: design_target
+  locator: p.6 Sec. 6
+  why: 'D153 miss: the swept rail width of this row (p.6 Sec. 6) was only in the label'
+  condition: rail width wr1
+- metric_id: cmp_lit_grottke2020_bridge_wr1_325-m5
+  component_id: cmp_lit_grottke2020_bridge_wr1_325
+  parameter: width_nm
+  value: 425
+  unit: nm
+  basis: design_target
+  locator: p.6 Sec. 6
+  why: 'D153 miss: as wr1 (p.6 Sec. 6)'
+  condition: rail width wr2
+- metric_id: cmp_lit_grottke2020_bridge_wr1_325-m6
+  component_id: cmp_lit_grottke2020_bridge_wr1_325
+  parameter: core_thickness_nm
+  value: 330
+  unit: nm
+  basis: design_target
+  locator: p.4 Sec. 4
+  why: 'D153 miss: Si3N4 330 nm (p.4 Sec. 4); the other test-structure rows of the sweep carry it'
+- metric_id: cmp_lit_grottke2020_bridge_wr1_600-m4
+  component_id: cmp_lit_grottke2020_bridge_wr1_600
+  parameter: width_nm
+  value: 600
+  unit: nm
+  basis: design_target
+  locator: p.6 Sec. 6
+  why: 'D153 miss: the swept rail width of this row (p.6 Sec. 6) was only in the label'
+  condition: rail width wr1
+- metric_id: cmp_lit_grottke2020_bridge_wr1_600-m5
+  component_id: cmp_lit_grottke2020_bridge_wr1_600
+  parameter: width_nm
+  value: 425
+  unit: nm
+  basis: design_target
+  locator: p.6 Sec. 6
+  why: 'D153 miss: as wr1 (p.6 Sec. 6)'
+  condition: rail width wr2
+- metric_id: cmp_lit_grottke2020_bridge_wr1_600-m6
+  component_id: cmp_lit_grottke2020_bridge_wr1_600
+  parameter: core_thickness_nm
+  value: 330
+  unit: nm
+  basis: design_target
+  locator: p.4 Sec. 4
+  why: 'D153 miss: Si3N4 330 nm (p.4 Sec. 4); the other test-structure rows of the sweep carry it'
+- metric_id: cmp_lit_yan2017_graphene_z_20um-m14
+  component_id: cmp_lit_yan2017_graphene_z_20um
+  parameter: heater_gap_um
+  value: 0.011
+  unit: um
+  basis: derived
+  locator: p.7 Methods
+  why: 'D153 miss: template dimension of heater_ps; 11 nm oxide under the graphene (p.7 Methods), held only in core_material'
+  condition: ALD Al2O3 layer between the Si membrane and the graphene heater
+  notes: printed 11 nm

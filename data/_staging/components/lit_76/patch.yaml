@@ -1,0 +1,83 @@
+# Audit patch lit_76 (fresh-context audit 2026-11-02, DevLog/audits/2026-11-02-lit_76-audit.md).
+# 81 metrics: 73 ok / 8 imprecise / 0 wrong; 11 components: 8 ok / 2 imprecise / 1 wrong (row_kind), 0 deleted; 2 misses added.
+# Coordinator questions on these ops: audit Q1 (khope2019 basis), Q2 (roy2026 fab), Q3 (row_kind).
+components:
+  cmp_lit_roy2026_mems_switch_cell:
+    fab_org_ids: org_aim_photonics;org_university_of_california_berkeley
+    notes: 'Unit cell of a modified crossbar 8x8 (3.5 mm x 1.8 mm, p.2): the full switch has no reported performance, so no row. Electrostatic SOI cantilever under Metal 2 (nominal 3 um gap), normally ON. Fab: taped out through the AIM MPW run (p.1); the authors post-processed the dies (resist, passivation removal, alumina, timed wet release, first-person account p.2-3; all authors UC Berkeley): fab AIM + UC Berkeley (adya2024, xiao2022, sattari2020 precedents). No registry parameter (gap): deflection about 700 nm at 35 V (Fig. 2(a)), pull-in about 40 V destroys the actuator (Fig. 4(b)); Fig. 4(a) repeatability over cycles (endurance_cycles not allowed for switch_fabric). About 1 us switching is a design projection (p.4), not entered. Supplementary sections cited in the text are not in the cached file. Processing done in part at Marvell Nanolab and Stanford Nanofabrication Facility (p.5).'
+    why: 'p.2-3: first-person post-processing ("we removed" passivation, release recipe) with all authors at UC Berkeley (p.1) and processing at the Berkeley Marvell Nanolab (p.5): D419 koyaz2026 and merged adya2024 / xiao2022 / sattari2020 keep the post-processing org next to the foundry. Note also moved the release locator from p.1 to p.2-3 (see audit Q2)'
+  cmp_lit_roy2026_adiabatic_coupler:
+    row_kind: fabricated
+    fab_org_ids: org_aim_photonics;org_university_of_california_berkeley
+    facility_org_ids: org_marvell_nanofabrication_laboratory;org_stanford_nanofabrication_facility
+    notes: Coupler pair of the unit cell, present on the fabricated chip (Fig. 1(c)); only a simulated value is reported, so row_kind fabricated with basis simulated (D80e). Cross-note cmp_lit_roy2026_mems_switch_cell for fab and facility.
+    why: 'D80e (DevLog-002): row_kind fabricated when the component exists on the fabricated chip even if only simulated values are reported; design only for parts not fabricated. p.2 Fig. 1(c) and p.3 place the couplers in the fabricated unit cell. No merged design row carries a fab org (0 of 82), 125 merged fabricated rows hold only simulated performance. Fab / facility follow the unit cell (see audit Q3)'
+  cmp_lit_rombouts2025_fiber_coupling:
+    core_material: InP monolithic active-passive platform
+    why: 'p.2 Sec. II-III: the facets couple to input and output waveguides; the MQW SOAs in the copied core_material are not part of this coupler'
+metrics:
+  cmp_lit_khope2019_switch_8x4-m4:
+    method: loss_breakdown
+    basis: author_estimate
+    notes: n = 64 rings (Fig. 4 heatmap of 8 x 4 x 2 cells). Printed as negative dB on the Fig. 4(a) scale. Paper says measured (p.3, p.8), but the on-chip value rests on the 13 dB test setup term, origin not stated. Whether the 1x2 output test splitters are in or out of the path loss is not stated.
+    why: 'p.8: on-chip loss is raw transmission minus a 13 dB setup and chip-to-fiber term of unstated origin; skill rule 4 (loss-budget term whose origin is not stated, basis by how the number was obtained, not the verb); D428 sun2025, D437 theurer2019 (see audit Q1)'
+  cmp_lit_khope2019_switch_8x4-m5:
+    notes: A constant setup term does not change the spread, so this row stays measured while the mean and range rows are author_estimate.
+    why: additive; records why m5 keeps measured next to m4 and m6 (p.8, audit Q1)
+  cmp_lit_khope2019_switch_8x4-m6:
+    method: loss_breakdown
+    basis: author_estimate
+    notes: Paper says measured (p.8), but the on-chip values rest on the 13 dB test setup term, origin not stated. Fig. 4(a) render agrees on the corners (lightest input 1 - output 1, darkest input 8 - output 4).
+    why: 'p.8, same term as m4; skill rule 4, D428, D437 (see audit Q1)'
+  cmp_lit_khope2019_unit_cell-m1:
+    notes: No wavelength with the value; C-band operating range stated on p.8. Printed only in the Abstract as measured, with no body statement and no state (through or drop). The body uses per-unit-cell loss for both rings off resonance (p.11 Sec. 4) and prints 0.3 + 0.3 + 4.7 dB (p.8), no formula to 0.8.
+    why: additive; p.1 and a body search for 0.8 dB, so a reader does not take it as the on-resonance cell loss
+  cmp_lit_khope2019_second_order_ring-m6:
+    basis: author_estimate
+    notes: Paper says measured (p.8), printed after the min and max path totals; formula not printed. Two path totals cannot fix three terms (crossing, through, drop), and the totals rest on the 13 dB setup term, origin not stated. Differs from the 1.9 dB of the Fig. 3(f) test arrangement; the paper does not reconcile them.
+    why: 'p.8: 6 and 14 dB give two numbers, the paper reports three, so an unstated input is needed; skill rule 4; merged loss_breakdown rows are author_estimate 121, derived 92, measured 2 (see audit Q1)'
+  cmp_lit_khope2019_second_order_ring-m8:
+    basis: author_estimate
+    notes: Paper says measured (p.8, p.11), printed after the min and max path totals; formula not printed. Two path totals cannot fix three terms (crossing, through, drop). Differs from the 0.17 dB of the 10 / 20 / 40 ring series; the paper does not reconcile them.
+    why: 'p.8, p.11: same extraction as m6; skill rule 4 (see audit Q1)'
+  cmp_lit_khope2019_wg_crossing-m1:
+    basis: author_estimate
+    notes: Paper says measured (p.8), printed after the min and max path totals; formula not printed. Two path totals cannot fix three terms (crossing, through, drop).
+    why: 'p.8: same extraction as second_order_ring m6; skill rule 4 (see audit Q1)'
+  cmp_lit_barazani2023_mems_switch_1x4-m11:
+    notes: 'Printed as smaller than -35 dB; equipment noise floor -75 dB. Measured for the 1 to 1 configuration only. Noise-limited bound, kept as printed (D417): on the Fig. 17 render Port 1 ON is about -50 dB at 1520 nm and about -37 dB at 1600 nm, OFF ports near -78 dB and Port 2 near -71 dB at 1610 nm, so the plotted span is about 28-34 dB at the band ends (by-eye reading, +/- 2 dB).'
+    why: 'p.11 Fig. 17 render: the row reads as a bound over the whole 1520-1620 nm, the curves do not reach 35 dB at the band ends; the paper states the value as an average (p.10)'
+  cmp_lit_rombouts2025_switch_8x8-m2:
+    notes: 'What the two ends represent is not stated; Fig. 3(b) plots paths up to the value of the worst-path row. On the Fig. 3(b) render the best path i7o6 is near 10 dB and 17 equals the printed average, so this is not a min-max span of all paths (by-eye reading).'
+    why: additive; p.3 Fig. 3(b) render, p.7 Table I
+  cmp_lit_rombouts2025_switch_path_soa-m2:
+    wavelength_inferred: 'true'
+    notes: Printed 'peaks at about 9 dB' with no wavelength; Fig. 3(a) shows this as the spectral minimum, axis 1270-1330 nm (lowest point near 1300 nm, about 8.9 dB at 50 mA and 9.4 dB at 120 mA, by-eye). The sentence names no gate current. Band from the O-band laser (p.2).
+    why: 'skill rule 8: no wavelength in the sentence (p.2), band from the operating range; p.3 Fig. 3(a) render'
+  cmp_lit_roy2026_mems_switch_cell-m2:
+    notes: No wavelength with the value; C-band operation stated on p.3. Printed bound kept (D417); caption prints 30 dB. On the render the Fig. 3(a) curve ends near -28.5 dB at 32 V and Fig. 4(a) near -30 dB (by-eye reading).
+    why: 'p.3 Fig. 3(a) and Fig. 4(a) renders: more than 30 dB is not reached on the Fig. 3(a) curve at the stated voltage'
+  cmp_lit_roy2026_mems_switch_cell-m3:
+    notes: Printed 'on the order of' 600 microseconds; attributed to squeeze-film damping in air. Fig. 5(a) zoom is the OFF to ON transition (drive falling, transmission rising); the paper does not give a separate value for the other direction. Shaped drive gives a modest speed-up without a number (Fig. 5(c)).
+    why: additive; p.4 Fig. 5(a) render ties the value to one switching direction
+add_metrics:
+- metric_id: cmp_lit_khope2019_second_order_ring-m19
+  component_id: cmp_lit_khope2019_second_order_ring
+  parameter: tuning_power_mw
+  value: 32.5
+  unit: mW
+  condition: average power per ring, on the expected one-FSR tuning range
+  basis: author_estimate
+  locator: p.7 Sec. 3
+  notes: Half of the calculated 65 mW per FSR; measured range was at most 11 nm of 25.6 nm.
+  why: 'miss: p.7 states 32.5 mW average per ring and per path; it was only in the m7 condition of the switch row, and m16-m18 hold the other tuning powers'
+- metric_id: cmp_lit_khope2019_second_order_ring-m20
+  component_id: cmp_lit_khope2019_second_order_ring
+  parameter: channel_spacing_ghz
+  value: 400
+  unit: GHz
+  condition: test channels at 1537.7 and 1540.9 nm; also printed as 3.2 nm
+  method: direct
+  basis: measured
+  locator: p.6-7 Sec. 3, Fig. 3(a)-(e)
+  why: 'miss: p.6-7 state 400 GHz / 3.2 nm channel spacing of the unit-cell filter measurements; channel_spacing_ghz is allowed on wdm (merged rows mostly measured); the 21 and 32 dB rows are tied to this grid'

@@ -63,7 +63,8 @@ per-paper report. Read before first use: `data/schema/components.schema.yaml` (c
    band with `wavelength_inferred: true` and the reason in notes; when nothing is stated, `band: unspecified` + note.
 9. Row granularity: one component row per physical design; operating points are metric conditions; a sibling design
    (different length) is a new row. Every component row needs at least one performance metric: geometry-only items
-   are not rows (mention them in the report). Simulated or design-only components: `row_kind: design`.
+   are not rows (mention them in the report). Design-only components: `row_kind: design`; a component that exists on the paper's fabricated chip stays
+   `fabricated` even if only simulated values are reported for it (D80e).
 10. Classes: on-chip inter-layer / inter-material transitions (Si-SiN, SiN-BTO, Si-TFLN couplers, monolithic or bonded
     on the same chip) are `waveguide_platform.transition` with `transition_loss_db`; `chip_chip_coupler` is between
     separate dies (laser-to-PIC butt, die-to-wafer, photonic wire bond). A ring used as a channel filter is
@@ -135,6 +136,8 @@ per-paper report. Read before first use: `data/schema/components.schema.yaml` (c
   `switch_fabric`, platform `other`); D422 / D423 a platform the paper does not state is left empty, never defaulted;
   D259 / D408 also cover a figure or value the paper assigns to another (even forthcoming) paper of the authors; D398 MPW access providers named for fabrication support are fab orgs; D395 / D399 fab = the org of the
   authors the fabrication sentence names.
+- D435: a value from a fit extended beyond the range of its own data (bandwidth fitted past the instrument limit,
+  retention extrapolated to 10 years) is `author_estimate`; a fit inside the data range stays `measured` (D80a).
 - Figure-labelled dimensions only (`extracted_from_figure`), never scale-bar measurements; figure-read performance
   values `extracted_from_figure` with the reading uncertainty in notes.
 - Report: write `<batch>/BATCH_REPORT.md` yourself (D392): per paper components / metric rows, values not entered and

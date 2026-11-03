@@ -1,0 +1,203 @@
+# Audit patch lit_62 (fresh-context audit 2026-11-02, DevLog/audits/2026-11-02-lit_62-audit.md).
+# 163 metrics: 150 ok / 13 imprecise / 0 wrong; 31 components: 27 ok / 4 imprecise (kazama2021 fab) / 0 wrong; 0 deleted.
+# Misses: 1 component and 7 metrics added (zeng2026 6.6 mm device 3, cavity length 1, Si3N4 stack 2; ahmadi2022 12.7 dB 1).
+# After the patch: 32 components, 170 metrics. Open coordinator questions: see the audit file.
+components:
+  cmp_lit_kazama2021_ppln_opa_module:
+    fab_org_ids: org_ntt
+    notes: 'Module: 45 mm waveguide, four dichroic mirrors, six lenses, four pigtails (p.5 Fig. 2). SH pump 1.3 W from module
+      PPLN-4 at 2.6 W input (p.7): not entered as a conversion row because PPLN-4 is not stated to be this waveguide (D159).
+      Idler generator PPLN-1: signal and idler gain about 7.5 and 6.9 dB at 0.5 W SH pump (p.6): same reason, not entered.
+      Calculated NF degradation 0.8 dB PSA / 3.8 dB PIA (p.8) and receiver sensitivity gains 3.2 and 2.8 dB (p.10): no separate
+      row. Handling limited by the fiber at the SH wavelength, not the waveguide (p.7). Waveguide: cmp_lit_kazama2021_ppzn_ridge_wg;
+      SHG view: cmp_lit_kazama2021_ppln_shg; facet: cmp_lit_kazama2021_ssc_facet (D396). Fab: first-person statement that
+      the authors formed the SSC taper at the waveguide ends (p.3 Sec. 2) and reference to their own development of the fabrication
+      process (p.2 Sec. 1); all authors in NTT Corporation laboratories (p.1): org_ntt (D80b, D84a, D154).'
+    why: 'p.3 Sec. 2 first-person taper statement (few words: we formed) and p.2 Sec. 1 own fabrication process go beyond
+      the ''we developed'' wording the distiller read; all authors NTT Corporation (p.1); D80b, D84a, D154; umeki2010 and
+      goh2001 precedents; audit Q2'
+  cmp_lit_kazama2021_ppln_shg:
+    fab_org_ids: org_ntt
+    notes: 'SHG view of the waveguide in cmp_lit_kazama2021_ppln_opa_module (D396). Fitted effective length 42 mm vs 43 mm
+      QPM (p.4). Fab: first-person statement that the authors formed the SSC taper at the waveguide ends (p.3 Sec. 2) and
+      reference to their own development of the fabrication process (p.2 Sec. 1); all authors in NTT Corporation laboratories
+      (p.1): org_ntt (D80b, D84a, D154).'
+    why: 'p.3 Sec. 2 first-person taper statement (few words: we formed) and p.2 Sec. 1 own fabrication process go beyond
+      the ''we developed'' wording the distiller read; all authors NTT Corporation (p.1); D80b, D84a, D154; umeki2010 and
+      goh2001 precedents; audit Q2'
+  cmp_lit_kazama2021_ppzn_ridge_wg:
+    fab_org_ids: org_ntt
+    notes: 'Platform other (umeki2010 precedent, same material system). Fiber core 9 um in the butt-coupled loss split (p.3-4).
+      Fab: first-person statement that the authors formed the SSC taper at the waveguide ends (p.3 Sec. 2) and reference to
+      their own development of the fabrication process (p.2 Sec. 1); all authors in NTT Corporation laboratories (p.1): org_ntt
+      (D80b, D84a, D154).'
+    why: 'p.3 Sec. 2 first-person taper statement (few words: we formed) and p.2 Sec. 1 own fabrication process go beyond
+      the ''we developed'' wording the distiller read; all authors NTT Corporation (p.1); D80b, D84a, D154; umeki2010 and
+      goh2001 precedents; audit Q2'
+  cmp_lit_kazama2021_ssc_facet:
+    fab_org_ids: org_ntt
+    notes: 'Facet of cmp_lit_kazama2021_ppzn_ridge_wg. The two-lens + dichroic path is inside the module (p.5). Fig. 1(c)
+      panel label prints 776.65 nm, text 776.5 nm. Fab: first-person statement that the authors formed the SSC taper at the
+      waveguide ends (p.3 Sec. 2) and reference to their own development of the fabrication process (p.2 Sec. 1); all authors
+      in NTT Corporation laboratories (p.1): org_ntt (D80b, D84a, D154).'
+    why: 'p.3 Sec. 2 first-person taper statement (few words: we formed) and p.2 Sec. 1 own fabrication process go beyond
+      the ''we developed'' wording the distiller read; all authors NTT Corporation (p.1); D80b, D84a, D154; umeki2010 and
+      goh2001 precedents; audit Q2'
+metrics:
+  cmp_lit_zeng2026_yb_alox_amp_55mm-m5:
+    wavelength_inferred: ''
+    notes: 'Wavelength stated: pulse center 1050 nm (p.6) and Table S2 WL column with the 18.9 dB (p.22 render). On-chip pulse
+      power from calibrated spectra minus 1.0 dB facet loss (p.14, D166).'
+    why: p.22 render prints WL 1050 nm in the row of the 18.9 dB on-chip gain, so the wavelength is stated, not inferred (D393)
+  cmp_lit_zeng2026_yb_alox_3d_inverse_taper-m1:
+    notes: 'Cutback fit; used for all on-chip conversions, including 1030 nm; symmetric facets assumed (see p.20). Text word:
+      estimated (p.16).'
+    why: 'skill rule 4: quote the paper''s word when a test-structure value is kept measured (p.16 Sec. S2.1)'
+  cmp_lit_zeng2026_yb_alox_dfb-m1:
+    wavelength_nm: 1019.8
+    why: p.19 Sec. S2.4 and Fig. S10(c) caption state the 8.7 mW at 1019.8 nm; column was empty
+  cmp_lit_zhao2026_ppln_shg_1p2cm-m2:
+    locator: p.11 Sec. 2.4, p.21 Fig. 5(b)(d); p.2 Abstract
+    notes: 'Abstract and conclusion round to 64 %; the abstract states the 1525 nm pump with that value (p.2). Fig. 5(d) SH
+      peak sits near 765 nm, not 762.5 nm: printed wavelength kept, conflict flagged.'
+    why: note said the high-power pump wavelength is not printed; the abstract sentence (p.2) ties 1525 nm to the 64 % value
+  cmp_lit_zhao2026_ppln_shg_1p2cm-m3:
+    wavelength_inferred: 'true'
+    notes: No wavelength printed for this point (p.11); 1525 nm = device pump from the abstract (p.2). Fig. 5(c) SH peak near
+      765 nm; see m2.
+    why: the 50.93 mW point has no stated wavelength and its render peak does not sit at 762.5 nm; schema wavelength_inferred,
+      skill rule 8
+  cmp_lit_yan2020_mzi_circulator_tm-m2:
+    wavelength_nm: 1555
+    polarization: tm
+    why: p.8 Sec. 3 states 1555 nm for the TM circulator crosstalk; held only in condition text
+  cmp_lit_yan2020_mzi_circulator_tm-m3:
+    wavelength_nm: 1555
+    polarization: tm
+    why: 'p.9 Table 1 header (render): TM @ 1555 nm; held only in condition text'
+  cmp_lit_yan2020_mzi_circulator_te-m2:
+    wavelength_nm: 1558
+    polarization: te
+    why: p.8 Sec. 3 states 1558 nm for the TE circulator crosstalk; held only in condition text
+  cmp_lit_yan2020_mzi_circulator_te-m3:
+    wavelength_nm: 1558
+    polarization: te
+    why: 'p.9 Table 1 header (render): TE @ 1558 nm; held only in condition text'
+  cmp_lit_kazama2021_ppln_opa_module-m9:
+    wavelength_inferred: 'true'
+    notes: Span of the average not printed with the value; 1530-1567 nm is the electrical NF data range (p.8-9).
+    why: p.9 sentence gives the average without a wavelength span; span taken from the electrical data range, so inferred
+      (skill rule 8)
+  cmp_lit_kazama2021_ppln_opa_module-m10:
+    wavelength_inferred: 'true'
+    notes: Span of the average not printed with the value; 1530-1567 nm is the electrical NF data range (p.8-9).
+    why: as m9
+  cmp_lit_kazama2021_ppzn_ridge_wg-m2:
+    qualifier: approx
+    notes: Printed about 1.0 dB (whole 45 mm waveguide including the 1 mm tapers); 1.0 / 4.5 cm. Rests on a calculated coupling
+      loss (D256a).
+    why: p.4 prints about 1.0 dB; the bound was dropped (skill rule 7)
+  cmp_lit_ahmadi2022_si_raman_amp_1p2cm-m5:
+    basis: author_estimate
+    notes: Arrow read near 19.2 dBm, +/- 0.2 dBm; dBm -> mW. Read off a plot of calculated net gain, so the origin basis stays
+      (D80a analogue).
+    why: 'Fig. 3(c) plots calculated net gain (p.4 caption); m3 and m4 of this row are author_estimate; D80a: values read
+      off calculated curves keep the origin basis'
+add_components:
+- component_id: cmp_lit_zeng2026_yb_alox_amp_6p6mm
+  source_id: lit:zeng2026
+  class: amplifier.rare_earth
+  label: 6.6 mm Yb:AlOx waveguide amplifier, short device (saturated active gain, saturated insertion loss)
+  row_kind: fabricated
+  platform: al2o3
+  core_material: Yb:AlOx (RF magnetron co-sputtered, Yb 6.8e20 /cm3 = 0.76 at.%, RBS), 1.08 um thick, 1.50 um wide
+  cladding: 'SiO2: 5 um deposited and annealed top, 4 um wet thermal oxide bottom'
+  facility_org_ids: org_center_for_nanoscale_systems
+  process_name: co-sputtered film, e-beam lithography, Cl-based RIE, oxide top cladding, 725 C anneal
+  tags: ytterbium;short_device
+  verified_on: '2026-11-02'
+  notes: 'Sibling length of cmp_lit_zeng2026_yb_alox_amp_55mm (skill rule 9). Also used for the pump absorption and the luminescence
+    lifetime (p.12, p.18; no parameter). Facility: alumina and silicon nitride devices made in the Harvard CNS and MIT.nano
+    cleanrooms (p.7 Acknowledgments); MIT.nano is not in the registry (see report). Paper names no fabricating org: fab empty.'
+  why: 'miss: the measured 6.2 dB/cm active gain and the 2.1 dB saturated insertion loss belong to the 6.6 mm device (p.12
+    Sec. S1.1, p.16 Sec. S2.1), which had no row; skill rule 9; audit Q4'
+add_metrics:
+- metric_id: cmp_lit_zeng2026_yb_alox_amp_6p6mm-m1
+  component_id: cmp_lit_zeng2026_yb_alox_amp_6p6mm
+  parameter: gain_db_per_cm
+  value: 6.2
+  unit: dB/cm
+  basis: measured
+  locator: p.12 Sec. S1.1
+  band: nir_below_o
+  wavelength_inferred: 'true'
+  condition: saturated active gain, small-signal and high-pump regime
+  notes: No wavelength printed with the value; band from the stated 1010-1090 nm Yb gain band (p.1, p.2; skill rule 8).
+  why: 'miss: stated measured performance; input of the emission cross-section extraction'
+- metric_id: cmp_lit_zeng2026_yb_alox_amp_6p6mm-m2
+  component_id: cmp_lit_zeng2026_yb_alox_amp_6p6mm
+  parameter: insertion_loss_db
+  value: 2.1
+  unit: dB
+  basis: measured
+  locator: p.16 Sec. S2.1, Fig. S6(a)
+  wavelength_nm: 1060
+  scope: fiber_to_fiber
+  includes: two facets
+  condition: absorption saturated with a YDFA; bottom taper widths 807 and 853 nm, identical value
+  method: direct
+  why: 'miss: the distiller kept this only as a note on the taper row because the taper widths differ; both widths printed
+    the same value, and the row states them'
+- metric_id: cmp_lit_zeng2026_yb_alox_amp_6p6mm-m3
+  component_id: cmp_lit_zeng2026_yb_alox_amp_6p6mm
+  parameter: length_um
+  value: 6600
+  unit: um
+  basis: derived
+  locator: p.16 Sec. S2.1; p.12 Sec. S1.1
+  notes: printed 6.6 mm
+  why: geometry of the new row (D153)
+- metric_id: cmp_lit_zeng2026_yb_alox_dfb_cavity-m2
+  component_id: cmp_lit_zeng2026_yb_alox_dfb_cavity
+  parameter: length_um
+  value: 60
+  unit: um
+  basis: design_target
+  locator: p.19 Sec. S2.4
+  condition: cavity between the two Bragg gratings
+  why: 'miss: D153 geometry, cavity length printed; row had only the Q'
+- metric_id: cmp_lit_zeng2026_si3n4_sc_facet_taper-m5
+  component_id: cmp_lit_zeng2026_si3n4_sc_facet_taper
+  parameter: box_thickness_um
+  value: 4
+  unit: um
+  basis: design_target
+  locator: p.13 Sec. S1.2
+  condition: wet thermal oxide
+  why: 'miss: D153 geometry, stated for the Si3N4 waveguides; held only in the cladding text'
+- metric_id: cmp_lit_zeng2026_si3n4_sc_facet_taper-m6
+  component_id: cmp_lit_zeng2026_si3n4_sc_facet_taper
+  parameter: cladding_thickness_um
+  value: 2
+  unit: um
+  basis: design_target
+  locator: p.13 Sec. S1.2
+  condition: LPCVD oxide
+  why: 'miss: D153 geometry, stated for the Si3N4 waveguides; held only in the cladding text'
+- metric_id: cmp_lit_ahmadi2022_si_raman_amp_3p25cm-m13
+  component_id: cmp_lit_ahmadi2022_si_raman_amp_3p25cm
+  parameter: insertion_loss_db
+  value: 12.7
+  unit: dB
+  basis: measured
+  locator: p.7 App. A
+  qualifier: approx
+  wavelength_nm: 1532
+  polarization: te
+  scope: fiber_to_fiber
+  includes: two edge couplers and the 3.25 cm waveguide
+  condition: lensed fibers; about 13 dBm in, about 0.3 dBm out; nonlinear loss 0.05 dB by the authors' calculation
+  method: direct
+  notes: 'The split into 4.6 dB per facet rests on the 1.1 dB/cm attributed to [14]: not entered (component notes).'
+  why: 'miss: own measured fiber-to-fiber total, independent of the 1.1 dB/cm split that keeps the per-facet value out (audit
+    Q1)'

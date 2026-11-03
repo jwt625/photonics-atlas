@@ -1,0 +1,84 @@
+# Audit patch lit_64 (fresh-context audit 2026-11-02, DevLog/audits/2026-11-02-lit_64-audit.md).
+# 246 metrics: 228 ok / 18 imprecise / 0 wrong; 40 components: 38 ok / 2 imprecise (notes or core_material only), 0 deleted;
+# misses: 1 metric added (lihachev2022 measured transduction peak near 900 kHz).
+# Not covered here (coordinator rulings, see audit questions): lihachev2022 25 Hz / SMSR stay out; wang2026f derived thresholds kept;
+# zhang2025c fab empty; missing orgs and registry gaps listed in the audit file.
+components:
+  cmp_lit_thiessen2020_grating_coupler:
+    core_material: c-Si (Fig. 1(a) places the GC in the c-Si layer)
+    why: 'platform soi rests on the p.3 Fig. 1(a) render (GC drawn in the same c-Si layer as the DBRs) and on 300 mm SOI wafers (p.5 Sec. 3); the text never names the GC layer, so the evidence is recorded (D423: a platform must not be defaulted)'
+  cmp_lit_wang2026f_qd_fp_15x3000:
+    notes: 'Fab: Y.W. and J.-S.P. fabricated the devices (author contributions, p.10; both at UCL, D395); MOCVD regrowth by co-authors at Cardiff University is a note. Pulsed drive 1 us, 1 % duty; as-cleaved facets; RT not given as a number in the main text, but the 20 C points of Fig. 5(c) (p.7, near 590 A/cm2) and Fig. 6(b) (p.8, 2.0184 um) coincide with the RT values, so temperature_k stays empty. Registry gaps (values not entered): Jth 589 A/cm2 at RT, 118 A/cm2 per layer, Jtr 367.7 A/cm2, 73.5 per layer, internal loss about 6.7 /cm, internal efficiency 60 %, differential gain 8.05e-15 cm2 (cited lifetime input), maximum operating temperature 50 C. Lasing FWHM 7.4 nm at 290 mA is a multimode envelope (D250, not entered). Wet-etched shallow ridge.'
+    why: 'p.7 Fig. 5(c) and p.8 Fig. 6(b) renders: records the evidence behind the empty temperature_k (distiller judgment 10); the value itself is not printed, no temperature entered'
+metrics:
+  cmp_lit_thiessen2020_dm_l25-m4:
+    locator: p.7 Sec. 3.2; p.8 Fig. 6(d); p.9 Table 1
+    why: 'Fig. 6 is on p.8 (render); the former locator read as Fig. 6(d) on p.9'
+  cmp_lit_thiessen2020_dm_l50-m4:
+    condition: minimum Lorentzian component of a Voigt fit, delayed self-heterodyne (25.3 km delay); I = 5.4 x Ith
+    locator: p.2 Sec. 1; p.7 Sec. 3.2; p.8 Fig. 6(d); p.9 Table 1
+    why: 'p.2 Sec. 1 prints the operating point of this minimum (I = 5.4 x Ith); Fig. 6 is on p.8 (render)'
+  cmp_lit_thiessen2020_dm_h25-m4:
+    locator: p.7 Sec. 3.2; p.8 Fig. 6(d); p.9 Table 1
+    why: 'Fig. 6 is on p.8 (render); the former locator read as Fig. 6(d) on p.9'
+  cmp_lit_thiessen2020_dm_h50-m4:
+    locator: p.7 Sec. 3.2; p.8 Fig. 6(d); p.9 Table 1
+    why: 'Fig. 6 is on p.8 (render); the former locator read as Fig. 6(d) on p.9'
+  cmp_lit_thiessen2020_dm_l25-m5:
+    condition: by about 3 x threshold; OSA
+    why: 'p.5 Sec. 3.1 ties the 0.03 nm RBW to Fig. 5, which shows only FP H, DM H25 and DM H50; Fig. 4 (all devices) has 0.2 nm; the RBW behind the >= 57 dB of the low-reflectivity devices is not stated'
+  cmp_lit_thiessen2020_dm_l50-m5:
+    condition: by about 3 x threshold; OSA
+    why: 'as dm_l25-m5: the 0.03 nm RBW is stated only for the high-reflectivity devices of Fig. 5 (p.5 Sec. 3.1)'
+  cmp_lit_kharas2020_scowecl_single-m1:
+    locator: p.7 Sec. 3.1, Fig. 5(a); p.2 Abstract
+    why: 'text.md p.1 is the cover page (title and authors); the abstract is on p.2 (skill rule 14)'
+  cmp_lit_kharas2020_scowecl_single-m4:
+    locator: p.7 Sec. 3.1, Fig. 5(a); p.2 Abstract
+    why: 'abstract on text.md p.2, not p.1'
+  cmp_lit_kharas2020_scowecl_4ch-m1:
+    locator: p.7 Sec. 3.1, Fig. 5(b); p.2 Abstract
+    why: 'abstract on text.md p.2, not p.1'
+  cmp_lit_kharas2020_scowecl_4ch-m3:
+    locator: p.2 Abstract
+    why: 'abstract on text.md p.2, not p.1'
+  cmp_lit_kharas2020_scowecl_4ch-m4:
+    locator: p.2 Abstract; p.9 Fig. 6(b) caption
+    why: 'abstract on text.md p.2, not p.1'
+  cmp_lit_kharas2020_scowa_sin_coupler-m1:
+    locator: p.9 Sec. 3.2; p.2 Abstract; p.13 Sec. 4
+    why: 'abstract on text.md p.2, not p.1'
+  cmp_lit_lihachev2022_sil_190ghz-m6:
+    qualifier: le
+    why: 'p.2 prints "up to 2.1 GHz" twice (locking range and the tuning range it corresponds to); skill rule 7: up to -> le'
+  cmp_lit_lihachev2022_aln_actuator_dual_apodized-m1:
+    basis: derived
+    notes: 'Printed 1.69 MHz in the text and in the Fig. 3(e) label; MHz -> kHz (D256).'
+    why: 'D256: the source prints this frequency only in MHz (p.6 text; p.5 render, Fig. 3(e) label and caption), so the kHz row is a unit conversion'
+  cmp_lit_lihachev2022_dfb_chip-m1:
+    basis: author_estimate
+    notes: 'Stated once in the system description; no measurement of the free-running chip power is shown or described in the main text (origin not stated).'
+    why: 'p.2 Hybrid system: "up to 120 mW" for a chip supplied by others (p.10), no curve or method; D76: a performance value of unstated design / measured origin is author_estimate (same call as the FSR rows of this batch)'
+  cmp_lit_zhang2025c_tunable_ring_laser-m1:
+    wavelength_inferred: 'true'
+    notes: 'Collection path (AR lensed fiber) in Sec. 3; reference plane not stated. Wavelength not stated with the power: 1544.9 nm is the state of Fig. 5(a), described next in the same paragraph at the same 200 mA.'
+    why: 'p.6 Sec. 4.1 prints 4.15 mW before and without the wavelength; skill rule 8'
+  cmp_lit_zhang2025c_grating_antenna-m1:
+    statistic: best
+    locator: p.6 Sec. 4.2; p.7 Fig. 6; p.1 Abstract; p.2 Sec. 1
+    why: 'p.1 "as low as 0.044", p.2 "down to 0.044"; skill rule 7: as low as -> statistic best'
+  cmp_lit_zhang2025c_grating_antenna-m17:
+    locator: p.2 Sec. 2; p.3 Fig. 1(b) label
+    why: 'Fig. 1 is on p.3 (render); the 10 um text is on p.2'
+add_metrics:
+  - metric_id: cmp_lit_lihachev2022_aln_actuator_single-m3
+    component_id: cmp_lit_lihachev2022_aln_actuator_single
+    parameter: mech_resonance_khz
+    value: 900
+    unit: kHz
+    qualifier: approx
+    condition: peak of the piezo-voltage to laser-frequency transduction, 190.7 GHz SIL laser, harmonics of 10-800 kHz ramps
+    basis: measured
+    locator: p.4 Frequency-agile tuning; p.5 Fig. 3(c)
+    notes: 'Measured counterpart of the FEM chip mode in m2; the paper calls it the first mechanical mode of the chip, while Fig. 3(e) also labels 225 and 490 kHz modes.'
+    why: 'miss: the only measured chip resonance of the single-actuator chip stood in notes while the simulated 967 kHz was entered as m2; p.4 prints the peak around 900 kHz from the own data of Fig. 3(c)-(d)'

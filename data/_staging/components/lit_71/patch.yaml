@@ -1,0 +1,120 @@
+# Audit patch lit_71 (fresh-context audit 2026-11-02, DevLog/audits/2026-11-02-lit_71-audit.md).
+# 135 metrics: 124 ok / 11 imprecise / 0 wrong; 16 components: 15 ok / 1 imprecise (notes), 0 deleted; 5 misses added.
+# Not covered here (coordinator rulings): moralesalvarado2026 slab rows kept (audit Q2); registry gaps in the audit file.
+components:
+  cmp_lit_moralesalvarado2026_y_branch_5pct:
+    notes: 'Rib-type multimode waveguide with a staircase top surface (SEM Fig. 6). Junction angle 9.4 deg between arms (p.5; Fig. 3 label reads about 4.75 deg on the render, blurred, so 2 x 4.75 = 9.5 against the printed 9.4; no splitter parameter). Sections labelled in Fig. 3: 1.50, 12.75, 1.50 (mm); whole structure 10 x 5 x 30 mm (p.5; whether the 5 mm includes the 1 mm core is not stated, so no box_thickness_um row). Coupled through a 10x objective (designed beam 1 mm). Rq: input face 1.02 um, output faces average 0.44 um, core top 6.38 um, core side 9.20 um (p.13 Sec. 5.4; no parameter). Simulated transmission 95 % and effective index 1.4920 at both ends not entered (p.7-8). Fab / facility: fabrication sentences are passive and authors span several orgs: fab empty. UTFPR-CT Multiuser Photonics Laboratory (Multi-Foton) thanked for infrastructure availability (p.15): org missing from the registry, see report.'
+    why: 'p.5 render, Fig. 3: the label is about 4.75 deg, not 4.7; p.5 Sec. 3 gives 10 x 5 x 30 mm for the structure shown in Fig. 3, not for the substrate alone'
+  cmp_lit_moralesalvarado2026_slab_5pct:
+    notes: 'Bulk attenuation of the printed blend, measured through polished printed slabs (4, 6, 8, 10 mm thick) with the splitter setup: an unguided beam, not a waveguide mode; the paper calls it propagation loss. Each point mean of five measurements, sigma max 0.005 mW. Abstract pairs 5 % / 10 % with 0.022 / 0.025 dB/mm ''respectively'', the reverse of Sec. 5.3 and Fig. 9: Sec. 5.3 / Fig. 9 used. Conclusion (p.14) gives the whole -0.022 to -0.043 dB/mm range for 5 % slabs, also against Sec. 5.3 / Fig. 9; Sec. 5.2 (p.11) uses 0.025-0.043 for the 5 % blend, consistent with Sec. 5.3.'
+    why: 'p.14 Sec. 6 and p.11 Sec. 5.2: a third statement of the slab values, recorded so the Sec. 5.3 / Fig. 9 choice stays traceable (D417 tossoun2024 precedent: device identity clear, the numbers of the paper disagree)'
+  cmp_lit_moralesalvarado2026_slab_10pct:
+    notes: 'Bulk attenuation of the printed blend, measured through polished printed slabs (4, 6, 8, 10 mm thick) with the splitter setup: an unguided beam, not a waveguide mode; the paper calls it propagation loss. Each point mean of five measurements, sigma max 0.005 mW. Abstract pairs 5 % / 10 % with 0.022 / 0.025 dB/mm ''respectively'', the reverse of Sec. 5.3 and Fig. 9: Sec. 5.3 / Fig. 9 used. Conclusion (p.14) gives the whole -0.022 to -0.043 dB/mm range for 5 % slabs, also against Sec. 5.3 / Fig. 9; Sec. 5.2 (p.11) uses 0.025-0.043 for the 5 % blend, consistent with Sec. 5.3.'
+    why: 'p.14 Sec. 6 and p.11 Sec. 5.2: a third statement of the slab values, recorded so the Sec. 5.3 / Fig. 9 choice stays traceable (D417 tossoun2024 precedent: device identity clear, the numbers of the paper disagree)'
+  cmp_lit_sun2025_digital_meta_mux_3mode:
+    notes: 'Measured as a circuit MUX + bus + DEMUX with grating couplers (Fig. 4(a)); the two bands use replicated circuits with distinct GCs (p.5). Spectra normalized by subtracting the GC losses; the paper quotes the result as IL of the mode MUX and does not state halving: scope de_embedded, not per_component. Measured IL rows are author_estimate with method loss_breakdown: they rest on the GC term of approximately 6 / 9 dB/facet whose origin is not stated (p.5). Printed TE0 < 0.4 dB is below the simulated single-MUX minimum 0.49 dB (p.4), not explained in the paper. Simulated IL variation within 0.94 dB over 1500-2100 nm for all modes and pixel-tolerance IL fluctuation within 1 dB are not entered (no allowed parameter for mode_converter). Pixel 120 nm, 50 x 40 grid. Link results 3 x 180 Gb/s (1.55 um) and 3 x 114 Gb/s (2 um) are system results, not component metrics. Fabricated at the ShanghaiTech Quantum Device Lab (p.5): facility missing from the registry, see report; no author at ShanghaiTech, fab empty.'
+    why: records the basis of m1, m3, m5, m7, m9, m11 and the inconsistency the distiller only put in its report (p.4 Sec. 2A, p.5 Sec. 2B)
+  cmp_lit_luo2014_microring_mdm_link_3mode:
+    notes: 'Link measured end to end with 1in/1out = TE0 mux/demux, 2 = TE1, 3 = TE2 (Fig. 3(a)). Coupling gaps ring-to-bus 240 (TE0), 200 (TE1), 200 (TE2) nm, on the wdm.mrr row (gap_nm not allowed for mode_converter, report). Fab: L.-W. Luo fabricated the device (p.7 Author contributions) = Cornell author (D395); CNF acknowledged (p.7). Rings: see cmp_lit_luo2014_microring_filter (D396). Power penalties (below 1.9 dB at BER 1e-9, 3 modes at 1563 nm; 0.6-1.4 dB in the 2 x 3 MDM-WDM link at 1532 / 1547 / 1563 nm, p.3-5) have no parameter. Unit glyph: Methods lengths render as micrometres (p.5-6 renders; text layer prints ''mm''; the footprint is a true mm2 on the p.6 render).'
+    why: p.5 render holds most of the Methods lengths, p.6 render the heater width and the 0.11 mm2 footprint
+  cmp_lit_izumisawa2026_spl0_slotted_mmi:
+    notes: 'SWG throughout: Lambda 220 nm, a_core 110 nm, a_slot 134 nm, slot width ws 400 nm (Fig. 3; a_slot p.4; no role-specific parameters). Ports and slots at W1/4 = 1.295 um from the MMI centre. Measured device differs from the SEM device (co-fabricated, p.7); SEM parameters are in a supplement that is not in the cached text. Excess-loss definitions differ by mode: TE0 sum of bar + cross, TE1 bar only (eq. 11-12). Spectra low-pass filtered (ripple of 3 nm period or less removed, p.5). Table II lists bandwidth 100 nm (simulation) / 35 nm (experiment) without a level; entered as the wavelength span of the values, no bw row. The a_slot - 10 nm case (Fig. 10) has no labelled values: not entered. Fig. 7(a) test chip: tapered ADC (de)MUX and edge couplers. Setup: the text names a polarization controller (p.5), Fig. 7(a) a polarization beam splitter; the row conditions follow the figure.'
+    why: 'p.5 Sec. IV against p.6 Fig. 7(a): the paper disagrees with itself on a setup part; no value depends on it'
+metrics:
+  cmp_lit_moralesalvarado2026_slab_5pct-m1:
+    condition: unguided beam through polished printed slabs, not a waveguide mode; printed layers parallel to the beam (as the paper labels the orientation); slab thickness 4-10 mm, source set to 1.06 mW
+    why: 'p.12 Sec. 5.3: slab transmission with the Fig. 7 setup; read alone the prop_loss_db_per_cm row looks like a guided-mode loss, the component note was the only place saying otherwise (see audit Q2)'
+  cmp_lit_moralesalvarado2026_slab_5pct-m2:
+    condition: unguided beam through polished printed slabs, not a waveguide mode; printed layers perpendicular to the beam (as the paper labels the orientation); slab thickness 4-10 mm, source set to 1.06 mW
+    why: 'p.12 Sec. 5.3: slab transmission with the Fig. 7 setup; read alone the prop_loss_db_per_cm row looks like a guided-mode loss, the component note was the only place saying otherwise (see audit Q2)'
+  cmp_lit_moralesalvarado2026_slab_10pct-m1:
+    condition: unguided beam through polished printed slabs, not a waveguide mode; printed layers parallel to the beam (as the paper labels the orientation); slab thickness 4-10 mm, source set to 1.06 mW
+    why: 'p.12 Sec. 5.3: slab transmission with the Fig. 7 setup; read alone the prop_loss_db_per_cm row looks like a guided-mode loss, the component note was the only place saying otherwise (see audit Q2)'
+  cmp_lit_moralesalvarado2026_slab_10pct-m2:
+    condition: unguided beam through polished printed slabs, not a waveguide mode; printed layers perpendicular to the beam (as the paper labels the orientation); slab thickness 4-10 mm, source set to 1.06 mW
+    why: 'p.12 Sec. 5.3: slab transmission with the Fig. 7 setup; read alone the prop_loss_db_per_cm row looks like a guided-mode loss, the component note was the only place saying otherwise (see audit Q2)'
+  cmp_lit_sun2025_digital_meta_mux_3mode-m1:
+    method: loss_breakdown
+    basis: author_estimate
+    notes: printed less than 0.4 dB over the 60 nm range; spectrum normalized by subtracting the GC term of approximately 6 dB/facet, origin not stated (cmp_lit_sun2025_gc_1p55um-m1)
+    why: 'p.5 Sec. 2B: spectra normalized by subtracting GC losses given only as approximately 6 / 9 dB/facet, no reference structure named. Skill rule 4 (result rests on a loss-budget term of unstated origin); merged precedents psaila2024 m1 / m2, djogo2026 c1 m1, zhou2022a m1 / m4 (see audit Q1)'
+  cmp_lit_sun2025_digital_meta_mux_3mode-m3:
+    method: loss_breakdown
+    basis: author_estimate
+    notes: printed less than 2.7 dB over the 60 nm range; spectrum normalized by subtracting the GC term of approximately 6 dB/facet, origin not stated (cmp_lit_sun2025_gc_1p55um-m1)
+    why: 'p.5 Sec. 2B: spectra normalized by subtracting GC losses given only as approximately 6 / 9 dB/facet, no reference structure named. Skill rule 4 (result rests on a loss-budget term of unstated origin); merged precedents psaila2024 m1 / m2, djogo2026 c1 m1, zhou2022a m1 / m4 (see audit Q1)'
+  cmp_lit_sun2025_digital_meta_mux_3mode-m5:
+    method: loss_breakdown
+    basis: author_estimate
+    notes: printed less than 4.3 dB over the 60 nm range; spectrum normalized by subtracting the GC term of approximately 6 dB/facet, origin not stated (cmp_lit_sun2025_gc_1p55um-m1)
+    why: 'p.5 Sec. 2B: spectra normalized by subtracting GC losses given only as approximately 6 / 9 dB/facet, no reference structure named. Skill rule 4 (result rests on a loss-budget term of unstated origin); merged precedents psaila2024 m1 / m2, djogo2026 c1 m1, zhou2022a m1 / m4 (see audit Q1)'
+  cmp_lit_sun2025_digital_meta_mux_3mode-m7:
+    method: loss_breakdown
+    basis: author_estimate
+    notes: printed less than 1.26 dB over the 100 nm range; spectrum normalized by subtracting the GC term of approximately 9 dB/facet, origin not stated (cmp_lit_sun2025_gc_2um-m1)
+    why: 'p.5 Sec. 2B: spectra normalized by subtracting GC losses given only as approximately 6 / 9 dB/facet, no reference structure named. Skill rule 4 (result rests on a loss-budget term of unstated origin); merged precedents psaila2024 m1 / m2, djogo2026 c1 m1, zhou2022a m1 / m4 (see audit Q1)'
+  cmp_lit_sun2025_digital_meta_mux_3mode-m9:
+    method: loss_breakdown
+    basis: author_estimate
+    notes: printed less than 2.3 dB over the 100 nm range; spectrum normalized by subtracting the GC term of approximately 9 dB/facet, origin not stated (cmp_lit_sun2025_gc_2um-m1)
+    why: 'p.5 Sec. 2B: spectra normalized by subtracting GC losses given only as approximately 6 / 9 dB/facet, no reference structure named. Skill rule 4 (result rests on a loss-budget term of unstated origin); merged precedents psaila2024 m1 / m2, djogo2026 c1 m1, zhou2022a m1 / m4 (see audit Q1)'
+  cmp_lit_sun2025_digital_meta_mux_3mode-m11:
+    method: loss_breakdown
+    basis: author_estimate
+    notes: printed less than 4.0 dB over the 100 nm range; spectrum normalized by subtracting the GC term of approximately 9 dB/facet, origin not stated (cmp_lit_sun2025_gc_2um-m1)
+    why: 'p.5 Sec. 2B: spectra normalized by subtracting GC losses given only as approximately 6 / 9 dB/facet, no reference structure named. Skill rule 4 (result rests on a loss-budget term of unstated origin); merged precedents psaila2024 m1 / m2, djogo2026 c1 m1, zhou2022a m1 / m4 (see audit Q1)'
+  cmp_lit_luo2014_edge_coupling_pair-m1:
+    wavelength_inferred: 'true'
+    notes: printed aggregate 10-dB fibre-to-chip coupling loss in the 1547 nm insertion-loss discussion; origin not stated; the sentence states no wavelength, 1547 nm from the insertion-loss sentences before it
+    why: 'p.3: the aggregate 10 dB sentence has no wavelength of its own; skill rule 8; goh2001 precedent (lit_61 audit)'
+add_metrics:
+- metric_id: cmp_lit_sun2025_digital_meta_mux_3mode-m35
+  component_id: cmp_lit_sun2025_digital_meta_mux_3mode
+  parameter: width_nm
+  value: 120
+  unit: nm
+  condition: digital-metamaterial pixel side (feature size), 50 x 40 grid of Si / SiO2 square pixels
+  basis: design_target
+  locator: p.2 Sec. 2A; p.9 Table 1
+  notes: printed 120 nm x 120 nm pixels
+  why: 'miss (D153 geometry): p.2 Sec. 2A and p.9 Table 1 state the feature size; width_nm is "waveguide / feature width as stated", condition names the role'
+- metric_id: cmp_lit_sun2025_digital_meta_mux_3mode_px80-m2
+  component_id: cmp_lit_sun2025_digital_meta_mux_3mode_px80
+  parameter: width_nm
+  value: 80
+  unit: nm
+  condition: digital-metamaterial pixel side of this variant
+  basis: design_target
+  locator: p.10 App. B
+  notes: printed pixel size 80 nm
+  why: 'miss (D153 geometry): p.10 App. B; the only dimension that defines this sibling row, as m35 on the fabricated row'
+- metric_id: cmp_lit_izumisawa2026_spl0_slotted_mmi-m24
+  component_id: cmp_lit_izumisawa2026_spl0_slotted_mmi
+  parameter: width_nm
+  value: 836
+  unit: nm
+  condition: multimode access line between the mode (de)MUX and the SPL0 ports
+  basis: extracted_from_figure
+  locator: p.6 Fig. 7(a); p.5 Sec. IV
+  notes: Fig. 7(a) legend prints 836-nm-wide line, no reading uncertainty
+  why: 'miss (D153 geometry): p.6 Fig. 7(a) legend; width_nm is optional on the mmi template (component_layouts.yaml)'
+- metric_id: cmp_lit_izumisawa2026_adc_mode_mux-m9
+  component_id: cmp_lit_izumisawa2026_adc_mode_mux
+  parameter: width_nm
+  value: 500
+  unit: nm
+  condition: single-mode access line to the mode (de)MUX
+  basis: extracted_from_figure
+  locator: p.6 Fig. 7(a); p.5 Sec. IV
+  notes: Fig. 7(a) legend prints 500-nm-wide line, no reading uncertainty
+  why: 'miss (D153 geometry): p.6 Fig. 7(a) legend; m3 / m4 hold only the coupling-section widths'
+- metric_id: cmp_lit_luo2014_microring_filter-m13
+  component_id: cmp_lit_luo2014_microring_filter
+  parameter: n_channels
+  value: 3
+  unit: count
+  condition: 'WDM channels run through the rings in the MDM-WDM link: 1532, 1547, 1563 nm on ports 1 and 2'
+  basis: design_target
+  locator: p.5; p.5 Fig. 5
+  notes: '87 channels at 50 GHz (p.5) is an extrapolation with a larger ring: not entered'
+  why: 'miss: p.5 and Fig. 5 state the three channels; n_channels is allowed on wdm and all merged wdm.mrr rows hold it as design_target; this is the WDM function of the row'

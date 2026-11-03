@@ -81,7 +81,8 @@ ADDRESS_RES = [
         ),
     ),
     ("room / building", re.compile(r"\b(?:Room|Rm|Building|Bldg|Floor|Fl|Suite|Level)\.?\s*[A-Z]?\d+", re.I)),
-    ("postal code + city", re.compile(r"\b\d{4}\s+[A-Z][a-z]+")),
+    # "2012 Labs" is a Huawei lab name, not a postal code + city (audit 2026-11-02 lit_h21).
+    ("postal code + city", re.compile(r"\b\d{4}\s+(?!Labs?\b)[A-Z][a-z]+")),
 ]
 ISO_DATE_RE = re.compile(r"\b\d{4}-\d{2}-\d{2}(?:[T ]\d{2}:\d{2}(?::\d{2})?)?\b")
 LISTING_NOTE = "affiliation marker inferred from block order"

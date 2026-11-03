@@ -1,0 +1,105 @@
+# Audit patch lit_73 (fresh-context audit 2026-11-02, DevLog/audits/2026-11-02-lit_73-audit.md).
+# 233 metrics: 221 ok / 12 imprecise / 0 wrong; 26 components: 25 ok / 1 imprecise, 0 deleted; 5 misses added.
+# Not covered here (coordinator rulings): basis of the brusberg2025 per-facet rows and scope of the pair rows (audit Q1, Q2); registry gaps in the audit file.
+components:
+  cmp_lit_du2022_ld_connector:
+    test_structure: ''
+    notes: 'Detachable expanded-beam interface: permanent chip-side connector (lens array + modified MT registration connector on a common substrate) and removable fiber connector (EBFAC: 8-fiber V-groove array, 2.1 mm glass spacer, off-the-shelf silicon lens array f 1.6 mm, 1 mm substrate, modified MT ferrule). Beam-size wording differs inside the paper: abstract 160 um in diameter; p.8 about 80 um in diameter; p.9-10 waist size about 80 um. Model (Fig. 3-4) is calculated Gaussian overlap: not a device value. Fab: "we" built the assemblies, authors span Nanjing University and Innolight Technology Research Institute, so fab empty (D80b). LD wavelength not stated in this paper (the 26 deg divergence is cited, ref. [16]; not entered). Text 1-dB tolerance about +/-35 um entered as printed; Fig. 11(b) X curve falls 1 dB at about -30 / +60 um (asymmetric; the printed value is near its tighter side), Y curve at about -80 / +85 um (by eye). Abstract says less than 1 dB in both cases, while Table 2 includes 1.11 dB at the largest lens offset. Repeatability: insertion-loss variation within 5 % over 20 detach / attach cycles (p.10; no parameter, see report).'
+    why: 'p.10 Sec. 3.2 calls no part of the LD assembly a test structure (the test-structure wording on p.8 is for the PIC only); p.11 Fig. 11(b) enlarged: the X curve reaches the 1 dB level (87 % peak, about 69 %) near -30 and +60 um, not symmetric +/-40 um'
+  cmp_lit_brusberg2025_iox_sin_evanescent:
+    notes: 'Fabrication sentences are passive with all authors at Corning Research and Development: fab empty (D80b). Loss always includes the IOX bends and propagation; FAU-to-IOX edge coupling excluded: not an isolated interface loss. Device-to-device differences are on the same design, conditions on metrics. SiN nested U-loops at 100 um design pitch (no pitch parameter on this class, see report). Text colours Device 1 blue and Device 4 red; caption and Fig. 3(C) legend show the reverse: legend used. Fig. 3(C) Device 1 TE reads about 1.68 dB near 1260-1280 nm against the printed below 1.65 dB. Device rows run through IOX in / out channel pairs and a SiN U-loop (Fig. 3(B), inset): the paper prints loss per facet and does not state the halving or how the FAU-to-IOX term was removed (no value printed for it here; Sec. 2 gives an estimated 0.3 dB per facet for fiber coupling). Basis stays measured (caption wording, D167); see audit Q2. The 3000 um is stated for the SiN waveguide; the length of the taper section itself is not stated.'
+    why: 'p.2 Sec. 3 and p.3 Fig. 3 caption: records how the per-facet rows relate to the in / out channel pairs, which the report left out (audit Q2); p.2 Sec. 3 for the 3000 um'
+metrics:
+  cmp_lit_brusberg2025_iox_sbend-m1:
+    wavelength_inferred: 'true'
+    notes: paper says estimated; Fig. 2(C) is the simulated curve; no wavelength stated with this value; Fig. 2(B) models the mode at 1310 nm and R 13.7 mm
+    why: 'p.2 Sec. 2: the coefficient sentence states no wavelength; 1310 nm comes from the Fig. 2(B) caption. Skill rule 8; m3 of the same row already sets the flag'
+  cmp_lit_brusberg2025_iox_sbend-m2:
+    wavelength_inferred: 'true'
+    notes: paper says estimated; Fig. 2(C) is the simulated curve; no wavelength stated with this value; Fig. 2(B) models the mode at 1310 nm and R 13.7 mm
+    why: 'p.2 Sec. 2: the coefficient sentence states no wavelength; 1310 nm comes from the Fig. 2(B) caption. Skill rule 8; m3 of the same row already sets the flag'
+  cmp_lit_brusberg2025_iox_sin_evanescent-m16:
+    parameter: length_um
+    condition: SiN waveguide, tapered from 700 to 260 nm; length of the taper section itself not stated
+    why: p.2 Sec. 3 gives 3000 um as the length of the SiN waveguides, not of a taper; the old condition already said waveguide length, so taper_length_um contradicted it
+  cmp_lit_du2022_pic_connector-m10:
+    qualifier: ''
+    why: p.1 Abstract prints the 160 um diameter without an approximation word; the "about" belongs to the 80 um statements (p.8-10), which are in the component notes. Skill rule 7
+  cmp_lit_du2022_ld_connector-m7:
+    qualifier: ''
+    why: p.1 Abstract prints the 160 um diameter without an approximation word; the "about" belongs to the 80 um statements (p.8-10), which are in the component notes. Skill rule 7
+  cmp_lit_lindenmann2014_mcf_pwb-m6:
+    includes: PWB-SOI transition 0.78 dB and PWB-MCF interface 0.52 dB
+    excludes: scattering in the PWB section (fabrication imperfections, not simulated)
+    why: 'p.5 Sec. IV: the exclusion sat in the includes field; moved to excludes'
+  cmp_lit_sutherland2019_gt_ferrule-m1:
+    scope: per_interface
+    why: 'p.3-4: ferrule to V-groove array, one connector interface with no chip or coupler in the path (the report confirms no PIC value), so not a fiber coupler. Skill rule 6; merged fiber_interface.connector rows dangel2013 m1 and ectc51909_2023_00324 m1-m3 use per_interface'
+  cmp_lit_sutherland2019_gt_ferrule-m2:
+    scope: per_interface
+    why: 'p.3-4: ferrule to V-groove array, one connector interface with no chip or coupler in the path (the report confirms no PIC value), so not a fiber coupler. Skill rule 6; merged fiber_interface.connector rows dangel2013 m1 and ectc51909_2023_00324 m1-m3 use per_interface'
+  cmp_lit_sutherland2019_gt_ferrule-m3:
+    scope: per_interface
+    why: 'p.3-4: ferrule to V-groove array, one connector interface with no chip or coupler in the path (the report confirms no PIC value), so not a fiber coupler. Skill rule 6; merged fiber_interface.connector rows dangel2013 m1 and ectc51909_2023_00324 m1-m3 use per_interface'
+  cmp_lit_sutherland2019_gt_ferrule-m4:
+    scope: per_interface
+    why: 'p.3-4: mated pair, one connector interface with no chip or coupler in the path (the report confirms no PIC value), so not a fiber coupler. Skill rule 6; merged fiber_interface.connector rows dangel2013 m1 and ectc51909_2023_00324 m1-m3 use per_interface'
+  cmp_lit_sutherland2019_gt_ferrule-m5:
+    scope: per_interface
+    why: 'p.3-4: mated pair, one connector interface with no chip or coupler in the path (the report confirms no PIC value), so not a fiber coupler. Skill rule 6; merged fiber_interface.connector rows dangel2013 m1 and ectc51909_2023_00324 m1-m3 use per_interface'
+  cmp_lit_sutherland2019_gt_ferrule-m6:
+    scope: per_interface
+    why: 'p.3-4: mated pair, one connector interface with no chip or coupler in the path (the report confirms no PIC value), so not a fiber coupler. Skill rule 6; merged fiber_interface.connector rows dangel2013 m1 and ectc51909_2023_00324 m1-m3 use per_interface'
+add_metrics:
+- metric_id: cmp_lit_lindenmann2014_mcf_pwb-m20
+  component_id: cmp_lit_lindenmann2014_mcf_pwb
+  parameter: width_nm
+  value: 2000
+  unit: nm
+  condition: circular PWB section diameter
+  basis: derived
+  locator: p.2 Sec. II-B; p.5 Sec. IV
+  notes: printed 2 um
+  why: 'D153 geometry miss: stated twice, in core_material only; merged blaicher2020 PWB row holds its section width in width_nm'
+- metric_id: cmp_lit_lindenmann2014_mcf_pwb-m21
+  component_id: cmp_lit_lindenmann2014_mcf_pwb
+  parameter: width_nm
+  value: 12000
+  unit: nm
+  condition: polymer up-taper diameter at the MCF facet
+  basis: derived
+  locator: p.3 Sec. II-B, Fig. 4; p.5 Sec. IV
+  notes: printed 12 um; 10.9-13.0 um costs at most 0.1 dB in simulation
+  why: 'D153 geometry miss: only in the m9 condition; merged blaicher2020 row holds the PWB section at the fiber in width_nm'
+- metric_id: cmp_lit_brusberg2025_iox_sbend-m5
+  component_id: cmp_lit_brusberg2025_iox_sbend
+  parameter: length_um
+  value: 9000
+  unit: um
+  condition: S-bend length; offset up to 1.5 mm for the outermost channels (no parameter)
+  basis: derived
+  locator: p.2 Sec. 2
+  notes: printed 9 mm
+  why: 'D153 geometry miss: only in the fan-out core_material; length_um is allowed on every class'
+- metric_id: cmp_lit_he2021_ugroove_fab-m6
+  component_id: cmp_lit_he2021_ugroove_fab
+  parameter: etch_depth_nm
+  value: 130000
+  unit: nm
+  qualifier: approx
+  condition: U-Groove trench depth on the chip
+  basis: derived
+  locator: p.2 Sec. II
+  notes: printed about 130 um
+  why: 'D153 geometry miss: the report says no parameter, but etch_depth_nm is allowed on every class and the p.2 text calls the U-Groove a trench etch'
+- metric_id: cmp_lit_he2021_ugroove_fab-m7
+  component_id: cmp_lit_he2021_ugroove_fab
+  parameter: length_um
+  value: 1500
+  unit: um
+  qualifier: approx
+  condition: pedestal length between U-Grooves, not the whole device
+  basis: derived
+  locator: p.2 Sec. II
+  notes: printed about 1.5 mm
+  why: 'D153 geometry miss: only in core_material; length_um is allowed on every class'

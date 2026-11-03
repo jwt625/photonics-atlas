@@ -517,7 +517,7 @@ def test_real_people_tables() -> None:
     assert {x["value"] for x in xref if x["scheme"] == "eo_person_id"} == {r["person_id"] for r in eo_people}
     assert {p["orcid"] for p in people.values() if p["orcid"]} == {r["orcid"] for r in eo_people if r["orcid"]}
     assert not any(pid.removeprefix("person_").startswith("000") for pid in people)
-    # every input affiliation row once: EO 2880 + PK 2405 + OFC minus the 54 presentations already in EO
+    # every input affiliation row once: EO 2906 + PK 2405 + OFC minus the 54 presentations already in EO
     # (joint_printed strings add one row per extra org: suffix .k after author.order)
     meta = [o for o in obs if not P.HEADER_ID_RE.search(o["obs_id"])]
     rows = {
@@ -525,7 +525,8 @@ def test_real_people_tables() -> None:
     }
     base = Counter(r.split(":")[0] for r in rows)
     # PK 1996 -> 2405 rows on 2026-10-22 (advanced-packaging-atlas commit b1daf52; people rebuilt, DevLog-004 Progress)
-    assert base["eo"] == 2880 and base["pk"] == 2405
+    # EO 2880 -> 2906 rows on 2026-11-01 (levy2026, song2026; DevLog-007 D445)
+    assert base["eo"] == 2906 and base["pk"] == 2405
     # OFC (D214-D215, 2026-10-22): every metadata slot (6056 - 532) keeps observations; the metadata row is dropped
     # only where the paper header confirms it, and every staged header row of a kept slot is one observation (.m per
     # extra org id)

@@ -1,0 +1,206 @@
+# Audit patch lit_70 (fresh-context audit 2026-11-02, DevLog/audits/2026-11-02-lit_70-audit.md).
+# 265 metrics: 250 ok / 15 imprecise / 0 wrong; 27 components: 26 ok / 1 imprecise / 0 wrong; 2 ok components get a notes update.
+# Misses: 12 metrics added (oser2019 interconnect width x5, marin2023 drop level x4, primiani2019 threshold, lasing wavelength, gain length).
+# Not covered here (coordinator rulings): audit questions 1-6; registry gaps and missing orgs listed in the audit file.
+components:
+  cmp_lit_oser2019_cascade_10x250:
+    notes: 'Shifted-teeth TE0-to-TE1 Bragg grating: back-reflection goes into TE1 and radiates in the single-mode section. Cached text is the arXiv v1 of this journal paper. E-beam + ICP etch (p.7). Single-mode sections, tapers and S-bends are named for this device (p.6), but their dimensions are stated only for the 50 um section series (400 nm x 20 um, 25 um tapers, 15 um radius S-bends, p.3); the 3.5 mm reference length leaves 1 mm outside the gratings (p.6). Hero device. Off-band insertion loss stated only as negligible within alignment and fabrication variability (p.6): no value. Back-reflection through a fiber circulator about -40 dBm, broad and flat without the Bragg signature (p.6; no parameter). Check: Fig. 4 shows the 3.5 mm reference waveguide near -13.5 dBm and the PD B floor near -88 dBm, about 74.5 dB apart, against the stated at least 80 dB; the paper does not give the arithmetic. Fig. 3 sets carry no labelled values, no rows; the text p.6 lists 4, 6, 8 sections of 100, 50, 25 um where the Fig. 3(b) legend has 4, 8, 16. Fab: D.O. and X.L.R. fabricated the samples (p.8 contributions), both at C2N (p.1): D395. Facility: fabrication performed at the Plateforme de Micro-Nano-Technologie/C2N, partly supported by the RENATECH network (p.8): neither in the registry, the C2N parent is not used as the facility (D80).'
+    why: p.3 gives the interconnect dimensions in the paragraph on the 50 um section series (total lengths 50-500 um); p.6 does not restate them for the 250 um section device
+  cmp_lit_primiani2019_bragg_11th_4mm:
+    notes: 'Width 2.9 to 3.1 um in the corrugation; tooth length 263 nm on the mask. Chip 9 mm with mode size adapters and a tilted input bend; reflection measured with a high-resolution OSA, circulator and a 4 um MFD lensed fiber (p.2). Abstract rounds the stopband to 0.2 nm. Peak near 1543.93 nm (Fig. 3); Fig. 4 has the Bragg wavelength near 1543.2 nm at 20 C and reaches 1543.93 nm only near 75 C, and the heater state of the Fig. 3 spectrum is not stated. Used as the mirror of cmp_lit_primiani2019_dbr_ecl (D396). Not allowed for reflector (report): thermal dependence 15 pm/C (p.2), tuning about 1.5 nm over 20-120 C (Fig. 4, p.1), heater power 1.98 W to reach 120 C (p.3), Bragg wavelength, heater 10 nm Ti + 100 nm TiN, 6 um wide (p.2), suspended waveguide variant (Fig. 1; whether the measured grating was suspended is not stated). Fitted material values dnSi3N4/dT 2.51e-5 and dnSiO2/dT 1.26e-5 per K (p.3): no parameter. Fab: the acknowledgment states the staff of the LETI silicon platform fabricated the passive devices (p.4).'
+    why: records the p.2 Fig. 3 vs Fig. 4 mismatch behind the m2 condition fix
+  cmp_lit_primiani2019_dbr_ecl:
+    notes: 'Cavity between the R-SOA back facet and the Bragg grating (cmp_lit_primiani2019_bragg_11th_4mm); R-SOA fabricated by III-V Lab (p.3); passive chip per the acknowledgment (p.4). Coupling: cmp_lit_primiani2019_rsoa_to_sin_butt. Threshold has no printed value: m10 is read at the L-I onset of Fig. 7(a). Target below 17 kHz (p.4) not entered.'
+    why: keeps the notes consistent with the added threshold row m10 (p.4 Fig. 7(a))
+metrics:
+  cmp_lit_saghaei2026_dsbr_cavity_n50-m1:
+    wavelength_nm: 1550
+    band: ''
+    wavelength_inferred: ''
+    notes: read off the plot, +/- 0.3 dB; the paper places this resonance feature near 1550 nm (p.9)
+    why: 'p.9 Sec. V-B states the N = 50 resonance feature near 1550 nm: a stated wavelength, not an inferred band (D393)'
+  cmp_lit_saghaei2026_dsbr_cavity_n50-m2:
+    locator: p.3 Fig. 1; p.6; p.5 Sec. IV-A
+    why: p.3 and p.6 print the period for N = 150; p.5 Sec. IV-A states that other N change only the number of corrugations, the source of this sibling value
+  cmp_lit_saghaei2026_dsbr_cavity_n50-m4:
+    locator: p.3 Fig. 1; p.5 Sec. IV-A
+    why: p.3 Fig. 1 prints widths w1, w2 for N = 150; p.5 Sec. IV-A states that other N change only the number of corrugations, the source of this sibling value
+  cmp_lit_saghaei2026_dsbr_cavity_n50-m5:
+    locator: p.3 Fig. 1; p.5 Sec. IV-A
+    why: p.3 Fig. 1 prints width w3 for N = 150; p.5 Sec. IV-A states that other N change only the number of corrugations, the source of this sibling value
+  cmp_lit_saghaei2026_dsbr_cavity_n50-m6:
+    locator: p.3 Fig. 1; p.5 Sec. IV-A
+    why: p.3 Fig. 1 prints cavity length for N = 150; p.5 Sec. IV-A states that other N change only the number of corrugations, the source of this sibling value
+  cmp_lit_saghaei2026_dsbr_cavity_n300-m2:
+    locator: p.3 Fig. 1; p.6; p.5 Sec. IV-A
+    why: p.3 and p.6 print the period for N = 150; p.5 Sec. IV-A states that other N change only the number of corrugations, the source of this sibling value
+  cmp_lit_saghaei2026_dsbr_cavity_n300-m4:
+    locator: p.3 Fig. 1; p.5 Sec. IV-A
+    why: p.3 Fig. 1 prints widths w1, w2 for N = 150; p.5 Sec. IV-A states that other N change only the number of corrugations, the source of this sibling value
+  cmp_lit_saghaei2026_dsbr_cavity_n300-m5:
+    locator: p.3 Fig. 1; p.5 Sec. IV-A
+    why: p.3 Fig. 1 prints width w3 for N = 150; p.5 Sec. IV-A states that other N change only the number of corrugations, the source of this sibling value
+  cmp_lit_saghaei2026_dsbr_cavity_n300-m6:
+    locator: p.3 Fig. 1; p.5 Sec. IV-A
+    why: p.3 Fig. 1 prints cavity length for N = 150; p.5 Sec. IV-A states that other N change only the number of corrugations, the source of this sibling value
+  cmp_lit_wu2023_wedge_6p5mm-m2:
+    qualifier: ''
+    why: p.1 prints the value without about or a tilde; approximate form not stated (skill rule 7); statistic best stays (record-high wording)
+  cmp_lit_wu2023_wedge_6p5mm-m3:
+    qualifier: ''
+    why: p.1 prints the value without about or a tilde; approximate form not stated (skill rule 7); statistic best stays (record-high wording)
+  cmp_lit_wu2023_wedge_6p5mm-m4:
+    qualifier: ''
+    why: p.1 prints the value without about or a tilde; approximate form not stated (skill rule 7); statistic best stays (record-high wording)
+  cmp_lit_primiani2019_bragg_11th_4mm-m2:
+    condition: peak reflectivity; heater state not stated
+    notes: read off the plot +/- 0.5 %, wavelength +/- 0.02 nm; whether access-path loss is removed is not stated; Fig. 4 has about 1543.2 nm at 20 C, so the Fig. 3 peak near 1543.93 nm need not be unbiased
+    why: p.2 does not say the Fig. 3 grating is unbiased, and Fig. 4 reaches 1543.93 nm only near 75 C
+  cmp_lit_primiani2019_rsoa_to_sin_butt-m1:
+    basis: author_estimate
+    notes: computed overlap with the measured R-SOA far field, the paper estimates the loss; merged boust2020 has the same wording as author_estimate; wavelength from the 1543 nm laser
+    why: 'p.3 Sec. IV: an estimate from a measured far field and a grating mode of unstated origin, not a simulation of the coupler (skill rule 4; merged cmp_lit_boust2020_dfb_sin_butt-m1)'
+  cmp_lit_primiani2019_dbr_ecl-m5:
+    locator: p.1 Abstract; p.4 Fig. 7(b)
+    why: the 20-120 C and 200 mA condition comes from p.4 Fig. 7(b) and its caption, not from the abstract
+add_metrics:
+- metric_id: cmp_lit_oser2019_cascade_2x50-m10
+  component_id: cmp_lit_oser2019_cascade_2x50
+  parameter: width_nm
+  value: 400
+  unit: nm
+  basis: design_target
+  locator: p.3
+  condition: single-mode interconnect waveguide between grating sections
+  why: p.3 states the interconnect width for this series; D153 geometry miss (kept only in notes)
+- metric_id: cmp_lit_oser2019_cascade_4x50-m10
+  component_id: cmp_lit_oser2019_cascade_4x50
+  parameter: width_nm
+  value: 400
+  unit: nm
+  basis: design_target
+  locator: p.3
+  condition: single-mode interconnect waveguide between grating sections
+  why: p.3 states the interconnect width for this series; D153 geometry miss (kept only in notes)
+- metric_id: cmp_lit_oser2019_cascade_6x50-m10
+  component_id: cmp_lit_oser2019_cascade_6x50
+  parameter: width_nm
+  value: 400
+  unit: nm
+  basis: design_target
+  locator: p.3
+  condition: single-mode interconnect waveguide between grating sections
+  why: p.3 states the interconnect width for this series; D153 geometry miss (kept only in notes)
+- metric_id: cmp_lit_oser2019_cascade_8x50-m10
+  component_id: cmp_lit_oser2019_cascade_8x50
+  parameter: width_nm
+  value: 400
+  unit: nm
+  basis: design_target
+  locator: p.3
+  condition: single-mode interconnect waveguide between grating sections
+  why: p.3 states the interconnect width for this series; D153 geometry miss (kept only in notes)
+- metric_id: cmp_lit_oser2019_cascade_10x50-m10
+  component_id: cmp_lit_oser2019_cascade_10x50
+  parameter: width_nm
+  value: 400
+  unit: nm
+  basis: design_target
+  locator: p.3
+  condition: single-mode interconnect waveguide between grating sections
+  why: p.3 states the interconnect width for this series; D153 geometry miss (kept only in notes)
+- metric_id: cmp_lit_marin2023_racetrack_large-m20
+  component_id: cmp_lit_marin2023_racetrack_large
+  parameter: drop_loss_db
+  value: 21.5
+  unit: dB
+  basis: extracted_from_figure
+  locator: p.5 Fig. 8(b)
+  qualifier: approx
+  wavelength_nm: 1560.5
+  wavelength_max_nm: 1561.5
+  polarization: tm
+  condition: drop-port peaks of the racetrack with the larger coupler gap; spectrum axis in dB, through port near 0 dB off resonance
+  method: direct
+  notes: read off the plot +/- 1 dB, peaks vary across the span; normalization of the spectrum not stated; printed sign negative
+  why: Fig. 8(b) plots the drop-port level behind the Qext fit (p.4-5 Eqs. (1)-(2)); performance miss, the row states no drop level elsewhere
+- metric_id: cmp_lit_marin2023_racetrack_large-m21
+  component_id: cmp_lit_marin2023_racetrack_large
+  parameter: drop_loss_db
+  value: 16.5
+  unit: dB
+  basis: extracted_from_figure
+  locator: p.5 Fig. 8(c)
+  qualifier: approx
+  wavelength_nm: 1560.5
+  wavelength_max_nm: 1561.5
+  polarization: te
+  condition: drop-port peaks of the racetrack with the larger coupler gap; spectrum axis in dB, through port near 0 dB off resonance
+  method: direct
+  notes: read off the plot +/- 1 dB, peaks vary across the span; normalization of the spectrum not stated; printed sign negative
+  why: Fig. 8(c) plots the drop-port level behind the Qext fit (p.4-5 Eqs. (1)-(2)); performance miss, the row states no drop level elsewhere
+- metric_id: cmp_lit_marin2023_racetrack_small-m20
+  component_id: cmp_lit_marin2023_racetrack_small
+  parameter: drop_loss_db
+  value: 15
+  unit: dB
+  basis: extracted_from_figure
+  locator: p.5 Fig. 9(b)
+  qualifier: approx
+  wavelength_nm: 1560
+  wavelength_max_nm: 1561
+  polarization: tm
+  condition: drop-port peaks of the racetrack with the larger coupler gap; spectrum axis in dB, through port near 0 dB off resonance
+  method: direct
+  notes: read off the plot +/- 1 dB, peaks vary across the span; normalization of the spectrum not stated; printed sign negative
+  why: Fig. 9(b) plots the drop-port level behind the Qext fit (p.4-5 Eqs. (1)-(2)); performance miss, the row states no drop level elsewhere
+- metric_id: cmp_lit_marin2023_racetrack_small-m21
+  component_id: cmp_lit_marin2023_racetrack_small
+  parameter: drop_loss_db
+  value: 10
+  unit: dB
+  basis: extracted_from_figure
+  locator: p.5 Fig. 9(c)
+  qualifier: approx
+  wavelength_nm: 1559
+  wavelength_max_nm: 1560
+  polarization: te
+  condition: drop-port peaks of the racetrack with the larger coupler gap; spectrum axis in dB, through port near 0 dB off resonance
+  method: direct
+  notes: read off the plot +/- 1 dB, peaks vary across the span; normalization of the spectrum not stated; printed sign negative
+  why: Fig. 9(c) plots the drop-port level behind the Qext fit (p.4-5 Eqs. (1)-(2)); performance miss, the row states no drop level elsewhere
+- metric_id: cmp_lit_primiani2019_dbr_ecl-m10
+  component_id: cmp_lit_primiani2019_dbr_ecl
+  parameter: threshold_ma
+  value: 70
+  unit: mA
+  basis: extracted_from_figure
+  locator: p.4 Fig. 7(a)
+  qualifier: approx
+  ref_plane: fiber
+  condition: onset of the fiber-coupled L-I curve, unbiased Bragg heater
+  method: direct
+  notes: no printed value; read off the plot +/- 5 mA; the SMSR trace also starts at 70 mA
+  why: figure-read performance value (contract v6; merged bhasker2026 / oe2026 L-I onset precedent); the batch report skipped it
+- metric_id: cmp_lit_primiani2019_dbr_ecl-m11
+  component_id: cmp_lit_primiani2019_dbr_ecl
+  parameter: center_wavelength_nm
+  value: 1543.21
+  unit: nm
+  basis: extracted_from_figure
+  locator: p.3 Fig. 5
+  qualifier: approx
+  condition: lasing peak, R-SOA 185 mA, unbiased Bragg heater
+  method: direct
+  notes: read off the plot +/- 0.01 nm
+  why: p.3 Fig. 5 has a labelled wavelength axis and the row had no lasing wavelength
+- metric_id: cmp_lit_primiani2019_dbr_ecl-m12
+  component_id: cmp_lit_primiani2019_dbr_ecl
+  parameter: length_um
+  value: 1000
+  unit: um
+  basis: derived
+  locator: p.3 Sec. IV
+  condition: R-SOA gain chip
+  notes: printed 1 mm
+  why: p.3 states the gain-chip length; D153 geometry miss (kept only in core_material)

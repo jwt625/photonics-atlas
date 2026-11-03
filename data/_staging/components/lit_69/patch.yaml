@@ -1,0 +1,170 @@
+# Audit patch lit_69 (fresh-context audit 2026-11-02, DevLog/audits/2026-11-02-lit_69-audit.md).
+# 396 metrics: 384 ok / 11 imprecise / 1 wrong; 76 components: 60 ok / 16 imprecise / 0 wrong (3 further notes-only follow-ups).
+# Misses: 5 metrics added (romerogarcia2013 MMI simulated excess loss, giewont2019 Fig. 8 peak, thiel2026 Fig. 4(f) x3).
+# After the patch: 76 components, 400 metrics. Coordinator rulings and registry gaps are in the audit file.
+components:
+  cmp_lit_cherchi2013_ubend_w0p9_reff1p27:
+    platform: soi_strip
+    why: 'through-etched Si strip bend (p.3 Sec. 2, p.8-9 Sec. 4, Fig. 5): the paper names the etch type, so the enum value that states it applies (merged precedent ding2022 Euler bend and waveguides soi_strip)'
+  cmp_lit_cherchi2013_ubend_w1_reff5p4:
+    platform: soi_strip
+    why: 'through-etched Si strip bend (p.3 Sec. 2, p.8-9 Sec. 4, Fig. 5): the paper names the etch type, so the enum value that states it applies (merged precedent ding2022 Euler bend and waveguides soi_strip)'
+  cmp_lit_cherchi2013_ubend_w2_reff28p8:
+    platform: soi_strip
+    why: 'through-etched Si strip bend (p.3 Sec. 2, p.8-9 Sec. 4, Fig. 5): the paper names the etch type, so the enum value that states it applies (merged precedent ding2022 Euler bend and waveguides soi_strip)'
+  cmp_lit_cherchi2013_lbend_w2_reff16p8:
+    platform: soi_strip
+    why: 'through-etched Si strip bend (p.3 Sec. 2, p.8-9 Sec. 4, Fig. 5): the paper names the etch type, so the enum value that states it applies (merged precedent ding2022 Euler bend and waveguides soi_strip)'
+  cmp_lit_cherchi2013_lbend_w2_reff39:
+    platform: soi_strip
+    why: 'through-etched Si strip bend (p.3 Sec. 2, p.8-9 Sec. 4, Fig. 5): the paper names the etch type, so the enum value that states it applies (merged precedent ding2022 Euler bend and waveguides soi_strip)'
+  cmp_lit_cherchi2013_arc_matched_r34p4:
+    platform: soi_strip
+    why: simulated Si strip waveguide on the 4 um SOI platform (p.4-5 Sec. 3, Fig. 2 caption); same value as the fabricated strip bends
+  cmp_lit_cherchi2013_arc_adiabatic_r400:
+    platform: soi_strip
+    why: simulated Si strip waveguide on the 4 um SOI platform (p.4-5 Sec. 3, Fig. 2 caption); same value as the fabricated strip bends
+  cmp_lit_cherchi2013_euler_adiabatic_reff75:
+    platform: soi_strip
+    why: simulated Si strip waveguide on the 4 um SOI platform (p.4-5 Sec. 3, Fig. 2 caption); same value as the fabricated strip bends
+  cmp_lit_cherchi2013_rib_wg:
+    platform: soi_rib
+    why: single-mode rib waveguide on SOI stated (p.3 Sec. 1 and Sec. 2); merged precedent soi_rib for stated rib waveguides
+  cmp_lit_cherchi2013_rib_bend_r4mm:
+    platform: soi_rib
+    why: single-mode rib waveguide on SOI stated (p.3 Sec. 1 and Sec. 2); merged precedent soi_rib for stated rib waveguides
+  cmp_lit_giewont2019_soi_wg_350:
+    platform: soi_strip
+    why: full-height SOI waveguide, the paper reserves rib for the partial etch (p.2 Sec. II); same fix as the cherchi2013 strip rows
+  cmp_lit_giewont2019_soi_wg_810:
+    platform: soi_strip
+    why: full-height SOI waveguide, the paper reserves rib for the partial etch (p.2 Sec. II); same fix as the cherchi2013 strip rows
+  cmp_lit_giewont2019_ge_pd:
+    notes: 'Fab: paper describes CMS90WG as the GlobalFoundries 300 mm foundry technology, with data from lots in manufacturing (p.1-2). Text range 35 to 70 nA is attributed to the final process, while Fig. 8 plots newPOR about 15 to 50 nA and oldPOR about 30 to 70 nA: the printed value is kept (m1), the newPOR peak is entered as m4. Paths to 50 to 60 GHz are roadmap only.'
+    why: note follows added row m4 (p.5 Fig. 8)
+  cmp_lit_chen2022b_si_spiral:
+    platform: ''
+    notes: 'Fab: AIM Photonics foundry named for fabrication (p.2, p.6); MPW runs. Same MPW run as sample H. Delay 0.95 ns/cm, 20.8 ns/mm2, 10.42 dB/ns (Table III): no parameter. Spiral separation 9 um. Platform empty: the Si layer of the AIM run is not stated as SOI for this device (the p.1 SOI sentence is about the literature; D422 / D423).'
+    why: 'D423: p.4-6 name only a Si spiral, a Si layer and the AIM foundry service; SOI appears only in a cited general statement (p.1 Sec. I), so the platform is not defaulted'
+  cmp_lit_veiga2026_sin1_annealed_w700:
+    notes: 'No fab org: fabrication sentences are passive and the authors sit at LTM / CNRS / UGA and CEA-Leti, Grenoble (not unambiguous, D80b); RENATECH appears as funding only. Loss is the mean over 15 dies with std error bars (p.4). Annealed 1100 C after patterning, then capped (p.7). Width on nominal-700 lines drops to 547 nm (SiN1) and 563 nm (SiN2) (Table III). Index 2.07 at 1.31 um after anneal (Table II). Film thickness falls with the 1100 C anneal by 15.4 % (SiN1) and 6.3 % (SiN2), printed as about 50 and 20 nm (p.5 Sec. IV-A): core_thickness_nm is the as-deposited design value.'
+    why: 'miss: annealed rows carry the 400 nm as-deposited thickness; the paper states densification shrink (p.5 Sec. IV-A), the percentages and nm values do not agree for SiN1 (15.4 % of 400 nm is 62 nm), no post-anneal thickness row is possible'
+  cmp_lit_veiga2026_sin2_annealed_w700:
+    notes: 'No fab org: fabrication sentences are passive and the authors sit at LTM / CNRS / UGA and CEA-Leti, Grenoble (not unambiguous, D80b); RENATECH appears as funding only. Loss is the mean over 15 dies with std error bars (p.4). Annealed 1100 C after patterning, then capped (p.7). Width on nominal-700 lines drops to 547 nm (SiN1) and 563 nm (SiN2) (Table III). Index 1.97 at 1.31 um after anneal (Table II). Conclusion range 0.18 to 0.24 dB/cm at 1.31 um is stated for widths 700 to 900 nm of annealed PECVD SiN, not tied to one row (D254). Film thickness falls with the 1100 C anneal by 15.4 % (SiN1) and 6.3 % (SiN2), printed as about 50 and 20 nm (p.5 Sec. IV-A): core_thickness_nm is the as-deposited design value.'
+    why: 'miss: annealed rows carry the 400 nm as-deposited thickness; the paper states densification shrink (p.5 Sec. IV-A), the percentages and nm values do not agree for SiN1 (15.4 % of 400 nm is 62 nm), no post-anneal thickness row is possible'
+  cmp_lit_veiga2026_sin2_annealed_w1000:
+    notes: 'No fab org: fabrication sentences are passive and the authors sit at LTM / CNRS / UGA and CEA-Leti, Grenoble (not unambiguous, D80b); RENATECH appears as funding only. Loss is the mean over 15 dies with std error bars (p.4). Annealed 1100 C after patterning, then capped (p.7). Width on nominal-700 lines drops to 547 nm (SiN1) and 563 nm (SiN2) (Table III). Core size from Table V. Film thickness falls with the 1100 C anneal by 15.4 % (SiN1) and 6.3 % (SiN2), printed as about 50 and 20 nm (p.5 Sec. IV-A): core_thickness_nm is the as-deposited design value.'
+    why: 'miss: annealed rows carry the 400 nm as-deposited thickness; the paper states densification shrink (p.5 Sec. IV-A), the percentages and nm values do not agree for SiN1 (15.4 % of 400 nm is 62 nm), no post-anneal thickness row is possible'
+  cmp_lit_thiel2026_balanced_photoreceiver:
+    notes: 'Fab: Nexus Photonics team acknowledged for fabrication of the heterogeneous platform; lasers and detectors use that process (p.3-5, p.7). TIA maker not stated. Body measures 510 MHz for this co-packaged receiver (m1). The abstract 3 GHz for detectors with amplifiers is not tied to this receiver: it matches the 3 dB below peak crossing of the Fig. 4(f) photodiode classes (see the pd rows). No parameter: 5.9 kohm gain, 1.9 pA/rtHz noise, shot-noise clearance above 30 dB, CMRR 50.4 dB at 10 MHz.'
+    why: follows deletion of m2
+  cmp_lit_romerogarcia2013_mmi_1x4:
+    notes: 'No fab org: fabricated in an unnamed standard CMOS pilot line on 200 mm wafers (p.8); TSMC staff are only thanked by name (p.11), not stated as fabricator. Imbalance is defined as (max - min) / mean of the port powers and measured below 10 % at 57.3 um (p.11; simulated below 1 %, p.8): no parameter for this linear definition, imbalance_db not used. Table 2 sensitivities (above 91 % at width +/- 0.2 um) stay here.'
+    why: simulated efficiency is now row m10 (dB form), as the measured efficiency in m1
+metrics:
+  cmp_lit_romerogarcia2013_wg_sio2_w0p7-m2:
+    locator: p.3 Sec. 2.1; p.9 Table 3
+    notes: Table 3 prints 0.7 um; 700 nm printed on p.3.
+    why: 'D256: basis kept only with a locator where the stored-unit form is printed; Table 3 prints 0.7 um, p.3 Sec. 2.1 prints 700 nm'
+  cmp_lit_romerogarcia2013_wg_h2o_w0p7-m2:
+    locator: p.3 Sec. 2.1; p.9 Table 3
+    notes: Table 3 prints 0.7 um; 700 nm printed on p.3.
+    why: 'D256: basis kept only with a locator where the stored-unit form is printed; Table 3 prints 0.7 um, p.3 Sec. 2.1 prints 700 nm'
+  cmp_lit_cherchi2013_arc_matched_r34p4-m2:
+    qualifier: approx
+    why: printed with an approximately-equal sign, R about 34.4 um (p.5 Sec. 3); skill rule 7
+  cmp_lit_cherchi2013_rib_bend_r4mm-m1:
+    basis: author_estimate
+    notes: 'Origin not stated: the sentence gives the bound as what a 4 mm radius produces, no measurement named, unlike the 0.1 dB/cm in the same sentence; method and wavelength not given.'
+    why: 'skill rule 4 and D418 (origin not stated, D167 not extended): p.3 Sec. 2 attaches a measurement verb only to the 0.1 dB/cm straight-waveguide value'
+  cmp_lit_giewont2019_soi_wg_350-m2:
+    statistic: typical
+    notes: Most probable value (peak bin of the histogram), not a median, +/- 0.05 dB/cm; span about 1.1 to 2.3 dB/cm; sample count not stated.
+    why: a histogram mode is not a median (p.2 Fig. 1 / Fig. 2); merged precedent girardi2025_coupled_rings-m1 stores a histogram mode as typical with this wording
+  cmp_lit_giewont2019_soi_wg_350-m3:
+    statistic: typical
+    notes: Most probable value (peak bin of the histogram), not a median, +/- 0.05 dB/cm; span about 1.1 to 2.3 dB/cm; band from Fig. 1 of the same 350 nm waveguide.
+    why: a histogram mode is not a median (p.2 Fig. 1 / Fig. 2); merged precedent girardi2025_coupled_rings-m1 stores a histogram mode as typical with this wording
+  cmp_lit_giewont2019_soi_wg_350-m4:
+    statistic: typical
+    notes: Most probable value (peak bin of the histogram), not a median, +/- 0.05 dB/cm; span about 1.5 to 2.8 dB/cm; band from Fig. 1 of the same 350 nm waveguide.
+    why: a histogram mode is not a median (p.2 Fig. 1 / Fig. 2); merged precedent girardi2025_coupled_rings-m1 stores a histogram mode as typical with this wording
+  cmp_lit_giewont2019_soi_wg_810-m1:
+    statistic: typical
+    notes: Most probable value (peak bin of the histogram), not a median, +/- 0.05 dB/cm; span about 0.15 to 1.0 dB/cm; sample count not stated.
+    why: a histogram mode is not a median (p.2 Fig. 1 / Fig. 2); merged precedent girardi2025_coupled_rings-m1 stores a histogram mode as typical with this wording
+  cmp_lit_veiga2026_sin1_nom700-m2:
+    wavelength_inferred: 'true'
+    notes: Table IV H2 cure row, width 600 nm. Table IV states no wavelength; 1310 nm from Fig. 12 and the text comparing the same rows (p.7).
+    why: Table IV (p.7) prints no wavelength; the 1.31 um comes from Fig. 12 and the paragraph around it (skill rule 8)
+  cmp_lit_veiga2026_sin1_nocure_w0p63-m2:
+    wavelength_inferred: 'true'
+    notes: Table IV states no wavelength; 1310 nm from Fig. 12 and the text comparing the same rows (p.7).
+    why: Table IV (p.7) prints no wavelength; the 1.31 um comes from Fig. 12 and the paragraph around it (skill rule 8)
+  cmp_lit_veiga2026_sin2_nom1100-m2:
+    condition: nominal width; Table V lists the 3.85 dB/cm core as 1 x 0.4 um
+    why: condition said real width not stated, while m1 uses the 1 um core of Table V (p.8) and the p.4 text gives about 100 nm width loss
+delete_metrics:
+- id: cmp_lit_thiel2026_balanced_photoreceiver-m2
+  why: 'D159: 3 GHz (p.1 Abstract, detectors with amplifiers) is not tied to this receiver, whose 3-dB bandwidth is measured as 510 MHz (p.6, Fig. 4(c)); Fig. 4(f) places 3 GHz at the 3 dB below peak crossing of the photodiode classes (p.5); value stays in component notes'
+add_metrics:
+- metric_id: cmp_lit_romerogarcia2013_mmi_1x4-m10
+  component_id: cmp_lit_romerogarcia2013_mmi_1x4
+  parameter: excess_loss_db
+  value: 0.088
+  unit: dB
+  qualifier: lt
+  wavelength_nm: 660
+  wavelength_inferred: 'true'
+  scope: per_component
+  condition: nominal design, FIMMPROP
+  basis: simulated
+  locator: p.8 Sec. 2.3
+  notes: -10 log10(0.98) from the printed simulated efficiency above 98 %; 660 nm is the design wavelength of the paper (p.1).
+  why: 'miss: stated simulated performance of the same efficiency metric as m1 (p.8 Sec. 2.3), kept only in component notes'
+- metric_id: cmp_lit_giewont2019_ge_pd-m4
+  component_id: cmp_lit_giewont2019_ge_pd
+  parameter: dark_current_na
+  value: 25
+  unit: nA
+  qualifier: approx
+  statistic: typical
+  bias_v: -1
+  condition: newPOR, lower thermal budget process
+  basis: extracted_from_figure
+  locator: p.5 Fig. 8
+  notes: Most probable value (peak bins 22.5 to 27.5 nA), +/- 2.5 nA; span about 12.5 to 60 nA; sample count not stated. Conflicts with the 35 to 70 nA text range (m1); oldPOR peaks near 40 nA.
+  why: 'miss: Fig. 1 and Fig. 2 histogram peaks were entered, Fig. 8 was not; the figure is the only evidence for the process the row is named after and it conflicts with the text (p.4 Sec. V)'
+- metric_id: cmp_lit_thiel2026_pd_circular_multibounce-m4
+  component_id: cmp_lit_thiel2026_pd_circular_multibounce
+  parameter: bw3db_ghz
+  value: 3
+  unit: GHz
+  qualifier: approx
+  condition: 3 dB below the peak of the normalized photoresponse (peak about +0.5 dB); axis level -3 dB at about 5 GHz; bias not stated
+  basis: extracted_from_figure
+  locator: p.5 Fig. 4(f)
+  notes: Read +/- 0.5 GHz. Curve labelled Circular Multi-Bounce. Amplifier in the path not stated for Fig. 4(f). The abstract 3 GHz (p.1) matches this crossing for the multi-bounce curves.
+  why: 'miss: Fig. 4(f) is tied to the three photodiode classes by its legend and gives their bandwidth; replaces the abstract 3 GHz deleted on the balanced receiver (D159)'
+- metric_id: cmp_lit_thiel2026_pd_linear_multibounce-m3
+  component_id: cmp_lit_thiel2026_pd_linear_multibounce
+  parameter: bw3db_ghz
+  value: 3
+  unit: GHz
+  qualifier: approx
+  condition: 3 dB below the peak of the normalized photoresponse (peak about +0.5 dB); axis level -3 dB at about 5 GHz; bias not stated
+  basis: extracted_from_figure
+  locator: p.5 Fig. 4(f)
+  notes: Read +/- 0.5 GHz. Curve labelled Linear Multi-Bounce. Amplifier in the path not stated for Fig. 4(f). The abstract 3 GHz (p.1) matches this crossing for the multi-bounce curves.
+  why: 'miss: Fig. 4(f) is tied to the three photodiode classes by its legend and gives their bandwidth; replaces the abstract 3 GHz deleted on the balanced receiver (D159)'
+- metric_id: cmp_lit_thiel2026_pd_single_bounce-m3
+  component_id: cmp_lit_thiel2026_pd_single_bounce
+  parameter: bw3db_ghz
+  value: 4
+  unit: GHz
+  qualifier: approx
+  condition: 3 dB below the peak of the normalized photoresponse (peak about +0.5 dB); axis level -3 dB at about 7 GHz; bias not stated
+  basis: extracted_from_figure
+  locator: p.5 Fig. 4(f)
+  notes: Read +/- 0.5 GHz. Curve labelled Linear Single-Bounce. Amplifier in the path not stated for Fig. 4(f). The abstract 3 GHz (p.1) matches this crossing for the multi-bounce curves.
+  why: 'miss: Fig. 4(f) is tied to the three photodiode classes by its legend and gives their bandwidth; replaces the abstract 3 GHz deleted on the balanced receiver (D159)'

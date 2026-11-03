@@ -1,0 +1,241 @@
+# Audit patch lit_72 (fresh-context audit 2026-11-02, DevLog/audits/2026-11-02-lit_72-audit.md).
+# 156 metrics: 137 ok / 19 imprecise / 0 wrong; 20 components: 17 ok / 3 imprecise, 0 deleted; 15 misses added.
+# Not covered here (coordinator rulings): audit Q1-Q4; registry gaps in the audit file.
+components:
+  cmp_lit_he2025_crossing:
+    fab_org_ids: org_peng_cheng_laboratory;org_university_of_science_and_technology_of_china
+    notes: 'Four identical arms from W1 to W13 (um): 1, 1.534, 1.314, 1.808, 2.188, 2.22, 2.07, 1.9, 1.9, 2.106, 2.4, 3.43, 1 (Table 1 p.4). Fab: author contributions name F.G. (Peng Cheng Laboratory), F.Y.Y. (USTC) and X.Y.Z. (ISCE2, A*STAR) as having designed and fabricated the device (p.8, p.1), D80b; ISCE2, A*STAR is not in the registry (org round). p.2 attributes the 70 deg sidewall value to an unnamed commercial foundry. LN anisotropy neglected in the design (p.3). Printed bound vs plot: Fig. 4(b) has spikes near 0.15 dB at the short-wavelength end and Fig. 5(b) peaks near -36 dB; printed bounds entered. Fig. 5(b) dips reach below the printed -50 dB best. Table 2 comparison rows are other works.'
+    why: 'p.8 Author contributions + p.1 affiliations: named fabricators at named orgs is the D80b case (niels2026, churaev2023); D154 / qi2024 is an unattributed "we fabricate" with no org named, so it does not apply. See audit Q1'
+  cmp_lit_he2025_inverse_taper:
+    fab_org_ids: org_peng_cheng_laboratory;org_university_of_science_and_technology_of_china
+    notes: Input and output couplers of the crossing test structure (cmp_lit_he2025_crossing). Fab as for the crossing (p.8, D80b). Rib cross-section of the taper not stated; platform follows the waveguide it connects to.
+    why: same chip and statement as the crossing; see audit Q1
+  cmp_lit_sacher2014a_tin_heater:
+    platform: soi_strip
+    why: 'p.3 Sec. 2 and p.6 Sec. 4: heaters sit above Si strip waveguides, the paper names the etch type (lit_69 / D434 precedent cherchi2013, ding2022)'
+  cmp_lit_peng2021_crossing:
+    notes: 'Four identical arms, 13 width variables w1-w13 (um): 0.48, 0.71, 1.11, 1.55, 1.67, 1.64, 1.69, 1.77, 1.85, 2.08, 2.32, 2.875, 0.48 (Table 1 p.1). Foundry not named: fab empty, although p.2 also says the authors fabricated the test structures, next to the foundry-process sentence (audit Q3). Cut-back on N = 0, 200, 400, 600 crossings (p.2). SEM dimension labels in Fig. 2 (2.185 and 2.252 um) are not tied to a named parameter: not entered. Measured crosstalk not reported.'
+    why: 'p.2 Sec. 2: first-person wording not recorded; keeps the decision traceable'
+metrics:
+  cmp_lit_pita2023_tm_pass_7um-m2:
+    basis: simulated
+    notes: 'Fig. 4 dot read, +/- 0.2 dB (reading of a simulated point: basis simulated, D80a)'
+    why: 'p.6 Fig. 4: the dot series is the simulation; D80a keeps values read off a plot of simulated data simulated, reading uncertainty in notes'
+  cmp_lit_pita2023_tm_pass_8um-m2:
+    basis: simulated
+    notes: 'Fig. 4 dot read, +/- 0.2 dB (reading of a simulated point: basis simulated, D80a)'
+    why: 'p.6 Fig. 4: the dot series is the simulation; D80a keeps values read off a plot of simulated data simulated, reading uncertainty in notes'
+  cmp_lit_pita2023_tm_pass_9um-m2:
+    basis: simulated
+    notes: 'Fig. 4 dot read, +/- 0.2 dB (reading of a simulated point: basis simulated, D80a)'
+    why: 'p.6 Fig. 4: the dot series is the simulation; D80a keeps values read off a plot of simulated data simulated, reading uncertainty in notes'
+  cmp_lit_pita2023_tm_pass_10um-m2:
+    basis: simulated
+    notes: 'Fig. 4 dot read, +/- 0.2 dB (reading of a simulated point: basis simulated, D80a)'
+    why: 'p.6 Fig. 4: the dot series is the simulation; D80a keeps values read off a plot of simulated data simulated, reading uncertainty in notes'
+  cmp_lit_pita2023_tm_pass_11um-m2:
+    basis: simulated
+    notes: 'Fig. 4 dot read, +/- 0.2 dB (reading of a simulated point: basis simulated, D80a)'
+    why: 'p.6 Fig. 4: the dot series is the simulation; D80a keeps values read off a plot of simulated data simulated, reading uncertainty in notes'
+  cmp_lit_pita2023_tm_pass_12um-m2:
+    basis: simulated
+    notes: 'Fig. 4 dot read, +/- 0.2 dB (reading of a simulated point: basis simulated, D80a)'
+    why: 'p.6 Fig. 4: the dot series is the simulation; D80a keeps values read off a plot of simulated data simulated, reading uncertainty in notes'
+  cmp_lit_peng2021_crossing-m4:
+    basis: simulated
+    notes: 'read about -56 to -62 dB, +/- 1 dB; simulated value, no text value (reading of a simulated curve: basis simulated, D80a)'
+    why: 'p.2 Fig. 1(b): simulated crosstalk curve; D80a. Reading itself confirmed on the render (about -56 at 1520 nm, about -62 at 1570 nm)'
+  cmp_lit_pita2023_tm_pass_7um-m3:
+    condition: TM transmission; printed for the C-band, see notes
+    notes: 'printed TM efficiency above -0.7 dB, stated once for all six devices. Printed bound kept (D417), but Fig. 3(c) by eye: the high-transmission trace of this device group reads about -1.2 to -1.5 dB at 1530 nm and passes -0.7 dB only towards the long C-band edge, so the bound does not hold over the whole band as plotted'
+    why: 'p.5 Fig. 3(c) enlarged against p.5 Sec. 3: the printed bound and the plotted spectrum disagree at the short C-band edge; the row alone read as a whole-band guarantee (D417: printed value kept, conflict in notes)'
+  cmp_lit_pita2023_tm_pass_8um-m3:
+    condition: TM transmission; printed for the C-band, see notes
+    notes: 'printed TM efficiency above -0.7 dB, stated once for all six devices. Printed bound kept (D417), but Fig. 3(c) by eye: the high-transmission trace of this device group reads about -1.2 to -1.5 dB at 1530 nm and passes -0.7 dB only towards the long C-band edge, so the bound does not hold over the whole band as plotted'
+    why: 'p.5 Fig. 3(c) enlarged against p.5 Sec. 3: the printed bound and the plotted spectrum disagree at the short C-band edge; the row alone read as a whole-band guarantee (D417: printed value kept, conflict in notes)'
+  cmp_lit_pita2023_tm_pass_9um-m3:
+    condition: TM transmission; printed for the C-band, see notes
+    notes: 'printed TM efficiency above -0.7 dB, stated once for all six devices. Printed bound kept (D417), but Fig. 3(c) by eye: the high-transmission trace of this device group reads about -1.2 to -1.5 dB at 1530 nm and passes -0.7 dB only towards the long C-band edge, so the bound does not hold over the whole band as plotted'
+    why: 'p.5 Fig. 3(c) enlarged against p.5 Sec. 3: the printed bound and the plotted spectrum disagree at the short C-band edge; the row alone read as a whole-band guarantee (D417: printed value kept, conflict in notes)'
+  cmp_lit_pita2023_tm_pass_10um-m3:
+    condition: TM transmission; printed for the C-band, see notes
+    notes: 'printed TM efficiency above -0.7 dB, stated once for all six devices. Printed bound kept (D417), but Fig. 3(c) by eye: the high-transmission trace of this device group reads about -2.5 to -3 dB at 1530 nm and passes -0.7 dB only towards the long C-band edge, so the bound does not hold over the whole band as plotted'
+    why: 'p.5 Fig. 3(c) enlarged against p.5 Sec. 3: the printed bound and the plotted spectrum disagree at the short C-band edge; the row alone read as a whole-band guarantee (D417: printed value kept, conflict in notes)'
+  cmp_lit_pita2023_tm_pass_11um-m3:
+    condition: TM transmission; printed for the C-band, see notes
+    notes: 'printed TM efficiency above -0.7 dB, stated once for all six devices. Printed bound kept (D417), but Fig. 3(c) by eye: the high-transmission trace of this device group reads about -2.5 to -3 dB at 1530 nm and passes -0.7 dB only towards the long C-band edge, so the bound does not hold over the whole band as plotted'
+    why: 'p.5 Fig. 3(c) enlarged against p.5 Sec. 3: the printed bound and the plotted spectrum disagree at the short C-band edge; the row alone read as a whole-band guarantee (D417: printed value kept, conflict in notes)'
+  cmp_lit_pita2023_tm_pass_12um-m3:
+    condition: TM transmission; printed for the C-band, see notes
+    notes: 'printed TM efficiency above -0.7 dB, stated once for all six devices. Printed bound kept (D417), but Fig. 3(c) by eye: the high-transmission trace of this device group reads about -2.5 to -3 dB at 1530 nm and passes -0.7 dB only towards the long C-band edge, so the bound does not hold over the whole band as plotted'
+    why: 'p.5 Fig. 3(c) enlarged against p.5 Sec. 3: the printed bound and the plotted spectrum disagree at the short C-band edge; the row alone read as a whole-band guarantee (D417: printed value kept, conflict in notes)'
+  cmp_lit_pita2023_tm_pass_12um-m6:
+    condition: 3D FDTD; printed for the C-band, see notes
+    notes: 'printed 0.36 dB next to a whole-C-band statement; Fig. 2(d) by eye: the 12 um TM trace reads about -2 dB at 1530 nm and about -0.5 dB at 1565 nm, so 0.36 dB is not a whole-band value as plotted (D417)'
+    why: p.4 Fig. 2(d) against p.3 Sec. 2
+  cmp_lit_pita2023_tm_pass_9um-m7:
+    notes: 'printed -13.9 dB; wavelength not stated. Fig. 3(c) by eye: the 9 um TE trace reads about -13 dB at 1530 nm and reaches about -20 dB near 1500 nm, so the printed minimum is not the minimum of the whole sweep (D417)'
+    why: 'p.5 Fig. 3(c) enlarged: the row would otherwise read as the sweep minimum'
+  cmp_lit_pita2023_tm_pass_11um-m6:
+    notes: 'printed over 80 nm. Fig. 3(c) by eye: -3 dB near 1522 nm and the sweep ends at 1600 nm, about 78 nm inside the plotted window (D417)'
+    why: p.5 Fig. 3(c) enlarged against p.5 Sec. 3
+  cmp_lit_lee2024_psr_w0-m5:
+    notes: 'printed polarization extinction exceeding 45 dB and crosstalk well below -45 dB; span from the Fig. 3 axis; extinction = contrast between the traces per the caption (edge coupler and routing loss are in both traces). Fig. 3 by eye: at the upper noise envelope the contrast is about 40-41 dB in (a) (wanted about -6.5, peaks about -47 dB) and about 44 dB in (b) (wanted about -5, peaks about -49 dB); the -45 dB of the text holds for the unwanted trace itself. Printed bound kept (D417). The Fig. 3(a) legend is swapped against the text: TE input is the flat wanted trace per p.3'
+    why: 'p.3 Fig. 3 enlarged: the distiller put the 42 dB conflict only in its report; legend check against p.3 Sec. 2'
+  cmp_lit_lee2024_psr_w0p10-m1:
+    value: 0.4
+    notes: 'box line read, +/- 0.1 dB, by eye on the Fig. 2(a) enlargement (0.35-0.43 dB over the two scales of the panel: tick labels and gridlines are not aligned); outliers down to about -2 dB'
+    why: 'p.2 Fig. 2(a) enlarged: the box line sits at the level of the W0 box whose mean is printed 0.42 dB, not below it'
+  cmp_lit_lee2024_psr_w0p20-m1:
+    value: 1.6
+    value_max: 4.2
+    condition: 'TM-TE path, box edges (median: m2)'
+    notes: box edges read on the tick-label scale, +/- 0.2 dB; the panel gridlines are not aligned with the tick labels and would give about 1.7 and 4.5 dB; whiskers about -0.5 and -5.8 dB
+    why: 'p.2 Fig. 2(a) enlarged: the box has a thin median line, so the batch claim of no visible median is wrong; 1.7 and 4.2 mixed the gridline and tick-label scales'
+add_metrics:
+- metric_id: cmp_lit_lee2024_psr_w0p20-m2
+  component_id: cmp_lit_lee2024_psr_w0p20
+  parameter: insertion_loss_db
+  value: 2.4
+  unit: dB
+  basis: extracted_from_figure
+  locator: p.2 Fig. 2(a)
+  condition: TM-TE path, box median
+  notes: median line read on the tick-label scale, +/- 0.2 dB; gridlines would give about 2.6 dB
+  why: 'miss: p.2 Fig. 2(a) enlarged shows the median line of the W0 + 20 nm box; same statistic as the W0 + 10 nm row'
+  qualifier: approx
+  statistic: median
+  wavelength_nm: 1310
+  polarization: tm
+  scope: per_component
+  excludes: grating couplers and routing via the PSR cascade
+  method: cutback
+- metric_id: cmp_lit_pita2023_tm_pass_7um-m13
+  component_id: cmp_lit_pita2023_tm_pass_7um
+  parameter: width_nm
+  value: 2000
+  unit: nm
+  basis: derived
+  locator: p.2-3 Sec. 2; p.1 abstract
+  condition: optimization region (polarizer body) width
+  notes: printed 2 um; um -> nm
+  why: 'miss (D153): p.2-3 Sec. 2 selects a 2 um region for the polarizers; stored only inside a condition. Drawing needs the body width apart from the 850 nm port width'
+- metric_id: cmp_lit_pita2023_tm_pass_8um-m12
+  component_id: cmp_lit_pita2023_tm_pass_8um
+  parameter: width_nm
+  value: 2000
+  unit: nm
+  basis: derived
+  locator: p.2-3 Sec. 2; p.1 abstract
+  condition: optimization region (polarizer body) width
+  notes: printed 2 um; um -> nm
+  why: 'miss (D153): p.2-3 Sec. 2 selects a 2 um region for the polarizers; stored only inside a condition. Drawing needs the body width apart from the 850 nm port width'
+- metric_id: cmp_lit_pita2023_tm_pass_9um-m14
+  component_id: cmp_lit_pita2023_tm_pass_9um
+  parameter: width_nm
+  value: 2000
+  unit: nm
+  basis: derived
+  locator: p.2-3 Sec. 2; p.1 abstract
+  condition: optimization region (polarizer body) width
+  notes: printed 2 um; um -> nm
+  why: 'miss (D153): p.2-3 Sec. 2 selects a 2 um region for the polarizers; stored only inside a condition. Drawing needs the body width apart from the 850 nm port width'
+- metric_id: cmp_lit_pita2023_tm_pass_10um-m11
+  component_id: cmp_lit_pita2023_tm_pass_10um
+  parameter: width_nm
+  value: 2000
+  unit: nm
+  basis: derived
+  locator: p.2-3 Sec. 2; p.1 abstract
+  condition: optimization region (polarizer body) width
+  notes: printed 2 um; um -> nm
+  why: 'miss (D153): p.2-3 Sec. 2 selects a 2 um region for the polarizers; stored only inside a condition. Drawing needs the body width apart from the 850 nm port width'
+- metric_id: cmp_lit_pita2023_tm_pass_11um-m14
+  component_id: cmp_lit_pita2023_tm_pass_11um
+  parameter: width_nm
+  value: 2000
+  unit: nm
+  basis: derived
+  locator: p.2-3 Sec. 2; p.1 abstract
+  condition: optimization region (polarizer body) width
+  notes: printed 2 um; um -> nm
+  why: 'miss (D153): p.2-3 Sec. 2 selects a 2 um region for the polarizers; stored only inside a condition. Drawing needs the body width apart from the 850 nm port width'
+- metric_id: cmp_lit_pita2023_tm_pass_12um-m13
+  component_id: cmp_lit_pita2023_tm_pass_12um
+  parameter: width_nm
+  value: 2000
+  unit: nm
+  basis: derived
+  locator: p.2-3 Sec. 2; p.1 abstract
+  condition: optimization region (polarizer body) width
+  notes: printed 2 um; um -> nm
+  why: 'miss (D153): p.2-3 Sec. 2 selects a 2 um region for the polarizers; stored only inside a condition. Drawing needs the body width apart from the 850 nm port width'
+- metric_id: cmp_lit_pita2023_focused_gc-m5
+  component_id: cmp_lit_pita2023_focused_gc
+  parameter: core_thickness_nm
+  value: 400
+  unit: nm
+  basis: design_target
+  locator: p.4 Sec. 3
+  condition: Si3N4 device layer
+  why: 'miss (D153): grating template xsec; same wafer as the polarizers, p.4 Sec. 3'
+- metric_id: cmp_lit_pita2023_focused_gc-m6
+  component_id: cmp_lit_pita2023_focused_gc
+  parameter: box_thickness_um
+  value: 4.5
+  unit: um
+  basis: design_target
+  locator: p.4 Sec. 3
+  why: 'miss (D153): p.4 Sec. 3, same wafer'
+- metric_id: cmp_lit_pita2023_focused_gc-m7
+  component_id: cmp_lit_pita2023_focused_gc
+  parameter: cladding_thickness_um
+  value: 3
+  unit: um
+  basis: design_target
+  locator: p.4 Sec. 3
+  why: 'miss (D153): p.4 Sec. 3, same wafer'
+- metric_id: cmp_lit_he2025_inverse_taper-m5
+  component_id: cmp_lit_he2025_inverse_taper
+  parameter: core_thickness_nm
+  value: 400
+  unit: nm
+  basis: design_target
+  locator: p.2 Sec. Device design
+  condition: LN layer of the test chip
+  why: 'miss (D153): edge_taper template requires it; the row held it only in core_material'
+- metric_id: cmp_lit_he2025_inverse_taper-m6
+  component_id: cmp_lit_he2025_inverse_taper
+  parameter: box_thickness_um
+  value: 3
+  unit: um
+  basis: design_target
+  locator: p.2 Sec. Device design
+  condition: silica on Si substrate
+  why: 'miss (D153): edge_taper xsec, same wafer as the crossing'
+- metric_id: cmp_lit_sacher2014_thermal_tuner-m4
+  component_id: cmp_lit_sacher2014_thermal_tuner
+  parameter: core_thickness_nm
+  value: 220
+  unit: nm
+  basis: design_target
+  locator: p.3 Sec. 2
+  condition: top Si of the OpSIS process
+  why: 'miss (D153): heater_ps template requires it; the row held it only in core_material'
+- metric_id: cmp_lit_sacher2014a_tin_heater-m2
+  component_id: cmp_lit_sacher2014a_tin_heater
+  parameter: core_thickness_nm
+  value: 150
+  unit: nm
+  basis: design_target
+  locator: p.3 Sec. 2; p.4 Sec. 2
+  condition: Si strip layer under the heater
+  why: 'miss (D153): heater_ps template requires it; the row held it only in core_material'
+- metric_id: cmp_lit_sacher2014a_tin_heater-m3
+  component_id: cmp_lit_sacher2014a_tin_heater
+  parameter: box_thickness_um
+  value: 2
+  unit: um
+  basis: design_target
+  locator: p.4 Sec. 2
+  why: 'miss (D153): heater_ps xsec'

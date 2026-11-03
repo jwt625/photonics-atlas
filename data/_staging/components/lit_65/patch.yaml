@@ -1,0 +1,215 @@
+# Audit patch lit_65 (fresh-context audit 2026-11-02, DevLog/audits/2026-11-02-lit_65-audit.md).
+# 200 metrics: 177 ok / 23 imprecise / 0 wrong; 35 components: 31 ok / 4 wrong (KNMF facility, D83e), 0 deleted;
+# misses: 11 metrics added (D153 stack geometry on the yoo2022 splitters, stated pitches, blaicher2020 fiber-side PWB).
+# Coordinator decision open: theurer2019 calibration family (audit Q1), patched to the strict reading of skill rule 4.
+components:
+  cmp_lit_blaicher2020_pwb_bridge_test:
+    facility_org_ids: ''
+    notes: 'Fab: M.B. designed and fabricated these samples (author contributions, p.11; KIT): fab KIT (D395). KNMF appears only in the funding list (p.10): not a facility (D83e / D80c; lindenmann2012, billah2018 precedent). Same-chip test bridge stays chip_chip per lindenmann2012 (D422). Fully automated, about 30 s per PWB (p.4). Temperature cycling -40 to 85 C: no degradation after 225 cycles (p.4 Fig. 2(b)); earlier samples 600 cycles and damp-heat 85 C / 85 % RH above 3000 h (p.4-5). Five PWB bridges survived until the Si waveguides failed at about 19 dBm on-chip (p.5; power handling not allowed for this class, registry gap). Pitch 25 um and bend radius 35 um: no parameter for this class. 0.4 dB of ref. 17 and 1300-1600 nm of ref. 16 are cited: not entered.'
+    why: p.10 lists KNMF among the grant and program supporters, no statement of use or fabrication there; D83e / D80c funding-only rule; merged lindenmann2012, billah2018 and dietrich2018 rows have the same acknowledgement wording and facility empty (lit_52 audit, lit_16 audit)
+  cmp_lit_blaicher2020_pwb_imdd_pair:
+    facility_org_ids: ''
+    notes: 'Fab: IM/DD module jointly fabricated by M.R.B., T.H. and M.B. (author contributions, p.11; all KIT, D395). KNMF appears only in the funding list (p.10): not a facility (D83e / D80c; lindenmann2012, billah2018 precedent). Over-etched oxide opening of the module SiP wafer left Si tapers with tips of about 200 nm instead of 130 nm (p.9). Paper reports one per-PWB average for each cascaded pair, so laser-side and fiber-side PWBs are one row. Journal paper extending the authors'' conference reports (D408: values kept).'
+    why: p.10 lists KNMF among the grant and program supporters, no statement of use or fabrication there; D83e / D80c funding-only rule; merged lindenmann2012, billah2018 and dietrich2018 rows have the same acknowledgement wording and facility empty (lit_52 audit, lit_16 audit)
+  cmp_lit_blaicher2020_pwb_hcsel_coherent:
+    facility_org_ids: ''
+    notes: 'Fab: coherent module fabricated by M.R.B. with T.H. and M.B. (author contributions, p.11; all KIT). KNMF appears only in the funding list (p.10): not a facility (D83e / D80c; lindenmann2012, billah2018 precedent). Over-etched oxide opening of the module SiP wafer left Si tapers with tips of about 200 nm instead of 130 nm (p.9). Channel 1 HCSEL-side PWB impaired by a dirt particle (p.8).'
+    why: p.10 lists KNMF among the grant and program supporters, no statement of use or fabrication there; D83e / D80c funding-only rule; merged lindenmann2012, billah2018 and dietrich2018 rows have the same acknowledgement wording and facility empty (lit_52 audit, lit_16 audit)
+  cmp_lit_blaicher2020_pwb_fiber_coherent:
+    facility_org_ids: ''
+    notes: 'Fab: coherent module fabricated by M.R.B. with T.H. and M.B. (author contributions, p.11; all KIT). KNMF appears only in the funding list (p.10): not a facility (D83e / D80c; lindenmann2012, billah2018 precedent). Over-etched oxide opening of the module SiP wafer left Si tapers with tips of about 200 nm instead of 130 nm (p.9). PWBs of Fig. 1(c) compensate a 25 um lateral offset (p.3).'
+    why: p.10 lists KNMF among the grant and program supporters, no statement of use or fabrication there; D83e / D80c funding-only rule; merged lindenmann2012, billah2018 and dietrich2018 rows have the same acknowledgement wording and facility empty (lit_52 audit, lit_16 audit)
+metrics:
+  cmp_lit_yoo2022_ld_ec_butt-m1:
+    wavelength_inferred: 'true'
+    why: 'value sentence states no wavelength, the LD emission range is stated on p.2: skill rule 8 and schema wavelength_inferred; same treatment as the o_band splitter rows of this paper and lit_61 goh2001 (p.7 Sec. 3.3)'
+  cmp_lit_yoo2022_ld_ec_butt-m2:
+    wavelength_inferred: 'true'
+    notes: Wavelength not stated with the value; 1310 nm range stated for the LD (p.2).
+    why: 'value sentence states no wavelength, the LD emission range is stated on p.2: skill rule 8 and schema wavelength_inferred; same treatment as the o_band splitter rows of this paper and lit_61 goh2001 (p.5 Sec. 3.1)'
+  cmp_lit_yoo2022_ld_ec_butt-m3:
+    wavelength_inferred: 'true'
+    notes: vertical axis in tol_1db_lateral_um with the direction in condition (fowler2025 / tanaka2012 precedent). Wavelength not stated with the value; 1310 nm range stated for the LD (p.2).
+    why: 'value sentence states no wavelength, the LD emission range is stated on p.2: skill rule 8 and schema wavelength_inferred; same treatment as the o_band splitter rows of this paper and lit_61 goh2001 (p.5 Sec. 3.1)'
+  cmp_lit_yoo2022_ld_ec_butt-m4:
+    wavelength_inferred: 'true'
+    notes: printed as about 1 dB per 10 um. Wavelength not stated with the value; 1310 nm range stated for the LD (p.2).
+    why: 'value sentence states no wavelength, the LD emission range is stated on p.2: skill rule 8 and schema wavelength_inferred; same treatment as the o_band splitter rows of this paper and lit_61 goh2001 (p.5 Sec. 3.1)'
+  cmp_lit_yoo2022_dfb_flipchip-m1:
+    wavelength_inferred: 'true'
+    notes: P(coupled) = measured LI curve minus the separately measured 6 dB coupling loss (D394). Wavelength not stated with the value; 1310 nm range stated for the LD (p.2).
+    why: 'value sentence states no wavelength, the LD emission range is stated on p.2: skill rule 8 and schema wavelength_inferred; same treatment as the o_band splitter rows of this paper and lit_61 goh2001 (p.7 Sec. 3.3)'
+  cmp_lit_yoo2022_dfb_flipchip-m2:
+    wavelength_inferred: 'true'
+    notes: average launch power of the Tx, not of the bare LD. Wavelength not stated with the value; 1310 nm range stated for the LD (p.2).
+    why: 'value sentence states no wavelength, the LD emission range is stated on p.2: skill rule 8 and schema wavelength_inferred; same treatment as the o_band splitter rows of this paper and lit_61 goh2001 (p.14 Sec. 5.2)'
+  cmp_lit_asch2025_litho_taper_1mm-m6:
+    wavelength_inferred: 'true'
+    notes: feasibility figure from the breakdown with an assumed length, not a measured link. Wavelength not stated with the sub-2 dB figure; taken from the 1310 nm breakdown it rests on (p.9).
+    why: 'p.9-10 Sec. 4.1 prints the sub-2 dB figures without a wavelength; the preceding sentence gives the 1310 nm breakdown, the abstract says O-band only: rule 8'
+  cmp_lit_asch2025_litho_taper_1mm-m7:
+    wavelength_inferred: 'true'
+    notes: calculated by the authors from the breakdown, not a measured link. Wavelength not stated with the sub-2 dB figure; taken from the 1310 nm breakdown it rests on (p.9).
+    why: 'p.9-10 Sec. 4.1 prints the sub-2 dB figures without a wavelength; the preceding sentence gives the 1310 nm breakdown, the abstract says O-band only: rule 8'
+  cmp_lit_asch2025_litho_taper_2mm-m1:
+    wavelength_inferred: 'true'
+    why: 'wavelength span 1260-1360 nm is the Fig. 13(b) plot axis (p.11), the sentence prints none: schema wavelength_inferred covers plot axes'
+  cmp_lit_asch2025_litho_taper_3mm-m1:
+    wavelength_inferred: 'true'
+    why: 'wavelength span 1260-1360 nm is the Fig. 13(b) plot axis (p.11), the sentence prints none: schema wavelength_inferred covers plot axes'
+  cmp_lit_blaicher2020_pwb_bridge_test-m7:
+    notes: printed 2.0 um. Printed as a 2.0 x 1.6 um2 cross section; the paper does not label which value is width and which height, order taken as width x height.
+    why: p.2 prints the product form only; contract v5 says a drawing must never guess which dimension is which, so the assumption is recorded
+  cmp_lit_blaicher2020_pwb_bridge_test-m8:
+    notes: printed 1.6 um. Printed as a 2.0 x 1.6 um2 cross section; the paper does not label which value is width and which height, order taken as width x height.
+    why: p.2 prints the product form only; contract v5 says a drawing must never guess which dimension is which, so the assumption is recorded
+  cmp_lit_ropp2021_mg_30deg-m4:
+    basis: author_estimate
+    notes: nominal slab-mode waist of the EVC design, origin not stated; measured wy in m2.
+    why: 'beam_waist_um is a performance parameter; p.7 Sec. 4 states it as nominal: design-stated performance -> author_estimate (contract v4 D80-D82, lit_61 channel-spacing ruling); merged beam_waist_um has no design_target row'
+  cmp_lit_ropp2021_mg_8deg-m4:
+    basis: author_estimate
+    notes: nominal slab-mode waist of the EVC design, origin not stated; measured wy in m2.
+    why: as mg_30deg-m4 (p.7 Sec. 4)
+  cmp_lit_ropp2021_apodized_design_30nm-m3:
+    basis: author_estimate
+    notes: target waist the apodization is calculated for; waist of the simulated beam not printed.
+    why: as mg_30deg-m4; p.6 Sec. 3 and Fig. 4 give w0 = 100 um as the target input of the design, not a simulated result
+  cmp_lit_ropp2021_apodized_design_30nm-m2:
+    notes: Sentence is about the cladding-thickness sweep of the Fig. 3(b) simulations, tied to no etch depth; kept on this design row, whose own cladding pair is one point of that sweep.
+    why: 'p.5 Sec. 3: the 39-56 % range is not printed for the 30 nm apodized design specifically; recorded so the row is not read as that design result'
+  cmp_lit_theurer2019_bonded_active-m1:
+    basis: author_estimate
+    notes: 'Wavelength not stated with the value; band from the lasing spectra of Fig. 6 and 8 (about 1548-1552 nm). printed average of -3.2, -2.9, -3.4 dB. Rests on the -2.35 dB chip-to-fiber calibration, origin not stated (p.3; sin_facet-m1); D394 derived needs an own measured coupling loss. Printed verb: measured.'
+    why: 'p.3 Sec. III-B: the loss is arithmetic on two power readings plus a calibration term of unstated origin, skill rule 4 (basis by how obtained; term whose origin is not stated -> author_estimate); yoo2022 6 dB is stated as measured separately, this one is not. Coordinator Q1'
+  cmp_lit_theurer2019_bonded_active-m2:
+    basis: author_estimate
+    notes: 'Wavelength not stated with the value; band from the lasing spectra of Fig. 6 and 8 (about 1548-1552 nm). Rests on the -2.35 dB chip-to-fiber calibration, origin not stated (p.3; sin_facet-m1); D394 derived needs an own measured coupling loss. Printed verb: measured.'
+    why: 'p.3 Sec. III-B: the loss is arithmetic on two power readings plus a calibration term of unstated origin, skill rule 4 (basis by how obtained; term whose origin is not stated -> author_estimate); yoo2022 6 dB is stated as measured separately, this one is not. Coordinator Q1'
+  cmp_lit_theurer2019_bonded_visual-m1:
+    basis: author_estimate
+    notes: 'Wavelength not stated with the value; band from the lasing spectra of Fig. 6 and 8 (about 1548-1552 nm). printed -3 dB. Rests on the -2.35 dB chip-to-fiber calibration, origin not stated (p.3; sin_facet-m1); D394 derived needs an own measured coupling loss. Printed verb: measured.'
+    why: 'p.4 Sec. III-C, measured as in III-B: the loss is arithmetic on two power readings plus a calibration term of unstated origin, skill rule 4 (basis by how obtained; term whose origin is not stated -> author_estimate); yoo2022 6 dB is stated as measured separately, this one is not. Coordinator Q1'
+  cmp_lit_theurer2019_dfb_active-m1:
+    basis: author_estimate
+    notes: Power at the SiN output facet referred to the waveguide; the calibration (2.35 dB, origin not stated) is printed only for the loss measurement (p.3), D394 derived needs an own measured coupling loss. Maximum printed without a temperature; 20 C from the top curve of Fig. 5, whose cw trace reads about 34 mW at the 255 mA axis limit; text value entered.
+    why: 'Fig. 5 / Fig. 7 plot power in the waveguide measured at the chip output (p.3-4); the only stated reference is the 2.35 dB term of unstated origin: rule 4, Coordinator Q1'
+  cmp_lit_theurer2019_dfb_active-m2:
+    basis: author_estimate
+    notes: Power at the SiN output facet referred to the waveguide; the calibration (2.35 dB, origin not stated) is printed only for the loss measurement (p.3), D394 derived needs an own measured coupling loss. Fig. 5 cw 85 C trace peaks at about 11.5 mW (reading uncertainty about +/- 0.5 mW), below the printed bound; text value entered.
+    why: 'Fig. 5 / Fig. 7 plot power in the waveguide measured at the chip output (p.3-4); the only stated reference is the 2.35 dB term of unstated origin: rule 4, Coordinator Q1'
+  cmp_lit_theurer2019_dfb_visual-m1:
+    basis: author_estimate
+    notes: Power at the SiN output facet referred to the waveguide; the calibration (2.35 dB, origin not stated) is printed only for the loss measurement (p.3), D394 derived needs an own measured coupling loss.
+    why: 'Fig. 5 / Fig. 7 plot power in the waveguide measured at the chip output (p.3-4); the only stated reference is the 2.35 dB term of unstated origin: rule 4, Coordinator Q1'
+  cmp_lit_theurer2019_dfb_visual-m2:
+    basis: author_estimate
+    notes: Power at the SiN output facet referred to the waveguide; the calibration (2.35 dB, origin not stated) is printed only for the loss measurement (p.3), D394 derived needs an own measured coupling loss.
+    why: 'Fig. 5 / Fig. 7 plot power in the waveguide measured at the chip output (p.3-4); the only stated reference is the 2.35 dB term of unstated origin: rule 4, Coordinator Q1'
+add_metrics:
+- metric_id: cmp_lit_yoo2022_mmi_1x2-m4
+  component_id: cmp_lit_yoo2022_mmi_1x2
+  parameter: core_thickness_nm
+  value: 220
+  unit: nm
+  basis: design_target
+  locator: p.4 Sec. 2
+  qualifier: approx
+  condition: top Si of the SOI wafer
+  why: 'D153: same AMF stack as ld_ec_butt-m5, held only in core_material here'
+- metric_id: cmp_lit_yoo2022_mmi_1x2-m5
+  component_id: cmp_lit_yoo2022_mmi_1x2
+  parameter: box_thickness_um
+  value: 3
+  unit: um
+  basis: design_target
+  locator: p.4 Sec. 2
+  qualifier: approx
+  why: 'D153: same AMF stack as ld_ec_butt-m6, held only in core_material here'
+- metric_id: cmp_lit_yoo2022_mmi_2x2-m4
+  component_id: cmp_lit_yoo2022_mmi_2x2
+  parameter: core_thickness_nm
+  value: 220
+  unit: nm
+  basis: design_target
+  locator: p.4 Sec. 2
+  qualifier: approx
+  condition: top Si of the SOI wafer
+  why: 'D153: same AMF stack as ld_ec_butt-m5, held only in core_material here'
+- metric_id: cmp_lit_yoo2022_mmi_2x2-m5
+  component_id: cmp_lit_yoo2022_mmi_2x2
+  parameter: box_thickness_um
+  value: 3
+  unit: um
+  basis: design_target
+  locator: p.4 Sec. 2
+  qualifier: approx
+  why: 'D153: same AMF stack as ld_ec_butt-m6, held only in core_material here'
+- metric_id: cmp_lit_yoo2022_tap_dc_90_10-m2
+  component_id: cmp_lit_yoo2022_tap_dc_90_10
+  parameter: core_thickness_nm
+  value: 220
+  unit: nm
+  basis: design_target
+  locator: p.4 Sec. 2
+  qualifier: approx
+  condition: top Si of the SOI wafer
+  why: 'D153: same AMF stack as ld_ec_butt-m5, held only in core_material here'
+- metric_id: cmp_lit_yoo2022_tap_dc_90_10-m3
+  component_id: cmp_lit_yoo2022_tap_dc_90_10
+  parameter: box_thickness_um
+  value: 3
+  unit: um
+  basis: design_target
+  locator: p.4 Sec. 2
+  qualifier: approx
+  why: 'D153: same AMF stack as ld_ec_butt-m6, held only in core_material here'
+- metric_id: cmp_lit_asch2025_fiber_ordl_butt-m4
+  component_id: cmp_lit_asch2025_fiber_ordl_butt
+  parameter: pitch_um
+  value: 50
+  unit: um
+  basis: design_target
+  locator: p.7 Sec. 3.1
+  condition: EpoCore waveguide pitch
+  why: stated EpoCore waveguide pitch; pitch_um is allowed for fiber_chip_coupler, the batch kept it only in the notes of the transition row (class not allowed, D250)
+- metric_id: cmp_lit_blaicher2020_pwb_fiber_coherent-m3
+  component_id: cmp_lit_blaicher2020_pwb_fiber_coherent
+  parameter: lower_tip_width_nm
+  value: 200
+  unit: nm
+  basis: author_estimate
+  locator: p.9 SiP-to-PWB interface
+  qualifier: approx
+  condition: Si taper tip after over-etch (designed 130 nm)
+  notes: method of the width not stated.
+  why: row notes state the over-etched tips; pwb_imdd_pair-m2 and pwb_hcsel_coherent-m2 carry the value, this row of the same wafer did not
+- metric_id: cmp_lit_blaicher2020_pwb_fiber_coherent-m4
+  component_id: cmp_lit_blaicher2020_pwb_fiber_coherent
+  parameter: pitch_um
+  value: 250
+  unit: um
+  basis: design_target
+  locator: p.3
+  condition: fiber pitch
+  why: p.3 states the 250 um pitch was used for lasers and fibres; hcsel_array-m6 holds the laser side, the fiber side was missing and the parameter is allowed here
+- metric_id: cmp_lit_blaicher2020_pwb_fiber_coherent-m5
+  component_id: cmp_lit_blaicher2020_pwb_fiber_coherent
+  parameter: width_nm
+  value: 14000
+  unit: nm
+  basis: derived
+  locator: p.3
+  condition: PWB section at the fiber
+  notes: printed 14 x 14 um2.
+  why: 'D153: stated fiber-end section, held only in core_material'
+- metric_id: cmp_lit_blaicher2020_pwb_fiber_coherent-m6
+  component_id: cmp_lit_blaicher2020_pwb_fiber_coherent
+  parameter: layer2_thickness_nm
+  value: 14000
+  unit: nm
+  basis: derived
+  locator: p.3
+  condition: PWB section at the fiber, height
+  notes: printed 14 x 14 um2.
+  why: 'D153: stated fiber-end section, held only in core_material'

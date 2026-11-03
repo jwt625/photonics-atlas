@@ -1,0 +1,168 @@
+# Audit patch lit_66 (fresh-context audit 2026-11-02, DevLog/audits/2026-11-02-lit_66-audit.md).
+# 194 metrics: 169 ok / 22 imprecise / 3 wrong; 50 components: 47 ok / 1 imprecise / 2 wrong (deleted).
+# Misses: 4 geometry rows added (sundaram2025 edge couplers), 1 row added by splitting a two-axis value (salehzadeh2020).
+# After the patch: 48 components, 186 metrics.
+# Not covered here (coordinator rulings): audit Q1 (kumar2026 spherical elements return only with a registry extension),
+# Q2 (lee2025 platform loss), Q3 (sundaram2025 PPKTP rows under D411); registry gaps and missing orgs are in the audit file.
+components:
+  cmp_lit_spektor2023_ta2o5_waveguide:
+    notes: 'Fab empty: authors state they fabricate the devices but sit at several unrelated orgs and no site is named (D154). Waveguide width not stated. Record 3 +/- 1 dB/m C-band loss (p.2) carries refs. 70, 71: cited, not entered.'
+    why: 'stray "Inverse-designed." copied into the waveguide note; p.9 describes length-scan waveguides and names inverse design only for the passive elements'
+  cmp_lit_lee2025_sin_waveguide:
+    notes: 'Fab: authors state they designed and fabricated the interposer (p.1), all at UC Davis; the DUV step''s site is not stated. All loss values rest on coupling terms calculated by FDTD overlap with a camera-measured mode, so author_estimate (D163). Not entered (D159): the introduction gives below 0.1 dB/cm for the Si3N4 platform (p.1 Sec. I, no reference, no origin), not tied to this chip; the test structures on this chip give 1.68 dB/cm (m1).'
+    why: 'records the deleted m2 value in notes (see delete_metrics)'
+  cmp_lit_kumar2026_spiral_phase_plate:
+    notes: 'Fab and facility empty: Brookhaven National Laboratory and its Center for Functional Nanomaterials (FIB access acknowledged, p.9) are not in the registry. Mach-Zehnder winding fit m = 1.0095 (95 % bootstrap interval 0.8916-1.0600, p.7-8), donut far field (p.5); no parameter. Three devices. All-seven-device mean 0.41 +/- 0.15 dB, 91.12 % (p.9 Table II) stays in this note and the axicon note. Micro-concave and micro-convex spherical elements of the same paper are not rows (geometry only, rule 9; the paper says they are not designed to mode-match the fiber, p.5): concave design ROC 100 um, one element 100.76 / 99.88 um, five elements mean 99.66 +/- 0.56 um, range 98.82-100.32 um; convex design ROC 30 um, one element 28.49 / 29.15 um, three elements mean 28.00 +/- 0.72 um, range 27.44-28.82 um; AFM residuals lambda/50 and lambda/33 at 633 nm over the central 50 % of the area (p.3-5, Table I).'
+    why: 'records the two deleted spherical-element rows and their values (see delete_components)'
+metrics:
+  cmp_lit_fatemi2019_opa_128el_sparse-m5:
+    wavelength_inferred: 'true'
+    notes: 'Wavelength inferred: design wavelength 1550 nm (p.4); the design section gives the grid spacing as 3.6 wavelengths (p.6) but no wavelength with this value.'
+    why: 'rule 8: p.6 Sec. III-B states no wavelength with 0.64 deg; the row had 1550 nm without the flag, unlike the sibling rows inferred from p.4'
+  cmp_lit_fatemi2019_opa_128el_sparse-m7:
+    wavelength_nm: 1550
+    wavelength_inferred: 'true'
+    notes: 'Printed as below -16 dB. Wavelength inferred: design wavelength 1550 nm (p.4).'
+    why: 'rule 8: no wavelength and no band on the row; p.4 states the design wavelength'
+  cmp_lit_fatemi2019_opa_128el_sparse-m8:
+    wavelength_nm: 1550
+    wavelength_inferred: 'true'
+    notes: 'Printed as less than -10 dB. Wavelength inferred: design wavelength 1550 nm (p.4).'
+    why: 'rule 8, as m7'
+  cmp_lit_fatemi2019_opa_512el_sparse_design-m3:
+    wavelength_nm: 1550
+    wavelength_inferred: 'true'
+    notes: 'Printed as better than 19 dB. Wavelength inferred: design wavelength 1550 nm (p.4).'
+    why: 'rule 8, as the 128-element design rows'
+  cmp_lit_fatemi2019_opa_512el_sparse_design-m4:
+    wavelength_nm: 1550
+    wavelength_inferred: 'true'
+    notes: 'Wavelength inferred: design wavelength 1550 nm (p.4).'
+    why: 'rule 8, as the 128-element design rows'
+  cmp_lit_fatemi2019_splitter_tree_1x128-m2:
+    basis: author_estimate
+    wavelength_nm: 1550
+    wavelength_inferred: 'true'
+    notes: 'Printed as less than 1-dB variation; origin not stated (D418: D167 not extended). Wavelength inferred: design wavelength 1550 nm (p.4).'
+    why: 'p.13 Sec. VII attaches "measured" only to the 2.5 dB/cm sentence; the 0.4 dB and the < 1 dB sentences that follow give no measurement. The 0.4 / 2.8 dB rows of the same paragraph are already author_estimate; made consistent'
+  cmp_lit_spektor2023_phase_splitter_1x2-m1:
+    wavelength_nm: 461
+    condition: each output arm, FDTD modeling
+    why: 'p.10 Fig. 4(b) caption states 461 nm; the wavelength sat in the condition text with the wavelength column empty'
+  cmp_lit_spektor2023_splitter_1x3-m1:
+    wavelength_nm: 461
+    condition: each of three output arms, modeling
+    why: 'p.10 Fig. 4(c) caption states 461 nm; as the 1x2 row'
+  cmp_lit_salehzadeh2020_ssc_core120-m4:
+    polarization: ''
+    notes: 'Read off the plot, +/- 0.1 dB reading uncertainty; error bar about +/- 0.3 dB. Fig. 8 does not say which launch polarization the data points use.'
+    why: 'p.9 Fig. 8 (render) and its caption name no polarization for the experimental squares; "both" holds for Figs. 3 and 5 only'
+  cmp_lit_salehzadeh2020_ssc_core90-m1:
+    polarization: ''
+    notes: 'Read off the plot, +/- 0.1 dB reading uncertainty; error bar about +/- 0.3 dB. Fig. 8 does not say which launch polarization the data points use.'
+    why: as cmp_lit_salehzadeh2020_ssc_core120-m4
+  cmp_lit_salehzadeh2020_ssc_core120-m10:
+    value: 3.0
+    value_max: ''
+    condition: first axis of the mode field size printed 3.0 um x 2.8 um at the facet (axis not stated); facet core 110 nm in the simulation
+    notes: Axis order and level not stated. Second axis in m18.
+    why: 'p.7-8: 3.0 x 2.8 um are the two axes of one mode, not a range; value_max is the upper end of a reported range (schema). Merged precedent one row per axis (amorim2017, chen2023)'
+  cmp_lit_chen2024_opa_64ch_half_lambda-m8:
+    wavelength_inferred: 'true'
+    notes: 'Printed 20 dB in the body and above 20 dB in the abstract. Wavelength inferred: input wavelength 1550 nm (p.2); Sec. 2E states none.'
+    why: 'rule 8: p.5 Sec. 2E states no wavelength (Sec. 2D states 1550 nm for the steering data only)'
+  cmp_lit_chen2024_opa_64ch_half_lambda-m9:
+    wavelength_inferred: 'true'
+    notes: 'Wavelength inferred: input wavelength 1550 nm (p.2); Sec. 2E states none.'
+    why: rule 8, as m8
+  cmp_lit_chen2024_opa_64ch_half_lambda-m10:
+    wavelength_inferred: 'true'
+    notes: 'Printed 18 dB in the body and above 18 dB in the abstract. Wavelength inferred: input wavelength 1550 nm (p.2); Sec. 2E states none.'
+    why: rule 8, as m8
+  cmp_lit_chen2024_opa_64ch_half_lambda-m12:
+    wavelength_inferred: 'true'
+    notes: 'Wavelength inferred: input wavelength 1550 nm (p.2); Sec. 2E states none.'
+    why: rule 8, as m8
+  cmp_lit_chen2024_opa_64ch_half_lambda-m13:
+    wavelength_inferred: 'true'
+    notes: 'Budget built on foundry data and a calculated facet reflection; not a direct measurement. Wavelength inferred: input wavelength 1550 nm (p.2); Sec. 4C states none.'
+    why: 'rule 8: p.7 Sec. 4C states no wavelength; the splitter, waveguide and PBS rows of the same section already carry the flag'
+  cmp_lit_chen2024_edge_coupler-m1:
+    wavelength_inferred: 'true'
+    notes: 'Origin not stated. Wavelength inferred: input wavelength 1550 nm (p.2); Sec. 4C states none.'
+    why: rule 8, as opa m13
+  cmp_lit_chen2024_edge_coupler-m2:
+    wavelength_inferred: 'true'
+    notes: 'Share attributed to intrinsic coupling loss; origin not stated. Wavelength inferred: input wavelength 1550 nm (p.2); Sec. 4C states none.'
+    why: rule 8, as opa m13
+  cmp_lit_chen2024_pdk_pbs-m2:
+    wavelength_nm: 1550
+    wavelength_inferred: 'true'
+    notes: 'Origin not stated; the sentence follows the foundry data but does not attribute it. Wavelength inferred: OPA operating wavelength.'
+    why: 'rule 8: no wavelength and no band on the row, while m1 of the same sentence group carries the inferred wavelength'
+  cmp_lit_chen2024_tin_phase_shifter-m4:
+    notes: 'Design statement; printed 2 kohm (the text layer drops the ohm glyph, the page prints it), prefix conversion (D256a).'
+    why: 'p.7 checked on the page image: the unit is printed as kilo-ohm, so the note no longer needs the "render not cached" caveat'
+  cmp_lit_lee2025_lensed_fiber_sin_edge-m1:
+    condition: lensed fiber to Si3N4 waveguide; calculated by FDTD overlap with the IR-camera-measured output mode
+    why: 'skill workflow step 4: condition carries the test fiber; p.2 Sec. III'
+  cmp_lit_lee2025_cleaved_fiber_uli_edge-m1:
+    condition: cleaved fiber to ULI waveguide; calculated by FDTD overlap with the IR-camera-measured output mode; the setup sentence names a cleaved multi-mode fiber for the power measurement
+    why: 'skill workflow step 4: condition carries the test fiber; p.2 Sec. III'
+delete_metrics:
+  - id: cmp_lit_lee2025_sin_waveguide-m2
+    why: 'p.1 Sec. I: below 0.1 dB/cm is an introductory platform statement in the same sentence as the ULI value that carries ref. [4]; it is not tied to this chip, whose Si3N4 test structures give 1.68 dB/cm (p.2 Sec. III). D159: sample identity ambiguous; value moved to component notes (audit Q2)'
+delete_components:
+  - id: cmp_lit_kumar2026_concave_100um
+    why: 'rule 9 / D49: the row has geometry only (ROC) plus mfd_fiber_um. Registry convention: mfd_fiber_um only when the fiber is the design target, and p.5 states the spherical elements are not designed to mode-match the fiber mode. Shape accuracy and focal position have no parameter. Merged tables hold no component without a performance metric. Values in the spiral row notes and the audit (Q1)'
+  - id: cmp_lit_kumar2026_convex_30um
+    why: as cmp_lit_kumar2026_concave_100um (p.3-5)
+add_metrics:
+  - metric_id: cmp_lit_salehzadeh2020_ssc_core120-m18
+    component_id: cmp_lit_salehzadeh2020_ssc_core120
+    parameter: mfd_chip_um
+    value: 2.8
+    unit: um
+    wavelength_nm: 1550
+    polarization: te
+    condition: second axis of the mode field size printed 3.0 um x 2.8 um at the facet (axis not stated); facet core 110 nm in the simulation
+    basis: simulated
+    locator: p.7-8, Fig. 6(f)
+    notes: Axis order and level not stated. First axis in m10.
+    why: 'split of m10: one row per axis (p.7-8)'
+  - metric_id: cmp_lit_sundaram2025_ec_visible_fn-m3
+    component_id: cmp_lit_sundaram2025_ec_visible_fn
+    parameter: core_thickness_nm
+    value: 100
+    unit: nm
+    condition: nominal
+    basis: design_target
+    locator: p.3
+    why: 'miss (D153): p.3 states the nitride layers; the same physical coupler carries this row on cmp_lit_sundaram2025_ppktp_pic_visible (D396) but not on the fiber-coupler row'
+  - metric_id: cmp_lit_sundaram2025_ec_visible_fn-m4
+    component_id: cmp_lit_sundaram2025_ec_visible_fn
+    parameter: width_nm
+    value: 500
+    unit: nm
+    condition: nominal
+    basis: design_target
+    locator: p.3
+    why: miss (D153), as ec_visible_fn-m3
+  - metric_id: cmp_lit_sundaram2025_ec_telecom_sn-m4
+    component_id: cmp_lit_sundaram2025_ec_telecom_sn
+    parameter: core_thickness_nm
+    value: 100
+    unit: nm
+    condition: nominal
+    basis: design_target
+    locator: p.3
+    why: miss (D153), as ec_visible_fn-m3 (cross-note cmp_lit_sundaram2025_ppktp_pic_telecom)
+  - metric_id: cmp_lit_sundaram2025_ec_telecom_sn-m5
+    component_id: cmp_lit_sundaram2025_ec_telecom_sn
+    parameter: width_nm
+    value: 500
+    unit: nm
+    condition: nominal
+    basis: design_target
+    locator: p.3
+    why: miss (D153), as ec_visible_fn-m3 (cross-note cmp_lit_sundaram2025_ppktp_pic_telecom)

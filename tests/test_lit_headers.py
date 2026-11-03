@@ -320,6 +320,18 @@ def test_d366(env: dict[str, Any], tmp_path: Path, name: str) -> None:
         assert any(expect in e for e in errors), (name, errors)
 
 
+def test_address_scan_lab_name_exemption() -> None:
+    """The lab name "2012 Labs" passes the D244 scan; a real postal code + city still fails."""
+    oh = _load()
+
+    def hit(text: str) -> bool:
+        return any(rx.search(text) for _, rx in oh.ADDRESS_RES)
+
+    assert not hit("Central Research Institute Planning, 2012 Labs")
+    assert hit("1012 Lausanne")
+    assert hit("2800 Lyngby")
+
+
 def test_strict_initials() -> None:
     """D369: lit slot matching needs every initial explained by the other name form."""
     oh = _load()
