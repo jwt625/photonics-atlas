@@ -90,6 +90,10 @@ A fresh audit of the same design in the sibling eo-modulator-atlas found two mor
   again. Local check: rebuild, remove Plotly's file from the host, load /explore: chart drawn, no errors, on both the first and
   second load. Offline now covers what the visitor has used, not everything.
 
+Live after those fixes, 2026-11-03, two passes, range (median) ms: tab click 5-69 (7), repeat first paint 92-156 (124), repeat
+content in the page 67-120 (90), first-visit first paint 168-520 (228), worst task 166. Rapid A to B to A tab clicks: 60 runs
+including 4x CPU, 0 mismatches. The worker and offline checks pass live, and first visit to /about pulls no Plotly.
+
 ## Deploy behaviour to expect
 
 Cloudflare caches `.js` at the edge (`cf-cache-status: HIT`, also on service-worker.js) while HTML and JSON stay DYNAMIC. For
