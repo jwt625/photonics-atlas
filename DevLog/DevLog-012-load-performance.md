@@ -79,6 +79,17 @@ The worker's activate step deleted every other cache on the origin, and CacheSto
 outside5sigma.com hosts other apps under their own paths. Fixed with an app-specific cache prefix before any sibling atlas
 got a worker. Found while planning the same work for the sibling atlases.
 
+A fresh audit of the same design in the sibling eo-modulator-atlas found two more, both true here and fixed the same way:
+
+- Precaching all hashed code made every first visitor download everything, Plotly included, whatever page they read. Now only
+  pages are precached; code and data are stored on first use, and the page hands over what it loaded before the worker took
+  control. Local check, counting requests at the server: first visit to /about 993 KB raw with no Plotly; repeat /about 0
+  requests; first use of /explore fetches Plotly and data once, repeat 0 requests.
+- Deleting the previous cache on activate left a returning visitor's old page unable to load hashed files the host no longer
+  has. The newest previous cache now stays for one generation, and unchanged files are copied forward rather than downloaded
+  again. Local check: rebuild, remove Plotly's file from the host, load /explore: chart drawn, no errors, on both the first and
+  second load. Offline now covers what the visitor has used, not everything.
+
 ## Deploy behaviour to expect
 
 Cloudflare caches `.js` at the edge (`cf-cache-status: HIT`, also on service-worker.js) while HTML and JSON stay DYNAMIC. For

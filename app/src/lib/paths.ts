@@ -17,17 +17,31 @@ export function dataUrl(file: string): string {
 	return `${staticUrl(file)}?v=${version}`;
 }
 
-// On a first visit, data is fetched before the service worker takes over, so it would miss the worker's cache and the next
-// visit would wait on the network. Fetch it again through the worker when it does: the HTTP cache answers, no download.
-const fetched = new Set<string>();
-if (browser && 'serviceWorker' in navigator && !navigator.serviceWorker.controller) {
-	navigator.serviceWorker.addEventListener('controllerchange', () => {
-		for (const u of fetched) fetch(u).catch(() => {});
-	});
+// On a first visit, code and data load before the service worker takes over, so they would miss its cache and the next
+// visit would wait on the network. Request them again through the worker when it does, including what is still in flight
+// at that moment: the HTTP cache answers, no download.
+function handOverToWorker(): void {
+	const seen = new Set<string>();
+	const root = location.origin + link('/');
+	const again = (entries: PerformanceEntryList) => {
+		for (const { name } of entries) {
+			if (seen.has(name) || !name.startsWith(root)) continue;
+			seen.add(name);
+			fetch(name).catch(() => {});
+		}
+	};
+	again(performance.getEntriesByType('resource'));
+	new PerformanceObserver((list) => again(list.getEntries())).observe({ type: 'resource' });
+}
+if (browser) {
+	try {
+		if ('serviceWorker' in navigator && !navigator.serviceWorker.controller) navigator.serviceWorker.addEventListener('controllerchange', handOverToWorker, { once: true });
+	} catch {
+		/* no service worker here, e.g. a sandboxed frame */
+	}
 }
 
 export async function getJson<T>(file: string): Promise<T> {
-	fetched.add(dataUrl(file));
 	const res = await fetch(dataUrl(file));
 	if (!res.ok) throw new Error(`${file}: HTTP ${res.status}`);
 	return (await res.json()) as T;
