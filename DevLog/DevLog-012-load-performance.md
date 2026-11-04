@@ -73,6 +73,12 @@ Validated live: redeploy path from the previous build (new page on the second lo
 route answered by the worker offline with the HTTP cache disabled; no cancelled or re-downloaded data on a cold load; hub
 without id, theme icon, card to detail and back.
 
+## Correction, 2026-11-03
+
+The worker's activate step deleted every other cache on the origin, and CacheStorage is per origin, not per path:
+outside5sigma.com hosts other apps under their own paths. Fixed with an app-specific cache prefix before any sibling atlas
+got a worker. Found while planning the same work for the sibling atlases.
+
 ## Deploy behaviour to expect
 
 Cloudflare caches `.js` at the edge (`cf-cache-status: HIT`, also on service-worker.js) while HTML and JSON stay DYNAMIC. For

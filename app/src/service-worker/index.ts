@@ -6,7 +6,9 @@ import { assets, immutable, prerendered } from '$app/manifest';
 import { asset, resolve } from '$app/paths';
 import { self as sw } from '$app/service-worker';
 
-const CACHE = `pa-${version}`;
+// CacheStorage is per origin, and other apps share this origin under their own paths: touch only this app's caches
+const PREFIX = 'photonics-atlas-';
+const CACHE = PREFIX + version;
 const DATA = asset('/data/' as '/favicon.svg');
 const PRECACHE = [
 	...immutable.map((f) => asset(f.path as '/favicon.svg')),
@@ -43,7 +45,7 @@ sw.addEventListener('install', (e) => {
 sw.addEventListener('activate', (e) => {
 	e.waitUntil(
 		(async () => {
-			for (const k of await caches.keys()) if (k !== CACHE) await caches.delete(k);
+			for (const k of await caches.keys()) if (k !== CACHE && (k.startsWith(PREFIX) || k.startsWith('pa-'))) await caches.delete(k); // pa-: this app's earlier name
 			await sw.clients.claim();
 		})()
 	);
