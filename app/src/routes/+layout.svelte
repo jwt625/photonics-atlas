@@ -7,7 +7,6 @@
 	import { loadComponents } from '../lib/components.svelte';
 	import { loadPeople } from '../lib/people.svelte';
 	import Preload from '../lib/Preload.svelte';
-	import Skeleton from '../lib/Skeleton.svelte';
 	import { loadRegistry, store, ui } from '../lib/state.svelte';
 	import { loadSupply } from '../lib/supply.svelte';
 	import type { Summary } from '../lib/types';
@@ -34,14 +33,14 @@
 		loadRegistry();
 	});
 
-	// the click shows at once: the target tab and a placeholder over the old page, until the new page has mounted
+	// the click shows at once: the target tab, and the old page dimmed until the new page has mounted (D501)
 	const isActive = (href: string) => {
 		const root = link('/').replace(/\/$/, '');
 		const p = (navigating.to?.url ?? page.url).pathname.replace(root, '') || '/';
 		return href === '/' ? p === '/' : p.startsWith(href);
 	};
 	const changing = $derived(!!navigating.to && navigating.to.route.id !== page.route.id);
-	// a page's first render can take a while (charts, drawings): let the tab and placeholder paint first. The timeout
+	// a page's first render can take a while (charts, drawings): let the tab and the dimming paint first. The timeout
 	// covers a hidden tab, where animation frames do not run.
 	onNavigate((nav) => {
 		if (nav.to?.route.id === page.route.id) return;
@@ -70,13 +69,12 @@
 		</span>
 		<ThemeToggle />
 	</header>
-	<main>
+	<main class:changing>
 		{#if store.error}
 			<div class="err">Could not load the registry: {store.error}</div>
 		{:else}
 			{@render children()}
 		{/if}
-		{#if changing}<div class="changing"><Skeleton /></div>{/if}
 	</main>
 	<Tooltip />
 	<footer>
@@ -99,7 +97,7 @@
 	footer { display: flex; align-items: center; gap: 6px; height: 20px; padding: 0 10px; font-size: 10px; color: var(--ink-3); background: var(--surface); border-top: 1px solid var(--border); white-space: nowrap; overflow: hidden; }
 	footer .sep { color: var(--line); }
 	main { position: relative; min-height: 0; min-width: 0; overflow: hidden; }
-	.changing { position: absolute; inset: 0; z-index: 5; }
+	main.changing { opacity: 0.55; pointer-events: none; }
 	.err { padding: 12px; color: var(--crit); }
 	@media (max-width: 1050px) {
 		header > .muted { display: none; }

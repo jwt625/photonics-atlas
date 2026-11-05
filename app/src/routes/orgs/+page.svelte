@@ -2,46 +2,46 @@
 	import { onMount } from 'svelte';
 	import { link } from '../../lib/paths';
 	import { store } from '../../lib/state.svelte';
-	import { matches, sortOrgs, type SortDir } from '../../lib/orgs';
+	import { matches } from '../../lib/orgs';
 	import EventList from '../../lib/EventList.svelte';
-	import type { Org } from '../../lib/types';
+	import Chips from '../../lib/table/Chips.svelte';
+	import DataTable from '../../lib/table/DataTable.svelte';
+	import { safeDecode, type Col, type Filters, type Sort } from '../../lib/table/filters';
+	import type { Org, Summary } from '../../lib/types';
+
+	let { data }: { data: { summary: Summary } } = $props();
+	const head = $derived(data.summary.head.orgs);
 
 	let q = $state('');
 	let qLive = $state('');
-	let type = $state('');
-	let country = $state('');
-	let sortKey = $state('lens.pub');
-	let sortDir = $state<SortDir>('desc');
 	let selId = $state('');
+	let filters = $state<Filters>({});
+	let shown = $state(0);
+	let reveal = $state('');
 	let timer: ReturnType<typeof setTimeout> | null = null;
 
-	const cols: { key: string; label: string; tip: string; num?: boolean }[] = [
-		{ key: 'name', label: 'Organization', tip: 'Own preferred English name' },
-		{ key: 'type', label: 'Type', tip: 'Institutional kind' },
-		{ key: 'country', label: 'CC', tip: 'ISO 3166-1 alpha-2, only when a record states it' },
-		{ key: 'status', label: 'Status', tip: 'active, acquired, renamed, merged, historical, unknown' },
-		{ key: 'lens.pub', label: 'Publications', tip: 'Publications linked to the organization through any lens (components, supply, standards, authors, events)', num: true },
-		{ key: 'lens.ppl', label: 'People', tip: 'People with a published affiliation at the organization', num: true },
-		{ key: 'lens.cmp_fab', label: 'Components', tip: 'Components the publication states the organization fabricated', num: true },
-		{ key: 'lens.sup', label: 'Supply', tip: 'Stated uses of the organization as a vendor, foundry or cleanroom', num: true }
+	// fixed widths: the columns must not move when the registry replaces the head rows
+	const lens = (k: string): Pick<Col<Org>, 'kind' | 'right' | 'w' | 'get' | 'text'> => ({ kind: 'num', right: true, w: 104, get: (o) => o.lens?.[k] ?? 0, text: (o) => (o.lens?.[k] ? String(o.lens[k]) : '') });
+	const columns: Col<Org>[] = [
+		{ key: 'name', label: 'Organization', kind: 'text', w: 320, tip: 'Own preferred English name', get: (o) => o.name },
+		{ key: 'type', label: 'Type', kind: 'enum', w: 130, tip: 'Institutional kind', get: (o) => o.type, enumLabel: (v) => v.replace(/_/g, ' ') },
+		{ key: 'country', label: 'CC', kind: 'enum', w: 52, tip: 'ISO 3166-1 alpha-2, only when a record states it', get: (o) => o.country },
+		{ key: 'status', label: 'Status', kind: 'enum', w: 86, tip: 'active, acquired, renamed, merged, historical, unknown', get: (o) => o.status },
+		{ key: 'pub', label: 'Publications', tip: 'Publications linked to the organization through any lens (components, supply, standards, authors, events)', ...lens('pub') },
+		{ key: 'ppl', label: 'People', tip: 'People with a published affiliation at the organization', ...lens('ppl') },
+		{ key: 'cmp_fab', label: 'Components', tip: 'Components the publication states the organization fabricated', ...lens('cmp_fab') },
+		{ key: 'sup', label: 'Supply', tip: 'Stated uses of the organization as a vendor, foundry or cleanroom', ...lens('sup') }
 	];
-
-	// a window of the table, grown on scroll
-	const PAGE = 300;
-	let limit = $state(PAGE);
-	$effect(() => {
-		void q, type, country, sortKey, sortDir;
-		limit = PAGE;
-	});
-	function onScroll(e: Event) {
-		const el = e.currentTarget as HTMLElement;
-		if (el.scrollTop + el.clientHeight > el.scrollHeight - 400) limit += PAGE;
-	}
+	const defaultSort: Sort = { key: 'pub', dir: -1 };
+	const tie = (a: Org, b: Org) => a.name.localeCompare(b.name);
 
 	onMount(() => {
 		const fromHash = () => {
-			const h = decodeURIComponent(location.hash.slice(1));
-			if (h) selId = h;
+			const h = safeDecode(location.hash.slice(1));
+			if (h) {
+				selId = h;
+				reveal = h;
+			}
 		};
 		fromHash();
 		addEventListener('hashchange', fromHash);
@@ -52,24 +52,14 @@
 		if (timer) clearTimeout(timer);
 		timer = setTimeout(() => (q = v), 300);
 	}
-	function sortBy(k: string) {
-		if (sortKey !== k) {
-			sortKey = k;
-			sortDir = k.startsWith('lens.') ? 'desc' : 'asc';
-		} else if (sortDir === 'asc') sortDir = 'desc';
-		else if (sortDir === 'desc') {
-			sortKey = 'name';
-			sortDir = 'asc';
-		}
-	}
 	function select(id: string) {
 		selId = id;
 		history.replaceState(history.state, '', `#${encodeURIComponent(id)}`);
 	}
-	let orgs = $derived(store.reg?.orgs ?? []);
-	let types = $derived([...new Set(orgs.map((o) => o.type))].sort());
-	let countries = $derived([...new Set(orgs.map((o) => o.country).filter(Boolean))].sort());
-	let rows = $derived(sortOrgs(orgs.filter((o) => matches(o, q) && (!type || o.type === type) && (!country || o.country === country)), sortKey, sortDir));
+	// real first rows until the registry is in (same order, so nothing moves)
+	const headOrgs = $derived(head.rows.map((o) => ({ aliases: [], printed: [], ...o }) as unknown as Org));
+	let orgs = $derived(store.reg?.orgs ?? headOrgs);
+	let rows = $derived(q ? orgs.filter((o) => matches(o, q)) : orgs);
 	let sel = $derived<Org | undefined>(selId ? store.byId.get(selId) : undefined);
 	const name = (id: string) => store.byId.get(id)?.name ?? id;
 	const LENS: [string, string, string][] = [
@@ -88,29 +78,10 @@
 	<div class="left">
 		<div class="bar">
 			<input type="search" placeholder="Search name, alias, printed name" value={qLive} oninput={(e) => onInput(e.currentTarget.value)} onkeydown={(e) => e.key === 'Enter' && (q = qLive)} />
-			<select bind:value={type} data-tip="Filter by org type"><option value="">all types</option>{#each types as t}<option>{t}</option>{/each}</select>
-			<select bind:value={country} data-tip="Filter by country"><option value="">all countries</option>{#each countries as c}<option>{c}</option>{/each}</select>
-			<span class="muted num">{rows.length} / {orgs.length}</span>
+			{#if store.reg}<span class="muted num">{shown} / {orgs.length}</span>{:else}<span class="muted num" data-tip="rows shown so far; the rest arrive with the registry">{head.rows.length} / {head.total} loaded</span>{/if}
 		</div>
-		<div class="scroll" onscroll={onScroll}>
-			<table class="t num">
-				<thead>
-					<tr>
-						{#each cols as c}
-							<th class:r={c.num} data-tip={c.tip} onclick={() => sortBy(c.key)}>{c.label}{sortKey === c.key ? (sortDir === 'asc' ? ' ^' : ' v') : ''}</th>
-						{/each}
-					</tr>
-				</thead>
-				<tbody>
-					{#each rows.slice(0, limit) as o (o.id)}
-						<tr class:sel={o.id === selId} onclick={() => select(o.id)}>
-							<td class="name">{o.name}</td><td>{o.type.replace(/_/g, ' ')}</td><td>{o.country}</td><td>{o.status}</td>
-							{#each ['pub', 'ppl', 'cmp_fab', 'sup'] as k}<td class="r">{o.lens?.[k] || ''}</td>{/each}
-						</tr>
-					{/each}
-				</tbody>
-			</table>
-		</div>
+		<Chips sets={[{ columns, filters }]} onremove={(_, k) => { const n = { ...filters }; delete n[k]; filters = n; }} onclear={() => (filters = {})} />
+		<DataTable {columns} {rows} rowKey={(o) => o.id} selected={selId} onselect={select} {defaultSort} {tie} bind:filters bind:shown {reveal} onrevealed={() => (reveal = '')} empty={store.reg ? 'No organization matches.' : ''} />
 	</div>
 	<aside class="detail">
 		{#if sel}
@@ -148,25 +119,18 @@
 				<ul>{#each sel.printed as p}<li>{p}</li>{/each}</ul>
 			{/if}
 		{:else}
-			<p class="muted">Select an organization.</p>
+			{#if store.reg}<p class="muted">Select an organization.</p>{/if}
 		{/if}
 	</aside>
 </div>
 
 <style>
 	.page { height: 100%; display: grid; grid-template-columns: minmax(0, 1fr) 420px; grid-template-rows: minmax(0, 1fr); }
-	.left { min-width: 0; min-height: 0; display: grid; grid-template-rows: auto minmax(0, 1fr); border-right: 1px solid var(--border); }
+	.left { min-width: 0; min-height: 0; display: flex; flex-direction: column; border-right: 1px solid var(--border); }
+	.left > :global(.scroll) { flex: 1; height: auto; }
 	.bar { display: flex; gap: 6px; align-items: center; padding: 6px 8px; background: var(--surface); border-bottom: 1px solid var(--border); }
-	.bar input { flex: 1; }
-	.scroll { overflow: auto; }
-	table.t { border-collapse: collapse; width: 100%; }
-	.t th, .t td { padding: 2px 6px; border-bottom: 1px solid var(--grid); text-align: left; white-space: nowrap; }
-	.t th { position: sticky; top: 0; background: var(--surface); color: var(--ink-3); font-weight: 500; cursor: pointer; user-select: none; }
-	.t .r { text-align: right; }
-	.t td.name { max-width: 420px; overflow: hidden; text-overflow: ellipsis; }
-	.t tbody tr { cursor: pointer; }
-	.t tbody tr:hover { background: var(--hover); }
-	.t tbody tr.sel { background: var(--sel); }
+	.bar input { flex: 1; min-width: 80px; }
+	@media (max-width: 700px) { .bar { flex-wrap: wrap; } .bar input { flex-basis: 100%; } }
 	.detail { min-height: 0; overflow: auto; padding: 8px 10px; background: var(--surface); }
 	h2 { margin: 0 0 6px; font-size: 14px; }
 	h2 .hub { font-size: 11px; font-weight: 400; margin-left: 6px; }

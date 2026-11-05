@@ -8,16 +8,16 @@
 	import { link } from '../../lib/paths';
 	import { gallery, templateCounts } from '../../lib/layout/gallery';
 	import Preload from '../../lib/Preload.svelte';
-	import Skeleton from '../../lib/Skeleton.svelte';
 	import LayoutViews from '../../lib/layout/LayoutViews.svelte';
-	import { buildScenes } from '../../lib/layout/scene';
-	import Scene from '../../lib/layout/Scene.svelte';
+	import CardScene from '../../lib/layout/CardScene.svelte';
+	import { curated, loadCuratedIndex } from '../../lib/layout/curated.svelte';
 	import { basisStat, compactLabel, primaryMetric, resolve, rowLabel, unitLabel, type Dim } from '../../lib/layout/resolve';
 
 	let id = $state('');
 	const readId = () => (id = new URLSearchParams(location.search).get('id') ?? '');
 	onMount(() => {
 		loadComponents();
+		loadCuratedIndex();
 		readId();
 	});
 	afterNavigate(readId);
@@ -45,16 +45,18 @@
 	const altTip = (d: Dim) => d.alts.map((a) => `${rowLabel(a)} [${a.basis}] ${a.condition ?? ''} (${a.locator})`).join('\n');
 </script>
 
-<Preload files={['data/parts/components/meta.json']} />
+<Preload files={['data/parts/components/meta.json', 'data/layouts/index.json']} />
 
 {#if comp.error}
 	<div class="err">{comp.error}</div>
 {:else if !view}
-	<Skeleton />
+	<div class="page">
+		<header class="hd"><h1>{id ? '' : 'Component layouts'}</h1></header>
+	</div>
 {:else if id}
 	<div class="page">
 		{#if !c && !comp.view}
-			<Skeleton />
+			<header class="hd"><div class="crumbs"><a href={link('/layout')}>Layout gallery</a> / <span class="mono">{id}</span></div></header>
 		{:else if !c}
 			<p class="muted">No component <span class="mono">{id}</span>. <a href={link('/layout')}>Gallery</a></p>
 		{:else if !r}
@@ -66,7 +68,7 @@
 				<div class="meta">
 					<span>{c.class}</span>
 					{#if c.platform}<span data-tip={[c.core_material, c.cladding && 'cladding: ' + c.cladding].filter(Boolean).join('\n')}>{c.platform}</span>{/if}
-					<span data-tip={r.template.applies_to.join('\n')}>{r.template.label}</span>
+					{#if !curated.index?.[c.component_id]}<span data-tip={r.template.applies_to.join('\n')}>{r.template.label}</span>{/if}
 					{#each show as s}<span class="role {s.role}" data-tip={[s.criterion, s.rationale].filter(Boolean).join('\n')}>{s.role}</span>{/each}
 					<a href={link('/components') + '#' + encodeURIComponent(c.component_id)}>all values</a>
 					{#if c.source.url}<a href={c.source.url} target="_blank" rel="noopener" data-tip={pubTip(c.source)}>publication ({c.source.year})</a>{:else}<span data-tip={pubTip(c.source)}>publication ({c.source.year})</span>{/if}
@@ -80,7 +82,7 @@
 					</div>
 				{/if}
 			</header>
-			<LayoutViews comp={c} {view} height={380} />
+			<LayoutViews comp={c} {view} />
 			<div class="lower">
 				<section>
 					<h3>Dimensions <span class="muted num">{r.reported} / {r.total} reported</span></h3>
@@ -108,7 +110,7 @@
 					{#if r.missingRequired.length}<p><span class="warn">required:</span> <span class="mono">{r.missingRequired.join(', ')}</span></p>{/if}
 					{#if r.missingOptional.length}<p><span class="muted">optional:</span> <span class="mono">{r.missingOptional.join(', ')}</span></p>{/if}
 					{#if !r.missingRequired.length && !r.missingOptional.length}<p class="muted">none</p>{/if}
-					<p class="muted small">Not-reported dimensions are drawn dashed at a fixed proportion of a reported neighbour and never labelled with a number. Labels marked * have further rows (hover).</p>
+					<p class="muted small">Labels marked * have further rows (hover). F marks a reading off a source figure, T a value stated in the text outside the table.</p>
 				</section>
 			</div>
 		{/if}
@@ -133,18 +135,17 @@
 					{#each g.items as it (it.kind + (it.kind === 'card' ? it.card.c.component_id : it.gap.platform) + it.role)}
 						{#if it.kind === 'card'}
 							{@const cd = it.card}
-							{@const sc = buildScenes(cd.r)}
 							<a class="card" href={href(cd.c.component_id)} data-tip={[cd.c.label, cd.show?.criterion, cd.show?.rationale].filter(Boolean).join('\n')}>
 								<div class="ch">
 									<span class="role {cd.role}">{cd.role}</span>
 									<span class="lbl">{cd.c.label}</span>
 								</div>
-								<Scene scene={cd.r.templateId === 'waveguide_xsec' ? sc.xsec : sc.top} height={96} thumb />
+								<CardScene c={cd.c} r={cd.r} />
 								<div class="cf">
 									<span class="muted">{cd.c.platform ?? ''}</span>
 									<span class="pv" class:nr={!cd.primary.row} data-tip={cd.primary.row ? cd.primary.param + '\n' + storedTip(cd.primary.row) + tipRow(cd.primary.row) : undefined}>{primText(cd.primary.row, cd.primary.scopeMatch)}{#if cd.primary.row}<span class="bs">{basisStat(cd.primary.row)}</span>{/if}</span>
 									{#if !cd.primary.row && cd.primary.companions[0]}{@const cp = cd.primary.companions[0]}<span class="cp" data-tip={cp.param + '\n' + storedTip(cp.row) + tipRow(cp.row)}><span class="bs">{cp.param.replace(/_(pct|db)$/, '')}</span> {compactLabel(cp.row)}</span>{/if}
-									<span class="muted num" data-tip="template dimensions reported / total">{cd.r.reported}/{cd.r.total}</span>
+									{#if curated.index?.[cd.c.component_id]?.drawn}<span class="drawn" data-tip={'Drawn after ' + curated.index[cd.c.component_id].sources.join(', ') + '\n' + curated.index[cd.c.component_id].summary}>drawn</span>{:else if !curated.index?.[cd.c.component_id]}<span class="muted num" data-tip="generic template drawing; template dimensions reported / total">{cd.r.reported}/{cd.r.total}</span>{/if}
 								</div>
 							</a>
 						{:else}
@@ -195,7 +196,8 @@
 	.t tbody tr:hover { background: var(--hover); }
 	p { margin: 4px 0; }
 	.grp { margin: 12px 0 16px; }
-	.cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 8px; }
+	.cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 8px; }
+	.drawn { color: var(--good); font-size: 10px; }
 	.card { display: flex; flex-direction: column; gap: 3px; padding: 6px; background: var(--surface); border: 1px solid var(--border); color: var(--ink); min-width: 0; }
 	.card:hover { text-decoration: none; border-color: var(--accent); }
 	.ch { display: flex; align-items: center; gap: 6px; min-width: 0; }
@@ -205,5 +207,5 @@
 	.cp { font-weight: 600; white-space: nowrap; }
 	.bs { margin-left: 4px; font-weight: 400; color: var(--ink-3); font-size: 10px; }
 	.card.gap { border-style: dashed; background: transparent; }
-	.gapbody { height: 96px; display: flex; align-items: center; justify-content: center; color: var(--ink-3); font-size: 11px; border: 1px dashed var(--grid); }
+	.gapbody { height: 120px; display: flex; align-items: center; justify-content: center; color: var(--ink-3); font-size: 11px; border: 1px dashed var(--grid); }
 </style>

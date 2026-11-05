@@ -128,7 +128,7 @@
 <Preload {files} />
 
 <div class="page">
-	<div class="side"><FilterPanel {all} nShown={shown.length} {familyName} /></div>
+	<div class="side"><FilterPanel {all} nShown={v ? shown.length : null} {familyName} /></div>
 	<div class="main">
 		<div class="legend">
 			{#each presentGroups as g (g)}
@@ -144,7 +144,7 @@
 			{#if comp.error}
 				<div class="msg">Failed to load data: {comp.error}</div>
 			{:else if !v}
-				<div class="msg"><span class="spinner"></span></div>
+				<div class="msg muted num">{comp.loaded} / {comp.total || data.summary.head.components.total} components loaded</div>
 			{:else if !shown.length}
 				<div class="msg"><span>No component matches the filters.</span><button onclick={resetExFilters} data-tip="Clear all filters">Reset filters</button></div>
 			{:else}

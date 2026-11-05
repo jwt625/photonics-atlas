@@ -93,6 +93,9 @@ class ComponentsState {
 	partial = $state.raw<ComponentsView | null>(null);
 	/** Registries and the showcase components only. */
 	early = $state.raw<ComponentsView | null>(null);
+	/** components received so far / in all; 0 until the first part / the meta */
+	loaded = $state(0);
+	total = $state(0);
 	error = $state('');
 }
 export const comp = new ComponentsState();
@@ -107,18 +110,29 @@ export async function loadComponents(): Promise<void> {
 	try {
 		const { parts, total, showcase_components, ...meta } = await getJson<ComponentsMeta>('data/parts/components/meta.json');
 		comp.early = { ...meta, components: showcase_components };
+		comp.total = total;
 		const pending = Array.from({ length: parts }, (_, i) => getJson<Component[]>(`data/parts/components/${i}.json`));
 		pending.forEach((p) => p.catch(() => {})); // the first failure is reported below, in order
 		const got: Component[] = [];
-		let published = 0;
+		let published = -Infinity;
+		let trailing: ReturnType<typeof setTimeout> | null = null;
+		const publish = () => {
+			trailing = null;
+			comp.partial = { ...meta, components: got.slice() };
+			published = performance.now();
+		};
 		for (const p of pending) {
 			got.push(...(await p));
-			if (performance.now() - published > PUBLISH_MS) {
-				comp.partial = { ...meta, components: got.slice() };
-				published = performance.now();
+			comp.loaded = got.length;
+			// at most one publish per PUBLISH_MS, and what has arrived is on screen by then even if the next part is slow
+			const wait = published + PUBLISH_MS - performance.now();
+			if (wait <= 0) {
+				if (trailing) clearTimeout(trailing);
+				publish();
 				await new Promise((r) => setTimeout(r, 0));
-			}
+			} else trailing ??= setTimeout(publish, wait);
 		}
+		if (trailing) clearTimeout(trailing);
 		if (got.length !== total) throw new Error(`components: ${got.length} of ${total} received; the site was updated during this load, please reload`);
 		got.sort((a, b) => (a.component_id < b.component_id ? -1 : 1)); // canonical order of build_views.py
 		comp.view = { ...meta, components: got };

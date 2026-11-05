@@ -159,7 +159,7 @@
 
 <div class="wrap">
 	<div class="plot" bind:this={el}></div>
-	{#if !drawn}<div class="wait"><span class="spinner"></span></div>{/if}
+	{#if !drawn}<div class="wait muted">drawing</div>{/if}
 </div>
 
 <style>

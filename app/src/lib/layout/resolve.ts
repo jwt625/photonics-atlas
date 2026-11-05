@@ -41,6 +41,8 @@ export interface Dim {
 	basis: BasisKind | null;
 	badge: string;
 	tip: string;
+	/** A stated or figure-read value outside the metric table (curated drawings, DevLog-013 D506). */
+	free?: boolean;
 }
 
 export interface Resolved {

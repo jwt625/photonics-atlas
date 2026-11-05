@@ -6,16 +6,18 @@
 	import { link } from '../../../lib/paths';
 	import { store } from '../../../lib/state.svelte';
 	import { comp, loadComponents } from '../../../lib/components.svelte';
-	import { loadSupply, sup } from '../../../lib/supply.svelte';
-	import { loadPeople, ppl } from '../../../lib/people.svelte';
-	import { orgComponents, orgPeople, orgPublications } from '../../../lib/views';
+	import { loadSupply, sup, type SupplyView } from '../../../lib/supply.svelte';
+	import { loadPeople, ppl, type PeopleView } from '../../../lib/people.svelte';
+	import { dateNum, orgComponents, orgPeople, orgPublications } from '../../../lib/views';
 	import { pubTip } from '../../../lib/pub';
 	import EventList from '../../../lib/EventList.svelte';
-	import Skeleton from '../../../lib/Skeleton.svelte';
+	import Chips from '../../../lib/table/Chips.svelte';
+	import DataTable from '../../../lib/table/DataTable.svelte';
+	import { dateYear, type Col, type Filters, type Sort } from '../../../lib/table/filters';
+	import type { Row, Usage } from '../../../lib/supply.svelte';
+	import type { OrgComponent, OrgPerson, OrgPub } from '../../../lib/views';
 
 	let id = $state('');
-	let allPeople = $state(false);
-	let allSources = $state(false);
 	const readId = () => (id = new URLSearchParams(location.search).get('id') ?? '');
 	onMount(() => {
 		loadComponents();
@@ -29,7 +31,9 @@
 	const name = (x: string) => store.byId.get(x)?.name ?? x;
 	const hub = (x: string) => link('/orgs/hub') + '?id=' + encodeURIComponent(x);
 
-	const comps = $derived(comp.view && o ? orgComponents(comp.view.components, o.id) : []);
+	// rows show as they arrive (D500); a tile shows the registry's lens count until its view is complete, never a false 0
+	const cv = $derived(comp.view ?? comp.partial);
+	const comps = $derived(cv && o ? orgComponents(cv.components, o.id) : []);
 	const nFab = $derived(comps.filter((c) => c.fab).length);
 	const nFac = $derived(comps.filter((c) => c.fac).length);
 	const sv = $derived(sup.view);
@@ -42,19 +46,99 @@
 	);
 	const prodById = $derived(new Map((sv?.products ?? []).map((p) => [p.product_id, p])));
 	const catLabel = (c: string) => sv?.categories.find((x) => x.id === c)?.label ?? '';
-	const pv = $derived(ppl.view);
+	const pv = $derived(ppl.view ?? ppl.partial);
 	const people = $derived(pv && o ? orgPeople(pv, o.id) : []);
 	const nObs = $derived(people.reduce((t, p) => t + p.n, 0));
 	const events = $derived(o ? o.events.map((e) => store.evById.get(e)).filter((e) => e !== undefined) : []);
 
 	// Publications across the lenses (D199t; same definition as the lens count shown in the tile and on /orgs)
-	const sources = $derived(o && store.reg && comp.view && sv && pv ? orgPublications(o.id, store.reg, comp.view.components, sv, pv) : []);
-	const loading = $derived(!comp.view || !sv || !pv);
+	const EMPTY_S = { generated_on: '', categories: [], usage: [], processes: [], standards: [], tests: [], products: [], specs: [], sources: {} } as SupplyView;
+	const EMPTY_P = { generated_on: '', counts: {}, totals_by_type: {}, persons: [], obs: [], byPerson: [], sources: {} } as PeopleView;
+	const sources = $derived(o && store.reg ? orgPublications(o.id, store.reg, cv?.components ?? [], sv ?? EMPTY_S, pv ?? EMPTY_P) : []);
+	const lens = (k: string) => o?.lens?.[k] ?? 0;
+	const allIn = $derived(!!comp.view && !!sv && !!ppl.view);
+	const tiles = $derived<[number, string, string][]>([
+		[comp.view ? nFab : lens('cmp_fab'), 'fabricated', 'components the publication states the organization fabricated'],
+		[comp.view ? nFac : lens('cmp_fac'), 'facility', 'components made in the organization as a shared facility'],
+		[sv ? usage.length : lens('sup'), 'supply', 'stated uses as a vendor, foundry or cleanroom'],
+		[sv ? procs.length : lens('proc'), 'processes', 'foundry processes described in publications (as foundry or broker)'],
+		[sv ? stds.length : lens('std'), 'standards', 'standards issued by the organization'],
+		[ppl.view ? people.length : lens('ppl'), 'people', 'people with a published affiliation at the organization'],
+		[ppl.view ? nObs : lens('obs'), 'affiliations', 'published author affiliations at the organization'],
+		[events.length, 'events', 'acquisitions, renames, spin-offs, mergers'],
+		[allIn ? sources.length : lens('pub'), 'publications', 'publications linked to the organization through any lens']
+	]);
+	const pending = $derived([!comp.view && `components ${comp.loaded} / ${comp.total || '...'}`, !sv && 'supply', !ppl.view && `affiliations ${ppl.loaded} / ${ppl.total || '...'}`].filter(Boolean).join(', '));
+
+	// tables (DevLog-013 D504); a panel's rows scroll inside it
+	const H = '340px';
+	const bg = 'var(--surface)';
+	const yearNum = (y: string | undefined) => (y ? Number(y) : null);
+	const cCols: Col<OrgComponent>[] = [
+		{ key: 'label', label: 'component', kind: 'text', w: 220, get: (r) => r.c.label, cellTip: (r) => r.c.label, cell: compCell },
+		{ key: 'class', label: 'class', kind: 'enum', w: 170, get: (r) => r.c.class },
+		{ key: 'role', label: 'role', kind: 'enum', w: 66, get: (r) => [r.fab ? 'fab' : '', r.fac ? 'facility' : ''].filter(Boolean) },
+		{ key: 'platform', label: 'platform', kind: 'enum', w: 90, get: (r) => r.c.platform },
+		{ key: 'year', label: 'year', kind: 'num', w: 58, right: true, get: (r) => yearNum(r.c.source?.year) }
+	];
+	const product = (u: Usage) => {
+		const p = u.product_id ? prodById.get(u.product_id) : undefined;
+		return u.product_id ? (p?.model ?? u.product_id) + (p?.product_line ? ' (' + p.product_line + ')' : '') : '';
+	};
+	const uCols: Col<Usage>[] = [
+		{ key: 'role', label: 'role', kind: 'enum', get: (u) => u.role, enumLabel: (r) => r.replace(/_/g, ' ') },
+		{ key: 'cat', label: 'cat', kind: 'enum', cls: 'mono', tip: 'supply category', get: (u) => u.category_id, enumLabel: (c) => c + ' ' + catLabel(c), text: (u) => u.category_id, cellTip: (u) => catLabel(u.category_id) },
+		{ key: 'product', label: 'product', kind: 'enum', get: product },
+		{ key: 'pub', label: 'publication', kind: 'text', cls: 'lbl', get: (u) => sv?.sources[u.source_id]?.title },
+		{ key: 'year', label: 'year', kind: 'num', right: true, get: (u) => yearNum(sv?.sources[u.source_id]?.year) },
+		{ key: 'stated', label: 'stated', kind: 'text', cls: 'wrap', get: (u) => u.stated_spec }
+	];
+	const rCols: Col<Row>[] = [
+		{ key: 'process', label: 'process (as printed)', kind: 'text', cls: 'wrap', get: (p) => p.process_name },
+		{ key: 'platform', label: 'platform', kind: 'enum', get: (p) => p.platform },
+		{ key: 'pdk', label: 'PDK', kind: 'enum', get: (p) => p.pdk_name },
+		{ key: 'pub', label: 'publication', kind: 'text', cls: 'lbl', get: (p) => sv?.sources[p.source_id]?.title }
+	];
+	const nCols: Col<OrgPerson>[] = [
+		{ key: 'name', label: 'person', kind: 'text', get: (p) => p.person.name, cell: personCell },
+		{ key: 'n', label: 'affiliations', kind: 'num', right: true, tip: 'published affiliations at this organization', get: (p) => p.n },
+		{ key: 'first', label: 'first', kind: 'num', right: true, tip: 'earliest publication date (range filter in years)', get: (p) => dateYear(p.first), text: (p) => p.first, sort: (p) => dateNum(p.first) },
+		{ key: 'last', label: 'last', kind: 'num', right: true, tip: 'latest publication date (range filter in years)', get: (p) => dateYear(p.last), text: (p) => p.last, sort: (p) => dateNum(p.last) }
+	];
+	const nSort: Sort = { key: 'n', dir: -1 };
+	const nTie = (a: OrgPerson, b: OrgPerson) => a.person.name.localeCompare(b.person.name);
+	const sCols: Col<OrgPub>[] = [
+		{ key: 'year', label: 'year', kind: 'num', w: 58, right: true, get: (s) => yearNum(s.p.year) },
+		{ key: 'title', label: 'publication', kind: 'text', w: 330, get: (s) => s.p.title, cellTip: (s) => pubTip(s.p), cell: pubCell },
+		{ key: 'type', label: 'type', kind: 'enum', w: 110, get: (s) => s.p.type },
+		{ key: 'uses', label: 'for', kind: 'enum', w: 110, tip: 'what the publication contributes for this organization', get: (s) => [...s.uses].sort() },
+		{ key: 'atlas', label: '', kind: 'none', w: 44, cell: atlasCell }
+	];
+	let cF = $state<Filters>({});
+	let uF = $state<Filters>({});
+	let rF = $state<Filters>({});
+	let nF = $state<Filters>({});
+	let sF = $state<Filters>({});
+	let cN = $state(0);
+	let uN = $state(0);
+	let rN = $state(0);
+	let nN = $state(0);
+	let sN = $state(0);
+	const drop = (f: Filters, k: string) => {
+		const n = { ...f };
+		delete n[k];
+		return n;
+	};
 </script>
+
+{#snippet compCell(r: OrgComponent)}<a href={link('/components') + '#' + encodeURIComponent(r.c.component_id)}>{r.c.label}</a>{/snippet}
+{#snippet personCell(p: OrgPerson)}<a href={link('/people') + '#p=' + encodeURIComponent(p.person.id)}>{p.person.name}</a>{/snippet}
+{#snippet pubCell(s: OrgPub)}{#if s.p.url}<a href={s.p.url} target="_blank" rel="noopener">{s.p.title}</a>{:else}{s.p.title}{/if}{/snippet}
+{#snippet atlasCell(s: OrgPub)}{#if s.p.atlas}<a href={s.p.atlas[1]} target="_blank" rel="noopener" data-tip="Open in the {s.p.atlas[0]}">atlas</a>{/if}{/snippet}
 
 <div class="page">
 	{#if !store.reg}
-		<Skeleton />
+		<p class="muted"><a href={link('/orgs')}>Organizations</a> / <span class="mono">{id}</span>: registry loading</p>
 	{:else if !o}
 		<p class="muted">No organization <span class="mono">{id || '(no id)'}</span>. <a href={link('/orgs')}>Organizations</a></p>
 	{:else}
@@ -72,64 +156,33 @@
 				{#if o.qid}<a href="https://www.wikidata.org/wiki/{o.qid}" target="_blank" rel="noopener">Wikidata</a>{/if}
 				{#if o.website}<a href={o.website} target="_blank" rel="noopener">website</a>{/if}
 				{#each o.links as [site, href]}<a {href} target="_blank" rel="noopener" data-tip="Papers of this organization in the {site}">{site}</a>{/each}
-				{#if loading}<span class="spinner"></span>{/if}
+				{#if pending}<span class="muted num">loading {pending}</span>{/if}
 			</div>
 			<div class="tiles">
-				{#each [[nFab, 'fabricated', 'components the publication states the organization fabricated'], [nFac, 'facility', 'components made in the organization as a shared facility'], [usage.length, 'supply', 'stated uses as a vendor, foundry or cleanroom'], [procs.length, 'processes', 'foundry processes described in publications (as foundry or broker)'], [stds.length, 'standards', 'standards issued by the organization'], [people.length, 'people', 'people with a published affiliation at the organization'], [nObs, 'affiliations', 'published author affiliations at the organization'], [events.length, 'events', 'acquisitions, renames, spin-offs, mergers'], [o.lens?.pub ?? 0, 'publications', 'publications linked to the organization through any lens']] as [n, k, t]}
-					<div class="tile" class:zero={!n} data-tip={String(t)}><span class="v num">{n}</span><span class="k">{k}</span></div>
+				{#each tiles as [n, k, t]}
+					<div class="tile" class:zero={!n} data-tip={t}><span class="v num">{n}</span><span class="k">{k}</span></div>
 				{/each}
 			</div>
 		</header>
 		<div class="grid">
 			{#if comps.length}
 				<section class="panel">
-					<h3>Components <span class="muted num">{comps.length}</span> <a class="more" href={link('/components')}>atlas</a></h3>
-					<div class="tw">
-						<table class="t num">
-							<thead><tr><th>component</th><th>class</th><th>role</th><th>platform</th><th class="r">year</th></tr></thead>
-							<tbody>
-								{#each comps as { c, fab, fac } (c.component_id)}
-									<tr>
-										<td class="lbl" data-tip={c.label}><a href={link('/components') + '#' + encodeURIComponent(c.component_id)}>{c.label}</a></td>
-										<td>{c.class}</td><td>{[fab && 'fab', fac && 'facility'].filter(Boolean).join(', ')}</td><td>{c.platform ?? ''}</td><td class="r">{c.source.year}</td>
-									</tr>
-								{/each}
-							</tbody>
-						</table>
-					</div>
+					<h3>Components <span class="muted num">{cN} / {comps.length}{comp.view ? '' : ' so far'}</span> <a class="more" href={link('/components')}>atlas</a></h3>
+					<Chips sets={[{ columns: cCols, filters: cF }]} onremove={(_, k) => (cF = drop(cF, k))} onclear={() => (cF = {})} />
+					<DataTable columns={cCols} rows={comps} rowKey={(r) => r.c.component_id} bind:filters={cF} bind:shown={cN} maxHeight={H} {bg} />
 				</section>
 			{/if}
 			{#if usage.length || procs.length || stds.length}
 				<section class="panel">
-					<h3>Supply <a class="more" href={supplyHref}>supply view</a></h3>
+					<h3>Supply {#if usage.length}<span class="muted num">{uN} / {usage.length}</span>{/if} <a class="more" href={supplyHref}>supply view</a></h3>
 					{#if usage.length}
-						<div class="tw">
-							<table class="t num">
-								<thead><tr><th>role</th><th data-tip="supply category">cat</th><th>product</th><th>publication</th><th class="r">year</th><th>stated</th></tr></thead>
-								<tbody>
-									{#each usage as u (u.usage_id)}
-										{@const s = sv?.sources[u.source_id] ?? {}}
-										<tr data-tip={pubTip(s, u.locator)}>
-											<td>{u.role.replace(/_/g, ' ')}</td><td class="mono" data-tip={catLabel(u.category_id)}>{u.category_id}</td><td>{u.product_id ? (prodById.get(u.product_id)?.model ?? u.product_id) + (prodById.get(u.product_id)?.product_line ? ' (' + prodById.get(u.product_id)?.product_line + ')' : '') : ''}</td><td class="lbl">{s.title ?? ''}</td><td class="r">{s.year ?? ''}</td><td class="wrap">{u.stated_spec ?? ''}</td>
-										</tr>
-									{/each}
-								</tbody>
-							</table>
-						</div>
+						<Chips sets={[{ columns: uCols, filters: uF }]} onremove={(_, k) => (uF = drop(uF, k))} onclear={() => (uF = {})} />
+						<DataTable columns={uCols} rows={usage} rowKey={(u) => u.usage_id} bind:shown={uN} rowTip={(u) => pubTip(sv?.sources[u.source_id] ?? {}, u.locator)} bind:filters={uF} maxHeight={H} {bg} />
 					{/if}
 					{#if procs.length}
-						<h4>Foundry processes</h4>
-						<div class="tw">
-							<table class="t num">
-								<thead><tr><th>process (as printed)</th><th>platform</th><th>PDK</th><th>publication</th></tr></thead>
-								<tbody>
-									{#each procs as p (p.process_id)}
-										{@const ps = sv?.sources[p.source_id]}
-										<tr data-tip={[p.broker_org_id === o.id ? 'this organization as broker; foundry ' + name(p.org_id) : '', pubTip(ps, p.locator)].filter(Boolean).join('\n')}><td class="wrap">{p.process_name}</td><td>{p.platform ?? ''}</td><td>{p.pdk_name ?? ''}</td><td class="lbl">{ps?.title ?? ''}</td></tr>
-									{/each}
-								</tbody>
-							</table>
-						</div>
+						<h4>Foundry processes <span class="num">{rN} / {procs.length}</span></h4>
+						<Chips sets={[{ columns: rCols, filters: rF }]} onremove={(_, k) => (rF = drop(rF, k))} onclear={() => (rF = {})} />
+						<DataTable columns={rCols} rows={procs} rowKey={(p) => p.process_id} bind:shown={rN} rowTip={(p) => [p.broker_org_id === o.id ? 'this organization as broker; foundry ' + name(p.org_id) : '', pubTip(sv?.sources[p.source_id], p.locator)].filter(Boolean).join('\n')} bind:filters={rF} maxHeight={H} {bg} />
 					{/if}
 					{#if stds.length}
 						<h4>Standards issued</h4>
@@ -139,18 +192,9 @@
 			{/if}
 			{#if people.length}
 				<section class="panel">
-					<h3>People <span class="muted num">{people.length} people, {nObs} affiliations</span> <a class="more" href={link('/people') + '#m=orgs&org=' + encodeURIComponent(o.id)}>people view</a></h3>
-					<div class="tw">
-						<table class="t num">
-							<thead><tr><th>person</th><th class="r" data-tip="published affiliations at this organization">affiliations</th><th class="r">first</th><th class="r">last</th></tr></thead>
-							<tbody>
-								{#each allPeople ? people : people.slice(0, 25) as p (p.person.id)}
-									<tr><td><a href={link('/people') + '#p=' + encodeURIComponent(p.person.id)}>{p.person.name}</a></td><td class="r">{p.n}</td><td class="r">{p.first}</td><td class="r">{p.last}</td></tr>
-								{/each}
-							</tbody>
-						</table>
-					</div>
-					{#if people.length > 25}<button class="show" onclick={() => (allPeople = !allPeople)}>{allPeople ? 'top 25' : `all ${people.length}`}</button>{/if}
+					<h3>People <span class="muted num">{nN} / {people.length} people, {nObs} affiliations{ppl.view ? '' : ' so far'}</span> <a class="more" href={link('/people') + '#m=orgs&org=' + encodeURIComponent(o.id)}>people view</a></h3>
+					<Chips sets={[{ columns: nCols, filters: nF }]} onremove={(_, k) => (nF = drop(nF, k))} onclear={() => (nF = {})} />
+					<DataTable columns={nCols} rows={people} rowKey={(p) => p.person.id} bind:shown={nN} defaultSort={nSort} tie={nTie} bind:filters={nF} maxHeight={H} {bg} />
 				</section>
 			{/if}
 			{#if o.children.length || o.aliases.length || events.length || o.printed.length}
@@ -169,24 +213,9 @@
 			{/if}
 			{#if sources.length}
 				<section class="panel">
-					<h3>Publications <span class="muted num">{sources.length}</span></h3>
-					<div class="tw">
-						<table class="t num">
-							<thead><tr><th class="r">year</th><th>publication</th><th>type</th><th data-tip="what the publication contributes for this organization">for</th><th></th></tr></thead>
-							<tbody>
-								{#each allSources ? sources : sources.slice(0, 30) as s (s.id)}
-									<tr>
-										<td class="r">{s.p.year ?? ''}</td>
-										<td class="lbl wide" data-tip={pubTip(s.p)}>{#if s.p.url}<a href={s.p.url} target="_blank" rel="noopener">{s.p.title}</a>{:else}{s.p.title}{/if}</td>
-										<td class="muted">{s.p.type ?? ''}</td>
-										<td class="muted">{[...s.uses].sort().join(', ')}</td>
-										<td>{#if s.p.atlas}<a href={s.p.atlas[1]} target="_blank" rel="noopener" data-tip="Open in the {s.p.atlas[0]}">atlas</a>{/if}</td>
-									</tr>
-								{/each}
-							</tbody>
-						</table>
-					</div>
-					{#if sources.length > 30}<button class="show" onclick={() => (allSources = !allSources)}>{allSources ? 'latest 30' : `all ${sources.length}`}</button>{/if}
+					<h3>Publications <span class="muted num">{sN} / {sources.length}{allIn ? '' : ' so far'}</span></h3>
+					<Chips sets={[{ columns: sCols, filters: sF }]} onremove={(_, k) => (sF = drop(sF, k))} onclear={() => (sF = {})} />
+					<DataTable columns={sCols} rows={sources} rowKey={(x) => x.id} bind:shown={sN} bind:filters={sF} maxHeight={H} {bg} />
 				</section>
 			{/if}
 		</div>
@@ -210,20 +239,11 @@
 	h3 .muted { text-transform: none; letter-spacing: 0; font-weight: 400; }
 	h3 .more { margin-left: auto; text-transform: none; letter-spacing: 0; font-weight: 400; }
 	h4 { margin: 8px 0 2px; font-size: 11px; color: var(--ink-3); font-weight: 500; }
-	.tw { max-height: 340px; overflow: auto; }
-	table.t { border-collapse: collapse; width: 100%; }
-	.t th, .t td { padding: 2px 6px; border-bottom: 1px solid var(--grid); text-align: left; white-space: nowrap; }
-	.t th { position: sticky; top: 0; background: var(--surface); color: var(--ink-3); font-weight: 500; }
-	.t .r { text-align: right; }
-	.t td.lbl { max-width: 260px; overflow: hidden; text-overflow: ellipsis; }
-	.t td.lbl.wide { max-width: 420px; }
-	.t td.wrap { white-space: normal; }
-	.t tbody tr:hover { background: var(--hover); }
+	.panel > :global(.scroll) { height: auto; }
 	dl { display: grid; grid-template-columns: 96px 1fr; gap: 2px 8px; margin: 0; }
 	dt { color: var(--ink-3); }
 	dd { margin: 0; overflow-wrap: anywhere; }
 	.small { font-size: 11px; }
 	p { margin: 4px 0; }
-	.show { margin-top: 4px; height: 20px; font-size: 11px; }
 	@media (max-width: 700px) { .grid { grid-template-columns: minmax(0, 1fr); } .page { padding: 8px; } }
 </style>

@@ -64,22 +64,53 @@ export function decodePeople(raw: PeopleRaw): PeopleView {
 
 // raw state: the view is replaced as a whole, never mutated (no deep proxies over thousands of rows)
 class PeopleViewState {
+	/** Everything. Null until the last part has arrived: counts and joins that must be complete read only this. */
 	view = $state.raw<PeopleView | null>(null);
+	/** All persons with the affiliation rows received so far, for tables that grow part by part. */
+	partial = $state.raw<PeopleView | null>(null);
+	/** affiliation rows received so far / in all */
+	loaded = $state(0);
+	total = $state(0);
 	error = $state('');
 }
 export const ppl = new PeopleViewState();
 let started = false;
+
+/** a table re-sorts on every publish: at most one per this many ms */
+const PUBLISH_MS = 150;
 
 export async function loadPeople(): Promise<void> {
 	if (started) return;
 	started = true;
 	try {
 		const { parts, total, ...meta } = await getJson<Omit<PeopleRaw, 'obs'> & { parts: number; total: number }>('data/parts/people/meta.json');
-		const obsParts = await Promise.all(Array.from({ length: parts }, (_, i) => getJson<PeopleRaw['obs']>(`data/parts/people/${i}.json`)));
-		const obs = obsParts.flat();
+		ppl.total = total;
+		const pending = Array.from({ length: parts }, (_, i) => getJson<PeopleRaw['obs']>(`data/parts/people/${i}.json`));
+		pending.forEach((p) => p.catch(() => {})); // the first failure is reported below, in order
+		const obs: PeopleRaw['obs'] = [];
+		let published = -Infinity;
+		let trailing: ReturnType<typeof setTimeout> | null = null;
+		const publish = () => {
+			trailing = null;
+			ppl.partial = decodePeople({ ...meta, obs });
+			published = performance.now();
+		};
+		for (const p of pending) {
+			obs.push(...(await p));
+			ppl.loaded = obs.length;
+			if (obs.length === total) break;
+			const wait = published + PUBLISH_MS - performance.now();
+			if (wait <= 0) {
+				if (trailing) clearTimeout(trailing);
+				publish();
+				await new Promise((r) => setTimeout(r, 0));
+			} else trailing ??= setTimeout(publish, wait);
+		}
+		if (trailing) clearTimeout(trailing);
 		if (obs.length !== total) throw new Error(`people: ${obs.length} of ${total} received; the site was updated during this load, please reload`);
 		await new Promise((r) => setTimeout(r, 0));
 		ppl.view = decodePeople({ ...meta, obs });
+		ppl.partial = ppl.view;
 	} catch (e) {
 		ppl.error = e instanceof Error ? e.message : String(e);
 	}

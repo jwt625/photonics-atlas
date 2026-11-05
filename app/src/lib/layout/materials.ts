@@ -17,6 +17,10 @@ export const MATERIALS: Record<string, string> = {
 	metal: 'metal',
 	polymer: 'polymer',
 	bto: 'BTO (BaTiO3)',
+	air: 'air / undercut',
+	doped_p: 'p-doped',
+	doped_n: 'n-doped',
+	contact: 'contact / via',
 	other: 'other',
 	unknown: 'not stated'
 };

@@ -5,7 +5,7 @@
 	import { classFamily, countBy, familyOf, pubTypeOf, yearOf } from './logic';
 	import { exFilters, resetExFilters } from './state.svelte';
 
-	let { all, nShown, familyName }: { all: Component[]; nShown: number; familyName: (f: string) => string } = $props();
+	let { all, nShown, familyName }: { all: Component[]; nShown: number | null; familyName: (f: string) => string } = $props();
 
 	let mobileOpen = $state(false);
 	const open = $state<Record<string, boolean>>({ cls: true, plat: true, basis: true, src: true });
@@ -70,7 +70,7 @@
 
 <aside class:mopen={mobileOpen}>
 	<div class="top">
-		<span class="muted num" data-tip="Components passing the filters">{nShown} shown</span>
+		<span class="muted num" data-tip="Components passing the filters">{nShown === null ? '' : nShown + ' shown'}</span>
 		<span class="tb">
 			<button class="mtoggle" onclick={() => (mobileOpen = !mobileOpen)} aria-expanded={mobileOpen} data-tip="Show or hide the filters">Filters{active ? ' *' : ''}</button>
 			<button onclick={resetExFilters} disabled={!active} data-tip="Clear all filters">Reset</button>
@@ -99,9 +99,9 @@
 			{@render checks(typeOpts, exFilters.pubTypes, 'pubTypes', false)}
 			<div class="sub">Publication year</div>
 			<div class="yr">
-				<input type="number" placeholder={String(yearBounds.min)} value={exFilters.yearMin ?? ''} onchange={(e) => (exFilters.yearMin = num(e.currentTarget.value))} data-tip="Earliest publication year" />
+				<input type="number" placeholder={yearBounds.min ? String(yearBounds.min) : ''} value={exFilters.yearMin ?? ''} onchange={(e) => (exFilters.yearMin = num(e.currentTarget.value))} data-tip="Earliest publication year" />
 				<span class="muted">to</span>
-				<input type="number" placeholder={String(yearBounds.max)} value={exFilters.yearMax ?? ''} onchange={(e) => (exFilters.yearMax = num(e.currentTarget.value))} data-tip="Latest publication year" />
+				<input type="number" placeholder={yearBounds.max ? String(yearBounds.max) : ''} value={exFilters.yearMax ?? ''} onchange={(e) => (exFilters.yearMax = num(e.currentTarget.value))} data-tip="Latest publication year" />
 			</div>
 		{/snippet}
 		{@render group('src', 'Publication', srcBody)}

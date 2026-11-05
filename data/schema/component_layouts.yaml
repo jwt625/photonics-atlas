@@ -64,9 +64,9 @@ templates:
     xsec: *xsec_common
     primary: {parameter: excess_loss_db, scope: per_component, better: lower}
   awg:
-    label: "Arrayed waveguide grating (schematic: FPRs + array)"
+    label: "Arrayed waveguide grating"
     applies_to: [wdm.awg]
-    top: {required: [n_arms, n_channels], optional: [fpr_length_um, arm_length_increment_um, diffraction_order, footprint_um2, width_nm]}
+    top: {required: [n_arms, n_channels], optional: [fpr_length_um, pitch_um, arm_length_increment_um, diffraction_order, footprint_um2, width_nm]}
     xsec: *xsec_common
     primary: {parameter: insertion_loss_db, better: lower}
   ge_pd:

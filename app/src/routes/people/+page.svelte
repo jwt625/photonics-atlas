@@ -8,7 +8,9 @@
 	import { plotTheme, slotColor } from '../../lib/explore/colors';
 	import Plot from '../../lib/explore/Plot.svelte';
 	import Preload from '../../lib/Preload.svelte';
-	import Skeleton from '../../lib/Skeleton.svelte';
+	import Chips from '../../lib/table/Chips.svelte';
+	import DataTable from '../../lib/table/DataTable.svelte';
+	import { dateYear, type Col, type Filters, type Sort } from '../../lib/table/filters';
 	import type { Summary } from '../../lib/types';
 	import StackBars from '../../lib/StackBars.svelte';
 	import { coverage, dateNum, orgPeople, orgTable, personStats, typeOf } from '../../lib/views';
@@ -23,9 +25,21 @@
 	let org = $state('');
 	let q = $state('');
 	let qLive = $state('');
-	let sortKey = $state<'name' | 'n' | 'first' | 'last' | 'orgs'>('n');
-	let sortDir = $state<1 | -1>(-1);
-	let limit = $state(300);
+	let pFilters = $state<Filters>({});
+	let oFilters = $state<Filters>({});
+	let pS = $state<Sort | null>(null);
+	let oS = $state<Sort | null>(null);
+	let aF = $state<Filters>({});
+	let aS = $state<Sort | null>(null);
+	let dF = $state<Filters>({});
+	let dS = $state<Sort | null>(null);
+	let cF = $state<Filters>({});
+	let cS = $state<Sort | null>(null);
+	let pShown = $state(0);
+	let oShown = $state(0);
+	// a deep link brings its row into view once; a row click never scrolls
+	let revealP = $state('');
+	let revealO = $state('');
 	let timer: ReturnType<typeof setTimeout> | null = null;
 
 	function readHash() {
@@ -34,6 +48,8 @@
 		mode = m === 'orgs' || m === 'coverage' ? m : 'persons';
 		pid = p.get('p') ?? '';
 		org = p.get('org') ?? '';
+		revealP = pid;
+		revealO = org;
 	}
 	function writeHash() {
 		const p = new URLSearchParams();
@@ -52,12 +68,11 @@
 	function onInput(v: string) {
 		qLive = v;
 		if (timer) clearTimeout(timer);
-		timer = setTimeout(() => ((q = v), (limit = 300)), 300);
+		timer = setTimeout(() => (q = v), 300);
 	}
 	function setMode(m: Mode) {
 		mode = m;
 		q = qLive = '';
-		limit = 300;
 		writeHash();
 	}
 	function pick(id: string) {
@@ -68,38 +83,58 @@
 		org = id;
 		writeHash();
 	}
-	function sortBy(k: typeof sortKey) {
-		if (sortKey === k) sortDir = sortDir === 1 ? -1 : 1;
-		else {
-			sortKey = k;
-			sortDir = k === 'name' ? 1 : -1;
-		}
-		limit = 300;
-	}
-	function onScroll(e: Event) {
-		const el = e.currentTarget as HTMLElement;
-		if (el.scrollTop + el.clientHeight > el.scrollHeight - 400) limit += 300;
-	}
-
-	const view = $derived(ppl.view);
+	// grows part by part (D500); what must be complete (coverage, totals) reads ppl.view
+	const view = $derived(ppl.view ?? ppl.partial);
+	const complete = $derived(!!ppl.view);
 	const name = (id: string) => store.byId.get(id)?.name ?? id;
 	const fold = (s: string) => s.normalize('NFKD').replace(/[̀-ͯ]/g, '').toLowerCase();
 	const stats = $derived(view ? personStats(view) : []);
-	const plist = $derived.by(() => {
-		if (!view) return [];
-		const f = fold(q);
-		const rows = view.persons.filter((p) => !f || fold(p.name).includes(f) || p.id.includes(f) || (p.orcid && p.orcid.includes(f)));
-		const key = (i: number): string | number => {
-			const s = stats[i];
-			if (sortKey === 'name') return fold(view.persons[i].name);
-			if (sortKey === 'first' || sortKey === 'last') return s[sortKey] ? dateNum(s[sortKey]) : 0;
-			return s[sortKey];
-		};
-		return rows.sort((a, b) => {
-			const x = key(a.i), y = key(b.i);
-			return x === y ? a.name.localeCompare(b.name) : x < y ? -sortDir : sortDir;
-		});
+	// flat rows of the persons table: the head inlined in the page until the view is in (same order, so nothing moves)
+	interface PRow {
+		id: string;
+		name: string;
+		orcid?: string;
+		lin?: string;
+		n: number;
+		first: string;
+		last: string;
+		orgs: number;
+	}
+	const head = $derived(data.summary.head.people);
+	const headRows = $derived(head.rows.map((r) => ({ n: 0, first: '', last: '', orgs: 0, ...r }) as PRow));
+	// the head rows keep their true numbers and places on top; others join as their rows arrive, with their count so far (a
+	// count so far cannot pass a head row, so the head never moves); all persons once complete
+	const headIds = $derived(new Set(head.rows.map((r) => r.id)));
+	const prows = $derived.by<PRow[]>(() => {
+		if (!view) return headRows;
+		const all = view.persons.map((p, i) => ({ id: p.id, name: p.name, orcid: p.orcid, lin: p.lin_grade, n: stats[i].n, first: stats[i].first, last: stats[i].last, orgs: stats[i].orgs }));
+		return complete ? all : [...headRows, ...all.filter((p) => p.n > 0 && !headIds.has(p.id))];
 	});
+	const plist = $derived.by(() => {
+		const f = fold(q);
+		return f ? prows.filter((p) => fold(p.name).includes(f) || p.id.includes(f) || (p.orcid && p.orcid.includes(f))) : prows;
+	});
+	const dateCol = (k: 'first' | 'last', label: string, tip: string): Col<PRow> => ({
+		key: k,
+		label,
+		w: 96,
+		tip: tip + ' (range filter in years)',
+		kind: 'num',
+		right: true,
+		firstDir: -1,
+		get: (p) => dateYear(p[k]),
+		sort: (p) => (p[k] ? dateNum(p[k]) : null),
+		text: (p) => p[k]
+	});
+	const pCols: Col<PRow>[] = [
+		{ key: 'name', label: 'Person', kind: 'text', w: 300, tip: 'Display name', get: (p) => p.name },
+		{ key: 'n', label: 'Affiliations', kind: 'num', w: 96, right: true, tip: 'Published affiliations of the person', get: (p) => p.n, cell: affCell },
+		dateCol('first', 'First', 'Earliest publication date'),
+		dateCol('last', 'Last', 'Latest publication date'),
+		{ key: 'orgs', label: 'Orgs', kind: 'num', w: 64, right: true, tip: 'Distinct organizations', get: (p) => p.orgs, text: (p) => (p.orgs ? String(p.orgs) : '') }
+	];
+	const pSort: Sort = { key: 'n', dir: -1 };
+	const pTie = (a: PRow, b: PRow) => a.name.localeCompare(b.name);
 	const person = $derived(view && pid ? view.persons.find((p) => p.id === pid) : undefined);
 	const pobs = $derived(view && person ? [...view.byPerson[person.i]].sort((a, b) => dateNum(b.active_on) - dateNum(a.active_on) || a.obs_id.localeCompare(b.obs_id)) : []);
 
@@ -182,17 +217,37 @@
 
 	// orgs mode
 	const otab = $derived(view ? orgTable(view) : new Map<string, { persons: number; obs: number }>());
-	const olist = $derived.by(() => {
+	interface ORow {
+		id: string;
+		name: string;
+		type: string;
+		country: string;
+		persons: number;
+		obs: number;
+	}
+	const olist = $derived.by<ORow[]>(() => {
 		const f = fold(q);
 		return [...otab]
 			.filter(([id]) => !f || fold(name(id)).includes(f) || id.includes(f))
-			.sort((a, b) => b[1].persons - a[1].persons || name(a[0]).localeCompare(name(b[0])));
+			.map(([id, n]) => {
+				const o = store.byId.get(id);
+				return { id, name: name(id), type: o?.type ?? '', country: o?.country ?? '', persons: n.persons, obs: n.obs };
+			});
 	});
+	const oCols: Col<ORow>[] = [
+		{ key: 'name', label: 'Organization', kind: 'text', cls: 'wide', get: (o) => o.name },
+		{ key: 'type', label: 'Type', kind: 'enum', get: (o) => o.type, enumLabel: (v) => v.replace(/_/g, ' ') },
+		{ key: 'country', label: 'CC', kind: 'enum', get: (o) => o.country },
+		{ key: 'persons', label: 'People', kind: 'num', right: true, tip: 'people with a published affiliation at the organization', get: (o) => o.persons },
+		{ key: 'obs', label: 'Affiliations', kind: 'num', right: true, tip: 'published affiliations', get: (o) => o.obs }
+	];
+	const oSort: Sort = { key: 'persons', dir: -1 };
+	const oTie = (a: ORow, b: ORow) => a.name.localeCompare(b.name);
 	const opeople = $derived(view && org ? orgPeople(view, org) : []);
 	const unmappedObs = $derived(view ? view.obs.filter((o) => !o.org_id).length : 0);
 
 	// coverage (D197)
-	const cov = $derived(view ? coverage(view.obs, view.sources) : null);
+	const cov = $derived(ppl.view ? coverage(ppl.view.obs, ppl.view.sources) : null);
 	const covSeries = $derived(cov ? cov.types.map((t) => ({ key: t, name: t, color: typeColor(t), y: cov.byYear.get(t) ?? [] })) : []);
 	const pubsByType = $derived.by(() => {
 		const m = new Map<string, Set<string>>();
@@ -204,13 +259,44 @@
 		return new Map([...m].map(([k, v]) => [k, v.size]));
 	});
 	const withheld = $derived(view ? view.counts.obs_all - view.counts.obs_public : 0);
+
+	// secondary tables (D504)
+	const aCols: Col<Obs>[] = [
+		{ key: 'date', label: 'date', kind: 'num', w: 88, tip: 'Publication or session date (range filter in years)', get: (o) => dateYear(o.active_on), sort: (o) => dateNum(o.active_on), text: (o) => o.active_on },
+		{ key: 'org', label: 'organization', kind: 'enum', w: 170, cls: 'wrap', get: orgFull, cell: obsOrgCell },
+		{ key: 'pub', label: 'publication', kind: 'text', w: 230, cls: 'wrap', get: (o) => view?.sources[o.source_id]?.title, cellTip: (o) => pubTip(view?.sources[o.source_id] ?? {}, o.locator), cell: obsPubCell }
+	];
+	const aTip = (o: Obs) => ['name as printed: ' + o.printed_name, 'organization as printed: ' + o.printed_org, o.unit && 'unit: ' + o.unit, o.country && 'country: ' + o.country, provenance(o.grade)].filter(Boolean).join('\n');
+	type OP = (typeof opeople)[number];
+	const dCols: Col<OP>[] = [
+		{ key: 'name', label: 'person', kind: 'text', w: 230, get: (p) => p.person.name },
+		{ key: 'n', label: 'affiliations', kind: 'num', w: 92, right: true, get: (p) => p.n },
+		{ key: 'first', label: 'first', kind: 'num', w: 88, right: true, tip: 'Range filter in years', get: (p) => dateYear(p.first), sort: (p) => dateNum(p.first), text: (p) => p.first },
+		{ key: 'last', label: 'last', kind: 'num', w: 88, right: true, tip: 'Range filter in years', get: (p) => dateYear(p.last), sort: (p) => dateNum(p.last), text: (p) => p.last }
+	];
+	const dSort: Sort = { key: 'n', dir: -1 };
+	const dTie = (a: OP, b: OP) => a.person.name.localeCompare(b.person.name);
+	type CR = { t: string; a: number; b: number; n: number; pubs: number };
+	const covRows = $derived<CR[]>(cov ? cov.types.map((t) => ({ t, a: cov.byGrade.get(`${t}|A`) ?? 0, b: cov.byGrade.get(`${t}|B`) ?? 0, n: (cov.byYear.get(t) ?? []).reduce((x, y) => x + y, 0), pubs: pubsByType.get(t) ?? 0 })) : []);
+	const blank0 = (n: number) => (n ? String(n) : '');
+	const cCols: Col<CR>[] = [
+		{ key: 't', label: 'publication type', kind: 'enum', w: 180, get: (r) => r.t },
+		{ key: 'a', label: 'printed', kind: 'num', w: 80, right: true, tip: 'affiliation printed in the publication', get: (r) => r.a, text: (r) => blank0(r.a) },
+		{ key: 'b', label: 'program listing', kind: 'num', w: 120, right: true, tip: 'affiliation taken from the conference program listing', get: (r) => r.b, text: (r) => blank0(r.b) },
+		{ key: 'n', label: 'affiliations', kind: 'num', w: 96, right: true, get: (r) => r.n },
+		{ key: 'pubs', label: 'publications', kind: 'num', w: 96, right: true, tip: 'distinct publications', get: (r) => r.pubs, text: (r) => blank0(r.pubs) }
+	];
 </script>
 
 <Preload {files} />
 
+{#snippet obsOrgCell(o: Obs)}{#if o.org_id}<a href={link('/orgs/hub') + '?id=' + encodeURIComponent(o.org_id)}>{name(o.org_id)}</a>{:else}<span class="muted">{o.printed_org}</span>{/if}{#if o.aff_role !== 'primary'}<span class="muted role">({o.aff_role.replace(/_/g, ' ')})</span>{/if}{/snippet}
+{#snippet obsPubCell(o: Obs)}{@const s = view?.sources[o.source_id] ?? {}}{#if s.url}<a href={s.url} target="_blank" rel="noopener">{s.title ?? ''}</a>{:else}{s.title ?? ''}{/if}{#if s.atlas} <a class="sib" href={s.atlas[1]} target="_blank" rel="noopener" data-tip="Open in the {s.atlas[0]}">atlas</a>{/if}{/snippet}
+{#snippet affCell(p: PRow)}{#if p.n}<span class:muted={!complete && !headIds.has(p.id)} data-tip={!complete && !headIds.has(p.id) ? 'so far; more rows are arriving' : undefined}>{p.n}</span>{:else if p.lin}<span class="muted" data-tip="listed in a curated career-lineage record; no published affiliation in the atlas">lineage</span>{/if}{/snippet}
+
 {#if ppl.error}
 	<div class="err">{ppl.error}</div>
-{:else if view}
+{:else}
 	<div class="page">
 		<div class="main">
 			<div class="bar">
@@ -222,47 +308,23 @@
 				{:else}
 					<div class="grow"></div>
 				{/if}
-				<span class="muted num" data-tip="Authors and their published affiliations from public professional sources. Affiliations of authors whose identity is under review are not shown.">
-					{#if mode === 'persons'}{plist.length} / {view.counts.persons_public} people{:else if mode === 'orgs'}{olist.length} orgs{:else}{view.counts.obs_public} affiliations{/if}
-				</span>
+				{#if complete && view}
+					<span class="muted num" data-tip="Authors and their published affiliations from public professional sources. Affiliations of authors whose identity is under review are not shown.">
+						{#if mode === 'persons'}{pShown} / {view.counts.persons_public} people{:else if mode === 'orgs'}{oShown} orgs{:else}{view.counts.obs_public} affiliations{/if}
+					</span>
+				{:else}
+					<span class="muted num" data-tip="Affiliation rows received; the table grows as they arrive and counts are final when all are in">{ppl.loaded} / {ppl.total || data.summary.overview.people.affiliations} affiliations loaded</span>
+				{/if}
 			</div>
 			{#if mode === 'persons'}
-				<div class="scroll" onscroll={onScroll}>
-					<table class="t num">
-						<thead>
-							<tr>
-								{#each [['name', 'Person', 'Display name'], ['n', 'Affiliations', 'Published affiliations of the person'], ['first', 'First', 'Earliest publication date'], ['last', 'Last', 'Latest publication date'], ['orgs', 'Orgs', 'Distinct organizations']] as [k, l, t]}
-									<th class:r={k !== 'name'} data-tip={t} onclick={() => sortBy(k as typeof sortKey)}>{l}{sortKey === k ? (sortDir === 1 ? ' ^' : ' v') : ''}</th>
-								{/each}
-							</tr>
-						</thead>
-						<tbody>
-							{#each plist.slice(0, limit) as p (p.id)}
-								{@const s = stats[p.i]}
-								<tr class:sel={p.id === pid} onclick={() => pick(p.id)}>
-									<td class="name">{p.name}</td><td class="r">{#if s.n}{s.n}{:else if p.lin_grade}<span class="muted" data-tip="listed in a curated career-lineage record; no published affiliation in the atlas">lineage</span>{/if}</td><td class="r">{s.first}</td><td class="r">{s.last}</td><td class="r">{s.orgs || ''}</td>
-								</tr>
-							{/each}
-						</tbody>
-					</table>
-					{#if !plist.length}<p class="muted pad">No person matches.</p>{/if}
-				</div>
+				<Chips sets={[{ columns: pCols, filters: pFilters }]} onremove={(_, k) => { const n = { ...pFilters }; delete n[k]; pFilters = n; }} onclear={() => (pFilters = {})} />
+				<DataTable columns={pCols} rows={plist} rowKey={(p) => p.id} selected={pid} onselect={pick} defaultSort={pSort} tie={pTie} bind:filters={pFilters} bind:sort={pS} bind:shown={pShown} reveal={revealP} onrevealed={() => (revealP = '')} empty={complete ? 'No person matches.' : ''} />
 			{:else if mode === 'orgs'}
-				<div class="scroll" onscroll={onScroll}>
-					<table class="t num">
-						<thead><tr><th>Organization</th><th>Type</th><th>CC</th><th class="r" data-tip="people with a published affiliation at the organization">People</th><th class="r" data-tip="published affiliations">Affiliations</th></tr></thead>
-						<tbody>
-							{#each olist.slice(0, limit) as [id, n] (id)}
-								{@const o = store.byId.get(id)}
-								<tr class:sel={id === org} onclick={() => pickOrg(id)}>
-									<td class="name">{name(id)}</td><td>{(o?.type ?? '').replace(/_/g, ' ')}</td><td>{o?.country ?? ''}</td><td class="r">{n.persons}</td><td class="r">{n.obs}</td>
-								</tr>
-							{/each}
-						</tbody>
-					</table>
-					{#if !olist.length}<p class="muted pad">No organization matches.</p>{/if}
-				</div>
-			{:else if cov}
+				<Chips sets={[{ columns: oCols, filters: oFilters }]} onremove={(_, k) => { const n = { ...oFilters }; delete n[k]; oFilters = n; }} onclear={() => (oFilters = {})} />
+				<DataTable columns={oCols} rows={olist} rowKey={(o) => o.id} selected={org} onselect={pickOrg} defaultSort={oSort} tie={oTie} bind:filters={oFilters} bind:sort={oS} bind:shown={oShown} reveal={revealO} onrevealed={() => (revealO = '')} empty={complete ? 'No organization matches.' : ''} />
+			{:else if !complete}
+				<p class="muted num pad">{ppl.loaded} / {ppl.total || data.summary.overview.people.affiliations} affiliations loaded</p>
+			{:else if cov && view}
 				<div class="scroll cov">
 					<StackBars
 						letter="a"
@@ -276,14 +338,8 @@
 						unit="affiliations"
 						height={320}
 					/>
-					<table class="t num grid">
-						<thead><tr><th>publication type</th><th class="r" data-tip="affiliation printed in the publication">printed</th><th class="r" data-tip="affiliation taken from the conference program listing">program listing</th><th class="r">affiliations</th><th class="r" data-tip="distinct publications">publications</th></tr></thead>
-						<tbody>
-							{#each cov.types as t}
-								<tr><td>{t}</td><td class="r">{cov.byGrade.get(`${t}|A`) ?? ''}</td><td class="r">{cov.byGrade.get(`${t}|B`) ?? ''}</td><td class="r">{(cov.byYear.get(t) ?? []).reduce((x, y) => x + y, 0)}</td><td class="r">{pubsByType.get(t) ?? ''}</td></tr>
-							{/each}
-						</tbody>
-					</table>
+					<Chips sets={[{ columns: cCols, filters: cF }]} onremove={(_, k) => { const n = { ...cF }; delete n[k]; cF = n; }} onclear={() => (cF = {})} />
+					<div class="covt"><DataTable columns={cCols} rows={covRows} rowKey={(r) => r.t} bind:filters={cF} bind:sort={cS} ownScroll={false} bg="var(--surface)" /></div>
 					<p class="muted small">{view.counts.persons_public} people. {unmappedObs} affiliations name an organization not yet in the organization list (shown as printed). {withheld} affiliations are not shown while the author's identity is under review.</p>
 				</div>
 			{/if}
@@ -297,21 +353,10 @@
 				</div>
 				{#if pobs.length}
 					<div class="tl" style:height="{tlHeight}px"><Plot data={traces} layout={tlLayout} /></div>
-					<h3>Affiliations ({pobs.length})</h3>
-					<table class="t num">
-						<thead><tr><th>date</th><th>organization</th><th>publication</th></tr></thead>
-						<tbody>
-							{#each pobs as o (o.obs_id)}
-								{@const s = view.sources[o.source_id] ?? {}}
-								<tr data-tip={['name as printed: ' + o.printed_name, 'organization as printed: ' + o.printed_org, o.unit && 'unit: ' + o.unit, o.country && 'country: ' + o.country, provenance(o.grade)].filter(Boolean).join('\n')}>
-									<td class="nw">{o.active_on}</td>
-									<td>{#if o.org_id}<a href={link('/orgs/hub') + '?id=' + encodeURIComponent(o.org_id)}>{name(o.org_id)}</a>{:else}<span class="muted">{o.printed_org}</span>{/if}{#if o.aff_role !== 'primary'}<span class="muted role">({o.aff_role.replace(/_/g, ' ')})</span>{/if}</td>
-									<td class="pubc" data-tip={pubTip(s, o.locator)}>{#if s.url}<a href={s.url} target="_blank" rel="noopener">{s.title ?? ''}</a>{:else}{s.title ?? ''}{/if}{#if s.atlas} <a class="sib" href={s.atlas[1]} target="_blank" rel="noopener" data-tip="Open in the {s.atlas[0]}">atlas</a>{/if}</td>
-								</tr>
-							{/each}
-						</tbody>
-					</table>
-				{:else}
+					<h3>Affiliations ({pobs.length}{complete ? '' : ' so far'})</h3>
+					<Chips sets={[{ columns: aCols, filters: aF }]} onremove={(_, k) => { const n = { ...aF }; delete n[k]; aF = n; }} onclear={() => (aF = {})} />
+					<div class="dt"><DataTable columns={aCols} rows={pobs} rowKey={(o) => o.obs_id} rowTip={aTip} bind:filters={aF} bind:sort={aS} ownScroll={false} bg="var(--surface)" /></div>
+				{:else if complete}
 					<p class="muted">No published affiliation in the atlas.</p>
 				{/if}
 				{#if person.lin_grade}
@@ -319,63 +364,45 @@
 					<p class="small">Listed in a curated career-lineage record, from these public sources:</p>
 					<ul class="small">
 						{#each person.lin_sources.split(';').filter(Boolean) as sid}
-							{@const s = view.sources[sid] ?? {}}
+							{@const s = view?.sources[sid] ?? {}}
 							<li>{#if s.url}<a href={s.url} target="_blank" rel="noopener">{s.title}</a>{:else}{s.title}{/if} <span class="muted">{[s.type, s.year].filter(Boolean).join(', ')}</span></li>
 						{/each}
 					</ul>
 				{/if}
 			{:else if mode === 'orgs' && org}
 				<h2>{name(org)} <a class="hub" href={link('/orgs/hub') + '?id=' + encodeURIComponent(org)}>hub</a></h2>
-				<div class="meta muted">{opeople.length} people, {otab.get(org)?.obs ?? 0} published affiliations</div>
-				<table class="t num">
-					<thead><tr><th>person</th><th class="r">affiliations</th><th class="r">first</th><th class="r">last</th></tr></thead>
-					<tbody>
-						{#each opeople as op (op.person.id)}
-							<tr class="click" onclick={() => ((mode = 'persons'), pick(op.person.id))}><td>{op.person.name}</td><td class="r">{op.n}</td><td class="r">{op.first}</td><td class="r">{op.last}</td></tr>
-						{/each}
-					</tbody>
-				</table>
+				<div class="meta muted">{opeople.length} people, {otab.get(org)?.obs ?? 0} published affiliations{complete ? '' : ' so far'}</div>
+				<Chips sets={[{ columns: dCols, filters: dF }]} onremove={(_, k) => { const n = { ...dF }; delete n[k]; dF = n; }} onclear={() => (dF = {})} />
+				<div class="dt"><DataTable columns={dCols} rows={opeople} rowKey={(p) => p.person.id} onselect={(k) => ((mode = 'persons'), pick(k))} defaultSort={dSort} tie={dTie} bind:filters={dF} bind:sort={dS} ownScroll={false} bg="var(--surface)" empty="" /></div>
 			{:else if mode === 'coverage'}
 				<h3>What is shown</h3>
 				<ul class="small">
 					<li>An affiliation is what a publication prints for an author (or, for some conference papers, what the conference program lists), dated by the publication or session date. It is a dated point, not an employment period.</li>
 					<li>Only public professional sources are used. Affiliations of authors whose identity is still under review are not shown.</li>
 				</ul>
-			{:else}
+			{:else if complete}
 				<p class="muted">{mode === 'persons' ? 'Select a person.' : 'Select an organization.'}</p>
 			{/if}
 		</aside>
 	</div>
-{:else}
-	<Skeleton />
 {/if}
 
 <style>
 	.page { height: 100%; display: grid; grid-template-columns: minmax(0, 1fr) 520px; grid-template-rows: minmax(0, 1fr); }
-	.main { min-width: 0; min-height: 0; display: grid; grid-template-rows: auto minmax(0, 1fr); border-right: 1px solid var(--border); }
+	.main { min-width: 0; min-height: 0; display: flex; flex-direction: column; border-right: 1px solid var(--border); }
+	.main > :global(.scroll) { flex: 1; height: auto; }
 	.bar { display: flex; gap: 6px; align-items: center; padding: 6px 8px; background: var(--surface); border-bottom: 1px solid var(--border); min-width: 0; }
 	.bar input { flex: 1; min-width: 80px; }
 	.bar > .muted { white-space: nowrap; }
 	.grow { flex: 1; }
 	.tabs button { height: 24px; font-size: 12px; padding: 0 10px; }
-	.scroll { overflow: auto; min-height: 0; }
+	.scroll { overflow: auto; min-height: 0; flex: 1; }
 	.cov { padding: 8px; display: flex; flex-direction: column; gap: 8px; }
 	.cov > :global(*) { flex: none; }
+	.dt { overflow-x: auto; }
+	.covt { max-width: 720px; }
 	.pad { padding: 12px; }
-	table.t { border-collapse: collapse; width: 100%; }
-	.t th, .t td { padding: 2px 6px; border-bottom: 1px solid var(--grid); text-align: left; white-space: nowrap; }
-	.t th { position: sticky; top: 0; background: var(--surface); color: var(--ink-3); font-weight: 500; cursor: pointer; user-select: none; }
-	.t .r { text-align: right; }
-	.t td.name { max-width: 360px; overflow: hidden; text-overflow: ellipsis; }
-	.main .t tbody tr, .t tr.click { cursor: pointer; }
-	.t tbody tr:hover { background: var(--hover); }
-	.t tbody tr.sel { background: var(--sel); }
-	.t.grid { width: auto; background: var(--surface); border: 1px solid var(--border); }
-	.t.grid th { position: static; cursor: default; }
 	.detail { min-height: 0; overflow: auto; padding: 8px 10px; background: var(--surface); }
-	.detail .t th { position: static; cursor: default; }
-	.detail .t td { white-space: normal; }
-	.detail .t td.nw { white-space: nowrap; }
 	.tl { margin: 6px 0 4px; }
 	h2 { margin: 0 0 4px; font-size: 14px; }
 	h2 .hub { font-size: 11px; font-weight: 400; margin-left: 6px; }
@@ -383,7 +410,6 @@
 	.meta { display: flex; flex-wrap: wrap; gap: 4px 12px; font-size: 11px; }
 	.small { font-size: 11px; }
 	.sib { font-size: 10px; margin-left: 4px; }
-	.detail .t td.pubc { min-width: 180px; }
 	.role { margin-left: 4px; }
 	ul { margin: 0; padding-left: 16px; }
 	.err { padding: 12px; color: var(--crit); }
@@ -392,6 +418,6 @@
 		.page { grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(0, 1fr) 50%; }
 		.main { border-right: none; }
 		.detail { border-top: 1px solid var(--border); }
-		.bar > .muted { display: none; }
+		.bar { flex-wrap: wrap; }
 	}
 </style>

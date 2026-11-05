@@ -16,6 +16,10 @@ export interface Shape {
 	alpha?: number;
 	line?: boolean;
 	hatch?: boolean;
+	/** Named layer for the viewer's layer toggles. */
+	layer?: string;
+	/** Feature size in um: hidden when it would draw below about a pixel, so a dense grating does not alias (DevLog-013). */
+	lod?: number;
 }
 export interface Mark {
 	dir: 'h' | 'v';
@@ -55,6 +59,8 @@ export interface Scene {
 	/** Reported dimensions are drawn to scale but some shapes are schematic (dashed, template proportions) (D225). */
 	partial: boolean;
 	inset?: { c: Pt; half: number };
+	/** Initial window [x0, y0, x1, y1] in um instead of fitting all shapes (curated detail views). */
+	window?: [number, number, number, number];
 }
 
 const LEN_UNITS = new Set(['nm', 'um', 'mm', 'cm']);
@@ -328,7 +334,7 @@ function gcSection(b: B): Scene {
 	const gp = ['period_nm', 'fill_factor', 'core_thickness_nm', 'etch_depth_nm'];
 	b.rect(x0, 0, 0, t, st.core, 'core (waveguide)', ['core_thickness_nm'], {}, 'core');
 	if (slab > 0) b.rect(0, 0, x1, slab, st.core, 'slab under the grating', gp, {}, 'core');
-	for (let i = 0; i < K; i++) b.rect(i * P, slab, i * P + ff * P, t, st.core, 'grating tooth', gp, { tip: 'tooth = unetched fraction of the period (fill factor convention as reported)' }, 'core');
+	for (let i = 0; i < K; i++) b.rect(i * P, slab, i * P + ff * P, t, st.core, 'grating tooth', gp, { tip: 'tooth = unetched fraction of the period (fill factor convention as reported)', lod: ff * P }, 'core');
 	if (nRep === null || nRep > K) b.notes.push('periods truncated in this section');
 	// Fiber axis, tilted from the chip normal by the reported angle (sign as printed; tilt direction schematic).
 	if (b.has('fiber_angle_deg')) {
@@ -434,7 +440,7 @@ function gcTop(b: B): Scene {
 	const gParams = ['period_nm', 'fill_factor', LgFromN ? 'n_periods' : 'grating_length_um', 'grating_width_um'];
 	b.rect(0, -Wg / 2, Lg, Wg / 2, core, 'grating region (etched)', gParams, { alpha: 0.35 }, 'core');
 	const nT = Math.floor(Lg / P + 1e-6);
-	if (nT <= 400) for (let i = 0; i < nT; i++) b.rect(i * P, -Wg / 2, i * P + ff * P, Wg / 2, core, 'grating tooth', gParams, {}, 'core');
+	if (nT <= 400) for (let i = 0; i < nT; i++) b.rect(i * P, -Wg / 2, i * P + ff * P, Wg / 2, core, 'grating tooth', gParams, { lod: ff * P }, 'core');
 	else b.notes.push('grating teeth not drawn individually (too many periods for this view)');
 	b.mark('taper_length_um', 'h', -Lt, 0, [-w / 2, -Wg / 2], -Wg / 2, -14);
 	if (b.has('grating_length_um') || !LgFromN) b.mark('grating_length_um', 'h', 0, Lg, [-Wg / 2, -Wg / 2], -Wg / 2, -14);
@@ -683,45 +689,46 @@ function yTop(b: B): Scene {
 }
 
 function awgTop(b: B): Scene {
-	// Schematic only (template: "schematic: FPRs + array"): shapes are not to scale; labels carry the data.
+	// No invented array (DevLog-013): the array routing of a component without a curated drawing is unknown, so it is not
+	// drawn. With the FPR length and arm count the star coupler is drawn at true scale; otherwise only the values are listed.
 	const core = b.st.core;
-	const nA = b.has('n_arms') ? b.v('n_arms') : null, nC = b.has('n_channels') ? b.v('n_channels') : null;
-	const kA = Math.min(nA ?? 7, 9), kC = Math.min(nC ?? 4, 8);
-	const F = 30, gap = 60, H = 40;
-	const fpr = (x0: number, flip: boolean): Pt[] => {
-		const pts: Pt[] = [];
-		for (let i = 0; i <= 20; i++) {
-			const a = -0.6 + (1.2 * i) / 20;
-			pts.push([x0 + (flip ? -1 : 1) * F * Math.cos(a), H / 2 * Math.sin(a) * 1.6]);
+	const values = (x: number, top: number, dy: number) => {
+		let y = top;
+		for (const [p, word] of [['n_arms', 'arms'], ['n_channels', 'channels'], ['fpr_length_um', 'FPR length'], ['arm_length_increment_um', 'ΔL'], ['diffraction_order', 'order'], ['footprint_um2', 'footprint'], ['width_nm', 'width']] as const) {
+			if (!b.has(p)) continue;
+			b.val(p, [x, y], word, 'start');
+			y -= dy;
 		}
-		return [[x0, -2], ...pts, [x0, 2]];
 	};
-	b.poly(fpr(0, false), core, 'free-propagation region', ['fpr_length_um'], { schematic: true }, 'core');
-	b.poly(fpr(2 * F + gap, true), core, 'free-propagation region', ['fpr_length_um'], { schematic: true }, 'core');
-	for (let i = 0; i < kA; i++) {
-		const f = kA > 1 ? i / (kA - 1) : 0.5;
-		const yA = (f - 0.5) * H * 1.3, rise = 12 + 26 * f;
-		const cl: Pt[] = Array.from({ length: 41 }, (_, j) => {
-			const s = j / 40;
-			return [F + s * gap, yA + rise * Math.sin(Math.PI * s)] as Pt;
-		});
-		b.poly(strip(cl, () => 0.9), core, 'arrayed waveguide', ['n_arms', 'arm_length_increment_um'], { schematic: true }, 'core');
+	if (!b.has('fpr_length_um') || !b.has('n_arms') || !b.has('pitch_um')) {
+		values(0, 0, 1);
+		b.notes.push('FPR length, arm count and array pitch are all needed to draw the star coupler');
+		return b.scene('top view: not drawn', { stretch: false, schematic: true, partial: false });
 	}
-	b.rect(-14, -0.45, 0, 0.45, core, 'input waveguide', [], { schematic: true }, 'core');
-	for (let i = 0; i < kC; i++) {
-		const y = (kC > 1 ? i / (kC - 1) - 0.5 : 0) * H * 0.7;
-		b.rect(2 * F + gap, y - 0.45, 2 * F + gap + 14, y + 0.45, core, 'output waveguide', ['n_channels'], { schematic: true }, 'core');
+	const R = b.v('fpr_length_um'), nA = b.v('n_arms');
+	const [w] = b.or('width_nm', () => R / 100);
+	const pitch = b.v('pitch_um');
+	const half = ((nA - 1) / 2) * (pitch / R);
+	if (half >= Math.PI / 2) {
+		values(0, 0, 1);
+		b.notes.push('arm count x pitch exceeds the half circle of this FPR length: the rows do not fix a star coupler, not drawn');
+		return b.scene('top view: not drawn', { stretch: false, schematic: true, partial: false });
 	}
-	const tx = F + gap / 2;
-	b.val('n_arms', [tx, -H * 0.85], 'arms', 'middle');
-	b.val('n_channels', [2 * F + gap + 14, H * 0.45], 'channels', 'end', 0, -6);
-	b.val('fpr_length_um', [F / 2, -H * 0.62], 'FPR', 'middle');
-	b.val('arm_length_increment_um', [tx, H * 1.75], 'ΔL', 'middle');
-	if (b.has('diffraction_order')) b.val('diffraction_order', [tx, H * 2], 'order', 'middle');
-	if (b.has('footprint_um2')) b.val('footprint_um2', [tx, -H * 1.15], 'footprint', 'middle');
-	if (b.has('width_nm')) b.val('width_nm', [-14, 0], 'width', 'start', 0, -8);
-	b.notes.push('schematic: arm count, path lengths and region sizes are not drawn to scale');
-	return b.scene('top view (schematic)', { stretch: false, schematic: true });
+	const edge = half + (0.6 * pitch) / R;
+	const arc = (cx: number, cy: number, r: number, a0: number, a1: number, n = 48): Pt[] => Array.from({ length: n + 1 }, (_, i) => [cx + r * Math.cos(a0 + ((a1 - a0) * i) / n), cy + r * Math.sin(a0 + ((a1 - a0) * i) / n)] as Pt);
+	const nIn = b.has('n_channels') ? Math.min(b.v('n_channels'), 64) : 1;
+	const inHalf = (((nIn + 1) / 2) * pitch) / (R / 2);
+	b.poly([...arc(0, 0, R, -edge, edge), ...arc(R / 2, 0, R / 2, Math.PI - inHalf, Math.PI + inHalf, 16)], core, 'free-propagation region', ['fpr_length_um', 'n_arms', 'pitch_um'], { alpha: 0.55, tip: 'array arc of radius R about the input focus, input plane on the Rowland circle of diameter R (standard design; this source does not show it)' }, 'core');
+	const stub = 0.35 * R;
+	for (let i = 0; i < Math.min(nA, 300); i++) {
+		const a = -half + (2 * half * i) / Math.max(nA - 1, 1);
+		const c = [R * Math.cos(a), R * Math.sin(a)] as const;
+		b.poly(strip([[c[0], c[1]], [c[0] + stub * Math.cos(a), c[1] + stub * Math.sin(a)]], () => w), core, 'arrayed waveguide (stub)', ['width_nm', 'pitch_um'], { tip: 'stub only: the array routing is not reported by this component row' }, 'core');
+	}
+	const span = R * Math.sin(edge);
+	values(0, span + 0.3 * R, 0.09 * R);
+	b.notes.push('star coupler only, at true scale; arm stubs are cut: array routing and output FPR are not drawn because no figure was read for this component');
+	return b.scene('top view: star coupler', { stretch: false, schematic: false });
 }
 
 function pdTop(b: B): Scene {

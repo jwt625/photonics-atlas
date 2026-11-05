@@ -3,7 +3,10 @@
 	// process observations; standards and reliability tests. Hash state: tab, cat, org, std.
 	import { onMount } from 'svelte';
 	import Preload from '../../lib/Preload.svelte';
-	import Skeleton from '../../lib/Skeleton.svelte';
+	import Chips from '../../lib/table/Chips.svelte';
+	import DataTable from '../../lib/table/DataTable.svelte';
+	import type { Col, Filters, Sort } from '../../lib/table/filters';
+	import type { Summary } from '../../lib/types';
 	import { link } from '../../lib/paths';
 	import { store, ui } from '../../lib/state.svelte';
 	import { loadSupply, sup, type Row, type Usage } from '../../lib/supply.svelte';
@@ -11,6 +14,9 @@
 	import StackBars from '../../lib/StackBars.svelte';
 	import { descendants, OTHER, rollup, shareByYear, split, vendors, yearOf } from '../../lib/views';
 	import { pubTip } from '../../lib/pub';
+
+	let { data }: { data: { summary: Summary } } = $props();
+	const head = $derived(data.summary.head.supply);
 
 	type Tab = 'usage' | 'processes' | 'standards';
 	let tab = $state<Tab>('usage');
@@ -66,10 +72,13 @@
 	};
 
 	const view = $derived(sup.view);
-	const name = (id: string) => store.byId.get(id)?.name ?? id;
-	const cats = $derived(view?.categories ?? []);
+	type VRow = { org: string; name: string; type: string; country: string; rows: number; sources: number; roles: string[]; cats: string[]; y0: number | null; y1: number | null; years: number[] };
+	const headName = $derived(new Map(head.rows.map((r) => [r.org, r.name])));
+	const name = (id: string) => store.byId.get(id)?.name ?? headName.get(id) ?? id;
+	// real tree and first vendor rows from the head inlined in the page until the view is in (D500)
+	const cats = $derived<{ id: string; label: string; parent?: string }[]>(view?.categories ?? head.categories.map(([id, label, parent]) => ({ id, label, parent: parent || undefined })));
 	const catById = $derived(new Map(cats.map((c) => [c.id, c])));
-	const counts = $derived(view ? rollup(cats, view.usage) : new Map<string, number>());
+	const counts = $derived(view ? rollup(cats, view.usage) : new Map(head.categories.map((c) => [c[0], c[3]])));
 	const kids = $derived.by(() => {
 		const m = new Map<string, string[]>();
 		for (const c of cats) if (c.parent) m.set(c.parent, [...(m.get(c.parent) ?? []), c.id]);
@@ -109,7 +118,24 @@
 	const ids = $derived(cat ? descendants(cats, cat) : null);
 	const fold = (s: string) => s.toLowerCase();
 	const usageIn = $derived((view?.usage ?? []).filter((u) => !ids || ids.has(u.category_id)));
-	const vend = $derived(view ? vendors(usageIn, view.sources, null).filter((v) => !q || fold(name(v.org) + ' ' + v.org).includes(fold(q))) : []);
+	// years with a stated use per vendor, in the selected category: the Years filter matches these, not the first-last span
+	const yearsBy = $derived.by(() => {
+		const m = new Map<string, Set<number>>();
+		for (const u of usageIn) {
+			const y = yearOf(view?.sources ?? {}, u.source_id);
+			if (y === null) continue;
+			if (!m.has(u.org_id)) m.set(u.org_id, new Set());
+			(m.get(u.org_id) as Set<number>).add(y);
+		}
+		return m;
+	});
+	const vend = $derived<VRow[]>(
+		view
+			? vendors(usageIn, view.sources, null)
+					.filter((v) => !q || fold(name(v.org) + ' ' + v.org).includes(fold(q)))
+					.map((v) => ({ ...v, name: name(v.org), type: store.byId.get(v.org)?.type ?? '', country: store.byId.get(v.org)?.country ?? '', years: [...(yearsBy.get(v.org) ?? [])] }))
+			: head.rows.map((r) => ({ y0: null, y1: null, type: '', country: '', years: [r.y0, r.y1].filter((y): y is number => y !== undefined), ...r }))
+	);
 	const share = $derived(view ? shareByYear(view.usage, view.sources, ids) : null);
 	const slotOf = (k: string, keys: string[]) => (k === OTHER ? -1 : keys.filter((x) => x !== OTHER).indexOf(k));
 	const series = $derived(
@@ -154,6 +180,79 @@
 	});
 
 	const src = (sid: string) => view?.sources[sid] ?? {};
+	// tables (D504)
+	// fixed widths: the columns must not move when the view replaces the head rows
+	const vCols: Col<VRow>[] = [
+		{ key: 'name', label: 'Vendor', kind: 'text', w: 240, get: (v) => v.name, cell: vendorCell },
+		{ key: 'type', label: 'Type', kind: 'enum', w: 110, get: (v) => v.type, enumLabel: (t) => t.replace(/_/g, ' ') },
+		{ key: 'country', label: 'CC', kind: 'enum', w: 52, get: (v) => v.country },
+		{ key: 'rows', label: 'Uses', kind: 'num', w: 62, right: true, tip: 'stated uses', get: (v) => v.rows },
+		{ key: 'sources', label: 'Papers', kind: 'num', w: 70, right: true, tip: 'distinct publications', get: (v) => v.sources },
+		{ key: 'roles', label: 'Roles', kind: 'enum', w: 240, get: (v) => v.roles, enumLabel: (r) => r.replace(/_/g, ' ') },
+		{ key: 'cats', label: 'Categories', kind: 'enum', w: 190, get: (v) => v.cats, enumLabel: (c) => c + ' ' + (catById.get(c)?.label ?? ''), text: (v) => v.cats.join(', '), cellTip: (v) => v.cats.join(', ') + '\n' + v.cats.map((c) => c + ' ' + (catById.get(c)?.label ?? '')).join('\n') },
+		{ key: 'years', label: 'Years', kind: 'num', w: 92, tip: 'Publication years of the stated uses; the filter matches a vendor with a use in that range', get: (v) => v.years, text: (v) => (v.y0 === null ? '' : v.y0 === v.y1 ? String(v.y0) : `${v.y0}-${v.y1}`), sort: (v) => v.y1 }
+	];
+	const vSort: Sort = { key: 'rows', dir: -1 };
+	const vTie = (a: VRow, b: VRow) => a.org.localeCompare(b.org);
+	const pCols: Col<Row>[] = [
+		{ key: 'org', label: 'Org', kind: 'enum', cls: 'lbl', get: (p) => name(p.org_id), cell: procOrgCell },
+		{ key: 'process', label: 'Process (as printed)', kind: 'text', cls: 'wrap', get: (p) => p.process_name },
+		{ key: 'platform', label: 'Platform', kind: 'enum', get: (p) => p.platform },
+		{ key: 'wafer', label: 'Wafer', unit: 'mm', kind: 'num', right: true, tip: 'nominal wafer diameter (mm)', get: (p) => p.wafer_mm, text: (p) => p.wafer_mm ?? '' },
+		{ key: 'pdk', label: 'PDK', kind: 'enum', get: (p) => p.pdk_name },
+		{ key: 'open', label: 'Open', kind: 'enum', tip: 'PDK stated open', get: (p) => p.pdk_open },
+		{ key: 'route', label: 'Route', kind: 'enum', tip: 'how the foundry was accessed (MPW, dedicated run, ...)', get: (p) => p.access_route },
+		{ key: 'broker', label: 'Broker', kind: 'enum', get: (p) => (p.broker_org_id ? name(p.broker_org_id) : '') },
+		{ key: 'pub', label: 'Publication', kind: 'text', cls: 'pub', get: (p) => src(p.source_id).title },
+		{ key: 'year', label: 'Year', kind: 'num', right: true, get: (p) => src(p.source_id).year, text: (p) => src(p.source_id).year ?? '' }
+	];
+	type SRow = { s: Row; n: number; papers: number };
+	const sCols: Col<SRow>[] = [
+		{ key: 'designation', label: 'Designation', kind: 'text', w: 170, cls: 'mono', get: (r) => r.s.designation },
+		{ key: 'body', label: 'Body', kind: 'enum', get: (r) => (r.s.body_org_id ? name(r.s.body_org_id) : '') },
+		{ key: 'n', label: 'Tests', kind: 'num', right: true, tip: 'reliability test rows citing the designation', get: (r) => r.n },
+		{ key: 'papers', label: 'Papers', kind: 'num', right: true, get: (r) => r.papers }
+	];
+	const sSort: Sort = { key: 'n', dir: -1 };
+	const sTie = (a: SRow, b: SRow) => a.s.designation.localeCompare(b.s.designation);
+	type TRow = { t: string; n: number };
+	const tCols: Col<TRow>[] = [
+		{ key: 't', label: 'Test type', kind: 'enum', tip: 'stress applied; the measurement type where no stress is named', get: (r) => r.t },
+		{ key: 'n', label: 'Tests', kind: 'num', right: true, get: (r) => r.n }
+	];
+	const tSort: Sort = { key: 'n', dir: -1 };
+	const tTie = (a: TRow, b: TRow) => a.t.localeCompare(b.t);
+	const typeRows = $derived(typeCounts.map(([t, n]) => ({ t, n })));
+	const prodCols: Col<Row>[] = [
+		{ key: 'model', label: 'model', kind: 'text', w: 210, get: (p) => p.model, cell: prodCell, cellTip: (p) => p.model + (p.product_line ? ' (' + p.product_line + ')' : '') },
+		{ key: 'cat', label: 'cat', kind: 'enum', w: 56, cls: 'mono', get: (p) => p.category_id, enumLabel: (c) => c + ' ' + (catById.get(c)?.label ?? ''), text: (p) => p.category_id, cellTip: (p) => catById.get(p.category_id)?.label },
+		{ key: 'uses', label: 'uses', kind: 'num', w: 56, right: true, tip: 'stated uses naming this product', get: (p) => prodRows(p.product_id), text: (p) => (prodRows(p.product_id) ? String(prodRows(p.product_id)) : '') }
+	];
+	const testCols: Col<Row>[] = [
+		{ key: 'type', label: 'type', kind: 'enum', w: 130, cls: 'wrap', tip: 'stress type; measurand after the slash', get: (t) => t.test_type + (t.measurand && t.measurand !== t.test_type ? ' / ' + t.measurand : '') },
+		{ key: 'cond', label: 'condition', kind: 'text', w: 130, cls: 'wrap', get: (t) => range(t) },
+		{ key: 'value', label: 'value', kind: 'text', w: 110, cls: 'wrap', get: (t) => ((t.value ?? t.value_text ?? '') + ' ' + (t.unit ?? '')).trim() }
+	];
+	let vFilters = $state<Filters>({});
+	let pFilters = $state<Filters>({});
+	let sFilters = $state<Filters>({});
+	let tFilters = $state<Filters>({});
+	let vS = $state<Sort | null>(null);
+	let pS = $state<Sort | null>(null);
+	let sS = $state<Sort | null>(null);
+	let tS = $state<Sort | null>(null);
+	let prF = $state<Filters>({});
+	let prS = $state<Sort | null>(null);
+	let tcF = $state<Filters>({});
+	let tcS = $state<Sort | null>(null);
+	let vShown = $state(0);
+	let pShown = $state(0);
+	let sShown = $state(0);
+	const drop = (f: Filters, k: string) => {
+		const n = { ...f };
+		delete n[k];
+		return n;
+	};
 	const srcTip = (sid: string, loc = '') => pubTip(src(sid), loc);
 	const BASIS: Record<string, string> = { stated: 'stated in the publication', inferred_from_model: 'vendor inferred from the stated model number', datasheet_spec: 'datasheet specification', datasheet_typical: 'datasheet typical value' };
 	const uTip = (u: Usage) => [BASIS[u.basis] ?? u.basis, srcTip(u.source_id, u.locator)].filter(Boolean).join('\n');
@@ -164,16 +263,20 @@
 
 <Preload files={['data/supply.json']} />
 
+{#snippet vendorCell(v: VRow)}<span class="sw" style:background={swatch(v.org)}></span>{v.name}{/snippet}
+{#snippet prodCell(p: Row)}{p.model}{#if p.product_line}<span class="muted pl">{p.product_line}</span>{/if}{/snippet}
+{#snippet procOrgCell(p: Row)}<a href={link('/orgs/hub') + '?id=' + encodeURIComponent(p.org_id)}>{name(p.org_id)}</a>{/snippet}
+
 {#if sup.error}
 	<div class="err">{sup.error}</div>
-{:else if view}
+{:else}
 	<div class="page">
 		<aside class="tree" class:off={tab !== 'usage'} inert={tab !== 'usage'} data-tip={tab !== 'usage' ? 'Categories apply to the Usage tab' : undefined}>
 			<div class="th">
 				<span class="muted" data-tip="Supply categories A-K; counts are stated uses in the subtree">Categories</span>
 				<label class="muted" data-tip="Show categories without stated uses"><input type="checkbox" bind:checked={showEmpty} /> empty</label>
 			</div>
-			<button class="node" class:on={!cat} onclick={() => set('cat', '')}><span class="lbl">All categories</span><span class="num">{view.usage.length}</span></button>
+			<button class="node" class:on={!cat} onclick={() => set('cat', '')}><span class="lbl">All categories</span><span class="num">{head.usage}</span></button>
 			{#each tree as n (n.id)}
 				{@const c = catById.get(n.id)}
 				{@const k = kids.get(n.id)?.length ?? 0}
@@ -191,18 +294,20 @@
 					<button class:on={tab === 'usage'} onclick={() => set('tab', 'usage')} data-tip="Vendors per category with the papers that state their use">Usage</button><button class:on={tab === 'processes'} onclick={() => set('tab', 'processes')} data-tip="Foundry processes as described in each publication">Processes</button><button class:on={tab === 'standards'} onclick={() => set('tab', 'standards')} data-tip="Standards cited by packaging reliability tests">Standards</button>
 				</span>
 				<input type="search" placeholder={tab === 'usage' ? 'Filter vendors' : tab === 'processes' ? 'Filter org, process, platform, PDK' : 'Filter designation, body'} value={qLive} oninput={(e) => onInput(e.currentTarget.value)} onkeydown={(e) => e.key === 'Enter' && (q = qLive)} />
-				{#if tab === 'usage'}
-					<span class="muted num" data-tip="vendors, stated uses and named products in the selected category">{vend.length} vendors, {usageIn.length} uses, {products.length} products</span>
+				{#if !view}
+					<span class="muted num" data-tip="rows shown so far; the rest arrive with the supply view">{tab === 'usage' ? `${head.rows.length} / ${head.vendors} vendors loaded` : 'supply view loading'}</span>
+				{:else if tab === 'usage'}
+					<span class="muted num" data-tip="vendors, stated uses and named products in the selected category">{vShown} / {vend.length} vendors, {usageIn.length} uses, {products.length} products</span>
 				{:else if tab === 'processes'}
-					<span class="muted num">{procs.length} / {view.processes.length}</span>
+					<span class="muted num">{pShown} / {view.processes.length}</span>
 				{:else}
-					<span class="muted num" data-tip="cited standards / reliability tests; tests whose printed standard is not one of the listed designations">{view.standards.length} standards, {view.tests.length} tests, {unparsed} without a listed standard</span>
+					<span class="muted num" data-tip="cited standards / reliability tests; tests whose printed standard is not one of the listed designations">{sShown} / {view.standards.length} standards, {view.tests.length} tests, {unparsed} without a listed standard</span>
 				{/if}
 			</div>
 			<div class="scroll">
 				{#if tab === 'usage'}
 					{#if share}
-						<div class="chart">
+						<div class="chart" style:min-height="{narrow ? 186 : 316}px">
 							<StackBars
 								letter="a"
 								desc="Stated uses (one per publication, vendor and role) per publication year in the selected category, stacked by vendor; the six vendors with most uses keep their own colour, the rest are grey. Uses stated in the papers, not market share."
@@ -216,62 +321,32 @@
 								legend={!narrow}
 							/>
 						</div>
+					{:else}
+						<div class="chart" style:min-height="{narrow ? 186 : 316}px"></div>
 					{/if}
-					<table class="t num click">
-						<thead><tr><th>Vendor</th><th>Type</th><th>CC</th><th class="r" data-tip="stated uses">Uses</th><th class="r" data-tip="distinct publications">Papers</th><th>Roles</th><th>Categories</th><th data-tip="publication years">Years</th></tr></thead>
-						<tbody>
-							{#each vend as v (v.org)}
-								{@const o = store.byId.get(v.org)}
-								<tr class:sel={v.org === org} onclick={() => set('org', v.org === org ? '' : v.org)}>
-									<td class="name"><span class="sw" style:background={swatch(v.org)}></span>{name(v.org)}</td><td>{(o?.type ?? '').replace(/_/g, ' ')}</td><td>{o?.country ?? ''}</td>
-									<td class="r">{v.rows}</td><td class="r">{v.sources}</td><td>{v.roles.map((r) => r.replace(/_/g, ' ')).join(', ')}</td>
-									<td data-tip={v.cats.map((c) => c + ' ' + (catById.get(c)?.label ?? '')).join('\n')}>{v.cats.join(', ')}</td>
-									<td>{v.y0 === null ? '' : v.y0 === v.y1 ? v.y0 : `${v.y0}-${v.y1}`}</td>
-								</tr>
-							{/each}
-						</tbody>
-					</table>
-					{#if !vend.length}<p class="muted pad">No stated use in this category.</p>{/if}
+					<Chips sets={[{ columns: vCols, filters: vFilters }]} onremove={(_, k) => (vFilters = drop(vFilters, k))} onclear={() => (vFilters = {})} />
+					<DataTable columns={vCols} rows={vend} rowKey={(v) => v.org} selected={org} onselect={(k) => set('org', k === org ? '' : k)} defaultSort={vSort} tie={vTie} bind:filters={vFilters} bind:sort={vS} bind:shown={vShown} ownScroll={false} empty={view ? 'No stated use matches.' : ''} />
 				{:else if tab === 'processes'}
-					<table class="t num">
-						<thead><tr><th>Org</th><th>Process (as printed)</th><th>Platform</th><th class="r" data-tip="nominal wafer diameter (mm)">Wafer mm</th><th>PDK</th><th data-tip="PDK stated open">Open</th><th data-tip="how the foundry was accessed (MPW, dedicated run, ...)">Route</th><th>Broker</th><th>Publication</th><th class="r">Year</th></tr></thead>
-						<tbody>
-							{#each procs as p (p.process_id)}
-								<tr data-tip={srcTip(p.source_id, p.locator)}>
-									<td class="name"><a href={link('/orgs/hub') + '?id=' + encodeURIComponent(p.org_id)}>{name(p.org_id)}</a></td>
-									<td class="wrap">{p.process_name}</td><td>{p.platform ?? ''}</td><td class="r">{p.wafer_mm ?? ''}</td><td>{p.pdk_name ?? ''}</td><td>{p.pdk_open ?? ''}</td><td>{p.access_route ?? ''}</td>
-									<td>{p.broker_org_id ? name(p.broker_org_id) : ''}</td>
-									<td class="pub">{src(p.source_id).title ?? ''}</td><td class="r">{src(p.source_id).year ?? ''}</td>
-								</tr>
-							{/each}
-						</tbody>
-					</table>
+					<Chips sets={[{ columns: pCols, filters: pFilters }]} onremove={(_, k) => (pFilters = drop(pFilters, k))} onclear={() => (pFilters = {})} />
+					<DataTable columns={pCols} rows={procs} rowKey={(p) => p.process_id} rowTip={(p) => srcTip(p.source_id, p.locator)} bind:filters={pFilters} bind:sort={pS} bind:shown={pShown} ownScroll={false} empty={view ? 'No process matches.' : ''} />
 				{:else}
 					<div class="split2">
 						<div class="cell">
-							<table class="t num click">
-								<thead><tr><th>Designation</th><th>Body</th><th class="r" data-tip="reliability test rows citing the designation">Tests</th><th class="r">Papers</th></tr></thead>
-								<tbody>
-									{#each stds as { s, n, papers } (s.standard_id)}
-										<tr class:sel={s.standard_id === std} onclick={() => set('std', s.standard_id === std ? '' : s.standard_id)} data-tip={[s.title, s.edition, s.scope].filter(Boolean).join('\n') || undefined}>
-											<td class="mono">{s.designation}</td><td>{s.body_org_id ? name(s.body_org_id) : ''}</td><td class="r">{n}</td><td class="r">{papers}</td>
-										</tr>
-									{/each}
-								</tbody>
-							</table>
+							<Chips sets={[{ columns: sCols, filters: sFilters }]} onremove={(_, k) => (sFilters = drop(sFilters, k))} onclear={() => (sFilters = {})} />
+							<DataTable columns={sCols} rows={stds} rowKey={(r) => r.s.standard_id} selected={std} onselect={(k) => set('std', k === std ? '' : k)} rowTip={(r) => [r.s.title, r.s.edition, r.s.scope].filter(Boolean).join('\n') || undefined} defaultSort={sSort} tie={sTie} bind:filters={sFilters} bind:sort={sS} bind:shown={sShown} ownScroll={false} empty={view ? 'No standard matches.' : ''} />
 						</div>
 						<div class="cell types">
-							<table class="t num">
-								<thead><tr><th data-tip="stress applied; the measurement type where no stress is named">Test type</th><th class="r">Tests</th></tr></thead>
-								<tbody>{#each typeCounts as [t, n]}<tr><td>{t}</td><td class="r">{n}</td></tr>{/each}</tbody>
-							</table>
+							<Chips sets={[{ columns: tCols, filters: tFilters }]} onremove={(_, k) => (tFilters = drop(tFilters, k))} onclear={() => (tFilters = {})} />
+							<DataTable columns={tCols} rows={typeRows} rowKey={(r) => r.t} defaultSort={tSort} tie={tTie} bind:filters={tFilters} bind:sort={tS} ownScroll={false} empty="" />
 						</div>
 					</div>
 				{/if}
 			</div>
 		</div>
 		<aside class="detail">
-			{#if tab === 'usage' && org}
+			{#if !view}
+				{#if tab === 'usage' && org}<h2>{name(org)}</h2>{/if}
+			{:else if tab === 'usage' && org}
 				{@const o = store.byId.get(org)}
 				<h2>{name(org)} <a class="hub" href={link('/orgs/hub') + '?id=' + encodeURIComponent(org)} data-tip="All lenses for this organization">hub</a></h2>
 				<div class="meta muted spaced">
@@ -280,15 +355,8 @@
 				</div>
 				<h3>Products</h3>
 				{#if products.length}
-					<table class="t num prods">
-						<tbody>
-							{#each products as p (p.product_id)}
-								<tr class:sel={prod === p.product_id} class="click" onclick={() => (prod = prod === p.product_id ? '' : p.product_id)} data-tip={[p.status && 'status ' + p.status].filter(Boolean).join('\n')}>
-									<td>{p.model}{#if p.product_line}<span class="muted pl">{p.product_line}</span>{/if}</td><td class="mono" data-tip={catById.get(p.category_id)?.label}>{p.category_id}</td><td class="r" data-tip="stated uses naming this product">{prodRows(p.product_id) || ''}</td>
-								</tr>
-							{/each}
-						</tbody>
-					</table>
+					<Chips sets={[{ columns: prodCols, filters: prF }]} onremove={(_, k) => (prF = drop(prF, k))} onclear={() => (prF = {})} />
+					<div class="dt"><DataTable columns={prodCols} rows={products} rowKey={(p) => p.product_id} selected={prod} onselect={(k) => (prod = prod === k ? '' : k)} rowTip={(p) => (p.status ? 'status ' + p.status : undefined)} bind:filters={prF} bind:sort={prS} ownScroll={false} bg="var(--surface)" /></div>
 				{:else}
 					<p class="muted small" data-tip="no product rows for this vendor{cat ? ' in this category' : ''}">none recorded</p>
 				{/if}
@@ -307,18 +375,8 @@
 				<h2 class="mono">{stdSel.designation}</h2>
 				<div class="meta muted">{stdSel.body_org_id ? name(stdSel.body_org_id) : 'body not a registry org'}{stdSel.notes ? '; ' + stdSel.notes : ''}</div>
 				<h3>Tests citing it ({stdTests.length}, {new Set(stdTests.map((t) => t.source_id)).size} papers)</h3>
-				<table class="t num">
-					<thead><tr><th data-tip="stress type; measurand after the slash">type</th><th>condition</th><th class="r">value</th></tr></thead>
-					<tbody>
-						{#each stdTests as t (t.test_id)}
-							<tr data-tip={[srcTip(t.source_id, t.locator), t.parameter, t.variant, 'printed: ' + t.standard_printed, t.pass_criterion && 'pass: ' + t.pass_criterion, t.result && 'result: ' + t.result].filter(Boolean).join('\n')}>
-								<td>{t.test_type}{t.measurand && t.measurand !== t.test_type ? ' / ' + t.measurand : ''}</td>
-								<td>{range(t)}</td>
-								<td class="r">{t.value ?? t.value_text ?? ''} {t.unit ?? ''}</td>
-							</tr>
-						{/each}
-					</tbody>
-				</table>
+				<Chips sets={[{ columns: testCols, filters: tcF }]} onremove={(_, k) => (tcF = drop(tcF, k))} onclear={() => (tcF = {})} />
+				<div class="dt"><DataTable columns={testCols} rows={stdTests} rowKey={(t) => t.test_id} rowTip={(t) => [srcTip(t.source_id, t.locator), t.parameter, t.variant, 'printed: ' + t.standard_printed, t.pass_criterion && 'pass: ' + t.pass_criterion, t.result && 'result: ' + t.result].filter(Boolean).join('\n')} bind:filters={tcF} bind:sort={tcS} ownScroll={false} bg="var(--surface)" /></div>
 			{:else if tab === 'usage' && cat}
 				{@const c = catById.get(cat)}
 				<h2><span class="mono">{cat}</span> {c?.label}</h2>
@@ -328,8 +386,6 @@
 			{/if}
 		</aside>
 	</div>
-{:else}
-	<Skeleton />
 {/if}
 
 <style>
@@ -352,29 +408,16 @@
 	.tabs button { height: 24px; font-size: 12px; padding: 0 10px; }
 	.scroll { overflow: auto; min-height: 0; }
 	.chart { padding: 8px; }
-	.pad { padding: 12px; }
-	table.t { border-collapse: collapse; width: 100%; }
-	.t th, .t td { padding: 2px 6px; border-bottom: 1px solid var(--grid); text-align: left; white-space: nowrap; }
-	.t th { position: sticky; top: 0; background: var(--surface); color: var(--ink-3); font-weight: 500; }
-	.t .r { text-align: right; }
-	.t td.name { max-width: 260px; overflow: hidden; text-overflow: ellipsis; }
-	.t td.wrap { white-space: normal; min-width: 220px; max-width: 420px; }
-	.t td.pub { max-width: 320px; overflow: hidden; text-overflow: ellipsis; }
-	.t.click tbody tr, .t tr.click { cursor: pointer; }
 	.tree.off { opacity: 0.45; }
 	.model { color: var(--ink); }
 	.pl { margin-left: 6px; }
 	.sw { display: inline-block; width: 8px; height: 8px; margin-right: 6px; vertical-align: 0; }
 	.spaced { display: flex; flex-wrap: wrap; gap: 0 12px; }
-	.prods td { white-space: normal; }
-	.t tbody tr:hover { background: var(--hover); }
-	.t tbody tr.sel { background: var(--sel); }
-	.split2 { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 0; align-items: start; }
-	.split2 .cell { min-width: 0; overflow-x: auto; }
+	.dt { overflow-x: auto; }
+	.split2 { display: grid; grid-template-columns: minmax(0, 1fr) 220px; gap: 0; align-items: start; }
+	.split2 .cell { min-width: 0; }
 	.types { border-left: 1px solid var(--border); }
 	.detail { min-height: 0; overflow: auto; padding: 8px 10px; background: var(--surface); }
-	.detail .t th { position: static; }
-	.detail .t td { white-space: normal; }
 	h2 { margin: 0 0 4px; font-size: 14px; }
 	h2 .hub { font-size: 11px; font-weight: 400; margin-left: 6px; }
 	h3 { margin: 10px 0 4px; font-size: 11px; color: var(--ink-3); font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; }
@@ -392,6 +435,7 @@
 		.main { border-right: none; }
 		.detail { border-top: 1px solid var(--border); }
 		.split2 { grid-template-columns: minmax(0, 1fr); }
-		.bar > .muted { display: none; }
+		.types { border-left: none; }
+		.bar { flex-wrap: wrap; }
 	}
 </style>
