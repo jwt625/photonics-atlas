@@ -1,0 +1,194 @@
+# Audit patch lit_83 (fresh-context audit 2026-11-04, DevLog/audits/2026-11-04-lit_83-audit.md).
+# 240 metrics: 214 ok / 25 imprecise / 1 wrong (deleted); 29 components: 27 ok / 2 imprecise / 0 wrong, 0 deleted; 4 misses added.
+# Coordinator questions on these ops: audit Q4 (rizzo2020 MMI delete), Q5 (konoike2022 note). Q1-Q3 endorse the batch: no op.
+components:
+  cmp_lit_rizzo2020_pdk_mmi_2x2:
+    notes: 'Black-box PDK element provided by the foundry (p.3); geometry not printed (only a scale bar in Fig. 3(d)). A 1 x 2 MMI is shown in Fig. 3(c) with no data. Transmission normalization not stated. Platform empty (D423). Per-port transmission reads about -3.15 to -3.95 dB over 1500-1600 nm, both ports below -3 dB (Fig. 3(e), +/- 0.05 dB): not entered, per-port values with no total and no stated reference (D401 analogue, shang2017).'
+    why: records the value of the deleted m1 (see delete_metrics, audit Q4); p.3 Fig. 3(e)
+  cmp_lit_konoike2022_tin_heater:
+    core_material: Si channel waveguide under a cladding (material not stated) with a TiN film heater
+    why: p.2 Sec. II says only "clad"; SiO2 is not printed anywhere in the paper
+metrics:
+  cmp_lit_melati2022_echelle_basic-m9:
+    parameter: port_width_um
+    value: 2
+    unit: um
+    why: 'p.3 Sec. 2 prints 2 um, p.5 Fig. 3(b) labels 2 um on an output: role-specific parameter (contract v5, D102; merged wdm.eg rows use port_width_um); width_nm 2000 was also an unflagged unit rescale (D157)'
+  cmp_lit_melati2022_echelle_mzi_athermal-m9:
+    parameter: port_width_um
+    value: 2
+    unit: um
+    why: 'p.3 Sec. 2 prints 2 um, p.5 Fig. 3(b) labels 2 um on an output: role-specific parameter (contract v5, D102; merged wdm.eg rows use port_width_um); width_nm 2000 was also an unflagged unit rescale (D157)'
+  cmp_lit_melati2022_echelle_mzi_superthermal-m9:
+    parameter: port_width_um
+    value: 2
+    unit: um
+    why: 'p.3 Sec. 2 prints 2 um, p.5 Fig. 3(b) labels 2 um on an output: role-specific parameter (contract v5, D102; merged wdm.eg rows use port_width_um); width_nm 2000 was also an unflagged unit rescale (D157)'
+  cmp_lit_melati2022_echelle_mzi_tunable-m9:
+    parameter: port_width_um
+    value: 2
+    unit: um
+    why: 'p.3 Sec. 2 prints 2 um, p.5 Fig. 3(b) labels 2 um on an output: role-specific parameter (contract v5, D102; merged wdm.eg rows use port_width_um); width_nm 2000 was also an unflagged unit rescale (D157)'
+  cmp_lit_melati2022_echelle_basic-m19:
+    parameter: port_width_um
+    value: 2
+    unit: um
+    why: 'p.3 Sec. 2 prints a 2 um input aperture: same fix as m9 (D102, D157)'
+  cmp_lit_melati2022_echelle_basic-m15:
+    notes: No wavelength with the value; demultiplexer designed for 1530-1565 nm (p.2 Sec. 2), band inferred. Fig. 7(a) 20 C peaks read -11 to -13 dBm against the -10 dB (+/- 1 dB) reference, so up to about 3 dB on channel 4 (by-eye); printed bound kept (D417).
+    why: additive; p.12 Fig. 7(a) render against p.11 Sec. 5
+  cmp_lit_melati2022_echelle_mzi_athermal-m29:
+    basis: simulated
+    notes: Printed residual change less than 50 pm across 20 K; 50 pm / 20 K. Arithmetic on a simulated value stays simulated (D83f).
+    why: 'p.7 Sec. 3: 50 pm over 20 K comes from the simulation; D83f, arithmetic on simulated values stays simulated'
+  cmp_lit_rizzo2020_rmzi_interleaver-m3:
+    notes: 'Printed value. Conflict (D417): Fig. 4(b) -3 dB edges read 3.45-3.47 nm and Fig. 5(b) about 3.45 nm, about 427 GHz at 1557 nm, against about 3.23 nm for 400 GHz; see fsr_nm row. Text p.4 says the measured FSR closely matches the simulated design.'
+    why: 'p.3 Fig. 4(b), p.4 Fig. 5(b) renders: conflict confirmed; 3.45 nm at 1557 nm is about 427 GHz, not 428'
+  cmp_lit_rizzo2020_rmzi_interleaver-m5:
+    value: 1.72
+    wavelength_inferred: 'true'
+    notes: 'Pixel read of the measured trace on the render: -3 dB crossings about 1560.60 and 1562.32 nm, uncertainty +/- 0.03 nm; plot normalized to its 0 dB. Wavelength from the plot axis.'
+    why: 'p.3 Fig. 4(a) enlarged: 1.72 nm, the row read 1.75 nm from a left edge 0.05 nm too low; rule 8 for the wavelength'
+  cmp_lit_rizzo2020_rmzi_interleaver-m6:
+    value: 1.64
+    wavelength_inferred: 'true'
+    notes: 'Pixel read of the measured trace on the render: -1 dB crossings about 1560.645 and 1562.28 nm, uncertainty +/- 0.03 nm; plot normalized to its 0 dB. Wavelength from the plot axis.'
+    why: 'p.3 Fig. 4(a) enlarged: 1.64 nm, not 1.7 nm (the -1 dB width is 0.08 nm below the -3 dB width on the trace); rule 8 for the wavelength'
+  cmp_lit_song2021b_mzs_2x2_design_a-m7:
+    basis: derived
+    notes: printed 2 um
+    why: 'p.6 Sec. 3: the stored nm value is not printed, unit rescale is derived with the printed value in notes (D157, D255)'
+  cmp_lit_song2021b_benes_4x4-m5:
+    basis: derived
+    notes: printed 2 um (Design A, p.6)
+    why: 'p.6-7 Sec. 3: the stored nm value is not printed, unit rescale is derived with the printed value in notes (D157, D255)'
+  cmp_lit_song2021b_tes_bend-m4:
+    basis: derived
+    notes: printed 0.9 um
+    why: 'p.4 Sec. 2: the stored nm value is not printed, unit rescale is derived with the printed value in notes (D157, D255)'
+  cmp_lit_song2021b_tes_bend-m5:
+    basis: derived
+    notes: printed 0.67 um
+    why: 'p.4 Sec. 2: the stored nm value is not printed, unit rescale is derived with the printed value in notes (D157, D255)'
+  cmp_lit_song2021b_tes_bend-m6:
+    basis: derived
+    notes: printed 0.5 um
+    why: 'p.4 Sec. 2: the stored nm value is not printed, unit rescale is derived with the printed value in notes (D157, D255)'
+  cmp_lit_song2021b_bent_adc_filter-m3:
+    basis: derived
+    notes: printed 0.24 um to 0.26 um
+    why: 'p.4 Sec. 2: the stored nm value is not printed, unit rescale is derived with the printed value in notes (D157, D255)'
+  cmp_lit_song2021b_bent_adc_filter-m1:
+    condition: TE1 transmission of the TES-bend with the filter; paper words it as suppression by this amount
+    notes: Wavelength span from the Fig. 3(b) axis, range printed without a wavelength. Fig. 3(b) plots -12 to -17 dB as the TE1 transmission of the bend with filter and Fig. 3(a) -1.5 to -2.5 dB without it, so the share of the filter alone is about 10.5-14.5 dB (by-eye); printed range kept.
+    why: 'p.5 Fig. 3(a),(b) render: 12-17 dB is the total, not the amount added by the filter as the condition said'
+  cmp_lit_song2021b_mzs_2x2_design_a-m1:
+    notes: 'Printed over 30 dB; abstract about 30 dB. Figure conflict in component notes. Fig. 5(c) at 1520 nm: On_Cross about -27 dB, Off_Bar about -29 dB, signal about -2 dB, so about 25-27 dB there (by-eye); printed bound kept (D417).'
+    why: additive; p.6 Fig. 5(c) enlarged, conflict confirmed
+  cmp_lit_song2021b_mzs_2x2_design_a-m3:
+    notes: ON state at Q = 34 mW; Fig. 5(b) cross minimum at about 34 mW. Central wavelength stated as 1550 nm on p.4. The paper does not label it a pi power; second Bar minimum near 62 mW on Fig. 5(b) (by-eye), so the pi spacing is not uniform over the sweep.
+    why: additive; p.6 Fig. 5(b) enlarged
+  cmp_lit_song2021b_benes_4x4-m1:
+    notes: Largest leakage traces (T41, T32) start near -20 dB with signal -2.5 to -5 dB on Fig. 6(b),(c), so about 15-19 dB port difference (by-eye); approximate printed value kept (D417).
+    why: additive; p.7 Fig. 6(b),(c) enlarged
+  cmp_lit_huang2019b_omega_switch_8x8-m1:
+    wavelength_inferred: 'true'
+    why: 'rule 8: abstract and conclusion print no wavelength; the note already gives the reason (p.5 Sec. IV)'
+  cmp_lit_huang2019b_omega_switch_8x8-m2:
+    wavelength_inferred: 'true'
+    notes: 'Paper prints path losses with grating coupler loss compensated at injection (Fig. 12 caption), coupler term 3.6 dB/facet in Table II of unstated origin, no reference structure: author_estimate + loss_breakdown (D428). Wavelength from the Sec. IV opening (p.5), Fig. 12 prints none.'
+    why: 'rule 8: the sentence and Fig. 12 print no wavelength'
+  cmp_lit_huang2019b_omega_switch_8x8-m8:
+    notes: Printed as bandwidth, level not stated on this line; 3-dB level taken from the element's abstract statement. Fig. 13(F)-(H) signal traces fall about 3 dB at this width (by-eye), consistent with that level.
+    why: additive; p.6 Fig. 13 render supports the 3-dB level the row assumes
+  cmp_lit_huang2019b_omega_switch_8x8-m9:
+    notes: Printed as bandwidth, level not stated on this line; 3-dB level taken from the element's abstract statement. Fig. 13(F)-(H) signal traces fall about 3 dB at this width (by-eye), consistent with that level.
+    why: additive; p.6 Fig. 13 render supports the 3-dB level the row assumes
+  cmp_lit_huang2019b_omega_switch_8x8-m10:
+    notes: Printed as bandwidth, level not stated on this line; 3-dB level taken from the element's abstract statement. Fig. 13(F)-(H) signal traces fall about 3 dB at this width (by-eye), consistent with that level.
+    why: additive; p.6 Fig. 13 render supports the 3-dB level the row assumes
+  cmp_lit_huang2019b_omega_switch_8x8-m11:
+    notes: Fig. 7 caption says through a single MRR; text p.3 names the path, abstract p.1 the fabric.
+    why: additive; p.4 Fig. 7 caption against p.3 Sec. III and p.1 Abstract
+  cmp_lit_huang2019b_dual_mrr_element-m2:
+    wavelength_inferred: 'true'
+    notes: Printed as estimated; loss-budget term, no dedicated test structure. Wavelength from the Sec. IV opening (p.5); the estimate sentence and Table II print none.
+    why: 'rule 8: p.5 and p.6 Table II print no wavelength with the value'
+  cmp_lit_huang2019b_dual_mrr_element-m3:
+    wavelength_inferred: 'true'
+    notes: Printed as estimated; loss-budget term, no dedicated test structure. Wavelength from the Sec. IV opening (p.5); the estimate sentence and Table II print none.
+    why: 'rule 8: p.5 and p.6 Table II print no wavelength with the value'
+  cmp_lit_huang2019b_racetrack_mrr-m2:
+    notes: Printed as passband; 3-dB level stated for the element only. Also design statement p.3. Fig. 9 single-MRR trace falls about 3 dB at about this width (by-eye).
+    why: additive; p.5 Fig. 9 render supports the 3-dB level
+  cmp_lit_huang2019b_racetrack_mrr-m4:
+    wavelength_inferred: 'true'
+    why: 'rule 8, schema: span read from the Fig. 6(B) axis (reason already in the note)'
+  cmp_lit_huang2019b_doped_heater-m1:
+    wavelength_inferred: 'true'
+    why: 'rule 8, schema: span read from the Fig. 6(B) axis (reason already in the note)'
+  cmp_lit_huang2019b_routing_waveguide-m1:
+    wavelength_inferred: 'true'
+    why: 'rule 8: p.6 Table II prints no wavelength (reason already in the note)'
+  cmp_lit_huang2019b_grating_coupler-m1:
+    wavelength_inferred: 'true'
+    notes: Loss-budget term, origin not stated (D444). Printed dB/facet. Wavelength from the Sec. IV opening (p.5); the estimate sentence and Table II print none.
+    why: 'rule 8: p.6 Table II prints no wavelength'
+  cmp_lit_huang2019b_grating_coupler-m2:
+    basis: author_estimate
+    notes: Origin not stated; the paper shows no coupler spectrum (D76).
+    why: 'p.5 Sec. IV states the peak in a clause, with no measurement or spectrum of the coupler: performance value of unstated origin, D76'
+  cmp_lit_konoike2022_piloss_switch_8x8-m2:
+    notes: 'Fiber-to-chip loss of about 3 dB per facet excluded by the authors (p.4), origin not stated, no reference structure: author_estimate + loss_breakdown (D428). No wavelength with the value; band inferred from the Fig. 4 spectra (1510-1590 nm axis, peak near 1555 nm); the operating band is not stated. Printed terms sum to 1.5 + 1 + 7 x 0.1 = 3.2 dB against the printed 3.3 dB (p.4).'
+    why: additive; p.4 Sec. III-A
+  cmp_lit_konoike2022_piloss_switch_8x8-m3:
+    wavelength_inferred: 'true'
+    method: ''
+    why: 'schema: span read from the Fig. 4(c) shading (reason already in the note; shading confirmed about 1535-1566 nm on the render). method direct does not fit integrated and subtracted spectra (p.4 Sec. III-B)'
+  cmp_lit_konoike2022_tin_heater-m2:
+    notes: Printed approximately 20 mW as the TO comparison value, origin not stated. No wavelength with the value; band inferred from the Fig. 4 spectra (1510-1590 nm axis, peak near 1555 nm); the operating band is not stated. The sentence compares with TO phase shifters in general and does not tie the value to the heaters of this chip.
+    why: additive; p.3 Sec. III-A, see audit Q5
+delete_metrics:
+- id: cmp_lit_rizzo2020_pdk_mmi_2x2-m1
+  why: 'p.3 Fig. 3(e) per-port transmission minus 3 dB is not the loss beyond the ideal split: the 0.95 dB end is one noisy point of port 1 near 1505 nm; both ports summed would give less, the reference is not stated. D401 analogue (shang2017); value kept in component notes, imbalance_db stays. See audit Q4'
+add_metrics:
+- metric_id: cmp_lit_melati2022_echelle_basic-m25
+  component_id: cmp_lit_melati2022_echelle_basic
+  parameter: etch_depth_nm
+  value: 220
+  unit: nm
+  condition: Bragg reflector trenches of the grating facets
+  basis: derived
+  locator: p.3 Sec. 2; p.11 Sec. 5
+  notes: Printed as fully etched through the Si layer; Si layer 220 nm.
+  why: 'miss (D153 geometry): p.3 trenches fully etched through the silicon layer, p.11 220 nm layer; merged wdm.eg rows carry etch_depth_nm'
+- metric_id: cmp_lit_melati2022_echelle_mzi_athermal-m30
+  component_id: cmp_lit_melati2022_echelle_mzi_athermal
+  parameter: etch_depth_nm
+  value: 220
+  unit: nm
+  condition: Bragg reflector trenches of the grating facets
+  basis: derived
+  locator: p.3 Sec. 2; p.11 Sec. 5
+  notes: Printed as fully etched through the Si layer; Si layer 220 nm.
+  why: 'miss (D153 geometry): p.3 trenches fully etched through the silicon layer, p.11 220 nm layer; merged wdm.eg rows carry etch_depth_nm'
+- metric_id: cmp_lit_melati2022_echelle_mzi_superthermal-m30
+  component_id: cmp_lit_melati2022_echelle_mzi_superthermal
+  parameter: etch_depth_nm
+  value: 220
+  unit: nm
+  condition: Bragg reflector trenches of the grating facets
+  basis: derived
+  locator: p.3 Sec. 2; p.11 Sec. 5
+  notes: Printed as fully etched through the Si layer; Si layer 220 nm.
+  why: 'miss (D153 geometry): p.3 trenches fully etched through the silicon layer, p.11 220 nm layer; merged wdm.eg rows carry etch_depth_nm'
+- metric_id: cmp_lit_melati2022_echelle_mzi_tunable-m20
+  component_id: cmp_lit_melati2022_echelle_mzi_tunable
+  parameter: etch_depth_nm
+  value: 220
+  unit: nm
+  condition: Bragg reflector trenches of the grating facets
+  basis: derived
+  locator: p.3 Sec. 2; p.11 Sec. 5
+  notes: Printed as fully etched through the Si layer; Si layer 220 nm.
+  why: 'miss (D153 geometry): p.3 trenches fully etched through the silicon layer, p.11 220 nm layer; merged wdm.eg rows carry etch_depth_nm'

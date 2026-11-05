@@ -1,0 +1,88 @@
+# Audit patch lit_82 (fresh-context audit 2026-11-04, DevLog/audits/2026-11-04-lit_82-audit.md).
+# 162 metrics: 154 ok / 6 imprecise / 2 wrong; 28 components: 24 ok / 4 imprecise / 0 wrong, 0 deleted; 4 misses added.
+# Coordinator rulings open (audit Q2, Q5): to keep the foundries on the PWB rows drop the four fab ops; to keep the sundaram2024 TM rows drop the two delete_metrics and the splitter notes op.
+components:
+  cmp_lit_lu2025_pwb_fiber_soi:
+    fab_org_ids: ''
+    notes: 'Fab empty: no org is stated to have printed the PWB and the authors span Vanguard Automation, Sumitomo Electric and KIT (D80b, D154; billah2018, rasel2026 precedent); the paper names the Vanguard Sonata 1000 as the fabrication tool of its solution (p.2). Chip: SOI, AMF (p.4 Sec. II, Fig. 3). Generic capability statements (offsets up to +/- 30 um, Table I typical best-case values) are not entered. Fig. 4(f): loss per PWB stays constant for lateral offsets over 20 um and vertical up to 40 um (p.5), no 1-dB tolerance. On-chip loss not stated as removed.'
+    why: 'p.4 Sec. II names AMF only as the origin of the SOI chip; no sentence says who printed the polymer wire bond this row describes (platform polymer). Skill rule 12, D80b, D399 (assembled row vs chip part); merged billah2018, rasel2026, singer2025, OFC Th2A.10 keep fab empty. Audit Q2'
+  cmp_lit_lu2025_pwb_fiber_sin:
+    fab_org_ids: ''
+    notes: 'Fab empty: no org is stated to have printed the PWB and the authors span Vanguard Automation, Sumitomo Electric and KIT (D80b, D154; billah2018, rasel2026 precedent); the paper names the Vanguard Sonata 1000 as the fabrication tool of its solution (p.2). Chip: SiN, AIM (p.4 Sec. II, Fig. 3). Generic capability statements (offsets up to +/- 30 um, Table I typical best-case values) are not entered. On-chip loss not stated as removed.'
+    why: 'p.4 Sec. II names AIM only as the origin of the SiN chip; no sentence says who printed the polymer wire bond. Skill rule 12, D80b, D399. The on-chip remark of the SOI row holds here too (same sentence, p.4). Audit Q2'
+  cmp_lit_lu2025_pwb_smf_inp:
+    fab_org_ids: ''
+    notes: 'Fab empty: no org is stated to have printed the PWB and the authors span Vanguard Automation, Sumitomo Electric and KIT (D80b, D154; billah2018, rasel2026 precedent); the paper names the Vanguard Sonata 1000 as the fabrication tool of its solution (p.2). Chip: InP dies fabricated by Fraunhofer HHI on JePPIX multi-project wafers, HHI E1700 platform (p.4 Sec. II). Generic capability statements (offsets up to +/- 30 um, Table I typical best-case values) are not entered. InP waveguide 2 um wide. Simulations say 3 um would reduce loss (no number).'
+    why: 'p.4 Sec. II: the fabrication sentence has the InP dies as its subject, not the wire bond. Skill rule 12, D399. D398 is about the chip part and stays in the note. Audit Q2'
+  cmp_lit_lu2025_pwb_fiber_tfln:
+    fab_org_ids: ''
+    notes: 'Fab empty: no org is stated to have printed the PWB and the authors span Vanguard Automation, Sumitomo Electric and KIT (D80b, D154; billah2018, rasel2026 precedent); the paper names the Vanguard Sonata 1000 as the fabrication tool of its solution (p.2). Chip: TFLN from the CSEM foundry; edge coupler design and process optimized by Vanguard and CSEM (p.4 Sec. II). Generic capability statements (offsets up to +/- 30 um, Table I typical best-case values) are not entered. Not entered: 2.18 dB (authors'' ref. [31]); 1.8 dB by unnamed partners.'
+    why: 'p.4 Sec. II: CSEM is the chip foundry and co-optimized the edge coupler; no sentence says who printed the wire bond. Skill rule 12, D399. Audit Q2'
+  cmp_lit_sundaram2024_splitter:
+    notes: 'Custom wafer build at AIM Photonics, 193 nm immersion lithography (p.1). Gap not printed. Authors say the first-step inputs might not have been pure TE / TM (p.1). TM input printed as insertion loss 0.42 dB through and 1.68 dB cross (p.1 Sec. 3): not entered, Fig. 1(b) plots about -3.5 and -4.7 dB, so these are split deviations from the ideal 3 dB (D401).'
+    why: 'p.1 Sec. 3 and p.2 Fig. 1(b) enlarged: keeps the values of the two deleted rows in notes as D401 prescribes. Audit Q5'
+metrics:
+  cmp_lit_georgieva2022_asi_2dgc_m2-m1:
+    basis: derived
+    notes: 'Printed as -5 dB +/- 1.2 dB (3 sigma), 17 of 59 chips. 2D GC spectrum = 1D-2D structure spectrum minus the 1D GC spectrum (p.10). Exemplary die spectra in p.11 Fig. 10(b), no bandwidth stated.'
+    why: 'p.10 Sec. 5.2 describes the subtraction (rule 4 difference of two structures; su2026 and cheben2015 pair values derived, audit lit_73). D167 covers values whose arithmetic is not shown'
+  cmp_lit_georgieva2022_asi_1dgc-m1:
+    basis: derived
+    notes: 'Printed as -3.6 dB +/- 0.6 dB (3 sigma). The paper calculates the 1D GC spectrum from the 1D-1D back-to-back spectrum (p.9-10); the halving is not written out.'
+    why: 'p.9-10 Sec. 5.2: the 1D GC spectrum is calculated from the back-to-back structure (rule 4 halving; su2026 and cheben2015 precedent, audit lit_73)'
+  cmp_lit_georgieva2022_csi_2dgc-m1:
+    wavelength_inferred: 'true'
+    notes: 'Printed as -4.4 dB +/- 0.6 dB (3 sigma). The value sentence states no wavelength; 1530 nm from the 1D sentence before it.'
+    why: 'p.11 Sec. 5.2: 1530 nm is printed with the 1D value only. Skill rule 8; brusberg2025 precedent (audit lit_73)'
+  cmp_lit_lu2025_pwb_fiber_tfln-m1:
+    notes: 'Printed as down to 1.78 dB; the sentence does not restate the subtraction, the terms come from the sentences before and after it and are not printed (origin not stated). Wavelength from the sentence before. Ref. [32] on this sentence is the foundry service page, not an earlier result.'
+    why: 'p.4 Sec. II, p.8 ref. [32]: makes clear the excludes field rests on neighbouring sentences and that the reference does not trigger D259'
+  cmp_lit_sundaram2024_rotator_slot50-m1:
+    scope: unspecified
+    notes: 'Printed unit reads dBm, taken as dB (abstract: IL < 1 dB). Normalization not stated: the plotted path is rotator + splitter (p.2 Fig. 1(c) caption), with TE input at about -3.3 to -4 dB per port and TM input at about -0.8 dB through, so the rotator is not shown isolated and the TE values appear referenced to the 3 dB split. Wavelength span from the abstract.'
+    why: 'p.1 Sec. 3 and p.2 Fig. 1(c) enlarged: no reference structure or normalization, the rotator is measured in front of the splitter. Skill rule 6: per_component needs isolation, unspecified when the paper does not say'
+  cmp_lit_peng2020a_iosmf_low_pdl-m2:
+    notes: 'Printed as -1.5 dB, statistic not named. The Fig. 3(a) TM histogram peaks near -1.37 dB (+/- 0.05 dB), so this is not the peak bin. Tested with fiber pairs; how one coupler was isolated is not stated. No wavelength with the value; O band from the p.3 Fig. 4 spectra axis of the same coupler family.'
+    why: 'p.2 Fig. 3(a) enlarged: the report ties statistic typical to the histogram peak, which holds within one bin for TE and not for TM. Statistic kept (paper says statistical performance, p.3; D434), mismatch recorded'
+delete_metrics:
+- id: cmp_lit_sundaram2024_splitter-m2
+  why: 'p.1 Sec. 3 prints 0.42 dB; p.2 Fig. 1(b) enlarged plots about -3.5 dB through on the 50/50 TM case: a deviation from the ideal 3 dB split, not a component insertion loss (D401). Value in component notes. Audit Q5'
+- id: cmp_lit_sundaram2024_splitter-m3
+  why: 'p.1 Sec. 3 prints 1.68 dB; p.2 Fig. 1(b) enlarged plots about -4.7 dB cross on the 50/50 TM case: a deviation from the ideal 3 dB split, not a component insertion loss (D401). Value in component notes. Audit Q5'
+add_metrics:
+- metric_id: cmp_lit_georgieva2022_design_c_tm1_bulk-m6
+  component_id: cmp_lit_georgieva2022_design_c_tm1_bulk
+  parameter: etch_depth_nm
+  value: 100
+  unit: nm
+  basis: design_target
+  locator: p.4 Sec. 3.1; p.6
+  notes: Geometric details unchanged from the Metal2 design.
+  why: 'p.6 Sec. 3.2 keeps the geometry of the Metal2 design; m5 already takes the period by the same sentence (D153)'
+- metric_id: cmp_lit_georgieva2022_design_c_tm1_bulk-m7
+  component_id: cmp_lit_georgieva2022_design_c_tm1_bulk
+  parameter: core_thickness_nm
+  value: 220
+  unit: nm
+  basis: design_target
+  locator: p.3 Sec. 3.1; p.6
+  notes: Geometric details unchanged from the Metal2 design.
+  why: 'p.6 Sec. 3.2 keeps the geometry of the Metal2 design; p.3 Sec. 3.1 prints the height (D153)'
+- metric_id: cmp_lit_georgieva2022_design_c_tm1_metal3-m6
+  component_id: cmp_lit_georgieva2022_design_c_tm1_metal3
+  parameter: etch_depth_nm
+  value: 100
+  unit: nm
+  basis: design_target
+  locator: p.4 Sec. 3.1; p.6
+  notes: Geometric details unchanged from the Metal2 design.
+  why: 'p.6 Sec. 3.2 keeps the geometry of the Metal2 design; m5 already takes the period by the same sentence (D153)'
+- metric_id: cmp_lit_georgieva2022_design_c_tm1_metal3-m7
+  component_id: cmp_lit_georgieva2022_design_c_tm1_metal3
+  parameter: core_thickness_nm
+  value: 220
+  unit: nm
+  basis: design_target
+  locator: p.3 Sec. 3.1; p.6
+  notes: Geometric details unchanged from the Metal2 design.
+  why: 'p.6 Sec. 3.2 keeps the geometry of the Metal2 design; p.3 Sec. 3.1 prints the height (D153)'

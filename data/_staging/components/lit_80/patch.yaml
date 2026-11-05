@@ -1,0 +1,196 @@
+# Audit patch lit_80 (fresh-context audit 2026-11-04, DevLog/audits/2026-11-04-lit_80-audit.md).
+# 231 metrics: 214 ok / 14 imprecise / 3 wrong; 42 components: 40 ok / 2 imprecise / 0 wrong.
+# Misses: 11 metric rows added. After the patch: 42 components, 239 metrics.
+# Rulings pending on srinivasan2020 1550 nm rows (Q1) and shahin2025 fab (Q2): drop those ops if overruled.
+components:
+  cmp_lit_stanfield2019_ring_7k_ps:
+    notes: 'Separate unnamed-device row (matsuo2013 precedent, D159): the paper says ''a ring resonator device'' and does not say undercut or not, though it compares the value with room temperature. Not entered: resistance > 20 TOhm, 6.1 TOhm cm at cryogenic temperature (p.15, no parameter; 2e13 Ohm in the abstract). Abstract and p.2 say the exemplary device was characterized at room temperature and 7 K; p.14 names only a ring resonator device and prints 0.26 GHz/V against 0.2 GHz/V (non-undercut) and 0.48 GHz/V (undercut), so the row is not merged into either.'
+    why: evidence for the separate row, p.1, p.2, p.9, p.10, p.14 (D159, matsuo2013 precedent in D422)
+  cmp_lit_blundell2025_mmi_40nm_crystalline_pixels:
+    notes: 'Port contrast (Tbtm - Ttop) / T read about 0.71 at the last pixel of Fig. 4(b) (no parameter). Throughput and contrast are versus pixel number; the definition of contrast differs between the text (/ T0, p.11) and the captions (/ T). MMI dimensions are not stated. Amorphous-pixel MMIs (Fig. 3): the 20, 80 and 100 nm devices gain transmission against the crystalline start, the 40 nm device reads about -1 dB at its last pixel, no row; 60 nm devices are in the supplement, not cached.'
+    why: 'p.12 Fig. 3(b): the 40 nm T / T0 trace falls below 0, the note and the report say all rise'
+  cmp_lit_srinivasan2020_lsacm_apd:
+    notes: 'Fab from the acknowledged imec 200 mm pilot line contribution (p.6). Device with the highest gain-bandwidth product of the design set (p.2). Fails catastrophically beyond -13 V (p.2): no breakdown criterion, not entered. Table II ''This work'' prints DC gain 36 at 1310 nm, Table I 39 +/- 6; text prints 0.65 A/W on one device and 0.64 wafer scale. 1550 nm RF values not entered (D259, D408): the Fig. 5 caption assigns the 1550 nm S21 curves to ref. [14], the authors'' ECOC 2019 paper, whose title carries 32 GHz and gain > 8; Fig. 5(c), (d) read about 32 GHz at -12 V and 5.5 GHz at -2 V, text gain 8.5 at -12 V (p.4, p.5). Absorbed fractions 95 / 99 % cite ref. [1]: out. Eye SNR has no parameter. Fig. 4: responsivity falls with optical power, stronger at -12 V.'
+    why: follows the deleted rows m12, m14, m16; report pointer removed
+  cmp_lit_vines2019_planar_spad_100um:
+    notes: 'Fabrication by three authors at the School of Engineering, University of Glasgow, Glasgow, UK (p.9 author contributions): org missing from the registry, so fab empty until the org round. No guided-light platform: normal incidence, platform empty. Gated, 50 ns gate, 1 kHz repetition, 19.5 ps timing bins (p.3, p.8). Not entered (no parameter): NEP 1.9e-16, 3e-16, 7e-16 W/Hz^0.5 at 78, 100, 125 K (p.4, computed by the authors from SPDE and DCR); cut-off wavelength 1468 nm at 125 K to 1495 nm at 175 K, about 0.54 nm/K (p.5); afterpulse activation energy 80-90 meV (p.6); yield over 90 % (p.3); punchthrough 20 V (p.3 Fig. 2(d)); AR reflection below 1 % (p.4, design). Projections for 2 um Ge (SPDE > 55 %) and smaller devices are out. Dead-time reduction 50-75 % against the commercial SPAD (p.7): no parameter.'
+    why: report pointer does not belong in row notes (p.9 author contributions)
+  cmp_lit_vines2019_ingaas_inp_spad_reference:
+    notes: Vendor not named. Comparison device under nominally identical conditions; NEP 7e-17 W/Hz^0.5 (p.6) has no parameter. Device under test of the comparison with its own measured numbers (D155), not setup equipment (rule 13).
+    why: ruling recommendation Q3, p.5, p.6, p.7 Fig. 6(a); report pointer removed
+  cmp_lit_shahin2025_vsacm_apd:
+    fab_org_ids: org_imec
+    notes: 'Fab: fabricated on imec''s 300-mm Si-Pho platform (p.2), the wording of merged deng2026a and OFC Th3F.2 rows; Q2 of the lit_80 audit. Charge layer average 5.5e17 cm-3 target, SIMS in Fig. 4(a). Text prints 49 GHz (p.5) and 50 GHz (abstract, Table I, p.6) for the same point. Dark current: below 50 nA up to -11.3 V (p.4) against Table I 0.055 uA at -11 V. Early reliability data cite ref. [12]: out. Effective k about 0.1 (p.7), eye SNR, BER and jitter have no parameter (50 and 70 Gbps, -10 V, Fig. 8). Fig. 7 BW-gain points cover 5 dies.'
+    why: p.2 Sec. II names the org of the platform in a fabrication sentence; merged deng2026a (p.2, near identical wording, authors at imec and Ghent University-imec), elsaeed2024, song2024a, OFC Th3F.2 and M1E.6 are org_imec; D84a covers an own 'our platform', szelag2017 (D433) has no such sentence; rule 12 foundry clause
+metrics:
+  cmp_lit_stanfield2019_ring_waveguide-m1:
+    method: unspecified
+    why: row note says origin not stated and p.12 shows no extraction (only "demonstrated in the ring resonators"); method ring_extraction was an inference
+  cmp_lit_stanfield2019_ring_undercut-m3:
+    notes: 'Standard fit of own data (D80a). The fit model includes loading and coherent backscattering (p.10, ref. 42): a doublet lineshape fixes the loading, unlike the singlet of m2, so the regime comes from the data (D403 satisfied). No spectrum of this resonance is shown; wavelength not attached to this value; devices operated near 780 nm (abstract, p.12), laser 765-781 nm (p.8)'
+    why: 'D403 question settled at p.10: note no longer asks for a check, states why the basis holds'
+  cmp_lit_stanfield2019_ring_nonundercut_ps-m4:
+    notes: Fig. 8(d) baseline reads about -11 to -13 dB; printed 13 dB kept (D417)
+    why: figure and text differ slightly, p.9 vs p.10 Fig. 8(d)
+  cmp_lit_blundell2025_sb2se3_20nm_ps-m1:
+    method: ''
+    why: calculated value from Table 1, not a direct measurement; method direct does not apply (p.10, p.11 Table 1)
+  cmp_lit_blundell2025_sb2se3_40nm_ps-m1:
+    method: ''
+    why: calculated value from Table 1, not a direct measurement; method direct does not apply (p.10, p.11 Table 1)
+  cmp_lit_blundell2025_sb2se3_60nm_ps-m1:
+    method: ''
+    why: calculated value from Table 1, not a direct measurement; method direct does not apply (p.10, p.11 Table 1)
+  cmp_lit_blundell2025_sb2se3_80nm_ps-m1:
+    method: ''
+    why: calculated value from Table 1, not a direct measurement; method direct does not apply (p.10, p.11 Table 1)
+  cmp_lit_blundell2025_sb2se3_100nm_ps-m1:
+    method: ''
+    why: calculated value from Table 1, not a direct measurement; method direct does not apply (p.10, p.11 Table 1)
+  cmp_lit_blundell2025_mmi_20nm_crystalline_pixels-m1:
+    excludes: transmission of the same device before writing (T0)
+    why: value is T / T0, a change against the unwritten device, not the MMI loss; rule 6 excludes field, p.15 Fig. 4(b) caption
+  cmp_lit_blundell2025_mmi_40nm_crystalline_pixels-m1:
+    excludes: transmission of the same device before writing (T0)
+    why: value is T / T0, a change against the unwritten device, not the MMI loss; rule 6 excludes field, p.15 Fig. 4(b) caption
+  cmp_lit_blundell2025_mmi_80nm_crystalline_pixels-m1:
+    excludes: transmission of the same device before writing (T0)
+    why: value is T / T0, a change against the unwritten device, not the MMI loss; rule 6 excludes field, p.15 Fig. 4(b) caption
+  cmp_lit_blundell2025_mmi_100nm_crystalline_pixels-m1:
+    excludes: transmission of the same device before writing (T0)
+    why: value is T / T0, a change against the unwritten device, not the MMI loss; rule 6 excludes field, p.15 Fig. 4(b) caption
+  cmp_lit_vines2019_planar_spad_100um-m9:
+    notes: SPDE as printed; excess bias read from the figure; Fig. 3(b) point at 2.5 % reads about 25 %
+    why: printed 26 % (p.3) against the figure, p.5 Fig. 3(b)
+  cmp_lit_shahin2025_vsacm_apd-m16:
+    wavelength_nm: '1310'
+    wavelength_inferred: 'true'
+    notes: wavelength not stated for the model; device operated at 1310 nm (p.4, p.5)
+    why: rule 8 on bw3db rows (lit_61 / lit_68 reading, D436), p.3 Sec. II; p.4 Sec. III
+  cmp_lit_shahin2025_vsacm_apd-m17:
+    wavelength_nm: '1310'
+    wavelength_inferred: 'true'
+    notes: wavelength not stated for the model; device operated at 1310 nm (p.4, p.5)
+    why: rule 8 on bw3db rows (lit_61 / lit_68 reading, D436), p.3 Sec. II; p.4 Sec. III
+  cmp_lit_shahin2025_vsacm_apd-m18:
+    wavelength_nm: '1310'
+    wavelength_inferred: 'true'
+    notes: device bandwidth is lower; 6 fF and 145 ohm entered separately; wavelength not stated for the model; device operated at 1310 nm (p.4, p.5)
+    why: rule 8 on bw3db rows (lit_61 / lit_68 reading, D436), p.3 Sec. II; p.4 Sec. III
+  cmp_lit_akritidis2026_sin_150nm_wg-m1:
+    notes: abstract rounds to 4 dB/cm; n as printed, the p.9 Fig. 5(a) map shows 4 black (unsuccessful, p.8) dies at the wafer center that the text does not subtract
+    why: the 49 and 50 rows subtract their unsuccessful dies; here the text prints 60 and the figure disagrees (p.8, p.9 Fig. 5(a))
+delete_metrics:
+- id: cmp_lit_srinivasan2020_lsacm_apd-m12
+  why: 'D259 / D408: p.5 Fig. 5 caption puts ref. [14] after (b) 1550 nm; ref. [14] (p.7) is the authors'' ECOC 2019 paper and its title prints 32 GHz and gain > 8, the same values; value in component notes'
+- id: cmp_lit_srinivasan2020_lsacm_apd-m14
+  why: 'D259 / D408: p.5 Fig. 5 caption puts ref. [14] after (b) 1550 nm; ref. [14] (p.7) is the authors'' ECOC 2019 paper and its title prints 32 GHz and gain > 8, the same values; value in component notes'
+- id: cmp_lit_srinivasan2020_lsacm_apd-m16
+  why: 'D259 / D408: p.5 Fig. 5 caption puts ref. [14] after (b) 1550 nm; ref. [14] (p.7) is the authors'' ECOC 2019 paper and its title prints 32 GHz and gain > 8, the same values; value in component notes'
+add_metrics:
+- metric_id: cmp_lit_stanfield2019_ring_undercut-m7
+  component_id: cmp_lit_stanfield2019_ring_undercut
+  parameter: extinction_db
+  value: 14
+  unit: dB
+  qualifier: approx
+  wavelength_nm: 780
+  wavelength_inferred: 'true'
+  condition: measured trace at the resonance of Fig. 9(b)
+  method: direct
+  basis: extracted_from_figure
+  locator: p.11 Fig. 9(b)
+  notes: read +/- 0.5 dB; orange fit reaches about -17.7 dB; paper calls the resonance nearly critically coupled (p.10); wavelength not attached to this value; devices operated near 780 nm (abstract, p.12), laser 765-781 nm (p.8)
+  why: 'miss: released ring has no notch depth while the non-undercut row has one (m4), p.11 Fig. 9(b)'
+- metric_id: cmp_lit_stanfield2019_ring_undercut-m8
+  component_id: cmp_lit_stanfield2019_ring_undercut
+  parameter: cladding_thickness_um
+  value: 0.46
+  unit: um
+  condition: label a, oxide above the SiN
+  basis: design_target
+  locator: p.4 Table 1
+  why: 'miss (D153): same nominal ring table as the non-undercut row m8, p.4 Table 1, p.9'
+- metric_id: cmp_lit_stanfield2019_ring_undercut-m9
+  component_id: cmp_lit_stanfield2019_ring_undercut
+  parameter: box_thickness_um
+  value: 0.75
+  unit: um
+  condition: label c, oxide between the SiN and the top Al electrode
+  basis: design_target
+  locator: p.4 Table 1
+  why: 'miss (D153): same nominal ring table as the non-undercut row m9, p.4 Table 1, p.9'
+- metric_id: cmp_lit_stanfield2019_mzm_arm-m14
+  component_id: cmp_lit_stanfield2019_mzm_arm
+  parameter: length_um
+  value: 3000
+  unit: um
+  condition: total waveguide length per arm, the length the printed LVpi uses
+  basis: derived
+  locator: p.12
+  notes: printed 3 mm (converted to um); m10 is the 480 um actuator platform
+  why: 'miss (D153): the optical path of the phase shifter was only in notes, p.12'
+- metric_id: cmp_lit_blundell2025_sb2se3_20nm_ps-m3
+  component_id: cmp_lit_blundell2025_sb2se3_20nm_ps
+  parameter: length_um
+  value: 50
+  unit: um
+  condition: length of the Sb2Se3 patch written in the MZI arm, in 1 um steps (m1 is the calculated L_pi)
+  basis: design_target
+  locator: p.8; p.8 Fig. 2(b)
+  why: 'miss (D153): physical patch length was only in notes; merged PCM rows use length_um for it (delaney2021, chen2024a), p.8 Fig. 2(a, b)'
+- metric_id: cmp_lit_blundell2025_sb2se3_40nm_ps-m3
+  component_id: cmp_lit_blundell2025_sb2se3_40nm_ps
+  parameter: length_um
+  value: 50
+  unit: um
+  condition: length of the Sb2Se3 patch written in the MZI arm, in 1 um steps (m1 is the calculated L_pi)
+  basis: design_target
+  locator: p.8; p.8 Fig. 2(b)
+  why: 'miss (D153): physical patch length was only in notes; merged PCM rows use length_um for it (delaney2021, chen2024a), p.8 Fig. 2(a, b)'
+- metric_id: cmp_lit_blundell2025_sb2se3_60nm_ps-m3
+  component_id: cmp_lit_blundell2025_sb2se3_60nm_ps
+  parameter: length_um
+  value: 50
+  unit: um
+  condition: length of the Sb2Se3 patch written in the MZI arm, in 1 um steps (m1 is the calculated L_pi)
+  basis: design_target
+  locator: p.8; p.8 Fig. 2(b)
+  why: 'miss (D153): physical patch length was only in notes; merged PCM rows use length_um for it (delaney2021, chen2024a), p.8 Fig. 2(a, b)'
+- metric_id: cmp_lit_blundell2025_sb2se3_80nm_ps-m3
+  component_id: cmp_lit_blundell2025_sb2se3_80nm_ps
+  parameter: length_um
+  value: 50
+  unit: um
+  condition: length of the Sb2Se3 patch written in the MZI arm, in 1 um steps (m1 is the calculated L_pi)
+  basis: design_target
+  locator: p.8; p.8 Fig. 2(b)
+  why: 'miss (D153): physical patch length was only in notes; merged PCM rows use length_um for it (delaney2021, chen2024a), p.8 Fig. 2(a, b)'
+- metric_id: cmp_lit_blundell2025_sb2se3_100nm_ps-m3
+  component_id: cmp_lit_blundell2025_sb2se3_100nm_ps
+  parameter: length_um
+  value: 50
+  unit: um
+  condition: length of the Sb2Se3 patch written in the MZI arm, in 1 um steps (m1 is the calculated L_pi)
+  basis: design_target
+  locator: p.8; p.8 Fig. 2(b)
+  why: 'miss (D153): physical patch length was only in notes; merged PCM rows use length_um for it (delaney2021, chen2024a), p.8 Fig. 2(a, b)'
+- metric_id: cmp_lit_akritidis2026_asi_to_iiiv_taper-m3
+  component_id: cmp_lit_akritidis2026_asi_to_iiiv_taper
+  parameter: tip_width_nm
+  value: 200
+  unit: nm
+  condition: a-Si:H interlayer width at the end of the 10 um cut-off section
+  basis: design_target
+  locator: p.10
+  why: 'miss (D153): stated taper width only in notes, p.10'
+- metric_id: cmp_lit_akritidis2026_asi_to_iiiv_taper-m4
+  component_id: cmp_lit_akritidis2026_asi_to_iiiv_taper
+  parameter: width_nm
+  value: 1600
+  unit: nm
+  condition: a-Si:H width at the start of the 100 um section
+  basis: derived
+  locator: p.10
+  notes: printed 1.6 um (converted to nm)
+  why: 'miss (D153): stated taper width only in notes, p.10'

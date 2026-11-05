@@ -1,0 +1,72 @@
+# Audit patch lit_78 (fresh-context audit 2026-11-04, DevLog/audits/2026-11-04-lit_78-audit.md).
+# 80 metrics: 77 ok / 3 imprecise / 0 wrong; 12 components: 9 ok / 3 imprecise / 0 wrong, 0 deleted;
+# misses: 4 geometry rows added (shui2026 ring film and buffer; mnaymneh2018 edge coupler buffer and top oxide).
+# Not covered here (coordinator rulings): registry gaps and missing orgs; see the audit file. Q2 and Q5 of the audit say how
+# to reverse the su2024 basis op and the gundavarapu2018 fab ops.
+components:
+  cmp_lit_gundavarapu2018_sbs_ring_laser:
+    fab_org_ids: 'org_ucsb;org_honeywell'
+    notes: 'Page-1 title of this text is the arXiv form of the source row title; same arXiv id on the source row and same first author, treated as the same work (journal text not cached). Optically pumped. Fab org_ucsb + org_honeywell borderline (D84b; heim2025, isichenko2023 precedents): the text has passive ''fabricated'' only, but p.9 thanks a staff member for help processing samples in the UCSB nanofabrication facility and Honeywell staff for cladding deposition, pre-cladding preparation and anneal. Facility org_ucsb_nanofabrication_facility borderline from the same sentence: it names the facility as the place of the sample processing (rule 12), not only a person (D72 / D84b). Not entered: cold-cavity Q_T / Q_E 28.5 / 63.5 million (p.7 attributes them to the authors'' ref. 26; p.8 calls the second value unloaded), the p.2 bound on loaded Q > 28 million (same quantity, no Q parameter on laser, D250) and the Eq. (1) linewidth estimates 1.78 / 5.28 Hz computed from them. No registry slot: Brillouin shift 10.93 GHz, gain bandwidth 200 MHz (p.5), mode volume L*Aeff 2.07e-12 m3 (p.4), hot-to-cold coupling ratio 0.39 (p.8).'
+    why: 'D84b: thanks to an org''s own staff for help with device fabrication place the fabrication at that org (merged heim2025 and isichenko2023 rows carry org_honeywell on this basis); p.9 acknowledgments. Note also records the p.2 Q bound the report left out of the row and marks the facility borderline; p.2, p.7, p.8, p.9'
+  cmp_lit_gundavarapu2018_si3n4_waveguide:
+    fab_org_ids: 'org_ucsb;org_honeywell'
+    notes: 'Stated only as a platform property in the abstract; the same waveguide as row sbs_ring_laser. Fab and facility as on that row (borderline, D84b).'
+    why: 'same chip and same acknowledgment sentence as the laser row; p.9 acknowledgments, D84b'
+  cmp_lit_zhuang2025_dfb_free_running:
+    notes: 'Text treats it as the same hybrid laser unlocked (p.5 Sec. II-D); p.5 Fig. 5 caption calls it a commercial DFB laser; vendor not stated. Free-running 1548.2 nm and SIL 1562.78 nm are 14.6 nm apart and the free-running drive conditions are not printed, so the same-chip identity rests on the text only. Not entered (no registry parameter): white frequency-noise floor 27273 Hz2/Hz (p.4), frequency drift about 4.6 MHz/min (p.5). Fig. 2(e) OSA peak near +15 dBm: plane not stated, not entered.'
+    why: 'note stated the same-laser identity as fact; p.3 Fig. 2(e, f) and p.5 Sec. II-D, Fig. 5 caption leave it to the text, and the 14.6 nm separation at unprinted free-running conditions is unrecorded'
+metrics:
+  cmp_lit_shui2026_er_ta2o5_hybrid_laser-m3:
+    ref_plane: 'on_chip'
+    why: 'p.6 and p.5 Fig. 3(d): threshold from on-chip output against coupled on-chip pump power; the paired output row m4 already carries on_chip'
+  cmp_lit_mnaymneh2018_inp_nw_sin_taper_8um-m1:
+    notes: 'Twice the source efficiency, then corrected by cited 5 % and 20 % terms (refs. 25, 32); throughput partly calculated (Table I). Printed as an estimate on p.2; abstract and p.4 word it as demonstrated / measured (basis by how obtained, rule 4). Wavelength not stated; band from the emission peak near 1254.8 meV (Fig. 2(b) energy axis, about 988 nm).'
+    why: 'additive note, no finding: p.1 Abstract and p.4 carry stronger wording than the author_estimate basis; p.2 gives the arithmetic'
+  cmp_lit_mnaymneh2018_inp_nw_sin_taper_design-m2:
+    basis: 'simulated'
+    why: 'D80a: values read off a plot of simulated curves stay simulated with the reading uncertainty in notes; p.1 Fig. 1 caption calls the curve calculated (render reads between 99 and 100 % at 20 um)'
+  cmp_lit_su2024_ln_sin_adiabatic_coupler-m1:
+    basis: 'measured'
+    method: 'unspecified'
+    includes: 'LN-SiN hybrid section of the coupon, share not stated'
+    notes: 'Average per facet over 1500-1600 nm as printed (measured trace and averaged line, Fig. 4(b); stated directly, D167 / D441). Sign as Fig. 4(b) transmission (negative dB). Subtracted grating-coupler term not printed, no reference structure named. Audit inference: the trace stays within about +/-0.1 dB over 100 nm, which one scalar GC value could not give, so the term looks wavelength-resolved (unlike the scalar sun2025 term, D428). The trace rises above 0 dB near 1515 nm: error floor comparable to the value. One coupon with two coupling structures (Fig. 1, Fig. 4(c, d)), no cutback named; halving not printed, scope per_component kept (per-facet wording; niels2025a, brusberg2025).'
+    why: 'p.4 Sec. III and p.3 Fig. 4(b) caption call the data measured and print no subtracted number: D441 reading (brusberg2025, du2022), not sun2025 (printed approximate scalar term, D428). Also records the unresolved hybrid section and the excursion above 0 dB; audit Q2'
+add_metrics:
+  - metric_id: cmp_lit_shui2026_allpass_ring-m4
+    component_id: cmp_lit_shui2026_allpass_ring
+    parameter: 'core_thickness_nm'
+    value: 450
+    unit: 'nm'
+    condition: 'trench / film thickness of the Damascene process'
+    basis: 'design_target'
+    locator: 'p.3; p.4'
+    notes: 'Process-level statement, same film as the laser row.'
+    why: 'D153, ring_bus template; 126 of 213 merged resonator.ring rows carry it; p.3 prints the trench thickness, p.4 the same thickness for the waveguide'
+  - metric_id: cmp_lit_shui2026_allpass_ring-m5
+    component_id: cmp_lit_shui2026_allpass_ring
+    parameter: 'box_thickness_um'
+    value: 10
+    unit: 'um'
+    condition: 'thermally grown SiO2 buffer'
+    basis: 'design_target'
+    locator: 'p.2'
+    notes: 'Same substrate as the laser row.'
+    why: 'D153, ring_bus cross-section; the laser row already carries it from p.2'
+  - metric_id: cmp_lit_mnaymneh2018_sin_edge_taper-m5
+    component_id: cmp_lit_mnaymneh2018_sin_edge_taper
+    parameter: 'box_thickness_um'
+    value: 5
+    unit: 'um'
+    condition: 'lower SiO2'
+    basis: 'design_target'
+    locator: 'p.2'
+    why: 'D153, edge_taper cross-section (optional dimension); same stack as the 8 um transition row, which carries it from p.2'
+  - metric_id: cmp_lit_mnaymneh2018_sin_edge_taper-m6
+    component_id: cmp_lit_mnaymneh2018_sin_edge_taper
+    parameter: 'cladding_thickness_um'
+    value: 5
+    unit: 'um'
+    condition: 'top SiO2'
+    basis: 'design_target'
+    locator: 'p.2'
+    why: 'D153, edge_taper cross-section (optional dimension); same stack as the 8 um transition row, which carries it from p.2'

@@ -1,0 +1,437 @@
+components:
+  cmp_lit_wu2018_n3_fig8b:
+    notes: 'Standing-wave filter of 3 Sagnac loop reflectors = 2 cascaded Fabry-Perot cavities (p.2); class resonator.photonic_crystal per the registry definition
+      (Fabry-Perot cavity). Fit coupler field transmission [t] = [0.882, 0.783, 0.882] (Table II, p.11); field coefficients, no registry parameter. Nominal Ls = 129.66
+      um and L = 100 um for Sec. II calculations (p.5). First-person fabrication statement (p.9 Sec. III), all authors at one centre of Swinburne University of Technology
+      (D399). Melbourne Centre for Nanofabrication acknowledged for device fabrication support and Swinburne Nano Lab for characterisation (p.13): neither in the
+      registry, see report. Printed L2 differs: 295.33 um in the Fig. 8(b) caption and p.11-12 text, 259.33 um in Table II (not resolved). L1'' = L1 - Lc1 - Lc2 =
+      0 um; loop of SLR1 rotated to the bottom side of SLR2 (p.12). Audit arithmetic: 2 x 129.66 um = 259.32 um fits the L2 = m Ls1 family of Fig. 3(c) (p.6), and
+      effective cavities Ls1 + Ls2 = 259.3 um and Ls2 + 2 L2 + Ls3 = 778 um (ratio 3.0) fit the repeating three-peak period of Fig. 8(b); 295.33 um would give ratio
+      3.28.'
+    why: Printed L2 conflict confirmed on the page (p.11 Fig. 8 caption and text 295.33 um; p.11 Table II 259.33 um); audit arithmetic added, still unresolved by
+      the paper
+  cmp_lit_wang2016a_swg_dc_50_50:
+    notes: 'Fabricated by the Washington Nanofabrication Facility, University of Washington (p.9): facility not in the registry, fab org left empty, see report. MZI
+      test structure with two identical couplers, 250 um arm difference (p.7). SWG fill factor 0.28, NG = 47, SWG extension t = 500 nm, Bragg wavelength about 1425
+      nm (p.5-8; no registry parameter on splitter for fill factor, grating periods or extension). Waveguide width w of the SWG coupler not stated. Gap 40 nm above
+      the design value to offset the thin Si layer (p.8). Reference cmp_lit_wang2016a_swg_dc_50_50_design is the 220 nm design. Printed imbalance of +/-0.7 dB over
+      100 nm (p.8) is the per-port deviation around -3 dB (Fig. 10(b)), not a port ratio: not entered as imbalance_db (D401), pending split_deviation_db.'
+    why: 'D401: record the removed printed value (p.8 Sec. 3; p.8 Fig. 10(b))'
+  cmp_lit_wang2016a_swg_dc_50_50_design:
+    notes: 'Simulated design (full-structure FDTD), fabricated with a larger gap on thinner Si as cmp_lit_wang2016a_swg_dc_50_50. SWG fill factor 0.28, NG = 47, SWG
+      extension t = 500 nm, Bragg wavelength about 1425 nm (p.5-8; no registry parameter on splitter for fill factor, grating periods or extension). Waveguide width
+      w of the SWG coupler not stated. IL vs fill factor (Fig. 8, 0.20-0.30): other fill factors not entered (design sweep). Printed imbalance of +/-0.55 dB over
+      100 nm (p.6) is the per-port deviation around -3 dB (Fig. 7(a)), not a port ratio: not entered as imbalance_db (D401), pending split_deviation_db.'
+    why: 'D401: record the removed printed value (p.6 Sec. 2; p.6 Fig. 7(a))'
+metrics:
+  cmp_lit_wu2018_n3_fig7a_i-m1:
+    basis: author_estimate
+    notes: printed alpha = 62 /m (~2.7 dB/cm); model fit, lossless couplers assumed (p.3 Table I), to spectra normalized by the ~6 dB per-coupler term of unstated
+      origin (p.10); plot axis of Fig. 7(a-i), no single wavelength stated
+    why: 'Rule 4 (D428 sun2025 pattern): alpha comes from a multi-parameter scattering-matrix fit (lossless couplers assumed, p.3 Table I note d) to spectra normalized
+      by the ~6 dB per-coupler term of unstated origin (p.10); peak level is what separates loss from coupling, and a single-pass loss of about 0.16 dB (64 /m, about
+      590 um, N = 3) is below that term''s precision. Not a standard fit under D80a. p.10 Sec. IV; p.11 Table II'
+  cmp_lit_wu2018_n3_fig7a_ii-m1:
+    basis: author_estimate
+    notes: printed alpha = 64 /m (~2.8 dB/cm); model fit, lossless couplers assumed (p.3 Table I), to spectra normalized by the ~6 dB per-coupler term of unstated
+      origin (p.10); plot axis of Fig. 7(a-ii), no single wavelength stated
+    why: 'Rule 4 (D428 sun2025 pattern): alpha comes from a multi-parameter scattering-matrix fit (lossless couplers assumed, p.3 Table I note d) to spectra normalized
+      by the ~6 dB per-coupler term of unstated origin (p.10); peak level is what separates loss from coupling, and a single-pass loss of about 0.16 dB (64 /m, about
+      590 um, N = 3) is below that term''s precision. Not a standard fit under D80a. p.10 Sec. IV; p.11 Table II'
+  cmp_lit_wu2018_n3_fig7a_iii-m1:
+    basis: author_estimate
+    notes: printed alpha = 64 /m (~2.8 dB/cm); model fit, lossless couplers assumed (p.3 Table I), to spectra normalized by the ~6 dB per-coupler term of unstated
+      origin (p.10); plot axis of Fig. 7(a-iii), no single wavelength stated
+    why: 'Rule 4 (D428 sun2025 pattern): alpha comes from a multi-parameter scattering-matrix fit (lossless couplers assumed, p.3 Table I note d) to spectra normalized
+      by the ~6 dB per-coupler term of unstated origin (p.10); peak level is what separates loss from coupling, and a single-pass loss of about 0.16 dB (64 /m, about
+      590 um, N = 3) is below that term''s precision. Not a standard fit under D80a. p.10 Sec. IV; p.11 Table II'
+  cmp_lit_wu2018_n3_fig7b_i-m1:
+    basis: author_estimate
+    notes: printed alpha = 59 /m (~2.6 dB/cm); model fit, lossless couplers assumed (p.3 Table I), to spectra normalized by the ~6 dB per-coupler term of unstated
+      origin (p.10); plot axis of Fig. 7(b-i), no single wavelength stated
+    why: 'Rule 4 (D428 sun2025 pattern): alpha comes from a multi-parameter scattering-matrix fit (lossless couplers assumed, p.3 Table I note d) to spectra normalized
+      by the ~6 dB per-coupler term of unstated origin (p.10); peak level is what separates loss from coupling, and a single-pass loss of about 0.16 dB (64 /m, about
+      590 um, N = 3) is below that term''s precision. Not a standard fit under D80a. p.10 Sec. IV; p.11 Table II'
+  cmp_lit_wu2018_n3_fig7b_ii-m1:
+    basis: author_estimate
+    notes: printed alpha = 59 /m (~2.6 dB/cm); model fit, lossless couplers assumed (p.3 Table I), to spectra normalized by the ~6 dB per-coupler term of unstated
+      origin (p.10); plot axis of Fig. 7(b-ii), no single wavelength stated
+    why: 'Rule 4 (D428 sun2025 pattern): alpha comes from a multi-parameter scattering-matrix fit (lossless couplers assumed, p.3 Table I note d) to spectra normalized
+      by the ~6 dB per-coupler term of unstated origin (p.10); peak level is what separates loss from coupling, and a single-pass loss of about 0.16 dB (64 /m, about
+      590 um, N = 3) is below that term''s precision. Not a standard fit under D80a. p.10 Sec. IV; p.11 Table II'
+  cmp_lit_wu2018_n3_fig7b_iii-m1:
+    basis: author_estimate
+    notes: printed alpha = 60 /m (~2.6 dB/cm); model fit, lossless couplers assumed (p.3 Table I), to spectra normalized by the ~6 dB per-coupler term of unstated
+      origin (p.10); plot axis of Fig. 7(b-iii), no single wavelength stated
+    why: 'Rule 4 (D428 sun2025 pattern): alpha comes from a multi-parameter scattering-matrix fit (lossless couplers assumed, p.3 Table I note d) to spectra normalized
+      by the ~6 dB per-coupler term of unstated origin (p.10); peak level is what separates loss from coupling, and a single-pass loss of about 0.16 dB (64 /m, about
+      590 um, N = 3) is below that term''s precision. Not a standard fit under D80a. p.10 Sec. IV; p.11 Table II'
+  cmp_lit_wu2018_n3_fig8a_l100-m1:
+    basis: author_estimate
+    notes: printed alpha = 58 /m (~2.6 dB/cm); model fit, lossless couplers assumed (p.3 Table I), to spectra normalized by the ~6 dB per-coupler term of unstated
+      origin (p.10); plot axis of Fig. 8(a), L2 100.0 um, no single wavelength stated
+    why: 'Rule 4 (D428 sun2025 pattern): alpha comes from a multi-parameter scattering-matrix fit (lossless couplers assumed, p.3 Table I note d) to spectra normalized
+      by the ~6 dB per-coupler term of unstated origin (p.10); peak level is what separates loss from coupling, and a single-pass loss of about 0.16 dB (64 /m, about
+      590 um, N = 3) is below that term''s precision. Not a standard fit under D80a. p.10 Sec. IV; p.11 Table II'
+  cmp_lit_wu2018_n3_fig8a_l107p2-m1:
+    basis: author_estimate
+    notes: printed alpha = 58 /m (~2.6 dB/cm); model fit, lossless couplers assumed (p.3 Table I), to spectra normalized by the ~6 dB per-coupler term of unstated
+      origin (p.10); plot axis of Fig. 8(a), L2 107.2 um, no single wavelength stated
+    why: 'Rule 4 (D428 sun2025 pattern): alpha comes from a multi-parameter scattering-matrix fit (lossless couplers assumed, p.3 Table I note d) to spectra normalized
+      by the ~6 dB per-coupler term of unstated origin (p.10); peak level is what separates loss from coupling, and a single-pass loss of about 0.16 dB (64 /m, about
+      590 um, N = 3) is below that term''s precision. Not a standard fit under D80a. p.10 Sec. IV; p.11 Table II'
+  cmp_lit_wu2018_n3_fig8b-m1:
+    basis: author_estimate
+    notes: printed alpha = 64 /m (~2.8 dB/cm); model fit, lossless couplers assumed (p.3 Table I), to spectra normalized by the ~6 dB per-coupler term of unstated
+      origin (p.10); plot axis of Fig. 8(b), L1' 0 um, no single wavelength stated
+    why: 'Rule 4 (D428 sun2025 pattern): alpha comes from a multi-parameter scattering-matrix fit (lossless couplers assumed, p.3 Table I note d) to spectra normalized
+      by the ~6 dB per-coupler term of unstated origin (p.10); peak level is what separates loss from coupling, and a single-pass loss of about 0.16 dB (64 /m, about
+      590 um, N = 3) is below that term''s precision. Not a standard fit under D80a. p.10 Sec. IV; p.11 Table II'
+  cmp_lit_wu2018_n4_fig9a_i-m1:
+    basis: author_estimate
+    notes: printed alpha = 60 /m (~2.6 dB/cm); model fit, lossless couplers assumed (p.3 Table I), to spectra normalized by the ~6 dB per-coupler term of unstated
+      origin (p.10); plot axis of Fig. 9(a-i), no single wavelength stated
+    why: 'Rule 4 (D428 sun2025 pattern): alpha comes from a multi-parameter scattering-matrix fit (lossless couplers assumed, p.3 Table I note d) to spectra normalized
+      by the ~6 dB per-coupler term of unstated origin (p.10); peak level is what separates loss from coupling, and a single-pass loss of about 0.16 dB (64 /m, about
+      590 um, N = 3) is below that term''s precision. Not a standard fit under D80a. p.10 Sec. IV; p.11 Table II'
+  cmp_lit_wu2018_n4_fig9a_ii-m1:
+    basis: author_estimate
+    notes: printed alpha = 58 /m (~2.6 dB/cm); model fit, lossless couplers assumed (p.3 Table I), to spectra normalized by the ~6 dB per-coupler term of unstated
+      origin (p.10); plot axis of Fig. 9(a-ii), no single wavelength stated
+    why: 'Rule 4 (D428 sun2025 pattern): alpha comes from a multi-parameter scattering-matrix fit (lossless couplers assumed, p.3 Table I note d) to spectra normalized
+      by the ~6 dB per-coupler term of unstated origin (p.10); peak level is what separates loss from coupling, and a single-pass loss of about 0.16 dB (64 /m, about
+      590 um, N = 3) is below that term''s precision. Not a standard fit under D80a. p.10 Sec. IV; p.11 Table II'
+  cmp_lit_wu2018_n4_fig9a_iii-m1:
+    basis: author_estimate
+    notes: printed alpha = 60 /m (~2.6 dB/cm); model fit, lossless couplers assumed (p.3 Table I), to spectra normalized by the ~6 dB per-coupler term of unstated
+      origin (p.10); plot axis of Fig. 9(a-iii), no single wavelength stated
+    why: 'Rule 4 (D428 sun2025 pattern): alpha comes from a multi-parameter scattering-matrix fit (lossless couplers assumed, p.3 Table I note d) to spectra normalized
+      by the ~6 dB per-coupler term of unstated origin (p.10); peak level is what separates loss from coupling, and a single-pass loss of about 0.16 dB (64 /m, about
+      590 um, N = 3) is below that term''s precision. Not a standard fit under D80a. p.10 Sec. IV; p.11 Table II'
+  cmp_lit_wu2018_n8_fig9b_light_trapping-m1:
+    basis: author_estimate
+    notes: printed alpha = 65 /m (~2.8 dB/cm); model fit, lossless couplers assumed (p.3 Table I), to spectra normalized by the ~6 dB per-coupler term of unstated
+      origin (p.10); plot axis of Fig. 9(b), light trapping, no single wavelength stated
+    why: 'Rule 4 (D428 sun2025 pattern): alpha comes from a multi-parameter scattering-matrix fit (lossless couplers assumed, p.3 Table I note d) to spectra normalized
+      by the ~6 dB per-coupler term of unstated origin (p.10); peak level is what separates loss from coupling, and a single-pass loss of about 0.16 dB (64 /m, about
+      590 um, N = 3) is below that term''s precision. Not a standard fit under D80a. p.10 Sec. IV; p.11 Table II'
+  cmp_lit_wu2018_n8_fig9c_flat_top-m1:
+    basis: author_estimate
+    notes: printed alpha = 68 /m (~3.0 dB/cm); model fit, lossless couplers assumed (p.3 Table I), to spectra normalized by the ~6 dB per-coupler term of unstated
+      origin (p.10); plot axis of Fig. 9(c), flat-top, no single wavelength stated
+    why: 'Rule 4 (D428 sun2025 pattern): alpha comes from a multi-parameter scattering-matrix fit (lossless couplers assumed, p.3 Table I note d) to spectra normalized
+      by the ~6 dB per-coupler term of unstated origin (p.10); peak level is what separates loss from coupling, and a single-pass loss of about 0.16 dB (64 /m, about
+      590 um, N = 3) is below that term''s precision. Not a standard fit under D80a. p.10 Sec. IV; p.11 Table II'
+  cmp_lit_wu2018_n8_fig9d_multi_peak-m1:
+    basis: author_estimate
+    notes: printed alpha = 64 /m (~2.8 dB/cm); model fit, lossless couplers assumed (p.3 Table I), to spectra normalized by the ~6 dB per-coupler term of unstated
+      origin (p.10); plot axis of Fig. 9(d), multiple peaks, no single wavelength stated
+    why: 'Rule 4 (D428 sun2025 pattern): alpha comes from a multi-parameter scattering-matrix fit (lossless couplers assumed, p.3 Table I note d) to spectra normalized
+      by the ~6 dB per-coupler term of unstated origin (p.10); peak level is what separates loss from coupling, and a single-pass loss of about 0.16 dB (64 /m, about
+      590 um, N = 3) is below that term''s precision. Not a standard fit under D80a. p.10 Sec. IV; p.11 Table II'
+  cmp_lit_wu2018_gc_te-m1:
+    method: unspecified
+    why: 'Method unspecified as on the other coupler rows of this batch: the paper does not say how ~6 dB was obtained (p.10 Sec. IV)'
+  cmp_lit_yasui2026_ring_r40_w1p5-m1:
+    notes: 'printed 1.26 x 10^6; resonances ''close to critical coupling'' (p.5), the fit form does not separate under- from over-coupling (D403); value given for
+      the (R, W) structure, not tied to one of the pump / signal / idler resonances of Fig. 3(e); band from the pump at 1536.7 nm (p.5) and the 1525-1545 nm scan;
+      audit: swapping Qint and Qc leaves T unchanged, swapped Qint would be 1.35e6 (about 7 % higher)'
+    why: D403 stands; the p.5 transmission form is symmetric in 1/Qint and 1/Qc, so state the size of the ambiguity (p.5)
+  cmp_lit_yasui2026_ring_r40_w1p5-m6:
+    notes: rests on Qint (D403); value given for the (R, W) structure, not tied to one of the pump / signal / idler resonances of Fig. 3(e); band from the pump at
+      1536.7 nm (p.5) and the 1525-1545 nm scan; the Fig. 3(f) point of this ring reads about 0.48 dB/cm (audit read)
+    why: Printed value and the same ring on Fig. 3(f) differ by more than the plot read of the sibling rows suggests; record it (p.5; p.4 Fig. 3(f))
+  cmp_lit_yasui2026_ring_r40_w1p5-m7:
+    notes: printed 2.4 nm for this resonator; band from the 1525-1545 nm scan; Fig. 3(d) dips read about 2.5 nm apart (audit read, +/-0.05 nm)
+    why: Printed FSR and the dip spacing of the same spectrum differ; record it (p.10; p.4 Fig. 3(d))
+  cmp_lit_zhang2026c_racetrack-m1:
+    basis: derived
+    notes: ng = c / (L FSR) per adjacent pair, mean of the local values (p.24); printed 2.286 +/- 0.001 (std over the resonances); bright family; window from Supp.
+      Fig. S4
+    why: 'Authors compute ng = c / (L FSR) from fitted resonance positions (p.24 Supp. Note 3): arithmetic on own data is derived (D80a); merged si2026, jeong2013,
+      chen2023 FSR-based group indices are derived'
+  cmp_lit_zhang2026c_racetrack-m2:
+    basis: derived
+    notes: ng = c / (L FSR) per adjacent pair, mean of the local values (p.24); printed 2.452 +/- 0.005 (std over the resonances); dark family, TM0 assignment from
+      a Q argument; window from Supp. Fig. S5
+    why: 'Authors compute ng = c / (L FSR) from fitted resonance positions (p.24 Supp. Note 3): arithmetic on own data is derived (D80a); merged si2026, jeong2013,
+      chen2023 FSR-based group indices are derived'
+  cmp_lit_zhang2026c_racetrack-m14:
+    basis: derived
+    notes: printed about 1.4 GHz; g taken as constant over the sweep; two-mode fit, g constant and linear tuning assumed (Eq. S37)
+    why: 'Model-parameter extraction with stated assumptions (D80a): two-mode fit with g constant and linear tuning assumed, p.29-30 Supp. Note 6, Eq. (S37)'
+  cmp_lit_zhang2026c_racetrack-m15:
+    basis: derived
+    notes: printed alpha_b; two-mode fit, g constant and linear tuning assumed (Eq. S37)
+    why: 'Model-parameter extraction with stated assumptions (D80a): two-mode fit with g constant and linear tuning assumed, p.29-30 Supp. Note 6, Eq. (S37)'
+  cmp_lit_zhang2026c_racetrack-m16:
+    basis: derived
+    notes: printed alpha_d; two-mode fit, g constant and linear tuning assumed (Eq. S37)
+    why: 'Model-parameter extraction with stated assumptions (D80a): two-mode fit with g constant and linear tuning assumed, p.29-30 Supp. Note 6, Eq. (S37)'
+  cmp_lit_zhang2026c_racetrack-m7:
+    wavelength_nm: 1553.92
+    wavelength_max_nm: 1553.98
+    locator: p.28 Supp. Fig. S8(a), (b)
+    notes: figure label; power as labelled; on-chip power rests on the ~9.2 dB coupler term (p.14); pair window from Fig. S8(b); Fig. S8(c) marks 2g / 2 pi about
+      0.6 GHz at this power (audit read), so this doublet separation includes bare-mode detuning
+    why: The Split labels belong to the pair inside the dashed box that panel (b) zooms, 1553.92-1553.98 nm; the labels of the five higher powers equal the panel
+      (c) markers (p.28 Supp. Fig. S8)
+  cmp_lit_zhang2026c_racetrack-m8:
+    wavelength_nm: 1553.92
+    wavelength_max_nm: 1553.98
+    locator: p.28 Supp. Fig. S8(a), (b)
+    notes: figure label; power as labelled; on-chip power rests on the ~9.2 dB coupler term (p.14); pair window from Fig. S8(b)
+    why: The Split labels belong to the pair inside the dashed box that panel (b) zooms, 1553.92-1553.98 nm; the labels of the five higher powers equal the panel
+      (c) markers (p.28 Supp. Fig. S8)
+  cmp_lit_zhang2026c_racetrack-m9:
+    wavelength_nm: 1553.92
+    wavelength_max_nm: 1553.98
+    locator: p.28 Supp. Fig. S8(a), (b)
+    notes: figure label; power as labelled; on-chip power rests on the ~9.2 dB coupler term (p.14); pair window from Fig. S8(b)
+    why: The Split labels belong to the pair inside the dashed box that panel (b) zooms, 1553.92-1553.98 nm; the labels of the five higher powers equal the panel
+      (c) markers (p.28 Supp. Fig. S8)
+  cmp_lit_zhang2026c_racetrack-m10:
+    wavelength_nm: 1553.92
+    wavelength_max_nm: 1553.98
+    locator: p.28 Supp. Fig. S8(a), (b)
+    notes: figure label; power as labelled; on-chip power rests on the ~9.2 dB coupler term (p.14); pair window from Fig. S8(b)
+    why: The Split labels belong to the pair inside the dashed box that panel (b) zooms, 1553.92-1553.98 nm; the labels of the five higher powers equal the panel
+      (c) markers (p.28 Supp. Fig. S8)
+  cmp_lit_zhang2026c_racetrack-m11:
+    wavelength_nm: 1553.92
+    wavelength_max_nm: 1553.98
+    locator: p.28 Supp. Fig. S8(a), (b)
+    notes: figure label; power as labelled; on-chip power rests on the ~9.2 dB coupler term (p.14); pair window from Fig. S8(b)
+    why: The Split labels belong to the pair inside the dashed box that panel (b) zooms, 1553.92-1553.98 nm; the labels of the five higher powers equal the panel
+      (c) markers (p.28 Supp. Fig. S8)
+  cmp_lit_zhang2026c_racetrack-m12:
+    wavelength_nm: 1553.92
+    wavelength_max_nm: 1553.98
+    locator: p.28 Supp. Fig. S8(a), (b)
+    notes: figure label; power as labelled; on-chip power rests on the ~9.2 dB coupler term (p.14); pair window from Fig. S8(b)
+    why: The Split labels belong to the pair inside the dashed box that panel (b) zooms, 1553.92-1553.98 nm; the labels of the five higher powers equal the panel
+      (c) markers (p.28 Supp. Fig. S8)
+  cmp_lit_reniers2019_phc_700_n6-m2:
+    basis: simulated
+    why: 'D80a: values read off a plot of simulated curves stay simulated with the reading uncertainty in notes (p.2 Fig. 4, 3D FDTD)'
+  cmp_lit_reniers2019_phc_700_n8-m2:
+    basis: simulated
+    why: 'D80a: values read off a plot of simulated curves stay simulated with the reading uncertainty in notes (p.2 Fig. 4, 3D FDTD)'
+  cmp_lit_reniers2019_phc_700_n10-m2:
+    basis: simulated
+    why: 'D80a: values read off a plot of simulated curves stay simulated with the reading uncertainty in notes (p.2 Fig. 4, 3D FDTD)'
+  cmp_lit_reniers2019_phc_700_n11-m2:
+    basis: simulated
+    why: 'D80a: values read off a plot of simulated curves stay simulated with the reading uncertainty in notes (p.2 Fig. 4, 3D FDTD)'
+  cmp_lit_reniers2019_phc_400_n5-m1:
+    basis: simulated
+    why: 'D80a: values read off a plot of simulated curves stay simulated with the reading uncertainty in notes (p.2 Fig. 3, 3D FDTD)'
+  cmp_lit_reniers2019_phc_400_n7-m1:
+    basis: simulated
+    why: 'D80a: values read off a plot of simulated curves stay simulated with the reading uncertainty in notes (p.2 Fig. 3, 3D FDTD)'
+  cmp_lit_reniers2019_phc_400_n9-m1:
+    basis: simulated
+    why: 'D80a: values read off a plot of simulated curves stay simulated with the reading uncertainty in notes (p.2 Fig. 3, 3D FDTD)'
+  cmp_lit_reniers2019_phc_400_n11-m1:
+    basis: simulated
+    why: 'D80a: values read off a plot of simulated curves stay simulated with the reading uncertainty in notes (p.2 Fig. 3, 3D FDTD)'
+  cmp_lit_wang2016a_swg_dc_50_50-m1:
+    value: 0.1
+    value_max: 1.45
+    qualifier: ''
+    statistic: range
+    basis: extracted_from_figure
+    locator: p.8 Fig. 10(b)
+    condition: port difference of the Fig. 10(b) traces; ports computed with Eq. (6) from the MZI extinction ratio, couplers assumed lossless; grating couplers calibrated
+      out
+    notes: read off the plot, reading uncertainty about +/-0.1 dB; largest at 1600 nm (about -2.35 / -3.8 dB); printed +/-0.7 dB is in the component notes (D401)
+    why: 'D401: the p.8 printed imbalance of +/-0.7 dB is a deviation around -3 dB (p.8 Fig. 10(b): ports about -2.35 / -3.8 dB at 1600 nm, 1.45 dB apart), not the
+      port ratio of imbalance_db. gonzalezandrade2019 does not extend: its p.2 defines imbalance as the power difference of the outputs and no figure contradicts
+      it. The printed value moves to notes; the row now holds the port difference read off the figure'
+  cmp_lit_wang2016a_swg_dc_50_50_design-m1:
+    value: 0
+    value_max: 0.95
+    statistic: range
+    basis: simulated
+    locator: p.6 Fig. 7(a)
+    condition: full-structure FDTD, port difference of the eta1 / eta2 curves
+    notes: read off the plot, reading uncertainty about +/-0.1 dB; largest at 1600 nm (about -3.5 / -2.55 dB); printed +/-0.55 dB is in the component notes (D401)
+    why: 'D401, as the fabricated row: Fig. 7(a) shows the printed +/-0.55 dB around -3 dB, with eta1 / eta2 about -3.5 / -2.55 dB at 1600 nm (p.6 Sec. 2; p.6 Fig.
+      7(a)). D80a: read off a simulated curve stays simulated'
+  cmp_lit_wang2016a_swg_dc_50_50_design-m2:
+    basis: simulated
+    why: 'D80a: values read off a plot of simulated curves stay simulated with the reading uncertainty in notes (p.6 Fig. 7(b))'
+  cmp_lit_wang2016a_swg_dc_50_50_design-m3:
+    basis: simulated
+    why: 'D80a: values read off a plot of simulated curves stay simulated with the reading uncertainty in notes (p.6 Fig. 8)'
+  cmp_lit_probst2023_te00_te02-m1:
+    notes: printed peak coupling efficiency -0.52 dB; Fig. 1(b) labels the same slope at 1550 nm, while the Fig. 3(b) trace peaks near 1545-1565 nm at about -0.47
+      dB
+    why: The Fig. 3(b) trace peaks near 1545-1565 nm at about -0.47 dB, not between 1550 and 1580 nm (p.2 Fig. 3(b))
+add_metrics:
+- metric_id: cmp_lit_wu2018_n3_fig7a_i-m10
+  component_id: cmp_lit_wu2018_n3_fig7a_i
+  parameter: n_periods
+  value: 3
+  unit: count
+  basis: design_target
+  locator: p.10 Fig. 7 caption
+  notes: N = number of cascaded Sagnac loop reflectors (cells of the loop lattice, p.2)
+  why: 'D153 miss: the paper states N per device (p.10 Fig. 7 caption; lattice wording p.2); n_periods covers photonic-crystal cells on resonator, as on the reniers2019
+    cavity rows'
+- metric_id: cmp_lit_wu2018_n3_fig7a_ii-m10
+  component_id: cmp_lit_wu2018_n3_fig7a_ii
+  parameter: n_periods
+  value: 3
+  unit: count
+  basis: design_target
+  locator: p.10 Fig. 7 caption
+  notes: N = number of cascaded Sagnac loop reflectors (cells of the loop lattice, p.2)
+  why: 'D153 miss: the paper states N per device (p.10 Fig. 7 caption; lattice wording p.2); n_periods covers photonic-crystal cells on resonator, as on the reniers2019
+    cavity rows'
+- metric_id: cmp_lit_wu2018_n3_fig7a_iii-m10
+  component_id: cmp_lit_wu2018_n3_fig7a_iii
+  parameter: n_periods
+  value: 3
+  unit: count
+  basis: design_target
+  locator: p.10 Fig. 7 caption
+  notes: N = number of cascaded Sagnac loop reflectors (cells of the loop lattice, p.2)
+  why: 'D153 miss: the paper states N per device (p.10 Fig. 7 caption; lattice wording p.2); n_periods covers photonic-crystal cells on resonator, as on the reniers2019
+    cavity rows'
+- metric_id: cmp_lit_wu2018_n3_fig7b_i-m10
+  component_id: cmp_lit_wu2018_n3_fig7b_i
+  parameter: n_periods
+  value: 3
+  unit: count
+  basis: design_target
+  locator: p.10 Fig. 7 caption
+  notes: N = number of cascaded Sagnac loop reflectors (cells of the loop lattice, p.2)
+  why: 'D153 miss: the paper states N per device (p.10 Fig. 7 caption; lattice wording p.2); n_periods covers photonic-crystal cells on resonator, as on the reniers2019
+    cavity rows'
+- metric_id: cmp_lit_wu2018_n3_fig7b_ii-m10
+  component_id: cmp_lit_wu2018_n3_fig7b_ii
+  parameter: n_periods
+  value: 3
+  unit: count
+  basis: design_target
+  locator: p.10 Fig. 7 caption
+  notes: N = number of cascaded Sagnac loop reflectors (cells of the loop lattice, p.2)
+  why: 'D153 miss: the paper states N per device (p.10 Fig. 7 caption; lattice wording p.2); n_periods covers photonic-crystal cells on resonator, as on the reniers2019
+    cavity rows'
+- metric_id: cmp_lit_wu2018_n3_fig7b_iii-m10
+  component_id: cmp_lit_wu2018_n3_fig7b_iii
+  parameter: n_periods
+  value: 3
+  unit: count
+  basis: design_target
+  locator: p.10 Fig. 7 caption
+  notes: N = number of cascaded Sagnac loop reflectors (cells of the loop lattice, p.2)
+  why: 'D153 miss: the paper states N per device (p.10 Fig. 7 caption; lattice wording p.2); n_periods covers photonic-crystal cells on resonator, as on the reniers2019
+    cavity rows'
+- metric_id: cmp_lit_wu2018_n3_fig8a_l100-m10
+  component_id: cmp_lit_wu2018_n3_fig8a_l100
+  parameter: n_periods
+  value: 3
+  unit: count
+  basis: design_target
+  locator: p.11 Fig. 8 caption
+  notes: N = number of cascaded Sagnac loop reflectors (cells of the loop lattice, p.2)
+  why: 'D153 miss: the paper states N per device (p.11 Fig. 8 caption; lattice wording p.2); n_periods covers photonic-crystal cells on resonator, as on the reniers2019
+    cavity rows'
+- metric_id: cmp_lit_wu2018_n3_fig8a_l107p2-m8
+  component_id: cmp_lit_wu2018_n3_fig8a_l107p2
+  parameter: n_periods
+  value: 3
+  unit: count
+  basis: design_target
+  locator: p.11 Fig. 8 caption
+  notes: N = number of cascaded Sagnac loop reflectors (cells of the loop lattice, p.2)
+  why: 'D153 miss: the paper states N per device (p.11 Fig. 8 caption; lattice wording p.2); n_periods covers photonic-crystal cells on resonator, as on the reniers2019
+    cavity rows'
+- metric_id: cmp_lit_wu2018_n3_fig8b-m10
+  component_id: cmp_lit_wu2018_n3_fig8b
+  parameter: n_periods
+  value: 3
+  unit: count
+  basis: design_target
+  locator: p.11 Fig. 8 caption
+  notes: N = number of cascaded Sagnac loop reflectors (cells of the loop lattice, p.2)
+  why: 'D153 miss: the paper states N per device (p.11 Fig. 8 caption; lattice wording p.2); n_periods covers photonic-crystal cells on resonator, as on the reniers2019
+    cavity rows'
+- metric_id: cmp_lit_wu2018_n4_fig9a_i-m10
+  component_id: cmp_lit_wu2018_n4_fig9a_i
+  parameter: n_periods
+  value: 4
+  unit: count
+  basis: design_target
+  locator: p.12 Fig. 9(a) caption
+  notes: N = number of cascaded Sagnac loop reflectors (cells of the loop lattice, p.2)
+  why: 'D153 miss: the paper states N per device (p.12 Fig. 9(a) caption; lattice wording p.2); n_periods covers photonic-crystal cells on resonator, as on the reniers2019
+    cavity rows'
+- metric_id: cmp_lit_wu2018_n4_fig9a_ii-m10
+  component_id: cmp_lit_wu2018_n4_fig9a_ii
+  parameter: n_periods
+  value: 4
+  unit: count
+  basis: design_target
+  locator: p.12 Fig. 9(a) caption
+  notes: N = number of cascaded Sagnac loop reflectors (cells of the loop lattice, p.2)
+  why: 'D153 miss: the paper states N per device (p.12 Fig. 9(a) caption; lattice wording p.2); n_periods covers photonic-crystal cells on resonator, as on the reniers2019
+    cavity rows'
+- metric_id: cmp_lit_wu2018_n4_fig9a_iii-m10
+  component_id: cmp_lit_wu2018_n4_fig9a_iii
+  parameter: n_periods
+  value: 4
+  unit: count
+  basis: design_target
+  locator: p.12 Fig. 9(a) caption
+  notes: N = number of cascaded Sagnac loop reflectors (cells of the loop lattice, p.2)
+  why: 'D153 miss: the paper states N per device (p.12 Fig. 9(a) caption; lattice wording p.2); n_periods covers photonic-crystal cells on resonator, as on the reniers2019
+    cavity rows'
+- metric_id: cmp_lit_wu2018_n8_fig9b_light_trapping-m10
+  component_id: cmp_lit_wu2018_n8_fig9b_light_trapping
+  parameter: n_periods
+  value: 8
+  unit: count
+  basis: design_target
+  locator: p.12 Fig. 9 caption
+  notes: N = number of cascaded Sagnac loop reflectors (cells of the loop lattice, p.2)
+  why: 'D153 miss: the paper states N per device (p.12 Fig. 9 caption; lattice wording p.2); n_periods covers photonic-crystal cells on resonator, as on the reniers2019
+    cavity rows'
+- metric_id: cmp_lit_wu2018_n8_fig9c_flat_top-m11
+  component_id: cmp_lit_wu2018_n8_fig9c_flat_top
+  parameter: n_periods
+  value: 8
+  unit: count
+  basis: design_target
+  locator: p.12 Fig. 9 caption
+  notes: N = number of cascaded Sagnac loop reflectors (cells of the loop lattice, p.2)
+  why: 'D153 miss: the paper states N per device (p.12 Fig. 9 caption; lattice wording p.2); n_periods covers photonic-crystal cells on resonator, as on the reniers2019
+    cavity rows'
+- metric_id: cmp_lit_wu2018_n8_fig9d_multi_peak-m11
+  component_id: cmp_lit_wu2018_n8_fig9d_multi_peak
+  parameter: n_periods
+  value: 8
+  unit: count
+  basis: design_target
+  locator: p.12 Fig. 9 caption
+  notes: N = number of cascaded Sagnac loop reflectors (cells of the loop lattice, p.2)
+  why: 'D153 miss: the paper states N per device (p.12 Fig. 9 caption; lattice wording p.2); n_periods covers photonic-crystal cells on resonator, as on the reniers2019
+    cavity rows'
+- metric_id: cmp_lit_wu2018_n8_fig9d_multi_peak-m12
+  component_id: cmp_lit_wu2018_n8_fig9d_multi_peak
+  parameter: extinction_db
+  value: 43
+  unit: dB
+  qualifier: approx
+  wavelength_nm: 1549
+  wavelength_max_nm: 1552
+  wavelength_inferred: 'true'
+  polarization: te
+  condition: highest passband peak to deepest stopband valley of the normalized spectrum
+  basis: extracted_from_figure
+  locator: p.12 Fig. 9(d)
+  notes: 'read off the plot: peak about -2 dB, valley about -45 dB; reading uncertainty about +/-1.5 dB; plot axis of Fig. 9(d), no single wavelength stated. The
+    printed 7.8 dB is a different quantity, the minimum over the split peaks'
+  why: 'Miss: every other N = 3 / 4 / 8 device with one repeating shape carries this stopband contrast; here only the split-peak minimum was entered (p.12 Fig. 9(d))'

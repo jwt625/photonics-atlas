@@ -139,7 +139,8 @@ per-paper report. Read before first use: `data/schema/components.schema.yaml` (c
 - D435: a value from a fit extended beyond the range of its own data (bandwidth fitted past the instrument limit,
   retention extrapolated to 10 years) is `author_estimate`; a fit inside the data range stays `measured` (D80a).
 - Figure-labelled dimensions only (`extracted_from_figure`), never scale-bar measurements; figure-read performance
-  values `extracted_from_figure` with the reading uncertainty in notes.
+  values `extracted_from_figure` with the reading uncertainty in notes. D454: a simulated curve read off a plot stays
+  `simulated` (D80a), with the figure and reading uncertainty in notes.
 - Report: write `<batch>/BATCH_REPORT.md` yourself (D392): per paper components / metric rows, values not entered and
   why, missing fab / facility orgs (check `organizations.csv` / `org_aliases.csv` first; name as printed + locator),
   judgment calls, registry gaps with the skipped value + locator and a proposed definition. Final message 5-10 lines.
@@ -190,7 +191,8 @@ per-paper report. Read before first use: `data/schema/components.schema.yaml` (c
    reports 0 errors. Report per paper what you did not enter and why.
 
 Helper scripts: keep them in a private subfolder of the scratchpad named after your batch; other agents share the
-scratchpad. Some text.md files contain stray bytes: use `grep -a`.
+scratchpad. Some text.md files contain stray bytes: use `grep -a`. Run Python as `uv run --offline`; `uv run --with`,
+`uv add` and `pip` reach the package index, which breaks the no-network rule (2026-11-04, lit_81).
 
 ## Common pitfalls
 

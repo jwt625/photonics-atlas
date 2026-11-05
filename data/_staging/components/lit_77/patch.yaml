@@ -1,0 +1,161 @@
+# Audit patch lit_77 (fresh-context audit 2026-11-04, DevLog/audits/2026-11-04-lit_77-audit.md).
+# 166 metrics: 144 ok / 22 imprecise / 0 wrong; 19 components: 17 ok / 2 imprecise / 0 wrong; nothing deleted.
+# Miss added: 1 metric (lu2019 etch depth). After the patch: 19 components, 167 metrics.
+# Open coordinator questions: see the audit file.
+components:
+  cmp_lit_lorenzen2026_taper_facet_noa148:
+    test_structure: 'true'
+    notes: 'Taper dimensions not stated. Effective index at the facet ~1.46 for TE at 1818 nm from OFDR (p.3). Lower reported
+      losses of 0.2 dB per facet (p.6) are cited, not entered. Fab: LIGENTEC (p.8). Coupling losses m1-m4 come from the 2.2 cm
+      passive waveguide next to the amplifier (p.8; cmp_lit_lorenzen2026_sin_reference_wg); reflection m5 from OFDR on the facet
+      (p.3).'
+    why: 'p.8 Methods: coupling loss determined on a passive waveguide next to the amplifier, a dedicated test structure; the
+      row carried no flag; qiu2026 precedent for a reflection row on such a row (lit_63 Q5)'
+  cmp_lit_lorenzen2026_taper_facet_sh548:
+    test_structure: 'true'
+    notes: 'Taper dimensions not stated. Fab: LIGENTEC (p.8). Coupling losses come from a 2.2 cm passive waveguide next to the
+      amplifier (p.8).'
+    why: 'p.8 Methods: same test structure as the high-gain chip; the row carried no flag'
+metrics:
+  cmp_lit_lu2019_ppln_ring_shg-m2:
+    statistic: best
+    why: 'p.2 prints 15 % with the words as high as; rule 7; Fig. 5(b) render: plateau, no higher measured level'
+  cmp_lit_chang2026_ppln_opa_16mm-m1:
+    notes: '+/- 0.39 dB is the std of three measurements. Probe wavelength of the maximum not stated; sweep covers O to 1900
+      nm. Fig. 3(f) render: points near 9.0 dB at about 1500, 1540 and 1560 nm, above this stated maximum (read +/- 0.2 dB);
+      printed value kept (D417).'
+    why: 'p.17 Fig. 3(f) render shows points above the printed maximum of p.6; the batch flagged only the NIR case'
+  cmp_lit_chang2026_ppln_opa_16mm-m2:
+    notes: '+/- 0.43 dB is the std of three measurements. Probe wavelength of the maximum not stated; sweep covers O to 1900
+      nm. Printed 10.81 dB at 1690 nm (m8) and Fig. 4(f)-(g) render points about 10.95 dB at 1560 and 1610 nm, about 10.85 dB
+      near 1690 nm (read +/- 0.2 dB) all exceed this stated maximum; printed value kept (D417).'
+    why: 'p.19 Fig. 4(f)-(g) render: the inconsistency is wider than the 10.81 dB row the batch flagged'
+  cmp_lit_chang2026_ppln_opa_16mm-m11:
+    condition: 'direct visible pump 784.45 nm, 74 mW on-chip (24 dBm off-chip), probe -30 dBm'
+    why: 'p.5: the on/off gain definition in the condition belongs to the gain rows, not to a noise figure'
+  cmp_lit_chang2026_ppln_opa_16mm-m12:
+    condition: 'cascaded NIR pump 1568.9 nm, 170 mW on-chip (26.5 dBm off-chip), probe -20 dBm'
+    why: 'p.6: the on/off gain definition in the condition belongs to the gain rows, not to a noise figure'
+  cmp_lit_chang2026_ppln_opa_16mm-m13:
+    notes: 'Printed equivalent about 56 THz (p.1). Arrow in Fig. 2(f) runs from about 1360 to about 1815 nm (read +/- 5 nm).
+      Direct probe gain at the short edge is only 1.45 dB (m3) and 2.05 dB (m6), Fig. 3(e) and 4(e), with no probe points between
+      1360 and 1480 nm: the 3-dB gain-bandwidth wording of p.1 holds for the emission spectrum, not for the probe-gain points.'
+    why: 'p.15 Fig. 2(f), p.17 Fig. 3(e), p.19 Fig. 4(e) renders: internal inconsistency not flagged by the batch; the condition
+      already names the emission spectrum, value unchanged'
+  cmp_lit_kim2026_double_racetrack-m3:
+    wavelength_nm: 1545.5
+    polarization: te
+    why: 'p.7 Fig. 3 caption: the marked pair sits at 1545.5 nm; stated wavelength and polarization were only in condition text,
+      while m1 / m2 of the same pair carry them (yan2020 precedent, lit_62 audit)'
+  cmp_lit_kim2026_double_racetrack-m5:
+    wavelength_nm: 1545.5
+    polarization: te
+    why: 'p.9: pair near 193.98 THz (1545.50 nm); stated wavelength and polarization were only in condition text (yan2020 precedent,
+      lit_62 audit)'
+  cmp_lit_yang2026_ppln_qfc_20mm-m6:
+    method: ''
+    basis: derived
+    notes: 'Printed 28.8 %, evaluated via Eq. (4) (p.4): T_WG x eta_int x T_collect x T_filter = 0.49 x 0.93 x 0.80 x 0.79 = 0.288.
+      Fig. 4(b) caption calls the filled points measured; its 52 mW point reads about 28.8 % and the points read about 0.31 x
+      the Fig. 2(b) internal efficiency out to about 74 mW, so the figure does not separate a direct reading from the product.'
+    why: 'p.4: the sentence that states the value says it is evaluated via Eq. (4); rule 4 and D80a explicit arithmetic on own
+      measurements; audit Q3'
+  cmp_lit_yang2026_ppln_qfc_20mm-m7:
+    notes: 'Printed transmission 49 % (T_WG); -10 log10(0.49). Eq. (4) takes eta_int at the waveguide output (p.3), so T_WG runs
+      from point A to that output: lens coupling, AR-coated facets and propagation (0.22 /cm over 2 cm is about 1.9 dB of it).
+      Supp. Fig. S3(a) cut-back reads ln(T) about -1.03 at 2 cm (T about 0.36), a different coupling state not explained in the
+      paper.'
+    why: 'p.3-4 Eq. (4) and the eta_int definition are the basis of device_total, which the note did not state; p.9 Fig. S3(a)
+      render; audit Q3'
+  cmp_lit_yang2026_ppln_qfc_20mm-m8:
+    scope: unspecified
+    includes: ''
+    locator: p.4; p.10 Supp. Fig. S6; p.11
+    notes: 'Printed transmission 60 %; -10 log10(0.60). p.4 prints it next to T_WG, but Supp. Fig. S6 caption and p.11 call
+      it pump transmission and coupling into the waveguide: coupling only or coupling plus propagation is not settled. No
+      equation fixes it, unlike T_WG. Fluctuation over 48 h: 1.4 % peak-to-peak (p.11).'
+    why: 'p.10 Fig. S6 caption and p.11 wording against p.4; Eq. (4) does not use the pump value; rule 6 unspecified, never a
+      guess; audit Q3'
+  cmp_lit_lorenzen2026_lma_tm_amp_10p7cm-m4:
+    notes: 'Printed 815 mW; on-chip via measured coupling loss (D394). Wavelengths: legend of the 60-70 mW traces, Fig. 2(b); highest
+      plotted point is the 1855 nm trace near 815 mW at about 1.93 W (render).'
+    why: 'p.4 Fig. 2(b) render narrows the range kept as printed; value unchanged'
+  cmp_lit_lorenzen2026_lma_tm_amp_10p7cm-m6:
+    notes: 'Printed > 500 mW (D394). Fig. 2(b) highest 1948 nm point reads about 470 mW at about 1.45 W (read +/- 15 mW), below
+      the printed bound for this span end; printed span kept (D417).'
+    why: 'p.4 Fig. 2(b) render against p.3: internal inconsistency not flagged by the batch'
+  cmp_lit_lorenzen2026_lma_tm_amp_10p7cm-m12:
+    wavelength_inferred: 'true'
+    notes: 'Printed NF ~ 2.083 = 3.18 dB (10 log10 gives 3.19). Wavelength not printed for this estimate; 1818 nm from the low-power
+      measurement set (p.2-3).'
+    why: 'p.5 prints no wavelength with the lower limit; rule 8'
+  cmp_lit_lorenzen2026_taper_facet_noa148-m1:
+    basis: measured
+    notes: 'Per-facet value printed (p.8); Methods tie it to the total insertion loss of a 2.2 cm passive waveguide on the chip,
+      total not printed, halving not shown (D167; tiberi2025, vermeulen2010, guan2014a precedents). Waveguide-loss handling not
+      stated; from < 0.15 dB/cm (p.3) it is at most about 0.17 dB per facet.'
+    why: 'p.8: no total, no shown arithmetic, value read from a dedicated test structure (rule 4); scope loopback_half stays;
+      the old note claimed the waveguide loss was not removed, which the paper does not state; audit Q2'
+  cmp_lit_lorenzen2026_taper_facet_noa148-m2:
+    basis: measured
+    notes: 'Per-facet value printed (p.8); Methods tie it to the total insertion loss of a 2.2 cm passive waveguide on the chip,
+      total not printed, halving not shown (D167; tiberi2025, vermeulen2010, guan2014a precedents). Waveguide-loss handling not
+      stated; from < 0.15 dB/cm (p.3) it is at most about 0.17 dB per facet.'
+    why: 'p.8: no total, no shown arithmetic, value read from a dedicated test structure (rule 4); scope loopback_half stays;
+      audit Q2'
+  cmp_lit_lorenzen2026_taper_facet_noa148-m3:
+    basis: measured
+    notes: 'Paper word: measured. Per-facet value (p.8); Methods tie it to the total insertion loss of a 2.2 cm passive waveguide
+      on the chip, total not printed, halving not shown (D167; tiberi2025, vermeulen2010, guan2014a precedents). Waveguide-loss
+      handling not stated; from < 0.15 dB/cm (p.3) it is at most about 0.17 dB per facet.'
+    why: 'p.8: no total, no shown arithmetic, value read from a dedicated test structure (rule 4); scope loopback_half stays;
+      audit Q2'
+  cmp_lit_lorenzen2026_taper_facet_noa148-m4:
+    basis: measured
+    wavelength_inferred: ''
+    locator: p.8; p.4; p.5
+    notes: 'Paper word: measured. Per-facet value (p.8); the 1818 nm gain and noise rows apply this 2.2 dB (p.4, p.5). Methods tie
+      it to the total insertion loss of a 2.2 cm passive waveguide on the chip, total not printed, halving not shown (D167; tiberi2025,
+      vermeulen2010, guan2014a precedents). Waveguide-loss handling not stated; from < 0.15 dB/cm (p.3) it is at most about 0.17
+      dB per facet.'
+    why: 'p.8: no total, no shown arithmetic (rule 4); p.4 and p.5 apply 2.2 dB per facet to the 1818 nm data, so the wavelength
+      is stated (D393); scope loopback_half stays; audit Q2'
+  cmp_lit_lorenzen2026_taper_facet_sh548-m1:
+    basis: measured
+    wavelength_inferred: ''
+    notes: 'Per-facet value printed (p.8); Methods tie it to the total insertion loss of a 2.2 cm passive waveguide on the chip,
+      total not printed, halving not shown (D167; tiberi2025, vermeulen2010, guan2014a precedents). Waveguide-loss handling not
+      stated. Pump laser 1609 nm in the same section (p.8).'
+    why: 'p.8: no total, no shown arithmetic (rule 4); pump wavelength printed in the same section, flag aligned with noa148-m1
+      and m3; audit Q2'
+  cmp_lit_lorenzen2026_taper_facet_sh548-m2:
+    basis: measured
+    wavelength_inferred: ''
+    notes: 'Per-facet value printed (p.8); Methods tie it to the total insertion loss of a 2.2 cm passive waveguide on the chip,
+      total not printed, halving not shown (D167; tiberi2025, vermeulen2010, guan2014a precedents). Waveguide-loss handling not
+      stated. Pump laser 1609 nm in the same section (p.8).'
+    why: 'p.8: no total, no shown arithmetic (rule 4); pump wavelength printed in the same section, flag aligned with noa148-m1
+      and m3; audit Q2'
+  cmp_lit_lorenzen2026_taper_facet_sh548-m3:
+    basis: measured
+    notes: 'Per-facet value printed (p.8); Methods tie it to the total insertion loss of a 2.2 cm passive waveguide on the chip,
+      total not printed, halving not shown (D167; tiberi2025, vermeulen2010, guan2014a precedents). Waveguide-loss handling not
+      stated. Signal wavelength not stated, band from the signal range of the setup (p.8).'
+    why: 'p.8: no total, no shown arithmetic (rule 4); scope loopback_half stays; audit Q2'
+  cmp_lit_lorenzen2026_taper_facet_sh548-m4:
+    basis: measured
+    notes: 'Per-facet value printed (p.8); Methods tie it to the total insertion loss of a 2.2 cm passive waveguide on the chip,
+      total not printed, halving not shown (D167; tiberi2025, vermeulen2010, guan2014a precedents). Waveguide-loss handling not
+      stated. Signal wavelength not stated, band from the signal range of the setup (p.8).'
+    why: 'p.8: no total, no shown arithmetic (rule 4); scope loopback_half stays; audit Q2'
+add_metrics:
+  - metric_id: cmp_lit_lu2019_ppln_ring_resonator-m17
+    component_id: cmp_lit_lu2019_ppln_ring_resonator
+    parameter: etch_depth_nm
+    value: 420
+    unit: nm
+    basis: derived
+    locator: p.3
+    notes: 600 - 180 nm (film thickness minus unetched bottom layer, both printed).
+    why: 'miss (D153): p.3 prints film 600 nm and unetched layer 180 nm; chang2026 m19 and yang2026 m14 enter the same arithmetic
+      in the other direction; the row had slab but no etch depth'

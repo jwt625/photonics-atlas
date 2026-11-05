@@ -1,0 +1,156 @@
+# Audit patch lit_79 (fresh-context audit 2026-11-04, DevLog/audits/2026-11-04-lit_79-audit.md).
+# 153 metrics: 132 ok / 15 imprecise / 6 wrong; 22 components: 19 ok / 3 imprecise / 0 wrong, 0 deleted;
+# misses: 5 metrics added (gagino2024 comparator gains and near-field power ratio, poulton2022 array aperture width).
+# Coordinator decisions open: audit Q1 (gissibl2016 contrast rows deleted here), Q2 (beam_diameter_um), Q3 (sign), Q4 (EOPM).
+components:
+  cmp_lit_wessling2022_lens1_d11:
+    notes: 'Not in the registry (Table 1, p.8): f_air GO 6 um, f_air FDTD 4 um, f_air measured 4.5 +/- 1.0 um, f_dia FDTD 14 um, NA_dia 1.0; AFM roughness 1.4 nm r.m.s. on this device after SiOx removal, 3 x 3 um2 scan (p.4; p.11 Fig. B.3). Fabrication not attributed to an org in the text.'
+    why: 'p.11 Sec. B.3 and Fig. B.3 tie the 1.4 nm scan to device 1 of Fig. 4; the p.4 sentence alone reads as any lens'
+  cmp_lit_wessling2022_lens2_d7:
+    notes: 'Not in the registry (Table 1, p.8): f_air GO 3 um, f_air FDTD 2 um, f_air measured 2.0 +/- 1.0 um, f_dia FDTD 7 um, NA_dia 1.4. The 1.4 nm r.m.s. AFM roughness (p.4) was taken on lens 1 (p.11 Fig. B.3), not on this device. Fabrication not attributed to an org in the text.'
+    why: 'p.11 Sec. B.3 and Fig. B.3 tie the 1.4 nm scan to device 1 of Fig. 4, so the note did not hold for this lens (D159 reading)'
+  cmp_lit_wessling2022_lens3_d5p5:
+    notes: 'Not in the registry (Table 1, p.8): f_air GO 2 um, f_air FDTD 1 um, f_air measured 1.5 +/- 1.0 um, f_dia FDTD 5 um, NA_dia 1.7. The 1.4 nm r.m.s. AFM roughness (p.4) was taken on lens 1 (p.11 Fig. B.3), not on this device. Fabrication not attributed to an org in the text.'
+    why: 'p.11 Sec. B.3 and Fig. B.3 tie the 1.4 nm scan to device 1 of Fig. 4, so the note did not hold for this lens (D159 reading)'
+  cmp_lit_gissibl2016_donut_shaper:
+    notes: 'Layer distances 400 / 100 nm (p.8). Surface coefficients on p.7. Fab from the author-contribution statement (p.9). Ring peak separation in the x cross-section about 1.6 mm (read +/- 0.1 mm, Fig. 4(b), p.6): no parameter.'
+    why: 'consequence of deleting m2 (ring peak-to-peak is not a beam diameter); own reading of the Fig. 4(b) render kept as a note'
+  cmp_lit_gissibl2016_top_hat_shaper:
+    notes: 'Layer distance 400 nm lower part, 50 nm upper part (p.8). Surface coefficients on p.7; backward-calculated surface in Fig. 4(c). Fab from the author-contribution statement (p.9). The surface design used a beam waist of 3 um instead of the 2.45 um mode-theory value, to compensate fabrication deformation (p.6): a design input, not a fibre or beam mode.'
+    why: 'consequence of deleting m2 (mfd_fiber_um 6 um); p.6 Methods'
+  cmp_lit_gissibl2016_chiral_phc_left:
+    notes: 'Circular polarization selectivity bandwidth roughly 50 nm around the design wavelength (p.5), level not stated, no registry parameter. No contrast is printed: T_RCP lies above T_LCP inside the band marked in Fig. 5(c) (p.7), by an amount that changes strongly across the band, and the absolute transmittance is stated as not exactly calibrated against the 17.5 cm reference fibre (p.5). Fab from the author-contribution statement (p.9).'
+    why: 'consequence of deleting the two extinction_db rows, audit Q1'
+  cmp_lit_gissibl2016_chiral_phc_right:
+    notes: 'Circular polarization selectivity bandwidth roughly 50 nm around the design wavelength (p.5), level not stated, no registry parameter. No contrast is printed: T_LCP lies above T_RCP inside the band marked in Fig. 5(d) (p.7), by an amount that changes strongly across the band, and the absolute transmittance is stated as not exactly calibrated against the 17.5 cm reference fibre (p.5). Fab from the author-contribution statement (p.9).'
+    why: 'consequence of deleting the two extinction_db rows, audit Q1'
+metrics:
+  cmp_lit_wessling2022_lens1_d11-m3:
+    notes: 'parabolic fit stated as slightly better than spherical (p.6); Table 1 prints ROC 8 um, the Fig. 4(c) label of the same fit prints 8.3 um'
+    why: 'p.5 Fig. 4(c) render: the green label gives the fit value at higher resolution than Table 1; value stays as tabulated'
+  cmp_lit_wessling2022_lens2_d7-m3:
+    notes: 'parabolic fit stated as slightly better than spherical (p.6); Table 1 prints ROC 4 um, the Fig. 4(c) label of the same fit prints 3.8 um'
+    why: 'p.5 Fig. 4(c) render: the green label gives the fit value at higher resolution than Table 1; value stays as tabulated'
+  cmp_lit_wessling2022_lens3_d5p5-m3:
+    notes: 'parabolic fit stated as slightly better than spherical (p.6); Table 1 prints ROC 3 um, the Fig. 4(c) label of the same fit prints 2.7 um'
+    why: 'p.5 Fig. 4(c) render: the green label gives the fit value at higher resolution than Table 1; value stays as tabulated'
+  cmp_lit_wessling2022_lens3_d5p5-m4:
+    notes: 'printed diameter 5.5 um (Table 1), halved; the Fig. 4(c) label prints d = 5.4 um'
+    why: 'p.5 Fig. 4(c) render against p.8 Table 1: the two printed diameters differ, value stays as tabulated (D417 reading)'
+  cmp_lit_yulaev2022_nzi_grating_emitter-m8:
+    basis: author_estimate
+    notes: 'target of the cost function; 780 nm is the stated optimization wavelength (p.10)'
+    why: 'p.8: beam_waist_um is a performance parameter and this is a stated target; merged target and nominal waists are author_estimate (lit_65 ropp2021 m4, spektor2023 m3), no merged beam_waist_um row is design_target'
+  cmp_lit_yulaev2022_nzi_grating_emitter-m12:
+    value: 437.48
+    value_max: 438.0
+    notes: 'read +/- 0.02 nm from the design curve: minimum near 110 um, 438.0 nm at the input end, about 437.96 nm at the far end'
+    why: 'p.7 Fig. 1(d), enlarged render against the right axis: the curve starts at the 438.0 nm tick and bottoms near 437.48 nm; the previous 437.45-437.98 sat at the edge of its stated uncertainty'
+  cmp_lit_gagino2024_opa_8arm-m20:
+    locator: p.2; p.2 Table 1
+    why: 'Table 1 is printed on p.2 of text.md, not p.1'
+  cmp_lit_gagino2024_soa_gain_path-m12:
+    polarization: te
+    why: 'p.8 Methods: the input state is fixed to TE for the whole sweep; the gain rows of the same sweep already carry it'
+  cmp_lit_gagino2024_soa_gain_path-m13:
+    polarization: te
+    why: 'p.8 Methods: the input state is fixed to TE for the whole sweep; the gain rows of the same sweep already carry it'
+  cmp_lit_gagino2024_soa_gain_path-m14:
+    polarization: te
+    why: 'p.8 Methods: the input state is fixed to TE for the whole sweep; the gain rows of the same sweep already carry it'
+  cmp_lit_gagino2024_soa_gain_path-m15:
+    polarization: te
+    why: 'p.8 Methods: the input state is fixed to TE for the whole sweep; the gain rows of the same sweep already carry it'
+  cmp_lit_gagino2024_soa_gain_path-m16:
+    polarization: te
+    why: 'p.8 Methods: the input state is fixed to TE for the whole sweep; the gain rows of the same sweep already carry it'
+  cmp_lit_gagino2024_soa_gain_path-m17:
+    polarization: te
+    why: 'p.8 Methods: the input state is fixed to TE for the whole sweep; the gain rows of the same sweep already carry it'
+  cmp_lit_gagino2024_soa_gain_path-m18:
+    ref_plane: chip
+    why: 'p.3: the 40 nm is a width of the output power measured at the chip output, as m12 to m17 (p.4 Fig. 2 caption)'
+  cmp_lit_poulton2022_opa_8192-m11:
+    value: 700000000
+    condition: PIC area
+    locator: p.3 Sec. III; p.3 Fig. 2(a)
+    notes: 'printed 2.8 cm x 2.5 cm; the 8 mm x 5 mm emission aperture is in grating_width_um (m12) and grating_length_um (m9)'
+    why: 'p.3 Sec. III prints the PIC size; merged OPA footprints are chip or tile areas (chen2024 m14, fatemi2019 m9, dostart2020 m13) and apertures go in grating_width_um (notaros2019 m12, dostart2020 m12)'
+delete_metrics:
+  - id: cmp_lit_gissibl2016_chiral_phc_left-m1
+    why: 'p.7 Fig. 5(c): ratio of two figure readings at a distiller-chosen 1560 nm, no contrast printed; audit Q1. The same curves (coordinates of the figure paths) give 5.9 dB at 1540 nm, 3.5 dB at 1560 nm and 0.9 dB at 1580 nm, all inside the marked band, and p.5 says absolute values are not exactly calibrated'
+  - id: cmp_lit_gissibl2016_chiral_phc_left-m2
+    why: 'p.7 Fig. 5(c): ratio of two figure readings at a distiller-chosen 1560 nm, no contrast printed; audit Q1. The same curves give 6.6 dB at 1540 nm, 3.6 dB at 1560 nm (the row said 4.0) and 1.0 dB at 1580 nm; p.5 says absolute values are not exactly calibrated (T_RCP reads about 1.0 here)'
+  - id: cmp_lit_gissibl2016_chiral_phc_right-m1
+    why: 'p.7 Fig. 5(d): ratio of two figure readings at a distiller-chosen 1570 nm, no contrast printed; audit Q1. The condition also named the ratio backwards: 0.58 is T_LCP and 0.18 is T_RCP on this panel. The same curves give 5.7 dB at 1550 nm, 5.2 dB at 1570 nm and 1.9 dB at 1590 nm, all inside the marked band'
+  - id: cmp_lit_gissibl2016_chiral_phc_right-m2
+    why: 'p.7 Fig. 5(d): ratio of two figure readings at a distiller-chosen 1570 nm, no contrast printed; audit Q1. The condition also named the ratio backwards: 0.65 is T_LCP and 0.19 is T_RCP on this panel. The same curves give 8.2 dB at 1550 nm, 5.5 dB at 1570 nm and 1.6 dB at 1590 nm, all inside the marked band'
+  - id: cmp_lit_gissibl2016_donut_shaper-m2
+    why: 'p.6 Fig. 4(b): a ring peak-to-peak distance is not a beam diameter under any reading of the parameter; value moved to component notes'
+  - id: cmp_lit_gissibl2016_top_hat_shaper-m2
+    why: 'p.6 Methods: the 3 um waist is a design input chosen to compensate fabrication deformation, not the mode of the fibre or of a beam the part couples to (mfd_fiber_um definition, registry convention); value moved to component notes'
+add_metrics:
+  - metric_id: cmp_lit_gagino2024_soa_gain_path-m25
+    component_id: cmp_lit_gagino2024_soa_gain_path
+    parameter: gain_db
+    value: 12
+    unit: dB
+    wavelength_nm: 1465
+    polarization: te
+    ref_plane: on_chip
+    condition: 'net on-chip gain, all 8 arrayed SOAs driven simultaneously, -20 dBm input, 10 kA/cm2'
+    method: direct
+    basis: extracted_from_figure
+    locator: p.4 Fig. 2(c)
+    notes: 'read +/- 0.5 dB; solid curve, the comparator of m8'
+    why: 'miss: p.4 Fig. 2(c), read on the render; the dashed curves were entered (m8) without the simultaneous-drive value at the same 10 kA/cm2'
+  - metric_id: cmp_lit_gagino2024_soa_gain_path-m26
+    component_id: cmp_lit_gagino2024_soa_gain_path
+    parameter: gain_db
+    value: 20
+    unit: dB
+    wavelength_nm: 1525
+    polarization: te
+    ref_plane: on_chip
+    condition: 'net on-chip gain, all 8 arrayed SOAs driven simultaneously, -20 dBm input, 10 kA/cm2'
+    method: direct
+    basis: extracted_from_figure
+    locator: p.4 Fig. 2(d)
+    notes: 'read +/- 0.5 dB; solid curve, the comparator of m9; below the 21.5 dB of m1 taken at 7.5 kA/cm2'
+    why: 'miss: p.4 Fig. 2(d), read on the render; the dashed curves were entered (m9) without the simultaneous-drive value at the same 10 kA/cm2'
+  - metric_id: cmp_lit_gagino2024_soa_gain_path-m27
+    component_id: cmp_lit_gagino2024_soa_gain_path
+    parameter: gain_db
+    value: 16
+    unit: dB
+    wavelength_nm: 1560
+    polarization: te
+    ref_plane: on_chip
+    condition: 'net on-chip gain, all 8 arrayed SOAs driven simultaneously, -20 dBm input, 10 kA/cm2'
+    method: direct
+    basis: extracted_from_figure
+    locator: p.4 Fig. 2(e)
+    notes: 'read +/- 0.5 dB; solid curve, the comparator of m10'
+    why: 'miss: p.4 Fig. 2(e), read on the render; the dashed curves were entered (m10) without the simultaneous-drive value at the same 10 kA/cm2'
+  - metric_id: cmp_lit_gagino2024_soa_gain_path-m28
+    component_id: cmp_lit_gagino2024_soa_gain_path
+    parameter: power_uniformity_db
+    value: 3.3
+    unit: dB
+    wavelength_nm: 1525
+    condition: 'inner-to-outer arm power ratio of the near field at the OPA emitter, arrayed SOAs equally driven at 7.5 kA/cm2, booster 10 kA/cm2'
+    method: direct
+    basis: measured
+    locator: p.5 Sec. Beam steering; p.6 Sec. Sidelobe suppression
+    notes: 'printed as Gaussian distribution power ratio, near-field imaging; compressed from the 6 dB star coupler design by the amplifiers, wavelength dependent (p.5, supplement not cached)'
+    why: 'miss: power_uniformity_db is allowed on amplifier and the value was held only in the free-space emitter notes; p.5, p.6'
+  - metric_id: cmp_lit_poulton2022_opa_8192-m12
+    component_id: cmp_lit_poulton2022_opa_8192
+    parameter: grating_width_um
+    value: 8000
+    unit: um
+    condition: emission aperture across the 8,192 antennas
+    basis: derived
+    locator: p.3 Sec. III; p.4 Table I
+    notes: printed 8 mm
+    why: 'miss: p.3 and p.4 Table I print the aperture; precedent for the array dimension in grating_width_um: notaros2019 m12, dostart2020 m12; pairs with grating_length_um m9'

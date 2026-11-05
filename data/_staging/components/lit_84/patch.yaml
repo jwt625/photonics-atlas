@@ -1,0 +1,316 @@
+# Audit patch lit_84 (fresh-context audit 2026-11-04, DevLog/audits/2026-11-04-lit_84-audit.md).
+# 277 metrics: 246 ok / 27 imprecise / 4 wrong (deleted, values kept in notes); 39 components: 36 ok / 3 imprecise, 1 deleted; 16 misses added.
+# Not covered here (coordinator / org round): facility Albany Nanotech Complex on the three hossain2026 rows, missing from the registry; registry gaps in the audit file.
+components:
+  cmp_lit_boerma2026_sagnac_sgdbr_sil:
+    notes: 'Fraunhofer HHI, Berlin, Germany. Fabrication statement p.2 Sec. II. Chip with on-chip photodiodes at the ring and Sagnac ports (Fig. 6: photocurrent vs ring heater power; no photodiode performance stated). Linewidth stays near minimum for ring heater offsets -10 to 2.5 mW (p.4). Chirp: 1.8 GHz over a 32 us period, residual error 47.4 MHz (2.61%) in 80% ROI, nonlinearity 7.0e-5 up / 5.4e-5 down (p.5 Sec. IV.A text): no registry parameter. Intracavity ring is row sagnac_sgdbr_ring. Figure conflict: Fig. 10 is captioned Sagnac SGDBR but plots about 6.3 GHz with labels 7.9E-06 / 1.7E-05, the values the text gives for the MMI DFB; Fig. 11 is captioned MMI DFB but plots about 1.8 GHz with labels 7.0E-05 / 5.4E-05, the values the text gives for the SGDBR. Text attribution kept.'
+    why: 'p.5 Fig. 10, Fig. 11 renders against p.5 Sec. IV.A and IV.B text: captions and plotted values disagree; the row note cited Fig. 10 as the source of the SGDBR chirp'
+  cmp_lit_boerma2026_mmi_dfb_sil:
+    notes: 'Fraunhofer HHI, Berlin, Germany. Phase tuner between DFB and ring found unnecessary for stable locking (p.4). Chirp range: 6.29 GHz (p.5 Sec. IV.B text; the panel plotting about 6.3 GHz is the one captioned Fig. 10 for the SGDBR, see row sagnac_sgdbr_sil), 6.85 GHz (p.6 Table I, conclusion), 6.8 GHz (p.1 abstract); 3.34 GHz at 8 us period, rms error 0.12% / 0.23%, residual error 7.4 MHz, nonlinearity 7.9e-6 up / 1.7e-5 down: no registry parameter.'
+    why: 'p.5 Fig. 10, Fig. 11 renders: Fig. 11 plots about 1.8 GHz, not 6.29 GHz'
+  cmp_lit_heermeier2025_double_dbr_reference:
+    notes: 'Comparison group of this study (p.8-9). Text gives apertures 2-5 um; Pmax is stated at 6 um and the Fig. 8 maps run to row 6. Fabrication: ''we'' with authors at TU Berlin and Lodz University of Technology; which org fabricated is not stated: fab left empty. Rth > 3 K/mW is cited from ref. [27], not entered. Tuning range of conventional double-DBR VCSELs 3-5 nm (p.15 Sec. V.D.1.a): generic comparison sentence, the reference column of Fig. 17 has no data cells: not entered.'
+    why: 'p.15 text and Fig. 17 render: value moved from deleted row m4'
+  cmp_lit_heermeier2025_top_dbr_15p5:
+    notes: 'Cross-note: part of row double_dbr_reference (D396). The paper''s numbers conflict: 99.3% at 15.5 pairs (p.9) vs 99.43% with theoretical Q 6774 stated for 14.5 pairs (p.4), and about 93% / 93.3% on p.9. Fig. 3 (p.4, simulated) plots about 99.43% at 15 pairs and about 99.6% at 16 pairs, so 99.3% at 15.5 pairs is off that curve; kept as printed (D417). Direct reflectance measurement not possible per p.11.'
+    why: 'p.4 Fig. 3 enlarged: adds the plotted curve to the conflict note; 14.5-pair value moved here from the deleted design row'
+  cmp_lit_heermeier2025_mhcg_population:
+    notes: 'Array-level row (D165): the values are stated for the sample or for an unspecified device. Fabrication: ''we'' with authors at TU Berlin and Lodz University of Technology; which org fabricated is not stated: fab left empty. Not assigned to a device (D159 / D254): SMSR 43-46 dB commonly measured within the operating range of the Fig. 23 regime (p.18); WPE 6-7% in the middle of each cluster (p.9, p.11); small / medium Rth 2.34 / 2.45 K/mW and 0.21 / 0.22 nm/mW for 6 um, P 520 nm devices of about 5 / 9 nm tuning (p.15-16; F not stated). Layer stack: 5.5 + 37 DBR pairs, Fig. 1 caption. Rows m7-m9 stay here because p.15 states dlambda/dT should not depend on the grating design; Rth and slope do depend on it (p.16), so the small / medium device values without F stay in notes (D159).'
+    why: 'p.15 and p.16 Sec. V.D.1.b: reason for the different treatment of two kinds of single-device values'
+  cmp_lit_heermeier2025_mhcg_p490_f64_h313_phi5:
+    notes: 'Oxide aperture diameter is in the label (no registry parameter).  Fabrication: ''we'' with authors at TU Berlin and Lodz University of Technology; which org fabricated is not stated: fab left empty. Table I lists H 313 nm here and H 322 nm on device 5 with the same P and F.'
+    why: 'p.19 Table I render: printed conflict not in the row note'
+  cmp_lit_heermeier2025_mhcg_p490_f64_h322_phi3:
+    notes: 'Oxide aperture diameter is in the label (no registry parameter).  Fabrication: ''we'' with authors at TU Berlin and Lodz University of Technology; which org fabricated is not stated: fab left empty. Table I lists H 322 nm here and H 313 nm on device 2 with the same P and F.'
+    why: 'p.19 Table I render: printed conflict not in the row note'
+  cmp_lit_heermeier2025_mhcg_p520_f61_phi4:
+    notes: 'Oxide aperture diameter is in the label (no registry parameter). Abstract prints threshold as low as 0.25 mA; p.9, p.20 and Table I print 0.27 mA. Fabrication: ''we'' with authors at TU Berlin and Lodz University of Technology; which org fabricated is not stated: fab left empty. p.9 places the 0.27 mA device in the cluster middle, for instance UC 4 col. 6 or 7 (F 59 / 58 by p.18); Table I lists F 61, H 331 nm.'
+    why: 'p.9 Sec. V.C.1, p.18 Sec. V.D.2, p.19 Table I: printed conflict not in the row note'
+  cmp_lit_bai2023_pol_wdm_awg_8ch:
+    notes: 'Two identical AWGs measured, one with a TE and one with a TM input grating coupler (p.4 Fig. 6). Fabrication sentence passive: fab not entered. Staff thanks at AEMD (SJTU) and at a Zhejiang University training platform (p.5) are not facility statements. Channel crosstalk not stated for the measured device; Fig. 8(b) shows TE leakage into TM channels up to about -15 dB and Fig. 8(c) TM leakage into TE channels up to about -8 dB at 1530 nm, -13 dB elsewhere (absolute level, not entered). Also a polarization splitter by function; no separate class row (no polarization metric beyond the simulated PER). Fig. 8 reads rows m48-m51: no printed crosstalk or 3-dB width; the reads use the printed channel centers, which match the plotted peaks within 0.1 nm.'
+    why: 'p.5 Fig. 8 enlarged: basis of the added figure-read rows'
+  cmp_lit_hossain2026_awg_1x13:
+    notes: 'AIM Photonics, Albany NY, USA. Facility ''Albany Nanotech Complex'' (p.1, p.3) has no registry org. Stack per Fig. 2: 2.32 um SiO2 on Si, FN 220 nm, 100 nm SiO2, SN 220 nm, SiO2 top. Operating range 1500-1620 nm per abstract; plotted 1500-1600 nm (Fig. 4). Replicated on 64 dies, 29 characterized. Text gives crosstalk range 31-41 dB but Fig. 5(c) labels run to -45 dB. FPR facet radii of curvature: input FPR output facet 468 um; output FPR input facet 700 um and output facet 225 um (p.2 Sec. III): no registry parameter.'
+    why: 'p.2 Sec. III: values moved from deleted rows m36-m38'
+  cmp_lit_hoffman2016_bend_1um:
+    notes: 'Data from two chips, single-mode fiber input (p.10). Fabrication sentence passive, authors at imec, KU Leuven and Ghent University: fab not entered. Fig. 11(a): labels 500 and 1000 are printed left of their tick marks; the last two data columns sit on those ticks, inside the text series 25-1000 um.'
+    why: p.10 Fig. 11(a) enlarged
+  cmp_lit_hoffman2016_bend_5um:
+    notes: 'Data from two chips, single-mode fiber input (p.10). Compensated per-90 loss not stated for this width. Fabrication sentence passive, authors at imec, KU Leuven and Ghent University: fab not entered. Fig. 11(a): labels 500 and 1000 are printed left of their tick marks; the last two data columns sit on those ticks, inside the text series 25-1000 um.'
+    why: p.10 Fig. 11(a) enlarged
+metrics:
+  cmp_lit_heermeier2025_mhcg_p460_f68_phi5-m3:
+    basis: author_estimate
+    notes: '''estimated'' grating height (p.5): trench-width-dependent etch-rate calibration plus top-view SEM of each grating; no height metrology of a grating printed, and bars erode later in processing (p.6 Sec. IV.B); nominal 310 nm target'
+    why: 'p.4-5 Sec. IV, p.6 Sec. IV.B: H is computed through an unprinted etch-rate calibration, the test measures etch rate, not the height of the device, so rule 4 test-structure clause does not cover it. Q3'
+  cmp_lit_heermeier2025_mhcg_p490_f64_h313_phi5-m3:
+    basis: author_estimate
+    notes: '''estimated'' grating height (p.5): trench-width-dependent etch-rate calibration plus top-view SEM of each grating; no height metrology of a grating printed, and bars erode later in processing (p.6 Sec. IV.B); nominal 310 nm target'
+    why: 'p.4-5 Sec. IV, p.6 Sec. IV.B: H is computed through an unprinted etch-rate calibration, the test measures etch rate, not the height of the device, so rule 4 test-structure clause does not cover it. Q3'
+  cmp_lit_heermeier2025_mhcg_p520_f58_phi6-m3:
+    basis: author_estimate
+    notes: '''estimated'' grating height (p.5): trench-width-dependent etch-rate calibration plus top-view SEM of each grating; no height metrology of a grating printed, and bars erode later in processing (p.6 Sec. IV.B); nominal 310 nm target'
+    why: 'p.4-5 Sec. IV, p.6 Sec. IV.B: H is computed through an unprinted etch-rate calibration, the test measures etch rate, not the height of the device, so rule 4 test-structure clause does not cover it. Q3'
+  cmp_lit_heermeier2025_mhcg_p490_f64_h322_phi3-m3:
+    basis: author_estimate
+    notes: '''estimated'' grating height (p.5): trench-width-dependent etch-rate calibration plus top-view SEM of each grating; no height metrology of a grating printed, and bars erode later in processing (p.6 Sec. IV.B); nominal 310 nm target'
+    why: 'p.4-5 Sec. IV, p.6 Sec. IV.B: H is computed through an unprinted etch-rate calibration, the test measures etch rate, not the height of the device, so rule 4 test-structure clause does not cover it. Q3'
+  cmp_lit_heermeier2025_mhcg_p520_f62_h329_phi9-m3:
+    basis: author_estimate
+    notes: '''estimated'' grating height (p.5): trench-width-dependent etch-rate calibration plus top-view SEM of each grating; no height metrology of a grating printed, and bars erode later in processing (p.6 Sec. IV.B); nominal 310 nm target'
+    why: 'p.4-5 Sec. IV, p.6 Sec. IV.B: H is computed through an unprinted etch-rate calibration, the test measures etch rate, not the height of the device, so rule 4 test-structure clause does not cover it. Q3'
+  cmp_lit_heermeier2025_mhcg_p520_f61_phi4-m3:
+    basis: author_estimate
+    notes: '''estimated'' grating height (p.5): trench-width-dependent etch-rate calibration plus top-view SEM of each grating; no height metrology of a grating printed, and bars erode later in processing (p.6 Sec. IV.B); nominal 310 nm target'
+    why: 'p.4-5 Sec. IV, p.6 Sec. IV.B: H is computed through an unprinted etch-rate calibration, the test measures etch rate, not the height of the device, so rule 4 test-structure clause does not cover it. Q3'
+  cmp_lit_heermeier2025_mhcg_p520_f59_phi8-m3:
+    basis: author_estimate
+    notes: '''estimated'' grating height (p.5): trench-width-dependent etch-rate calibration plus top-view SEM of each grating; no height metrology of a grating printed, and bars erode later in processing (p.6 Sec. IV.B); nominal 310 nm target'
+    why: 'p.4-5 Sec. IV, p.6 Sec. IV.B: H is computed through an unprinted etch-rate calibration, the test measures etch rate, not the height of the device, so rule 4 test-structure clause does not cover it. Q3'
+  cmp_lit_heermeier2025_mhcg_p520_f60_phi6-m3:
+    basis: author_estimate
+    notes: '''estimated'' grating height (p.5): trench-width-dependent etch-rate calibration plus top-view SEM of each grating; no height metrology of a grating printed, and bars erode later in processing (p.6 Sec. IV.B); nominal 310 nm target'
+    why: 'p.4-5 Sec. IV, p.6 Sec. IV.B: H is computed through an unprinted etch-rate calibration, the test measures etch rate, not the height of the device, so rule 4 test-structure clause does not cover it. Q3'
+  cmp_lit_heermeier2025_mhcg_p490_f62_phi9-m3:
+    basis: author_estimate
+    notes: '''estimated'' grating height (p.5): trench-width-dependent etch-rate calibration plus top-view SEM of each grating; no height metrology of a grating printed, and bars erode later in processing (p.6 Sec. IV.B); nominal 310 nm target'
+    why: 'p.4-5 Sec. IV, p.6 Sec. IV.B: H is computed through an unprinted etch-rate calibration, the test measures etch rate, not the height of the device, so rule 4 test-structure clause does not cover it. Q3'
+  cmp_lit_heermeier2025_mhcg_p520_f59_phi9-m3:
+    basis: author_estimate
+    notes: '''estimated'' grating height (p.5): trench-width-dependent etch-rate calibration plus top-view SEM of each grating; no height metrology of a grating printed, and bars erode later in processing (p.6 Sec. IV.B); nominal 310 nm target'
+    why: 'p.4-5 Sec. IV, p.6 Sec. IV.B: H is computed through an unprinted etch-rate calibration, the test measures etch rate, not the height of the device, so rule 4 test-structure clause does not cover it. Q3'
+  cmp_lit_heermeier2025_mhcg_p520_f63_phi8-m3:
+    basis: author_estimate
+    notes: '''estimated'' grating height (p.5): trench-width-dependent etch-rate calibration plus top-view SEM of each grating; no height metrology of a grating printed, and bars erode later in processing (p.6 Sec. IV.B); nominal 310 nm target'
+    why: 'p.4-5 Sec. IV, p.6 Sec. IV.B: H is computed through an unprinted etch-rate calibration, the test measures etch rate, not the height of the device, so rule 4 test-structure clause does not cover it. Q3'
+  cmp_lit_heermeier2025_mhcg_p520_f59_phi6-m3:
+    basis: author_estimate
+    notes: '''estimated'' grating height (p.5): trench-width-dependent etch-rate calibration plus top-view SEM of each grating; no height metrology of a grating printed, and bars erode later in processing (p.6 Sec. IV.B); nominal 310 nm target'
+    why: 'p.4-5 Sec. IV, p.6 Sec. IV.B: H is computed through an unprinted etch-rate calibration, the test measures etch rate, not the height of the device, so rule 4 test-structure clause does not cover it. Q3'
+  cmp_lit_heermeier2025_mhcg_p520_f57_phi7-m3:
+    basis: author_estimate
+    notes: '''estimated'' grating height (p.5): trench-width-dependent etch-rate calibration plus top-view SEM of each grating; no height metrology of a grating printed, and bars erode later in processing (p.6 Sec. IV.B); nominal 310 nm target'
+    why: 'p.4-5 Sec. IV, p.6 Sec. IV.B: H is computed through an unprinted etch-rate calibration, the test measures etch rate, not the height of the device, so rule 4 test-structure clause does not cover it. Q3'
+  cmp_lit_heermeier2025_mhcg_p520_f58_phi9-m3:
+    basis: author_estimate
+    notes: '''estimated'' grating height (p.5): trench-width-dependent etch-rate calibration plus top-view SEM of each grating; no height metrology of a grating printed, and bars erode later in processing (p.6 Sec. IV.B); nominal 310 nm target'
+    why: 'p.4-5 Sec. IV, p.6 Sec. IV.B: H is computed through an unprinted etch-rate calibration, the test measures etch rate, not the height of the device, so rule 4 test-structure clause does not cover it. Q3'
+  cmp_lit_heermeier2025_mhcg_p520_f58_phi6-m4:
+    locator: p.15 Sec. V.D.1.a; p.16 Fig. 18(a),(b); p.19 Table I
+    why: Fig. 18 is on p.16; its legend prints 13.43 nm
+  cmp_lit_heermeier2025_mhcg_p520_f58_phi6-m5:
+    locator: p.15 Sec. V.D.1.a; p.16 Fig. 18(b)
+    notes: Fig. 18(b) legend prints 85 C for both heated traces, caption 55 C and 80 C, text 55 C and 85 C; band inferred from the 980 nm design resonance (p.2 Sec. II)
+    why: Fig. 18 is on p.16; legend conflict confirmed on the render
+  cmp_lit_heermeier2025_mhcg_p520_f58_phi6-m6:
+    locator: p.15 Sec. V.D.1.a; p.16 Fig. 18(b)
+    why: Fig. 18 is on p.16
+  cmp_lit_heermeier2025_mhcg_population-m6:
+    notes: Fig. 17 also shows cells in the colours of about 4-6 nm; band inferred from the 980 nm design resonance (p.2 Sec. II)
+    why: 'p.15 Fig. 17 enlarged: statement kept as printed (D417), conflict noted'
+  cmp_lit_bai2023_pol_wdm_awg_8ch-m2:
+    notes: Fig. 8 peaks of channel 1 (TE) and channel 5 (TM) differ by about 1.5 dB (+/-0.3 dB), channel centers 0.8 nm apart; kept as printed (D417)
+    why: 'p.5 Fig. 8(a),(d) enlarged: figure conflict with the under 1 dB statement'
+  cmp_lit_bai2023_linear_wedge_taper-m2:
+    value: '0.085'
+    why: 'p.3 Fig. 4(d) enlarged: the curve starts near -0.085 dB at 1500 nm, the row said 0.09'
+  cmp_lit_hoffman2016_bend_1um-m6:
+    condition: R about 500 um; uncompensated decay parameter alpha (includes leaky-mode, bend-to-bend and straight propagation loss); log axis
+    notes: 'read off the plot, +/-15%; radius from the tick mark: Fig. 11(a) prints the labels 500 and 1000 left of their ticks, the ticks sit at the log-scale positions and the data columns on them (text gives the series as 25-1000 um)'
+    why: 'p.10 Fig. 11(a) enlarged: tick spacing is 144 px per octave at 5.5x zoom, ticks at 957 and 1101 px are 500 and 1000 um; the row said about 630 / 1300 um from the misplaced labels; 1 um and 5 um points at 500 um are separate, read 0.87 and 0.96'
+    value: '0.87'
+  cmp_lit_hoffman2016_bend_1um-m7:
+    condition: R about 1000 um; uncompensated decay parameter alpha (includes leaky-mode, bend-to-bend and straight propagation loss); log axis
+    notes: 'read off the plot, +/-15%; radius from the tick mark: Fig. 11(a) prints the labels 500 and 1000 left of their ticks, the ticks sit at the log-scale positions and the data columns on them (text gives the series as 25-1000 um)'
+    why: 'p.10 Fig. 11(a) enlarged: tick spacing is 144 px per octave at 5.5x zoom, ticks at 957 and 1101 px are 500 and 1000 um; the row said about 630 / 1300 um from the misplaced labels'
+  cmp_lit_hoffman2016_bend_5um-m5:
+    condition: R about 500 um; uncompensated decay parameter alpha (includes leaky-mode, bend-to-bend and straight propagation loss); log axis
+    notes: 'read off the plot, +/-15%; radius from the tick mark: Fig. 11(a) prints the labels 500 and 1000 left of their ticks, the ticks sit at the log-scale positions and the data columns on them (text gives the series as 25-1000 um)'
+    why: 'p.10 Fig. 11(a) enlarged: tick spacing is 144 px per octave at 5.5x zoom, ticks at 957 and 1101 px are 500 and 1000 um; the row said about 630 / 1300 um from the misplaced labels; 1 um and 5 um points at 500 um are separate, read 0.87 and 0.96'
+    value: '0.96'
+  cmp_lit_hoffman2016_bend_5um-m6:
+    condition: R about 1000 um; uncompensated decay parameter alpha (includes leaky-mode, bend-to-bend and straight propagation loss); log axis
+    notes: 'read off the plot, +/-15%; radius from the tick mark: Fig. 11(a) prints the labels 500 and 1000 left of their ticks, the ticks sit at the log-scale positions and the data columns on them (text gives the series as 25-1000 um)'
+    why: 'p.10 Fig. 11(a) enlarged: tick spacing is 144 px per octave at 5.5x zoom, ticks at 957 and 1101 px are 500 and 1000 um; the row said about 630 / 1300 um from the misplaced labels'
+  cmp_lit_hoffman2016_gc_450nm-m1:
+    notes: read off the plot, +/-0.1 dB; A parameter plotted negative; band height is the error of the system efficiency (Fig. 11 caption), not a spread between devices
+    why: 'p.10 Fig. 11 caption: meaning of the grey band'
+delete_metrics:
+- id: cmp_lit_heermeier2025_double_dbr_reference-m4
+  why: 'p.15 Sec. V.D.1.a and Fig. 17: sentence about conventional double-DBR VCSELs in general, and the reference column of Fig. 17 has no data cells, so no measurement of this study is tied to it (rule 1, D159). Value in component notes'
+- id: cmp_lit_hossain2026_awg_1x13-m36
+  why: 'p.2 Sec. III: 468 um is an FPR facet radius of curvature; radius_um is defined as ring / disk radius, and the Rowland-size values of wang2023e and brouckaert2007 stay in notes (D444). Value in component notes. Q6'
+- id: cmp_lit_hossain2026_awg_1x13-m37
+  why: 'p.2 Sec. III: 700 um is an FPR facet radius of curvature; radius_um is defined as ring / disk radius, and the Rowland-size values of wang2023e and brouckaert2007 stay in notes (D444). Value in component notes. Q6'
+- id: cmp_lit_hossain2026_awg_1x13-m38
+  why: 'p.2 Sec. III: 225 um is an FPR facet radius of curvature; radius_um is defined as ring / disk radius, and the Rowland-size values of wang2023e and brouckaert2007 stay in notes (D444). Value in component notes. Q6'
+delete_components:
+- id: cmp_lit_heermeier2025_top_dbr_14p5
+  why: 'p.4 Sec. III, Fig. 3: a calculated reference point used to set a Q requirement, no 14.5-pair device is described; one point of a simulated curve. Value kept in the notes of row top_dbr_15p5. Q2'
+add_metrics:
+- metric_id: cmp_lit_heermeier2025_mhcg_population-m10
+  component_id: cmp_lit_heermeier2025_mhcg_population
+  parameter: thermal_resistance_k_per_w
+  value: 2460
+  unit: K/W
+  statistic: mean
+  band: nir_below_o
+  wavelength_inferred: 'true'
+  condition: average for the 6 um devices
+  basis: derived
+  locator: p.16 Sec. V.D.1.b
+  notes: printed 2.46 K/mW (K/mW -> K/W, D256); (2.34 + 2.45 + 2.6) / 3 = 2.46; Table I prints the same number for row mhcg_p520_f60_phi6; band inferred from the 980 nm design resonance (p.2 Sec. II)
+  why: 'p.16: the text states this value as an average, the population row exists for such values; miss'
+- component_id: cmp_lit_bai2023_pol_wdm_awg_8ch
+  basis: extracted_from_figure
+  locator: p.5 Fig. 8(a)
+  metric_id: cmp_lit_bai2023_pol_wdm_awg_8ch-m48
+  parameter: crosstalk_adjacent_db
+  value: 18
+  value_max: 20
+  unit: dB
+  statistic: range
+  wavelength_nm: 1532.2
+  wavelength_max_nm: 1541
+  polarization: te
+  condition: channels 1-4; adjacent-channel curve at the printed channel center against that channel peak
+  notes: read off the plot, +/-1.5 dB; no crosstalk printed for the measured device
+  why: p.5 Fig. 8(a) enlarged, curves identified by colour and label; miss. Q5
+- component_id: cmp_lit_bai2023_pol_wdm_awg_8ch
+  basis: extracted_from_figure
+  locator: p.5 Fig. 8(d)
+  metric_id: cmp_lit_bai2023_pol_wdm_awg_8ch-m49
+  parameter: crosstalk_adjacent_db
+  value: 9
+  value_max: 11
+  unit: dB
+  statistic: range
+  wavelength_nm: 1533
+  wavelength_max_nm: 1540.6
+  polarization: tm
+  condition: channels 5-8; adjacent-channel curve at the printed channel center against that channel peak
+  notes: read off the plot, +/-1.5 dB; no crosstalk printed for the measured device
+  why: p.5 Fig. 8(d) enlarged, curves identified by colour and label; miss. Q5
+- component_id: cmp_lit_bai2023_pol_wdm_awg_8ch
+  basis: extracted_from_figure
+  locator: p.5 Fig. 8(a)
+  metric_id: cmp_lit_bai2023_pol_wdm_awg_8ch-m50
+  parameter: bw_3db_nm
+  value: 1.7
+  value_max: 2.0
+  unit: nm
+  statistic: range
+  wavelength_nm: 1532.2
+  wavelength_max_nm: 1541
+  polarization: te
+  condition: channels 1-4; full width 3 dB below each channel peak
+  notes: read off the plot, +/-0.15 nm; passband tops are smooth, the ripple sits below the 3-dB points
+  why: p.5 Fig. 8(a) enlarged; miss. Q5
+- component_id: cmp_lit_bai2023_pol_wdm_awg_8ch
+  basis: extracted_from_figure
+  locator: p.5 Fig. 8(d)
+  metric_id: cmp_lit_bai2023_pol_wdm_awg_8ch-m51
+  parameter: bw_3db_nm
+  value: 1.7
+  value_max: 1.9
+  unit: nm
+  statistic: range
+  wavelength_nm: 1533
+  wavelength_max_nm: 1540.6
+  polarization: tm
+  condition: channels 5-8; full width 3 dB below each channel peak
+  notes: read off the plot, +/-0.15 nm; passband tops are smooth, the ripple sits below the 3-dB points
+  why: p.5 Fig. 8(d) enlarged; miss. Q5
+- metric_id: cmp_lit_hossain2026_bilayer_gc-m6
+  component_id: cmp_lit_hossain2026_bilayer_gc
+  parameter: box_thickness_um
+  value: 2.32
+  unit: um
+  basis: extracted_from_figure
+  locator: p.2 Fig. 2 label
+  notes: figure-labelled dimension
+  why: p.2 Fig. 2 stack label; the other two rows carry it, gc_1d template optional; D153 miss
+- metric_id: cmp_lit_hoffman2016_straight_1um-m4
+  component_id: cmp_lit_hoffman2016_straight_1um
+  parameter: core_thickness_nm
+  value: 180
+  unit: nm
+  basis: design_target
+  locator: p.4 Sec. 2.1; p.6 Sec. 2.3
+  why: 'p.6 Sec. 2.3: same core layer for all PICs; required by the waveguide cross-section template; D153 miss'
+- metric_id: cmp_lit_hoffman2016_straight_2um-m4
+  component_id: cmp_lit_hoffman2016_straight_2um
+  parameter: core_thickness_nm
+  value: 180
+  unit: nm
+  basis: design_target
+  locator: p.4 Sec. 2.1; p.6 Sec. 2.3
+  why: 'p.6 Sec. 2.3: same core layer for all PICs; required by the waveguide cross-section template; D153 miss'
+- metric_id: cmp_lit_hoffman2016_straight_3um-m4
+  component_id: cmp_lit_hoffman2016_straight_3um
+  parameter: core_thickness_nm
+  value: 180
+  unit: nm
+  basis: design_target
+  locator: p.4 Sec. 2.1; p.6 Sec. 2.3
+  why: 'p.6 Sec. 2.3: same core layer for all PICs; required by the waveguide cross-section template; D153 miss'
+- metric_id: cmp_lit_hoffman2016_straight_4um-m4
+  component_id: cmp_lit_hoffman2016_straight_4um
+  parameter: core_thickness_nm
+  value: 180
+  unit: nm
+  basis: design_target
+  locator: p.4 Sec. 2.1; p.6 Sec. 2.3
+  why: 'p.6 Sec. 2.3: same core layer for all PICs; required by the waveguide cross-section template; D153 miss'
+- metric_id: cmp_lit_hoffman2016_straight_5um-m4
+  component_id: cmp_lit_hoffman2016_straight_5um
+  parameter: core_thickness_nm
+  value: 180
+  unit: nm
+  basis: design_target
+  locator: p.4 Sec. 2.1; p.6 Sec. 2.3
+  why: 'p.6 Sec. 2.3: same core layer for all PICs; required by the waveguide cross-section template; D153 miss'
+- metric_id: cmp_lit_hoffman2016_bend_1um-m10
+  component_id: cmp_lit_hoffman2016_bend_1um
+  parameter: core_thickness_nm
+  value: 180
+  unit: nm
+  basis: design_target
+  locator: p.4 Sec. 2.1; p.6 Sec. 2.3
+  why: 'p.6 Sec. 2.3: same core layer for all PICs; required by the waveguide cross-section template; D153 miss'
+- metric_id: cmp_lit_hoffman2016_bend_5um-m9
+  component_id: cmp_lit_hoffman2016_bend_5um
+  parameter: core_thickness_nm
+  value: 180
+  unit: nm
+  basis: design_target
+  locator: p.4 Sec. 2.1; p.6 Sec. 2.3
+  why: 'p.6 Sec. 2.3: same core layer for all PICs; required by the waveguide cross-section template; D153 miss'
+- metric_id: cmp_lit_hoffman2016_gc_450nm-m13
+  component_id: cmp_lit_hoffman2016_gc_450nm
+  parameter: taper_length_um
+  value: 500
+  unit: um
+  condition: tapers between each grating coupler and the waveguide
+  basis: derived
+  locator: p.7 Sec. 3.1
+  notes: printed 0.5 mm (mm -> um)
+  why: p.7 Sec. 3.1; gc_1d template optional, held only in notes; D153 miss
+- metric_id: cmp_lit_hoffman2016_gc_450nm-m14
+  component_id: cmp_lit_hoffman2016_gc_450nm
+  parameter: box_thickness_um
+  value: 2
+  unit: um
+  condition: HDPCVD SixOy
+  basis: design_target
+  locator: p.6 Sec. 2.3
+  why: p.6 Sec. 2.3; gc_1d template optional; D153 miss
+- metric_id: cmp_lit_hoffman2016_gc_450nm-m15
+  component_id: cmp_lit_hoffman2016_gc_450nm
+  parameter: cladding_thickness_um
+  value: 2
+  unit: um
+  condition: SixOy top cladding
+  basis: design_target
+  locator: p.7
+  why: p.7 Sec. 2.3 end; gc_1d template optional; D153 miss
