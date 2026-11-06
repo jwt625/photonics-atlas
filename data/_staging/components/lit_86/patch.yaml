@@ -1,0 +1,182 @@
+# Audit patch lit_86 (fresh-context audit 2026-11-06, DevLog/audits/2026-11-06-lit_86-audit.md).
+# 133 metrics: 118 ok / 11 imprecise / 4 wrong; 20 components: 14 ok / 0 imprecise / 6 wrong (heim2026 fab), 0 deleted;
+# misses: 2 geometry metrics added (romerogarcia2014). Coordinator decisions open: audit Q1 (heim2026 1.65 M basis), Q2 (franken2025 78 mW basis),
+# Q3 (yang2018 unit-cell rows deleted), Q4 (heim2026 laser rows fab incl. UCSB).
+components:
+  cmp_lit_heim2026_stabilized_ectl:
+    fab_org_ids: org_honeywell;org_ucsb
+    notes: 'Same Vernier ring radii as merged heim2025 (authors'' ref. 52) but 2.8 um ring waveguides (p.9, p.16) and 6 um cladding; new monolithic
+      chip with the stabilization circuit. Not in the registry: ADEV 6.5e-13 at 0.08 ms, 225 kHz/s drift (p.7); lock bandwidth 0.1 MHz (0.1-0.3
+      MHz, p.18); about 6 orders of frequency-noise suppression near 100 Hz (p.7); error-signal slope 0.45 MHz/V at 1540 nm (p.17). Self-isolation
+      over -30 dB cited to ref. 52: not entered (rule 3). The RSOA-to-Si3N4 butt coupling has no stated loss: no coupler row. Fab: the contributions
+      statement (p.13) names K.D.N. (Honeywell Aerospace) as the fabricator of the chips (D395, D399; heim2025 coil precedent); Methods (p.9)
+      says only ''fabricated in a CMOS foundry''. D.A.S.H. (UCSB) built the ECTL with the purchased RSOA (p.13): UCSB on this assembled row (D399).
+      Cross-notes: cmp_lit_heim2026_ectl_vernier_rings, _coil_4m.'
+    why: 'p.13 Contributions: ''K.D.N. fabricated them'' (the integrated photonic chips); K.D.N. is at Honeywell Aerospace (p.1). D395 / D399:
+      fab = the org of the author the fabrication sentence names; merged heim2025 coil row carries org_honeywell for the same author; p.13 ''D.A.S.H.
+      built the ECTL'' is a first-person assembly statement for this hybrid row (D399, D419)'
+  cmp_lit_heim2026_sbs_laser:
+    fab_org_ids: org_honeywell;org_ucsb
+    notes: 'Not in the registry: ADEV 2.8e-13 at 5.12 ms, 5 kHz/s drift (p.7); lock bandwidth 0.8 MHz (p.5, p.10); self-isolation 25 dB (p.5);
+      fundamental linewidth stays 4.0 Hz for feedback from -43 to -7 dB (p.15); integral linewidth reduced > 20x by the lock (p.2). 80/20 splitter
+      to the stabilization circuit (design ratio, no measured value). Fab: the contributions statement (p.13) names K.D.N. (Honeywell Aerospace)
+      as the fabricator of the chips (D395, D399; heim2025 coil precedent); Methods (p.9) says only ''fabricated in a CMOS foundry''. K.L. (UCSB)
+      built and packaged the SBS laser (p.13): UCSB on this assembled row (D399). Cross-notes: cmp_lit_heim2026_sbs_ring (D396), _stokes_filter_ring,
+      _coil_4m.'
+    why: 'p.13 Contributions: ''K.D.N. fabricated them'' (the integrated photonic chips); K.D.N. is at Honeywell Aerospace (p.1). D395 / D399:
+      fab = the org of the author the fabrication sentence names; merged heim2025 coil row carries org_honeywell for the same author; p.13 ''K.L.
+      built and packaged the SBS laser'' (D399, D419)'
+  cmp_lit_heim2026_ectl_vernier_rings:
+    fab_org_ids: org_honeywell
+    notes: 'Vernier ring pair of the ECTL (D400 intracavity rings); one row for both, radii per ring in condition. Loaded Q 1.65 M (p.4) is stated
+      without a spectrum, fit or method in the main text or supplement; the sentence ends with ref. 52 after the self-isolation clause. heim2025
+      (ref. 52) prints 0.65 M for 2.6 um wide rings; these are 2.8 um wide (p.9), so not a restated value (D408): kept as author_estimate (D76).
+      Fab: the contributions statement (p.13) names K.D.N. (Honeywell Aerospace) as the fabricator of the chips (D395, D399; heim2025 coil precedent);
+      Methods (p.9) says only ''fabricated in a CMOS foundry''. Cross-note cmp_lit_heim2026_stabilized_ectl.'
+    why: 'p.13 Contributions: ''K.D.N. fabricated them'' (the integrated photonic chips); K.D.N. is at Honeywell Aerospace (p.1). D395 / D399:
+      fab = the org of the author the fabrication sentence names; merged heim2025 coil row carries org_honeywell for the same author; Q note follows
+      the m1 basis change'
+  cmp_lit_heim2026_coil_4m:
+    fab_org_ids: org_honeywell
+    notes: 'Coil resonator coupled to one arm of an unbalanced MZI with a heater on the delay arm; balanced detection of the two outputs gives
+      the modulation-free error signal (p.3, p.17). Same design on the ECTL and SBS chips. Not in the registry: error-signal slopes 0.14-0.53
+      MHz/V (p.5) vs 0.13-0.5 MHz/V over 1520-1570 nm and 0.45 MHz/V at 1540 nm (p.17). Fab: the contributions statement (p.13) names K.D.N. (Honeywell
+      Aerospace) as the fabricator of the chips (D395, D399; heim2025 coil precedent); Methods (p.9) says only ''fabricated in a CMOS foundry''.
+      Cross-notes: cmp_lit_heim2026_stabilized_ectl, _sbs_laser.'
+    why: 'p.13 Contributions: ''K.D.N. fabricated them'' (the integrated photonic chips); K.D.N. is at Honeywell Aerospace (p.1). D395 / D399:
+      fab = the org of the author the fabrication sentence names; merged heim2025 coil row carries org_honeywell for the same author'
+  cmp_lit_heim2026_sbs_ring:
+    fab_org_ids: org_honeywell
+    notes: 'Gap chosen so the ring is slightly over-coupled at 1550 nm (design statement, p.9); micro-heater on top. p.7 also states a platform
+      loss below 1 dB/m at 1550 nm (not a separate row). Fab: the contributions statement (p.13) names K.D.N. (Honeywell Aerospace) as the fabricator
+      of the chips (D395, D399; heim2025 coil precedent); Methods (p.9) says only ''fabricated in a CMOS foundry''. Cross-note cmp_lit_heim2026_sbs_laser
+      (D396).'
+    why: 'p.13 Contributions: ''K.D.N. fabricated them'' (the integrated photonic chips); K.D.N. is at Honeywell Aerospace (p.1). D395 / D399:
+      fab = the org of the author the fabrication sentence names; merged heim2025 coil row carries org_honeywell for the same author'
+  cmp_lit_heim2026_stokes_filter_ring:
+    fab_org_ids: org_honeywell
+    notes: 'Drops the first-order Stokes to the output bus and filters back-reflected pump, replacing a fiber circulator; heavily over-coupled
+      by design, thermally tuned (p.9). Not in the registry: 23 dB suppression of back-reflected pump vs a fiber circulator (p.15, Supp. Fig.
+      3(b)). Class wdm.mrr (wavelength-selective drop filter in the output path, not an intracavity ring). Fab: the contributions statement (p.13)
+      names K.D.N. (Honeywell Aerospace) as the fabricator of the chips (D395, D399; heim2025 coil precedent); Methods (p.9) says only ''fabricated
+      in a CMOS foundry''. Cross-note cmp_lit_heim2026_sbs_laser.'
+    why: 'p.13 Contributions: ''K.D.N. fabricated them'' (the integrated photonic chips); K.D.N. is at Honeywell Aerospace (p.1). D395 / D399:
+      fab = the org of the author the fabrication sentence names; merged heim2025 coil row carries org_honeywell for the same author'
+  cmp_lit_yang2018_pcf_metalens_na037:
+    notes: 'Not in the registry: measured focal length 26.7-28.0 um over 1500-1630 nm (28.0 um at 1550 nm); simulated 28.5 um; design 30 um (p.5,
+      Fig. 5(a)). Maximum operating (RCP-to-LCP focusing) efficiencies 16.1 % at 1530 nm and 16.4 % at 1540 nm are printed for ''these two'' lenses
+      (p.5); the assignment is not determinable (text order vs Fig. 5(b) readings), not entered (D159). Enhanced optical intensity 234 % at 1540
+      nm (p.5) is not tied to a lens in the text and has no parameter. Fabricated unit-element dimensions are in the supplement (Table S1, not
+      cached). Fab: first-person process statement with authors at three orgs, fabricating org not named. Baylor CMI thanked for microscopy support
+      (p.6): not a fabrication facility entry. In scope as a fiber-coupled passive part (D411). Simulated unit-cell values (periodic array, not
+      lens metrics; not entered): with SEM-measured dimensions 1499.3 nm resonance and 16.9 % RCP-to-LCP conversion (p.3); optimized design unit
+      1482.6 nm, 17 % (p.2). Fig. 5(b) render: the NA 0.37 curve peaks near 1510 nm at about 17 %, the NA 0.23 curve at about 16 % near 1530-1540
+      nm (read +/- 0.5 %), so neither printed maximum (16.1 % at 1530 nm, 16.4 % at 1540 nm) maps to one curve.'
+    why: consequence of deleting m2 / m3 (unit-cell simulation values, audit Q3); Fig. 5(b) reading added to support the D159 call on p.5
+  cmp_lit_yang2018_pcf_metalens_na023:
+    notes: 'Not in the registry: measured focal length 40.0-41.3 um over 1500-1630 nm (40.0 um at 1550 nm); simulated 40.0-41.0 um; design 50
+      um (p.5, Fig. 5(a)). Maximum operating (RCP-to-LCP focusing) efficiencies 16.1 % at 1530 nm and 16.4 % at 1540 nm are printed for ''these
+      two'' lenses (p.5); the assignment is not determinable (text order vs Fig. 5(b) readings), not entered (D159). Enhanced optical intensity
+      234 % at 1540 nm (p.5) is not tied to a lens in the text and has no parameter. Fabricated unit-element dimensions are in the supplement
+      (Table S1, not cached). Fab: first-person process statement with authors at three orgs, fabricating org not named. Baylor CMI thanked for
+      microscopy support (p.6): not a fabrication facility entry. In scope as a fiber-coupled passive part (D411). Simulated unit-cell values
+      (periodic array, not lens metrics; not entered): with SEM-measured dimensions 1490.3 nm resonance and 16.5 % RCP-to-LCP conversion (p.3);
+      optimized design unit 1482.6 nm, 17 % (p.2). Fig. 5(b) render: the NA 0.37 curve peaks near 1510 nm at about 17 %, the NA 0.23 curve at
+      about 16 % near 1530-1540 nm (read +/- 0.5 %), so neither printed maximum (16.1 % at 1530 nm, 16.4 % at 1540 nm) maps to one curve.'
+    why: consequence of deleting m2 / m3 (unit-cell simulation values, audit Q3); Fig. 5(b) reading added to support the D159 call on p.5
+metrics:
+  cmp_lit_romerogarcia2014_type1_2tip-m3:
+    wavelength_nm: 1537
+    polarization: te
+    why: 'p.8-9 Sec. III-C: laser-diode tolerance measured at the 1537 nm emission (p.9) with the TE laser (p.3); condition already says so, m1
+      of the same measurement carries both fields (Fig. 8(a))'
+  cmp_lit_romerogarcia2014_type1_2tip-m4:
+    wavelength_nm: 1537
+    polarization: te
+    why: 'p.8-9 Sec. III-C: laser-diode tolerance measured at the 1537 nm emission (p.9) with the TE laser (p.3); condition already says so, m1
+      of the same measurement carries both fields (Fig. 8(b))'
+  cmp_lit_romerogarcia2014_type1_2tip-m5:
+    wavelength_nm: 1537
+    polarization: te
+    why: 'p.8-9 Sec. III-C: laser-diode tolerance measured at the 1537 nm emission (p.9) with the TE laser (p.3); condition already says so, m1
+      of the same measurement carries both fields (Fig. 8(c))'
+  cmp_lit_romerogarcia2014_type2_5tip-m3:
+    wavelength_nm: 1537
+    polarization: te
+    why: 'p.8-9 Sec. III-C: laser-diode tolerance measured at the 1537 nm emission (p.9) with the TE laser (p.3); condition already says so, m1
+      of the same measurement carries both fields (Fig. 9(a))'
+  cmp_lit_romerogarcia2014_type2_5tip-m4:
+    wavelength_nm: 1537
+    polarization: te
+    why: 'p.8-9 Sec. III-C: laser-diode tolerance measured at the 1537 nm emission (p.9) with the TE laser (p.3); condition already says so, m1
+      of the same measurement carries both fields (Fig. 9(b))'
+  cmp_lit_romerogarcia2014_type2_5tip-m5:
+    wavelength_nm: 1537
+    polarization: te
+    why: 'p.8-9 Sec. III-C: laser-diode tolerance measured at the 1537 nm emission (p.9) with the TE laser (p.3); condition already says so, m1
+      of the same measurement carries both fields (Fig. 9(c))'
+  cmp_lit_franken2025_dual_gain_ecl-m1:
+    basis: author_estimate
+    notes: Printed as on-chip power (p.4, Fig. 3(a)). The output leaves through the TFLN-to-fiber PWB and fiber array; how it was referred to
+      the chip is not described, and the 3 dB LN-to-fiber PWB loss was measured on a separate characterization chip (p.4, p.8 Acknowledgments).
+      De-embedding term not stated (D76, D431).
+    why: 'p.4-5: an on-chip power whose de-embedding term is not stated rests on a loss of unstated origin (rule 4, D76; lihachev2022 120 mW precedent,
+      D431); D167 is limited to per-facet coupling loss. Distiller judgment call 5'
+  cmp_lit_heim2026_ectl_vernier_rings-m1:
+    basis: author_estimate
+    locator: p.4
+    notes: 'Stated with the rings (p.4); no spectrum, fit or method for this Q in the main text or supplement: origin not stated (D76). The sentence
+      ends with ref. 52 after the self-isolation clause; ref. 52 (heim2025) prints 0.65 M for 2.6 um wide rings and these are 2.8 um (p.9), so
+      not a restated value (D408).'
+    why: 'p.4: the sentence sits before the p.5 marker; no measurement of this Q anywhere in the text (Supp. Sec. 3 p.16-17 covers tuning, SMSR
+      and linewidth only), unlike the SBS ring (''we measure'', p.14) and the coil (spectrum in Fig. 2(a)); D76. Audit Q1'
+  cmp_lit_sawamura2023_cwdm8_tosa-m1:
+    condition: LD bias about 300 mA for 100 mW (20 dBm) on all channels, case 25 C; printed ~300 mA (the text layer drops the tilde)
+    why: p.2 and p.3 page renders print ~300 mA; the text layer lost the tilde
+  cmp_lit_sawamura2023_cwdm8_tosa-m2:
+    condition: LD bias about 400 mA for 100 mW (20 dBm), case 55 C; printed ~400 mA (the text layer drops the tilde)
+    why: p.2 and p.3 page renders print ~400 mA; the text layer lost the tilde
+  cmp_lit_sawamura2023_cwdm8_tosa-m3:
+    wavelength_nm: 1271
+    wavelength_max_nm: 1331
+    condition: LD bias 500 mA, case 25 C; all 8 channels, lowest channel ch7 (1311 nm) at 143 mW
+    why: 'p.2 Sec. 3: 143 mW is the lowest of the 8 channels, so the ge bound holds for all channels; ge on the single ch7 wavelength mixed the
+      two readings (ch7 is exactly 143 mW)'
+delete_metrics:
+- id: cmp_lit_yang2018_pcf_metalens_na037-m2
+  why: 'p.3 Sec. 2: 1499.3 nm is the simulated resonance of one unit element in a periodic array (unit-cell boundary, p.6 Methods), not a response
+    of the lens; the lens operates 1500-1630 nm with its measured efficiency peak elsewhere (p.5 Fig. 5(b)). Value kept in component notes; audit
+    Q3'
+- id: cmp_lit_yang2018_pcf_metalens_na037-m3
+  why: 'p.3 Sec. 2: 16.9 % is a simulated RCP-to-LCP polarization-conversion efficiency of a periodic unit-cell array, not a coupling efficiency
+    of the lens (the measured lens quantity is the p.5 operating efficiency, not entered under D159); coupling_efficiency_pct per_component would
+    rank it as lens throughput. Value kept in component notes; audit Q3'
+- id: cmp_lit_yang2018_pcf_metalens_na023-m2
+  why: 'p.3 Sec. 2: 1490.3 nm is the simulated resonance of one unit element in a periodic array (unit-cell boundary, p.6 Methods), not a response
+    of the lens; the lens operates 1500-1630 nm with its measured efficiency peak elsewhere (p.5 Fig. 5(b)). Value kept in component notes; audit
+    Q3'
+- id: cmp_lit_yang2018_pcf_metalens_na023-m3
+  why: 'p.3 Sec. 2: 16.5 % is a simulated RCP-to-LCP polarization-conversion efficiency of a periodic unit-cell array, not a coupling efficiency
+    of the lens (the measured lens quantity is the p.5 operating efficiency, not entered under D159); coupling_efficiency_pct per_component would
+    rank it as lens throughput. Value kept in component notes; audit Q3'
+add_metrics:
+- metric_id: cmp_lit_romerogarcia2014_type1_2tip-m16
+  component_id: cmp_lit_romerogarcia2014_type1_2tip
+  parameter: taper_length_um
+  value: 30
+  unit: um
+  condition: up-taper from the 180 nm interference-section waveguides to the 400 nm interconnection width
+  basis: extracted_from_figure
+  locator: p.2 Fig. 1(a)
+  notes: figure label (design schematic); the S-bend section (50 um) and output separation (9.6 um) are also labelled
+  why: 'miss (D153): p.2 Fig. 1(a) labels the taper section of the type I device; the text p.5 Sec. II-D names the taper without a length'
+- metric_id: cmp_lit_romerogarcia2014_type2_5tip-m20
+  component_id: cmp_lit_romerogarcia2014_type2_5tip
+  parameter: width_nm
+  value: 5000
+  unit: nm
+  condition: shallow-etched multimode rib section where the five tapered waveguides merge
+  basis: derived
+  locator: p.5 Sec. II-E; p.2 Fig. 1(b)
+  notes: printed 5 um (unit conversion, D157); Fig. 1(b) labels the same 5 um
+  why: 'miss (D153): p.5 Sec. II-E states the 5 um rib width; the batch entered the taper lengths and etch depth of this section but not its width'

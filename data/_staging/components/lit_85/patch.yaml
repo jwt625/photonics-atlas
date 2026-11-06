@@ -1,0 +1,40 @@
+# Audit patch lit_85 (fresh-context audit 2026-11-06, DevLog/audits/2026-11-06-lit_85-audit.md).
+# 88 metrics: 88 ok / 0 imprecise / 0 wrong; 18 components: 16 ok / 2 imprecise / 0 wrong; nothing deleted.
+# Miss added: 1 metric (kao2026 designed poling period, Fig. 1(e)). After the patch: 18 components, 89 metrics.
+# Open coordinator questions: see the audit file.
+components:
+  cmp_lit_kao2026_ppln_opa_14mm:
+    notes: 'D396: same 14 mm adapted-poling design as cmp_lit_kao2026_ppln_shg_14mm (SHG efficiency, designed poling
+      period); the paper does not say which device gave the Fig. 1(g) SHG spectrum. Fab: author contributions (p.6) name
+      J.H. and I.B. (both UT Austin) as designers and fabricators. Pump efficiency up to 15.3 dB/(W mm) (p.3; reproduces as
+      23.5 dB / (0.110 W x 14 mm) = 15.26), squeezing 0.8 dB below shot noise at 110 mW (p.4), SNR gain approaching 6 dB and
+      BER / noise-floor comparisons with an EDFA (p.4-5): no registry parameter. Measured film thickness along the guide about
+      601-610 nm (Fig. 1(e) grey trace, left axis, read +/- 1 nm): curve only, not entered. Edge couplers below 1 dB and > 20
+      dB net gain (p.5): cited [38] / projection. Supplementary Sections 1-3 not cached. Cladding not stated.'
+    why: 'p.2 Fig. 1(e) render: the grey thickness trace spans about 601-610 nm, not 580-610 nm (the lower part of the plot
+      is the orange period curve on the right axis); the period curve is now entered on the SHG row; p.2 Fig. 1(g) caption
+      and text do not tie the SHG spectrum to device 1'
+  cmp_lit_kao2026_ppln_shg_14mm:
+    label: Adapted-poling x-cut TFLN waveguide SHG (14 mm OPA design)
+    notes: 'D396: same 14 mm, 2.2 um wide adapted-poling design as cmp_lit_kao2026_ppln_opa_14mm, which holds the geometry.
+      The text (p.2) and the Fig. 1(g) caption print the SHG spectrum for TFLN waveguides with adapted poling and do not say
+      whether device 1, device 2 or another guide of the design was measured; per-design row (rule 9). Fab as on that row
+      (contributions p.6). SHG characterization details in the uncached Supplementary Section 1. Designed poling period (m2)
+      read off Fig. 1(e).'
+    why: 'p.2 text and Fig. 1(g) caption: no device is named for the SHG spectrum, and p.3 measures a second device with lower
+      efficiency; the label and note asserted the same physical guide as the OPA'
+add_metrics:
+  - metric_id: cmp_lit_kao2026_ppln_shg_14mm-m2
+    component_id: cmp_lit_kao2026_ppln_shg_14mm
+    parameter: poling_period_um
+    value: 4.5
+    value_max: 4.55
+    unit: um
+    condition: designed (adapted) poling period along the 14 mm guide, set from the measured film thickness profile
+    basis: design_target
+    locator: p.2 Fig. 1(e)
+    notes: 'Range read off the Fig. 1(e) orange curve against the right-axis ticks 4.5 and 4.6 um (+/- 0.005 um); minimum near
+      2-3 mm, maximum near 7-8 mm along the guide. The text prints no period value. Same treatment as
+      cmp_lit_li2025a_ppln_dfg_1cm-m12 (a design curve read off a plot keeps its basis, D454 analogue).'
+    why: 'miss (D153): p.2 Fig. 1(e) caption calls the orange curve the designed poling period, plotted on a labelled axis;
+      the batch read the same kind of curve for li2025a (m12) but left this one out'

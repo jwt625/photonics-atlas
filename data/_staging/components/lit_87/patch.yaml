@@ -1,0 +1,71 @@
+# Audit patch lit_87 (fresh-context audit 2026-11-06, DevLog/audits/2026-11-06-lit_87-audit.md).
+# 55 metrics: 51 ok / 4 imprecise / 0 wrong; 11 components: 9 ok / 2 imprecise / 0 wrong.
+# Misses: 3 metric rows added. After the patch: 11 components, 58 metrics.
+# Ruling pending on the miller2017 population Q row (Q1): drop add_metrics cmp_lit_miller2017_airclad_ring-m5 and
+# restore the D159 sentence in the ring notes if overruled.
+components:
+  cmp_lit_miller2017_airclad_ring:
+    notes: 'Fab empty: ''we fabricate'' with authors at Cornell and Columbia (D154). Facility: work performed in part at the CUNY Advanced Science Research Center NanoFabrication Facility (p.9). SOI wafer from Ultrasil Corporation (p.3, supplier note only). Process: EBL (ma-N 2410), ICP C4F8/SF6 full etch, 3 um PECVD oxide removed over the devices (dry etch to 200 nm, then dilute HF), piranha / HF surface treatment, etched facet trenches, XeF2 substrate removal near the facet (p.3-4). Cross-note: OPO row cmp_lit_miller2017_airclad_ring_opo has the same ring design (D396); the paper does not say whether the OPO device (3.7 um resonance, p.8) is the ring of Fig. 3(a). Design-family row (D165): the Fig. 3(b) circles come from devices with varying coupling gaps (p.5), gaps not printed; the about 1e6 intrinsic Q over 3.5-3.8 um (abstract, p.4) is m5 with the population in its notes, the 3790 nm resonance is m1. Ring radius and coupling gap not printed (Fig. 2(a) scale bar only). Oxide-clad 500 x 1400 nm comparison resonators are those of ref. [49] (Fig. 3(b) only): not entered.'
+    why: 'p.8 says only "our microresonator" for the OPO, so "the same ring" overstates the identity; p.4, p.5 and Fig. 3(b) tie the about 1e6 Q to the one air-clad design, so a population row (D165) replaces the D159 exclusion (Q1)'
+  cmp_lit_miller2017_airclad_ring_opo:
+    notes: 'Fab empty: ''we fabricate'' with authors at Cornell and Columbia (D154). Facility: work performed in part at the CUNY Advanced Science Research Center NanoFabrication Facility (p.9). SOI wafer from Ultrasil Corporation (p.3, supplier note only). Process: EBL (ma-N 2410), ICP C4F8/SF6 full etch, 3 um PECVD oxide removed over the devices (dry etch to 200 nm, then dilute HF), piranha / HF surface treatment, etched facet trenches, XeF2 substrate removal near the facet (p.3-4). Cross-note: same ring design as cmp_lit_miller2017_airclad_ring (D396); whether it is the Fig. 3(a) device is not stated (p.8 says our microresonator, high-Q resonance at 3.7 um). Sidebands 10 FSRs from the pump (p.8, Fig. 5(b) inset); simulated anomalous GVD near 4 um (Fig. 5(a)): no parameter (D250).'
+    why: 'p.8: the OPO device is "our microresonator" with a resonance at 3.7 um; the Q of Fig. 3(a) is at 3790 nm and the Q data come from several devices (p.5), so "same ring" overstates the identity'
+metrics:
+  cmp_lit_miller2017_airclad_wg-m1:
+    notes: 'printed Q above 1e5 (loss <= 1 dB/cm) throughout 2-6 um (p.7 text and Fig. 4 caption); total-Q model: FEM absorption from cited oxide data plus Payne-Lacey scattering anchored on an unprinted measured loss at 3.8 um with an assumed lambda^-2 scaling (rule 4); p.3 prints the same bound from the absorption-only FEM simulation (Fig. 1)'
+    why: 'note said the 2 um lower bound is only the Fig. 4 axis start; p.7 text and the Fig. 4 caption print 2-6 um'
+  cmp_lit_miller2017_airclad_wg-m2:
+    notes: 'printed Q above 1e6 (loss <= 0.1 dB/cm) out to 5 um (p.7; nearly 5 um on p.3); the range starts at 2 um, the start of the span printed on p.7 and in the Fig. 4 caption; same total-Q model as m1 (rule 4)'
+    why: 'note said the 2 um lower bound is only the Fig. 4 axis start; p.7 text and the Fig. 4 caption print the 2 um start'
+  cmp_lit_fan2021_input_facet-m2:
+    notes: 'Fig. 7 is a smooth curve without data points, read about 0.2 % at 5 deg for both TE10 and TM10; the caption does not say calculated, but p.5 and p.8 say the mode portions are difficult to distinguish experimentally and call the result comparable to a simulation, so the value is a calculation (p.5 cites the curve as Fig. 6, a mis-reference); wavelength not printed with it, 1056 nm is the pump'
+    why: 'note said the Fig. 7 caption calls the curve calculated; the caption (p.8) does not; basis simulated rests on p.5 / p.8 wording'
+  cmp_lit_dutta2025_lc_ps_sep1um-m2:
+    notes: 'printed 3.5 V for the 40 um LC length (p.15-16), origin not stated; it equals half of the 7 V used for about 2 pi. Fig. 4(c) resonance positions give 0.31 nm (about 0.68 pi) at 3 V and 0.48 nm (about 1.05 pi) at 5 V on a 0.91 nm FSR, so pi is reached near 5 V on that sweep: printed value kept with the conflict noted (D417)'
+    why: 'note asserted a linear-response assumption the paper does not state; the basis rests on the unstated origin (rule 4), p.15-16, p.13 Fig. 4(c)'
+add_metrics:
+- metric_id: cmp_lit_miller2017_airclad_ring-m5
+  component_id: cmp_lit_miller2017_airclad_ring
+  parameter: q_intrinsic
+  value: 1000000
+  unit: '1'
+  qualifier: approx
+  statistic: typical
+  n_samples: 3
+  wavelength_nm: 3500
+  wavelength_max_nm: 3800
+  condition: several air-clad 2300 x 4000 nm rings with varying coupling gaps (gaps not printed); Fig. 3(b) circles
+  method: ring_extraction
+  basis: author_estimate
+  locator: p.1 Abstract; p.4 Sec. 3; p.5; p.6 Fig. 3(b)
+  notes: abstract and p.4 print an intrinsic Q of 1e6 between 3.5 and 3.8 um; Fig. 3(b) circles read about 8.5e5 near 3.58 um, 8.5e5 near 3.70 um and 1.1e6 near 3.80 um (log axis, +/- 10 %); coupling regime per device not stated, Eq. (1) branch stated only for the 3790 nm resonance (D403); population row (D165)
+  why: 'miss: headline measured Q of the paper (abstract, p.4) on its one ring design; D159 needs two candidate component rows, here there is one design row and the sibling gaps have no rows (Q1)'
+- metric_id: cmp_lit_miller2017_airclad_ring-m6
+  component_id: cmp_lit_miller2017_airclad_ring
+  parameter: extinction_db
+  value: 6.7
+  unit: dB
+  qualifier: approx
+  wavelength_nm: 3790
+  polarization: te
+  condition: notch depth of the 3790 nm resonance of Fig. 3(a), normalized transmission on a linear axis
+  method: direct
+  basis: extracted_from_figure
+  locator: p.6 Fig. 3(a)
+  notes: minimum normalized transmission read 0.21-0.22 (+/- 0.01) on a zoomed crop; 10 log10(1 / T0) gives 6.6-6.8 dB; no value printed; the curve half-depth width reads about 110 MHz, consistent with the printed Qi on the under-coupled branch (not entered)
+  why: 'miss: notch depth of the one resonance the paper fits, p.6 Fig. 3(a)'
+- metric_id: cmp_lit_dutta2025_sin_ring-m6
+  component_id: cmp_lit_dutta2025_sin_ring
+  parameter: extinction_db
+  value: 9
+  unit: dB
+  qualifier: approx
+  wavelength_nm: 770.6
+  polarization: te
+  bias_v: 0
+  condition: 1 um electrode-separation device after LC integration, 0 V; spectra averaged over five cycles
+  method: direct
+  basis: extracted_from_figure
+  locator: p.13 Fig. 4(b)
+  notes: notch minimum read about -9.2 dB with the off-resonance maximum normalized to 0 dB, +/- 0.5 dB on a zoomed crop; at 7 V the broadened notch is about 1.7 dB deep (about -4.6 vs -2.9 dB), not entered; no value printed (p.13-15)
+  why: 'miss: notch depth of the measured ring at 0 V, p.13 Fig. 4(b)'

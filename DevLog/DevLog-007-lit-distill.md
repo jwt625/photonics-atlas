@@ -423,3 +423,99 @@ patch, serialized merge after a backup zip of `data/components/`; header batch l
 - 19:00 lit_77-lit_84 all merged (backup `cache/backup/components_before_lit77-84_merge_20261105T024530Z.zip`): data/components 3265 components / 19885 metrics (round: +246 / +1720 vs 3019 / 18165; added ids all `cmp_lit_`, no id removed). People rebuild (backup `cache/backup/people_before_lit_h22-h23_build_20261105T030103Z.zip`): persons 9919 -> 10133 vs HEAD, no person id removed. Registry `lit` 619.
 - 19:01-19:06 checks (`logs/lit77-84_checks_20261104T190103.log`): `check all --corpus lit` 0 errors / 50 warnings; validate_db 0 errors / 1023 warnings (979 before); ruff clean; pytest 362 passed; app build, 157 app tests and `check` pass. mypy not clean: 13 errors at 19:07, all in `scripts/layouts/` (DevLog-013, a UI session working in the same tree at the same time, uncommitted); the app build and tests also ran against that session's working tree. Privacy scan of the 54 new files and of added lines in tracked files: only false positives (a "260 mA drive" condition, the session heading, the DevLog-006 route statement). `references/*/text.md`, figures and PDFs stay git-ignored.
 - Open: org round (fab / facility orgs in D448-D456), registry extension (candidates in D448-D456), sweep of about 13 merged lit rows for D454, kim2026 / zhuang2025 header gaps (D449), cpo_01 audit and merge (D446). Not committed.
+
+## Session 2026-11-06 (Wentao: "go ahead start the ingestion as well, and pick up new cached papers as they come in")
+
+| # | Decision | Rationale |
+|---|---|---|
+| D457 | Day 9 (DevLog-006) is ingested in waves as papers arrive. Wave 1 = the 28 papers cached by 01:19 PST (arXiv 20, Nature 3, IEEE 5; `lit` 619 -> 647; page-1 title check 28 / 28, lowest overlaps kao2026 0.78 and li2025a 0.86 from ligature glyphs, no correction / erratum; sohn2021 `garbled_text_layer` p.22) split into lit_85-lit_90 (D390 grouping, 29-74 pages). The rest of the IEEE session (17 papers) goes to lit_91+ when it ends. Same workflow as D427 / D447: one distill subagent and one fresh-context audit per batch, at most 10 subagents at once, merges serialized by the coordinator. Headers: lit_h24 (28, `queue --corpus lit --size 35`), the IEEE rest in lit_h25. Open items of D446-D456 (org round, registry extension, cpo_01) stay out of this round | D150, D390, D415, D427, D447 |
+
+| batch | classes | papers |
+|---|---|---|
+| lit_85 | amplifier, frequency_converter, nonreciprocal | kao2026 li2025a wang2018 zhao2025a sohn2021 |
+| lit_86 | laser, chip_chip_coupler, micro_optics, free_space_emitter | romerogarcia2014 mehta2017 franken2025 heim2026 sawamura2023 yang2018 |
+| lit_87 | phase_shifter, waveguide_platform | dutta2025 harris2014 fan2021 miller2017 |
+| lit_88 | photodetector, waveguide_platform | govdeli2025 tzu2019 yanikgonul2021 ji2024 |
+| lit_89 | reflector, resonator, splitter | perezgalacho2017 zhou2025a puckett2021 hazan2021 nevlacsil2019 |
+| lit_90 | fiber_chip_coupler, fiber_interface, wdm | jung2026 watanabe2025 hsu2023 su2017 |
+
+- [x] lit_85-lit_90 distill (dispatched 01:21 PST, last finished about 01:35)
+- [x] lit_85-lit_90 audits, rulings, patch, merge (D458-D463, D465)
+- [x] lit_91-lit_94 (rest of the day 9 IEEE session): extract, title check, register, distill, audit, merge (D464, D467-D470)
+- [x] lit_h24, lit_h25 extraction, check, audit, aggregate, people rebuild (DevLog-011 D461, D466)
+- [x] views rebuild, app build, validate_db / ruff / mypy / pytest / app tests, privacy scan (below; mypy not clean, errors predate this session)
+
+| # | Decision | Rationale |
+|---|---|---|
+| D458 | (lit_87 audit) Patch accepted (9 changes; 0 metrics wrong, 4 note fixes, 3 misses added). miller2017 ring `q_intrinsic` about 1e6 over 3.5-3.8 um kept as one author_estimate row (D165, D403): D159 needs two candidate rows and the varied-gap siblings have none; notch depths of miller2017 (Fig. 3(a)) and dutta2025 (Fig. 4(b)) added as figure reads. harris2014 fab org_astar_ime kept; OpSIS as MPW-access fab org (D398, D439) and fan2021 National Chiao Tung University as a historical org (D80d, fab NSYSU + NCTU) go to the org round. Registry candidates in the audit | [audit](audits/2026-11-06-lit_87-audit.md) |
+
+- 01:38 backup `cache/backup/components_before_lit85-90_merge_20261106T093832Z.zip`; lit_87 patched (9, re-run 0), merged: 3276 components / 19943 metrics.
+
+| # | Decision | Rationale |
+|---|---|---|
+| D459 | (lit_90 audit) Patch accepted (19 changes; 0 metrics wrong, 6 imprecise fixed, 3 misses added). jung2026 ring losses derived (printed group index, D76; liu2021a, ye2023); "> 900 nm" coupler bandwidth stays author_estimate (D435, upper edge beyond the 1730 nm data). su2017 design wavelengths and spacing simulated (D82a), platform soi_strip (fully etched 220 nm, D434; piggott2015 sweep not done), three Fig. 3(b) 3-dB widths added as figure reads incl. the 134 nm slow roll-off (reading uncertainty in notes). hsu2023 individual ring stays `wdm.mrr`: it is the filter element design characterized for the WDM filter (D400 test-ring rule read narrowly). Org round: Oregon State University Electron Microscopy Facility (facility, hsu2023 2 rows) | [audit](audits/2026-11-06-lit_90-audit.md) |
+
+- 01:40 lit_90 patched (19, re-run 0), merged: 3286 components / 20033 metrics.
+
+| # | Decision | Rationale |
+|---|---|---|
+| D460 | (lit_86 audit) Patch accepted (25 ops, 42 field changes; 4 metrics wrong and deleted, 6 components wrong, 2 misses added). yang2018 4 simulated unit-cell rows (one element of a periodic array, not the lens) deleted, values in notes; yang2018 stays in scope (D411, fiber-coupled passive part, as gissibl2016). heim2026 fab: p.13 contributions name the Honeywell chip fabricator -> org_honeywell on all 6 rows, plus org_ucsb on the 2 laser rows the UCSB authors built (D399). heim2026 ring Q 1.65 M author_estimate: the trailing citation belongs to the self-isolation clause and the cited paper's rings differ (D408 does not apply), but no measurement of this Q is shown. franken2025 78 mW on-chip author_estimate (fiber-to-chip referencing not stated; D76, D431). romerogarcia2014 vertical tolerances stay in `tol_1db_lateral_um` with the axis in the condition (merged practice); its laser-diode rows get 1537 nm / TE. Org round: Baylor Center for Microscopy and Imaging (facility, yang2018 2 rows); ePIXfab already queued (D422) | [audit](audits/2026-11-06-lit_86-audit.md) |
+
+- 01:44 lit_86 patched (42, re-run 0), merged: 3306 components / 20164 metrics.
+
+| # | Decision | Rationale |
+|---|---|---|
+| D462 | (lit_85 audit) Patch accepted (4 ops; 88 / 88 metrics ok, 2 component notes fixed, 1 miss added: kao2026 designed poling period 4.50-4.55 um design_target on the SHG row, as li2025a m12). wang2018 and sohn2021 arXiv texts are the journal works (D430 / D433). li2025a efficiency rows stay author_estimate (every idler power rests on the assumed idler coupling loss). wang2018 fab org_harvard_university kept (first-person poling plus a stated site, D419, D448). sohn2021 Fig. 4 isolator at 1526 nm (panel, caption, Table S2; 1538 nm once in text, D417); Fig. S4 775 nm device left out (D159: mode spacing differs from Fig. 3(b), Table S2 lists three devices). kao2026 net gain 10.0 dB derived, no qualifier. Lensed-fiber losses stay per_facet (D167, shi2024). zhao2025a 3.4 mW SH output and the other registry candidates go to the registry extension | [audit](audits/2026-11-06-lit_85-audit.md) |
+
+- 01:46 lit_85 patched (4, re-run 0), merged: 3324 components / 20253 metrics.
+
+| # | Decision | Rationale |
+|---|---|---|
+| D463 | (lit_89 audit) Patch accepted (31 ops, 49 field changes; 0 metrics wrong, 16 imprecise fixed, 13 misses added: puckett2021 Supp. Fig. S4 1550 nm rows (10) and zhou2025a heater power spans (3, derived)). puckett2021 D403: at 1570 nm the DUT is exactly critically coupled (dip to about zero, Q_i = 2 Q_L in all three printed pairs) -> q_intrinsic 422 M measured, ring-down 434 M, 0.453 MHz and 0.0006 dB/cm derived (D418, ye2019); where the ratio is not 2 (control, 1550 nm) author_estimate. puckett2021 org_honeywell kept with note (D84b, staff-thanks fabrication credit, heim2025 / isichenko2023). zhou2025a MZI coupler stays `splitter.other` (sets loop-mirror reflectivity, not a switch; qi2025; D158 / D407 by function), CUMEC fab on that device only (D455, D80b). hazan2021 `imbalance_db` < 0.1 kept (one non-negative curve per coupler, D401 does not apply; ~0.12 dB peak as D417 note). Registry candidates in the audit | [audit](audits/2026-11-06-lit_89-audit.md) |
+
+- 01:48 lit_89 patched (49, re-run 0), merged: 3339 components / 20398 metrics.
+
+| # | Decision | Rationale |
+|---|---|---|
+| D464 | Wave 2 = the other 17 papers of the day 9 IEEE session (ended 01:49 PST, 22 / 22; `lit` 647 -> 664; page-1 title check 17 / 17 at 1.00, no correction / erratum; her2022 `garbled_text_layer` on both pages: values from renders only) split into lit_91-lit_94 (D390 grouping, 26-36 pages); headers lit_h25 (17). Same workflow as D457 | D457 |
+
+| batch | classes | papers |
+|---|---|---|
+| lit_91 | amplifier, laser, chip_chip_coupler | tsakyridis2020 itoh2024 maeda2024 moscosomartir2017 |
+| lit_92 | free_space_emitter, fiber_chip_coupler | chung2017 poulton2017 mangal2019 |
+| lit_93 | photodetector, waveguide_platform, mode_converter, reflector | caillaud2021 golshani2021 kurczveil2013 yuan2023 her2022 |
+| lit_94 | wdm, switch_fabric | bayoumi2025 bolk2018 sun2023 feyisa2022 yamaguchi2016 |
+
+| # | Decision | Rationale |
+|---|---|---|
+| D465 | (lit_88 audit) Patch accepted (36 ops, 45 field changes; 14 metrics wrong, 3 imprecise, 2 misses added). govdeli2025 4 EQE rows from Fig. 4(a) deleted: the caption says the panel is adapted from the authors' CLEO 2025 abstract (D259a, D408 caption clause, D455); Fig. 4(b), (c) rows stay. govdeli2025 junction-type breakdown statements kept on every row of the type: the sentence describes the junction type, not one representative device (D254 does not apply), each device's data run to near breakdown. ji2024 D403 split by evidence: Fig. 3 doublet fit with kappa_ex below kappa_0 across the band fixes the regime -> kappa_0 measured, Q_i and 1.32 dB/m derived (D455); the Fig. 6 RTA population shows no lineshape -> kappa_0 author_estimate; unqualified "average 24.17 M" Q deleted (neither loaded nor intrinsic by the printed linewidths, no population named); ji2024 arXiv text is the journal work (D430 / D433). yanikgonul2021 fab org_astar_ime from the author contributions kept (D395 / D439); tzu2019 fab org_aim_photonics (D398), 5.7 dB edge coupler author_estimate (nominal 0.85 A/W) | [audit](audits/2026-11-06-lit_88-audit.md) |
+
+- 01:53 lit_88 patched (45, re-run 0), merged; lit_85-lit_90 all merged: 3385 components / 20666 metrics (+120 / +781 vs 3265 / 19885).
+- Open (lit_93): `lit_extract.py` renders only pages with a detected figure / table caption, so garbled pages (her2022 p.1-2) and caption-less pages (kurczveil2013 p.1-2) have no `page_NN.png`; distiller and auditor rendered from source.pdf into the scratchpad. Proposed fix: also render every page in `garbled_pages` (and page 1 for the title check). Not changed in this session.
+
+| # | Decision | Rationale |
+|---|---|---|
+| D467 | (lit_94 audit) Patch accepted (9 ops, 14 field changes; 0 metrics wrong, 5 imprecise fixed, 1 miss added: feyisa2022 9 dB average two-facet coupling loss as its own `fiber_chip_coupler.edge` row, rombouts2025). feyisa2022 12 dB worst-case net on-chip loss derived (G + LP, both computed, D80a / D166); 315 mW and 2.52 W author_estimate (rest on the author_estimate 1.5 V); 31 dB three-SOA gain derived; Table II and Fig. 4 stay out (cited values, rule 3). bayoumi2025 0.03 dB bent-DC loss kept (ref. [8] is the method, the cited device is another design; D408). yamaguchi2016 in scope (LCOS chip, D424); hologram-imperfection shares derived (measured minus the ideal split), m5 maxima stay `excess_loss_db` with the ideal split noted. sun2023 11 rows confirmed at 500 dpi; dl and hole-shape series (spectra only) stay out. Org round: NanoLab@TU/e (facility candidate, bolk2018; already listed in D454) | [audit](audits/2026-11-06-lit_94-audit.md) |
+
+- 02:14 lit_94 patched (14, re-run 0), merged: 3412 components / 20795 metrics.
+
+| # | Decision | Rationale |
+|---|---|---|
+| D468 | (lit_91 audit) Patch accepted (13 ops, 14 field changes; 1 metric wrong and deleted, 1 component wrong, 4 misses added: itoh2024 cladding-phase thresholds read off Fig. 2(a)). tsakyridis2020 SOA-MZI wavelength converter reclassed `switch_fabric.other` (one all-optical gate, classed by function, D158 / D407, rombouts2025); its 3.0 dB "gain" row deleted (Gcw1 = 2 is the operating point of one internal SOA and the model input, not the device gain; value in notes). maeda2024 8.3 dB SOA gain and 35-40 dB SMSR stay out: the JLT paper extends the authors' ECOC 2023 paper, but the Fig. 10 / Fig. 8 captions cite it (D408 figure clause, as D455 / D465; weak point: the p.5 / p.7 sentences cite nothing). maeda2024 fab empty (maeda2023), taper `waveguide_platform.transition`. itoh2024 kappas derived (model fit of measured band edges, D80a; ramirez2022, vaskasi2022), fab empty ("we fabricated" across two orgs, D154 / D395). moscosomartir2017 7 dB author_estimate, band unspecified (no wavelength printed), ref. [13] noted on mll-m3 / m4 (D80i). Org round: RWTH Aachen, Almae Technologies (only if a later ruling sets fab on moscosomartir2017) | [audit](audits/2026-11-06-lit_91-audit.md) |
+
+- 02:15 lit_91 patched (14, re-run 0), merged: 3430 components / 20908 metrics.
+
+| # | Decision | Rationale |
+|---|---|---|
+| D469 | (lit_93 audit) Patch accepted (32 ops, 46 field changes; 4 metrics wrong, 7 imprecise, 1 component + 10 metrics added). caillaud2021 lens tolerances 15 / 2.2 / > 18 um were full 1-dB window widths: halved to the registry half-width (+/-) convention, 7.5 / 1.1 / > 9 um derived (`tol_1db_*` def); 62 GHz row deleted as a duplicate of the 63 GHz measurement (63 consistent with the paper's 37 GHz bandwidth-efficiency product), 62 in notes; Fig. 6 3 / 7 mA bandwidths added as figure reads; ">= 120 GHz" author_estimate (D435). golshani2021 fab org_imec kept as borderline: first-person fabrication sentence plus the pilot-line acknowledgment (D84b analogue), not the all-authors-at-imec rule (D80b); ring Q 4.17e5 vs 1549 nm / 3.1 pm = 5.0e5 noted, value kept. kurczveil2013 Table 2 per taper confirmed (Fig. 5(b) slopes); angled Si facet added as `fiber_chip_coupler.edge`, 9.5 dB per facet measured (D167). yuan2023 platform soi_strip. her2022 values confirmed on renders; Fig. 2(e) FP extinction ranges added | [audit](audits/2026-11-06-lit_93-audit.md) |
+
+- 02:16 lit_93 patched (46, re-run 0), merged: 3456 components / 21066 metrics.
+
+| # | Decision | Rationale |
+|---|---|---|
+| D470 | (lit_92 audit) Patch accepted (7 ops, 13 field changes; 1 metric wrong and deleted, 5 imprecise fixed). chung2017 folded phase shifter 50 kHz deleted (the test MZI's intensity response; 5 kHz phase-shifter bandwidth stays), value in notes; 1024-element 45 deg steering author_estimate (no 1024-chip steering data shown; Table III mixes 32-element values); side-lobe suppression 10.54 dB (Table II, 1024 array) confirmed; fab org_globalfoundries confirmed (p.14 names the 7RFSOI process). mangal2019 headline -2.3 / -1.7 dB and 55 nm stay on the separate optimized-reflector row (no value on the 0 / 2 nm Ti rows; moving them would rest on mangal2020, rule 1); facility org_ghent_photonics_research_group kept (acknowledgment names where the deposition was performed, rule 12, D448; first use of this id on component rows). Org round: The MOSIS Service as MPW fab org on all 14 chung2017 rows (D398; p.21 acknowledgment, p.1 footnote). Observation: merged mangal2020 m1 / m2 repeat mangal2019 Fig. 5 values without a citation (D408 keeps them) | [audit](audits/2026-11-06-lit_92-audit.md) |
+
+- 02:21 lit_92 patched (13, re-run 0), merged; lit_85-lit_94 all merged: 3476 components / 21160 metrics (round: +211 / +1275 vs 3265 / 19885; `git diff --stat data/components` insertions only, no merged row changed or removed).
+
+- 02:21-02:40 checks (`logs/lit85-94_checks_20261106T022125.log`, `logs/app_build_lit85-94_*.log`): build_views; validate_db 0 errors / 1072 warnings (1023 before; the 49 new are unmapped printed orgs in the new affiliation rows, org round); ruff clean; pytest 361 passed + `test_no_review_ids_in_committed_views` failed against the stale git-ignored `app/build`, passed after `pnpm build` (tests/test_views.py 12 passed); app build, 649 app tests, `pnpm check` 0 errors. mypy: 12 errors, all in `scripts/layouts/cells/` (trans_shang2017, mmi_lu2016a, awg_fan2025; committed in 2803a5e, DevLog-013), none in files touched here. Round totals: 45 papers in 10 batches, 211 components / 1275 metrics added (3476 / 21160); 24 metrics wrong across the 10 audits (lit_88 14, lit_86 4, lit_93 4, lit_91 1, lit_92 1), all fixed; 39 missed metric rows and 2 missed components added. Privacy scan (e-mail, local paths, P.O. box, street, CEDEX, state + ZIP) of the 109 new files and all added lines: one hit, pre-existing: `data/registry/org_aliases.csv` org_baidu alias from ofc2026 (committed 2026-10-20, c7fb5fb) holds a building and street address and flows into `app/static/data/registry.json`; not changed here, needs the owner's go (scrub alias text to org / unit / city, rebuild views).
+- Open: org round (fab / facility orgs in D458-D470: OpSIS, NCTU, MOSIS, Oregon State EM facility, Baylor CMI, NanoLab@TU/e, ePIXfab, RWTH Aachen, Almae, DGIST, 7 h25 strings), registry extension (candidates in the 10 audits), `lit_extract.py` render gap (above), Optica breaker (DevLog-006), org_baidu alias scrub. Not committed.

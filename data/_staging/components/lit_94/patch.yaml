@@ -1,0 +1,64 @@
+# Audit patch lit_94 (fresh-context audit 2026-11-06, DevLog/audits/2026-11-06-lit_94-audit.md).
+# 128 metrics: 123 ok / 5 imprecise / 0 wrong; 26 components: 25 ok / 1 imprecise / 0 wrong, 0 deleted; 1 miss added (1 component + 1 metric).
+# Coordinator rulings open (audit Q1-Q4): to keep the distiller's feyisa2022 on-chip net loss basis drop the switch m4 op; to keep the
+# derived power rows drop the m9 / m10 ops; to keep author_estimate on the yamaguchi2016 CGH-imperfection rows drop the two m6 ops; to skip
+# the feyisa2022 coupler row drop add_components, add_metrics and the switch notes op.
+components:
+  cmp_lit_feyisa2022_soa_3um:
+    label: 'Three-SOA path (pre-amplifier, gate, booster) of the 8x8 switch: MQW SOAs, 450 um long, 3 um wide active region'
+    why: 'p.4 Sec. III-A: the only gain value (31 dB) is the total of the three cascaded SOAs of a path (G1 + G2 + G3). The label named one 450 um SOA, which reads as 31 dB for a single 450 um device. Path-SOA label as on the merged precedents rombouts2025 and zali2026 (switch_path_soa rows, D396)'
+  cmp_lit_feyisa2022_switch_8x8:
+    notes: 'Fab: ''fabricated by the SMART photonics foundry'' (p.3 Sec. II-B) -> org_smart_photonics. All authors at Eindhoven University of Technology. Strictly non-blocking B&S: N^2 + 2N = 80 SOAs (64 gate, 16 pre-amplifier / booster), 2N(N-1) = 112 MMIs (6 per path), hundreds of bends and crossings (up to 98 crossings on the worst path). Chip on a copper heat sink, wire-bonded to a PCB, water cooler at 18 C, lensed fibers, polarization controller, CW at 1549.32 nm, 0 dBm (p.3-4). Eight paths have no optical connection (local waveguide damage) and two no electrical connection (p.4). Average end-to-end fiber-to-chip coupling loss 9 dB (p.4 Sec. III-A): coupler row cmp_lit_feyisa2022_fiber_coupling. Not entered: best OSNR > 40 dB (0.1 nm RBW) and power penalties 1.5 dB (25 Gb/s) / 2 dB (35 Gb/s) for 4 x 1.6 nm WDM channels (system metrics); switching energy 9 / 2.25 pJ/bit (no parameter); crosstalk about -26.5 dB (estimated from the authors'' prior work and a cited -35 dB crossing value, rule 3); Table II component losses (0.2 dB per bend, 0.25 dB per crossing, 3.5 dB per MMI, 3 dB/cm) and the Fig. 4 breakdown built on them (cited refs. [18]-[20]); foundry improvements (ref. [23]). Amplifier row: cmp_lit_feyisa2022_soa_3um (D396).'
+    why: 'Cross-note to the added coupler row (audit miss, Q4); the rest of the notes unchanged'
+metrics:
+  cmp_lit_feyisa2022_switch_8x8-m4:
+    basis: derived
+    notes: 'Printed ''worst-case loss is -12 dB'' (sign). Net on-chip loss Lnet = G + LP: G from the difference of fiber-to-fiber losses at operating current and at transparency, LP from photocurrent ratios at transparency-biased SOAs (Eq. (2), uniform responsivity assumed) (p.4 Sec. III-A). Model extraction from the source''s own measurements with a stated assumption: derived (D80a, D166). SOA bias of Fig. 3 not stated with the value.'
+    why: 'p.4 Sec. III-A: the value is not read directly; it is the sum of two quantities each computed from the paper''s own measurements (F2F difference; Eq. (2) current ratios with an assumed uniform responsivity). D80a (model-parameter extraction with stated assumptions -> derived), D166 (on-chip gain from own F2F and own losses -> derived). Audit Q1'
+  cmp_lit_feyisa2022_switch_8x8-m9:
+    basis: author_estimate
+    notes: 'Printed 315 mW, converted. Computed by the authors as three SOAs x 70 mA x 1.5 V; the 1.5 V is of unstated origin (forward_voltage_v on the amplifier row is author_estimate), so the power rests on it (rule 4; D256a keeps author_estimate after the mW -> W conversion).'
+    why: 'p.7 Sec. IV-D prints the voltage without a measurement; the batch itself enters that voltage as author_estimate (soa_3um m2). A power computed from it cannot be derived (rule 4). rombouts2025 precedent does not carry over: its voltages are measured rows. Audit Q2'
+  cmp_lit_feyisa2022_switch_8x8-m10:
+    basis: author_estimate
+    notes: 'Printed 2.52 W: 8 paths x 3 SOAs x 70 mA x 1.5 V, the 1.5 V of unstated origin (rule 4). p.3 Sec. III-A gives the fully loaded SOA dissipation as about 2.5 W, also without a measurement.'
+    why: 'As m9: rests on the 1.5 V of unstated origin (p.7 Sec. IV-D). Audit Q2'
+  cmp_lit_yamaguchi2016_wss_4x4_cgh-m6:
+    basis: derived
+    notes: 'Measured increase over the 1 x N operation minus the ideal 6 dB beam-splitting loss of ramification number 4 (p.6 Sec. 4.1, p.8 Sec. 4.2). Subtracting the ideal split is the definition of excess_loss_db (loss beyond the ideal split), not an assumed device value: derived.'
+    why: 'Registry definition of excess_loss_db (loss beyond the ideal split): the 6 dB is the ideal 4-way split (p.6), not a nominal device input. Splitter excess losses with the ideal split subtracted are measured / derived in the merged tables, not author_estimate. Audit Q3'
+  cmp_lit_yamaguchi2016_wss_4x4_mpmt-m6:
+    basis: derived
+    notes: 'Measured increase over the 1 x N operation minus the ideal 3 dB beam-splitting loss of ramification number 2 (p.7 Sec. 4.1, p.9 Sec. 4.2). Subtracting the ideal split is the definition of excess_loss_db: derived.'
+    why: 'As cgh-m6: the 3 dB is the ideal 2-way split (p.7). Audit Q3'
+add_components:
+- component_id: cmp_lit_feyisa2022_fiber_coupling
+  source_id: lit:feyisa2022
+  class: fiber_chip_coupler.edge
+  label: 'Lensed-fiber coupling at the AR-coated facets of the InP 8x8 SOA switch (I/O on one side)'
+  row_kind: fabricated
+  platform: inp
+  core_material: 'generic InP platform, 2 um shallow-etched passive waveguides to the facet; anti-reflection coated chip facet'
+  fab_org_ids: org_smart_photonics
+  process_name: SMART Photonics generic InP
+  verified_on: '2026-11-06'
+  notes: 'Fab: ''fabricated by the SMART photonics foundry'' (p.3 Sec. II-B) -> org_smart_photonics (rombouts2025 coupler precedent); who applied the AR coating is not stated. Inputs and outputs on the same side for one fiber array (p.3 Sec. II-A); measured with input and output lensed fibers on two three-axis stages (p.3 Sec. III-A). Facet waveguide design not described beyond the 2 um shallow passives. Per-facet split not stated. Cross-note: cmp_lit_feyisa2022_switch_8x8.'
+  why: 'Miss. p.4 Sec. III-A prints an average end-to-end coupling loss of 9 dB from the paper''s own measurements. Merged precedent rombouts2025 (fiber_coupling, fiber_chip_coupler.edge, InP SOA switch, SMART Photonics, per-facet split not stated) enters such a value. Audit Q4'
+add_metrics:
+- metric_id: cmp_lit_feyisa2022_fiber_coupling-m1
+  component_id: cmp_lit_feyisa2022_fiber_coupling
+  parameter: insertion_loss_db
+  value: 9
+  unit: dB
+  statistic: mean
+  wavelength_nm: 1549.32
+  ref_plane: fiber
+  scope: fiber_to_fiber
+  includes: 'input and output fiber-to-chip coupling of one path (both facets)'
+  excludes: 'SOA gain and on-chip passive loss (net on-chip gain subtracted)'
+  condition: 'average end-to-end coupling loss over the paths; lensed fibers, CW 0 dBm, chip at 18 C'
+  method: loss_breakdown
+  basis: derived
+  locator: p.4 Sec. III-A
+  notes: 'Printed as the average end-to-end coupling loss. Obtained as LC = F2F - Lnet (p.4), Lnet = G + LP with LP from the Eq. (2) photocurrent ratios (uniform SOA responsivity assumed); the printed sum formula (F2F+G+LP) is the paper''s. Arithmetic on own measurements with a stated assumption: derived (D80a, D166; D167 does not apply: the subtraction is shown). Per-facet split not stated.'
+  why: 'Miss with the added coupler row (p.4 Sec. III-A). Audit Q4'

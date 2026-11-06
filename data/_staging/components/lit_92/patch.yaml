@@ -1,0 +1,33 @@
+# Audit patch lit_92 (fresh-context audit 2026-11-06, DevLog/audits/2026-11-06-lit_92-audit.md).
+# 95 metrics: 89 ok / 5 imprecise / 1 wrong; 20 components: 20 ok / 0 imprecise / 0 wrong, 0 deleted; 0 misses added.
+# Coordinator rulings open (audit Q1, Q2): to keep the 1024-element steering row measured drop the opa_1024-m7 op;
+# to keep the 50 kHz MZI-response row drop the delete_metrics op and the tops_folded notes op.
+components:
+  cmp_lit_chung2017_tops_folded:
+    notes: 'Fab: p.14 Sec. V-A, all nanophotonic and electronic devices monolithically integrated into GlobalFoundries 7RFSOI 180 nm SOI CMOS on the same wafer (foundry clause, giewont2019 precedent); MOSIS thanked for supporting the chip fabrication (p.21; MPW access provider, D398) is not in the registry (report). Measured on an MZI-based standalone test cell (p.9 Fig. 13) and, for the dynamics, an MZI in the prototype array (p.17-18). Not entered: up to 803 deg phase shift at 107 mW / 18 mA (p.9, computed design capability), 20 mA / 132 mW electromigration limit, 200 C heater limit (p.9-10); 1.8x efficiency over the straight design (see cmp_lit_chung2017_tops_straight_testchip). Fig. 31(a) legend also prints a 50 kHz 3-dB bandwidth for the MZI power-gain (intensity) response under the 0-180 deg square-wave drive; the paper states 5 kHz as the phase-shifter modulation bandwidth (p.17), so the 50 kHz value is not entered as bw3db_khz.'
+    why: 'p.17 Sec. VI and p.18 Fig. 31(a): keeps the value of the deleted MZI-response row in notes'
+metrics:
+  cmp_lit_chung2017_opa_1024-m7:
+    basis: author_estimate
+    method: unspecified
+    notes: 'Stated for the implemented array (abstract: steerable unambiguously within +/-22.5 deg; Table III 45 deg in the This Work column), but no steering data of the 1024-element chip are shown: the plotted sweep is the 32-element chip (p.16 Fig. 26), the Fig. 27 images carry no angles and Table II gives only deviations at one setting. The Table III column also prints the 32-element 9 dB side-lobe value (p.16). +/-22.5 deg is close to the Eq. (1) grating-lobe-free limit for the 2 um pitch (22.8 deg, computed; p.2).'
+    why: 'p.1 Abstract, p.16 Sec. VI / Fig. 26, p.17 Fig. 27, p.18 Table II, p.19 Table III: a claim for the 1024-element array without shown measurement is author_estimate (skill rule 4); the same Table III column mixes 32-element values. Audit Q1'
+  cmp_lit_chung2017_opa_1024-m8:
+    includes: array from the on-chip input after the fiber grating coupler to the radiated power (terms not itemized for this value)
+    notes: origin not stated (no measurement or breakdown shown); 160 mW into the chip less 21.9 dB gives the stated 0 dBm radiated (p.20)
+    why: p.20 Sec. VI prints only the loss of the array excluding the input fiber grating coupler; the itemized list in includes came from the p.17 noise-floor sentence, which does not decompose this number
+  cmp_lit_chung2017_dc_lc5-m1:
+    value: 4
+    notes: 'read off the plotted marker: 4.3 % on the enlarged render (calibrated on the 0 and 10 % gridlines), +/- 1 %'
+    why: 'p.8 Fig. 11(a) enlarged: marker centre 4.3 %; the other four markers read 18.0, 38.1, 50.0 and 78.9 %, matching the stored values'
+  cmp_lit_chung2017_grating_antenna-m3:
+    basis: derived
+    notes: printed 1 um (p.11 text and Fig. 16(b) label), rescaled to nm
+    why: 'p.11 Sec. IV-E prints 1-um width: a pure unit rescaling is derived (D157)'
+  cmp_lit_chung2017_si_strip_wg-m1:
+    wavelength_inferred: 'true'
+    notes: printed 1.27 dB/mm; no measurement wavelength printed with the value (waveguide designed for 1550 nm, p.7), as on the bend rows of the same sentence
+    why: 'p.7 Sec. IV-A: the loss sentence states no wavelength; skill rule 8, consistent with cmp_lit_chung2017_si_bends m1 / m2'
+delete_metrics:
+- id: cmp_lit_chung2017_tops_folded-m4
+  why: 'p.18 Fig. 31(a): 50 kHz is the MZI power-gain (intensity) response of the test structure under a 0-180 deg square-wave drive; the paper states 5 kHz as the phase shifter''s modulation bandwidth (p.17), which m3 holds. bw3db_khz is defined as the actuator''s modulation bandwidth. Value moved to component notes. Audit Q2'

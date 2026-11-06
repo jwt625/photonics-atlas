@@ -1,0 +1,89 @@
+# Audit patch lit_90 (fresh-context audit 2026-11-06, DevLog/audits/2026-11-06-lit_90-audit.md).
+# 87 metrics: 81 ok / 6 imprecise / 0 wrong; 10 components: 7 ok / 3 imprecise / 0 wrong, 0 deleted; 3 misses added.
+# Coordinator rulings open (audit Q1-Q4): to keep the distiller's ring-loss basis drop the two jung2026 m5 / m6 ops; to keep design_target on
+# the su2017 design wavelengths and spacing drop the four su2017 m12-m15 ops; to keep platform soi drop the su2017 component op; to skip the
+# figure-read 3-dB widths drop the three add_metrics.
+components:
+  cmp_lit_su2017_wdm_3ch_inverse:
+    platform: soi_strip
+    why: 'p.3 Sec. II C prints a single fully etched 220 nm Si layer with SiO2 cladding, I/O strips 500 nm wide. lit_69 audit convention (D434): soi_strip / soi_rib where the paper names the etch (cherchi2013, giewont2019). Sibling piggott2015 (merged, soi) not touched. Audit Q3'
+  cmp_lit_watanabe2025_fa_fa_connector:
+    notes: 'Fab: the authors state they fabricate the 12-channel connector (p.1), all authors at Furukawa Electric (D399). Expanded-beam, non-contact design: PPS-based injection-moulded positioning parts with guide pins, lens-array pair, magnets on both sides (designed mating force about 2.2 N), PLC as optical interposer converting PIC MFD and pitch (p.1). Terminal 2.5 mm high, 8.4 mm wide, 5.7 mm long (p.2). Temperature cycling -10 to 60 C, 5 cycles (IEC 61753-1 Cat. C): loss variation within +/- 0.2 dB for 2 connections (text p.2, Fig. 5 on p.3; the text cites the figures of this test as Figs. 6 and 7 and as Figs. 5 and 6), no parameter. Design misalignment for 0.2 dB loss about 6.5 um vs about 1 um for SMF butt coupling (p.1): no 0.2-dB tolerance parameter. Reflow compatibility is from the authors'' ref. [5] (not entered).'
+    why: 'p.3 render: Figs. 5 and 6 (temperature cycle) sit on p.3, not p.2; p.2 text numbers the figures of this test inconsistently. Locator in notes corrected'
+  cmp_lit_hsu2023_ring_itio_single:
+    notes: 'Fab: Methods describe the process without naming who fabricated; ALD by co-authors (author contributions); fab empty (D80b). Facility: MaSC and the Electron Microscopy Facility at Oregon State University thanked for device fabrication (p.7 Ack.); the second is not in the registry. Identity: Fig. 5(b) caption calls the zoomed ring the individual tunable Si-MRR of the on-chip WDM filters, while p.3 measures mobility on another individual tunable Si-MRR, so individual rings also exist as separate devices; the paper does not say whether the Fig. 2 ring sits in the filter or which channel it is (its 0 V resonance near 1544.7 nm and 1.5 nm shift at -4 V match ch1 in Fig. 4(c)). Designed for critical coupling at 0 V (p.2). Not entered (no parameter on wdm): capacitance 540 fF at -4 V, calculated from the 10.48 fF/um2 density of a separate metal/9 nm HfO2/Si capacitor (p.2, Fig. 2(c)); VpiL 0.050 V cm (p.2); power consumption pW/nm to nW/nm from the leakage current (Fig. 2(d)). Optical field-effect mobility 40-70 cm2/V/s measured on another ring (p.3, Fig. 3). Cross-note: filter row cmp_lit_hsu2023_wdm_4ring_itio.'
+    why: 'p.3 Sec. Characterization of an individual tunable Si-MRR: the mobility ring is another individual tunable Si-MRR; p.6 Fig. 5(b) caption. The identity note now states both readings instead of only the Fig. 5(b) one (class wdm.mrr kept, D400). Audit Q6'
+metrics:
+  cmp_lit_jung2026_ring_strip_w2p5um-m5:
+    basis: derived
+    notes: 'Computed by the authors from the median TE0 intrinsic linewidth with the printed group index 1.958 (origin of the index not stated, m7 author_estimate). Loss from a stated linewidth and a stated n_g: derived (D76). The printed inputs reproduce the value (43 MHz, n_g 1.958 -> about 0.077 dB/cm). Laser sweep range 1480-1620 nm (p.10); the span of resonances in the statistic is not stated.'
+    why: 'p.6 Sec. 2 prints both inputs (43 MHz, n_g 1.958). D76: ring-extracted loss is derived, author_estimate only when an input such as n_g is not stated; merged liu2021a m12 and ye2023 m4 are derived with a printed index whose own row (m17, m8) is author_estimate; zheng2026a m3 derived with a stated index. Audit Q1'
+  cmp_lit_jung2026_ring_strip_w2p5um-m6:
+    basis: derived
+    notes: 'Computed by the authors from the median TE1 intrinsic linewidth with the printed group index 1.998 (origin of the index not stated, m8 author_estimate). Loss from a stated linewidth and a stated n_g: derived (D76). The printed inputs reproduce the value (130 MHz, n_g 1.998 -> about 0.24 dB/cm). Laser sweep range 1480-1620 nm (p.10); the span of resonances in the statistic is not stated.'
+    why: 'p.6 Sec. 2 prints both inputs (130 MHz, n_g 1.998). D76 and the liu2021a / ye2023 / zheng2026a precedents, as m5. Audit Q1'
+  cmp_lit_jung2026_ring_strip_w2p5um-m11:
+    notes: 'Printed for the measured ring (p.6). The Fig. 4(a) inset SEM, captioned as a representative ring, carries a written label w 2.5, gap 0.65: another gap of the same series, not used.'
+    why: 'p.6 Fig. 4(a) inset (img_p06_1 full resolution): label of a sibling ring; the text gap stays. Note only'
+  cmp_lit_su2017_wdm_3ch_inverse-m12:
+    basis: simulated
+    notes: 'Design (optimization target) wavelength of port 2 (p.3); the printed FDTD peak transmission sits at this wavelength (p.4 Sec. III B). A performance value stated as the design is simulated when the paper computes it (D82a).'
+    why: 'D82a: design_target is for dimensions only; a design wavelength the paper verifies by simulation (p.4: simulated peak at 1500 nm) is simulated. Merged center_wavelength_nm: 54 author_estimate / 23 simulated / 4 design_target. Audit Q2'
+  cmp_lit_su2017_wdm_3ch_inverse-m13:
+    basis: simulated
+    notes: 'Design (optimization target) wavelength of port 4 (p.3); the printed FDTD peak transmission sits at this wavelength (p.4 Sec. III B). A performance value stated as the design is simulated when the paper computes it (D82a).'
+    why: 'D82a, as m12 (p.4: simulated peak at 1540 nm). Audit Q2'
+  cmp_lit_su2017_wdm_3ch_inverse-m14:
+    basis: simulated
+    notes: 'Design (optimization target) wavelength of port 3 (p.3); the printed FDTD peak transmission sits at this wavelength (p.4 Sec. III B). A performance value stated as the design is simulated when the paper computes it (D82a).'
+    why: 'D82a, as m12 (p.4: simulated peak at 1580 nm). Audit Q2'
+  cmp_lit_su2017_wdm_3ch_inverse-m15:
+    basis: simulated
+    notes: 'Design spacing of the 1500 / 1540 / 1580 nm channels; the simulated peaks sit at these wavelengths (p.4), so simulated (D82a). Measured peaks are 41 / 39 nm apart (1471 / 1512 / 1551 nm), not entered as a separate row.'
+    why: 'D82a names the design channel spacing as its example: simulated or author_estimate, never design_target (merged channel_spacing_nm has no design_target row). Audit Q2'
+add_metrics:
+- metric_id: cmp_lit_su2017_wdm_3ch_inverse-m24
+  component_id: cmp_lit_su2017_wdm_3ch_inverse
+  parameter: bw_3db_nm
+  value: 46
+  unit: nm
+  qualifier: approx
+  statistic: mean
+  n_samples: 4
+  wavelength_nm: 1471
+  polarization: te
+  condition: 'port 1 to port 2 (S21), average curve of four devices; normalized to an adjacent straight waveguide'
+  basis: extracted_from_figure
+  locator: p.5 Fig. 3(b)
+  notes: 'Not printed. Read off the solid average curve 3 dB below its peak (about -2.9 dB): edges near 1447 and 1493 nm, +/- 5 nm on the width.'
+  why: 'p.5 Fig. 3(b) render (enlarged): the 3-dB widths of the measured channels are readable and are the passband metric of a narrowband demultiplexer; D456 precedent (bai2023 Fig. 8 3-dB width added as a figure read). Audit Q4'
+- metric_id: cmp_lit_su2017_wdm_3ch_inverse-m25
+  component_id: cmp_lit_su2017_wdm_3ch_inverse
+  parameter: bw_3db_nm
+  value: 31
+  unit: nm
+  qualifier: approx
+  statistic: mean
+  n_samples: 4
+  wavelength_nm: 1512
+  polarization: te
+  condition: 'port 1 to port 4 (S41), average curve of four devices; normalized to an adjacent straight waveguide'
+  basis: extracted_from_figure
+  locator: p.5 Fig. 3(b)
+  notes: 'Not printed. Read off the solid average curve 3 dB below its peak (about -2.5 dB): edges near 1498 and 1529 nm, +/- 5 nm on the width.'
+  why: 'p.5 Fig. 3(b) render (enlarged), as m24. Audit Q4'
+- metric_id: cmp_lit_su2017_wdm_3ch_inverse-m26
+  component_id: cmp_lit_su2017_wdm_3ch_inverse
+  parameter: bw_3db_nm
+  value: 134
+  unit: nm
+  qualifier: approx
+  statistic: mean
+  n_samples: 4
+  wavelength_nm: 1551
+  polarization: te
+  condition: 'port 1 to port 3 (S31), average curve of four devices; normalized to an adjacent straight waveguide'
+  basis: extracted_from_figure
+  locator: p.5 Fig. 3(b)
+  notes: 'Not printed. Read off the solid average curve 3 dB below its peak (about -2.3 dB): edges near 1528 and 1662 nm; the long-wavelength edge is a slow roll-off with ripple, +/- 10 nm on the width.'
+  why: 'p.5 Fig. 3(b) render (enlarged), as m24. Audit Q4'

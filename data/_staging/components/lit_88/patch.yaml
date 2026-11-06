@@ -1,0 +1,140 @@
+# Audit patch lit_88 (fresh-context audit 2026-11-06, DevLog/audits/2026-11-06-lit_88-audit.md).
+# 271 metrics: 254 ok / 3 imprecise / 14 wrong; 46 components: 44 ok / 2 imprecise / 0 wrong.
+# Misses: 2 metric rows added. After the patch: 46 components, 268 metrics.
+# Rulings pending: Q1 (govdeli2025 Fig. 4(a) deletions), Q3 (ji2024 D403 split), Q4 (ji2024 24.17 M deletion): drop those ops if overruled.
+components:
+  cmp_lit_govdeli2025_vis_pn_50:
+    notes: 'Fab: platform fabricated on 200 mm SOI wafers at Advanced Micro Foundry (p.6 Sec. 3.1). TEM thanks (p.23) are staff thanks, no facility. Fig. 1(a), 3(b) and 4(a) are adapted from the authors'' CLEO 2025 abstract (ref. 49; p.3, p.8, p.9 captions): the Fig. 4(a) TE EQE values of this device are not entered (D259a, D408 caption clause, D455): > 61 +/- 10 % over 400-562 nm (6 chips) and about 20 % at 700 nm (p.7; the Fig. 4(a) trace reads about 29 % at 700 nm). Other values are this journal paper''s own (D408). Si region: 220 nm thick, 16 um wide central rib, 90 nm partially etched slab extending 8 um each side; P++ / N++ contacts 2 um apart (p.2). Linear dynamic range > 50 dB (Fig. 3(e)): no parameter. TE/TM EQE ratio < 0.48 dB at 400-532 nm, < 2 dB over 400-560 nm (p.13): no photodetector polarization-dependence parameter. Avalanche gain on another nominally identical chip varied by 14 % (422 nW, 13.4 V; p.11). PN dark current 0.6 +/- 0.2 pA across 7.5-100 um lengths at 2 V (p.8).'
+    why: 'p.3 Fig. 1, p.8 Fig. 3, p.9 Fig. 4 captions: panel (a) of Fig. 4 is adapted from ref. 49 (authors'' CLEO 2025 abstract, p.23 reference list); ''values kept (D408)'' does not hold for Fig. 4(a) values'
+  cmp_lit_govdeli2025_vis_pin_50:
+    notes: 'Fab: platform fabricated on 200 mm SOI wafers at Advanced Micro Foundry (p.6 Sec. 3.1). TEM thanks (p.23) are staff thanks, no facility. Fig. 1(a), 3(b) and 4(a) are adapted from the authors'' CLEO 2025 abstract (ref. 49; p.3, p.8, p.9 captions); no value of this row comes from those panels, the other values are this journal paper''s own (D408). Si region: 220 nm thick, 16 um wide central rib, 90 nm partially etched slab extending 8 um each side; P++ / N++ contacts 2 um apart (p.2). PIN EQE within +/- 5 % of the PN counterparts (p.7). 2 um intrinsic region (p.4).'
+    why: 'p.3 Fig. 1, p.8 Fig. 3, p.9 Fig. 4 captions: panel (a) of Fig. 4 is adapted from ref. 49 (authors'' CLEO 2025 abstract, p.23 reference list); ''values kept (D408)'' does not hold for Fig. 4(a) values'
+  cmp_lit_govdeli2025_vis_pin_100:
+    notes: 'Fab: platform fabricated on 200 mm SOI wafers at Advanced Micro Foundry (p.6 Sec. 3.1). TEM thanks (p.23) are staff thanks, no facility. Fig. 1(a), 3(b) and 4(a) are adapted from the authors'' CLEO 2025 abstract (ref. 49; p.3, p.8, p.9 captions); no value of this row comes from those panels, the other values are this journal paper''s own (D408). Si region: 220 nm thick, 16 um wide central rib, 90 nm partially etched slab extending 8 um each side; P++ / N++ contacts 2 um apart (p.2). Dark current nearly doubles from 50 to 100 um (p.12).'
+    why: 'p.3 Fig. 1, p.8 Fig. 3, p.9 Fig. 4 captions: panel (a) of Fig. 4 is adapted from ref. 49 (authors'' CLEO 2025 abstract, p.23 reference list); ''values kept (D408)'' does not hold for Fig. 4(a) values'
+  cmp_lit_govdeli2025_nir_pn_200:
+    notes: 'Fab: platform fabricated on 200 mm SOI wafers at Advanced Micro Foundry (p.6 Sec. 3.1). TEM thanks (p.23) are staff thanks, no facility. Fig. 1(a), 3(b) and 4(a) are adapted from the authors'' CLEO 2025 abstract (ref. 49; p.3, p.8, p.9 captions): the Fig. 4(a) TE EQE values of this device are not entered (D259a, D408 caption clause, D455): > 60 +/- 6 % over 560-742 nm (7 chips), about 12 % at 955 nm (p.7), and the p.15 values 35 % at 800 nm and 23 % at 850 nm, which match the Fig. 4(a) trace. Other values are this journal paper''s own (D408). Si region: 220 nm thick, 16 um wide central rib, 90 nm partially etched slab extending 8 um each side; P++ / N++ contacts 2 um apart (p.2). EQE 40 % (200 um) and 56 % (400 um) at 785 nm (p.8), and TE/TM ratio < 1.4 dB over 600-748 nm, < 3 dB over 560-955 nm (p.13): junction not stated with the 785 nm values (D159), no polarization-dependence parameter. Linear-mode 3-dB bandwidth printed as 13 GHz (PN, 10 V) for the NIR-PDs; Fig. 5(b) shows the 200 and 400 um PN devices at about 13 GHz. Avalanche bandwidth drops from about 16 GHz to 11 GHz at >= 12 V (p.14); p.15 prints 10 GHz, Table 2 11 GHz. Built-in voltage 0.85 V (p.10).'
+    why: 'p.3 Fig. 1, p.8 Fig. 3, p.9 Fig. 4 captions: panel (a) of Fig. 4 is adapted from ref. 49 (authors'' CLEO 2025 abstract, p.23 reference list); ''values kept (D408)'' does not hold for Fig. 4(a) values'
+  cmp_lit_govdeli2025_nir_pn_400:
+    notes: 'Fab: platform fabricated on 200 mm SOI wafers at Advanced Micro Foundry (p.6 Sec. 3.1). TEM thanks (p.23) are staff thanks, no facility. Fig. 1(a), 3(b) and 4(a) are adapted from the authors'' CLEO 2025 abstract (ref. 49; p.3, p.8, p.9 captions); no value of this row comes from those panels, the other values are this journal paper''s own (D408). Si region: 220 nm thick, 16 um wide central rib, 90 nm partially etched slab extending 8 um each side; P++ / N++ contacts 2 um apart (p.2). EQE 56 % at 785 nm (p.8): junction not stated (D159).'
+    why: 'p.3 Fig. 1, p.8 Fig. 3, p.9 Fig. 4 captions: panel (a) of Fig. 4 is adapted from ref. 49 (authors'' CLEO 2025 abstract, p.23 reference list); ''values kept (D408)'' does not hold for Fig. 4(a) values'
+  cmp_lit_govdeli2025_nir_pin_200:
+    notes: 'Fab: platform fabricated on 200 mm SOI wafers at Advanced Micro Foundry (p.6 Sec. 3.1). TEM thanks (p.23) are staff thanks, no facility. Fig. 1(a), 3(b) and 4(a) are adapted from the authors'' CLEO 2025 abstract (ref. 49; p.3, p.8, p.9 captions); no value of this row comes from those panels, the other values are this journal paper''s own (D408). Si region: 220 nm thick, 16 um wide central rib, 90 nm partially etched slab extending 8 um each side; P++ / N++ contacts 2 um apart (p.2). Resistance per length 5.6 kOhm um (forward I-V slope) and estimated junction capacitance 0.0114 fF/um (parallel-plate model; p.13): no per-length parameters. Dark current printed as about 200 pA at 200 um rising to > 500 pA at 400 um (p.12), against 5 +/- 0.5 pA at 400 um (p.9) and a pA-scale Fig. 4(e): figure-read value entered, conflict noted.'
+    why: 'p.3 Fig. 1, p.8 Fig. 3, p.9 Fig. 4 captions: panel (a) of Fig. 4 is adapted from ref. 49 (authors'' CLEO 2025 abstract, p.23 reference list); ''values kept (D408)'' does not hold for Fig. 4(a) values'
+  cmp_lit_govdeli2025_nir_pin_400:
+    notes: 'Fab: platform fabricated on 200 mm SOI wafers at Advanced Micro Foundry (p.6 Sec. 3.1). TEM thanks (p.23) are staff thanks, no facility. Fig. 1(a), 3(b) and 4(a) are adapted from the authors'' CLEO 2025 abstract (ref. 49; p.3, p.8, p.9 captions); no value of this row comes from those panels, the other values are this journal paper''s own (D408). Si region: 220 nm thick, 16 um wide central rib, 90 nm partially etched slab extending 8 um each side; P++ / N++ contacts 2 um apart (p.2). Highest PIN bandwidth in Fig. 5 (headline up to 18 GHz at 10 V).'
+    why: 'p.3 Fig. 1, p.8 Fig. 3, p.9 Fig. 4 captions: panel (a) of Fig. 4 is adapted from ref. 49 (authors'' CLEO 2025 abstract, p.23 reference list); ''values kept (D408)'' does not hold for Fig. 4(a) values'
+  cmp_lit_tzu2019_pd_array_2:
+    notes: 'Fab: AIM Photonics foundry named in the abstract (p.1) and AIM multi-project wafer run in the acknowledgment (p.10); layouts assembled and submitted by UCSB staff (thanks only, not a fab org). Platform empty: the paper never states SOI or a buried oxide (D423). Journal extension of the authors'' 4-PD conference paper (ref. [22], p.1); values kept (D408). 1 Y-junctions split the edge-coupler input equally to 2 PDs connected in parallel (p.1-2, Fig. 1). Table I (p.6) prints 0.22 +/- 0.03 A/W for the 18 GHz array; text (p.3) 0.21 A/W: text kept. RF output -0.4 dBm at 18 GHz (abstract, Table I): no RF-output-power parameter; the photocurrent at that point is not printed, Fig. 10(b) read in m8.'
+    why: follows the added row m8 (p.6 Fig. 10(b))
+  cmp_lit_ji2024_ring_50ghz_w2p6:
+    notes: 'Fab: samples fabricated in the EPFL Center of MicroNanoTechnology (acknowledgments) and X.J. fabricated the devices (author contributions; p.11; D419 precedent). arXiv preprint text, page-1 title differs from the source-row title (journal version unread; arXiv id matches the source row). Wafer map over the central nine stepper fields (Fig. 3(a)). Sidewall angle and cladding from the Fig. 2(d) SEM of the process cross-section. The Fig. 2(c) ring (230 um radius) is a 100 GHz device, not this one. Not entered: the conclusion''s average Q of 24.17 million (p.10): Q not qualified as loaded or intrinsic and the resonator population not named; it is close to the most-probable value (Q 24e6 from kappa_0 = 8 MHz, p.3) but not to the Fig. 3(d) mean kappa_0 of 9.4 MHz (about 2.1e7 at 1550 nm). D403: the Fig. 3(b) split-resonance fit and the Fig. 3(c) kappa_ex trace fix the coupling regime (D455), so kappa_0 stays measured and Q_i is derived.'
+    why: follows the deleted row m13 and the D403 reading of Fig. 3(b), (c) (p.3, p.5 Fig. 3, p.10)
+metrics:
+  cmp_lit_tzu2019_pd_array_4-m6:
+    notes: 'heterodyne / saturation wavelength not stated; DC responsivity and waveguide loss are given at 1550 nm (p.1, p.3); text prints 10 GHz at 20 mA (p.4), the Fig. 5(c) legend prints 11 GHz at 20 mA and 10 GHz at 30 mA: printed text kept (D417)'
+    why: p.3 Fig. 5(c) legend (render) disagrees with the p.4 sentence
+  cmp_lit_govdeli2025_vis_pn_50-m9:
+    notes: 'printed > 52 % (6 chips); the Fig. 10(a) average trace reads about 48-50 % at 550 nm (+/- 3 %): printed value kept (D417)'
+    why: p.19 Fig. 10(a) render (zoomed) against p.13
+  cmp_lit_ji2024_ring_50ghz_w2p6-m6:
+    notes: 'D403 satisfied: the fit model includes mode splitting (ref. [65], p.3), the Fig. 3(b) resonance is a split doublet whose dip depth is not symmetric under swapping kappa_0 and kappa_ex (D455, stanfield2019), and the broadband kappa_ex trace stays below kappa_0 over 185-220 THz (Fig. 3(c)); frequency-comb-assisted laser spectroscopy 1260-1630 nm (p.3), Fig. 3(c) spans 185-220 THz'
+    why: 'p.3, p.5 Fig. 3(b), (c) renders: the coupling regime is fixed by the split-resonance fit (D403, D455); the note said the opposite'
+  cmp_lit_ji2024_ring_50ghz_w2p6-m7:
+    notes: 'printed figure label; D403 satisfied: the fit model includes mode splitting (ref. [65], p.3), the Fig. 3(b) resonance is a split doublet whose dip depth is not symmetric under swapping kappa_0 and kappa_ex (D455, stanfield2019), and the broadband kappa_ex trace stays below kappa_0 over 185-220 THz (Fig. 3(c)); frequency-comb-assisted laser spectroscopy 1260-1630 nm (p.3), Fig. 3(c) spans 185-220 THz'
+    why: 'p.3, p.5 Fig. 3(b), (c) renders: the coupling regime is fixed by the split-resonance fit (D403, D455); the note said the opposite'
+  cmp_lit_ji2024_ring_50ghz_w2p6-m8:
+    notes: 'printed figure label; D403 satisfied: the fit model includes mode splitting (ref. [65], p.3), the Fig. 3(b) resonance is a split doublet whose dip depth is not symmetric under swapping kappa_0 and kappa_ex (D455, stanfield2019), and the broadband kappa_ex trace stays below kappa_0 over 185-220 THz (Fig. 3(c)); frequency-comb-assisted laser spectroscopy 1260-1630 nm (p.3), Fig. 3(c) spans 185-220 THz'
+    why: 'p.3, p.5 Fig. 3(b), (c) renders: the coupling regime is fixed by the split-resonance fit (D403, D455); the note said the opposite'
+  cmp_lit_ji2024_ring_50ghz_w2p6-m9:
+    notes: 'D403 satisfied: the fit model includes mode splitting (ref. [65], p.3), the Fig. 3(b) resonance is a split doublet whose dip depth is not symmetric under swapping kappa_0 and kappa_ex (D455, stanfield2019), and the broadband kappa_ex trace stays below kappa_0 over 185-220 THz (Fig. 3(c))'
+    why: 'p.3, p.5 Fig. 3(b), (c) renders: the coupling regime is fixed by the split-resonance fit (D403, D455); the note said the opposite'
+  cmp_lit_ji2024_ring_50ghz_w2p6-m10:
+    notes: 'printed figure labels; D403 satisfied: the fit model includes mode splitting (ref. [65], p.3), the Fig. 3(b) resonance is a split doublet whose dip depth is not symmetric under swapping kappa_0 and kappa_ex (D455, stanfield2019), and the broadband kappa_ex trace stays below kappa_0 over 185-220 THz (Fig. 3(c))'
+    why: 'p.3, p.5 Fig. 3(b), (c) renders: the coupling regime is fixed by the split-resonance fit (D403, D455); the note said the opposite'
+  cmp_lit_ji2024_ring_50ghz_w1p7-m3:
+    notes: 'printed figure label; D403 satisfied: the fit model includes mode splitting (ref. [65], p.3), the Fig. 3(b) resonance is a split doublet whose dip depth is not symmetric under swapping kappa_0 and kappa_ex (D455, stanfield2019), and the broadband kappa_ex trace stays below kappa_0 over 185-220 THz (Fig. 3(c)); frequency-comb-assisted laser spectroscopy 1260-1630 nm (p.3), Fig. 3(c) spans 185-220 THz'
+    why: 'p.3, p.5 Fig. 3(b), (c) renders: the coupling regime is fixed by the split-resonance fit (D403, D455); the note said the opposite'
+  cmp_lit_ji2024_ring_50ghz_w2p0-m3:
+    notes: 'printed figure label; D403 satisfied: the fit model includes mode splitting (ref. [65], p.3), the Fig. 3(b) resonance is a split doublet whose dip depth is not symmetric under swapping kappa_0 and kappa_ex (D455, stanfield2019), and the broadband kappa_ex trace stays below kappa_0 over 185-220 THz (Fig. 3(c)); frequency-comb-assisted laser spectroscopy 1260-1630 nm (p.3), Fig. 3(c) spans 185-220 THz'
+    why: 'p.3, p.5 Fig. 3(b), (c) renders: the coupling regime is fixed by the split-resonance fit (D403, D455); the note said the opposite'
+  cmp_lit_ji2024_ring_50ghz_w2p3-m3:
+    notes: 'printed figure label; D403 satisfied: the fit model includes mode splitting (ref. [65], p.3), the Fig. 3(b) resonance is a split doublet whose dip depth is not symmetric under swapping kappa_0 and kappa_ex (D455, stanfield2019), and the broadband kappa_ex trace stays below kappa_0 over 185-220 THz (Fig. 3(c)); frequency-comb-assisted laser spectroscopy 1260-1630 nm (p.3), Fig. 3(c) spans 185-220 THz'
+    why: 'p.3, p.5 Fig. 3(b), (c) renders: the coupling regime is fixed by the split-resonance fit (D403, D455); the note said the opposite'
+  cmp_lit_ji2024_ring_50ghz_w2p6-m11:
+    basis: derived
+    notes: 'printed 24 x 10^6; D403 satisfied: the fit model includes mode splitting (ref. [65], p.3), the Fig. 3(b) resonance is a split doublet whose dip depth is not symmetric under swapping kappa_0 and kappa_ex (D455, stanfield2019), and the broadband kappa_ex trace stays below kappa_0 over 185-220 THz (Fig. 3(c)); omega / kappa_0 at 1550 nm with kappa_0 = 8 MHz gives 2.42e7'
+    why: 'D403: regime fixed by the data (p.5 Fig. 3(b), (c)), so Q_i = omega / kappa_0 is arithmetic on the measured kappa_0; reproduces the printed value'
+  cmp_lit_ji2024_ring_50ghz_w2p6-m12:
+    basis: derived
+    notes: 'printed 28 x 10^6; D403 satisfied: the fit model includes mode splitting (ref. [65], p.3), the Fig. 3(b) resonance is a split doublet whose dip depth is not symmetric under swapping kappa_0 and kappa_ex (D455, stanfield2019), and the broadband kappa_ex trace stays below kappa_0 over 185-220 THz (Fig. 3(c)); 192.94 THz / 6.89 MHz gives 2.80e7'
+    why: 'D403: regime fixed by the data (p.5 Fig. 3(b), (c)), so Q_i = omega / kappa_0 is arithmetic on the measured kappa_0; reproduces the printed value'
+  cmp_lit_ji2024_ring_50ghz_w2p6-m15:
+    basis: derived
+    notes: 'printed 1.32 dB/m, converted to dB/cm; D403 satisfied: the fit model includes mode splitting (ref. [65], p.3), the Fig. 3(b) resonance is a split doublet whose dip depth is not symmetric under swapping kappa_0 and kappa_ex (D455, stanfield2019), and the broadband kappa_ex trace stays below kappa_0 over 185-220 THz (Fig. 3(c)); alpha = kappa_0 n_g / c with the printed n_g = 2.1 (p.10 Methods) gives 1.32 dB/m'
+    why: D403 satisfied (p.5 Fig. 3(b), (c)) and the printed value reproduces from kappa_0 and the printed group index (p.10)
+  cmp_lit_ji2024_ring_50ghz_w2p6-m14:
+    notes: 'printed 1.4 dB/m, converted to dB/cm; D403 satisfied: the fit model includes mode splitting (ref. [65], p.3), the Fig. 3(b) resonance is a split doublet whose dip depth is not symmetric under swapping kappa_0 and kappa_ex (D455, stanfield2019), and the broadband kappa_ex trace stays below kappa_0 over 185-220 THz (Fig. 3(c)); kappa_0 = 8 MHz with the printed n_g = 2.1 (p.10 Methods) gives 1.53 dB/m, not the printed 1.4: basis stays author_estimate (conversion input not stated; D256a)'
+    why: own arithmetic does not reproduce the printed 1.4 dB/m (p.3, p.10); keeps author_estimate with the reason
+  cmp_lit_ji2024_rings_rta_study-m1:
+    basis: author_estimate
+    notes: 'wavelength span of the Fig. 6(a) data not stated in the text (the Fig. 6(a) frequency axis spans about 186-216 THz); D403: kappa_0 and kappa_ex from a resonance fit; coupling regime not shown to be fixed by the data'
+    why: 'D403: Fig. 6(a), (b) give only fitted kappa_0 of a pooled population: no lineshape, no kappa_ex and no branch assignment are shown, unlike Fig. 3(b), (c); precedents lit_64 lihachev2022, D418 ye2019 (p.7, p.9 Fig. 6(a), (b))'
+  cmp_lit_ji2024_rings_rta_study-m2:
+    basis: author_estimate
+    notes: 'wavelength span of the Fig. 6(a) data not stated in the text (the Fig. 6(a) frequency axis spans about 186-216 THz); D403: kappa_0 and kappa_ex from a resonance fit; coupling regime not shown to be fixed by the data'
+    why: 'D403: Fig. 6(a), (b) give only fitted kappa_0 of a pooled population: no lineshape, no kappa_ex and no branch assignment are shown, unlike Fig. 3(b), (c); precedents lit_64 lihachev2022, D418 ye2019 (p.7, p.9 Fig. 6(a), (b))'
+  cmp_lit_ji2024_rings_rta_study-m3:
+    basis: author_estimate
+    notes: 'wavelength span of the Fig. 6(a) data not stated in the text (the Fig. 6(a) frequency axis spans about 186-216 THz); D403: kappa_0 and kappa_ex from a resonance fit; coupling regime not shown to be fixed by the data'
+    why: 'D403: Fig. 6(a), (b) give only fitted kappa_0 of a pooled population: no lineshape, no kappa_ex and no branch assignment are shown, unlike Fig. 3(b), (c); precedents lit_64 lihachev2022, D418 ye2019 (p.7, p.9 Fig. 6(a), (b))'
+  cmp_lit_ji2024_rings_rta_study-m4:
+    basis: author_estimate
+    notes: 'wavelength span of the Fig. 6(a) data not stated in the text (the Fig. 6(a) frequency axis spans about 186-216 THz); D403: kappa_0 and kappa_ex from a resonance fit; coupling regime not shown to be fixed by the data'
+    why: 'D403: Fig. 6(a), (b) give only fitted kappa_0 of a pooled population: no lineshape, no kappa_ex and no branch assignment are shown, unlike Fig. 3(b), (c); precedents lit_64 lihachev2022, D418 ye2019 (p.7, p.9 Fig. 6(a), (b))'
+  cmp_lit_ji2024_rings_rta_study-m5:
+    basis: author_estimate
+    notes: 'wavelength span of the Fig. 6(a) data not stated in the text (the Fig. 6(a) frequency axis spans about 186-216 THz); D403: kappa_0 and kappa_ex from a resonance fit; coupling regime not shown to be fixed by the data'
+    why: 'D403: Fig. 6(a), (b) give only fitted kappa_0 of a pooled population: no lineshape, no kappa_ex and no branch assignment are shown, unlike Fig. 3(b), (c); precedents lit_64 lihachev2022, D418 ye2019 (p.7, p.9 Fig. 6(a), (b))'
+  cmp_lit_ji2024_rings_rta_study-m6:
+    basis: author_estimate
+    notes: 'wavelength span of the Fig. 6(a) data not stated in the text (the Fig. 6(a) frequency axis spans about 186-216 THz); D403: kappa_0 and kappa_ex from a resonance fit; coupling regime not shown to be fixed by the data'
+    why: 'D403: Fig. 6(a), (b) give only fitted kappa_0 of a pooled population: no lineshape, no kappa_ex and no branch assignment are shown, unlike Fig. 3(b), (c); precedents lit_64 lihachev2022, D418 ye2019 (p.7, p.9 Fig. 6(a), (b))'
+delete_metrics:
+- id: cmp_lit_govdeli2025_vis_pn_50-m7
+  why: 'p.9 Fig. 4 caption: panel (a) adapted from ref. 49, the authors'' CLEO 2025 abstract on the same devices (p.23); D259a / D408 caption clause, applied as srinivasan2020 (D455); values in component notes'
+- id: cmp_lit_govdeli2025_vis_pn_50-m8
+  why: 'p.9 Fig. 4 caption: panel (a) adapted from ref. 49, the authors'' CLEO 2025 abstract on the same devices (p.23); D259a / D408 caption clause, applied as srinivasan2020 (D455); values in component notes'
+- id: cmp_lit_govdeli2025_nir_pn_200-m7
+  why: 'p.9 Fig. 4 caption: panel (a) adapted from ref. 49, the authors'' CLEO 2025 abstract on the same devices (p.23); D259a / D408 caption clause, applied as srinivasan2020 (D455); values in component notes'
+- id: cmp_lit_govdeli2025_nir_pn_200-m8
+  why: 'p.9 Fig. 4 caption: panel (a) adapted from ref. 49, the authors'' CLEO 2025 abstract on the same devices (p.23); D259a / D408 caption clause, applied as srinivasan2020 (D455); values in component notes'
+- id: cmp_lit_ji2024_ring_50ghz_w2p6-m13
+  why: 'p.10 conclusion: ''average 24.17 million Q-value'' is not qualified as loaded or intrinsic (skill pitfall: unqualified Q -> q_loaded, which this value cannot be) and names no resonator population; it does not follow from the Fig. 3(d) mean (9.4 MHz); D159, value in component notes'
+add_metrics:
+- metric_id: cmp_lit_tzu2019_pd_array_2-m8
+  component_id: cmp_lit_tzu2019_pd_array_2
+  parameter: saturation_photocurrent_ma
+  value: 13
+  unit: mA
+  wavelength_nm: 1550
+  wavelength_inferred: 'true'
+  bias_v: -5
+  condition: 1-dB compression of the RF output power at the 18 GHz 3-dB bandwidth (RF output -0.4 dBm)
+  method: direct
+  basis: extracted_from_figure
+  locator: p.6 Fig. 10(b); p.1 abstract; p.6 Table I
+  notes: 'read off the log photocurrent axis of Fig. 10(b): the 2-PD trace ends near 12.7 mA where its compression reaches about -1 dB (+/- 1 mA; the same reading gives 6.2 and 26.6 mA for the printed 6 and 27 mA points); -5 V from the Fig. 10(b) summary condition (p.4); heterodyne / saturation wavelength not stated; DC responsivity and waveguide loss are given at 1550 nm (p.1, p.3)'
+  why: 'miss: the abstract and Table I headline (-0.4 dBm at 18 GHz) has its photocurrent only in Fig. 10(b) (p.6, zoomed render)'
+- metric_id: cmp_lit_govdeli2025_vis_pin_50-m9
+  component_id: cmp_lit_govdeli2025_vis_pin_50
+  parameter: dark_current_na
+  value: 0.0006
+  unit: nA
+  statistic: mean
+  n_samples: 7
+  bias_v: -2
+  basis: extracted_from_figure
+  locator: p.9 Fig. 4(d)
+  notes: read about 0.62 pA (+/- 0.05 pA) on the PIN 50 um point of Fig. 4(d), converted to nA; bars are the full range over 7 chips; consistent with p.12 (the 100 um PIN value of 1.0 pA nearly doubles it)
+  why: 'miss: the 50 um VIS PIN row has no 2 V dark current while the 200 um NIR PIN row carries the same kind of Fig. 4 read (p.9 Fig. 4(d), zoomed render)'

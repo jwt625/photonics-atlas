@@ -1,0 +1,153 @@
+# Audit patch lit_91 (fresh-context audit 2026-11-06, DevLog/audits/2026-11-06-lit_91-audit.md).
+# 110 metrics: 107 ok / 2 imprecise / 1 wrong; 18 components: 16 ok / 1 imprecise / 1 wrong, 0 deleted;
+# misses: 4 threshold rows added (itoh2024 phase-control series, Fig. 2(a)). Coordinator decisions open: audit Q1 (tsakyridis2020
+# class switch_fabric.other and gain row deleted), Q2 (maeda2024 8.3 dB / SMSR 35-40 dB stay out), Q3 (itoh2024 Fig. 2(a) threshold reads).
+components:
+  cmp_lit_tsakyridis2020_soa_mzi_bmwc:
+    class: switch_fabric.other
+    notes: 'Device under test of unstated origin: no vendor, platform or fabrication statement (p.8 calls it a photonic integrated chip with non-ideal
+      50:50 splitting). Ports: CW input B, controls A (co-propagating, attenuated by B) and H (counter-propagating), assist beams D / E, switched
+      output F (p.2 Fig. 1(a)). Drive currents 268 / 330 mA (p.7 Sec. III), 297 / 329 mA (p.8 Sec. IV), 297 / 330 mA (p.9 Sec. V). Theory (rule
+      4, simulated, not entered: no parameter): equalization > 9 dB loud/soft ratio; ERVout about -2.5 dB for Gcw1 = 2 up to 9 dB loud/soft, below
+      -4 dB while Gcw1 < 10, -6 dB for B = 0.9 (p.6 Fig. 3); model inputs alpha = 6 (literature), P1/P0 = 10, B = 0.1, A = 100, PCW = 10, Usat
+      = 1000. Measured, not entered (no parameter): power equalization up to 8 dB loud/soft ratio at 10 Gb/s NRZ (p.7 Fig. 5); error-free 10 Gb/s
+      after 14 / 25 km SSMF with 2.3 / 2.2 dB BER improvement (p.8); error-free 20 Gb/s NRZ with 5 dB loud/soft ratio for CW input wavelengths
+      1541-1549.3 nm (8.3 nm span) at fixed drive settings, >= 2.39 dB BER improvement (p.9 Fig. 10). Polarization-dependent gain handled with
+      polarization controllers (p.8): no value. Setup follows the authors'' earlier design principles (ref. [43], p.7); no value is attributed
+      to it. Class switch_fabric.other (audit): one SOA-MZI all-optical gate (switched output port F, p.2; index term burst-mode switches, p.1)
+      used for wavelength conversion and power equalization, classed by function (D158 / D407); not an amplifier. Not entered: SOA1 steady-state
+      gain Gcw1 = 2 (linear, about 3.0 dB) with B = 0.1 at 268 / 330 mA (p.7 Sec. III): an operating-point parameter of one internal SOA that
+      is also the theory input (p.6), origin not stated; gain_db is not a switch_fabric parameter.'
+    why: 'p.2 Sec. II (switched port F, gate), p.1 index terms, p.7-9: the device is a single interferometric all-optical gate used as a wavelength
+      converter / power equalizer; it is not operated as an amplifier (SOA1 near transparency, p.8). D158 / D407 class by function (rombouts2025
+      SOA gate switch is switch_fabric.other). Audit Q1'
+  cmp_lit_maeda2024_soa_l140:
+    notes: 'On-chip gain extracted from fiber-to-fiber spectra with and without the SOA using the 6 dB/facet fiber coupling loss of a reference
+      TFLN waveguide (cmp_lit_maeda2024_tfln_facet); fiber input -7 dBm from a tunable laser at 1280 nm (p.5). No undesired lasing (Fig. 9). Channel-type
+      InP inverse tapers to the TFLN waveguide as in cmp_lit_maeda2024_inp_tfln_taper. Not entered: maximum gain 8.3 dB at 10 mA (p.5 Sec. III-B,
+      p.7 Sec. IV; the abstract prints no SOA gain value): it refers to Fig. 10, whose caption cites [13] (D259 / D408); the unattributed Fig.
+      11 peaks at about 9.2 dB near -22 dBm at 10 mA. Fab empty: first-person fabrication sentences (p.3-5) with authors at NTT Device Technology
+      Labs, University of Tokyo and Keio University; fabricating org not named (maeda2023 precedent, D154, D395). Acknowledgment thanks named
+      people for fabrication support (no org).'
+    why: 'p.1 abstract: no SOA gain number (only ''low-power-consumption SOA''); 8.3 dB is printed on p.5 and p.7 only'
+  cmp_lit_itoh2024_pcsel_l200_clad_p0:
+    notes: 'Backside-reflection phase series: p-InP cladding stepped by 60 nm (pi/2) at a shared L = 200 um; four devices per thickness, pulsed
+      10 us / 1 % duty at 25 C (p.3 Sec. III, Fig. 2). The PC design of this series and whether the +180 nm devices are the L = 200 um size-series
+      device of Sec. IV-V are not stated (separate rows). Theory curve (Eq. p.3; inputs eta_i 0.95, R 0.4, alpha_0 8.5, alpha_// 4.5, alpha_V
+      9.5 cm-1, the last two from 3D coupled-wave theory) not entered. Threshold read off Fig. 2(a) as a four-device range (m3, audit). Fab empty:
+      ''we fabricated'' (p.2-3) with authors at Sumitomo Electric Industries (Transmission Devices Laboratory) and Kyoto University; the fabricating
+      org is not named (D154, D395).'
+    why: consequence of the added m3 threshold row (audit miss)
+  cmp_lit_itoh2024_pcsel_l200_clad_p60:
+    notes: 'Backside-reflection phase series: p-InP cladding stepped by 60 nm (pi/2) at a shared L = 200 um; four devices per thickness, pulsed
+      10 us / 1 % duty at 25 C (p.3 Sec. III, Fig. 2). The PC design of this series and whether the +180 nm devices are the L = 200 um size-series
+      device of Sec. IV-V are not stated (separate rows). Theory curve (Eq. p.3; inputs eta_i 0.95, R 0.4, alpha_0 8.5, alpha_// 4.5, alpha_V
+      9.5 cm-1, the last two from 3D coupled-wave theory) not entered. Threshold read off Fig. 2(a) as a four-device range (m3, audit). Fab empty:
+      ''we fabricated'' (p.2-3) with authors at Sumitomo Electric Industries (Transmission Devices Laboratory) and Kyoto University; the fabricating
+      org is not named (D154, D395).'
+    why: consequence of the added m3 threshold row (audit miss)
+  cmp_lit_itoh2024_pcsel_l200_clad_p120:
+    notes: 'Backside-reflection phase series: p-InP cladding stepped by 60 nm (pi/2) at a shared L = 200 um; four devices per thickness, pulsed
+      10 us / 1 % duty at 25 C (p.3 Sec. III, Fig. 2). The PC design of this series and whether the +180 nm devices are the L = 200 um size-series
+      device of Sec. IV-V are not stated (separate rows). Theory curve (Eq. p.3; inputs eta_i 0.95, R 0.4, alpha_0 8.5, alpha_// 4.5, alpha_V
+      9.5 cm-1, the last two from 3D coupled-wave theory) not entered. Threshold read off Fig. 2(a) as a four-device range (m3, audit). Fab empty:
+      ''we fabricated'' (p.2-3) with authors at Sumitomo Electric Industries (Transmission Devices Laboratory) and Kyoto University; the fabricating
+      org is not named (D154, D395).'
+    why: consequence of the added m3 threshold row (audit miss)
+  cmp_lit_itoh2024_pcsel_l200_clad_p180:
+    notes: 'Backside-reflection phase series: p-InP cladding stepped by 60 nm (pi/2) at a shared L = 200 um; four devices per thickness, pulsed
+      10 us / 1 % duty at 25 C (p.3 Sec. III, Fig. 2). The PC design of this series and whether the +180 nm devices are the L = 200 um size-series
+      device of Sec. IV-V are not stated (separate rows). Theory curve (Eq. p.3; inputs eta_i 0.95, R 0.4, alpha_0 8.5, alpha_// 4.5, alpha_V
+      9.5 cm-1, the last two from 3D coupled-wave theory) not entered. Threshold read off Fig. 2(a) as a four-device range (m3, audit). Fab empty:
+      ''we fabricated'' (p.2-3) with authors at Sumitomo Electric Industries (Transmission Devices Laboratory) and Kyoto University; the fabricating
+      org is not named (D154, D395).'
+    why: consequence of the added m3 threshold row (audit miss)
+metrics:
+  cmp_lit_moscosomartir2017_flipchip_mll-m3:
+    notes: Stated for the modified MLL designs ('~100 GHz'), not measured here (D82a). The sentence ends with ref. [13], the authors' earlier
+      MLL transceiver work; the citation attaches to the multi-carrier use, so the value is kept as this paper's design statement (D80i borderline).
+    why: 'p.2 Sec. II: the FSR / chip-length sentence carries ref. [13] (authors'' own arXiv MLL transceiver paper, p.4 references); D80i requires
+      the borderline to be noted'
+  cmp_lit_moscosomartir2017_flipchip_mll-m4:
+    notes: The sentence ends with ref. [13], the authors' earlier MLL transceiver work; the citation attaches to the multi-carrier use, so the
+      value is kept as this paper's design statement (D80i borderline).
+    why: 'p.2 Sec. II: the FSR / chip-length sentence carries ref. [13] (authors'' own arXiv MLL transceiver paper, p.4 references); D80i requires
+      the borderline to be noted'
+delete_metrics:
+- id: cmp_lit_tsakyridis2020_soa_mzi_bmwc-m1
+  why: 'p.7 Sec. III: Gcw1 = 2 is the steady-state gain of SOA1 alone at the chosen operating point and the model input of p.6 (no measurement
+    described); on the gate row it is not a gain of the component, and gain_db is not allowed on switch_fabric. Value kept in component notes;
+    audit Q1'
+add_metrics:
+- metric_id: cmp_lit_itoh2024_pcsel_l200_clad_p0-m3
+  component_id: cmp_lit_itoh2024_pcsel_l200_clad_p0
+  parameter: threshold_ma
+  value: 130
+  value_max: 140
+  unit: mA
+  statistic: range
+  n_samples: 4
+  temperature_k: 298.15
+  condition: pulsed, 10 us pulse width, 1 % duty cycle, 25 C; L = 200 um; four devices
+  method: direct
+  basis: extracted_from_figure
+  locator: p.3 Fig. 2(a)
+  notes: 'Read off Fig. 2(a) (enlarged page render): L-I onsets of the four devices, reading uncertainty about +/-5 mA; not printed. p.3 states
+    the four devices per thickness were measured to check threshold variation.'
+  why: 'miss: p.3 Sec. III measures four devices per cladding thickness ''to check the variations in slope efficiency and threshold current'';
+    the Fig. 2(a) onsets are legible on the enlarged render (the four curves share one kink region per panel), at the same reading standard as
+    the batch''s Fig. 2(b) and Fig. 4(b) reads'
+- metric_id: cmp_lit_itoh2024_pcsel_l200_clad_p60-m3
+  component_id: cmp_lit_itoh2024_pcsel_l200_clad_p60
+  parameter: threshold_ma
+  value: 125
+  value_max: 135
+  unit: mA
+  statistic: range
+  n_samples: 4
+  temperature_k: 298.15
+  condition: pulsed, 10 us pulse width, 1 % duty cycle, 25 C; L = 200 um; four devices
+  method: direct
+  basis: extracted_from_figure
+  locator: p.3 Fig. 2(a)
+  notes: 'Read off Fig. 2(a) (enlarged page render): L-I onsets of the four devices, reading uncertainty about +/-5 mA; not printed. p.3 states
+    the four devices per thickness were measured to check threshold variation.'
+  why: 'miss: p.3 Sec. III measures four devices per cladding thickness ''to check the variations in slope efficiency and threshold current'';
+    the Fig. 2(a) onsets are legible on the enlarged render (the four curves share one kink region per panel), at the same reading standard as
+    the batch''s Fig. 2(b) and Fig. 4(b) reads'
+- metric_id: cmp_lit_itoh2024_pcsel_l200_clad_p120-m3
+  component_id: cmp_lit_itoh2024_pcsel_l200_clad_p120
+  parameter: threshold_ma
+  value: 165
+  value_max: 185
+  unit: mA
+  statistic: range
+  n_samples: 4
+  temperature_k: 298.15
+  condition: pulsed, 10 us pulse width, 1 % duty cycle, 25 C; L = 200 um; four devices
+  method: direct
+  basis: extracted_from_figure
+  locator: p.3 Fig. 2(a)
+  notes: 'Read off Fig. 2(a) (enlarged page render): L-I onsets of the four devices, reading uncertainty about +/-5 mA; not printed. p.3 states
+    the four devices per thickness were measured to check threshold variation.'
+  why: 'miss: p.3 Sec. III measures four devices per cladding thickness ''to check the variations in slope efficiency and threshold current'';
+    the Fig. 2(a) onsets are legible on the enlarged render (the four curves share one kink region per panel), at the same reading standard as
+    the batch''s Fig. 2(b) and Fig. 4(b) reads'
+- metric_id: cmp_lit_itoh2024_pcsel_l200_clad_p180-m3
+  component_id: cmp_lit_itoh2024_pcsel_l200_clad_p180
+  parameter: threshold_ma
+  value: 205
+  value_max: 230
+  unit: mA
+  statistic: range
+  n_samples: 4
+  temperature_k: 298.15
+  condition: pulsed, 10 us pulse width, 1 % duty cycle, 25 C; L = 200 um; four devices
+  method: direct
+  basis: extracted_from_figure
+  locator: p.3 Fig. 2(a)
+  notes: 'Read off Fig. 2(a) (enlarged page render): L-I onsets of the four devices, reading uncertainty about +/-5 mA; not printed. p.3 states
+    the four devices per thickness were measured to check threshold variation.'
+  why: 'miss: p.3 Sec. III measures four devices per cladding thickness ''to check the variations in slope efficiency and threshold current'';
+    the Fig. 2(a) onsets are legible on the enlarged render (the four curves share one kink region per panel), at the same reading standard as
+    the batch''s Fig. 2(b) and Fig. 4(b) reads'

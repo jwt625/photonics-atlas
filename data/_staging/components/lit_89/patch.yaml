@@ -1,0 +1,279 @@
+components:
+  cmp_lit_puckett2021_uhq_ring:
+    notes: 'DUT wafer with the redeposition-and-anneal step (p.5). Not entered: absorption-limited Q 3.4 billion and 51 kHz absorption-limited linewidth
+      at 1600 nm (photothermal, p.8 Fig. 2(e); no registry parameter, report); ring-down times 181 ns at 1570 nm (Fig. 2(b)) and 149 ns at 1550 nm (p.17
+      Supp. Fig. S4(f)); splitting rates of 96 resonances near 1550 nm on three devices (Fig. 3(c), scatter plot); fitted effective top roughness 0.24
+      nm; scattering-model estimates (assumed roughness). Fab org_honeywell, borderline (D84b): the acknowledgment thanks Honeywell staff for mask design
+      and sample fabrication, and the Honeywell first author conceived the design and fabrication process (p.10). arXiv text (page-1 title adds ''3.4
+      Billion Absorption Limited Q''); same work as the source row by arXiv id; journal version not read. Coupling regime: the Lorentzian fit does not
+      separate intrinsic from coupling rate; the split comes from a COMSOL coupling simulation fitted to the extracted rates, checked against a direct
+      measurement on a coupling test structure (p.16 Supp. Fig. S3). At 1570 nm the resonance is critically coupled (Q_in = 2 Q_L, dip to about zero,
+      Fig. 2(a)), so the 1570 nm intrinsic values do not depend on that assignment (measured / derived, D418 ye2019 precedent); at 1550 nm the DUT is
+      under-coupled (Q_in / Q_L = 1.33, Supp. Fig. S4(c)) and those q_intrinsic rows stay author_estimate (D403). Over-etch about 100 nm into the lower
+      cladding seen in SEM (p.5). Simulated critical bend radius about 6.8 mm (p.15) not entered.'
+    why: 'D84b names the fab basis (staff thanks for sample fabrication place fabrication at that org), replacing the open coordinator question; coupling-regime
+      sentence updated for the critical coupling at 1570 nm (p.6 Fig. 2(a)) and the 1550 nm rows added from p.17 Supp. Fig. S4'
+  cmp_lit_puckett2021_uhq_ring_control:
+    notes: 'Control: another wafer with the same resonator design, without the extra redeposition-and-anneal step (p.5); splitting not resolved (p.7). Spectra
+      of Fig. 2(c)-(e) not entered (scatter). Ring-down time 44.4 ns at 1550 nm (p.17 Supp. Fig. S4(e)) not entered. Fab org_honeywell, borderline (D84b):
+      the acknowledgment thanks Honeywell staff for mask design and sample fabrication, and the Honeywell first author conceived the design and fabrication
+      process (p.10). arXiv text (page-1 title adds ''3.4 Billion Absorption Limited Q''); same work as the source row by arXiv id; journal version not
+      read. Coupling regime: the Lorentzian fit does not separate intrinsic from coupling rate; the split comes from a COMSOL coupling simulation fitted
+      to the extracted rates, checked against a direct measurement on a coupling test structure (p.16 Supp. Fig. S3). At 1570 nm Q_in / Q_L = 2.32 (Fig.
+      2(a)), so q_intrinsic 146 M rests on that assignment (author_estimate, D403); at 1550 nm the control is critically coupled (Q_in = 2 Q_L, dip to
+      about zero, Supp. Fig. S4(b)), so its 1550 nm intrinsic values do not depend on it. Over-etch about 100 nm into the lower cladding seen in SEM (p.5).
+      Simulated critical bend radius about 6.8 mm (p.15) not entered.'
+    why: D84b fab basis; coupling-regime sentence per resonance (p.6 Fig. 2(a); p.17 Supp. Fig. S4(b)) for the rows added at 1550 nm
+metrics:
+  cmp_lit_perezgalacho2017_bragg_dw5_lf500-m1:
+    wavelength_nm: '1540.5'
+    wavelength_max_nm: '1541.7'
+    why: 'Stopband position re-read on a 300 dpi render with the axis ticks located (1535-1550 nm, 56.7 px/nm): the dW 5 nm trace is below -10 dB from about
+      1540.57 to 1541.68 nm. p.4 Fig. 5'
+  cmp_lit_perezgalacho2017_bragg_dw5_lf500-m2:
+    value: '1.1'
+    wavelength_nm: '1540.6'
+    wavelength_max_nm: '1541.7'
+    notes: read off the plot on a 300 dpi render with the axis ticks located (curve centre crosses -10 dB at about 1540.57 and 1541.68 nm), reading uncertainty
+      about +/-0.1 nm
+    why: 'Figure read: 1.0 nm (1540.75-1541.75) is narrower than the trace; the left edge crosses -10 dB about 0.18 nm earlier. p.4 Fig. 5'
+  cmp_lit_perezgalacho2017_bragg_dw10_lf500-m2:
+    value: '2.7'
+    wavelength_max_nm: '1543.1'
+    notes: read off the plot on a 300 dpi render with the axis ticks located (curve centre crosses -10 dB at about 1540.40 and 1543.12 nm, past a -14 dB
+      shoulder on the long-wavelength edge), reading uncertainty about +/-0.1 nm
+    why: 'Figure read: 2.5 nm is narrower than the trace (about 2.7 nm between the -10 dB crossings). p.4 Fig. 5'
+  cmp_lit_zhou2025a_mzi_coupler-m12:
+    basis: derived
+    notes: printed 0.50 um, rescaled to nm (D157)
+    why: 'D157: the 500 nm width is printed only as 0.50 um (p.3 Sec. II; p.4)'
+  cmp_lit_zhou2025a_fp_filter-m21:
+    basis: derived
+    locator: p.4 Sec. II; p.3 Fig. 2(d)
+    notes: printed 0.22 um (0.50 x 0.22 um2 wire, p.4; Fig. 2(d) label), rescaled (D157); the 220 nm printed on p.7 is the wafer of the stand-alone MZI
+      coupler
+    why: 'D157 / D256: for the filter the thickness is printed only in um (p.4, Fig. 2(d)); the p.7 220-nm statement belongs to the stand-alone coupler'
+  cmp_lit_zhou2025a_fp_filter-m22:
+    basis: derived
+    notes: printed 2.00 um (p.4; Fig. 2(e) label 2, unit um), rescaled (D157)
+    why: 'D157: printed in um only (p.4 Sec. II; p.3 Fig. 2(e))'
+  cmp_lit_zhou2025a_fp_filter-m23:
+    basis: derived
+    notes: printed slab height 0.07 um (p.4; Fig. 2(e) label), rescaled (D157)
+    why: 'D157: printed in um only (p.4 Sec. II; p.3 Fig. 2(e))'
+  cmp_lit_puckett2021_uhq_ring-m1:
+    basis: measured
+    notes: 'figure label Q_in = 422 M with Q_L = 211 M at the same resonance (Fig. 2(a)): Q_in = 2 Q_L, critical coupling with the dip at about zero transmission,
+      so the intrinsic / coupling split does not depend on the regime assignment the Lorentzian fit cannot make (p.16); D403 met as for ye2019 (D418)'
+    why: 'D403 / D418: 211 M loaded and 422 M intrinsic (p.6 Fig. 2(a); p.5 Results 906 / 453 kHz) give equal intrinsic and coupling rates; the 300 dpi render
+      of Fig. 2(a) shows the DUT dip at about 0.03 transmission'
+  cmp_lit_puckett2021_uhq_ring-m2:
+    basis: derived
+    notes: ring-down gives Q_L = 217 M (tau 181 ns); the printed Q_in = 434 M is 2 x Q_L, using the critical coupling of the transmission fit at the same resonance
+      (Fig. 2(a))
+    why: 'Rule 4 / D80: the ring-down measures only the loaded Q; 434 M = 2 x 217 M is arithmetic on own data (p.6 Fig. 2(b) labels; p.5-6 Results)'
+  cmp_lit_puckett2021_uhq_ring-m6:
+    basis: derived
+    notes: printed 453 kHz, converted to MHz (D256); half of the 906 kHz loaded linewidth at critical coupling (Fig. 2(a))
+    why: 'D403 met (critical coupling, see m1); unit conversion kHz -> MHz makes it derived (D256). p.5 Results; p.1 Abstract'
+  cmp_lit_puckett2021_uhq_ring-m9:
+    basis: derived
+    notes: printed 0.060 dB/m, converted to dB/cm (D256); the paper's linear loss corresponding to the 422 M intrinsic Q (critical coupling, see m1)
+    why: 'Follows q_intrinsic m1 out of D403; dB/m -> dB/cm conversion is derived (D256). p.2 Introduction; p.9 Discussion'
+  cmp_lit_puckett2021_uhq_ring_control-m2:
+    notes: 'figure label Q_in = 146 M with Q_L = 63 M (Q_in / Q_L = 2.32): the split depends on the regime assignment (the swapped assignment gives about
+      111 M); assignment from the coupling simulation fit (p.16 Supp. Fig. S3(d)), D403'
+    why: Size of the D403 ambiguity recorded (p.6 Fig. 2(a); p.16 Supp. Fig. S3(d))
+  cmp_lit_hazan2021_mmi_2x2_w12_wio3-m1:
+    notes: 'printed as insertion loss, defined as the light lost inside the MMI (p.2), so loss beyond the ideal split; +/-0.03 dB oscillations from reflections
+      (p.2). Printed bound vs figure (D417): the Fig. 2 Wio = 3 um trace reaches about -1.0 dB at 1260 nm and about -1.05 to -1.1 dB near 1275 nm'
+    why: 'Printed conflict on the page: p.2 Fig. 2 right panel (300 dpi render) vs the printed <1 dB (p.1 Abstract, p.2 Sec. IV-V); value kept (D417)'
+  cmp_lit_hazan2021_mmi_2x2_w12_wio3-m2:
+    wavelength_nm: '1260'
+    wavelength_max_nm: '1360'
+    why: The imbalance is stated over the swept 1260-1360 nm band (p.1 Abstract 'over 100nm'; p.2 Sec. III sweep); the range was only in the condition text
+  cmp_lit_hazan2021_mmi_2x2_w12_wio3-m6:
+    basis: derived
+    notes: printed 1.5 um, rescaled (D157)
+    why: 'D157: printed only in um (p.2 Sec. II)'
+  cmp_lit_hazan2021_mmi_2x2_w12_wio2p4-m5:
+    basis: derived
+    notes: printed 1.5 um, rescaled (D157)
+    why: 'D157: printed only in um (p.2 Sec. II)'
+add_metrics:
+- metric_id: cmp_lit_zhou2025a_fp_filter-m24
+  component_id: cmp_lit_zhou2025a_fp_filter
+  parameter: tuning_power_mw
+  value: '22.0'
+  unit: mW
+  condition: added WG1 heater power for the 0.20 nm resonance redshift, first-order configuration (heater 1.6 to 23.6 mW)
+  method: direct
+  basis: derived
+  locator: p.9 Sec. III-B; p.10 Fig. 9(c)
+  notes: 23.6 - 1.6 mW as printed; the shift exceeds the 0.18 nm FSR
+  why: 'Miss: resonator allows tuning_power_mw (khope2019 derived precedent); the paper prints the heater power span for the stated tuning range (p.9 Sec.
+    III-B)'
+- metric_id: cmp_lit_zhou2025a_fp_filter-m25
+  component_id: cmp_lit_zhou2025a_fp_filter
+  parameter: tuning_power_mw
+  value: '38.0'
+  unit: mW
+  condition: added total WG1 + WG2 heater power for the 0.20 nm resonance redshift, second-order configuration (8.1 to 46.1 mW)
+  method: direct
+  basis: derived
+  locator: p.11 Sec. III-B; p.10 Fig. 9(g)
+  notes: 46.1 - 8.1 mW as printed
+  why: 'Miss: heater power span for the stated tuning range (p.11 Sec. III-B)'
+- metric_id: cmp_lit_zhou2025a_fp_filter-m26
+  component_id: cmp_lit_zhou2025a_fp_filter
+  parameter: tuning_power_mw
+  value: '51.9'
+  unit: mW
+  condition: added total WG1-WG3 heater power for the 0.19 nm resonance redshift, third-order configuration (17.8 to 69.7 mW)
+  method: direct
+  basis: derived
+  locator: p.11 Sec. III-B; p.10 Fig. 9(j)
+  notes: 69.7 - 17.8 mW as printed
+  why: 'Miss: heater power span for the stated tuning range (p.11 Sec. III-B)'
+- metric_id: cmp_lit_puckett2021_uhq_ring-m17
+  component_id: cmp_lit_puckett2021_uhq_ring
+  parameter: q_loaded
+  value: '171000000'
+  unit: '1'
+  wavelength_nm: '1550'
+  polarization: te
+  mode: TE0
+  condition: Lorentzian fit, calibrated fiber MZI
+  method: ring_extraction
+  basis: measured
+  locator: p.17 Supp. Fig. S4(c)
+  notes: figure label Q_L = 171 M (DUT at 1550 nm)
+  why: 'Miss: Supp. Fig. S4(c) labels the 1550 nm DUT values (p.17); one row per wavelength (rule 7)'
+- metric_id: cmp_lit_puckett2021_uhq_ring-m18
+  component_id: cmp_lit_puckett2021_uhq_ring
+  parameter: linewidth_mhz
+  value: '1.13'
+  unit: MHz
+  wavelength_nm: '1550'
+  polarization: te
+  mode: TE0
+  condition: loaded (total) FWHM linewidth, Lorentzian fit, calibrated fiber MZI
+  method: ring_extraction
+  basis: measured
+  locator: p.17 Supp. Fig. S4(c)
+  notes: figure label 1.13 MHz
+  why: 'Miss: p.17 Supp. Fig. S4(c)'
+- metric_id: cmp_lit_puckett2021_uhq_ring-m19
+  component_id: cmp_lit_puckett2021_uhq_ring
+  parameter: q_intrinsic
+  value: '228000000'
+  unit: '1'
+  wavelength_nm: '1550'
+  polarization: te
+  mode: TE0
+  condition: Lorentzian fit, calibrated fiber MZI; under-coupled per the coupling-simulation assignment
+  method: ring_extraction
+  basis: author_estimate
+  locator: p.17 Supp. Fig. S4(c)
+  notes: figure label Q_in = 228 M with Q_L = 171 M (Q_in / Q_L = 1.33); the swapped assignment gives about 684 M; regime from the coupling simulation fit
+    (p.16), D403
+  why: 'Miss: p.17 Supp. Fig. S4(c); basis per D403 (p.16)'
+- metric_id: cmp_lit_puckett2021_uhq_ring-m20
+  component_id: cmp_lit_puckett2021_uhq_ring
+  parameter: q_loaded
+  value: '181000000'
+  unit: '1'
+  wavelength_nm: '1550'
+  polarization: te
+  mode: TE0
+  condition: ring-down (tau 149 ns)
+  method: direct
+  basis: measured
+  locator: p.17 Supp. Fig. S4(f)
+  notes: figure label Q_L = 181 M
+  why: 'Miss: p.17 Supp. Fig. S4(f)'
+- metric_id: cmp_lit_puckett2021_uhq_ring-m21
+  component_id: cmp_lit_puckett2021_uhq_ring
+  parameter: q_intrinsic
+  value: '234000000'
+  unit: '1'
+  wavelength_nm: '1550'
+  polarization: te
+  mode: TE0
+  condition: ring-down (tau 149 ns) with the coupling rate of the simulation-based assignment
+  method: direct
+  basis: author_estimate
+  locator: p.17 Supp. Fig. S4(f)
+  notes: figure label Q_in = 234 M; the ring-down gives only Q_L, the intrinsic split rests on the under-coupled assignment (D403)
+  why: 'Miss: p.17 Supp. Fig. S4(f); basis per D403'
+- metric_id: cmp_lit_puckett2021_uhq_ring_control-m11
+  component_id: cmp_lit_puckett2021_uhq_ring_control
+  parameter: q_loaded
+  value: '57000000'
+  unit: '1'
+  wavelength_nm: '1550'
+  polarization: te
+  mode: TE0
+  condition: Lorentzian fit, calibrated fiber MZI
+  method: ring_extraction
+  basis: measured
+  locator: p.17 Supp. Fig. S4(b)
+  notes: figure label Q_L = 57 M (control at 1550 nm)
+  why: 'Miss: p.17 Supp. Fig. S4(b)'
+- metric_id: cmp_lit_puckett2021_uhq_ring_control-m12
+  component_id: cmp_lit_puckett2021_uhq_ring_control
+  parameter: linewidth_mhz
+  value: '3.40'
+  unit: MHz
+  wavelength_nm: '1550'
+  polarization: te
+  mode: TE0
+  condition: loaded (total) FWHM linewidth, Lorentzian fit, calibrated fiber MZI
+  method: ring_extraction
+  basis: measured
+  locator: p.17 Supp. Fig. S4(b)
+  notes: figure label 3.40 MHz
+  why: 'Miss: p.17 Supp. Fig. S4(b)'
+- metric_id: cmp_lit_puckett2021_uhq_ring_control-m13
+  component_id: cmp_lit_puckett2021_uhq_ring_control
+  parameter: q_intrinsic
+  value: '114000000'
+  unit: '1'
+  wavelength_nm: '1550'
+  polarization: te
+  mode: TE0
+  condition: Lorentzian fit, calibrated fiber MZI
+  method: ring_extraction
+  basis: measured
+  locator: p.17 Supp. Fig. S4(b)
+  notes: 'figure label Q_in = 114 M with Q_L = 57 M (Q_in = 2 Q_L, dip at about zero transmission): critical coupling, the split does not depend on the
+    regime assignment (D403 met, D418 ye2019 precedent)'
+  why: 'Miss: p.17 Supp. Fig. S4(b)'
+- metric_id: cmp_lit_puckett2021_uhq_ring_control-m14
+  component_id: cmp_lit_puckett2021_uhq_ring_control
+  parameter: q_loaded
+  value: '54000000'
+  unit: '1'
+  wavelength_nm: '1550'
+  polarization: te
+  mode: TE0
+  condition: ring-down (tau 44.4 ns)
+  method: direct
+  basis: measured
+  locator: p.17 Supp. Fig. S4(e)
+  notes: figure label Q_L = 54 M
+  why: 'Miss: p.17 Supp. Fig. S4(e)'
+- metric_id: cmp_lit_puckett2021_uhq_ring_control-m15
+  component_id: cmp_lit_puckett2021_uhq_ring_control
+  parameter: q_intrinsic
+  value: '108000000'
+  unit: '1'
+  wavelength_nm: '1550'
+  polarization: te
+  mode: TE0
+  condition: ring-down (tau 44.4 ns), critical coupling from the transmission fit at 1550 nm
+  method: direct
+  basis: derived
+  locator: p.17 Supp. Fig. S4(e)
+  notes: figure label Q_in = 108 M = 2 x Q_L 54 M, using the critical coupling of Supp. Fig. S4(b)
+  why: 'Miss: p.17 Supp. Fig. S4(e); arithmetic on own data as uhq_ring m2'

@@ -1,8 +1,8 @@
 # Manual downloads (DevLog-006 S7)
 
-Generated 2026-11-04 by `scripts/lit_manual_list.py` from `retrieval_queue.csv` and `logs/lit_fetch_status.jsonl`; papers already cached are left out. Save each PDF as `references/_inbox/<save_as>` (supplement: `<paper_id>_supplement.pdf`), then run `uv run python scripts/lit_ingest_inbox.py`.
+Generated 2026-11-06 by `scripts/lit_manual_list.py` from `retrieval_queue.csv` and `logs/lit_fetch_status.jsonl`; papers already cached are left out. Save each PDF as `references/_inbox/<save_as>` (supplement: `<paper_id>_supplement.pdf`), then run `uv run python scripts/lit_ingest_inbox.py`.
 
-Total: 131
+Total: 133
 
 | # | day | class | save_as | year | venue | title | doi | reason |
 |---|---|---|---|---|---|---|---|---|
@@ -122,18 +122,20 @@ Total: 131
 | 114 | 8 | wdm | zhao2022a.pdf | 2022 | Nanophotonics | 96‐Channel on‐chip reconfigurable optical add‐drop multiplexer for multidimensional multiplexing systems | 10.1515/nanoph-2022-0319 | De Gruyter blocks the browser (D147) |
 | 115 | 9 | amplifier | cao2024.pdf | 2024 | APL Photonics | A novel bidirectionally operated chirped quantum-dot based semiconductor optical amplifier using a dual ground state spectrum | 10.1063/5.0194677 | paywalled, no institutional route |
 | 116 | 9 | amplifier | haq2020.pdf | 2020 | Laser & Photonics Review | Micro‐Transfer‐Printed III‐V‐on‐Silicon C‐Band Semiconductor Optical Amplifiers | 10.1002/lpor.201900364 | Wiley blocks the browser (D147) |
-| 117 | 9 | fiber_chip_coupler | sanchezpostigo2021.pdf | 2021 | Laser & Photonics Review | Breaking the Coupling Efficiency–Bandwidth Trade‐Off in Surface Grating Couplers Using Zero‐Order Radiation | 10.1002/lpor.202000542 | Wiley blocks the browser (D147) |
-| 118 | 9 | laser | wei2026.pdf | 2026 | APL Photonics | Integrated frequency-modulated continuous-wave laser self-injection locked to a strongly reflective multimode microring resonator | 10.1063/5.0341253 | paywalled, no institutional route |
-| 119 | 9 | micro_optics | luquegonzalez2019.pdf | 2019 | Laser & Photonics Review | An Ultracompact GRIN‐Lens‐Based Spot Size Converter using Subwavelength Grating Metamaterials | 10.1002/lpor.201900172 | Wiley blocks the browser (D147) |
-| 120 | 9 | mode_converter | xu2021a.pdf | 2021 | Nanophotonics | Direct‐access mode‐division multiplexing switch for scalable on‐chip multi‐mode networks | 10.1515/nanoph-2021-0441 | De Gruyter blocks the browser (D147) |
-| 121 | 9 | phase_shifter | fang2022.pdf | 2022 | Nature Nanotechnology | Ultra-low-energy programmable non-volatile silicon photonics based on phase-change materials with graphene heaters | 10.1038/s41565-022-01153-w | paywalled, no institutional route |
-| 122 | 9 | polarization | gallacher2020.pdf | 2020 | APL Photonics | Ultra-broadband mid-infrared Ge-on-Si waveguide polarization rotator | 10.1063/1.5134973 | paywalled, no institutional route |
-| 123 | 9 | switch_fabric | gao2023.pdf | 2023 | Laser & Photonics Review | Broadband 32 × 32 Strictly‐Nonblocking Optical Switch on a Multi‐Layer Si3N4‐on‐SOI Platform | 10.1002/lpor.202300275 | Wiley blocks the browser (D147) |
-| 124 | 9 | waveguide_platform | koester2024.pdf | 2024 | APL Photonics | GaAs-based photonic integrated circuit platform enabling monolithic ring-resonator-coupled lasers | 10.1063/5.0223134 | paywalled, no institutional route |
-| 125 | 10 | chip_chip_coupler | boucaud2024.pdf | 2024 | Applied Physics Letters | Glass interposer for heterogeneous integration of flip-chipped photonic and electronic integrated circuits | 10.1063/5.0221309 | paywalled, no institutional route |
-| 126 | 10 | free_space_emitter | jiao2025.pdf | 2025 | APL Photonics | Two-dimensional multi-beam steering for parallel free-space optical communication based on a silicon nitride optical phase array | 10.1063/5.0264068 | paywalled, no institutional route |
-| 127 | 10 | micro_optics | chen2026.pdf | 2026 | Nanophotonics | Ultra Compact and Broadband Fiber Facet Graphene Oxide Microlens Array Fabricated on a Beam‐Expanding Fiber Facet Using Femtosecond Laser Direct Writing Technique | 10.1002/nap2.70217 | Wiley blocks the browser (D147) |
-| 128 | 10 | phase_shifter | qiu2025a.pdf | 2025 | ACS Photonics | Ultralow Loss Design Methodology for Energy-Efficient Thermo-Optic Phase Shifters | 10.1021/acsphotonics.4c02518 | paywalled, no institutional route |
-| 129 | 10 | polarization | shen2015.pdf | 2015 | Nature Photonics | An integrated-nanophotonics polarization beamsplitter with 2.4 × 2.4 μm2 footprint | 10.1038/nphoton.2015.80 | paywalled, no institutional route |
-| 130 | 10 | polarization | xu2023.pdf | 2023 | Laser & Photonics Review | Meta‐Structured Silicon Nanophotonic Polarization Beam Splitter with an Optical Bandwidth of 415 nm | 10.1002/lpor.202200550 | Wiley blocks the browser (D147) |
-| 131 | 10 | wdm | liu2022c.pdf | 2022 | APL Photonics | High-performance silicon photonic filters based on all-passive tenth-order adiabatic elliptical-microrings | 10.1063/5.0085332 | paywalled, no institutional route |
+| 117 | 9 | fiber_chip_coupler | jin2024.pdf | 2024 | Chinese Optics Letters | Fabrication-constrained inverse design and demonstration of high-performance grating couplers | 10.3788/col202422.112201 | oa_publisher: blocked on 2026-11-06 |
+| 118 | 9 | fiber_chip_coupler | sanchezpostigo2021.pdf | 2021 | Laser & Photonics Review | Breaking the Coupling Efficiency–Bandwidth Trade‐Off in Surface Grating Couplers Using Zero‐Order Radiation | 10.1002/lpor.202000542 | Wiley blocks the browser (D147) |
+| 119 | 9 | laser | wei2026.pdf | 2026 | APL Photonics | Integrated frequency-modulated continuous-wave laser self-injection locked to a strongly reflective multimode microring resonator | 10.1063/5.0341253 | paywalled, no institutional route |
+| 120 | 9 | micro_optics | luquegonzalez2019.pdf | 2019 | Laser & Photonics Review | An Ultracompact GRIN‐Lens‐Based Spot Size Converter using Subwavelength Grating Metamaterials | 10.1002/lpor.201900172 | Wiley blocks the browser (D147) |
+| 121 | 9 | mode_converter | xu2021a.pdf | 2021 | Nanophotonics | Direct‐access mode‐division multiplexing switch for scalable on‐chip multi‐mode networks | 10.1515/nanoph-2021-0441 | De Gruyter blocks the browser (D147) |
+| 122 | 9 | phase_shifter | fang2022.pdf | 2022 | Nature Nanotechnology | Ultra-low-energy programmable non-volatile silicon photonics based on phase-change materials with graphene heaters | 10.1038/s41565-022-01153-w | paywalled, no institutional route |
+| 123 | 9 | polarization | gallacher2020.pdf | 2020 | APL Photonics | Ultra-broadband mid-infrared Ge-on-Si waveguide polarization rotator | 10.1063/1.5134973 | paywalled, no institutional route |
+| 124 | 9 | resonator | cui2023.pdf | 2023 | Advanced Photonics Nexus | Compact microring resonator based on ultralow-loss multimode silicon nitride waveguide | 10.1117/1.apn.2.4.046007 | oa_publisher: not_pdf on 2026-11-06 |
+| 125 | 9 | switch_fabric | gao2023.pdf | 2023 | Laser & Photonics Review | Broadband 32 × 32 Strictly‐Nonblocking Optical Switch on a Multi‐Layer Si3N4‐on‐SOI Platform | 10.1002/lpor.202300275 | Wiley blocks the browser (D147) |
+| 126 | 9 | waveguide_platform | koester2024.pdf | 2024 | APL Photonics | GaAs-based photonic integrated circuit platform enabling monolithic ring-resonator-coupled lasers | 10.1063/5.0223134 | paywalled, no institutional route |
+| 127 | 10 | chip_chip_coupler | boucaud2024.pdf | 2024 | Applied Physics Letters | Glass interposer for heterogeneous integration of flip-chipped photonic and electronic integrated circuits | 10.1063/5.0221309 | paywalled, no institutional route |
+| 128 | 10 | free_space_emitter | jiao2025.pdf | 2025 | APL Photonics | Two-dimensional multi-beam steering for parallel free-space optical communication based on a silicon nitride optical phase array | 10.1063/5.0264068 | paywalled, no institutional route |
+| 129 | 10 | micro_optics | chen2026.pdf | 2026 | Nanophotonics | Ultra Compact and Broadband Fiber Facet Graphene Oxide Microlens Array Fabricated on a Beam‐Expanding Fiber Facet Using Femtosecond Laser Direct Writing Technique | 10.1002/nap2.70217 | Wiley blocks the browser (D147) |
+| 130 | 10 | phase_shifter | qiu2025a.pdf | 2025 | ACS Photonics | Ultralow Loss Design Methodology for Energy-Efficient Thermo-Optic Phase Shifters | 10.1021/acsphotonics.4c02518 | paywalled, no institutional route |
+| 131 | 10 | polarization | shen2015.pdf | 2015 | Nature Photonics | An integrated-nanophotonics polarization beamsplitter with 2.4 × 2.4 μm2 footprint | 10.1038/nphoton.2015.80 | paywalled, no institutional route |
+| 132 | 10 | polarization | xu2023.pdf | 2023 | Laser & Photonics Review | Meta‐Structured Silicon Nanophotonic Polarization Beam Splitter with an Optical Bandwidth of 415 nm | 10.1002/lpor.202200550 | Wiley blocks the browser (D147) |
+| 133 | 10 | wdm | liu2022c.pdf | 2022 | APL Photonics | High-performance silicon photonic filters based on all-passive tenth-order adiabatic elliptical-microrings | 10.1063/5.0085332 | paywalled, no institutional route |
