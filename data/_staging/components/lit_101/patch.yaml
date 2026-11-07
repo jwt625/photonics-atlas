@@ -1,0 +1,130 @@
+# Audit patch lit_101 (fresh-context audit 2026-11-06, DevLog/audits/2026-11-06-lit_101-audit.md).
+# 138 metrics: 127 ok / 9 imprecise / 2 wrong (stone2026 ring_rw2p35 m1 / m2: printed intrinsic Q entered as q_loaded), 0 deleted; 4 misses added.
+# 22 components: 14 ok / 8 imprecise (notes: arXiv version claim on 6 xie2022 + 1 cabo2024 rows, incl. the xie2022 MMI port-gap note;
+# stone2026 ring Q note) / 0 wrong; 1 cross-note op without a finding (li2021 filter). Nothing deleted.
+# Coordinator rulings open (audit Q1-Q7): to keep q_loaded on stone2026 drop the ring_rw2p35 m1 / m2 ops and the ring notes op; to keep the
+# sun2021 spiral losses measured drop the two spiral m1 ops; to skip the xie2022 Fig. 5(d) / SEM / pitch rows or the li2021 width drop
+# those add_metrics (and the xie2022 MMI / MZI and li2021 filter notes ops that cross-note them).
+components:
+  cmp_lit_xie2022_mmi_mzi_tm_filter:
+    notes: 'Fab: process described on p.5 with a first-person step (the authors align the heater layer by e-beam overlay); all authors at the University of Maryland -> org_university_of_maryland_college_park (D399, first-person fabrication + one org). Maryland Nanocenter engineering team acknowledged for fabrication support (p.8): facility not in the registry (reported). Cached text is the arXiv preprint (no version stamp in the cached text) of the IEEE Photonics Journal paper (title matches; journal version unread, D430 / D433). Single 2x2 MZI element with thermal tuning and demonstrated switching (Fig. 5(f)) -> switch_fabric.other (D158). Both arms carry 500 x 10 um NiCr heaters; a 720-deg, 50 um radius bend TM filter (cmp_lit_xie2022_tm_filter_bend) is included in all MZI designs. MMI: cmp_lit_xie2022_mmi_2x2_15um. Not entered: 3-dB bandwidth of the high-ER MZI about 60 nm (p.6, Table 1; no bw_3db_nm on switch_fabric, registry gap); ''more than 60 nm bandwidth'' (abstract); (maximum ER at other wavelengths now m12, Fig. 5(d) figure read; the Fig. 5(d) dashed ''3dB Line'' at about 58.2 dB is drawn on these ER maxima, so the about 60 nm width is ER-based, not a transmission 3-dB width); ER improvement by the TM filter > 10 dB (difference, no parameter); simulated ER with TM input about 40 dB (Fig. 3(a)); switching curves Fig. 5(f).'
+    why: 'Cross-note to the added Fig. 5(d) row (audit miss); p.1: the cached xie2022 / cabo2024 texts carry no arXiv version stamp (krumrein2026 p.1 does: v1); the version claim is not supported by the source'
+  cmp_lit_xie2022_mmi_mzi_no_tm_filter:
+    notes: 'Fab: process described on p.5 with a first-person step (the authors align the heater layer by e-beam overlay); all authors at the University of Maryland -> org_university_of_maryland_college_park (D399, first-person fabrication + one org). Maryland Nanocenter engineering team acknowledged for fabrication support (p.8): facility not in the registry (reported). Cached text is the arXiv preprint (no version stamp in the cached text) of the IEEE Photonics Journal paper (title matches; journal version unread, D430 / D433). Sibling of cmp_lit_xie2022_mmi_mzi_tm_filter without the bend TM filter (same MMI design implied by the comparison, not restated).'
+    why: 'p.1: the cached xie2022 / cabo2024 texts carry no arXiv version stamp (krumrein2026 p.1 does: v1); the version claim is not supported by the source'
+  cmp_lit_xie2022_mmi_2x2_15um:
+    notes: 'Fab: process described on p.5 with a first-person step (the authors align the heater layer by e-beam overlay); all authors at the University of Maryland -> org_university_of_maryland_college_park (D399, first-person fabrication + one org). Maryland Nanocenter engineering team acknowledged for fabrication support (p.8): facility not in the registry (reported). Cached text is the arXiv preprint (no version stamp in the cached text) of the IEEE Photonics Journal paper (title matches; journal version unread, D430 / D433). Splitter of cmp_lit_xie2022_mmi_mzi_tm_filter (two identical MMIs). Port separation d = 3.2 um (p.4) is the edge-to-edge gap between the two ports: the d arrow of Fig. 1(a) (p.3) and the 3.2 um arrow of the Fig. 4(b) SEM (p.6) span the space between the port edges; pitch 1.8 + 3.2 = 5.0 um entered as m10 (derived). Fig. 4(b) SEM labels: MMI width 14.9 um (m9), port width 1.8 um, gap 3.2 um. 10 modes supported.'
+    why: 'p.6 Fig. 4(b) SEM labels and p.3 Fig. 1(a) place d between the port edges, which settles the pitch question the note left open; p.1: the cached xie2022 / cabo2024 texts carry no arXiv version stamp (krumrein2026 p.1 does: v1); the version claim is not supported by the source'
+  cmp_lit_xie2022_tm_filter_bend:
+    notes: 'Fab: process described on p.5 with a first-person step (the authors align the heater layer by e-beam overlay); all authors at the University of Maryland -> org_university_of_maryland_college_park (D399, first-person fabrication + one org). Maryland Nanocenter engineering team acknowledged for fabrication support (p.8): facility not in the registry (reported). Cached text is the arXiv preprint (no version stamp in the cached text) of the IEEE Photonics Journal paper (title matches; journal version unread, D430 / D433). TM-pass suppression from bend-loss contrast (TE/TM). Tested in front of a sidewall-corrugated Bragg grating (cmp_lit_xie2022_bragg_grating_test); included in all MZI designs. Simulated bend loss at R = 50 um: TM 4.8 dB per 360 deg, TE < 0.01 dB per 360 deg (p.4, Fig. 3(c)); TE excess loss ''negligible'' (overlapping out-of-band transmission, no number). Bend radius 50 um not entered (no min_bend_radius_um on polarization; registry candidate D439).'
+    why: 'p.1: the cached xie2022 / cabo2024 texts carry no arXiv version stamp (krumrein2026 p.1 does: v1); the version claim is not supported by the source'
+  cmp_lit_xie2022_bragg_grating_test:
+    notes: 'Fab: process described on p.5 with a first-person step (the authors align the heater layer by e-beam overlay); all authors at the University of Maryland -> org_university_of_maryland_college_park (D399, first-person fabrication + one org). Maryland Nanocenter engineering team acknowledged for fabrication support (p.8): facility not in the registry (reported). Cached text is the arXiv preprint (no version stamp in the cached text) of the IEEE Photonics Journal paper (title matches; journal version unread, D430 / D433). Test grating for the TM filter (cmp_lit_xie2022_tm_filter_bend); stopband designed around 1600 nm for TE. Number of periods, period and length not printed.'
+    why: 'p.1: the cached xie2022 / cabo2024 texts carry no arXiv version stamp (krumrein2026 p.1 does: v1); the version claim is not supported by the source'
+  cmp_lit_xie2022_edge_coupler:
+    notes: 'Fab: process described on p.5 with a first-person step (the authors align the heater layer by e-beam overlay); all authors at the University of Maryland -> org_university_of_maryland_college_park (D399, first-person fabrication + one org). Maryland Nanocenter engineering team acknowledged for fabrication support (p.8): facility not in the registry (reported). Cached text is the arXiv preprint (no version stamp in the cached text) of the IEEE Photonics Journal paper (title matches; journal version unread, D430 / D433). Coupler geometry not described.'
+    why: 'p.1: the cached xie2022 / cabo2024 texts carry no arXiv version stamp (krumrein2026 p.1 does: v1); the version claim is not supported by the source'
+  cmp_lit_cabo2024_swg_yjunction_te0_te2:
+    notes: 'Fab: ''was fabricated'' (passive, p.4 Sec. 3); fab empty (D80b). ''This work was done within the C2N micro nanotechnologies platforms'' (p.7): facility (Plateforme de Micro-Nano-Technologie / C2N) not in the registry, left empty (gonzalezandrade2019 precedent); RENATECH not entered (D430). Measured in a mode MUX - exchanger - DEMUX circuit (MUX from the authors'' ref. [7]) normalized to the same circuit with a multimode waveguide of equal length and width; grating couplers (TE). Cached text is the arXiv preprint (no version stamp in the cached text) of the Nanophotonics paper (title matches; journal version unread, D430 / D433). Abstract wording ''losses as low as 0.5 dB'' over 1420-1620 nm differs from the body (IL < 0.35 / < 0.52 dB over 1420-1620 nm; < 0.4 dB over 1471-1620 nm, Table 2), body values entered. Not entered: SWG period 200 nm (no period parameter for an SWG on mode_converter; registry gap), duty cycles DC0 47 % / DCF 65 %, W0 1.52 um, WF 2.6 um, S 1.8 um (Table 1; no parameter).'
+    why: 'p.1: the cached xie2022 / cabo2024 texts carry no arXiv version stamp (krumrein2026 p.1 does: v1); the version claim is not supported by the source'
+  cmp_lit_li2021_lpgadc_mode_filter:
+    notes: 'Fab: first-person fabrication of the LPGADC by the same APE process (p.4 Sec. 3); all authors at UESTC -> org_uestc (D399). Waveguides by annealed proton exchange in a bulk x-cut LiNbO3 substrate (integrated waveguide chip, 29.5 mm sample; in scope, suntsov2021 APE precedent, platform other). Highest-performing device of a group with slightly different LPG periods on one sample (period 818 um). SMW 6.0 um and TMW 11.6 um (11.0 + d/2) wide, gap s = 4.0 um, corrugation depth d = 1.2 um, 50 % duty cycle, Al electrodes 15 um apart (p.4, p.6); widths and gap not entered on this row (two waveguides, no role parameter; gap_nm not allowed on mode_converter); the TMW width is m3 of cmp_lit_li2021_tmw_grating_waveguide. Not entered: -20 dB bandwidth about 2.5 nm (no bw_20db parameter), tuning sensitivity 0.182 nm/V and the 1545.8-1557 nm tuning span (no tuning parameter on mode_converter; registry gaps), resonance shift of about 1.6 nm from the silica / electrode deposition. Abstract prints 1551.7 nm for the 29 dB peak, p.6 1551.8 nm at 0 V (D417 note). Propagation loss of the filter waveguide: cmp_lit_li2021_tmw_grating_waveguide (D396).'
+    why: Cross-note to the added TMW width row (audit miss, p.4 Sec. 2)
+  cmp_lit_stone2026_ring_rw2p35:
+    notes: 'Fab: ''Photonic chips are fabricated by a commercial foundry'' (p.4), foundry not named; ''Devices were designed and fabricated with help from C.P., M.W., and G.K.'' (p.6 Author contributions; Beacon Photonics, Arlington, VA): helpers'' org not a fab org (D395); fab empty. Single stoichiometric LPCVD SiN layer on a 4 um thermal oxide wafer, Ti+Al heaters. Source is the arXiv preprint itself. OPO device of Fig. 2(b), (c); OPO metrics on cmp_lit_stone2026_opo_rw2p35 (D396). Ring radius not stated for the fabricated devices (250 um is the simulation radius of Fig. 1(c)). Fig. 2(b) / p.4 Q values are printed without qualifier; the plotted fits (re-read at 600 dpi) show that the pump (5.5 M) and signal (4 M) values are intrinsic Q (m1, m2 q_intrinsic), while the idler 20 M matches the plotted loaded linewidth (m3 q_loaded); eta = Qtot/Qc with Qtot the loaded Q (p.4); Supp. p.16 fits intrinsic and coupling linewidths.'
+    why: 'p.3 Fig. 2(b), p.4 Sec. II, p.16 Supp. Sec. III: the q_loaded reading is contradicted by the plotted linewidths for two of the three values (audit Q1)'
+metrics:
+  cmp_lit_dumais2016_mmi_2x2-m1:
+    n_samples: 11
+    notes: 'Printed ''less than 0.15 dB +/- 0.01 dB'' over 1530-1565 nm for all die (also abstract ''<=0.15+/-0.01 dB''). The paper calls it insertion loss of one MMI (sum of both outputs vs reference, Eq. (1)); Fig. 2(a) caption ''Excess loss'': a 2x2 value below the ideal split -> excess_loss_db (rule 6). Basis derived: chain of N = 84 divided by N (Eq. (1), rule 4). Die count from the Fig. 2(a) legend: 11 die (die 3, 6, 11, 14, 17, 20, 23, 26, 29, 34, 37); the text gives no number.'
+    why: p.3 Fig. 2(a) legend lists 11 die; the row said the number of die was not stated
+  cmp_lit_dumais2016_mmi_2x2-m2:
+    n_samples: 11
+    notes: 'Printed ''The maximum measured loss is 0.22 dB''. N = 84 chain divided by N (rule 4). Same 11 die as the passive-split wafer (p.2: the die selected were identical for both wafers; Fig. 2(b) legend).'
+    why: 'p.2 Sec. 4 (identical die on both wafers) and p.3 Fig. 2(b) legend: 11 die'
+  cmp_lit_kandil2024_mmi3x3_120hybrid-m1:
+    condition: largest deviation over the output ports of the wafer-median phase from the nominal 120 / 240 deg, 52 dies of a 200 mm wafer
+    notes: 'Phases from cosine fits of the MZI fringes near the extrema; scan 845-865 nm (10 pm step); wavelength of the evaluation not stated beyond the scan range. Fig. 2(d) per port: port 120 median 119.7 deg (0.3 deg deviation), port 240 median 237.8 deg (2.2 deg deviation); the printed 2.2 deg is the larger of the two.'
+    why: 'p.2 Fig. 2(d) labels: 2.2 deg is the worse of two ports, not a single port or an average; the condition did not say so'
+  cmp_lit_kandil2024_mmi4x4_90hybrid-m1:
+    condition: largest deviation over the output ports of the wafer-median phase from the nominal 90 / 180 / 270 deg, 52 dies of a 200 mm wafer
+    notes: 'Scan 845-865 nm; wavelength of the evaluation not stated beyond the scan range. Fig. 2(e) per port: port 90 median 93.3 deg (printed -3.3 deg deviation), port 180 177.4 deg (2.6 deg), port 270 268.7 deg (1.3 deg); the printed 3.3 deg is the largest.'
+    why: 'p.2 Fig. 2(e) labels: 3.3 deg is the worst of three ports; the condition did not say so'
+  cmp_lit_kandil2024_mmi3x3_120hybrid-m4:
+    notes: Printed 'insertion loss of 4 dB near 850 nm' for the entire MZI circuit (1x2 MMI splitter, waveguides, 3x3 MMI); the 3x3 MMI alone is not isolated (the paper defers it to future work). Whether the 4 dB is per output port or summed over the ports is not stated; the value includes the circuit's power split, so it is not an MMI excess loss.
+    why: p.2 Sec. IV gives no definition of the circuit insertion loss for a three-output circuit; the note now says so (ranking caution)
+  cmp_lit_sun2021_spiral_wg_1200-m1:
+    basis: author_estimate
+    notes: 'Printed 0.7 dB/cm for the bent multi-mode spiral (p.3; abstract ''measured transmission loss''). One spiral length per width, no cutback or reference structure: the value rests on subtracting the coupling loss of about 10 dB, whose origin the paper does not state (''3 dB larger than expected'') -> author_estimate (rule 4; D428, D444). Fig. 4 shows this spiral at about -15 to -16 dB, while 10 dB + 0.7 dB/cm x 2.7 cm = 11.9 dB: the printed numbers do not close (D417). The same 0.7 dB/cm is also obtained on p.4 from the grating''s 3.8 dB band-edge difference (3.8 dB / 5.4 cm round trip). Wavelength span from the Fig. 4 axis.'
+    why: 'p.3 Sec. III, p.3 Fig. 4: single length, propagation loss only through a coupling-loss term of unstated origin (rule 4; D428 sun2025, D444 wang2023e); Fig. 4 level does not reproduce 10 + 1.9 dB. Audit Q2'
+  cmp_lit_sun2021_spiral_wg_500-m1:
+    basis: author_estimate
+    notes: 'Printed 3.8 dB/cm for the bent single-mode spiral (p.3). One spiral length per width, no cutback or reference structure: the value rests on subtracting the coupling loss of about 10 dB of unstated origin -> author_estimate (rule 4; D428, D444). Fig. 4 upper envelope of the Fabry-Perot-modulated trace about -23 to -25 dB vs 10 dB + 3.8 dB/cm x 3.2 cm = 22.2 dB. Wavelength span from the Fig. 4 axis.'
+    why: 'p.3 Sec. III, p.3 Fig. 4: as the 1200 nm row (rule 4; D428, D444). Audit Q2'
+  cmp_lit_sun2021_chirped_sbgw_unapodized-m1:
+    condition: reflected-power difference between the shortest and longest wavelengths of the 1544.5-1567 nm band (Fig. 6), attributed by the paper to one round trip through the whole 2.7 cm grating; a differential loss, not an absolute reflection loss
+    notes: 'Printed ''about 3.8 dB'' (p.3-4). Not the reflector''s absolute insertion loss: the Fig. 6 reflection levels (about -25 dB at the short-wavelength edge to about -21 dB at the long-wavelength edge) include the edge couplers and the Y-branch. The paper derives 0.7 dB/cm from it (3.8 dB / 5.4 cm). Only performance value of this row; kept as insertion_loss_db until a round-trip loss parameter exists (roundtrip_loss_db, D420 candidate).'
+    why: 'p.3-4 Sec. III, p.3 Fig. 6: the value is a band-edge difference; the condition and notes now say it is not an absolute loss (ranking caution). Audit Q3'
+  cmp_lit_stone2026_ring_rw2p35-m1:
+    parameter: q_intrinsic
+    condition: pump mode, critically coupled (dip to about zero transmission)
+    notes: 'Printed ''Q ~ 5.5 million'' (p.4) for the critically coupled TE1 pump mode. Intrinsic: Supp. p.16 extracts intrinsic and coupling linewidths by Lorentzian fits, and the Fig. 2(b) centre-panel fit (re-read at 600 dpi) has a FWHM of about 103 MHz (Q_L about 2.75 M at 1060 nm) with the dip near zero, so Q_i = 2 Q_L = 5.5 M. Critical coupling is fixed by the data (dip to about 0): measured (D403; D463 puckett2021). Figure reads +/- 10 %.'
+    why: 'p.3 Fig. 2(b), p.16 Supp.: the printed value is twice the plotted loaded Q of a critically coupled dip, i.e. the intrinsic Q; q_loaded was wrong. Audit Q1'
+  cmp_lit_stone2026_ring_rw2p35-m2:
+    parameter: q_intrinsic
+    basis: author_estimate
+    notes: 'Printed ''Q ~ 4 million'' with eta = Qtot/Qc = 0.89 (p.4). Intrinsic, not loaded: the Fig. 2(b) left-panel fit (re-read at 600 dpi) has a FWHM of about 0.70 GHz (Q_L about 0.48 M at 895 nm, dip to about 0.61), and Q_L / (1 - eta) = 4.4 M; a loaded Q of 4 M would need a linewidth of about 84 MHz. The overcoupled branch is stated, not shown to be fixed by the data (the same dip depth fits an undercoupled ring): author_estimate (D403). Figure reads +/- 10 %.'
+    why: 'p.3 Fig. 2(b), p.4 Sec. II: plotted linewidth and the printed eta make 4 M the intrinsic Q (loaded about 0.48 M); D403 for the stated overcoupling. Audit Q1'
+  cmp_lit_stone2026_ring_rw2p35-m3:
+    notes: 'Printed ''Q ~ 20 million'' (p.4), undercoupled. Kept as q_loaded: the Fig. 2(b) right-panel fit (re-read at 600 dpi) has a FWHM of about 11 MHz, Q_L about 20 M at 1300 nm, matching the printed value; with the dip to about 0.54 on the undercoupled branch Q_i would be about 23 M. The other two Fig. 2(b) values are intrinsic (m1, m2), so the paper may mean intrinsic here too (audit Q1). Figure reads +/- 10 %.'
+    why: 'p.3 Fig. 2(b): figure check of the unqualified Q recorded; the value matches the loaded linewidth, so the parameter stays. Audit Q1'
+delete_components: []
+delete_metrics: []
+add_metrics:
+- metric_id: cmp_lit_xie2022_mmi_mzi_tm_filter-m12
+  component_id: cmp_lit_xie2022_mmi_mzi_tm_filter
+  parameter: extinction_db
+  value: 56.6
+  value_max: 61.2
+  unit: dB
+  statistic: range
+  n_samples: 4
+  wavelength_nm: 1527
+  wavelength_max_nm: 1592
+  polarization: te
+  condition: maximum ER re-optimized at four wavelengths by heater-power changes below 1 mW (Fig. 5(c) arrows); TE input, PM fiber
+  method: direct
+  basis: extracted_from_figure
+  locator: p.7 Fig. 5(d); p.6
+  notes: 'Fig. 5(d) markers read at 600 dpi (axis calibration from the 1520-1600 nm and -56 to -62 dB ticks): about 1527.2 nm / 56.6 dB, 1562.2 nm / 61.2 dB (the printed m1 value), 1585.3 nm / 59.4 dB, 1591.8 nm / 58.0 dB; reading uncertainty +/- 0.05 dB and +/- 0.5 nm. Axis printed in negative dB (sign quoted).'
+  why: 'Miss: p.6 states the maximum ER can be reached at different wavelengths and Fig. 5(d) plots four measured maxima; the distiller left them in notes unread. Figure-read precedent D458 (lit_87 notch depths)'
+- metric_id: cmp_lit_xie2022_mmi_2x2_15um-m9
+  component_id: cmp_lit_xie2022_mmi_2x2_15um
+  parameter: mmi_width_um
+  value: 14.9
+  unit: um
+  condition: SEM-labelled width of the fabricated MMI (design 15 um, m3)
+  basis: measured
+  locator: p.6 Fig. 4(b)
+  notes: SEM image label 14.9 um; p.5 says the device dimensions agree well with the design.
+  why: 'Miss (D153 geometry): the Fig. 4(b) SEM labels the fabricated MMI width; SEM-labelled dimensions are entered as measured (merged practice, e.g. almeida2003, ding2013)'
+- metric_id: cmp_lit_xie2022_mmi_2x2_15um-m10
+  component_id: cmp_lit_xie2022_mmi_2x2_15um
+  parameter: pitch_um
+  value: 5
+  unit: um
+  condition: centre-to-centre pitch of the two MMI ports = port width Wp 1.8 um + edge gap d 3.2 um
+  basis: derived
+  locator: p.4; p.3 Fig. 1(a); p.6 Fig. 4(b)
+  notes: 'd = 3.2 um is the edge-to-edge gap: the d arrow of Fig. 1(a) and the 3.2 um SEM arrow of Fig. 4(b) both span the space between the port edges. 1.8 + 3.2 = 5.0 um, equal to W/3 for the paired-interference 2x2 MMI with W = 15 um (consistency check).'
+  why: 'Miss (D153 geometry, optional mmi template dimension): the distiller left d out as pitch-or-gap ambiguous; Fig. 4(b) and Fig. 1(a) fix it as the edge gap'
+- metric_id: cmp_lit_li2021_tmw_grating_waveguide-m3
+  component_id: cmp_lit_li2021_tmw_grating_waveguide
+  parameter: width_nm
+  value: 11600
+  unit: nm
+  condition: two-mode waveguide width in the grating region, wT = 11.0 + d/2 um with corrugation depth d = 1.2 um; LPG duty cycle 50 %
+  basis: derived
+  locator: p.4 Sec. 2
+  notes: Printed 11.6 um (D157). Design value; the paper says the fabrication followed the design as closely as possible (p.4).
+  why: 'Miss (D153 geometry): the waveguide row is the TMW, whose width is printed; the distiller kept all widths out because of the two-waveguide ambiguity, which does not apply to this single-waveguide row'

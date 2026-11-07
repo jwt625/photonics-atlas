@@ -1,0 +1,51 @@
+# Audit patch lit_102 (fresh-context audit 2026-11-06, DevLog/audits/2026-11-06-lit_102-audit.md).
+# 103 metrics: 101 ok / 2 imprecise / 0 wrong; 12 components: 10 ok / 2 imprecise / 0 wrong, 0 deleted; 3 misses added (3 metrics, no component).
+# The distiller's flagged calls (jung2025 author_estimate absolute losses, 1.7 um figure-read tolerance, fab empty; marchetti2017 / zhou2022
+# loopback_half derived; fab Southampton / imec / HUST; cai2024 PDL / MDL out) are endorsed without ops (audit Q1-Q6).
+# Droppable blocks: the three add_metrics (Q8); the mtp m3 statistic op (Q7).
+components:
+  cmp_lit_zhou2022_polysi_overlay_gc:
+    process_name: 'imec MPW, 193 nm DUV PDK (poly-Si overlay)'
+    why: 'p.2 Sec. II and p.3 Sec. II name an open-access MPW shuttle run at IMEC with its standard 193 nm DUV photolithography PDK; the paper never calls it a passive PDK (p.2 adds that the same PDK supports modulators and photodiodes). process_name is "as stated"'
+  cmp_lit_jung2025_reference_gc:
+    notes: 'Fab: not stated for this comparison device. The first-person two-photon printing steps (p.10 Sec. 2.2, p.15 Sec. 4) concern the polymer couplers and alignment structures, not this grating coupler; fab and facility empty. Source row is the arXiv preprint itself (v1); no journal version is named in the row. Comparison device in Fig. 4(c) only (''state-of-the-art'' grating coupler after 3-axis stage optimization, p.10); no design, layer stack or chip stated, so platform empty (D422). Values are figure reads.'
+    why: 'The shared fab note said the couplers are printed in first-person TPP steps, which describes the polymer TIR couplers (p.10, p.15), not this grating coupler; nothing in the text says who made it or on which chip (p.10 Sec. 2.2, p.9 Fig. 4(c) caption). Rest of the note unchanged'
+metrics:
+  cmp_lit_jung2025_mtp_plug_and_play-m3:
+    statistic: single
+    notes: 'Printed peak transmission -0.55 dB (sign); Fig. 4(c) axis is transmission per coupler. Peak wavelength not stated. Statistic single: the value is the maximum over wavelength of the one plug-and-play spectrum shown in Fig. 4(c); no device population is stated, so it is not a best-of-several value. The authors subtract a Fresnel loss of 0.15 dB from all experimental data (p.7 Sec. 2.1; air-polymer interface; whether per coupler or per backloop is not stated); the subtracted term is not measured, so absolute losses are author_estimate (rule 4).'
+    why: 'p.10 Sec. 2.2 prints one peak transmission of the plug-and-play combination and p.9 Fig. 4(c) shows a single plug-and-play curve; statistic best means the best of a stated population ("as low as", rule 7), which the text does not give. Compare tir_coupler m2, where the -0.39 dB is explicitly the best of three couplers (p.8)'
+  cmp_lit_jung2025_mtp_plug_and_play-m4:
+    notes: 'Printed -0.78 dB (sign); Fig. 5(b) axis is transmission per TIR coupler; how the per-coupler value is isolated in the matrix is not stated. Table 1 lists 0.78 dB as the minimum overall loss including 0.37 dB packaging loss. Fig. 5(b) reading (audit): per-port 5 nm bins span about -0.6 to -1.4 dB and the all-bin histogram centres near -0.95 dB, so 0.78 is not the all-bin mean; the printed ''average minimal coupler transmission'' reads as the mean over the 16 ports of each port''s lowest loss (not reproducible to 0.01 dB from the colormap). The authors subtract a Fresnel loss of 0.15 dB from all experimental data (p.7 Sec. 2.1; air-polymer interface; whether per coupler or per backloop is not stated); the subtracted term is not measured, so absolute losses are author_estimate (rule 4).'
+    why: 'p.11 Fig. 5(b) render: the histogram over all ports and bins is centred near -0.95 dB, which a reader of statistic mean would otherwise take as the population of this row; the note now says what the printed "average minimal" value can and cannot be (p.12 Sec. 2.3)'
+add_metrics:
+- metric_id: cmp_lit_zhou2022_polysi_overlay_gc-m22
+  component_id: cmp_lit_zhou2022_polysi_overlay_gc
+  parameter: n_periods
+  value: 24
+  unit: count
+  condition: 'GA-optimized non-uniform grating; 24 grating periods in both the lower Si layer and the upper poly-Si layer'
+  basis: extracted_from_figure
+  locator: p.2 Fig. 2
+  notes: 'Count of the plotted grating period numbers 1-24 on the labelled x axis of Fig. 2(a) (Ldt / Lde) and Fig. 2(b) (Lut / Lue); every index carries one tooth and one groove marker. Not printed in the text. Per-period widths are plot-only and not entered.'
+  why: 'Miss (D153 geometry). p.2 Fig. 2 axis "Grating period number" carries exactly 24 indices with markers in both layers (render read at 400 dpi); n_periods is a gc_1d top-view parameter'
+- metric_id: cmp_lit_marchetti2017_apodized_gc_220nm_design-m7
+  component_id: cmp_lit_marchetti2017_apodized_gc_220nm_design
+  parameter: fill_factor
+  value: 0.9
+  unit: '1'
+  condition: 'initial fill factor F0 of the linear apodization (R = 0.0275 um^-1); F = un-etched length / period'
+  basis: design_target
+  locator: p.3 Sec. 2
+  notes: 'F0 = 0.9 is set once for the design procedure (p.3, minimum-feature argument) and the same procedure is applied to the 220 nm SOI grating (p.3); the paper defines F as un-etched length over period (p.2), the registry definition. As m16 on the 260 nm row.'
+  why: 'Miss (D153 geometry): the distiller states F0 0.9 in this row''s core_material but entered no row; p.3 sets F0 = 0.9 for the design procedure that p.3 then applies to 220 nm SOI'
+- metric_id: cmp_lit_marchetti2017_apodized_gc_220nm_design-m8
+  component_id: cmp_lit_marchetti2017_apodized_gc_220nm_design
+  parameter: fiber_angle_deg
+  value: 14.5
+  unit: deg
+  condition: 'design incidence angle in air (10 deg in the TOX); SMF MFD 10.4 um'
+  basis: design_target
+  locator: p.3 Sec. 2
+  notes: 'The 2D-FDTD setup (fiber tilted by 14.5 deg to the vertical) is stated for both wafer types (p.3). As m23 on the 260 nm row.'
+  why: 'Miss (D153 geometry): p.3 states the simulation fiber tilt for both SOI wafer types (220 and 260 nm); the 260 nm row carries it (m23), this design row did not'

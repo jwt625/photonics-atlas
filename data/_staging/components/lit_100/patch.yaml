@@ -1,0 +1,55 @@
+# Audit patch lit_100 (fresh-context audit 2026-11-06, DevLog/audits/2026-11-06-lit_100-audit.md).
+# 285 metrics: 272 ok / 13 imprecise / 0 wrong; 44 components: 44 ok / 0 imprecise / 0 wrong, 0 deleted; 0 misses added.
+# All ops are field fixes (wavelength flags, a figure re-read, printed-endpoint basis, note corrections); coordinator rulings open
+# in audit Q1-Q11 do not depend on these ops. To keep the distiller's 51 pm/K reading drop the brunetta2026 shg m1 op.
+metrics:
+  cmp_lit_wang2024_ring_r140-m1:
+    wavelength_inferred: 'true'
+    notes: 'Printed average 1.00e5 over all TE0 resonances within the grating-coupler passband; the 1520-1600 nm span is read off the Fig. 3(b) axis (points from about 1521 to 1600 nm), not printed with the value. D403.'
+    why: 'p.4 Fig. 3(b): the wavelength span comes from the plot axis, the text (p.3 Sec. II) states only the grating-coupler passband. Schema: wavelength_inferred = true for a plot-axis wavelength'
+  cmp_lit_wang2024_ring_r140-m5:
+    band: ''
+    wavelength_nm: '1500'
+    wavelength_max_nm: '1630'
+    wavelength_inferred: 'true'
+    notes: 'Printed ''around 0.60 x 10^5'' for TE1 and TE2; no wavelength printed with the value. Span = the measured transmission spectrum 1500-1630 nm (p.3 Sec. II, Fig. 3(a)) in which the three TE families are identified (rule 8: operating range stated, so not band unspecified). D403.'
+    why: 'p.3 Sec. II: the higher-order mode families are identified in the 1500-1630 nm spectrum of Fig. 3(a); skill rule 8 enters the stated operating range with wavelength_inferred, band unspecified only when nothing is stated'
+  cmp_lit_brunetta2026_c_shg_wg_w1p25-m1:
+    value: '52'
+    wavelength_nm: '1558.3'
+    wavelength_max_nm: '1561.6'
+    wavelength_inferred: 'true'
+    notes: 'Peaks re-read off Fig. 8(a) at 600 dpi (axis calibration from the 1545-1575 nm ticks; envelope tops and half-maximum midpoints agree): about 1558.3 nm (T1 = 20 C) and 1561.6 nm (T2 = 83 C), +/- 0.2 nm each (fringe ripple on the envelope); (1561.6 - 1558.3) nm / 63 K = 52 pm/K (+/- 6 pm/K). No drift value printed; wavelengths from the plot axis. The distiller''s reading (1558.8 / 1562.0 nm, 51 pm/K) is within this uncertainty for the shift but 0.5 nm high on both peaks.'
+    why: 'p.18 Fig. 8(a) re-read: both SH peaks sit about 0.5 nm below the batch readings (blue top at 1558.3 nm, yellow at 1561.6 nm); shift 3.3 nm over 63 K. Wavelengths are plot-axis reads, so wavelength_inferred = true'
+  cmp_lit_brunetta2026_b_mrr_r60_w1p2-m4:
+    basis: derived
+    notes: 'Printed as the lower end of the width range 1.2-2.9 um (Fig. 5 caption), converted to nm (D157); the Fig. 5 x-axis ties it to the first data point.'
+    why: 'p.12 Fig. 5 caption prints 1.2 um as the lower end of the varied width; a printed value converted um -> nm is derived (D157 / D256), not a figure read'
+  cmp_lit_brunetta2026_b_mrr_r60_w2p9-m4:
+    basis: derived
+    notes: 'Printed as the upper end of the width range 1.2-2.9 um (Fig. 5 caption), converted to nm (D157); the Fig. 5 x-axis ties it to the last data point.'
+    why: 'p.12 Fig. 5 caption prints 2.9 um as the upper end of the varied width (also p.13 and Supp. S3 p.35 compare 1.8 vs 2.9 um rings); printed value converted -> derived (D157 / D256)'
+  cmp_lit_song2020_sin_adv_r5-m2:
+    notes: 'k1 = k2 = 110 (Table III): with k1 = k2 the radius stays at R through the bend (p.2 usage 1; Fig. 3(l) flat at 5 um); only the width changes (Fig. 3(h)).'
+    why: 'p.3 Fig. 3(l) and Table III: the R = 5 um advanced bend has constant radius; the batch note said the radius increases above R'
+  cmp_lit_song2020_sin_equi_r5-m2:
+    notes: 'Nominal R. Eq. (3) with the Table II signs (k1 = -k2 > 0) gives Rk > R inside the bend (radius rises toward 45 deg, as Table V and Fig. 7(b) show for the Si shapes with 1/k1 - 1/k2 > 0), while p.2 usage 3 describes the equi-width curvature as increasing up to 45 deg (radius below R): printed conflict (D417), smallest radius stays the nominal R. Fig. 3(i)-(l) plots only the advanced bends.'
+    why: 'p.2 Eqs. (1)-(4) and usage 3 vs Table II: the batch note cited Fig. 3(i)-(l), which shows only advanced bends, and missed the p.2 wording that conflicts with the equations for equi-width bends'
+  cmp_lit_song2020_sin_equi_r10-m2:
+    notes: 'Nominal R. Eq. (3) with the Table II signs (k1 = -k2 > 0) gives Rk > R inside the bend, while p.2 usage 3 describes the equi-width curvature as increasing up to 45 deg (radius below R): printed conflict (D417), smallest radius stays the nominal R. Fig. 3(i)-(l) plots only the advanced bends.'
+    why: 'As sin_equi_r5-m2 (p.2 usage 3 vs Eq. (3), Table II)'
+  cmp_lit_song2020_sin_equi_r15-m2:
+    notes: 'Nominal R. Eq. (3) with the Table II signs (k1 = -k2 > 0) gives Rk > R inside the bend, while p.2 usage 3 describes the equi-width curvature as increasing up to 45 deg (radius below R): printed conflict (D417), smallest radius stays the nominal R. Fig. 3(i)-(l) plots only the advanced bends.'
+    why: 'As sin_equi_r5-m2 (p.2 usage 3 vs Eq. (3), Table II)'
+  cmp_lit_song2020_sin_equi_r20-m2:
+    notes: 'Nominal R. Eq. (3) with the Table II signs (k1 = -k2 > 0) gives Rk > R inside the bend, while p.2 usage 3 describes the equi-width curvature as increasing up to 45 deg (radius below R): printed conflict (D417), smallest radius stays the nominal R. Fig. 3(i)-(l) plots only the advanced bends.'
+    why: 'As sin_equi_r5-m2 (p.2 usage 3 vs Eq. (3), Table II)'
+  cmp_lit_song2020_si_equi_r1-m2:
+    notes: 'Nominal R. Eq. (3) with the Table V equi-width k values (k1 = -k2 = 600) gives Rk > R inside the bend (the same Rk - R proportional to 1/k1 - 1/k2 that reproduces the printed advanced Rk 0.951 / 2.122 / 3.356 um), while p.2 usage 3 describes the equi-width curvature as increasing up to 45 deg (radius below R): printed conflict (D417), smallest radius stays the nominal R.'
+    why: 'p.2 usage 3 vs Eq. (3) and Table V: the minimum radius of an equi-width bend is uncertain in the paper; the row had no note'
+  cmp_lit_song2020_si_equi_r2-m2:
+    notes: 'Nominal R. Eq. (3) with the Table V equi-width k values (k1 = -k2 = 120) gives Rk > R inside the bend, while p.2 usage 3 describes the equi-width curvature as increasing up to 45 deg (radius below R): printed conflict (D417), smallest radius stays the nominal R.'
+    why: 'As si_equi_r1-m2 (p.2 usage 3 vs Eq. (3), Table V)'
+  cmp_lit_song2020_si_equi_r3-m2:
+    notes: 'Nominal R. Eq. (3) with the Table V equi-width k values (k1 = -k2 = 50) gives Rk > R inside the bend, while p.2 usage 3 describes the equi-width curvature as increasing up to 45 deg (radius below R): printed conflict (D417), smallest radius stays the nominal R.'
+    why: 'As si_equi_r1-m2 (p.2 usage 3 vs Eq. (3), Table V)'

@@ -2,7 +2,7 @@
 
 Generated 2026-11-06 by `scripts/lit_manual_list.py` from `retrieval_queue.csv` and `logs/lit_fetch_status.jsonl`; papers already cached are left out. Save each PDF as `references/_inbox/<save_as>` (supplement: `<paper_id>_supplement.pdf`), then run `uv run python scripts/lit_ingest_inbox.py`.
 
-Total: 133
+Total: 134
 
 | # | day | class | save_as | year | venue | title | doi | reason |
 |---|---|---|---|---|---|---|---|---|
@@ -138,4 +138,5 @@ Total: 133
 | 130 | 10 | phase_shifter | qiu2025a.pdf | 2025 | ACS Photonics | Ultralow Loss Design Methodology for Energy-Efficient Thermo-Optic Phase Shifters | 10.1021/acsphotonics.4c02518 | paywalled, no institutional route |
 | 131 | 10 | polarization | shen2015.pdf | 2015 | Nature Photonics | An integrated-nanophotonics polarization beamsplitter with 2.4 × 2.4 μm2 footprint | 10.1038/nphoton.2015.80 | paywalled, no institutional route |
 | 132 | 10 | polarization | xu2023.pdf | 2023 | Laser & Photonics Review | Meta‐Structured Silicon Nanophotonic Polarization Beam Splitter with an Optical Bandwidth of 415 nm | 10.1002/lpor.202200550 | Wiley blocks the browser (D147) |
-| 133 | 10 | wdm | liu2022c.pdf | 2022 | APL Photonics | High-performance silicon photonic filters based on all-passive tenth-order adiabatic elliptical-microrings | 10.1063/5.0085332 | paywalled, no institutional route |
+| 133 | 10 | resonator | zhang2025e.pdf | 2025 | Chinese Optics Letters | Cascaded optical parameter oscillator within lithium tantalate microdisk based on two periodically poled structures | 10.3788/col202523.041902 | oa_publisher: blocked on 2026-11-07 |
+| 134 | 10 | wdm | liu2022c.pdf | 2022 | APL Photonics | High-performance silicon photonic filters based on all-passive tenth-order adiabatic elliptical-microrings | 10.1063/5.0085332 | paywalled, no institutional route |

@@ -1,0 +1,75 @@
+# Audit patch lit_96 (fresh-context audit 2026-11-06, DevLog/audits/2026-11-06-lit_96-audit.md).
+# 63 metrics: 60 ok / 3 imprecise / 0 wrong; 15 components: 15 ok / 0 imprecise / 0 wrong, 0 deleted; 4 misses added (4 metrics, no component).
+# Coordinator rulings open (audit Q1-Q8): to skip the zhao2025 L-band waveguide-loss row drop add_metrics wg2_56cm-m11; to skip the
+# raghunathan2025 intrinsic Q drop add_metrics ring-m6; to drop the zhao2025 design rows use delete_components on both design ids
+# (then also drop their m5 add_metrics ops).
+components:
+  cmp_lit_nikolai2025_pplt_shg_7mm:
+    notes: 'Fab: author contributions state that Z.L. fabricated the samples (p.7); all authors at EPFL (p.1): fab org_epfl (D395). Acknowledgment: samples fabricated in the EPFL Center of MicroNanoTechnology (CMi) and the Institute of Physics (IPHYS) cleanroom (p.7): facilities org_center_of_micronanotechnology, org_epfl_institute_of_physics_cleanroom. Two-photon imaging at the UNIL Cellular Imaging Facility (CIF) is domain inspection only and not in the registry (reported). Source is the arXiv v1 preprint (no journal record). The chip carries waveguides of 1.5 and 1.6 um width with several poling periods; which width the measured high-power device has is not stated (D159: no width row). Fig. 1(h) (p.2) draws this work''s waveguide as an icon labelled 1.5 um wide and 0.6 um high; not entered as the device width (icon labels are nominal: 0.6 um against the 576 nm film; p.5 names both widths). Poling domains about 50 % duty cycle (two-photon microscope, Fig. 3(a)). Generated on-chip SH power about 1.065 W from the full calibration (Fig. 4(c)), about 0.6 W collected after correcting the dichroic-mirror loss, more than 0.5 W measured directly (p.6): no registry parameter for SH output power on frequency_converter. No damage or degradation observed at this level; copper chip holder, no active cooling. Pump wavelength for maximum SH shifts from 1549.3 to 1553.0 nm with increasing pump power (p.6). SH spectra wider than modelled (Fig. 4(d)). Internal sample identifier given in the supplement (p.11).'
+    why: 'p.2 Fig. 1(h) labels the icon of the thin-film PPLT waveguide of this work 1.5 um x 0.6 um; recorded so the width question is traceable. Not entered as width_nm (D156 / D159: p.5 states two widths on the chip, the icon height label rounds the 576 nm film). Audit Q4'
+metrics:
+  cmp_lit_zhao2025_sin_rib_opa_wg2_56cm-m3:
+    locator: 'p.4; p.3 Fig. 2(c),(d); p.5'
+    why: 'Fig. 2 is printed on p.3 (render checked); the 330 nm statement is on p.4 and p.5. Locator pointed to p.4 for the figure'
+  cmp_lit_nikolai2025_pplt_waveguide_7mm-m1:
+    ref_plane: fiber
+    why: 'p.2: the 4.5 W is off-chip pump power (fiber side, Fig. 4(b) axis "Off-chip pump power"); the condition says so but ref_plane was empty. The on-chip pump at the top point is about 1.8 W (Fig. 4(c) axis, read, not entered)'
+  cmp_lit_yan2025_dual_layer_tfln_cascaded_opg_dfg-m2:
+    statistic: best
+    notes: 'Printed 32.1 % with 12.5 uW at 388.2 pJ (''as high as''; Fig. 3(a): the highest efficiency point, about 32 %). Check: 12.5 uW / (388.2 pJ x 100 kHz) = 32.2 %. Reference plane of the pump energy not stated; the simulated TE01 coupling of the lensed-fiber input is at most 10.8 % (p.5 Methods), below the printed efficiency, so pump energy and coupling cannot both be fiber-referred (D417 note; audit Q6).'
+    why: 'p.2 / p.4: ''as high as'' and the Fig. 3(a) maximum -> statistic best (rule 7). Notes add the arithmetic check and the reference-plane observation (p.5 Coupling method)'
+  cmp_lit_yan2025_dual_layer_tfln_cascaded_opg_dfg-m1:
+    notes: 'Printed 15.3 % with 9.4 uW. The cascaded power share is computed from spectral area fractions (p.4). The efficiency is the output power over the average pump power (9.4 uW / 15.3 % corresponds to about 61 uW, i.e. about 610 pJ at 100 kHz); whether the pump energy is referred to the fiber or the chip is not stated. The simulated TE01 coupling of the lensed-fiber input is at most 10.8 % (p.5 Methods); see m2 (D417 note; audit Q6).'
+    why: 'Cross-reference to the reference-plane observation on m2 (p.5 Coupling method); value and basis unchanged'
+add_metrics:
+- metric_id: cmp_lit_zhao2025_sin_rib_opa_design_w1600-m5
+  component_id: cmp_lit_zhao2025_sin_rib_opa_design_w1600
+  parameter: etch_depth_nm
+  value: 300
+  unit: nm
+  condition: 'rib height H1 above the 500 nm slab (design)'
+  basis: design_target
+  locator: p.5 Fig. 4 caption; p.5
+  notes: 'H1 = 300 nm printed for both designs (rib thickness, p.5 text and Fig. 4 caption); same convention as the fabricated rows (m7: rib height H1 = etch depth on the 800 nm film).'
+  why: 'Miss (D153 geometry): p.5 prints H1 = 300 nm for both theoretical designs; the design rows carried only the slab and width'
+- metric_id: cmp_lit_zhao2025_sin_rib_opa_design_w1828-m5
+  component_id: cmp_lit_zhao2025_sin_rib_opa_design_w1828
+  parameter: etch_depth_nm
+  value: 300
+  unit: nm
+  condition: 'rib height H1 above the 500 nm slab (design)'
+  basis: design_target
+  locator: p.5 Fig. 4 caption; p.5
+  notes: 'H1 = 300 nm printed for both designs (rib thickness, p.5 text and Fig. 4 caption); same convention as the fabricated rows (m7: rib height H1 = etch depth on the 800 nm film).'
+  why: 'Miss (D153 geometry): as the W = 1600 nm design row (p.5)'
+- metric_id: cmp_lit_zhao2025_sin_spiral_rib_wg2_56cm-m11
+  component_id: cmp_lit_zhao2025_sin_spiral_rib_wg2_56cm
+  parameter: insertion_loss_db
+  value: 1
+  unit: dB
+  qualifier: approx
+  band: l_band
+  polarization: te
+  mode: TE00
+  ref_plane: on_chip
+  scope: de_embedded
+  excludes: 'lensed-fiber facet coupling'
+  condition: 'total on-chip waveguide loss of the 0.56 m WG2 in the L band, the term subtracted from the on-off gain for the net gain (OPA m1)'
+  method: unspecified
+  basis: author_estimate
+  locator: p.4
+  notes: 'Printed about 1 dB in the L band; origin not stated (rule 4). Not consistent with the OFDR minimum of 2.5 dB/m over 0.56 m (1.4 dB, p.3) nor with the 2.5 dB/m assumed for the Fig. 2(c),(d) analytical curves (D417 note). Same physical waveguide as the OPA row (D396).'
+  why: 'Miss: p.4 prints the on-chip L-band waveguide loss of WG2 as its own value; a subtraction term of unstated origin is entered as author_estimate (wang2023e precedent, D444). Audit Q2'
+- metric_id: cmp_lit_raghunathan2025_sin_bsfwm_qfc_ring-m6
+  component_id: cmp_lit_raghunathan2025_sin_bsfwm_qfc_ring
+  parameter: q_intrinsic
+  value: 900000
+  unit: '1'
+  wavelength_nm: 1283
+  polarization: tm
+  condition: 'signal resonance of the conversion device; critical coupling inferred from the signal scan across the resonance (Fig. 2(a)); Q_i = 2 Q_L'
+  method: ring_extraction
+  basis: derived
+  locator: p.3; p.5 Fig. 2(a)
+  notes: 'Not printed: 2 x 4.5e5 (m4). The paper infers critical coupling from its own scan of the signal resonance (p.3, Fig. 2(a)); the 1283 nm panel of Fig. 2(a) is the only signal panel and its dip reaches about zero transmission (render), so the regime is determined from the data (D403; puckett2021 precedent, D463). The idler coupling is unknown (p.3), so no idler value.'
+  why: 'Miss: D403 allows an intrinsic Q when the coupling regime is determined from the data; p.3 ties the critical-coupling inference to the Fig. 2(a) scan, whose only signal panel is 1283 nm. Audit Q5'

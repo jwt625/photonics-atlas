@@ -1,0 +1,150 @@
+# Audit patch lit_97 (fresh-context audit 2026-11-06, DevLog/audits/2026-11-06-lit_97-audit.md).
+# 131 metrics: 124 ok / 7 imprecise / 0 wrong; 22 components: 21 ok / 1 imprecise / 0 wrong, 0 deleted; 9 misses added (metrics only).
+# Coordinator rulings open (audit Q1-Q8): Q1 yamaoka2024 D408 keep (no op); to keep the ji2026 passive-ring basis drop the two passive_ring ops; to skip the 52.8 mW on-chip row drop cmp_lit_ji2026_edwl-m21; to keep ref_plane unspecified on the temperature series drop the edwl m13-m16 ops; the four spiga2016 figure reads and the btj3 notes op form one droppable block.
+components:
+  cmp_lit_ji2026_edwl:
+    notes: 'Cached text is arXiv 2501.06936v1 (2025-01-12), titled ''Full C- and L-band tunable erbium-doped integrated lasers via scalable manufacturing''; the source row (same arXiv id) is the Nature Communications 2026 version with a different title: same work, journal version unread (D430 / D433). Fab: author contributions (p.8): X.J. and Z.Q. (EPFL) fabricated the Si3N4 samples; acknowledgment: samples fabricated in the EPFL Center of MicroNanoTechnology (CMi, facility). T.K. and J.C.O. (printed ''Varian Semiconductor, Applied Materials'') performed the Er ion implantation -> org_applied_materials (Varian unit not in the registry) on the implanted rows (D80b, two orgs named in the contributions). One row for the laser design; die IDs per metric (D165): D125_43_F5_C2 (36 mW), D125_04_F9_C3 (tuning), D125_04_F4_C3 = EDWL1 (threshold, noise, RIN), D125_43_F2_C2 = EDWL2 (packaged in a 14-pin butterfly by A.V., EPFL). Linewidth: p.6 prints pi h0 = 77.3 Hz for EDWL1 (entered, m6); the abstract ''intrinsic linewidth of 95 Hz'' and the summary ''Lorentzian linewidth below 95 Hz'' name no device. Fig. 3(F) read (audit 2026-11-06): the packaged EDWL2 plateau between 1 and 6 MHz is about 30 Hz2/Hz (pi h0 about 95 Hz) and the EDWL1 floor beyond its 5 MHz relaxation peak about 20-25 Hz2/Hz, so 95 Hz most likely belongs to EDWL2; not a conflict with 77.3 Hz, not entered (no device named; 77.3 Hz already satisfies ''below 95 Hz''). Gain-section waveguide 5 x 0.2 um2 (p.10): m19 / m20; highest on-chip power of Fig. 3(E), about 52.8 mW: m21. Not entered: slope efficiency about 24 % (optical-to-optical, on-chip, Fig. 3(E); no laser % slope parameter); frequency drift < 15 MHz over 6 h (Fig. 4(E)); stable under self-reflection up to 14 dB attenuation and external injection -30 to +10 dBm (no parameter); operation up to 125 C (no max-temperature parameter); gain 2.28 dB/cm and loss 1.98 dB/m used in the Supp. simulation ''matching values measured'' (measurement not shown); Er concentration / lifetime of the simulations; cavity length about 18 cm (TRN model input, Supp. p.20); simulated mode area 3.02 um2 and overlap about 30 %. Tunable MZI loop mirrors (Supp. Note 3): transmission tunable 0-1 with fitted k1 = k2 = 0.09 (1550 nm) and k1 0.16 / k2 0.3 (1480 nm), but the paper does not say which of the two mirrors Fig. S3 shows (D159): no rows. Comparison data of other lasers (Fig. 1(B)) are other works.'
+    why: 'p.6 vs p.1 / p.8 and Fig. 3(F) (p.5): the 95 Hz headline is not tied to a device and matches pi x the EDWL2 plateau; the D417 conflict wording overstated it. Cross-notes to the added rows m19-m21'
+  cmp_lit_spiga2016_vcsel_btj3:
+    notes: 'Fab empty: no fabrication statement naming the authors or an org (passive ''fabricated lasers''; D80b); authors at Walter Schottky Institut, TU Munich and Ghent University - imec. Vertilas GmbH thanked for discussions / technical support only. Journal follow-up of the authors'' OFC 2016 paper [6] (''presented first in [6]''); the values here are stated as this paper''s measurements without citing [6] (D408 kept). Emission near 1530-1537 nm: the 1.55 um target was missed due to unintended layer removal (p.4). Mirror reflectivities have no laser parameter (in core_material; origin not stated). Not entered: differential quantum efficiency and internal loss / internal efficiency (Figs. 3(a), 4(a); no laser % efficiency or internal-loss parameter), D-factor and K-factor (no parameter). Single mode at room temperature (Fig. 2(b)). D-factor 12.5 GHz/mA^0.5, K-factor 172 ps (p.5). Fig. 5(a): the caption names only the 4 um device, but its legend and the p.5 text show this 3 um device at 1.6 and 4.4 mA; the 4.4 mA response (3-dB about 21.6 GHz) is entered as a figure read (m5) and the highest relaxation resonance frequency of Fig. 5(b) as m6.'
+    why: 'p.5 Sec. V (''S21 parameters of two 1.5-lambda VCSELs with 3- and 4-um tunnel junction diameters are depicted in Fig. 5(a)'') and the Fig. 5(a) legend (3 um at 1.6 / 4.4 mA): the note''s reason for no bandwidth row was wrong'
+metrics:
+  cmp_lit_ji2026_passive_ring-m1:
+    basis: author_estimate
+    notes: 'Fitted intrinsic linewidth of one representative resonance (Fig. 2(E): a single Lorentzian dip to about 0.27 transmission; no external rate, doublet or phase response shown). Under- and over-coupled solutions give the same lineshape and the paper does not show how the regime was fixed: author_estimate (D403; D465 ji2024 Fig. 6 analogue). Wavelength of the representative resonance not printed; ring characterized across the C and L bands.'
+    why: 'p.3 / p.4 Fig. 2(E): kappa0 from a single-resonance Lorentzian fit; the coupling regime is not determined from the data shown (D403 applied strictly, D418, D465). Audit Q2'
+  cmp_lit_ji2026_passive_ring-m2:
+    basis: author_estimate
+    notes: 'Printed 1.5 to 4 dB/m (dB/m -> dB/cm) from the fitted kappa0 with alpha = 10 log10(e) n_g kappa0 / c and n_g = 1.8 as stated (p.3-4). Rests on kappa0, whose coupling regime is not shown to be determined from the data: author_estimate (D403, as m1).'
+    why: 'p.3-4 Fig. 2(D): the loss is computed from the m1 kappa0 values (D403). Audit Q2'
+  cmp_lit_ji2026_edwl-m6:
+    notes: pi x 24.6 = 77.3 Hz (arithmetic printed by the authors, D80a). Reference ECDL shows a similar plateau beyond 1 MHz (p.6), so the value may be reference-limited. The abstract prints 95 Hz with no device named; the Fig. 3(F) read (audit) puts the packaged EDWL2 plateau at about 30 Hz2/Hz (pi h0 about 95 Hz), so 95 Hz most likely belongs to EDWL2 and does not conflict with this EDWL1 value (component notes).
+    why: 'p.5 Fig. 3(F) read: EDWL2 (red) plateau about 30 Hz2/Hz between 1 and 6 MHz; note only, value unchanged. Audit Q4'
+  cmp_lit_ji2026_edwl-m13:
+    ref_plane: fiber
+    notes: Device not identified. p.8 attributes the lower powers at 85-125 C to drifts of the coupling fibers, so the powers are fiber-coupled (ref_plane fiber, audit).
+    why: 'p.8: ''primarily due to coupling drifts of the coupling fibers'' ties the temperature-series powers to a fiber-coupled measurement; ref_plane unspecified was imprecise'
+  cmp_lit_ji2026_edwl-m14:
+    ref_plane: fiber
+    condition: device temperature 85 C; lasing near 1558.7 nm (Fig. 4(A) read)
+    notes: 'Printed on p.8. Fiber-coupled: p.8 attributes the power reduction to drifts of the coupling fibers (audit). Fig. 4(A) peak near 1558.7 nm (figure read, +/-0.2 nm). Device not identified.'
+    why: 'p.8 / p.7 Fig. 4(A): coupling-fiber drift statement makes the powers fiber-coupled; lasing wavelength added to the condition from the figure'
+  cmp_lit_ji2026_edwl-m15:
+    ref_plane: fiber
+    condition: device temperature 105 C; lasing near 1559.0 nm (Fig. 4(A) read)
+    notes: 'Printed on p.8. Fiber-coupled: p.8 attributes the power reduction to drifts of the coupling fibers (audit). Fig. 4(A) peak near 1559.0 nm (figure read, +/-0.2 nm). Device not identified.'
+    why: 'p.8 / p.7 Fig. 4(A): coupling-fiber drift statement makes the powers fiber-coupled; lasing wavelength added to the condition from the figure'
+  cmp_lit_ji2026_edwl-m16:
+    ref_plane: fiber
+    condition: device temperature 125 C; lasing near 1559.4 nm (Fig. 4(A) read)
+    notes: 'Printed on p.8. Fiber-coupled: p.8 attributes the power reduction to drifts of the coupling fibers (audit). Fig. 4(A) peak near 1559.4 nm (figure read, +/-0.2 nm). Device not identified.'
+    why: 'p.8 / p.7 Fig. 4(A): coupling-fiber drift statement makes the powers fiber-coupled; lasing wavelength added to the condition from the figure'
+  cmp_lit_spiga2016_vcsel_btj5-m1:
+    locator: p.3 Sec. IV; p.4 Fig. 3(b)
+    notes: Upper end of the printed 0.7-1.3 mA range (p.3), which the text says increases with the active area. Fig. 3(b) shows the 5 um threshold at 20 C at about 1.30 mA (audit read, +/-0.03 mA), which confirms the assignment (no D159 issue).
+    why: 'p.4 Fig. 3(b): the 5 um curve gives about 1.30 mA at 20 C, direct support for the value the distiller assigned from the range statement'
+add_metrics:
+- metric_id: cmp_lit_ji2026_edwl-m19
+  component_id: cmp_lit_ji2026_edwl
+  parameter: width_nm
+  value: '5000'
+  unit: nm
+  condition: Er-implanted gain-section waveguide (5 x 0.2 um2 cross-section)
+  basis: derived
+  locator: p.10 Methods; p.2 Fig. 1(G) caption
+  notes: Printed 5 um (um -> nm, D157); the Fig. 1(G) caption also names the 5 um wide, 200 nm thick waveguides of this work.
+  why: 'Miss (D153 stated geometry): p.10 Methods prints the gain-section cross-section 5 x 0.2 um2'
+- metric_id: cmp_lit_ji2026_edwl-m20
+  component_id: cmp_lit_ji2026_edwl
+  parameter: core_thickness_nm
+  value: '200'
+  unit: nm
+  condition: Si3N4 film of the gain-section waveguide (LPCVD, annealed before etching)
+  basis: design_target
+  locator: p.10 Methods; p.3
+  notes: Printed 200 nm film thickness (D161 / D402); p.10 also reports a 3.5 % thickness reduction on annealing (process data).
+  why: 'Miss (D153 stated geometry): p.3 and p.10 print the 200 nm Si3N4 film of the laser'
+- metric_id: cmp_lit_ji2026_edwl-m21
+  component_id: cmp_lit_ji2026_edwl
+  parameter: output_power_mw
+  value: '52.8'
+  unit: mW
+  qualifier: approx
+  statistic: best
+  ref_plane: on_chip
+  condition: highest point of on-chip laser power vs on-chip 1480 nm pump power, at about 234 mW on-chip pump; device D125_04_F4_C3 (EDWL1)
+  basis: author_estimate
+  locator: p.5 Fig. 3(E)
+  notes: Read off Fig. 3(E) (last data point; reading uncertainty about +/-0.5 mW, pump about +/-2 mW). The caption says both powers are measured on-chip; the fiber-to-chip referencing is not described, so author_estimate as m5 (D460 franken2025, D431). Lasing wavelength of this panel not stated.
+  why: 'Miss: Fig. 3(E) shows on-chip laser power up to about 53 mW, above the 36 mW fiber-coupled headline; same basis as the threshold row m5 from this panel. Audit Q6'
+- metric_id: cmp_lit_kiewiet2026_microgear_reflector-m4
+  component_id: cmp_lit_kiewiet2026_microgear_reflector
+  parameter: footprint_um2
+  value: '40000'
+  unit: um2
+  condition: microgear reflector (DBR-MRR)
+  basis: derived
+  locator: p.4 Sec. II-B
+  notes: Printed 200 um x 200 um compact footprint of the reflector (p.4); product computed.
+  why: 'Miss (D153 stated geometry): p.4 prints the reflector footprint'
+- metric_id: cmp_lit_kiewiet2026_vernier_laser1-m9
+  component_id: cmp_lit_kiewiet2026_vernier_laser1
+  parameter: threshold_ma
+  value: '61'
+  unit: mA
+  qualifier: approx
+  condition: onset of output in the L-I at the constant heater powers of Fig. 6(c)
+  basis: extracted_from_figure
+  locator: p.8 Fig. 6(c)
+  notes: 'Read off Fig. 6(c): output rises from zero at about 61-62 mA (reading uncertainty about +/-1 mA). The paper prints no threshold for the Vernier lasers; at fixed heater powers the onset depends on the cavity-mode alignment (the L-I oscillates with mode hops). p.8 projects about 50 mA after loss reduction (projection, not entered).'
+  why: 'Miss: Fig. 6(c) LIV of Vernier laser 1 shows the lasing onset; the batch report called it not printed but a figure read is allowed (extracted_from_figure)'
+- metric_id: cmp_lit_spiga2016_vcsel_btj4-m13
+  component_id: cmp_lit_spiga2016_vcsel_btj4
+  parameter: output_power_mw
+  value: '2.3'
+  unit: mW
+  qualifier: approx
+  temperature_k: '293.15'
+  ref_plane: unspecified
+  condition: maximum (thermal roll-over) of the L-I curve, 20 C, at about 8.8 mA
+  basis: extracted_from_figure
+  locator: p.3 Fig. 2(a)
+  notes: Read off Fig. 2(a) (4 um curve peak about 2.31 mW), reading uncertainty about +/-0.1 mW; collection optics not stated. Same panel and reading as the 3 / 5 um m3 rows.
+  why: 'Miss: the 3 and 5 um room-temperature maxima of Fig. 2(a) were entered, the 4 um one was not (same treatment for the sibling)'
+- metric_id: cmp_lit_spiga2016_vcsel_btj4-m14
+  component_id: cmp_lit_spiga2016_vcsel_btj4
+  parameter: relaxation_oscillation_ghz
+  value: '22.6'
+  unit: GHz
+  qualifier: approx
+  statistic: best
+  temperature_k: '293.15'
+  condition: highest relaxation resonance frequency from the S21 fits (Eq. (1)), at (I - Ith)^0.5 about 2.55 mA^0.5
+  basis: extracted_from_figure
+  locator: p.5 Fig. 5(b)
+  notes: Read off Fig. 5(b) (highest 4 um point), reading uncertainty about +/-0.4 GHz. fR is the paper's fit of its own S21 data; D-factor 10.1 GHz/mA^0.5 (p.5, no parameter).
+  why: 'Miss: Fig. 5(b) plots fR per bias; relaxation_oscillation_ghz exists for lasers'
+- metric_id: cmp_lit_spiga2016_vcsel_btj3-m5
+  component_id: cmp_lit_spiga2016_vcsel_btj3
+  parameter: bw3db_ghz
+  value: '21.6'
+  unit: GHz
+  qualifier: approx
+  condition: small-signal S21 at 4.4 mA; -3 dB crossing of the fitted response
+  basis: extracted_from_figure
+  locator: p.5 Fig. 5(a)
+  notes: 'Read off Fig. 5(a): the 3 um, 4.4 mA fit line crosses -3 dB at about 21.6 GHz (data scatter about +/-0.5 GHz). The caption names only the 4 um device; the legend and the p.5 text include this 3 um device. Consistent with the p.5 statement that 22 GHz (4 um, 6.8 mA) is the highest bandwidth.'
+  why: 'Miss: p.5 Sec. V and the Fig. 5(a) legend show the 3 um device response; the distiller''s reason (caption) was wrong'
+- metric_id: cmp_lit_spiga2016_vcsel_btj3-m6
+  component_id: cmp_lit_spiga2016_vcsel_btj3
+  parameter: relaxation_oscillation_ghz
+  value: '22.6'
+  unit: GHz
+  qualifier: approx
+  statistic: best
+  temperature_k: '293.15'
+  condition: highest relaxation resonance frequency from the S21 fits (Eq. (1)), at (I - Ith)^0.5 about 2.3 mA^0.5
+  basis: extracted_from_figure
+  locator: p.5 Fig. 5(b)
+  notes: Read off Fig. 5(b) (highest 3 um point), reading uncertainty about +/-0.4 GHz. fR is the paper's fit of its own S21 data; D-factor 12.5 GHz/mA^0.5 (p.5, no parameter).
+  why: 'Miss: as btj4 m14'

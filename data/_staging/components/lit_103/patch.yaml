@@ -1,0 +1,85 @@
+# Audit patch lit_103 (fresh-context audit 2026-11-06, DevLog/audits/2026-11-06-lit_103-audit.md).
+# 199 metrics: 191 ok / 8 imprecise / 0 wrong; 30 components: 27 ok / 3 imprecise / 0 wrong, 0 deleted; 2 misses added (2 metrics).
+# Coordinator rulings open: to skip the manganelli2017 heater FSR misses drop add_metrics (Q1); to keep the suzuki2020 345 mW row
+# derived drop the piloss_8x8-m9 op (Q7). All other ops are figure re-reads, a D157 basis fix and wording fixes.
+components:
+  cmp_lit_manganelli2017_dr_heater_0p5:
+    notes: 'Fab: the devices were fabricated at CEA-LETI (p.5 Sec. 3): 8 in SOI, 220 nm Si, 2 um BOX, 193 nm DUV lithography, RIE, CVD SiO2 cover. Platform soi_strip: the design section assumes fully etched waveguides to reduce bend loss (p.5 Sec. 3); etch depth of the waveguides not printed otherwise. p-type doped Si heaters (1e19 cm-3, sheet resistance 480 ohm/sq on the 220 nm Si slab, silicide contacts) centred in the inner area of each ring, separate voltage per ring and common ground (p.6, p.8). Heater-to-ring-waveguide distance has no registry parameter on wdm (heater_gap_um is phase_shifter only; batch report). Fig. 9 values are per FSR and per ring, averaged over the two rings of each filter, for 450 and 410 nm waveguides (width in condition, D165 family row). Fig. 8 devices: the text says 410 nm waveguides (p.8 Sec. 3.2), the caption says 450 nm (conflict, D417), so Table 1 values are entered without a width. Measured heater resistance 870 ohm (p.8; heater_resistance_ohm is phase_shifter only). Fig. 8 panel conflict (D417): the Fig. 8(a) legend pairs 0.5 um with the non-tuned trace whose peak is a -3.1 dB double hump at about 1526.6 nm and the tuned peak at about 1536.7 nm, and 0.92 um with peaks at about 1527.35 / 1534.5 nm; panels (b) and (c) show the reverse (the (b) 0 V trace peaks at about -1 dB near 1527.4 nm and tunes to about 1535.0 nm; the (c) 0 V trace is the -3 dB double hump, tuned to about 1536.7 nm), while the caption, the panel legends and Table 1 assign (b) to 0.5 um and (c) to 0.92 um. Table 1 and the resistances agree with each other (V^2 / P: 4 V / 18.92 mW = 846 ohm vs 870 ohm; 4.1 V / 17.17 mW = 979 ohm vs 980 ohm), so the Table 1 rows keep the caption assignment.'
+    why: 'Missed conflict. p.8 Fig. 8(a) vector traces vs the Fig. 8(b), (c) raster panels and p.9 Table 1: the (a) legend and the (b) / (c) caption assignment disagree (peak levels and tuned positions read at 300 dpi and from the vector paths). Table 1 powers reproduce the p.8 resistances, so Table 1 rows keep the caption assignment; conflict noted (D417)'
+  cmp_lit_manganelli2017_dr_heater_0p92:
+    notes: 'Fab: the devices were fabricated at CEA-LETI (p.5 Sec. 3): 8 in SOI, 220 nm Si, 2 um BOX, 193 nm DUV lithography, RIE, CVD SiO2 cover. Platform soi_strip: the design section assumes fully etched waveguides to reduce bend loss (p.5 Sec. 3); etch depth of the waveguides not printed otherwise. p-type doped Si heaters (1e19 cm-3, sheet resistance 480 ohm/sq on the 220 nm Si slab, silicide contacts) centred in the inner area of each ring, separate voltage per ring and common ground (p.6, p.8). Heater-to-ring-waveguide distance has no registry parameter on wdm (heater_gap_um is phase_shifter only; batch report). Fig. 9 values are per FSR and per ring, averaged over the two rings of each filter, for 450 and 410 nm waveguides (width in condition, D165 family row). Fig. 8 devices: the text says 410 nm waveguides (p.8 Sec. 3.2), the caption says 450 nm (conflict, D417), so Table 1 values are entered without a width. Measured heater resistance 980 ohm (p.8). Table 1 ''Tuning 2'' lists 4.1 V / 4.4 V while the Fig. 8(c) legend shows 4 V / 4.4 V for the compensated trace (D417). Fig. 8 panel conflict (D417): the Fig. 8(a) legend pairs 0.5 um with the non-tuned trace whose peak is a -3.1 dB double hump at about 1526.6 nm and the tuned peak at about 1536.7 nm, and 0.92 um with peaks at about 1527.35 / 1534.5 nm; panels (b) and (c) show the reverse (the (b) 0 V trace peaks at about -1 dB near 1527.4 nm and tunes to about 1535.0 nm; the (c) 0 V trace is the -3 dB double hump, tuned to about 1536.7 nm), while the caption, the panel legends and Table 1 assign (b) to 0.5 um and (c) to 0.92 um. Table 1 and the resistances agree with each other (V^2 / P: 4 V / 18.92 mW = 846 ohm vs 870 ohm; 4.1 V / 17.17 mW = 979 ohm vs 980 ohm), so the Table 1 rows keep the caption assignment.'
+    why: 'Missed conflict. p.8 Fig. 8(a) vector traces vs the Fig. 8(b), (c) raster panels and p.9 Table 1: the (a) legend and the (b) / (c) caption assignment disagree (peak levels and tuned positions read at 300 dpi and from the vector paths). Table 1 powers reproduce the p.8 resistances, so Table 1 rows keep the caption assignment; conflict noted (D417)'
+  cmp_lit_manganelli2017_dr_410_fig7:
+    notes: 'Fab: the devices were fabricated at CEA-LETI (p.5 Sec. 3): 8 in SOI, 220 nm Si, 2 um BOX, 193 nm DUV lithography, RIE, CVD SiO2 cover. Platform soi_strip: the design section assumes fully etched waveguides to reduce bend loss (p.5 Sec. 3); etch depth of the waveguides not printed otherwise. Second-order (double-ring) add-drop filter of modified racetracks with full cubic-spline (Bezier) 180-deg bends; designed for 35 dB maximum channel isolation and 20 dB rejection of a 200 GHz-spaced channel with K1 = 20 % and K2 = 1.23 % (p.5); FSR 2.4 THz design limits the perimeter to about 30 um (bend radius below 4 um, p.5); ring perimeter / R_eff of the rings not printed. Coupling length 2.2 um; gaps calculated per width (p.6). Doped-Si heaters are on all these passive structures (p.6); heater distance of this device not stated (heater-distance rows: cmp_lit_manganelli2017_dr_heater_*). Drop spectra normalized to the grating-coupler response taken from the through-port off-resonance data (p.6). Normalized node distance of the Fig. 7 device not stated (its 1555 nm centre is near the 2.4 trace of Fig. 6(a), not asserted), so a separate unnamed-device row (matsuo2013 precedent, D422). The p.3 statement ''characterized by 2.4 THz FSR and a 3 dB bandwidth of about 100 GHz (0.8 nm)'' names no device and disagrees with the Fig. 7 reading of the 3-dB width (about 140-145 GHz); the 1-dB width reads about 105 GHz: not entered (D159), conflict noted (D417). The abstract''s non-adjacent rejection > 35 dB is reached here only from about +600 GHz (about 37 dB); at +400 GHz the reading is about 31 dB. Abstract: FSR up to 2.4 THz (19 nm) around 1550 nm and non-adjacent channel rejection higher than 35 dB, device not named (not entered, D159).'
+    why: 'Follows the re-read of m2 (p.7 Fig. 7): the 1-dB width is about 105 GHz, not 95 GHz'
+metrics:
+  cmp_lit_suzuki2020_edge_coupler_oband_lib-m2:
+    parameter: width_nm
+    notes: 'Printed ''width: 140 nm'' (p.3 Sec. III-B) for the library edge coupler; the paper does not say which width (tip or waveguide), so the value is stored as the stated feature width, not as the taper tip width (component_layouts rule: a drawing never guesses which width is which).'
+    why: 'p.3 Sec. III-B: the role of the 140 nm width is not stated; coordinator ruling on audit Q9 (strict reading)'
+  cmp_lit_manganelli2017_dr_410_d17-m1:
+    value: 17.2
+    notes: Two drop-port peaks of the same trace at about 1546.5 and 1563.7 nm, read from the vector paths of Fig. 6(a) (+/- 0.05 nm); spacing 17.24 nm.
+    why: 'p.7 Fig. 6(a) is vector art: the red (delta_node 1.7) trace peaks at 1546.48 and 1563.72 nm on the tick calibration (1545-1570 nm, 7.512 pt/nm). Printed 17.3 sits at the edge of its own +/- 0.2 nm per-peak reading'
+  cmp_lit_manganelli2017_dr_410_d17-m2:
+    value: 0.4
+    value_max: 1.0
+    wavelength_nm: 1546.5
+    wavelength_max_nm: 1563.7
+    notes: Peaks at about -0.4 dB (1546.5 nm) and -1.0 dB (1563.7 nm), read from the vector paths of Fig. 6(a) (+/- 0.05 dB on the 0 / -40 dB tick calibration).
+    why: 'p.7 Fig. 6(a) vector paths: peak levels -0.41 dB at 1546.48 nm and -0.96 dB at 1563.72 nm (the distiller read -0.6 / -1.1 dB at 1546.7 / 1564.0 nm). Same calibration confirms the other Fig. 6 rows (d20 -0.91 dB at 1549.63 nm; d24 -0.99 dB at 1554.73 nm; 450 nm peaks within 0.25 dB of 0 dB, FSR 19.2-19.65 nm)'
+  cmp_lit_manganelli2017_dr_410_fig7-m1:
+    notes: 'Read off the measured (solid) curve: -3 dB at about -73 to -78 and +68 to +69 GHz, +/- 10 GHz. Printed p.3 ''about 100 GHz (0.8 nm)'' for the double-ring filters disagrees (D417); it is closer to the 1-dB width (m2, about 105 GHz).'
+    why: 'Audit re-read of p.7 Fig. 7 (embedded 475 x 335 px raster; 3.7 GHz per pixel): -3 dB crossings of the solid red trace at about -73 / +68 GHz; the stored 145 GHz stays inside +/- 10 GHz. Note updated with the 1-dB comparison'
+  cmp_lit_manganelli2017_dr_410_fig7-m2:
+    value: 105
+    notes: -1 dB at about -55 and +51 GHz on the measured (solid) trace, +/- 10 GHz (raster image, 3.7 GHz per pixel, line about 3 px wide).
+    why: 'p.7 Fig. 7: on the native raster (0 GHz at the single-ring peak, 200 GHz = 54 px; 0 / -10 dB = 58 px) the red pixel runs at the -1 dB row are centred at about -55 and +51 GHz, so the 1-dB width is about 105 GHz; 95 GHz (-49 / +45) lies outside the stated +/- 8 GHz'
+  cmp_lit_manganelli2017_dr_heater_0p5-m6:
+    condition: per ring (ring 1, ring 2) at 4 V / 4.22 V ('Tuning 1'), the asymmetry-compensated state; red shift about 7.7 nm in Fig. 8(b)
+    notes: 'Shift read off Fig. 8(b) on the tick grid of Fig. 8(c) (panel (b) prints no tick labels): peak about 1527.4 -> 1535.0 nm (+/- 0.3 nm). Electrical compensation of about 5 % recovers the filter shape (p.8). Fig. 8(a) legend vs panels conflict: component notes (D417).'
+    why: 'p.8 Fig. 8(b) re-read at 300 dpi (grid lines every 2 nm, 42 px/nm): 0 V peak at about 1527.35 nm, 4 V / 4.22 V peak at about 1535.0 nm, a shift of about 7.7 nm, not 8.5 nm (1527.3 -> 1535.8). Table 1 values unchanged'
+  cmp_lit_manganelli2017_dr_heater_0p92-m3:
+    condition: per ring (ring 1, ring 2) at 4.1 V / 4.4 V ('Tuning 2'), the asymmetry-compensated state; red shift about 9.6 nm in Fig. 8(c)
+    notes: 'Shift read off Fig. 8(c): 0 V double-hump centre about 1527.0 nm (lobes about 1526.6 / 1527.4 nm) -> tuned peak about 1536.7 nm (+/- 0.3 nm). Table 1 Tuning 2 lists 4.1 V / 4.4 V while the Fig. 8(c) legend shows 4 V / 4.4 V for this trace (D417). Fig. 8(a) legend vs panels conflict: component notes.'
+    why: 'p.8 Fig. 8(c) re-read at 300 dpi (1526-1536 nm ticks, 42.4 px/nm): tuned peak at about 1536.7 nm and the non-tuned lobes centred at about 1527.0 nm, a shift of about 9.6 nm, not 9 nm (1527.3 -> 1536.3)'
+  cmp_lit_zhong2025_demux_8ch-m28:
+    basis: derived
+    notes: Printed 1 um; stored in nm (unit rescaling, D157 / D256).
+    why: p.2 Sec. II prints the gap as 1 um only (no nm form in the text); a pure unit rescaling is derived with the printed value in notes (D157, D256), the batch kept design_target
+  cmp_lit_suzuki2020_piloss_8x8-m9:
+    basis: author_estimate
+    notes: Printed 345 mW, stored in W. The total is 191 mW for initial phase-error trimming plus 154 mW for switching, the latter printed as 9.6 mW (power for pi phase shift) x 8 x 2; that 9.6 mW has no shown measurement (mz_switch m2, author_estimate), so the total rests on it (rule 4; D256a keeps author_estimate after the mW -> W conversion; lit_94 feyisa2022 power precedent).
+    why: 'p.4 Sec. III-D: the 345 mW contains the computed 154 mW = 9.6 mW x 8 x 2, and the batch itself enters the 9.6 mW as author_estimate (origin not stated). A total built on it cannot be derived (rule 4; audit lit_94 Q2 ruling on feyisa2022 m9 / m10). Audit Q7'
+  cmp_lit_yu2023a_wss_3x3_folded-m1:
+    includes: 'collimator array, free-space optics and LCOS; circulators in the path (p.2: a port used as both input and output is separated by a circulator; p.4: all three ports used as input and output simultaneously); subtraction of the circulator loss not stated'
+    why: 'The batch wrote ''circulators presumably in the path''. p.2 Sec. II (Fig. 4) and p.4 Sec. III-C together state it: ports used as both input and output use a circulator, and the Fig. 8 measurement uses all three ports that way. The text does not say whether the circulator loss is removed'
+add_metrics:
+- metric_id: cmp_lit_manganelli2017_dr_heater_0p5-m8
+  component_id: cmp_lit_manganelli2017_dr_heater_0p5
+  parameter: fsr_nm
+  value: 19.2
+  unit: nm
+  qualifier: approx
+  statistic: mean
+  wavelength_nm: 1508
+  wavelength_max_nm: 1566
+  condition: non-tuned double-ring filter of Fig. 8 (waveguide width 410 nm per p.8 text, 450 nm per caption); mean of the three resonance spacings between about 1508 and 1566 nm
+  basis: extracted_from_figure
+  locator: p.8 Fig. 8(a)
+  notes: Read from the vector paths of Fig. 8(a) (1500-1570 nm ticks, +/- 0.05 nm per peak). 0.5 um (legend) non-tuned peaks about 1507.95 / 1526.64 / 1545.80 / 1565.41 nm, mean spacing 19.15 nm; the spacing grows with wavelength (about 18.7, 19.2 and 19.6-19.8 nm). Both legend entries give 19.2 nm, so the Fig. 8 legend / panel conflict does not change the value. Closer to the 450 nm FSR of Fig. 6(b) (about 19.4 nm) than to the 410 nm value of Fig. 6(a) (17.2 nm). With 19.2 nm, the printed 36 mW/FSR and 0.69 nm/mW pair does not reproduce (36 x 0.69 = 24.8 nm; D417).
+  why: Miss. p.8 Fig. 8(a) is vector art with four resonances per trace; the FSR of the heated devices is a measured spectral value of the rows that carry the Table 1 and Fig. 9 tuning data. The batch left it out because of the 410 / 450 nm width conflict; the conflict sits in the condition, as for the Table 1 rows of the same components (D417). Audit Q1
+- metric_id: cmp_lit_manganelli2017_dr_heater_0p92-m5
+  component_id: cmp_lit_manganelli2017_dr_heater_0p92
+  parameter: fsr_nm
+  value: 19.2
+  unit: nm
+  qualifier: approx
+  statistic: mean
+  wavelength_nm: 1508
+  wavelength_max_nm: 1566
+  condition: non-tuned double-ring filter of Fig. 8 (waveguide width 410 nm per p.8 text, 450 nm per caption); mean of the three resonance spacings between about 1508 and 1566 nm
+  basis: extracted_from_figure
+  locator: p.8 Fig. 8(a)
+  notes: Read from the vector paths of Fig. 8(a) (1500-1570 nm ticks, +/- 0.05 nm per peak). 0.92 um (legend) non-tuned peaks about 1508.71 / 1527.35 / 1546.53 / 1566.29 nm, mean spacing 19.19 nm; the spacing grows with wavelength (about 18.7, 19.2 and 19.6-19.8 nm). Both legend entries give 19.2 nm, so the Fig. 8 legend / panel conflict does not change the value. Closer to the 450 nm FSR of Fig. 6(b) (about 19.4 nm) than to the 410 nm value of Fig. 6(a) (17.2 nm). With 19.2 nm, the printed 36 mW/FSR and 0.69 nm/mW pair does not reproduce (36 x 0.69 = 24.8 nm; D417).
+  why: Miss. p.8 Fig. 8(a) is vector art with four resonances per trace; the FSR of the heated devices is a measured spectral value of the rows that carry the Table 1 and Fig. 9 tuning data. The batch left it out because of the 410 / 450 nm width conflict; the conflict sits in the condition, as for the Table 1 rows of the same components (D417). Audit Q1

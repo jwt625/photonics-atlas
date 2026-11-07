@@ -543,8 +543,10 @@ def delta_slots(rows: list[dict[str, Any]], old_q: list[dict[str, str]], freeze_
     match columns copied into the row for the schedule). An incoming paper takes the day slot of a displaced paper of
     the same primary class (same route first, then same site, then any; incoming in priority order), in that row's
     file position; its session is the slot's when the site matches, else the least-loaded session of its site on that
-    day, '' for non-browser routes. Raises ValueError when a displaced row is on a frozen day (<= freeze_days), a uid
-    changed under a kept paper_id, or the incoming and displaced class counts differ."""
+    day, '' for non-browser routes. Incoming curator picks beyond the displaced count of their class (lit_select
+    D511: curator pick beyond the class budget) go to the end of the queue on the last day, least-loaded session of
+    their site. Raises ValueError when a displaced row is on a frozen day (<= freeze_days), a uid changed under a
+    kept paper_id, or the incoming and displaced class counts differ other than by such curator picks."""
     new_by = {r["paper_id"]: r for r in rows}
     old_ids = {q["paper_id"] for q in old_q}
     for q in old_q:
@@ -556,8 +558,19 @@ def delta_slots(rows: list[dict[str, Any]], old_q: list[dict[str, str]], freeze_
     if frozen:
         raise ValueError(f"displaced rows on frozen days: {frozen}")
     incoming = [r for r in rows if r["paper_id"] not in old_ids]
-    if Counter(r["primary_class"] for r in incoming) != Counter(q["primary_class"] for q in displaced):
+    in_n = Counter(r["primary_class"] for r in incoming)
+    out_n = Counter(q["primary_class"] for q in displaced)
+    if out_n - in_n:
         raise ValueError("incoming / displaced class counts differ")
+    beyond: list[dict[str, Any]] = []
+    for cls, n in sorted((in_n - out_n).items()):
+        cur = [r for r in sorted(incoming, key=priority) if r["primary_class"] == cls
+               and str(r.get("selection_reason", "")).startswith("curator")]  # fmt: skip
+        if len(cur) < n:
+            raise ValueError("incoming / displaced class counts differ")
+        beyond += cur[-n:]
+    beyond_ids = {r["paper_id"] for r in beyond}
+    incoming = [r for r in incoming if r["paper_id"] not in beyond_ids]
     copy = ("route", "route_url", "session", "arxiv_match", "arxiv_match_score", "ieee_doi", "ieee_match_score")
     out: list[dict[str, Any]] = []
     for q in old_q:
@@ -595,6 +608,19 @@ def delta_slots(rows: list[dict[str, Any]], old_q: list[dict[str, str]], freeze_
     it = iter(out)
     for q in old_q:
         final.append(slot_of[q["paper_id"]] if q["paper_id"] in slot_of else next(it))
+    last_day = max(int(q["day"]) for q in old_q)
+    for r in sorted(beyond, key=priority):
+        r["day"] = last_day
+        site = SITE.get(r["route"])
+        if site:
+            cands = [k for k in load if k[0] == last_day and k[1] == site]
+            if not cands:
+                raise ValueError(f"no {site} session on day {last_day} for {r['paper_id']}")
+            r["session"] = min(cands, key=lambda k: (load[k], k[2]))[2]
+            load[(last_day, site, int(r["session"]))] += 1
+        else:
+            r["session"] = ""
+        final.append(r)
     return final
 
 

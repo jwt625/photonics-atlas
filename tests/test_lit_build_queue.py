@@ -301,3 +301,13 @@ def test_delta_slots_keeps_rows_and_hands_over_day_slots() -> None:
         assert "frozen" in str(e)
     else:
         raise AssertionError("frozen displacement not rejected")
+    # a curator pick beyond its class budget (no displaced row) goes to the end, last day, least-loaded session
+    cur = {**new("z", "ieee_browser", "wdm"), "selection_reason": "curator: owner add"}
+    out2 = q.delta_slots([*rows, cur], old, 2)
+    assert out2[-1]["paper_id"] == "z" and (out2[-1]["day"], out2[-1]["session"]) == (3, 3)
+    try:
+        q.delta_slots([*rows, new("w", "arxiv", "wdm")], old, 2)  # a rule pick may not enter without a slot
+    except ValueError as e:
+        assert "counts differ" in str(e)
+    else:
+        raise AssertionError("rule pick beyond budget not rejected")

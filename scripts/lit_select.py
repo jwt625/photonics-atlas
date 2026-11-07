@@ -210,7 +210,9 @@ def delta_select(
     displaceable = previous rows the unconstrained run drops that are neither frozen nor curator picks (no longer
     eligible first, then worst rank first). Entering works (rule order: floors before rank, then rank_key) take the
     displaceable slots one by one while the class keeps the senior-author cap and the paywalled share (a swap may
-    not raise either above its cap). Returns (final selection uid -> record, report)."""
+    not raise either above its cap). A curator pick with no displaceable slot left enters beyond the class budget
+    (`added`, D511; caps do not bind curator picks, as in the full run). Returns (final selection uid -> record,
+    report)."""
     prev_by_uid = {p["uid"]: p for p in prev}
     prev_fam: set[str] = set()
     for u in prev_by_uid:
@@ -250,6 +252,7 @@ def delta_select(
     for p in prev:
         members[p["primary_class"]].add(p["uid"])
     swaps: list[tuple[dict[str, Any], dict[str, str]]] = []
+    added: list[dict[str, Any]] = []
     blocked: list[tuple[dict[str, Any], str]] = []
     ent_by: dict[str, list[dict[str, Any]]] = defaultdict(list)
     for r in entering:
@@ -260,7 +263,11 @@ def delta_select(
         pw_cap = math.ceil((1 - cfg["oa_target_fraction"]) * budget.get(cls, 0))
         for r in sorted(ent_by[cls], key=rule_order):
             if not slots:
-                blocked.append((r, "no displaceable incumbent of the class on days 3-10"))
+                if rule_order(r)[0] == 0:  # curator pick: beyond the class budget (D511)
+                    members[cls] = members[cls] | {r["uid"]}
+                    added.append(r)
+                else:
+                    blocked.append((r, "no displaceable incumbent of the class on days 3-10"))
                 continue
             inc = slots[0]
             after = (members[cls] - {inc["uid"]}) | {r["uid"]}
@@ -293,8 +300,10 @@ def delta_select(
             final[p["uid"]] = {**e, "_reason": p.get("selection_reason", "")}
     for r, _ in swaps:
         final[r["uid"]] = r
+    for r in added:
+        final[r["uid"]] = r
     head_changed = [p for p in prev if p["uid"] not in selected and alt_owner.get(p["uid"]) in selected]
-    report = {"entering": entering, "swaps": swaps, "blocked": blocked, "kept_frozen": kept_frozen,
+    report = {"entering": entering, "swaps": swaps, "added": added, "blocked": blocked, "kept_frozen": kept_frozen,
               "leaving": leaving, "head_changed": head_changed,
               "not_eligible": [p for p in prev if p["uid"] not in elig_by_uid]}  # fmt: skip
     return final, report
@@ -511,6 +520,7 @@ def main() -> int:
             )
             log.info(
                 f"delta: entering candidates {len(delta['entering'])}, swaps {len(delta['swaps'])}, "
+                f"curator beyond budget {len(delta['added'])}, "
                 f"blocked {len(delta['blocked'])}, leaving {len(delta['leaving'])} (frozen kept "
                 f"{len(delta['kept_frozen'])}), frozen ids {len(frozen)}"
             )
@@ -604,7 +614,9 @@ def write_delta(
     prev_n = Counter(p["primary_class"] for p in prev)
     new_n = Counter(x["primary_class"] for x in rows)
     cand_n = Counter(r["_cls"] for r in d["entering"])
+    added: list[dict[str, Any]] = d.get("added", [])
     in_n = Counter(r["_cls"] for r, _ in swaps)
+    add_n = Counter(r["_cls"] for r in added)
     blk_n = Counter(r["_cls"] for r, _ in d["blocked"])
     frz_n = Counter(p["primary_class"] for p, _ in d["kept_frozen"])
     lv_n = Counter(p["primary_class"] for p in d["leaving"])
@@ -616,10 +628,12 @@ def write_delta(
         f"({'applied: cache_list.csv rewritten' if applied else 'dry-run: cache_list.csv not written'}). "
         "Rules: budget 1000; frozen = cached papers, queue days 1-2, curator picks; a work outside the previous list "
         "enters only by displacing a not-yet-retrieved incumbent of its primary class on days 3-10 that the "
-        "unconstrained `selection.yaml` run drops; senior-author cap and paywalled share re-checked per swap.",
+        "unconstrained `selection.yaml` run drops; senior-author cap and paywalled share re-checked per swap; a curator "
+        "pick without such a slot enters beyond the class budget (D511).",
         "",
         f"- previous rows {len(prev)}; new rows {len(rows)}; entering candidates (unconstrained run) "
-        f"{len(d['entering'])}; entered {len(swaps)}; blocked {len(d['blocked'])}",
+        f"{len(d['entering'])}; entered {len(swaps) + len(added)} ({len(swaps)} by swap, {len(added)} curator beyond "
+        f"budget); blocked {len(d['blocked'])}",
         f"- previous rows the unconstrained run drops {len(d['leaving'])}: displaced {len(swaps)}, kept as frozen "
         f"{len(d['kept_frozen'])}, kept without a same-class entrant {len(d['leaving']) - len(swaps) - len(d['kept_frozen'])}",
         f"- previous rows now headed by another version (identity kept) {len(d['head_changed'])}; previous rows no "
@@ -630,9 +644,9 @@ def write_delta(
         "|---|---:|---:|---:|---:|---:|---:|---:|---:|",
     ]
     for c in sorted(budget):
-        L.append(f"| {c} | {budget[c]} | {prev_n[c]} | {cand_n[c]} | {in_n[c]} | {in_n[c]} | {blk_n[c]} | "
+        L.append(f"| {c} | {budget[c]} | {prev_n[c]} | {cand_n[c]} | {in_n[c] + add_n[c]} | {in_n[c]} | {blk_n[c]} | "
                  f"{frz_n[c]} (of {lv_n[c]} dropped) | {new_n[c]} |")  # fmt: skip
-    L.append(f"| total | {sum(budget.values())} | {len(prev)} | {len(d['entering'])} | {len(swaps)} | {len(swaps)} "
+    L.append(f"| total | {sum(budget.values())} | {len(prev)} | {len(d['entering'])} | {len(swaps) + len(added)} | {len(swaps)} "
              f"| {len(d['blocked'])} | {len(d['kept_frozen'])} (of {len(d['leaving'])}) | {len(rows)} |")  # fmt: skip
     L += ["", "## Entering", "", "| paper_id | class | subtype | score | access | venue | year | rule | displaces | title |",
           "|---|---|---|---:|---|---|---|---|---|---|"]  # fmt: skip
@@ -640,6 +654,10 @@ def write_delta(
         L.append(f"| {pid_of.get(r['uid'], '')} | {r['_cls']} | {r['_sub']} | {r['_s']['score']} | "
                  f"{'oa' if is_oa(r) else 'paywalled'} | {_cell(r.get('venue', ''))} | {r.get('year', '')} | "
                  f"{_cell(r['_reason'])} | {inc['paper_id']} | {_cell(r.get('title', ''))} |")  # fmt: skip
+    for r in sorted(added, key=lambda x: (x["_cls"], rank_key(x))):
+        L.append(f"| {pid_of.get(r['uid'], '')} | {r['_cls']} | {r['_sub']} | {r['_s']['score']} | "
+                 f"{'oa' if is_oa(r) else 'paywalled'} | {_cell(r.get('venue', ''))} | {r.get('year', '')} | "
+                 f"{_cell(r['_reason'])} | (beyond budget) | {_cell(r.get('title', ''))} |")  # fmt: skip
     L += ["", "## Displaced", "", "| paper_id | class | score | access | day | route | previous reason | by | title |",
           "|---|---|---:|---|---:|---|---|---|---|"]  # fmt: skip
     for r, inc in sorted(swaps, key=lambda t: (t[1]["primary_class"], t[1]["paper_id"])):

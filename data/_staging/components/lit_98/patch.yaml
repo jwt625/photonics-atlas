@@ -1,0 +1,204 @@
+# Audit patch lit_98 (fresh-context audit 2026-11-06, DevLog/audits/2026-11-06-lit_98-audit.md).
+# 189 metrics: 185 ok / 4 imprecise / 0 wrong; 44 components: 32 ok / 12 imprecise / 0 wrong, 0 deleted; 5 misses added (metrics only).
+# Coordinator rulings open (audit Q1-Q8): to keep fab empty on niffenegger2020 drop the 12 components ops (the 3 IR tag fixes go with them);
+# to keep derived on the katsumi2018 eta_exp rows drop the 3 katsumi metrics ops; to skip the raptakis2024 Table I steering range drop
+# its m5 notes op and add_metrics m8; the 4 other add_metrics (hatori2014 m6 / m7, marinins2022 m10 / m11) are independent and droppable one by one.
+components:
+  cmp_lit_niffenegger2020_grating_blue:
+    fab_org_ids: org_mit_lincoln_laboratory
+    notes: 'Fab: the author contributions (p.25) name the author who oversaw the fabrication of the devices; that author''s only affiliation is MIT Lincoln Laboratory (p.1) -> org_mit_lincoln_laboratory
+      (named-fabricator rule, D439 / D460); the Methods (p.14) describe the process in passive voice. arXiv v2 text: same work as the Nature record (title and content match; journal version unread, D430
+      / D433). Forward-emitting, far from normal; designed with LPCVD-SiN indices, so beams cross 65 um above the chip instead of the 55 um ion height (p.6, p.16; no emission angle printed). Design: about
+      11 um beam diameter (1/e2) in the vertical transverse direction and about 4-7 um in the focused horizontal transverse direction (p.15; stated for all gratings, not entered, D254). Text: grating efficiencies
+      approximately 10 % for all (p.4; per-grating losses entered instead). Fig. 5 (one of the gratings): 150 um taper region, 20 um x 20 um grating labels. Period not printed.'
+    why: 'p.25 Author contributions: the fabrication of the devices was overseen by an author whose only affiliation is MIT Lincoln Laboratory (p.1 author list). A contribution statement that names the
+      fabricating author is a fabrication statement (D439 he2025, D460 heim2026); org_mit_lincoln_laboratory exists in the registry. Audit Q5'
+  cmp_lit_niffenegger2020_edge_taper_blue:
+    fab_org_ids: org_mit_lincoln_laboratory
+    notes: 'Fab: the author contributions (p.25) name the author who oversaw the fabrication of the devices; that author''s only affiliation is MIT Lincoln Laboratory (p.1) -> org_mit_lincoln_laboratory
+      (named-fabricator rule, D439 / D460); the Methods (p.14) describe the process in passive voice. arXiv v2 text: same work as the Nature record (title and content match; journal version unread, D430
+      / D433). OCC from co-fabricated straight test waveguides with input and output tapers identical to the trap-chip input tapers, fibers identical to the array fibers (p.22). Fiber array of six PM SM
+      fibers bonded with UV epoxy then cryogenic epoxy (p.22). In vacuum: further 3 dB from feedthrough splices / connectors and about 7 dB on cool-down to 7 K from fiber-block misalignment (422 / 461 /
+      674 nm measured; 1092 nm inferred; Table I), not entered as coupler values. Taper dimensions not printed.'
+    why: 'p.25 Author contributions: the fabrication of the devices was overseen by an author whose only affiliation is MIT Lincoln Laboratory (p.1 author list). A contribution statement that names the
+      fabricating author is a fabrication statement (D439 he2025, D460 heim2026); org_mit_lincoln_laboratory exists in the registry. Audit Q5'
+  cmp_lit_niffenegger2020_routing_wg_blue:
+    fab_org_ids: org_mit_lincoln_laboratory
+    notes: 'Fab: the author contributions (p.25) name the author who oversaw the fabrication of the devices; that author''s only affiliation is MIT Lincoln Laboratory (p.1) -> org_mit_lincoln_laboratory
+      (named-fabricator rule, D439 / D460); the Methods (p.14) describe the process in passive voice. arXiv v2 text: same work as the Nature record (title and content match; journal version unread, D430
+      / D433). Not entered: propagation losses below 0.5 dB/cm above 633 nm and about 10 dB/cm at 405 nm (p.22; sentence refers to the authors'' platform paper, ref. [20]; D80i). Path length printed only
+      for 674 nm (about 0.75 cm).'
+    why: 'p.25 Author contributions: the fabrication of the devices was overseen by an author whose only affiliation is MIT Lincoln Laboratory (p.1 author list). A contribution statement that names the
+      fabricating author is a fabrication statement (D439 he2025, D460 heim2026); org_mit_lincoln_laboratory exists in the registry. Audit Q5'
+  cmp_lit_niffenegger2020_grating_461:
+    fab_org_ids: org_mit_lincoln_laboratory
+    notes: 'Fab: the author contributions (p.25) name the author who oversaw the fabrication of the devices; that author''s only affiliation is MIT Lincoln Laboratory (p.1) -> org_mit_lincoln_laboratory
+      (named-fabricator rule, D439 / D460); the Methods (p.14) describe the process in passive voice. arXiv v2 text: same work as the Nature record (title and content match; journal version unread, D430
+      / D433). Forward-emitting, far from normal; designed with LPCVD-SiN indices, so beams cross 65 um above the chip instead of the 55 um ion height (p.6, p.16; no emission angle printed). Design: about
+      11 um beam diameter (1/e2) in the vertical transverse direction and about 4-7 um in the focused horizontal transverse direction (p.15; stated for all gratings, not entered, D254). Text: grating efficiencies
+      approximately 10 % for all (p.4; per-grating losses entered instead). Fig. 5 (one of the gratings): 150 um taper region, 20 um x 20 um grating labels. Period not printed.'
+    why: 'p.25 Author contributions: the fabrication of the devices was overseen by an author whose only affiliation is MIT Lincoln Laboratory (p.1 author list). A contribution statement that names the
+      fabricating author is a fabrication statement (D439 he2025, D460 heim2026); org_mit_lincoln_laboratory exists in the registry. Audit Q5'
+  cmp_lit_niffenegger2020_edge_taper_461:
+    fab_org_ids: org_mit_lincoln_laboratory
+    notes: 'Fab: the author contributions (p.25) name the author who oversaw the fabrication of the devices; that author''s only affiliation is MIT Lincoln Laboratory (p.1) -> org_mit_lincoln_laboratory
+      (named-fabricator rule, D439 / D460); the Methods (p.14) describe the process in passive voice. arXiv v2 text: same work as the Nature record (title and content match; journal version unread, D430
+      / D433). OCC from co-fabricated straight test waveguides with input and output tapers identical to the trap-chip input tapers, fibers identical to the array fibers (p.22). Fiber array of six PM SM
+      fibers bonded with UV epoxy then cryogenic epoxy (p.22). In vacuum: further 3 dB from feedthrough splices / connectors and about 7 dB on cool-down to 7 K from fiber-block misalignment (422 / 461 /
+      674 nm measured; 1092 nm inferred; Table I), not entered as coupler values. Taper dimensions not printed.'
+    why: 'p.25 Author contributions: the fabrication of the devices was overseen by an author whose only affiliation is MIT Lincoln Laboratory (p.1 author list). A contribution statement that names the
+      fabricating author is a fabrication statement (D439 he2025, D460 heim2026); org_mit_lincoln_laboratory exists in the registry. Audit Q5'
+  cmp_lit_niffenegger2020_routing_wg_461:
+    fab_org_ids: org_mit_lincoln_laboratory
+    notes: 'Fab: the author contributions (p.25) name the author who oversaw the fabrication of the devices; that author''s only affiliation is MIT Lincoln Laboratory (p.1) -> org_mit_lincoln_laboratory
+      (named-fabricator rule, D439 / D460); the Methods (p.14) describe the process in passive voice. arXiv v2 text: same work as the Nature record (title and content match; journal version unread, D430
+      / D433). Not entered: propagation losses below 0.5 dB/cm above 633 nm and about 10 dB/cm at 405 nm (p.22; sentence refers to the authors'' platform paper, ref. [20]; D80i). Path length printed only
+      for 674 nm (about 0.75 cm).'
+    why: 'p.25 Author contributions: the fabrication of the devices was overseen by an author whose only affiliation is MIT Lincoln Laboratory (p.1 author list). A contribution statement that names the
+      fabricating author is a fabrication statement (D439 he2025, D460 heim2026); org_mit_lincoln_laboratory exists in the registry. Audit Q5'
+  cmp_lit_niffenegger2020_grating_674:
+    fab_org_ids: org_mit_lincoln_laboratory
+    notes: 'Fab: the author contributions (p.25) name the author who oversaw the fabrication of the devices; that author''s only affiliation is MIT Lincoln Laboratory (p.1) -> org_mit_lincoln_laboratory
+      (named-fabricator rule, D439 / D460); the Methods (p.14) describe the process in passive voice. arXiv v2 text: same work as the Nature record (title and content match; journal version unread, D430
+      / D433). Forward-emitting, far from normal; designed with LPCVD-SiN indices, so beams cross 65 um above the chip instead of the 55 um ion height (p.6, p.16; no emission angle printed). Design: about
+      11 um beam diameter (1/e2) in the vertical transverse direction and about 4-7 um in the focused horizontal transverse direction (p.15; stated for all gratings, not entered, D254). Text: grating efficiencies
+      approximately 10 % for all (p.4; per-grating losses entered instead). Fig. 5 (one of the gratings): 150 um taper region, 20 um x 20 um grating labels. Period not printed.'
+    why: 'p.25 Author contributions: the fabrication of the devices was overseen by an author whose only affiliation is MIT Lincoln Laboratory (p.1 author list). A contribution statement that names the
+      fabricating author is a fabrication statement (D439 he2025, D460 heim2026); org_mit_lincoln_laboratory exists in the registry. Audit Q5'
+  cmp_lit_niffenegger2020_edge_taper_674:
+    fab_org_ids: org_mit_lincoln_laboratory
+    notes: 'Fab: the author contributions (p.25) name the author who oversaw the fabrication of the devices; that author''s only affiliation is MIT Lincoln Laboratory (p.1) -> org_mit_lincoln_laboratory
+      (named-fabricator rule, D439 / D460); the Methods (p.14) describe the process in passive voice. arXiv v2 text: same work as the Nature record (title and content match; journal version unread, D430
+      / D433). OCC from co-fabricated straight test waveguides with input and output tapers identical to the trap-chip input tapers, fibers identical to the array fibers (p.22). Fiber array of six PM SM
+      fibers bonded with UV epoxy then cryogenic epoxy (p.22). In vacuum: further 3 dB from feedthrough splices / connectors and about 7 dB on cool-down to 7 K from fiber-block misalignment (422 / 461 /
+      674 nm measured; 1092 nm inferred; Table I), not entered as coupler values. Taper dimensions not printed.'
+    why: 'p.25 Author contributions: the fabrication of the devices was overseen by an author whose only affiliation is MIT Lincoln Laboratory (p.1 author list). A contribution statement that names the
+      fabricating author is a fabrication statement (D439 he2025, D460 heim2026); org_mit_lincoln_laboratory exists in the registry. Audit Q5'
+  cmp_lit_niffenegger2020_routing_wg_674:
+    fab_org_ids: org_mit_lincoln_laboratory
+    notes: 'Fab: the author contributions (p.25) name the author who oversaw the fabrication of the devices; that author''s only affiliation is MIT Lincoln Laboratory (p.1) -> org_mit_lincoln_laboratory
+      (named-fabricator rule, D439 / D460); the Methods (p.14) describe the process in passive voice. arXiv v2 text: same work as the Nature record (title and content match; journal version unread, D430
+      / D433). Not entered: propagation losses below 0.5 dB/cm above 633 nm and about 10 dB/cm at 405 nm (p.22; sentence refers to the authors'' platform paper, ref. [20]; D80i). Path length printed only
+      for 674 nm (about 0.75 cm).'
+    why: 'p.25 Author contributions: the fabrication of the devices was overseen by an author whose only affiliation is MIT Lincoln Laboratory (p.1 author list). A contribution statement that names the
+      fabricating author is a fabrication statement (D439 he2025, D460 heim2026); org_mit_lincoln_laboratory exists in the registry. Audit Q5'
+  cmp_lit_niffenegger2020_grating_ir:
+    fab_org_ids: org_mit_lincoln_laboratory
+    notes: 'Fab: the author contributions (p.25) name the author who oversaw the fabrication of the devices; that author''s only affiliation is MIT Lincoln Laboratory (p.1) -> org_mit_lincoln_laboratory
+      (named-fabricator rule, D439 / D460); the Methods (p.14) describe the process in passive voice. arXiv v2 text: same work as the Nature record (title and content match; journal version unread, D430
+      / D433). Forward-emitting, far from normal; designed with LPCVD-SiN indices, so beams cross 65 um above the chip instead of the 55 um ion height (p.6, p.16; no emission angle printed). Design: about
+      11 um beam diameter (1/e2) in the vertical transverse direction and about 4-7 um in the focused horizontal transverse direction (p.15; stated for all gratings, not entered, D254). Text: grating efficiencies
+      approximately 10 % for all (p.4; per-grating losses entered instead). Fig. 5 (one of the gratings): 150 um taper region, 20 um x 20 um grating labels. Period not printed.'
+    tags: ion_trap;focusing_grating;near_infrared
+    why: 'p.25 Author contributions: the fabrication of the devices was overseen by an author whose only affiliation is MIT Lincoln Laboratory (p.1 author list). A contribution statement that names the
+      fabricating author is a fabrication statement (D439 he2025, D460 heim2026); org_mit_lincoln_laboratory exists in the registry. Audit Q5. Tag: the 1033 / 1092 nm path is near infrared, not visible
+      (p.5)'
+  cmp_lit_niffenegger2020_edge_taper_ir:
+    fab_org_ids: org_mit_lincoln_laboratory
+    notes: 'Fab: the author contributions (p.25) name the author who oversaw the fabrication of the devices; that author''s only affiliation is MIT Lincoln Laboratory (p.1) -> org_mit_lincoln_laboratory
+      (named-fabricator rule, D439 / D460); the Methods (p.14) describe the process in passive voice. arXiv v2 text: same work as the Nature record (title and content match; journal version unread, D430
+      / D433). OCC from co-fabricated straight test waveguides with input and output tapers identical to the trap-chip input tapers, fibers identical to the array fibers (p.22). Fiber array of six PM SM
+      fibers bonded with UV epoxy then cryogenic epoxy (p.22). In vacuum: further 3 dB from feedthrough splices / connectors and about 7 dB on cool-down to 7 K from fiber-block misalignment (422 / 461 /
+      674 nm measured; 1092 nm inferred; Table I), not entered as coupler values. Taper dimensions not printed.'
+    tags: ion_trap;inverse_taper;fiber_array;near_infrared
+    why: 'p.25 Author contributions: the fabrication of the devices was overseen by an author whose only affiliation is MIT Lincoln Laboratory (p.1 author list). A contribution statement that names the
+      fabricating author is a fabrication statement (D439 he2025, D460 heim2026); org_mit_lincoln_laboratory exists in the registry. Audit Q5. Tag: the 1033 / 1092 nm path is near infrared, not visible
+      (p.5)'
+  cmp_lit_niffenegger2020_routing_wg_ir:
+    fab_org_ids: org_mit_lincoln_laboratory
+    notes: 'Fab: the author contributions (p.25) name the author who oversaw the fabrication of the devices; that author''s only affiliation is MIT Lincoln Laboratory (p.1) -> org_mit_lincoln_laboratory
+      (named-fabricator rule, D439 / D460); the Methods (p.14) describe the process in passive voice. arXiv v2 text: same work as the Nature record (title and content match; journal version unread, D430
+      / D433). Not entered: propagation losses below 0.5 dB/cm above 633 nm and about 10 dB/cm at 405 nm (p.22; sentence refers to the authors'' platform paper, ref. [20]; D80i). Path length printed only
+      for 674 nm (about 0.75 cm).'
+    tags: ion_trap;near_infrared
+    why: 'p.25 Author contributions: the fabrication of the devices was overseen by an author whose only affiliation is MIT Lincoln Laboratory (p.1 author list). A contribution statement that names the
+      fabricating author is a fabrication statement (D439 he2025, D460 heim2026); org_mit_lincoln_laboratory exists in the registry. Audit Q5. Tag: the 1033 / 1092 nm path is near infrared, not visible
+      (p.5)'
+metrics:
+  cmp_lit_katsumi2018_sps_wg_coupling_d300-m1:
+    basis: author_estimate
+    notes: 'Eq. (3) eta_exp = 1 - Q_exp / Q_ave with the stated assumption that the whole Q reduction is leakage into the waveguide. The uncoupled Q of this cavity was not measured: Q_ave = 13,000 is the
+      average Lorentzian-fit Q of several other cavities on flat glass (p.28 Supp. S9), so the result rests on an assumed input (rule 4; D403 analogue: an extraction whose key input is assumed, not determined
+      from the data). The paper calls the value suggested / estimated (p.8, p.9). Q_exp 3600 (p.28). Low temperature.'
+    why: 'p.28-29 Supp. S9: the uncoupled Q of the measured cavity is replaced by the population average of other cavities on glass (number not stated). Rule 4: a result resting on an assumed input is author_estimate;
+      D80a covers a model fit of the device''s own data, which this is not. Audit Q3'
+  cmp_lit_katsumi2018_sps_wg_left_d270-m1:
+    basis: author_estimate
+    notes: 'Eq. (3) eta_exp = 1 - Q_exp / Q_ave with the stated assumption that the whole Q reduction is leakage into the waveguide. The uncoupled Q of this cavity was not measured: Q_ave = 13,000 is the
+      average Lorentzian-fit Q of several other cavities on flat glass (p.28 Supp. S9), so the result rests on an assumed input (rule 4; D403 analogue: an extraction whose key input is assumed, not determined
+      from the data). The paper calls the value suggested / estimated (p.8, p.9). Q_exp 1000; cavities L and R are designed to resonate at different wavelengths from each other (p.10), and the text does
+      not say that the reference cavities share either design (p.28-29 Supp. S9). Band from the cavity peaks near 898-906 nm (Fig. 5); 3 K from the Fig. 5 caption.'
+    why: 'p.28-29 Supp. S9: the uncoupled Q of the measured cavity is replaced by the population average of other cavities on glass (number not stated). Rule 4: a result resting on an assumed input is author_estimate;
+      D80a covers a model fit of the device''s own data, which this is not. Audit Q3'
+  cmp_lit_katsumi2018_sps_wg_right_d270-m1:
+    basis: author_estimate
+    notes: 'Eq. (3) eta_exp = 1 - Q_exp / Q_ave with the stated assumption that the whole Q reduction is leakage into the waveguide. The uncoupled Q of this cavity was not measured: Q_ave = 13,000 is the
+      average Lorentzian-fit Q of several other cavities on flat glass (p.28 Supp. S9), so the result rests on an assumed input (rule 4; D403 analogue: an extraction whose key input is assumed, not determined
+      from the data). The paper calls the value suggested / estimated (p.8, p.9). Q_exp 950; cavities L and R are designed to resonate at different wavelengths from each other (p.10), and the text does
+      not say that the reference cavities share either design (p.28-29 Supp. S9). Band from the cavity peaks near 898-906 nm (Fig. 5); 3 K from the Fig. 5 caption.'
+    why: 'p.28-29 Supp. S9: the uncoupled Q of the measured cavity is replaced by the population average of other cavities on glass (number not stated). Rule 4: a result resting on an assumed input is author_estimate;
+      D80a covers a model fit of the device''s own data, which this is not. Audit Q3'
+  cmp_lit_raptakis2024_opa16_random_5lambda-m5:
+    notes: 'Characterized span: +/- 10 deg (p.1 Abstract, p.3 Sec. III: SLS, FWHM and main-lobe power measured within it). Table I (p.4) prints 16 deg as the steering range of this 5 lambda design, the
+      span with SLS > 6 dB (+/- 8 deg); entered as m8 (printed conflict kept, D417).'
+    why: 'p.4 Table I prints 16 deg for this design while the row carries the 20 deg characterized span; cross-note to the added Table I row. Audit Q7'
+add_metrics:
+- metric_id: cmp_lit_hatori2014_qw_ld_array_on_si_1550-m6
+  component_id: cmp_lit_hatori2014_qw_ld_array_on_si_1550
+  parameter: output_power_mw
+  value: 12.6
+  unit: mW
+  qualifier: approx
+  ref_plane: on_chip
+  condition: 'light power in the Si waveguide per stripe at about 61 mA per channel (highest plotted current), uncooled, room temperature'
+  basis: author_estimate
+  locator: p.4 Fig. 7
+  notes: 'Read off the end of the On Si platform curve of Fig. 7 (400 dpi render; reading uncertainty +/- 0.3 mW, +/- 1 mA). How the Si-waveguide-referred power was obtained is not stated, as for m2 (D460
+    / D431): a figure read of that curve keeps author_estimate (D454 analogue). Not printed in the text.'
+  why: 'Miss: the ridge_laser primary metric (output_power_mw) of the only QW laser row is readable from Fig. 7 (p.4); the distiller entered only the slope from the same curve'
+- metric_id: cmp_lit_hatori2014_qw_ld_array_on_si_1550-m7
+  component_id: cmp_lit_hatori2014_qw_ld_array_on_si_1550
+  parameter: mfd_chip_um
+  value: 3
+  unit: um
+  condition: 'spot size of each Fabry-Perot stripe with its integrated SSC'
+  basis: author_estimate
+  locator: p.4 Sec. IV
+  notes: 'Printed spot size 3 um; definition (1/e2 diameter or other) and origin (measured or nominal) not stated (rule 4).'
+  why: 'Miss: p.4 Sec. IV states the stripe spot size, the LD-side mode size of the butt-coupled interface (mfd_chip_um is allowed on laser)'
+- metric_id: cmp_lit_marinins2022_dfb_flipchip-m10
+  component_id: cmp_lit_marinins2022_dfb_flipchip
+  parameter: smsr_db
+  value: 39
+  unit: dB
+  qualifier: approx
+  statistic: typical
+  condition: 'typical emission spectrum after packaging; lasing peak vs the strongest side peak (next to the lasing line on the short-wavelength side); drive current and temperature not stated'
+  basis: extracted_from_figure
+  locator: p.7 Fig. 13(b)
+  notes: 'Read off Fig. 13(b) (400 dpi render): peak about -16.4 dB at about 1549.8 nm, strongest side peak about -55 dB at about 1548.8 nm (reading uncertainty +/- 1 dB). The text attributes the strong
+    side modes to the GC feedback (p.8); SMSR not printed.'
+  why: 'Miss: SMSR is readable from the typical post-packaging spectrum (p.7 Fig. 13(b))'
+- metric_id: cmp_lit_marinins2022_dfb_flipchip-m11
+  component_id: cmp_lit_marinins2022_dfb_flipchip
+  parameter: center_wavelength_nm
+  value: 1549.8
+  unit: nm
+  qualifier: approx
+  statistic: typical
+  condition: 'lasing wavelength of the typical emission spectrum after packaging; drive current and temperature not stated'
+  basis: extracted_from_figure
+  locator: p.7 Fig. 13(b)
+  notes: 'Read off Fig. 13(b) (400 dpi render; reading uncertainty +/- 0.3 nm). Text: 1550 nm laser light (p.2, p.1 Abstract).'
+  why: 'Miss: emission wavelength readable from p.7 Fig. 13(b); laser rows carry no wavelength otherwise'
+- metric_id: cmp_lit_raptakis2024_opa16_random_5lambda-m8
+  component_id: cmp_lit_raptakis2024_opa16_random_5lambda
+  parameter: steering_range_deg
+  value: 16
+  unit: deg
+  wavelength_nm: 1553
+  condition: 'steering range of this work in Table I (5 lambda average-spacing design, full span); matches SLS > 6 dB within +/- 8 deg'
+  basis: measured
+  locator: p.4 Table I; p.1 Abstract
+  notes: 'Table I footnote: this work = 5 lambda average spacing design. The characterized +/- 10 deg span stays in m5 (printed conflict, D417).'
+  why: 'Miss: p.4 Table I prints the steering range of this design as 16 deg'

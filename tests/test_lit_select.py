@@ -80,3 +80,15 @@ def test_delta_select_frozen_curator_class_and_cap() -> None:
     sel2 = {**{u: {**r} for u, r in same.items()}, "n3": n3}
     _, rep2 = ls.delta_select(sel2, {**same, "i3": inc["i3"], "n3": n3}, {}, prev2, {}, set(), CFG, {"laser": 5})
     assert not rep2["swaps"] and "senior-author cap" in rep2["blocked"][0][1]
+
+
+def test_delta_select_curator_pick_without_slot_enters_beyond_budget() -> None:
+    w1 = rec("w1", cls="wdm", score=9, year=2010)
+    prev = [prev_row(w1, "p1")]  # kept by the rules: no displaceable wdm slot
+    pick = rec("np", cls="wdm", score=8, _reason="curator: owner add")
+    plain = rec("nr", cls="wdm", score=10)
+    selected = {"w1": {**w1, "_reason": "rank"}, "np": pick, "nr": plain}
+    final, rep = ls.delta_select(selected, {"w1": w1, "np": pick, "nr": plain}, {}, prev, {}, {"np"}, CFG, {"wdm": 1})
+    assert [r["uid"] for r in rep["added"]] == ["np"] and not rep["swaps"]
+    assert [r["uid"] for r, _ in rep["blocked"]] == ["nr"]  # a rule pick stays blocked
+    assert set(final) == {"w1", "np"}

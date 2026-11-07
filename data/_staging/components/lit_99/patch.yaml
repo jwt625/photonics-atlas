@@ -1,0 +1,107 @@
+# Audit patch lit_99 (fresh-context audit 2026-11-06, DevLog/audits/2026-11-06-lit_99-audit.md).
+# 177 metrics: 171 ok / 6 imprecise / 0 wrong; 22 components: 22 ok / 0 imprecise / 0 wrong, 0 deleted; 9 geometry misses added (sun2025a).
+# Coordinator rulings open (audit Q1-Q5): to skip the sun2025a geometry misses drop add_metrics; to keep author_estimate on the
+# wen2022 6 dB coupler loss drop the gc_1320-m1 op; the three wen2022 QE ref_plane ops and the anthony2019 note ops are independent.
+metrics:
+  cmp_lit_wen2022_tshape_w200-m2:
+    ref_plane: on_chip
+    why: 'p.14: the EQE is computed from the responsivity that excludes the 6 dB coupler + waveguide loss (Fig. 5(a)); same reference plane as the responsivity row m1 (on_chip)'
+  cmp_lit_wen2022_tshape_w350-m2:
+    ref_plane: on_chip
+    why: 'p.14: EQE computed from the de-embedded responsivity (6 dB coupler + waveguide loss excluded); plane as m1'
+  cmp_lit_wen2022_straight_w500-m2:
+    ref_plane: on_chip
+    why: 'p.14: EQE computed from the de-embedded responsivity (6 dB coupler + waveguide loss excluded); plane as m1'
+  cmp_lit_wen2022_gc_1320-m1:
+    basis: measured
+    notes: 'Printed as the 6 dB coupling loss of the waveguide and the coupler excluded from the responsivities (p.14). p.13 names its origin: the coupler transmission, coupling efficiency and waveguide losses are presented in Supplementary Figure 6 (own data; supplement not cached, so the per-coupler vs waveguide split and the spectral position are not verifiable here). Stated directly as the paper''s own value: measured (D167). Per-coupler vs total I/O: one coupler feeds each detector (p.7).'
+    why: 'p.13-14: rule 4 author_estimate covers a loss-budget term whose origin the paper does not state; here the origin is stated (own Supp. Fig. 6). D167 (per-coupler value stated directly -> measured). Also keeps the derived responsivity rows (D394) consistent with their input: with an author_estimate 6 dB the de-embedded responsivities would have to be author_estimate too (D467 logic). Audit Q2'
+  cmp_lit_anthony2019_ge_pin_l50-m3:
+    notes: 'Printed 20 mA/W (D256). The de-embedding sentence (p.2 Sec. II) names the short wavelength range only; the 1850-2000 nm coupling (4.6 dB) and propagation (0.6-1.1 dB/cm) losses are printed in the same paragraph and Fig. 3 plots both ranges as one responsivity, so on_chip / derived is kept as the reading the text supports best. Fig. 9 plots a p-i-n of the same design (L_DET 50 um, L_Ge 0) at about 0.03 A/W at 1850 nm (0 dBm input), higher than this value (D417).'
+    why: 'p.2 Sec. II: "For the short wavelength range" scopes the insertion-loss correction; the long-range plane is inferred, not stated. Caveat recorded; values unchanged. Audit Q4'
+  cmp_lit_anthony2019_ge_pin_l50-m4:
+    notes: 'Printed 5 mA/W (D256). The de-embedding sentence (p.2 Sec. II) names the short wavelength range only; the 1850-2000 nm losses are printed in the same paragraph, so on_chip / derived is kept as the best-supported reading (see m3).'
+    why: 'As m3 (p.2 Sec. II). Audit Q4'
+  cmp_lit_anthony2019_ge_si_sacm_apd_l14-m3:
+    notes: 'Ratio of own measurements (D80a). Conservative per the paper: the APD is 14 um vs 50 um for the p-i-n. The ratio refers to the Fig. 9 p-i-n trace (about 0.03 A/W at 1850 nm, read), so 0.31 / M = 0.034 A/W; it does not reproduce from the 20 mA/W of Fig. 3 (0.31 / 0.02 = 15.5). Reference planes of the Fig. 9 traces not stated (D417).'
+    why: 'p.5 Fig. 9 render: the blue p-i-n trace sits near 0.03 A/W at 1850 nm and about 0.01 A/W at 1970 nm, consistent with M = 9.2; recorded so the gain is not recomputed from the Fig. 3 responsivity'
+add_metrics:
+- metric_id: cmp_lit_sun2025a_filter_r18-m12
+  component_id: cmp_lit_sun2025a_filter_r18
+  parameter: etch_depth_nm
+  value: 600
+  unit: nm
+  qualifier: approx
+  basis: design_target
+  locator: p.2 Sec. 2
+  why: 'Miss (D153). p.2 Sec. 2: one chip-level etch removes about 600 nm of the 700 nm SiC, leaving a 100 nm pedestal; entered on the 36 um ring rows but not on the filter'
+- metric_id: cmp_lit_sun2025a_filter_r18-m13
+  component_id: cmp_lit_sun2025a_filter_r18
+  parameter: box_thickness_um
+  value: 2
+  unit: um
+  basis: design_target
+  locator: p.2 Sec. 2
+  why: 'Miss (D153). p.2 Sec. 2: 2 um SiO2 under the 700 nm SiC layer of the purchased SiCOI chip (D402)'
+- metric_id: cmp_lit_sun2025a_filter_r18-m14
+  component_id: cmp_lit_sun2025a_filter_r18
+  parameter: cladding_thickness_um
+  value: 1
+  unit: um
+  condition: PECVD SiO2 between the SiC ring and the heater
+  basis: design_target
+  locator: p.2-3 Sec. 2
+  why: 'Miss (D153). p.2-3 Sec. 2: 1 um PECVD SiO2 cladding under the microheater; the filter ring carries a heater (Fig. 4(a)); entered on the heater rows only'
+- metric_id: cmp_lit_sun2025a_ring_r36_w1500-m10
+  component_id: cmp_lit_sun2025a_ring_r36_w1500
+  parameter: cladding_thickness_um
+  value: 1
+  unit: um
+  condition: PECVD SiO2 between the SiC ring and the heater
+  basis: design_target
+  locator: p.2-3 Sec. 2
+  why: 'Miss (D153). p.2-3 Sec. 2: 1 um PECVD SiO2 cladding; the row''s cladding column states it, the ring_bus cross-section takes it as cladding_thickness_um'
+- metric_id: cmp_lit_sun2025a_comb_ring_r36_w2000-m4
+  component_id: cmp_lit_sun2025a_comb_ring_r36_w2000
+  parameter: core_thickness_nm
+  value: 700
+  unit: nm
+  condition: 4H-SiC layer of the purchased SiCOI chip (D402)
+  basis: design_target
+  locator: p.2 Sec. 2
+  why: 'Miss (D153). p.2 Sec. 2: 700 nm SiC layer of the chip; the comb ring row carried radius and width only'
+- metric_id: cmp_lit_sun2025a_comb_ring_r36_w2000-m5
+  component_id: cmp_lit_sun2025a_comb_ring_r36_w2000
+  parameter: etch_depth_nm
+  value: 600
+  unit: nm
+  qualifier: approx
+  basis: design_target
+  locator: p.2 Sec. 2
+  why: 'Miss (D153). p.2 Sec. 2: about 600 nm etched, 100 nm pedestal left'
+- metric_id: cmp_lit_sun2025a_comb_ring_r36_w2000-m6
+  component_id: cmp_lit_sun2025a_comb_ring_r36_w2000
+  parameter: slab_thickness_nm
+  value: 100
+  unit: nm
+  condition: SiC pedestal
+  basis: design_target
+  locator: p.2 Sec. 2
+  why: 'Miss (D153). p.2 Sec. 2: 100 nm SiC pedestal'
+- metric_id: cmp_lit_sun2025a_comb_ring_r36_w2000-m7
+  component_id: cmp_lit_sun2025a_comb_ring_r36_w2000
+  parameter: box_thickness_um
+  value: 2
+  unit: um
+  basis: design_target
+  locator: p.2 Sec. 2
+  why: 'Miss (D153). p.2 Sec. 2: 2 um SiO2 under the SiC layer (D402)'
+- metric_id: cmp_lit_sun2025a_nicr_heater_r18-m9
+  component_id: cmp_lit_sun2025a_nicr_heater_r18
+  parameter: etch_depth_nm
+  value: 600
+  unit: nm
+  qualifier: approx
+  basis: design_target
+  locator: p.2 Sec. 2
+  why: 'Miss (D153). p.2 Sec. 2: about 600 nm etched; the heater_ps cross-section of the r36 heater row has it, the r18 heater row did not'

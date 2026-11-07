@@ -1,0 +1,140 @@
+# Audit patch lit_95 (fresh-context audit 2026-11-06, DevLog/audits/2026-11-06-lit_95-audit.md).
+# 51 metrics: 31 ok / 19 imprecise / 1 wrong; 21 components: 14 ok / 7 imprecise / 0 wrong, 0 deleted; 2 misses added (2 metrics).
+# Coordinator rulings open (audit Q2, Q4, Q5): to keep the < 1 dB bound and 2.39 cm on the delta = 5 nm row drop delete_metrics, the
+# d5nm m4 op, the suspended_ridge_wg-m7 add and the two kittlaus2018 notes ops; to keep wavelength_inferred empty drop the 18 qu2024
+# gain_db ops; to skip the 30 mW power-handling rows drop the two qu2024 add_metrics.
+components:
+  cmp_lit_qu2024_opa_go2_l1p4mm:
+    core_material: LPCVD Si3N4 (two-step twist-and-grow) on 3 um wet-oxidized Si, 248 nm DUV lithography, CF4/CHF3/Ar dry etch, H2 / O2 / N2 in-situ anneal; cross-section printed as 1.60 um x 0.72 um; 2 layers of 2D graphene oxide (AFM thickness ~2 nm printed for the single-layer film, p.8; two-layer thickness not printed) coated layer by layer (PDDA / GO self-assembly) in a ~1.4 mm window opened in the silica upper cladding ~0.7 mm from the input port; ~20 mm long
+    why: p.8 prints the AFM thickness (~2 nm) of the GO film on the single-layer chip of Fig. 1(d); a per-layer value for the two-layer film is not printed (rule 1)
+  cmp_lit_qu2024_opa_go2_l0p2mm:
+    core_material: LPCVD Si3N4 (two-step twist-and-grow) on 3 um wet-oxidized Si, 248 nm DUV lithography, CF4/CHF3/Ar dry etch, H2 / O2 / N2 in-situ anneal; cross-section printed as 1.60 um x 0.72 um; 2 GO layers (AFM thickness ~2 nm printed for the single-layer film, p.8; two-layer thickness not printed) over a ~0.2 mm window
+    why: p.8 prints the AFM thickness (~2 nm) of the GO film on the single-layer chip of Fig. 1(d); a per-layer value for the two-layer film is not printed (rule 1)
+  cmp_lit_qu2024_opa_go2_l0p5mm:
+    core_material: LPCVD Si3N4 (two-step twist-and-grow) on 3 um wet-oxidized Si, 248 nm DUV lithography, CF4/CHF3/Ar dry etch, H2 / O2 / N2 in-situ anneal; cross-section printed as 1.60 um x 0.72 um; 2 GO layers (AFM thickness ~2 nm printed for the single-layer film, p.8; two-layer thickness not printed) over a ~0.5 mm window
+    why: p.8 prints the AFM thickness (~2 nm) of the GO film on the single-layer chip of Fig. 1(d); a per-layer value for the two-layer film is not printed (rule 1)
+  cmp_lit_qu2024_opa_go2_l0p8mm:
+    core_material: LPCVD Si3N4 (two-step twist-and-grow) on 3 um wet-oxidized Si, 248 nm DUV lithography, CF4/CHF3/Ar dry etch, H2 / O2 / N2 in-situ anneal; cross-section printed as 1.60 um x 0.72 um; 2 GO layers (AFM thickness ~2 nm printed for the single-layer film, p.8; two-layer thickness not printed) over a ~0.8 mm window
+    why: p.8 prints the AFM thickness (~2 nm) of the GO film on the single-layer chip of Fig. 1(d); a per-layer value for the two-layer film is not printed (rule 1)
+  cmp_lit_qu2024_opa_go2_l1p1mm:
+    core_material: LPCVD Si3N4 (two-step twist-and-grow) on 3 um wet-oxidized Si, 248 nm DUV lithography, CF4/CHF3/Ar dry etch, H2 / O2 / N2 in-situ anneal; cross-section printed as 1.60 um x 0.72 um; 2 GO layers (AFM thickness ~2 nm printed for the single-layer film, p.8; two-layer thickness not printed) over a ~1.1 mm window
+    why: p.8 prints the AFM thickness (~2 nm) of the GO film on the single-layer chip of Fig. 1(d); a per-layer value for the two-layer film is not printed (rule 1)
+  cmp_lit_qu2024_go2_hybrid_wg:
+    core_material: LPCVD Si3N4 (two-step twist-and-grow) on 3 um wet-oxidized Si, 248 nm DUV lithography, CF4/CHF3/Ar dry etch, H2 / O2 / N2 in-situ anneal; cross-section printed as 1.60 um x 0.72 um; 2 layers of graphene oxide (AFM thickness ~2 nm printed for the single-layer film, p.8; two-layer thickness not printed) conformally coated in the ~1.4 mm window
+    why: p.8 prints the AFM thickness (~2 nm) of the GO film on the single-layer chip of Fig. 1(d); a per-layer value for the two-layer film is not printed (rule 1)
+  cmp_lit_kittlaus2018_nibs_modulator_d5nm:
+    notes: 'No fab org: fabrication described passively (p.7 Methods); all authors at Yale University (D80b). No facility acknowledged (p.8: funding only). Source text is the arXiv v1 preprint (''Nonreciprocal Inter-band Brillouin Modulation'', dated 2018-08-30) of the Nature Photonics article in the source row; same work by title and authors, journal version not read (D430 / D433). Classed mode_converter.converter (D419, kittlaus2020a / sohn2018 ruling): the nonreciprocity is a forward / backward contrast of the Stokes scattering efficiency, not an isolation measurement. Main device: Fig. 3(b), (c) and (d)i (p.6 ties Fig. 3(d)i to the device of Fig. 3(b)-(c)). Not entered (no registry parameter): maximum nonreciprocity 38 dB (Fig. 3(d)i, p.6), Stokes / anti-Stokes asymmetry 37 dB (Fig. 3(e), p.6; device not identified, D159; conversion_contrast_db / sideband_suppression_db are D419 registry candidates), FWHM 125 GHz (no bw_3db_ghz on mode_converter), acoustic resonance 5.7 GHz with 17 MHz -3 dB width (Fig. 3(b)), probe-response tuning over 35 nm by the pump wavelength 1530-1565 nm (Fig. 3(f), Supp. Sec. IV; device not tied to a delta; tuning_range_nm not allowed on mode_converter). Forward phase matching near 1545.3 nm and backward at 1548.5 nm (Fig. 3(c)). Supp. Fig. 7 / Table I (0.9 % at 104 mW, G = 195 W^-1 m^-1, L = 2.387 cm) are for one device not identified (D159): not entered. The Discussion (p.7) gives the 0.2 / 0.4 dB/cm losses and a total insertion loss below 1 dB for a device of L = 2.39 cm, the Table I length; no delta is named, so the bound sits on the shared waveguide row cmp_lit_kittlaus2018_suspended_ridge_wg (m7), not here (D159). Methods: the device under test has 468 suspended segments of 50 um (2.34 cm by arithmetic, vs 2.39 / 2.387 cm printed; D417 note).'
+    why: p.6 ties only Fig. 3(d)i to the Fig. 3(b)-(c) device; Fig. 3(e), Fig. 3(f) and the p.7 L = 2.39 cm device (= Supp. Table I L 2.387 cm, one device, p.32-33) name no delta (D159). Notes said Fig. 3(e) belongs to this row and omitted the 2.39 cm attribution
+  cmp_lit_kittlaus2018_suspended_ridge_wg:
+    notes: 'No fab org: fabrication described passively (p.7 Methods); all authors at Yale University (D80b). No facility acknowledged (p.8: funding only). Source text is the arXiv v1 preprint (''Nonreciprocal Inter-band Brillouin Modulation'', dated 2018-08-30) of the Nature Photonics article in the source row; same work by title and authors, journal version not read (D430 / D433). Waveguide of the three NIBS modulators (cross-note cmp_lit_kittlaus2018_nibs_modulator_d5nm, D396). Group indices 4.0595 / 4.1853 (Supp. p.13) carry the citation of the authors'' ref. [5]: not entered (rule 3). Supp. Table I loss coefficients 4.6 / 9.2 m^-1 correspond to the printed 0.2 / 0.4 dB/cm. Total insertion loss below 1 dB over the L = 2.39 cm device (p.7, the authors'' arithmetic on these losses) as m7: the device is not tied to a width asymmetry (D159), and all current devices are about 2.4 cm (Supp. p.14).'
+    why: Cross-note for the insertion-loss bound moved here from the delta = 5 nm row (audit Q2)
+metrics:
+  cmp_lit_qu2024_opa_go0-m1:
+    wavelength_inferred: 'true'
+    why: 'The signal wavelength is never printed: it is computed from the pump centre (~1557 nm, p.11, Fig. 5 caption) plus the detuning (p.17, Fig. 5 caption, p.24) and matches the signal line on the Fig. 4(a) axis (p.15). Not stated with the value -> wavelength_inferred true (schema: inferred from operating conditions / plot axis); reason already in notes. Audit Q4'
+  cmp_lit_qu2024_opa_go0-m2:
+    wavelength_inferred: 'true'
+    why: 'The signal wavelength is never printed: it is computed from the pump centre (~1557 nm, p.11, Fig. 5 caption) plus the detuning (p.17, Fig. 5 caption, p.24) and matches the signal line on the Fig. 4(a) axis (p.15). Not stated with the value -> wavelength_inferred true (schema: inferred from operating conditions / plot axis); reason already in notes. Audit Q4'
+  cmp_lit_qu2024_opa_go1_l1p4mm-m1:
+    wavelength_inferred: 'true'
+    why: 'The signal wavelength is never printed: it is computed from the pump centre (~1557 nm, p.11, Fig. 5 caption) plus the detuning (p.17, Fig. 5 caption, p.24) and matches the signal line on the Fig. 4(a) axis (p.15). Not stated with the value -> wavelength_inferred true (schema: inferred from operating conditions / plot axis); reason already in notes. Audit Q4'
+  cmp_lit_qu2024_opa_go1_l1p4mm-m2:
+    wavelength_inferred: 'true'
+    why: 'The signal wavelength is never printed: it is computed from the pump centre (~1557 nm, p.11, Fig. 5 caption) plus the detuning (p.17, Fig. 5 caption, p.24) and matches the signal line on the Fig. 4(a) axis (p.15). Not stated with the value -> wavelength_inferred true (schema: inferred from operating conditions / plot axis); reason already in notes. Audit Q4'
+  cmp_lit_qu2024_opa_go2_l1p4mm-m1:
+    wavelength_inferred: 'true'
+    why: 'The signal wavelength is never printed: it is computed from the pump centre (~1557 nm, p.11, Fig. 5 caption) plus the detuning (p.17, Fig. 5 caption, p.24) and matches the signal line on the Fig. 4(a) axis (p.15). Not stated with the value -> wavelength_inferred true (schema: inferred from operating conditions / plot axis); reason already in notes. Audit Q4'
+  cmp_lit_qu2024_opa_go2_l1p4mm-m2:
+    wavelength_inferred: 'true'
+    why: 'The signal wavelength is never printed: it is computed from the pump centre (~1557 nm, p.11, Fig. 5 caption) plus the detuning (p.17, Fig. 5 caption, p.24) and matches the signal line on the Fig. 4(a) axis (p.15). Not stated with the value -> wavelength_inferred true (schema: inferred from operating conditions / plot axis); reason already in notes. Audit Q4'
+  cmp_lit_qu2024_opa_go1_l1p4mm-m5:
+    wavelength_inferred: 'true'
+    why: 'The signal wavelength is never printed: it is computed from the pump centre (~1557 nm, p.11, Fig. 5 caption) plus the detuning (p.17, Fig. 5 caption, p.24) and matches the signal line on the Fig. 4(a) axis (p.15). Not stated with the value -> wavelength_inferred true (schema: inferred from operating conditions / plot axis); reason already in notes. Audit Q4'
+  cmp_lit_qu2024_opa_go1_l1p4mm-m6:
+    wavelength_inferred: 'true'
+    why: 'The signal wavelength is never printed: it is computed from the pump centre (~1557 nm, p.11, Fig. 5 caption) plus the detuning (p.17, Fig. 5 caption, p.24) and matches the signal line on the Fig. 4(a) axis (p.15). Not stated with the value -> wavelength_inferred true (schema: inferred from operating conditions / plot axis); reason already in notes. Audit Q4'
+  cmp_lit_qu2024_opa_go2_l1p4mm-m5:
+    wavelength_inferred: 'true'
+    why: 'The signal wavelength is never printed: it is computed from the pump centre (~1557 nm, p.11, Fig. 5 caption) plus the detuning (p.17, Fig. 5 caption, p.24) and matches the signal line on the Fig. 4(a) axis (p.15). Not stated with the value -> wavelength_inferred true (schema: inferred from operating conditions / plot axis); reason already in notes. Audit Q4'
+  cmp_lit_qu2024_opa_go2_l1p4mm-m6:
+    wavelength_inferred: 'true'
+    why: 'The signal wavelength is never printed: it is computed from the pump centre (~1557 nm, p.11, Fig. 5 caption) plus the detuning (p.17, Fig. 5 caption, p.24) and matches the signal line on the Fig. 4(a) axis (p.15). Not stated with the value -> wavelength_inferred true (schema: inferred from operating conditions / plot axis); reason already in notes. Audit Q4'
+  cmp_lit_qu2024_opa_go1_l0p2mm-m1:
+    wavelength_inferred: 'true'
+    why: 'The signal wavelength is never printed: it is computed from the pump centre (~1557 nm, p.11, Fig. 5 caption) plus the detuning (p.17, Fig. 5 caption, p.24) and matches the signal line on the Fig. 4(a) axis (p.15). Not stated with the value -> wavelength_inferred true (schema: inferred from operating conditions / plot axis); reason already in notes. Audit Q4'
+  cmp_lit_qu2024_opa_go1_l0p5mm-m1:
+    wavelength_inferred: 'true'
+    why: 'The signal wavelength is never printed: it is computed from the pump centre (~1557 nm, p.11, Fig. 5 caption) plus the detuning (p.17, Fig. 5 caption, p.24) and matches the signal line on the Fig. 4(a) axis (p.15). Not stated with the value -> wavelength_inferred true (schema: inferred from operating conditions / plot axis); reason already in notes. Audit Q4'
+  cmp_lit_qu2024_opa_go1_l0p8mm-m1:
+    wavelength_inferred: 'true'
+    why: 'The signal wavelength is never printed: it is computed from the pump centre (~1557 nm, p.11, Fig. 5 caption) plus the detuning (p.17, Fig. 5 caption, p.24) and matches the signal line on the Fig. 4(a) axis (p.15). Not stated with the value -> wavelength_inferred true (schema: inferred from operating conditions / plot axis); reason already in notes. Audit Q4'
+  cmp_lit_qu2024_opa_go1_l1p1mm-m1:
+    wavelength_inferred: 'true'
+    why: 'The signal wavelength is never printed: it is computed from the pump centre (~1557 nm, p.11, Fig. 5 caption) plus the detuning (p.17, Fig. 5 caption, p.24) and matches the signal line on the Fig. 4(a) axis (p.15). Not stated with the value -> wavelength_inferred true (schema: inferred from operating conditions / plot axis); reason already in notes. Audit Q4'
+  cmp_lit_qu2024_opa_go2_l0p2mm-m1:
+    wavelength_inferred: 'true'
+    why: 'The signal wavelength is never printed: it is computed from the pump centre (~1557 nm, p.11, Fig. 5 caption) plus the detuning (p.17, Fig. 5 caption, p.24) and matches the signal line on the Fig. 4(a) axis (p.15). Not stated with the value -> wavelength_inferred true (schema: inferred from operating conditions / plot axis); reason already in notes. Audit Q4'
+  cmp_lit_qu2024_opa_go2_l0p5mm-m1:
+    wavelength_inferred: 'true'
+    why: 'The signal wavelength is never printed: it is computed from the pump centre (~1557 nm, p.11, Fig. 5 caption) plus the detuning (p.17, Fig. 5 caption, p.24) and matches the signal line on the Fig. 4(a) axis (p.15). Not stated with the value -> wavelength_inferred true (schema: inferred from operating conditions / plot axis); reason already in notes. Audit Q4'
+  cmp_lit_qu2024_opa_go2_l0p8mm-m1:
+    wavelength_inferred: 'true'
+    why: 'The signal wavelength is never printed: it is computed from the pump centre (~1557 nm, p.11, Fig. 5 caption) plus the detuning (p.17, Fig. 5 caption, p.24) and matches the signal line on the Fig. 4(a) axis (p.15). Not stated with the value -> wavelength_inferred true (schema: inferred from operating conditions / plot axis); reason already in notes. Audit Q4'
+  cmp_lit_qu2024_opa_go2_l1p1mm-m1:
+    wavelength_inferred: 'true'
+    why: 'The signal wavelength is never printed: it is computed from the pump centre (~1557 nm, p.11, Fig. 5 caption) plus the detuning (p.17, Fig. 5 caption, p.24) and matches the signal line on the Fig. 4(a) axis (p.15). Not stated with the value -> wavelength_inferred true (schema: inferred from operating conditions / plot axis); reason already in notes. Audit Q4'
+  cmp_lit_kittlaus2018_nibs_modulator_d5nm-m4:
+    value: '24000'
+    qualifier: approx
+    locator: p.14 Supp. Sec. I.C
+    notes: 'printed 2.4 cm for all current-generation devices (Supp. p.14); cm -> um (D82d). The L = 2.39 cm of the Discussion (p.7) and Supp. Table I (2.387 cm, one device) is not tied to a width asymmetry (D159). Methods: 468 suspended segments of 50 um (p.7)'
+    why: p.7 Discussion names a device of L = 2.39 cm without a delta; Supp. Table I (p.33) gives L = 2.387 cm for one device not identified (p.32), which the batch itself treats as D159. The all-devices statement (Supp. p.14, 2.4 cm) holds for this row as for its siblings. Audit Q2
+delete_metrics:
+- id: cmp_lit_kittlaus2018_nibs_modulator_d5nm-m3
+  why: 'p.7 Discussion: the < 1 dB total insertion loss is the authors'' arithmetic on the 0.2 / 0.4 dB/cm losses for a device of L = 2.39 cm, which is the Supp. Table I device (L = 2.387 cm, p.33; one device, p.32) and is not tied to delta = 5 nm (D159). Moved to the shared waveguide row as cmp_lit_kittlaus2018_suspended_ridge_wg-m7 (same value, basis, scope). Audit Q2'
+add_metrics:
+- metric_id: cmp_lit_kittlaus2018_suspended_ridge_wg-m7
+  component_id: cmp_lit_kittlaus2018_suspended_ridge_wg
+  parameter: insertion_loss_db
+  value: '1'
+  unit: dB
+  qualifier: lt
+  band: c_band
+  wavelength_inferred: 'true'
+  scope: de_embedded
+  includes: linear propagation loss of the symmetric (0.2 dB/cm) and anti-symmetric (0.4 dB/cm) modes over the L = 2.39 cm active waveguide
+  excludes: grating couplers; mode multiplexers not stated
+  condition: suspended dual-core waveguide of a NIBS modulator of L = 2.39 cm (Supp. Table I L = 2.387 cm, one device; width asymmetry not named)
+  method: loss_breakdown
+  basis: derived
+  locator: p.7 Discussion; p.33 Supp. Table I
+  notes: 'printed total insertion loss below 1 dB, computed by the authors from the 0.2 / 0.4 dB/cm losses (m1, m2) and the device length (0.4 dB/cm x 2.39 cm = 0.96 dB); band inferred (lambda0 ~1550 nm, p.2). Moved from the delta = 5 nm modulator row: the 2.39 cm device is not tied to a delta (D159)'
+  why: 'Audit Q2: identity-neutral home for the p.7 bound; the waveguide row already holds the m1 / m2 losses the bound is computed from and serves all three modulators'
+- metric_id: cmp_lit_qu2024_go1_hybrid_wg-m3
+  component_id: cmp_lit_qu2024_go1_hybrid_wg
+  parameter: power_handling_dbm
+  value: '14.77'
+  unit: dBm
+  qualifier: gt
+  wavelength_nm: '1550'
+  polarization: te
+  condition: 'CW input power coupled into the waveguide (fiber-to-chip coupling excluded, p.9); criterion: no significant change of device insertion loss (photo-thermal changes of the 1-layer GO film negligible)'
+  method: direct
+  basis: author_estimate
+  locator: p.11; p.10 Fig. 2(b)
+  notes: 'printed: no significant variation of insertion loss below 30 mW for all devices (p.11); 10 log10(30 mW) = 14.77 dBm. The Fig. 2(b) sweep it refers to ends near 21 mW, so the 30 mW bound extends beyond the shown data: author_estimate (D435 analogue). Entered on the GO section, where the authors place the photo-thermal effect; the uncoated GO-0 device is an amplifier row (parameter not allowed there)'
+  why: 'Miss: p.11 states the CW power range without insertion-loss change for all devices (~1550 nm, Fig. 2(b) caption); power_handling_dbm convention ''stable up to X -> X with gt''. Distiller left it out because Fig. 2(b) stops near 21 mW; D417 keeps printed values with the conflict noted, D435 makes the extension author_estimate. Audit Q5'
+- metric_id: cmp_lit_qu2024_go2_hybrid_wg-m3
+  component_id: cmp_lit_qu2024_go2_hybrid_wg
+  parameter: power_handling_dbm
+  value: '14.77'
+  unit: dBm
+  qualifier: gt
+  wavelength_nm: '1550'
+  polarization: te
+  condition: 'CW input power coupled into the waveguide (fiber-to-chip coupling excluded, p.9); criterion: no significant change of device insertion loss (photo-thermal changes of the 2-layer GO film negligible)'
+  method: direct
+  basis: author_estimate
+  locator: p.11; p.10 Fig. 2(b)
+  notes: 'printed: no significant variation of insertion loss below 30 mW for all devices (p.11); 10 log10(30 mW) = 14.77 dBm. The Fig. 2(b) sweep it refers to ends near 21 mW, so the 30 mW bound extends beyond the shown data: author_estimate (D435 analogue). Entered on the GO section, where the authors place the photo-thermal effect; the uncoated GO-0 device is an amplifier row (parameter not allowed there)'
+  why: 'Miss: p.11 states the CW power range without insertion-loss change for all devices (~1550 nm, Fig. 2(b) caption); power_handling_dbm convention ''stable up to X -> X with gt''. Distiller left it out because Fig. 2(b) stops near 21 mW; D417 keeps printed values with the conflict noted, D435 makes the extension author_estimate. Audit Q5'
