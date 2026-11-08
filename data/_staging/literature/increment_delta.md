@@ -216,3 +216,70 @@ Generated 2026-11-06 by `scripts/lit_select.py --delta` (applied: cache_list.csv
 | xia2026 | switch_fabric | 9 | cached | reserve: best remaining | Assessment of low polarization sensitive InP photonic integrated multicast and select switch with commercial 400G-ZR transceivers |
 | zali2026 | switch_fabric | 9 | cached | reserve: best remaining | Densely integrated low polarization dependent 8 × 8 optical switch for optical network applications |
 | amorim2017 | wdm | 9 | cached | rank | Monolithic Add–Drop Multiplexers in Fused Silica Fabricated by Femtosecond Laser Direct Writing |
+
+## Coordinator add delta (2026-11-07): arXiv 2404.17570 (DevLog-014 benchmark, D511 rule)
+
+Generated 2026-11-07 by `scripts/lit_select.py --delta` (applied: cache_list.csv rewritten). Rules: budget 1000; frozen = cached papers, queue days 1-2, curator picks; a work outside the previous list enters only by displacing a not-yet-retrieved incumbent of its primary class on days 3-10 that the unconstrained `selection.yaml` run drops; senior-author cap and paywalled share re-checked per swap; a curator pick without such a slot enters beyond the class budget (D511).
+
+- previous rows 1001; new rows 1002; entering candidates (unconstrained run) 7; entered 1 (0 by swap, 1 curator beyond budget); blocked 6
+- previous rows the unconstrained run drops 8: displaced 0, kept as frozen 8, kept without a same-class entrant 0
+- previous rows now headed by another version (identity kept) 0; previous rows no longer eligible (kept verbatim unless displaced) 0; paper_id changes of kept uids 0
+
+| class | budget | previous | candidates | entered | displaced | blocked | dropped by rules, kept frozen | new |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| amplifier | 45 | 45 | 1 | 0 | 0 | 1 | 1 (of 1 dropped) | 45 |
+| chip_chip_coupler | 40 | 39 | 0 | 0 | 0 | 0 | 0 (of 0 dropped) | 39 |
+| crossing | 30 | 33 | 0 | 0 | 0 | 0 | 0 (of 0 dropped) | 33 |
+| fiber_chip_coupler | 60 | 60 | 1 | 0 | 0 | 1 | 1 (of 1 dropped) | 60 |
+| fiber_interface | 30 | 31 | 0 | 0 | 0 | 0 | 0 (of 0 dropped) | 31 |
+| free_space_emitter | 40 | 40 | 0 | 0 | 0 | 0 | 0 (of 0 dropped) | 40 |
+| frequency_converter | 30 | 30 | 0 | 0 | 0 | 0 | 0 (of 0 dropped) | 30 |
+| laser | 90 | 102 | 1 | 0 | 0 | 1 | 1 (of 1 dropped) | 102 |
+| micro_optics | 35 | 35 | 0 | 0 | 0 | 0 | 0 (of 0 dropped) | 35 |
+| mode_converter | 35 | 35 | 0 | 0 | 0 | 0 | 0 (of 0 dropped) | 35 |
+| nonreciprocal | 30 | 30 | 0 | 0 | 0 | 0 | 0 (of 0 dropped) | 30 |
+| phase_shifter | 60 | 60 | 1 | 0 | 0 | 1 | 1 (of 1 dropped) | 60 |
+| photodetector | 70 | 76 | 1 | 0 | 0 | 1 | 0 (of 0 dropped) | 76 |
+| polarization | 45 | 45 | 0 | 0 | 0 | 0 | 0 (of 0 dropped) | 45 |
+| reflector | 30 | 30 | 0 | 0 | 0 | 0 | 0 (of 0 dropped) | 30 |
+| resonator | 60 | 60 | 0 | 0 | 0 | 0 | 0 (of 0 dropped) | 60 |
+| splitter | 50 | 50 | 0 | 0 | 0 | 0 | 0 (of 0 dropped) | 50 |
+| switch_fabric | 45 | 52 | 0 | 0 | 0 | 0 | 2 (of 2 dropped) | 52 |
+| waveguide_platform | 60 | 67 | 2 | 1 | 0 | 1 | 1 (of 1 dropped) | 68 |
+| wdm | 80 | 81 | 0 | 0 | 0 | 0 | 1 (of 1 dropped) | 81 |
+| total | 965 | 1001 | 7 | 1 | 0 | 6 | 8 (of 8) | 1002 |
+
+### Entering
+
+| paper_id | class | subtype | score | access | venue | year | rule | displaces | title |
+|---|---|---|---:|---|---|---|---|---|---|
+| alexander2024 | waveguide_platform | waveguide_platform.straight | 8 | oa | arXiv | 2024 | curator: add: coordinator add 2026-11-07 (DevLog-014 PDK benchmark): PsiQuantum / GlobalFoundries 300 mm SiN platform building blocks, arXiv copy of Nature 641, 876 (2025), CC BY | (beyond budget) | A manufacturable platform for photonic quantum computing |
+
+### Displaced
+
+| paper_id | class | score | access | day | route | previous reason | by | title |
+|---|---|---:|---|---:|---|---|---|---|
+
+### Blocked entering candidates
+
+| uid | class | score | access | why | title |
+|---|---|---:|---|---|---|
+| 10.1364/ofc.2022.w3j.6 | amplifier | 9 | oa | no displaceable incumbent of the class on days 3-10 | 3D printed and spiral lithographically patterned erbium-doped polymer micro-waveguide amplifiers |
+| 10.1063/5.0324732 | fiber_chip_coupler | 9 | oa | no displaceable incumbent of the class on days 3-10 | High-efficiency scalable hybrid silicon grating couplers for thin-film lithium niobate photonics |
+| 10.1038/s41598-026-50776-9 | laser | 9 | oa | no displaceable incumbent of the class on days 3-10 | Narrow-linewidth photonic wirebonded silicon nitride external cavity tunable laser |
+| 10.1038/s41598-022-21590-w | phase_shifter | 9 | oa | no displaceable incumbent of the class on days 3-10 | Thermo-optic tuning of silicon nitride microring resonators with low loss non-volatile $$\hbox {Sb}_{2}\hbox {S}_{3}$$ phase change material |
+| 10.1063/1.4941995 | photodetector | 9 | oa | no displaceable incumbent of the class on days 3-10 | Resonance-enhanced waveguide-coupled silicon-germanium detector |
+| 10.1063/5.0221409 | waveguide_platform | 10 | paywalled | no displaceable incumbent of the class on days 3-10 | 300-nm-thick, ultralow-loss silicon nitride photonic integrated circuits by 8-in. foundry production |
+
+### Dropped by the unconstrained run, kept (frozen or curator)
+
+| paper_id | class | score | why kept | previous reason | title |
+|---|---|---:|---|---|---|
+| ronn2019 | amplifier | 9 | cached | rank | Ultra-high on-chip optical gain in erbium-based hybrid slot waveguides |
+| wu2025 | fiber_chip_coupler | 9 | queue day 2 | rank | Ultra-low-loss polarization-splitting grating coupler based on inverse-design |
+| heim2025 | laser | 9 | cached | reserve: best remaining | Hybrid integrated ultra-low linewidth coil stabilized isolator-free widely tunable external cavity laser |
+| meng2023 | phase_shifter | 8 | cached | rank | Electrical programmable multilevel nonvolatile photonic random-access memory |
+| xia2026 | switch_fabric | 9 | cached | reserve: best remaining | Assessment of low polarization sensitive InP photonic integrated multicast and select switch with commercial 400G-ZR transceivers |
+| zali2026 | switch_fabric | 9 | cached | reserve: best remaining | Densely integrated low polarization dependent 8 × 8 optical switch for optical network applications |
+| li2026a | waveguide_platform | 9 | cached | reserve: best remaining | Mid-infrared-to-ultraviolet supercontinuum generation in low-loss tantalum pentoxide nanophotonic waveguides |
+| amorim2017 | wdm | 9 | cached | rank | Monolithic Add–Drop Multiplexers in Fused Silica Fabricated by Femtosecond Laser Direct Writing |

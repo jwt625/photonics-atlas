@@ -1,0 +1,340 @@
+# Foundry PDK benchmark table (DevLog-014). Read by scripts/build_benchmark.py; no logic here, only the choices.
+# A cell is the best value among metric rows that pass the row's filters (D901); rows and columns below the
+# thresholds are not shown (D900, D902).
+
+min_rows_per_column: 3
+min_columns_per_row: 2
+
+# basis values that count as an achieved value (D901)
+basis: [measured, extracted_from_figure, derived]
+# EO atlas rows below this temperature (K) are left out, as are temperature_class cryogenic rows
+min_temperature_k: 250
+telecom_window_nm: [1260, 1630]
+# bands inside the telecom window (used when wavelength_nm is empty)
+telecom_bands: [o_band, e_band, s_band, c_band, l_band, cl_band]
+
+# Platform families (column groups, left to right). components.platform -> family; EO rows use waveguide_platform,
+# else eo_material. `eo_native` = EO effects that are a native PDK modulator of the family (D903).
+families:
+  - id: siph
+    label: SiPh
+    tip: "Silicon photonics: SOI strip / rib / slot waveguides, incl. SiN layers of a Si-SiN multilayer stack"
+    platforms: [soi, soi_rib, soi_strip, soi_slot, si_sin_multilayer]
+    eo_platforms: [soi_rib, soi_slot, soi_strip, soi]
+    eo_materials: [silicon_plasma_dispersion, germanium_silicon_eam]
+    eo_native: [silicon_plasma_dispersion, germanium_silicon_eam]
+  - id: sin
+    label: SiN
+    tip: "Silicon nitride waveguide platforms"
+    platforms: [sin]
+    eo_platforms: [sin]
+    eo_materials: []
+    eo_native: []
+  - id: tfln
+    label: TFLN
+    tip: "Etched thin-film lithium niobate on insulator (rib, strip, suspended); LN bonded onto Si or SiN waveguides is hybrid and not entered"
+    platforms: [lnoi_rib, lnoi_strip, suspended_lnoi]
+    eo_platforms: [lnoi_rib, lnoi_strip, suspended_lnoi]
+    eo_materials: [lithium_niobate]
+    eo_native: [lithium_niobate]
+  - id: inp
+    label: InP
+    tip: "InP monolithic generic integration platforms"
+    platforms: [inp]
+    eo_platforms: [inp]
+    eo_materials: [inp_mqw]
+    eo_native: [inp_mqw]
+
+# Classes whose rows with an empty `platform` belong to a family by construction (D906): a waveguide Ge photodiode is
+# Ge on a Si waveguide feed (core_material of the empty-platform rows reads "Ge-on-Si" or "Ge ... on a Si pedestal").
+unset_platform_family:
+  photodetector.ge_waveguide: siph
+
+# Components whose waveguide platform the source does not state (platform empty, D423) but whose platform family it
+# does (D914): the family only places the value in a column; the data row keeps its empty platform.
+family_override:
+  cmp_ofc2026_m1e4_folded_heater_ps: {family: siph, why: "OFC 2026 M1E.4 Sec. 1 / 3: commercial 300 mm silicon photonics platform, fabricated through TowerJazz; waveguide material not stated"}
+  cmp_ofc2026_m1e4_4tap_fourier_filter: {family: siph, why: "same chip as the folded heater"}
+
+# EO integration routes that are not a native PDK modulator of the foundry (D903, audit 2026-11-07 D907)
+eo_exclude_integration: [bonded_heterogeneous, polymer_backfill, micro_transfer_printed, transferred_2d, wafer_bonded_iii_v]
+
+# Values left out after the 2026-11-07 accuracy audit (D907). Data-table corrections are a follow-up for the data
+# stream; until then the benchmark skips these rows. metric_id for components, device_id:field for EO rows.
+exclude_values:
+  cmp_lit_de2020_sige_ring_pd-m5: "SiGe resonant ring PD in the 45 nm CMOS transistor body, not a waveguide Ge PD (class follow-up)"
+  cmp_niels2026_mmi_1x2_pdk-m1: "loss share of two MMIs (splitter and combiner) in a loss budget, not one MMI"
+  han2023-a:vpil_dc_vcm: "V_pi extrapolated from about 10 percent transmission change on a nonlinear response (EO atlas note): an estimate"
+  # D911 (owner ruling 2026-11-07): the text states > 0.8 A/W over the C band; the figure readings (1.2 A/W at 1540 nm
+  # is 97 percent of the 1.242 A/W quantum limit) are not used for the cell
+  cmp_wu2025_ge_pd-m3: "figure reading conflicts with the stated > 0.8 A/W (text value used, D911)"
+  cmp_wu2025_ge_pd-m4: "figure reading of the same curve (text value used, D911)"
+
+# Columns shown whatever their fill (D909): the leading production foundries, so a thin column reads as a coverage gap
+# (dashes) rather than being absent. Ids are <foundry id>.<family id>.
+pinned_columns: [tower.siph, gf.siph, tsmc.siph]
+
+# Unpublished values from private communication to the owner (D910). Shown with a dagger and the date, ranked like
+# any value; the source is not named. column = <foundry id>.<family id>; row = row id below; qualifier as in metrics.
+private_values:
+  - {column: tower.siph, row: edge_il, value: 0.6, qualifier: approx, scope: per_facet, date: "2026-11-07", component: "Edge coupler (private communication)"}
+  - {column: tower.siph, row: mzm_bw, value: 100, qualifier: approx, date: "2026-11-07", component: "MZM (private communication)"}
+
+# Candidate foundries (D900): organizations that run a photonics process for others (MPW / foundry service) or a
+# production photonics line. Universities, brokers (CMC Microsystems) and device startups are not columns. `orgs`
+# with more than one id are merged into one column (answer 4: AMF + A*STAR IME).
+foundries:
+  - {id: imec, label: imec, orgs: [org_imec]}
+  - {id: leti, label: CEA-Leti, orgs: [org_cea_leti]}
+  - {id: amf_ime, label: AMF / IME, orgs: [org_amf, org_astar_ime]}
+  - {id: aim, label: AIM Photonics, orgs: [org_aim_photonics]}
+  - {id: gf, label: GlobalFoundries, orgs: [org_globalfoundries]}
+  - {id: ant, label: Applied Nanotools, orgs: [org_applied_nanotools]}
+  - {id: ligentec, label: LIGENTEC, orgs: [org_ligentec]}
+  - {id: tsmc, label: TSMC, orgs: [org_tsmc]}
+  - {id: samsung, label: Samsung, orgs: [org_samsung_electronics]}
+  - {id: intel, label: Intel, orgs: [org_intel]}
+  - {id: tower, label: Tower, orgs: [org_tower_semiconductor]}
+  - {id: sandia, label: Sandia, orgs: [org_sandia_national_laboratories]}
+  - {id: cornerstone, label: CORNERSTONE, orgs: [org_cornerstone]}
+  - {id: ihp, label: IHP, orgs: [org_ihp_leibniz_institute_for_high_performance_microelectronics]}
+  - {id: cumec, label: CUMEC, orgs: [org_chongqing_united_microelectronics_center]}
+  - {id: smic, label: SMIC, orgs: [org_semiconductor_manufacturing_international]}
+  - {id: compoundtek, label: CompoundTek, orgs: [org_compoundtek]}
+  - {id: imecas, label: IMECAS, orgs: [org_institute_of_microelectronics_chinese_academy_of_sciences]}
+  - {id: aist, label: AIST, orgs: [org_national_institute_of_advanced_industrial_science_and_technology]}
+  - {id: lionix, label: LioniX, orgs: [org_lionix_international]}
+  - {id: luxtelligence, label: Luxtelligence, orgs: [org_luxtelligence]}
+  - {id: hyperlight, label: HyperLight, orgs: [org_hyperlight]}
+  - {id: csem, label: CSEM, orgs: [org_csem]}
+  - {id: smart, label: SMART Photonics, orgs: [org_smart_photonics]}
+  - {id: hhi, label: Fraunhofer HHI, orgs: [org_fraunhofer_heinrich_hertz_institute]}
+
+# Rows (D902). source: components (classes + parameter) or eo (device_classes + field). better: lower | higher.
+# scopes: allowed `scope` values ([] = any). wavelength: telecom = inside telecom_window_nm / telecom_bands;
+# unknown_wavelength: keep | drop for rows with neither wavelength_nm nor band. exclude_platforms: platforms not
+# entered in this row. fmt: sci for x10^n (default: 3 significant digits). sub: grey sub-label; note: footnote.
+categories:
+  - id: wg
+    label: Waveguides
+    rows:
+      - id: wg_loss
+        label: Propagation loss
+        source: components
+        classes: [waveguide_platform.straight]
+        parameter: prop_loss_db_per_cm
+        unit: dB/cm
+        better: lower
+        wavelength: telecom
+        unknown_wavelength: drop
+        exclude_platforms: [si_sin_multilayer]
+        sub: straight, telecom
+        note: "Straight waveguides, any cross-section the source reports (strip, rib, thick or thin core); cutback, ring extraction or OFDR as reported. SiN layers of Si-SiN stacks are not entered in the SiPh column."
+      - id: ring_qi
+        label: Ring intrinsic Q
+        source: components
+        classes: [resonator.ring]
+        parameter: q_intrinsic
+        unit: ""
+        better: higher
+        wavelength: telecom
+        unknown_wavelength: drop
+        exclude_platforms: [si_sin_multilayer]
+        fmt: sci
+        sub: rings / racetracks, telecom
+        note: "Intrinsic Q from a fit of the source's own transmission data; values that rest on an assumed coupling regime are author estimates and are not entered."
+      - id: bend_loss
+        label: Bend loss
+        source: components
+        classes: [waveguide_platform.bend]
+        parameter: bend_loss_db_per_90
+        unit: dB/90°
+        better: lower
+        wavelength: telecom
+        unknown_wavelength: keep
+        sub: per 90° bend
+        note: "Any bend radius; the radius is in the cell tooltip."
+  - id: io
+    label: Fiber I/O
+    rows:
+      - id: edge_il
+        label: Edge coupler IL
+        source: components
+        classes: [fiber_chip_coupler.edge]
+        parameter: insertion_loss_db
+        unit: dB
+        better: lower
+        scopes: [per_facet, per_coupler, loopback_half]
+        wavelength: telecom
+        unknown_wavelength: keep
+        sub: per facet
+        note: "Per facet or per coupler, or half of a two-facet loopback; fiber-to-fiber totals are not entered. Fiber type (SMF, UHNA, lensed) differs and is in the tooltip condition."
+      - id: gc_il
+        label: Grating coupler IL
+        source: components
+        classes: [fiber_chip_coupler.grating]
+        parameter: insertion_loss_db
+        unit: dB
+        better: lower
+        scopes: [per_coupler, per_facet, loopback_half]
+        wavelength: telecom
+        unknown_wavelength: keep
+        sub: per coupler, peak
+        note: "Peak coupling per grating coupler, or half of a loopback pair; single- and dual-polarization gratings, with and without bottom reflector."
+      - id: gc_bw
+        label: Grating coupler 1 dB BW
+        source: components
+        classes: [fiber_chip_coupler.grating]
+        parameter: bw_1db_nm
+        unit: nm
+        better: higher
+        wavelength: telecom
+        unknown_wavelength: keep
+        sub: 1 dB bandwidth
+        note: "1 dB bandwidth as reported; 3 dB widths are a separate parameter and are not converted."
+  - id: route
+    label: Routing & WDM
+    rows:
+      - id: mmi_el
+        label: MMI excess loss
+        source: components
+        classes: [splitter.mmi]
+        parameter: excess_loss_db
+        unit: dB
+        better: lower
+        wavelength: telecom
+        unknown_wavelength: keep
+        sub: 1x2 / 2x2, per device
+        note: "Excess loss of one MMI (cascade or reference divided out)."
+      - id: crossing
+        label: Crossing loss
+        source: components
+        classes: [crossing.other, crossing.mmi, crossing.swg, crossing.multilevel]
+        parameter: crossing_loss_db
+        unit: dB
+        better: lower
+        wavelength: telecom
+        unknown_wavelength: keep
+        sub: per crossing
+        note: "Loss per crossing, any crossing type (MMI, SWG, multilevel)."
+      - id: awg_il
+        label: AWG insertion loss
+        source: components
+        classes: [wdm.awg]
+        parameter: insertion_loss_db
+        unit: dB
+        better: lower
+        scopes: [de_embedded, per_component]
+        wavelength: telecom
+        unknown_wavelength: keep
+        sub: on-chip, channel range
+        note: "On-chip insertion loss with fiber coupling de-embedded; a range over channels is shown as a range and ranked at its midpoint. Channel count and spacing differ (tooltip)."
+      - id: awg_xt
+        label: AWG crosstalk
+        source: components
+        classes: [wdm.awg]
+        parameter: crosstalk_db
+        unit: dB
+        better: higher
+        wavelength: telecom
+        unknown_wavelength: keep
+        sub: suppression magnitude
+        note: "Crosstalk as a positive suppression magnitude (a reported -25 dB is 25); larger is better."
+  - id: active
+    label: Tuning & detection
+    rows:
+      - id: to_ppi
+        label: Thermo-optic P_pi
+        source: components
+        classes: [phase_shifter.thermo_optic]
+        parameter: p_pi_mw
+        unit: mW
+        better: lower
+        wavelength: telecom
+        unknown_wavelength: keep
+        sub: heater phase shifter
+        note: "Electrical power for a pi phase shift; with and without thermal isolation trenches or undercut (tooltip)."
+      - id: pd_resp
+        label: Ge PD responsivity
+        source: components
+        classes: [photodetector.ge_waveguide]
+        parameter: responsivity_a_per_w
+        unit: A/W
+        better: higher
+        wavelength: telecom
+        unknown_wavelength: keep
+        sub: waveguide Ge PD
+        note: "Waveguide-coupled Ge photodiodes; wavelength and bias in the tooltip."
+      - id: pd_bw
+        label: Ge PD bandwidth
+        source: components
+        classes: [photodetector.ge_waveguide]
+        parameter: bw3db_ghz
+        unit: GHz
+        better: higher
+        wavelength: telecom
+        unknown_wavelength: keep
+        sub: 3 dB, O/E
+        note: "3 dB opto-electronic bandwidth; bias in the tooltip."
+      - id: pd_dark
+        label: Ge PD dark current
+        source: components
+        classes: [photodetector.ge_waveguide]
+        parameter: dark_current_na
+        unit: nA
+        better: lower
+        wavelength: telecom
+        unknown_wavelength: keep
+        sub: at reported bias
+        note: "Dark current at the bias the source reports (tooltip); room temperature."
+  - id: mod
+    label: Modulation
+    rows:
+      - id: mzm_vpil
+        label: MZM V_pi L
+        source: eo
+        device_classes: [mzm]
+        field: vpil_dc_vcm
+        basis_field: vpi_basis
+        unit: V·cm
+        better: lower
+        wavelength: telecom
+        unknown_wavelength: keep
+        sub: DC, as reported
+        note: "Platform-native effect only (Si plasma dispersion, LN, InP MQW). Push-pull or single-arm convention as the source states it (tooltip)."
+      - id: mzm_bw
+        label: MZM EO bandwidth
+        source: eo
+        device_classes: [mzm]
+        field: bw3db_ghz
+        basis_field: bw_basis
+        unit: GHz
+        better: higher
+        wavelength: telecom
+        unknown_wavelength: keep
+        sub: 3 dB, electro-optic
+        note: "3 dB EO bandwidth (reference level as stated in the EO atlas); platform-native effect only."
+      - id: ring_mod_bw
+        label: Ring modulator bandwidth
+        source: eo
+        device_classes: [ring]
+        field: bw3db_ghz
+        basis_field: bw_basis
+        unit: GHz
+        better: higher
+        wavelength: telecom
+        unknown_wavelength: keep
+        sub: 3 dB, electro-optic
+        note: "Micro-ring / micro-disk modulators; platform-native effect only."
+      - id: eam_bw
+        label: EAM bandwidth
+        source: eo
+        device_classes: [eam]
+        field: bw3db_ghz
+        basis_field: bw_basis
+        unit: GHz
+        better: higher
+        wavelength: telecom
+        unknown_wavelength: keep
+        sub: 3 dB, electro-optic
+        note: "Electro-absorption modulators (Ge-Si FKE on SiPh, MQW on InP)."

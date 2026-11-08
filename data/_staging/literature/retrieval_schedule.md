@@ -1,21 +1,21 @@
 # Retrieval schedule (DevLog-006 S7)
 
-Generated 2026-11-06 by `scripts/lit_build_queue.py` from `cache_list.csv`; queue: `data/_staging/literature/retrieval_queue.csv`. Each route is spread evenly over the days; inside a (day, route) the rows are ordered by class round-robin (curator picks, then score). arXiv copies are preprints: the journal DOI stays the identity; the arXiv copy is the retrieval route.
+Generated 2026-11-07 by `scripts/lit_build_queue.py` from `cache_list.csv`; queue: `data/_staging/literature/retrieval_queue.csv`. Each route is spread evenly over the days; inside a (day, route) the rows are ordered by class round-robin (curator picks, then score). arXiv copies are preprints: the journal DOI stays the identity; the arXiv copy is the retrieval route.
 
 ## Totals
 
 | route | papers |
 |---|---:|
-| arxiv | 195 |
+| arxiv | 196 |
 | oa_publisher | 23 |
 | publisher_browser | 87 |
 | optica_browser | 419 |
 | ieee_browser | 200 |
 | ieee_search | 23 |
 | manual | 54 |
-| total | 1001 |
+| total | 1002 |
 
-arXiv copy source: given 181, doi 0, title 6, api 8.
+arXiv copy source: given 182, doi 0, title 6, api 8.
 
 arXiv route gained by matching (rows without arXiv id in cache_list): 24 of 830; paywalled 0 of 182, Optica 7 of 451, IEEE 1 of 199. API queries cached 813 of 814 needed (rerun with --api to finish).
 
@@ -34,7 +34,7 @@ IEEE twins (Crossref, prefix 10.1109 / 10.23919, title similarity >= 0.93, share
 | 7 | 2026-10-28 | 19 | 3 | 9 | 41 | 20 | 2 | 6 | 100 | 19,20,21 / 7 / 7 |
 | 8 | 2026-10-29 | 19 | 2 | 9 | 42 | 20 | 2 | 6 | 100 | 22,23,24 / 8 / 8 |
 | 9 | 2026-10-30 | 20 | 2 | 9 | 41 | 20 | 2 | 6 | 100 | 25,26,27 / 9 / 9 |
-| 10 | 2026-10-31 | 19 | 2 | 8 | 44 | 20 | 2 | 6 | 101 | 28,29,30 / 10 / 10 |
+| 10 | 2026-10-31 | 20 | 2 | 8 | 44 | 20 | 2 | 6 | 102 | 28,29,30 / 10 / 10 |
 
 ## Per class and day
 
@@ -58,7 +58,7 @@ IEEE twins (Crossref, prefix 10.1109 / 10.23919, title similarity >= 0.93, share
 | resonator | 5 | 7 | 7 | 8 | 6 | 6 | 6 | 5 | 5 | 5 | 60 |
 | splitter | 6 | 6 | 6 | 6 | 4 | 4 | 3 | 4 | 5 | 6 | 50 |
 | switch_fabric | 6 | 6 | 5 | 5 | 6 | 4 | 5 | 5 | 5 | 5 | 52 |
-| waveguide_platform | 6 | 6 | 7 | 5 | 8 | 7 | 7 | 7 | 8 | 6 | 67 |
+| waveguide_platform | 6 | 6 | 7 | 5 | 8 | 7 | 7 | 7 | 8 | 7 | 68 |
 | wdm | 8 | 7 | 7 | 8 | 7 | 10 | 9 | 8 | 7 | 10 | 81 |
 
 ## Daily runbook
@@ -257,10 +257,10 @@ Manual (6):
 | wei2026 | laser | 9 | https://doi.org/10.1063/5.0341253 | Integrated frequency-modulated continuous-wave laser self-injection locked to a strongly reflective multimode microring resonator |
 | koester2024 | waveguide_platform | 9 | https://doi.org/10.1063/5.0223134 | GaAs-based photonic integrated circuit platform enabling monolithic ring-resonator-coupled lasers |
 
-### Day 10 (2026-10-31): 101 papers
+### Day 10 (2026-10-31): 102 papers
 
 ```
-uv run python scripts/lit_fetch_oa.py --day 10   # arxiv 19 + oa_publisher 2
+uv run python scripts/lit_fetch_oa.py --day 10   # arxiv 20 + oa_publisher 2
 uv run python scripts/lit_fetch_browser.py --site optica --day 10 --session 28   # optica_browser 15
 uv run python scripts/lit_fetch_browser.py --site optica --day 10 --session 29   # optica_browser 15
 uv run python scripts/lit_fetch_browser.py --site optica --day 10 --session 30   # optica_browser 14

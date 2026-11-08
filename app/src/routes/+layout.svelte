@@ -24,6 +24,7 @@
 		{ href: '/people', label: 'People' },
 		{ href: '/layout', label: 'Layouts' },
 		{ href: '/explore', label: 'Explore' },
+		{ href: '/benchmark', label: 'Benchmark' },
 		{ href: '/about', label: 'About' }
 	];
 
