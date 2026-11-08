@@ -1,0 +1,83 @@
+# Audit patch cov_08 (fresh-context audit 2026-11-07, DevLog/audits/2026-11-07-cov_08-audit.md).
+# 143 metrics: 128 ok / 10 imprecise / 5 wrong (1 deleted); 26 components: 23 ok / 3 imprecise / 0 wrong.
+# Misses: 1 (wang2025a 6.5 dB fibre-to-fibre loss, added as m7; depends on coordinator question 2).
+# Coordinator choices: to keep the distiller's call on question 2, drop the add_metrics op and the
+# cmp_lit_wang2025a_flat_top_comb notes op. The D167 basis ops (facet / interface rows, ling2024 m11) follow D167.
+components:
+  cmp_lit_zhang2019b_racetrack_10ghz:
+    notes: 'Fab: M.Z., C.W. and A.S.-A. designed and fabricated the devices (p.5 Author contributions); Harvard is the one org common to the three fabricators, and device fabrication was performed at the Harvard CNS (p.5 Acknowledgements) (D395, D452). Wafer: x-cut TFLN from NANOLN (supplier note). M.Z., C.W., C.R. and M.L. declare involvement with HyperLight (competing interests), not a fabrication statement. Same device as cmp_lit_zhang2019b_eo_comb_10ghz (D396). Gold electrodes 3.3 um from the resonator edge (p.2; no resonator parameter). Internal round-trip transmission coefficient alpha = 0.95 from the all-pass fit (p.6 Methods; the model defines the round-trip intrinsic power loss as 1 - alpha, so alpha is a power transmission): no parameter; the racetrack length is not printed to convert it. The 25 GHz FSR ring in Fig. 2(a) is an illustration only (no values). Ring-bus gap not printed.'
+    why: 'p.6 Methods (canonical design paragraph) defines the round-trip intrinsic power loss as 1 - alpha; the old note called alpha a field transmission'
+  cmp_lit_wang2025a_flat_top_comb:
+    notes: 'Fab: passive ''fabricated at wafer scale'' statement (p.2-3), no org named (D80b); authors at Sun Yat-sen University and Liobate Technology. Wafer: x-cut TFLN from NANOLN (supplier note). Garbled text layer only on p.9 (references); Table 1 read from the p.8 render. Modulator values (RF Vpi 3 V at 25 GHz, 3.35 V at 35 GHz, 2 V DC, EO bandwidth > 67 GHz / 35 GHz packaged, MZM extinction > 50 dB) stay out (rule 2). The 6.5 dB fibre-to-fibre loss of the packaged comb generator is entered as m7 (comb-source total, audit question 2); its loss-budget terms are on cmp_lit_wang2025a_edge_coupler and cmp_lit_wang2025a_rib_waveguide. Span 29.41 nm: no parameter. The 10 dB window is the counting criterion, not a result. Pump tuning 1480-1640 nm (p.7; Fig. 7 1500-1625 nm) is laser tuning, not entered. Simulated 157 / 151 / 99 lines vs RF phase error: not entered (sensitivity study).'
+    why: 'Follows the m7 add (question 2): the old note said the 6.5 dB stays out'
+  cmp_lit_zhang2024c_il_dfb_amplifier:
+    notes: 'Platform left empty (D422). Free-running slave power around 21 dBm (p.4). Six slave DFB chips tuned by temperature amplify the 34 comb lines one at a time (p.7 Methods); each injection-locked DFB amplifies one line, so no channel count is entered on this row (audit). Noise-floor increment ~0 dB vs 4.7 dB (EDFA) and 11.2 dB (SOA) at 20 dB gain (Fig. 2(i)): not a noise figure (not entered). OSNR > 70 dB: no parameter.'
+    why: 'Follows the m4 delete: the 34 channels are a system count over six sequentially tuned DFB chips (p.7 Methods), not a property of one amplifier'
+metrics:
+  cmp_lit_hu2022_cr_eo_comb-m1:
+    locator: 'p.3 Fig. 2(b); p.5 Table 1'
+    why: 'Table 1 is on text.md p.5 (journal p.683), not p.4 (p.4 only cites it in prose)'
+  cmp_lit_hu2022_cr_eo_comb-m2:
+    locator: 'p.5; p.6 Fig. 4(d); p.5 Table 1'
+    why: 'Table 1 is on text.md p.5'
+  cmp_lit_hu2022_cr_eo_comb-m3:
+    locator: 'p.3; p.5 Table 1'
+    why: 'Table 1 is on text.md p.5'
+  cmp_lit_hu2022_cr_eo_comb-m4:
+    locator: 'p.5 Table 1'
+    why: 'Table 1 is on text.md p.5'
+  cmp_lit_hu2022_cr_eo_comb-m5:
+    locator: 'p.5 Table 1'
+    why: 'Table 1 is on text.md p.5'
+  cmp_lit_hu2022_cr_eo_comb-m8:
+    locator: 'p.5 Table 1'
+    why: 'Table 1 is on text.md p.5'
+  cmp_lit_ling2024_ce_comb_laser_alpha-m9:
+    wavelength_nm: 1582
+    why: 'The GHz -> pm conversion uses the 1582 nm reference laser that measures the tuning (p.5; p.6 Fig. 4 caption); the wavelength belongs in the column, not only in the condition text'
+  cmp_lit_ling2024_ce_comb_laser_alpha-m10:
+    wavelength_nm: 1582
+    why: 'Same 1582 nm beat measurement as m9 (p.5, Fig. 4(h))'
+  cmp_lit_ling2024_ce_comb_laser_alpha-m11:
+    basis: measured
+    notes: 'printed ''produced on chip'' (p.6); no de-embedding arithmetic is shown. The only coupling loss the paper gives is the ~6 dB stated directly in Methods (p.8), which is measured under D167, so the value is not resting on an assumed input; plane per the paper''s wording'
+    why: 'D167: the ~6 dB coupling loss stated directly is a measured value (see the fiber_facet and rsoa_ln_coupler ops), so the author_estimate rationale (unstated-origin loss) no longer holds; a stated own value with no arithmetic is measured'
+  cmp_lit_ling2024_fiber_facet-m1:
+    basis: measured
+    notes: '''coupling losses around 6 dB'' (p.8 Methods), stated directly as the device''s fibre-to-chip coupling loss without arithmetic -> measured (D167); measurement method not described; band from the L-band comb'
+    why: 'D167: a per-facet coupling loss stated directly without shown arithmetic is measured (shi2024); rule 4 loss-budget clause does not apply (not a term of a stated total)'
+  cmp_lit_ling2024_rsoa_ln_coupler-m1:
+    basis: measured
+    notes: '''coupling losses around 6 dB'' for the amplifier-to-chip interface (p.8 Methods), stated directly without arithmetic -> measured (D167 analogue for a chip-chip interface); method not described; band from the L-band RSOA gain and comb (p.4)'
+    why: 'D167 analogue: interface loss stated directly, no assumed or cited input'
+  cmp_lit_helgason2023_facet-m1:
+    basis: measured
+    notes: '''~2 dB per facet'' for device 1 (p.10 Methods), stated directly without arithmetic -> measured (D167); method not described; wavelength from the device-1 pump region'
+    why: 'D167: per-facet coupling loss stated directly is measured; it is a device property in the Methods device list, not a loss-budget term'
+  cmp_lit_helgason2023_facet-m2:
+    basis: measured
+    notes: '''~2 dB per facet'' for device 2 (p.10 Methods), stated directly without arithmetic -> measured (D167); method not described; wavelength from the device-2 pump region'
+    why: 'D167, as m1'
+  cmp_lit_zhang2024c_sil_microcomb-m3:
+    qualifier: ''
+    why: 'p.4 prints the original microcomb WPE as ''(1%)'' with no approximation word; Fig. 2(g) green triangle'
+delete_metrics:
+  - id: cmp_lit_zhang2024c_il_dfb_amplifier-m4
+    why: 'p.7 Methods: six DFB chips, temperature-tuned, amplify the comb lines one at a time; one injection-locked DFB amplifies one line, so n_channels 34 is a system count (34 lines filtered in turn), not a channel count of this amplifier component'
+add_metrics:
+  - metric_id: cmp_lit_wang2025a_flat_top_comb-m7
+    component_id: cmp_lit_wang2025a_flat_top_comb
+    parameter: insertion_loss_db
+    value: 6.5
+    unit: dB
+    band: c_band
+    wavelength_inferred: 'true'
+    scope: fiber_to_fiber
+    includes: 'fibre-array-attached input and output edge couplers, one MZM, three folded phase modulators and the connecting waveguides'
+    condition: 'packaged comb generator with fibre pigtails on the evaluation board'
+    method: direct
+    basis: measured
+    locator: 'p.3; p.8 Table 1'
+    verified_on: '2026-11-07'
+    notes: 'printed ''fiber-to-fiber loss of 6.5 dB'' (p.3) and Table 1 column ''Fiber-to-fiber loss (dB)'' = 6.5; the paper breaks it into 0.27 +/- 0.25 dB/cm propagation and 1.0-1.25 dB per facet (rows on the edge-coupler and rib-waveguide components); wavelength not stated, band from the C-band CW pump (p.5)'
+    why: 'Question 2: a comb-source total of the packaged EO comb generator (Table 1 lists it as a comb figure of merit beside the PM Vpi), and the source is not an EO-atlas source, so nothing is duplicated (rule 2 intent); the loss-budget terms are already entered and the total anchors them'

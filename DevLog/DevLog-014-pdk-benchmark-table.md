@@ -88,3 +88,4 @@ literature-measured value on a device made in that foundry's process, not a PDK 
   no GF cell from PsiQuantum (baseline-flow values are cryogenic or not benchmark rows). Cell key `src` renamed
   `source_id` (served-view rule). build_views, validate_db 0 errors, ruff clean, full pytest 371 passed + 1 failed (served-view prefixed id), fixed and re-run (test_views + test_benchmark 21 passed),
   vitest 654, svelte-check 0, pnpm build ok, privacy scan clean.
+- 2026-11-07 Coverage work continues in DevLog-015 (D920-D933): affiliation rule, customer-spec overlay, TSMC / Tower / PsiQuantum ingests; 25 columns, 18 rows.

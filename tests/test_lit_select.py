@@ -92,3 +92,58 @@ def test_delta_select_curator_pick_without_slot_enters_beyond_budget() -> None:
     assert [r["uid"] for r in rep["added"]] == ["np"] and not rep["swaps"]
     assert [r["uid"] for r, _ in rep["blocked"]] == ["nr"]  # a rule pick stays blocked
     assert set(final) == {"w1", "np"}
+
+
+def test_delta_select_beyond_budget_adds_append_without_swap_or_caps() -> None:
+    """D926: beyond_budget adds are appended; displaceable incumbents stay; caps do not bind; listed works skip."""
+    inc = rec("i1", score=7, year=2010)  # dropped by the rules, displaceable
+    keep = rec("k1", la="dai")
+    prev = [prev_row(inc, "p1"), prev_row(keep, "p2")]
+    selected = {"k1": {**keep, "_reason": "rank"}}
+    pw = {f"b{i}": rec(f"b{i}", is_oa=False, score=8, la="dai", _reason="curator: add: owner") for i in range(5)}
+    listed = rec("k1", _reason="curator: add: owner")  # same work as a previous row: not added twice
+    beyond = [*pw.values(), listed]
+    cfg = {**CFG, "max_per_senior_author": 1}  # the senior-author and paywalled caps would block every one
+    final, rep = ls.delta_select(selected, {"i1": inc, "k1": keep}, {}, prev, {}, set(), cfg, {"laser": 2}, beyond)
+    assert not rep["swaps"]
+    assert [r["uid"] for r in rep["added"]] == list(pw)
+    assert [(r["uid"], why) for r, why in rep["blocked"]] == [("k1", "beyond_budget add already in the list")]
+    assert set(final) == {"i1", "k1", *pw}  # the displaceable incumbent stays
+    assert final["i1"]["_reason"] == "rank" and final["k1"]["_reason"] == "rank"
+
+
+def test_delta_select_beyond_budget_add_selected_by_rules_is_not_a_swap() -> None:
+    """D926: a beyond_budget add that the unconstrained run also selects does not take a displaceable slot."""
+    inc = rec("i1", score=7, year=2010)
+    prev = [prev_row(inc, "p1")]
+    bb = rec("b1", score=10, _reason="curator: add: owner")
+    selected = {"b1": {**bb, "_reason": "rank"}}
+    final, rep = ls.delta_select(selected, {"i1": inc, "b1": bb}, {}, prev, {}, set(), CFG, {"laser": 1}, [bb])
+    assert not rep["swaps"] and [r["uid"] for r in rep["added"]] == ["b1"] and not rep["entering"]
+    assert set(final) == {"i1", "b1"} and final["b1"]["_reason"] == "curator: add: owner"
+
+
+def test_delta_select_keeps_previous_beyond_budget_row_verbatim_except_rank() -> None:
+    """A previous beyond_budget add whose scored record now says another class / subtype keeps its row."""
+    bb = rec("b1", cls="resonator", score=9, _sub="resonator.ring")  # LLM class differs from the curator class
+    row = {**prev_row(bb, "liu2018a", reason="curator: add: owner"), "primary_class": "laser",
+           "subtype": "laser.dfb", "rank": "17", "classes": "resonator"}  # fmt: skip
+    keep = rec("k1", cls="laser")
+    prev = [row, prev_row(keep, "p2")]
+    selected = {"k1": {**keep, "_reason": "rank"}, "b1": {**bb, "_reason": "rank"}}
+    final, rep = ls.delta_select(
+        selected, {"b1": bb, "k1": keep}, {}, prev, {}, set(), CFG, {"laser": 1, "resonator": 1}, [bb]
+    )
+    assert not rep["swaps"] and not rep["added"]
+    assert final["b1"]["_verbatim"] == row and final["b1"]["_cls"] == "laser"
+    assert final["b1"]["_reason"] == "curator: add: owner"
+
+
+def test_delta_select_keeps_previous_arxiv_id() -> None:
+    """A previous row's arxiv_id survives although the current record (DOI-only curator add) has none."""
+    r = rec("10.1038/x", cls="waveguide_platform", arxiv_id="", doi="10.1038/x")
+    row = {**prev_row(r, "alexander2024", reason="curator: add: coordinator"), "arxiv_id": "2404.17570"}
+    selected = {r["uid"]: {**r, "_reason": "curator: add: coordinator"}}
+    final, _ = ls.delta_select(selected, {r["uid"]: r}, {}, [row], {}, {r["uid"]}, CFG, {"waveguide_platform": 1})
+    assert final[r["uid"]]["_verbatim"]["arxiv_id"] == "2404.17570"
+    assert final[r["uid"]]["_verbatim"] == row

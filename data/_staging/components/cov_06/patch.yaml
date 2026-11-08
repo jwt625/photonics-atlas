@@ -1,0 +1,125 @@
+# Audit patch cov_06 (fresh-context audit 2026-11-07, DevLog/audits/2026-11-07-cov_06-audit.md).
+# 132 metrics: 116 ok / 16 imprecise / 0 wrong; 29 components: 25 ok / 4 imprecise / 0 wrong.
+# Misses added: 2 metrics (li2022 EO tuning efficiency per Q1, xiang2021a Si-SiN spacer gap).
+# Coordinator choices: Q1 (li2022 GHz/V): to keep the value out drop add_metrics cmp_lit_li2022_pockels_laser-m8 and
+# the components op on cmp_lit_li2022_pockels_laser. Q2 (zhou2025 fab): to keep fab empty drop the two components ops
+# on cmp_lit_zhou2025_mci_laser and cmp_lit_zhou2025_slr. Q3 (fan2025a shared linewidth range): to keep the range rows
+# drop the metrics ops on cmp_lit_fan2025a_ecl_rsoa1-m8 and cmp_lit_fan2025a_ecl_rsoa2-m4.
+components:
+  cmp_lit_fan2025a_vernier_mrrs:
+    class: resonator.ring
+    why: 'Imprecise class: the two add-drop racetracks are cascaded inside the laser cavity, not mutually coupled; D400 puts intracavity rings in resonator.ring, and one-row Vernier pairs are resonator.ring in the merged table (ji2026, franken2025, heim2026) (p.2 Sec. 2, p.2 Fig. 1(a))'
+  cmp_lit_li2022_vernier_racetracks:
+    class: resonator.ring
+    why: 'Imprecise class: two separate racetracks of the Vernier mirror inside the laser cavity, not a coupled-ring molecule; D400 and the merged one-row Vernier pairs (ji2026, franken2025, heim2026) use resonator.ring (p.3-4, p.3 Fig. 2(b))'
+  cmp_lit_li2022_pockels_laser:
+    notes: 'Fab org_university_of_rochester: author contributions (p.11) name M.L., J.L., Y.H. and S.X. as fabricators, all at the University of Rochester (D395). Facility org_cornell_nanoscale_facility (performed in part at, p.11); the Cornell Center for Materials Research named in the same sentence is not in the registry. Wafer supplier NanoLN (note only). arXiv v1 text; journal version unread. Fab applies to the LNOI cavity chip; RSOA origin not stated. Cross-notes: cmp_lit_li2022_vernier_racetracks, cmp_lit_li2022_rsoa_lnoi_ssc. EO laser-frequency tuning efficiency printed 0.26-0.34 GHz/V (p.4, Fig. 3(c)) entered in pm/V (m8). Not entered: frequency-modulation rate 2.0 EHz/s, modulation nonlinearity < 10 % / 3 %, on-off switching 10-90 % rise / fall about 3 ns at up to 50 MHz (driver-limited), mode switching at 4 V, photon lifetime about 0.2 ns (estimate), SH tunability over 10 nm and the 15 % SHG projection, 41 kHz linewidth of another device with loaded Q about 2.5e4 (different, unnamed device, D159).'
+    why: 'Notes follow the Q1 ruling (tuning efficiency entered as m8)'
+  cmp_lit_zhou2025_mci_laser:
+    fab_org_ids: org_east_china_normal_university
+    notes: 'Fab org_east_china_normal_university, borderline (D84a): the MCI chip is fabricated with the PLACE method and the paper refers the method details to the authors own earlier work (p.7), which reads as fabrication with the authors own process; every author lists an East China Normal University affiliation (one also SIOM and other institutes, p.1); nan2025 precedent (same group, same PLACE pointer). RSOA purchased from Anritsu (vendor of a part, note only). Cross-note: cmp_lit_zhou2025_slr. Not entered: fine-tuning resolution 0.014 nm (OSA-limited) and coarse step 0.07 nm (no parameter); EDFA-amplified 70 mW (external fiber amplifier); 1x8 MMI uniform splitting stated without a number (geometry-only, no row); simulated MCI reflection spectrum (Fig. 2). Supplementary material not in the cached text.'
+    why: 'Q2 ruling: D84a counts a statement that the device was made with the authors own process; the PLACE pointer to our previous work (p.7) is that statement and the org is unambiguous (all authors at ECNU, p.1); nan2025 precedent'
+  cmp_lit_zhou2025_slr:
+    fab_org_ids: org_east_china_normal_university
+    notes: 'Fab org_east_china_normal_university, borderline (D84a): the MCI chip is fabricated with the PLACE method and the paper refers the method details to the authors own earlier work (p.7); every author lists an East China Normal University affiliation (p.1); nan2025 precedent. Platform empty: etch profile not stated (D422 / D423). Design follows the authors earlier SLRs with DCs replaced by 2x2 MMIs (p.4). Whether the tunable SLR is included in the > 90 % statement is not stated.'
+    why: 'Q2 ruling, as cmp_lit_zhou2025_mci_laser (same chip, p.7)'
+metrics:
+  cmp_lit_babichev2025_ba_sl1-m3:
+    basis: derived
+    notes: 'Printed 1 mm (lasers with 1 mm length, p.4); mm -> um rescale (D157). Cleaved length.'
+    why: 'Imprecise basis: pure unit rescale of a printed dimension is derived (D157 / D256); 1000 um is not printed (p.4 Sec. IV-B)'
+  cmp_lit_babichev2025_ba_sl2-m3:
+    basis: derived
+    notes: 'Printed 1 mm (lasers with 1 mm length, p.4); mm -> um rescale (D157). Cleaved length.'
+    why: 'Imprecise basis: pure unit rescale of a printed dimension is derived (D157 / D256); 1000 um is not printed (p.4 Sec. IV-B)'
+  cmp_lit_babichev2025_ba_sl3-m3:
+    basis: derived
+    notes: 'Printed 1 mm (lasers with 1 mm length, p.4); mm -> um rescale (D157). Cleaved length.'
+    why: 'Imprecise basis: pure unit rescale of a printed dimension is derived (D157 / D256); 1000 um is not printed (p.4 Sec. IV-B)'
+  cmp_lit_fan2025a_vernier_mrrs-m9:
+    basis: derived
+    notes: 'Printed 1 um (standard single-mode waveguide, p.2; straights 1.8 um, p.3); um -> nm rescale (D157).'
+    why: 'Imprecise basis: unit rescale of a printed dimension is derived (D157 / D256); 1000 nm not printed (p.2 Sec. 2)'
+  cmp_lit_fan2025a_bent_dc-m3:
+    basis: derived
+    notes: 'Printed 1 um, identical for inner and outer bent waveguides (p.3); um -> nm rescale (D157).'
+    why: 'Imprecise basis: unit rescale of a printed dimension is derived (D157 / D256); 1000 nm not printed (p.3 Sec. 2)'
+  cmp_lit_fan2025a_sin_wg-m2:
+    basis: derived
+    notes: 'Printed 1 um (p.2); um -> nm rescale (D157).'
+    why: 'Imprecise basis: unit rescale of a printed dimension is derived (D157 / D256); 1000 nm not printed (p.2 Sec. 2)'
+  cmp_lit_fan2025a_rsoa_sin_butt-m3:
+    basis: derived
+    notes: 'Printed 2.5 um (p.2); um -> nm rescale (D157).'
+    why: 'Imprecise basis: unit rescale of a printed dimension is derived (D157 / D256); 2500 nm not printed (p.2 Sec. 2)'
+  cmp_lit_fan2025a_rsoa_sin_butt-m2:
+    basis: simulated
+    notes: 'Design statement (reaches over 95 %); a mode-overlap efficiency is a computed quantity, method not described; no wavelength stated.'
+    why: 'Imprecise basis: design-stated performance that is computed (mode overlap of the SSC mode with the RSOA mode) is simulated, not author_estimate (contract v4, D80-D82) (p.2 Sec. 2)'
+  cmp_lit_fan2025a_ecl_rsoa1-m8:
+    value: 23800
+    value_max: ''
+    qualifier: le
+    statistic: ''
+    condition: 'intrinsic, across the entire tuning range (most channels, Fig. 6(c)); one bound stated for both gain-chip configurations (RSOA1 and RSOA2)'
+    locator: 'p.1 Abstract; p.5-6 Sec. 3; p.5 Fig. 6(c)'
+    notes: 'Printed as one range, 17.5 to 23.8 kHz, for RSOA1 and RSOA2 together (p.6) and as below 23.8 kHz in the abstract (p.1). 17.5 kHz is the RSOA1 point at 1568.52 nm and 23.8 kHz the RSOA2 point at 1615.8 nm (p.5), so the range is an envelope of both configurations; only the shared upper bound is entered (kHz -> Hz). Same bound on cmp_lit_fan2025a_ecl_rsoa2.'
+    why: 'Imprecise: a range stated for both gain-chip configurations together, entered as a per-row range, gives RSOA2 the RSOA1 minimum (p.5-6 Sec. 3); the shared upper bound holds for each row (p.1); Q3'
+  cmp_lit_fan2025a_ecl_rsoa2-m4:
+    value: 23800
+    value_max: ''
+    qualifier: le
+    statistic: ''
+    condition: 'intrinsic, across the entire tuning range (most channels, Fig. 6(c)); one bound stated for both gain-chip configurations (RSOA1 and RSOA2)'
+    locator: 'p.1 Abstract; p.5-6 Sec. 3; p.5 Fig. 6(c)'
+    notes: 'Printed as one range, 17.5 to 23.8 kHz, for RSOA1 and RSOA2 together (p.6) and as below 23.8 kHz in the abstract (p.1). 17.5 kHz is the RSOA1 point at 1568.52 nm and 23.8 kHz the RSOA2 point at 1615.8 nm (p.5), so the range is an envelope of both configurations; only the shared upper bound is entered (kHz -> Hz). Same bound on cmp_lit_fan2025a_ecl_rsoa1.'
+    why: 'Imprecise: as cmp_lit_fan2025a_ecl_rsoa1-m8 (p.1; p.5-6 Sec. 3); Q3'
+  cmp_lit_li2022_rsoa_lnoi_ssc-m2:
+    basis: derived
+    notes: 'Printed 5 um (p.2; p.7 Methods); um -> nm rescale (D157).'
+    why: 'Imprecise basis: unit rescale of a printed dimension is derived (D157 / D256); 5000 nm not printed (p.2, p.7)'
+  cmp_lit_guo2023_gain_tfln_butt-m2:
+    basis: derived
+    notes: 'Printed 10.3 um (p.5); um -> nm rescale (D157).'
+    why: 'Imprecise basis: unit rescale of a printed dimension is derived (D157 / D256); 10300 nm not printed (p.5)'
+  cmp_lit_xiang2021a_hiq_ring-m3:
+    basis: derived
+    notes: 'Printed 2.8 um for the SiN waveguide (p.2), stated identical for the ring chip (p.5); um -> nm rescale (D157).'
+    why: 'Imprecise basis: unit rescale of a printed dimension is derived (D157 / D256); 2800 nm not printed (p.2, p.5)'
+  cmp_lit_xiang2021a_si_sin_taper-m6:
+    basis: derived
+    notes: 'Printed 2.8 um (p.2); um -> nm rescale (D157).'
+    why: 'Imprecise basis: unit rescale of a printed dimension is derived (D157 / D256); 2800 nm not printed (p.2)'
+  cmp_lit_xiang2021a_sin_grating_k025-m4:
+    basis: derived
+    notes: 'Printed 20 mm (p.2; p.3 Fig. 1(c) label); mm -> um rescale (D157).'
+    why: 'Imprecise basis: unit rescale of a printed dimension is derived (D157 / D256); 20000 um not printed (p.2, p.3 Fig. 1(c))'
+  cmp_lit_xiang2021a_edbr_2p5mm_k15-m1:
+    locator: 'p.4 Fig. 2(e)-(f) legends; p.5'
+    why: 'Imprecise locator: the 2.5 mm / 1.5 /cm laser is not in Fig. 2(a) (three lasers 0.25 / 0.75 / 0.875 /cm); its kappa is printed in the Fig. 2(e) / (f) legends and caption and on p.5'
+add_metrics:
+- metric_id: cmp_lit_li2022_pockels_laser-m8
+  component_id: cmp_lit_li2022_pockels_laser
+  parameter: tuning_efficiency_pm_per_v
+  value: 2.17
+  value_max: 2.84
+  unit: pm/V
+  statistic: range
+  wavelength_nm: 1581.12
+  wavelength_inferred: 'true'
+  condition: 'EO phase-control section, triangular drive VP 3.0 V, modulation frequency 0.1-600 MHz; laser-frequency modulation amplitude 1.6-2.0 GHz; beat note against a reference laser (STFT)'
+  basis: derived
+  locator: 'p.4; p.5 Fig. 3(c)'
+  notes: 'Printed 0.26-0.34 GHz/V; d_lambda = lambda^2 d_f / c at 1581.12 nm, the lasing mode of the LIV and SHG measurements of this device (p.4, p.6); the wavelength of the FM measurement is not printed, and any wavelength in the 1576-1596 nm TO tuning range changes the result by under 2 %. Efficiency degrades beyond 700 MHz (photon-lifetime limit about 0.2 ns, estimate, p.4).'
+  why: 'Miss (Q1): a measured laser tuning efficiency; merged practice converts printed GHz/V with lambda^2 / c into tuning_efficiency_pm_per_v, derived (andreou2019, stanfield2019; kim2026 author_estimate only where a nominal wavelength had to be assumed) (p.4; p.5 Fig. 3(c))'
+- metric_id: cmp_lit_xiang2021a_si_sin_taper-m7
+  component_id: cmp_lit_xiang2021a_si_sin_taper
+  parameter: gap_nm
+  value: 600
+  unit: nm
+  qualifier: approx
+  condition: 'vertical SiO2 spacer between the Si3N4 core and the bonded Si layer (planarized first cladding layer)'
+  basis: design_target
+  locator: 'p.6 Methods'
+  notes: 'Methods: 900 nm deuterated SiO2 on the SiN, planarized by CMP to a cladding thickness of around 600 nm, then the SOI piece is bonded and its BOX removed; read as the SiN-to-Si spacing of the transition (spacer SiO2 in Fig. 1(a), p.3). Measured or nominal not stated (dimension, D76).'
+  why: 'Miss (D153 geometry): the transition_bilayer template lists gap_nm; the spacer thickness is printed (p.6 Methods)'

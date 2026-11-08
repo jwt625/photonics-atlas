@@ -1,0 +1,88 @@
+# cov_01 audit patch (2026-11-07). Audit record: DevLog/audits/2026-11-07-cov_01-audit.md
+# Apply: uv run python scripts/patch_component_staging.py data/_staging/components/cov_01 data/_staging/components/cov_01/patch.yaml
+
+metrics:
+  # --- yeh2024 (TSMC, IEDM 2024)
+  cmp_lit_yeh2024_spgc-m2:
+    band: o_band
+    wavelength_inferred: "true"
+    method: unspecified
+    notes: "Fig. 6(c) label '1dB BW ~ 20nm'. Wavelength not printed with the value; o_band inferred from the plotted peaks (about 1295-1315 nm on the 1280-1330 nm axis), as for -m1. Method not stated."
+    why: "rule 8: the plotted band holds for the bandwidth label as for the -m1 loss label of the same panel; band and method were empty (p.4 Fig. 6(c); p.2 Sec. III-A, 1290-1330 nm passive library)"
+  cmp_lit_yeh2024_psgc-m2:
+    band: o_band
+    wavelength_inferred: "true"
+    polarization: both
+    method: unspecified
+    notes: "Fig. 6(d) label '1dB BW ~ 25nm' over the TE and TM curves. Wavelength not printed with the value; o_band inferred from the plotted peaks (near 1310 nm on the 1260-1340 nm axis), as for -m1. Method not stated."
+    why: "rule 8: same panel and band as -m1; band, polarization and method were empty (p.4 Fig. 6(d))"
+  # --- fahrenkopf2019 (AIM Photonics MPW)
+  cmp_lit_fahrenkopf2019_te_grating_coupler-m2:
+    wavelength_nm: "1550"
+    polarization: te
+    condition: "SMF-28e fiber, 8 deg launch angle"
+    method: unspecified
+    notes: "Printed '~30 nm' 1 dB bandwidth in the same sentence as the peak efficiency at about 1550 nm (Fig. 3(f), 8 deg curve)."
+    why: "the sentence states the wavelength and fiber for the bandwidth with the peak efficiency (p.4 Sec. IV-A; p.4 Fig. 3(f))"
+  cmp_lit_fahrenkopf2019_microdisk_switch-m1:
+    wavelength_inferred: "true"
+    scope: unspecified
+    notes: "Printed '1.0 dB insertion loss' for through-to-drop switching; how the device loss was isolated (fiber or grating coupling removed or not) is not stated (rule 6: unspecified). No wavelength with the value; c_band inferred from the C-band FSR statement of the wavelength-selective library in the same paragraph."
+    why: "rule 6: device_total was not stated by the paper; rule 8: band is the device's stated operating band, not a stated wavelength of the value (p.4 Sec. IV-B)"
+  cmp_lit_fahrenkopf2019_microdisk_switch-m2:
+    band: c_band
+    wavelength_inferred: "true"
+    notes: "Printed '16 dB dynamic extinction ratio'; c_band inferred as for -m1."
+    why: "rule 8: operating band stated for the device, band was empty (p.4 Sec. IV-B)"
+  cmp_lit_fahrenkopf2019_microring_filter-m1:
+    wavelength_inferred: "true"
+    scope: unspecified
+    notes: "Printed '< 0.2 dB'; port (drop / through) and how the loss was isolated are not stated (rule 6: unspecified). c_band inferred from the C-band FSR statement of the same paragraph."
+    why: "rule 6: per_component (isolated from a cascade or reference) is not stated; rule 8 inferred band (p.4 Sec. IV-B)"
+  # --- dagostino2015 (COBRA InP)
+  cmp_lit_dagostino2015_mmi_2x2-m1:
+    basis: author_estimate
+    notes: "Printed as an estimated insertion loss of 0.1 +/- 0.1 dB at 1510 nm (coupler loss alpha_c, background waveguide loss subtracted). Measured with the Fabry-Perot method (Eq. 2) on two MMIs between reflective facets: the absolute transmission rests on the calculated facet reflectivity (0.34 TE, p.7), the input the paper names as the uncertainty of Fabry-Perot absolute values (p.6) -> author_estimate, as the reflectivity-based waveguide rows. The normalized r2 (-m2) cancels it."
+    why: "rule 4: the value rests on a calculated (not measured) facet reflectivity, same basis as the batch's Fabry-Perot waveguide losses (p.10-11 Fig. 9(a), Fig. 10(a); p.6 Eq. 2 and following text; p.7)"
+  # --- roeloffzen2018 (TriPleX overview)
+  cmp_lit_roeloffzen2018_stress_optic_actuator-m1:
+    wavelength_nm: "1550"
+    why: "the sentence states 1550 nm for the 18 V measurement; it sat only in condition (p.6 Sec. III-E)"
+  cmp_lit_roeloffzen2018_stress_optic_cover-m1:
+    wavelength_nm: "1550"
+    wavelength_inferred: "true"
+    notes: "2 pi reached at 50 V (printed). Wavelength not restated for the cover-plate actuator; 1550 nm from the MZI measurement of the same paragraph and Fig. 3(b) (inferred)."
+    why: "rule 8: wavelength only in condition text and not restated for this variant (p.6 Sec. III-E; p.6 Fig. 3(b))"
+  cmp_lit_roeloffzen2018_stress_optic_cover-m2:
+    wavelength_nm: "1550"
+    wavelength_inferred: "true"
+    notes: "Wavelength inferred as for -m1."
+    why: "rule 8, as -m1 (p.6 Sec. III-E)"
+  cmp_lit_roeloffzen2018_switched_delay_4bit-m4:
+    basis: derived
+    notes: "Printed '~1.5 W', computed by the authors from the ~0.3 W average power per thermo-optic tunable coupler (stated as following from the per-coupler power); the number of tunable couplers is not printed (1.5 / 0.3 = 5)."
+    why: "D80a: explicit arithmetic on a stated value is derived whether the authors or the batch did it (p.9 Sec. V-A)"
+  # --- chen2026c (IQA Si3N4)
+  cmp_lit_chen2026c_mmi_1x2-m1:
+    basis: derived
+    notes: "Per-device single-output transmission 0.494 from a linear fit of the cascade (measured); the printed 0.053 dB is the authors' arithmetic on it (two outputs summed to 0.988, converted to dB), so derived (D80a). Wavelength of the cascade measurement not stated; c_band inferred from the C-band operation of the circuit and the 1520-1580 nm design range."
+    why: "D80a: the paper prints the arithmetic from the fitted transmission to the dB value (p.15 Supp. Note 1)"
+  cmp_lit_chen2026c_mmi_2x2-m1:
+    basis: derived
+    notes: "T_CR 0.474 + T_TH 0.514 = 0.988 from linear fits of the cascades (measured), converted by the authors to 0.052 dB, so derived (D80a); main text rounds to 0.05 dB per device (p.4). Wavelength inferred as for the 1x2 MMI."
+    why: "D80a, as cmp_lit_chen2026c_mmi_1x2-m1 (p.15 Supp. Note 1)"
+
+add_metrics:
+  - metric_id: cmp_lit_roeloffzen2018_ss_ring_r365-m6
+    component_id: cmp_lit_roeloffzen2018_ss_ring_r365
+    parameter: linewidth_pm
+    value: "2.4"
+    unit: pm
+    qualifier: approx
+    band: unspecified
+    condition: "single resonance of the add-drop ring, full width at half maximum of a Lorentzian fit"
+    method: ring_extraction
+    basis: measured
+    locator: "p.7 Fig. 5 caption"
+    notes: "Printed FWHM of about 2.4 pm (Fig. 5 caption); the Q of about 700 thousand (-m1) is stated from it. Wavelength not stated."
+    why: "miss: stated resonance width of the measured ring (p.7 Fig. 5 caption)"

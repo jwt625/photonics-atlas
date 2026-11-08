@@ -27,9 +27,12 @@ const BASIS = /** @type {Record<string, string>} */ ({
 	measured: 'measured',
 	extracted_from_figure: 'read from a figure',
 	derived: 'derived from measured values',
-	private_communication: 'private communication, unpublished'
+	private_communication: 'private communication, unpublished',
+	customer_spec: "foundry customer's product specification"
 });
 const PC = 'private_communication';
+const CS = 'customer_spec';
+const MARK = /** @type {Record<string, string>} */ ({ [PC]: '†', [CS]: '‡' });
 const SCOPE = /** @type {Record<string, string>} */ ({
 	per_facet: 'per facet',
 	per_coupler: 'per coupler',
@@ -135,7 +138,10 @@ export function cellTip(/** @type {Row} */ row, /** @type {Column} */ col, /** @
 		range,
 		c.basis === PC
 			? `${BASIS[PC]} (${c.date}); not a literature value`
+			: c.basis === CS
+			? `${BASIS[CS]} (${c.date}); a vendor statement, not a literature measurement`
 			: `best of ${c.n} value${c.n === 1 ? '' : 's'} from ${c.n_src} publication${c.n_src === 1 ? '' : 's'} in this cell; ${BASIS[c.basis] ?? words(c.basis)}`,
+		c.via ? `foundry by author affiliation (${c.via}); the publication does not name the fab` : '',
 		'',
 		`${c.org}: ${c.component}`,
 		c.platform || c.core ? [c.platform ? words(c.platform) : '', c.core].filter(Boolean).join('; ') : '',
@@ -177,7 +183,9 @@ export function renderBenchmark(view, st, opt = {}) {
 		.filter((x) => x.n > 0);
 	const nRows = view.categories.reduce((n, c) => n + c.rows.length, 0);
 	const ncol = cols.length + 1;
+	const anyVia = view.categories.some((cat) => cat.rows.some((row) => cols.some((c) => row.cells[c.id]?.via)));
 	const anyPc = view.categories.some((cat) => cat.rows.some((row) => cols.some((c) => row.cells[c.id]?.basis === PC)));
+	const anyCs = view.categories.some((cat) => cat.rows.some((row) => cols.some((c) => row.cells[c.id]?.basis === CS)));
 
 	const toolbar = `<div class="bm-bar">
 	${opt.title ? `<span class="bm-title">${esc(opt.title)}</span>` : ''}
@@ -194,7 +202,9 @@ export function renderBenchmark(view, st, opt = {}) {
 		<span class="bm-key r1" data-tip="Best value in the row">best</span>
 		<span class="bm-key r2" data-tip="Second-best value in the row">second</span>
 		<span class="bm-key lead" data-tip="Column with the most row bests">most bests</span>
+		${anyVia ? `<span class="bm-key via" data-tip="Foundry assigned from the authors' affiliation; the publication does not name the fab">by affiliation</span>` : ''}
 		${anyPc ? `<span class="bm-key" data-tip="Unpublished value from private communication; ranked like any value"><span class="bm-pc">†</span> private comm.</span>` : ''}
+		${anyCs ? `<span class="bm-key" data-tip="Public product specification of a foundry customer that names the foundry process; ranked like any value"><span class="bm-pc">‡</span> customer spec</span>` : ''}
 	</span>
 	<span class="bm-grow"></span>
 	<span class="bm-meta muted" data-tip="Date the table was generated from the atlas tables">${cols.length} columns, ${nRows} rows, ${esc(view.generated_on)}</span>
@@ -238,11 +248,11 @@ export function renderBenchmark(view, st, opt = {}) {
 					const tds = cols
 						.map((c) => {
 							const cell = row.cells[c.id];
-							const cls = ['bm-v', lead.has(c.id) ? 'lead' : '', rk[c.id] ? 'r' + rk[c.id] : ''].filter(Boolean).join(' ');
+							const cls = ['bm-v', lead.has(c.id) ? 'lead' : '', rk[c.id] ? 'r' + rk[c.id] : '', cell?.via ? 'via' : ''].filter(Boolean).join(' ');
 							if (!cell) return `<td class="${cls} na" data-tip="${esc(`${c.label} ${familyLabel(c)}: no value in the atlas that passes this row's rules`)}">—</td>`;
 							const pub = view.sources[cell.source_id];
 							const num = cell.vmax != null ? `${fmtNum(Math.min(cell.v, cell.vmax), row.fmt)}–${fmtNum(Math.max(cell.v, cell.vmax), row.fmt)}` : fmtNum(cell.v, row.fmt);
-							const txt = `${cell.q ? esc(QUAL[cell.q] ?? '') : ''}${num}${cell.basis === PC ? '<sup class="bm-pc">†</sup>' : ''}`;
+							const txt = `${cell.q ? esc(QUAL[cell.q] ?? '') : ''}${num}${MARK[cell.basis] ? `<sup class="bm-pc">${MARK[cell.basis]}</sup>` : ''}`;
 							const inner = pub?.url ? `<a href="${esc(pub.url)}" target="_blank" rel="noopener">${txt}</a>` : `<span>${txt}</span>`;
 							return `<td class="${cls}" data-tip="${esc(cellTip(row, c, cell, pub))}">${inner}</td>`;
 						})
@@ -264,7 +274,7 @@ export function renderBenchmark(view, st, opt = {}) {
 	const famNotes = view.families.map((f) => `<b>${esc(f.label)}</b>: ${esc(f.tip)}.`).join(' ');
 	const general = `<div class="bm-notes">
 	<ol>${notes.join('')}</ol>
-	<p>Each cell is the best value the atlas holds for a component fabricated in that foundry's process, from the publications it cites (${esc(basisWords)}); it is a literature result, not a PDK specification. A reported range (spread over dies, channels or a band) is shown as a range and ranked at its midpoint; bounds pointing the wrong way, standard deviations, design and simulated values, author estimates and rows below ${r.min_temperature_k} K are not entered. Telecom rows: ${r.telecom_window_nm[0]}-${r.telecom_window_nm[1]} nm. Columns with fewer than ${r.min_rows_per_column} filled rows and rows with fewer than ${r.min_columns_per_row} filled columns are not shown, except pinned columns (${esc(cols.filter((c) => c.pinned).map((c) => `${c.label} ${familyLabel(c)}`).join(', ') || 'none')}), which are always shown. ${anyPc ? 'Values marked † are unpublished values from private communication, dated in the tooltip; they are ranked like any value. ' : ''} Hover a value for its device, conditions and publication; click to open the publication.</p>
+	<p>Each cell is the best value the atlas holds for a component fabricated in that foundry's process, from the publications it cites (${esc(basisWords)}); it is a literature result, not a PDK specification. A reported range (spread over dies, channels or a band) is shown as a range and ranked at its midpoint; bounds pointing the wrong way, standard deviations, design and simulated values, author estimates and rows below ${r.min_temperature_k} K are not entered. Telecom rows: ${r.telecom_window_nm[0]}-${r.telecom_window_nm[1]} nm. Columns with fewer than ${r.min_rows_per_column} filled rows and rows with fewer than ${r.min_columns_per_row} filled columns are not shown, except pinned columns (${esc(cols.filter((c) => c.pinned).map((c) => `${c.label} ${familyLabel(c)}`).join(', ') || 'none')}), which are always shown. ${anyVia ? 'Italic values: the publication does not name the fab; the foundry follows from the authors\' affiliation (a customer whose photonic chips the foundry makes, or a first author at the foundry). ' : ''}${anyPc ? 'Values marked † are unpublished values from private communication, dated in the tooltip; they are ranked like any value. ' : ''}${anyCs ? 'Values marked ‡ are public product specifications of a foundry customer that name the foundry process (vendor statements, linked); ranked like any value. ' : ''} Hover a value for its device, conditions and publication; click to open the publication.</p>
 	<p>${famNotes} AMF / IME: Advanced Micro Foundry and A*STAR Institute of Microelectronics in one column; the tooltip names the organization of each value. Modulator rows (EO modulator atlas) take the platform's native effect only.</p>
 </div>`;
 

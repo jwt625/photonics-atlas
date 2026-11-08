@@ -1,0 +1,147 @@
+# Audit patch cov_03 (fresh-context audit 2026-11-07, DevLog/audits/2026-11-07-cov_03-audit.md).
+# 117 metrics: 103 ok / 14 imprecise / 0 wrong; 26 components: 20 ok / 6 imprecise / 0 wrong.
+# Misses: 1 (ji2020 comb line spacing, added as cmp_lit_ji2020_kerr_comb-m2).
+# Coordinator choices: question 2 (rizzo2023 microdisk heater P_pi, D435) -> to keep measured, drop the
+# cmp_lit_rizzo2023_microdisk_heater-m2 op. Question 4 (ji2020 line spacing) -> drop the add_metrics op.
+components:
+  cmp_lit_ma2000_mmi3_w0p8:
+    notes: 'Fab: the authors report ''our design, fabrication'' and measurement (p.1 Sec. I); all authors at Northwestern
+      University ECE (p.1 footnote), so fab = Northwestern (borderline under D80b / D84a, see report). The work made use of
+      the ''MRSEC Control Facilities of Northwestern University'' (name as printed, p.1 footnote): facility not in the registry,
+      not entered. Process (p.1 Sec. II): EBL in 250 nm PMMA, 400 nm SiO2 mask, ICP Cl2:Ar (2:3) at 250 C, etch depth about
+      3 um. Excess loss in Fig. 2 is normalized to the total output at the 1.55 um optimum wavelength (p.2), so no absolute
+      excess loss is reported. TE-TM excess-loss difference below 1 dB for most lengths (Fig. 3, MMI3), not entered (not a
+      PDL value of one device). S-bend loss estimated below 0.05 dB (p.2), not entered (no S-bend component data). Calculated
+      lengths (Table I): 48.23 um TE, 48.04 um TM; measured optimum lengths 49.0 um TE and about 48.5 um TM (p.2). Length
+      tolerance about 8 um and width tolerance about 0.26 um for +/-0.5 dB imbalance (p.3), no registry parameter.'
+    why: p.1 footnote (page render) prints MRSEC Control Facilities, not central facilities; facility name must be as printed
+      for the registry request
+  cmp_lit_ma2000_mmi2_w0p6:
+    notes: 'Fab: the authors report ''our design, fabrication'' and measurement (p.1 Sec. I); all authors at Northwestern
+      University ECE (p.1 footnote), so fab = Northwestern (borderline under D80b / D84a, see report). The work made use of
+      the ''MRSEC Control Facilities of Northwestern University'' (name as printed, p.1 footnote): facility not in the registry,
+      not entered. Process (p.1 Sec. II): EBL in 250 nm PMMA, 400 nm SiO2 mask, ICP Cl2:Ar (2:3) at 250 C, etch depth about
+      3 um. Excess loss in Fig. 2 is normalized to the total output at the 1.55 um optimum wavelength (p.2), so no absolute
+      excess loss is reported. TE-TM excess-loss difference below 1 dB for most lengths (Fig. 3, MMI3), not entered (not a
+      PDL value of one device). S-bend loss estimated below 0.05 dB (p.2), not entered (no S-bend component data). MMI width
+      not entered: the text gives 3 um (p.1 Sec. II) and Table I gives 3.2 um for W_AG 0.6 um (D159). Bandwidth about 80 nm
+      within a 2 dB excess-loss limit (p.2): no 2-dB width parameter. Calculated lengths (Table I, 3.2 um column): 42.43 um
+      TE, 38.75 um TM. Length tolerance about 8 um, width tolerance about 0.26 um (p.3).'
+    why: p.1 footnote (page render) prints MRSEC Control Facilities, not central facilities; facility name must be as printed
+      for the registry request
+  cmp_lit_ma2000_mmi1_w0p4:
+    notes: 'Fab: the authors report ''our design, fabrication'' and measurement (p.1 Sec. I); all authors at Northwestern
+      University ECE (p.1 footnote), so fab = Northwestern (borderline under D80b / D84a, see report). The work made use of
+      the ''MRSEC Control Facilities of Northwestern University'' (name as printed, p.1 footnote): facility not in the registry,
+      not entered. Process (p.1 Sec. II): EBL in 250 nm PMMA, 400 nm SiO2 mask, ICP Cl2:Ar (2:3) at 250 C, etch depth about
+      3 um. Excess loss in Fig. 2 is normalized to the total output at the 1.55 um optimum wavelength (p.2), so no absolute
+      excess loss is reported. TE-TM excess-loss difference below 1 dB for most lengths (Fig. 3, MMI3), not entered (not a
+      PDL value of one device). S-bend loss estimated below 0.05 dB (p.2), not entered (no S-bend component data). Bandwidth
+      about 80 nm within a 4 dB excess-loss limit (p.2): no 4-dB width parameter. Calculated lengths (Table I): 19.67 um TE,
+      17.15 um TM. The SEM device of Fig. 1 has L = 20.5 um. Length tolerance about 2 um, width tolerance about 0.1 um (p.3).'
+    why: p.1 footnote (page render) prints MRSEC Control Facilities, not central facilities; facility name must be as printed
+      for the registry request
+  cmp_lit_yu2016_si_microresonator:
+    core_material: Si (etchless process) with integrated PIN junction; dispersion-engineered for anomalous GVD beyond 3 um
+      (fundamental TE)
+    why: p.3 says integrated PIN structure (as described in ref. [14]); the junction orientation (lateral) is not printed
+      in this text
+  cmp_lit_yu2016_midir_soliton_comb:
+    core_material: Si (etchless process) with integrated PIN junction
+    why: p.3 says integrated PIN structure (as described in ref. [14]); the junction orientation (lateral) is not printed
+      in this text
+  cmp_lit_sun2024_cc_mutc_pd:
+    notes: 'Fab: J.S.M. and A.B. (University of Virginia) designed and fabricated the CC-MUTC PDs (p.7 Author contributions);
+      Freedom Photonics staff (two named people) thanked for MUTC PD fabrication (p.7 Acknowledgements): borderline fab credit
+      kept with this note (D84b); both orgs entered (D80b). Platform empty: material and illumination geometry not stated
+      (D422; subtype other). Responsivity and bandwidth are stated device values; the measurement is not shown. Not entered
+      (no registry parameter for PD RF output power): 9 dBm mmWave at 100 GHz at 18.3 mA, -2 V (p.4, Fig. 4(d)). Device described
+      in ref. 44 (a 110 GHz design of the group), whose values differ.'
+    why: 'p.7 Acknowledgements thank two named Freedom Photonics staff for MUTC PD fabrication: staff thanks are the D84b
+      borderline case, not a plain org statement'
+metrics:
+  cmp_lit_ma2000_mmi3_w0p8-m6:
+    basis: derived
+    notes: Printed 2 um (access waveguide width W_AG before the taper); um -> nm (D157).
+    why: 'p.1 Sec. II: the source prints this dimension only in um; a pure unit rescale is derived with the printed value
+      in notes (D157)'
+  cmp_lit_ma2000_mmi2_w0p6-m4:
+    basis: derived
+    notes: Printed 2 um (access waveguide width before the taper); um -> nm (D157).
+    why: 'p.1 Sec. II: the source prints this dimension only in um; a pure unit rescale is derived with the printed value
+      in notes (D157)'
+  cmp_lit_ma2000_mmi1_w0p4-m5:
+    basis: derived
+    notes: Printed 2 um (access waveguide width before the taper); um -> nm (D157).
+    why: 'p.1 Sec. II: the source prints this dimension only in um; a pure unit rescale is derived with the printed value
+      in notes (D157)'
+  cmp_lit_ma2000_mmi3_w0p8-m9:
+    basis: derived
+    notes: Printed about 3 um (p.1) and about 3.0 um (p.2); um -> nm (D157).
+    why: 'p.1 Sec. II; p.2 Sec. III: the source prints this dimension only in um; a pure unit rescale is derived with the
+      printed value in notes (D157)'
+  cmp_lit_ma2000_mmi2_w0p6-m7:
+    basis: derived
+    notes: Printed about 3 um (p.1) and about 3.0 um (p.2); um -> nm (D157).
+    why: 'p.1 Sec. II; p.2 Sec. III: the source prints this dimension only in um; a pure unit rescale is derived with the
+      printed value in notes (D157)'
+  cmp_lit_ma2000_mmi1_w0p4-m8:
+    basis: derived
+    notes: Printed about 3 um (p.1) and about 3.0 um (p.2); um -> nm (D157).
+    why: 'p.1 Sec. II; p.2 Sec. III: the source prints this dimension only in um; a pure unit rescale is derived with the
+      printed value in notes (D157)'
+  cmp_lit_ma2000_mmi3_w0p8-m10:
+    basis: derived
+    notes: Printed 0.65 um; um -> nm (D157).
+    why: 'p.1 Sec. II: the source prints this dimension only in um; a pure unit rescale is derived with the printed value
+      in notes (D157)'
+  cmp_lit_ma2000_mmi2_w0p6-m8:
+    basis: derived
+    notes: Printed 0.65 um; um -> nm (D157).
+    why: 'p.1 Sec. II: the source prints this dimension only in um; a pure unit rescale is derived with the printed value
+      in notes (D157)'
+  cmp_lit_ma2000_mmi1_w0p4-m9:
+    basis: derived
+    notes: Printed 0.65 um; um -> nm (D157).
+    why: 'p.1 Sec. II: the source prints this dimension only in um; a pure unit rescale is derived with the printed value
+      in notes (D157)'
+  cmp_lit_tian2025_star_coupler_squeezed-m6:
+    basis: derived
+    notes: Printed 0.1 um (gap between the input tapers, set for the optimization); um -> nm (D157).
+    why: 'p.3 Sec. II: the source prints this dimension only in um; a pure unit rescale is derived with the printed value
+      in notes (D157)'
+  cmp_lit_rizzo2023_microdisk_resonator-m2:
+    basis: derived
+    notes: 'Printed f_FWHM = 39 GHz at 1,550 nm; GHz -> MHz (D256: no MHz form printed).'
+    why: p.12 Methods prints 39 GHz only; a prefix conversion without a printed stored-unit form is derived (D256)
+  cmp_lit_ji2020_kerr_comb-m1:
+    basis: derived
+    notes: 'Printed 73 uW (''as low as'', Fig. 3 caption; p.1 abstract, p.4); uW -> mW (D256: no mW form printed); pump at
+      1561 nm. Reference plane of the pump power not stated.'
+    why: p.4 and p.13 Fig. 3 print 73 uW only; a prefix conversion without a printed stored-unit form is derived (D256)
+  cmp_lit_rizzo2023_microdisk_heater-m2:
+    basis: author_estimate
+    notes: 'Printed P_pi = 25.6 mW in the Ext. Data Fig. 2(a) caption. The plotted sweep spans 0-10 mW (resonance 1545.8 ->
+      1550.8 nm), and 25.6 mW equals (FSR / 2) / efficiency = 12.8 nm / 0.5 nm/mW: the linear tuning extended past the data
+      (D435). Resonance near 1546-1551 nm (figure axis).'
+    why: 'p.15 Ext. Data Fig. 2(a) render: heater curves only at 0-10 mW; the 25.6 mW P_pi is the 0.5 nm/mW slope extended
+      to half the 25.6 nm FSR (p.12), a value beyond the range of its own data (D435)'
+  cmp_lit_tian2025_star_coupler_squeezed-m4:
+    notes: Table I prints 10 output waveguides and the Fig. 2 caption a 10-output design; the simulated Fig. 3 plots 12 channel
+      labels with 'only the 10 channels in the middle' used, and the measured chip reports 8 channels (Fig. 6, p.4). Printed
+      design value kept.
+    why: p.4 Fig. 3 render shows 12 simulated channels against the Table I value of 10 (p.3); conflict recorded, value kept
+      as printed in Table I
+add_metrics:
+- metric_id: cmp_lit_ji2020_kerr_comb-m2
+  component_id: cmp_lit_ji2020_kerr_comb
+  parameter: channel_spacing_ghz
+  value: '174'
+  unit: GHz
+  condition: line spacing of the phase-locked single-soliton comb (1097-2040 nm)
+  basis: measured
+  locator: p.14 Fig. 4(b)
+  notes: Printed FSR of 174 GHz for the comb spectrum (Fig. 4(b) caption); the paper calls it FSR and shows no pulse characterization
+    (spectral sech2 fit only), so line spacing per D83b (rizzo2023 / yu2016 rows of this batch).
+  verified_on: '2026-11-07'
+  why: 'miss: p.14 Fig. 4(b) caption prints the comb FSR 174 GHz; the other comb rows of the batch carry their line spacing'

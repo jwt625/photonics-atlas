@@ -1,0 +1,62 @@
+# Audit patch cov_05 (fresh-context audit 2026-11-07, DevLog/audits/2026-11-07-cov_05-audit.md).
+# 143 metrics: 129 ok / 14 imprecise / 0 wrong; 29 components: 29 ok / 0 imprecise / 0 wrong. No misses added.
+# Ops: 14 metric field changes (11 unit-rescale basis fixes, D157 / D256; 2 depletion-efficiency basis fixes for
+# in-batch consistency, coordinator question 1; 1 n_samples). No deletes, no adds, no component changes.
+# Coordinator choice (question 1): if depletion-equated efficiencies are ruled `measured` instead, drop the two
+# dean2025 ops below and set chen2025a ppln_shg_12p3mm-m5 and stokowski2024 fm_opo-m5 to measured.
+metrics:
+  cmp_lit_dean2025_shr_opa_l9mm-m11:
+    basis: derived
+    notes: Printed 1.2 um (ridge width, p.9 Sec. VII F); unit rescale of a design value (D157).
+    why: 'D157 / D256: the text prints only 1.2 um (p.9 Sec. VII F), no nm form anywhere in text.md'
+  cmp_lit_dean2025_tfln_ridge_wg-m4:
+    basis: derived
+    notes: Printed 1.2 um (ridge width, p.9 Sec. VII F); unit rescale of a design value (D157).
+    why: 'D157 / D256: the text prints only 1.2 um (p.9 Sec. VII F)'
+  cmp_lit_dean2025_dichroic_dc-m8:
+    basis: derived
+    notes: Printed 1.11 um (p.8 Sec. VII E); unit rescale of a design value (D157).
+    why: 'D157 / D256: the text prints only 1.11 um (p.8 Sec. VII E)'
+  cmp_lit_dean2025_shr_shg_l6mm-m3:
+    basis: author_estimate
+    notes: '''up to 95% conversion''; the input power of the maximum is not printed. Conversion is the measured FH pump depletion equated with FH-to-SH conversion (p.3 Fig. 2(c) caption: measured by depletion of the FH pump); basis as chen2025a ppln_shg_12p3mm-m5 and stokowski2024 fm_opo-m5 (the equality is an inference).'
+    why: 'Rule 4 (by how obtained, not the verb): same depletion-equals-conversion inference the batch enters as author_estimate for chen2025a (p.5) and stokowski2024 (p.19 Ext. Data Table 1: inferred from the SH depletion); coordinator question 1'
+  cmp_lit_dean2025_nonres_shg_diag-m1:
+    basis: author_estimate
+    notes: Conversion is the measured FH pump depletion equated with FH-to-SH conversion (p.3 Fig. 2(c) caption); basis as chen2025a ppln_shg_12p3mm-m5 and stokowski2024 fm_opo-m5.
+    why: 'Rule 4: same depletion-equals-conversion inference as the batch rule for chen2025a / stokowski2024 (p.2-3, Fig. 2(c)); coordinator question 1'
+  cmp_lit_dean2025_shr_opa_l9mm-m3:
+    n_samples: 8
+    why: 'p.12 Sec. VIII F: phase-insensitive gain sampled at 8 seed wavelengths within one ripple period; Fig. 3(c) points are their mean'
+  cmp_lit_li2025d_adc_mux-m3:
+    basis: derived
+    notes: Printed 1.1 um, constant along the ADC (p.2); unit rescale of a design value (D157).
+    why: 'D157 / D256: the text prints only 1.1 um (p.2)'
+  cmp_lit_stokowski2024_fm_opo-m7:
+    basis: derived
+    notes: Printed 10 mm (p.7 Methods, intracavity coupler paragraph); unit rescale of a design value (D157).
+    why: 'D157 / D256: printed only as 10 mm (p.7 Methods); no um form in text.md'
+  cmp_lit_stokowski2024_fm_opo-m10:
+    basis: derived
+    notes: Printed w = 1.2 um (p.7 Methods); unit rescale of a design value (D157).
+    why: 'D157 / D256: the text prints only 1.2 um (p.7 Methods)'
+  cmp_lit_xin2024_shg737_wafer_b-m4:
+    basis: derived
+    notes: Printed w = 1.5 um, nominal (p.3; p.8 Fig. 3 caption); unit rescale of a design value (D157).
+    why: 'D157 / D256: the text prints only 1.5 um (p.3, p.8); no nm form in text.md'
+  cmp_lit_kashiwazaki2021a_ppln_shg_45mm-m5:
+    basis: derived
+    notes: SEM cross-section (Fig. 1(b)); printed about 8.6 um (p.4); unit rescale (D157).
+    why: 'D157 / D256: the text prints only about 8.6 um (p.4); a measured value rescaled keeps the printed value in notes'
+  cmp_lit_kashiwazaki2021a_ppln_shg_45mm-m6:
+    basis: derived
+    notes: PPLN layer thickness, printed about 8.0 um (p.4); unit rescale (D157).
+    why: 'D157 / D256: the text prints only about 8.0 um (p.4)'
+  cmp_lit_kashiwazaki2021a_ppln_wg_45mm-m2:
+    basis: derived
+    notes: SEM cross-section (Fig. 1(b)); printed about 8.6 um (p.4); unit rescale (D157).
+    why: 'D157 / D256: the text prints only about 8.6 um (p.4)'
+  cmp_lit_kashiwazaki2021a_ppln_wg_45mm-m3:
+    basis: derived
+    notes: PPLN layer thickness, printed about 8.0 um (p.4); unit rescale (D157).
+    why: 'D157 / D256: the text prints only about 8.0 um (p.4)'

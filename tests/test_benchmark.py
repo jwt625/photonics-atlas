@@ -67,7 +67,7 @@ def _view() -> dict[str, Any]:
 
 def test_view_cells_follow_the_rules() -> None:
     view = _view()
-    allowed = set(CFG["basis"]) | {bb.PRIVATE}
+    allowed = set(CFG["basis"]) | bb.OVERLAY
     cols = {c["id"] for c in view["columns"]}
     for cat in view["categories"]:
         for row in cat["rows"]:
@@ -95,10 +95,13 @@ def test_private_values_are_marked() -> None:  # D910
     cells = {(r["id"], c): v for cat in view["categories"] for r in cat["rows"] for c, v in r["cells"].items()}
     for pv in CFG["private_values"]:
         cell = cells.get((pv["row"], pv["column"]))
-        if cell is None or cell["basis"] != bb.PRIVATE:
+        if cell is None or cell["basis"] not in bb.OVERLAY:
             continue  # a published value in the same cell won
-        assert cell["date"] == pv["date"] and cell["source_id"] == f"pc:{pv['date']}"
-        assert "url" not in view["sources"][cell["source_id"]]
+        assert cell["date"] == pv["date"]
+        if cell["basis"] == bb.PRIVATE:
+            assert cell["source_id"] == f"pc:{pv['date']}" and "url" not in view["sources"][cell["source_id"]]
+        else:
+            assert view["sources"][cell["source_id"]]["url"].startswith("https://")
 
 
 def test_cumec_pd_uses_the_text_value() -> None:  # D911
@@ -115,3 +118,16 @@ def test_family_overrides_name_existing_components_with_empty_platform() -> None
     fams = {f["id"] for f in CFG["families"]}
     for cid, o in (CFG.get("family_override") or {}).items():
         assert cid in comps and comps[cid]["platform"] == "" and o["family"] in fams and o["why"]
+
+
+def test_affiliation_rule_only_without_a_stated_fab() -> None:  # D925
+    b = bb.Builder(CFG)
+    b.src_aff["x:1"] = {"org_nvidia"}
+    assert b._fab([], "x:1", "2025", stated=False) == ([("tsmc", "org_tsmc")], "org_nvidia")
+    assert b._fab([], "x:1", "2025", stated=True) == ([], "")
+    assert b._fab(["org_imec"], "x:1", "2025", stated=True)[0] == [("imec", "org_imec")]
+    b.src_aff["x:2"] = {"org_nvidia", "org_psiquantum"}  # two foundries: ambiguous
+    assert b._fab([], "x:2", "2025", stated=False) == ([], "")
+    b.src_first["x:3"] = {"org_imec"}  # own staff needs the first author
+    assert b._fab([], "x:3", "2020", stated=False)[0] == [("imec", "org_imec")]
+    assert b._fab([], "x:4", "2020", stated=False) == ([], "")

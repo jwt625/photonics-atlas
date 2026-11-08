@@ -6,20 +6,20 @@ Generated 2026-11-07 by `scripts/lit_build_queue.py` from `cache_list.csv`; queu
 
 | route | papers |
 |---|---:|
-| arxiv | 196 |
-| oa_publisher | 23 |
-| publisher_browser | 87 |
-| optica_browser | 419 |
-| ieee_browser | 200 |
-| ieee_search | 23 |
+| arxiv | 227 |
+| oa_publisher | 27 |
+| publisher_browser | 89 |
+| optica_browser | 425 |
+| ieee_browser | 208 |
+| ieee_search | 27 |
 | manual | 54 |
-| total | 1002 |
+| total | 1057 |
 
-arXiv copy source: given 182, doi 0, title 6, api 8.
+arXiv copy source: given 211, doi 0, title 8, api 8.
 
-arXiv route gained by matching (rows without arXiv id in cache_list): 24 of 830; paywalled 0 of 182, Optica 7 of 451, IEEE 1 of 199. API queries cached 813 of 814 needed (rerun with --api to finish).
+arXiv route gained by matching (rows without arXiv id in cache_list): 27 of 857; paywalled 0 of 192, Optica 8 of 462, IEEE 2 of 208. API queries cached 814 of 838 needed (rerun with --api to finish).
 
-IEEE twins (Crossref, prefix 10.1109 / 10.23919, title similarity >= 0.93, shared surname, year within 1) of paywalled non-IEEE rows: 2 found in 104 of 104 lookups (only the 26 conference rows qualify); paywalled Optica rows routed to ieee_browser via a twin: 2 of 67; other publishers: 0. The Optica / journal DOI stays the identity (uid unchanged).
+IEEE twins (Crossref, prefix 10.1109 / 10.23919, title similarity >= 0.93, shared surname, year within 1) of paywalled non-IEEE rows: 2 found in 104 of 110 lookups (only the 30 conference rows qualify); paywalled Optica rows routed to ieee_browser via a twin: 2 of 73; other publishers: 0. The Optica / journal DOI stays the identity (uid unchanged).
 
 ## Per day and route
 
@@ -34,20 +34,20 @@ IEEE twins (Crossref, prefix 10.1109 / 10.23919, title similarity >= 0.93, share
 | 7 | 2026-10-28 | 19 | 3 | 9 | 41 | 20 | 2 | 6 | 100 | 19,20,21 / 7 / 7 |
 | 8 | 2026-10-29 | 19 | 2 | 9 | 42 | 20 | 2 | 6 | 100 | 22,23,24 / 8 / 8 |
 | 9 | 2026-10-30 | 20 | 2 | 9 | 41 | 20 | 2 | 6 | 100 | 25,26,27 / 9 / 9 |
-| 10 | 2026-10-31 | 20 | 2 | 8 | 44 | 20 | 2 | 6 | 102 | 28,29,30 / 10 / 10 |
+| 10 | 2026-10-31 | 51 | 6 | 10 | 50 | 28 | 6 | 6 | 157 | 28,29,30 / 10 / 10 |
 
 ## Per class and day
 
 | class | d1 | d2 | d3 | d4 | d5 | d6 | d7 | d8 | d9 | d10 | total |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| amplifier | 5 | 6 | 5 | 4 | 3 | 3 | 4 | 5 | 6 | 4 | 45 |
+| amplifier | 5 | 6 | 5 | 4 | 3 | 3 | 4 | 5 | 6 | 8 | 49 |
 | chip_chip_coupler | 3 | 2 | 3 | 5 | 7 | 5 | 3 | 3 | 3 | 5 | 39 |
 | crossing | 4 | 5 | 4 | 4 | 1 | 3 | 4 | 4 | 2 | 2 | 33 |
 | fiber_chip_coupler | 5 | 5 | 6 | 6 | 7 | 6 | 6 | 6 | 7 | 6 | 60 |
 | fiber_interface | 3 | 3 | 3 | 3 | 4 | 4 | 3 | 3 | 2 | 3 | 31 |
-| free_space_emitter | 6 | 3 | 2 | 2 | 3 | 3 | 5 | 5 | 6 | 5 | 40 |
-| frequency_converter | 3 | 4 | 4 | 4 | 3 | 2 | 2 | 2 | 3 | 3 | 30 |
-| laser | 9 | 9 | 9 | 9 | 10 | 12 | 12 | 11 | 10 | 11 | 102 |
+| free_space_emitter | 6 | 3 | 2 | 2 | 3 | 3 | 5 | 5 | 6 | 6 | 41 |
+| frequency_converter | 3 | 4 | 4 | 4 | 3 | 2 | 2 | 2 | 3 | 7 | 34 |
+| laser | 9 | 9 | 9 | 9 | 10 | 12 | 12 | 11 | 10 | 36 | 127 |
 | micro_optics | 4 | 6 | 4 | 4 | 3 | 3 | 2 | 3 | 4 | 2 | 35 |
 | mode_converter | 4 | 2 | 3 | 2 | 3 | 3 | 4 | 4 | 4 | 6 | 35 |
 | nonreciprocal | 3 | 4 | 5 | 5 | 4 | 3 | 2 | 2 | 1 | 1 | 30 |
@@ -55,11 +55,11 @@ IEEE twins (Crossref, prefix 10.1109 / 10.23919, title similarity >= 0.93, share
 | photodetector | 7 | 8 | 6 | 7 | 8 | 8 | 8 | 9 | 8 | 7 | 76 |
 | polarization | 3 | 4 | 5 | 5 | 5 | 5 | 4 | 5 | 4 | 5 | 45 |
 | reflector | 4 | 2 | 3 | 2 | 2 | 2 | 4 | 4 | 4 | 3 | 30 |
-| resonator | 5 | 7 | 7 | 8 | 6 | 6 | 6 | 5 | 5 | 5 | 60 |
-| splitter | 6 | 6 | 6 | 6 | 4 | 4 | 3 | 4 | 5 | 6 | 50 |
-| switch_fabric | 6 | 6 | 5 | 5 | 6 | 4 | 5 | 5 | 5 | 5 | 52 |
-| waveguide_platform | 6 | 6 | 7 | 5 | 8 | 7 | 7 | 7 | 8 | 7 | 68 |
-| wdm | 8 | 7 | 7 | 8 | 7 | 10 | 9 | 8 | 7 | 10 | 81 |
+| resonator | 5 | 7 | 7 | 8 | 6 | 6 | 6 | 5 | 5 | 14 | 69 |
+| splitter | 6 | 6 | 6 | 6 | 4 | 4 | 3 | 4 | 5 | 9 | 53 |
+| switch_fabric | 6 | 6 | 5 | 5 | 6 | 4 | 5 | 5 | 5 | 6 | 53 |
+| waveguide_platform | 6 | 6 | 7 | 5 | 8 | 7 | 7 | 7 | 8 | 14 | 75 |
+| wdm | 8 | 7 | 7 | 8 | 7 | 10 | 9 | 8 | 7 | 11 | 82 |
 
 ## Daily runbook
 
@@ -257,15 +257,15 @@ Manual (6):
 | wei2026 | laser | 9 | https://doi.org/10.1063/5.0341253 | Integrated frequency-modulated continuous-wave laser self-injection locked to a strongly reflective multimode microring resonator |
 | koester2024 | waveguide_platform | 9 | https://doi.org/10.1063/5.0223134 | GaAs-based photonic integrated circuit platform enabling monolithic ring-resonator-coupled lasers |
 
-### Day 10 (2026-10-31): 102 papers
+### Day 10 (2026-10-31): 157 papers
 
 ```
-uv run python scripts/lit_fetch_oa.py --day 10   # arxiv 20 + oa_publisher 2
-uv run python scripts/lit_fetch_browser.py --site optica --day 10 --session 28   # optica_browser 15
-uv run python scripts/lit_fetch_browser.py --site optica --day 10 --session 29   # optica_browser 15
-uv run python scripts/lit_fetch_browser.py --site optica --day 10 --session 30   # optica_browser 14
-uv run python scripts/lit_fetch_browser.py --site ieee --day 10 --session 10   # ieee_browser 20 + ieee_search 2
-uv run python scripts/lit_fetch_browser.py --site publisher --day 10 --session 10   # publisher_browser 8
+uv run python scripts/lit_fetch_oa.py --day 10   # arxiv 51 + oa_publisher 6
+uv run python scripts/lit_fetch_browser.py --site optica --day 10 --session 28   # optica_browser 17
+uv run python scripts/lit_fetch_browser.py --site optica --day 10 --session 29   # optica_browser 17
+uv run python scripts/lit_fetch_browser.py --site optica --day 10 --session 30   # optica_browser 16
+uv run python scripts/lit_fetch_browser.py --site ieee --day 10 --session 10   # ieee_browser 28 + ieee_search 6
+uv run python scripts/lit_fetch_browser.py --site publisher --day 10 --session 10   # publisher_browser 10
 ```
 
 Manual (6):

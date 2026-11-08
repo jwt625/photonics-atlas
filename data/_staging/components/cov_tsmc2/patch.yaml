@@ -1,0 +1,244 @@
+# Audit patch cov_tsmc2 (fresh-context audit 2026-11-07, DevLog/audits/2026-11-07-cov_tsmc2-audit.md).
+# 57 metrics: 54 ok / 3 imprecise / 0 wrong; 10 components: 10 ok / 0 imprecise / 0 wrong.
+# Misses added: 1 geometry row (transition top-Si thickness), 6 PECVD-baseline figure rows (1271 / 1291 / 1331 nm),
+# 2 LPCVD-baseline components with 8 figure rows (Q3). Coordinator choices: to keep the distiller's call on the
+# baselines drop the 6 base -m3..-m5 adds and/or the 2 lpcvd add_components with their -m1..-m4 rows; to keep the
+# edge-coupler loopback statement unspecified (Q1) drop the edge_coupler-m1 op.
+# Figure readings: Fig. 2(a)-(e) and Fig. 3(b) from 600 dpi page renders (raster figures, line rows located per
+# pixel against the plot frame / tick rows); Fig. 4(a)-(c) from the PDF vector paths (exact box, median and trace
+# coordinates against the axis tick paths).
+metrics:
+  cmp_lit_lu2025a_sm_wg_pecvd_opt-m2:
+    value: 0.125
+    notes: 'Read off the box plot (median line resolved inside the box: box about 0.116-0.135, median about 0.125, whiskers about 0.104-0.152); reading uncertainty about +/- 0.005 dB/cm. PECVD optimized panel. Polarization not stated.'
+    why: 'p.2 Fig. 2(a) SM panel, 600 dpi render: three resolved box lines at about 0.135 / 0.126 / 0.116 dB/cm (frame 0.0-0.8 dB/cm); the middle (median) line sits at 0.125-0.126, not 0.12'
+  cmp_lit_lu2025a_edge_coupler-m1:
+    scope: loopback_half
+    notes: 'Printed IL below 1 dB over the entire O-band for TE and TM from a loopback configuration (p.3 Sec. 4). The halving or per-facet normalization is not stated; it follows from the paper''s own data: the Fig. 4(a) traces (PDF vector data, plotted negative as Transmission (dB)) read 0.65-0.97 dB (TE) and 0.78-0.85 dB (TM) over 1260-1360 nm, and at 1271 / 1291 / 1311 / 1331 nm (TE 0.66 / 0.71 / 0.79 / 0.85, TM 0.83 / 0.81 / 0.80 / 0.79 dB) they fall inside the whiskers of the per-facet panels Fig. 4(b)-(c); a two-facet total would be about 1.4-1.8 dB. No total is printed and no arithmetic is shown (D167, lorenzen2026 precedent), basis measured. Wavelength span = Fig. 4(a) axis.'
+    why: 'Q1 ruling: scope unspecified understates what the paper shows; Fig. 4(a) is at the per-facet level of Fig. 4(b)-(c) at every CWDM wavelength (p.3 Sec. 4; p.3 Fig. 4(a)-(c), vector paths)'
+  cmp_lit_lu2025a_edge_coupler-m2:
+    notes: 'Printed PDL below 0.2 dB with the O-band loopback spectra (p.3 Sec. 4); per facet or loopback total not stated. Fig. 4(a) vector data: TE-TM difference up to about 0.21 dB at 1260-1263 nm, below 0.2 dB over 1263-1360 nm. Wavelength span = Fig. 4(a) axis.'
+    why: 'Additive: p.3 Fig. 4(a) traces (PDF vector paths) put the TE-TM difference at the printed bound only at the 1260 nm band edge'
+  cmp_lit_lu2025a_edge_coupler-m12:
+    notes: 'Lensed fiber the coupler is designed for, with 5 um mode-field diameter as printed (p.3 Sec. 4); fiber specification, not a chip measurement.'
+    why: 'Notes said design target while the basis is specification (rule 4: MFD of the fiber a coupler is designed for), p.3 Sec. 4'
+add_components:
+- component_id: cmp_lit_lu2025a_sm_wg_lpcvd_base
+  source_id: lit:lu2025a
+  class: waveguide_platform.straight
+  label: Single-mode SiN strip waveguide, LPCVD SiN baseline process (comparison process of Fig. 2(a))
+  row_kind: fabricated
+  platform: sin
+  core_material: LPCVD SiN strip (single-mode); width and thickness not stated for this process
+  fab_org_ids: org_tsmc
+  process_name: LPCVD SiN baseline process (Fig. 2(a)); deposition stage and wafer not stated
+  tags: sin;lpcvd;foundry;o_band;cwdm;process_baseline
+  verified_on: '2026-11-07'
+  notes: 'Fig. 2(a) caption: SM and MM SiN waveguides fabricated by three processes; the third panel is labelled LPCVD baseline. The text does not describe this process (the MEOL PECVD choice is motivated by the thermal budget, p.2 Sec. 2). Fab TSMC on the same basis as the PECVD rows: all authors TSMC (p.1) and thanks to TSMC''s module and fabrication teams (p.3) (D84b, borderline); the platform statement of p.1 Abstract names the PECVD building blocks, not this process. The 800 nm SM width is stated for the PECVD waveguides only (p.2). Measurement method, sample count and die / wafer population not stated (box plots).'
+  why: 'Miss (Q3): p.2 Fig. 2(a) LPCVD-baseline panel is the paper''s own measurement of a distinct process, one metric row per wavelength (rule 7)'
+- component_id: cmp_lit_lu2025a_mm_wg_lpcvd_base
+  source_id: lit:lu2025a
+  class: waveguide_platform.straight
+  label: Multi-mode SiN strip waveguide, LPCVD SiN baseline process (comparison process of Fig. 2(a))
+  row_kind: fabricated
+  platform: sin
+  core_material: LPCVD SiN strip (multi-mode); width and thickness not stated for this process
+  fab_org_ids: org_tsmc
+  process_name: LPCVD SiN baseline process (Fig. 2(a)); deposition stage and wafer not stated
+  tags: sin;lpcvd;foundry;o_band;cwdm;process_baseline
+  verified_on: '2026-11-07'
+  notes: 'Fig. 2(a) caption: SM and MM SiN waveguides fabricated by three processes; the third panel is labelled LPCVD baseline. The text does not describe this process (the MEOL PECVD choice is motivated by the thermal budget, p.2 Sec. 2). Fab TSMC on the same basis as the PECVD rows: all authors TSMC (p.1) and thanks to TSMC''s module and fabrication teams (p.3) (D84b, borderline); the platform statement of p.1 Abstract names the PECVD building blocks, not this process. The 1.5 um MM width is stated for the PECVD waveguides only (p.2). Measurement method, sample count and die / wafer population not stated (box plots).'
+  why: 'Miss (Q3): p.2 Fig. 2(a) LPCVD-baseline panel is the paper''s own measurement of a distinct process, one metric row per wavelength (rule 7)'
+add_metrics:
+- metric_id: cmp_lit_lu2025a_sin_si_transition-m11
+  component_id: cmp_lit_lu2025a_sin_si_transition
+  parameter: core_thickness_nm
+  value: 270
+  unit: nm
+  condition: Si layer (lower; top Si of the SOI wafer, end of the thin-Si to 270 nm Si taper stage)
+  basis: design_target
+  locator: p.1 Sec. 2; p.2 Sec. 3
+  notes: 'Printed 270 nm top Si of the SOI substrate (p.1) and the second taper stage ending in 270 nm Si (p.2, Fig. 3(a)); foundry thickness (D402). Thin-Si and SiN thicknesses not stated.'
+  why: 'Miss (D153): stated thickness of the transition''s lower layer (transition_bilayer xsec needs core_thickness_nm), p.1 Sec. 2; p.2 Sec. 3'
+- metric_id: cmp_lit_lu2025a_sm_wg_pecvd_base-m3
+  component_id: cmp_lit_lu2025a_sm_wg_pecvd_base
+  parameter: prop_loss_db_per_cm
+  value: 0.31
+  unit: dB/cm
+  statistic: median
+  wavelength_nm: 1271
+  polarization: unspecified
+  method: unspecified
+  basis: extracted_from_figure
+  locator: p.2 Fig. 2(a)
+  notes: 'Read off the box plot (median line resolved: box about 0.29-0.32, whiskers about 0.26-0.37); reading uncertainty about +/- 0.01 dB/cm. PECVD baseline panel. Polarization not stated.'
+  why: 'Miss: p.2 Fig. 2(a) SM PECVD-baseline box at 1271 nm (only the 1311 nm text value was entered; rule 7 one row per wavelength)'
+- metric_id: cmp_lit_lu2025a_sm_wg_pecvd_base-m4
+  component_id: cmp_lit_lu2025a_sm_wg_pecvd_base
+  parameter: prop_loss_db_per_cm
+  value: 0.4
+  unit: dB/cm
+  statistic: median
+  wavelength_nm: 1291
+  polarization: unspecified
+  method: unspecified
+  basis: extracted_from_figure
+  locator: p.2 Fig. 2(a)
+  notes: 'Read off the box plot (median line merged with the box bottom: box about 0.39-0.41, whiskers about 0.38-0.44); reading uncertainty about +/- 0.01 dB/cm. PECVD baseline panel. Polarization not stated.'
+  why: 'Miss: p.2 Fig. 2(a) SM PECVD-baseline box at 1291 nm'
+- metric_id: cmp_lit_lu2025a_sm_wg_pecvd_base-m5
+  component_id: cmp_lit_lu2025a_sm_wg_pecvd_base
+  parameter: prop_loss_db_per_cm
+  value: 0.46
+  unit: dB/cm
+  statistic: median
+  wavelength_nm: 1331
+  polarization: unspecified
+  method: unspecified
+  basis: extracted_from_figure
+  locator: p.2 Fig. 2(a)
+  notes: 'Read off the box plot (median line near the box bottom: box about 0.46-0.49, whiskers about 0.43-0.51); reading uncertainty about +/- 0.01 dB/cm. PECVD baseline panel. Polarization not stated.'
+  why: 'Miss: p.2 Fig. 2(a) SM PECVD-baseline box at 1331 nm'
+- metric_id: cmp_lit_lu2025a_mm_wg_pecvd_base-m3
+  component_id: cmp_lit_lu2025a_mm_wg_pecvd_base
+  parameter: prop_loss_db_per_cm
+  value: 0.25
+  unit: dB/cm
+  statistic: median
+  wavelength_nm: 1271
+  polarization: unspecified
+  method: unspecified
+  basis: extracted_from_figure
+  locator: p.2 Fig. 2(a)
+  notes: 'Read off the box plot (median line near the box bottom: box about 0.24-0.30, whiskers about 0.22-0.32); reading uncertainty about +/- 0.01 dB/cm. PECVD baseline panel. Polarization not stated.'
+  why: 'Miss: p.2 Fig. 2(a) MM PECVD-baseline box at 1271 nm'
+- metric_id: cmp_lit_lu2025a_mm_wg_pecvd_base-m4
+  component_id: cmp_lit_lu2025a_mm_wg_pecvd_base
+  parameter: prop_loss_db_per_cm
+  value: 0.38
+  unit: dB/cm
+  statistic: median
+  wavelength_nm: 1291
+  polarization: unspecified
+  method: unspecified
+  basis: extracted_from_figure
+  locator: p.2 Fig. 2(a)
+  notes: 'Read off the box plot (median line resolved: box about 0.37-0.395, whiskers about 0.36-0.40); reading uncertainty about +/- 0.01 dB/cm. PECVD baseline panel. Polarization not stated.'
+  why: 'Miss: p.2 Fig. 2(a) MM PECVD-baseline box at 1291 nm'
+- metric_id: cmp_lit_lu2025a_mm_wg_pecvd_base-m5
+  component_id: cmp_lit_lu2025a_mm_wg_pecvd_base
+  parameter: prop_loss_db_per_cm
+  value: 0.42
+  unit: dB/cm
+  statistic: median
+  wavelength_nm: 1331
+  polarization: unspecified
+  method: unspecified
+  basis: extracted_from_figure
+  locator: p.2 Fig. 2(a)
+  notes: 'Read off the box plot (median line resolved: box about 0.40-0.45, whiskers about 0.37-0.52); reading uncertainty about +/- 0.01 dB/cm. PECVD baseline panel. Polarization not stated.'
+  why: 'Miss: p.2 Fig. 2(a) MM PECVD-baseline box at 1331 nm'
+- metric_id: cmp_lit_lu2025a_sm_wg_lpcvd_base-m1
+  component_id: cmp_lit_lu2025a_sm_wg_lpcvd_base
+  parameter: prop_loss_db_per_cm
+  value: 0.24
+  unit: dB/cm
+  statistic: median
+  wavelength_nm: 1271
+  polarization: unspecified
+  method: unspecified
+  basis: extracted_from_figure
+  locator: p.2 Fig. 2(a)
+  notes: 'Read off the box plot (median line near the box bottom: box about 0.23-0.31, whiskers about 0.22-0.38); reading uncertainty about +/- 0.01 dB/cm. LPCVD baseline panel. Polarization not stated.'
+  why: 'Miss (Q3): p.2 Fig. 2(a) SM LPCVD-baseline box at 1271 nm'
+- metric_id: cmp_lit_lu2025a_sm_wg_lpcvd_base-m2
+  component_id: cmp_lit_lu2025a_sm_wg_lpcvd_base
+  parameter: prop_loss_db_per_cm
+  value: 0.24
+  unit: dB/cm
+  statistic: median
+  wavelength_nm: 1291
+  polarization: unspecified
+  method: unspecified
+  basis: extracted_from_figure
+  locator: p.2 Fig. 2(a)
+  notes: 'Read off the box plot (median line near the box bottom: box about 0.23-0.29, whiskers about 0.22-0.38); reading uncertainty about +/- 0.01 dB/cm. LPCVD baseline panel. Polarization not stated.'
+  why: 'Miss (Q3): p.2 Fig. 2(a) SM LPCVD-baseline box at 1291 nm'
+- metric_id: cmp_lit_lu2025a_sm_wg_lpcvd_base-m3
+  component_id: cmp_lit_lu2025a_sm_wg_lpcvd_base
+  parameter: prop_loss_db_per_cm
+  value: 0.24
+  unit: dB/cm
+  statistic: median
+  wavelength_nm: 1311
+  polarization: unspecified
+  method: unspecified
+  basis: extracted_from_figure
+  locator: p.2 Fig. 2(a)
+  notes: 'Read off the box plot (median line near the box bottom: box about 0.23-0.31, whiskers about 0.19-0.37); reading uncertainty about +/- 0.01 dB/cm. LPCVD baseline panel. Polarization not stated.'
+  why: 'Miss (Q3): p.2 Fig. 2(a) SM LPCVD-baseline box at 1311 nm'
+- metric_id: cmp_lit_lu2025a_sm_wg_lpcvd_base-m4
+  component_id: cmp_lit_lu2025a_sm_wg_lpcvd_base
+  parameter: prop_loss_db_per_cm
+  value: 0.3
+  unit: dB/cm
+  statistic: median
+  wavelength_nm: 1331
+  polarization: unspecified
+  method: unspecified
+  basis: extracted_from_figure
+  locator: p.2 Fig. 2(a)
+  notes: 'Read off the box plot (median line merged with the box bottom: box about 0.30-0.37, whiskers about 0.21-0.44); reading uncertainty about +/- 0.01 dB/cm. LPCVD baseline panel. Polarization not stated.'
+  why: 'Miss (Q3): p.2 Fig. 2(a) SM LPCVD-baseline box at 1331 nm'
+- metric_id: cmp_lit_lu2025a_mm_wg_lpcvd_base-m1
+  component_id: cmp_lit_lu2025a_mm_wg_lpcvd_base
+  parameter: prop_loss_db_per_cm
+  value: 0.11
+  unit: dB/cm
+  statistic: median
+  wavelength_nm: 1271
+  polarization: unspecified
+  method: unspecified
+  basis: extracted_from_figure
+  locator: p.2 Fig. 2(a)
+  notes: 'Read off the box plot (median line resolved: box about 0.05-0.21, whiskers about 0.00-0.37); reading uncertainty about +/- 0.01 dB/cm. LPCVD baseline panel. Polarization not stated.'
+  why: 'Miss (Q3): p.2 Fig. 2(a) MM LPCVD-baseline box at 1271 nm'
+- metric_id: cmp_lit_lu2025a_mm_wg_lpcvd_base-m2
+  component_id: cmp_lit_lu2025a_mm_wg_lpcvd_base
+  parameter: prop_loss_db_per_cm
+  value: 0.15
+  unit: dB/cm
+  statistic: median
+  wavelength_nm: 1291
+  polarization: unspecified
+  method: unspecified
+  basis: extracted_from_figure
+  locator: p.2 Fig. 2(a)
+  notes: 'Read off the box plot (median line resolved: box about 0.11-0.22, whiskers about 0.07-0.41); reading uncertainty about +/- 0.01 dB/cm. LPCVD baseline panel. Polarization not stated.'
+  why: 'Miss (Q3): p.2 Fig. 2(a) MM LPCVD-baseline box at 1291 nm'
+- metric_id: cmp_lit_lu2025a_mm_wg_lpcvd_base-m3
+  component_id: cmp_lit_lu2025a_mm_wg_lpcvd_base
+  parameter: prop_loss_db_per_cm
+  value: 0.15
+  unit: dB/cm
+  statistic: median
+  wavelength_nm: 1311
+  polarization: unspecified
+  method: unspecified
+  basis: extracted_from_figure
+  locator: p.2 Fig. 2(a)
+  notes: 'Read off the box plot (median line resolved: box about 0.13-0.20, whiskers about 0.10-0.42); reading uncertainty about +/- 0.01 dB/cm. LPCVD baseline panel. Polarization not stated.'
+  why: 'Miss (Q3): p.2 Fig. 2(a) MM LPCVD-baseline box at 1311 nm'
+- metric_id: cmp_lit_lu2025a_mm_wg_lpcvd_base-m4
+  component_id: cmp_lit_lu2025a_mm_wg_lpcvd_base
+  parameter: prop_loss_db_per_cm
+  value: 0.16
+  unit: dB/cm
+  statistic: median
+  wavelength_nm: 1331
+  polarization: unspecified
+  method: unspecified
+  basis: extracted_from_figure
+  locator: p.2 Fig. 2(a)
+  notes: 'Read off the box plot (median line resolved: box about 0.14-0.18, whiskers about 0.12-0.43); reading uncertainty about +/- 0.01 dB/cm. LPCVD baseline panel. Polarization not stated.'
+  why: 'Miss (Q3): p.2 Fig. 2(a) MM LPCVD-baseline box at 1331 nm'

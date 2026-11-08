@@ -1,0 +1,85 @@
+# Audit patch cov_02 (fresh-context audit 2026-11-07, DevLog/audits/2026-11-07-cov_02-audit.md).
+# 119 metrics: 105 ok / 8 imprecise / 6 wrong; 14 components: 11 ok / 3 imprecise / 0 wrong.
+# Wrong: levy2026 m2 (basis), m3-m5 (spacing-error bounds centred on 200 GHz contradict Figs. 8(c), 9(c); replaced by
+# figure reads), mehta2026 m3 (per-channel placement error entered as an adjacent-spacing range; deleted),
+# xie2026a m34 (static current tuning in pm/mA is not an FM efficiency, D83g; deleted).
+# No misses added (optional candidates listed in the audit record). No fab / facility change.
+components:
+  cmp_lit_zhou2022b_lensed_pmf_coupling:
+    class: fiber_chip_coupler.edge
+    notes: 'Coupling interface inside the 14-pin butterfly module (p.2): AR-coated laser facet to a lensed PM fiber; class edge as for the merged laser-facet-to-lensed-fiber rows (andreou2019, huang2019). Lens type, alignment method and the plane of the reference power not stated; value as printed. Fab empty (D80b).'
+    why: 'p.2 Sec. 2: the COS facet is coupled to a lensed PM fiber; merged laser-facet-to-lensed-fiber couplings are fiber_chip_coupler.edge (andreou2019, huang2019), other is for 3D-printed / tapered-fiber interfaces'
+  cmp_lit_levy2026_dfb_array_8ch:
+    notes: 'Platform and fab empty: the paper places the earlier single-epi 8-lambda array [33] in Intel''s 300 mm hybrid SiPh platform (Si waveguide grating before III-V bonding, p.2), but for this die only says ''fabricated at a nominal spacing of 200 GHz'' (p.4, passive); all authors Intel (D80b, D422). The die photo places the DFB array on the PIC (p.5 Fig. 7(a)); integration method not stated. Journal extension of the authors'' OFC 2026 paper [37] (values kept, D408); the chip-on-board demonstration is attributed to [37] (no values taken from it). Values are the array under closed-loop control on a probed, temperature-controlled chuck with vertical output coupling (p.5). Steady-state bias currents about 65-91 mA (Fig. 8(a,b)). Spacing rows m3-m5 are figure reads of the plotted adjacent spacings (Fig. 8(c), Fig. 9(c)); the printed spacing errors (+/-12.5 and +/-3.5 GHz, < 7 GHz) are windows around the array''s own spacing, not around 200 GHz (the dashed 7 GHz window of Fig. 9(c) spans about 198.5-205.6 GHz). Not entered: estimated 120 mW integrated-controller power (65 mW ring heater, 35 mW p-i-n drivers, 20 mW lock-in and control; p.6) except the ring-heater share on the ring row; 800-1300 Hz estimated loop bandwidth (p.6); marker tones 25.3-46.5 kHz (p.5); Fig. 8(d) spacings with L5 as reference. VOAs, p-i-n modulators, MMI combiners and the output coupler: no quantitative performance.'
+    why: 'Spacing rows replaced by figure reads (p.5 Fig. 8(c), p.6 Fig. 9(c)); journal-extension rule is D408, not D259; die photo p.5 Fig. 7(a)'
+  cmp_lit_mehta2026_elsfp_module:
+    notes: 'Fab empty: no fabrication statement naming an org (D80b); authors at NVIDIA and Lumentum; the acknowledgement thanks O-NET collaborators for supporting ELS packaging and evaluation-board development (p.5, not a shared facility, not in the registry; see report). Design numbers cited to [9-11] (8 dBm per lambda in fiber, 100 mW SOA output) are not entered. Channel-spacing error not entered: abstract < +/-15 GHz, text within +/-16 GHz (p.3, Fig. 5(b)); Fig. 5(b) plots nine per-channel errors, one per measured channel frequency next to a linear fit, so the error reads as each channel''s deviation from the fitted grid, not an adjacent-spacing deviation, and no parameter holds a frequency deviation in GHz. Fig. 5(b) shows nine channels (L0-L8) while the text and Fig. 5(a), (c), (e), (f) have eight. Module efficiency includes LD bias circuitry and PCB / parasitic losses, excludes TEC power (p.3). Not entered: Fig. 8(a) junction temperature versus ex-facet power (no parameter); Fig. 5(b) channel frequencies (about 228.8-230.4 THz). Simulated link-efficiency results (Figs. 6-7) are system modeling, not component values.'
+    why: 'p.4 Fig. 5(b) render: nine Err. in CS markers for nine channel-frequency points (L0-L8) beside a linear fit; p.5 Sec. IV ties CS error to wavelength placement; m3 deleted'
+metrics:
+  cmp_lit_hatai2024_dfb_soa_array_400g-m3:
+    condition: CW, 350 mA, 8-channel array (printed once for the array)
+    notes: 'Printed ''reaches 100 mW at 350 mA''. Fig. 2(a) re-read (300 dpi, pixel-located axes): the eight curves span about 96 to 110 mW at 350 mA (0.56 dB), so not every channel reaches 100 mW. Reference plane not stated (n-side mounted chip).'
+    why: 'p.3 Fig. 2(a): lowest curve about 96 mW at 350 mA; the condition said each channel'
+  cmp_lit_mao2024_sband_dfb_2p5mm-m3:
+    value: 130
+    notes: 'Read off the 25 C L-I curve of Fig. 2(a) at the lasing onset (pixel-traced on a 450 dpi render: first rise at about 0.13 A on the 0-2 A axis), about +/-15 mA.'
+    why: 'p.2 Fig. 2(a): the 25 C curve leaves zero at 0.12-0.135 A; 150 mA sat above the reading'
+  cmp_lit_mao2024_lband_dfb_mounting-m1:
+    wavelength_inferred: 'true'
+    notes: 'Band inferred: Sec. 2 takes the L-band lasers as the example for the cavity-length and mounting comparison (p.2); the other-tests sentence names neither band nor device.'
+    why: 'p.2 Sec. 2: thermal resistances from other tests of the laser on AlN, band not stated with the value'
+  cmp_lit_mao2024_lband_dfb_mounting-m2:
+    wavelength_inferred: 'true'
+    notes: 'Band inferred: Sec. 2 takes the L-band lasers as the example for the cavity-length and mounting comparison (p.2); the other-tests sentence names neither band nor device.'
+    why: 'p.2 Sec. 2: thermal resistances from other tests of the laser on AlN, band not stated with the value'
+  cmp_lit_levy2026_dfb_array_8ch-m2:
+    basis: author_estimate
+    notes: 'Nominal design spacing (fabricated at a nominal spacing of 200 GHz, p.4; 200 GHz target grid, p.3): a design-stated performance value is author_estimate (D82a); design_target is for dimensions.'
+    why: 'D82a: design channel spacing is author_estimate, not design_target'
+  cmp_lit_levy2026_dfb_array_8ch-m3:
+    value: 188.6
+    value_max: 209.8
+    basis: extracted_from_figure
+    method: ''
+    condition: open loop, t = 0 of the L1-reference acquisition (all lasers at 70 mA initial bias); range of the seven adjacent spacings
+    notes: 'Read off Fig. 8(c) at t = 0 (400 dpi render, gridlines located on the pixel grid): lowest Delta L5-L6 about 188.6 GHz, highest Delta L3-L4 about 209.8 GHz, about +/-0.3 GHz. Printed spacing error +/-12.5 GHz for this sample (p.5); that error is a window around the array''s own spacing, not around 200 GHz (see m5).'
+    why: 'p.5 Fig. 8(c): the plotted open-loop spacings are 188.6-209.8 GHz; 187.5-212.5 was the printed +/-12.5 GHz bound centred on 200 GHz, which the figure does not support'
+  cmp_lit_levy2026_dfb_array_8ch-m4:
+    value: 198.1
+    value_max: 204.4
+    basis: extracted_from_figure
+    method: ''
+    condition: closed loop, laser L1 as reference, steady state after acquisition (t = 1.3 to 5 min in Fig. 8(c)); range of the seven adjacent spacings
+    notes: 'Read off Fig. 8(c) (400 dpi render): lowest Delta L2-L3 about 198.1-198.5 GHz, highest Delta L6-L7 about 204.1-204.4 GHz, about +/-0.3 GHz. Printed reduction to +/-3.5 GHz (p.5): the locked spread (about 6.3 GHz) fits a 7 GHz window but is not centred on 200 GHz; 204.4 GHz lies outside 200 +/- 3.5 GHz.'
+    why: 'p.5 Fig. 8(c): locked spacings 198.1-204.4 GHz; the entered 196.5-203.5 GHz excluded the plotted Delta L6-L7 at about 204.3 GHz'
+  cmp_lit_levy2026_dfb_array_8ch-m5:
+    value: 198.4
+    value_max: 205.4
+    basis: extracted_from_figure
+    method: ''
+    condition: closed loop, laser L5 as reference, chuck temperature steps of 20 and 30 C over 40 min, after acquisition (t >= 2.5 min in Fig. 9(c)); range of the seven adjacent spacings
+    notes: 'Read off Fig. 9(c) (450 dpi render): lowest about 198.4 GHz (Delta L2-L3 near 13-16 min, Delta L3-L4 near 34 min), highest about 205.3-205.5 GHz (Delta L7-L8 near 6.5 min), about +/-0.3 GHz. Printed spacing error < 7 GHz over the whole excursion (p.6 caption and text; p.1 abstract): the two dashed lines of Fig. 9(c), at about 198.5 and 205.6 GHz, bound a 7 GHz window, so the printed error is the width of that window, not a deviation from 200 GHz.'
+    why: 'p.6 Fig. 9(c): plotted spacings 198.4-205.4 GHz inside a dashed 7 GHz window at 198.5-205.6 GHz; 193-207 GHz read < 7 GHz as +/-7 GHz around 200 GHz'
+  cmp_lit_mehta2026_elsfp_module-m4:
+    notes: 'Printed total variation less than +/-0.8 dB (p.3; abstract p.1), written as max-min < 1.6 dB. Fig. 5(c) re-read (500 dpi): Delta P from about +0.84 dB (L0) to about -0.83 dB (L7) and bars from about 9.15 to 7.48 dBm, so the plotted max-min is about 1.67 dB, slightly above the printed bound; printed value kept.'
+    why: 'p.4 Fig. 5(c): plotted spread about 1.67 dB vs printed +/-0.8 dB; conflict recorded'
+  cmp_lit_mehta2026_elsfp_module-m7:
+    notes: 'Statistic behind 7.2 % (mean or typical) not stated. Fig. 5(e) (y-axis labelled LD efficiency) per-channel values of three modules 6.51-7.64 %; audit reading of the per-module channel means about 7.21 % (module-1), 6.83 % (module-2), 7.34 % (module-3), all 24 points about 7.13 % (+/-0.03 %). The text calls the plotted quantity the module efficiency and defines it (p.3).'
+    why: 'Additive: p.4 Fig. 5(e) per-module means, for the statistic question'
+  cmp_lit_xie2026a_dfb_array_8ch-m20:
+    value: 1309.3
+    notes: 'Read off Fig. 8(b) (500 dpi render, right axis 1308-1318 nm): LD1 about 1309.26 nm, LD8 about 1317.25 nm, about +/-0.05 nm; the printed fit y = 1.1336x + 1308.06 plus the plotted deviations (+0.12 and +0.04 nm) gives 1309.31 and 1317.17 nm.'
+    why: 'p.7 Fig. 8(b): LD1 sits at about 1309.3 nm; 1309.1 was below the stated +/-0.1 nm reading'
+  cmp_lit_xie2026a_dfb_array_8ch-m31:
+    basis: derived
+    notes: 'Printed temperature tuning coefficient of about 112 pm/C = (1316.19 - 1310.58 nm) / 50 K, the authors'' two-point arithmetic on their own measured wavelengths (D80a); pm/C equals pm/K.'
+    why: 'p.7-8 Sec. 2.2: the coefficient is the endpoint difference over 15-65 C (explicit arithmetic, D80a)'
+  cmp_lit_xie2026a_dfb_array_8ch-m35:
+    basis: derived
+    notes: 'Printed as estimated, approximately 13 K/W, from the current- and temperature-tuning results (p.8): a ratio of own measured tuning slopes (computation not printed); derived as the merged maeda2023 and marinins2022 rows.'
+    why: 'p.8 Sec. 2.2: thermal resistance computed from the two tuning measurements; merged precedents for slope ratios are derived (D80a)'
+delete_metrics:
+  - id: cmp_lit_mehta2026_elsfp_module-m3
+    why: 'p.3 Sec. III.D, p.4 Fig. 5(b): the within +/-16 GHz CS error is plotted as nine per-channel values next to a linear fit of nine channel frequencies (and p.5 Sec. IV ties CS error to wavelength placement); 184-216 GHz assumed adjacent-spacing deviations around 200 GHz. Value kept in component notes'
+  - id: cmp_lit_xie2026a_dfb_array_8ch-m34
+    why: 'p.7 Sec. 2.2: 3.8 pm/mA is a static current-tuning coefficient (100-800 mA spectra); D83g: static current tuning in pm/mA is not an FM efficiency. Waits for the current-tuning registry gap (BATCH_REPORT gap 4)'

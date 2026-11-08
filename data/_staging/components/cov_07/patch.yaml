@@ -1,0 +1,206 @@
+# Audit patch cov_07 (fresh-context audit 2026-11-07, DevLog/audits/2026-11-07-cov_07-audit.md).
+# 145 metrics: 118 ok / 24 imprecise / 3 wrong (Q1); 38 components: 34 ok / 3 imprecise (Q3) / 1 wrong (Q1).
+# Misses added: 9 metrics (poulton2016 film / BOX thickness on the 3 MMIs and the IR edge coupler, raja2019 149 GHz ring height).
+# Coordinator choices: to keep raja2019 ring_88p6ghz (Q1 alternative) replace the delete_components op by a metrics op
+# setting ring_88p6ghz-m3 basis derived (printed 1.58 um, D256; an op on a deleted row breaks the re-run); to keep shen2020 packaging orgs out (Q3 alternative) drop the five shen2020 component ops; to keep
+# raja2019 comb rows on channel_spacing_ghz (Q6 alternative) drop the two parameter ops.
+components:
+  cmp_lit_shen2020_turnkey_comb_40ghz:
+    fab_org_ids: org_epfl;org_freedom_photonics;org_ucsb;org_caltech
+    notes: 'Fab: author contributions (p.6) say J.L., R.N.W., J.H. and T.L. (EPFL) designed and fabricated the Si3N4 chips (org_epfl); the DFB pump laser was fabricated by Freedom Photonics (p.7 Appendix B); D.K., L.C. (UCSB) and B.S., Q.-F.Y. (Caltech) packaged the chip (p.6): the butt-coupled DFB / Si3N4 assembly is mounted in a butterfly package to facilitate measurements (p.2, Fig. 1(D)) and the microcombs are described as generated in these butterfly packaged devices (p.4), so org_ucsb and org_caltech on the assembled comb rows (D399). The feedback-phase study (Fig. 4(C)) adjusted the laser-chip gap with a piezo stage (p.8 Appendix C). Cached text is the arXiv v1 of the Nature paper (same work, D430 / D433). Pump 1556 nm, up to 30 mW launched into the microresonator; locking bandwidth estimated 5 GHz; turnkey success probability vs feedback phase (Fig. 4(C), 100 attempts per point) not entered (no parameter).'
+    why: 'Q3 / D399: p.6 author contributions name the UCSB and Caltech authors who packaged the chip (the assembly of the comb rows); p.2 and p.4 tie the comb measurements to the butterfly-packaged devices'
+  cmp_lit_shen2020_turnkey_comb_20ghz:
+    fab_org_ids: org_epfl;org_freedom_photonics;org_ucsb;org_caltech
+    notes: 'Fab: author contributions (p.6) say J.L., R.N.W., J.H. and T.L. (EPFL) designed and fabricated the Si3N4 chips (org_epfl); the DFB pump laser was fabricated by Freedom Photonics (p.7 Appendix B); D.K., L.C. (UCSB) and B.S., Q.-F.Y. (Caltech) packaged the chip (p.6): the butt-coupled DFB / Si3N4 assembly is mounted in a butterfly package to facilitate measurements (p.2, Fig. 1(D)) and the microcombs are described as generated in these butterfly packaged devices (p.4), so org_ucsb and org_caltech on the assembled comb rows (D399). The feedback-phase study (Fig. 4(C)) adjusted the laser-chip gap with a piezo stage (p.8 Appendix C). Cached text is the arXiv v1 of the Nature paper (same work, D430 / D433). Pump 1556 nm, up to 30 mW launched into the microresonator; locking bandwidth estimated 5 GHz; turnkey success probability vs feedback phase (Fig. 4(C), 100 attempts per point) not entered (no parameter).'
+    why: 'Q3 / D399: p.6 author contributions name the UCSB and Caltech authors who packaged the chip (the assembly of the comb rows); p.2 and p.4 tie the comb measurements to the butterfly-packaged devices'
+  cmp_lit_shen2020_turnkey_comb_15ghz:
+    fab_org_ids: org_epfl;org_freedom_photonics;org_ucsb;org_caltech
+    notes: 'Fab: author contributions (p.6) say J.L., R.N.W., J.H. and T.L. (EPFL) designed and fabricated the Si3N4 chips (org_epfl); the DFB pump laser was fabricated by Freedom Photonics (p.7 Appendix B); D.K., L.C. (UCSB) and B.S., Q.-F.Y. (Caltech) packaged the chip (p.6): the butt-coupled DFB / Si3N4 assembly is mounted in a butterfly package to facilitate measurements (p.2, Fig. 1(D)) and the microcombs are described as generated in these butterfly packaged devices (p.4), so org_ucsb and org_caltech on the assembled comb rows (D399). The feedback-phase study (Fig. 4(C)) adjusted the laser-chip gap with a piezo stage (p.8 Appendix C). Cached text is the arXiv v1 of the Nature paper (same work, D430 / D433). Pump 1556 nm, up to 30 mW launched into the microresonator; locking bandwidth estimated 5 GHz; turnkey success probability vs feedback phase (Fig. 4(C), 100 attempts per point) not entered (no parameter).'
+    why: 'Q3 / D399: p.6 author contributions name the UCSB and Caltech authors who packaged the chip (the assembly of the comb rows); p.2 and p.4 tie the comb measurements to the butterfly-packaged devices'
+  cmp_lit_shen2020_dfb_pump:
+    notes: 'Fab: author contributions (p.6) say J.L., R.N.W., J.H. and T.L. (EPFL) designed and fabricated the Si3N4 chips (org_epfl); the DFB pump laser was fabricated by Freedom Photonics (p.7 Appendix B). Packaging by D.K., L.C. (UCSB) and B.S., Q.-F.Y. (Caltech) (p.6) is entered on the assembled comb rows only, not on this chip part (D399). Cached text is the arXiv v1 of the Nature paper (same work, D430 / D433). Platform empty: DFB material not stated (D422 / D423). Not entered: current tuning about -1.4 GHz/mA (static current tuning is not an FM efficiency, D83g), frequency-noise suppression about 30 dB when feedback-locked (no parameter).'
+    why: Consequence of Q3 (packaging orgs on the assembled comb rows only); drop together with the comb-row ops if the coordinator keeps the distiller's call
+  cmp_lit_shen2020_ring_fig1b:
+    notes: 'Fab: author contributions (p.6) say J.L., R.N.W., J.H. and T.L. (EPFL) designed and fabricated the Si3N4 chips (org_epfl); the DFB pump laser was fabricated by Freedom Photonics (p.7 Appendix B). Packaging by D.K., L.C. (UCSB) and B.S., Q.-F.Y. (Caltech) (p.6) is entered on the assembled comb rows only, not on this chip part (D399). Cached text is the arXiv v1 of the Nature paper (same work, D430 / D433). One row for the resonance of Fig. 1(B): the device is not identified, so the Q is not attached to a comb row (D159 / D458).'
+    why: Consequence of Q3 (packaging orgs on the assembled comb rows only); drop together with the comb-row ops if the coordinator keeps the distiller's call
+metrics:
+  cmp_lit_liu2018a_ring_88ghz-m1:
+    basis: derived
+    notes: 'Printed 1.58 um (cross-section width x height 1.58 x 0.75 um2, p.3 Sec. III); converted to nm (D256). SEM in the Fig. 1(a) inset; not stated as SEM-measured.'
+    why: 'D82d / D256: the paper prints the width only in um (p.3 Sec. III); a unit rescaling is derived with the printed value in notes'
+  cmp_lit_liu2018a_ring_88ghz-m2:
+    basis: derived
+    notes: 'Printed 0.75 um (cross-section 1.58 x 0.75 um2, p.3 Sec. III); converted to nm (D256). Ring cross-section height as stated.'
+    why: 'D82d / D256: height printed only in um (p.3 Sec. III)'
+  cmp_lit_liu2018a_ring_88ghz-m3:
+    basis: derived
+    notes: 'Multimode bus with the same cross-section as the ring (printed 1.58 x 0.75 um2, p.3 Sec. III); converted to nm (D256).'
+    why: 'D82d / D256: bus cross-section printed only in um (p.3 Sec. III)'
+  cmp_lit_liu2018a_ring_99ghz-m1:
+    basis: derived
+    notes: 'Printed 1.58 um (cross-section 1.58 x 0.81 um2, p.5 Sec. IV); converted to nm (D256).'
+    why: 'D82d / D256: width printed only in um (p.5 Sec. IV)'
+  cmp_lit_liu2018a_ring_99ghz-m2:
+    basis: derived
+    notes: 'Printed 0.81 um (cross-section 1.58 x 0.81 um2, p.5 Sec. IV); converted to nm (D256).'
+    why: 'D82d / D256: height printed only in um (p.5 Sec. IV)'
+  cmp_lit_liu2020a_ring_191ghz-m2:
+    locator: p.3; p.8 Supp. Sec. I; p.9 Supp. Fig. I.2
+    why: 'Locator: Fig. I.2 (loaded linewidths 1500-1630 nm at 0, -100 and +150 V) is on p.9 of text.md; the Sec. I text is on p.8'
+  cmp_lit_liu2020a_aln_piezo_actuator-m4:
+    basis: derived
+    notes: 'Printed about 17 MHz (p.3; Fig. 3(d) caption, p.4); converted to kHz (D256).'
+    why: 'D82d / D256: printed only in MHz (p.3, p.4 Fig. 3 caption); a prefix conversion of a measured value is derived'
+  cmp_lit_poulton2016_opa_ir_4mm-m7:
+    qualifier: ''
+    notes: 'p.2 prints the antenna pitch once as about 4 um (MMI design paragraph) and twice as 4 um (pitch of the antennas after the tree; uniform 4 um pitch producing the grating lobes).'
+    why: 'p.2: the pitch statement for the fabricated array is exact (4 um, twice); the about-4 um wording belongs to the MMI design motivation'
+  cmp_lit_poulton2016_opa_ir_4mm-m8:
+    basis: derived
+    notes: 'Printed 4 mm antenna length (p.2); converted to um (D256).'
+    why: 'D82d / D256: antenna length printed only in mm (p.2)'
+  cmp_lit_poulton2016_opa_ir_4mm-m9:
+    basis: derived
+    notes: 'Printed 1.5 um wide waveguide (p.2); converted to nm (D256).'
+    why: 'D82d / D256: antenna waveguide width printed only in um (p.2)'
+  cmp_lit_poulton2016_mmi_visible-m4:
+    basis: derived
+    notes: 'Printed 800 nm wide inputs and outputs (p.3); converted to um (D256).'
+    why: 'D82d / D256: port width printed only in nm (p.3)'
+  cmp_lit_raja2019_fp_laser_diode-m5:
+    basis: derived
+    notes: 'Printed Gaussian linewidth 60 MHz (p.3; Fig. 2(c) label 60 MHz, p.4); converted to Hz (D256). Voigt fit of own data (D80a).'
+    why: 'D82d / D256: printed only in MHz (p.3, p.4 Fig. 2(c))'
+  cmp_lit_raja2019_fp_laser_diode-m6:
+    basis: derived
+    notes: 'Printed ''estimated'' short-time linewidth 2 MHz (p.3); converted to Hz (D256). Voigt fit of own data (D80a).'
+    why: 'D82d / D256: printed only in MHz (p.3)'
+  cmp_lit_raja2019_ring_1thz-m1:
+    basis: derived
+    notes: 'Printed FSR 1.02 THz (p.4 Fig. 2(a) label and caption; p.7 Methods); converted to GHz (D256).'
+    why: 'D82d / D256: the FSR is printed only in THz (p.4 Fig. 2(a), (d); p.7 Methods)'
+  cmp_lit_raja2019_ring_1thz-m4:
+    basis: derived
+    notes: 'Printed 1.53 um (p.7 Methods); converted to nm (D256).'
+    why: 'D82d / D256: width printed only in um (p.7 Methods)'
+  cmp_lit_raja2019_sil_laser_1thz-m1:
+    basis: derived
+    notes: 'Printed Gaussian contribution 186 kHz (p.4 text; Fig. 2(e) label FWHM 186 kHz); converted to Hz (D256). Voigt fit of own data (D80a).'
+    why: 'D82d / D256: printed only in kHz (p.4)'
+  cmp_lit_raja2019_sil_laser_1thz-m2:
+    basis: derived
+    notes: 'Printed ''estimated'' Lorentzian contribution 0.7 kHz (p.4); converted to Hz (D256). Voigt fit of own data (D80a); more than 1000-fold reduction stated (p.5).'
+    why: 'D82d / D256: printed only in kHz (p.4, p.5)'
+  cmp_lit_raja2019_ring_149ghz-m3:
+    basis: derived
+    notes: 'Printed 1.58 um (p.7 Methods); converted to nm (D256).'
+    why: 'D82d / D256: width printed only in um (p.7 Methods)'
+  cmp_lit_raja2019_ring_92p4ghz-m5:
+    basis: derived
+    notes: 'Printed 1.58 um (p.6 Fig. 4(a) caption, cross-section 1.58 x 0.75 um2; p.7 Methods); converted to nm (D256).'
+    why: 'D82d / D256: width printed only in um (p.6, p.7)'
+  cmp_lit_raja2019_sil_comb_149ghz-m1:
+    parameter: repetition_rate_ghz
+    notes: 'Line spacing of the single DKS = the ring FSR (Fig. 3 label FSR about 149 GHz; p.7 Methods FSR = 149 GHz). The paper calls these spacings repetition rates (p.5, low repetition rates of the 149 GHz and sub-100 GHz devices; p.7 Methods, D1 = 2 pi x FSR is the repetition frequency; p.8 comb repetition rate fr), so repetition_rate_ghz (D82g / D83b); pulses not characterized in the time domain.'
+    why: 'D82g / D83b: soliton (DKS) comb whose spacing the paper calls a repetition rate (p.5, p.7, p.8); channel_spacing_ghz is for non-pulsed combs / line spacing wording only'
+  cmp_lit_raja2019_sil_comb_92p4ghz-m1:
+    parameter: repetition_rate_ghz
+    notes: 'Multi-soliton DKS line spacing = ring FSR 92.4 GHz (p.6 Fig. 4(a); p.7 Methods). The paper calls sub-100 GHz spacings electronically detectable repetition rates (p.6) and D1 = 2 pi x FSR the repetition frequency (p.7), so repetition_rate_ghz (D82g / D83b); pulses not characterized in the time domain.'
+    why: 'D82g / D83b: soliton comb whose spacing the paper calls a repetition rate (p.6, p.7)'
+  cmp_lit_xiang2021_inp_si_dfb-m6:
+    basis: derived
+    notes: 'Printed about 60 kHz fundamental linewidth (p.5); converted to Hz (D256). Frequency-noise spectra in Fig. 4(A) (p.6).'
+    why: 'D82d / D256: printed only in kHz (p.5)'
+  cmp_lit_xiang2021_inp_si_dfb-m8:
+    basis: derived
+    notes: 'Printed 1.8 mm InP/Si gain section (p.3); converted to um (D256).'
+    why: 'D82d / D256: printed only in mm (p.3)'
+  cmp_lit_xiang2021_ring_100ghz_final-m1:
+    locator: p.3; p.4; p.5 Fig. 3(B)
+    why: 'Locator: the power-dip sentence is on p.4 and Fig. 3 with its caption is on p.5 of text.md, not p.4'
+delete_components:
+- id: cmp_lit_raja2019_ring_88p6ghz
+  why: 'Q1 / D259, D408: p.6 introduces the sub-100 GHz devices with Q0 about 8e6 and attributes soliton generation at that Q to ref. 26 (= liu2018a, the authors'' own paper); the p.7 Methods values of the Fig. 4(d) ring (Q0 8.2e6, FSR 88.6 GHz, D2/2pi 1.10 MHz, width 1.58 um) equal the liu2018a 88 GHz device (p.3-4: Q0 > 8.2e6, D1/2pi 88.63 GHz, D2/2pi 1.10 MHz, 1.58 x 0.75 um2) to every printed digit; the row carries no value of this paper beyond them (the Fig. 4(d) breather spectra give no metric)'
+add_metrics:
+- metric_id: cmp_lit_poulton2016_mmi_large-m6
+  component_id: cmp_lit_poulton2016_mmi_large
+  parameter: core_thickness_nm
+  value: 200
+  unit: nm
+  basis: design_target
+  locator: p.2
+  notes: 'PECVD SiN film thickness of the platform as printed (D402: deposited-film thickness, not stated as measured).'
+  why: 'Miss (D153): splitter.mmi cross-section needs core_thickness_nm; p.2 prints the 200 nm SiN layer used for the whole array'
+- metric_id: cmp_lit_poulton2016_mmi_large-m7
+  component_id: cmp_lit_poulton2016_mmi_large
+  parameter: box_thickness_um
+  value: 6
+  unit: um
+  basis: design_target
+  locator: p.1
+  notes: 6 um buried oxide of the 300 mm wafer as printed (p.1).
+  why: 'Miss (D153): stated BOX thickness (p.1) for the MMI cross-section'
+- metric_id: cmp_lit_poulton2016_mmi_small-m6
+  component_id: cmp_lit_poulton2016_mmi_small
+  parameter: core_thickness_nm
+  value: 200
+  unit: nm
+  basis: design_target
+  locator: p.2
+  notes: 'PECVD SiN film thickness of the platform as printed (D402: deposited-film thickness, not stated as measured).'
+  why: 'Miss (D153): splitter.mmi cross-section needs core_thickness_nm; p.2 prints the 200 nm SiN layer'
+- metric_id: cmp_lit_poulton2016_mmi_small-m7
+  component_id: cmp_lit_poulton2016_mmi_small
+  parameter: box_thickness_um
+  value: 6
+  unit: um
+  basis: design_target
+  locator: p.1
+  notes: 6 um buried oxide of the 300 mm wafer as printed (p.1).
+  why: 'Miss (D153): stated BOX thickness (p.1) for the MMI cross-section'
+- metric_id: cmp_lit_poulton2016_mmi_visible-m5
+  component_id: cmp_lit_poulton2016_mmi_visible
+  parameter: core_thickness_nm
+  value: 200
+  unit: nm
+  basis: design_target
+  locator: p.2; p.3
+  notes: 'PECVD SiN film thickness as printed (p.2); the visible routing waveguides are restated as 200 nm thick (p.3). D402: deposited-film thickness, not stated as measured.'
+  why: 'Miss (D153): splitter.mmi cross-section needs core_thickness_nm; p.3 restates 200 nm for the visible array'
+- metric_id: cmp_lit_poulton2016_mmi_visible-m6
+  component_id: cmp_lit_poulton2016_mmi_visible
+  parameter: box_thickness_um
+  value: 6
+  unit: um
+  basis: design_target
+  locator: p.1; p.3
+  notes: 6 um buried oxide of the 300 mm wafer as printed (p.1); the visible array uses the same fabrication process (p.3).
+  why: 'Miss (D153): stated BOX thickness (p.1) for the MMI cross-section; same process stated on p.3'
+- metric_id: cmp_lit_poulton2016_edge_coupler_ir-m3
+  component_id: cmp_lit_poulton2016_edge_coupler_ir
+  parameter: core_thickness_nm
+  value: 200
+  unit: nm
+  basis: design_target
+  locator: p.2
+  notes: 'PECVD SiN film thickness of the platform as printed (D402). Tip width and taper length not stated.'
+  why: 'Miss (D153): edge_taper cross-section requires core_thickness_nm; p.2 prints the 200 nm SiN layer'
+- metric_id: cmp_lit_poulton2016_edge_coupler_ir-m4
+  component_id: cmp_lit_poulton2016_edge_coupler_ir
+  parameter: box_thickness_um
+  value: 6
+  unit: um
+  basis: design_target
+  locator: p.1
+  notes: 6 um buried oxide of the 300 mm wafer as printed (p.1).
+  why: 'Miss (D153): stated BOX thickness (p.1) for the edge-coupler cross-section'
+- metric_id: cmp_lit_raja2019_ring_149ghz-m4
+  component_id: cmp_lit_raja2019_ring_149ghz
+  parameter: core_thickness_nm
+  value: 750
+  unit: nm
+  condition: +/- 20 nm over the full 4-inch wafer (CMP)
+  basis: measured
+  locator: p.7 Methods
+  notes: 'Waveguide height control of the photonic Damascene Si3N4 chips of this work, measured over the full 4-inch wafer (p.7 Methods); entered as on the 1.02 THz and 92.4 GHz rows (m5 / m6). Whether all samples come from one wafer is not stated.'
+  why: 'Miss (D153): the p.7 Methods height statement covers the Si3N4 chips of the paper and is entered on the 1.02 THz and 92.4 GHz rings but not on the 149 GHz ring'

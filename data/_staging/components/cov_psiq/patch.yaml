@@ -1,0 +1,133 @@
+# Audit patch cov_psiq (fresh-context audit 2026-11-07, DevLog/audits/2026-11-07-cov_psiq-audit.md).
+# 27 metrics: 21 ok / 6 imprecise / 0 wrong; 14 components: 9 ok / 5 imprecise / 0 wrong.
+# Misses added: 4 metrics (crossing crosstalk and splitter ratio wafer maps, two connecting-waveguide losses) and 2 components.
+# Coordinator choices: to keep the distiller's call on the connecting waveguides (Q5b) drop the two add_components,
+# their -m1 rows and the edge_smf28 / edge_uhna4 notes ops; the temperature ops keep 2 K on the SNSPD-read baseline
+# rows with re-anchored notes (Q4). No fab_org_ids change.
+components:
+  cmp_lit_alexander2024_grating_2d:
+    notes: 'Fab GlobalFoundries: the baseline stack was ''developed in partnership with GlobalFoundries'' and is ''fabricated in their 300-mm'' foundry (p.2); p.1: the benchmarked components, incl. detectors, sources and chip-to-chip interconnects, are ''fabricated in a commercial semiconductor foundry'' (ref. 14, a GlobalFoundries 300 mm paper). Grating couplers for optical input/output are a baseline process module (p.2). The interconnect modules use on-chip SNSPDs and operate at liquid helium temperature (p.4); SMF-28 fiber link of 42 m (p.4). The 2D grating couples both polarizations; diameter and pitch optimized for coupling and polarization-path extinction (p.21 Supp. S8.5), values not printed.'
+    why: 'Locator: S8.5 (2D grating design, diameter and pitch optimization) is on p.21 of the SI text, not p.20'
+  cmp_lit_alexander2024_sin_pnrd:
+    core_material: SiN waveguide; NbN nanowires crossing it, evanescently coupled (p.6 Fig. 4(d); p.11-12 Supp. S4)
+    why: 'Locator: Fig. 4 and its caption are on p.6 of text.md (journal page 881); p.5 holds the PNRD text only'
+  cmp_lit_alexander2024_sin_sm_wg:
+    notes: 'Fab not entered: next-generation SiN component; the reported SiN loss figures are ''not all from the same wafer'', nor from one process (p.17 Supp. S5) and no fabricating org is named for them. The only GlobalFoundries statement for SiN is ''300mm silicon nitride from GlobalFoundries'' for the wafers of the BTO switches (p.8 Supp. S3; Fig. S7 calls it PsiQuantum''s 300mm SiN process), not for this component; the p.2 GF statement covers the baseline (Si) stack. Within-wafer wafer map in Fig. S6(a) (p.10 Supp.) prints per-die values 1.2 to 2.4 dB/m on a representative wafer; not entered as a separate row (per-die single-cutback values; the headline row carries the population). SiN wafer-to-wafer thickness 1-sigma < 0.7 nm and refractive index 1-sigma 0.01% (p.8 Supp. S3; process statistics, not entered).'
+    why: 'p.10 Supp. Fig. S6(a) render: every die cell carries a printed value (1.2 to 2.4 dB/m); the note said no printed values'
+  cmp_lit_alexander2024_sin_mm_wg:
+    notes: 'Fab not entered: next-generation SiN component; the reported SiN loss figures are ''not all from the same wafer'', nor from one process (p.17 Supp. S5) and no fabricating org is named for them. The only GlobalFoundries statement for SiN is ''300mm silicon nitride from GlobalFoundries'' for the wafers of the BTO switches (p.8 Supp. S3; Fig. S7 calls it PsiQuantum''s 300mm SiN process), not for this component; the p.2 GF statement covers the baseline (Si) stack. Called multi-mode (routing) waveguide in Fig. S6(b) (p.10 Supp.). Box chart of all insertion-loss measurements in Fig. S15(c) (p.17 Supp.). Fig. S6(b) (p.10 Supp.) prints per-die values 0.04 to 1.08 dB/m on a representative wafer; not entered: several are below the 0.2 dB/m the SI gives as the single-cutback resolution (p.17 Supp. S5).'
+    why: 'Additive: p.10 Supp. Fig. S6(b) per-die values and p.17 Supp. S5 single-cutback resolution (sigma about 0.1 dB, losses above 0.2 dB/m)'
+  cmp_lit_alexander2024_sin_crossing:
+    notes: 'Fab not entered: next-generation SiN component; the reported SiN loss figures are ''not all from the same wafer'', nor from one process (p.17 Supp. S5) and no fabricating org is named for them. The only GlobalFoundries statement for SiN is ''300mm silicon nitride from GlobalFoundries'' for the wafers of the BTO switches (p.8 Supp. S3; Fig. S7 calls it PsiQuantum''s 300mm SiN process), not for this component; the p.2 GF statement covers the baseline (Si) stack. Crossing extinction ratio: per-die values printed in the Fig. S6(f) wafer map (p.10 Supp.), entered as m3 (crosstalk_db, wafer_map). Per-die crossing loss 0.52 to 2.04 mdB in Fig. S6(d), not entered (headline row m1 carries the population). Box chart of all measurements in Fig. S15(d) (p.17 Supp.).'
+    why: 'p.10 Supp. Fig. S6(d,f) render: per-die values are printed in every cell; the note said no printed value'
+  cmp_lit_alexander2024_sin_splitter:
+    notes: 'Fab not entered: next-generation SiN component; the reported SiN loss figures are ''not all from the same wafer'', nor from one process (p.17 Supp. S5) and no fabricating org is named for them. The only GlobalFoundries statement for SiN is ''300mm silicon nitride from GlobalFoundries'' for the wafers of the BTO switches (p.8 Supp. S3; Fig. S7 calls it PsiQuantum''s 300mm SiN process), not for this component; the p.2 GF statement covers the baseline (Si) stack. Subtype settled by the SI: ''splitter (directional coupler)'' (p.10 Supp. Fig. S6 caption). Splitting ratio: per-die values printed in the Fig. S6(e) wafer map (p.10 Supp.), entered as m3 (split_ratio_pct, wafer_map). Per-die splitter loss 0.16 to 0.88 mdB in Fig. S6(c), not entered (headline row m1 carries the population).'
+    why: 'p.10 Supp. Fig. S6(c,e) render: per-die values are printed in every cell; the note said no printed value'
+  cmp_lit_alexander2024_edge_smf28:
+    notes: 'Fab not entered: no fabricating org or process named for the edge-coupler chips (p.6; p.17-18 Supp. S6); Fig. 5 groups them with the SiN-based components (p.7 caption a-c). Geometry not described. Connecting waveguide on this chip: 4.56 mm at 6.3 dB/m (29 mdB) per p.18 Supp. S6; that propagation loss (a de-embedding input of unstated origin) is entered as author_estimate on cmp_lit_alexander2024_edge_smf28_link_wg.'
+    why: Consequence of the added connecting-waveguide row (Q5b); drop together with that add if the coordinator keeps the distiller's call
+  cmp_lit_alexander2024_edge_uhna4:
+    notes: 'Fab not entered: no fabricating org or process named for the edge-coupler chips (p.6; p.17-18 Supp. S6); Fig. 5 groups them with the SiN-based components (p.7 caption a-c). Geometry not described. Connecting waveguide on this chip: 3.3 mm at 1.1 dB/m (3.6 mdB) per p.18 Supp. S6; entered as author_estimate on cmp_lit_alexander2024_edge_uhna4_link_wg (de-embedding input of unstated origin). UHNA4 in the text, UHNA in Fig. 5(c) and the SI.'
+    why: Consequence of the added connecting-waveguide row (Q5b); drop together with that add if the coordinator keeps the distiller's call
+metrics:
+  cmp_lit_alexander2024_hairpin_snspd-m6:
+    value: 15000
+    notes: 'Not printed. Read off the log-scale inset of Fig. 2(e) (dark count rate per second, orange triangles) at the highest plotted bias, about 0.9 I_sw: about 1.5e4 counts/s (marker bounding-box centre about 1.7e4, triangle centroid about 1.4e4; reading range 1.4e4 to 1.7e4). Decades from the inset''s major ticks, which coincide with the printed labels 10^0 to 10^6 (about 7.7 pt per decade on the page). One detector (which one of the population not stated). Temperature: the p.2 sentence on operation at approximately 2 K cites Fig. 2(e).'
+    why: 'p.3 Fig. 2(e) inset re-read on a 2400 dpi render of the PDF: last orange marker spans 10^4.0 to 10^4.44 on the tick-located log axis; centre 1.4e4 to 1.7e4, so 1.8e4 sits above the reading'
+  cmp_lit_alexander2024_baseline_mzi-m1:
+    notes: 'Printed > 50 dB extinction ratio at the transmission port (text and Fig. 2(d) caption). Temperature: p.3 states that these thermally reconfigurable circuits are cooled to cryogenic temperature to operate the integrated SNSPDs, at about 2 K, and the fringe is read out with co-integrated SNSPDs (p.3, Fig. 2(d)); no separate temperature printed with the value. C band inferred: the paper states operation at C-band wavelengths (p.1); no wavelength printed with this value.'
+    why: 'Temperature anchor: the stated circuit temperature is in the p.3 interferometer / thermal phase shifter paragraph, not only the p.2 detector sentence; the old note contradicted the entered 2 K'
+  cmp_lit_alexander2024_mzi_heater-m1:
+    notes: 'Not printed. Read off Fig. 2(d) of the Nature version: transmission minima at about 2.8 and 23.2 mW tuner power (one 2 pi period) -> P_pi = (23.2 - 2.8) / 2 = about 10.2 mW, entered as about 10 mW; reading uncertainty about +/-0.3 mW per minimum. The published x-axis tick labels read 0, 5, 10, 15, 25, 25 (the fifth label should read 20 on the uniform 5 mW grid); the reading assumes the uniform grid. Reflection minimum at about 13.9 mW. Cryogenic value: p.3 states the circuit with these thermal phase shifters is cooled to cryogenic temperature (about 2 K) while the heaters reach local temperatures above 100 C; not comparable with room-temperature thermo-optic P_pi. Audit re-read (2026-11-07): transmission minima about 2.9 and 23.2 mW, reflection minimum about 13.9 mW, on a uniform 5 mW grid (tick positions 0 to 25 mW equally spaced). C band inferred: the paper states operation at C-band wavelengths (p.1); no wavelength printed with this value.'
+    why: Temperature anchor moved to the p.3 heater paragraph; Fig. 2(d) re-read on a 400 dpi render confirms about 10.2 mW
+  cmp_lit_alexander2024_pump_filter-m1:
+    notes: 'Printed pump rejection 99.1 +/- 1.2 dB (meaning of +/- not stated). Fig. 2(c) axis 1540-1562 nm with the pump band shaded near 1550 nm; no wavelength printed with the value. Temperature: characterized with on-chip SNSPDs (Fig. 2(c) caption); the packaged circuits of this section are housed in cryostats with approximately 2 K base temperature (p.4); no separate temperature printed with the value.'
+    why: 'Temperature anchor: p.4 (same HSPS section) states the approximately 2 K cryostat base for the packaged benchmarking chips'
+  cmp_lit_alexander2024_sin_pnrd-m1:
+    locator: p.5; p.6 Fig. 4(e); p.12 Supp. S4.2; p.13 Supp. Fig. S11
+    why: 'Locator: values printed on p.5, Fig. 4(e) and its caption are on p.6 of text.md'
+  cmp_lit_alexander2024_sin_pnrd-m2:
+    locator: p.5; p.6 Fig. 4(e); p.12 Supp. S4.2; p.13 Supp. Fig. S11
+    why: 'Locator: values printed on p.5, Fig. 4(e) and its caption are on p.6 of text.md'
+add_components:
+- component_id: cmp_lit_alexander2024_edge_smf28_link_wg
+  source_id: lit:alexander2024
+  class: waveguide_platform.straight
+  label: Connecting waveguide between the two SMF-28 edge couplers of the edge-coupler test chip, 4.56 mm, next-generation flow
+  row_kind: fabricated
+  platform: sin
+  core_material: SiN per the Fig. 5(a-c) caption (SiN-based components); runs from the taper ends of the edge couplers (p.18 Supp. S6); cross-section not stated
+  tags: sin;edge_coupler_chip;de_embedding;quantum
+  verified_on: '2026-11-07'
+  notes: 'Same chip as cmp_lit_alexander2024_edge_smf28. Its propagation loss is stated only as the de-embedding input of the edge-coupler measurement (4.56 mm, 29 mdB subtracted; p.18 Supp. S6); how the value was obtained is not stated. Fab not entered: no org or process named for the edge-coupler chips.'
+  why: 'Miss: p.18 Supp. S6 states a propagation loss for this waveguide (6.3 dB/m); prop_loss_db_per_cm covers it; skill rule 4: a value of unstated origin is entered as author_estimate'
+- component_id: cmp_lit_alexander2024_edge_uhna4_link_wg
+  source_id: lit:alexander2024
+  class: waveguide_platform.straight
+  label: Connecting waveguide between the two UHNA4 edge couplers of the edge-coupler test chip, 3.3 mm, next-generation flow
+  row_kind: fabricated
+  platform: sin
+  core_material: SiN per the Fig. 5(a-c) caption (SiN-based components); runs from the taper ends of the edge couplers (p.18 Supp. S6); cross-section not stated
+  tags: sin;edge_coupler_chip;de_embedding;quantum
+  verified_on: '2026-11-07'
+  notes: 'Same chip as cmp_lit_alexander2024_edge_uhna4. Its propagation loss is stated only as the de-embedding input of the edge-coupler measurement (3.3 mm, 3.6 mdB subtracted; p.18 Supp. S6); how the value was obtained is not stated. Fab not entered: no org or process named for the edge-coupler chips.'
+  why: 'Miss: p.18 Supp. S6 states a propagation loss for this waveguide (1.1 dB/m); prop_loss_db_per_cm covers it; skill rule 4: a value of unstated origin is entered as author_estimate'
+add_metrics:
+- metric_id: cmp_lit_alexander2024_sin_crossing-m3
+  component_id: cmp_lit_alexander2024_sin_crossing
+  parameter: crosstalk_db
+  value: 49
+  value_max: 60
+  unit: dB
+  statistic: wafer_map
+  n_samples: 51
+  band: c_band
+  wavelength_inferred: 'true'
+  condition: per-component crossing extinction ratio per die of one representative wafer of the SiN process (51 dies)
+  method: unspecified
+  basis: measured
+  locator: p.10 Supp. Fig. S6(f)
+  notes: 'Printed per die as -49 to -60 dB, called crossing extinction ratio, per component (Fig. S6 caption); stored as positive suppression magnitudes (registry convention); read as crossing crosstalk, the ratio definition is not stated. Measurement structure not described; whether this wafer is the one of the headline 1.2 mdB loss is not stated (p.17 Supp. S5: figures not all from one wafer). C band inferred: the paper states operation at C-band wavelengths (p.1); no wavelength printed with the map.'
+  why: 'Miss: Fig. S6(f) prints a value in every die cell (the component note said no printed value); crosstalk_db covers crossing; wafer_map range per the bayoumi2025 precedent (printed die values, measured)'
+- metric_id: cmp_lit_alexander2024_sin_splitter-m3
+  component_id: cmp_lit_alexander2024_sin_splitter
+  parameter: split_ratio_pct
+  value: 47.5
+  value_max: 51.5
+  unit: '%'
+  statistic: wafer_map
+  n_samples: 49
+  band: c_band
+  wavelength_inferred: 'true'
+  condition: splitting ratio per die of one representative wafer of the SiN process (49 dies with values, 2 blank); port (cross / bar) not stated
+  method: unspecified
+  basis: derived
+  locator: p.10 Supp. Fig. S6(e)
+  notes: 'Printed per die as fractions 0.475 to 0.515; fraction -> % (D256, derived). Which output port the ratio refers to is not stated. Whether this wafer is the one of the headline 0.5 mdB loss is not stated (p.17 Supp. S5). C band inferred: the paper states operation at C-band wavelengths (p.1); no wavelength printed with the map.'
+  why: 'Miss: Fig. S6(e) prints a value in every die cell (the component note said no printed value); split_ratio_pct covers splitter'
+- metric_id: cmp_lit_alexander2024_edge_smf28_link_wg-m1
+  component_id: cmp_lit_alexander2024_edge_smf28_link_wg
+  parameter: prop_loss_db_per_cm
+  value: 0.063
+  unit: dB/cm
+  band: c_band
+  wavelength_inferred: 'true'
+  condition: 4.56 mm section between the edge-coupler taper ends, used to de-embed 29 mdB from the SMF-28 coupler loss
+  method: unspecified
+  basis: author_estimate
+  locator: p.18 Supp. S6
+  notes: 'Printed 6.3 dB/m; dB/m -> dB/cm; origin not stated (no measurement described). 4.56 mm x 6.3 dB/m = 29 mdB as printed. Temperature not stated. C band inferred: the paper states operation at C-band wavelengths (p.1); no wavelength printed with this value.'
+  why: 'Miss: stated propagation loss of the connecting waveguide on the SMF-28 edge-coupler chip (p.18 Supp. S6), origin not stated -> author_estimate (skill rule 4)'
+- metric_id: cmp_lit_alexander2024_edge_uhna4_link_wg-m1
+  component_id: cmp_lit_alexander2024_edge_uhna4_link_wg
+  parameter: prop_loss_db_per_cm
+  value: 0.011
+  unit: dB/cm
+  band: c_band
+  wavelength_inferred: 'true'
+  condition: 3.3 mm section between the edge-coupler taper ends, used to de-embed 3.6 mdB from the UHNA4 coupler loss
+  method: unspecified
+  basis: author_estimate
+  locator: p.18 Supp. S6
+  notes: 'Printed 1.1 dB/m; dB/m -> dB/cm; origin not stated (no measurement described). 3.3 mm x 1.1 dB/m = 3.6 mdB as printed. Temperature not stated. C band inferred: the paper states operation at C-band wavelengths (p.1); no wavelength printed with this value.'
+  why: 'Miss: stated propagation loss of the connecting waveguide on the UHNA4 edge-coupler chip (p.18 Supp. S6), origin not stated -> author_estimate (skill rule 4)'

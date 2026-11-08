@@ -30,8 +30,10 @@ from photonics_atlas.runlog import RunLog
 
 CONFIG = ROOT / "config" / "benchmark.yaml"
 OUT = ROOT / "app" / "static" / "data" / "benchmark.json"
-BASIS_ORDER = {"measured": 0, "extracted_from_figure": 1, "derived": 2, "private_communication": 5}
+BASIS_ORDER = {"measured": 0, "extracted_from_figure": 1, "derived": 2, "customer_spec": 4, "private_communication": 5}
 PRIVATE = "private_communication"
+CUSTOMER = "customer_spec"  # a foundry customer's public product spec naming the foundry process (D927)
+OVERLAY = {PRIVATE, CUSTOMER}
 
 
 def _load_views() -> ModuleType:
@@ -138,6 +140,24 @@ class Builder:
             w = _num(m["wavelength_nm"])
             if w is not None:
                 self.comp_wl[m["component_id"]].append(w)
+        # foundry by author affiliation (D925): used only when the source names no candidate foundry as the fab
+        self.src_aff: dict[str, set[str]] = defaultdict(set)  # any author
+        self.src_first: dict[str, set[str]] = defaultdict(set)  # first author (obs_id <source>#a1.*)
+        for r in read_csv(root / "data" / "people" / "affiliation_observations.csv"):
+            if r["org_id"]:
+                self.src_aff[r["source_id"]].add(r["org_id"])
+                if r["obs_id"].split("#", 1)[-1].startswith("a1."):
+                    self.src_first[r["source_id"]].add(r["org_id"])
+        for sid, orgs in (cfg.get("source_affiliations") or {}).items():
+            self.src_aff[sid] |= set(orgs["orgs"])
+            self.src_first[sid] |= set(orgs["orgs"])
+        self.aff_rules: dict[str, dict[str, Any]] = dict(cfg.get("affiliation_foundry") or {})
+        self.staff_rules: dict[str, str] = {}
+        if cfg.get("affiliation_own_staff"):
+            for fd in cfg["foundries"]:
+                for o in fd["orgs"]:
+                    self.staff_rules[o] = fd["id"]
+        self.overlay_sources: dict[str, dict[str, str]] = {}
         self.dropped: Counter[str] = Counter()
         self.col_meta: dict[str, dict[str, Any]] = defaultdict(
             lambda: {"orgs": Counter(), "processes": Counter(), "sources": set()}
@@ -153,6 +173,38 @@ class Builder:
             if fid and fid not in seen:
                 seen[fid] = o
         return list(seen.items())
+
+    def _affiliation_foundry(self, sid: str, year: str) -> tuple[list[tuple[str, str]], str]:
+        """(foundry, org) from the authors' affiliations when exactly one foundry follows from them (D925), and the
+        affiliating org; ([], "") when none or ambiguous (two foundries). Customer rules (`affiliation_foundry`) take
+        any author; own-staff rules take the first author's affiliation only."""
+        hits: dict[str, str] = {}
+        y = int(year) if year.isdigit() else None
+        for o in sorted(self.src_aff.get(sid, ())):
+            rule = self.aff_rules.get(o)
+            if not rule:
+                continue
+            if y is not None and (y < rule.get("from_year", 0) or y > rule.get("to_year", 9999)):
+                continue
+            hits.setdefault(rule["foundry"], o)
+        for o in sorted(self.src_first.get(sid, ())):
+            if o in self.staff_rules:
+                hits.setdefault(self.staff_rules[o], o)
+        if len(hits) != 1:
+            if len(hits) > 1:
+                self.dropped[f"affiliation_ambiguous:{sid}"] += 1
+            return [], ""
+        fid, via = next(iter(hits.items()))
+        org = next((o for fd in self.cfg["foundries"] if fd["id"] == fid for o in fd["orgs"]), via)
+        return [(fid, org)], via
+
+    def _fab(self, org_ids: list[str], sid: str, year: str, stated: bool) -> tuple[list[tuple[str, str]], str]:
+        """Stated fab first (D900); else, only when the source names no fab or facility at all (`stated` False), the
+        affiliation rule (D925). Returns pairs and the affiliating org or ''."""
+        pairs = self._foundries(org_ids)
+        if pairs or stated:
+            return pairs, ""
+        return self._affiliation_foundry(sid, year)
 
     def component_candidates(self, row: dict[str, Any]) -> list[Candidate]:
         out: list[Candidate] = []
@@ -174,10 +226,17 @@ class Builder:
             v = _num(m["value"])
             assert v is not None
             vmax = _num(m["value_max"])
-            for fid, org in self._foundries(split_list(c["fab_org_ids"])):
+            year = self.pubs.src.get(c["source_id"], {}).get("year", "")
+            stated = bool(c["fab_org_ids"].strip() or c["facility_org_ids"].strip())
+            pairs, via = self._fab(split_list(c["fab_org_ids"]), c["source_id"], year, stated)
+            if not pairs:
+                self.dropped[f"{row['id']}:not_a_foundry_column"] += 1
+                continue
+            for fid, org in pairs:
                 col = f"{fid}.{fam}"
                 info = {
                     "org": self.org_name.get(org, org),
+                    "via": self.org_name.get(via, via) if via else "",
                     "component": self.pubs.scrub(c["label"]),
                     "platform": c["platform"],
                     "core": self.pubs.scrub(c["core_material"]),
@@ -193,7 +252,6 @@ class Builder:
                     "method": m["method"],
                     "locator": self.plain_locator(m["locator"]),
                 }
-                year = self.pubs.src.get(c["source_id"], {}).get("year", "")
                 out.append(
                     Candidate(col, rank_value(v, vmax), v, vmax, m["qualifier"], m["basis"],
                               c["source_id"], year, {k: x for k, x in info.items() if x})
@@ -228,8 +286,6 @@ class Builder:
         if not m["wavelength_nm"] and (not m["band"] or m["band"] == "unspecified") and sib:
             if not all(in_window(self.cfg, row, w, "") for w in sib):
                 return "wavelength_component"
-        if not self._foundries(split_list(c["fab_org_ids"])):
-            return "not_a_foundry_column"
         return ""
 
     def _family(self, c: dict[str, str]) -> str:
@@ -258,6 +314,9 @@ class Builder:
             for printed in (p.get("foundry_or_fab") or "").split(";"):
                 orgs += self.eo_org.get(printed.strip(), [])
             fam = self._eo_family(d)
+            sid = f"eo:{d['paper_id']}"
+            year = p.get("year", "")
+            pairs, via = self._fab(orgs, sid, year, bool((p.get("foundry_or_fab") or "").strip()))
             why = ""
             if f"{d['device_id']}:{row['field']}" in self.exclude:
                 why = "excluded"
@@ -279,17 +338,16 @@ class Builder:
                 why = "cryogenic"
             elif not in_window(self.cfg, row, _num(d["wavelength_nm"]), d["band"]):
                 why = "wavelength"
-            elif not self._foundries(orgs):
+            elif not pairs:
                 why = "not_a_foundry_column"
             if why:
                 self.dropped[f"{row['id']}:{why}"] += 1
                 continue
-            sid = f"eo:{d['paper_id']}"
-            year = p.get("year", "")
-            for fid, org in self._foundries(orgs):
+            for fid, org in pairs:
                 col = f"{fid}.{fam}"
                 info = {
                     "org": self.org_name.get(org, org),
+                    "via": self.org_name.get(via, via) if via else "",
                     "component": self.pubs.scrub(d["device_label"]),
                     "platform": d["waveguide_platform"],
                     "effect": d["eo_material"].replace("_", " "),
@@ -308,8 +366,9 @@ class Builder:
         return out
 
     def private_candidates(self, row: dict[str, Any]) -> list[Candidate]:
-        """Values from private communication (config `private_values`, D910): unpublished, marked in the view, ranked
-        like any value. A value whose column or bound does not fit the row is an error in the config, not a drop."""
+        """Overlay values (config `private_values`): private communication (D910, unpublished, source not named) and
+        customer product specs that name the foundry process (D927, public source with URL). Marked in the view,
+        ranked like any value. A value whose column or bound does not fit the row is a config error, not a drop."""
         out: list[Candidate] = []
         fd_label = {f["id"]: f["label"] for f in self.cfg["foundries"]}
         for pv in self.cfg.get("private_values") or []:
@@ -323,10 +382,20 @@ class Builder:
                 raise ValueError(f"private_values: bound {q} on {row['id']} points the wrong way")
             v = float(pv["value"])
             vmax = float(pv["value_max"]) if pv.get("value_max") is not None else None
-            sid = f"pc:{pv['date']}"
+            basis = pv.get("basis", PRIVATE)
+            if basis not in OVERLAY:
+                raise ValueError(f"private_values: basis {basis} not in {sorted(OVERLAY)}")
+            if basis == PRIVATE:
+                sid, locator = f"pc:{pv['date']}", f"private communication, {pv['date']}"
+            else:
+                src = pv["source"]
+                sid, locator = f"cs:{pv['id']}", src["locator"]
+                self.overlay_sources[sid] = {"title": src["title"], "venue": src.get("publisher", ""),
+                                             "year": pv["date"][:4], "url": src["url"]}
             info = {"org": fd_label[fid], "component": pv["component"], "scope": pv.get("scope", ""),
-                    "band": pv.get("band", ""), "locator": f"private communication, {pv['date']}"}
-            out.append(Candidate(pv["column"], rank_value(v, vmax), v, vmax, q, PRIVATE, sid, pv["date"][:4],
+                    "band": pv.get("band", ""), "process": pv.get("process", ""), "condition": pv.get("condition", ""),
+                    "date": pv["date"], "locator": locator}
+            out.append(Candidate(pv["column"], rank_value(v, vmax), v, vmax, q, basis, sid, pv["date"][:4],
                                  {k: x for k, x in info.items() if x}))
             self.col_meta[pv["column"]]["sources"].add(sid)
         return out
@@ -358,8 +427,6 @@ class Builder:
                         cell["vmax"] = best.value_max
                     if best.qualifier:
                         cell["q"] = best.qualifier
-                    if best.basis == PRIVATE:
-                        cell["date"] = best.source_id.removeprefix("pc:")
                     cells[col] = cell
                 rows_out.append((cat["id"], {"row": row, "cells": cells}))
 
@@ -408,8 +475,8 @@ class Builder:
                     continue
                 row = r["row"]
                 cells = {c: v for c, v in r["cells"].items() if c in cols}
-                used_sources |= {v["source_id"] for v in cells.values() if v["basis"] != PRIVATE}
-                private_sources |= {v["source_id"] for v in cells.values() if v["basis"] == PRIVATE}
+                used_sources |= {v["source_id"] for v in cells.values() if v["basis"] not in OVERLAY}
+                private_sources |= {v["source_id"] for v in cells.values() if v["basis"] in OVERLAY}
                 rows.append({
                     "id": row["id"], "label": row["label"], "unit": row["unit"], "better": row["better"],
                     "fmt": row.get("fmt", "auto"), "sub": row["sub"], "note": row["note"], "cells": cells,
@@ -426,7 +493,8 @@ class Builder:
             "categories": categories,
             "sources": {**self.pubs.records(used_sources),
                         **{s: {"title": "Private communication (unpublished)", "year": s[3:7]}
-                           for s in sorted(private_sources)}},
+                           for s in sorted(private_sources) if s.startswith("pc:")},
+                        **{s: self.overlay_sources[s] for s in sorted(private_sources) if s.startswith("cs:")}},
             "rules": {
                 "basis": self.cfg["basis"],
                 "min_rows_per_column": self.cfg["min_rows_per_column"],

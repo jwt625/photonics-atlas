@@ -1,6 +1,7 @@
 """Resolve curator `adds` (DevLog-006 S4) into pool records for the selection step.
 
-Input:  config/literature/curation/*.yaml `adds: [{doi | arxiv_id, title, year, class, subtype, reason}]`.
+Input:  config/literature/curation/*.yaml `adds: [{doi | arxiv_id, title, year, class, subtype, reason,
+        beyond_budget?}]` (beyond_budget: true is carried into `curator_add`, D926).
 Lookup: the merged pool (cache/literature/merged.jsonl) by DOI / arXiv id first; otherwise one free OpenAlex singleton
         get (`/works/doi:<doi>` or the arXiv DOI 10.48550/arXiv.<id>) through photonics_atlas.litfetch.
 Check:  the API title must match the curator's title (difflib >= 0.9) or the add is rejected (logged), so an add can
@@ -97,6 +98,8 @@ def main() -> int:
                 "key": key, "group": a["group"], "class": a["class"], "subtype": a.get("subtype") or "",
                 "reason": a.get("reason") or "",
             }  # fmt: skip
+            if a.get("beyond_budget") is True:  # D926: lit_select --delta appends it beyond the class budget
+                rec["curator_add"]["beyond_budget"] = True
             out.append(rec)
             log.event("add", "ok", key=key, uid=rec["uid"], source=source)
         log.info(f"adds {len(adds)}, accepted {len(out)}, rejected / unresolved {rejected}")

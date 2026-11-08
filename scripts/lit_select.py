@@ -14,9 +14,12 @@ Steps:   1. eligibility: scored, prefilter-kept, not known, not review / out_of_
             best remaining eligible works across classes (fill_reserve_with_best).
          5. paper_id: a uid of the previous cache_list keeps its paper_id (pin table, D230); new works get fresh ids
             that never reuse a previous one.
-         --delta (D231): the previous cache_list stays; a work outside it enters only by displacing a same-class
-            incumbent that the unconstrained run drops and that is not frozen (cached, queue day <= --freeze-days,
-            curator pick); writes data/_staging/literature/increment_delta.md (also on --dry-run).
+         --delta (D231): the previous cache_list stays (kept rows verbatim except rank); a work outside it enters
+            only by displacing a same-class incumbent that the unconstrained run drops and that is not frozen
+            (cached, queue day <= --freeze-days, curator pick); writes data/_staging/literature/increment_delta.md
+            (also on --dry-run).
+         beyond_budget adds (D926): curator adds flagged `beyond_budget: true` stay out of the unconstrained run
+            (so they move no other row) and are appended beyond the class budget: no swap, no class caps.
 Outputs: data/_staging/literature/cache_list.csv, data/_staging/literature/triage_report.md,
          data/_staging/literature/eo_atlas_candidates.csv (EO-modulator-main works for the EO atlas, not selected).
 
@@ -202,6 +205,7 @@ def delta_select(
     pick_uids: set[str],
     cfg: dict[str, Any],
     budget: dict[str, int],
+    beyond: list[dict[str, Any]] | None = None,
 ) -> tuple[dict[str, dict[str, Any]], dict[str, Any]]:
     """Increment delta (D231). `selected` = unconstrained selection on the current scores; `prev` = previous
     cache_list rows; `frozen` = paper_id -> why it may not be displaced (cached / queue day <= 2).
@@ -211,14 +215,22 @@ def delta_select(
     eligible first, then worst rank first). Entering works (rule order: floors before rank, then rank_key) take the
     displaceable slots one by one while the class keeps the senior-author cap and the paywalled share (a swap may
     not raise either above its cap). A curator pick with no displaceable slot left enters beyond the class budget
-    (`added`, D511; caps do not bind curator picks, as in the full run). Returns (final selection uid -> record,
-    report)."""
+    (`added`, D511; caps do not bind curator picks, as in the full run). `beyond` = beyond_budget curator adds
+    (D926): appended to `added` without a swap or a cap check unless the work is already listed. Every previous
+    row that is not displaced is kept verbatim (class, subtype, ids, reason, ...); only its rank is renumbered, in
+    the order of its current record (rank_key) when eligible, else of its previous row. Returns (final selection
+    uid -> record, report)."""
     prev_by_uid = {p["uid"]: p for p in prev}
     prev_fam: set[str] = set()
     for u in prev_by_uid:
         prev_fam.add(u)
         prev_fam.add(alt_owner.get(u, u))
-    entering = [r for h, r in selected.items() if h not in prev_fam and not set(r.get("_alts") or []) & prev_fam]
+    beyond = beyond or []
+    bb_uids = {r["uid"] for r in beyond}
+    entering = [
+        r for h, r in selected.items()
+        if h not in prev_fam and h not in bb_uids and not set(r.get("_alts") or []) & prev_fam
+    ]  # fmt: skip
     leaving = [p for p in prev if p["uid"] not in selected and alt_owner.get(p["uid"]) not in selected]
     disp_ok: dict[str, list[dict[str, str]]] = defaultdict(list)
     kept_frozen: list[tuple[dict[str, str], str]] = []
@@ -284,20 +296,21 @@ def delta_select(
             slots.pop(0)
             members[cls] = after
             swaps.append((r, inc))
+    for r in beyond:  # D926: beyond the class budget, no swap, no caps
+        if r["uid"] in prev_fam or set(r.get("_alts") or []) & prev_fam:
+            blocked.append((r, "beyond_budget add already in the list"))
+            continue
+        members[r["_cls"]] = members[r["_cls"]] | {r["uid"]}
+        added.append(r)
     displaced = {inc["uid"] for _, inc in swaps}
     final: dict[str, dict[str, Any]] = {}
-    for p in prev:
+    for p in prev:  # every kept previous row stays verbatim except its rank (D231, D926 fix)
         if p["uid"] in displaced:
             continue
-        head = p["uid"] if p["uid"] in selected else alt_owner.get(p["uid"], "")
         e = elig_by_uid.get(p["uid"])
-        if e is None:
-            final[p["uid"]] = {"_verbatim": p, "uid": p["uid"], "_cls": p["primary_class"]}
-        elif head in selected:
-            final[p["uid"]] = {**e, "_reason": selected[head]["_reason"],
-                               "_family": selected[head].get("_family", 1), "_alts": selected[head].get("_alts", [])}  # fmt: skip
-        else:
-            final[p["uid"]] = {**e, "_reason": p.get("selection_reason", "")}
+        final[p["uid"]] = {"_verbatim": p, "uid": p["uid"], "_cls": p["primary_class"],
+                           "_reason": p.get("selection_reason", ""),
+                           "_key": rank_key(e) if e is not None else prev_rank_key(p)}  # fmt: skip
     for r, _ in swaps:
         final[r["uid"]] = r
     for r in added:
@@ -353,10 +366,15 @@ def main() -> int:
         drops = {d["uid"]: d for d in cur["drops"]}
         reclass = {d["uid"]: d for d in cur["reclass"]}
         stats: Counter[str] = Counter()
+        bb_adds: dict[str, dict[str, Any]] = {}  # D926: beyond_budget adds, kept out of the unconstrained run
         adds_path = LIT / "curator_adds.jsonl"  # scripts/lit_curator_adds.py
         for line in adds_path.read_text(encoding="utf-8").splitlines() if adds_path.exists() else []:
             rec = json.loads(line)
             ca, uid = rec["curator_add"], rec["uid"]
+            if ca.get("beyond_budget") is True:
+                bb_adds[uid] = rec
+                stats["curator_add_beyond_budget"] += 1
+                continue
             if uid not in scores:
                 meta[uid] = {**rec, "score_keep": True}
                 scores[uid] = {
@@ -411,6 +429,29 @@ def main() -> int:
             elig.append({
                 **r, "_s": s, "_cls": cls, "_sub": sub, "_tok": tokens(r.get("title") or ""),
                 "_fa": surname(str(authors[0])) if authors else "", "_la": ascii_slug(str(r.get("last_author") or "")),
+            })  # fmt: skip
+        bb_elig: list[dict[str, Any]] = []
+        for uid, rec in bb_adds.items():
+            ca = rec["curator_add"]
+            r = meta.get(uid) or {**rec, "score_keep": True}
+            if set(map(str, as_list(r.get("known_in")))) - {"eo_candidates"} or uid in drops:
+                stats["curator_add_beyond_budget_skipped"] += 1
+                continue
+            s = scores.get(uid) or {
+                "uid": uid, "classes": [ca["class"]], "subtypes": [ca["subtype"]] if ca["subtype"] else [],
+                "platform": "unstated", "band": "unstated", "score": 8, "c": {}, "industrial": False,
+                "record_claim": None, "is_review": False, "eo_modulator_main": False,
+                "rationale": f"curator add ({ca['group']}): {ca['reason']}"[:160],
+            }  # fmt: skip
+            cls = ca["class"]
+            sub = ca["subtype"] or next(
+                (x for x in s.get("subtypes") or [] if str(x).startswith(cls + ".")), f"{cls}.other"
+            )
+            authors = as_list(r.get("authors"))
+            bb_elig.append({
+                **r, "_s": s, "_cls": cls, "_sub": sub, "_tok": tokens(r.get("title") or ""),
+                "_fa": surname(str(authors[0])) if authors else "", "_la": ascii_slug(str(r.get("last_author") or "")),
+                "_reason": f"curator: add: {ca['reason']}", "_family": 1, "_alts": [],
             })  # fmt: skip
         # 2. version families (within a class)
         by_cls: dict[str, list[dict[str, Any]]] = defaultdict(list)
@@ -509,14 +550,14 @@ def main() -> int:
         # outputs (D230: paper_ids pinned to the previous cache_list)
         prev = [] if args.no_pin and not args.delta else load_prev(OUT / "cache_list.csv")
         pins = {p["uid"]: p["paper_id"] for p in prev}
-        final = selected
+        final = dict(selected)
         delta: dict[str, Any] | None = None
         if args.delta:
             if not prev:
                 raise SystemExit("--delta needs the previous data/_staging/literature/cache_list.csv")
             frozen = frozen_ids(prev, args.freeze_days)
             final, delta = delta_select(
-                selected, {r["uid"]: r for r in elig}, alt_owner, prev, frozen, pick_uids, cfg, budget
+                selected, {r["uid"]: r for r in elig}, alt_owner, prev, frozen, pick_uids, cfg, budget, bb_elig
             )
             log.info(
                 f"delta: entering candidates {len(delta['entering'])}, swaps {len(delta['swaps'])}, "
@@ -524,9 +565,13 @@ def main() -> int:
                 f"blocked {len(delta['blocked'])}, leaving {len(delta['leaving'])} (frozen kept "
                 f"{len(delta['kept_frozen'])}), frozen ids {len(frozen)}"
             )
+        else:
+            for r in bb_elig:  # D926: full run, beyond the class budget
+                if r["uid"] not in final and alt_owner.get(r["uid"]) not in final:
+                    final[r["uid"]] = r
 
         def order(x: dict[str, Any]) -> tuple[Any, ...]:
-            return (x["_cls"], prev_rank_key(x["_verbatim"]) if "_verbatim" in x else rank_key(x))
+            return (x["_cls"], x["_key"] if "_key" in x else rank_key(x))
 
         recs = sorted(final.values(), key=order)
         pids = assign_paper_ids(recs, pins)
@@ -629,7 +674,8 @@ def write_delta(
         "Rules: budget 1000; frozen = cached papers, queue days 1-2, curator picks; a work outside the previous list "
         "enters only by displacing a not-yet-retrieved incumbent of its primary class on days 3-10 that the "
         "unconstrained `selection.yaml` run drops; senior-author cap and paywalled share re-checked per swap; a curator "
-        "pick without such a slot enters beyond the class budget (D511).",
+        "pick without such a slot enters beyond the class budget (D511); curation adds flagged beyond_budget enter beyond "
+        "the class budget without a swap or cap check and stay out of the unconstrained run (D926).",
         "",
         f"- previous rows {len(prev)}; new rows {len(rows)}; entering candidates (unconstrained run) "
         f"{len(d['entering'])}; entered {len(swaps) + len(added)} ({len(swaps)} by swap, {len(added)} curator beyond "
