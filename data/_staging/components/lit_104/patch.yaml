@@ -1,0 +1,130 @@
+# Audit patch lit_104 (fresh-context audit 2026-11-08, DevLog/audits/2026-11-08-lit_104-audit.md).
+# 106 metrics: 99 ok / 7 imprecise / 0 wrong; 18 components: 17 ok / 1 imprecise / 0 wrong, 0 deleted; 6 misses added (jung2018 Fig. 3(a)).
+# Ops: 2 component, 7 metric, 6 add_metrics (15 ops). Coordinator questions in the audit (Q1 MESA+ NanoLab fab / facility role; Q2 the
+# six figure-read rows: drop add_metrics and the fmf4 notes op to skip them).
+components:
+  cmp_lit_huang2016_ring_circulator_6port:
+    notes: 'Fab: passive fabrication sentences (p.3); authors at UCSB, Scuola Superiore Sant''Anna, Morton Photonics and Tokyo Institute of Technology: fab empty (D80b). No facility acknowledged. Not entered: magneto-optic rise time 400 ps and 8.5 dB eye extinction at 1 Gbps (p.5 Fig. 6; rise_time_us / extinction_db not allowed for nonreciprocal), about 40 mW microstrip dissipation at -200 mA (power_consumption_w not allowed), microstrip resistance near 1 ohm, ring-bus power coupling 10.45 % (design), 8.7 dB bus-waveguide loss estimate (rests on the cited 40-60 dB/cm Ce:YIG loss, rule 3). Ring radius 20 um (radius_um not allowed for nonreciprocal). Ring currents +/-185 mA (top) and +/-262 mA (bottom; sign sets the field direction) align the two rings, whose intrinsic resonances are over 1 nm apart (p.7); measured resonance splits 0.25 nm (top) and 0.35 nm (bottom). Fig. 8 caption: coupling coefficient larger than the 10.45 % design on some paths. Other isolation pairs from Table 3 not computed here.'
+    why: 'p.7 Sec. 5 render: the drive currents are printed as I1 = +/-185 mA and I2 = +/-262 mA (the text layer drops the sign); notes follow the metric conditions'
+  cmp_lit_jung2018_fmf4_collimator_pair:
+    notes: 'Fab: passive fabrication sentences (''are successfully fabricated'', ''was built''); authors at the University of Southampton ORC and Fujikura: fab empty (D80b). No facility acknowledged. Fiber-coupled micro-optic part in scope as a fiber-coupled passive part (D411 / D424); platform other. Earlier provisional results in the authors'' refs. 8-9; this paper restates and extends them with its own figures (D408: values kept). Fig. 3(a) per-mode coupling losses at L = 10 / 30 mm read off the figure (audit 2026-11-08; the printed MDL 0.3 / 1.1 dB equals the LP21 - LP01 spread of these readings). Modal extinction after the pair plus 10 km FMF (LP01 -16.5, LP11 -15.1, LP21 / LP02 -13.2 dB, p.4) includes the spool and the LP21 / LP02 mixing of the fiber: not entered. Isolation stated identical to the two-mode-group isolator (same core), see that row.'
+    why: Follows the six add_metrics rows read off p.5 Fig. 3(a)
+metrics:
+  cmp_lit_huang2016_ring_circulator_6port-m1:
+    condition: IR23 = |S23|^2/|S32|^2 (as printed); TM; I1 = +/-185 mA (top ring), I2 = +/-262 mA (bottom ring); circulation 1>2>3>4>5>6>1; Table 3 transmittances
+    why: 'p.7 Sec. 5 (page render): currents printed with +/- (the field direction per ring sets the circulation configuration); the text layer drops the sign'
+  cmp_lit_huang2016_ring_circulator_6port-m2:
+    condition: IR61 = |S16|^2/|S61|^2; TM; I1 = +/-185 mA (top ring), I2 = +/-262 mA (bottom ring); circulation 1>2>3>4>5>6>1; Table 3 transmittances
+    why: 'p.7 Sec. 5 (page render): currents printed with +/- (the field direction per ring sets the circulation configuration); the text layer drops the sign'
+  cmp_lit_huang2016_ring_circulator_6port-m3:
+    condition: forward circulating path entries of Table 3; TM; I1 = +/-185 mA (top ring), I2 = +/-262 mA (bottom ring); circulation 1>2>3>4>5>6>1; Table 3 transmittances
+    why: 'p.7 Sec. 5 (page render): currents printed with +/- (the field direction per ring sets the circulation configuration); the text layer drops the sign'
+  cmp_lit_bonneville2024_edwa_12p9cm-m2:
+    qualifier: approx
+    why: p.7 Fig. 4(c) figure read (+/-0.5 dB) carries no qualifier while the five sibling figure-read gain rows carry approx; reading confirmed (1550 nm / 12.9 cm highest point about 19.5 dB at about -29.5 dBm)
+  cmp_lit_liu2019_qd_soa_on_si-m21:
+    locator: p.18 Fig. 2(d); p.6-7
+    why: Fig. 2 graphics (I-V with the 0.96 ohm label) sit on text page 18; page 17 holds only the Fig. 2 caption
+  cmp_lit_liu2019_qd_soa_input_facet_coupling-m1:
+    locator: p.7; p.18 Fig. 2(b)
+    why: Fig. 2(b) L-I / coupling-loss panel is on text page 18 (caption p.17); curve reads about -4 dB at 750 mA, value confirmed
+  cmp_lit_liu2019_qd_soa_output_facet_coupling-m1:
+    locator: p.7; p.18 Fig. 2(c)
+    why: Fig. 2(c) panel is on text page 18 (caption p.17); curve reads about -7.8 to -8 dB at 750 mA, value confirmed
+add_metrics:
+- metric_id: cmp_lit_jung2018_fmf4_collimator_pair-m3
+  component_id: cmp_lit_jung2018_fmf4_collimator_pair
+  parameter: insertion_loss_db
+  value: 0.4
+  unit: dB
+  qualifier: approx
+  wavelength_nm: 1550
+  wavelength_inferred: 'true'
+  mode: LP01
+  scope: device_total
+  condition: working distance L = 10 mm; total coupling loss of the four-mode-group collimator pair, pure-mode launch
+  method: direct
+  basis: extracted_from_figure
+  locator: p.5 Fig. 3(a); p.4 Sec. II
+  notes: read off Fig. 3(a) marker at the stated distance, +/-0.1 dB (1 dB ticks); wavelength not restated, same 1550 nm setup as the two-mode-group pair (p.3)
+  why: 'Miss: the paper reports the per-mode coupling loss of the four-mode-group pair only in Fig. 3(a) (p.4 text gives the MDL). The 0.3 / 1.1 dB MDL labels of the figure equal the LP21 - LP01 spread of these reads; scope as the two-mode-group pair rows'
+- metric_id: cmp_lit_jung2018_fmf4_collimator_pair-m4
+  component_id: cmp_lit_jung2018_fmf4_collimator_pair
+  parameter: insertion_loss_db
+  value: 0.6
+  unit: dB
+  qualifier: approx
+  wavelength_nm: 1550
+  wavelength_inferred: 'true'
+  mode: LP11
+  scope: device_total
+  condition: working distance L = 10 mm; total coupling loss of the four-mode-group collimator pair, pure-mode launch
+  method: direct
+  basis: extracted_from_figure
+  locator: p.5 Fig. 3(a); p.4 Sec. II
+  notes: read off Fig. 3(a) marker at the stated distance, +/-0.1 dB (1 dB ticks); wavelength not restated, same 1550 nm setup as the two-mode-group pair (p.3)
+  why: 'Miss: the paper reports the per-mode coupling loss of the four-mode-group pair only in Fig. 3(a) (p.4 text gives the MDL). The 0.3 / 1.1 dB MDL labels of the figure equal the LP21 - LP01 spread of these reads; scope as the two-mode-group pair rows'
+- metric_id: cmp_lit_jung2018_fmf4_collimator_pair-m5
+  component_id: cmp_lit_jung2018_fmf4_collimator_pair
+  parameter: insertion_loss_db
+  value: 0.7
+  unit: dB
+  qualifier: approx
+  wavelength_nm: 1550
+  wavelength_inferred: 'true'
+  mode: LP21
+  scope: device_total
+  condition: working distance L = 10 mm; total coupling loss of the four-mode-group collimator pair, pure-mode launch
+  method: direct
+  basis: extracted_from_figure
+  locator: p.5 Fig. 3(a); p.4 Sec. II
+  notes: read off Fig. 3(a) marker at the stated distance, +/-0.1 dB (1 dB ticks); wavelength not restated, same 1550 nm setup as the two-mode-group pair (p.3)
+  why: 'Miss: the paper reports the per-mode coupling loss of the four-mode-group pair only in Fig. 3(a) (p.4 text gives the MDL). The 0.3 / 1.1 dB MDL labels of the figure equal the LP21 - LP01 spread of these reads; scope as the two-mode-group pair rows'
+- metric_id: cmp_lit_jung2018_fmf4_collimator_pair-m6
+  component_id: cmp_lit_jung2018_fmf4_collimator_pair
+  parameter: insertion_loss_db
+  value: 0.6
+  unit: dB
+  qualifier: approx
+  wavelength_nm: 1550
+  wavelength_inferred: 'true'
+  mode: LP01
+  scope: device_total
+  condition: working distance L = 30 mm; total coupling loss of the four-mode-group collimator pair, pure-mode launch
+  method: direct
+  basis: extracted_from_figure
+  locator: p.5 Fig. 3(a); p.4 Sec. II
+  notes: read off Fig. 3(a) marker at the stated distance, +/-0.1 dB (1 dB ticks); wavelength not restated, same 1550 nm setup as the two-mode-group pair (p.3)
+  why: 'Miss: the paper reports the per-mode coupling loss of the four-mode-group pair only in Fig. 3(a) (p.4 text gives the MDL). The 0.3 / 1.1 dB MDL labels of the figure equal the LP21 - LP01 spread of these reads; scope as the two-mode-group pair rows'
+- metric_id: cmp_lit_jung2018_fmf4_collimator_pair-m7
+  component_id: cmp_lit_jung2018_fmf4_collimator_pair
+  parameter: insertion_loss_db
+  value: 1.4
+  unit: dB
+  qualifier: approx
+  wavelength_nm: 1550
+  wavelength_inferred: 'true'
+  mode: LP11
+  scope: device_total
+  condition: working distance L = 30 mm; total coupling loss of the four-mode-group collimator pair, pure-mode launch
+  method: direct
+  basis: extracted_from_figure
+  locator: p.5 Fig. 3(a); p.4 Sec. II
+  notes: read off Fig. 3(a) marker at the stated distance, +/-0.1 dB (1 dB ticks); wavelength not restated, same 1550 nm setup as the two-mode-group pair (p.3)
+  why: 'Miss: the paper reports the per-mode coupling loss of the four-mode-group pair only in Fig. 3(a) (p.4 text gives the MDL). The 0.3 / 1.1 dB MDL labels of the figure equal the LP21 - LP01 spread of these reads; scope as the two-mode-group pair rows'
+- metric_id: cmp_lit_jung2018_fmf4_collimator_pair-m8
+  component_id: cmp_lit_jung2018_fmf4_collimator_pair
+  parameter: insertion_loss_db
+  value: 1.7
+  unit: dB
+  qualifier: approx
+  wavelength_nm: 1550
+  wavelength_inferred: 'true'
+  mode: LP21
+  scope: device_total
+  condition: working distance L = 30 mm; total coupling loss of the four-mode-group collimator pair, pure-mode launch
+  method: direct
+  basis: extracted_from_figure
+  locator: p.5 Fig. 3(a); p.4 Sec. II
+  notes: read off Fig. 3(a) marker at the stated distance, +/-0.1 dB (1 dB ticks); wavelength not restated, same 1550 nm setup as the two-mode-group pair (p.3)
+  why: 'Miss: the paper reports the per-mode coupling loss of the four-mode-group pair only in Fig. 3(a) (p.4 text gives the MDL). The 0.3 / 1.1 dB MDL labels of the figure equal the LP21 - LP01 spread of these reads; scope as the two-mode-group pair rows'

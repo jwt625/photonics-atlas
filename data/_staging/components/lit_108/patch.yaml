@@ -1,0 +1,115 @@
+# Audit patch lit_108 (fresh-context audit 2026-11-08, DevLog/audits/2026-11-08-lit_108-audit.md).
+# 74 metrics: 72 ok / 2 imprecise / 0 wrong; 18 components: 14 ok / 4 imprecise / 0 wrong, 0 deleted; 8 misses added (8 metrics).
+# Coordinator rulings open: to skip the yang2026a stack-geometry misses drop the six core / box / cladding add_metrics (Q1);
+# to skip the shen2016 figure-read misses drop m17 / m18 (Q2). All other ops are a figure re-read, a note / locator fix and
+# a fab-note wording fix (fab stays empty).
+components:
+  cmp_lit_shen2016_utc_pd_3x10:
+    notes: 'Headline device. Not entered: 40 / 54 Gb/s open eyes at -4 V (no parameter); model estimates of transit-limited 123 / 85 GHz and RC-limited about 145 GHz bandwidth (p.4, assumed velocities and 100 ohm); n-contact loss coefficients of the authors'' earlier work (ref. 23: 0.93 / 2.91 / 0.56 dB/um) and the 2.5 um p-contact spacing from ref. 21 (rule 3); 6 dB ''typical'' fiber-to-PD loss used to set the LCA input (assumed, p.9). Fab: fabrication described in passive voice (p.5 Sec. 2, Fig. 2); every author lists Eindhoven University of Technology (one also Ghent University-IMEC, p.1), but no sentence names who fabricated the chip (passive wording only), so fab empty (Contract v4 / v7: passive ''fabricated'' and a shared affiliation are not enough; ma2021 IMOS precedent). Facility: ''Nanolab at TU/e'' (printed with an at sign) acknowledged for the use of the cleanroom facilities (p.12). No process / MPW name printed (IMOS = platform). Double-sided processing: p-side processed before BCB bonding, n-side after substrate removal.'
+    why: 'p.1 affiliations: one author lists TU/e (1) and Ghent University-IMEC (3), the others TU/e, so all authors share TU/e; the note''s ''not one org'' reason is wrong. Fab stays empty for the passive fabrication wording (p.3, p.5 Sec. 2), as the ma2021 IMOS rows'
+  cmp_lit_shen2016_utc_pd_3x5:
+    notes: 'Shorter sibling design on the same chip; only the capacitance is stated. Fab: fabrication described in passive voice (p.5 Sec. 2, Fig. 2); every author lists Eindhoven University of Technology (one also Ghent University-IMEC, p.1), but no sentence names who fabricated the chip (passive wording only), so fab empty (Contract v4 / v7: passive ''fabricated'' and a shared affiliation are not enough; ma2021 IMOS precedent). Facility: ''Nanolab at TU/e'' (printed with an at sign) acknowledged for the use of the cleanroom facilities (p.12). No process / MPW name printed (IMOS = platform). Double-sided processing: p-side processed before BCB bonding, n-side after substrate removal.'
+    why: 'p.1 affiliations: one author lists TU/e (1) and Ghent University-IMEC (3), the others TU/e, so all authors share TU/e; the note''s ''not one org'' reason is wrong. Fab stays empty for the passive fabrication wording (p.3, p.5 Sec. 2), as the ma2021 IMOS rows'
+  cmp_lit_shen2016_utc_pd_3um_family:
+    notes: 'Population row (D165) for a statement over ''most 3 um wide PDs''; Rs scatters strongly (no on-chip 50 ohm termination). 5 um wide PDs usually larger Rs (p.10). Responsivity vs length (Fig. 3(b), saturates at 10 um) and Cj vs area (Fig. 6(d)) plotted only. Fab: fabrication described in passive voice (p.5 Sec. 2, Fig. 2); every author lists Eindhoven University of Technology (one also Ghent University-IMEC, p.1), but no sentence names who fabricated the chip (passive wording only), so fab empty (Contract v4 / v7: passive ''fabricated'' and a shared affiliation are not enough; ma2021 IMOS precedent). Facility: ''Nanolab at TU/e'' (printed with an at sign) acknowledged for the use of the cleanroom facilities (p.12). No process / MPW name printed (IMOS = platform). Double-sided processing: p-side processed before BCB bonding, n-side after substrate removal.'
+    why: 'p.1 affiliations: one author lists TU/e (1) and Ghent University-IMEC (3), the others TU/e, so all authors share TU/e; the note''s ''not one org'' reason is wrong. Fab stays empty for the passive fabrication wording (p.3, p.5 Sec. 2), as the ma2021 IMOS rows'
+  cmp_lit_shen2016_ncontact_wg:
+    notes: 'Testing waveguides on the PD chip used to evaluate the n-contact loss that limits the PD responsivity (p.6); method from the authors'' earlier work (ref. 23). Fab: fabrication described in passive voice (p.5 Sec. 2, Fig. 2); every author lists Eindhoven University of Technology (one also Ghent University-IMEC, p.1), but no sentence names who fabricated the chip (passive wording only), so fab empty (Contract v4 / v7: passive ''fabricated'' and a shared affiliation are not enough; ma2021 IMOS precedent). Facility: ''Nanolab at TU/e'' (printed with an at sign) acknowledged for the use of the cleanroom facilities (p.12). No process / MPW name printed (IMOS = platform). Double-sided processing: p-side processed before BCB bonding, n-side after substrate removal.'
+    why: 'p.1 affiliations: one author lists TU/e (1) and Ghent University-IMEC (3), the others TU/e, so all authors share TU/e; the note''s ''not one org'' reason is wrong. Fab stays empty for the passive fabrication wording (p.3, p.5 Sec. 2), as the ma2021 IMOS rows'
+metrics:
+  cmp_lit_salamin2018_pd_l3_s160-m3:
+    value: 130
+    notes: 'Black (dark) curve of Fig. 3(a) read on the log axis (decade ticks 1e-4 to 1e-1 uA, about 144 px per decade at 400 dpi): about 0.13 uA at +1 V and about 0.11 uA at -1 V (+/- 0.01 uA).'
+    why: 'p.10 Fig. 3(a) re-read at 400 dpi: the dark trace sits about 0.11 decade above the 1e-1 uA tick at +1 V (0.13 uA) and 0.05 decade above it at -1 V (0.11 uA); 100 nA lies at the edge of the stated 0.08-0.13 uA reading'
+  cmp_lit_shen2016_utc_pd_3x10-m7:
+    locator: p.9 Sec. 3.2; p.9 Fig. 5
+    notes: printed 'after -3 V it reaches about 67 GHz'. Fig. 5 shows five traces (0 to -4 V; only 0 / -2 / -4 V labelled); the unlabelled purple trace between the -2 V and -4 V traces (the -3 V curve by colour order and the bias arrow) has noise dips below -3 dB from about 49 GHz and a 2-GHz running mean that reaches -3 dB at about 67 GHz (vector paths).
+    why: The batch note says the -3 V curve is not plotted; p.9 Fig. 5 (vector art) has five traces, and the unlabelled fourth trace is consistent with the printed value
+add_metrics:
+- metric_id: cmp_lit_shen2016_utc_pd_3x10-m17
+  component_id: cmp_lit_shen2016_utc_pd_3x10
+  parameter: responsivity_a_per_w
+  value: 0.5
+  value_max: 0.815
+  unit: A/W
+  statistic: range
+  wavelength_nm: 1510
+  wavelength_max_nm: 1590
+  bias_v: -4
+  ref_plane: on_chip
+  condition: responsivity spectrum of the 3 x 10 um2 PD at -4 V; fiber-to-waveguide coupling calibrated out with nearby reference waveguides
+  basis: extracted_from_figure
+  locator: p.7 Fig. 3(a)
+  notes: 'Read from the vector path of Fig. 3(a) (tick-calibrated, +/- 0.005 A/W): 0.815 A/W at 1510 nm (shortest wavelength, maximum), about 0.77 at 1530, 0.70 at 1550, minimum 0.50 at about 1585 nm, 0.51 at 1590 nm; C-band minimum 0.61 at about 1564 nm (matches m2). Rising responsivity at shorter wavelength discussed on p.7.'
+  why: Miss. p.7 Fig. 3(a) is vector art; the measured spectrum spans 1510-1590 nm and its end values are not in the batch (only 0.7 A/W at 1550 nm and > 0.6 A/W over the C band)
+- metric_id: cmp_lit_shen2016_utc_pd_3x10-m18
+  component_id: cmp_lit_shen2016_utc_pd_3x10
+  parameter: capacitance_ff
+  value: 15.2
+  unit: fF
+  bias_v: 0
+  condition: junction capacitance Cj from the equivalent-circuit fit to S22, GSG pads de-embedded with open / short structures; 0 V point of the bias series
+  basis: extracted_from_figure
+  locator: p.10 Fig. 6(c)
+  notes: 'Read from the vector markers of Fig. 6(c) (14-15.5 fF ticks, +/- 0.02 fF): 15.19 fF at 0 V, 14.80 at -1 V, 14.63 at -2 V, 14.42 at -3 V, 14.20 at -4 V (the -4 V point matches the printed 14.2 fF of m9). The text calls the decrease from 0 to -4 V very limited (p.9).'
+  why: Miss. p.10 Fig. 6(c) vector markers give the zero-bias end of the Cj bias series; only the -4 V value was entered
+- metric_id: cmp_lit_yang2026a_mce_phase_shifter-m3
+  component_id: cmp_lit_yang2026a_mce_phase_shifter
+  parameter: core_thickness_nm
+  value: 220
+  unit: nm
+  condition: top Si layer of the SOI wafer
+  basis: design_target
+  locator: p.5 Sec. 3
+  notes: SOI wafer with a 220 nm top Si layer (p.5); purchased-wafer thickness design_target (D402).
+  why: Miss (D153 geometry). p.5 Sec. 3 states the stack; heater_ps cross-section template needs core_thickness_nm
+- metric_id: cmp_lit_yang2026a_mce_phase_shifter-m4
+  component_id: cmp_lit_yang2026a_mce_phase_shifter
+  parameter: box_thickness_um
+  value: 2
+  unit: um
+  condition: buried oxide of the SOI wafer
+  basis: design_target
+  locator: p.5 Sec. 3
+  notes: 2 um BOX (p.5); purchased-wafer thickness design_target (D402).
+  why: Miss (D153 geometry). p.5 Sec. 3 states the BOX thickness (heater_ps cross-section optional dimension)
+- metric_id: cmp_lit_yang2026a_mce_phase_shifter-m5
+  component_id: cmp_lit_yang2026a_mce_phase_shifter
+  parameter: cladding_thickness_um
+  value: 2.5
+  unit: um
+  condition: deposited SiO2 upper cladding
+  basis: design_target
+  locator: p.5 Sec. 3
+  notes: 2.5 um SiO2 upper cladding deposited over the device layer (p.5); stated process thickness, not measured.
+  why: Miss (D153 geometry). p.5 Sec. 3 states the upper-cladding thickness (heater_ps cross-section optional dimension)
+- metric_id: cmp_lit_yang2026a_ref_phase_shifter-m2
+  component_id: cmp_lit_yang2026a_ref_phase_shifter
+  parameter: core_thickness_nm
+  value: 220
+  unit: nm
+  condition: top Si layer of the SOI wafer
+  basis: design_target
+  locator: p.5 Sec. 3
+  notes: SOI wafer with a 220 nm top Si layer (p.5); purchased-wafer thickness design_target (D402).
+  why: Miss (D153 geometry). p.5 Sec. 3 states the stack; heater_ps cross-section template needs core_thickness_nm
+- metric_id: cmp_lit_yang2026a_ref_phase_shifter-m3
+  component_id: cmp_lit_yang2026a_ref_phase_shifter
+  parameter: box_thickness_um
+  value: 2
+  unit: um
+  condition: buried oxide of the SOI wafer
+  basis: design_target
+  locator: p.5 Sec. 3
+  notes: 2 um BOX (p.5); purchased-wafer thickness design_target (D402).
+  why: Miss (D153 geometry). p.5 Sec. 3 states the BOX thickness (heater_ps cross-section optional dimension)
+- metric_id: cmp_lit_yang2026a_ref_phase_shifter-m4
+  component_id: cmp_lit_yang2026a_ref_phase_shifter
+  parameter: cladding_thickness_um
+  value: 2.5
+  unit: um
+  condition: deposited SiO2 upper cladding
+  basis: design_target
+  locator: p.5 Sec. 3
+  notes: 2.5 um SiO2 upper cladding deposited over the device layer (p.5); stated process thickness, not measured.
+  why: Miss (D153 geometry). p.5 Sec. 3 states the upper-cladding thickness (heater_ps cross-section optional dimension)

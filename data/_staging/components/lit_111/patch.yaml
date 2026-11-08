@@ -1,0 +1,69 @@
+# Audit patch lit_111 (fresh-context audit 2026-11-08, DevLog/audits/2026-11-08-lit_111-audit.md).
+# 239 metrics: 228 ok / 11 imprecise / 0 wrong; 29 components: 29 ok / 0 imprecise / 0 wrong, 0 deleted; 2 misses added (2 metrics).
+# Coordinator rulings open: to skip the li2024 Fig. 6(b) stopband miss drop its add_metrics entry and the ubg_n1000_dw80-m1 op (Q1);
+# to skip the han2024 FWHM notes drop the bezier_racetrack-m1 / -m2 ops (Q2); to skip the qubaisi2020 first-order dip drop its add_metrics
+# entry (Q3). All other ops are D157 basis fixes and a note correction.
+metrics:
+  cmp_lit_li2024_ubg_n1000_dw80-m1:
+    notes: Printed 'as high as 29 dB' (p.7) and labelled in Fig. 6(b). ER saturates with dW at N = 1000, attributed to light collected from the LN slab. The Fig. 6(b) '11.9 nm' stopband arrow is entered as m6 (tied to the dW = 80 nm trace in the same way as the Fig. 6(a) 12.3 nm arrow).
+    why: 'Follows the miss added as m6 (p.7 Fig. 6(b)): the note said the 11.9 nm arrow was not entered'
+  cmp_lit_li2023a_cwbg_odl-m9:
+    basis: derived
+    notes: Printed 1.8 and 2.2 um (w1, w2); stored in nm (unit rescaling, D157 / D256).
+    why: p.3 Sec. 2 prints the grating end widths only in um (1.8 and 2.2 um); a pure unit rescaling is derived with the printed value in notes (D157, D256), the batch kept design_target
+  cmp_lit_li2023a_drop_dc-m6:
+    basis: derived
+    notes: Printed 2.3 um (w3); stored in nm (unit rescaling, D157 / D256).
+    why: p.6 Sec. 2 prints w3 only as 2.3 um (Fig. 4(b) axis in um); D157 / D256, the batch kept design_target
+  cmp_lit_li2023a_drop_dc-m7:
+    basis: derived
+    notes: Printed 1 um (w4); stored in nm (unit rescaling, D157 / D256).
+    why: p.6 Sec. 2 prints w4 only as 1 um; D157 / D256, the batch kept design_target
+  cmp_lit_sun2013a_qwsbg_array_4ch-m13:
+    basis: derived
+    notes: Printed 4 um width; stored in nm (unit rescaling, D157 / D256).
+    why: p.2 prints the SiNx core width only as 4 um; D157 / D256, the batch kept design_target
+  cmp_lit_sun2013a_sinx_wg-m3:
+    basis: derived
+    notes: Printed 4 um width; stored in nm (unit rescaling, D157 / D256).
+    why: p.2 prints the SiNx core width only as 4 um; D157 / D256, the batch kept design_target
+  cmp_lit_han2024_bezier_racetrack-m8:
+    basis: derived
+    notes: Printed 1.6 um (w1, multimode straights); stored in nm (unit rescaling, D157 / D256).
+    why: p.4 Sec. 2 and p.7 Sec. 4 print the width only as 1.6 um; D157 / D256, the batch kept design_target
+  cmp_lit_han2024_bezier_racetrack-m9:
+    basis: derived
+    locator: p.4 Sec. 2; p.7 Sec. 4
+    notes: Printed 0.45 um; stored in nm (unit rescaling, D157 / D256). p.4 sets w2 = 0.45 um equal to the single-mode bus width; p.7 Sec. 4 states the coupler uses an adjacent 0.45 um wide single-mode straight waveguide.
+    why: p.4 Sec. 2 and p.7 Sec. 4 print the bus width only as 0.45 um (D157 / D256); the p.7 conclusion states the bus width directly, so the locator gains it
+  cmp_lit_han2024_bezier_racetrack-m1:
+    notes: 'Q = lambda / FWHM from a Lorentzian fit; resonance near 1559.38 nm read off the Fig. 5(b) axis. Printed value kept (D417 observation): in Fig. 5(b) the plotted data are about 1.5-1.6 pm wide at -3 dB (the linear half-depth level of the about -18.5 dB dip is about -2.95 dB) and about 0.9 pm wide at -9 to -10 dB, where the FWHM arrows are drawn; the printed 0.838 pm matches the width at about half the dB depth, so the linear FWHM may be about twice the printed value (Q about 1.0e6). Reading +/-0.1 pm.'
+    why: 'p.6 Fig. 5(b) re-read at 3x (1559.375-1559.385 nm ticks, 67 px/pm; 0 / -5 dB grid 37 px/dB): -3 dB crossings at about 1559.3805 / 1559.3820 nm, -10 dB crossings about 0.93 pm apart. The printed FWHM and Q are kept as printed; the discrepancy is noted. Audit Q2'
+  cmp_lit_han2024_bezier_racetrack-m2:
+    notes: 'Printed FWHM about 0.838 pm (Lorentzian fit). Fig. 5(b) draws the FWHM arrows at about -10 dB; the plotted data are about 1.5-1.6 pm wide at -3 dB (linear half depth) and about 0.9 pm at -9 to -10 dB, so the printed width matches the width at about half the dB depth (D417 observation, printed value kept). Reading +/-0.1 pm.'
+    why: p.6 Fig. 5(b) re-read (see m1). Audit Q2
+  cmp_lit_kervazo2025_al2o3_wg-m2:
+    notes: From the maximal intrinsic Q 3.6e5 via Eq. (7); the group index used is not stated (1.674 measured and 1.677 simulated both give 2.8 dB/cm). Rests on the gap-series Q_int (derived, under-coupled branch identified from the data).
+    why: 'p.8 Sec. 3.3 does not say which ng enters Eq. (7); the batch note said ng 1.674 was assumed. 4.343 x 2 pi x 1.674 / (3.6e5 x 460e-7 cm) = 2.76 dB/cm, with 1.677 2.76 dB/cm: value unchanged'
+add_metrics:
+- metric_id: cmp_lit_li2024_ubg_n1000_dw80-m6
+  component_id: cmp_lit_li2024_ubg_n1000_dw80
+  parameter: stopband_width_nm
+  value: 11.9
+  unit: nm
+  polarization: te
+  condition: width of the arrow labelled 11.9 nm in Fig. 6(b), drawn near the 0 dB level between the band edges of the dW = 80 nm trace; level not stated
+  basis: measured
+  locator: p.7 Fig. 6(b)
+  notes: 'Figure label. Tied to dW = 80 nm as the Fig. 6(a) 12.3 nm arrow is: the left end sits on the short-wavelength fall of the dW = 80 nm trace (about 1503 nm) and the right end on its long-wavelength rise near the top of the band edge (about 1514.6 nm). On the tick calibration the drawn arrow spans about 11.6 nm (+/- 0.2 nm) against the printed 11.9 nm; p.3 Eq. (4) defines the bandwidth between the first zeros, the figure does not say which level is drawn.'
+  why: 'Miss. p.7 Fig. 6(b) native raster (1148 x 501 px, 18.3 px/nm from the 1500-1525 nm tick labels): arrow ends at x = 718 and 930.5; the purple (dW = 80 nm) trace falls at x = 712-724 and rises at x = 908-940, the same relation as in Fig. 6(a) (arrow 138 / 364.5, purple 142-148 / 357-362), where the batch entered the 12.3 nm label. The batch D156 reason (right end beyond the band edge) applies equally to the entered Fig. 6(a) value. Audit Q1'
+- metric_id: cmp_lit_qubaisi2020_dual_nanobeam_unit-m14
+  component_id: cmp_lit_qubaisi2020_dual_nanobeam_unit
+  parameter: extinction_db
+  value: 26.5
+  unit: dB
+  condition: detuned state, largest transmission dip of the first-order modes
+  basis: derived
+  locator: p.8, Fig. 6(e), (f)
+  notes: 2.1 dB remaining dip in the synchronized state (Fig. 6(f) label) + 24.4 dB transmission increase from the detuned state (p.8). The same arithmetic for the fundamental modes, 4.2 + 12.4 dB, reproduces the printed 16.6 dB (m3). Fig. 6(e) shows the symmetric-mode dip near -26.5 dB, consistent. First-order modes near 1294-1295 nm (Fig. 6(e) axis).
+  why: 'Miss. p.8 prints the 24.4 dB transmission increase of the first-order modes and Fig. 6(f) labels the remaining 2.1 dB dip; the detuned first-order dip depth follows by addition (derived, rule 4), checked against Fig. 6(e). The batch report listed it as not printed. Audit Q3'

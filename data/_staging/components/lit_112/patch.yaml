@@ -1,0 +1,51 @@
+# Audit patch lit_112 (fresh-context audit 2026-11-08, DevLog/audits/2026-11-08-lit_112-audit.md).
+# 353 metrics: 346 ok / 7 imprecise / 0 wrong; 37 components: 37 ok / 0 imprecise / 0 wrong, 0 deleted; 2 misses added (2 metrics).
+# Coordinator rulings open (audit Q1-Q6) do not depend on these ops; Q1 (lu2015a bw_1db_nm) and Q3 (halir2016 NRC fab) would add ops if
+# overruled. All ops below are a basis fix (D255 / D83f), a wavelength-condition fix, note fixes and two geometry / footprint misses.
+metrics:
+  cmp_lit_lu2015a_bdc_te_50_50-m5:
+    basis: simulated
+    notes: Simulated (3D FDTD, Fig. 5(a)); printed +/- 3.5 % deviation of the cross ratio, stored as a fraction (0.035). A unit conversion of a simulated value keeps basis simulated (D255 / D83f; merged cheung2019 +/-7 % -> 0.07 simulated).
+    why: 'p.7 (Fig. 5(a)): the +/- 3.5 % is the 3D-FDTD deviation of the broadband TE 50/50 design. D255 excludes simulated rows from the D157 derived rule (simulated stays simulated, D83f); the merged precedent cheung2019 straight_dc_k050-m1 stores +/-7 % as 0.07 simulated. The batch set derived'
+  cmp_lit_lu2015a_bdc_tm_50_50-m5:
+    basis: simulated
+    notes: Simulated (3D FDTD, Fig. 5(b)); printed +/- 1.5 % deviation of the cross ratio, stored as a fraction (0.015). A unit conversion of a simulated value keeps basis simulated (D255 / D83f; merged cheung2019 +/-7 % -> 0.07 simulated).
+    why: 'p.7 (Fig. 5(b)): the +/- 1.5 % is the 3D-FDTD deviation of the broadband TM 50/50 design; simulated stays simulated after a % -> fraction conversion (D255 / D83f, cheung2019 precedent). The batch set derived'
+  cmp_lit_saber2017_tcfpr_type1_leff943-m2:
+    notes: Grating-coupler insertion loss calibrated out with calibration GC structures (p.2). Whether IL is taken on or off resonance is not stated. Wavelength not stated with the value. Table 1 and the p.2 summary print 1.43 dB; the p.3 text prints 1.48 dB (D417); the abstract prints no IL.
+    why: 'p.1 abstract prints ER 8.69 dB and Q 23642 for the 943 um device but no IL; 1.43 dB is printed on p.2 and in p.3 Table 1, 1.48 dB in the p.3 text. The batch note listed the abstract as a source of 1.43 dB'
+  cmp_lit_zhang2015_tbg_fpf-m3:
+    wavelength_nm: 1541.4
+    notes: Unqualified Q-factor; reduced by free-carrier absorption under injection. Resonance wavelength not printed with the value; taken as the 0 V notch (1541.75 nm, p.2) minus the printed 0.345 nm blue shift at -1.0 V (p.2), i.e. about 1541.4 nm; Fig. 3(c) shows the notch near 1541.42 nm at the last legend entry (V = -0.95).
+    why: 'p.2 Fig. 3(c): the forward-biased notch is blue-shifted by the printed 0.345 nm, so the Q of 25,700 at -1.0 V does not sit at the 0 V notch wavelength 1541.75 nm (page render: V = 0 notch about 1541.73 nm, V = -0.95 notch about 1541.42 nm on the 1541.4-1541.8 nm axis). wavelength_inferred stays true'
+  cmp_lit_zhang2015_tbg_fpf-m4:
+    wavelength_nm: 1541.82
+    notes: Unqualified Q-factor. Resonance wavelength not printed with the value; taken as the 0 V notch (1541.75 nm, p.2) plus the printed 73.6 pm red shift at 17.5 V (p.3), i.e. about 1541.82 nm; Fig. 4(c) shows the 16 V notch near 1541.82 nm.
+    why: 'p.3 Fig. 4(c): the reverse-biased notch is red-shifted by the printed 73.6 pm, so the Q of 44,000 at 17.5 V sits near 1541.82 nm, not at 1541.75 nm (page render: 0 V notch about 1541.745 nm, 16 V notch about 1541.82 nm). wavelength_inferred stays true'
+  cmp_lit_halir2016_swg_mmi_74p-m2:
+    notes: Printed below 1 dB over 1375-1700 nm (p.6, p.2). Fig. 5(b) measured curve starts at about -1.2 dB near 1375-1380 nm and stays within about -0.2 to -0.7 dB from about 1390 nm on (embedded figure, +/- 0.1 dB); printed claim kept with the band-edge conflict noted (D417).
+    why: 'p.5 Fig. 5(b) (embedded raster img_p05_1, ticks -3 to 3 dB): the measured trace begins near -1.2 dB at the 1375 nm edge, outside the printed < 1 dB. Value kept as printed, conflict noted (D417)'
+  cmp_lit_halir2016_swg_mmi_74p-m3:
+    notes: Printed smaller than 5 deg over 1375-1700 nm (p.6, p.2). Fig. 5(c) measured curve reaches about -9 to -10 deg at the 1375 nm edge and about -8 deg near 1670-1690 nm (embedded figure, +/- 1.5 deg); printed claim kept with the band-edge conflict noted (D417).
+    why: 'p.5 Fig. 5(c) (embedded raster img_p05_1, ticks -20 to 60 deg): the measured phase error lies outside +/- 5 deg at both ends of the measured span. Value kept as printed, conflict noted (D417)'
+add_metrics:
+- metric_id: cmp_lit_halir2016_conv_mmi_design-m8
+  component_id: cmp_lit_halir2016_conv_mmi_design
+  parameter: core_thickness_nm
+  value: 220
+  unit: nm
+  condition: silicon thickness H, shared by the conventional and the broadband design
+  basis: design_target
+  locator: p.3 Table 1
+  notes: Table 1 prints 220 nm once for both designs (spanning entry).
+  why: 'Miss (D153 geometry). p.3 Table 1 gives H = 220 nm as a shared entry for the conventional and the broadband MMI; the batch entered it on the 74-period row only'
+- metric_id: cmp_lit_ortegamonux2013_swg_slot_mmi-m13
+  component_id: cmp_lit_ortegamonux2013_swg_slot_mmi
+  parameter: footprint_um2
+  value: 80.5
+  unit: um2
+  condition: printed footprint 3.5 um x 23 um
+  basis: derived
+  locator: p.1 abstract
+  notes: Product of the printed footprint dimensions (3.5 x 23 um).
+  why: 'Miss. p.1 abstract states the footprint of the slotted MMI as 3.5 um x 23 um; the batch kept it only in the component notes, while other footprints of this batch (lu2015a, guan2017) are entered as footprint_um2'

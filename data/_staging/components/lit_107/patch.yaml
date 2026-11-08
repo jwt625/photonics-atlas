@@ -1,0 +1,106 @@
+# Audit patch lit_107 (fresh-context audit 2026-11-08, DevLog/audits/2026-11-08-lit_107-audit.md).
+# 144 metrics: 137 ok / 7 imprecise / 0 wrong; 22 components: 12 ok / 10 imprecise / 0 wrong, 0 deleted; 3 misses added (3 metrics).
+# Coordinator rulings open: to keep the defaulted platforms (kanazawa2016 inp, trappen2020 imec soi) drop the platform fields of those
+# 3 component ops (Q1). All other ops are basis / condition fixes (D256a), a cited-process note (Contract v7), label wording and figure-read misses.
+components:
+  cmp_lit_kanazawa2016_dml_array_tosa:
+    platform: ''
+    notes: 'Fab: p.2 Sec. 2 states that Fig. 1 shows the array chip the authors fabricated, all authors at NTT (D399, D429 kazama2021 precedent); the p.2 Sec. 1 ''we fabricated'' sentence cites the authors'' earlier reports [12,13] and is not the basis (D399). org_ntt for the pre-2025 NTT Corporation. Platform empty: the paper names InGaAlAs compressive-strain MQWs but never states the substrate or InP (D422, D423; Contract v7). Quarter-wave-shifted gratings, both facets AR coated (p.2). Chip 2.0 x 2.4 mm with a comb-like GND pad wire-bonded to the subcarrier to cut electrical crosstalk (p.2). TOSA (lens, isolator, FPC, K-connector fixture) 14.3 x 7.2 x 6.5 mm (p.4). All TOSA measurements at 55 C chip temperature (p.4). The 4x1 MMI MUX has no stated performance, so no separate row. Not entered (no parameter on laser): measured electrical crosstalk about -20 dB at 16 GHz between adjacent lanes incl. package, FPC and fixture (p.5 Figs. 9-10; background about -30 dB), dynamic extinction ratio > 4 dB (p.6), thermal wavelength shift up to 0.3 nm under simultaneous operation (p.6). Refs. [12,13] are the authors'' earlier reports of the array chip / TOSA; the values here are this paper''s own TOSA measurements.'
+    why: 'p.2 Sec. 1: the intro fabrication sentence carries refs. [12,13] (authors'' earlier reports), so the fab basis is the p.2 Sec. 2 first-person sentence about Fig. 1 (D399); fab org_ntt unchanged. Text grep: no InP or substrate statement anywhere, only InGaAlAs MQWs (p.2 Sec. 2), so platform inp is a default (D422 / D423, Contract v7). Audit Q1'
+  cmp_lit_trappen2020_imec_sip_waveguide:
+    platform: ''
+    notes: 'Test chips fabricated on the standard silicon photonics platform of imec (p.8). Loss extracted from measured reference structures and used to de-embed the probe losses. Platform empty: the paper names the standard imec silicon photonics platform but never states SOI, a buried oxide or the layer stack (D422, D423; Contract v7).'
+    why: p.8 Sec. 4 names only the standard silicon photonics platform of imec; SOI appears only generically (p.1 introduction on grating couplers, one reference title). Platform soi is a default (D422 / D423, Contract v7). Audit Q1
+  cmp_lit_trappen2020_imec_sip_edge_coupler:
+    platform: ''
+    notes: 'Test chips fabricated on the standard silicon photonics platform of imec (p.8). Coupling losses to these couplers are on the probe_sip row. Platform empty: the paper names the standard imec silicon photonics platform but never states SOI, a buried oxide or the layer stack (D422, D423; Contract v7).'
+    why: p.8 Sec. 4 names only the standard silicon photonics platform of imec; SOI appears only generically (p.1 introduction on grating couplers, one reference title). Platform soi is a default (D422 / D423, Contract v7). Audit Q1
+  cmp_lit_trappen2020_probe_triplex:
+    label: 3D-printed TIR-mirror + aspheric-lens probe on SMF for TriPleX Si3N4 edge facets (target MFD 10 um), working distance f = 40 um
+    why: 'p.3-5 Sec. 2, Fig. 1(b) inset: the paper''s f is the working distance from the lens apex to the chip facet, not a focal length; label disambiguated'
+  cmp_lit_trappen2020_probe_inp:
+    label: 3D-printed TIR-mirror + aspheric-lens probe on SMF for InP BH DFB laser facets (target MFD 3 um), working distance f = 20 um
+    why: 'p.3-5 Sec. 2, Fig. 1(b) inset: the paper''s f is the working distance from the lens apex to the chip facet, not a focal length; label disambiguated'
+  cmp_lit_trappen2020_probe_sip:
+    label: 3D-printed TIR-mirror + aspheric-lens probe on SMF for imec SiP edge couplers (target MFD 2.5 um), working distance f = 25 um
+    why: 'p.3-5 Sec. 2, Fig. 1(b) inset: the paper''s f is the working distance from the lens apex to the chip facet, not a focal length; label disambiguated'
+  cmp_lit_luquegonzalez2019_swg_grin_ssc_nominal:
+    process_name: (Applied Nanotools NanoSOI process cited, ref. [27])
+    notes: 'Fab: ''fabricated in a 220 nm thick SOI platform'' (p.4 Sec. 4) citing ref. [27], the NanoSOI fabrication process of Applied Nanotools Inc. (p.7 reference list); a cited process with no fabrication statement naming an org, so fab stays empty and the process goes to process_name (D433, Contract v7). The p.4 BOX / cladding thicknesses carry the same citation (foundry stack, design_target, D402). Authors at Universidad de Malaga and NRC Canada. Garbled text layer flagged on p.7 (references only); values from the clean pages 1-6. Same-layer (single Si layer) spot-size converter, classed waveguide_platform.other (D417 xiao2022 precedent). TE. Measured IL band limited by the 1.51-1.64 um setup; simulation predicts IL < 1 dB over more than 300 nm (to beyond 1.8 um). Feeding a back-to-back grating-coupler pair: behaves like a 150 um linear taper (normalized curves only, Fig. 6(b)); back-reflection 14 % from the lens-grating index mismatch (p.6; no parameter on this class). Table 2 lists L = 15 um and NER 2.90 for this work vs 14 um in the text.'
+    why: 'p.4 Sec. 4 fabrication sentence cites ref. [27], which p.7 lists as the NanoSOI fabrication process of Applied Nanotools Inc.; Contract v7: a process only cited goes into process_name as a cited-process note with fab empty. The batch notes did not name the process'
+  cmp_lit_luquegonzalez2019_swg_grin_ssc_dc_plus10:
+    process_name: (Applied Nanotools NanoSOI process cited, ref. [27])
+    notes: 'Fab: ''fabricated in a 220 nm thick SOI platform'' (p.4 Sec. 4) citing ref. [27], the NanoSOI fabrication process of Applied Nanotools Inc. (p.7 reference list); a cited process with no fabrication statement naming an org, so fab stays empty and the process goes to process_name (D433, Contract v7). The p.4 BOX / cladding thicknesses carry the same citation (foundry stack, design_target, D402). Authors at Universidad de Malaga and NRC Canada. Garbled text layer flagged on p.7 (references only); values from the clean pages 1-6. Same-layer (single Si layer) spot-size converter, classed waveguide_platform.other (D417 xiao2022 precedent). Fabrication-tolerance sibling of the nominal design (p.4).'
+    why: 'p.4 Sec. 4 fabrication sentence cites ref. [27], which p.7 lists as the NanoSOI fabrication process of Applied Nanotools Inc.; Contract v7: a process only cited goes into process_name as a cited-process note with fab empty. The batch notes did not name the process'
+  cmp_lit_luquegonzalez2019_swg_grin_ssc_dc_minus10:
+    process_name: (Applied Nanotools NanoSOI process cited, ref. [27])
+    notes: 'Fab: ''fabricated in a 220 nm thick SOI platform'' (p.4 Sec. 4) citing ref. [27], the NanoSOI fabrication process of Applied Nanotools Inc. (p.7 reference list); a cited process with no fabrication statement naming an org, so fab stays empty and the process goes to process_name (D433, Contract v7). The p.4 BOX / cladding thicknesses carry the same citation (foundry stack, design_target, D402). Authors at Universidad de Malaga and NRC Canada. Garbled text layer flagged on p.7 (references only); values from the clean pages 1-6. Same-layer (single Si layer) spot-size converter, classed waveguide_platform.other (D417 xiao2022 precedent). Fabrication-tolerance sibling of the nominal design (p.4).'
+    why: 'p.4 Sec. 4 fabrication sentence cites ref. [27], which p.7 lists as the NanoSOI fabrication process of Applied Nanotools Inc.; Contract v7: a process only cited goes into process_name as a cited-process note with fab empty. The batch notes did not name the process'
+  cmp_lit_luquegonzalez2019_linear_taper_150um:
+    process_name: (Applied Nanotools NanoSOI process cited, ref. [27])
+    notes: 'Fab: ''fabricated in a 220 nm thick SOI platform'' (p.4 Sec. 4) citing ref. [27], the NanoSOI fabrication process of Applied Nanotools Inc. (p.7 reference list); a cited process with no fabrication statement naming an org, so fab stays empty and the process goes to process_name (D433, Contract v7). The p.4 BOX / cladding thicknesses carry the same citation (foundry stack, design_target, D402). Authors at Universidad de Malaga and NRC Canada. Garbled text layer flagged on p.7 (references only); values from the clean pages 1-6. Same-layer (single Si layer) spot-size converter, classed waveguide_platform.other (D417 xiao2022 precedent). Reference structure on the same chips; end width not printed beyond the comparison with the 15 um converter (p.4, p.6).'
+    why: 'p.4 Sec. 4 fabrication sentence cites ref. [27], which p.7 lists as the NanoSOI fabrication process of Applied Nanotools Inc.; Contract v7: a process only cited goes into process_name as a cited-process note with fab empty. The batch notes did not name the process'
+metrics:
+  cmp_lit_purnawirman2017_qps_dfb_1536-m5:
+    basis: author_estimate
+    notes: Printed 0.9 mm-1 (mm-1 -> cm-1). Design grating strength set by the side-piece gap / design (p.5-7); no measurement of kappa is shown, so author_estimate kept through the unit conversion (rule 4, D256a).
+    why: 'p.5 Sec. 3.1 / p.7 Sec. 3.2: kappa is a design value (adjusted by the gap distance, or set for the DPS design); design-stated performance is author_estimate (rule 4, D82) and D256a keeps that basis after a unit conversion. kanazawa2016 m19 in the same batch and 19 merged design kappa rows use author_estimate'
+  cmp_lit_purnawirman2017_qps_dfb_1566-m6:
+    basis: author_estimate
+    notes: Printed 0.9 mm-1 (mm-1 -> cm-1). Design grating strength set by the side-piece gap / design (p.5-7); no measurement of kappa is shown, so author_estimate kept through the unit conversion (rule 4, D256a).
+    why: 'p.5 Sec. 3.1 / p.7 Sec. 3.2: kappa is a design value (adjusted by the gap distance, or set for the DPS design); design-stated performance is author_estimate (rule 4, D82) and D256a keeps that basis after a unit conversion. kanazawa2016 m19 in the same batch and 19 merged design kappa rows use author_estimate'
+  cmp_lit_purnawirman2017_qps_dfb_1596-m5:
+    basis: author_estimate
+    notes: Printed 0.9 mm-1 (mm-1 -> cm-1). Design grating strength set by the side-piece gap / design (p.5-7); no measurement of kappa is shown, so author_estimate kept through the unit conversion (rule 4, D256a).
+    why: 'p.5 Sec. 3.1 / p.7 Sec. 3.2: kappa is a design value (adjusted by the gap distance, or set for the DPS design); design-stated performance is author_estimate (rule 4, D82) and D256a keeps that basis after a unit conversion. kanazawa2016 m19 in the same batch and 19 merged design kappa rows use author_estimate'
+  cmp_lit_purnawirman2017_dps_dfb_lps4mm-m7:
+    basis: author_estimate
+    notes: Printed 0.7 mm-1 (mm-1 -> cm-1). Design grating strength set by the side-piece gap / design (p.5-7); no measurement of kappa is shown, so author_estimate kept through the unit conversion (rule 4, D256a).
+    why: 'p.5 Sec. 3.1 / p.7 Sec. 3.2: kappa is a design value (adjusted by the gap distance, or set for the DPS design); design-stated performance is author_estimate (rule 4, D82) and D256a keeps that basis after a unit conversion. kanazawa2016 m19 in the same batch and 19 merged design kappa rows use author_estimate'
+  cmp_lit_purnawirman2017_dps_dfb_lps2mm-m4:
+    basis: author_estimate
+    notes: Printed 0.7 mm-1 (mm-1 -> cm-1). Design grating strength set by the side-piece gap / design (p.5-7); no measurement of kappa is shown, so author_estimate kept through the unit conversion (rule 4, D256a).
+    why: 'p.5 Sec. 3.1 / p.7 Sec. 3.2: kappa is a design value (adjusted by the gap distance, or set for the DPS design); design-stated performance is author_estimate (rule 4, D82) and D256a keeps that basis after a unit conversion. kanazawa2016 m19 in the same batch and 19 merged design kappa rows use author_estimate'
+  cmp_lit_kanazawa2016_dml_array_tosa-m4:
+    temperature_k: '328.15'
+    notes: Lane not specified ('these DFB lasers'). Chip temperature 55 C for all TOSA measurements (p.4 Sec. 4).
+    why: 'p.4 Sec. 4: the chip temperature was 55 C for all the measurements described after Fig. 7, which include the p.5 RIN statement; the other TOSA rows carry 328.15 K'
+  cmp_lit_trappen2020_probe_triplex-m2:
+    wavelength_inferred: 'true'
+    notes: Wavelength not printed with the SMF reference measurement; 1550 nm is the wavelength stated for the TriPleX loop-back measurement in the preceding sentence (p.7), so inferred (rule 8).
+    why: 'p.7 Sec. 4: 1550 nm is stated for the loop-back incoupling / outcoupling; the probe-to-SMF reference sentence that follows states no wavelength'
+add_metrics:
+- metric_id: cmp_lit_simpanen2017_vcsel_1060_4um-m11
+  component_id: cmp_lit_simpanen2017_vcsel_1060_4um
+  parameter: center_wavelength_nm
+  value: 1063.5
+  unit: nm
+  qualifier: approx
+  temperature_k: 298.15
+  condition: emission peak, 25 C ambient, 2.5 mA
+  basis: extracted_from_figure
+  locator: p.1 Fig. 2(b)
+  notes: 'Read off the Fig. 2(b) spectrum: embedded raster of 166 px across about 1053-1072 nm (about 0.12 nm per px), calibrated on the vector tick labels 1055-1070 nm (4.08 pt/nm); reading uncertainty about +/- 0.3 nm. Nominal 1060 nm in the title.'
+  why: Miss. p.1 Fig. 2(b) prints the single-mode spectra at 25 C / 2.5 mA and 85 C / 3.5 mA on a labelled wavelength axis; the batch report says the render is too small, but the PDF vector tick labels and the embedded raster resolve the peak to about +/- 0.3 nm (25 C peak column at about 1063.5 nm)
+- metric_id: cmp_lit_simpanen2017_vcsel_1060_4um-m12
+  component_id: cmp_lit_simpanen2017_vcsel_1060_4um
+  parameter: center_wavelength_nm
+  value: 1069.2
+  unit: nm
+  qualifier: approx
+  temperature_k: 358.15
+  condition: emission peak, 85 C ambient, 3.5 mA
+  basis: extracted_from_figure
+  locator: p.1 Fig. 2(b)
+  notes: 'Read off the Fig. 2(b) spectrum: embedded raster of 166 px across about 1053-1072 nm (about 0.12 nm per px), calibrated on the vector tick labels 1055-1070 nm (4.08 pt/nm); reading uncertainty about +/- 0.3 nm. Nominal 1060 nm in the title.'
+  why: 'Miss. p.1 Fig. 2(b): 85 C / 3.5 mA peak column at about 1069.2 nm (same calibration as m11)'
+- metric_id: cmp_lit_trappen2020_probe_sip-m10
+  component_id: cmp_lit_trappen2020_probe_sip
+  parameter: beam_diameter_um
+  value: 23
+  unit: um
+  condition: beam diameter in the cross-sectional plane at the lens apex S3; design for target MFD 2.5 um and working distance 25 um
+  basis: simulated
+  locator: p.7 Sec. 3
+  notes: Design consequence of the Gaussian-beam lens design (high NA for the 2.5 um target, 25 um working distance); diameter definition (1/e2) not stated with the value.
+  why: Miss. p.7 Sec. 3 states the 23 um beam diameter at the lens apex of the SiP probe design; beam_diameter_um is allowed on micro_optics; design-stated computed value -> simulated (D82a)

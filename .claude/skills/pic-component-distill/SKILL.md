@@ -5,17 +5,25 @@ description: Distill photonic integrated circuit component data (couplers, split
 
 # PIC component distillation
 
-Input: one source already in the registry (`data/registry/sources.csv`, e.g. `eo:<paper_id>`) and its cached text.
+Input: one source already in the registry (`data/registry/sources.csv`: `lit:<paper_id>` for this repo's literature
+corpus; also `eo:`, `pk:`, `ofc2026:`) and its cached text.
 Output: rows for `components.csv` and `component_metrics.csv` (staging directory named by the task), plus a short
 per-paper report. Read before first use: `data/schema/components.schema.yaml` (columns, enums, rules c1-c6),
 `data/schema/component_parameters.yaml` (classes, subtypes, parameters, units, conventions),
-`DevLog/DevLog-002-p1-component-atlas.md` (decisions D30-D50).
+`DevLog/DevLog-002-p1-component-atlas.md` (decisions D30-D84), and for `lit` batches the DevLog-007 decision tables.
+
+The component rows also feed other views: the fab / facility orgs and `process_name` feed the foundry PDK benchmark
+(DevLog-014 / DevLog-015) and the org hub (DevLog-010); author affiliations come from the separate header batches
+(DevLog-011) and vendor / product usage from the supply scan (DevLog-003). The contract for those fields is in
+"Contract v7" below; the coordinator steps are in "Coordinator workflow".
 
 ## Repo layout you need
 
 - `data/registry/`: shared registry. `sources.csv` (source_id, access, redistribution), `organizations.csv` +
   `org_aliases.csv` (org ids for `fab_org_ids` / `facility_org_ids`). Read-only for you.
 - `data/components/`: merged component tables. Read-only for you; write only in your staging directory.
+- `lit` inputs (this repo, read-only): `references/<paper_id>/text.md`, `figures/page_NN.png`, `source.json` (see
+  Contract v6).
 - EO atlas inputs (sibling repo `../eo-modulator-atlas`, read-only): `references/<paper_id>/text.md` (page-delimited by
   `<!-- page N -->`), `references/<paper_id>/figures/page_NN.png` and `img_pNN_k.png`, `data/devices.csv` (EO device
   rows: device_id, physical_device_id, waveguide_platform, wavelength_nm and loss / Q / geometry columns).
@@ -117,7 +125,7 @@ per-paper report. Read before first use: `data/schema/components.schema.yaml` (c
   (best measured primary metric with enough geometry for a to-scale top view), across >= 2 platforms where possible;
   record the criterion, rank and rationale.
 
-## Contract v6 additions: `lit` corpus batches (DevLog-007 D150-D421, 2026-10-30)
+## Contract v6 additions: `lit` corpus batches (DevLog-007 D150-D523, 2026-10-30, extended through 2026-11-06)
 
 - Inputs: `references/<paper_id>/text.md` (`<!-- page N -->`), `figures/page_NN.png`, `source.json`; source rows
   `lit:<paper_id>`; ids `cmp_lit_<paper_id>_<label>`; `host_device_ids` empty. `garbled_text_layer` in source.json:
@@ -145,6 +153,48 @@ per-paper report. Read before first use: `data/schema/components.schema.yaml` (c
   why, missing fab / facility orgs (check `organizations.csv` / `org_aliases.csv` first; name as printed + locator),
   judgment calls, registry gaps with the skipped value + locator and a proposed definition. Final message 5-10 lines.
 
+## Contract v7 additions: foundry, process, vendor and affiliation data (2026-11-08, DevLog-007 D531)
+
+The fab / facility orgs and `process_name` of component rows feed the foundry PDK benchmark (`/benchmark`,
+DevLog-014 / DevLog-015) and the org hub; a wrong or guessed fab moves a value into the wrong foundry column.
+
+- Fab = what the paper states for this component (rule 12, D80b, D84). Name the org with the process: "on imec's 300-mm
+  platform", "taped out with" a foundry flow, a named foundry process (D455, D453, D470); a passive sentence that names
+  the org ("fabricated on imec's 300-mm platform") counts. Passive "was fabricated" with no org named (the authors'
+  own org is not inferred, D80b) or a cited PDK with no fab statement leaves fab empty (D433; lit_42 audit
+  morichetti2021).
+- A renamed org's former name maps by alias (TowerJazz / Tower-Jazz -> `org_tower_semiconductor`, D912, D934);
+  acquired companies and facilities stay as printed (org_oclaro D515, org_elenion D453, SNSF / SNF D80d, NCTU D458).
+  A missing alias goes in the report, never a new id.
+- MPW access providers and brokers named for fabrication (CMC, TSRI, Europractice, OpSIS, MOSIS) are fab orgs next to
+  the foundry (D83d, D398, D420, D439, D458, D470). The benchmark drops brokers as columns (D900, view only).
+- Foundry chip post-processed by the authors (first-person "we etched / released / bonded"): both the foundry and the
+  authors' org are fab (D440, D419 precedent); note what was post-processed (the coordinator may list such a row in
+  `exclude_values` of `config/benchmark.yaml`, D933).
+- Fab is per component: an org named for one part's process goes on that part's rows only (D515, D463), assembled
+  rows only where stated (D399); a photonic wire bond or assembly step with no named maker leaves fab empty (D450).
+- Staff thanks for help with device fabrication at an org: borderline fab kept with a note (D84b, D463, D469); staff
+  thanks never set a facility (D84b, D72). An acknowledgment naming where samples were processed is a stated place:
+  fab (D448); a named shared facility there is also `facility_org_ids` (D448, D470).
+- `process_name` = the PDK / process as printed ("imec MPW, 193 nm DUV PDK", "IBM 12SOI", "45RFSOI", "PH18DA",
+  "COUPE"); never a guessed or generic word ("passive", "standard CMOS" with no node or flow). Printed wording that
+  names a node or flow without a foundry is kept ("commercial 180 nm CMOS process", D536). Named process with no named foundry: keep
+  `process_name`, fab empty, and say so in notes (lit_24 audit, gentry2015); a PDK only cited:
+  `process_name` "(<foundry> PDK cited, ref. N)" style note, fab empty. Shown in the benchmark tooltip.
+- Platform the paper does not state stays empty (D422 / D423); the benchmark places such rows with
+  `family_override` in `config/benchmark.yaml` (D914, D930, D933). Distillers never default a platform for it.
+- Never fill fab from author affiliation alone (D80b; a first-person fabrication statement is rule 12). The
+  affiliation-foundry rule (NVIDIA / Broadcom / Lightmatter / Ayar Labs ->
+  TSMC, PsiQuantum -> GF, D925 / D929) lives only in `config/benchmark.yaml` and applies only to rows with no fab and
+  no facility. `private_values` and `customer_spec` overlay values (D910, D927) are config-only, never data rows.
+- Vendors: a purchased device under test -> vendor as fab (rule 12); wafer / film / material suppliers (commercial
+  SOI, LNOI, fibers, epoxies) -> component notes, name as printed (D428, D431, D439); their layer thicknesses
+  `design_target` (D161, D402). Setup instruments are not rows (rule 13). Vendor / product usage facts are not distiller
+  output: they come from the supply scan and its review (DevLog-003 D205, D207, D328; `REVIEW_CONTRACT.md`).
+- Affiliations are not distiller output: the header batches (`data/_staging/people/lit_headers/CONTRACT.md` +
+  `ofc_headers/CONTRACT.md`, DevLog-011) record authors and printed orgs. Distillers report missing fab / facility orgs
+  in `BATCH_REPORT.md` only (name as printed + locator + fab or facility role), never edit `org_requests.csv`.
+
 ## Audit workflow (fresh context, per batch; D50, D391)
 
 - Read-only on the real batch. Confirm each cached text is its source row's paper (page-1 title). Check every metric
@@ -158,29 +208,57 @@ per-paper report. Read before first use: `data/schema/components.schema.yaml` (c
 - Validate on a scratchpad copy only: `patch_component_staging.py <copy> <batch>/patch.yaml`, re-run (0 changes),
   `merge_component_staging.py <copy> --dry-run` (0 errors). Privacy grep of the outputs before finishing.
 
-## Coordinator workflow (D390, D391, D415, D421)
+## Coordinator workflow (D390, D391, D415, D421, D457, D512, D530, D531)
+
+Decision ids are one sequence across DevLogs: take the next free id in the lit-ingest range (D5xx; D500-D510 belong
+to DevLog-013; `grep -ho '^| D5[0-9]*' DevLog/*.md | sort -V | tail -1`).
 
 1. New cached PDFs: `lit_extract.py --pending` (or `--paper-ids`), page-1 title / correction check,
-   `lit_register_sources.py`, `validate_db.py`.
+   `lit_register_sources.py`, `validate_db.py`. Another process may be fetching or extracting at the same time:
+   extract / register only what is on disk, and snapshot the paper list.
 2. Batches `lit_NN` of <= 8-10 papers grouped by `primary_class` family (amplifier / frequency_converter /
    nonreciprocal; laser / chip_chip_coupler / micro_optics / free_space_emitter; phase_shifter / photodetector /
    waveguide_platform; resonator / splitter / mode_converter / reflector; crossing / fiber_chip_coupler /
    fiber_interface / polarization; wdm / switch_fabric), balanced by pages; table + decision in DevLog-007 before
-   dispatch. Header batches `ofc_headers.py queue --corpus lit` (DevLog-011 contract) in parallel.
+   dispatch.
 3. One distill subagent per batch, then one fresh-context audit per batch, coordinator rulings recorded as decisions,
    then per batch: backup zip of `data/components/` (once), `patch_component_staging.py` (re-run 0 changes),
-   `merge_component_staging.py --dry-run`, merge; merges serialized. At most 10 subagents at once.
-4. After the last merge: `build_views.py`, app `pnpm build` + `pnpm test` (the git-ignored `app/build` is checked by
-   `test_no_review_ids_in_committed_views`), `validate_db.py`, ruff, mypy, pytest, privacy scan (e-mail, street,
+   `merge_component_staging.py --dry-run`, merge; merges serialized. At most 10 subagents at once (all streams
+   together).
+4. Header batches (affiliations, DevLog-011), in parallel with step 3: `ofc_headers.py queue --corpus lit --size N`
+   (incremental: every `lit` paper in no `lit_hNN/papers.csv`; N about 20-35); one extractor per batch under
+   `data/_staging/people/lit_headers/CONTRACT.md` + `ofc_headers/CONTRACT.md` (tools: `ofc_headers.py show <batch>
+   --corpus lit --codes <id> [--pdf]`), `ofc_headers.py check lit_hNN --corpus lit` to 0 errors, one fresh audit per
+   batch (`DevLog/audits/<date>-lit-header-batch-hNN-audit.md`), fixes as decisions. After the last batch:
+   `ofc_headers.py aggregate --corpus lit` (writes `lit_headers/org_requests.csv`), `check all --corpus lit
+   --dry-run`, backup zip of `data/people/`, `build_people.py --dry-run`, `build_people.py` (a second run is
+   byte-identical), `derive_transitions.py`.
+5. Vendor / product scan (DevLog-003): `scan_vendor_models.py --only <the round's lit ids> --batch <name>
+   --batch-new-only` writes `data/_staging/supply/products/<name>/candidates.csv` + `sources.csv`; one reviewer per
+   batch writes only `review.csv` under `data/_staging/supply/products/REVIEW_CONTRACT.md` + `COORD_RULINGS.md`;
+   `build_supply_staging.py <name> --check-review`, then a zip backup and `build_supply_staging.py <name> --merge`,
+   merges sequential (D299, D345). Most `lit` sources up to 2026-11-08 were never scanned (backlog; coordinator policy: ask
+   the owner before a full-corpus split run, which is the D328 mode).
+6. Org round: missing fab / facility orgs from batch reports and audits, plus header `org_requests.csv` strings ->
+   `data/_staging/org_curation/batch_N/decisions.csv` (columns in `data/_staging/org_curation/INSTRUCTIONS.md`, optional
+   columns incl. `origin` in the `merge_org_curation.py` docstring; origin `lit`,
+   evidence `lit:<id> p.N`; names as printed unless an exact ROR record exists), `merge_org_curation.py --dry-run`,
+   then the real run; then a component fix batch (`fix_<name>_orgs`, `patch.yaml`, `merge_component_staging.py
+   --replace`) for rows waiting on the new org ids (D912, D934). Run it when the owner asks or the queue is large.
+7. After the last merge: `build_views.py`; `build_benchmark.py` then, in `app/`, `node
+   scripts/build-benchmark-html.mjs` (after the people rebuild: the affiliation-foundry rule reads
+   `data/people/affiliation_observations.csv`); app `pnpm build` + `pnpm test` (the git-ignored `app/build` is checked
+   by `test_no_review_ids_in_committed_views`), `validate_db.py`, ruff, mypy, pytest, privacy scan (e-mail, street,
    postal / P.O. box, local paths) of every changed file.
 
 ## Workflow (per paper)
 
-1. Find the source row (`eo:<paper_id>`) in `sources.csv`; check `data/components/components.csv` for existing rows.
+1. Find the source row (`lit:<paper_id>`, `eo:<paper_id>`, ...) in `sources.csv`; check
+   `data/components/components.csv` for existing rows.
 2. Read the whole `text.md` (methods, results, appendices, captions, acknowledgments, author contributions). List
    every non-EO component with a quantitative result.
 3. For each component: `class.subtype`, `platform`, `core_material`, `cladding` (only if stated), `test_structure`,
-   `host_device_ids`, `fab_org_ids`, `facility_org_ids`.
+   `host_device_ids`, `fab_org_ids`, `facility_org_ids`, `process_name` (Contract v7).
 4. Metric rows: parameter (exact registry name), value, unit (exact registry unit), conditions (wavelength_nm or band,
    wavelength_inferred, polarization, temperature_k, bias_v, ref_plane, condition text incl. test fiber), scope /
    includes / excludes, statistic + n_samples, method, basis, locator, notes.

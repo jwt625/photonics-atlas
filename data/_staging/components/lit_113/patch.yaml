@@ -1,0 +1,34 @@
+# Audit patch lit_113 (fresh-context audit 2026-11-08, DevLog/audits/2026-11-08-lit_113-audit.md).
+# 236 metrics: 231 ok / 5 imprecise / 0 wrong; 29 components: 26 ok / 3 imprecise / 0 wrong, 0 deleted; 0 misses added.
+# Coordinator rulings open: to keep radosavljevic2017 gc_ge_on_soi fab empty drop that component op (Q2); to keep the
+# sacher2017 Si rib row as entered drop the si_rib_wg component op and the si_rib_wg-m1 op (Q3). All other ops are
+# figure re-reads, a locator fix and conflict notes.
+components:
+  cmp_lit_radosavljevic2017_gc_ge_on_soi:
+    fab_org_ids: org_ghent_university
+    notes: 'Fab: first-person fabrication step: the authors locally under-etched the grating (HF through openings in the Si layer, p.7 Sec. 2.4); all authors at the Ghent University - imec Photonics Research Group (p.1), so fab = Ghent University (D80b first-person account, D154 parent org; registry precedent desmet2020 / mangal2020). The rest of the process is passive voice: EBL (positive resist, lift-off Ti/Cr mask), one-step CF4/H2 plasma etch of couplers and waveguides, mask removed in HF (p.6-7). The authors'' earlier conference report on the Ge-on-Si coupler (ref. 15) is extended here (D408). Measured efficiency per Eq. (2): two couplers + 3 dB, corrected for the TM fraction and fiber length (p.5-6). Design: uniform + apodized section B (etched width we from 1.4 um to 0.5 um, wf from Eq. (1)), section A with na = 2 grooves, p0 1.8 um, dc0 0.5 (p.4, p.7). Si layer 3.2 um (bottom Si cladding; no parameter). Commercial SOI wafers fix the 2 um BOX (p.7, D402). Thickness tolerances: up to 10 % lost for Ge or Si +/- 50 nm, up to 5 % for SiO2 +/- 100 nm (simulated, Fig. 7).'
+    why: 'p.7 Sec. 2.4: the Ge-on-SOI under-etch is stated in the first person, and all authors sit at one group (p.1 affiliation, Ghent University - imec PRG). The batch read the process as passive only (D80b). Rule 12 / D80b first-person account; D154 parent org; merged Ghent rows use org_ghent_university. The Ge-on-Si row stays empty (passive voice only, p.6-7). Audit Q2, droppable'
+  cmp_lit_sacher2017_si_rib_wg:
+    notes: 'Fab: the platform was realized on 8 in SOI substrates fabricated at the A*STAR Institute of Microelectronics (p.4 Sec. 1); DUV lithography + RIE, LPCVD SiN layers, SiO2 spacers by deposition, back etch and CMP (p.4 Sec. 2). No process / PDK name printed. Loss method: Sec. 3 states that the cutback method was used for the loss measurements of the section, which includes the waveguide propagation losses (p.7); the Si rib sentence itself names neither method nor polarization (the paragraph reports TE spectra for the SiN waveguides). p.7 notes agreement with ref. [24] (comparison only).'
+    why: 'Follows the si_rib_wg-m1 change: p.7 Sec. 3 opening paragraph states cutback for the loss measurements of the whole section (propagation, transition, crossing losses). Audit Q3'
+  cmp_lit_chen2018_star_10x10_design:
+    notes: 'Design only (p.6, Fig. 8): the paper takes 10 channels at 18 deg as the -30 dB crosstalk limit for w7 = 6 um. 2D-FDTD averages over 1500-1600 nm. Fig. 8 has simulated markers at 3, 4, 5, 6, 9, 12, 15 and 18 channels, none at 10: the 10-channel values are the authors'' statement between the 9- and 12-channel points. Linear interpolation of the markers gives about -0.31 dB and -32 dB at 10 channels; the printed 90.2 % (-0.45 dB) is lower than the plotted line, the printed -32 dB matches (D417).'
+    why: 'p.6 Fig. 8 re-read at 400 dpi: markers at 3-6, 9, 12, 15, 18 channels (9: about -0.19 dB / -35.6 dB; 12: about -0.54 dB / -24.8 dB); no 10-channel point. Conflict note only, rows unchanged'
+metrics:
+  cmp_lit_sacher2017_si_rib_wg-m1:
+    method: cutback
+    polarization: unspecified
+    notes: Printed 0.8 - 1.5 dB/cm over the > 1580 nm range of the preceding sentence (upper end = measured range 1620 nm). Polarization not stated in the sentence (the paragraph reports TE spectra for the SiN waveguides). Method from the Sec. 3 opening statement (cutback for the loss measurements).
+    why: 'p.7 Sec. 3: the cutback method was used for the loss measurements of the section (method was unspecified); the Si rib sentence states no polarization, and the batch note itself says so while the row carried te (rule 1: no inferred polarization). Audit Q3'
+  cmp_lit_sacher2017_trans_si_sin2-m1:
+    locator: p.8 Sec. 3.2; p.1 Abstract; p.9 Fig. 5(c)
+    why: 'The < 150 mdB sentence is on text page 8 (Sec. 3.2), not page 9; Fig. 5(c) is on page 9'
+  cmp_lit_sacher2017_crossing_w1p5-m1:
+    notes: 'Printed < 2.6 mdB (mdB -> dB, D256). Die 1 is the paper''s default die (Fig. 5 caption). The abstract (< 2.1 mdB) and p.4 (0.28 to 2.1 mdB) give a 1480-1620 nm overpass bound that matches dies 2-4 but not die 1; p.12 itself confirms 2.0-2.6 mdB upper bounds (D417).'
+    why: 'Missed conflict: p.1 Abstract and p.4 Sec. 1 give < 2.1 mdB over 1480-1620 nm, while p.12 Sec. 3.3 gives < 2.6 mdB for die 1 (the paper''s default die, p.9 Fig. 5 caption) and 2.0-2.6 mdB upper bounds across dies'
+  cmp_lit_sacher2017_crossing_w0p9-m2:
+    notes: Fig. 7(d) blue (0.9 um) trace maximum read about 3.85 mdB (+/- 0.1 mdB) near 1523-1527 nm, with a plateau of about 3.8 mdB from about 1509 nm; fitted value, not a confidence bound. Below the 1.5 um trace in TM (which peaks at about 7.2 mdB near 1595 nm).
+    why: 'p.11 Fig. 7(d) re-read at 600 dpi (0.001-0.008 dB axis, 1480-1620 nm): the blue maximum is about 3.84 mdB at about 1527 nm (also about 3.8 mdB at 1509-1511 and 1523 nm), not near 1545 nm as the note said (about 3.3 mdB there). Value 0.0039 approx stays within its reading uncertainty'
+  cmp_lit_chen2018_star_10x10_design-m1:
+    notes: 'Printed average transmission more than 90.2 % (-0.45 dB). Fig. 8 has no 10-channel marker (points at 3-6, 9, 12, 15, 18 channels); linear interpolation between the 9- and 12-channel markers gives about -0.31 dB, so the printed value is lower than the plotted line (D417; component notes).'
+    why: 'p.6 Fig. 8 re-read: no simulated point at 10 channels; the printed -0.45 dB does not match the interpolated line (about -0.31 dB), while the printed -32 dB crosstalk does. Note only'

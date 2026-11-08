@@ -1,0 +1,74 @@
+# Audit patch lit_106 (fresh-context audit 2026-11-08, DevLog/audits/2026-11-08-lit_106-audit.md).
+# 156 metrics: 150 ok / 6 imprecise / 0 wrong; 23 components: 23 ok / 0 imprecise / 0 wrong, 0 deleted; 5 geometry misses added.
+# Ops: 6 metric field changes (structured wavelength for printed approximate wavelengths, D393; one D256a note) and 5 add_metrics
+# (D153 layout geometry). Coordinator rulings open (Q1-Q5 in the audit) need no patch op unless the coordinator overrules a keep.
+metrics:
+  cmp_lit_kiani2023_tm_disk_r20-m7:
+    wavelength_nm: 1510
+    why: 'p.7 Sec. 4.1 prints the FSR "around 1510 nm": a stated approximate wavelength (D393), so it goes into wavelength_nm (not inferred); the batch kept it only in the condition text'
+  cmp_lit_kiani2023_tm_disk_r20-m8:
+    wavelength_nm: 1900
+    why: 'p.7 Sec. 4.1 prints the FSR "at the ~1900 nm laser wavelength": stated approximate wavelength (D393), structured field set as on the 1900 nm Q rows of the same component (m4-m6)'
+  cmp_lit_kiani2023_tm_disk_r30-m7:
+    wavelength_nm: 1510
+    why: 'p.7 Sec. 4.1 prints the FSR "around 1510 nm": stated approximate wavelength (D393); the batch kept it only in the condition text'
+  cmp_lit_kiani2023_tm_disk_r30-m8:
+    wavelength_nm: 1900
+    why: 'p.7 Sec. 4.1 prints the FSR "at the ~1900 nm laser wavelength": stated approximate wavelength (D393), as on the 1900 nm Q rows of the same component (m4-m6)'
+  cmp_lit_soltanian2022_dual_wtl-m4:
+    wavelength_nm: 1530
+    why: 'p.7 Sec. 4: the frequency-noise measurement behind the about 20 kHz Lorentzian linewidth is taken "while the lasing wavelength is 1530 nm"; the batch kept the wavelength only in the condition text'
+  cmp_lit_ferrotti2016_grating_coupler-m2:
+    notes: 'Printed 1.3 um ("centered at 1.3 um", p.14 and p.17-18), stored in nm; author_estimate kept after the unit conversion (D256a). Origin not stated (no grating-coupler spectrum shown).'
+    why: 'p.14 Sec. 3.4 prints the peak wavelength only as 1.3 um; D256a requires the printed value and the conversion in notes for an author_estimate row stored in another unit (the batch notes said only "Origin not stated")'
+add_metrics:
+- metric_id: cmp_lit_kiani2023_edge_coupler-m5
+  component_id: cmp_lit_kiani2023_edge_coupler
+  parameter: core_thickness_nm
+  value: 220
+  unit: nm
+  condition: Si device layer of the inverse taper (foundry SOI stack)
+  basis: derived
+  locator: p.2 Sec. 2
+  notes: Printed 0.22 um, converted (D157); same layer as the microdisks (core_thickness_nm 220 on cmp_lit_kiani2023_tm_disk_r20 / _r30).
+  why: 'Miss (D153). p.2 Sec. 2 states the 0.22 um Si waveguide layer in which the inverse tapers are patterned; core_thickness_nm is the required cross-section dimension of the edge_taper layout template and the batch kept it only in core_material'
+- metric_id: cmp_lit_kiani2023_edge_coupler-m6
+  component_id: cmp_lit_kiani2023_edge_coupler
+  parameter: box_thickness_um
+  value: 2
+  unit: um
+  condition: buried oxide under the taper (deep trench etched into the BOX and handle at the chip edge)
+  basis: design_target
+  locator: p.2 Sec. 2
+  notes: Foundry stack thickness (D402).
+  why: 'Miss (D153). p.2 Sec. 2 states the 2 um BOX of the AMF SOI stack; optional cross-section dimension of the edge_taper template, already entered on the disk rows of the same chip'
+- metric_id: cmp_lit_coratozanarella2026_mrr-m8
+  component_id: cmp_lit_coratozanarella2026_mrr
+  parameter: heater_thickness_nm
+  value: 100
+  unit: nm
+  condition: platinum microheater of the MRR (the same lift-off layer forms the phase and tunable-coupler heaters)
+  basis: design_target
+  locator: p.8 Sec. 5.1
+  notes: Pt, metal lift-off with contact photolithography and sputtering (p.8). Heater width and position not stated.
+  why: 'Miss (D153). p.8 Sec. 5.1 states 100 nm thick Pt microheaters; the MRR carries a microheater (p.2 Sec. 2, Fig. 2(a)) and heater_thickness_nm is allowed on resonator'
+- metric_id: cmp_lit_ferrotti2016_iii_v_si_mode_transformer-m10
+  component_id: cmp_lit_ferrotti2016_iii_v_si_mode_transformer
+  parameter: box_thickness_um
+  value: 1
+  unit: um
+  condition: buried oxide of the 8 in SOI wafers (500 nm Si, HR handle)
+  basis: design_target
+  locator: p.18 Sec. 4
+  notes: Purchased-wafer thickness (SOITEC, D402). The p.13 electrode simulation of the stand-alone MZM assumes an 800 nm BOX; the fabrication section prints 1 um (D417, noted, fabrication value entered).
+  why: 'Miss (D153). p.18 Sec. 4 states the 1 um BOX of the wafers on which the transformer is built; optional cross-section dimension of the transition_bilayer template'
+- metric_id: cmp_lit_ferrotti2016_si_thickness_transition-m10
+  component_id: cmp_lit_ferrotti2016_si_thickness_transition
+  parameter: box_thickness_um
+  value: 1
+  unit: um
+  condition: buried oxide of the 8 in SOI wafers (500 nm Si, HR handle)
+  basis: design_target
+  locator: p.18 Sec. 4
+  notes: Purchased-wafer thickness (SOITEC, D402). The p.13 electrode simulation of the stand-alone MZM assumes an 800 nm BOX; the fabrication section prints 1 um (D417, noted, fabrication value entered).
+  why: 'Miss (D153). p.18 Sec. 4 states the 1 um BOX of the wafers on which the transition is built; optional cross-section dimension of the transition_bilayer template'

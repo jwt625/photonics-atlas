@@ -8,7 +8,7 @@ means not reported. Do not use git. No network requests of any kind.
 1. `.claude/skills/pic-component-distill/SKILL.md` (binding).
 2. `data/schema/component_parameters.yaml` (classes, parameters, units, conventions) and
    `data/schema/components.schema.yaml` (columns, enums, rules).
-3. `DevLog/DevLog-002-p1-component-atlas.md` (decisions D30-D40).
+3. `DevLog/DevLog-002-p1-component-atlas.md` (decisions D30-D84); for `lit` batches also the DevLog-007 decision tables.
 
 ## Your batch
 
@@ -50,3 +50,6 @@ For batches named `lit_NN` the papers are this repo's literature cache, not the 
 - (D392, 2026-10-29) Write the report yourself to `<batch>/BATCH_REPORT.md` (this replaces "Do not write report
   files" above); the final message is a 5-10 line summary. Rulings and the audit / coordinator steps: skill sections
   "Contract v6 additions", "Audit workflow", "Coordinator workflow".
+- (D531, 2026-11-08) Fab / facility orgs, `process_name`, wafer and material suppliers, and what is not distiller
+  output (vendor / product usage, author affiliations, benchmark overlays): skill section "Contract v7 additions".
+  These fields feed the foundry PDK benchmark; a guessed fab moves a value into the wrong foundry column.

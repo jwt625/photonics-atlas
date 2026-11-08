@@ -1,0 +1,186 @@
+# Audit patch lit_117 (fresh-context audit 2026-11-08, DevLog/audits/2026-11-08-lit_117-audit.md).
+# 93 metrics: 90 ok / 3 imprecise / 0 wrong; 11 components: 8 ok / 3 imprecise / 0 wrong, 0 deleted; 13 misses added (13 metrics).
+# Coordinator rulings open: Q1 zhuang2016 fab (LioniX B.V. / SATRAX B.V., D278 scope), Q2 xie2026 figure-read channel spacing
+# (to skip, drop add_metrics xie2026 m21 and the m4 / component note sentences that cite it), Q4 shi2013a "as previously reported in [13]",
+# Q5 shi2013a conventional-device geometry (to skip, drop add_metrics shi2013a conventional m4-m9 and keep its original notes).
+components:
+  cmp_lit_xie2026_folded_awg_16x20ghz:
+    notes: 'Fab empty: p.8 Sec. 3 says the devices are fabricated with a 350 nm-resolution lithography process provided by IOPTEE; IOPTEE is not in the registry (reported). Single free-propagation region; each arrayed waveguide ends in a 1 x 2 MMI loop mirror that reflects light back (p.2-3, Fig. 1(b), Fig. 2(a)); the MMI building block is cmp_lit_xie2026_mmi_1x2. Arrayed waveguides: taper -> 100 um x 1.2 um single-mode section (EW) -> inverse taper -> 1.5 um multimode straight section (MW, carries the length increment) -> 90 deg bend (BW) -> MMI loop (p.5-6). Designed centre wavelength 1.55 um (Table 1); measured response 1553-1559 nm. Channels 1-6 are degraded (input-waveguide offset, slab clipping); channels 7-16 are the 10 effective channels (p.9-11). FSR and measured channel spacing are not printed; audit figure reads of Fig. 10: FSR about 2.89 nm (m20) and channel spacing about 0.146 nm, i.e. about 18 GHz against the 20 GHz design (m21; D417). The printed IL (< 11.9 dB) and uniformity (1.9 dB) match the first-FSR channels of Fig. 10(b); in the second FSR of Fig. 10(a) channel 16 peaks near -13.2 dB. IL normalized to a reference of two edge couplers and a straight waveguide (Fig. 9(c), cmp_lit_xie2026_edge_coupler_ref).'
+    why: 'Follows the audit figure reads of p.10 Fig. 10 (FSR, channel spacing, per-FSR peak levels) and the new pitch_um row (m19); the old note said the arrayed-waveguide pitch had no parameter, while merged AWG rows use pitch_um with the role in the condition'
+  cmp_lit_zhuang2016_2ramzi_interleaver:
+    notes: 'Fab empty: p.12 Appendix says the chip was fabricated using the TriPleX Si3N4/SiO2 technology, proprietary to LioniX B.V. (p.5-6: a commercial TriPleX platform); p.13 Acknowledgments says the chip is provided by SATRAX B.V. and LioniX B.V. LioniX B.V. (2016 entity) is not in the registry and is not mapped to org_lionix_international (time-aware; a2011, bauters2013, mu2016 precedent; D278 rejected LioniX BV only as an affiliation-only org); reported as a missing fab org. SATRAX B.V. is named only as chip provider (p.13) and as an author affiliation (p.1), with no fabrication statement: not a fab org (D80b). 2 x 2 asymmetric MZI with one ring on each arm; ring round trip twice the MZI arm difference (rings 1.4 cm, inter-arm delay 0.7 cm, p.12). 7 Cr heaters (Au leads) set the MZ couplers and phases; interleaver setting kappa_L = kappa_R = 0.5, kappa_1 = 0.87, kappa_2 = 0.32, phi_1 = phi_2 = pi, phi_D = 0 (Table 1, p.13); voltages computed with a custom simulation program. Each MZ coupler is 3450 um long (2100 um heater section + two 3-dB directional couplers of 675 um). -25 dB bandwidth 13.5 GHz (8 % roll-off; Fig. 1(d)) and 10-90 % resolution close to 0.5 GHz (p.6): no registry parameter (reported). FSR deviation about 0.02 % over 10 FSRs, passband centre deviation about 0.1 % of the FSR (p.7, p.12). Tuning speed of order milliseconds (p.12). Response measured with an EDFA ASE source and a high-resolution spectrometer; chip temperature-stabilized with a Peltier element (p.13). Propagation loss around 0.1 dB/cm is cited from refs. [24, 37] and not entered.'
+    why: 'p.12 Appendix and p.13 Acknowledgments: only LioniX B.V. is tied to fabrication (technology owner in the fabrication sentence); SATRAX B.V. appears only as chip provider and affiliation. The old note said LioniX B.V. is kept out of the registry by D278, but D278 rejected it as an affiliation-only string (hosseini2015); here it is a fab candidate like a2011 / bauters2013 / mu2016. Audit Q1'
+  cmp_lit_zhuang2016_endface_coupling:
+    notes: 'Fab empty: p.12 Appendix says the chip was fabricated using the TriPleX Si3N4/SiO2 technology, proprietary to LioniX B.V.; p.13 Acknowledgments says the chip is provided by SATRAX B.V. and LioniX B.V. LioniX B.V. (2016 entity) is not in the registry and is not mapped to org_lionix_international (time-aware; a2011, bauters2013, mu2016 precedent); reported as a missing fab org. SATRAX B.V. is named only as chip provider, not a fab org (D80b). End-face coupling optimized for TE (p.6). Lower values (< 1 dB/facet) with tapered facets are cited from refs. [40, 42] and not entered.'
+    why: 'Same correction as the interleaver row (p.12 Appendix, p.13 Acknowledgments; audit Q1)'
+  cmp_lit_shi2013a_contra_dc_conventional:
+    notes: 'Fab / facility empty: p.6 Acknowledgement says fabrication was conducted at the University of Washington Microfabrication/Nanotechnology User Facility (NNIN member), which is not in the registry (reported; fab and facility role, D448); the owner org_university_washington is not entered. E-beam lithography and plasma etch. Comparison device for the AR contra-DC (Fig. 3(a)). The Sec. 2 parameters are printed for ''the designed contra-DCs'' (p.4), and p.3 says the Fig. 1(b) mode calculation of the conventional contra-DC of Fig. 1(a) uses the designed parameters of the next section; the p.4 measurement covers ''the contra-DCs'' (Fig. 3(a) and (b)). So the shared geometry is entered on this row too (m4-m9); corrugation widths 20 nm (WIn) / 30 nm (WD) and 50 % duty cycle have no wdm parameter. Spectral range between lambda_D and lambda_r2 about 20 nm. The paper is the journal extension of the authors'' conference paper (ref. [13]); values kept (D408).'
+    why: 'p.3 (Fig. 1(b) computed with the designed parameters of Sec. 2 for the device of Fig. 1(a)) and p.4 (''The designed contra-DCs'', ''the through-port spectra of the contra-DCs'', Fig. 3(a) / (b)) tie the Sec. 2 geometry to the conventional device as well; the row already carries the 220 nm / no top cladding values in core_material / cladding. Audit Q5'
+  cmp_lit_shi2013a_cwdm_demux_4ch:
+    notes: 'Fab / facility empty: p.6 Acknowledgement says fabrication was conducted at the University of Washington Microfabrication/Nanotechnology User Facility (NNIN member), which is not in the registry (reported; fab and facility role, D448); the owner org_university_washington is not entered. E-beam lithography and plasma etch. Three-waveguide (dual-coupler) structure per pair, out-of-phase gratings on opposite sides of each waveguide; corrugation amplitudes 30 / 40 / 50 nm on WIn / W1 / W2 (p.5). Channel bandwidths 11-13 nm (abstract: flat passbands up to 13 nm) printed without a level: not entered as printed (registry gap reported); the audit 3-dB reading of Fig. 6(b) gives 10.4-13.4 nm (m15). Predicted drop wavelengths 1530-1590 nm (Fig. 5(b)); measured 3-dB centres about 1535.9 / 1556.1 / 1575.0 / 1595.4 nm (m16). Expected tolerance of +/- 60 K from a cited 0.09 nm/K (rule 3, not entered). Passband ripple attributed to the 6 nm e-beam shot-pitch grid (p.5). Area of the four contra-DCs excludes routing waveguides.'
+    why: 'Follows the audit figure reads of p.6 Fig. 6(b) (m15, m16)'
+metrics:
+  cmp_lit_xie2026_folded_awg_16x20ghz-m1:
+    wavelength_nm: 1554.1
+    wavelength_max_nm: 1555.5
+    condition: channels 7-16 (10 effective channels) of the first FSR shown in Fig. 10(b)
+    notes: 'printed ''remains below 11.9 dB'' (p.9) with Fig. 10(b); abstract and conclusion print 11.9 dB. Audit read of Fig. 10(b) (trace centre, +/- 0.15 dB): peaks -10.3 dB (channel 13) to -12.0 dB (channel 7) at 1554.16-1555.48 nm. In the second FSR of Fig. 10(a) channels 15 / 16 peak near -12.3 / -13.2 dB, so the printed bound holds for Fig. 10(b) only.'
+    why: 'p.9 Sec. 3 cites Fig. 10(b) for the IL and uniformity, and Fig. 10(b) spans 1554-1555.5 nm (first FSR). The batch wavelength range 1553-1559 nm and condition ''two FSRs'' include the second FSR, where p.10 Fig. 10(a) shows channel 16 near -13.2 dB (> 11.9 dB)'
+  cmp_lit_xie2026_folded_awg_16x20ghz-m2:
+    condition: channels 7-16 of the first FSR shown in Fig. 10(b)
+    notes: 'printed as channel uniformity better than 1.9 dB (p.9, Fig. 10(b)); audit read of Fig. 10(b) gives about 1.8 dB (-10.3 to -12.0 dB). The second FSR of Fig. 10(a) spans about -10.6 to -13.2 dB (about 2.6 dB), outside the printed bound.'
+    why: 'Same scope as m1: p.9 ties the 1.9 dB to Fig. 10(b) (first FSR); p.10 Fig. 10(a) second-FSR peaks spread about 2.6 dB'
+  cmp_lit_xie2026_folded_awg_16x20ghz-m4:
+    notes: 'Table 1 design value; the text calls the measured device a 10 x 20 GHz AWG; a measured spacing is not printed. The audit read of Fig. 10 gives about 0.146 nm, i.e. about 18 GHz (m21; D417).'
+    why: Cross-note to the added figure-read channel spacing (m21); value and basis unchanged
+  cmp_lit_xie2026_folded_awg_16x20ghz-m11:
+    parameter: width_nm
+    value: 1200
+    unit: nm
+    basis: derived
+    condition: output waveguide width Wo (single-mode width; also the width of the 100 um EW sections of the arrayed waveguides, p.6)
+    notes: 'printed 1.2 um (Table 1; unit conversion). p.5 describes tapers from the 1.2 um single-mode width to 2.5 um at the slab (Fig. 4(d)) and Table 1 lists a 30 um taper length LT, so Wo is not the width where the waveguide meets the FPR (port_width_um definition); the taper end width of the output waveguides is not printed.'
+    why: 'port_width_um is the access-taper width where it meets the multimode section; p.5 and p.7 Table 1 place a taper (1.2 to 2.5 um in the Fig. 4 design, LT 30 um) between the 1.2 um waveguides and the slab, so 1.2 um is the waveguide width, not the port width at the FPR'
+add_metrics:
+- metric_id: cmp_lit_xie2026_folded_awg_16x20ghz-m19
+  component_id: cmp_lit_xie2026_folded_awg_16x20ghz
+  parameter: pitch_um
+  value: 2.85
+  unit: um
+  condition: arrayed waveguide pitch dg
+  basis: design_target
+  locator: p.7 Table 1
+  why: Miss. p.7 Table 1 prints the arrayed waveguide pitch 2.85 um; merged AWG rows carry the arrayed-waveguide pitch as pitch_um with the role in the condition (beside the output pitch, m13)
+- metric_id: cmp_lit_xie2026_folded_awg_16x20ghz-m20
+  component_id: cmp_lit_xie2026_folded_awg_16x20ghz
+  parameter: fsr_nm
+  value: 2.89
+  unit: nm
+  qualifier: approx
+  statistic: mean
+  wavelength_nm: 1554.2
+  wavelength_max_nm: 1558.4
+  condition: same-channel peak separation between the two FSRs of Fig. 10(a), mean over channels 7-16
+  basis: extracted_from_figure
+  locator: p.10 Fig. 10(a)
+  notes: 'Audit read of the Fig. 10(a) page render (500 dpi, axis ticks 1553-1559 nm, 259 px/nm): channels 7-16 peak at about 1554.16-1555.48 nm and 1557.05-1558.37 nm; per-channel separations 2.88-2.91 nm, mean 2.89 nm (+/- 0.02 nm), about 358 GHz at 1556 nm. FSR not printed (the text says Fig. 9 / Fig. 10(a) cover two FSRs, p.9).'
+  why: Miss. p.10 Fig. 10(a) shows every effective channel in two FSRs; the FSR is a measured spectral value of the AWG (manganelli2017 figure-read precedent, D523)
+- metric_id: cmp_lit_xie2026_folded_awg_16x20ghz-m21
+  component_id: cmp_lit_xie2026_folded_awg_16x20ghz
+  parameter: channel_spacing_nm
+  value: 0.146
+  unit: nm
+  qualifier: approx
+  statistic: mean
+  n_samples: 10
+  wavelength_nm: 1554.16
+  wavelength_max_nm: 1555.48
+  condition: mean peak spacing of channels 7-16 in the first FSR (Fig. 10(b)); second FSR in Fig. 10(a) about 0.147 nm
+  basis: extracted_from_figure
+  locator: p.10 Fig. 10(b)
+  notes: 'Audit read of the Fig. 10(b) page render (600 dpi, ticks 1554 / 1554.5 / 1555 / 1555.5 nm at 548 px/nm, trace-centre peaks): channel 7 at about 1554.16 nm, channel 16 at about 1555.48 nm, (1555.48 - 1554.16) / 9 = 0.146 nm (+/- 0.005 nm); individual spacings scatter 0.12-0.17 nm (noisy passband tops). 0.146 nm is about 18.2 GHz at 1554.8 nm, against the printed 20 GHz design spacing (Table 1, m4; 20 GHz is about 0.161 nm): flag (D417).'
+  why: Miss. The paper prints only the 20 GHz design spacing (p.7 Table 1; m4 author_estimate); p.10 Fig. 10(b) and Fig. 10(a) give a measured mean channel spacing of about 0.146-0.147 nm in both FSRs. Audit Q2
+- metric_id: cmp_lit_douglass2018_fs_awg_19arm-m12
+  component_id: cmp_lit_douglass2018_fs_awg_19arm
+  parameter: pitch_um
+  value: 40
+  unit: um
+  condition: spacing of the 19 array waveguides (minimum 35 um to avoid cross coupling)
+  basis: design_target
+  locator: p.4 Sec. 4
+  why: Miss. p.4 Sec. 4 prints the waveguide-array spacing of 40 um (in the component notes only); merged AWG rows carry the array spacing as pitch_um
+- metric_id: cmp_lit_shi2013a_contra_dc_conventional-m3
+  component_id: cmp_lit_shi2013a_contra_dc_conventional
+  parameter: extinction_db
+  value: 13.5
+  unit: dB
+  qualifier: approx
+  wavelength_nm: 1550
+  condition: through-port notch at lambda_D (contra-directional coupling); same reading as the AR row's printed 20 dB (notch depth on the normalized axis)
+  basis: extracted_from_figure
+  locator: p.4 Fig. 3(a)
+  notes: 'Read from the vector paths of Fig. 3(a) (tick labels 1460-1640 nm, 0 / -25 dB): lambda_D notch minimum -13.5 dB at about 1546 nm (printed lambda_D 1550 nm), lambda_r2 notch -12.5 dB at about 1529 nm; out-of-band level about -2.1 dB. The same reading of Fig. 3(b) gives -21.1 dB for the AR notch whose extinction is printed as 20 dB. +/- 0.5 dB.'
+  why: Miss. p.4 Fig. 3(a) is vector art; the conventional device carries only its two notch wavelengths, and its notch depth is the measured counterpart of the AR row's 20 dB
+- metric_id: cmp_lit_shi2013a_contra_dc_conventional-m4
+  component_id: cmp_lit_shi2013a_contra_dc_conventional
+  parameter: core_thickness_nm
+  value: 220
+  unit: nm
+  basis: design_target
+  locator: p.4 Sec. 2
+  notes: Printed for the designed contra-DCs (220-nm-high SOI, no top cladding); see component notes.
+  why: Miss (Q5). p.4 Sec. 2 prints the geometry for 'the designed contra-DCs' and p.3 uses it for the conventional device of Fig. 1(a)
+- metric_id: cmp_lit_shi2013a_contra_dc_conventional-m5
+  component_id: cmp_lit_shi2013a_contra_dc_conventional
+  parameter: bus_width_nm
+  value: 450
+  unit: nm
+  condition: input waveguide WIn
+  basis: design_target
+  locator: p.4 Sec. 2
+  why: Miss (Q5). p.4 Sec. 2 shared design parameter (see m4)
+- metric_id: cmp_lit_shi2013a_contra_dc_conventional-m6
+  component_id: cmp_lit_shi2013a_contra_dc_conventional
+  parameter: width_nm
+  value: 500
+  unit: nm
+  condition: drop waveguide WD
+  basis: design_target
+  locator: p.4 Sec. 2
+  why: Miss (Q5). p.4 Sec. 2 shared design parameter (see m4)
+- metric_id: cmp_lit_shi2013a_contra_dc_conventional-m7
+  component_id: cmp_lit_shi2013a_contra_dc_conventional
+  parameter: period_nm
+  value: 320
+  unit: nm
+  condition: grating pitch
+  basis: design_target
+  locator: p.4 Sec. 2
+  why: Miss (Q5). p.4 Sec. 2 shared design parameter (see m4)
+- metric_id: cmp_lit_shi2013a_contra_dc_conventional-m8
+  component_id: cmp_lit_shi2013a_contra_dc_conventional
+  parameter: n_periods
+  value: 800
+  unit: count
+  basis: design_target
+  locator: p.4 Sec. 2
+  why: Miss (Q5). p.4 Sec. 2 shared design parameter (see m4)
+- metric_id: cmp_lit_shi2013a_contra_dc_conventional-m9
+  component_id: cmp_lit_shi2013a_contra_dc_conventional
+  parameter: gap_nm
+  value: 75
+  unit: nm
+  statistic: mean
+  condition: average gap between the waveguides
+  basis: design_target
+  locator: p.4 Sec. 2
+  why: Miss (Q5). p.4 Sec. 2 shared design parameter (see m4)
+- metric_id: cmp_lit_shi2013a_cwdm_demux_4ch-m15
+  component_id: cmp_lit_shi2013a_cwdm_demux_4ch
+  parameter: bw_3db_nm
+  value: 10.4
+  value_max: 13.4
+  unit: nm
+  statistic: range
+  n_samples: 4
+  wavelength_nm: 1530.7
+  wavelength_max_nm: 1601.9
+  condition: 3 dB below each drop-port peak (peaks at about 0 dB) of the 4 channels
+  basis: extracted_from_figure
+  locator: p.6 Fig. 6(b)
+  notes: 'Read from the vector paths of Fig. 6(b) (tick labels 1520-1620 nm, 0 / -30 dB): -3 dB widths about 10.4 nm (1530.7-1541.1), 11.0 nm (1550.7-1561.6), 13.4 nm (1568.3-1581.7) and 13.1 nm (1588.8-1601.9), +/- 0.3 nm. Consistent with the printed 11-13 nm channel bandwidths (p.5), which carry no level and stay out.'
+  why: Miss. p.6 Fig. 6(b) is vector art; the 3-dB widths are a figure reading at a defined level, while the printed 11-13 nm has no level (batch kept it out)
+- metric_id: cmp_lit_shi2013a_cwdm_demux_4ch-m16
+  component_id: cmp_lit_shi2013a_cwdm_demux_4ch
+  parameter: channel_spacing_nm
+  value: 19.8
+  unit: nm
+  qualifier: approx
+  statistic: mean
+  wavelength_nm: 1535.9
+  wavelength_max_nm: 1595.4
+  condition: mean spacing of the measured 3-dB centres of the 4 drop channels
+  basis: extracted_from_figure
+  locator: p.6 Fig. 6(b)
+  notes: '3-dB centres from the vector paths of Fig. 6(b): about 1535.9 / 1556.1 / 1575.0 / 1595.4 nm, spacings 20.2 / 18.9 / 20.4 nm (+/- 0.3 nm). The 20 nm row (m3) is the mode-solver prediction of Fig. 5(b).'
+  why: Miss. The batch entered only the simulated 20 nm spacing (p.5 Fig. 5(b)); p.6 Fig. 6(b) gives the measured channel positions

@@ -1,0 +1,85 @@
+# Audit patch lit_114 (fresh-context audit 2026-11-08, DevLog/audits/2026-11-08-lit_114-audit.md).
+# 116 metrics: 100 ok / 11 imprecise / 5 wrong (deleted); 20 components: 17 ok / 3 imprecise / 0 wrong; 1 miss added (1 metric).
+# Coordinator rulings open: Q1 gehring2019 mean / std scope (drop the m3 / m4 scope ops to keep `unspecified`); Q2 ma2015 receiver
+# PDL (drop the 4 delete_metrics entries and the component notes op to keep them); Q4 basis of printed halved per-coupler values
+# (drop the `basis: derived` ops to keep `measured`); Q5 jung2020 collimator class; Q6 zhong2026 post-link crosstalk.
+components:
+  cmp_lit_jung2020_lma_hcf_collimator:
+    class: fiber_interface.other
+    why: 'Class consistency: a C-lens micro-collimator pair joining two fibers (p.2 Sec. 2.1, Fig. 1(a)) is the fiber-to-fiber interface of the merged same-group, same-platform rows cmp_lit_jung2018_fmf2_collimator_pair / fmf4_collimator_pair (fiber_interface.other, lit_104, D535). All metrics stay valid (insertion_loss_db, back_reflection_db allowed on fiber_interface). Audit Q5'
+  cmp_lit_jung2020_hcf_hcf_collimator:
+    class: fiber_interface.other
+    why: 'As cmp_lit_jung2020_lma_hcf_collimator: HCF-HCF C-lens collimator pair (p.4 Sec. 2.2) is a fiber-to-fiber interface; jung2018 precedent (fiber_interface.other, D535). Audit Q5'
+  cmp_lit_zhang2014_sin_gc_nodbr:
+    cladding: ''
+    why: 'p.5: the reference is only described as a grating coupler of the same dimension design without DBR; its cladding is not stated (rule: cladding only if stated). The DBR device cladding (2 um PECVD SiO2, p.5) is not restated for it'
+  cmp_lit_ma2015_psr45_prototype:
+    notes: 'Fab: fabricated through an OpSIS-IME MPW run (p.6); OpSIS is not in the registry (MPW access provider, report). No single-PSR test structure on the MPW (p.6): the only measured data are of the full four-channel PI-WDM receiver (Si edge coupler, this PSR, two 1x4 DeMUXs, bi-directional Ge PDs). Receiver-level PDL, not entered on this row (the paper attributes the excess over the 0.1 dB PSR simulation to the edge coupler, the DCs and the tuner losses, p.8): Table 1 (p.9), 10 Gb/s NRZ-OOK, CH1-CH4 (1530.5-1550 nm): eye-diagram 0.78 / 1 / 0.54 / 0.77 dB (avg 0.77, std 0.19), peak-wavelength sweep 0.45 / 1.02 / 0.64 / 0.82 dB (avg 0.73, std 0.24), +/-0.5 nm avg 0.68, entire-spectrum avg 0.72 dB; summary 0.7 +/- 0.2 dB (p.1, p.8); 40 Gb/s eye-amplitude estimate 0.3-0.8 dB (p.9). Total RX passive loss about 6.2 dB (p.8) rests on a typical 0.75 A/W responsivity cited from ref. 39 and includes all components: not entered.'
+    why: 'Follows the deletion of m4-m7 (receiver PDL, audit Q2): values kept in notes with their Table 1 / p.8 / p.9 locators'
+  cmp_lit_zhong2026_fifo_4core:
+    notes: 'Fab empty (see cmp_lit_zhong2026_fldw_straight_wg). MCF from Hengtong Optical Fiber (square 4-core, core diameter 17.8 um, cladding 125 um; supplier note). Layout (p.5): 2.5 mm straight sections at both ends and a 5 mm S-bend section. Two batches of 8 devices: more than 90 % have an average IL below 0.4 dB at 1550 nm (Fig. 3(f)). Thermal IL variation (30-75 C) is in Supplement 1, not cached. Packaged devices used in a 115 km 4-core coherent link (128 GBd QPSK, 85 GBd PS-16QAM). Worst ICXT after splicing the FIFO pair to the 115 km 4-core fiber -39 dB (p.3, p.7 Fig. 4(c)), degraded from the -46.21 dB back-to-back value by accumulated link effects: a link value, not entered.'
+    why: 'Follows the deletion of m6 (post-link crosstalk, audit Q6): value kept in notes with its locator'
+metrics:
+  cmp_lit_gehring2019_dlw_polymer_coupler-m1:
+    basis: derived
+    notes: printed 'less than -1.8 dB'; single-coupler spectrum = square root of the two-coupler transmission in linear scale (stated arithmetic, p.5; D516 marchetti2017 / zhou2022 precedent); includes the connecting SiN waveguide
+    why: 'p.5: the paper states the arithmetic (square root of the pair transmission, reciprocity assumed); stated halving -> derived (skill rule 4, Contract v4, D516). Audit Q4'
+  cmp_lit_gehring2019_dlw_polymer_coupler-m3:
+    scope: loopback_half
+    basis: derived
+    notes: 'printed average coupling efficiency -2.07 dB (p.6). Per coupler: the paper uses coupling efficiency / coupling loss for the single-coupler quantity throughout (p.2 abstract and p.6 tie the -8 dB coupling efficiency to each coupler; Fig. 2 and Fig. 3 axes ''Coupling [dB]'' are per-coupler spectra after the p.5 square root), and a per-pair reading (about -1.04 dB per coupler) would beat the optimized device shown as best performance (Fig. 2(a) and Fig. 3(c), about -1.6 dB per coupler at 1550 nm). Same square-root method as p.5 (derived)'
+    why: 'Audit Q1: the scope follows from the paper''s own usage and its data, not a guess (p.2 Abstract, p.5 Fig. 2(a), p.6 Fig. 3(c) peak about -1.6 dB at 1550 nm); basis derived with m1 (Q4)'
+  cmp_lit_gehring2019_dlw_polymer_coupler-m4:
+    scope: loopback_half
+    basis: derived
+    notes: printed standard deviation 0.35 dB of the -2.07 dB per-coupler average (scope reasoning in m3)
+    why: 'Same population and scope as m3 (p.6); audit Q1 / Q4'
+  cmp_lit_gehring2019_dlw_polymer_coupler-m5:
+    basis: derived
+    notes: 'printed ''insertion loss of less than -8 dB'' per coupler over 730-1700 nm (square root of the pair transmission, p.5); about 1.5 dB below the tunable-laser result in the telecom range because of the unpolarized source (p.6). The Fig. 2 caption calls the source circular polarized while the text says unpolarized (p.6); text value kept (D417)'
+    why: 'p.5 stated square-root arithmetic -> derived (Q4); p.5 Fig. 2 caption vs p.6 text polarization conflict noted'
+  cmp_lit_gehring2019_dlw_polymer_coupler-m7:
+    qualifier: gt
+    why: 'power_handling_dbm definition: stable up to X -> X with gt (p.6: no degradation up to 100 mW); merged practice 12 gt rows'
+  cmp_lit_lacava2016_2dgc-m1:
+    basis: derived
+    why: 'p.1 Abstract and p.4 (CET = IL / 2; the garbled p.4 fragment and the abstract both state it) with the 7.5 dB total printed (m2): stated halving of a printed total -> derived (rule 4, D516). Audit Q4'
+  cmp_lit_zhang2014_sin_gc_dbr-m1:
+    basis: derived
+    locator: p.1 Abstract; p.5; p.6 Fig. 4(c)
+    why: 'p.5: equal input / output couplers assumed on the two-coupler fiber-to-fiber measurement (stated halving; zhou2022 precedent, D516) -> derived (Q4). Fig. 4 is printed on p.6 (text value on p.5)'
+  cmp_lit_zhang2014_sin_gc_dbr-m2:
+    locator: p.1 Abstract; p.5; p.6 Fig. 4(c)
+    why: 'Fig. 4 is printed on p.6; the 53 nm value is stated on p.5'
+  cmp_lit_zhang2014_sin_gc_nodbr-m1:
+    basis: derived
+    why: 'p.5: same two-coupler method with equal couplers assumed (stated halving) -> derived (D516). Audit Q4'
+  cmp_lit_ding2014_apodized_phc_gc_al-m1:
+    basis: derived
+    why: 'p.3: CE = (eta0 - etas) / 2 with the subtracted waveguide loss printed (2 dB/cm by cutback, 700 um) -> derived (rule 4, D516, D441 / D448 distinction: subtracted number printed). Audit Q4'
+  cmp_lit_zhong2026_fldw_smf_facet-m1:
+    basis: derived
+    notes: 'printed ''calculated to be 0.081 dB per facet'' (p.4): (0.240 dB average 1 cm IL - 0.078 dB/cm x 1 cm) / 2 = 0.081 dB (Fig. 1(f) averages, 15 samples per length)'
+    why: 'p.4: the paper prints both inputs and calls the value calculated; explicit arithmetic -> derived (Contract v4, D167 applies only without shown arithmetic)'
+delete_metrics:
+- id: cmp_lit_ma2015_psr45_prototype-m4
+  why: 'p.8 / p.9 Table 1: receiver-level PDL of the whole PI-WDM RX (edge coupler, PSR, DeMUXs, PDs); the paper attributes the excess over the 0.1 dB PSR simulation to the edge coupler, the DCs and the tuner losses (p.8), so the value is not the PSR''s (system-level values stay out: lit_42 / lit_112 audit logic). Value in component notes. Audit Q2'
+- id: cmp_lit_ma2015_psr45_prototype-m5
+  why: 'As m4 (std of the receiver-level eye-diagram PDL, p.9 Table 1). Audit Q2'
+- id: cmp_lit_ma2015_psr45_prototype-m6
+  why: 'As m4 (receiver-level PDL from the peak-wavelength sweep, p.9 Table 1). Audit Q2'
+- id: cmp_lit_ma2015_psr45_prototype-m7
+  why: 'As m4 (40 Gb/s receiver-level eye-amplitude PDL estimate, p.9). Audit Q2'
+- id: cmp_lit_zhong2026_fifo_4core-m6
+  why: 'p.7 Fig. 4(c): the -39 dB worst ICXT is measured after splicing the FIFO pair to the 115 km 4-core fiber; the paper attributes the degradation from -46.21 dB to accumulated link effects, so it is a link value, not a FIFO property (the B2B pair value stays as m5). Value in component notes. Audit Q6'
+add_metrics:
+- metric_id: cmp_lit_lacava2016_2dgc-m16
+  component_id: cmp_lit_lacava2016_2dgc
+  parameter: taper_length_um
+  value: 160
+  unit: um
+  condition: taper between the 2D-GC and the single-mode Si waveguide, labelled on the closed-loop test structure layout
+  basis: extracted_from_figure
+  locator: p.6 Fig. 5
+  notes: Figure label '160 um' on the Fig. 5 layout (closed-loop structure with the same 2D-GC); not restated in the text; taper of the Fig. 2 structure not labelled
+  why: 'Miss (D153 geometry): p.6 Fig. 5 labels the taper length (160 um); figure-labelled dimension -> extracted_from_figure (Contract v6)'

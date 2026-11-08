@@ -1,0 +1,21 @@
+# Audit patch lit_110 (fresh-context audit 2026-11-08, DevLog/audits/2026-11-08-lit_110-audit.md).
+# 200 metrics: 200 ok / 0 imprecise / 0 wrong; 15 components: 14 ok / 1 imprecise / 0 wrong, 0 deleted; 1 miss added (1 metric).
+# Ops: 2 component note updates (a2017 Table 1 vs text conflict; guo2025 WMMI follow-up), 1 add_metrics (guo2025 WMMI 6.23 um SEM).
+components:
+  cmp_lit_a2017_dual_core_taper_mux_10ch:
+    notes: 'Values from clean passages and page renders (garbled text layer flagged on p.9, the reference list only). Measured as a link: 10x1 MUX (I1-I10) + 2.3 um wide, 100 um long multimode bus + 1x10 DEMUX (O1-O10), TE / TM GCs (single deep etch), tunable laser 1520-1610 nm, normalized to a straight single-mode waveguide on the same chip (p.6). Design (Table 1, p.4): five stages with wia0 = wia1, wia2 = wia3, wib0 = wib1 = 120 nm, wib2 = wib3; gaps wig1 = wig2 = 120 nm, wig0 0.5 um (stages 1-2) / 0.9 um (stages 3-5), wig3 1.2 um (gap_nm not allowed for mode_converter, report). The p.4 text gives wig0 = 0.5 um for the stage #5 design while Table 1 gives 0.9 um for stage #5 (conflict, D417; gaps not entered). Integrated PBS (cascaded bent DCs) performance (> 30 dB ER, < 0.5 dB excess loss, 70 nm, 6.9 x 20 um2) is the authors'' earlier result (ref. [40]), not entered (D259). Data transmission (30 Gbps TM0-TM3, eye ER 4.5-5.5 dB) not a component metric. Fab / facility empty: ''was fabricated'' (passive), authors at Zhejiang University and CUHK (D80b).'
+    why: 'Missed conflict. p.4 text (stage #5 design paragraph) sets wig0 = 0.5 um and wig3 = 1.2 um, while p.4 Table 1 (checked on the page render) lists wig0 = 0.9 um for stages 3-5; the notes quoted only the Table (D417)'
+  cmp_lit_guo2025_gw_mmi_3mode_mux:
+    notes: 'Groove width WGW design 600 nm, SEM 594.6 nm. SEM values printed for WM2 / WM3 are 800 nm / 1.42 um, i.e. swapped against the design (WM2 1.4 um, WM3 820 nm) while the measured output widths W3 / W4 match the design: measured WM2 / WM3 not entered (p.5 Sec. 3). Output S-bends cosine-shaped, bend radius 338 um (p.2; min_bend_radius_um not allowed for mode_converter). Output widths design W2 = WM1, W3 = WM2 + 400 nm, W4 = WM3 + 400 nm (p.3). Measured as a multiplexer: TE0 launched by lensed fiber into Port2 / 3 / 4, output Port1 imaged with a 40x objective, aperture to block substrate light; spectra normalized to a straight waveguide of equal length, facet-reflection ripple smoothed. Simulations by FEM + 3D-BPM without material loss. Fab / facility empty: fabrication passive, no org named (authors at the CAS Key Laboratory of Optoelectronic Materials and Devices and UCAS; D80b). Fig. 5(c) labels the wide section after the 3.86 um input waveguide 6.23 um (SEM), entered as mmi_width_um (audit); the Fig. 5(a) labels 2.82 um + 800 nm + 1.42 um plus two 594.6 nm grooves sum to the same 6.23 um. The Fig. 5(d) top view shows the 1.20 um output (W4) on the left and the 1.79 um output (W3) on the right, the same side order as the 800 nm / 1.42 um zones of Fig. 5(a), i.e. the SEM images are mirrored against the Fig. 1(b) cross-section (WM2 left, WM3 right); the printed WM2 / WM3 naming stays as is (D159).'
+    why: 'Follows the WMMI miss (add_metrics m32): p.6 Fig. 5(c) SEM label 6.23 um (the batch report listed WMMI as not printed); p.6 Fig. 5(d) side order of the 1.20 / 1.79 um outputs added as context for the WM2 / WM3 naming conflict (audit Q2)'
+add_metrics:
+- metric_id: cmp_lit_guo2025_gw_mmi_3mode_mux-m32
+  component_id: cmp_lit_guo2025_gw_mmi_3mode_mux
+  parameter: mmi_width_um
+  value: 6.23
+  unit: um
+  condition: WMMI, SEM label on the multimode (GW-MMI) section next to the input waveguide; not printed in the text
+  basis: measured
+  locator: p.6 Fig. 5(c)
+  notes: 'Role from the Fig. 5(c) caption (magnified input section of the GW-MMI coupler) and the label position: the 6.23 um arrow spans the wide section after the 3.86 um input waveguide (W1, p.5 text). Cross-check: Fig. 5(a) WM1 2.82 um + 800 nm + 1.42 um + 2 x 594.6 nm grooves = 6.23 um. Design WMMI not printed.'
+  why: Miss (D153 geometry). p.6 Fig. 5(c) prints 6.23 um on the GW-MMI body beside the 3.86 um W1 label; the Fig. 5(a) cross-section widths and grooves sum to 6.23 um, so the label is the MMI width. SEM label -> measured, as the batch did for the other Fig. 5 labels

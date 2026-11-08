@@ -1,0 +1,138 @@
+# Audit patch lit_109 (fresh-context audit 2026-11-08, DevLog/audits/2026-11-08-lit_109-audit.md).
+# 203 metrics: 177 ok / 23 imprecise / 3 wrong; 24 components: 20 ok / 4 imprecise / 0 wrong, 0 deleted; 1 miss added.
+# Coordinator rulings open: Q1 chen2016a 400 nm Ge row kept (D408 reading; to delete it add the component to
+# delete_components); Q2 chen2019 0.07 A/W rows deleted under D159 / D254 (to keep them drop delete_metrics and the three
+# chen2019 component notes ops); Q3 smith2023 8 q_intrinsic / ring-loss rows -> author_estimate under D403 (to keep
+# derived drop those 8 ops). All other ops are figure re-reads, condition-field fixes and a conflict note.
+components:
+  cmp_lit_chen2016a_si_lpin_gepd_ge400:
+    notes: 'Fab as the 160 nm device (p.2 Sec. 2; Fig. 9 caption: only the Ge thickness differs). The 400 nm design is the one of the authors'' earlier ref. [11] (p.2: 20 GHz there, transit-time limited, over 1 A/W across the C band at -1 V). Kept under D408: Fig. 9 and its p.8 discussion carry no citation and call the curves experimental; the figure is assembled in this paper (the 160 nm traces of Fig. 9(a) are the Fig. 5(a) 1550 nm curves with the same > 50 GHz labels, the 160 nm trace of Fig. 9(b) is the Fig. 4(a) spectrum), and the 400 nm label (19 GHz at -1 V) differs from the 20 GHz this paper quotes for ref. [11]. Weak point: no fabrication or measurement sentence names this device. Bias of the Fig. 9(b) responsivity spectrum and its normalization not stated. Length taken as the 160 nm device''s 14.2 um only through the caption''s ''only difference'' statement, so no length row.'
+    why: 'Audit Q1 (D259 / D408): records the evidence for keeping the row. p.2 Sec. 1 (ref. [11] values), p.8 Sec. 4, p.10 Fig. 9 vs p.5 Fig. 4(a) and p.7 Fig. 5(a) (identical 160 nm traces and labels)'
+  cmp_lit_chen2019_utc_pd_d10:
+    notes: 'Fab empty: growth and mesa processing in passive voice, no org named (all authors at ShanghaiTech University, first author also SIMIT / UCAS; D80b). Parasitic capacitance 49.6 fF from the C vs area fit over the three diameters (Fig. 4). 100 % cutoff wavelength about 2.25 um (p.2, no parameter). Responsivity 0.07 A/W at 2 um is stated for ''the devices'' (p.1 abstract, p.2 Sec. 3B, p.6 conclusion) from one top-illuminated FTIR spectrum whose device (diameter) is not given; not entered on any diameter row (D159 / D254: one value stated for the device family). Fig. 5 inset reads about 0.063 A/W at 0 V and 0.073-0.074 A/W at -1 to -4 V. Not entered: RC-limit bandwidth 41.4 GHz (computed from the fitted circuit, Fig. 9(e)) and the rough transit-time limit about 31 GHz (Eq. 1); 30 Gbit/s eye at -3 V (Fig. 11); Fig. 12 RF output vs photocurrent curves beyond Table 2.'
+    why: Follows the deletion of the 0.07 A/W rows (audit Q2, D159 / D254); p.1 Abstract, p.2 Sec. 3B, p.3 Fig. 5 inset
+  cmp_lit_chen2019_utc_pd_d20:
+    notes: 'Fab empty: growth and mesa processing in passive voice, no org named (all authors at ShanghaiTech University, first author also SIMIT / UCAS; D80b). Parasitic capacitance 49.6 fF from the C vs area fit over the three diameters (Fig. 4). 100 % cutoff wavelength about 2.25 um (p.2, no parameter). Responsivity 0.07 A/W at 2 um is stated for ''the devices'' (p.1, p.2) from one top-illuminated FTIR spectrum whose device (diameter) is not given; not entered on any diameter row (D159 / D254; values in cmp_lit_chen2019_utc_pd_d10 notes). RC-limit bandwidth 18.9 GHz (computed, Fig. 9(e)) not entered.'
+    why: Follows the deletion of the 0.07 A/W rows (audit Q2, D159 / D254); p.2 Sec. 3B
+  cmp_lit_chen2019_utc_pd_d40:
+    notes: 'Fab empty: growth and mesa processing in passive voice, no org named (all authors at ShanghaiTech University, first author also SIMIT / UCAS; D80b). Parasitic capacitance 49.6 fF from the C vs area fit over the three diameters (Fig. 4). 100 % cutoff wavelength about 2.25 um (p.2, no parameter). Responsivity 0.07 A/W at 2 um is stated for ''the devices'' (p.1, p.2) from one top-illuminated FTIR spectrum whose device (diameter) is not given; not entered on any diameter row (D159 / D254; values in cmp_lit_chen2019_utc_pd_d10 notes). RC-limit bandwidth 7.7 GHz (computed, Fig. 9(e)) not entered.'
+    why: Follows the deletion of the 0.07 A/W rows (audit Q2, D159 / D254); p.2 Sec. 3B
+metrics:
+  cmp_lit_chen2016a_si_lpin_gepd_ge160-m30:
+    statistic: mean
+    notes: printed label 9.8 fF at 0 V; no reading uncertainty (label). Taken as the mean like the -1 / -2 V labels of the same panel (6.8 / 6.2 fF), which the text states as means (p.6).
+    why: 'p.7 Fig. 5(e): the panel labels at -1 / -2 V equal the p.6 means, so the 0 V label is the same statistic over the wafer-scale variability plot; statistic was empty'
+  cmp_lit_chen2016a_si_lpin_gepd_ge160-m31:
+    bias_v: -1
+    condition: series resistance Rs from the same S22 equivalent-circuit fit
+    why: p.6 Sec. 3.2 prints 103 ohm at -1 V; the bias was only in the condition text, bias_v empty
+  cmp_lit_chen2016a_si_lpin_gepd_ge160-m32:
+    bias_v: -2
+    condition: series resistance Rs from the same S22 equivalent-circuit fit
+    why: p.6 Sec. 3.2 prints 91 ohm at -2 V; the bias was only in the condition text, bias_v empty
+  cmp_lit_chen2016a_si_lpin_gepd_ge160-m33:
+    bias_v: 0
+    statistic: mean
+    condition: series resistance Rs from the same S22 equivalent-circuit fit
+    notes: printed label 184 ohm at 0 V; no reading uncertainty (label). Taken as the mean like the -1 / -2 V labels of the same panel (103 / 91 ohm), which the text states as means (p.6).
+    why: 'p.7 Fig. 5(f): 0 V column of the variability plot; bias was only in the condition text and the label is the same statistic as the text-stated -1 / -2 V means'
+  cmp_lit_chen2016a_si_lpin_gepd_ge400-m3:
+    ref_plane: unspecified
+    method: ''
+    notes: 'read at 1530 nm, reading uncertainty about +/- 0.02 A/W. Normalization of the 400 nm trace not stated; the 160 nm trace in the same panel is the Fig. 4(a) spectrum (power reaching the PD, -1.2 V), which suggests but does not state the same reference plane.'
+    why: 'p.8 Sec. 4 and p.10 Fig. 9(b) state no reference plane or bias for the 400 nm device; the batch wrote on_chip / reference_structure as an assumption (rule 1)'
+  cmp_lit_chen2016a_si_lpin_gepd_ge400-m4:
+    ref_plane: unspecified
+    method: ''
+    notes: read at 1570 nm, reading uncertainty about +/- 0.02 A/W. Normalization not stated (see m3).
+    why: 'p.8 Sec. 4 and p.10 Fig. 9(b) state no reference plane for the 400 nm device; the batch wrote on_chip / reference_structure as an assumption (rule 1)'
+  cmp_lit_lischke2015_ge_lpin_new_lowcosi2-m7:
+    temperature_k: ''
+    condition: internal responsivity, linear fit of photocurrent vs laser power excluding the 9.8 mW point; temperature not stated for the -1 V point (Fig. 8 shows only 0 V and -2 V, at 35 C)
+    why: 'p.7 Fig. 8 caption and plot show only the 0 V and -2 V curves (T = 35 C); Table 1 -1 V value has no shown curve or temperature'
+  cmp_lit_chen2019_utc_pd_d10-m3:
+    value: 20.1
+    notes: inset point at -1 V, reading uncertainty about +/- 0.2 GHz
+    why: 'p.3 Fig. 6 inset at 500 dpi (20 GHz at y 298 px, 26 GHz at y 68 px, 38.3 px/GHz): -1 V marker centre at about 20.1 GHz; -2 / -3 / -4 V at about 23.0 / 24.1 / 24.8 GHz'
+  cmp_lit_chen2019_utc_pd_d10-m4:
+    value: 23.0
+    notes: inset point at -2 V, reading uncertainty about +/- 0.2 GHz
+    why: 'p.3 Fig. 6 inset at 500 dpi: the -2 V marker centre reads about 22.9-23.0 GHz; 23.3 lies outside the stated +/- 0.3 GHz'
+  cmp_lit_chen2019_utc_pd_d10-m8:
+    bias_v: -3
+    condition: Rs from the S11 equivalent-circuit fit (ohmic contacts and CPW pads)
+    why: p.4 Fig. 9 caption (fits at -3 V) and Table 1; the bias was only in the condition text, bias_v empty
+  cmp_lit_chen2019_utc_pd_d20-m5:
+    bias_v: -3
+    condition: Rs from the S11 equivalent-circuit fit (ohmic contacts and CPW pads)
+    why: p.4 Fig. 9 caption (fits at -3 V) and Table 1; the bias was only in the condition text, bias_v empty
+  cmp_lit_chen2019_utc_pd_d40-m5:
+    bias_v: -3
+    condition: Rs from the S11 equivalent-circuit fit (ohmic contacts and CPW pads)
+    why: p.4 Fig. 9 caption (fits at -3 V) and Table 1; the bias was only in the condition text, bias_v empty
+  cmp_lit_smith2023_an150_ring_w1000_g300-m2:
+    basis: author_estimate
+    notes: 'Qint from Eq. (4) with the under-coupled branch. The fit (Eq. 1) is symmetric in a and r (p.5); the regime of this ring is inferred from the width trend of sibling rings (Fig. 5), not determined from this resonance (D403). The over-coupled branch would give a far higher Qint.'
+    why: 'Audit Q3, D403 strict (D418, D454 yasui2026): p.5 Sec. 4 says a and r enter Eq. (1) symmetrically and are disentangled from width / gap trends across devices; no gap series of the 1 um ring exists'
+  cmp_lit_smith2023_an150_ring_w1000_g300-m3:
+    basis: author_estimate
+    notes: includes coupling-section loss (p.5); a from the same fit, whose a / r assignment rests on the under-coupling inferred from sibling-ring trends (D403)
+    why: Audit Q3, D403 strict; the distributed loss comes from the same regime assignment as Qint (p.5 Sec. 4.1)
+  cmp_lit_smith2023_an150_ring_w1000_g300-m4:
+    basis: author_estimate
+    notes: 'Mean Qint over six resonances, Eq. (4) with the under-coupled branch; regime inferred from sibling-ring trends (Fig. 5), not from this ring''s data (D403).'
+    why: Audit Q3, D403 strict (p.5 Sec. 4.1)
+  cmp_lit_smith2023_an150_ring_w1000_g300-m5:
+    basis: author_estimate
+    notes: Mean distributed loss over six resonances; same regime assumption as m4 (D403).
+    why: Audit Q3, D403 strict (p.5 Sec. 4.1)
+  cmp_lit_smith2023_an150_ring_w1000_g300-m7:
+    basis: author_estimate
+    notes: 'Qint from Eq. (4) with the over-coupled branch; abstract: peak intrinsic Q at about 635.3 nm. The TM regime is the authors'' trend argument (p.7: Figs. 7, 8); the Fig. 10 gap series that reaches critical coupling covers widths 0.4 and 0.7 um only, not this 1 um ring, and the authors print the under-coupled alternative (best average 2.32e6 -> 7.73e5). D403.'
+    why: 'Audit Q3, D403 strict: p.7 Sec. 4.2 argues over-coupling from trends and prints the alternative; p.9 Fig. 10 (gap series) has widths 0.4 / 0.7 um only'
+  cmp_lit_smith2023_an150_ring_w1000_g300-m8:
+    basis: author_estimate
+    notes: same regime assumption as the TM Qint (m7, D403)
+    why: Audit Q3, D403 strict (p.8 Sec. 4.2)
+  cmp_lit_smith2023_an150_ring_w1000_g300-m9:
+    basis: author_estimate
+    notes: 'Mean Qint over the Fig. 9(a) resonances, Eq. (4) with the over-coupled branch; TM regime from the authors'' trend argument, not determined for this ring (D403; see m7).'
+    why: Audit Q3, D403 strict (p.1 Abstract; p.8 Sec. 4.2)
+  cmp_lit_smith2023_an150_ring_w1000_g300-m10:
+    basis: author_estimate
+    notes: same regime assumption as m9 (D403)
+    why: Audit Q3, D403 strict (p.8 Sec. 4.2)
+  cmp_lit_smith2023_an150_ring_w500_g300-m2:
+    notes: 'Qint = 2 QL from Eq. (4) at T0 about 0: the Fig. 4(d) dip reaches about zero transmission (critical coupling), where both branches of Eq. (4) give the same value, so the result does not depend on the regime assignment (D463 puckett2021, D418 ye2019 precedent).'
+    why: 'p.6 Fig. 4(d): dip to about 0 and the printed pair 2.20e5 / 4.40e5 is exactly 2x; derived stays, but the batch note cited the width-trend inference instead of the regime-independent reason'
+  cmp_lit_liu2024_arc_bend_rib_r30-m1:
+    value: 0.18
+    notes: 'arc trace read at about -7.1 to -11.1 dB over 1530-1560 nm (maximum near 1543 nm, minimum near 1532.5 nm), divided by 40; reading uncertainty about +/- 0.2 dB on the trace (+/- 0.005 dB per bend); normalization not stated'
+    why: 'p.4 Fig. 3(b) at 500 dpi (0 / -2 / -5 / -10 dB ticks, 45.6 px/dB, linear): black arc trace peaks at about -7.1 dB near 1543 nm and bottoms at about -11.1 dB near 1532.5 nm; the batch read -7.8 dB for the upper end'
+  cmp_lit_liu2024_ffc_bend_rib_reff30-m1:
+    notes: 'printed < 2 dB for 40 bends (< 0.05 dB per FFC); wavelength span from the Fig. 3(b) axis; normalization of the transmission not stated. Conflict (D417): in Fig. 3(b) the dw = -0.2 um trace dips to about -2.5 dB near 1552 nm and the dw = -0.1 um trace to about -2.25 dB, i.e. above the printed 2 dB worst case (about 0.06 dB per bend); the nominal trace stays within about -0.7 to -2.0 dB (m11).'
+    why: 'p.4 Fig. 3(b) at 900 dpi (0 / -5 dB ticks, 82 px/dB): the yellow dw = -0.2 um trace reaches about -2.5 dB near 1552 nm, against the p.4 text ''lower than 2 dB'''
+delete_metrics:
+- id: cmp_lit_chen2019_utc_pd_d10-m9
+  why: 'Audit Q2, D159 / D254: 0.07 A/W is one top-illuminated FTIR measurement stated for ''the devices'' (p.1, p.2 Sec. 3B, p.3 Fig. 5) whose device is not identified; entering it on each diameter row asserts three measurements the paper does not show. Value in component notes'
+- id: cmp_lit_chen2019_utc_pd_d20-m6
+  why: Audit Q2, D159 / D254 (same single measurement as d10-m9; p.2 Sec. 3B). Value in component notes
+- id: cmp_lit_chen2019_utc_pd_d40-m6
+  why: Audit Q2, D159 / D254 (same single measurement as d10-m9; p.2 Sec. 3B). Value in component notes
+add_metrics:
+- metric_id: cmp_lit_liu2024_ffc_bend_rib_reff30-m11
+  component_id: cmp_lit_liu2024_ffc_bend_rib_reff30
+  parameter: bend_loss_db_per_90
+  value: 0.02
+  value_max: 0.05
+  unit: dB
+  statistic: range
+  wavelength_nm: 1530
+  wavelength_max_nm: 1560
+  wavelength_inferred: 'true'
+  polarization: te
+  condition: 40 cascaded 90-deg FFC bends, nominal width (solid 'FFCs' trace; the dotted traces are width deviations, as in the Fig. 2(b) caption convention)
+  basis: extracted_from_figure
+  locator: p.4 Fig. 3(b)
+  notes: 'solid FFCs trace read at about -0.7 dB (near 1534 nm) to -2.0 dB (near 1549 nm), divided by 40; reading uncertainty about +/- 0.15 dB on the trace (+/- 0.004 dB per bend); normalization not stated; wavelength span from the plot axis'
+  why: 'Miss: p.4 Fig. 3(b) shows the measured nominal-width cascade next to the four width-deviation traces; read at 900 dpi (82 px/dB). Only the worst-case bound (m1) was entered'

@@ -1,0 +1,50 @@
+# Audit patch lit_105 (fresh-context audit 2026-11-08, DevLog/audits/2026-11-08-lit_105-audit.md).
+# 53 metrics: 48 ok / 5 imprecise / 0 wrong; 17 components: 15 ok / 2 imprecise / 0 wrong, 0 deleted; 2 misses added (2 metrics).
+# Coordinator rulings open (Q1-Q5) need no op unless the coordinator overrules a recommendation. All ops are a figure re-read,
+# wording / attribution fixes, one qualifier and two lai2025 geometry misses.
+components:
+  cmp_lit_gu2015_pwb_lci_link:
+    core_material: 'SU-8 (n = 1.57 at 1550 nm), two-photon polymerized with a mode-locked Ti:sapphire laser (800 nm, 80 fs, 82 MHz) through an NA 0.50 objective; exposure power / speed of the link PWB not stated (2.5 um wide PWBs were obtained at P 88 mW, v 10 um/s on dummy SOI chips, p.7); suspended between the chips, end-face contact to the uncoated laser / detector facets'
+    why: 'p.6-7 Sec. 3 ties P 88 mW / v 10 um/s to PWBs on dummy SOI chips (Figs. 5, 6); p.9 Sec. 4 gives the link PWB only as 2.5 um wide, 1:3, no exposure condition. The batch stated 88 mW / 10 um/s as the link condition'
+  cmp_lit_abediasl2015_si_wg:
+    label: Single-mode Si waveguide, 145 nm Si on 1 um BOX, IBM 7RF-SOI
+    why: 'p.3 Sec. 2 says "single-mode waveguide" made in the 145 nm c-Si layer; strip vs rib is not stated, so "strip" is dropped from the label'
+metrics:
+  cmp_lit_gu2015_lci_fp_laser-m2:
+    value: 0.72
+    notes: 'Read off the P1 curve (black) on the right axis at the 40 mA end (+/- 0.02 mW): right-axis ticks every 0.2 mW calibrated from the tick marks; the curve end sits at about 0.716 mW.'
+    why: 'p.9 Fig. 8(a) pixel trace of the embedded raster: right-axis major ticks at 0.2 mW per 83.5 px with 0.0 at the bottom frame; the black P1 trace ends at 0.716 mW at 40 mA. 0.76 lies outside the batch reading uncertainty (+/- 0.03 mW)'
+  cmp_lit_gu2015_pwb_sim_ar1to3_1um-m2:
+    condition: PWB width D of the 1:3 aspect-ratio cross-section (height 3D)
+    why: 'Copy of the 1:1 row condition ("diameter for 1:1") on the 1:3 row; p.4 Fig. 2(b) inset defines the 1:3 cross-section as width D, height 3D'
+  cmp_lit_gu2015_pwb_lci_link-m5:
+    condition: link PWB width (p.9 Sec. 4); exposure condition of the link PWB not stated
+    notes: 'printed 2.5 um for the link PWB (p.9, p.10 Summary; SEM view Fig. 7(b)). The same 2.5 um width was measured by SEM on dummy SOI chips at P 88 mW, v 10 um/s (p.7, Fig. 6(b)).'
+    why: 'p.7 Sec. 3 states P 88 mW / v 10 um/s for the dummy-chip PWBs only; p.9 states the 2.5 um width of the link PWB without an exposure condition. The batch condition attached the dummy-chip exposure to the link PWB'
+  cmp_lit_gu2015_pwb_lci_link-m6:
+    notes: 'printed 8.0 um: the suspended-PWB height between two dummy SOI chips (P 88 mW, v 10 um/s) estimated as twice the 4.0 um pier height on the chip (pier 2.5 x 4.0 um, cross-sectional SEM); aspect ratio about 1:3 (p.7). The link PWB is stated only as 2.5 um wide with 1:3 aspect ratio (p.9); its height is not stated separately.'
+    why: 'p.7 Sec. 3: the 2.5 x 8.0 um estimate is made for the PWBs between dummy SOI chips (Fig. 6(b)), not on the III-V link; the batch note did not say so'
+  cmp_lit_abediasl2015_si_bends-m2:
+    qualifier: approx
+    notes: 'printed ''around 0.71 dB per U-turn for sharp bends and 0.2 dB per U-turn'' (one ''around'' for both values), 0.2 dB per U-turn halved to 90 deg. wavelength not printed with the value; the demonstration wavelength is 1550 nm (p.3, p.11).'
+    why: 'p.3 Sec. 2: the single "around" governs both U-turn values of the sentence; m1 carries approx, m2 did not'
+add_metrics:
+- metric_id: cmp_lit_lai2025_hcp_75deg_g11-m3
+  component_id: cmp_lit_lai2025_hcp_75deg_g11
+  parameter: etch_depth_nm
+  value: 600
+  unit: nm
+  condition: GaN nano-fin height H above the unetched GaN slab (meta-atom library design)
+  basis: design_target
+  locator: p.4 Sec. 2.2; p.3 Fig. 2(a)
+  notes: 'Printed height H = 600 nm of the GaN meta-atom (design, RCWA library); Fig. 2(a) draws the fin on a GaN slab, so H is the fin etch depth into the 2 um GaN (p.6). Fabricated fin height not measured in the text.'
+  why: 'Miss (D153 geometry). p.4 Sec. 2.2 states H = 600 nm and Fig. 2(a) labels it on a fin standing on the GaN slab; the batch kept it in core_material only. etch_depth_nm (classes *) fits; core_thickness_nm would misstate the 2 um GaN layer'
+- metric_id: cmp_lit_lai2025_hcp_75deg_g11-m4
+  component_id: cmp_lit_lai2025_hcp_75deg_g11
+  parameter: footprint_um2
+  value: 10000
+  unit: um2
+  basis: derived
+  locator: p.6 Sec. 3
+  notes: 100 um x 100 um HCP printed; area computed.
+  why: 'Miss (D153 geometry). p.6 Sec. 3 prints the 100 um x 100 um HCP size; area as footprint_um2, derived (abediasl2015 VOA 29 x 7 um precedent in this batch)'

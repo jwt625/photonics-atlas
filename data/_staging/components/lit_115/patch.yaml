@@ -1,0 +1,188 @@
+# Audit patch lit_115 (fresh-context audit 2026-11-08, DevLog/audits/2026-11-08-lit_115-audit.md).
+# 139 metrics: 131 ok / 8 imprecise / 0 wrong; 20 components: 14 ok / 6 imprecise / 0 wrong, 0 deleted; 2 misses added.
+# Coordinator rulings open: to keep velha2016 building-block values measured drop the five velha2016 basis ops and the
+# component note sentence (Q1); to keep the paraphrased process_name drop it from the six velha2016 component ops (Q2).
+components:
+  cmp_lit_velha2016_pol_controller:
+    process_name: 'IMEC multi-project wafer run, photonic design kit (ref. 11: Europractice MPW, imec ISIPP25G)'
+    notes: 'Fab org_imec: ''manufactured by IMEC in a multi-project wafer run'' (p.2); grating couplers, MMIs and Ge photodetectors
+      taken from the photonic design kit (p.2). Platform empty: the paper says Si photonics / Si waveguide but never states
+      SOI or a BOX (D422 / D423). Building-block values (GC, MMI, Ge PD) were ''determined'' (p.2) in the sentence right after
+      the statement that these blocks were taken from the photonic design kit; no measurement, spectrum, test-structure result
+      or method is shown, so they are author_estimate (origin not stated; rule 4, D44, D418 nader2025). Ref. 11, cited in
+      the fabrication sentence, is the Europractice MPW page for the imec ISIPP25G technology (p.4 references): Europractice
+      is not in the registry (MPW access, fab role; audit report). Closed loop: TPS voltages swept until the Ge monitor photocurrent
+      falls below 70 nA at 1 V reverse bias (p.3). Four 200 GHz-spaced WDM channels after 10 km SMF-28 compensated within
+      1 dB spectral uniformity (p.4; power_uniformity_db not allowed for polarization). Also run as a polarization controller
+      (Fig. 4 trajectories, no number) and proposed as a scrambler.'
+    why: 'p.2 fabrication sentence cites ref. 11, which p.4 lists as the Europractice multi project wafer page for imec ISIPP25G:
+      process_name as printed (Contract v7) instead of a paraphrase; building-block basis note follows the metric fixes (audit
+      Q1, Q2)'
+  cmp_lit_velha2016_2dgc:
+    process_name: 'IMEC multi-project wafer run, photonic design kit (ref. 11: Europractice MPW, imec ISIPP25G)'
+    notes: 'Fab org_imec: ''manufactured by IMEC in a multi-project wafer run'' (p.2); grating couplers, MMIs and Ge photodetectors
+      taken from the photonic design kit (p.2). Platform empty: the paper says Si photonics / Si waveguide but never states
+      SOI or a BOX (D422 / D423). Building-block values (GC, MMI, Ge PD) were ''determined'' (p.2) in the sentence right after
+      the statement that these blocks were taken from the photonic design kit; no measurement, spectrum, test-structure result
+      or method is shown, so they are author_estimate (origin not stated; rule 4, D44, D418 nader2025). Ref. 11, cited in
+      the fabrication sentence, is the Europractice MPW page for the imec ISIPP25G technology (p.4 references): Europractice
+      is not in the registry (MPW access, fab role; audit report). Not entered: ''-1 dB spectral bandwidth of 20 nm'' is stated
+      once for ''the grating coupler'' after both GC losses, so it cannot be tied to one of the two GCs (D159).'
+    why: 'p.2 fabrication sentence cites ref. 11, which p.4 lists as the Europractice multi project wafer page for imec ISIPP25G:
+      process_name as printed (Contract v7) instead of a paraphrase; building-block basis note follows the metric fixes (audit
+      Q1, Q2)'
+  cmp_lit_velha2016_tegc:
+    process_name: 'IMEC multi-project wafer run, photonic design kit (ref. 11: Europractice MPW, imec ISIPP25G)'
+    notes: 'Fab org_imec: ''manufactured by IMEC in a multi-project wafer run'' (p.2); grating couplers, MMIs and Ge photodetectors
+      taken from the photonic design kit (p.2). Platform empty: the paper says Si photonics / Si waveguide but never states
+      SOI or a BOX (D422 / D423). Building-block values (GC, MMI, Ge PD) were ''determined'' (p.2) in the sentence right after
+      the statement that these blocks were taken from the photonic design kit; no measurement, spectrum, test-structure result
+      or method is shown, so they are author_estimate (origin not stated; rule 4, D44, D418 nader2025). Ref. 11, cited in
+      the fabrication sentence, is the Europractice MPW page for the imec ISIPP25G technology (p.4 references): Europractice
+      is not in the registry (MPW access, fab role; audit report). Not entered: ''-1 dB spectral bandwidth of 20 nm'' is stated
+      once for ''the grating coupler'' after both GC losses, so it cannot be tied to one of the two GCs (D159).'
+    why: 'p.2 fabrication sentence cites ref. 11, which p.4 lists as the Europractice multi project wafer page for imec ISIPP25G:
+      process_name as printed (Contract v7) instead of a paraphrase; building-block basis note follows the metric fixes (audit
+      Q1, Q2)'
+  cmp_lit_velha2016_mmi:
+    process_name: 'IMEC multi-project wafer run, photonic design kit (ref. 11: Europractice MPW, imec ISIPP25G)'
+    notes: 'Fab org_imec: ''manufactured by IMEC in a multi-project wafer run'' (p.2); grating couplers, MMIs and Ge photodetectors
+      taken from the photonic design kit (p.2). Platform empty: the paper says Si photonics / Si waveguide but never states
+      SOI or a BOX (D422 / D423). Building-block values (GC, MMI, Ge PD) were ''determined'' (p.2) in the sentence right after
+      the statement that these blocks were taken from the photonic design kit; no measurement, spectrum, test-structure result
+      or method is shown, so they are author_estimate (origin not stated; rule 4, D44, D418 nader2025). Ref. 11, cited in
+      the fabrication sentence, is the Europractice MPW page for the imec ISIPP25G technology (p.4 references): Europractice
+      is not in the registry (MPW access, fab role; audit report). Three MMIs in the circuit (first 3 dB coupler and the two
+      MMIs of the balanced MZI, p.1).'
+    why: 'p.2 fabrication sentence cites ref. 11, which p.4 lists as the Europractice multi project wafer page for imec ISIPP25G:
+      process_name as printed (Contract v7) instead of a paraphrase; building-block basis note follows the metric fixes (audit
+      Q1, Q2)'
+  cmp_lit_velha2016_ge_pd:
+    process_name: 'IMEC multi-project wafer run, photonic design kit (ref. 11: Europractice MPW, imec ISIPP25G)'
+    notes: 'Fab org_imec: ''manufactured by IMEC in a multi-project wafer run'' (p.2); grating couplers, MMIs and Ge photodetectors
+      taken from the photonic design kit (p.2). Platform empty: the paper says Si photonics / Si waveguide but never states
+      SOI or a BOX (D422 / D423). Building-block values (GC, MMI, Ge PD) were ''determined'' (p.2) in the sentence right after
+      the statement that these blocks were taken from the photonic design kit; no measurement, spectrum, test-structure result
+      or method is shown, so they are author_estimate (origin not stated; rule 4, D44, D418 nader2025). Ref. 11, cited in
+      the fabrication sentence, is the Europractice MPW page for the imec ISIPP25G technology (p.4 references): Europractice
+      is not in the registry (MPW access, fab role; audit report). Terminates the top MZI output as the feedback power monitor
+      (p.2, Fig. 1); coupling geometry not described (subtype from the waveguide termination).'
+    why: 'p.2 fabrication sentence cites ref. 11, which p.4 lists as the Europractice multi project wafer page for imec ISIPP25G:
+      process_name as printed (Contract v7) instead of a paraphrase; building-block basis note follows the metric fixes (audit
+      Q1, Q2)'
+  cmp_lit_velha2016_tps:
+    process_name: 'IMEC multi-project wafer run, photonic design kit (ref. 11: Europractice MPW, imec ISIPP25G)'
+    notes: 'Fab org_imec: ''manufactured by IMEC in a multi-project wafer run'' (p.2); grating couplers, MMIs and Ge photodetectors
+      taken from the photonic design kit (p.2). Platform empty: the paper says Si photonics / Si waveguide but never states
+      SOI or a BOX (D422 / D423). Building-block values (GC, MMI, Ge PD) were ''determined'' (p.2) in the sentence right after
+      the statement that these blocks were taken from the photonic design kit; no measurement, spectrum, test-structure result
+      or method is shown, so they are author_estimate (origin not stated; rule 4, D44, D418 nader2025). Ref. 11, cited in
+      the fabrication sentence, is the Europractice MPW page for the imec ISIPP25G technology (p.4 references): Europractice
+      is not in the registry (MPW access, fab role; audit report). Two TPSs (one on a 2D GC output arm, one in the MZI); Fig.
+      4 shows up to 4 pi of tuning, no power per pi printed.'
+    why: 'p.2 fabrication sentence cites ref. 11, which p.4 lists as the Europractice multi project wafer page for imec ISIPP25G:
+      process_name as printed (Contract v7) instead of a paraphrase; building-block basis note follows the metric fixes (audit
+      Q1, Q2)'
+metrics:
+  cmp_lit_velha2016_2dgc-m1:
+    basis: author_estimate
+    notes: 'printed 9.7 dB insertion loss at 1550 nm for the 2DGC (given as the coupling efficiency); origin not stated: the
+      building-block values ''were determined'' (p.2) in the sentence right after the statement that the GCs, MMIs and Ge
+      PDs were taken from the photonic design kit; no measurement or method is shown, so they may be design-kit values (audit
+      Q1)'
+    why: 'p.2: GCs, MMIs and Ge PDs ''were taken from the photonic design kit'', then ''the performances of the individual
+      building blocks were determined'' with no data, figure, test structure or method; whether these are this chip''s measurements
+      or design-kit values cannot be decided from the paper, so measured is not supported (rule 4 / D44: unstated origin ->
+      author_estimate; D418 nader2025). Audit Q1'
+  cmp_lit_velha2016_tegc-m1:
+    basis: author_estimate
+    notes: 'printed 2.7 dB insertion loss at 1550 nm for the TEGC (given as the coupling efficiency); origin not stated: the
+      building-block values ''were determined'' (p.2) in the sentence right after the statement that the GCs, MMIs and Ge
+      PDs were taken from the photonic design kit; no measurement or method is shown, so they may be design-kit values (audit
+      Q1)'
+    why: 'p.2: GCs, MMIs and Ge PDs ''were taken from the photonic design kit'', then ''the performances of the individual
+      building blocks were determined'' with no data, figure, test structure or method; whether these are this chip''s measurements
+      or design-kit values cannot be decided from the paper, so measured is not supported (rule 4 / D44: unstated origin ->
+      author_estimate; D418 nader2025). Audit Q1'
+  cmp_lit_velha2016_mmi-m1:
+    basis: author_estimate
+    notes: 'printed MMI insertion loss 0.5 dB for a 50:50 coupler (loss beyond the ideal split); wavelength not stated with
+      the value, the circuit operates at 1550 nm; origin not stated: the building-block values ''were determined'' (p.2) in
+      the sentence right after the statement that the GCs, MMIs and Ge PDs were taken from the photonic design kit; no measurement
+      or method is shown, so they may be design-kit values (audit Q1)'
+    why: 'p.2: GCs, MMIs and Ge PDs ''were taken from the photonic design kit'', then ''the performances of the individual
+      building blocks were determined'' with no data, figure, test structure or method; whether these are this chip''s measurements
+      or design-kit values cannot be decided from the paper, so measured is not supported (rule 4 / D44: unstated origin ->
+      author_estimate; D418 nader2025). Audit Q1'
+  cmp_lit_velha2016_ge_pd-m1:
+    basis: author_estimate
+    notes: 'printed 10 nA at 1 V (reverse bias as stated for the responsivity, p.2, and the p.3 threshold); origin not stated:
+      the building-block values ''were determined'' (p.2) in the sentence right after the statement that the GCs, MMIs and
+      Ge PDs were taken from the photonic design kit; no measurement or method is shown, so they may be design-kit values
+      (audit Q1)'
+    why: 'p.2: GCs, MMIs and Ge PDs ''were taken from the photonic design kit'', then ''the performances of the individual
+      building blocks were determined'' with no data, figure, test structure or method; whether these are this chip''s measurements
+      or design-kit values cannot be decided from the paper, so measured is not supported (rule 4 / D44: unstated origin ->
+      author_estimate; D418 nader2025). Audit Q1'
+  cmp_lit_velha2016_ge_pd-m2:
+    basis: author_estimate
+    notes: 'printed 0.9 A/W at 1550 nm with 1 V reverse bias; reference plane not stated; origin not stated: the building-block
+      values ''were determined'' (p.2) in the sentence right after the statement that the GCs, MMIs and Ge PDs were taken
+      from the photonic design kit; no measurement or method is shown, so they may be design-kit values (audit Q1)'
+    why: 'p.2: GCs, MMIs and Ge PDs ''were taken from the photonic design kit'', then ''the performances of the individual
+      building blocks were determined'' with no data, figure, test structure or method; whether these are this chip''s measurements
+      or design-kit values cannot be decided from the paper, so measured is not supported (rule 4 / D44: unstated origin ->
+      author_estimate; D418 nader2025). Audit Q1'
+  cmp_lit_velha2016_tps-m2:
+    notes: printed '< 100 KHz bandwidth' for the thermally limited system response ('a few microsecond', p.4); the bandwidth
+      criterion (3-dB or other) is not stated and no measurement is shown (origin not stated); bound kept in bw3db_khz with
+      this caveat
+    why: 'p.4 conclusion: the bandwidth is a parenthetical bound on the thermal response with no stated criterion; the registry
+      parameter is a 3-dB modulation bandwidth, so the note must say the criterion is not printed (rule 5)'
+  cmp_lit_shen2015_mode_converting_pbs-m1:
+    scope: unspecified
+    method: unspecified
+    excludes: ''
+    notes: printed measured peak transmission efficiency 58 %; -10 log10(0.58); peak wavelength not printed, span = Fig. 5(a)
+      axis. The main text states the straight-waveguide normalization only for the PBS of Fig. 3 (p.2); for the mode-converting
+      PBS (3 um multimode input, Fig. 5) no normalization is stated (Supp. not cached), so the scope is unspecified
+    why: 'p.4: Fig. 5 results are given with no reference structure; the p.2 normalization sentence refers to the Fig. 3 PBS
+      with its tapers. ''as for the PBS'' was an assumption (rule 6: unspecified when the paper does not say)'
+  cmp_lit_shen2015_mode_converting_pbs-m2:
+    scope: unspecified
+    method: unspecified
+    excludes: ''
+    notes: printed measured peak transmission efficiency 71 %; -10 log10(0.71); peak wavelength not printed, span = Fig. 5(a)
+      axis. The main text states the straight-waveguide normalization only for the PBS of Fig. 3 (p.2); for the mode-converting
+      PBS (3 um multimode input, Fig. 5) no normalization is stated (Supp. not cached), so the scope is unspecified
+    why: 'p.4: Fig. 5 results are given with no reference structure; the p.2 normalization sentence refers to the Fig. 3 PBS
+      with its tapers. ''as for the PBS'' was an assumption (rule 6: unspecified when the paper does not say)'
+add_metrics:
+- metric_id: cmp_lit_xu2019_swg_hetero_pbs-m16
+  component_id: cmp_lit_xu2019_swg_hetero_pbs
+  parameter: per_db
+  value: 25
+  unit: dB
+  qualifier: approx
+  wavelength_nm: 1550
+  polarization: tm
+  condition: 3D FDTD of the optimized structure (f[100] 0.74, f[010] 0.70), PER_TM, Eq. (8), central wavelength
+  basis: simulated
+  locator: p.5 Sec. 2
+  notes: printed as high as about 25 dB at the central wavelength of 1.55 um
+  why: Miss. p.5 Sec. 2 prints the simulated extinction ratios of the optimized design at 1.55 um (PER_TM about 25 dB, PER_TE
+    about 38 dB); the batch entered only the > 20 dB band bound (m7)
+- metric_id: cmp_lit_xu2019_swg_hetero_pbs-m17
+  component_id: cmp_lit_xu2019_swg_hetero_pbs
+  parameter: per_db
+  value: 38
+  unit: dB
+  qualifier: approx
+  wavelength_nm: 1550
+  polarization: te
+  condition: 3D FDTD of the optimized structure (f[100] 0.74, f[010] 0.70), PER_TE, Eq. (9), central wavelength
+  basis: simulated
+  locator: p.5 Sec. 2
+  notes: printed as high as about 38 dB at the central wavelength of 1.55 um
+  why: Miss. p.5 Sec. 2 prints the simulated extinction ratios of the optimized design at 1.55 um (PER_TM about 25 dB, PER_TE
+    about 38 dB); the batch entered only the > 20 dB band bound (m7)
