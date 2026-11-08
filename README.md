@@ -1,56 +1,64 @@
 # Photonics Atlas
 
-A shared, traceable registry of organizations, org events and source documents for integrated photonics, and the
-atlases built on it:
+A traceable atlas of integrated photonics built from published work: PIC components with their reported performance
+and geometry, a foundry PDK benchmark, the supply chain behind them, and the people and organizations that publish
+them. Live at https://outside5sigma.com/photonics-atlas/.
 
-- **PIC components** (couplers, splitters, resonators, WDM as its own category, lasers, detectors, ...), per-class specs;
+![Foundry PDK benchmark: best published value per foundry and platform, row best and second best emphasised](docs/screenshots/benchmark.png)
+
+![Component layouts: true-scale top views and cross-sections from reported dimensions and source figures](docs/screenshots/layouts.png)
+
+![Dashboard: counts, publications by year and type, fabricating organizations and vendors](docs/screenshots/dashboard.png)
+
+- **PIC components** (couplers, splitters, resonators, WDM, phase shifters, detectors, lasers, amplifiers, ...):
+  long-format values with conditions, scope, basis and locator, per-class tables, plots and true-scale layouts;
+- **foundry PDK benchmark**: foundry x platform columns, building-block rows, the best published value per cell with
+  its provenance on hover; also a self-contained page (`app/static/pdk-benchmark.html`);
 - **supply chain / vendors** (wafers, foundries, lasers, fiber and connectors, packaging materials and tools, test
   instruments, reliability standards);
-- **people / affiliations / career moves** (absorbs the photonics lineage graph).
+- **people / affiliations** (absorbs the photonics lineage graph) on a shared registry of organizations, org events and
+  source documents.
 
-All of it is one SvelteKit static app, live at https://outside5sigma.com/photonics-atlas/ (GitHub Pages, built by
-`.github/workflows/deploy.yml` on every push to `main`). The [EO modulator atlas](https://github.com/jwt625/eo-modulator-atlas) and the
+All of it is one SvelteKit static app (GitHub Pages, built by `.github/workflows/deploy.yml` on every push to `main`).
+The [EO modulator atlas](https://github.com/jwt625/eo-modulator-atlas) and the
 [advanced packaging atlas](https://github.com/jwt625/advanced-packaging-atlas) stay canonical for their own tables;
 this repo reads them through read-only adapters and maps their organizations into the shared registry.
 
-## Current state (2026-10-23)
+## Current state (2026-11-07)
 
-- Counts on 2026-10-23 (computed by `scripts/build_views.py` from the tables): 807 components (91 classes in 20
-  families, 30 platforms) with 3575 values (1467 measured) from 309 publications, years 2006-2026; 1069 organizations;
-  6244 public people with 10372 published affiliations in 1293 publications; supply: 1996 stated uses, 242 vendors
-  (shared cleanrooms not counted), 852 products, 39 foundry processes, 24 standards, 401 reliability tests; 1358
-  publications cited across components, supply and people.
-- P0 foundation done ([DevLog-001](DevLog/DevLog-001-p0-foundation.md)): shared registry of organizations (aliases,
-  parents, ROR / Wikidata ids), org events (acquisitions, renames, spin-offs, mergers, with sources and locators) and
-  source documents (`eo:`, `pk:`, `ofc2026:`, `blog:`, `lin:`, `web:`); generated crosswalk mapping every EO / packaging
-  org, lineage org id and OFC 2026 affiliation string (99.8 % of author rows) to registry orgs.
-- P1 component atlas ([DevLog-002](DevLog/DevLog-002-p1-component-atlas.md)): per-class parameter registry (20
-  classes incl. WDM), long-format `data/components/component_metrics.csv` (554 components, 1791 values on 2026-10-20);
-  back-filled from the EO atlas papers, packaging-atlas papers and OFC 2026 component papers (facts only), every batch
-  audited. Corrections are replayable per batch: `patch.yaml` (audit), `sweep.yaml` (conventions), `gapfill.yaml`
-  (registry additions) and later audit addenda (`addendum.yaml`), then `geometry.yaml`, `geoaudit.yaml`,
-  `coord.yaml`, `sweep2.yaml`, `coord2.yaml` (org round 5 fab / facility), `extaudit.yaml` (registry-extension audit,
-  incl. sweep 3 ops) `sweep3.yaml` (sweep 3 in batches without an `extaudit.yaml`) and `extaudit2.yaml` (lit_01 only, D259a), applied in that order with
-  `scripts/patch_component_staging.py`, then
-  `scripts/merge_component_staging.py --replace`.
-- P2 supply chain foundation ([DevLog-003](DevLog/DevLog-003-p2-supply-chain.md)): category tree A-K,
-  `data/supply/` (foundry / facility / wafer usage from EO papers, foundry processes, standards, reliability tests from
-  the packaging atlas); products from the vendor / model scanner; datasheet specs not started.
-- P3 people foundation ([DevLog-004](DevLog/DevLog-004-p3-people.md)): person registry, ID crosswalk and dated
-  affiliation observations (`data/people/`, grade A paper-printed, B conference metadata); review queue and derived
-  transitions stay local (git-ignored `data/_local/`), never published.
-- App (`app/`, [DevLog-010](DevLog/DevLog-010-views-and-org-hub.md)): atlas overview, components, explore, layouts,
-  supply (category tree, vendors, products, processes, standards), people (persons, organizations, coverage by
-  publication type; public rows only), organizations and the org hub (`/orgs/hub?id=`). Viewer-facing: sources are
-  shown as publications (title, venue, year, type, link); no internal / pipeline fields are served.
+- Counts (computed by `scripts/build_views.py` from the tables): 3982 components (101 classes in 20 families, 31
+  platforms) with 23730 values (7165 measured) from 1009 publications, years 2000-2026; 1080 organizations; 8845
+  public people with 16115 published affiliations in 1975 publications; supply: 1997 stated uses, 242 vendors, 852
+  products, 39 foundry processes, 24 standards, 407 reliability tests; 2060 publications cited in all.
+- Foundations: shared registry of organizations, org events and source documents
+  ([DevLog-001](DevLog/DevLog-001-p0-foundation.md)); component atlas with a per-class parameter registry
+  ([DevLog-002](DevLog/DevLog-002-p1-component-atlas.md)); supply chain ([DevLog-003](DevLog/DevLog-003-p2-supply-chain.md));
+  people and dated affiliation observations ([DevLog-004](DevLog/DevLog-004-p3-people.md); review queue and derived
+  transitions stay local and git-ignored).
+- Literature corpus: a scored, curated list of about a thousand papers (OpenAlex / Crossref / arXiv harvest, owner
+  adds), fetched politely, extracted to page-marked text and figure renders, registered as `lit:` sources
+  ([DevLog-006](DevLog/DevLog-006-literature-scouting.md)); OFC 2026 papers and author headers
+  ([DevLog-008](DevLog/DevLog-008-ofc-header-extraction.md), [DevLog-011](DevLog/DevLog-011-lit-author-affiliations.md)).
+- Distillation: every paper goes through a distill agent and an independent fresh-context audit before merge; audit
+  corrections are replayable `patch.yaml` files per staging batch ([DevLog-007](DevLog/DevLog-007-lit-distill.md)).
+- App ([DevLog-010](DevLog/DevLog-010-views-and-org-hub.md), [DevLog-012](DevLog/DevLog-012-load-performance.md),
+  [DevLog-013](DevLog/DevLog-013-ui-tables-and-layouts.md)): dashboard, organizations and org hub, per-class
+  component tables with column filters, explore plots, curated true-scale layouts (a layout the source does not fix
+  is not drawn), supply, people. Viewer-facing: sources are shown as publications; no pipeline fields are served.
+- Foundry PDK benchmark ([DevLog-014](DevLog/DevLog-014-pdk-benchmark-table.md),
+  [DevLog-015](DevLog/DevLog-015-foundry-coverage-tsmc-tower.md)): 25 foundry x platform columns (SiPh, SiN, TFLN,
+  InP), 18 rows; rules and choices in `config/benchmark.yaml` (basis filter, telecom window, ranges ranked at their
+  midpoint, pinned columns, foundry by author affiliation when a paper names no fab, marked customer-spec and
+  private-communication values).
 
 ## Data conventions
 
 Schema and binding rules: [data/schema/registry.schema.yaml](data/schema/registry.schema.yaml). In short: empty cell =
 not stated by any source; renames, spin-offs, acquisitions and mergers are events between separate organizations,
 never aliases; printed strings map by normalized name, curated alias or exact ROR name match (no fuzzy matching);
-ISO dates (`YYYY`, `YYYY-MM`, `YYYY-MM-DD`); evidence grades A-D, X. Non-open-access corpora (OFC 2026, packaging
-atlas papers) contribute facts and locators only; no PDF or text from them is stored here.
+ISO dates (`YYYY`, `YYYY-MM`, `YYYY-MM-DD`); evidence grades A-D, X. Non-open-access sources contribute facts and
+locators only: cached PDFs, extracted text and figure renders stay local and git-ignored (`references/*/source.json`
+metadata is committed).
 
 ## Workflow
 
@@ -92,6 +100,15 @@ Atlas tranches on top of the registry (each validated by `validate_db.py` throug
 | `scan_vendor_models.py` | vendor / model candidates from cached paper texts (`config/supply_scanner.yaml`): git-ignored JSONL with context in `data/_local/supply/scan/`, text-free `candidates.csv` per batch in `data/_staging/supply/products/<batch>/` |
 | `build_supply_staging.py <batch>` | reviewed batch (`review.csv`) -> staged `products.csv` / `product_usage.csv` with page checks and validation; vendor gaps to `data/_staging/supply/org_requests.csv`; `--merge` appends to `data/supply/` (after audit) |
 | `build_people.py`, then `derive_transitions.py` | people tables in `data/people/`; review queue and transitions in git-ignored `data/_local/people/` |
+
+Literature and benchmark:
+
+| script | writes |
+|---|---|
+| `lit_curator_adds.py`, `lit_select.py --delta`, `lit_build_queue.py --delta` | curated cache list and retrieval queue in `data/_staging/literature/` (previous rows kept verbatim) |
+| `lit_fetch_oa.py`, `lit_fetch_browser.py`, `lit_ingest_inbox.py`, `lit_extract.py` | `references/<paper_id>/` (PDF, `text.md`, figures; only `source.json` is committed) |
+| `lit_register_sources.py` | `lit:` rows of `data/registry/sources.csv` |
+| `build_benchmark.py` | `app/static/data/benchmark.json` from `config/benchmark.yaml`; then `cd app && node scripts/build-benchmark-html.mjs` for the standalone page |
 
 `validate_db.py` (reader) checks everything against the schema.
 
