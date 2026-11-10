@@ -1,0 +1,202 @@
+# Audit patch lit_119 (fresh-context audit 2026-11-09, DevLog/audits/2026-11-09-lit_119-audit.md).
+# 220 metrics: 214 ok / 5 imprecise / 1 wrong; 28 components: 24 ok / 4 imprecise / 0 wrong, 0 deleted; 7 misses added (7 metrics).
+# Coordinator rulings open: Q1 piyush2026 29 mW (to keep it, drop the delete_metrics entry and restore the old W heater note
+# sentence); Q2 piyush2026 split deviations stay out (D401); Q3 device assignments kept (fatema2026 area match, tabatabaei2026
+# 157 fF confirmed by the vector read, goyvaerts2020 pooled coupon statistics, D465); Q4 parra2020 IL author_estimate and
+# liu2024a in scope (no ops). The figure-read misses can be dropped one by one (add_metrics entries).
+components:
+  cmp_lit_piyush2026_w_heater_160:
+    notes: 'Fab: ''fabricated using IMEC''s standard iSiPP50G silicon photonics platform'' (p.6 Sec. 2.3; p.19 Sec. 4: 1 x
+      4 splitter fabricated using IMEC''s iSiPP50G platform): fab org_imec, process_name as printed. The fabricated set (standalone
+      diodes, standalone heaters, DAMs, 1 x 4 circuit) is one foundry run (p.8 Sec. 3). Electrical packaging on a custom DC
+      PCB with TEC; IZMO Microsystems thanked for assistance with the electrical packaging (p.23; not a fab of the photonic
+      parts). Dedicated 1x2 MZI with independent heaters on both arms (p.11 Sec. 3.1.2). Measured heater I-V: about 25 mA
+      at 4 V (Fig. 12). Temperature coefficient of resistance about 1.66e-3 /K extracted from the R-P curve (p.12; no registry
+      parameter); dn_eff/dT 1.76e-4 /K estimated from P_pi (p.5). P_pi about 29 mW averaged over 24 fabricated devices of
+      the foundry W heater (p.4 Sec. 2.2) is not entered (D159): the heater length of those devices is not printed, and the
+      160 um length was chosen afterwards from a simulated 75 K heater-temperature limit at that power (p.5 Fig. 3(b)); the
+      measured value of the 160 um heater is m1 (27.3 mW, p.12). Typical 160 ohm heater resistance (p.5) is cited (ref. 24):
+      not entered.'
+    why: 'Audit Q1 (D159): the 29 mW row (old m2) is deleted and its value moved here; p.4 prints it for 24 devices with no
+      heater length, and p.5 derives the 160 um length from it, so the devices are not shown to be 160 um heaters. Locator:
+      the Sec. 4 sentences cited here (220 nm SOI platform, iSiPP50G fabrication of the 1 x 4 splitter, about 50 mW at 3 V,
+      12 % / 88 % power split, +/-0.015 / +/-0.025 dB) sit on p.19 of text.md (page marker before them), not p.18'
+  cmp_lit_piyush2026_dam:
+    notes: 'Fab: ''fabricated using IMEC''s standard iSiPP50G silicon photonics platform'' (p.6 Sec. 2.3; p.19 Sec. 4: 1 x
+      4 splitter fabricated using IMEC''s iSiPP50G platform): fab org_imec, process_name as printed. The fabricated set (standalone
+      diodes, standalone heaters, DAMs, 1 x 4 circuit) is one foundry run (p.8 Sec. 3). Electrical packaging on a custom DC
+      PCB with TEC; IZMO Microsystems thanked for assistance with the electrical packaging (p.23; not a fab of the photonic
+      parts). Standalone diode (measured, p.10 Sec. 3.1.1): about 90 mA at 2 V, series resistance about 11-12 ohm in the linear
+      region, breakdown about -13.5 V, reverse leakage about 3.5 nA; cut-in about 0.9 V (p.13); TCAD: 6-7 ohm, about -15 V
+      (p.7). Not entered: phase_shifter has no series_resistance_ohm / breakdown_voltage_v (registry gap). At 3 V about 12
+      % of the power is dissipated in the diode and 88 % in the heater (p.19). The DUT of the dynamic tests is one MZI of
+      the 1 x 4 splitter (p.14).'
+    why: 'Locator: the Sec. 4 sentences cited here (220 nm SOI platform, iSiPP50G fabrication of the 1 x 4 splitter, about
+      50 mW at 3 V, 12 % / 88 % power split, +/-0.015 / +/-0.025 dB) sit on p.19 of text.md (page marker before them), not
+      p.18'
+  cmp_lit_piyush2026_1x4_splitter:
+    notes: 'Fab: ''fabricated using IMEC''s standard iSiPP50G silicon photonics platform'' (p.6 Sec. 2.3; p.19 Sec. 4: 1 x
+      4 splitter fabricated using IMEC''s iSiPP50G platform): fab org_imec, process_name as printed. The fabricated set (standalone
+      diodes, standalone heaters, DAMs, 1 x 4 circuit) is one foundry run (p.8 Sec. 3). Electrical packaging on a custom DC
+      PCB with TEC; IZMO Microsystems thanked for assistance with the electrical packaging (p.23; not a fab of the photonic
+      parts). Split deviation after phase-error correction: +/-0.15 dB at 1550 nm and +/-0.25 dB over 1545-1555 nm (p.18 Sec.
+      3.3) vs +/-0.015 dB and +/-0.025 dB in the abstract (p.1, there ''across a 40 nm operating wavelength bandwidth'' while
+      the measurement spans 1545-1555 nm) and the p.19 conclusion (conflict); not entered (D401: a per-port deviation from
+      the ideal -6 dB is not imbalance_db or an insertion loss). Fig. 19(b) resolves neither value (audit view: trace noise
+      of a few tenths of a dB on a 20 dB axis). Before correction the port powers are non-uniform (Fig. 19(a)). Per-MZI offsets
+      in Table 1 (Voff-T 1.5 / 2.0 / 2.5 V, Voff-B -2.8 / -2.4 / -1.85 V).'
+    why: 'Locator: the Sec. 4 sentences cited here (220 nm SOI platform, iSiPP50G fabrication of the 1 x 4 splitter, about
+      50 mW at 3 V, 12 % / 88 % power split, +/-0.015 / +/-0.025 dB) sit on p.19 of text.md (page marker before them), not
+      p.18; the abstract''s 40 nm span conflicts with the measured 1545-1555 nm range (p.17-18) and is noted with the split-deviation
+      conflict (audit Q2)'
+  cmp_lit_fatema2026_apd_50x120:
+    notes: 'Fab empty: first-person bonding / processing statements (''we spun'', p.3) by authors at two unrelated orgs (University
+      of Virginia, University of Maryland); no fabricating org named (D154). Epitaxial wafer source not stated. Responsivities
+      are internal (on-chip): photocurrent over the waveguide power, with a simulated 2.94 dB fiber-to-waveguide coupling
+      loss (p.5): author_estimate. Dark current / breakdown are from the Fig. 4(a) APD of area 6000 um2; among the measured
+      sizes (Fig. 5(a): 50 x 80, 50 x 100, 50 x 120, 70 x 100, 60 x 150, 80 x 150 um) only 50 x 120 um has that area, so they
+      are entered here (identity inferred from the area, not stated). Fig. 4(b) also shows circular APDs on SiN whose sizes
+      are not printed; the text does not call the Fig. 4(a) device rectangular, so the assignment rests on the area match
+      (audit Q3). Punch-through about -17 V (p.4). Simulated absorbed fraction about 80 % for a 55 um long APD (p.3). Which
+      mesa dimension lies along the waveguide is not stated: absorber length / width not entered. Eye diagrams (5.5 / 6.5
+      / 7.5 Gbps) were measured on a 60 x 150 um APD (p.7 Fig. 9): no registry parameter, no row. Table 1 values of other
+      works not entered.'
+    why: 'p.4 Fig. 4(b) caption: circular APDs fabricated on SiN exist besides the rectangular set of Fig. 5(a); the note
+      now states that the 6000 um2 assignment rests on the area match (audit Q3) and lists the Fig. 5(a) sizes'
+metrics:
+  cmp_lit_parra2020_ito_ps_tm_l150-m1:
+    notes: wavelength not printed with the value; the TM MZI spectrum is not shown (Fig. 8(a) is the TE MZI, 1547-1553 nm);
+      the design and the simulations are at 1550 nm (Table 1, Fig. 4 caption)
+    why: p.9 Fig. 8(a) is the TE MZI spectrum (caption); the TM row cited it as the wavelength evidence
+  cmp_lit_parra2020_ito_ps_tm_l150-m2:
+    notes: 'Printed: measured optical losses of the phase shifter negligible, in agreement with simulations (< 0.01 dB) (p.8),
+      and IL < 0.01 dB in the discussion (p.10); stated once for the ITO/Si phase shifter and entered on each fabricated row
+      (D465 analogue). How the bound was isolated and whether it is a measurement floor or the simulated value is not stated:
+      author_estimate. Wavelength not printed with the value; the TM MZI spectrum is not shown (Fig. 8(a) is the TE MZI, 1547-1553
+      nm); the design and the simulations are at 1550 nm (Table 1, Fig. 4 caption).'
+    why: 'Same as m1: p.9 Fig. 8(a) is the TE MZI spectrum, not evidence for the TM wavelength'
+  cmp_lit_piyush2026_w_heater_160-m10:
+    locator: p.3 Sec. 2.1; p.19 Sec. 4
+    why: 'Locator: the Sec. 4 sentences cited here (220 nm SOI platform, iSiPP50G fabrication of the 1 x 4 splitter, about
+      50 mW at 3 V, 12 % / 88 % power split, +/-0.015 / +/-0.025 dB) sit on p.19 of text.md (page marker before them), not
+      p.18'
+  cmp_lit_piyush2026_dam-m4:
+    locator: p.14 Sec. 3.2.1; p.19 Sec. 4; p.13 Fig. 15(a)
+    notes: p.14 prints 'more than 50 mW' at 3 V; abstract (p.1) and conclusion (p.19) print approximately 50 mW at +/-3 V
+    why: 'Locator: the Sec. 4 sentences cited here (220 nm SOI platform, iSiPP50G fabrication of the 1 x 4 splitter, about
+      50 mW at 3 V, 12 % / 88 % power split, +/-0.015 / +/-0.025 dB) sit on p.19 of text.md (page marker before them), not
+      p.18'
+  cmp_lit_fatema2026_apd_50x100-m1:
+    bias_v: ''
+    condition: beyond punch-through (bias not printed with the value); C-V at 1 MHz
+    notes: printed 400 fF beyond punch-through (p.4) with no bias; Fig. 5(b) plots the capacitance at -20 V, where the audit
+      read of the 5000 um2 marker gives about 388 fF (+/-5 fF), so the printed value is not tied to -20 V
+    why: p.4 Sec. 3.1 prints no bias with the 400 fF; the -20 V came from the Fig. 5(b) legend, whose 5000 um2 point reads
+      about 388 fF (audit read, p.5 Fig. 5(b)), i.e. not the printed number
+delete_components: []
+delete_metrics:
+- id: cmp_lit_piyush2026_w_heater_160-m2
+  why: 'Audit Q1, D159 / rule 1: p.4 Sec. 2.2 prints P_pi about 29 mW averaged over 24 fabricated devices with no heater length;
+    p.5 then chooses the 160 um length from a simulation at that power, so entering it on the 160 um row asserts a length
+    the paper does not give. Value moved to the component notes; the 160 um measured value stays (m1, 27.3 mW, p.12)'
+add_metrics:
+- metric_id: cmp_lit_fatema2026_apd_50x120-m14
+  component_id: cmp_lit_fatema2026_apd_50x120
+  parameter: capacitance_ff
+  value: '456'
+  unit: fF
+  qualifier: approx
+  bias_v: '-20'
+  condition: C-V at 1 MHz; 6000 um2 point of the capacitance-vs-area plot (capacitance at -20 V)
+  basis: extracted_from_figure
+  locator: p.5 Fig. 5(b)
+  notes: Audit read of the Fig. 5(b) marker (embedded raster, calibrated on the 4000-12000 um2 and 300-900 fF ticks; reading
+    +/-5 fF). The same read gives about 388 fF for the 5000 um2 point printed as 400 fF (p.4).
+  why: Miss. p.5 Fig. 5(b) gives the capacitance of every measured size at -20 V; 6000 um2 is the 50 x 120 um APD of the DC
+    and responsivity data (Fig. 5(a) sizes)
+- metric_id: cmp_lit_fatema2026_apd_50x80-m5
+  component_id: cmp_lit_fatema2026_apd_50x80
+  parameter: capacitance_ff
+  value: '315'
+  unit: fF
+  qualifier: approx
+  bias_v: '-20'
+  condition: C-V at 1 MHz; 4000 um2 point of the capacitance-vs-area plot (capacitance at -20 V)
+  basis: extracted_from_figure
+  locator: p.5 Fig. 5(b)
+  notes: Audit read of the Fig. 5(b) marker (embedded raster, tick-calibrated; reading +/-5 fF). Context for the 4.2 GHz bandwidth
+    of this device (p.6) and the calculated 9 GHz RC limit (p.6).
+  why: Miss. p.5 Fig. 5(b) gives the capacitance of the 4000 um2 (50 x 80 um) APD, the device of the bandwidth measurement
+    (p.6 Fig. 7)
+- metric_id: cmp_lit_goyvaerts2020_awg-m8
+  component_id: cmp_lit_goyvaerts2020_awg
+  parameter: channel_spacing_nm
+  value: '1.97'
+  unit: nm
+  qualifier: approx
+  statistic: mean
+  n_samples: '8'
+  wavelength_nm: '767.7'
+  wavelength_max_nm: '783.4'
+  polarization: te
+  condition: mean spacing of the -10 dB centres of channels 2-10 in the measured optical transmission; 11.5 deg fiber angle
+  basis: extracted_from_figure
+  locator: p.9 Fig. 7(a)
+  notes: 'Audit read of the Fig. 7(a) raster (grid lines 765-785 nm, 38.95 px/nm): -10 dB centres of channels 2-10 at about
+    767.7 / 769.7 / 771.7 / 773.6 / 775.6 / 777.5 / 779.5 / 781.5 / 783.4 nm (channel 1 near 765.7 nm, left flank at the axis
+    edge); spacings 1.95-2.00 nm, reading +/-0.03 nm. Design 2 nm (m2).'
+  why: Miss. p.9 Fig. 7(a) shows all 10 measured channels; the measured spacing is not printed (only the 2 nm design, p.5)
+    and the figure fixes it (xie2026 / manganelli2017 figure-read precedent, D523, D545)
+- metric_id: cmp_lit_tabatabaei2026_pd_29x44-m18
+  component_id: cmp_lit_tabatabaei2026_pd_29x44
+  parameter: capacitance_ff
+  value: '174'
+  unit: fF
+  qualifier: approx
+  bias_v: '-6'
+  basis: extracted_from_figure
+  locator: p.6 Fig. 6(b)
+  notes: Audit read of the vector path of the 29 x 44 um2 curve (orange), calibrated on the 0-1.2 pF and -12 to 0 V tick marks;
+    reading +/-3 fF. The same read gives 157 fF for the 34 x 34 um2 curve at -6 V, the printed value (p.6).
+  why: Miss. p.6 Fig. 6(b) gives the capacitance of the 29 x 44 um2 PD, the device of the responsivity and bandwidth data
+    (p.6-7 Fig. 7); bandwidths are printed at 0 / -3 / -6 V
+- metric_id: cmp_lit_tabatabaei2026_pd_29x44-m19
+  component_id: cmp_lit_tabatabaei2026_pd_29x44
+  parameter: capacitance_ff
+  value: '188'
+  unit: fF
+  qualifier: approx
+  bias_v: '-3'
+  basis: extracted_from_figure
+  locator: p.6 Fig. 6(b)
+  notes: Audit read of the vector path of the 29 x 44 um2 curve (orange), tick-calibrated; reading +/-3 fF.
+  why: Miss. p.6 Fig. 6(b), at the -3 V bias of the 1.58 GHz bandwidth (p.7)
+- metric_id: cmp_lit_tabatabaei2026_pd_29x44-m20
+  component_id: cmp_lit_tabatabaei2026_pd_29x44
+  parameter: capacitance_ff
+  value: '281'
+  unit: fF
+  qualifier: approx
+  bias_v: '0'
+  basis: extracted_from_figure
+  locator: p.6 Fig. 6(b)
+  notes: Audit read of the vector path of the 29 x 44 um2 curve (orange) at its 0 V end, tick-calibrated; reading +/-5 fF
+    (the curve rises steeply near 0 V).
+  why: Miss. p.6 Fig. 6(b), at the 0 V bias of the 420 MHz bandwidth (p.7)
+- metric_id: cmp_lit_lukin2019_ring_d55-m10
+  component_id: cmp_lit_lukin2019_ring_d55
+  parameter: fsr_nm
+  value: '4.58'
+  unit: nm
+  qualifier: approx
+  wavelength_nm: '1523.0'
+  wavelength_max_nm: '1527.6'
+  polarization: te
+  mode: TE00
+  condition: spacing of the two TE00 resonances labelled in the drop-port spectrum
+  basis: extracted_from_figure
+  locator: p.2 Fig. 1(c)
+  notes: 'Audit read of the Fig. 1(c) vector trace, calibrated on the 1522-1528 nm ticks (24.47 pt/nm): TE00 peaks at about
+    1523.01 and 1527.59 nm (reading +/-0.02 nm). The labelled TE10 and TE20 pairs give about 4.53 and 4.40 nm. FSR not printed.'
+  why: Miss. p.2 Fig. 1(c) labels two resonances of each TE family; the TE00 spacing is a measured spectral value of the ring
+    (figure-read precedent D523)

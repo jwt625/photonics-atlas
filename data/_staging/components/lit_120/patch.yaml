@@ -1,0 +1,260 @@
+# Audit patch lit_120 (fresh-context audit 2026-11-09, DevLog/audits/2026-11-09-lit_120-audit.md).
+# 272 metrics: 242 ok / 22 imprecise / 8 wrong (deleted); 25 components: 18 ok / 7 imprecise / 0 wrong, 0 deleted; 10 misses added.
+# Coordinator rulings open: Q1 nie2019 accepted-manuscript identity (no op), Q2 karunakaran2024 q_intrinsic basis (to keep author_estimate
+# instead, set m3 / m7 basis author_estimate), Q3 hu2020 family values (to keep them, drop the 8 delete_metrics and the 4 drop-port
+# add_metrics, restore the component notes), Q4 lin2023 family bounds (no op).
+components:
+  cmp_lit_nie2019_gacdc_16stage:
+    notes: 'Fab empty: e-beam lithography prototyping is stated (p.1), no fabricating org named (D80b). Cached text is the accepted-manuscript version (title ''High rejection ratio ...'' vs the source row''s ''High extinction ratio ...''; same authors and content). Measured with cleaved 780HP fibers at 10 deg through on-chip grating couplers (no coupler values reported), Ti:sapphire laser, 0.3 nm resolution (p.3). Coupler geometry (p.1-2): Wa = 330 nm and Wb = 585 nm measured from the SEM image; grating width Wg = 320 nm, period 244 nm and duty cycle around 50 % are printed in the next sentence without a measurement statement (period entered design_target); waveguide spacing 750 nm set, grating shifted 80 nm toward waveguide b; mode-solver rib height and slab 150 nm each (p.2). 16 stages of 125 um (Fig. 4(a) legend ''16x125um''), drop ports remove the contra-coupled light between stages. Sibling cascades with 4 / 8 / 10 stages and the single stage of equal length have only Fig. 4(b) values, whose two curves are shifted for visualization: not entered. Self-reflection band (about 772 nm) rejection also rises but is not printed. Stop-band ''bandwidth less than 3 nm'' (p.4) has no stated level: not entered (registry gap). Through-port downshift attributed to 32 mode-transition tapers (simulated 0.15 dB each, about 4.8 dB total, p.4; cmp_lit_nie2019_mode_transition_taper).'
+    why: 'p.1-2: the SEM sentence names only Wa and Wb as measured from the SEM image; the grating width, period and duty cycle follow in a separate sentence with no measurement statement, so the notes overstated the SEM-measured set'
+  cmp_lit_nie2019_gacdc_single_stage_series:
+    notes: 'Fab empty: e-beam lithography prototyping is stated (p.1), no fabricating org named (D80b). Cached text is the accepted-manuscript version (title ''High rejection ratio ...'' vs the source row''s ''High extinction ratio ...''; same authors and content). Measured with cleaved 780HP fibers at 10 deg through on-chip grating couplers (no coupler values reported), Ti:sapphire laser, 0.3 nm resolution (p.3). Coupler geometry (p.1-2): Wa = 330 nm and Wb = 585 nm measured from the SEM image; grating width Wg = 320 nm, period 244 nm and duty cycle around 50 % are printed in the next sentence without a measurement statement (period entered design_target); waveguide spacing 750 nm set, grating shifted 80 nm toward waveguide b; mode-solver rib height and slab 150 nm each (p.2). One row for the length series L = 150, 300, 600, 1000, 2000, 3000 um (D165): the paper states the notch positions and the saturation level for the series, per-length values only in Fig. 3(b) (curves shifted for visualization: not read). A third dip at 769.2 nm is attributed to coupling into a higher-order TM-like mode of waveguide b. Saturation printed as ''around 40 dB'' (p.3) and ''less than 40 dB'' (p.4) (D417).'
+    why: 'p.1-2: the SEM sentence names only Wa and Wb as measured from the SEM image; the grating width, period and duty cycle follow in a separate sentence with no measurement statement, so the notes overstated the SEM-measured set'
+  cmp_lit_nie2019_mode_transition_taper:
+    notes: 'Fab empty: e-beam lithography prototyping is stated (p.1), no fabricating org named (D80b). Cached text is the accepted-manuscript version (title ''High rejection ratio ...'' vs the source row''s ''High extinction ratio ...''; same authors and content). Measured with cleaved 780HP fibers at 10 deg through on-chip grating couplers (no coupler values reported), Ti:sapphire laser, 0.3 nm resolution (p.3). Coupler geometry (p.1-2): Wa = 330 nm and Wb = 585 nm measured from the SEM image; grating width Wg = 320 nm, period 244 nm and duty cycle around 50 % are printed in the next sentence without a measurement statement (period entered design_target); waveguide spacing 750 nm set, grating shifted 80 nm toward waveguide b; mode-solver rib height and slab 150 nm each (p.2). Building block of the cascaded filters (two per stage, 32 in the 16-stage filter, cmp_lit_nie2019_gacdc_16stage). Simulation: 96.6 % of the power stays in waveguide a. The about 4.8 dB for 32 tapers (p.4) is the authors'' multiplication of the simulated value: not entered.'
+    why: 'p.1-2: the SEM sentence names only Wa and Wb as measured from the SEM image; the grating width, period and duty cycle follow in a separate sentence with no measurement statement, so the notes overstated the SEM-measured set'
+  cmp_lit_hu2020_si_gst_cdc_p370:
+    notes: 'Si strip pair: W1 = 370 nm (Si), W2 = 400 nm (GST-loaded, 50 nm inner-sidewall corrugation, 50 % duty), gap 230 nm, H = 220 nm; GST nano-strips 390 x 100 nm, 50 nm thick, period = grating period (p.2); grating length L = 200 um chosen in the FDTD design (p.4). SOI 220 nm on 2 um buried oxide; EBL + ICP etch, second EBL, RF-sputtered GST, lift-off (p.5-6). Fab empty (passive fabrication sentence, D80b); facility: AEMD of SJTU thanked for support in device fabrication (p.9 Acknowledgments). Measured through 70 nm-etched vertical grating couplers, quasi-TE, normalized to a reference straight waveguide (p.6). GST crystallized on a 245 C hot plate for 5 min. Period-series device measured only with amorphous GST (Fig. 6). The through-port 2.5 dB average loss outside the band and the 0.5-1.5 dB drop-port loss (p.6) are stated once for the four devices and do not describe each device (audit read of Fig. 6: drop-port peaks about 1.4 / 0.9 / 0.55 / 0.3 dB for 370 / 374 / 378 / 382 nm; out-of-band through-port level about 1.9-2.5 / 1.7-2.7 / 2.2-4.7 / 3.6-6.1 dB): not entered (D254, D541); each row carries its figure-read drop-port peak. The about 5 nm 3-dB width (p.6) is consistent with each panel of Fig. 6 and stays on each row.'
+    why: Follows the deletion of the family-level through-port and drop-port rows (m3, m4) and the per-device figure reads (audit Q3)
+  cmp_lit_hu2020_si_gst_cdc_p374:
+    notes: 'Si strip pair: W1 = 370 nm (Si), W2 = 400 nm (GST-loaded, 50 nm inner-sidewall corrugation, 50 % duty), gap 230 nm, H = 220 nm; GST nano-strips 390 x 100 nm, 50 nm thick, period = grating period (p.2); grating length L = 200 um chosen in the FDTD design (p.4). SOI 220 nm on 2 um buried oxide; EBL + ICP etch, second EBL, RF-sputtered GST, lift-off (p.5-6). Fab empty (passive fabrication sentence, D80b); facility: AEMD of SJTU thanked for support in device fabrication (p.9 Acknowledgments). Measured through 70 nm-etched vertical grating couplers, quasi-TE, normalized to a reference straight waveguide (p.6). GST crystallized on a 245 C hot plate for 5 min. Period-series device measured only with amorphous GST (Fig. 6). The through-port 2.5 dB average loss outside the band and the 0.5-1.5 dB drop-port loss (p.6) are stated once for the four devices and do not describe each device (audit read of Fig. 6: drop-port peaks about 1.4 / 0.9 / 0.55 / 0.3 dB for 370 / 374 / 378 / 382 nm; out-of-band through-port level about 1.9-2.5 / 1.7-2.7 / 2.2-4.7 / 3.6-6.1 dB): not entered (D254, D541); each row carries its figure-read drop-port peak. The about 5 nm 3-dB width (p.6) is consistent with each panel of Fig. 6 and stays on each row. Simulated values for the 374 nm design (FDTD, L = 200 um) are on this row.'
+    why: Follows the deletion of the family-level through-port and drop-port rows (m3, m4) and the per-device figure reads (audit Q3)
+  cmp_lit_hu2020_si_gst_cdc_p378:
+    notes: 'Si strip pair: W1 = 370 nm (Si), W2 = 400 nm (GST-loaded, 50 nm inner-sidewall corrugation, 50 % duty), gap 230 nm, H = 220 nm; GST nano-strips 390 x 100 nm, 50 nm thick, period = grating period (p.2); grating length L = 200 um chosen in the FDTD design (p.4). SOI 220 nm on 2 um buried oxide; EBL + ICP etch, second EBL, RF-sputtered GST, lift-off (p.5-6). Fab empty (passive fabrication sentence, D80b); facility: AEMD of SJTU thanked for support in device fabrication (p.9 Acknowledgments). Measured through 70 nm-etched vertical grating couplers, quasi-TE, normalized to a reference straight waveguide (p.6). GST crystallized on a 245 C hot plate for 5 min. Period-series device measured only with amorphous GST (Fig. 6). The through-port 2.5 dB average loss outside the band and the 0.5-1.5 dB drop-port loss (p.6) are stated once for the four devices and do not describe each device (audit read of Fig. 6: drop-port peaks about 1.4 / 0.9 / 0.55 / 0.3 dB for 370 / 374 / 378 / 382 nm; out-of-band through-port level about 1.9-2.5 / 1.7-2.7 / 2.2-4.7 / 3.6-6.1 dB): not entered (D254, D541); each row carries its figure-read drop-port peak. The about 5 nm 3-dB width (p.6) is consistent with each panel of Fig. 6 and stays on each row.'
+    why: Follows the deletion of the family-level through-port and drop-port rows (m3, m4) and the per-device figure reads (audit Q3)
+  cmp_lit_hu2020_si_gst_cdc_p382:
+    notes: 'Si strip pair: W1 = 370 nm (Si), W2 = 400 nm (GST-loaded, 50 nm inner-sidewall corrugation, 50 % duty), gap 230 nm, H = 220 nm; GST nano-strips 390 x 100 nm, 50 nm thick, period = grating period (p.2); grating length L = 200 um chosen in the FDTD design (p.4). SOI 220 nm on 2 um buried oxide; EBL + ICP etch, second EBL, RF-sputtered GST, lift-off (p.5-6). Fab empty (passive fabrication sentence, D80b); facility: AEMD of SJTU thanked for support in device fabrication (p.9 Acknowledgments). Measured through 70 nm-etched vertical grating couplers, quasi-TE, normalized to a reference straight waveguide (p.6). GST crystallized on a 245 C hot plate for 5 min. Period-series device measured only with amorphous GST (Fig. 6). The through-port 2.5 dB average loss outside the band and the 0.5-1.5 dB drop-port loss (p.6) are stated once for the four devices and do not describe each device (audit read of Fig. 6: drop-port peaks about 1.4 / 0.9 / 0.55 / 0.3 dB for 370 / 374 / 378 / 382 nm; out-of-band through-port level about 1.9-2.5 / 1.7-2.7 / 2.2-4.7 / 3.6-6.1 dB): not entered (D254, D541); each row carries its figure-read drop-port peak. The about 5 nm 3-dB width (p.6) is consistent with each panel of Fig. 6 and stays on each row.'
+    why: Follows the deletion of the family-level through-port and drop-port rows (m3, m4) and the per-device figure reads (audit Q3)
+metrics:
+  cmp_lit_cui2023a_euler_mm_racetrack-m5:
+    wavelength_nm: 1550
+    wavelength_inferred: 'true'
+    notes: 'printed 39.99 GHz (TE0) from the Fig. 4(b) VNA sweep; the sweep wavelength is not printed: 1550 nm inferred from the Q measurement at 1550 nm in the same setup (p.6-7) and the conclusion''s experimental results around 1550 nm (p.7); the simulated FSR in nm (m7 / m8) matches the GHz value near 1550 nm'
+    why: 'Rule 8: the FSR rows carried neither wavelength nor band; the paper ties the measurement to 1550 nm (p.6-7 Q at 1550 nm, same VNA sweep; p.7 conclusion) without printing the FSR wavelength'
+  cmp_lit_cui2023a_euler_mm_racetrack-m6:
+    wavelength_nm: 1550
+    wavelength_inferred: 'true'
+    notes: 'printed 39.30 GHz (TM0) from the Fig. 4(b) VNA sweep; the sweep wavelength is not printed: 1550 nm inferred from the Q measurement at 1550 nm in the same setup (p.6-7) and the conclusion''s experimental results around 1550 nm (p.7); the simulated FSR in nm (m7 / m8) matches the GHz value near 1550 nm'
+    why: 'Rule 8: the FSR rows carried neither wavelength nor band; the paper ties the measurement to 1550 nm (p.6-7 Q at 1550 nm, same VNA sweep; p.7 conclusion) without printing the FSR wavelength'
+  cmp_lit_cui2023a_euler_mm_racetrack-m7:
+    wavelength_nm: 1550
+    wavelength_inferred: 'true'
+    notes: 'simulated 0.320 nm (TE0), which the measured FSR agrees with (p.6); simulation wavelength not printed: 1550 nm inferred (the nm value corresponds to the measured GHz value near 1550 nm)'
+    why: 'Rule 8: the FSR rows carried neither wavelength nor band; the paper ties the measurement to 1550 nm (p.6-7 Q at 1550 nm, same VNA sweep; p.7 conclusion) without printing the FSR wavelength'
+  cmp_lit_cui2023a_euler_mm_racetrack-m8:
+    wavelength_nm: 1550
+    wavelength_inferred: 'true'
+    notes: 'simulated 0.314 nm (TM0), which the measured FSR agrees with (p.6); simulation wavelength not printed: 1550 nm inferred (the nm value corresponds to the measured GHz value near 1550 nm)'
+    why: 'Rule 8: the FSR rows carried neither wavelength nor band; the paper ties the measurement to 1550 nm (p.6-7 Q at 1550 nm, same VNA sweep; p.7 conclusion) without printing the FSR wavelength'
+  cmp_lit_karunakaran2024_ring_r158_gap700-m3:
+    basis: derived
+    notes: 'Fig. 1(c) label Q0 = 2.7 x 10^6, restated p.9; the extraction is not described. The regime comes from the paper''s own data: Fig. 1(b) dip visibility at 1970 nm rises monotonically with the nominal gap (audit read about 0.23 / 0.26 / 0.53 / 0.78 for 400 / 500 / 600 / 700 nm), so all four rings including this one are over-coupled (p.3); p.9 calls the coupling Q ''found experimentally''. Q0 from the loaded Q and the dip depth (Fig. 1(c) minimum about 0.23) with the data-fixed regime: derived (D403, D465, D520), not a direct reading.'
+    why: 'D403: q_intrinsic is never a direct measurement; with the regime determined from the data (p.3 Fig. 1(b) gap series that includes this ring) it is derived, not measured (audit Q2)'
+  cmp_lit_karunakaran2024_ring_r158_gap700-m7:
+    basis: derived
+    notes: 'printed intrinsic Q0 = 1.5 x 10^6 (p.4); the extraction is not described. Regime from Fig. 1(b): visibility at 1550 nm falls with the gap (audit read about 0.82 / 0.79 / 0.63 / 0.32 for 400-700 nm), which the paper reads as the under-coupled regime (p.3, worded as ''an indication''); derived (D403). Weaker evidence than the 1970 nm value (m3).'
+    why: Same as m3 (D403; p.3 Fig. 1(b) 1550 nm trend); measured is not a basis for an extracted Q0 (audit Q2)
+  cmp_lit_karunakaran2024_ring_r158_gap700-m8:
+    wavelength_nm: 1970
+    why: p.2 Sec. 2.1 prints the 143 GHz FSR at 1.97 um; the row had the wavelength only in the condition text
+  cmp_lit_lin2023_mmi_1x2_psr_50_50-m4:
+    wavelength_nm: 1520
+    wavelength_max_nm: 1590
+    why: 'p.1 Abstract and p.4-5 Sec. 3 print the PSR variation over 1520-1590 nm; the row had the range only in the condition text (rule 7: wavelength_nm + wavelength_max_nm)'
+  cmp_lit_lin2023_mmi_1x2_psr_40_60-m4:
+    wavelength_nm: 1520
+    wavelength_max_nm: 1590
+    why: 'p.1 Abstract and p.4-5 Sec. 3 print the PSR variation over 1520-1590 nm; the row had the range only in the condition text (rule 7: wavelength_nm + wavelength_max_nm)'
+  cmp_lit_lin2023_mmi_1x2_psr_30_70-m4:
+    wavelength_nm: 1520
+    wavelength_max_nm: 1590
+    why: 'p.1 Abstract and p.4-5 Sec. 3 print the PSR variation over 1520-1590 nm; the row had the range only in the condition text (rule 7: wavelength_nm + wavelength_max_nm)'
+  cmp_lit_lin2023_mmi_1x2_psr_20_80-m4:
+    wavelength_nm: 1520
+    wavelength_max_nm: 1590
+    why: 'p.1 Abstract and p.4-5 Sec. 3 print the PSR variation over 1520-1590 nm; the row had the range only in the condition text (rule 7: wavelength_nm + wavelength_max_nm)'
+  cmp_lit_lin2023_mmi_1x2_psr_10_90-m4:
+    wavelength_nm: 1520
+    wavelength_max_nm: 1590
+    why: 'p.1 Abstract and p.4-5 Sec. 3 print the PSR variation over 1520-1590 nm; the row had the range only in the condition text (rule 7: wavelength_nm + wavelength_max_nm)'
+  cmp_lit_lin2023_mmi_1x2_psr_5_95-m4:
+    wavelength_nm: 1520
+    wavelength_max_nm: 1590
+    why: 'p.1 Abstract and p.4-5 Sec. 3 print the PSR variation over 1520-1590 nm; the row had the range only in the condition text (rule 7: wavelength_nm + wavelength_max_nm)'
+  cmp_lit_nie2019_gacdc_16stage-m3:
+    basis: design_target
+    notes: printed with the grating width and duty cycle (p.2) in the sentence after the SEM statement, which names only Wa and Wb as measured from the SEM image (p.1-2); not stated as measured
+    why: 'Contract v5 / rule 4: dimensions are design_target unless SEM / AFM-measured; p.1-2 ties the SEM measurement to Wa and Wb only'
+  cmp_lit_nie2019_gacdc_single_stage_series-m5:
+    basis: design_target
+    notes: printed with the grating width and duty cycle (p.2) in the sentence after the SEM statement, which names only Wa and Wb as measured from the SEM image (p.1-2); not stated as measured
+    why: 'Contract v5 / rule 4: dimensions are design_target unless SEM / AFM-measured; p.1-2 ties the SEM measurement to Wa and Wb only'
+  cmp_lit_nie2019_gacdc_single_stage_series-m1:
+    wavelength_nm: 772.0
+    wavelength_max_nm: 783.6
+    notes: 'printed ''saturates to around 40 dB'' for both stop bands (p.3; self-reflection about 772.0 nm, cross-reflection about 783.6 nm); conclusion (p.4): saturates to less than 40 dB (D417)'
+    why: p.3 states the saturation for both stop bands, centred around 772.0 and 783.6 nm; the row had no wavelength
+  cmp_lit_hu2020_si_gst_cdc_switch_p376-m3:
+    notes: 'printed in the abstract as the device insertion loss below 5 dB, port and state not specified. Audit read of p.7 Fig. 7(a) (y 0 to -35 dB over the frame, 1550-1600 nm): the crystalline-state through port sits at about 7.5-11 dB across the 2.2 nm band (1575-1577 nm), so the bound does not hold for that port and state; the amorphous drop-port peak is about 3.4 dB (p.7). Flag (D417).'
+    why: 'p.1 Abstract vs p.7 Fig. 7(a): the printed bound conflicts with the crystalline through-port trace in the operating band; value kept as printed with the conflict noted'
+  cmp_lit_xu2023b_polysi_gc-m3:
+    basis: derived
+    notes: printed '50% duty circle'; percent stored as a fraction (D253, D157); tooth vs gap fraction not defined
+    why: 'D253: a percentage stored as a fraction is a unit conversion (derived); merged fill_factor rows from printed percentages are derived'
+  cmp_lit_xu2023b_polysi_ring_r40-m1:
+    wavelength_nm: 1507.492
+    notes: deepest resonance, boxed in Fig. 4(a) at about 1507.5 nm and shown in Fig. 4(b) at 1507.492 nm (audit check of the p.5 render)
+    why: p.5 Fig. 4(a) marks the deepest (33.57 dB) resonance with the box that Fig. 4(b) zooms into (1507.492 nm); the row had no wavelength
+  cmp_lit_xu2023b_polysi_ring_r40-m2:
+    wavelength_nm: 1504.75
+    wavelength_max_nm: 1507.49
+    notes: 'Fig. 4(a): the 2.738 nm arrow spans the resonances near 1504.75 and 1507.49 nm (audit read, +/- 0.05 nm)'
+    why: p.5 Fig. 4(a) places the FSR arrow between two resonances; the row had no wavelength
+  cmp_lit_xu2023b_polysi_mzi_pin_switch-m7:
+    condition: 10-90 %, 'Cross' state, 5 kHz square-wave drive between the on-off voltages, at 1550 nm
+    why: p.5 Fig. 5(b) is the 'Cross' state (caption); the 'Bar' state has its own labelled times in Fig. 5(c) (added m14)
+  cmp_lit_xu2023b_polysi_mzi_pin_switch-m8:
+    condition: 90-10 %, 'Cross' state, 5 kHz square-wave drive, at 1550 nm
+    why: Same as m7 (p.5 Fig. 5(b) caption)
+delete_metrics:
+- id: cmp_lit_hu2020_si_gst_cdc_p370-m3
+  why: 'D254 / D541: the through-port 2.5 dB average insertion loss outside the band is printed once for the four period devices (p.6) and does not hold per device: audit read of p.7 Fig. 6 gives out-of-band through-port levels of about 1.9-2.5 dB (370 nm) up to about 3.6-6.1 dB (382 nm) and drop-port peaks of about 1.4 / 0.9 / 0.55 / 0.3 dB, so the printed values summarize the family; value kept in the component notes (audit Q3)'
+- id: cmp_lit_hu2020_si_gst_cdc_p370-m4
+  why: 'D254 / D541: the 0.5-1.5 dB drop-port loss is printed once for the four period devices (p.6) and does not hold per device: audit read of p.7 Fig. 6 gives out-of-band through-port levels of about 1.9-2.5 dB (370 nm) up to about 3.6-6.1 dB (382 nm) and drop-port peaks of about 1.4 / 0.9 / 0.55 / 0.3 dB, so the printed values summarize the family; value kept in the component notes (audit Q3)'
+- id: cmp_lit_hu2020_si_gst_cdc_p374-m3
+  why: 'D254 / D541: the through-port 2.5 dB average insertion loss outside the band is printed once for the four period devices (p.6) and does not hold per device: audit read of p.7 Fig. 6 gives out-of-band through-port levels of about 1.9-2.5 dB (370 nm) up to about 3.6-6.1 dB (382 nm) and drop-port peaks of about 1.4 / 0.9 / 0.55 / 0.3 dB, so the printed values summarize the family; value kept in the component notes (audit Q3)'
+- id: cmp_lit_hu2020_si_gst_cdc_p374-m4
+  why: 'D254 / D541: the 0.5-1.5 dB drop-port loss is printed once for the four period devices (p.6) and does not hold per device: audit read of p.7 Fig. 6 gives out-of-band through-port levels of about 1.9-2.5 dB (370 nm) up to about 3.6-6.1 dB (382 nm) and drop-port peaks of about 1.4 / 0.9 / 0.55 / 0.3 dB, so the printed values summarize the family; value kept in the component notes (audit Q3)'
+- id: cmp_lit_hu2020_si_gst_cdc_p378-m3
+  why: 'D254 / D541: the through-port 2.5 dB average insertion loss outside the band is printed once for the four period devices (p.6) and does not hold per device: audit read of p.7 Fig. 6 gives out-of-band through-port levels of about 1.9-2.5 dB (370 nm) up to about 3.6-6.1 dB (382 nm) and drop-port peaks of about 1.4 / 0.9 / 0.55 / 0.3 dB, so the printed values summarize the family; value kept in the component notes (audit Q3)'
+- id: cmp_lit_hu2020_si_gst_cdc_p378-m4
+  why: 'D254 / D541: the 0.5-1.5 dB drop-port loss is printed once for the four period devices (p.6) and does not hold per device: audit read of p.7 Fig. 6 gives out-of-band through-port levels of about 1.9-2.5 dB (370 nm) up to about 3.6-6.1 dB (382 nm) and drop-port peaks of about 1.4 / 0.9 / 0.55 / 0.3 dB, so the printed values summarize the family; value kept in the component notes (audit Q3)'
+- id: cmp_lit_hu2020_si_gst_cdc_p382-m3
+  why: 'D254 / D541: the through-port 2.5 dB average insertion loss outside the band is printed once for the four period devices (p.6) and does not hold per device: audit read of p.7 Fig. 6 gives out-of-band through-port levels of about 1.9-2.5 dB (370 nm) up to about 3.6-6.1 dB (382 nm) and drop-port peaks of about 1.4 / 0.9 / 0.55 / 0.3 dB, so the printed values summarize the family; value kept in the component notes (audit Q3)'
+- id: cmp_lit_hu2020_si_gst_cdc_p382-m4
+  why: 'D254 / D541: the 0.5-1.5 dB drop-port loss is printed once for the four period devices (p.6) and does not hold per device: audit read of p.7 Fig. 6 gives out-of-band through-port levels of about 1.9-2.5 dB (370 nm) up to about 3.6-6.1 dB (382 nm) and drop-port peaks of about 1.4 / 0.9 / 0.55 / 0.3 dB, so the printed values summarize the family; value kept in the component notes (audit Q3)'
+add_metrics:
+- metric_id: cmp_lit_cui2023a_euler_mm_racetrack-m19
+  component_id: cmp_lit_cui2023a_euler_mm_racetrack
+  parameter: length_um
+  value: 3720
+  unit: um
+  condition: whole racetrack (ring) length
+  basis: design_target
+  locator: p.7 Sec. 3
+  notes: Two 1000 um multimode straights, four 150 um tapers and two Euler bends (p.3); the ring length is printed once (p.7).
+  why: Miss (D153 geometry). p.7 Sec. 3 prints the whole MRR length 3720 um (component notes only); merged racetracks carry the round-trip length as length_um with the role in the condition (hosseinnia2026, ding2026)
+- metric_id: cmp_lit_nie2019_gacdc_single_stage_series-m9
+  component_id: cmp_lit_nie2019_gacdc_single_stage_series
+  parameter: length_um
+  value: 150
+  value_max: 3000
+  unit: um
+  statistic: range
+  n_samples: 6
+  condition: 'filter (grating) lengths of the series: 150, 300, 600, 1000, 2000, 3000 um'
+  basis: design_target
+  locator: p.3
+  why: Miss (D153 geometry). p.3 prints the six filter lengths of the single-stage series (component notes only); a series row carries its set in the condition (period_nm range convention)
+- metric_id: cmp_lit_hu2020_si_gst_cdc_p370-m12
+  component_id: cmp_lit_hu2020_si_gst_cdc_p370
+  parameter: drop_loss_db
+  value: 1.4
+  unit: dB
+  qualifier: approx
+  wavelength_nm: 1561.4
+  polarization: te
+  condition: drop-port peak transmission in the reflection band, amorphous GST; normalized to a reference straight waveguide
+  method: reference_structure
+  basis: extracted_from_figure
+  locator: p.7 Fig. 6(a)
+  notes: 'Audit read of the Fig. 6(a) render (y ticks 5 to -35 dB at 10 px/dB, x frame 1545-1575 nm; trace centre): drop-port peak about -1.4 dB at about 1561.4 nm, +/- 0.15 dB; in-band ripple reaches about -2 to -3 dB near the band edges. The printed 0.5-1.5 dB drop-port loss is stated once for the four devices (p.6).'
+  why: 'Miss replacing the family-level row m4: p.7 Fig. 6(a) shows this device''s drop-port spectrum; drop_loss_db is the wdm drop-port loss at resonance (audit Q3)'
+- metric_id: cmp_lit_hu2020_si_gst_cdc_p374-m19
+  component_id: cmp_lit_hu2020_si_gst_cdc_p374
+  parameter: drop_loss_db
+  value: 0.9
+  unit: dB
+  qualifier: approx
+  wavelength_nm: 1569.2
+  polarization: te
+  condition: drop-port peak transmission in the reflection band, amorphous GST; normalized to a reference straight waveguide
+  method: reference_structure
+  basis: extracted_from_figure
+  locator: p.7 Fig. 6(b)
+  notes: 'Audit read of the Fig. 6(b) render (y ticks 5 to -35 dB at 10 px/dB, x frame 1555-1585 nm; trace centre): drop-port peak about -0.9 dB at about 1569.2 nm, +/- 0.15 dB; in-band ripple reaches about -2 to -3 dB near the band edges. The printed 0.5-1.5 dB drop-port loss is stated once for the four devices (p.6).'
+  why: 'Miss replacing the family-level row m4: p.7 Fig. 6(b) shows this device''s drop-port spectrum; drop_loss_db is the wdm drop-port loss at resonance (audit Q3)'
+- metric_id: cmp_lit_hu2020_si_gst_cdc_p378-m12
+  component_id: cmp_lit_hu2020_si_gst_cdc_p378
+  parameter: drop_loss_db
+  value: 0.55
+  unit: dB
+  qualifier: approx
+  wavelength_nm: 1580.0
+  polarization: te
+  condition: drop-port peak transmission in the reflection band, amorphous GST; normalized to a reference straight waveguide
+  method: reference_structure
+  basis: extracted_from_figure
+  locator: p.7 Fig. 6(c)
+  notes: 'Audit read of the Fig. 6(c) render (y ticks 5 to -35 dB at 10 px/dB, x frame 1565-1595 nm; trace centre): drop-port peak about -0.55 dB at about 1580.0 nm, +/- 0.15 dB; in-band ripple reaches about -2 to -3 dB near the band edges. The printed 0.5-1.5 dB drop-port loss is stated once for the four devices (p.6).'
+  why: 'Miss replacing the family-level row m4: p.7 Fig. 6(c) shows this device''s drop-port spectrum; drop_loss_db is the wdm drop-port loss at resonance (audit Q3)'
+- metric_id: cmp_lit_hu2020_si_gst_cdc_p382-m12
+  component_id: cmp_lit_hu2020_si_gst_cdc_p382
+  parameter: drop_loss_db
+  value: 0.3
+  unit: dB
+  qualifier: approx
+  wavelength_nm: 1591.6
+  polarization: te
+  condition: drop-port peak transmission in the reflection band, amorphous GST; normalized to a reference straight waveguide
+  method: reference_structure
+  basis: extracted_from_figure
+  locator: p.7 Fig. 6(d)
+  notes: 'Audit read of the Fig. 6(d) render (y ticks 5 to -35 dB at 10 px/dB, x frame 1580-1610 nm; trace centre): drop-port peak about -0.3 dB at about 1591.6 nm, +/- 0.15 dB; in-band ripple reaches about -2 to -3 dB near the band edges. The printed 0.5-1.5 dB drop-port loss is stated once for the four devices (p.6). Below the printed 0.5 dB lower bound of the family range.'
+  why: 'Miss replacing the family-level row m4: p.7 Fig. 6(d) shows this device''s drop-port spectrum; drop_loss_db is the wdm drop-port loss at resonance (audit Q3)'
+- metric_id: cmp_lit_hu2020_si_gst_cdc_p374-m20
+  component_id: cmp_lit_hu2020_si_gst_cdc_p374
+  parameter: center_wavelength_nm
+  value: 1550
+  unit: nm
+  polarization: te
+  condition: phase-match point of the calculated effective indices (Fig. 2), grating period 374 nm
+  basis: simulated
+  locator: p.4 Sec. 3, Fig. 2
+  notes: 'printed: Bragg reflection at the 1550 nm wavelength for a 374 nm period (p.4); the FDTD centre about 1553 nm is m12.'
+  why: Miss. p.4 prints the calculated phase-match wavelength of the 374 nm design (nie2019 m4 analogue); only the FDTD centre was entered
+- metric_id: cmp_lit_xu2023b_polysi_mzi_pin_switch-m14
+  component_id: cmp_lit_xu2023b_polysi_mzi_pin_switch
+  parameter: rise_time_us
+  value: 8.3
+  unit: us
+  wavelength_nm: 1550
+  wavelength_inferred: 'true'
+  condition: 10-90 %, 'Bar' state, 5 kHz square-wave drive between the on-off voltages
+  method: direct
+  basis: measured
+  locator: p.5 Fig. 5(c)
+  notes: 'figure label 8.3 us in Fig. 5(c) (''Bar''); the text prints only the ''Cross'' times 7.7 / 3.4 us (p.6, Fig. 5(b)); wavelength not printed for Fig. 5(c): 1550 nm inferred from the p.6 statement for the Cross-state times of the same dynamic test'
+  why: Miss. p.5 Fig. 5(c) labels the 'Bar' state 10-90 % time 8.3 us; only the Fig. 5(b) 'Cross' values were entered
+- metric_id: cmp_lit_xu2023b_polysi_mzi_pin_switch-m15
+  component_id: cmp_lit_xu2023b_polysi_mzi_pin_switch
+  parameter: fall_time_us
+  value: 3.6
+  unit: us
+  wavelength_nm: 1550
+  wavelength_inferred: 'true'
+  condition: 90-10 %, 'Bar' state, 5 kHz square-wave drive between the on-off voltages
+  method: direct
+  basis: measured
+  locator: p.5 Fig. 5(c)
+  notes: 'figure label 3.6 us in Fig. 5(c) (''Bar''); the text prints only the ''Cross'' times 7.7 / 3.4 us (p.6, Fig. 5(b)); wavelength not printed for Fig. 5(c): 1550 nm inferred from the p.6 statement for the Cross-state times of the same dynamic test'
+  why: Miss. p.5 Fig. 5(c) labels the 'Bar' state 90-10 % time 3.6 us; only the Fig. 5(b) 'Cross' values were entered
+- metric_id: cmp_lit_xu2023b_polysi_mzi_pin_switch-m16
+  component_id: cmp_lit_xu2023b_polysi_mzi_pin_switch
+  parameter: length_um
+  value: 170
+  unit: um
+  condition: p-i-n modulation arm length (each of the two arms)
+  basis: design_target
+  locator: p.2 Sec. 2
+  why: Miss (D153 geometry). p.2 Sec. 2 prints the 170 um modulation-arm length (component notes only); merged MZI switch rows carry the p-i-n arm length as length_um (qiao2017, campenhout2009)

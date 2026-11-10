@@ -1,0 +1,79 @@
+# Audit patch lit_121 (fresh-context audit 2026-11-09, DevLog/audits/2026-11-09-lit_121-audit.md).
+# 151 metrics: 147 ok / 4 imprecise / 0 wrong; 14 components: 11 ok / 3 imprecise / 0 wrong, 0 deleted; 0 misses added.
+# Coordinator rulings open (audit Q1-Q6); none of them changes a row in this patch.
+components:
+  cmp_lit_zhu2025_swgsw_crossing:
+    notes: 'Fab: p.9-10 Sec. 4 states the fabrication was carried out at Applied Nanotools using its commercial 220 nm SOI
+      MPW process (negative-tone EBL, ICP-RIE, 2.2 um PECVD TEOS oxide). BOX thickness not stated. Design (Fig. 1 structure-parameter
+      table, p.3): slot-waveguide rails Wa = 200 nm, slot G1 = 100 nm; converter rail taper Wa -> Wb = 100 nm over n1 = 20
+      periods (L1 = 6 um), grating width Wa -> Wi = 260 nm; tapered SWG-SW grating Wf1 = 310 -> Wf2 = 280 nm over n2 = 11
+      periods; uniform SWG-SW n3 = 2 periods; four hollow squares at the centre, outer W1 = 260 nm, inner W2 = 90 nm; all
+      gratings period 300 nm, duty cycle 0.5. TE only (p.4: TM not supported). Measured on cascaded crossing structures with
+      polarization-selective grating couplers, normalized to TE reference waveguides with the same SWG slot converters, loss
+      averaged over the number of crossings (p.10); the test cascade has four crossings (p.10 Fig. 13(a) label ''Four cascaded
+      crossings''; the text says configurations containing four and five ''gratings''). Simulated tolerance (Fig. 12, p.9):
+      IL < 0.5 dB and CT below -35 dB (except +30 nm pitch width) for +/-30 nm period or pitch-width error. Simulated RL generally
+      below -20 dB, < -40 dB at 1552 nm (p.7 Fig. 8(a)): not entered (no return-loss parameter for crossings). Table 1 (p.11)
+      lists this design as Sim. IL < 0.1 dB / CT -38 dB, Exp. IL < 0.4 dB / CT -28 dB, bandwidth > 100 / 80 nm; the simulated
+      IL conflicts with the < 0.35 dB of Sec. 3.2. Measured bandwidth limited by the grating couplers (p.10). The conclusion
+      recommends about 3 um channel spacing for cascaded crossings (p.12).'
+    why: p.10 Fig. 13(a) labels the test structure of this design 'Four cascaded crossings'; the note said the number of crossings
+      was not stated
+  cmp_lit_zhu2025_swgsw_crossing_side_gratings:
+    notes: 'Fab: p.9-10 Sec. 4 states the fabrication was carried out at Applied Nanotools using its commercial 220 nm SOI
+      MPW process (negative-tone EBL, ICP-RIE, 2.2 um PECVD TEOS oxide). BOX thickness not stated. Design (Fig. 1 structure-parameter
+      table, p.3): slot-waveguide rails Wa = 200 nm, slot G1 = 100 nm; converter rail taper Wa -> Wb = 100 nm over n1 = 20
+      periods (L1 = 6 um), grating width Wa -> Wi = 260 nm; tapered SWG-SW grating Wf1 = 310 -> Wf2 = 280 nm over n2 = 11
+      periods; uniform SWG-SW n3 = 2 periods; four hollow squares at the centre, outer W1 = 260 nm, inner W2 = 90 nm; all
+      gratings period 300 nm, duty cycle 0.5. Side SWG arrays (Fig. 9, p.8): distance to the SWG-SW from 150 nm to 700 nm
+      (linear), period 300 nm, n4 = 13 periods; the n4 scan used n3 = 10 (p.8; the final n3 of this design is not stated).
+      Same core crossing parameters as cmp_lit_zhu2025_swgsw_crossing. Measured on a cascade of five crossings (p.10 Fig.
+      13(b) label ''Five cascaded crossings (with side gratings)'') normalized to reference waveguides (p.10). Simulated RL
+      generally below -18 dB, about -35 dB at 1560 nm (p.8): not entered (no return-loss parameter for crossings). Table 1
+      lists Exp. CT -37 dB for this design against the text bound below -35 dB.'
+    why: p.10 Fig. 13(b) labels the test structure of this design 'Five cascaded crossings (with side gratings)'
+  cmp_lit_tao2025_sicoi_apodized_swg_gc:
+    notes: 'Fab empty: p.6 Sec. 3 says the coupler was fabricated on an ion-sliced z-cut 4H-SiCOI (wafer technique cited,
+      ref. 43) by a single-mask EBL + ICP-RIE process, with no org named (D80b). p.3 Sec. 2 refers to ''our fabrication experience''
+      (wedge angle) and ''our fabrication process'' (150 nm minimum feature), a D84a own-process statement, but the authors
+      are at two orgs (Nankai University; SIMIT, CAS / UCAS, p.1), so the fabricating org is not unambiguous (rule 12): fab
+      left empty. Design (Table 1, p.5; PSO on 2D then 3D FDTD): segment 1 = 3 cells, period 0.81 um, fill factor 0.84, grooves
+      filled by transverse SWGs (period 0.50 um, SWG fill factors 0.65 / 0.58 / 0.50); segment 2 = 19 cells, fill factor 0.84
+      -> 0.25 and period 0.81 -> 1.00 um linearly; segment 3 uniform (1.00 um, 0.25; cell count not stated). Fill factor F
+      is the tooth fraction (groove width (1 - F) x period, p.4). First four grooves set to the 150 nm minimum feature. Grating
+      width 15.5 um, etch 0.31 um, designed wedge angle 83 deg, fiber 9 deg with the fiber bottom edge 0.5 um above the chip
+      (centre 10.3 um). Waveguide attenuation used in the de-embedding (4.9 dB/cm, typical value of ion-sliced 4H-SiC, citing
+      refs. 5, 43) is a cited value: not entered. Two DUTs: GC pair with a 820 um x 15.5 um waveguide, and GC pair with 300
+      um linear tapers to a 1 um waveguide (Fig. 4(a)); both measured with SMF at 9 deg, input power referenced to a 1 m SMF
+      (p.7). Simulated: 2D gratings for SiC 400-550 nm all better than -0.82 dB at 1550 nm (p.6; not entered, intermediate
+      2D designs). The coupling-angle tolerance (less than 1 dB drop of efficiency within +/-2 deg of 9 deg, measured Fig.
+      6(a) and simulated Fig. 3) is not entered (no angular-tolerance parameter).'
+    why: p.3 Sec. 2 prints 'our fabrication process' / 'our fabrication experience'; the note only cited the passive p.6 sentence.
+      Fab stays empty because the authors are at two orgs (rule 12, D80b); audit Q5
+metrics:
+  cmp_lit_zhu2025_swgsw_crossing-m1:
+    condition: cascade of four crossings (Fig. 13(a)), broadband source (SuperK) + OSA, grating couplers; per-crossing average
+    notes: printed IL about 0.4 dB over 1500-1580 nm, averaged over the number of crossings of the cascade (cascade / N, D80a);
+      the cascade has four crossings (p.10 Fig. 13(a) label). Fig. 14(a) trace spans about -0.6 to 0 dB with the -0.4 dB guide
+      line
+    why: 'p.10 Fig. 13(a) label ''Four cascaded crossings'': N is stated (figure label), the note said it was not'
+  cmp_lit_zhu2025_swgsw_crossing_side_gratings-m1:
+    condition: cascade of five crossings (Fig. 13(b)), broadband source (SuperK) + OSA, grating couplers; per-crossing average
+    notes: printed IL about 0.1 dB over 1500-1580 nm, averaged over the number of crossings of the cascade (cascade / N, D80a);
+      the cascade has five crossings (p.10 Fig. 13(b) label). Fig. 14(b) trace about -0.05 to -0.25 dB (deepest near 1520
+      nm) with the -0.1 dB guide line
+    why: 'p.10 Fig. 13(b) label ''Five cascaded crossings (with side gratings)'': N is stated (figure label)'
+  cmp_lit_zhu2025_swgsw_crossing_side_gratings-m2:
+    notes: printed CT below -35 dB; Table 1 lists Exp. CT -37 dB; the Fig. 14(b) trace (upper envelope) lies above -35 dB
+      from 1500 to about 1530 nm (up to about -28 dB near 1502 nm, +/-1 dB reading; the -35 dB guide line starts near 1529
+      nm), so the printed bound holds for about 1530-1580 nm only
+    why: 'p.11 Fig. 14(b) render (500 dpi): the CT trace exceeds -35 dB over 1500-1530 nm; value kept as printed (D80a), reading
+      in notes like the port-2 row of the first design (m3)'
+  cmp_lit_hu2021_lnoi_sion_edge_coupler-m15:
+    condition: 'Z direction (lateral in-plane axis: Fig. 1(a), (b) axes X vertical, Y propagation, Z lateral; Fig. 4 calls
+      Z lateral)'
+    notes: 'read off Fig. 8(a): 1 dB additional loss at about -1.1 and +1.15 um (+/-0.1 um); printed: 1 um offset along X
+      / Z adds 0.6 dB per facet; X direction (about -1.28 / +1.5 um, +/-0.1 um) is the vertical axis (Fig. 1(a) axes) and
+      is not entered: no vertical tolerance parameter (registry gap)'
+    why: p.3 Fig. 1(a) / (b) define the axes (X up, Y along propagation, Z lateral in the chip plane), so the role of the
+      X sweep is stated; it is a vertical tolerance, which has no parameter

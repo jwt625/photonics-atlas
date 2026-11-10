@@ -1,0 +1,130 @@
+# Audit patch lit_118 (fresh-context audit 2026-11-09, DevLog/audits/2026-11-09-lit_118-audit.md).
+# 167 metrics: 160 ok / 7 imprecise / 0 wrong; 30 components: 24 ok / 6 imprecise / 0 wrong, 0 deleted; 6 misses added (6 metrics).
+# Coordinator rulings open: Q1 hsu2025 39 GHz fiber-channel bandwidth (recommend notes only, no op), Q2 osorniomartinez2025 PHIX fab
+# (recommend coupler row only, no op), Q3 hsu2025 coupling class (keep, no op), Q4 zhao2016 HHI fab and < 0.1 dB/cm (keep, no op),
+# Q5 zhang2023b fab / li2025c Fig. 3(a) / deng2020 basis (keep; zhang2023b note wording fixed). To skip the figure-read miss on
+# zhang2023b, drop add_metrics cmp_lit_zhang2023b_interchip_coupler-m15.
+components:
+  cmp_lit_zhao2016_vernier_ecl:
+    core_material: InP/InGaAsP SOA gain chip (Fraunhofer HHI; HR-coated outer facet and AR-coated facet toward the Si3N4 chip as drawn in Fig. 1, which the text calls the front (HR) and back (AR) facets) + TriPleX double-stripe Si3N4/SiO2 chip with two microrings, phase section and power-tuning section (heaters)
+    why: p.1 Sec. II prints 'Front and back facets of the SOA are high- and anti-reflection coated, respectively'; the batch wrote HR back / AR front. p.1 Fig. 1 places HR at the outer end and AR toward the phase section, so the physical placement is kept and the printed naming added
+  cmp_lit_zhao2016_hhi_soa_gain_chip:
+    core_material: InP/InGaAsP semiconductor optical amplifier gain chip, HR-coated outer facet and AR-coated facet toward the Si3N4 chip (Fig. 1; p.1 Sec. II names them the front (HR) and back (AR) facets)
+    why: Same correction as the ECL row (p.1 Sec. II wording vs p.1 Fig. 1 placement)
+  cmp_lit_zhang2023b_interchip_coupler:
+    notes: 'Fab: first-person fabrication flow (p.5-6, ''we perform'', ''we deposited''), all six authors at UC Davis (p.1; abstract: we design, fabricate, and demonstrate; D72, lee2025 precedent). Staff support acknowledged at the UC Davis Center for Nano/Micro Manufacturing and the UC Berkeley Marvell Nanofabrication Laboratory (p.11) is staff thanks: no facility_org_ids (D84b). 3-dB lateral misalignment tolerance +/-3.53 um (Fig. 7(b); no 3-dB tolerance parameter, D81). Longitudinal tolerance > 50 um (criterion not stated, p.3). Post-bonding misalignment estimated 5 um; the minimum loss is at the offset that compensates it, the broadband scan at -5 um offset. Bonding 400 C, 3 N, 10 min; anneal 350 C, 67 N, 1 h (p.6).'
+    why: p.1 lists six authors, all at the UC Davis Department of Electrical and Computer Engineering; the note said both authors. Fab value unchanged (Q5)
+  cmp_lit_zhang2023b_eps_1x10:
+    notes: 'Fab: first-person fabrication flow (p.5-6, ''we perform'', ''we deposited''), all six authors at UC Davis (p.1; abstract: we design, fabricate, and demonstrate; D72, lee2025 precedent). Staff support acknowledged at the UC Davis Center for Nano/Micro Manufacturing and the UC Berkeley Marvell Nanofabrication Laboratory (p.11) is staff thanks: no facility_org_ids (D84b). Aperture dimensions not printed. Simulated per-port insertion loss in Fig. 10(c) not entered.'
+    why: p.1 lists six authors, all at the UC Davis Department of Electrical and Computer Engineering; the note said both authors. Fab value unchanged (Q5)
+  cmp_lit_zhang2023b_wafer_distribution_1x100:
+    notes: 'Fab: first-person fabrication flow (p.5-6, ''we perform'', ''we deposited''), all six authors at UC Davis (p.1; abstract: we design, fabricate, and demonstrate; D72, lee2025 precedent). Staff support acknowledged at the UC Davis Center for Nano/Micro Manufacturing and the UC Berkeley Marvell Nanofabrication Laboratory (p.11) is staff thanks: no facility_org_ids (D84b). Terminals are grating emitters (cmp_lit_zhang2023b_grating_emitter) in this demonstration. Stitching misalignment 100 nm; the ''around 0.075 dB insertion loss at all the connections'' from simulation (p.8) is not entered: per connection or total is not stated (Fig. 11(c), p.9, gives about 0.015 dB at 100 nm).'
+    why: p.1 lists six authors, all at the UC Davis Department of Electrical and Computer Engineering; the note said both authors. Fab value unchanged (Q5)
+  cmp_lit_zhang2023b_grating_emitter:
+    notes: 'Fab: first-person fabrication flow (p.5-6, ''we perform'', ''we deposited''), all six authors at UC Davis (p.1; abstract: we design, fabricate, and demonstrate; D72, lee2025 precedent). Staff support acknowledged at the UC Davis Center for Nano/Micro Manufacturing and the UC Berkeley Marvell Nanofabrication Laboratory (p.11) is staff thanks: no facility_org_ids (D84b). Emission imaged with an IR camera only (out of focus, not at the optimum angle, p.8-9); the 100 nm Si3N4 gives weak, long emission (Fig. 13).'
+    why: p.1 lists six authors, all at the UC Davis Department of Electrical and Computer Engineering; the note said both authors. Fab value unchanged (Q5)
+metrics:
+  cmp_lit_hsu2025_zn_sm_vcsel_850-m8:
+    value: 857.2
+    notes: not printed; audit read of the Fig. 2(b) page render (400 dpi, tick marks 850 / 860 nm at 32.2 px/nm, top of the 4 mA trace) +/- 0.2 nm; 2 mA peak about 855.4 nm, 6 mA main peak about 859.2 nm
+    why: 'p.3 Fig. 2(b): the 4 mA peak sits 231 px right of the 850 nm tick at 32.2 px/nm, i.e. about 857.2 nm; the batch value 856.7 nm (+/- 0.3) is outside that reading (2 mA: 855.4 vs 854.8 nm)'
+  cmp_lit_itoh2024a_pcsel_clad_p150-m15:
+    value: 1339.7
+    notes: not printed; audit read of the Fig. 5(b) page render (600 dpi, tick marks 1338-1344 nm at 114 px/nm, top of the 25 C trace) +/- 0.05 nm; 15 C about 1338.7 nm and 50 C about 1342.4 nm (0.107 nm/K, consistent with the printed 0.10 nm/K); design lambda 1339 nm (p.2)
+    why: 'p.6 Fig. 5(b): the 25 C peak sits 193 px right of the 1338 nm tick at 114 px/nm, i.e. about 1339.7 nm; the batch 1339.5 nm (+/- 0.1) is outside that reading'
+  cmp_lit_zhang2023b_interchip_coupler-m1:
+    basis: derived
+    notes: printed 0.54 dB per inter-chip coupler (abstract, p.6); the test path crosses two couplers (interposer to flip-chip and back) and Fig. 7(a) labels the orange-green trace difference 2x0.54 dB, so the printed value is the authors' halving (D80a, D542)
+    why: p.6 Fig. 7(a) labels the two-coupler difference 2x0.54 dB; a stated halving is derived (D80a, D542 / D516)
+  cmp_lit_zhang2023b_interchip_coupler-m2:
+    basis: derived
+    notes: printed 0.77 dB 'by averaging the two scatterings on a reference waveguide' (p.6); Fig. 7(a) labels the blue-orange difference 2x0.77 dB; per transition = air-trench edge plus flip-chip edge (Fig. 1(b) items 1 and 2)
+    why: 'p.6 text and Fig. 7(a) (2x0.77 dB): the per-transition value is the authors halving of the two-transition reference measurement (D80a, D542)'
+  cmp_lit_osorniomartinez2025_edge_coupler_fa-m1:
+    basis: derived
+    notes: half of the fiber-loop-fiber transmission normalized to a direct fiber-to-fiber reference; the paper states the total was divided by two (p.4); 2.9 mm loop propagation not separated
+    why: 'p.4: the per-facet loss is the stated halving of the two-facet loop measurement; stated halving is derived (D80a, D542 / D516)'
+  cmp_lit_osorniomartinez2025_edge_coupler_fa-m2:
+    basis: derived
+    notes: half of the fiber-loop-fiber transmission normalized to a direct fiber-to-fiber reference; the paper states the total was divided by two (p.4); 2.9 mm loop propagation not separated
+    why: 'p.4: the per-facet loss is the stated halving of the two-facet loop measurement; stated halving is derived (D80a, D542 / D516)'
+  cmp_lit_osorniomartinez2025_edge_coupler_fa-m3:
+    basis: derived
+    notes: half of the fiber-loop-fiber transmission normalized to a direct fiber-to-fiber reference; the paper states the total was divided by two (p.4); 2.9 mm loop propagation not separated
+    why: 'p.4: the per-facet loss is the stated halving of the two-facet loop measurement; stated halving is derived (D80a, D542 / D516)'
+add_metrics:
+- metric_id: cmp_lit_hsu2025_zn_sm_vcsel_850-m9
+  component_id: cmp_lit_hsu2025_zn_sm_vcsel_850
+  parameter: beam_divergence_deg
+  value: 22.2
+  value_max: 26.35
+  unit: deg
+  statistic: range
+  condition: full far-field angle at 13.5 % (1/e2) of peak intensity, 1-D FFP, bias 2 / 4 / 6 mA (which value belongs to which bias not printed)
+  method: direct
+  basis: measured
+  locator: p.4 Fig. 3
+  notes: 'Fig. 3 printed label (13.5 %: 22.2 deg to 26.35 deg); measured FFPs (p.3)'
+  why: Miss. p.4 Fig. 3 prints the measured far-field widths at the 13.5 % level over the bias range; beam_divergence_deg is allowed on laser (D81)
+- metric_id: cmp_lit_hsu2025_zn_sm_vcsel_850-m10
+  component_id: cmp_lit_hsu2025_zn_sm_vcsel_850
+  parameter: beam_divergence_deg
+  value: 12.98
+  value_max: 17.44
+  unit: deg
+  statistic: range
+  condition: full far-field angle at 50 % of peak intensity (FWHM), 1-D FFP, bias 2 / 4 / 6 mA (which value belongs to which bias not printed)
+  method: direct
+  basis: measured
+  locator: p.4 Fig. 3
+  notes: 'Fig. 3 printed label (50 %: 12.98 deg to 17.44 deg)'
+  why: Miss. p.4 Fig. 3 prints the measured FWHM far-field widths over the bias range
+- metric_id: cmp_lit_arsanjani2024_opa_1x32-m10
+  component_id: cmp_lit_arsanjani2024_opa_1x32
+  parameter: beam_divergence_deg
+  value: 0.66
+  unit: deg
+  wavelength_nm: 1550
+  wavelength_inferred: 'true'
+  condition: beam FWHM along azimuth calculated from Eq. (3) (aperture of the 32-antenna array)
+  method: unspecified
+  basis: simulated
+  locator: p.6
+  notes: wavelength not restated for the calculation; 1550 nm is the design / measurement wavelength of the FOV and FWHM results
+  why: Miss. p.6 prints the calculated resolution 0.66 deg (azimuth); the batch entered the calculated FOVs (m3, m4) but not the calculated FWHMs
+- metric_id: cmp_lit_arsanjani2024_opa_1x32-m11
+  component_id: cmp_lit_arsanjani2024_opa_1x32
+  parameter: beam_divergence_deg
+  value: 0.08
+  unit: deg
+  wavelength_nm: 1550
+  wavelength_inferred: 'true'
+  condition: beam FWHM along elevation calculated from Eq. (3) (1 mm antenna aperture)
+  method: unspecified
+  basis: simulated
+  locator: p.6
+  notes: wavelength not restated for the calculation; measured 0.082 deg in m6
+  why: Miss. p.6 prints the calculated resolution 0.08 deg (elevation)
+- metric_id: cmp_lit_zhang2023b_interchip_coupler-m15
+  component_id: cmp_lit_zhang2023b_interchip_coupler
+  parameter: tol_1db_lateral_um
+  value: 2.2
+  unit: um
+  qualifier: approx
+  wavelength_nm: 1550
+  polarization: te
+  condition: half-width of the lateral offset range within 1 dB of the 0.54 dB minimum (offsets about -6.9 to -2.5 um around the -4.7 um optimum that compensates the bonding misalignment)
+  method: direct
+  basis: extracted_from_figure
+  locator: p.6 Fig. 7(b)
+  notes: Audit read of the Fig. 7(b) page render (500 dpi; 68.9 px/um, 73.2 px/dB; linear interpolation between the 0.5 um-spaced points) +/- 0.2 um. The printed tolerance is the 3-dB value +/-3.53 um (no 3-dB parameter; in component notes).
+  why: Miss. p.6 Fig. 7(b) gives the measured loss vs lateral offset; the registry has tol_1db_lateral_um for chip_chip_coupler (D516 figure-read precedent)
+- metric_id: cmp_lit_vocht2024_dfwt_metalens-m10
+  component_id: cmp_lit_vocht2024_dfwt_metalens
+  parameter: box_thickness_um
+  value: 2
+  unit: um
+  condition: PECVD SiO2 base layer under the Si3N4 nanopillars, on the InP wafer
+  basis: design_target
+  locator: p.6 Sec. 3; p.6 Fig. 4(a)
+  why: Miss (D153 geometry). p.6 prints the 2 um PECVD SiO2 layer deposited before the 750 nm Si3N4
