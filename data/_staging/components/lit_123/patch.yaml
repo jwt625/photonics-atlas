@@ -1,0 +1,285 @@
+# Audit patch lit_123 (fresh-context audit 2026-11-11, DevLog/audits/2026-11-11-lit_123-audit.md).
+# 321 metrics: 312 ok / 8 imprecise / 1 wrong (deleted); 44 components: 31 ok / 13 imprecise / 0 wrong; 0 misses.
+# 22 ops (13 component, 8 metric, 1 delete_metrics).
+# Coordinator rulings open: Q1 poulsen2025 CMC fab (no op; to drop CMC, set fab_org_ids org_amf on the 3 poulsen2025
+# rows), Q2 zhang2021a 0.02 deg (to keep it, drop the delete_metrics op and the OPA notes op), Q3 damage thresholds
+# (no op), Q4 wang2026g bandwidths (to keep author_estimate, drop the 6 bw3db_khz ops), Q5 shared stack (no op),
+# Q6 imec Xplore lab (to defer, drop the 12 wang2026g component ops).
+components:
+  cmp_lit_zhang2021a_opa_64ch:
+    notes: 'Fab org_amf: p.5 Sec. 3.1 states the authors designed and fabricated the OPA chip with the standard silicon photonics
+      integration process in AMF, Singapore; p.2 places the Si and PECVD SiN test waveguides on ''our chip'' (same chip assumed
+      from that wording). process_name left empty: the printed process wording names no node or flow. Not entered (no registry
+      parameter for free_space_emitter): main-lobe peak power about 720 mW at 24 W input peak (10 ns, 100 kHz; Fig. 8(d),
+      p.8), input peak power of 43 W withstood (p.8), average electrical power 1.23 W per steering state over the 11 calibrated
+      angles (p.7). Phase calibration by an iterative voltage search against a target far field (p.7). Theoretical steering
+      +/-90 deg; measured range limited by the narrow 200 nm emitter tips (p.7). Fig. 4 (5 um pitch OPA far field, grating
+      lobes at +/-18 deg) is not tied to a device of this paper and is not entered. The 0.02 deg longitudinal divergence (p.1
+      Abstract; p.9 Sec. 4, Fig. 9(c), (f)) is measured with an off-chip bulk plano-convex cylindrical lens 17 mm in front
+      of the chip (screen at 3 m), for the 0 deg and the 10-55 deg beams: not entered (D411, bulk off-chip optic); the chip''s
+      own longitudinal value is the 32 deg row.'
+    why: 'Follows the deletion of m6 (audit Q2): the lens-system divergence is kept in the component notes'
+  cmp_lit_wang2026g_ps800_plain:
+    facility_org_ids: org_xplore_multiuser_cleanroom
+    notes: 'Configuration: 800 um heater, no bridges, no SiO2 trench, no Si undercut.  Fab org_imec: waveguide stack processed
+      in the imec 200 mm CMOS pilot line (p.4 Sec. 3); heater, SiO2 trench and Si undercut modules developed by the authors
+      on diced dies in the imec Xplore lab (p.5, first-person die-level post-processing of the diced pilot-line wafer; D440:
+      imec is both the wafer fab and the authors'' org; benchmark exclude_values candidate, D933). Facility org_xplore_multiuser_cleanroom
+      for the printed ''imec Xplore lab'' (p.5; alias to be added in the org round, audit Q6). Phase shifter in one arm of
+      an unbalanced MZI (5 um arm-length difference) with input / output grating couplers; transmission normalized to a short
+      reference waveguide (p.2, p.6). Undercut designs: two 15 um wide trenches 10 um apart, centred on the waveguide, and
+      an isotropic Si undercut (p.2); XSEM shows an upward beam deflection from residual stress (p.6). Platform loss 0.60
+      +/- 0.17 dB/cm (p.2) not entered: platform reported in the authors'' ref. [18] (p.5, D259 / D408). IL / ER of the MZIs
+      shown only as curves (Fig. 4), stated as similar for the three 800 um structures (p.6).'
+    why: 'p.5 Sec. 3: the heater, SiO2 trench and Si undercut modules were made on the die level in the imec Xplore lab (''performed
+      at'', rule 12); the registry facility org_xplore_multiuser_cleanroom is the imec Xplore cleanroom of khalil2026 (imec
+      authors, Leuven), so the facility is set and the printed name goes to the org round as an alias (audit Q6); MMI rows
+      untouched (pilot-line parts, Contract v7 fab per component)'
+  cmp_lit_wang2026g_ps800_trench:
+    facility_org_ids: org_xplore_multiuser_cleanroom
+    notes: 'Configuration: 800 um heater, no bridges, SiO2 trench, no Si undercut.  Fab org_imec: waveguide stack processed
+      in the imec 200 mm CMOS pilot line (p.4 Sec. 3); heater, SiO2 trench and Si undercut modules developed by the authors
+      on diced dies in the imec Xplore lab (p.5, first-person die-level post-processing of the diced pilot-line wafer; D440:
+      imec is both the wafer fab and the authors'' org; benchmark exclude_values candidate, D933). Facility org_xplore_multiuser_cleanroom
+      for the printed ''imec Xplore lab'' (p.5; alias to be added in the org round, audit Q6). Phase shifter in one arm of
+      an unbalanced MZI (5 um arm-length difference) with input / output grating couplers; transmission normalized to a short
+      reference waveguide (p.2, p.6). Undercut designs: two 15 um wide trenches 10 um apart, centred on the waveguide, and
+      an isotropic Si undercut (p.2); XSEM shows an upward beam deflection from residual stress (p.6). Platform loss 0.60
+      +/- 0.17 dB/cm (p.2) not entered: platform reported in the authors'' ref. [18] (p.5, D259 / D408). IL / ER of the MZIs
+      shown only as curves (Fig. 4), stated as similar for the three 800 um structures (p.6).'
+    why: 'p.5 Sec. 3: the heater, SiO2 trench and Si undercut modules were made on the die level in the imec Xplore lab (''performed
+      at'', rule 12); the registry facility org_xplore_multiuser_cleanroom is the imec Xplore cleanroom of khalil2026 (imec
+      authors, Leuven), so the facility is set and the printed name goes to the org round as an alias (audit Q6); MMI rows
+      untouched (pilot-line parts, Contract v7 fab per component)'
+  cmp_lit_wang2026g_ps800_uc0:
+    facility_org_ids: org_xplore_multiuser_cleanroom
+    notes: 'Configuration: 800 um heater, SiO2 trench and Si undercut over 800 um, no supporting bridges.  Fab org_imec: waveguide
+      stack processed in the imec 200 mm CMOS pilot line (p.4 Sec. 3); heater, SiO2 trench and Si undercut modules developed
+      by the authors on diced dies in the imec Xplore lab (p.5, first-person die-level post-processing of the diced pilot-line
+      wafer; D440: imec is both the wafer fab and the authors'' org; benchmark exclude_values candidate, D933). Facility org_xplore_multiuser_cleanroom
+      for the printed ''imec Xplore lab'' (p.5; alias to be added in the org round, audit Q6). Phase shifter in one arm of
+      an unbalanced MZI (5 um arm-length difference) with input / output grating couplers; transmission normalized to a short
+      reference waveguide (p.2, p.6). Undercut designs: two 15 um wide trenches 10 um apart, centred on the waveguide, and
+      an isotropic Si undercut (p.2); XSEM shows an upward beam deflection from residual stress (p.6). Platform loss 0.60
+      +/- 0.17 dB/cm (p.2) not entered: platform reported in the authors'' ref. [18] (p.5, D259 / D408). IL / ER of the MZIs
+      shown only as curves (Fig. 4), stated as similar for the three 800 um structures (p.6).'
+    why: 'p.5 Sec. 3: the heater, SiO2 trench and Si undercut modules were made on the die level in the imec Xplore lab (''performed
+      at'', rule 12); the registry facility org_xplore_multiuser_cleanroom is the imec Xplore cleanroom of khalil2026 (imec
+      authors, Leuven), so the facility is set and the printed name goes to the org round as an alias (audit Q6); MMI rows
+      untouched (pilot-line parts, Contract v7 fab per component)'
+  cmp_lit_wang2026g_ps800_uc1:
+    facility_org_ids: org_xplore_multiuser_cleanroom
+    notes: 'Configuration: 800 um heater, SiO2 trench and Si undercut over 800 um, 1 supporting bridge.  Fab org_imec: waveguide
+      stack processed in the imec 200 mm CMOS pilot line (p.4 Sec. 3); heater, SiO2 trench and Si undercut modules developed
+      by the authors on diced dies in the imec Xplore lab (p.5, first-person die-level post-processing of the diced pilot-line
+      wafer; D440: imec is both the wafer fab and the authors'' org; benchmark exclude_values candidate, D933). Facility org_xplore_multiuser_cleanroom
+      for the printed ''imec Xplore lab'' (p.5; alias to be added in the org round, audit Q6). Phase shifter in one arm of
+      an unbalanced MZI (5 um arm-length difference) with input / output grating couplers; transmission normalized to a short
+      reference waveguide (p.2, p.6). Undercut designs: two 15 um wide trenches 10 um apart, centred on the waveguide, and
+      an isotropic Si undercut (p.2); XSEM shows an upward beam deflection from residual stress (p.6). Platform loss 0.60
+      +/- 0.17 dB/cm (p.2) not entered: platform reported in the authors'' ref. [18] (p.5, D259 / D408). IL / ER of the MZIs
+      shown only as curves (Fig. 4), stated as similar for the three 800 um structures (p.6).'
+    why: 'p.5 Sec. 3: the heater, SiO2 trench and Si undercut modules were made on the die level in the imec Xplore lab (''performed
+      at'', rule 12); the registry facility org_xplore_multiuser_cleanroom is the imec Xplore cleanroom of khalil2026 (imec
+      authors, Leuven), so the facility is set and the printed name goes to the org round as an alias (audit Q6); MMI rows
+      untouched (pilot-line parts, Contract v7 fab per component)'
+  cmp_lit_wang2026g_ps800_uc2:
+    facility_org_ids: org_xplore_multiuser_cleanroom
+    notes: 'Configuration: 800 um heater, SiO2 trench and Si undercut over 800 um, 2 supporting bridges.  Fab org_imec: waveguide
+      stack processed in the imec 200 mm CMOS pilot line (p.4 Sec. 3); heater, SiO2 trench and Si undercut modules developed
+      by the authors on diced dies in the imec Xplore lab (p.5, first-person die-level post-processing of the diced pilot-line
+      wafer; D440: imec is both the wafer fab and the authors'' org; benchmark exclude_values candidate, D933). Facility org_xplore_multiuser_cleanroom
+      for the printed ''imec Xplore lab'' (p.5; alias to be added in the org round, audit Q6). Phase shifter in one arm of
+      an unbalanced MZI (5 um arm-length difference) with input / output grating couplers; transmission normalized to a short
+      reference waveguide (p.2, p.6). Undercut designs: two 15 um wide trenches 10 um apart, centred on the waveguide, and
+      an isotropic Si undercut (p.2); XSEM shows an upward beam deflection from residual stress (p.6). Platform loss 0.60
+      +/- 0.17 dB/cm (p.2) not entered: platform reported in the authors'' ref. [18] (p.5, D259 / D408). IL / ER of the MZIs
+      shown only as curves (Fig. 4), stated as similar for the three 800 um structures (p.6).'
+    why: 'p.5 Sec. 3: the heater, SiO2 trench and Si undercut modules were made on the die level in the imec Xplore lab (''performed
+      at'', rule 12); the registry facility org_xplore_multiuser_cleanroom is the imec Xplore cleanroom of khalil2026 (imec
+      authors, Leuven), so the facility is set and the printed name goes to the org round as an alias (audit Q6); MMI rows
+      untouched (pilot-line parts, Contract v7 fab per component)'
+  cmp_lit_wang2026g_ps800_uc3:
+    facility_org_ids: org_xplore_multiuser_cleanroom
+    notes: 'Configuration: 800 um heater, SiO2 trench and Si undercut over 800 um, 3 supporting bridges.  Fab org_imec: waveguide
+      stack processed in the imec 200 mm CMOS pilot line (p.4 Sec. 3); heater, SiO2 trench and Si undercut modules developed
+      by the authors on diced dies in the imec Xplore lab (p.5, first-person die-level post-processing of the diced pilot-line
+      wafer; D440: imec is both the wafer fab and the authors'' org; benchmark exclude_values candidate, D933). Facility org_xplore_multiuser_cleanroom
+      for the printed ''imec Xplore lab'' (p.5; alias to be added in the org round, audit Q6). Phase shifter in one arm of
+      an unbalanced MZI (5 um arm-length difference) with input / output grating couplers; transmission normalized to a short
+      reference waveguide (p.2, p.6). Undercut designs: two 15 um wide trenches 10 um apart, centred on the waveguide, and
+      an isotropic Si undercut (p.2); XSEM shows an upward beam deflection from residual stress (p.6). Platform loss 0.60
+      +/- 0.17 dB/cm (p.2) not entered: platform reported in the authors'' ref. [18] (p.5, D259 / D408). IL / ER of the MZIs
+      shown only as curves (Fig. 4), stated as similar for the three 800 um structures (p.6).'
+    why: 'p.5 Sec. 3: the heater, SiO2 trench and Si undercut modules were made on the die level in the imec Xplore lab (''performed
+      at'', rule 12); the registry facility org_xplore_multiuser_cleanroom is the imec Xplore cleanroom of khalil2026 (imec
+      authors, Leuven), so the facility is set and the printed name goes to the org round as an alias (audit Q6); MMI rows
+      untouched (pilot-line parts, Contract v7 fab per component)'
+  cmp_lit_wang2026g_ps400_plain:
+    facility_org_ids: org_xplore_multiuser_cleanroom
+    notes: 'Configuration: 400 um heater, no SiO2 trench, no Si undercut (Table 1 device 1).  Fab org_imec: waveguide stack
+      processed in the imec 200 mm CMOS pilot line (p.4 Sec. 3); heater, SiO2 trench and Si undercut modules developed by
+      the authors on diced dies in the imec Xplore lab (p.5, first-person die-level post-processing of the diced pilot-line
+      wafer; D440: imec is both the wafer fab and the authors'' org; benchmark exclude_values candidate, D933). Facility org_xplore_multiuser_cleanroom
+      for the printed ''imec Xplore lab'' (p.5; alias to be added in the org round, audit Q6). Phase shifter in one arm of
+      an unbalanced MZI (5 um arm-length difference) with input / output grating couplers; transmission normalized to a short
+      reference waveguide (p.2, p.6). Undercut designs: two 15 um wide trenches 10 um apart, centred on the waveguide, and
+      an isotropic Si undercut (p.2); XSEM shows an upward beam deflection from residual stress (p.6). Platform loss 0.60
+      +/- 0.17 dB/cm (p.2) not entered: platform reported in the authors'' ref. [18] (p.5, D259 / D408). IL / ER of the MZIs
+      shown only as curves (Fig. 4), stated as similar for the three 800 um structures (p.6).'
+    why: 'p.5 Sec. 3: the heater, SiO2 trench and Si undercut modules were made on the die level in the imec Xplore lab (''performed
+      at'', rule 12); the registry facility org_xplore_multiuser_cleanroom is the imec Xplore cleanroom of khalil2026 (imec
+      authors, Leuven), so the facility is set and the printed name goes to the org round as an alias (audit Q6); MMI rows
+      untouched (pilot-line parts, Contract v7 fab per component)'
+  cmp_lit_wang2026g_ps400_trench:
+    facility_org_ids: org_xplore_multiuser_cleanroom
+    notes: 'Configuration: 400 um heater, SiO2 trench, no Si undercut (Table 1 device 2).  Fab org_imec: waveguide stack processed
+      in the imec 200 mm CMOS pilot line (p.4 Sec. 3); heater, SiO2 trench and Si undercut modules developed by the authors
+      on diced dies in the imec Xplore lab (p.5, first-person die-level post-processing of the diced pilot-line wafer; D440:
+      imec is both the wafer fab and the authors'' org; benchmark exclude_values candidate, D933). Facility org_xplore_multiuser_cleanroom
+      for the printed ''imec Xplore lab'' (p.5; alias to be added in the org round, audit Q6). Phase shifter in one arm of
+      an unbalanced MZI (5 um arm-length difference) with input / output grating couplers; transmission normalized to a short
+      reference waveguide (p.2, p.6). Undercut designs: two 15 um wide trenches 10 um apart, centred on the waveguide, and
+      an isotropic Si undercut (p.2); XSEM shows an upward beam deflection from residual stress (p.6). Platform loss 0.60
+      +/- 0.17 dB/cm (p.2) not entered: platform reported in the authors'' ref. [18] (p.5, D259 / D408). IL / ER of the MZIs
+      shown only as curves (Fig. 4), stated as similar for the three 800 um structures (p.6).'
+    why: 'p.5 Sec. 3: the heater, SiO2 trench and Si undercut modules were made on the die level in the imec Xplore lab (''performed
+      at'', rule 12); the registry facility org_xplore_multiuser_cleanroom is the imec Xplore cleanroom of khalil2026 (imec
+      authors, Leuven), so the facility is set and the printed name goes to the org round as an alias (audit Q6); MMI rows
+      untouched (pilot-line parts, Contract v7 fab per component)'
+  cmp_lit_wang2026g_ps100_uc3:
+    facility_org_ids: org_xplore_multiuser_cleanroom
+    notes: 'Configuration: 100 um heater / undercut, SiO2 trench and Si undercut, 3 supporting bridges.  Fab org_imec: waveguide
+      stack processed in the imec 200 mm CMOS pilot line (p.4 Sec. 3); heater, SiO2 trench and Si undercut modules developed
+      by the authors on diced dies in the imec Xplore lab (p.5, first-person die-level post-processing of the diced pilot-line
+      wafer; D440: imec is both the wafer fab and the authors'' org; benchmark exclude_values candidate, D933). Facility org_xplore_multiuser_cleanroom
+      for the printed ''imec Xplore lab'' (p.5; alias to be added in the org round, audit Q6). Phase shifter in one arm of
+      an unbalanced MZI (5 um arm-length difference) with input / output grating couplers; transmission normalized to a short
+      reference waveguide (p.2, p.6). Undercut designs: two 15 um wide trenches 10 um apart, centred on the waveguide, and
+      an isotropic Si undercut (p.2); XSEM shows an upward beam deflection from residual stress (p.6). Platform loss 0.60
+      +/- 0.17 dB/cm (p.2) not entered: platform reported in the authors'' ref. [18] (p.5, D259 / D408). IL / ER of the MZIs
+      shown only as curves (Fig. 4), stated as similar for the three 800 um structures (p.6).'
+    why: 'p.5 Sec. 3: the heater, SiO2 trench and Si undercut modules were made on the die level in the imec Xplore lab (''performed
+      at'', rule 12); the registry facility org_xplore_multiuser_cleanroom is the imec Xplore cleanroom of khalil2026 (imec
+      authors, Leuven), so the facility is set and the printed name goes to the org round as an alias (audit Q6); MMI rows
+      untouched (pilot-line parts, Contract v7 fab per component)'
+  cmp_lit_wang2026g_ps200_uc3:
+    facility_org_ids: org_xplore_multiuser_cleanroom
+    notes: 'Configuration: 200 um heater / undercut, SiO2 trench and Si undercut, 3 supporting bridges.  Fab org_imec: waveguide
+      stack processed in the imec 200 mm CMOS pilot line (p.4 Sec. 3); heater, SiO2 trench and Si undercut modules developed
+      by the authors on diced dies in the imec Xplore lab (p.5, first-person die-level post-processing of the diced pilot-line
+      wafer; D440: imec is both the wafer fab and the authors'' org; benchmark exclude_values candidate, D933). Facility org_xplore_multiuser_cleanroom
+      for the printed ''imec Xplore lab'' (p.5; alias to be added in the org round, audit Q6). Phase shifter in one arm of
+      an unbalanced MZI (5 um arm-length difference) with input / output grating couplers; transmission normalized to a short
+      reference waveguide (p.2, p.6). Undercut designs: two 15 um wide trenches 10 um apart, centred on the waveguide, and
+      an isotropic Si undercut (p.2); XSEM shows an upward beam deflection from residual stress (p.6). Platform loss 0.60
+      +/- 0.17 dB/cm (p.2) not entered: platform reported in the authors'' ref. [18] (p.5, D259 / D408). IL / ER of the MZIs
+      shown only as curves (Fig. 4), stated as similar for the three 800 um structures (p.6).'
+    why: 'p.5 Sec. 3: the heater, SiO2 trench and Si undercut modules were made on the die level in the imec Xplore lab (''performed
+      at'', rule 12); the registry facility org_xplore_multiuser_cleanroom is the imec Xplore cleanroom of khalil2026 (imec
+      authors, Leuven), so the facility is set and the printed name goes to the org round as an alias (audit Q6); MMI rows
+      untouched (pilot-line parts, Contract v7 fab per component)'
+  cmp_lit_wang2026g_ps300_uc3:
+    facility_org_ids: org_xplore_multiuser_cleanroom
+    notes: 'Configuration: 300 um heater / undercut, SiO2 trench and Si undercut, 3 supporting bridges.  Fab org_imec: waveguide
+      stack processed in the imec 200 mm CMOS pilot line (p.4 Sec. 3); heater, SiO2 trench and Si undercut modules developed
+      by the authors on diced dies in the imec Xplore lab (p.5, first-person die-level post-processing of the diced pilot-line
+      wafer; D440: imec is both the wafer fab and the authors'' org; benchmark exclude_values candidate, D933). Facility org_xplore_multiuser_cleanroom
+      for the printed ''imec Xplore lab'' (p.5; alias to be added in the org round, audit Q6). Phase shifter in one arm of
+      an unbalanced MZI (5 um arm-length difference) with input / output grating couplers; transmission normalized to a short
+      reference waveguide (p.2, p.6). Undercut designs: two 15 um wide trenches 10 um apart, centred on the waveguide, and
+      an isotropic Si undercut (p.2); XSEM shows an upward beam deflection from residual stress (p.6). Platform loss 0.60
+      +/- 0.17 dB/cm (p.2) not entered: platform reported in the authors'' ref. [18] (p.5, D259 / D408). IL / ER of the MZIs
+      shown only as curves (Fig. 4), stated as similar for the three 800 um structures (p.6).'
+    why: 'p.5 Sec. 3: the heater, SiO2 trench and Si undercut modules were made on the die level in the imec Xplore lab (''performed
+      at'', rule 12); the registry facility org_xplore_multiuser_cleanroom is the imec Xplore cleanroom of khalil2026 (imec
+      authors, Leuven), so the facility is set and the printed name goes to the org round as an alias (audit Q6); MMI rows
+      untouched (pilot-line parts, Contract v7 fab per component)'
+  cmp_lit_wang2026g_ps400_uc3:
+    facility_org_ids: org_xplore_multiuser_cleanroom
+    notes: 'Configuration: 400 um heater / undercut, SiO2 trench and Si undercut, 3 supporting bridges. Same device as Table
+      1 device 3 (400 um, trench + undercut, three tethers) and Table 2 device 4. Fig. 3(b) micrograph shows a 400 um heater
+      with 2 tethers (a different die view, no values). Fab org_imec: waveguide stack processed in the imec 200 mm CMOS pilot
+      line (p.4 Sec. 3); heater, SiO2 trench and Si undercut modules developed by the authors on diced dies in the imec Xplore
+      lab (p.5, first-person die-level post-processing of the diced pilot-line wafer; D440: imec is both the wafer fab and
+      the authors'' org; benchmark exclude_values candidate, D933). Facility org_xplore_multiuser_cleanroom for the printed
+      ''imec Xplore lab'' (p.5; alias to be added in the org round, audit Q6). Phase shifter in one arm of an unbalanced MZI
+      (5 um arm-length difference) with input / output grating couplers; transmission normalized to a short reference waveguide
+      (p.2, p.6). Undercut designs: two 15 um wide trenches 10 um apart, centred on the waveguide, and an isotropic Si undercut
+      (p.2); XSEM shows an upward beam deflection from residual stress (p.6). Platform loss 0.60 +/- 0.17 dB/cm (p.2) not
+      entered: platform reported in the authors'' ref. [18] (p.5, D259 / D408). IL / ER of the MZIs shown only as curves (Fig.
+      4), stated as similar for the three 800 um structures (p.6).'
+    why: 'p.5 Sec. 3: the heater, SiO2 trench and Si undercut modules were made on the die level in the imec Xplore lab (''performed
+      at'', rule 12); the registry facility org_xplore_multiuser_cleanroom is the imec Xplore cleanroom of khalil2026 (imec
+      authors, Leuven), so the facility is set and the printed name goes to the org round as an alias (audit Q6); MMI rows
+      untouched (pilot-line parts, Contract v7 fab per component)'
+metrics:
+  cmp_lit_zhang2021a_opa_64ch-m12:
+    basis: derived
+    notes: 'printed 0.22 um waveguide thickness (p.8); rescaled to nm (D157 / D256: the OPA sections print no nm form; the
+      220 nm on p.2 belongs to the test waveguide)'
+    why: 'D157 / D256: a unit rescale of a printed dimension is derived unless the source prints the stored-unit form for
+      the same quantity; p.8 Sec. 4 prints 0.22 um for the OPA emitters'
+  cmp_lit_zhang2021a_sin_wg_1500x400-m1:
+    wavelength_inferred: 'true'
+    condition: input peak power (10 ns pulses, 100 kHz) at 90 % survival from the fitted survival curve of 48 waveguides;
+      coupling loss not subtracted (Sec. 2.1 method); individual damage between 11.6 and 285 W; 80 % survive below 88 W
+    notes: 'printed damage threshold 35 W peak; 10 log10(35000 mW) = 45.44 dBm. A 90 %-survival damage threshold, not a no-degradation
+      level (criterion in condition, audit Q3). Sec. 2.2 does not restate the wavelength: 1550 nm inferred from the Sec. 2.1
+      method it says it reuses (p.3-4).'
+    why: 'p.3-4 Sec. 2.2 reuses the ''above-mentioned method'' without restating 1550 nm or the coupling-loss convention:
+      wavelength is inferred (rule 8) and the Si row''s ''coupling loss not considered'' condition applies'
+  cmp_lit_wang2026g_ps400_plain-m5:
+    basis: derived
+    notes: 'printed bandwidth computed by the authors from the measured rise / fall times (values reproduce 0.35 / mean(rise,
+      fall); the relation is not printed), not a small-signal frequency response; arithmetic on the paper''s own measurements:
+      derived (D80a; merged chang2026a, guo2024, wang2022b precedents); text prints > 68 kHz'
+    why: 'D80a / merged precedents: a bandwidth the authors compute from their own measured rise / fall times with an unprinted
+      relation is derived (chang2026a 729 kHz, guo2024 32 kHz, wang2022b 30 kHz); no assumed, nominal or cited input (rule
+      4), audit Q4'
+  cmp_lit_wang2026g_ps400_trench-m5:
+    basis: derived
+    notes: 'printed bandwidth computed by the authors from the measured rise / fall times (values reproduce 0.35 / mean(rise,
+      fall); the relation is not printed), not a small-signal frequency response; arithmetic on the paper''s own measurements:
+      derived (D80a; merged chang2026a, guo2024, wang2022b precedents); text prints a minimum bandwidth of about 66 kHz'
+    why: 'D80a / merged precedents: a bandwidth the authors compute from their own measured rise / fall times with an unprinted
+      relation is derived (chang2026a 729 kHz, guo2024 32 kHz, wang2022b 30 kHz); no assumed, nominal or cited input (rule
+      4), audit Q4'
+    condition: detector-limited response (rise time 3.1 us below the about 3.5 us detector limit)
+  cmp_lit_wang2026g_ps100_uc3-m5:
+    basis: derived
+    notes: 'printed bandwidth computed by the authors from the measured rise / fall times (values reproduce 0.35 / mean(rise,
+      fall); the relation is not printed), not a small-signal frequency response; arithmetic on the paper''s own measurements:
+      derived (D80a; merged chang2026a, guo2024, wang2022b precedents)'
+    why: 'D80a / merged precedents: a bandwidth the authors compute from their own measured rise / fall times with an unprinted
+      relation is derived (chang2026a 729 kHz, guo2024 32 kHz, wang2022b 30 kHz); no assumed, nominal or cited input (rule
+      4), audit Q4'
+  cmp_lit_wang2026g_ps200_uc3-m6:
+    basis: derived
+    notes: 'printed bandwidth computed by the authors from the measured rise / fall times (values reproduce 0.35 / mean(rise,
+      fall); the relation is not printed), not a small-signal frequency response; arithmetic on the paper''s own measurements:
+      derived (D80a; merged chang2026a, guo2024, wang2022b precedents)'
+    why: 'D80a / merged precedents: a bandwidth the authors compute from their own measured rise / fall times with an unprinted
+      relation is derived (chang2026a 729 kHz, guo2024 32 kHz, wang2022b 30 kHz); no assumed, nominal or cited input (rule
+      4), audit Q4'
+  cmp_lit_wang2026g_ps300_uc3-m5:
+    basis: derived
+    notes: 'printed bandwidth computed by the authors from the measured rise / fall times (values reproduce 0.35 / mean(rise,
+      fall); the relation is not printed), not a small-signal frequency response; arithmetic on the paper''s own measurements:
+      derived (D80a; merged chang2026a, guo2024, wang2022b precedents)'
+    why: 'D80a / merged precedents: a bandwidth the authors compute from their own measured rise / fall times with an unprinted
+      relation is derived (chang2026a 729 kHz, guo2024 32 kHz, wang2022b 30 kHz); no assumed, nominal or cited input (rule
+      4), audit Q4'
+  cmp_lit_wang2026g_ps400_uc3-m6:
+    basis: derived
+    notes: 'printed bandwidth computed by the authors from the measured rise / fall times (values reproduce 0.35 / mean(rise,
+      fall); the relation is not printed), not a small-signal frequency response; arithmetic on the paper''s own measurements:
+      derived (D80a; merged chang2026a, guo2024, wang2022b precedents); Table 1 and text print 0.85 kHz, Table 2 prints 0.84
+      kHz (D417)'
+    why: 'D80a / merged precedents: a bandwidth the authors compute from their own measured rise / fall times with an unprinted
+      relation is derived (chang2026a 729 kHz, guo2024 32 kHz, wang2022b 30 kHz); no assumed, nominal or cited input (rule
+      4), audit Q4'
+delete_metrics:
+- id: cmp_lit_zhang2021a_opa_64ch-m6
+  why: 'D411: the 0.02 deg longitudinal divergence is the chip plus an off-chip bulk cylindrical lens 17 mm in front of it
+    (p.9 Sec. 4); the chip''s own longitudinal divergence is 32 deg (m5). Value kept in the component notes (audit Q2)'

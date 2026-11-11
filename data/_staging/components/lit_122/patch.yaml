@@ -1,0 +1,158 @@
+# Audit patch lit_122 (fresh-context audit 2026-11-11, DevLog/audits/2026-11-11-lit_122-audit.md).
+# 138 metrics: 111 ok / 25 imprecise / 2 wrong (deleted); 21 components: 18 ok / 3 imprecise / 0 wrong, 0 deleted; 2 misses added (2 metrics).
+# Coordinator rulings open: Q1 zhang2026 Jilin fab (recommend keep, no op), Q2 mangal2021 imec / CMST fab (recommend keep) and
+# Ghent Photonics Research Group facility -> borderline fab (patched below; to keep the batch value, drop the
+# cmp_lit_mangal2021_backside_si_microlens_eb component op), Q3 yang2021 BUPT on the butt rows only + Applied Optoelectronics org
+# round (no op), Q4 cao2025 fab empty (no op), Q5 cao2025 single / dual pass on one row (keep, no op), Q6 yang2021 design rows
+# (keep; laser platform and duplicate MFD rows patched), Q7 moodie2024 family rows (keep, no op), Q8 cao2025 on-chip gain basis
+# (keep measured, no op). To skip the two derived -10 dBm gain rows, drop add_metrics cmp_lit_zhang2026_tby_er_su8_amp_4mm-m7 / -m8.
+components:
+  cmp_lit_yang2021_monolithic_eel_design:
+    platform: iii_v_on_si_epi
+    notes: 'Appendix calls the simulated laser a DFB with deep ridge mesa (p.9); Sec. 2 calls the design an EEL. Rate-equation simulation with commercial packages (p.9). Platform iii_v_on_si_epi: the design is a III-V stack on a 2.4 um InP buffer grown on the Si substrate (selective-area growth preferred, p.2; growth on the Si substrate or the top Si of an SOI wafer, p.2; Fig. 1(c)).'
+    why: 'p.2 and p.6: the monolithic laser is III-V grown on the Si substrate (InP buffer on Si, Fig. 1(c)); the registry value for epitaxial III-V on Si is iii_v_on_si_epi (merged chen2016, koninck2025), not inp'
+  cmp_lit_mangal2021_uniform_gc_490nm:
+    notes: 'Fab org_imec (borderline, D84b): acknowledgment thanks imec''s SiPh integration team for the dies fabricated from 200-mm wafer-scale processing (p.13); three of five authors list an imec affiliation (p.1; CMST is printed as Ghent University-imec). mangal2019 / mangal2019a / mangal2020 rows carry org_imec for the same family of dies. No metal reflector (to allow front- and backside fiber tests). Backside coupling measured on a separate chip thinned to 100 um, polished and AR-coated. Per-interface frontside-to-backside penalty printed as 3.75 dB (p.10; the Fig. 9(a) 7.5 dB label is the two-interface difference). Grating beam angle in Si 4.06 deg (design, 10 deg in oxide). Backside GC with metal reflector 2.3 dB and apodized 1.5 dB are cited (refs. 37, 45, 46), not entered.'
+    why: 'p.1: Mangal, Snyder and Van Campenhout list imec (affiliation 2) and affiliation 1 reads Ghent University-imec; the note said two authors at imec. Fab value unchanged (Q2)'
+  cmp_lit_mangal2021_backside_si_microlens_eb:
+    fab_org_ids: org_centre_for_microsystems_technology;org_ghent_photonics_research_group
+    facility_org_ids: ''
+    notes: 'Fab borderline (D84b, staff / group thanks for fabrication steps of this interface): org_centre_for_microsystems_technology (CMST staff thanked for microlens RIE and die lapping, p.13; mangal2019a precedent) and org_ghent_photonics_research_group (thanked for help with the SiN AR deposition, p.13; mangal2020 precedent, where the same kind of thanks set a borderline fab and no facility). No facility: the acknowledgment thanks the group and names no place where the work was performed (D72, D84b; mangal2019 differs because its text says the deposition was done at intec Photonics, D470). Grating die from imec (see GC row). Substrate printed 600 um (p.6-7, design; thinning +/- 1 um) vs 580 um (Table 2; Fig. 9(b), 9(c), 11 insets; D417). Lens diameter 270 um (design aperture radius 135 um, fitted 138.29 um, Fig. 7); lens offset 43 um from the grating; backside-to-frontside alignment within +/- 1 um; lens rms roughness < 10 nm (40 x 40 um2); Si backside rms 10-15 nm. Angular 1-dB tolerance +/- 0.6 deg (Fig. 10(b)) not entered: no registry parameter (gap). Simulated ROC tolerance -100 / +180 um for 1 dB (Fig. 4). AR coating improved SMF-to-TEC40 coupling by 2 dB (Fig. 9(c)). Projected < 2.8 / < 2 dB with reflector gratings (Table 2) are projections, not entered. 0.5 dB misplacement penalty is cited from ref. 37.'
+    why: 'p.13 thanks the Photonics Research Group (INTEC), Ghent University for help with SiN deposition: group / staff thanks never set facility_org_ids (Contract v7, D84b, D72); thanks for a fabrication step of this component are a borderline fab, as CMST on the same row and org_ghent_university on mangal2020 (Q2)'
+metrics:
+  cmp_lit_zhang2026_tby_er_su8_amp_4mm-m4:
+    qualifier: le
+    condition: pump power at which internal net gain is reached (-15 dBm signal); printed as exceeding 25 mW; gain saturates near 125 mW
+    notes: 'printed ''exceeds 25 mW'' for both 1538 and 1550 nm (p.8); Fig. 6(c) shows SE about 6.8 dB already at 25 mW, the first pump point above 0 mW, against the 0.77 dB propagation-loss band, so the threshold lies at or below 25 mW (le); kuyken2011 / li2025 transparency precedent'
+    why: 'p.9 Fig. 6(c): at the first measured pump point (25 mW) the 1538 nm SE (about 6.8 dB) is far above the 0.77 dB loss, so 25 mW bounds the threshold from above; an unqualified 25 mW reads as the transparency point'
+  cmp_lit_zhang2026_tby_er_su8_amp_4mm-m5:
+    qualifier: le
+    condition: pump power at which internal net gain is reached (-15 dBm signal); printed as exceeding 25 mW; gain saturates near 125 mW
+    notes: 'printed ''exceeds 25 mW'' for both 1538 and 1550 nm (p.8); Fig. 6(d) shows SE about 6.3 dB already at 25 mW against the 0.77 dB loss band, so the threshold lies at or below 25 mW (le)'
+    why: 'p.9 Fig. 6(d): SE at 25 mW (about 6.3 dB at 1550 nm) is far above the loss band; 25 mW is an upper bound'
+  cmp_lit_zhang2026_tby_er_su8_amp_4mm-m6:
+    basis: derived
+    notes: printed 0.4 cm (the shortest cutback length, lowest IL, p.7); unit rescale (D157)
+    why: 'p.7 prints 0.4 cm only; a pure unit rescale is derived (D157, D256)'
+  cmp_lit_zhang2026_tby_er_su8_waveguide-m1:
+    condition: five lengths, five IL sets each averaged, linear fit of IL vs length; SMF (G657A, ~9 um); pump state not printed (the loss includes Er3+ ground-state absorption, p.7)
+    why: 'p.7 does not say the pump was off; the batch condition ''pump off'' was an inference'
+  cmp_lit_yang2021_interlayer_meta_dc-m1:
+    polarization: ''
+    notes: 'extracted after a setup calibration (p.6); subtraction of the edge-coupler losses implied but not printed (D167); polarization of the measurement not stated (inline fiber polarization controller, p.6; Fig. 4 and Fig. 6 carry no TE label); the design is for the TE fundamental mode (p.5)'
+    why: 'p.6-7 and Fig. 4(d), Fig. 6: the measured coupling losses carry no polarization; TE is stated only for the simulations (p.3, p.5)'
+  cmp_lit_yang2021_interlayer_meta_dc-m3:
+    basis: derived
+    notes: printed 1 um spacer (p.2, p.5; Fig. 1(a) and 3(a) label it in um); unit rescale (D157). Abstract / conclusion print 1.4 um as the gap / vertical coupling distance (spacer plus one 400 nm SiN layer); the edge-to-edge spacer is the registry gap (D417)
+    why: 'p.2, p.5, p.3 Fig. 1(a): the spacer is printed only as 1 um; pure unit rescale is derived (D157). Gap value 1000 nm confirmed against the 1.4 um abstract wording'
+  cmp_lit_yang2021_interlayer_meta_dc-m6:
+    basis: derived
+    notes: printed 1-um-wide SiN strip waveguides (p.6; Fig. 7 caption 1-um-wide SiN2 waveguide); unit rescale (D157)
+    why: 'p.6 prints 1 um only; D157'
+  cmp_lit_yang2021_interlayer_meta_dc-m7:
+    basis: derived
+    notes: printed 1-um-wide SiN strip waveguides (p.6); unit rescale (D157)
+    why: 'p.6 prints 1 um only; D157'
+  cmp_lit_yang2021_sin1_edge_coupler-m1:
+    polarization: ''
+    notes: 'extracted after a setup calibration (p.6); arithmetic not printed (D167); polarization of the measurement not stated (inline polarization controller, p.6)'
+    why: 'p.6-7, Fig. 4(d): no polarization stated for the measured coupler losses'
+  cmp_lit_yang2021_sin1_edge_coupler-m3:
+    basis: derived
+    notes: printed 4 um at the edge (p.3); unit rescale (D157)
+    why: 'p.3 prints 4 um only; D157'
+  cmp_lit_yang2021_sin1_edge_coupler-m4:
+    basis: derived
+    notes: printed 1 um (p.3, p.6); unit rescale (D157)
+    why: 'p.3 / p.6 print 1 um only; D157'
+  cmp_lit_yang2021_sin2_edge_coupler-m1:
+    polarization: ''
+    notes: 'extracted after a setup calibration (p.6); arithmetic not printed (D167); polarization of the measurement not stated (inline polarization controller, p.6)'
+    why: 'p.6-7, Fig. 4(d): no polarization stated for the measured coupler losses'
+  cmp_lit_yang2021_sin2_edge_coupler-m3:
+    basis: derived
+    notes: printed 4 um at the edge (p.3); unit rescale (D157)
+    why: 'p.3 prints 4 um only; D157'
+  cmp_lit_yang2021_sin2_edge_coupler-m4:
+    basis: derived
+    notes: printed 1 um (p.3, p.6); unit rescale (D157)
+    why: 'p.3 / p.6 print 1 um only; D157'
+  cmp_lit_yang2021_dfb_to_sin1_ec_butt-m1:
+    polarization: ''
+    temperature_k: 297.15
+    notes: 'de-embedded from the pre-bonding laser power and the measured edge-coupler-to-lensed-fiber loss (D394); the reference is the laser output coupled into a lensed fiber before bonding (p.8-9), so the value is relative to that laser-to-lensed-fiber coupling, whose loss is not stated; polarization not stated'
+    why: 'p.8: the pre-bonding laser output was measured through a lensed fiber, and p.9 uses that power for the de-embedding, so the reference plane is the lensed-fiber-coupled power; no polarization is stated; the 24 C stage temperature was only in condition'
+  cmp_lit_yang2021_dfb_to_sin1_ec_butt-m2:
+    basis: derived
+    notes: printed 1 um (p.9); unit rescale (D157)
+    why: 'p.9 prints 1 um only; D157'
+  cmp_lit_yang2021_dfb_to_sin2_ec_butt-m1:
+    polarization: ''
+    temperature_k: 297.15
+    notes: 'de-embedded from the pre-bonding laser power and the measured edge-coupler-to-lensed-fiber loss (D394); the reference is the laser output coupled into a lensed fiber before bonding (p.8-9), so the value is relative to that laser-to-lensed-fiber coupling, whose loss is not stated; polarization not stated'
+    why: 'p.8-9: same reference-plane and polarization correction as the SiN1 row'
+  cmp_lit_yang2021_dfb_to_sin2_ec_butt-m2:
+    basis: derived
+    notes: printed 1 um (p.9); unit rescale (D157)
+    why: 'p.9 prints 1 um only; D157'
+  cmp_lit_yang2021_sin2_ec_monolithic_eel_design-m2:
+    basis: derived
+    notes: printed 1-um-wide gap (p.2, p.3); unit rescale (D157)
+    why: 'p.2 / p.3 print 1 um only; D157'
+  cmp_lit_yang2021_sin2_over_sin1_crossing-m1:
+    polarization: ''
+    notes: 3D-FDTD without strain; polarization not stated for this simulation (p.6)
+    why: 'p.6: the crossing simulation states no polarization'
+  cmp_lit_yang2021_sin2_over_sin1_crossing-m3:
+    basis: derived
+    notes: printed 1 um spacer (p.2, p.5; Fig. 1(a)); unit rescale (D157)
+    why: 'p.5 / Fig. 1(a) print 1 um only; D157'
+  cmp_lit_yang2021_sin_strip_1um-m2:
+    basis: derived
+    notes: printed 1-um-wide (p.6); unit rescale (D157)
+    why: 'p.6 prints 1 um only; D157'
+  cmp_lit_moodie2024_pcsel_d025a_a477-m17:
+    basis: derived
+    notes: printed target etch depth 0.8 um (p.2); unit rescale (D157)
+    why: 'p.2 prints 0.8 um only; D157'
+  cmp_lit_mangal2021_uniform_gc_490nm-m2:
+    value: 7.0
+    notes: 'not printed; audit read of the Fig. 9(a) panel image (y axis 6.4 px/dB): the device-side (frontside) curve peaks at about -7.0 dB near 1300-1305 nm, +/- 0.3 dB; the 7.5 dB label in Fig. 9(a) is the frontside-to-backside difference (2 x 3.75 dB, p.10), not this curve'
+    why: 'p.9 Fig. 9(a): the black device-side trace tops out about 44 px below the 0 dB grid line at 6.4 px/dB (about 7.0 dB); the batch 7.5 dB (+/- 0.5) sat at the edge of its own uncertainty and matches the difference label instead'
+  cmp_lit_mangal2021_backside_si_microlens_eb-m6:
+    notes: 'printed 400 um (p.12; Fig. 11 caption); the Fig. 11 trace with both microlenses reads about -0.8 dB at 400 um and crosses -1 dB near 450 um (D417, printed value kept); one fiber retracted: 0.2 dB drop over 300 um (abstract, p.12)'
+    why: 'p.12 Fig. 11 (panel image, 60 px/dB): the purple trace is about -0.8 dB at 400 um and -1.17 dB at 500 um; the printed 400 um is kept and the conflict noted (D417)'
+delete_metrics:
+- id: cmp_lit_yang2021_sin2_ec_monolithic_eel_design-m3
+  why: 'Duplicate of cmp_lit_yang2021_monolithic_eel_design-m3 (2.6 um, p.3 Fig. 1(c)): the simulated lasing-mode MFD is a property of the designed laser, not of the SiN2 edge-coupler interface; the coupler row keeps it in the m1 condition (D396 one value per class row)'
+- id: cmp_lit_yang2021_sin2_ec_monolithic_eel_design-m4
+  why: 'Duplicate of cmp_lit_yang2021_monolithic_eel_design-m4 (1.2 um, p.3 Fig. 1(c)); same reason as m3'
+add_metrics:
+- metric_id: cmp_lit_zhang2026_tby_er_su8_amp_4mm-m7
+  component_id: cmp_lit_zhang2026_tby_er_su8_amp_4mm
+  parameter: gain_db
+  value: 10.23
+  unit: dB
+  statistic: best
+  wavelength_nm: 1538
+  ref_plane: on_chip
+  condition: 'internal net gain G = SE - alpha_p L; 976 nm pump (maximum recorded SE over the pump sweep), signal -10 dBm'
+  method: direct
+  basis: derived
+  locator: p.8; p.9 Fig. 6(c); p.10 Fig. 7(a)
+  notes: SE 11 dB at -10 dBm (p.8) minus 1.92 dB/cm x 0.4 cm (0.768 dB), the paper's own Gnet definition (p.8; D166, as m1); Fig. 7(a) -10 dBm trace about 10.2-10.3 dB near 125 mW
+  why: 'Miss. p.8 prints the -10 dBm SE maxima (11 / 9.59 dB) and the Gnet formula, and Fig. 7(a) plots the -10 dBm internal net gain; the batch entered only the -15 dBm operating point'
+- metric_id: cmp_lit_zhang2026_tby_er_su8_amp_4mm-m8
+  component_id: cmp_lit_zhang2026_tby_er_su8_amp_4mm
+  parameter: gain_db
+  value: 8.82
+  unit: dB
+  statistic: best
+  wavelength_nm: 1550
+  ref_plane: on_chip
+  condition: 'internal net gain G = SE - alpha_p L; 976 nm pump (maximum recorded SE over the pump sweep), signal -10 dBm'
+  method: direct
+  basis: derived
+  locator: p.8; p.9 Fig. 6(d); p.10 Fig. 7(a)
+  notes: SE 9.59 dB at -10 dBm (p.8) minus 0.768 dB (D166, as m2); Fig. 7(a) -10 dBm trace about 8.8-8.9 dB near 125-150 mW
+  why: 'Miss. p.8 prints the 1550 nm -10 dBm SE maximum 9.59 dB; same derivation as m2'

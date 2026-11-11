@@ -1,0 +1,115 @@
+# Audit patch lit_124 (fresh-context audit 2026-11-11, DevLog/audits/2026-11-11-lit_124-audit.md).
+# 200 metrics: 180 ok / 16 imprecise / 4 wrong (deleted); 24 components: 19 ok / 5 imprecise / 0 wrong, 0 deleted; 2 misses added.
+# Coordinator rulings open: Q1 footprint stated once for a design family (to keep the batch version instead, drop the 4 delete_metrics
+# and restore the footprint sentences of the 4 component notes), Q2 chen2021a facet width (no op), Q3 chen2021a per-port ILs (no op),
+# Q4 printed-value conflicts (notes only).
+components:
+  cmp_lit_papadovasilakis2023_bwic_sr30:
+    notes: 'GlobalFoundries provided the silicon fabrication through its MPW university program (p.12 Acknowledgments); commercial 45-nm monolithic process on a 300-mm wafer, 160 nm Si device layer, 300 nm waveguide width (p.8 Sec. 3). MZI-type wavelength-independent coupler: two DCs (lengths normalized to the cross-over length L0 only, Table 1, not entered) with curved MZI arms. TE set by a polarization controller, GC-coupled O-band measurement. SR and IL extracted from a 9-device cascade macro (Eq. (9)-(11), Fig. 6). Arms: 3rd-order Bezier bends (continuous curvature change, Fig. 1(c), 2(b)); arm coordinates only normalized to L0 (Table 1). Footprint 36.3 x 3.8 um2 is printed once for the BWIC (p.1 Abstract, p.11, p.11 Table 3, p.12) while Table 1 gives SR-dependent LDC1 (0.91 / 1.08 / 1.37 L0) and yb (0.48 / 0.51 / 0.52 L0) for the 30:70 / 40:60 / 50:50 designs, so one value cannot describe all three and the paper does not say which design it is: not entered (D159 / D254 / D541). Split-ratio deviation statements disagree (D417): p.1 Abstract and p.12 conclusion give 0.6 % as the maximum deviation of the optimal device over 100 nm; p.11 gives 0.6 % as the maximum mean offset from the target (= Table 2 40:60, 0.394) and 1.3 % as the maximum SD (= Table 2 30:70); p.11 Table 3 gives 1.6 % for this work, defined as the maximum non-uniformity of the best-performing device over the wavelength range; p.2 gives an SD of 0.6 %, below every BWIC SD of Table 2 (0.8-1.3 %). The best-performing device is not identified: no deviation row (D159). Table 3 also lists IL 0.15 +/- 0.05 dB for this work (the per-wavelength Table 2 values are entered on the 50:50 row).'
+    why: 'Follows the deletion of the family-level footprint rows (audit Q1, D159 / D254 / D541; p.8 Table 1 shows SR-dependent geometry) and corrects the deviation-conflict description: the 0.6 % of the abstract / conclusion is a best-device spectral deviation, the 0.6 % on p.11 a mean offset, and p.2 prints a 0.6 % SD that matches no Table 2 SD (p.1, p.2, p.9 Table 2, p.11 Table 3, p.12)'
+  cmp_lit_papadovasilakis2023_bwic_sr40:
+    notes: 'GlobalFoundries provided the silicon fabrication through its MPW university program (p.12 Acknowledgments); commercial 45-nm monolithic process on a 300-mm wafer, 160 nm Si device layer, 300 nm waveguide width (p.8 Sec. 3). MZI-type wavelength-independent coupler: two DCs (lengths normalized to the cross-over length L0 only, Table 1, not entered) with curved MZI arms. TE set by a polarization controller, GC-coupled O-band measurement. SR and IL extracted from a 9-device cascade macro (Eq. (9)-(11), Fig. 6). Arms: 3rd-order Bezier bends (continuous curvature change, Fig. 1(c), 2(b)); arm coordinates only normalized to L0 (Table 1). Footprint 36.3 x 3.8 um2 is printed once for the BWIC (p.1 Abstract, p.11, p.11 Table 3, p.12) while Table 1 gives SR-dependent LDC1 (0.91 / 1.08 / 1.37 L0) and yb (0.48 / 0.51 / 0.52 L0) for the 30:70 / 40:60 / 50:50 designs, so one value cannot describe all three and the paper does not say which design it is: not entered (D159 / D254 / D541). Split-ratio deviation statements disagree (D417): p.1 Abstract and p.12 conclusion give 0.6 % as the maximum deviation of the optimal device over 100 nm; p.11 gives 0.6 % as the maximum mean offset from the target (= Table 2 40:60, 0.394) and 1.3 % as the maximum SD (= Table 2 30:70); p.11 Table 3 gives 1.6 % for this work, defined as the maximum non-uniformity of the best-performing device over the wavelength range; p.2 gives an SD of 0.6 %, below every BWIC SD of Table 2 (0.8-1.3 %). The best-performing device is not identified: no deviation row (D159). Table 3 also lists IL 0.15 +/- 0.05 dB for this work (the per-wavelength Table 2 values are entered on the 50:50 row).'
+    why: 'Follows the deletion of the family-level footprint rows (audit Q1, D159 / D254 / D541; p.8 Table 1 shows SR-dependent geometry) and corrects the deviation-conflict description: the 0.6 % of the abstract / conclusion is a best-device spectral deviation, the 0.6 % on p.11 a mean offset, and p.2 prints a 0.6 % SD that matches no Table 2 SD (p.1, p.2, p.9 Table 2, p.11 Table 3, p.12)'
+  cmp_lit_papadovasilakis2023_bwic_sr50:
+    notes: 'GlobalFoundries provided the silicon fabrication through its MPW university program (p.12 Acknowledgments); commercial 45-nm monolithic process on a 300-mm wafer, 160 nm Si device layer, 300 nm waveguide width (p.8 Sec. 3). MZI-type wavelength-independent coupler: two DCs (lengths normalized to the cross-over length L0 only, Table 1, not entered) with curved MZI arms. TE set by a polarization controller, GC-coupled O-band measurement. SR and IL extracted from a 9-device cascade macro (Eq. (9)-(11), Fig. 6). Arms: 3rd-order Bezier bends (continuous curvature change, Fig. 1(c), 2(b)); arm coordinates only normalized to L0 (Table 1). Footprint 36.3 x 3.8 um2 is printed once for the BWIC (p.1 Abstract, p.11, p.11 Table 3, p.12) while Table 1 gives SR-dependent LDC1 (0.91 / 1.08 / 1.37 L0) and yb (0.48 / 0.51 / 0.52 L0) for the 30:70 / 40:60 / 50:50 designs, so one value cannot describe all three and the paper does not say which design it is: not entered (D159 / D254 / D541). Split-ratio deviation statements disagree (D417): p.1 Abstract and p.12 conclusion give 0.6 % as the maximum deviation of the optimal device over 100 nm; p.11 gives 0.6 % as the maximum mean offset from the target (= Table 2 40:60, 0.394) and 1.3 % as the maximum SD (= Table 2 30:70); p.11 Table 3 gives 1.6 % for this work, defined as the maximum non-uniformity of the best-performing device over the wavelength range; p.2 gives an SD of 0.6 %, below every BWIC SD of Table 2 (0.8-1.3 %). The best-performing device is not identified: no deviation row (D159). Table 3 also lists IL 0.15 +/- 0.05 dB for this work (the per-wavelength Table 2 values are entered on this row).'
+    why: 'Follows the deletion of the family-level footprint rows (audit Q1, D159 / D254 / D541; p.8 Table 1 shows SR-dependent geometry) and corrects the deviation-conflict description: the 0.6 % of the abstract / conclusion is a best-device spectral deviation, the 0.6 % on p.11 a mean offset, and p.2 prints a 0.6 % SD that matches no Table 2 SD (p.1, p.2, p.9 Table 2, p.11 Table 3, p.12)'
+  cmp_lit_papadovasilakis2022_wic_sr50:
+    notes: 'GlobalFoundries provided the silicon fabrication through its MPW university program (p.10 Acknowledgments); monolithic CMOS SOI platform with a 160 nm device layer (p.2). MZI-type wavelength-independent coupler: two DCs (w = 300 nm, gap 200 nm, chosen for fabrication tolerance; Fig. 1(e)) and an arm-length difference dL; lengths only normalized to the cross-over length L0 (Table 1, not entered). Fabricated with three width variants (w = 290 / 300 / 310 nm, g = 210 / 200 / 190 nm); Table 1 SR mean / SD pool the three variants over the O-band (D165 population row). TE design (p.4); measurement polarization not stated (setup in ref. 32). Companion paper lit:papadovasilakis2023a uses WICs of the same 300 nm / 200 nm DC design. The 3-dB design also sits in the 9-device cascade macro (Fig. 5) used for the 6-site SR statistics and the IL extraction (Eq. (6)-(8)). Site-to-site SR spread at 9 wavelengths: maximum deviation 0.011-0.026 (Fig. 6(b), not entered). Conclusion p.10 gives ''mean SD of 1.2 % for the least stable device'' vs 1.3 % on p.6 (D417). Footprint 60 x 40 um2 is printed once for the WIC (p.1 Abstract; p.10 Table 2 ''This Work'' row with splitting ratio ''Any'') while the four designs differ in LDC1 (1.12 / 0.81 / 0.72 / 0.48 L0) and dL (0.18 / 0.16 / 0.14 / 0.13 L0, p.6 Table 1); the design it describes is not stated: not entered (D159 / D254 / D541, audit Q1).'
+    why: 'Follows the deletion of m9 (footprint stated once for the WIC family, placed on one representative row; D254 / D541, audit Q1; p.1 Abstract, p.6 Table 1, p.10 Table 2)'
+  cmp_lit_chen2021a_mmi4x4_tm:
+    notes: 'Fabrication stated in the passive voice (p.6 Sec. 3); all authors at NUS, no fabricating org named (D80b): fab empty. The acknowledgment names the Spin and Energy Lab (SEL) and E6NanoFab facilities at NUS (p.9); neither is in the registry (reported). Process: Cr / ma-N 2403 mask, 75 keV EBL, Ar-only ICP etch (Oxford PlasmaPro 100 Cobra, about 25 nm/min, selectivity about 1:1); 700 nm Z-cut TFLN on 2 um SiO2 (wafer supplier not named). All design and measurement in TM. Proposed also as a 90-degree hybrid (p.8; not characterized as one). Per-port ILs at 1550 nm for input port 2: 6.6 / 6.85 / 6.54 / 6.62 dB for O1-O4 (p.7), not entered as rows (per-port transmissions including the 1/4 split, D401 analogue). Audit read of the Fig. 8(a) inset at 1550 nm (embedded figure image, about +/- 0.01 dB): -6.54 (blue, Port4), -6.61 (red, Port2), -6.81 (black, Port1) and -6.85 dB (green, legend repeats ''Port2''). The inset differs from the printed list in the port labels and in one value: the printed 6.6 and 6.62 dB fall on one inset point (about 6.61 dB), and the inset point at about 6.81 dB has no printed counterpart (D417). The inset values sum to a total of about 0.68 dB instead of the printed 0.63 dB; the max-min spread is 0.31 dB either way. Printed values used (0.63 dB on p.1, p.2, p.7, p.9 Table 1 and p.9 conclusion). Simulated uniform output for W_M 19.5-20.1 um and L_M tolerance about 1 um (p.4). Cascade not used (sample area).'
+    why: 'p.8 Fig. 8(a) inset (embedded image read): the disagreement with the p.7 per-port list is not only a Port 1 / Port 3 assignment, one inset value (about 6.81 dB) has no printed counterpart and the inset total would be about 0.68 dB (audit Q4)'
+metrics:
+  cmp_lit_papadovasilakis2023_bwic_sr30-m1:
+    method: cutback
+    condition: 'cross-port power fraction, target 30:70; mean SR of the 9-device cascade from the bar / cross cascade ports (Eq. (10)), over 10 wafer dies (Table 2)'
+    why: 'p.9 Sec. 3 Eq. (9)-(10): the Table 2 / Fig. 7 SR is extracted from the 9-device cascade macro, not measured directly on one device; method as on the cascade-extracted SR row of papadovasilakis2022 (wic_sr50-m3)'
+  cmp_lit_papadovasilakis2023_bwic_sr30-m2:
+    method: cutback
+    condition: 'SD of the cross-port fraction over 10 wafer dies, target 30:70; SR from the 9-device bar / cross cascade ports (Eq. (10))'
+    basis: measured
+    locator: p.9 Sec. 3, Table 2; p.11 Sec. 3
+    notes: 'Printed +/- 0.013 (fraction, Table 2) and as the maximum SD of 1.3 % of the BWIC (p.11), so the stored-unit form is printed (D256); companion of the mean row. Wavelength span as for the mean row.'
+    why: 'D256: p.11 prints the same quantity in % (BWIC maximum SD 1.3 % = Table 2 30:70 0.013), so the row keeps measured with that locator; method cutback as for the other Table 2 SR rows (p.9 Eq. (10))'
+  cmp_lit_papadovasilakis2023_bwic_sr40-m1:
+    method: cutback
+    condition: 'cross-port power fraction, target 40:60; mean SR of the 9-device cascade from the bar / cross cascade ports (Eq. (10)), over 10 wafer dies (Table 2)'
+    why: 'p.9 Sec. 3 Eq. (9)-(10): the Table 2 / Fig. 7 SR is extracted from the 9-device cascade macro, not measured directly on one device; method as on the cascade-extracted SR row of papadovasilakis2022 (wic_sr50-m3)'
+  cmp_lit_papadovasilakis2023_bwic_sr40-m2:
+    method: cutback
+    condition: 'SD of the cross-port fraction over 10 wafer dies, target 40:60; SR from the 9-device bar / cross cascade ports (Eq. (10))'
+    why: 'p.9 Sec. 3 Eq. (9)-(10): the Table 2 / Fig. 7 SR is extracted from the 9-device cascade macro, not measured directly on one device; method as on the cascade-extracted SR row of papadovasilakis2022 (wic_sr50-m3)'
+  cmp_lit_papadovasilakis2023_bwic_sr50-m1:
+    method: cutback
+    condition: 'cross-port power fraction, target 50:50; mean SR of the 9-device cascade from the bar / cross cascade ports (Eq. (10)), over 10 wafer dies (Table 2)'
+    why: 'p.9 Sec. 3 Eq. (9)-(10): the Table 2 / Fig. 7 SR is extracted from the 9-device cascade macro, not measured directly on one device; method as on the cascade-extracted SR row of papadovasilakis2022 (wic_sr50-m3)'
+  cmp_lit_papadovasilakis2023_bwic_sr50-m2:
+    method: cutback
+    condition: 'SD of the cross-port fraction over 10 wafer dies, target 50:50; SR from the 9-device bar / cross cascade ports (Eq. (10))'
+    why: 'p.9 Sec. 3 Eq. (9)-(10): the Table 2 / Fig. 7 SR is extracted from the 9-device cascade macro, not measured directly on one device; method as on the cascade-extracted SR row of papadovasilakis2022 (wic_sr50-m3)'
+  cmp_lit_papadovasilakis2023_cwic_sr30-m1:
+    method: cutback
+    condition: 'cross-port power fraction, target 30:70; mean SR of the 9-device cascade from the bar / cross cascade ports (Eq. (10)), over 10 wafer dies (Table 2)'
+    why: 'p.9 Sec. 3 Eq. (9)-(10): the Table 2 / Fig. 7 SR is extracted from the 9-device cascade macro, not measured directly on one device; method as on the cascade-extracted SR row of papadovasilakis2022 (wic_sr50-m3)'
+  cmp_lit_papadovasilakis2023_cwic_sr30-m2:
+    method: cutback
+    condition: 'SD of the cross-port fraction over 10 wafer dies, target 30:70; SR from the 9-device bar / cross cascade ports (Eq. (10))'
+    why: 'p.9 Sec. 3 Eq. (9)-(10): the Table 2 / Fig. 7 SR is extracted from the 9-device cascade macro, not measured directly on one device; method as on the cascade-extracted SR row of papadovasilakis2022 (wic_sr50-m3)'
+  cmp_lit_papadovasilakis2023_cwic_sr40-m1:
+    method: cutback
+    condition: 'cross-port power fraction, target 40:60; mean SR of the 9-device cascade from the bar / cross cascade ports (Eq. (10)), over 10 wafer dies (Table 2)'
+    why: 'p.9 Sec. 3 Eq. (9)-(10): the Table 2 / Fig. 7 SR is extracted from the 9-device cascade macro, not measured directly on one device; method as on the cascade-extracted SR row of papadovasilakis2022 (wic_sr50-m3)'
+  cmp_lit_papadovasilakis2023_cwic_sr40-m2:
+    method: cutback
+    condition: 'SD of the cross-port fraction over 10 wafer dies, target 40:60; SR from the 9-device bar / cross cascade ports (Eq. (10))'
+    why: 'p.9 Sec. 3 Eq. (9)-(10): the Table 2 / Fig. 7 SR is extracted from the 9-device cascade macro, not measured directly on one device; method as on the cascade-extracted SR row of papadovasilakis2022 (wic_sr50-m3)'
+  cmp_lit_papadovasilakis2023_cwic_sr50-m1:
+    method: cutback
+    condition: 'cross-port power fraction, target 50:50; mean SR of the 9-device cascade from the bar / cross cascade ports (Eq. (10)), over 10 wafer dies (Table 2)'
+    why: 'p.9 Sec. 3 Eq. (9)-(10): the Table 2 / Fig. 7 SR is extracted from the 9-device cascade macro, not measured directly on one device; method as on the cascade-extracted SR row of papadovasilakis2022 (wic_sr50-m3)'
+  cmp_lit_papadovasilakis2023_cwic_sr50-m2:
+    method: cutback
+    condition: 'SD of the cross-port fraction over 10 wafer dies, target 50:50; SR from the 9-device bar / cross cascade ports (Eq. (10))'
+    why: 'p.9 Sec. 3 Eq. (9)-(10): the Table 2 / Fig. 7 SR is extracted from the 9-device cascade macro, not measured directly on one device; method as on the cascade-extracted SR row of papadovasilakis2022 (wic_sr50-m3)'
+  cmp_lit_chen2021a_mmi4x4_tm-m1:
+    notes: 'Printed ''total IL ... about 0.63 dB''; equals -10 log10 of the summed per-port transmissions (6.6 / 6.85 / 6.54 / 6.62 dB), arithmetic on own measurements. The Fig. 8(a) inset differs in one value (a point at about 6.81 dB with no printed counterpart); its values would sum to about 0.68 dB (D417, component notes); printed value kept.'
+    why: 'p.8 Fig. 8(a) inset (embedded image read) disagrees with the p.7 per-port list; the conflict and the alternative total belong on the row that carries the printed total (D417)'
+  cmp_lit_zhang2026b_aspd_te2-m5:
+    condition: 'taper end width W5 inside the SWG region (input taper W1 to W5 over Lin, output taper W5 to W2 over Lout)'
+    why: 'p.4 Sec. 2: W5 is the narrow end of both the input taper (W1 to W5) and the output taper (W5 to W2); the condition named only the input taper'
+  cmp_lit_zhang2026b_aspd_te3-m5:
+    condition: 'taper end width W5 inside the SWG region (input taper W1 to W5 over Lin, output taper W5 to W2 over Lout)'
+    why: 'p.4 Sec. 2: W5 is the narrow end of both the input taper (W1 to W5) and the output taper (W5 to W2); the condition named only the input taper'
+  cmp_lit_zhang2026b_aspd_te0te1-m7:
+    condition: 'taper end width W5 inside the SWG region (input taper W1 to W5 over Lin, output taper W5 to W2 over Lout)'
+    why: 'p.4 Sec. 2: W5 is the narrow end of both the input taper (W1 to W5) and the output taper (W5 to W2); the condition named only the input taper'
+delete_metrics:
+- id: cmp_lit_papadovasilakis2023_bwic_sr30-m3
+  why: 'D159 / D254 / D541 (chen2019 precedent, value stated once for the devices): the 36.3 x 3.8 um2 footprint is printed once for the BWIC (p.1 Abstract, p.11, p.11 Table 3, p.12) while p.8 Table 1 gives SR-dependent LDC1 (0.91 / 1.08 / 1.37 L0) and yb (0.48 / 0.51 / 0.52 L0), so it cannot hold for all three designs and the design is not named; value kept in the component notes (audit Q1)'
+- id: cmp_lit_papadovasilakis2023_bwic_sr40-m3
+  why: 'D159 / D254 / D541 (chen2019 precedent, value stated once for the devices): the 36.3 x 3.8 um2 footprint is printed once for the BWIC (p.1 Abstract, p.11, p.11 Table 3, p.12) while p.8 Table 1 gives SR-dependent LDC1 (0.91 / 1.08 / 1.37 L0) and yb (0.48 / 0.51 / 0.52 L0), so it cannot hold for all three designs and the design is not named; value kept in the component notes (audit Q1)'
+- id: cmp_lit_papadovasilakis2023_bwic_sr50-m10
+  why: 'D159 / D254 / D541 (chen2019 precedent, value stated once for the devices): the 36.3 x 3.8 um2 footprint is printed once for the BWIC (p.1 Abstract, p.11, p.11 Table 3, p.12) while p.8 Table 1 gives SR-dependent LDC1 (0.91 / 1.08 / 1.37 L0) and yb (0.48 / 0.51 / 0.52 L0), so it cannot hold for all three designs and the design is not named; value kept in the component notes (audit Q1)'
+- id: cmp_lit_papadovasilakis2022_wic_sr50-m9
+  why: 'D254 (no representative row) / D159: the 60 x 40 um2 footprint is printed once for the WIC (p.1 Abstract; p.10 Table 2 This Work row, splitting ratio Any) while p.6 Table 1 gives four designs with different LDC1 (1.12 / 0.81 / 0.72 / 0.48 L0) and dL (0.18 / 0.16 / 0.14 / 0.13 L0); the row placed it on the 0.50 design only; value kept in the component notes (audit Q1)'
+add_metrics:
+- metric_id: cmp_lit_zhang2026b_aspd_te2-m14
+  component_id: cmp_lit_zhang2026b_aspd_te2
+  parameter: width_nm
+  value: 2000
+  unit: nm
+  condition: SWG start width W3 (the SWG widens from W3 to W4 over N1 periods)
+  basis: derived
+  locator: p.4 Sec. 2; p.8 Table 1
+  notes: Printed 2 um (Table 1); W4 = 4 um is m6.
+  why: Miss (D153 geometry). p.4 defines W3 as the SWG start width (W3 to W4 over N1 periods) and p.8 Table 1 prints W3 = 2 um for the TE2 ASPD; the row carried W4 but not W3 (roles unambiguous, W3 < W4)
+- metric_id: cmp_lit_zhang2026b_aspd_te3-m14
+  component_id: cmp_lit_zhang2026b_aspd_te3
+  parameter: width_nm
+  value: 2000
+  unit: nm
+  condition: SWG start width W3 (the SWG widens from W3 to W4 over N1 periods)
+  basis: derived
+  locator: p.4 Sec. 2; p.8 Table 1
+  notes: Printed 2 um (Table 1); W4 = 4 um is m6.
+  why: Miss (D153 geometry). p.4 defines W3 as the SWG start width (W3 to W4 over N1 periods) and p.8 Table 1 prints W3 = 2 um for the TE3 ASPD; the row carried W4 but not W3 (roles unambiguous, W3 < W4)

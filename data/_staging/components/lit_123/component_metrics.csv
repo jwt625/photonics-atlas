@@ -1,0 +1,321 @@
+metric_id,component_id,parameter,value,value_max,unit,qualifier,statistic,n_samples,wavelength_nm,wavelength_max_nm,band,wavelength_inferred,polarization,mode,temperature_k,bias_v,ref_plane,scope,includes,excludes,condition,method,basis,locator,notes
+cmp_lit_zhang2021a_si_wg_500x220-m1,cmp_lit_zhang2021a_si_wg_500x220,prop_loss_db_per_cm,1.7,,dB/cm,approx,,,1550,,,,,,,,,,,,"10 ns pulses at 100 kHz, low peak power; linear fit over the five lengths",cutback,measured,"p.2 Sec. 2.1, Fig. 1(d)",printed 'about 1.7 dB/cm'. The same sentence quotes 1.9 dB/cm and 1.7 dB/cm measured with a DC low-power laser (which structure or run each refers to is not stated; not entered).
+cmp_lit_zhang2021a_si_wg_500x220-m2,cmp_lit_zhang2021a_si_wg_500x220,power_handling_dbm,33.32,,dBm,,,22,1550,,,,,,,,,,,,"input peak power (10 ns pulses, 100 kHz) at 90 % survival from the fitted survival curve of 22 waveguides; coupling loss not subtracted; individual damage between 2.08 and 2.83 W",,derived,"p.3 Sec. 2.1, Fig. 2; p.4","printed damage threshold 2.15 W peak; 10 log10(2150 mW) = 33.32 dBm. A damage threshold defined at 90 % survival, not a no-degradation level: transmission already saturates near 390 mW input peak (Fig. 1(a))."
+cmp_lit_zhang2021a_si_wg_500x220-m3,cmp_lit_zhang2021a_si_wg_500x220,width_nm,500,,nm,,,,,,,,,,,,,,,,,,design_target,p.2 Sec. 2.1,
+cmp_lit_zhang2021a_si_wg_500x220-m4,cmp_lit_zhang2021a_si_wg_500x220,core_thickness_nm,220,,nm,,,,,,,,,,,,,,,,,,design_target,p.2 Sec. 2.1,
+cmp_lit_zhang2021a_si_ssc_200um-m1,cmp_lit_zhang2021a_si_ssc_200um,insertion_loss_db,2.5,,dB,approx,,,1550,,,,,,,,,per_facet,,,"lensed fiber; 10 ns pulses at 100 kHz, low peak power; L = 0 intercept of the cutback fit",cutback,derived,"p.2 Sec. 2.1, Fig. 1(c)","printed total coupling loss about 5 dB, stated as equivalent to about 2.5 dB/facet (halving). Coupling loss rises with pulse peak power (Fig. 1(c)), attributed to TPA in the taper and mode mismatch."
+cmp_lit_zhang2021a_si_ssc_200um-m2,cmp_lit_zhang2021a_si_ssc_200um,tip_width_nm,200,,nm,,,,,,,,,,,,,,,,,,derived,p.2 Sec. 2.1,printed 0.2 um
+cmp_lit_zhang2021a_si_ssc_200um-m3,cmp_lit_zhang2021a_si_ssc_200um,width_nm,500,,nm,,,,,,,,,,,,,,,,taper end width,,derived,p.2 Sec. 2.1,printed 0.5 um
+cmp_lit_zhang2021a_si_ssc_200um-m4,cmp_lit_zhang2021a_si_ssc_200um,taper_length_um,200,,um,,,,,,,,,,,,,,,,,,design_target,p.2 Sec. 2.1; p.3,
+cmp_lit_zhang2021a_si_ssc_200um-m5,cmp_lit_zhang2021a_si_ssc_200um,core_thickness_nm,220,,nm,,,,,,,,,,,,,,,,,,design_target,p.2 Sec. 2.1,
+cmp_lit_zhang2021a_sin_wg_1500x400-m1,cmp_lit_zhang2021a_sin_wg_1500x400,power_handling_dbm,45.44,,dBm,,,48,1550,,,true,,,,,,,,,"input peak power (10 ns pulses, 100 kHz) at 90 % survival from the fitted survival curve of 48 waveguides; coupling loss not subtracted (Sec. 2.1 method); individual damage between 11.6 and 285 W; 80 % survive below 88 W",,derived,"p.3-4 Sec. 2.2, Fig. 3","printed damage threshold 35 W peak; 10 log10(35000 mW) = 45.44 dBm. A 90 %-survival damage threshold, not a no-degradation level (criterion in condition, audit Q3). Sec. 2.2 does not restate the wavelength: 1550 nm inferred from the Sec. 2.1 method it says it reuses (p.3-4)."
+cmp_lit_zhang2021a_sin_wg_1500x400-m2,cmp_lit_zhang2021a_sin_wg_1500x400,width_nm,1500,,nm,,,,,,,,,,,,,,,,,,derived,p.3 Sec. 2.2,printed 1.5 um
+cmp_lit_zhang2021a_sin_wg_1500x400-m3,cmp_lit_zhang2021a_sin_wg_1500x400,core_thickness_nm,400,,nm,,,,,,,,,,,,,,,,,,design_target,p.3 Sec. 2.2,
+cmp_lit_zhang2021a_opa_64ch-m1,cmp_lit_zhang2021a_opa_64ch,steering_range_deg,110,,deg,,,,1550,,,,te,,,,,,,,"horizontal steering, +/-55 deg; chip rotated in 10 deg steps for imaging",direct,measured,"p.1 Abstract; p.7 Sec. 3.2, Fig. 8(a), (b)",TE from 'electric field transversely polarized' input (p.7)
+cmp_lit_zhang2021a_opa_64ch-m2,cmp_lit_zhang2021a_opa_64ch,slsr_db,10.33,,dB,,,,1550,,,,te,,,,,,,,peak side-lobe level of the 0 deg beam,direct,measured,"p.1 Abstract; p.7 Sec. 3.2, Fig. 8(c)",printed PSLL -10.33 dB; stored as positive suppression
+cmp_lit_zhang2021a_opa_64ch-m3,cmp_lit_zhang2021a_opa_64ch,beam_divergence_deg,1.69,,deg,,,,1550,,,,te,,,,,,,,horizontal (steering-axis) divergence of the 0 deg beam; level not stated,direct,measured,p.7 Sec. 3.2,
+cmp_lit_zhang2021a_opa_64ch-m4,cmp_lit_zhang2021a_opa_64ch,beam_divergence_deg,2.9,,deg,,,,1550,,,,te,,,,,,,,horizontal (steering-axis) divergence of the 55 deg beam; level not stated,direct,measured,p.7 Sec. 3.2,
+cmp_lit_zhang2021a_opa_64ch-m5,cmp_lit_zhang2021a_opa_64ch,beam_divergence_deg,32,,deg,,,,1550,,,,te,,,,,,,,"longitudinal (vertical) far-field emission angle without lens, observed 10 cm from the chip; level not stated",direct,measured,p.8 Sec. 4; p.9,
+cmp_lit_zhang2021a_opa_64ch-m7,cmp_lit_zhang2021a_opa_64ch,insertion_loss_db,13.8,,dB,approx,,,1550,,,,te,,,,,device_total,"fiber-to-chip coupling, SiN Y-splitter network, SiN-Si transition, off-chip lens, power in side lobes",,"0.89 mW CW input, 37 uW main-lobe power collected with the cylindrical lens",direct,measured,p.7 Sec. 3.2,"printed 'about 13.8 dB' total loss (= 10 log10(0.89 mW / 37 uW)); the paper's breakdown: coupling 1.8, splitter network about 2, SiN-Si about 0.2, lens about 0.5, side lobes 9.3 dB (terms on their own rows)"
+cmp_lit_zhang2021a_opa_64ch-m8,cmp_lit_zhang2021a_opa_64ch,n_channels,64,,count,,,,,,,,,,,,,,,,,,design_target,p.1 Abstract; p.5 Sec. 3.1,
+cmp_lit_zhang2021a_opa_64ch-m9,cmp_lit_zhang2021a_opa_64ch,pitch_um,0.775,,um,,,,,,,,,,,,,,,,emitter pitch in the emitting array,,derived,p.5 Sec. 3.1; p.6,printed 775 nm (half-wavelength spacing)
+cmp_lit_zhang2021a_opa_64ch-m10,cmp_lit_zhang2021a_opa_64ch,width_nm,300,400,nm,,,,,,,,,,,,,,,,emitter widths 325 / 400 / 350 / 300 / 375 nm repeated in this order (phase-mismatched unequal widths),,design_target,p.5 Sec. 3.1; p.6,
+cmp_lit_zhang2021a_opa_64ch-m11,cmp_lit_zhang2021a_opa_64ch,width_nm,200,,nm,,,,,,,,,,,,,,,,width at the final end of every emitter,,design_target,p.6; p.7,
+cmp_lit_zhang2021a_opa_64ch-m12,cmp_lit_zhang2021a_opa_64ch,core_thickness_nm,220,,nm,,,,,,,,,,,,,,,,Si emitter layer,,derived,p.8 Sec. 4,printed 0.22 um waveguide thickness (p.8); rescaled to nm (D157 / D256: the OPA sections print no nm form; the 220 nm on p.2 belongs to the test waveguide)
+cmp_lit_zhang2021a_sin_input_coupler-m1,cmp_lit_zhang2021a_sin_input_coupler,insertion_loss_db,1.8,,dB,,,,1550,,,,,,,,,per_facet,,,term of the 13.8 dB OPA loss budget,loss_breakdown,author_estimate,p.7 Sec. 3.2,fiber-to-chip coupling loss in the loss breakdown; origin not stated
+cmp_lit_zhang2021a_sin_y_tree-m1,cmp_lit_zhang2021a_sin_y_tree,excess_loss_db,2,,dB,approx,,,1550,,,,,,,,,device_total,,,whole 1-to-64 Y-splitter network; term of the 13.8 dB OPA loss budget,loss_breakdown,author_estimate,p.7 Sec. 3.2,"printed 'approximately 2 dB' Y splitter network loss; the 13.8 dB total excludes the 1:64 split, so the term is loss beyond the ideal split; origin not stated"
+cmp_lit_zhang2021a_sin_y_tree-m2,cmp_lit_zhang2021a_sin_y_tree,n_outputs,64,,count,,,,,,,,,,,,,,,,,,design_target,p.5 Sec. 3.1; p.6,64 channels fed by the SiN Y-splitter tree
+cmp_lit_zhang2021a_sin_si_transition-m1,cmp_lit_zhang2021a_sin_si_transition,transition_loss_db,0.2,,dB,approx,,,1550,,,,,,,,,per_component,,,term of the 13.8 dB OPA loss budget; one transition per channel path,loss_breakdown,author_estimate,p.7 Sec. 3.2,printed 'SiN-Si loss of about 0.2 dB'; origin not stated
+cmp_lit_wang2026g_ps800_plain-m1,cmp_lit_wang2026g_ps800_plain,heater_length_um,800,,um,,,,,,,,,,,,,,,,,,design_target,p.6 Sec. 4.1; p.8 Sec. 4.2,
+cmp_lit_wang2026g_ps800_plain-m2,cmp_lit_wang2026g_ps800_plain,p_pi_mw,48.7,,mW,,,,360,,,,,,,,,,,,MZI-embedded; heater power from a 4-point measurement; Ppi = half the transmission period,direct,measured,"p.6 Sec. 4.1, Fig. 4(b)",Fig. 4(b) label P2pi = 98.5 mW (49.25 mW per pi); text value entered (D417)
+cmp_lit_wang2026g_ps800_plain-m3,cmp_lit_wang2026g_ps800_plain,width_nm,450,,nm,,,,,,,,,,,,,,,,single-mode Al2O3 waveguide at 360 nm,,design_target,p.2 Sec. 2,
+cmp_lit_wang2026g_ps800_plain-m4,cmp_lit_wang2026g_ps800_plain,core_thickness_nm,110,,nm,,,,,,,,,,,,,,,,,,design_target,p.2 Sec. 2; p.4 Sec. 3,
+cmp_lit_wang2026g_ps800_plain-m5,cmp_lit_wang2026g_ps800_plain,heater_width_um,3,,um,,,,,,,,,,,,,,,,,,design_target,p.2 Sec. 2; p.6,tungsten heater
+cmp_lit_wang2026g_ps800_plain-m6,cmp_lit_wang2026g_ps800_plain,heater_thickness_nm,100,,nm,,,,,,,,,,,,,,,,,,design_target,p.2 Sec. 2; p.5 Sec. 3,sputtered W
+cmp_lit_wang2026g_ps800_plain-m7,cmp_lit_wang2026g_ps800_plain,heater_gap_um,1.06,,um,,,,,,,,,,,,,,,,heater above the waveguide,,design_target,p.2 Sec. 2,
+cmp_lit_wang2026g_ps800_plain-m8,cmp_lit_wang2026g_ps800_plain,box_thickness_um,2,,um,,,,,,,,,,,,,,,,,,design_target,p.4 Sec. 3,thermal SiO2 bottom cladding
+cmp_lit_wang2026g_ps800_plain-m9,cmp_lit_wang2026g_ps800_plain,cladding_thickness_um,1.06,,um,,,,,,,,,,,,,,,,,,design_target,p.4 Sec. 3,HDP SiO2 top cladding
+cmp_lit_wang2026g_ps800_trench-m1,cmp_lit_wang2026g_ps800_trench,heater_length_um,800,,um,,,,,,,,,,,,,,,,,,design_target,p.6 Sec. 4.1; p.8 Sec. 4.2,
+cmp_lit_wang2026g_ps800_trench-m2,cmp_lit_wang2026g_ps800_trench,p_pi_mw,47.4,,mW,,,,360,,,,,,,,,,,,MZI-embedded; heater power from a 4-point measurement; Ppi = half the transmission period,direct,measured,"p.6 Sec. 4.1, Fig. 4(b)",Fig. 4(b) label P2pi = 94.4 mW (47.2 mW per pi); text value entered (D417)
+cmp_lit_wang2026g_ps800_trench-m3,cmp_lit_wang2026g_ps800_trench,width_nm,450,,nm,,,,,,,,,,,,,,,,single-mode Al2O3 waveguide at 360 nm,,design_target,p.2 Sec. 2,
+cmp_lit_wang2026g_ps800_trench-m4,cmp_lit_wang2026g_ps800_trench,core_thickness_nm,110,,nm,,,,,,,,,,,,,,,,,,design_target,p.2 Sec. 2; p.4 Sec. 3,
+cmp_lit_wang2026g_ps800_trench-m5,cmp_lit_wang2026g_ps800_trench,heater_width_um,3,,um,,,,,,,,,,,,,,,,,,design_target,p.2 Sec. 2; p.6,tungsten heater
+cmp_lit_wang2026g_ps800_trench-m6,cmp_lit_wang2026g_ps800_trench,heater_thickness_nm,100,,nm,,,,,,,,,,,,,,,,,,design_target,p.2 Sec. 2; p.5 Sec. 3,sputtered W
+cmp_lit_wang2026g_ps800_trench-m7,cmp_lit_wang2026g_ps800_trench,heater_gap_um,1.06,,um,,,,,,,,,,,,,,,,heater above the waveguide,,design_target,p.2 Sec. 2,
+cmp_lit_wang2026g_ps800_trench-m8,cmp_lit_wang2026g_ps800_trench,box_thickness_um,2,,um,,,,,,,,,,,,,,,,,,design_target,p.4 Sec. 3,thermal SiO2 bottom cladding
+cmp_lit_wang2026g_ps800_trench-m9,cmp_lit_wang2026g_ps800_trench,cladding_thickness_um,1.06,,um,,,,,,,,,,,,,,,,,,design_target,p.4 Sec. 3,HDP SiO2 top cladding
+cmp_lit_wang2026g_ps800_uc0-m1,cmp_lit_wang2026g_ps800_uc0,heater_length_um,800,,um,,,,,,,,,,,,,,,,,,design_target,p.6 Sec. 4.1; p.8 Sec. 4.2,
+cmp_lit_wang2026g_ps800_uc0-m2,cmp_lit_wang2026g_ps800_uc0,p_pi_mw,0.85,,mW,,best,,360,,,,,,,,,,,,MZI-embedded; heater power from a 4-point measurement; Ppi = half the transmission period,direct,measured,"p.1 Abstract; p.6 Sec. 4.1, Fig. 4(b), (c); p.10","Fig. 4(b), (c) labels P2pi = 1.7 mW; the Fig. 4 caption prints about 0.75 mW (conflict, D417)"
+cmp_lit_wang2026g_ps800_uc0-m3,cmp_lit_wang2026g_ps800_uc0,p_pi_mw,0.91,,mW,,,,360,,,,,,,,,,,,"COMSOL thermal simulation, 800 um undercut, 0 bridges",,simulated,"p.4 Sec. 2, Fig. 2(b)",
+cmp_lit_wang2026g_ps800_uc0-m4,cmp_lit_wang2026g_ps800_uc0,width_nm,450,,nm,,,,,,,,,,,,,,,,single-mode Al2O3 waveguide at 360 nm,,design_target,p.2 Sec. 2,
+cmp_lit_wang2026g_ps800_uc0-m5,cmp_lit_wang2026g_ps800_uc0,core_thickness_nm,110,,nm,,,,,,,,,,,,,,,,,,design_target,p.2 Sec. 2; p.4 Sec. 3,
+cmp_lit_wang2026g_ps800_uc0-m6,cmp_lit_wang2026g_ps800_uc0,heater_width_um,3,,um,,,,,,,,,,,,,,,,,,design_target,p.2 Sec. 2; p.6,tungsten heater
+cmp_lit_wang2026g_ps800_uc0-m7,cmp_lit_wang2026g_ps800_uc0,heater_thickness_nm,100,,nm,,,,,,,,,,,,,,,,,,design_target,p.2 Sec. 2; p.5 Sec. 3,sputtered W
+cmp_lit_wang2026g_ps800_uc0-m8,cmp_lit_wang2026g_ps800_uc0,heater_gap_um,1.06,,um,,,,,,,,,,,,,,,,heater above the waveguide,,design_target,p.2 Sec. 2,
+cmp_lit_wang2026g_ps800_uc0-m9,cmp_lit_wang2026g_ps800_uc0,box_thickness_um,2,,um,,,,,,,,,,,,,,,,,,design_target,p.4 Sec. 3,thermal SiO2 bottom cladding
+cmp_lit_wang2026g_ps800_uc0-m10,cmp_lit_wang2026g_ps800_uc0,cladding_thickness_um,1.06,,um,,,,,,,,,,,,,,,,,,design_target,p.4 Sec. 3,HDP SiO2 top cladding
+cmp_lit_wang2026g_ps800_uc1-m1,cmp_lit_wang2026g_ps800_uc1,heater_length_um,800,,um,,,,,,,,,,,,,,,,,,design_target,p.6 Sec. 4.1; p.8 Sec. 4.2,
+cmp_lit_wang2026g_ps800_uc1-m2,cmp_lit_wang2026g_ps800_uc1,p_pi_mw,1.08,,mW,,,,360,,,,,,,,,,,,MZI-embedded; heater power from a 4-point measurement; Ppi = half the transmission period,direct,measured,"p.6 Sec. 4.1, Fig. 4(c)",Fig. 4(c) label P2pi = 2.15 mW
+cmp_lit_wang2026g_ps800_uc1-m3,cmp_lit_wang2026g_ps800_uc1,p_pi_mw,0.96,,mW,,,,360,,,,,,,,,,,,"COMSOL thermal simulation, 800 um undercut, 1 bridge(s)",,simulated,"p.4 Sec. 2, Fig. 2(b)",
+cmp_lit_wang2026g_ps800_uc1-m4,cmp_lit_wang2026g_ps800_uc1,width_nm,450,,nm,,,,,,,,,,,,,,,,single-mode Al2O3 waveguide at 360 nm,,design_target,p.2 Sec. 2,
+cmp_lit_wang2026g_ps800_uc1-m5,cmp_lit_wang2026g_ps800_uc1,core_thickness_nm,110,,nm,,,,,,,,,,,,,,,,,,design_target,p.2 Sec. 2; p.4 Sec. 3,
+cmp_lit_wang2026g_ps800_uc1-m6,cmp_lit_wang2026g_ps800_uc1,heater_width_um,3,,um,,,,,,,,,,,,,,,,,,design_target,p.2 Sec. 2; p.6,tungsten heater
+cmp_lit_wang2026g_ps800_uc1-m7,cmp_lit_wang2026g_ps800_uc1,heater_thickness_nm,100,,nm,,,,,,,,,,,,,,,,,,design_target,p.2 Sec. 2; p.5 Sec. 3,sputtered W
+cmp_lit_wang2026g_ps800_uc1-m8,cmp_lit_wang2026g_ps800_uc1,heater_gap_um,1.06,,um,,,,,,,,,,,,,,,,heater above the waveguide,,design_target,p.2 Sec. 2,
+cmp_lit_wang2026g_ps800_uc1-m9,cmp_lit_wang2026g_ps800_uc1,box_thickness_um,2,,um,,,,,,,,,,,,,,,,,,design_target,p.4 Sec. 3,thermal SiO2 bottom cladding
+cmp_lit_wang2026g_ps800_uc1-m10,cmp_lit_wang2026g_ps800_uc1,cladding_thickness_um,1.06,,um,,,,,,,,,,,,,,,,,,design_target,p.4 Sec. 3,HDP SiO2 top cladding
+cmp_lit_wang2026g_ps800_uc2-m1,cmp_lit_wang2026g_ps800_uc2,heater_length_um,800,,um,,,,,,,,,,,,,,,,,,design_target,p.6 Sec. 4.1; p.8 Sec. 4.2,
+cmp_lit_wang2026g_ps800_uc2-m2,cmp_lit_wang2026g_ps800_uc2,p_pi_mw,1.1,,mW,,,,360,,,,,,,,,,,,MZI-embedded; heater power from a 4-point measurement; Ppi = half the transmission period,direct,measured,"p.6 Sec. 4.1, Fig. 4(c)",Fig. 4(c) label P2pi = 2.2 mW
+cmp_lit_wang2026g_ps800_uc2-m3,cmp_lit_wang2026g_ps800_uc2,p_pi_mw,1.01,,mW,,,,360,,,,,,,,,,,,"COMSOL thermal simulation, 800 um undercut, 2 bridge(s)",,simulated,"p.4 Sec. 2, Fig. 2(b)",
+cmp_lit_wang2026g_ps800_uc2-m4,cmp_lit_wang2026g_ps800_uc2,width_nm,450,,nm,,,,,,,,,,,,,,,,single-mode Al2O3 waveguide at 360 nm,,design_target,p.2 Sec. 2,
+cmp_lit_wang2026g_ps800_uc2-m5,cmp_lit_wang2026g_ps800_uc2,core_thickness_nm,110,,nm,,,,,,,,,,,,,,,,,,design_target,p.2 Sec. 2; p.4 Sec. 3,
+cmp_lit_wang2026g_ps800_uc2-m6,cmp_lit_wang2026g_ps800_uc2,heater_width_um,3,,um,,,,,,,,,,,,,,,,,,design_target,p.2 Sec. 2; p.6,tungsten heater
+cmp_lit_wang2026g_ps800_uc2-m7,cmp_lit_wang2026g_ps800_uc2,heater_thickness_nm,100,,nm,,,,,,,,,,,,,,,,,,design_target,p.2 Sec. 2; p.5 Sec. 3,sputtered W
+cmp_lit_wang2026g_ps800_uc2-m8,cmp_lit_wang2026g_ps800_uc2,heater_gap_um,1.06,,um,,,,,,,,,,,,,,,,heater above the waveguide,,design_target,p.2 Sec. 2,
+cmp_lit_wang2026g_ps800_uc2-m9,cmp_lit_wang2026g_ps800_uc2,box_thickness_um,2,,um,,,,,,,,,,,,,,,,,,design_target,p.4 Sec. 3,thermal SiO2 bottom cladding
+cmp_lit_wang2026g_ps800_uc2-m10,cmp_lit_wang2026g_ps800_uc2,cladding_thickness_um,1.06,,um,,,,,,,,,,,,,,,,,,design_target,p.4 Sec. 3,HDP SiO2 top cladding
+cmp_lit_wang2026g_ps800_uc3-m1,cmp_lit_wang2026g_ps800_uc3,heater_length_um,800,,um,,,,,,,,,,,,,,,,,,design_target,p.6 Sec. 4.1; p.8 Sec. 4.2,
+cmp_lit_wang2026g_ps800_uc3-m2,cmp_lit_wang2026g_ps800_uc3,p_pi_mw,1.4,,mW,,,,360,,,,,,,,,,,,MZI-embedded; heater power from a 4-point measurement; Ppi = half the transmission period,direct,measured,"p.6 Sec. 4.1, Fig. 4(c); Fig. 4(d)",Fig. 4(c) label P2pi = 2.8 mW
+cmp_lit_wang2026g_ps800_uc3-m3,cmp_lit_wang2026g_ps800_uc3,p_pi_mw,1.08,,mW,,,,360,,,,,,,,,,,,"COMSOL thermal simulation, 800 um undercut, 3 bridge(s)",,simulated,"p.4 Sec. 2, Fig. 2(b); Fig. 2(c)",
+cmp_lit_wang2026g_ps800_uc3-m4,cmp_lit_wang2026g_ps800_uc3,width_nm,450,,nm,,,,,,,,,,,,,,,,single-mode Al2O3 waveguide at 360 nm,,design_target,p.2 Sec. 2,
+cmp_lit_wang2026g_ps800_uc3-m5,cmp_lit_wang2026g_ps800_uc3,core_thickness_nm,110,,nm,,,,,,,,,,,,,,,,,,design_target,p.2 Sec. 2; p.4 Sec. 3,
+cmp_lit_wang2026g_ps800_uc3-m6,cmp_lit_wang2026g_ps800_uc3,heater_width_um,3,,um,,,,,,,,,,,,,,,,,,design_target,p.2 Sec. 2; p.6,tungsten heater
+cmp_lit_wang2026g_ps800_uc3-m7,cmp_lit_wang2026g_ps800_uc3,heater_thickness_nm,100,,nm,,,,,,,,,,,,,,,,,,design_target,p.2 Sec. 2; p.5 Sec. 3,sputtered W
+cmp_lit_wang2026g_ps800_uc3-m8,cmp_lit_wang2026g_ps800_uc3,heater_gap_um,1.06,,um,,,,,,,,,,,,,,,,heater above the waveguide,,design_target,p.2 Sec. 2,
+cmp_lit_wang2026g_ps800_uc3-m9,cmp_lit_wang2026g_ps800_uc3,box_thickness_um,2,,um,,,,,,,,,,,,,,,,,,design_target,p.4 Sec. 3,thermal SiO2 bottom cladding
+cmp_lit_wang2026g_ps800_uc3-m10,cmp_lit_wang2026g_ps800_uc3,cladding_thickness_um,1.06,,um,,,,,,,,,,,,,,,,,,design_target,p.4 Sec. 3,HDP SiO2 top cladding
+cmp_lit_wang2026g_ps400_plain-m1,cmp_lit_wang2026g_ps400_plain,heater_length_um,400,,um,,,,,,,,,,,,,,,,,,design_target,p.6 Sec. 4.1; p.8 Sec. 4.2,
+cmp_lit_wang2026g_ps400_plain-m2,cmp_lit_wang2026g_ps400_plain,p_pi_mw,48.5,,mW,,,,360,,,,,,,,,,,,MZI-embedded; heater power from a 4-point measurement; Ppi = half the transmission period,direct,measured,p.8 Table 1,text p.8 prints 48.55 mW/pi
+cmp_lit_wang2026g_ps400_plain-m3,cmp_lit_wang2026g_ps400_plain,rise_time_us,3.6,,us,,,,,,,,,,,,,,,,10-90 %; 1 ms square current pulse at 5 ms period over the first full pi; Si APD with 100 kHz bandwidth,direct,measured,"p.8 Sec. 4.2, Table 1; p.9 Fig. 5(b), (c)",close to the detector-limited rise / fall time of about 3.5 us (p.8)
+cmp_lit_wang2026g_ps400_plain-m4,cmp_lit_wang2026g_ps400_plain,fall_time_us,6.6,,us,,,,,,,,,,,,,,,,10-90 %; 1 ms square current pulse at 5 ms period over the first full pi; Si APD with 100 kHz bandwidth,direct,measured,"p.8 Table 1; p.9 Fig. 5(b), (c)",text p.8 prints 6.8 us (D417); Table 1 value entered
+cmp_lit_wang2026g_ps400_plain-m5,cmp_lit_wang2026g_ps400_plain,bw3db_khz,68.6,,kHz,gt,,,,,,,,,,,,,,,detector-limited response,,derived,"p.8 Sec. 4.2, Table 1","printed bandwidth computed by the authors from the measured rise / fall times (values reproduce 0.35 / mean(rise, fall); the relation is not printed), not a small-signal frequency response; arithmetic on the paper's own measurements: derived (D80a; merged chang2026a, guo2024, wang2022b precedents); text prints > 68 kHz"
+cmp_lit_wang2026g_ps400_plain-m6,cmp_lit_wang2026g_ps400_plain,width_nm,450,,nm,,,,,,,,,,,,,,,,single-mode Al2O3 waveguide at 360 nm,,design_target,p.2 Sec. 2,
+cmp_lit_wang2026g_ps400_plain-m7,cmp_lit_wang2026g_ps400_plain,core_thickness_nm,110,,nm,,,,,,,,,,,,,,,,,,design_target,p.2 Sec. 2; p.4 Sec. 3,
+cmp_lit_wang2026g_ps400_plain-m8,cmp_lit_wang2026g_ps400_plain,heater_width_um,3,,um,,,,,,,,,,,,,,,,,,design_target,p.2 Sec. 2; p.6,tungsten heater
+cmp_lit_wang2026g_ps400_plain-m9,cmp_lit_wang2026g_ps400_plain,heater_thickness_nm,100,,nm,,,,,,,,,,,,,,,,,,design_target,p.2 Sec. 2; p.5 Sec. 3,sputtered W
+cmp_lit_wang2026g_ps400_plain-m10,cmp_lit_wang2026g_ps400_plain,heater_gap_um,1.06,,um,,,,,,,,,,,,,,,,heater above the waveguide,,design_target,p.2 Sec. 2,
+cmp_lit_wang2026g_ps400_plain-m11,cmp_lit_wang2026g_ps400_plain,box_thickness_um,2,,um,,,,,,,,,,,,,,,,,,design_target,p.4 Sec. 3,thermal SiO2 bottom cladding
+cmp_lit_wang2026g_ps400_plain-m12,cmp_lit_wang2026g_ps400_plain,cladding_thickness_um,1.06,,um,,,,,,,,,,,,,,,,,,design_target,p.4 Sec. 3,HDP SiO2 top cladding
+cmp_lit_wang2026g_ps400_trench-m1,cmp_lit_wang2026g_ps400_trench,heater_length_um,400,,um,,,,,,,,,,,,,,,,,,design_target,p.6 Sec. 4.1; p.8 Sec. 4.2,
+cmp_lit_wang2026g_ps400_trench-m2,cmp_lit_wang2026g_ps400_trench,p_pi_mw,46.4,,mW,,,,360,,,,,,,,,,,,MZI-embedded; heater power from a 4-point measurement; Ppi = half the transmission period,direct,measured,p.8 Table 1,
+cmp_lit_wang2026g_ps400_trench-m3,cmp_lit_wang2026g_ps400_trench,rise_time_us,3.1,,us,,,,,,,,,,,,,,,,10-90 %; 1 ms square current pulse at 5 ms period over the first full pi; Si APD with 100 kHz bandwidth,direct,measured,"p.8 Sec. 4.2, Table 1; p.9 Fig. 5(b), (c)",near the detector-limited about 3.5 us (p.8)
+cmp_lit_wang2026g_ps400_trench-m4,cmp_lit_wang2026g_ps400_trench,fall_time_us,7.5,,us,,,,,,,,,,,,,,,,10-90 %; 1 ms square current pulse at 5 ms period over the first full pi; Si APD with 100 kHz bandwidth,direct,measured,"p.8 Sec. 4.2, Table 1; p.9 Fig. 5(b), (c)",
+cmp_lit_wang2026g_ps400_trench-m5,cmp_lit_wang2026g_ps400_trench,bw3db_khz,66.0,,kHz,gt,,,,,,,,,,,,,,,detector-limited response (rise time 3.1 us below the about 3.5 us detector limit),,derived,"p.8 Sec. 4.2, Table 1","printed bandwidth computed by the authors from the measured rise / fall times (values reproduce 0.35 / mean(rise, fall); the relation is not printed), not a small-signal frequency response; arithmetic on the paper's own measurements: derived (D80a; merged chang2026a, guo2024, wang2022b precedents); text prints a minimum bandwidth of about 66 kHz"
+cmp_lit_wang2026g_ps400_trench-m6,cmp_lit_wang2026g_ps400_trench,width_nm,450,,nm,,,,,,,,,,,,,,,,single-mode Al2O3 waveguide at 360 nm,,design_target,p.2 Sec. 2,
+cmp_lit_wang2026g_ps400_trench-m7,cmp_lit_wang2026g_ps400_trench,core_thickness_nm,110,,nm,,,,,,,,,,,,,,,,,,design_target,p.2 Sec. 2; p.4 Sec. 3,
+cmp_lit_wang2026g_ps400_trench-m8,cmp_lit_wang2026g_ps400_trench,heater_width_um,3,,um,,,,,,,,,,,,,,,,,,design_target,p.2 Sec. 2; p.6,tungsten heater
+cmp_lit_wang2026g_ps400_trench-m9,cmp_lit_wang2026g_ps400_trench,heater_thickness_nm,100,,nm,,,,,,,,,,,,,,,,,,design_target,p.2 Sec. 2; p.5 Sec. 3,sputtered W
+cmp_lit_wang2026g_ps400_trench-m10,cmp_lit_wang2026g_ps400_trench,heater_gap_um,1.06,,um,,,,,,,,,,,,,,,,heater above the waveguide,,design_target,p.2 Sec. 2,
+cmp_lit_wang2026g_ps400_trench-m11,cmp_lit_wang2026g_ps400_trench,box_thickness_um,2,,um,,,,,,,,,,,,,,,,,,design_target,p.4 Sec. 3,thermal SiO2 bottom cladding
+cmp_lit_wang2026g_ps400_trench-m12,cmp_lit_wang2026g_ps400_trench,cladding_thickness_um,1.06,,um,,,,,,,,,,,,,,,,,,design_target,p.4 Sec. 3,HDP SiO2 top cladding
+cmp_lit_wang2026g_ps100_uc3-m1,cmp_lit_wang2026g_ps100_uc3,heater_length_um,100,,um,,,,,,,,,,,,,,,,,,design_target,p.6 Sec. 4.1; p.8; p.10 Table 2,
+cmp_lit_wang2026g_ps100_uc3-m2,cmp_lit_wang2026g_ps100_uc3,p_pi_mw,16.4,,mW,,,,360,,,,,,,,,,,,MZI-embedded; heater power from a 4-point measurement; Ppi = half the transmission period,direct,measured,"p.6 Sec. 4.1, Fig. 4(d); p.10 Table 2",Fig. 4(d) label Ppi = 16.4 mW
+cmp_lit_wang2026g_ps100_uc3-m3,cmp_lit_wang2026g_ps100_uc3,rise_time_us,64.8,,us,,,,,,,,,,,,,,,,10-90 %; 1 ms square current pulse at 5 ms period over the first full pi; Si APD with 100 kHz bandwidth,direct,measured,p.10 Table 2; p.9 Fig. 5(d),
+cmp_lit_wang2026g_ps100_uc3-m4,cmp_lit_wang2026g_ps100_uc3,fall_time_us,35.0,,us,,,,,,,,,,,,,,,,10-90 %; 1 ms square current pulse at 5 ms period over the first full pi; Si APD with 100 kHz bandwidth,direct,measured,p.10 Table 2; p.9 Fig. 5(d),
+cmp_lit_wang2026g_ps100_uc3-m5,cmp_lit_wang2026g_ps100_uc3,bw3db_khz,7.0,,kHz,,,,,,,,,,,,,,,,,,derived,p.10 Table 2,"printed bandwidth computed by the authors from the measured rise / fall times (values reproduce 0.35 / mean(rise, fall); the relation is not printed), not a small-signal frequency response; arithmetic on the paper's own measurements: derived (D80a; merged chang2026a, guo2024, wang2022b precedents)"
+cmp_lit_wang2026g_ps100_uc3-m6,cmp_lit_wang2026g_ps100_uc3,width_nm,450,,nm,,,,,,,,,,,,,,,,single-mode Al2O3 waveguide at 360 nm,,design_target,p.2 Sec. 2,
+cmp_lit_wang2026g_ps100_uc3-m7,cmp_lit_wang2026g_ps100_uc3,core_thickness_nm,110,,nm,,,,,,,,,,,,,,,,,,design_target,p.2 Sec. 2; p.4 Sec. 3,
+cmp_lit_wang2026g_ps100_uc3-m8,cmp_lit_wang2026g_ps100_uc3,heater_width_um,3,,um,,,,,,,,,,,,,,,,,,design_target,p.2 Sec. 2; p.6,tungsten heater
+cmp_lit_wang2026g_ps100_uc3-m9,cmp_lit_wang2026g_ps100_uc3,heater_thickness_nm,100,,nm,,,,,,,,,,,,,,,,,,design_target,p.2 Sec. 2; p.5 Sec. 3,sputtered W
+cmp_lit_wang2026g_ps100_uc3-m10,cmp_lit_wang2026g_ps100_uc3,heater_gap_um,1.06,,um,,,,,,,,,,,,,,,,heater above the waveguide,,design_target,p.2 Sec. 2,
+cmp_lit_wang2026g_ps100_uc3-m11,cmp_lit_wang2026g_ps100_uc3,box_thickness_um,2,,um,,,,,,,,,,,,,,,,,,design_target,p.4 Sec. 3,thermal SiO2 bottom cladding
+cmp_lit_wang2026g_ps100_uc3-m12,cmp_lit_wang2026g_ps100_uc3,cladding_thickness_um,1.06,,um,,,,,,,,,,,,,,,,,,design_target,p.4 Sec. 3,HDP SiO2 top cladding
+cmp_lit_wang2026g_ps200_uc3-m1,cmp_lit_wang2026g_ps200_uc3,heater_length_um,200,,um,,,,,,,,,,,,,,,,,,design_target,p.6 Sec. 4.1; p.8; p.10 Table 2,
+cmp_lit_wang2026g_ps200_uc3-m2,cmp_lit_wang2026g_ps200_uc3,p_pi_mw,3.7,,mW,,,,360,,,,,,,,,,,,MZI-embedded; heater power from a 4-point measurement; Ppi = half the transmission period,direct,measured,"p.6 Sec. 4.1, Fig. 4(d); p.10 Table 2",Fig. 4(d) label P2pi = 7.4 mW
+cmp_lit_wang2026g_ps200_uc3-m3,cmp_lit_wang2026g_ps200_uc3,p_pi_mw,2.3,,mW,,,,360,,,,,,,,,,,,"COMSOL thermal simulation, 200 um undercut, 3 bridges",,simulated,"p.4 Sec. 2, Fig. 2(c)",
+cmp_lit_wang2026g_ps200_uc3-m4,cmp_lit_wang2026g_ps200_uc3,rise_time_us,210.4,,us,,,,,,,,,,,,,,,,10-90 %; 1 ms square current pulse at 5 ms period over the first full pi; Si APD with 100 kHz bandwidth,direct,measured,p.10 Table 2; p.9 Fig. 5(d),
+cmp_lit_wang2026g_ps200_uc3-m5,cmp_lit_wang2026g_ps200_uc3,fall_time_us,432.4,,us,,,,,,,,,,,,,,,,10-90 %; 1 ms square current pulse at 5 ms period over the first full pi; Si APD with 100 kHz bandwidth,direct,measured,p.10 Table 2; p.9 Fig. 5(d),
+cmp_lit_wang2026g_ps200_uc3-m6,cmp_lit_wang2026g_ps200_uc3,bw3db_khz,1.1,,kHz,,,,,,,,,,,,,,,,,,derived,p.10 Table 2,"printed bandwidth computed by the authors from the measured rise / fall times (values reproduce 0.35 / mean(rise, fall); the relation is not printed), not a small-signal frequency response; arithmetic on the paper's own measurements: derived (D80a; merged chang2026a, guo2024, wang2022b precedents)"
+cmp_lit_wang2026g_ps200_uc3-m7,cmp_lit_wang2026g_ps200_uc3,width_nm,450,,nm,,,,,,,,,,,,,,,,single-mode Al2O3 waveguide at 360 nm,,design_target,p.2 Sec. 2,
+cmp_lit_wang2026g_ps200_uc3-m8,cmp_lit_wang2026g_ps200_uc3,core_thickness_nm,110,,nm,,,,,,,,,,,,,,,,,,design_target,p.2 Sec. 2; p.4 Sec. 3,
+cmp_lit_wang2026g_ps200_uc3-m9,cmp_lit_wang2026g_ps200_uc3,heater_width_um,3,,um,,,,,,,,,,,,,,,,,,design_target,p.2 Sec. 2; p.6,tungsten heater
+cmp_lit_wang2026g_ps200_uc3-m10,cmp_lit_wang2026g_ps200_uc3,heater_thickness_nm,100,,nm,,,,,,,,,,,,,,,,,,design_target,p.2 Sec. 2; p.5 Sec. 3,sputtered W
+cmp_lit_wang2026g_ps200_uc3-m11,cmp_lit_wang2026g_ps200_uc3,heater_gap_um,1.06,,um,,,,,,,,,,,,,,,,heater above the waveguide,,design_target,p.2 Sec. 2,
+cmp_lit_wang2026g_ps200_uc3-m12,cmp_lit_wang2026g_ps200_uc3,box_thickness_um,2,,um,,,,,,,,,,,,,,,,,,design_target,p.4 Sec. 3,thermal SiO2 bottom cladding
+cmp_lit_wang2026g_ps200_uc3-m13,cmp_lit_wang2026g_ps200_uc3,cladding_thickness_um,1.06,,um,,,,,,,,,,,,,,,,,,design_target,p.4 Sec. 3,HDP SiO2 top cladding
+cmp_lit_wang2026g_ps300_uc3-m1,cmp_lit_wang2026g_ps300_uc3,heater_length_um,300,,um,,,,,,,,,,,,,,,,,,design_target,p.6 Sec. 4.1; p.8; p.10 Table 2,
+cmp_lit_wang2026g_ps300_uc3-m2,cmp_lit_wang2026g_ps300_uc3,p_pi_mw,2.35,,mW,,,,360,,,,,,,,,,,,MZI-embedded; heater power from a 4-point measurement; Ppi = half the transmission period,direct,measured,"p.6 Sec. 4.1, Fig. 4(d); p.10 Table 2",Fig. 4(d) label P2pi = 4.7 mW
+cmp_lit_wang2026g_ps300_uc3-m3,cmp_lit_wang2026g_ps300_uc3,rise_time_us,329.6,,us,,,,,,,,,,,,,,,,10-90 %; 1 ms square current pulse at 5 ms period over the first full pi; Si APD with 100 kHz bandwidth,direct,measured,p.10 Table 2; p.9 Fig. 5(d),
+cmp_lit_wang2026g_ps300_uc3-m4,cmp_lit_wang2026g_ps300_uc3,fall_time_us,590.8,,us,,,,,,,,,,,,,,,,10-90 %; 1 ms square current pulse at 5 ms period over the first full pi; Si APD with 100 kHz bandwidth,direct,measured,p.10 Table 2; p.9 Fig. 5(d),
+cmp_lit_wang2026g_ps300_uc3-m5,cmp_lit_wang2026g_ps300_uc3,bw3db_khz,0.76,,kHz,,,,,,,,,,,,,,,,,,derived,p.10 Table 2,"printed bandwidth computed by the authors from the measured rise / fall times (values reproduce 0.35 / mean(rise, fall); the relation is not printed), not a small-signal frequency response; arithmetic on the paper's own measurements: derived (D80a; merged chang2026a, guo2024, wang2022b precedents)"
+cmp_lit_wang2026g_ps300_uc3-m6,cmp_lit_wang2026g_ps300_uc3,width_nm,450,,nm,,,,,,,,,,,,,,,,single-mode Al2O3 waveguide at 360 nm,,design_target,p.2 Sec. 2,
+cmp_lit_wang2026g_ps300_uc3-m7,cmp_lit_wang2026g_ps300_uc3,core_thickness_nm,110,,nm,,,,,,,,,,,,,,,,,,design_target,p.2 Sec. 2; p.4 Sec. 3,
+cmp_lit_wang2026g_ps300_uc3-m8,cmp_lit_wang2026g_ps300_uc3,heater_width_um,3,,um,,,,,,,,,,,,,,,,,,design_target,p.2 Sec. 2; p.6,tungsten heater
+cmp_lit_wang2026g_ps300_uc3-m9,cmp_lit_wang2026g_ps300_uc3,heater_thickness_nm,100,,nm,,,,,,,,,,,,,,,,,,design_target,p.2 Sec. 2; p.5 Sec. 3,sputtered W
+cmp_lit_wang2026g_ps300_uc3-m10,cmp_lit_wang2026g_ps300_uc3,heater_gap_um,1.06,,um,,,,,,,,,,,,,,,,heater above the waveguide,,design_target,p.2 Sec. 2,
+cmp_lit_wang2026g_ps300_uc3-m11,cmp_lit_wang2026g_ps300_uc3,box_thickness_um,2,,um,,,,,,,,,,,,,,,,,,design_target,p.4 Sec. 3,thermal SiO2 bottom cladding
+cmp_lit_wang2026g_ps300_uc3-m12,cmp_lit_wang2026g_ps300_uc3,cladding_thickness_um,1.06,,um,,,,,,,,,,,,,,,,,,design_target,p.4 Sec. 3,HDP SiO2 top cladding
+cmp_lit_wang2026g_ps400_uc3-m1,cmp_lit_wang2026g_ps400_uc3,heater_length_um,400,,um,,,,,,,,,,,,,,,,,,design_target,p.6 Sec. 4.1; p.8 Sec. 4.2,
+cmp_lit_wang2026g_ps400_uc3-m2,cmp_lit_wang2026g_ps400_uc3,p_pi_mw,1.75,,mW,,,,360,,,,,,,,,,,,MZI-embedded; heater power from a 4-point measurement; Ppi = half the transmission period,direct,measured,"p.6 Sec. 4.1, Fig. 4(d); p.10 Table 2; p.8 Table 1",Fig. 4(d) label P2pi = 3.5 mW
+cmp_lit_wang2026g_ps400_uc3-m3,cmp_lit_wang2026g_ps400_uc3,p_pi_mw,1.44,,mW,,,,360,,,,,,,,,,,,"COMSOL thermal simulation, 400 um undercut, 3 bridges",,simulated,"p.4 Sec. 2, Fig. 2(c)",
+cmp_lit_wang2026g_ps400_uc3-m4,cmp_lit_wang2026g_ps400_uc3,rise_time_us,378.0,,us,,,,,,,,,,,,,,,,10-90 %; 1 ms square current pulse at 5 ms period over the first full pi; Si APD with 100 kHz bandwidth,direct,measured,p.10 Table 2; p.8 Table 1; p.9 Fig. 5(d),
+cmp_lit_wang2026g_ps400_uc3-m5,cmp_lit_wang2026g_ps400_uc3,fall_time_us,451.2,,us,,,,,,,,,,,,,,,,10-90 %; 1 ms square current pulse at 5 ms period over the first full pi; Si APD with 100 kHz bandwidth,direct,measured,p.10 Table 2; p.8 Table 1; p.9 Fig. 5(d),
+cmp_lit_wang2026g_ps400_uc3-m6,cmp_lit_wang2026g_ps400_uc3,bw3db_khz,0.85,,kHz,,,,,,,,,,,,,,,,,,derived,p.10 Table 2; p.8 Table 1; p.8 Sec. 4.2,"printed bandwidth computed by the authors from the measured rise / fall times (values reproduce 0.35 / mean(rise, fall); the relation is not printed), not a small-signal frequency response; arithmetic on the paper's own measurements: derived (D80a; merged chang2026a, guo2024, wang2022b precedents); Table 1 and text print 0.85 kHz, Table 2 prints 0.84 kHz (D417)"
+cmp_lit_wang2026g_ps400_uc3-m7,cmp_lit_wang2026g_ps400_uc3,width_nm,450,,nm,,,,,,,,,,,,,,,,single-mode Al2O3 waveguide at 360 nm,,design_target,p.2 Sec. 2,
+cmp_lit_wang2026g_ps400_uc3-m8,cmp_lit_wang2026g_ps400_uc3,core_thickness_nm,110,,nm,,,,,,,,,,,,,,,,,,design_target,p.2 Sec. 2; p.4 Sec. 3,
+cmp_lit_wang2026g_ps400_uc3-m9,cmp_lit_wang2026g_ps400_uc3,heater_width_um,3,,um,,,,,,,,,,,,,,,,,,design_target,p.2 Sec. 2; p.6,tungsten heater
+cmp_lit_wang2026g_ps400_uc3-m10,cmp_lit_wang2026g_ps400_uc3,heater_thickness_nm,100,,nm,,,,,,,,,,,,,,,,,,design_target,p.2 Sec. 2; p.5 Sec. 3,sputtered W
+cmp_lit_wang2026g_ps400_uc3-m11,cmp_lit_wang2026g_ps400_uc3,heater_gap_um,1.06,,um,,,,,,,,,,,,,,,,heater above the waveguide,,design_target,p.2 Sec. 2,
+cmp_lit_wang2026g_ps400_uc3-m12,cmp_lit_wang2026g_ps400_uc3,box_thickness_um,2,,um,,,,,,,,,,,,,,,,,,design_target,p.4 Sec. 3,thermal SiO2 bottom cladding
+cmp_lit_wang2026g_ps400_uc3-m13,cmp_lit_wang2026g_ps400_uc3,cladding_thickness_um,1.06,,um,,,,,,,,,,,,,,,,,,design_target,p.4 Sec. 3,HDP SiO2 top cladding
+cmp_lit_wang2026g_mmi_1x2-m1,cmp_lit_wang2026g_mmi_1x2,excess_loss_db,0.014,,dB,,,,360,,,,,,,,,per_component,,,,,author_estimate,p.2 Sec. 2,printed as insertion loss 0.014 dB (beyond the ideal split); origin not stated (no measurement shown)
+cmp_lit_wang2026g_mmi_1x2-m2,cmp_lit_wang2026g_mmi_1x2,n_inputs,1,,count,,,,,,,,,,,,,,,,,,design_target,p.2 Sec. 2,
+cmp_lit_wang2026g_mmi_1x2-m3,cmp_lit_wang2026g_mmi_1x2,n_outputs,2,,count,,,,,,,,,,,,,,,,,,design_target,p.2 Sec. 2,
+cmp_lit_wang2026g_mmi_2x2-m1,cmp_lit_wang2026g_mmi_2x2,excess_loss_db,0.074,,dB,,,,360,,,,,,,,,per_component,,,,,author_estimate,p.2 Sec. 2,printed as insertion loss 0.074 dB (beyond the ideal split); origin not stated (no measurement shown)
+cmp_lit_wang2026g_mmi_2x2-m2,cmp_lit_wang2026g_mmi_2x2,n_inputs,2,,count,,,,,,,,,,,,,,,,,,design_target,p.2 Sec. 2,
+cmp_lit_wang2026g_mmi_2x2-m3,cmp_lit_wang2026g_mmi_2x2,n_outputs,2,,count,,,,,,,,,,,,,,,,,,design_target,p.2 Sec. 2,
+cmp_lit_poulsen2025_phc_slot_mems_tuner-m1,cmp_lit_poulsen2025_phc_slot_mems_tuner,v_pi_v,0.61,,V,,best,,1585,,,true,,,298.15,8,,,,,"minimum Vpi extracted from MZI null shifts (domega/dV) and the group index from the 0 V FSR (Eq. (3), (4)); DC bias offset applied",,derived,"p.8 Sec. 4, Fig. 6(c); p.9; p.10","printed minimum 0.61 V (model extraction, D80a: derived). Wavelength and bias read off Fig. 6(c): the 0.61 V contour label sits at the 1585 nm / 8 V corner of the map (about +/-1 nm, +/-0.3 V); neither is printed in the text. Stage at 25 C."
+cmp_lit_poulsen2025_phc_slot_mems_tuner-m2,cmp_lit_poulsen2025_phc_slot_mems_tuner,length_um,33,,um,,,,,,,,,,,,,,,,actuation region (PhC slot defect),,design_target,p.1 Abstract; p.5 Sec. 2; p.10,
+cmp_lit_poulsen2025_phc_slot_mems_tuner-m3,cmp_lit_poulsen2025_phc_slot_mems_tuner,gap_nm,200,,nm,,,,,,,,,,,,,,,,nominal PhC slot-defect gap (unactuated),,design_target,p.2 Sec. 2,
+cmp_lit_poulsen2025_phc_slot_mems_tuner-m4,cmp_lit_poulsen2025_phc_slot_mems_tuner,core_thickness_nm,220,,nm,,,,,,,,,,,,,,,,,,design_target,p.2 Sec. 2,
+cmp_lit_poulsen2025_phc_slot_mems_tuner-m5,cmp_lit_poulsen2025_phc_slot_mems_tuner,box_thickness_um,3,,um,,,,,,,,,,,,,,,,,,design_target,p.2 Sec. 2,removed locally to suspend the device
+cmp_lit_poulsen2025_phc_slot_mems_tuner-m6,cmp_lit_poulsen2025_phc_slot_mems_tuner,mech_resonance_khz,100,,kHz,,,,,,,,,,,,,,,,,,simulated,p.10 Sec. 5,printed simulated resonance 0.1 MHz; not assessed experimentally
+cmp_lit_poulsen2025_mmi_strip_slot-m1,cmp_lit_poulsen2025_mmi_strip_slot,insertion_loss_db,0.31,,dB,,,,1550,,,,te,,,,,per_component,,,3D FDTD,,simulated,p.5 Sec. 2; p.4 Fig. 2(d),Fig. 2(d) caption rounds to 0.3 dB
+cmp_lit_poulsen2025_mmi_strip_slot-m2,cmp_lit_poulsen2025_mmi_strip_slot,mmi_length_um,1.04,,um,,,,,,,,,,,,,,,,,,design_target,"p.4 Sec. 2, Fig. 2(c)",
+cmp_lit_poulsen2025_mmi_strip_slot-m3,cmp_lit_poulsen2025_mmi_strip_slot,width_nm,470,,nm,,,,,,,,,,,,,,,,slot-waveguide arm width w_arm,,design_target,p.2 Sec. 2; p.4,
+cmp_lit_poulsen2025_mmi_strip_slot-m4,cmp_lit_poulsen2025_mmi_strip_slot,core_thickness_nm,220,,nm,,,,,,,,,,,,,,,,,,design_target,p.2 Sec. 2,
+cmp_lit_poulsen2025_slot_phc_junction-m1,cmp_lit_poulsen2025_slot_phc_junction,insertion_loss_db,1.25,,dB,,,,1550,,,,te,,,,,per_component,,,design optimization result (FDTD); slot arm width chosen to minimize this loss,,simulated,p.5 Sec. 2,printed 'resulting loss at the PC junction'
+cmp_lit_sun2022a_si_modbez_r1-m1,cmp_lit_sun2022a_si_modbez_r1,bend_loss_db_per_90,0.117,,dB,,,,1550,,,,te,,,,,per_component,,,"cutback over cascaded bends, each joined by a 0.5 um straight waveguide",cutback,measured,p.1 Abstract; p.6 Table 3; p.7 Fig. 5,
+cmp_lit_sun2022a_si_modbez_r1-m2,cmp_lit_sun2022a_si_modbez_r1,bend_loss_db_per_90,0.11,,dB,,,,1550,,,,te,,,,,per_component,,,"3D FDTD (Lumerical), TE input",,simulated,p.4 Table 2,
+cmp_lit_sun2022a_si_modbez_r1-m3,cmp_lit_sun2022a_si_modbez_r1,min_bend_radius_um,1,,um,,,,,,,,,,,,,,,,,,design_target,p.3 Sec. 3.1,effective bend radius Reff of the 90-deg bend
+cmp_lit_sun2022a_si_modbez_r1-m4,cmp_lit_sun2022a_si_modbez_r1,width_nm,500,,nm,,,,,,,,,,,,,,,,input / output waveguide width W,,design_target,p.3 Sec. 3.1,
+cmp_lit_sun2022a_si_modbez_r1-m5,cmp_lit_sun2022a_si_modbez_r1,core_thickness_nm,220,,nm,,,,,,,,,,,,,,,,,,design_target,p.3 Sec. 3.1; p.6 Sec. 3.2,
+cmp_lit_sun2022a_si_modbez_r1-m6,cmp_lit_sun2022a_si_modbez_r1,box_thickness_um,3,,um,,,,,,,,,,,,,,,,,,design_target,p.6 Sec. 3.2,
+cmp_lit_sun2022a_si_modbez_r1-m7,cmp_lit_sun2022a_si_modbez_r1,cladding_thickness_um,2,,um,,,,,,,,,,,,,,,,,,design_target,p.6 Sec. 3.2,
+cmp_lit_sun2022a_si_modbez_r1p5-m1,cmp_lit_sun2022a_si_modbez_r1p5,bend_loss_db_per_90,0.031,,dB,,,,1550,,,,te,,,,,per_component,,,"cutback over cascaded bends, each joined by a 0.5 um straight waveguide",cutback,measured,p.6 Table 3; p.7 Fig. 5,
+cmp_lit_sun2022a_si_modbez_r1p5-m2,cmp_lit_sun2022a_si_modbez_r1p5,bend_loss_db_per_90,0.029,,dB,,,,1550,,,,te,,,,,per_component,,,"3D FDTD (Lumerical), TE input",,simulated,p.4 Table 2,
+cmp_lit_sun2022a_si_modbez_r1p5-m3,cmp_lit_sun2022a_si_modbez_r1p5,min_bend_radius_um,1.5,,um,,,,,,,,,,,,,,,,,,design_target,p.3 Sec. 3.1,effective bend radius Reff of the 90-deg bend
+cmp_lit_sun2022a_si_modbez_r1p5-m4,cmp_lit_sun2022a_si_modbez_r1p5,width_nm,500,,nm,,,,,,,,,,,,,,,,input / output waveguide width W,,design_target,p.3 Sec. 3.1,
+cmp_lit_sun2022a_si_modbez_r1p5-m5,cmp_lit_sun2022a_si_modbez_r1p5,core_thickness_nm,220,,nm,,,,,,,,,,,,,,,,,,design_target,p.3 Sec. 3.1; p.6 Sec. 3.2,
+cmp_lit_sun2022a_si_modbez_r1p5-m6,cmp_lit_sun2022a_si_modbez_r1p5,box_thickness_um,3,,um,,,,,,,,,,,,,,,,,,design_target,p.6 Sec. 3.2,
+cmp_lit_sun2022a_si_modbez_r1p5-m7,cmp_lit_sun2022a_si_modbez_r1p5,cladding_thickness_um,2,,um,,,,,,,,,,,,,,,,,,design_target,p.6 Sec. 3.2,
+cmp_lit_sun2022a_si_modbez_r2-m1,cmp_lit_sun2022a_si_modbez_r2,bend_loss_db_per_90,0.028,,dB,,,,1550,,,,te,,,,,per_component,,,"cutback over cascaded bends, each joined by a 0.5 um straight waveguide",cutback,measured,p.6 Table 3; p.7 Fig. 5,
+cmp_lit_sun2022a_si_modbez_r2-m2,cmp_lit_sun2022a_si_modbez_r2,bend_loss_db_per_90,0.013,,dB,,,,1550,,,,te,,,,,per_component,,,"3D FDTD (Lumerical), TE input",,simulated,p.4 Table 2,
+cmp_lit_sun2022a_si_modbez_r2-m3,cmp_lit_sun2022a_si_modbez_r2,min_bend_radius_um,2,,um,,,,,,,,,,,,,,,,,,design_target,p.3 Sec. 3.1,effective bend radius Reff of the 90-deg bend
+cmp_lit_sun2022a_si_modbez_r2-m4,cmp_lit_sun2022a_si_modbez_r2,width_nm,500,,nm,,,,,,,,,,,,,,,,input / output waveguide width W,,design_target,p.3 Sec. 3.1,
+cmp_lit_sun2022a_si_modbez_r2-m5,cmp_lit_sun2022a_si_modbez_r2,core_thickness_nm,220,,nm,,,,,,,,,,,,,,,,,,design_target,p.3 Sec. 3.1; p.6 Sec. 3.2,
+cmp_lit_sun2022a_si_modbez_r2-m6,cmp_lit_sun2022a_si_modbez_r2,box_thickness_um,3,,um,,,,,,,,,,,,,,,,,,design_target,p.6 Sec. 3.2,
+cmp_lit_sun2022a_si_modbez_r2-m7,cmp_lit_sun2022a_si_modbez_r2,cladding_thickness_um,2,,um,,,,,,,,,,,,,,,,,,design_target,p.6 Sec. 3.2,
+cmp_lit_sun2022a_si_tradbez_r1-m1,cmp_lit_sun2022a_si_tradbez_r1,bend_loss_db_per_90,0.35,,dB,,,,1550,,,,te,,,,,per_component,,,"cutback over cascaded bends, each joined by a 0.5 um straight waveguide",cutback,measured,p.1 Abstract; p.6 Table 3; p.7 Fig. 5,
+cmp_lit_sun2022a_si_tradbez_r1-m2,cmp_lit_sun2022a_si_tradbez_r1,bend_loss_db_per_90,0.34,,dB,,,,1550,,,,te,,,,,per_component,,,"3D FDTD (Lumerical), TE input",,simulated,p.4 Table 2; p.4 Sec. 3.1,text p.4 prints the swept minimum with a negative sign; stored positive
+cmp_lit_sun2022a_si_tradbez_r1-m3,cmp_lit_sun2022a_si_tradbez_r1,min_bend_radius_um,1,,um,,,,,,,,,,,,,,,,,,design_target,p.3 Sec. 3.1,effective bend radius Reff of the 90-deg bend
+cmp_lit_sun2022a_si_tradbez_r1-m4,cmp_lit_sun2022a_si_tradbez_r1,width_nm,500,,nm,,,,,,,,,,,,,,,,input / output waveguide width W,,design_target,p.3 Sec. 3.1,
+cmp_lit_sun2022a_si_tradbez_r1-m5,cmp_lit_sun2022a_si_tradbez_r1,core_thickness_nm,220,,nm,,,,,,,,,,,,,,,,,,design_target,p.3 Sec. 3.1; p.6 Sec. 3.2,
+cmp_lit_sun2022a_si_tradbez_r1-m6,cmp_lit_sun2022a_si_tradbez_r1,box_thickness_um,3,,um,,,,,,,,,,,,,,,,,,design_target,p.6 Sec. 3.2,
+cmp_lit_sun2022a_si_tradbez_r1-m7,cmp_lit_sun2022a_si_tradbez_r1,cladding_thickness_um,2,,um,,,,,,,,,,,,,,,,,,design_target,p.6 Sec. 3.2,
+cmp_lit_sun2022a_si_tradbez_r1p5-m1,cmp_lit_sun2022a_si_tradbez_r1p5,bend_loss_db_per_90,0.097,,dB,,,,1550,,,,te,,,,,per_component,,,"cutback over cascaded bends, each joined by a 0.5 um straight waveguide",cutback,measured,p.6 Table 3; p.7 Fig. 5,
+cmp_lit_sun2022a_si_tradbez_r1p5-m2,cmp_lit_sun2022a_si_tradbez_r1p5,bend_loss_db_per_90,0.075,,dB,,,,1550,,,,te,,,,,per_component,,,"3D FDTD (Lumerical), TE input",,simulated,p.4 Table 2; p.4 Sec. 3.1,text p.4 prints the swept minimum with a negative sign; stored positive
+cmp_lit_sun2022a_si_tradbez_r1p5-m3,cmp_lit_sun2022a_si_tradbez_r1p5,min_bend_radius_um,1.5,,um,,,,,,,,,,,,,,,,,,design_target,p.3 Sec. 3.1,effective bend radius Reff of the 90-deg bend
+cmp_lit_sun2022a_si_tradbez_r1p5-m4,cmp_lit_sun2022a_si_tradbez_r1p5,width_nm,500,,nm,,,,,,,,,,,,,,,,input / output waveguide width W,,design_target,p.3 Sec. 3.1,
+cmp_lit_sun2022a_si_tradbez_r1p5-m5,cmp_lit_sun2022a_si_tradbez_r1p5,core_thickness_nm,220,,nm,,,,,,,,,,,,,,,,,,design_target,p.3 Sec. 3.1; p.6 Sec. 3.2,
+cmp_lit_sun2022a_si_tradbez_r1p5-m6,cmp_lit_sun2022a_si_tradbez_r1p5,box_thickness_um,3,,um,,,,,,,,,,,,,,,,,,design_target,p.6 Sec. 3.2,
+cmp_lit_sun2022a_si_tradbez_r1p5-m7,cmp_lit_sun2022a_si_tradbez_r1p5,cladding_thickness_um,2,,um,,,,,,,,,,,,,,,,,,design_target,p.6 Sec. 3.2,
+cmp_lit_sun2022a_si_tradbez_r2-m1,cmp_lit_sun2022a_si_tradbez_r2,bend_loss_db_per_90,0.029,,dB,,,,1550,,,,te,,,,,per_component,,,"cutback over cascaded bends, each joined by a 0.5 um straight waveguide",cutback,measured,p.6 Table 3; p.7 Fig. 5,
+cmp_lit_sun2022a_si_tradbez_r2-m2,cmp_lit_sun2022a_si_tradbez_r2,bend_loss_db_per_90,0.015,,dB,,,,1550,,,,te,,,,,per_component,,,"3D FDTD (Lumerical), TE input",,simulated,p.4 Table 2; p.4 Sec. 3.1,text p.4 prints the swept minimum with a negative sign; stored positive
+cmp_lit_sun2022a_si_tradbez_r2-m3,cmp_lit_sun2022a_si_tradbez_r2,min_bend_radius_um,2,,um,,,,,,,,,,,,,,,,,,design_target,p.3 Sec. 3.1,effective bend radius Reff of the 90-deg bend
+cmp_lit_sun2022a_si_tradbez_r2-m4,cmp_lit_sun2022a_si_tradbez_r2,width_nm,500,,nm,,,,,,,,,,,,,,,,input / output waveguide width W,,design_target,p.3 Sec. 3.1,
+cmp_lit_sun2022a_si_tradbez_r2-m5,cmp_lit_sun2022a_si_tradbez_r2,core_thickness_nm,220,,nm,,,,,,,,,,,,,,,,,,design_target,p.3 Sec. 3.1; p.6 Sec. 3.2,
+cmp_lit_sun2022a_si_tradbez_r2-m6,cmp_lit_sun2022a_si_tradbez_r2,box_thickness_um,3,,um,,,,,,,,,,,,,,,,,,design_target,p.6 Sec. 3.2,
+cmp_lit_sun2022a_si_tradbez_r2-m7,cmp_lit_sun2022a_si_tradbez_r2,cladding_thickness_um,2,,um,,,,,,,,,,,,,,,,,,design_target,p.6 Sec. 3.2,
+cmp_lit_sun2022a_si_circ_r1-m1,cmp_lit_sun2022a_si_circ_r1,bend_loss_db_per_90,0.367,,dB,,,,1550,,,,te,,,,,per_component,,,"cutback over cascaded bends, each joined by a 0.5 um straight waveguide",cutback,measured,p.1 Abstract; p.6 Table 3; p.7 Fig. 5,
+cmp_lit_sun2022a_si_circ_r1-m2,cmp_lit_sun2022a_si_circ_r1,bend_loss_db_per_90,0.35,,dB,,,,1550,,,,te,,,,,per_component,,,"3D FDTD (Lumerical), TE input",,simulated,p.4 Table 2; p.4 Sec. 3.1,
+cmp_lit_sun2022a_si_circ_r1-m3,cmp_lit_sun2022a_si_circ_r1,min_bend_radius_um,1,,um,,,,,,,,,,,,,,,,,,design_target,p.3 Sec. 3.1,effective bend radius Reff of the 90-deg bend
+cmp_lit_sun2022a_si_circ_r1-m4,cmp_lit_sun2022a_si_circ_r1,width_nm,500,,nm,,,,,,,,,,,,,,,,input / output waveguide width W,,design_target,p.3 Sec. 3.1,
+cmp_lit_sun2022a_si_circ_r1-m5,cmp_lit_sun2022a_si_circ_r1,core_thickness_nm,220,,nm,,,,,,,,,,,,,,,,,,design_target,p.3 Sec. 3.1; p.6 Sec. 3.2,
+cmp_lit_sun2022a_si_circ_r1-m6,cmp_lit_sun2022a_si_circ_r1,box_thickness_um,3,,um,,,,,,,,,,,,,,,,,,design_target,p.6 Sec. 3.2,
+cmp_lit_sun2022a_si_circ_r1-m7,cmp_lit_sun2022a_si_circ_r1,cladding_thickness_um,2,,um,,,,,,,,,,,,,,,,,,design_target,p.6 Sec. 3.2,
+cmp_lit_sun2022a_si_circ_r1p5-m1,cmp_lit_sun2022a_si_circ_r1p5,bend_loss_db_per_90,0.203,,dB,,,,1550,,,,te,,,,,per_component,,,"cutback over cascaded bends, each joined by a 0.5 um straight waveguide",cutback,measured,p.6 Table 3; p.7 Fig. 5,
+cmp_lit_sun2022a_si_circ_r1p5-m2,cmp_lit_sun2022a_si_circ_r1p5,bend_loss_db_per_90,0.165,,dB,,,,1550,,,,te,,,,,per_component,,,"3D FDTD (Lumerical), TE input",,simulated,p.4 Table 2; p.4 Sec. 3.1,
+cmp_lit_sun2022a_si_circ_r1p5-m3,cmp_lit_sun2022a_si_circ_r1p5,min_bend_radius_um,1.5,,um,,,,,,,,,,,,,,,,,,design_target,p.3 Sec. 3.1,effective bend radius Reff of the 90-deg bend
+cmp_lit_sun2022a_si_circ_r1p5-m4,cmp_lit_sun2022a_si_circ_r1p5,width_nm,500,,nm,,,,,,,,,,,,,,,,input / output waveguide width W,,design_target,p.3 Sec. 3.1,
+cmp_lit_sun2022a_si_circ_r1p5-m5,cmp_lit_sun2022a_si_circ_r1p5,core_thickness_nm,220,,nm,,,,,,,,,,,,,,,,,,design_target,p.3 Sec. 3.1; p.6 Sec. 3.2,
+cmp_lit_sun2022a_si_circ_r1p5-m6,cmp_lit_sun2022a_si_circ_r1p5,box_thickness_um,3,,um,,,,,,,,,,,,,,,,,,design_target,p.6 Sec. 3.2,
+cmp_lit_sun2022a_si_circ_r1p5-m7,cmp_lit_sun2022a_si_circ_r1p5,cladding_thickness_um,2,,um,,,,,,,,,,,,,,,,,,design_target,p.6 Sec. 3.2,
+cmp_lit_sun2022a_si_circ_r2-m1,cmp_lit_sun2022a_si_circ_r2,bend_loss_db_per_90,0.066,,dB,,,,1550,,,,te,,,,,per_component,,,"cutback over cascaded bends, each joined by a 0.5 um straight waveguide",cutback,measured,p.6 Table 3; p.7 Fig. 5,
+cmp_lit_sun2022a_si_circ_r2-m2,cmp_lit_sun2022a_si_circ_r2,bend_loss_db_per_90,0.075,,dB,,,,1550,,,,te,,,,,per_component,,,"3D FDTD (Lumerical), TE input",,simulated,p.4 Table 2; p.4 Sec. 3.1,
+cmp_lit_sun2022a_si_circ_r2-m3,cmp_lit_sun2022a_si_circ_r2,min_bend_radius_um,2,,um,,,,,,,,,,,,,,,,,,design_target,p.3 Sec. 3.1,effective bend radius Reff of the 90-deg bend
+cmp_lit_sun2022a_si_circ_r2-m4,cmp_lit_sun2022a_si_circ_r2,width_nm,500,,nm,,,,,,,,,,,,,,,,input / output waveguide width W,,design_target,p.3 Sec. 3.1,
+cmp_lit_sun2022a_si_circ_r2-m5,cmp_lit_sun2022a_si_circ_r2,core_thickness_nm,220,,nm,,,,,,,,,,,,,,,,,,design_target,p.3 Sec. 3.1; p.6 Sec. 3.2,
+cmp_lit_sun2022a_si_circ_r2-m6,cmp_lit_sun2022a_si_circ_r2,box_thickness_um,3,,um,,,,,,,,,,,,,,,,,,design_target,p.6 Sec. 3.2,
+cmp_lit_sun2022a_si_circ_r2-m7,cmp_lit_sun2022a_si_circ_r2,cladding_thickness_um,2,,um,,,,,,,,,,,,,,,,,,design_target,p.6 Sec. 3.2,
+cmp_lit_sun2022a_sin_modbez_r8-m1,cmp_lit_sun2022a_sin_modbez_r8,bend_loss_db_per_90,1.225,,dB,,,,1550,,,,te,,,,,per_component,,,"cutback over cascaded bends, each joined by a 10 um straight waveguide",cutback,measured,p.10 Table 6; p.10 Fig. 8,
+cmp_lit_sun2022a_sin_modbez_r8-m2,cmp_lit_sun2022a_sin_modbez_r8,bend_loss_db_per_90,0.95,,dB,,,,1550,,,,te,,,,,per_component,,,"3D FDTD (Lumerical), TE input",,simulated,p.8 Table 5,
+cmp_lit_sun2022a_sin_modbez_r8-m3,cmp_lit_sun2022a_sin_modbez_r8,min_bend_radius_um,8,,um,,,,,,,,,,,,,,,,,,design_target,p.7 Sec. 4.1,effective bend radius Reff of the 90-deg bend
+cmp_lit_sun2022a_sin_modbez_r8-m4,cmp_lit_sun2022a_sin_modbez_r8,width_nm,1200,,nm,,,,,,,,,,,,,,,,input / output waveguide width W,,design_target,p.7 Sec. 4.1,
+cmp_lit_sun2022a_sin_modbez_r8-m5,cmp_lit_sun2022a_sin_modbez_r8,core_thickness_nm,400,,nm,,,,,,,,,,,,,,,,,,design_target,p.7 Sec. 4.1,
+cmp_lit_sun2022a_sin_modbez_r8-m6,cmp_lit_sun2022a_sin_modbez_r8,box_thickness_um,3,,um,,,,,,,,,,,,,,,,,,design_target,p.9 Sec. 4.2,grown silicon oxide under-cladding
+cmp_lit_sun2022a_sin_modbez_r8-m7,cmp_lit_sun2022a_sin_modbez_r8,cladding_thickness_um,2,,um,,,,,,,,,,,,,,,,,,design_target,p.9 Sec. 4.2,
+cmp_lit_sun2022a_sin_modbez_r10-m1,cmp_lit_sun2022a_sin_modbez_r10,bend_loss_db_per_90,0.525,,dB,,,,1550,,,,te,,,,,per_component,,,"cutback over cascaded bends, each joined by a 10 um straight waveguide",cutback,measured,p.10 Table 6; p.10 Fig. 8,
+cmp_lit_sun2022a_sin_modbez_r10-m2,cmp_lit_sun2022a_sin_modbez_r10,bend_loss_db_per_90,0.41,,dB,,,,1550,,,,te,,,,,per_component,,,"3D FDTD (Lumerical), TE input",,simulated,p.8 Table 5,
+cmp_lit_sun2022a_sin_modbez_r10-m3,cmp_lit_sun2022a_sin_modbez_r10,min_bend_radius_um,10,,um,,,,,,,,,,,,,,,,,,design_target,p.7 Sec. 4.1,effective bend radius Reff of the 90-deg bend
+cmp_lit_sun2022a_sin_modbez_r10-m4,cmp_lit_sun2022a_sin_modbez_r10,width_nm,1200,,nm,,,,,,,,,,,,,,,,input / output waveguide width W,,design_target,p.7 Sec. 4.1,
+cmp_lit_sun2022a_sin_modbez_r10-m5,cmp_lit_sun2022a_sin_modbez_r10,core_thickness_nm,400,,nm,,,,,,,,,,,,,,,,,,design_target,p.7 Sec. 4.1,
+cmp_lit_sun2022a_sin_modbez_r10-m6,cmp_lit_sun2022a_sin_modbez_r10,box_thickness_um,3,,um,,,,,,,,,,,,,,,,,,design_target,p.9 Sec. 4.2,grown silicon oxide under-cladding
+cmp_lit_sun2022a_sin_modbez_r10-m7,cmp_lit_sun2022a_sin_modbez_r10,cladding_thickness_um,2,,um,,,,,,,,,,,,,,,,,,design_target,p.9 Sec. 4.2,
+cmp_lit_sun2022a_sin_modbez_r12-m1,cmp_lit_sun2022a_sin_modbez_r12,bend_loss_db_per_90,0.32,,dB,,,,1550,,,,te,,,,,per_component,,,"cutback over cascaded bends, each joined by a 10 um straight waveguide",cutback,measured,p.1 Abstract; p.10 Table 6; p.10 Fig. 8,
+cmp_lit_sun2022a_sin_modbez_r12-m2,cmp_lit_sun2022a_sin_modbez_r12,bend_loss_db_per_90,0.23,,dB,,,,1550,,,,te,,,,,per_component,,,"3D FDTD (Lumerical), TE input",,simulated,p.8 Table 5,
+cmp_lit_sun2022a_sin_modbez_r12-m3,cmp_lit_sun2022a_sin_modbez_r12,min_bend_radius_um,12,,um,,,,,,,,,,,,,,,,,,design_target,p.7 Sec. 4.1,effective bend radius Reff of the 90-deg bend
+cmp_lit_sun2022a_sin_modbez_r12-m4,cmp_lit_sun2022a_sin_modbez_r12,width_nm,1200,,nm,,,,,,,,,,,,,,,,input / output waveguide width W,,design_target,p.7 Sec. 4.1,
+cmp_lit_sun2022a_sin_modbez_r12-m5,cmp_lit_sun2022a_sin_modbez_r12,core_thickness_nm,400,,nm,,,,,,,,,,,,,,,,,,design_target,p.7 Sec. 4.1,
+cmp_lit_sun2022a_sin_modbez_r12-m6,cmp_lit_sun2022a_sin_modbez_r12,box_thickness_um,3,,um,,,,,,,,,,,,,,,,,,design_target,p.9 Sec. 4.2,grown silicon oxide under-cladding
+cmp_lit_sun2022a_sin_modbez_r12-m7,cmp_lit_sun2022a_sin_modbez_r12,cladding_thickness_um,2,,um,,,,,,,,,,,,,,,,,,design_target,p.9 Sec. 4.2,
+cmp_lit_sun2022a_sin_tradbez_r8-m1,cmp_lit_sun2022a_sin_tradbez_r8,bend_loss_db_per_90,2.475,,dB,,,,1550,,,,te,,,,,per_component,,,"cutback over cascaded bends, each joined by a 10 um straight waveguide",cutback,measured,p.10 Table 6; p.10 Fig. 8,
+cmp_lit_sun2022a_sin_tradbez_r8-m2,cmp_lit_sun2022a_sin_tradbez_r8,bend_loss_db_per_90,1.46,,dB,,,,1550,,,,te,,,,,per_component,,,"3D FDTD (Lumerical), TE input",,simulated,p.8 Table 5,
+cmp_lit_sun2022a_sin_tradbez_r8-m3,cmp_lit_sun2022a_sin_tradbez_r8,min_bend_radius_um,8,,um,,,,,,,,,,,,,,,,,,design_target,p.7 Sec. 4.1,effective bend radius Reff of the 90-deg bend
+cmp_lit_sun2022a_sin_tradbez_r8-m4,cmp_lit_sun2022a_sin_tradbez_r8,width_nm,1200,,nm,,,,,,,,,,,,,,,,input / output waveguide width W,,design_target,p.7 Sec. 4.1,
+cmp_lit_sun2022a_sin_tradbez_r8-m5,cmp_lit_sun2022a_sin_tradbez_r8,core_thickness_nm,400,,nm,,,,,,,,,,,,,,,,,,design_target,p.7 Sec. 4.1,
+cmp_lit_sun2022a_sin_tradbez_r8-m6,cmp_lit_sun2022a_sin_tradbez_r8,box_thickness_um,3,,um,,,,,,,,,,,,,,,,,,design_target,p.9 Sec. 4.2,grown silicon oxide under-cladding
+cmp_lit_sun2022a_sin_tradbez_r8-m7,cmp_lit_sun2022a_sin_tradbez_r8,cladding_thickness_um,2,,um,,,,,,,,,,,,,,,,,,design_target,p.9 Sec. 4.2,
+cmp_lit_sun2022a_sin_tradbez_r10-m1,cmp_lit_sun2022a_sin_tradbez_r10,bend_loss_db_per_90,1.3,,dB,,,,1550,,,,te,,,,,per_component,,,"cutback over cascaded bends, each joined by a 10 um straight waveguide",cutback,measured,p.10 Table 6; p.10 Fig. 8,
+cmp_lit_sun2022a_sin_tradbez_r10-m2,cmp_lit_sun2022a_sin_tradbez_r10,bend_loss_db_per_90,0.67,,dB,,,,1550,,,,te,,,,,per_component,,,"3D FDTD (Lumerical), TE input",,simulated,p.8 Table 5,
+cmp_lit_sun2022a_sin_tradbez_r10-m3,cmp_lit_sun2022a_sin_tradbez_r10,min_bend_radius_um,10,,um,,,,,,,,,,,,,,,,,,design_target,p.7 Sec. 4.1,effective bend radius Reff of the 90-deg bend
+cmp_lit_sun2022a_sin_tradbez_r10-m4,cmp_lit_sun2022a_sin_tradbez_r10,width_nm,1200,,nm,,,,,,,,,,,,,,,,input / output waveguide width W,,design_target,p.7 Sec. 4.1,
+cmp_lit_sun2022a_sin_tradbez_r10-m5,cmp_lit_sun2022a_sin_tradbez_r10,core_thickness_nm,400,,nm,,,,,,,,,,,,,,,,,,design_target,p.7 Sec. 4.1,
+cmp_lit_sun2022a_sin_tradbez_r10-m6,cmp_lit_sun2022a_sin_tradbez_r10,box_thickness_um,3,,um,,,,,,,,,,,,,,,,,,design_target,p.9 Sec. 4.2,grown silicon oxide under-cladding
+cmp_lit_sun2022a_sin_tradbez_r10-m7,cmp_lit_sun2022a_sin_tradbez_r10,cladding_thickness_um,2,,um,,,,,,,,,,,,,,,,,,design_target,p.9 Sec. 4.2,
+cmp_lit_sun2022a_sin_tradbez_r12-m1,cmp_lit_sun2022a_sin_tradbez_r12,bend_loss_db_per_90,0.575,,dB,,,,1550,,,,te,,,,,per_component,,,"cutback over cascaded bends, each joined by a 10 um straight waveguide",cutback,measured,p.1 Abstract; p.10 Table 6; p.10 Fig. 8,
+cmp_lit_sun2022a_sin_tradbez_r12-m2,cmp_lit_sun2022a_sin_tradbez_r12,bend_loss_db_per_90,0.35,,dB,,,,1550,,,,te,,,,,per_component,,,"3D FDTD (Lumerical), TE input",,simulated,p.8 Table 5,
+cmp_lit_sun2022a_sin_tradbez_r12-m3,cmp_lit_sun2022a_sin_tradbez_r12,min_bend_radius_um,12,,um,,,,,,,,,,,,,,,,,,design_target,p.7 Sec. 4.1,effective bend radius Reff of the 90-deg bend
+cmp_lit_sun2022a_sin_tradbez_r12-m4,cmp_lit_sun2022a_sin_tradbez_r12,width_nm,1200,,nm,,,,,,,,,,,,,,,,input / output waveguide width W,,design_target,p.7 Sec. 4.1,
+cmp_lit_sun2022a_sin_tradbez_r12-m5,cmp_lit_sun2022a_sin_tradbez_r12,core_thickness_nm,400,,nm,,,,,,,,,,,,,,,,,,design_target,p.7 Sec. 4.1,
+cmp_lit_sun2022a_sin_tradbez_r12-m6,cmp_lit_sun2022a_sin_tradbez_r12,box_thickness_um,3,,um,,,,,,,,,,,,,,,,,,design_target,p.9 Sec. 4.2,grown silicon oxide under-cladding
+cmp_lit_sun2022a_sin_tradbez_r12-m7,cmp_lit_sun2022a_sin_tradbez_r12,cladding_thickness_um,2,,um,,,,,,,,,,,,,,,,,,design_target,p.9 Sec. 4.2,
+cmp_lit_sun2022a_sin_circ_r8-m1,cmp_lit_sun2022a_sin_circ_r8,bend_loss_db_per_90,1.85,,dB,,,,1550,,,,te,,,,,per_component,,,"cutback over cascaded bends, each joined by a 10 um straight waveguide",cutback,measured,p.10 Table 6; p.10 Fig. 8,
+cmp_lit_sun2022a_sin_circ_r8-m2,cmp_lit_sun2022a_sin_circ_r8,bend_loss_db_per_90,1.63,,dB,,,,1550,,,,te,,,,,per_component,,,"3D FDTD (Lumerical), TE input",,simulated,p.8 Table 5,
+cmp_lit_sun2022a_sin_circ_r8-m3,cmp_lit_sun2022a_sin_circ_r8,min_bend_radius_um,8,,um,,,,,,,,,,,,,,,,,,design_target,p.7 Sec. 4.1,effective bend radius Reff of the 90-deg bend
+cmp_lit_sun2022a_sin_circ_r8-m4,cmp_lit_sun2022a_sin_circ_r8,width_nm,1200,,nm,,,,,,,,,,,,,,,,input / output waveguide width W,,design_target,p.7 Sec. 4.1,
+cmp_lit_sun2022a_sin_circ_r8-m5,cmp_lit_sun2022a_sin_circ_r8,core_thickness_nm,400,,nm,,,,,,,,,,,,,,,,,,design_target,p.7 Sec. 4.1,
+cmp_lit_sun2022a_sin_circ_r8-m6,cmp_lit_sun2022a_sin_circ_r8,box_thickness_um,3,,um,,,,,,,,,,,,,,,,,,design_target,p.9 Sec. 4.2,grown silicon oxide under-cladding
+cmp_lit_sun2022a_sin_circ_r8-m7,cmp_lit_sun2022a_sin_circ_r8,cladding_thickness_um,2,,um,,,,,,,,,,,,,,,,,,design_target,p.9 Sec. 4.2,
+cmp_lit_sun2022a_sin_circ_r10-m1,cmp_lit_sun2022a_sin_circ_r10,bend_loss_db_per_90,1.3,,dB,,,,1550,,,,te,,,,,per_component,,,"cutback over cascaded bends, each joined by a 10 um straight waveguide",cutback,measured,p.10 Table 6; p.10 Fig. 8,
+cmp_lit_sun2022a_sin_circ_r10-m2,cmp_lit_sun2022a_sin_circ_r10,bend_loss_db_per_90,0.83,,dB,,,,1550,,,,te,,,,,per_component,,,"3D FDTD (Lumerical), TE input",,simulated,p.8 Table 5,
+cmp_lit_sun2022a_sin_circ_r10-m3,cmp_lit_sun2022a_sin_circ_r10,min_bend_radius_um,10,,um,,,,,,,,,,,,,,,,,,design_target,p.7 Sec. 4.1,effective bend radius Reff of the 90-deg bend
+cmp_lit_sun2022a_sin_circ_r10-m4,cmp_lit_sun2022a_sin_circ_r10,width_nm,1200,,nm,,,,,,,,,,,,,,,,input / output waveguide width W,,design_target,p.7 Sec. 4.1,
+cmp_lit_sun2022a_sin_circ_r10-m5,cmp_lit_sun2022a_sin_circ_r10,core_thickness_nm,400,,nm,,,,,,,,,,,,,,,,,,design_target,p.7 Sec. 4.1,
+cmp_lit_sun2022a_sin_circ_r10-m6,cmp_lit_sun2022a_sin_circ_r10,box_thickness_um,3,,um,,,,,,,,,,,,,,,,,,design_target,p.9 Sec. 4.2,grown silicon oxide under-cladding
+cmp_lit_sun2022a_sin_circ_r10-m7,cmp_lit_sun2022a_sin_circ_r10,cladding_thickness_um,2,,um,,,,,,,,,,,,,,,,,,design_target,p.9 Sec. 4.2,
+cmp_lit_sun2022a_sin_circ_r12-m1,cmp_lit_sun2022a_sin_circ_r12,bend_loss_db_per_90,0.65,,dB,,,,1550,,,,te,,,,,per_component,,,"cutback over cascaded bends, each joined by a 10 um straight waveguide",cutback,measured,p.1 Abstract; p.10 Table 6; p.10 Fig. 8,
+cmp_lit_sun2022a_sin_circ_r12-m2,cmp_lit_sun2022a_sin_circ_r12,bend_loss_db_per_90,0.52,,dB,,,,1550,,,,te,,,,,per_component,,,"3D FDTD (Lumerical), TE input",,simulated,p.8 Table 5,
+cmp_lit_sun2022a_sin_circ_r12-m3,cmp_lit_sun2022a_sin_circ_r12,min_bend_radius_um,12,,um,,,,,,,,,,,,,,,,,,design_target,p.7 Sec. 4.1,effective bend radius Reff of the 90-deg bend
+cmp_lit_sun2022a_sin_circ_r12-m4,cmp_lit_sun2022a_sin_circ_r12,width_nm,1200,,nm,,,,,,,,,,,,,,,,input / output waveguide width W,,design_target,p.7 Sec. 4.1,
+cmp_lit_sun2022a_sin_circ_r12-m5,cmp_lit_sun2022a_sin_circ_r12,core_thickness_nm,400,,nm,,,,,,,,,,,,,,,,,,design_target,p.7 Sec. 4.1,
+cmp_lit_sun2022a_sin_circ_r12-m6,cmp_lit_sun2022a_sin_circ_r12,box_thickness_um,3,,um,,,,,,,,,,,,,,,,,,design_target,p.9 Sec. 4.2,grown silicon oxide under-cladding
+cmp_lit_sun2022a_sin_circ_r12-m7,cmp_lit_sun2022a_sin_circ_r12,cladding_thickness_um,2,,um,,,,,,,,,,,,,,,,,,design_target,p.9 Sec. 4.2,
+cmp_lit_katsura2023_phc_nanocavity_bm-m1,cmp_lit_katsura2023_phc_nanocavity_bm,q_loaded,6650000,,1,,best,,1567.1,,,,,,,,,,,,cavity #13; photon lifetime 5.54 ns; Qexp = omega tau,direct,measured,"p.1 Abstract; p.4 Sec. 3, Fig. 3; p.5 Fig. 4(a)",
+cmp_lit_katsura2023_phc_nanocavity_bm-m2,cmp_lit_katsura2023_phc_nanocavity_bm,q_loaded,2220000,6650000,1,,range,29,1566.25,,,,,,,,,,,,,direct,measured,p.4 Sec. 3; p.5 Fig. 4(a),wavelength = average resonance of the 29 cavities (sigma 0.53 nm)
+cmp_lit_katsura2023_phc_nanocavity_bm-m3,cmp_lit_katsura2023_phc_nanocavity_bm,q_loaded,3440000,,1,,mean,29,1566.25,,,,,,,,,,,,,direct,measured,p.4 Sec. 3; p.5 Fig. 4(a),wavelength = average resonance of the 29 cavities (sigma 0.53 nm)
+cmp_lit_katsura2023_phc_nanocavity_bm-m4,cmp_lit_katsura2023_phc_nanocavity_bm,center_wavelength_nm,1566.25,,nm,,mean,29,,,,,,,,,,,,,resonance wavelength,,measured,p.4 Sec. 3; p.5 Fig. 4(b),
+cmp_lit_katsura2023_phc_nanocavity_bm-m5,cmp_lit_katsura2023_phc_nanocavity_bm,wavelength_spread_nm,0.53,,nm,,std,29,,,,,,,,,,,,,standard deviation of the resonance wavelength across the cavities,,measured,p.4 Sec. 3; p.5 Fig. 4(b),
+cmp_lit_katsura2023_phc_nanocavity_bm-m6,cmp_lit_katsura2023_phc_nanocavity_bm,q_loaded,13500000,,1,,,,,,cl_band,true,,,,,,,,,"design Q including the coupling to the excitation waveguide, 3D FDTD",,simulated,p.2 Sec. 2; p.8 App. A1,"band from the measured resonances (1566-1568 nm averages, p.4-5)"
+cmp_lit_katsura2023_phc_nanocavity_bm-m7,cmp_lit_katsura2023_phc_nanocavity_bm,period_nm,410,,nm,,,,,,,,,,,,,,,,base lattice constant a; x lattice constant increased in two 5 nm steps to 420 nm at the cavity centre,,design_target,"p.2 Sec. 2, Fig. 1(a)",
+cmp_lit_katsura2023_phc_nanocavity_bm-m8,cmp_lit_katsura2023_phc_nanocavity_bm,core_thickness_nm,225,,nm,,,,,,,,,,,,,,,,,,design_target,p.2 Sec. 2,top Si of the purchased 300 mm SOI wafer (D402)
+cmp_lit_katsura2023_phc_nanocavity_bm-m9,cmp_lit_katsura2023_phc_nanocavity_bm,box_thickness_um,3,,um,,,,,,,,,,,,,,,,,,design_target,p.2 Sec. 2,removed under the PhC (air-bridge)
+cmp_lit_katsura2023_phc_nanocavity_pm-m1,cmp_lit_katsura2023_phc_nanocavity_pm,q_loaded,4620000,,1,,best,,1568.31,,,true,,,,,,,,,,direct,measured,"p.5 Sec. 3, Fig. 5(a)",wavelength of the best cavity not printed; average resonance of the 33 cavities used (sigma 0.54 nm)
+cmp_lit_katsura2023_phc_nanocavity_pm-m2,cmp_lit_katsura2023_phc_nanocavity_pm,q_loaded,3080000,,1,,mean,33,1568.31,,,,,,,,,,,,,direct,measured,"p.5 Sec. 3, Fig. 5(a)",wavelength = average resonance of the 33 cavities (sigma 0.54 nm)
+cmp_lit_katsura2023_phc_nanocavity_pm-m3,cmp_lit_katsura2023_phc_nanocavity_pm,center_wavelength_nm,1568.31,,nm,,mean,33,,,,,,,,,,,,,resonance wavelength,,measured,"p.5 Sec. 3, Fig. 5(b)",
+cmp_lit_katsura2023_phc_nanocavity_pm-m4,cmp_lit_katsura2023_phc_nanocavity_pm,wavelength_spread_nm,0.54,,nm,,std,33,,,,,,,,,,,,,standard deviation of the resonance wavelength across the cavities,,measured,"p.5 Sec. 3, Fig. 5(b)",
+cmp_lit_katsura2023_phc_nanocavity_pm-m5,cmp_lit_katsura2023_phc_nanocavity_pm,sidewall_angle_deg,88.0,,deg,approx,mean,,,,,,,,,,,,,,average air-hole sidewall angle from cross-sectional SEM,,measured,"p.3 Sec. 2, Fig. 1(c)",
+cmp_lit_katsura2023_phc_nanocavity_pm-m6,cmp_lit_katsura2023_phc_nanocavity_pm,q_loaded,13500000,,1,,,,,,cl_band,true,,,,,,,,,"design Q including the coupling to the excitation waveguide, 3D FDTD",,simulated,p.2 Sec. 2; p.8 App. A1,"band from the measured resonances (1566-1568 nm averages, p.4-5)"
+cmp_lit_katsura2023_phc_nanocavity_pm-m7,cmp_lit_katsura2023_phc_nanocavity_pm,period_nm,410,,nm,,,,,,,,,,,,,,,,base lattice constant a; x lattice constant increased in two 5 nm steps to 420 nm at the cavity centre,,design_target,"p.2 Sec. 2, Fig. 1(a)",
+cmp_lit_katsura2023_phc_nanocavity_pm-m8,cmp_lit_katsura2023_phc_nanocavity_pm,core_thickness_nm,225,,nm,,,,,,,,,,,,,,,,,,design_target,p.2 Sec. 2,top Si of the purchased 300 mm SOI wafer (D402)
+cmp_lit_katsura2023_phc_nanocavity_pm-m9,cmp_lit_katsura2023_phc_nanocavity_pm,box_thickness_um,3,,um,,,,,,,,,,,,,,,,,,design_target,p.2 Sec. 2,removed under the PhC (air-bridge)

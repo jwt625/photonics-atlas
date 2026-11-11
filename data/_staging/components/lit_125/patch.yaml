@@ -1,0 +1,168 @@
+# Audit patch lit_125 (fresh-context audit 2026-11-11, DevLog/audits/2026-11-11-lit_125-audit.md).
+# 209 metrics: 176 ok / 31 imprecise / 2 wrong (deleted); 23 components: 22 ok / 1 imprecise / 0 wrong, 0 deleted; 1 miss added.
+# Coordinator rulings open: Q1 johnson2020 own-org fab (no op; to empty it, set fab_org_ids '' on cmp_lit_johnson2020_mmi_crossing),
+# Q2 lin2021 488 nm transition labels (notes only; alternative in the audit), Q3 shi2023 0.48 dB/cm (kept, basis derived; to move it
+# to notes instead, add a delete_metrics op for cmp_lit_shi2023_polymer_waveguide-m2), Q4 D417 cases (notes only), Q5 tahara2024
+# AIST fab on the SSC / waveguide rows (no op), Q6 lin2021 other Fig. 4(c) tip widths (no op), Q7 shi2023 Optoweave (note only).
+components:
+  cmp_lit_shi2023_polymer_waveguide:
+    notes: 'Fab: no fabricating org named; the board work is described partly in first person (we used FR-4 substrate) with authors at SJTU and TTM Technologies (two orgs, D154 / D80b). Acknowledgment (p.9) thanks a named person of Shanghai Optoweave Technology Co., Ltd. for advice and help on OPCB design and fabrication: borderline fab candidate under D84b (staff-thanks fabrication credit); the org is not in the registry (reported), fab left empty. Optical polymers from Panasonic (supplier, note only); bulk material loss 0.05-0.07 dB/cm at 850 nm (p.3, supplier material value, not entered). Board: 8 electrical layers + 1 optical layer, 3.2 mm thick; waveguides 10 cm long, pitch 250 um (design, p.3; pitch_um not allowed on waveguide_platform, D250). 90-deg crossings in groups 1 / 2 (no crossing loss printed). Misalignment 3-dB tolerances with 50 um GI-MMF (p.5): input (-20, +17) um horizontal, (-21, +25) um vertical; output (-21, +21) um and (-27, +22) um (no 3-dB tolerance parameter, D81). Adjacent-channel crosstalk below -44 dB, about -60 dB at the centre of the adjacent waveguide (p.5-6; registry gap: crosstalk_db not allowed on waveguide_platform). Channel bandwidth 234 GHz for 10 cm at 780 nm and bandwidth-length product 23 GHz x m (p.8, p.1; registry gap, measured through the connectorized channel). 30 Gb/s NRZ error-free with about 1.5 dB penalty (system result, not entered).'
+    why: 'p.9 Acknowledgment names Shanghai Optoweave Technology Co., Ltd. for help on OPCB design and fabrication; the distiller notes did not record this D84b borderline fab statement (org missing from the registry, audit Q7)'
+metrics:
+  cmp_lit_han2022_elliptical_crossing-m5:
+    value: '0.010'
+    notes: 'read off the blue simulated curve of Fig. 4 at 1310 nm: about 0.0100 dB (audit pixel read on the embedded figure, gridlines 0.00 / 0.01 dB at 99.5 px per 0.01 dB; the trace centre sits on the 0.01 dB gridline); minimum about 0.0093 dB near 1318 nm; reading uncertainty about +/-0.0003 dB; p.6 states measured and simulated loss agree at 1310 nm'
+    why: 'p.5 Fig. 4: the blue (elliptical parabolic) trace crosses 1310 nm on the 0.01 dB gridline (tick-calibrated read 0.0100 dB), not at 0.0105 dB'
+  cmp_lit_tahara2024_meta_gc_high_eff-m3:
+    wavelength_nm: 1523
+    why: 'p.9 Fig. 10(b) caption prints the offset scan at 1523 nm; the row had the wavelength only in the condition text'
+  cmp_lit_tahara2024_meta_gc_high_eff-m12:
+    notes: 'design depth d of the highest-efficiency structure (p.4 Sec. 3). p.7 Sec. 5 prints a 97 nm etching depth for the gratings of the fabricated structure (process value, not stated as measured); 97 nm is also the d of the flat-spectrum design (p.6). Design value vs fabrication value, not a self-contradiction of one quantity: the design value is entered'
+    why: 'p.4 and p.7 describe different quantities (design d vs the depth used in fabrication); the note called it a conflict (audit Q4)'
+  cmp_lit_tahara2024_meta_gc_flat_design-m1:
+    wavelength_nm: ''
+    wavelength_max_nm: ''
+    notes: 'printed average 66.2 % (1.79 dB loss) over the C band (p.6); the paper gives no numeric band edges for this statement (the objective function spans 1525-1570 nm, p.4), so only the band is entered'
+    why: 'Rule 8 / D46: the paper states the C band, not 1530-1565 nm; the numeric span was an assumption from the band name'
+  cmp_lit_tahara2024_meta_gc_flat_design-m2:
+    wavelength_nm: ''
+    wavelength_max_nm: ''
+    notes: 'printed eta > 65 % (1.87 dB loss) over the C band (p.6); no numeric band edges printed for this statement (objective span 1525-1570 nm, p.4), so only the band is entered'
+    why: 'Rule 8 / D46: the paper states the C band, not 1530-1565 nm; the numeric span was an assumption from the band name'
+  cmp_lit_lin2021_bilayer_ec_wec240_wb750-m1:
+    basis: derived
+    notes: 'printed WEC 0.24 +/- 0.02 um, determined from TEM cross-sections (p.9); stored in nm (D157 / D256: the paper prints this width only in um)'
+    why: 'D157 / D256 (D540 precedent): the paper prints WEC only in um (p.9, p.10, Fig. 4(c) axis); a unit rescaling is derived with the printed value in notes'
+  cmp_lit_lin2021_bilayer_ec_wec190_wb750-m1:
+    basis: derived
+    notes: 'printed WEC 0.19 +/- 0.02 um, determined from TEM cross-sections (p.9); stored in nm (D157 / D256: the paper prints this width only in um)'
+    why: 'D157 / D256 (D540 precedent): the paper prints WEC only in um (p.9); a unit rescaling is derived with the printed value in notes'
+  cmp_lit_lin2021_bilayer_ec_wec240_wb1000-m1:
+    basis: derived
+    notes: 'printed WEC 0.24 +/- 0.02 um, determined from TEM cross-sections (p.9, p.10, Fig. 6 caption); stored in nm (D157 / D256: the paper prints this width only in um)'
+    why: 'D157 / D256 (D540 precedent): the paper prints WEC only in um (p.9, Fig. 4(d) legend); a unit rescaling is derived with the printed value in notes'
+  cmp_lit_lin2021_bilayer_ec_wec140_wb1000-m1:
+    basis: derived
+    notes: 'printed WEC 0.14 +/- 0.02 um, determined from TEM cross-sections (p.9); stored in nm (D157 / D256: the paper prints this width only in um)'
+    why: 'D157 / D256 (D540 precedent): the paper prints WEC only in um (p.9, Fig. 4(d) legend); a unit rescaling is derived with the printed value in notes'
+  cmp_lit_lin2021_bilayer_ec_wec240_wb750-m3:
+    basis: derived
+    notes: 'printed Wbase 0.75 um (design, p.5 / p.9); stored in nm (D157 / D256)'
+    why: 'D157 / D256: Wbase is printed only in um (p.5, p.9); a unit rescaling of a design dimension is derived with the printed value in notes'
+  cmp_lit_lin2021_bilayer_ec_wec190_wb750-m3:
+    basis: derived
+    notes: 'printed Wbase 0.75 um (design, p.5 / p.9); stored in nm (D157 / D256)'
+    why: 'D157 / D256: Wbase is printed only in um (p.5, p.9); a unit rescaling of a design dimension is derived with the printed value in notes'
+  cmp_lit_lin2021_bilayer_ec_wec240_wb1000-m3:
+    basis: derived
+    notes: 'printed Wbase 1 um (design, p.9, Fig. 4 and Fig. 6 captions); stored in nm (D157 / D256)'
+    why: 'D157 / D256: Wbase is printed only in um (p.9); a unit rescaling of a design dimension is derived with the printed value in notes'
+  cmp_lit_lin2021_bilayer_ec_wec140_wb1000-m3:
+    basis: derived
+    notes: 'printed Wbase 1 um (design, p.9, Fig. 4 caption); stored in nm (D157 / D256)'
+    why: 'D157 / D256: Wbase is printed only in um (p.9); a unit rescaling of a design dimension is derived with the printed value in notes'
+  cmp_lit_lin2021_sin2_sin1_transition_wwg380-m4:
+    basis: derived
+    notes: 'printed Wbase 0.75 um for the transition cutback structures (p.9); stored in nm (D157 / D256)'
+    why: 'D157 / D256: Wbase is printed only in um (p.9); a unit rescaling of a design dimension is derived with the printed value in notes'
+  cmp_lit_lin2021_sin2_sin1_transition_wwg380-m5:
+    basis: derived
+    notes: 'printed Wwg 0.38 um (p.9); stored in nm (D157 / D256)'
+    why: 'D157 / D256: Wwg is printed only in um (p.3, p.8, p.9); a unit rescaling of a design dimension is derived with the printed value in notes'
+  cmp_lit_lin2021_sin2_sin1_transition_wwg520-m4:
+    basis: derived
+    notes: 'printed Wbase 0.75 um for the transition cutback structures (p.9); stored in nm (D157 / D256)'
+    why: 'D157 / D256: Wbase is printed only in um (p.9); a unit rescaling of a design dimension is derived with the printed value in notes'
+  cmp_lit_lin2021_sin2_sin1_transition_wwg520-m5:
+    basis: derived
+    notes: 'printed Wwg 0.52 um (p.9); stored in nm (D157 / D256)'
+    why: 'D157 / D256: Wwg is printed only in um (p.9); a unit rescaling of a design dimension is derived with the printed value in notes'
+  cmp_lit_lin2021_sin1_waveguide-m3:
+    basis: derived
+    notes: 'printed Wwg 0.38 um (p.3, p.8); stored in nm (D157 / D256)'
+    why: 'D157 / D256: Wwg is printed only in um (p.3, p.8); a unit rescaling of a design dimension is derived with the printed value in notes'
+  cmp_lit_lin2021_bilayer_ec_wec240_wb1000-m7:
+    notes: 'printed coupling loss <= 4 dB/facet from 445 to 640 nm for the 0.24 um tip (p.1, p.9; polarization not named in the sentence); Fig. 4(d) audit read: TM about 4.05 dB at 640 nm and TE about 4.1 dB at 445 nm sit just above 4 dB, both within their error bars'
+    why: 'p.6 Fig. 4(d): the TE trace at 445 nm also reads slightly above the printed bound; the note named only the TM 640 nm point'
+  cmp_lit_lin2021_sin2_sin1_transition_wwg380-m11:
+    notes: 'Fig. 5(c) label 0.28 dB/tran beside the triangle end of the 488 nm pair. Polarization from the figure''s marker convention: at 405, 532, 594 and 640 nm the triangles sit on the dotted (TE) lines and the squares on the solid (TM) lines, and the 0.28 label is placed by the higher triangle endpoint (about 27.4 dB at 100 transitions vs about 27.1 dB for the square); no leader line at 488 nm (audit Q2)'
+    why: 'Notes record the evidence for the 488 nm assignment (p.7 Fig. 5(c), audit render at 400 dpi): consistent marker-to-line-style convention at the four other wavelengths plus label placement'
+  cmp_lit_lin2021_sin2_sin1_transition_wwg380-m12:
+    notes: 'Fig. 5(c) label 0.27 dB/tran beside the square end of the 488 nm pair. Polarization from the figure''s marker convention: at 405, 532, 594 and 640 nm the squares sit on the solid (TM) lines and the triangles on the dotted (TE) lines; no leader line at 488 nm (audit Q2)'
+    why: 'Notes record the evidence for the 488 nm assignment (p.7 Fig. 5(c), audit render at 400 dpi): consistent marker-to-line-style convention at the four other wavelengths plus label placement'
+  cmp_lit_hammond2022_single_pol_gc-m1:
+    notes: 'printed mean -4.7 dB at the measured centre wavelength; 1555 nm per the p.11 text (shift +13 nm from 1542 nm) and the Fig. 5(a) label (lambda0 = 1555 nm); the Fig. 5 caption prints 1570 nm, the dual-polarization value of Fig. 6 (D417); 0.89 dB spread over 6 devices'
+    why: 'p.9 Fig. 5(a) labels lambda0 = 1555 nm on the measured curve, which settles the caption conflict (audit Q4); note strengthened'
+  cmp_lit_hammond2022_single_pol_gc-m11:
+    basis: derived
+    notes: 'printed 0.5 um (Fig. 1 caption); stored in nm (D157 / D256)'
+    why: 'D157 / D256: the waveguide width is printed only as 0.5 um (p.6 Fig. 1 caption)'
+  cmp_lit_hammond2022_dual_pol_gc-m9:
+    notes: 'printed -5.6 dB (p.8 text, high resolution) and labelled -5.6 dB on the simulation curve of Fig. 6(a) (p.10); p.11 states the measured -7.0 dB is 1.4 dB below the simulated result, which also gives 5.6 dB. The Fig. 2 caption prints -3.0 dB, the same wording as the single-polarization Fig. 1 caption and the dual-polarization standard-resolution value (D417)'
+    why: 'p.10 Fig. 6(a) label and the p.11 arithmetic both confirm -5.6 dB (audit Q4); note strengthened'
+  cmp_lit_hammond2022_dual_pol_gc-m15:
+    basis: derived
+    notes: 'printed 0.5 um (Fig. 2 caption); stored in nm (D157 / D256)'
+    why: 'D157 / D256: the waveguide width is printed only as 0.5 um (p.7 Fig. 2 caption)'
+  cmp_lit_shi2023_polymer_waveguide-m1:
+    n_samples: 16
+    why: 'p.7 Fig. 9(c): the 4.85 dB average is over the 16 straight channels of groups 1 and 2 (CH1-CH8 twice)'
+  cmp_lit_shi2023_polymer_waveguide-m2:
+    basis: derived
+    condition: 'insertion loss divided by waveguide length (6.55 cm sample after removing the connector structure), index-matching oil at both facets; the facet terms are not subtracted'
+    notes: 'Fig. 10(c) table average 0.48 dB/cm (channels 0.44-0.55); length-normalized insertion loss, which includes both oil-matched end facets (the paper calls that end coupling loss very small, p.8); the 10 cm board with connector structure also averages 0.48 dB/cm, i.e. the 4.85 dB of Fig. 9(c) over 10 cm. Upper bound on the propagation loss in principle; kept as the paper''s waveguide loss figure (audit Q3)'
+    why: 'D80a: dividing the measured insertion loss by the length is arithmetic on own measurements (derived, not a direct reading); condition states what the number includes (audit Q3)'
+  cmp_lit_shi2023_polymer_waveguide-m6:
+    qualifier: approx
+    why: 'p.3 prints the top cladding thickness as about 25 um (rule 7: about -> approx)'
+  cmp_lit_shi2023_mpo_mt_connector-m1:
+    n_samples: 16
+    excludes: 'the active-alignment reference path: 10 cm waveguide loss plus the two index-matched fiber-to-waveguide facet couplings'
+    why: 'p.6 / p.7 Fig. 9(d): 16 connector values (two groups of 8); the subtracted active-alignment insertion loss contains the oil-matched butt couplings, so the 0.77 dB is relative to them, not only to the waveguide loss'
+  cmp_lit_shi2023_mpo_mt_connector-m2:
+    n_samples: 16
+    why: 'p.7 Fig. 9(c): the 6.42 dB average is over the 16 straight channels of groups 1 and 2'
+  cmp_lit_zeng2023_ammi_cwdm-m6:
+    wavelength_inferred: 'true'
+    notes: 'printed PDL < 0.34 dB (p.1, p.6); no wavelength printed for this value: O band from the device operating band (p.2, Table 1 channels 1271-1331 nm)'
+    why: 'Rule 8: the band is inferred from the operating band, not stated with the value'
+  cmp_lit_zeng2023_ammi_cwdm-m7:
+    locator: p.1 Abstract; p.6 Sec. 3; p.9 Table 3
+    why: 'Table 3 sits on p.9 of text.md (page marker before the table), not p.8'
+  cmp_lit_zeng2023_ammi_cwdm-m10:
+    wavelength_inferred: 'true'
+    temperature_k: 233.15
+    notes: 'printed IL < 3.1 dB at -40 C (p.8, Fig. 8(c)); temperature_k = -40 C converted; no wavelength printed: O band from the device operating band; authors attribute the increase to SSC operation away from room temperature and adhesive index change'
+    why: 'Rule 8 (band inferred) and the stated -40 C operating point belongs in temperature_k (p.8)'
+  cmp_lit_zeng2023_ammi_cwdm-m11:
+    wavelength_inferred: 'true'
+    temperature_k: 363.15
+    notes: 'printed IL < 2.7 dB at 90 C (p.8, Fig. 8(c)); temperature_k = 90 C converted; no wavelength printed: O band from the device operating band'
+    why: 'Rule 8 (band inferred) and the stated 90 C operating point belongs in temperature_k (p.8)'
+  cmp_lit_zeng2023_ammi_cwdm-m18:
+    wavelength_inferred: 'true'
+    notes: 'printed simulated PDL < 0.2 dB (p.4); no wavelength printed: O band from the design channels (Table 1, 1271-1331 nm)'
+    why: 'Rule 8: the band is inferred from the operating band, not stated with the value'
+delete_metrics:
+- id: cmp_lit_johnson2020_mmi_crossing-m15
+  why: 'Not stated for this device: the four-port sentence on p.1 describes in-plane crossings in general, and Fig. 1(b) shows one input with cross and through outputs; port counts on a simple 2x2 crossing are not entered elsewhere (0 of the merged single crossings carry n_inputs / n_outputs; they are used for star / multi-crossings)'
+- id: cmp_lit_johnson2020_mmi_crossing-m16
+  why: 'Not stated for this device: the four-port sentence on p.1 describes in-plane crossings in general, and Fig. 1(b) shows one input with cross and through outputs; port counts on a simple 2x2 crossing are not entered elsewhere (0 of the merged single crossings carry n_inputs / n_outputs; they are used for star / multi-crossings)'
+add_metrics:
+- metric_id: cmp_lit_lin2021_bilayer_ec_wec240_wb750-m8
+  component_id: cmp_lit_lin2021_bilayer_ec_wec240_wb750
+  parameter: insertion_loss_db
+  value: 4.2
+  unit: dB
+  qualifier: approx
+  n_samples: 3
+  wavelength_nm: 488
+  polarization: te
+  scope: loopback_half
+  excludes: propagation loss of the 1.2 mm SiN1 waveguide between the couplers
+  condition: 'cleaved Nufern S405-XP fiber both sides (calculated MFD 3.72 um at 488 nm, Supplement S1); coupling loss = (Pout - Pprop - Pin) / 2'
+  method: loopback
+  basis: extracted_from_figure
+  locator: p.6 Fig. 4(c)
+  notes: 'Audit read of the measured TE square at WEC 0.24 um in Fig. 4(c) (tick-calibrated, 41.6 px/dB): about 4.17 dB/facet, error bar about 3.3-5.4 dB; reading uncertainty about +/-0.1 dB. The text (p.9) prints only the TM value (3.2 dB) at this tip width'
+  why: 'Miss. p.6 Fig. 4(c) shows the measured TE coupling loss of this design; only the printed TM value was entered'
