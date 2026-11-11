@@ -1,7 +1,8 @@
 """Sci-Hub fetcher for pre-2021 papers of the S7 retrieval queue that the OA / browser routes could not cache.
 
 Landing page: https://sci-hub.reatk.com/<doi> embeds the PDF as https://sci.bban.top/pdf/<doi>.pdf (the same URL as
-its `location.href=...?download=true` link), so one landing request yields the direct PDF URL. The site puts a
+its `location.href=...?download=true` link), so one landing request yields the direct PDF URL. The PDF host answers
+Cloudflare 403 without the landing URL in `Referer`, so the PDF request repeats it. The site puts a
 Cloudflare Turnstile gate in front of the landing pages after a burst of requests; once solved it sets the cookie
 `scihub_verified=1` (30 min), which this script reads from cache/literature/scihub_cookies.json. `--warm` opens a
 headed Chrome (system Chrome, profile cache/browser_profiles/scihub_chromium), loads the DOI that triggered the gate
@@ -105,10 +106,14 @@ def load_cookie() -> tuple[str, float] | None:
     return None
 
 
-def request(url: str, cookie: str | None = None, timeout: float = 60) -> tuple[int, bytes, dict[str, str]]:
+def request(
+    url: str, cookie: str | None = None, timeout: float = 60, referer: str | None = None
+) -> tuple[int, bytes, dict[str, str]]:
     req = urllib.request.Request(url, headers={"User-Agent": UA, "Accept": "*/*"})
     if cookie:
         req.add_header("Cookie", f"scihub_verified={cookie}")
+    if referer:
+        req.add_header("Referer", referer)  # sci.bban.top 403s (Cloudflare) without the landing page
     try:
         with urllib.request.urlopen(req, timeout=timeout) as r:  # noqa: S310 - fixed https hosts
             return r.status, r.read(), dict(r.headers)
@@ -248,26 +253,61 @@ def candidates(max_year: int, paper_ids: list[str], order: str) -> list[dict[str
     return picked
 
 
-def pdf_url(html: str) -> str | None:
+def pdf_urls(html: str) -> list[str]:
+    """Embed URLs in the landing page, raw first then once unquoted (IET DOIs contain a colon).
+
+    The host now serves `10.1049/el%253A19750135.pdf` (the raw embed) and 404s the unquoted form, while an earlier
+    revision did the opposite, so both candidates are tried in order.
+    """
+    out: list[str] = []
     for src in EMBED_RE.findall(html):
         if PDF_HOST in src:
-            src = "https:" + src if src.startswith("//") else src
-            return urllib.parse.unquote(src)  # some embeds double-encode the DOI (10.1049/el%253A20021185)
-    return None
+            raw = "https:" + src if src.startswith("//") else src
+            for u in (raw, urllib.parse.unquote(raw)):
+                if u not in out:
+                    out.append(u)
+    return out
 
 
 def _tokens(s: str) -> set[str]:
     return {w for w in re.findall(r"[a-z0-9]+", s.lower()) if len(w) > 2}
 
 
+def ocr_pages(doc: Any, n: int = 2) -> str:
+    """Tesseract OCR of the first pages (publishers' scans carry no text layer); '' when tesseract is absent."""
+    import shutil
+    import subprocess
+    import tempfile
+
+    tess = shutil.which("tesseract")
+    if not tess:
+        return ""
+    out: list[str] = []
+    for i in range(min(n, doc.page_count)):
+        with tempfile.TemporaryDirectory() as tmp:
+            png = Path(tmp) / "page.png"
+            doc[i].get_pixmap(dpi=300).save(png)
+            r = subprocess.run([tess, str(png), "stdout", "-l", "eng"], capture_output=True, text=True,
+                               timeout=180, check=False)
+            out.append(r.stdout if r.returncode == 0 else "")
+    return "".join(out)
+
+
 def title_overlap(pdf: bytes, title: str) -> float | None:
-    """Share of the title's words found on the first two pages; None when PyMuPDF is unavailable."""
+    """Share of the title's words found on the first two pages; None when PyMuPDF is unavailable.
+
+    Scans from before ~1990 have no text layer (only a publisher stamp), so a thin text layer is OCR'd.
+    """
     try:
         import pymupdf
     except ImportError:
         return None
     with pymupdf.open(stream=pdf, filetype="pdf") as doc:  # type: ignore[no-untyped-call]
         text = "".join(doc[i].get_text() for i in range(min(2, doc.page_count)))
+        if len(text.strip()) < 200:
+            text = ocr_pages(doc)
+    if not text.strip():
+        return None
     want = _tokens(title)
     return len(want & _tokens(text)) / max(1, len(want)) if want else None
 
@@ -362,18 +402,28 @@ def main(argv: list[str] | None = None) -> int:
                 append_status(pid, "blocked", detail=f"challenge or http {code}", url=url)
                 log.info(f"[{i}/{a.max}] {pid} challenge (http {code}) at {now()}; stopped")
                 return 4
-            found = pdf_url(html)
-            if not found:
+            founds = pdf_urls(html)
+            if not founds:
                 append_status(pid, "not_found", detail=f"landing {code}, no embed", url=url)
                 log.info(f"[{i}/{a.max}] {pid} {row['year']} not_found ({time.time() - t0:.0f}s)")
                 continue
+            found = founds[0]
+            pcode, pdf = 0, b""
+            headers: dict[str, str] = {}
             wait_host(gap, GAP_HOST)
-            try:
-                pcode, pdf, headers = request(found)
-            except Exception as e:  # noqa: BLE001
-                arm_breaker(f"pdf network error: {e}", pid)
-                append_status(pid, "blocked", detail=f"pdf network error: {e}", url=found)
-                return 4
+            for j, cand in enumerate(founds):
+                if j:
+                    wait_host(gap, GAP_HOST)
+                found = cand
+                try:
+                    pcode, pdf, headers = request(cand, referer=url)
+                except Exception as e:  # noqa: BLE001
+                    arm_breaker(f"pdf network error: {e}", pid)
+                    append_status(pid, "blocked", detail=f"pdf network error: {e}", url=cand)
+                    return 4
+                if pcode == 200 and is_pdf(pdf):
+                    found = cand
+                    break
             if pcode != 200 or not is_pdf(pdf):
                 failed += 1
                 append_status(pid, "not_pdf", pdf, detail=f"http {pcode}, {len(pdf)} bytes", url=found)
