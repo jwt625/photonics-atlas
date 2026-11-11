@@ -1,0 +1,59 @@
+hist_02..hist_09 milestone audit (fresh context), 2026-11-11
+Scope: milestones.csv only (64 rows); component rows not audited. Read-only on batch files; findings only in
+hist_NN/audit_patch.csv (columns file,row_key,column,old,new,reason).
+
+VERDICTS
+  batch    verdict                checked  wrong  imprecise  missing  ok  patch rows
+  hist_02  GO once patch applied      8      0        1         0     7      1
+  hist_03  GO once patch applied      8      0        1         0     7      1
+  hist_04  GO once patch applied      8      0        2         0     6      2
+  hist_05  GO                         8      0        0         0     8      0 (header only)
+  hist_06  GO                         8      0        0         0     8      0 (header only)
+  hist_07  GO once patch applied      8      0        1         0     7      1
+  hist_08  GO                         8      0        0         0     8      0 (header only)
+  hist_09  GO once patch applied      8      0        2         0     6      2
+  total                              64      0        7         0    57      7
+
+PATCH VALIDATION
+  check_patch.py (scratchpad maudit/) applies each patch sequentially to an in-memory copy: every `old` equals the
+  current cell exactly; new values ASCII, within word limits (event 25, caption 30, reason 15). 0 errors, all 8
+  batches. Batch files unmodified.
+
+PATCHED ROWS
+  hist_02 hopkins1954 event: "100 lines per inch resolved through a curved bundle" -> resolution and bending are
+          separate statements (p.3: 100 lines/in. on a 4-in. bundle; bends < 2 in. radius without deterioration).
+  hist_03 snitzer1961a event: "core 0.1-5.5 um" -> "core diameters 0.1-5.5 um" (p.1 abstract; Tables give radii).
+  hist_04 armstrong1962 event_locator: Sec. VII.A -> Sec. VIII.A (phase correction, heading on img_p19_1);
+          Sec. IV-VI span p.10-18.
+  hist_04 nathan1962 key_figure_caption: current range starts below 1e-4 A (page_03.png Fig. 1 first point).
+  hist_07 somekh1973 notes: Fig. 2(a) labels 2.4 / 4 / 6.4 um are channel / gap / pitch, consistent with the
+          2.5 + 3.9 um text values; the note's "not reconciled" sentence was wrong.
+  hist_09 miller1978 event: "within 2.5 um of uniformity" -> "deviate 2.5 um on average" (p.1 abstract).
+  hist_09 vellekoop1991 event: TE loss 0.6-1.2 dB now "excluding propagation loss" (p.2 abstract, p.5).
+  Coordinator spot-checked the miller1978, vellekoop1991 and hopkins1954 claims in text.md: confirmed.
+
+METHOD
+  Four fresh-context subagents (02-03, 04-05, 06-07, 08-09) checked each row's date, event page, "first" claims,
+  DRI vs papers.csv and byline, orgs_printed, and key figure label / page / file / caption / reason. They opened
+  every key_figure_file image, plus page-1 scans for dates and bylines. Every "no page render" claim in the notes
+  matches figures/ on disk. Long theory papers (Maxwell, Miller 1954, Fox, Boyd, Personick, Tien 1977) were checked
+  via abstract, figure pages and page-mapped greps, not read in full.
+
+OPEN ITEMS FOR THE COORDINATOR (not patched; judgement calls)
+  1. Two-month BSTJ issues: marcuse1977 (May-June 1977) and schwartz1978 (July-August 1978) carry year only, but
+     personick1973 (July-August 1973) carries 1973-07. Pick one rule and apply it to all three.
+  2. Key-figure readability (all valid as entered): schwartz1978 Fig. 1 is a sideways block diagram (Fig. 3 cable
+     drawing on page_04.png is an alternative); ilchenko1999 Fig. 1 coupler sketch (page_01.png) vs the Fig. 5
+     spectrum; kogelnik1976 Fig. 3 split-electrode sketch vs the Fig. 4 diagram; tien1977 may have a higher-res
+     plate among pp.61-94 (not searched).
+  3. faraday1846 notes cite "no page render" as a reason to skip Fig. 1; that reason is not valid under the contract,
+     but Fig. 3 (non-reciprocal rotation) is still the better choice.
+  4. schawlow1958 orgs_printed includes Columbia University (Townes's permanent-address footnote only).
+  5. boyd1961 DRI: W. D. Lewis suggested the method and described the analytic solution (p.1-2); row keeps Boyd;
+     Gordon and records this in notes.
+  6. ilchenko1999 DRI change rests on "V. S. Ilchenko performed this research" in a funding statement (p.3):
+     literal but weak.
+  7. kapron1970 DRI order follows papers.csv (Keck; Maurer; Kapron), not the byline order.
+  8. Minor note nits not patched: armstrong1962 "Departement" spelling; kroemer1963 reason says
+     "double-heterojunction" (paper: "pair of heterojunction injectors"); miller1954 note section start p.55 not
+     p.56; martin1975 caption "input guide a" loose; partial acknowledgment lists in a few notes.

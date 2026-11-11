@@ -25,6 +25,7 @@
 		{ href: '/layout', label: 'Layouts' },
 		{ href: '/explore', label: 'Explore' },
 		{ href: '/benchmark', label: 'Benchmark' },
+		{ href: '/history', label: 'History' },
 		{ href: '/about', label: 'About' }
 	];
 

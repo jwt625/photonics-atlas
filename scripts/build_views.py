@@ -608,7 +608,9 @@ def main() -> int:
             for path, data in views.items():
                 path.write_text(json.dumps(data, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
                 log.info(f"wrote {path.relative_to(ROOT)} ({path.stat().st_size} bytes)")
-    return 0
+    from build_history_view import write as write_history  # sibling script (DevLog-016 D974)
+
+    return write_history(dry_run=args.dry_run)
 
 
 if __name__ == "__main__":

@@ -23,10 +23,12 @@
 		yTitle,
 		unit,
 		height = 260,
-		legend = true
-	}: { letter: string; desc: string; badge?: string; badgeTip?: string; years: number[]; series: Series[]; xTitle?: string; yTitle: string; unit: string; height?: number; legend?: boolean } = $props();
+		legend = true,
+		logDefault = false
+	}: { letter: string; desc: string; badge?: string; badgeTip?: string; years: number[]; series: Series[]; xTitle?: string; yTitle: string; unit: string; height?: number; legend?: boolean; logDefault?: boolean } = $props();
 
-	let yLog = $state(false);
+	// svelte-ignore state_referenced_locally
+	let yLog = $state(logDefault);
 	const th = $derived(plotTheme(ui.theme));
 	const traces = $derived(
 		series.map((s) => ({

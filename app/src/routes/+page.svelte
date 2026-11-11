@@ -57,6 +57,7 @@
 				yTitle="Publications (count)"
 				unit="publications"
 				height={300}
+				logDefault={true}
 			/>
 		</section>
 
