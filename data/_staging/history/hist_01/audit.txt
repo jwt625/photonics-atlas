@@ -1,0 +1,55 @@
+hist_01 fresh-context audit, 2026-11-11
+Mode: read-only on the batch; findings only in audit_patch.csv (18 patch rows). Coordinator rulings in report.txt
+(D971) treated as binding.
+
+VERDICT: GO once audit_patch.csv is applied (patch applied to a scratchpad copy: hist_merge_milestones --dry-run
+8 rows 0 errors 0 warnings; merge_component_staging --dry-run +8 components +25 metrics 0 errors).
+
+COUNTS (rows checked 41 = 8 milestones + 8 components + 25 metrics)
+  wrong      0
+  imprecise  6  (milestone miller1969; component tien1969 prism coupler; metrics smit1988 -m1, -m3;
+                 roelkens2005 ssc -m1, injection_gc -m2)
+  missing    1  (maiman1960 key-figure fields, now proposed; its stale notes fixed in the same row)
+  ok        34
+
+METHOD
+- Page-1 identity checked for all 8 cached texts (titles match papers.csv; kao1966 = 1986 IEE Proc. Pt. J reprint,
+  delhaye2007 = arXiv v1 with SI, both kept under D971).
+- OCR papers (miller1969, maiman1960, kogelnik1969): dates, abstract, captions and the key figures read on the page
+  images (miller img_p01_1 / img_p04_1 / page_04; maiman page_01 / page_02; kogelnik img_p15_1).
+- Key figures opened: miller page_04 + img_p04_1, maiman page_02, kogelnik img_p15_1, tien page_02, kao page_02,
+  smit page_02, roelkens img_p03_2 (+ page_02 for Fig. 6 labels), delhaye img_p02_1.
+
+MILESTONES
+- miller1969: date 1969-09, event, DRI, empty orgs (no affiliation printed) ok. key_figure_file -> page_04.png: the
+  render now exists and the note's "no separate page render exists" is false; img_p04_1.png is a full-page scan.
+- maiman1960: date 1960-08-06 (header, No. 4736), event and wording ("negative temperatures", "stimulated optical
+  emission at 6943 A", 1-cm ruby, two silvered faces, flash lamp) verified on page_01 / page_02. Proposed key figure:
+  Fig. 2, p.2, page_02.png (embedded images failed); notes updated accordingly.
+- kogelnik1969: date 1969-11, event, Fig. 6 p.15 (img_p15_1.png; no page_15.png exists) ok; caption matches the scan.
+- tien1969: 1969-05-01, Fig. 1 p.2 page_02.png (shows polarizer, prism, film, screen) ok; "novel", no "first".
+- kao1966: 1966-07 from the reprint footnote; Fig. 1 "Attenuation in SW6 glass" 0.5-1.1 um, dB/m and absorption
+  coefficient axes, ok; 20 dB/km stated as a requirement (p.8), not overstated.
+- smit1988: 1988-03-31, Fig. 1 p.2 (Ri, w, psi, input / output planes) ok; "proposed and demonstrated" printed.
+- roelkens2005: 2005-12, Fig. 8 img_p03_2.png (1520-1570 nm, GC curve, Gaussian fit, "1dB excess loss") ok.
+- delhaye2007: date empty (arXiv), Fig. 1 img_p02_1.png ok; 7.3e-18 and "entirely novel" verified p.1.
+
+COMPONENTS / METRICS
+- All 25 metric values match their locators (tien 50 % p.2 / p.4; smit > 20 dB, 5 ch, 0.5 % x 632.0 nm, 1.3 x 4 mm
+  p.3; roelkens 1.9 / 1 / 7 dB, 60 nm p.3, Fig. 6 labels 590 nm, 390 nm, 175 nm tip, 175 um, 220 nm, 3 um, 1.3 um;
+  delhaye Fig. 1A "~7 nm", 75 um, > 70 modes / 130 mW, 21.2 %, 375 GHz, 3 nm, 134, ~500 mW, 7.9 nm, 80 um).
+- smit1988 -m1 / -m3: He-Ne wavelength is stated (printed 0.6320 um, p.3) -> wavelength_nm 632, not band inferred.
+- roelkens2005 ssc -m1: includes must list the ~1 dB converter term (p.3 splits 1.9 = 1 + 0.9).
+- roelkens2005 injection_gc -m2: band missing; c_band inferred as for -m1.
+- tien1969 component note still says "coordinator to rule"; D971 has ruled.
+
+NOT PATCHED (coordinator may consider)
+1. roelkens2005: the ~1 dB SOI-taper-to-polyimide value could be split to a waveguide_platform.transition row
+   (asch2025 precedent) under rule 10; recommendation: keep as is, since the fiber_chip_coupler.edge subtype
+   explicitly covers polymer SSCs and the paper reports it as part of the coupler.
+2. roelkens2005 ssc -m1 / -m2 basis derived (GC term removed by the authors) is defensible under rule 4; left.
+3. delhaye2007 375 GHz comb carries both repetition_rate_ghz 375 and fsr_nm 3 (printed as the same quantity),
+   while the 80 um row skips 0.96 THz as a duplicate; minor inconsistency, left.
+4. delhaye2007 -m4 output_power_mw 500 includes the pump line (noted); not a comb-only power.
+
+Housekeeping: validator dry-runs write timestamped files to logs/; the four created by this audit were removed.

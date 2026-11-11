@@ -1,0 +1,74 @@
+hist_09 distill report, 2026-11-11. Distiller subagent; nothing merged.
+Validators: hist_merge_milestones --dry-run: 8 rows, 0 errors, 0 warnings.
+merge_component_staging data/_staging/components/hist_09 --dry-run: +18 components, +74 metrics, 0 errors (one
+pre-existing warning on cmp_lit_ni2025b_pimmwc, not this batch).
+All 8 cached texts match their papers.csv titles (page-1 check). OCR papers (marcuse1977, miller1978, schwartz1978):
+dates, bylines, histogram labels, tables and key figures read from the page images.
+
+marcuse1977  milestone yes (date 1977: issue 'May-June 1977'); key figure Fig. 2 p.5 img_p05_1.png (full-page scan,
+             no page_05.png exists); 0 component rows: theory paper (Gaussian mode approximation, splice-loss formulas;
+             numerical example computed). No affiliation printed.
+tien1977     milestone yes (1977-04); key figure Fig. 2 p.2 page_02.png (integrated optical circuit concept); 0 rows:
+             review (contract). text.md pp.61-94 are high-resolution figure plates appended to the PDF (no text).
+miller1978   milestone yes (1978-01); key figure Fig. 2 p.3 page_03.png (etched Si chip cross section). 1 component
+             cmp_lit_miller1978_si_chip_array_splice (fiber_interface.v_groove), 12 metrics: mean / std splice loss for
+             the four cases (0.20/0.17, 0.32/0.16, 0.16/0.15, 0.16/0.15 dB; 140, 141, 138, 139 splices), case-1 mean
+             0.18 dB without breaks, 144 fibers, best-fit pitch ranges (mil -> um, derived). He-Ne line not printed:
+             band visible inferred. Not entered: alignment figure of merit, 2.5 um uniformity, 98.8% yield, Table II
+             correlation (no parameters). Fab empty: chips by Western Electric Engineering Research Center (missing org).
+schwartz1978 milestone yes (date 1978: issue 'July-August 1978'); key figure Fig. 1 p.3 page_03.png (system block
+             diagram); DRI empty (four authors, no roles, collective acknowledgment). 1 component
+             cmp_lit_schwartz1978_ribbon_array_splice (fiber_interface.other), 1 metric: installed splice loss about
+             0.5 dB average, author_estimate (arithmetic not shown), 820 nm inferred from the system wavelength; fab
+             org_bell_labs ('spliced by Bell Laboratories', p.6). Not entered: assumed 0.5 dB connector and Table I
+             budget values; cabled fiber loss 5.1 dB/km (fiber).
+soref1986    milestone yes (1986-06); key figure Fig. 8 p.6 page_06.png (near-field patterns); event quotes 'first of
+             its kind' (p.6). 2 components: cmp_lit_soref1986_si_epi_slab_wg (5-13 dB/cm, 6 samples) and
+             cmp_lit_soref1986_si_epi_rib_wg (15-20 dB/cm; Fig. 4 width 10 um, epi 7 um, slab 4.2 um; etch about
+             2.8 um; sidewall 50 deg derived from 40 deg to vertical), platform other (Si epi on n+/p+ Si), 1320 nm (laser
+             printed 1.32 um). Power divider: no row (no split value printed). Byline missing in the text layer; read
+             from the image. Fab empty (RADC missing from registry).
+vellekoop1991 milestone yes (1991-03); key figure Fig. 6 p.5 page_05.png (IL scan, 0.6 dB). DRI changed from 'Meint K.
+             Smit' to 'Arjen R. Vellekoop; Meint K. Smit' (first author; biography p.6 says his thesis research was the
+             realization of this demultiplexer). 2 components: cmp_lit_vellekoop1991_phasar_demux_4ch (wdm.awg, 21
+             metrics: per-channel TE / TM IL from Table II, de_embedded vs bent reference guides; TE 15.4-29.7 and TM
+             13.4-22.2 dB crosstalk ranges; 1.55 nm spacing; 31 arms; design geometry) and
+             cmp_lit_vellekoop1991_al2o3_ridge_wg (1.5 dB/cm, 780 nm inferred). Text TM summary (2.1 central / 3.2
+             outer) conflicts with Table II; table entered, noted. Text layer '29.1' is 29.7 on the image. Fab empty.
+waldhausl1997 milestone yes (1997-12-20); key figure Fig. 3 p.4 img_p04_1.png (single-order grating, 67%); DRI empty.
+             9 components: blazed master GC (41%, Table 1 geometry), embossed replica GC (46%), single-order GC (67%
+             best, 250 nm / 150 nm), focusing GCs on slab with / without correction (about 40% each), focusing GCs into
+             15 um strip with / without correction (42% each), PMMA film loss 0.6 dB/cm, PaMS film loss 1.2 dB/cm; all
+             633 nm (inferred where not restated). Not entered: output efficiencies, blazing effects, throughputs
+             (multi-element), focal spot sizes (no parameter), Gaussian-fit parameter 0.9 of the variable-depth grating
+             (no performance parameter, so that grating has no row). Fab empty (two institutes, no named fab).
+ilchenko1999 milestone yes (1999-06-01); key figure Fig. 5 p.3 img_p03_1.png (two-coupler transmission). DRI set from
+             unresolved to Vladimir S. Ilchenko (acknowledgment p.3: 'V. S. Ilchenko performed this research'). 3
+             components: cmp_lit_ilchenko1999_angle_polished_fiber_coupler (fiber_chip_coupler.other; > 60%, about 2.1 dB
+             per coupler at 1310 nm), cmp_lit_ilchenko1999_microsphere_470um (resonator.disk; Q_L 3.2e6, 74 MHz, Q0
+             about 1.1e8 ringdown, 1310 nm inferred for Q0), cmp_lit_ilchenko1999_microsphere_405um_filter (6.3 dB
+             fiber-to-fiber drop loss, 7.6 MHz, Q_L > 3e7, Q0 about 1.2e8 at 1550 nm). Q0 and corrected Q_L
+             author_estimate (D403 / correction not shown). Quasi-FSR 2.603 GHz not entered (eccentricity splitting).
+
+Missing orgs (name as printed + locator + role), none entered:
+- Western Electric Engineering Research Center (miller1978 p.3; fab of the Si chips).
+- Rome Air Development Center, Solid State Sciences Division, Hanscom AFB (soref1986 p.1, p.4-5; fab, first-person).
+- Jet Propulsion Laboratory, California Institute of Technology (ilchenko1999 p.1, p.2-3; fab of the couplers,
+  first-person; org_caltech exists, JPL itself does not).
+- Fraunhofer-Institute for Applied Optics and Precision Engineering, Jena (waldhausl1997 p.1; affiliation only, fab not
+  assigned because two institutes).
+
+Items for a coordinator ruling:
+1. Two-month BSTJ issues (marcuse1977 'May-June 1977', schwartz1978 'July-August 1978'): date entered as the year only;
+   alternative is the first month (1977-05, 1978-07).
+2. DRI changes: vellekoop1991 adds Vellekoop (biography evidence); ilchenko1999 set to Ilchenko (acknowledgment).
+3. Classes: ilchenko1999 angle-polished fiber coupler as fiber_chip_coupler.other (papers.csv said fiber_interface);
+   waldhausl1997 free-space-input grating couplers as fiber_chip_coupler.grating (tien1969 prism precedent);
+   schwartz1978 splice as fiber_interface.other (connector type only referenced) vs v_groove.
+4. Scope: silica microspheres (ilchenko1999) kept as resonator.disk (sub-mm, fiber-coupled, not polished crystalline;
+   D411).
+5. vellekoop1991 fab: devices 'fabricated' by two named persons with no printed affiliation; fab left empty, whereas
+   smit1988 got Delft from a first-person statement.
+6. waldhausl1997 Table 5 strip-waveguide results may overlap the authors' Electron. Lett. 33, 623 (1997) (ref. 17);
+   the paper presents them as its own (D259 not applied).
+7. soref1986 'first of its kind' is quoted in the event; schwartz1978 'first commercial traffic' kept in notes only.

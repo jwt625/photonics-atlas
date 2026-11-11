@@ -608,7 +608,11 @@ LIT_NAME_ORDER_SWAPPED = frozenset(
 NEVER = "\x00never"  # a coauthor key no slot carries: a pending join that can only pass as a committed join
 
 LIT_CACHE_LIST = Path("data") / "_staging" / "literature" / "cache_list.csv"
-LIT_AUTHOR_FILES = (Path("cache") / "literature" / "merged.jsonl", Path("cache") / "literature" / "curator_adds.jsonl")
+LIT_AUTHOR_FILES = (
+    Path("cache") / "literature" / "merged.jsonl",
+    Path("cache") / "literature" / "curator_adds.jsonl",
+    Path("cache") / "literature" / "history_adds.jsonl",  # DevLog-016 D964
+)
 
 
 def lit_author_lists(codes: Iterable[str], root: Path = ROOT) -> dict[str, list[str]]:

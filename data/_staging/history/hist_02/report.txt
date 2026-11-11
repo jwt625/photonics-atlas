@@ -1,0 +1,53 @@
+hist_02 distill report (2026-11-11). Eight E0 foundation papers, all mode full. Validators: hist_merge_milestones
+--dry-run 8 rows 0 errors 0 warnings. Component rows: none (no paper reports a measured value of an optical device in
+the component taxonomy), so data/_staging/components/hist_02/ was not created and merge_component_staging was not run.
+Nothing merged. Page locators are PDF pages of text.md; journal-page offsets are in each row's notes.
+
+faraday1846    milestone yes (date 1846; received 1845-11-06). Key figure Fig. 3 p.18 (page_18.png): turpentine cell,
+               induced rotation keeps its absolute sense when the ray reverses. Fig. 1 p.4 (heavy-glass positions)
+               was the alternative; only a full-page scan exists for p.4. No printed captions in this paper; caption
+               paraphrases para 2232. No 'first' in the event: Faraday's 'for the first time' (p.15) is withdrawn in
+               his own 1846-01-02 footnote. Component rows: none. Rotation values are relative to water only
+               (p.13-14, 'without any pretence of offering correct numbers'), on bulk glass and liquids in an
+               electro-magnet; no isolator or device, no absolute rotation, so outside the nonreciprocal class. OCR
+               scan; read from renders.
+maxwell1865    milestone yes (date 1865; received 1864-10-27, read 1864-12-08). Key figure none: no labelled figure;
+               all-page contact sheet shows only an unlabelled bridge diagram (p.17, measurement method) and tables.
+               Component rows: none (theory). Cached copy has pencil marks in the p.17 margin.
+hondros1910    milestone yes (date 1910, issue No. 8, no month printed; received 1910-02-14). Key figure Fig. 3 p.8
+               (page_08.png). DRI left empty: byline Hondros und Debye, no role statement ('der eine von uns' refers to
+               Hondros's earlier conducting-wire dissertation). OCR error corrected from render: cutoff wavelength
+               23,4 cm (OCR 28,4) on p.2. Component rows: none (theory).
+rayleigh1910   milestone yes (date 1910-12). Key figure none: the paper has no figure. Component rows: none (theory,
+               acoustic). PDF text layer garbled; values read from page images.
+southworth1936 milestone yes; date empty (no issue date printed anywhere; footnote: to be presented 1936-04-30). Key
+               figure Fig. 8 p.14 (img_p14_1.png, full-page scan; no page renders exist): measured H1 attenuation in
+               a 6-inch, 1250-ft copper pipe. Component rows: none: microwave hollow-metal and water-column guides at
+               100-2300 Mc/s are outside the optical component taxonomy (waveguide_platform covers optical / PIC
+               waveguides). No affiliation printed.
+gordon1954     milestone yes; date empty (Phys. Rev. pages print no issue date; received 1954-05-05). Key figure
+               Fig. 1 p.2 (page_02.png, block diagram). Component rows: none: microwave molecular oscillator /
+               amplifier (6-8 kc/sec lines, ~1e-8 W estimated), outside the taxonomy, same treatment as a bulk / gas
+               laser. PDF includes neighbouring letters (p.1, p.3) and a repeated Fig. 2 on p.4. Word 'maser' absent.
+hopkins1954    milestone yes (date 1954-01-02). Key figure Fig. 4 p.3 (img_p03_2.png, the figure itself). Component
+               rows: none: fibre image bundle (fibre, not a component class); values (0.0025 in. fibres, 100 lines
+               per inch, bend radius < 2 in.) kept in notes. PDF pages also contain van Heel's letter (p.1, separate
+               candidate vanheel1954) and two unrelated letters.
+miller1954     milestone yes (date 1954-05; received 1954-02-02). Key figure Fig. 16 p.20 (img_p20_1.png, full-page
+               scan; no page renders exist): periodic energy exchange versus integrated coupling. Component rows:
+               none: measured devices are 3-cm-band microwave waveguide couplers / mode transducers (Fig. 37, transfer
+               loss, coupling mechanism loss 0.16-0.33 dB), outside the optical taxonomy (splitter.directional_coupler
+               is optical / PIC).
+
+Items for the coordinator
+1. Microwave devices (southworth1936 pipe attenuation, miller1954 waveguide couplers, gordon1954 maser): entered as no
+   rows under the taxonomy-scope reading above; confirm.
+2. papers.csv significance claims not supported by the cached text: hopkins1954 'over 10,000 fibers' (not in the
+   letter); southworth1936 1931-1932 dielectric-rod / water-pipe history (not in the paper); hondros1910 'First theory'
+   (the paper claims no priority). Milestone rows use only what the papers print.
+3. DRI: no changes. hondros1910 stays empty (unresolved). gordon1954 papers.csv order (Townes first) differs from the
+   byline (Gordon, Zeiger, Townes); kept, paper states no roles. hopkins1954: the letter credits the 1949 idea to
+   Hopkins (H. H. H.); Kapany's role not stated; both kept.
+4. Dates empty for southworth1936 and gordon1954 (none printed); year from papers.csv downstream.
+5. Validator dry-runs wrote two timestamped files each to logs/ (hist_merge_milestones 20261111T015426 and
+   20261111T015432); the two 015426 / 015432 pairs were removed by the distiller.

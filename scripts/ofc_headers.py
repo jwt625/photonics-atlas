@@ -604,8 +604,8 @@ def lit_papers() -> dict[str, LitPaper]:
     want = {uid[c]: c for c in codes if c in uid}
     names: dict[str, list[str]] = {}
     # merged.jsonl first; cache/literature/curator_adds.jsonl (same `authors` field) for curator-added papers that
-    # are not in it (D362)
-    for src in ("merged.jsonl", "curator_adds.jsonl"):
+    # are not in it (D362); history_adds.jsonl for the historical papers (DevLog-016 D964)
+    for src in ("merged.jsonl", "curator_adds.jsonl", "history_adds.jsonl"):
         path = ROOT / "cache" / "literature" / src
         if not path.exists():
             continue

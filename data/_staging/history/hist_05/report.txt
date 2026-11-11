@@ -1,0 +1,38 @@
+hist_05 distill report, 2026-11-11. All 8 papers mode full. Validator: hist_merge_milestones --dry-run 8 rows,
+0 errors, 0 warnings. Component rows: none in this batch (no data/_staging/components/hist_05/ written), so
+merge_component_staging was not run. Nothing merged.
+
+berreman1965   milestone yes; key figure Fig. 1 p.1 (page_01.png, helical convective guide). 0 component rows:
+               gas lens light guides are not a component class; Tables I / III (convergence, power per metre,
+               turning efficiency) not entered. text.md p.9 also holds the start of an unrelated JOSA paper.
+giordmaine1965 milestone yes; key figure Fig. 2 p.3 (page_03.png, signal / idler tuning vs crystal temperature).
+               0 component rows: bulk LiNbO3 crystal OPO (0.539 cm, coated faces) is a bulk crystal part (D411),
+               although papers.csv lists component_class frequency_converter. Not entered: 6.7 kW threshold
+               pump, about 15 W output, finesse 14.5, 700 Angstrom tuning. text.md p.4 holds an unrelated letter.
+kogelnik1966   milestone yes; key figure Fig. 6 p.5 (page_05.png, Gaussian beam contour). 0 rows (tutorial
+               review). papers.csv venue empty; the paper is Applied Optics 5(10), October 1966, pp.1550-1567.
+               text.md p.18 holds the start of an unrelated paper.
+mcintyre1966   milestone yes; key figure Fig. 2 p.5 (page_05.png, normalized noise F vs M per k). 0 rows (theory;
+               no measurement reported).
+kawakami1968   milestone yes; key figure Fig. 1 p.1 (img_p01_1.png; the embedded page scan is stored rotated 180
+               degrees, no page_01 render exists). 0 rows (theory). DRI: byline is Kawakami and Nishizawa; the
+               paper states no roles, so papers.csv DRI (Nishizawa only, external evidence) is kept unconfirmed.
+               Priority footnote p.2: Kornhauser and Yaghjian treated the same profile n0 / cosh(alpha x)
+               modally. text.md p.5 holds the start of an unrelated paper.
+marcatili1969  milestone yes; key figure Fig. 4 p.5 (img_p05_1.png, guide cross section and fundamental-mode
+               field). 0 rows (theory; coupler numbers are design examples). No affiliation printed.
+marcatili1969a milestone yes; key figure Fig. 4 p.8 (img_p08_1.png, bend loss per radian design curves). 0 rows
+               (theory). Abstract Q of order 10^8 read from the scan (OCR '10%'). No affiliation printed.
+alfano1970     milestone yes; key figure Fig. 1 p.2 (page_02.png, anti-Stokes spectrograph photographs). 0 rows
+               (bulk glass). Paper claims 'first observation of nondegenerate four-photon stimulated emission in
+               glass' (p.1); it does not use 'supercontinuum' and attributes frequency sweep to its companion
+               letter. text.md p.1 opens with the end of an unrelated letter (its Fig. 1 is not this paper's);
+               p.4 holds an unrelated comment.
+
+Identity: all 8 cached PDFs match papers.csv titles. All are scans; numbers read from page renders or embedded
+page scans. No missing pages.
+
+For the coordinator:
+1. giordmaine1965: confirm no frequency_converter row for a bulk-crystal OPO (D411), despite papers.csv class.
+2. kawakami1968: DRI Nishizawa only is not settled by the paper (two-author byline, no roles); keep or add Kawakami.
+3. kogelnik1966: papers.csv venue empty; fill as Applied Optics.

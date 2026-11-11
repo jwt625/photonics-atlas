@@ -1,0 +1,56 @@
+hist_07 distill report (2026-11-11). Validators: hist_merge_milestones --dry-run 8 rows 0 errors 0 warnings;
+merge_component_staging --dry-run +2 components +4 metrics, 0 errors (one pre-existing warning on
+cmp_lit_ni2025b_pimmwc, not from this batch). Nothing merged.
+
+stolen1972     milestone yes (1972-01-15); key figure Fig. 2 p.3 (page_03.png, oscillator arrangement). 0 component rows:
+               the fiber Raman oscillator is a fiber laser (fiber lasers / amplifiers out of scope, Contract v4); the
+               only numbers are pump powers at threshold (about 75 W single pass, about 500 W oscillation), mirror
+               reflectivities of bulk mirrors and the glass Raman gain (material property). Text layer has OCR-type
+               errors; values read from img_p02_1.png / page_03.png. Fig. 1 photograph is black in the scan.
+gloge1973      milestone yes (1973-11); key figure Fig. 6 p.9 (img_p09_1.png, full-page scan; no page renders on
+               disk). 0 rows: theory paper. OCR scan; no affiliation printed (orgs_printed empty).
+hasegawa1973   milestone yes (1973-08-01); key figure Fig. 1 p.3 (page_03.png). 0 rows: theory and numerical
+               simulation. Byline prints "Frederick Tappert"; papers.csv "Fred Tappert" kept (same person).
+kato1973       milestone yes (1973-06); key figure Fig. 4 p.3 (page_03.png). 1 component
+               cmp_lit_kato1973_spherical_end_fiber (fiber_chip_coupler.other, platform other), 1 metric:
+               coupling_efficiency_pct > 50 % at 875 nm, author_estimate (paper: efficiency not measured directly;
+               bound = measured ratio 5.2 x estimated flat-end ~10 %). Not entered: the measured ratio 5.2 itself
+               (registry gap), flat-end ~10 % and loss-budget terms (estimates), > 90 % (projection), acceptance-angle
+               theory, optimum separation 75 um (no parameter), source-laser values (rule 13, laser supplied by Hitachi
+               Central Research Laboratory). Fab empty (passive forming sentence).
+personick1973  milestone yes (1973-07; combined July-August 1973 issue); key figure Fig. 20 p.26 (page_26.png). 0 rows:
+               theory paper. OCR scan; no affiliation printed.
+somekh1973     milestone yes (1973-01-15; "first demonstration" claimed p.2 abstract); key figure Fig. 2 p.3
+               (page_03.png). 1 component cmp_lit_somekh1973_proton_implanted_gaas_channel
+               (waveguide_platform.straight, gaas), 3 metrics: prop_loss_db_per_cm 8.69 derived from the printed
+               2 cm^-1 at 1150 nm (power attenuation per eq. 1; measurement method not stated), width_nm 2500 and
+               core_thickness_nm 3000 design_target. The directional coupler itself is not a row: its only results
+               are K = 0.52 +/- 0.02 per mm (fit, p.2), ~0.7 / ~0.4 per mm for other anneal / dose (p.3) and complete
+               transfer in typically 2 mm; no registry parameter (registry gap). Fig. 2(a) labels (6.4 / 4 / 2.4 um)
+               disagree with the text's mask values (2.5 um width, 3.9 um separation); text values used. Fab empty
+               (passive, no org named).
+yariv1973      milestone yes (1973-09); key figure Fig. 1 p.2 (page_02.png). 0 rows: theory paper. The paper's summary
+               says directional coupling and DFB lasers are not treated (p.15); the papers.csv significance's
+               "codirectional coupling between guides" is the general codirectional mode coupling of Sec. II-A.
+dingle1974     milestone yes (1974-09-30); key figure Fig. 2 p.3 (page_03.png). 0 rows: quantum-well absorption
+               spectroscopy, no device in the component taxonomy. text.md p.1 opens with the tail of a preceding PRL
+               letter.
+
+Identity: all 8 cached texts match their titles; no wrong PDF, no missing pages, no supplement needed.
+DRI: no changes (no paper states individual roles beyond the byline).
+Missing orgs: none needed (all fab / facility fields empty).
+
+Registry gaps (no new parameters created):
+1. Coupling-improvement ratio of a coupler versus a reference end (kato1973: 5.2, p.3 / abstract p.2). Proposed:
+   coupling_gain_ratio (unit 1), fiber_chip_coupler / micro_optics, "ratio of coupled power to that of the stated
+   reference coupler under the same conditions".
+2. Directional-coupler coupling coefficient (somekh1973: K = 0.52 +/- 0.02 per mm, p.2). Proposed: allow
+   kappa_per_cm for splitter (5.2 per cm, derived) or a new coupling_coefficient_per_mm for splitter.
+
+Coordinator questions:
+1. kato1973 class fiber_chip_coupler.other for a lensed (spherical-end) fiber coupling a laser chip (tien1969 D971
+   precedent); alternative micro_optics.other. Recommendation: keep.
+2. kato1973 source laser (threshold 340 mA, divergence ~60 x 20 deg) treated as setup source (rule 13), not a
+   laser row. Recommendation: keep out.
+3. somekh1973: if registry gap 2 is filled, add a splitter.directional_coupler row with K; until then the coupler
+   has no row.

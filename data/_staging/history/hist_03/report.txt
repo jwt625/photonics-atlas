@@ -1,0 +1,42 @@
+hist_03 distill report, 2026-11-11. Mode full for all 8 papers. Validator: hist_merge_milestones --dry-run 8 rows,
+0 errors, 0 warnings. No component rows in this batch (data/_staging/components/hist_03/ not created), so
+merge_component_staging was not run. Nothing merged.
+
+vanheel1954    milestone yes (Nature 1954-01-02, p.39). Key figure: none; the letter has no figure (Fig. 4 on the page
+               belongs to W. L. Roth's preceding letter). 0 component rows: fibre bundle, fibers are not a component
+               class, no transmission or loss number. OCR (1 page) interleaves the Roth and Hopkins-Kapany letters;
+               all values read from page_01.png. Dateline 'May 21.' prints no year. No 'first' claim in the letter.
+schawlow1958   milestone yes (1958-12-15, received 1958-08-26). Key figure Fig. 1 p.8 (img_p08_1.png, full-page scan;
+               no page renders exist): the paper's only figure, the potassium level diagram of the design example.
+               0 rows: proposal / theory. Columbia University printed only as Townes's permanent address (footnote);
+               included in orgs_printed after Bell Labs. text.md p.1 opens with the end of the preceding paper.
+boyd1961       milestone yes (BSTJ March 1961 per running heads; received 1960-09-12). Key figure Fig. 3 p.8
+               (img_p08_1.png, full-page scan; no page renders exist). 0 rows: theory. No affiliation printed. The
+               method was suggested by W. D. Lewis (abstract, p.2); DRI kept as Boyd; Gordon.
+fox1961        milestone yes (BSTJ March 1961; received 1960-10-20). Key figure Fig. 5 p.11 (img_p11_1.png, full-page
+               scan): first transit vs 300 transits. 0 rows: theory / computation. No affiliation, no acknowledgment.
+franken1961    milestone yes (1961-08-15, received 1961-07-21). Key figure Fig. 1 p.2; key_figure_file img_p03_1.png,
+               a higher-resolution copy of Fig. 1 on the PDF's third page (text.md p.3 is empty; page_02.png also
+               shows it). 0 rows: bulk crystalline quartz (D411), no conversion efficiency stated (only ~10^11 photons
+               per pulse, estimated). DRI Franken kept; four-author byline states no roles.
+javan1961      milestone yes (1961-02-01, received 1960-12-30). Paper claims 'first gaseous system ... maser
+               oscillations at optical frequencies' (p.5). Key figure Fig. 2 p.3; key_figure_file img_p06_1.png (PDF
+               pp.6-8 are figure-only pages with Figs. 2-4; text.md pp.6-8 empty). 0 rows: bulk gas laser (out of the
+               taxonomy per contract); 98.9 % reflectance plates are bulk mirrors with coatings supplied by Bausch &
+               Lomb (D411). p.5 states the excitation-transfer principle was suggested by one author (refs to Javan);
+               DRI kept as all three.
+snitzer1961    milestone yes (JOSA May 1961, received 1960-03-15). Key figure Fig. 2 p.5 (page_05.png), the
+               frequency vs 1/lambda_g mode chart (the paper calls it schematic). 0 rows: theory.
+snitzer1961a   milestone yes (JOSA May 1961, received 1960-03-15). Key figure Fig. 4 p.4 (page_04.png), mode
+               photographs. 0 rows: optical fibers are not a component class; measured cutoff wavelengths (Table II)
+               are fiber-mode data, no loss / coupling value. DRI Snitzer kept; two-author byline (with H. Osterberg)
+               states no roles. Text layer has errors; values read from page_01.png / page_04.png.
+
+Items for the coordinator:
+1. key_figure_file for franken1961 (img_p03_1.png) and javan1961 (img_p06_1.png) point to figure-only PDF pages whose
+   image page number differs from key_figure_page (the printed page); page_02.png / page_03.png are the alternatives.
+2. schawlow1958 key figure is the potassium level diagram (only figure); empty would also be defensible.
+3. vanheel1954 has no key figure.
+4. papers.csv significance 'first' statements (vanheel1954, franken1961, snitzer1961a) are not claimed by those
+   papers; only javan1961 claims 'first'.
+No identity problems: all eight cached texts match their papers.csv titles.

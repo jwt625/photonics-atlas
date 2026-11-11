@@ -1,0 +1,60 @@
+hist_08 distill report (2026-11-11). Distiller hand-back; nothing merged.
+Validators (dry-run): hist_merge_milestones 8 rows, 0 errors, 0 warnings; merge_component_staging +5 components,
++11 metrics, 0 errors (one WARN about lit_ni2025b, unrelated to this batch). Validator log files of these dry-runs
+were removed.
+All eight PDFs have a publisher text layer (no OCR); every number entered was checked on the page renders. Identity
+checked on the title page of each: all match papers.csv.
+
+macchesney1974  milestone yes; key figure Fig. 1 p.2 (page_02.png, loss spectrum). 0 component rows (optical fiber,
+                not a component class). The two PDF pages also carry the end of a TeO2 acousto-optic filter letter and
+                the start of Tasker and French (pure-SiO2-core fibers); not this paper. The paper never says "MCVD" /
+                "modified chemical vapor deposition" ("a new method derived from CVD").
+schmidt1974     milestone yes; key figure Fig. 1 p.3 (page_03.png, Ni microprobe profiles; the only figure, the Ti
+                result is in Table I). 1 component: cmp_lit_schmidt1974_metal_diffused_planar_guides
+                (waveguide_platform.straight, planar guides), -m1 prop loss about 1 dB/cm at 0.63 um, author_estimate
+                (printed "estimated", method and sample not stated). Not entered: Table I depth / index-change
+                estimates (no parameter; "crudely estimated").
+burns1975       milestone yes; key figure Fig. 2 p.2 (mode splitter vs power divider). 0 rows (theory). DRI empty
+                (papers.csv unresolved; two-author byline, no roles).
+kaminow1975     milestone yes; key figure Fig. 1 p.2 (modulator schematic). 1 component:
+                cmp_lit_kaminow1975_ti_strip_guide (waveguide_platform.straight), -m1 loss < 1 dB/cm author_estimate
+                (printed "We believe"), -m2 width 4.6 um measured. Fab org_bell_labs from "we have built a modulator"
+                + all authors Bell Laboratories (D971 smit1988 precedent; judgment). Not entered: modulator metrics
+                (0.30 V/rad, 1.7 uW/MHz rad^2, 12 pF) = EO-atlas scope; balanced-bridge switch values are
+                calculations. papers.csv significance ("merit factor >5000x", Tien 1977) is not in this paper.
+martin1975      milestone yes; key figure Fig. 1 p.2 (device configuration; measured curves are Fig. 3-4 p.3).
+                2 components: cmp_lit_martin1975_znse_mzi_switch_1x2 (switch_fabric.other, D158): -m1 rise time
+                <= 1 ns (electronics-limited), -m2/-m3/-m4 crosstalk 6.8 / 5.7 / 4.4 dB read off Fig. 3 (SW 43) and
+                Fig. 4 (SW 44) as 10 log10 of the two output readings (extracted_from_figure, reading ranges in
+                notes), -m5 length 6.0 mm, -m6 two outputs; cmp_lit_martin1975_y_branch_1deg (splitter.y_branch):
+                -m1 imbalance <= 0.1 dB (separate experiment, band visible inferred). Not entered: capacitance
+                about 0.6 pF (no switch_fabric capacitance parameter), switching voltage (not printed; voltage axes
+                carry no unit), SW 44 crosstalk at 7.5 (output B reads about 0).
+papuchon1975    milestone yes; key figure Fig. 2 p.2 (Cobra vs classical electrodes); Fig. 6 (switching photographs)
+                is black in the scan. 1 component: cmp_lit_papuchon1975_electrode_loaded_guide
+                (waveguide_platform.other), -m1 electrode-induced TM loss about 2 dB/cm, author_estimate, band
+                visible inferred (argon 5145 Angstrom is the only source named). The Cobra switch itself has no row:
+                its only number is the 6 V switching voltage. DRI empty (eight-author byline, no roles).
+haus1976        milestone yes; key figure Fig. 3 p.3 (stepped-kappa vs uniform mode spectra, kappa L = 4). 0 rows
+                (theory). DRI empty (two-author byline Haus / Shank, no roles, no acknowledgment). text.md p.8 also
+                carries the start of an unrelated dye-vapor paper.
+kogelnik1976    milestone yes; key figure Fig. 4 p.3 (two-section alternating delta-beta switching diagram). 0 rows
+                (theory / proposal; the experiment is cited as reported elsewhere, ref. [9]).
+
+Missing orgs (not in registry; name as printed + locator):
+- Thomson-CSF, Laboratoire Central de Recherches, Orsay (papuchon1975 p.2) - fab candidate for the Cobra rows.
+- Naval Electronics Laboratory Center, Electro-Optics Division, San Diego (martin1975 p.2) - author org only; no
+  fabrication statement naming it.
+
+Registry gaps (value skipped + locator): switching voltage of a directional-coupler / interferometric switch
+(papuchon1975 6 V, p.2; v_pi_v is a pi phase shift); capacitance for switch_fabric (martin1975 about 0.6 pF, p.4);
+directional-coupler beat (coupling) length (papuchon1975 about 500 um / 1 mm, p.3); diffused-guide depth and surface
+index change (schmidt1974 Table I).
+
+For a coordinator ruling:
+1. Three loss rows rest on unexplained author statements (schmidt1974 "estimated about 1 dB/cm", kaminow1975 "we
+   believe < 1 dB/cm", papuchon1975 electrodes "introduce approximately 2 dB/cm"), entered as author_estimate. The
+   contract asks for measured values; drop them if author estimates of unstated origin do not qualify.
+2. kaminow1975 fab org_bell_labs from "we have built a modulator" (D971 analogue).
+3. martin1975 crosstalk values are ratios of figure readings (extracted_from_figure, not derived); confirm basis.
+4. DRI left empty for burns1975, papuchon1975, haus1976 (papers.csv unresolved; bylines name no roles).

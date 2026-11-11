@@ -1,0 +1,91 @@
+hist_06 distill report, 2026-11-11
+Validators (dry-run): hist_merge_milestones 8 rows, 0 errors, 0 warnings; merge_component_staging +4 components,
++16 metrics, 0 errors (one pre-existing warning on cmp_lit_ni2025b_pimmwc, not from this batch). Nothing merged.
+Identity: page-1/2 titles of all 8 cached texts match papers.csv. All 8 are publisher PDFs with OCR-like text layers
+(no lit_ocr run); every number entered was read on the page renders. AIP letters (dakss1970, hayashi1970,
+kapron1970, kogelnik1971) and kogelnik1972 have a publisher cover sheet as text.md p.1 and share their first page
+with the end of a preceding article. Validator dry-runs wrote timestamped files to logs/ (01:55); left in place
+because parallel batches write to the same folder at the same time.
+
+dakss1970
+  Milestone: yes, date 1970-06-15; DRI empty (papers.csv unresolved; byline of four, no roles, no acknowledgment).
+  Key figure: Fig. 3, p.4, page_04.png (coupling characteristics; the sum dip behind "about 40%").
+  Components: cmp_lit_dakss1970_grating_coupler_glass_film (fiber_chip_coupler.grating, glass; coupling
+    efficiency about 40% at 632.8 nm for TE1 and TE0, period about 665 nm, film thickness 760 nm fitted and
+    810 +/- 60 nm from spectral transmission); cmp_lit_dakss1970_grating_coupler_epoxy_film (polymer; about 10%,
+    band visible inferred). Fab empty (passive wording).
+  Not entered: angular widths of the coupling dips (0.25 / 0.08 deg, Fig. 3; no parameter); film index 1.72-1.73
+    (no parameter); TM coupling (no efficiency stated).
+  Judgment: free-space input classed as fiber_chip_coupler.grating, following D971 (tien1969 prism coupler).
+
+hayashi1970
+  Milestone: yes, date 1970-08-01; DRI kept (I. Hayashi; M. B. Panish), not settled by the paper.
+  Key figure: Fig. 2, p.3, page_03.png (light-current, dc and pulsed, 297 K).
+  Components: cmp_lit_hayashi1970_dh_fp_laser_370um (laser.other, gaas; output power >= 20 mW at 297 K; threshold
+    about 1036 mA CW and about 592 mA pulsed at 311 K, both derived from the printed 3.5 / 2.0 kA/cm2 x 370 um x
+    about 80 um; forward voltage about 2.6 V at 0.8 A from the Fig. 2 label; length 370 um, width about 80 um).
+    Fab org_bell_labs from first-person "enabled us to grow" / "We have prepared lasers" (rule 12 judgment).
+  Not entered: 1000 / about 1600 A/cm2 thresholds of other diodes (areas not stated); maximum CW heat-sink
+    temperature 311 K (no parameter); junction rise about 25 K (estimate); Fig. 3 spectral peaks (lasing-line
+    energy not labelled).
+  Print inconsistency: the abstract prints "as low as 100 A/cm2" for square diodes, the text "1000 A/cm2" (p.2).
+  Registry gap: threshold current density (A/cm2), here only reachable through the derived current.
+
+kapron1970
+  Milestone: yes, date 1970-11-15; DRI kept (D. B. Keck; R. D. Maurer; F. P. Kapron; byline order is Kapron,
+    Keck, Maurer, no roles stated).
+  Key figure: Fig. 1, p.3, page_03.png (radiation / absorption / total loss vs bend radius, guides A and B).
+  Components: none. Fiber propagation, radiation and bending losses (7 +/- 2 dB/km radiation, 60-70 dB/km total,
+    lowest about 20 dB/km, all at 632.8 nm) are fiber values; the contract excludes fiber rows.
+  Note: the paper says "glass", never silica; papers.csv significance says "silica".
+
+uchida1970
+  Milestone: yes, date 1970-10; DRI kept (Teiji Uchida). The "first" wording is hedged in the paper ("seems to be
+    the first practical solid-state lenslike medium", p.1) and quoted as such.
+  Key figure: Fig. 1, p.2, page_02.png (two beams with sinusoidal paths in a 0.7 mm SELFOC piece).
+  Components: none. Not entered: 0.2 dB per 1-m fiber guide at 0.63 um and < 0.1 dB in special fibers (fiber
+    transmission line; contract excludes fibers); depolarization -20 dB (1 m) and -42 dB (20 mm rod) (per_db is not
+    allowed for micro_optics and the 1-m piece is a fiber); SELFOC lens focal length 1.9 mm, resolving power
+    280-450 lines/mm, 0.44 mm focal length / F about 1.8 lens (no micro_optics parameter for focal length,
+    resolving power or f-number; geometry-only rows are not allowed).
+  Byline as printed: MOATOAKI FURUKAWA and KEN KOIZUMI (bibliographic indexes print "Kex"; the text layer garbles both).
+
+gloge1971
+  Milestone: yes, date 1971-10; DRI D. Gloge (single author).
+  Key figure: Fig. 3, p.3, page_03.png (b versus v for LP modes).
+  Components: none (theory).
+
+kogelnik1971
+  Milestone: yes, date 1971-02-15; DRI kept (Kogelnik; Shank).
+  Key figure: Fig. 2, p.3, page_03.png (DFB device cross section; Fig. 3 spectra are on the same page).
+  Components: cmp_lit_kogelnik1971_dfb_dye_gelatin_14um (laser.dfb, polymer; center wavelength 627.5 nm, fringe
+    spacing about 300 nm, length 10 mm, gelatin 14 um). Fab org_bell_labs from "we have induced index
+    periodicities" / "we have implemented and tested" (rule 12 judgment).
+  Not entered: linewidth < 0.5 Angstrom (resolution limit; stated for the first test laser, sample identity vs the
+    14 um device not stated, D159); width about 0.1 mm (same); film-mode line spacing about 5 Angstrom (transverse
+    film modes, not a cavity FSR); pump threshold given as an intensity (> 1e6 W/cm2; no parameter).
+
+tien1971
+  Milestone: yes, date 1971-11; DRI P. K. Tien (single author).
+  Key figure: Fig. 2, p.2, page_02.png (light beam guided in an organic film on a microscope slide).
+  Components: none. The paper calls itself a review (p.1, p.2); contract excludes reviews. Uncited own-group
+    statements left out on that ground: polished sputtered ZnO films > 20 dB/cm, evaporated ZnS about 5 dB/cm at
+    6328 Angstrom (p.12); Ta2O5 losses (0.9 / 2.5 / 4.1 dB/cm) and Fig. 21 are attributed to Hensler et al.
+    (ref. 14); organosilicon 0.04 dB/cm to ref. 15.
+
+kogelnik1972
+  Milestone: yes, date 1972-05; DRI kept (Kogelnik; Shank).
+  Key figure: Fig. 5, p.6, page_06.png (threshold gain vs frequency deviation, index coupling).
+  Components: none (theory).
+
+Items for a coordinator ruling
+1. hayashi1970: keep the threshold_ma rows derived from printed current density x stated (approximate) diode area,
+   or drop them and record a threshold-current-density parameter as a registry gap.
+2. hayashi1970 and kogelnik1971: fab org_bell_labs from first-person growth / fabrication statements (same reading
+   as smit1988 "We realised", D971); confirm.
+3. kogelnik1971: a dye-doped gelatin thin-film DFB laser on glass entered as laser.dfb (chip-scale, D411); confirm
+   it is not treated as a bulk dye laser.
+4. uchida1970: papers.csv says micro_optics with device metrics, but every value is either a fiber value or has no
+   micro_optics parameter (focal length, resolving power, depolarization); confirm 0 rows or add parameters.
+5. dakss1970: free-space-input grating coupler as fiber_chip_coupler.grating (D971 precedent for tien1969).
+6. tien1971: review treatment (0 rows) although a few uncited own-group film-loss values appear (p.12).
