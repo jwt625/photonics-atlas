@@ -1,0 +1,47 @@
+# Audit patch cpo_01 (fresh-context audit 2026-11-11, DevLog/audits/2026-11-11-cpo_01-audit.md).
+# Duplicates: 3 components / 11 metrics of the batch repeat merged cov_tsmc rows (D930) -> delete_components.
+# levy2026 (kept): 3 metrics 2 ok / 1 imprecise / 0 wrong; 1 component imprecise; 0 misses.
+# 5 ops (1 component, 1 metric, 3 delete_components; script count 19 changes = 5 field sets + 3 components + 11 metrics
+# deleted). After the patch: 1 component, 3 metrics.
+# Coordinator rulings open: Q1 800 um support Si on the merged lens-path row (no op), Q2 process_name "Intel Fab11x"
+# (to keep it, drop the process_name field and the component notes op), Q3 one range row for the 16 laser lines (no op;
+# to split into 16 rows, replace m3 by add_metrics).
+components:
+  cmp_levy2026_dfb_array_16ch:
+    process_name: ''
+    notes: 'Fab org_intel: the acknowledgement credits Intel''s Fab11x for chip fabrication (p.1 Acknowledgement); the abstract
+      and Implementation call the PIC an Intel Fab11x photonic IC (p.1). ''Intel Fab11x'' is a registry alias of org_intel
+      (unit_printed, fab site; ofc2026:Tu3C.2 precedent). process_name empty: the printed wording names a fab site, not a
+      process, node or PDK (Contract v7; audit 2026-11-11 Q2). Laser material and integration method not stated: platform
+      empty (D422). Output power, SMSR, linewidth and bias currents not reported. Each MRM and each ring add-drop filter locks
+      to its own laser through a thermal control unit (p.1 Sec. E). Host EO row levy2026-a holds the spacing and laser lines
+      only in its notes, so they are entered here (rule 2). The 8-lambda arrays of lit:levy2026 and ofc2026:Tu3C.2 are separate
+      rows; this paper states no link to them.'
+    why: 'Contract v7: process_name is the PDK / process as printed; the printed "Intel Fab11x photonic IC (PIC)" (p.1 Abstract,
+      Implementation) names a fab site, which the registry maps to org_intel as an alias (unit_printed), and the Tu3C.2 rows
+      with the same acknowledgement keep process_name empty (audit Q2); notes reworded to the Contract v7 fab wording'
+metrics:
+  cmp_levy2026_dfb_array_16ch-m3:
+    basis: measured
+    n_samples: 16
+    notes: 'Printed peak-marker labels of Fig. 8 (16 labels), not read off the axis: a printed own measurement, so basis measured
+      (as cmp_lit_nie2024_mp_mwl-m3). One range row for the array (one physical design, rule 9), all 16 values in condition
+      (audit Q3). Adjacent spacings computed from these labels: 169.2 to 238.4 GHz (mean 201.5 GHz), consistent with the printed
+      200 +/- 40 GHz (m2); not entered as a row.'
+    why: 'p.3 Fig. 8: the 16 wavelengths are printed as marker labels (render checked), so the values are not read off a plot
+      (rule 4: extracted_from_figure is for plot readings); precedent cmp_lit_nie2024_mp_mwl-m3 (printed lasing wavelengths,
+      range row, measured, n_samples 8)'
+delete_components:
+- id: cmp_ectc51687_2025_00015_coupe_gc_1d
+  why: 'Duplicate of merged cmp_ectc51687_2025_00015_coupe_gc (cov_tsmc, D930): same 1D GC of the COUPE-GC stack and the same
+    values (1.2 dB lt loopback_half p.3 Sec. IV.A / Fig. 6; 1-dB width about 25 nm and derived about 20 nm at PIC-wafer level
+    p.3 Sec. IV.A, p.1 Abstract; +/-1.7 nm lt p.3 Fig. 7(b); 127 um p.3 Sec. III). Merged row also carries fab org_tsmc
+    (D930) and the same not-entered values in notes'
+- id: cmp_ectc51687_2025_00015_coupe_optical_path
+  why: 'Duplicate of merged cmp_ectc51687_2025_00015_coupe_lens_path (cov_tsmc, D930): same added COUPE path and the same net
+    IL 0 dB mean / 0.04 dB std (p.3 Sec. IV.A, Fig. 7(a)); merged scope de_embedded / basis measured was ruled in the
+    cov_tsmc audit Q4. The batch-only 800 um support-Si length_um row (p.3 Sec. IV.A) goes to coordinator Q1, not to a new row'
+- id: cmp_song2026_rx_mrr_filter_bank
+  why: 'Duplicate of merged cmp_song2026_rx_mrr_filter (cov_tsmc, D930): same 9 RX drop rings and the same values (Q 4K
+    author_estimate p.1; 200 GHz author_estimate p.1 Abstract, p.2 Fig. 23.1.1; 9 channels p.1 Abstract). The batch-only
+    wavelength_nm 1310 is the TX-ring wavelength (p.1, TX bus sweep) and is correctly absent from the merged row'
