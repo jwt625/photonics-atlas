@@ -777,14 +777,14 @@
 	.big em { font-style: italic; color: var(--amber, var(--warn)); letter-spacing: 0.012em; }
 	.line { margin-top: 10px; max-width: 540px; font: 17px/1.4 var(--text, inherit); color: var(--ink-2); }
 	/* canvas label: a flat plate with a top rule */
-	.lab { position: absolute; transform: translateY(-50%); max-width: calc(100% - 8px); flex-wrap: wrap; display: flex; gap: 6px; align-items: baseline; padding: 2px 7px 3px; font: 13px var(--text, inherit); color: var(--ink-2); background: color-mix(in srgb, var(--bg) 88%, transparent); border-top: 2px solid var(--ink-3); pointer-events: none; font-variant-numeric: lining-nums; }
+	.lab { position: absolute; transform: translateY(-50%); max-width: calc(100% - 8px); flex-wrap: wrap; display: flex; gap: 6px; align-items: baseline; padding: 2px 7px 3px; font: 13px var(--text, inherit); color: var(--ink-2); background: color-mix(in srgb, var(--ink-3) 18%, color-mix(in srgb, var(--bg) 85%, transparent)); pointer-events: none; font-variant-numeric: lining-nums; }
 	.lab b { font-weight: 600; color: var(--ink); }
 	.lab span, .lab b { white-space: nowrap; }
-	.lab.on { border-top-color: var(--accent); color: var(--ink); }
+	.lab.on { background: color-mix(in srgb, var(--accent) 20%, color-mix(in srgb, var(--bg) 85%, transparent)); color: color-mix(in srgb, var(--accent) 70%, var(--ink)); }
 	.plotbox { position: absolute; top: 16%; right: 16px; bottom: 16px; width: 50%; padding: 8px 8px 4px; background: color-mix(in srgb, var(--bg) 78%, transparent); pointer-events: none; }
 	.plotbox.live { pointer-events: auto; }
 	/* process step: a filled chip with a top rule */
-	.step { position: absolute; left: 28px; bottom: 16px; padding: 3px 9px 4px; font: 14px var(--text, inherit); color: var(--ink); border-top: 2px solid var(--accent); background: color-mix(in srgb, var(--accent) 16%, var(--bg)); }
+	.step { position: absolute; left: 28px; bottom: 16px; padding: 3px 9px 4px; font: 14px var(--text, inherit); color: color-mix(in srgb, var(--accent) 75%, var(--ink)); background: color-mix(in srgb, var(--accent) 16%, var(--bg)); }
 	.alts { position: absolute; left: 8px; top: 4px; display: flex; gap: 2px; z-index: 1; }
 	.alts button { height: 20px; font-size: 10px; padding: 0 6px; }
 

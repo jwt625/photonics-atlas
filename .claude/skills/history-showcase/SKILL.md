@@ -83,8 +83,10 @@ Runtime changes stay additive while builders work. Every new runtime option goes
 - Editorial plate typography in the History tab: Playfair Display for era titles and story keywords, Source Serif 4
   for lines and panel prose (both self-hosted in `app/static/fonts` with OFL texts), small-caps kickers, double
   scotch rules (2px over 1px) above sections, booktabs tables; toolbar, legend and data ticks keep the app sans.
-- No vertical color bar or line on the left edge of any element: use a horizontal top bar (3-4 px), a filled chip or a
-  low-alpha background tint. No shadows, glows or gradients in UI chrome (glow only for physical light in a scene).
+- No colored rules as decoration: no vertical color bar on the left edge and no colored top line either. Show a
+  category as a small tag rectangle with a light fill of its color and text in the same color (`.ctag` in
+  `Expanded.svelte`); highlights are light fills with matching text. Neutral 1px dividers and the gray scotch rules are
+  fine. No shadows, glows or gradients in UI chrome (glow only for physical light in a scene).
   Sharp corners. Dark default, light theme must work.
 - **No internal shorthands in anything a user sees**: no era / batch codes (E0, hist_19), decision ids, DevLog
   references, internal ids (cmp_..., paper ids such as maiman1960) in UI text, legends, tooltips, captions or

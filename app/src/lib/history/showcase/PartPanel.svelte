@@ -92,7 +92,7 @@
 <style>
 	/* plate language (D997): no edge bars or shadows; a top rule, display title, serif prose, small-caps kickers,
 	   booktabs tables (2px top, 1px bottom, hairline rows, no vertical rules) */
-	.pp { position: absolute; top: 0; right: 0; bottom: 0; width: min(380px, 100%); display: grid; grid-template-rows: auto minmax(0, 1fr); background: var(--surface); border-top: 3px solid var(--accent); z-index: 6; }
+	.pp { position: absolute; top: 0; right: 0; bottom: 0; width: min(380px, 100%); display: grid; grid-template-rows: auto minmax(0, 1fr); background: var(--surface); border-left: 1px solid var(--border); z-index: 6; }
 	.head { display: flex; align-items: center; gap: 6px; padding: 6px 12px; border-bottom: 1px solid var(--line); }
 	.kind { font: 600 13px var(--text, inherit); font-variant-caps: all-small-caps; letter-spacing: 0.07em; color: var(--muted, var(--ink-3)); }
 	.grow { flex: 1; }

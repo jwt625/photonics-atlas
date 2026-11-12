@@ -64,11 +64,11 @@
 </aside>
 
 <style>
-	.hpanel { position: absolute; top: 0; right: 0; bottom: 0; width: min(440px, 100%); display: grid; grid-template-rows: auto minmax(0, 1fr); background: var(--surface); border-top: 3px solid var(--c, var(--accent)); z-index: 5; }
+	.hpanel { position: absolute; top: 0; right: 0; bottom: 0; width: min(440px, 100%); display: grid; grid-template-rows: auto minmax(0, 1fr); background: var(--surface); border-left: 1px solid var(--border); z-index: 5; }
 	.head { display: flex; flex-wrap: wrap; align-items: center; gap: 4px; padding: 6px 10px; border-bottom: 1px solid var(--border); }
 	.tag { padding: 1px 6px; font-size: 11px; background: var(--surface-2); border: 1px solid var(--border); }
 	/* the thread colour as a filled chip, not an edge bar */
-	.tag.thread { background: color-mix(in srgb, var(--c, var(--accent)) 26%, var(--surface)); border-color: color-mix(in srgb, var(--c, var(--accent)) 60%, transparent); color: var(--ink); }
+	.tag.thread { background: color-mix(in srgb, var(--c, var(--accent)) 16%, transparent); border-color: transparent; color: color-mix(in srgb, var(--c, var(--accent)) 82%, var(--ink)); }
 	.grow { flex: 1; }
 	.body { overflow-y: auto; padding: 10px 14px 20px; }
 	/* plate type (D997): display title, serif prose, small-caps kickers */

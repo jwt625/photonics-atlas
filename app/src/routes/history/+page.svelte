@@ -143,7 +143,7 @@
 		{/if}
 		{#if vmode === 'expanded'}
 			{#if view}
-				<Expanded {ms} {eras} {stories} {shown} color={(m) => pal.color.get(pal.key(m)) ?? ''} {selId} {tip} onopen={open} onfail={storyFailed} />
+				<Expanded {ms} {eras} {stories} {shown} color={(m) => pal.color.get(pal.key(m)) ?? ''} group={(m) => pal.key(m)} {selId} {tip} onopen={open} onfail={storyFailed} />
 			{/if}
 		{:else}
 		<div class="canvas" bind:clientWidth={width} style:height={lay ? `${lay.height}px` : '60vh'}>

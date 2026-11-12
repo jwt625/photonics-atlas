@@ -2,7 +2,6 @@
 .bm {
 	--bm-best: color-mix(in srgb, var(--accent) 24%, transparent);
 	--bm-lead: color-mix(in srgb, var(--accent) 7%, transparent);
-	--bm-lead-edge: color-mix(in srgb, var(--accent) 55%, transparent);
 	display: flex;
 	flex-direction: column;
 	height: 100%;
@@ -27,7 +26,7 @@
 .bm-key { padding: 1px 6px; color: var(--ink-2); border: 1px solid var(--border); }
 .bm-key.r1 { background: var(--bm-best); color: var(--ink); font-weight: 600; }
 .bm-key.r2 { text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 3px; }
-.bm-key.lead { background: var(--bm-lead); box-shadow: inset 0 2px 0 var(--bm-lead-edge); }
+.bm-key.lead { background: color-mix(in srgb, var(--accent) 16%, transparent); color: color-mix(in srgb, var(--accent) 80%, var(--ink)); }
 .bm-theme { width: 26px; padding: 0; display: inline-flex; align-items: center; justify-content: center; background: transparent; }
 .bm-moon, :root[data-theme='light'] .bm-sun { display: none; }
 :root[data-theme='light'] .bm-moon { display: inline; }
@@ -40,12 +39,12 @@
 .bm-t thead th { position: sticky; background: var(--surface); z-index: 2; }
 .bm-famrow th { top: 0; height: 24px; }
 .bm-colrow th { top: 24px; height: 34px; }
-/* family groups: a 3px top bar per family, inset so neighbouring families read as separate bars (no vertical rules) */
+/* family groups: each header is a light-filled tag box, inset so neighbouring families read as separate tags (no vertical rules) */
 .bm-famh { padding: 0 6px; text-align: center; color: var(--ink-2); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; border-bottom: 1px solid var(--line); }
-.bm-t thead th.bm-famh { background: linear-gradient(var(--ink-3), var(--ink-3)) 4px 0 / calc(100% - 8px) 3px no-repeat, var(--surface); }
+.bm-t thead th.bm-famh { color: var(--ink); background: linear-gradient(color-mix(in srgb, var(--ink-3) 22%, var(--surface)), color-mix(in srgb, var(--ink-3) 22%, var(--surface))) 4px 3px / calc(100% - 8px) calc(100% - 6px) no-repeat, var(--surface); }
 .bm-colh { min-width: 72px; max-width: 104px; padding: 4px 9px; text-align: center; vertical-align: bottom; border-bottom: 1px solid var(--line); color: var(--ink-2); }
 .bm-colh .bm-name { display: block; line-height: 1.2; font-weight: 600; color: var(--ink); }
-.bm-colh.lead { background: linear-gradient(var(--bm-lead), var(--bm-lead)), var(--surface); box-shadow: inset 0 2px 0 var(--accent); }
+.bm-colh.lead { background: linear-gradient(color-mix(in srgb, var(--accent) 16%, transparent), color-mix(in srgb, var(--accent) 16%, transparent)), var(--surface); color: color-mix(in srgb, var(--accent) 80%, var(--ink)); }
 
 /* stub column */
 .bm-t .bm-stub { position: sticky; left: 0; z-index: 1; min-width: 210px; max-width: 250px; padding: 5px 12px 5px 10px; text-align: left; background: var(--surface); border-right: 1px solid var(--line); }

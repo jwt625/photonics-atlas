@@ -10,6 +10,7 @@
 		stories,
 		shown,
 		color,
+		group,
 		selId,
 		tip,
 		onopen,
@@ -22,6 +23,8 @@
 		/** filter / search result, same index as ms */
 		shown: boolean[];
 		color: (m: Milestone) => string;
+		/** legend group of the milestone in the current color mode (tag text) */
+		group: (m: Milestone) => string;
 		selId: string;
 		tip: (m: Milestone) => string;
 		onopen: (m: Milestone, el: HTMLElement) => void;
@@ -51,7 +54,7 @@
 				<div class="strip">
 					{#each g.cards as [m, i] (m.id)}
 						<button class="hcard" class:dim={!shown[i]} class:sel={m.id === selId} style:--c={color(m)} data-tip={tip(m)} onclick={(e) => onopen(m, e.currentTarget)}>
-							<span class="yr num">{m.year ?? ''}</span>
+							<span class="row"><span class="yr num">{m.year ?? ''}</span><span class="ctag">{group(m)}</span></span>
 							<span class="tp">{m.topic || m.title}</span>
 							{#if m.dri}<span class="dri">{m.dri}</span>{/if}
 						</button>
@@ -74,9 +77,12 @@
 	.eh p { margin: 0; color: var(--ink-2); font: 14px/1.45 var(--text); max-width: 900px; }
 	.cnt { font: 600 13px var(--text); font-variant-caps: all-small-caps; letter-spacing: 0.07em; color: var(--muted); white-space: nowrap; }
 	.strip { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 6px; padding: 4px 16px 0; }
-	.hcard { display: flex; flex-direction: column; align-items: stretch; gap: 3px; height: auto; min-height: 64px; padding: 7px 10px 8px; text-align: left; background: var(--surface); border: 1px solid var(--border); border-top: 3px solid var(--c, var(--ink-3)); transition: opacity 0.2s; }
-	.hcard:hover { background: var(--surface-2); border-color: var(--ink-3); border-top-color: var(--c, var(--ink-3)); }
-	.hcard.sel { background: color-mix(in srgb, var(--accent) 12%, var(--surface)); border-color: var(--accent); border-top-color: var(--c, var(--accent)); }
+	.hcard { display: flex; flex-direction: column; align-items: stretch; gap: 3px; height: auto; min-height: 64px; padding: 7px 10px 8px; text-align: left; background: var(--surface); border: 1px solid var(--border); transition: opacity 0.2s; }
+	/* category as a small tag: light fill in the category color, text in the same color (no colored rule) */
+	.hcard .row { display: flex; align-items: center; gap: 8px; min-width: 0; }
+	.ctag { min-width: 0; max-width: 70%; padding: 0 6px; font: 11px/17px var(--sans); color: color-mix(in srgb, var(--c, var(--ink-3)) 82%, var(--ink)); background: color-mix(in srgb, var(--c, var(--ink-3)) 16%, transparent); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+	.hcard:hover { background: var(--surface-2); border-color: var(--ink-3); }
+	.hcard.sel { background: color-mix(in srgb, var(--accent) 12%, var(--surface)); border-color: var(--accent); }
 	.hcard.dim { opacity: 0.15; }
 	.yr { font: 600 13px var(--text); font-variant-caps: all-small-caps; letter-spacing: 0.07em; color: var(--muted); }
 	.tp { font: 500 14px/1.25 var(--text); color: var(--ink); display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
