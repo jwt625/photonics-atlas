@@ -28,7 +28,7 @@
 	import type { Trace } from './trace';
 	import TraceView from './TraceView.svelte';
 	import type { Part, PickInfo, ShowcaseHandle, ShowcaseSpec } from './types';
-	import { thumbP, partTipLines, pickDetail, essentialDimText, labelLeft, orbitLimits, plainKeyword, stepTipLines, playAt, playDuration, playPlan, type PlayLeg } from './progress';
+	import { hiddenParts, thumbP, partTipLines, pickDetail, essentialDimText, labelLeft, orbitLimits, plainKeyword, stepTipLines, playAt, playDuration, playPlan, type PlayLeg } from './progress';
 
 	let {
 		id,
@@ -90,7 +90,10 @@
 	const canOrbit = $derived(assembled && spec?.renderer === '3d');
 	const kEff = $derived(assembled ? k : 0);
 	const on = $derived([...new Set([hoverId, pinId].filter((x): x is string => !!x))]);
-	const pending = $derived(new Set(parts.filter((q) => p < partIntro(chapters, q.id)).map((q) => q.id)));
+	// parts not drawn now: from the module's visible() hook after each frame, else the chapter's parts_hidden
+	let modVisible = $state<string[] | null | undefined>(undefined);
+	const hidden = $derived(hiddenParts(parts.map((q) => q.id), modVisible, chapters[chapterIndexBefore(chapters, p)]?.parts_hidden));
+	const pending = $derived(new Set([...parts.filter((q) => p < partIntro(chapters, q.id)).map((q) => q.id), ...hidden]));
 	const heightVh = $derived(reduced ? 1 : Math.max(2, spec?.height ?? 5));
 	const drawing = $derived(spec?.drawings?.find((d) => d.trace || d.image) ?? null);
 	const plots = $derived(
@@ -251,6 +254,11 @@
 			// scale scene.environment); scene-owned, so it never leaks into another story's renders
 			if (typeof handle.environmentIntensity === 'number') three.scene.environmentIntensity = handle.environmentIntensity;
 			renderer.render(three.scene, three.camera);
+		}
+		if (handle.visible) {
+			const v = handle.visible();
+			const same = v === modVisible || (Array.isArray(v) && Array.isArray(modVisible) && v.length === modVisible.length && v.every((x, i) => x === modVisible![i]));
+			if (!same) modVisible = Array.isArray(v) ? [...v] : null;
 		}
 		placeLabels();
 	}
@@ -493,6 +501,12 @@
 
 	// ------------------------------------------------------------------------------------------- parts linking
 	const partTip = (q: Part, extra: string[] = []): string[] => partTipLines(q, extra);
+	/** parts list hover: a part not drawn now shows its tooltip only (no highlight in the model) */
+	function hoverListed(q: Part, e: { clientX: number; clientY: number }) {
+		if (!hidden.has(q.id)) return hover(q.id, e);
+		hoverId = null;
+		tipBox = { x: e.clientX, y: e.clientY, lines: partTip(q) };
+	}
 	function hover(idv: string | null, e?: { clientX: number; clientY: number }) {
 		hoverId = idv;
 		const q = idv ? partById.get(idv) : null;
@@ -786,8 +800,8 @@
 							<button
 								class:on={on.includes(q.id)}
 								class:fut={pending.has(q.id)}
-								onpointerenter={(e) => hover(q.id, e)}
-								onpointermove={(e) => hover(q.id, e)}
+								onpointerenter={(e) => hoverListed(q, e)}
+								onpointermove={(e) => hoverListed(q, e)}
 								onpointerleave={() => hover(null)}
 								onfocus={(e) => {
 									const r = e.currentTarget.getBoundingClientRect();
@@ -928,11 +942,16 @@
 		.shead { margin: 20px 10px 0; padding: 12px 0 8px; }
 		.shead h3 { font-size: 30px; }
 		.shead p { font-size: 15px; }
-		.stage { grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(0, 1fr) 26% auto; grid-template-areas: 'model' 'side' 'ctrl'; }
-		.side { flex-direction: row; padding: 6px 8px 4px; gap: 8px; }
+		/* compact parts row (1/1.5 of the former 26 %): 10 px type, 6 px swatches, 14 px visual rows; each entry keeps a
+		   24 px tap height through padding that overlaps the neighbouring rows (negative margin), not through size */
+		.stage { grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(0, 1fr) 18% auto; grid-template-areas: 'model' 'side' 'ctrl'; }
+		.side { flex-direction: row; padding: 4px 6px 3px; gap: 6px; }
 		.draw { flex: 0 0 38%; min-height: 0; }
-		.parts { display: flex; flex-wrap: wrap; align-content: flex-start; gap: 2px; flex: 1; }
-		.parts button { width: auto; font-size: 13px; padding: 2px 6px; }
+		.parts { display: flex; flex-wrap: wrap; align-content: flex-start; gap: 0 1px; flex: 1; padding: 5px 0; }
+		.parts button { width: auto; min-height: 0; gap: 4px; font-size: 10px; line-height: 14px; padding: 5px 4px; margin: -5px 0; background-clip: content-box; }
+		/* the 24 px tap area overlaps the neighbouring rows: keep the focus outline on the visible row */
+		.parts button:focus-visible { outline-offset: -5px; }
+		.parts .sw { width: 6px; height: 6px; }
 		.kwi { left: 14px; top: 12px; right: 14px; }
 		.line { font-size: 15px; margin-top: 6px; }
 		.plotbox { top: auto; left: 8px; right: 8px; bottom: 8px; width: auto; height: 56%; }

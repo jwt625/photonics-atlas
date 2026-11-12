@@ -1,0 +1,249 @@
+waldhausl1997 (polymer grating couplers) showcase audit (fresh context, read-only, 2026-11-12)
+==========================================================================================
+
+Scope: data/history/showcases/waldhausl1997.yaml (+ report.txt, diff against the pre-builder spec
+waldhausl1997.yaml.orig), DevLog-017 D1037 / D1039 (and D995 / D998 / D1005 / D1006), skill history-showcase;
+app/src/lib/history/showcases/waldhausl1997.ts (all 1475 lines, frame / pick / anchor code read);
+app/static/data/showcases/waldhausl1997.json (parts, chapters, plots, process, withheld, references, title_note,
+tagline identical to the YAML); data/components/components.csv + component_metrics.csv (9 rows, 21 metrics);
+sources references/waldhausl1997/ (source.pdf, text.md, page renders) and the native figure rasters in
+cache/showcases/waldhausl1997/dig/; builder shots (desk_*, phone_*, light_*, play_*, i1-i4, contact sheets, logs).
+Method: every quote and about 40 locators checked against the PDF (PyMuPDF phrase search with page + column);
+units re-read from the PDF fonts (µ is a glyph in the "Universal" Greek font; text.md renders it as "m"): copper
+3 mm, PMMA plate 2 mm, 20 mm waveguide, 2 mm graded grating and f = 4 mm are millimetres; 300 µm nickel, 20 µm
+bands, 80 µm subareas, 15 / 10 / 5 µm strips, 12 / 7 / 5.3 µm spots are micrometres (all as in the spec).
+Fig. 1, 2, 3, 6, 9 read at 3-4x; Fig. 5 re-digitized independently (own tick detection, rotation-corrected,
+9x9 opening for the squares, column runs for the curve); Fig. 7 re-read at 12 positions; Fig. 3 beam and prism
+face angles re-measured; slab TE mode, Eq. (1) order angles, Eq. (11) ellipse geometry and Eq. (15) width
+recomputed (slab.py). Figure rasters have uniform aspect in the PDF (4.167 px/pt both axes), so drawn angles
+are page angles. Scratch: session scratchpad waldhausl1997_audit/. No app run, no network, no git.
+
+VERDICT: GO after the small fixes I1-I4 (no wrong items). Sources, quotes, locators, every printed value, the
+digitized Fig. 5 / Fig. 7 / Fig. 4 data, the Fig. 7 x mapping, the Fig. 1 replica sequence and tooth
+orientation, the Fig. 3 direction logic, the Eq. (11) ellipses, the derived values (all reproduced) and the
+efficiency bars are right; assumed and schematic items are labelled. The imprecise items are a dose staircase
+that does not line up with the developed profile, an unlabelled depth / offset convention in the close-up,
+replica-chapter hovers that quote master-chip derived angles, and wording (laser, microscope, unmarked quote
+elisions).
+
+Counts: wrong 0, imprecise 11, missing 2, ok 22. Plus 1 re-shoot check (R1).
+
+----------------------------------------------------------------------------------------------------------
+WRONG
+----------------------------------------------------------------------------------------------------------
+
+(none)
+
+----------------------------------------------------------------------------------------------------------
+IMPRECISE
+----------------------------------------------------------------------------------------------------------
+
+I1. Dose staircase and developed profile out of register (write / develop chapters)
+  file:     waldhausl1997.ts line 185 (DOSE), 788-795 (shotRect: step 0 = highest dose at x0 ... x0 + 160 nm),
+            186-197 (closeProfile: peak at x0, valley at x0 + 200 nm, long facet to x0 + 800 nm)
+  current:  the highest-dose shot covers the steep side, where the drawn final depth runs 0 -> 250 nm. Mean drawn
+            depth under each step, highest to lowest dose: about 100, 230, 167, 100, 33 nm, so the highest-dose
+            strip ends up shallower than the second. During development (tint fades at develop q 0.55-0.8 while the
+            profile grows 0.15-0.7) the viewer sees the deepest groove under the second strip and the brightest
+            strip half under the peak.
+  proposed: shift the staircase (or the profile) so depth follows dose: e.g. put the dose jump in the middle of
+            the steep side (staircase origin at x0 + 100 nm) or at the valley (x0 + 200 nm), so the 200 nm
+            inclination straddles the low-to-high dose step, which is how a blurred dose edge forms it. Keep
+            "five steps, schematic" in hover.
+  evidence: p.9384 col. 1: "the exposed regions of the resist are dissolved according to the varying electron
+            dose"; p.9385 col. 1: "During the exposure process a second inclination of an approximately 200 nm in
+            base length is formed."
+
+I2. Close-up depth / zero-offset convention shown as fact
+  file:     yaml line 74 (grating_in.detail), 85 (zero_offset_nm), ts line 1371 (hover "True scale: ... grating
+            region about 80 nm below the surface"), report section 4(a) ("depth taken as peak-to-valley, assumed")
+  current:  the close-up draws 250 nm peak-to-valley plus a further 80 nm recess (330 nm below the unexposed
+            surface). The paper reports the 80 nm zero offset for the variable-depth and focusing work (Sec. 4-5,
+            Fig. 6) and says it is why measured depths sit about 80 nm under the calculated ones (p.9387 col. 1),
+            i.e. the offset may eat into the corrugation; whether the Table 1 "t_g = 250 nm" is the achieved
+            peak-to-valley depth with an extra 80 nm recess is not stated. The report flags this as assumed; the
+            viewer-facing hover and detail do not.
+  proposed: hover / detail: "Zero offset of about 80 nm reported for the paper's e-beam gratings (Fig. 6, Sec. 4-5);
+            drawn here under the Table 1 grating with t_{g} taken as peak-to-valley (assumed)."
+
+I3. Replica-phase hovers quote the master-chip derived angles
+  file:     ts line 1394 (orders_out: "about 47°, 96°, 154° in air and 62°, 94°, 128° in quartz"), 1386 (beam_in:
+            "about 47° from the surface ... Table 1 values"), both shown unchanged while rep is true (i3 log
+            p = 0.525)
+  current:  in the replica phase the film is PαMS (n_{f} 1.603, 450 nm) on PMMA (n_{s} 1.489), and the hover still
+            gives the Table 1 / quartz values.
+  proposed: prefix "for the e-beam master chip (Table 1 values)"; optionally add the replica values, which this
+            audit reproduces with the report's slab model: n_{eff} 1.5421, first-order coupling angle about 41°,
+            orders about 41°, 92°, 146° in air and 60°, 92°, 124° in PMMA (three per side, as Fig. 2 draws).
+
+I4. "Laser beam" is not printed
+  file:     yaml line 15 (tagline: "couple a laser beam"), line 130 (beam_in.role: "Laser beam at the coupling
+            angle")
+  current:  the paper says "incoming beam", "incoming light", "collimated light"; it never names a laser (the
+            spec's own withheld list says "Laser ... not given"). 632.8 nm implies a HeNe line, but that is an
+            inference.
+  proposed: "couple a light beam" / "Incoming beam at the coupling angle onto the input grating."
+
+I5. Microscope named differently from the paper
+  file:     yaml line 428 (graded plot note: "scanning electron microscope")
+  current:  scanning electron microscope
+  proposed: "secondary electron microscope" (the paper's words, p.9387 col. 1 "measured with a secondary electron
+            microscope"), as the graded_grating detail already says.
+
+I6. Quotes with unmarked elisions
+  file:     yaml line 132 (beam_in.quote), line 102 (grating_out.quote), line 207 (pams_film.quote)
+  current:  beam_in drops "(I_{1}^{r} ... I_{n}^{r})" and "(I_{1}^{t} ... I_{n}^{t})" without a mark; grating_out
+            drops "(I_{1}^{c} ... I_{n}^{c})" and "(I_{1}^{s} ... I_{n}^{s})"; pams_film quotes the tail of a
+            sentence as a full sentence with a new capital ("An all-polymeric optical chip is produced.").
+  proposed: keep the parentheticals or mark the cuts with " ... "; pams_film: "... an all-polymeric optical chip is
+            produced." or quote the whole sentence (p.9385 col. 1: "After the spin-coating process of a
+            poly(α)-methylstyrene polymer as the waveguide layer (n_{f} = 1.603), an all-polymeric optical chip is
+            produced.").
+
+I7. "Second inclination" read as the steep side without saying so
+  file:     yaml line 92 (dim note "base length of the steep side"), ts line 1371 ("steep side about 200 nm wide"),
+            line 7
+  current:  the paper prints only "a second inclination of an approximately 200 nm in base length"; identifying it
+            with the steep wall of the sawtooth is the natural reading (an ideal sawtooth has one inclination and a
+            vertical wall) but is not stated, and ref. 7 was not read.
+  proposed: hover "second inclination about 200 nm base (read here as the steep side)".
+
+I8. Spin coating starts before the plate has cooled
+  file:     ts line 594 (heat tint fades over replica q 0.62-0.70), line 598 (PαMS spreads from q 0.64)
+  current:  the PαMS film starts spreading while the heat tint is still on.
+  proposed: start the film at q >= 0.70 (or end the tint by 0.64): "After cooling down, the waveguiding layer ...
+            was spin coated" (p.9384 col. 1).
+
+I9. title_note wording "shortened to a single diffraction order"
+  file:     yaml line 14
+  current:  "... replicated by embossing into an all-polymer chip, shortened to a single diffraction order ..."
+  proposed: "... given a shorter period that leaves a single diffraction order (67 % input efficiency) ..."
+            (p.9385 col. 2: "by decreasing the grating period").
+
+I10. Fig. 3 single-order path: acceptable, one wording point (coordinator question)
+  file:     ts lines 199-203 (C3: ANG 52, NP 1.457), 883-914 (cGeo), 1290-1297 (oo_beam hover)
+  current:  straight beam through prism, liquid and plate at 52° from the surface, refracted at the prism face for
+            an assumed prism index 1.457; hover explains that Fig. 3 draws a bend. Re-measured on Fig. 3 (p.9386,
+            native raster 887 x 510): beam in the substrate about 50-51° from the surface (shaft 48-51° depending on
+            the fit window; tail (563, 322) -> tip (713, 140) gives 50.5°), prism face 41-44°, air beam about 19°.
+            The figure's drawn path is not physically consistent (an index-matched prism cannot turn a 28° internal
+            ray into 51° in the plate), so the module's straight, index-matched path is the right schematic, and the
+            air-side ray ends up nearly normal to the face instead of Fig. 3's shallow ray. Direction logic is
+            right: beam rising forward (+x), guided wave to the left, as the backward single substrate order
+            requires (136.5° derived, reproduced).
+  proposed: keep; hover may say "Fig. 3 draws the beam entering the prism at a shallow angle (about 19°) and
+            bending twice; drawn here as one index-matched straight path (assumed)". "about 52°" can stay
+            (within the read) or become "about 50°".
+
+I11. Category labels truncated on phones (runtime)
+  file:     PlotAssembler (runtime), seen in phone_p1000.png / phone sheet
+  current:  rotated category ticks read "embossed repl..." and "focusing, str..." at 390 px.
+  proposed: runtime: wrap category labels on two lines or shorten via an optional `categories_short`; or story-side
+            shorter labels ("replica", "strip").
+
+----------------------------------------------------------------------------------------------------------
+MISSING
+----------------------------------------------------------------------------------------------------------
+
+M1. Fig. 9 draws further out-coupled orders at the output grating (thin dashed arrows up-right, down-left, down)
+  besides the 10 % output beam; the plan view shows only the output beam. Optional: faint short dashed rays, or a
+  hover line "other orders not drawn (Fig. 9 draws them dashed)".
+
+M2. The 0.6 / 1.2 dB/cm loss and the output-grating decay are explained only in the guided_mode hover; the couple
+  chapter's process / HUD has no entry for Table 2 / Table 3. Optional: a short process entry ("Chip measurement")
+  with input 41 %, output 95 %, 65/35, 0.6 dB/cm, throughput 14 % (stated, Table 2) so the side panel carries the
+  numbers the glow uses.
+
+----------------------------------------------------------------------------------------------------------
+OK
+----------------------------------------------------------------------------------------------------------
+
+OK-1. Process sequence vs text (coordinator item): PMMA-copolymer film < 1 µm on quartz, resist = waveguide
+  (p.9383 col. 2); thin gold or aluminium layer against charging (p.9383 col. 2); ZBA 23 variable shaped beam with
+  dose rising stepwise across every period, pattern repeated (p.9383 col. 2 - p.9384 col. 1); development
+  dissolves by dose, depth by development time (p.9384 col. 1); Table 1 period 800 nm, depth 250 nm; second
+  inclination about 200 nm (p.9385 col. 1); zero offset about 80 nm (p.9387 col. 1, Fig. 6 caption). Nothing in
+  the chapter lines claims more than the text; metal-layer removal, dose values, step count and writing order are
+  said to be not given (hover + withheld).
+OK-2. Five shots per period: labelled schematic in the ebeam and dose_tint hovers and in withheld; not in any
+  chapter line.
+OK-3. Tooth orientation vs Fig. 1 (p.9384, read at 4x): replica left group = vertical drop at the outer (left) edge
+  of each period, long facet rising toward the chip centre, five teeth, right group mirrored; master teeth point
+  down. closeProfile and sideProfile reproduce this (master = negative, replica = original shape), and the
+  embossed plate profile is the pressed master profile (clampBelow), so orientation survives the replication.
+OK-4. Coupling chapter: P = P_{0} exp(-2αz) is Eq. (2) (p.9384 col. 2); α = 1.48 mm^{-1} is printed p.9385 col. 1
+  ("Almost all the guided light is coupled out ..., which corresponds to a leakage parameter of α = 1.48 mm^{-1}");
+  1 - exp(-2 x 1.48 x 1 mm) = 94.8 % vs printed 95 %; replica α = 0.75 mm^{-1} (p.9385 col. 2) gives 77.7 % vs
+  "approximately 75%". 65 % to the cover: p.9385 col. 1 and Table 2 "65/35". 0.6 / 1.2 dB/cm: Tables 2 / 3.
+  Guided power in guidedPower(): linear build-up across the input grating (labelled schematic), loss over the
+  20 mm, exp decay over the 1 mm output grating; out-coupled orders appear only after the glow front passes the
+  output grating (orders at couple q 0.68+, front reaches the grating at about q 0.53).
+OK-5. Reflected / transmitted / cover / substrate orders: three each, directions taken from Fig. 2 pixels (I0 at
+  35° from the surface as drawn; I1-I3 r, t, c, s directions match the figure within a few degrees); cover group
+  brighter by the printed share, equal within a side (labelled). Derived angles reproduced: n_{eff} 1.4753 (single
+  TE mode), first-order angle 46.8°, air 46.8 / 96.2 / 154.0°, quartz 62.0 / 94.2 / 128.1°.
+OK-6. Replica sequence vs Fig. 1 and text: nickel grows into the grooves, copper backing, lift, chip out, PMMA
+  plate in, heat tint (150 °C), press, lift, PαMS spin coat with flat top and grating at the interface (Fig. 1
+  bottom); light in and out with the cover group at 74 %; "74/36" flagged as printed in the dim note, hover and
+  chip_tables note. Plating seed layer, pressure and time withheld.
+OK-7. Fig. 3 topology: rectangular grating on the cover side of the film, SiO_{2} plate, immersion liquid as a lens
+  between prism top and plate, prism outline in Fig. 3 pixels (face 350,352 -> 495,490), guided arrow to the
+  left, faint zero orders (transmitted into air at 26° from in-plane conservation, reflected back), no higher
+  orders. 67 %: p.9385 col. 2 and abstract.
+OK-8. Fig. 5 re-digitized independently: ticks bottom 130.5 / 226.5 ... 895.5 px = 0 / 250 ... 2000 µm, left
+  45.5 ... 467.0 px = 300 ... 50 nm (0 at 551), rotation about 0.3° (right ticks 4 px lower, top ticks 3.5 px
+  right). All 25 squares agree with the spec within 0.3 µm in z and 0.2 nm in depth (first square 1.5 µm in z,
+  box clipped by the axis). Calculated curve read at 11 positions: within 2 nm of the spec (e.g. z 1249 µm 268.9
+  vs 269.0; z 1417 µm 305.9 vs 304.0 interpolated; z 1950 µm 148.9 vs 149.1). Sampling 195 points / 2000 µm
+  (about 1/200 of the span); steep peak not smoothed.
+OK-9. Fig. 7 re-read at 12 positions (frame 252.5 / 1211.0 px, background row 566.5, peak line 114.5 confirmed):
+  trace 0.336 @ 0.62 mm (spec 0.32-0.35), 0.656-0.679 @ 0.80 (0.659), 0.868 @ 1.00 (0.876), 0.985 @ 1.09 (0.987),
+  0.850 @ 1.30 (0.850), 0.719 @ 1.45 (0.719), 0.37 @ 1.55 (0.362), 0.256 @ 1.60 (0.256), 0.082 @ 1.70 (0.078);
+  fit 0.956 @ 1.00 (0.962), 0.616 @ 1.45 (0.626). One noisy read 0.031 @ 1.90 vs spec 0.037-0.054 (single column
+  vs bin median). Bins on the dotted FWHM marker at 1.49-1.52 mm dropped, not filled (rule D1007).
+OK-10. Fig. 7 x mapping (coordinator item): the figure's steep flank is on its left (grating end) and the slow
+  rise on its right (grating start), mapped to 1.5-1.7 mm and 0-0.4 mm; peak 1.09 mm ("vicinity of the center").
+  The model's guided light enters at the left = grating start = plot x 0, emission brightness = trace at the
+  measured pen (dEm hidden beyond the pen). Consistent.
+OK-11. Fig. 4 alternate: spot-checked visually at 500 / 1000 / 1420 / 2000 µm (0.25 / 0.64 / 0.858 / about 0.36);
+  last digitized point 1986 µm (curve end at 2000 µm not sampled; negligible).
+OK-12. Graded model: subarea i at z = 80 i µm from the start, depth = Fig. 5 measured square, revealed by the
+  measured pen index (never ahead of the plot); dashed design depth to the calculated pen; vertical true to the
+  plotted nm; tooth orientation assumed and the 80 nm offset not drawn, both said in hover.
+OK-13. Focusing chip vs Fig. 9 / Eq. (11): input upper right, output upper left, strip between, focal points at the
+  strip ends; ellipse centre at -a e, focus at the origin, grating on the far-vertex side, which is the side a
+  forward-coupled beam (incident in-plane direction = guided direction) needs (checked from Eq. (11) and the
+  phase condition n_{eff} r + n_{c} cos φ_{c} z = const); successive lines share the focus (a ∝ q). Lengths
+  4 : 2 : 4 true; strip 0.2 mm and bands 0.26 mm drawn for 15 / 20 µm (13x, said in hover); line span ±1.4 mm
+  vs derived width 0.79 mm (said in hover). B = 0.794 mm from Eq. (15) reproduced.
+OK-14. Efficiency bars: 41 (Table 2), 46 (Table 3), 67 (p.9385 col. 2), 40 (Table 4, both gratings), 42 (Table 5)
+  with category labels; chip_tables 41/46, 95/75, 65/74, 14/12. All match the PDF.
+OK-15. Component rows: 9 rows / 21 metrics (41, 46, 67, 40 x2, 42 x2 %; 800 / 250 / 150 / 450 nm; 1000 µm; 0.6 /
+  1.2 dB/cm) agree with the spec. (Outside this story: the master row note calls 1.48 mm^{-1} "calculated"; the
+  paper calls 1.16 calculated and derives 1.48 from the measurement.)
+OK-16. Locators: all checked page / column pairs right, e.g. quartz spin coat p.9383 col. 2; nickel / PMMA /
+  PαMS / strips p.9384 col. 1; TE_{0} only and α 1.16 p.9384 col. 2; 65 %, 1.48, second inclination, n_{s} 1.489
+  p.9385 col. 1; 46 %, 74 %, 0.75, 67 %, 2 mm plate p.9385 col. 2; Fig. 3 p.9386; 25 subareas p.9386 col. 2;
+  80 nm, right-hand edge p.9387 col. 1; 0.9 p.9387 col. 2; f = 4 mm, 5.3 µm, Table 4 p.9388 col. 2; 15 µm, 42 %,
+  Table 5, Fig. 9 p.9389 col. 1; 70 %, 3 % / 1 % p.9389 col. 2.
+OK-17. Quotes (16) verbatim apart from I6; "particularly reflected" kept as printed.
+OK-18. Derived values hover-only and labelled derived (47°, 1.475, 136.5°, 0.79 mm, order angles); assumed /
+  illustrative ones labelled (order split, brightness, guided fade in the near-field view, prism index).
+OK-19. Text budget: keywords <= 3 words, lines 8-11 words, no numbers in lines, one amber emphasis (*sawtooth*), 3
+  plot chapters, 4 essential dims (Λ 800 nm, depth 250 nm, waveguide 20 mm, strip 15 µm) with label_short.
+OK-20. Notation and shorthands: built JSON identical to the YAML in all viewer-facing sections; no raw `_` / `^`
+  outside unit fields (mm^-1 allowed, D1106); no paper ids, era / decision / DevLog tokens in viewer-facing
+  fields or module strings ("SiO2" / "PaMS" / "alpha" appear only in the non-displayed `action` field).
+OK-21. Composition: plot chapters put the model left (phone: top), beams end before the plot and the parts column
+  (desk_p0710, p0780, p1000); light theme readable (light sheet); Play log: no step back, longest hold 310 ms
+  desktop / 303 ms phone, rAF median 16.7 ms; frame(p) pure (no timers, no state).
+OK-22. Milestone thread mismatch (row "silicon photonics and microcavities" vs tag table "integrated optics"):
+  known per D1039, not this story's file; the build uses the tag table.
+
+----------------------------------------------------------------------------------------------------------
+RE-SHOOT CHECK
+----------------------------------------------------------------------------------------------------------
+
+R1. shots/i4_sources.png shows the story's stage empty with the Sources panel open (the story header is at the top
+  of the viewport, the stage not yet mounted or scrolled). Probably capture timing; re-shoot with the stage in view
+  to confirm the model renders beside the panel.

@@ -448,9 +448,8 @@ const mod: ShowcaseModule = {
 		// ---------------------------------------------------------------------------- silicon chip (patch) + pillar
 		const chipGeo = G(new THREE.BoxGeometry(chipXZ[0] ?? 400, 1, chipXZ[1] ?? 400).translate(0, 0.5, 0));
 		// a finite chip patch with hard straight edges (patch size assumed in the spec); matte, low specular
-		const chipMat = std('si_chip', { envMapIntensity: 0, specularIntensity: 0.25 });
-		// silicon grey, toned per theme so the upward-facing patch does not read as a lit backdrop (look colour = hue)
-		const chipBase = chipMat.color.clone();
+		const chipMat = std('si_chip', { envMapIntensity: 0, specularIntensity: 0.04, roughness: 0.92, metalness: 0 });
+		// silicon grey per theme (applyTheme), matte, so the upward-facing patch reads as a chip, not a lit backdrop
 		const chipMesh = new THREE.Mesh(chipGeo, chipMat);
 		chipMesh.renderOrder = 1;
 		const chipGroup = new THREE.Group();
@@ -480,9 +479,8 @@ const mod: ShowcaseModule = {
 
 		// ---------------------------------------------------------------------------- oxide film, resist pad
 		const oxGeo = G(new THREE.BoxGeometry(chipXZ[0] ?? 400, 1, chipXZ[1] ?? 400).translate(0, 0.5, 0));
-		const oxMat = std('oxide_film', { depthWrite: false, envMapIntensity: 0 });
+		const oxMat = std('oxide_film', { depthWrite: false, envMapIntensity: 0, specularIntensity: 0.1, roughness: 0.6 });
 		const oxGroup = new THREE.Group();
-		const oxBase = oxMat.color.clone();
 		const oxMesh = new THREE.Mesh(oxGeo, oxMat);
 		oxMesh.renderOrder = 2;
 		oxGroup.add(oxMesh);
@@ -878,8 +876,9 @@ const mod: ShowcaseModule = {
 			hazeMat.color.set(light ? '#8a8aa0' : look('xef2_gas').color || '#d8d8e6');
 			hemi.intensity = light ? 0.9 : 0.6;
 			// floor and oxide film: dim on the dark page (no lit backdrop), light on the light page (no dark blot)
-			chipMat.color.copy(chipBase).multiplyScalar(light ? 1.1 : 0.45);
-			oxMat.color.copy(oxBase).multiplyScalar(light ? 1 : 0.5);
+			// neutral greys (the sources fix no chip colour); a cool look colour plus the blue rim light read saturated blue
+			chipMat.color.set(light ? '#b4b5b7' : '#38393b');
+			oxMat.color.set(light ? '#d4d5d7' : '#55575a');
 			fillColours();
 		}
 		applyTheme();

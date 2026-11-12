@@ -118,7 +118,12 @@ export function revealed(r: number, nSeries: number, si: number, nPts: number): 
 export function toBars(s: Pick<Series, 'bars'>): Bar[] {
 	const out: Bar[] = [];
 	for (const b of s.bars ?? []) {
-		const o: Bar | null = Array.isArray(b) ? { from: b[0], to: b[1], height: b[2] } : b && typeof b === 'object' ? b : null;
+		let o: Bar | null = Array.isArray(b) ? { from: b[0], to: b[1], height: b[2] } : b && typeof b === 'object' ? b : null;
+		// category bars: centred on `at`, width 0.6 of the slot unless given
+		if (o && Number.isFinite(o.at) && !(Number.isFinite(o.from) && Number.isFinite(o.to))) {
+			const w = Number.isFinite(o.width) && o.width! > 0 ? o.width! : 0.6;
+			o = { ...o, from: o.at! - w / 2, to: o.at! + w / 2 };
+		}
 		if (o && [o.from, o.to, o.height].every(Number.isFinite)) out.push({ ...o, from: Math.min(o.from, o.to), to: Math.max(o.from, o.to) });
 	}
 	return out;
@@ -507,4 +512,65 @@ export function penAt(spec: Pick<ShowcaseSpec, 'chapters' | 'plots'>, plotId: st
 		}
 		return { series: i, index: idx[n - 1], x: last[0], y: last[1] };
 	});
+}
+
+// ---------------------------------------------------------------------------------------------- category axes
+/** Categories of an axis (a non-empty string list), else null. */
+export const categoriesOf = (a: Pick<Axis, 'categories'> | undefined): string[] | null =>
+	Array.isArray(a?.categories) && a.categories.length ? a.categories.map(String) : null;
+
+/** Default range of a category axis: half a slot beyond the first and last category. */
+export const categoryRange = (n: number): [number, number] => [-0.5, n - 0.5];
+
+/** Label of the category nearest to x (hover text), or '' outside the categories. */
+export function categoryAt(cats: readonly string[], x: number): string {
+	const i = Math.round(x);
+	return i >= 0 && i < cats.length && Math.abs(x - i) <= 0.5 ? cats[i] : '';
+}
+
+export interface CategoryTicks {
+	/** 'wrap': labels broken into lines under each tick; 'rotate': one shortened line rotated by -40 degrees */
+	mode: 'wrap' | 'rotate';
+	/** per category: its lines (wrap) or its single shortened line (rotate) */
+	lines: string[][];
+	/** whether the label was shortened (full text goes to the hover title) */
+	cut: boolean[];
+	/** vertical room the labels need below the axis, px */
+	height: number;
+}
+
+/** Category tick labels for a slot width (px): word-wrapped into at most 3 lines when every label fits; else rotated
+ *  and shortened as plain text (phones). Character width estimate 6 px at 10 px type; markup counts as its plain text
+ *  (toPlain, e.g. plainMarkup). */
+export function categoryTicks(cats: readonly string[], slotPx: number, toPlain: (s: string) => string = (s) => s): CategoryTicks {
+	const plainLen = (s: string) => [...toPlain(s)].length;
+	const CW = 6;
+	const per = Math.max(1, Math.floor((slotPx - 6) / CW)); // characters per line
+	const wrapped = cats.map((c) => {
+		const lines: string[] = [];
+		let cur = '';
+		for (const w of c.split(/\s+/).filter(Boolean)) {
+			const next = cur ? `${cur} ${w}` : w;
+			if (plainLen(next) <= per || !cur) cur = next;
+			else {
+				lines.push(cur);
+				cur = w;
+			}
+		}
+		if (cur) lines.push(cur);
+		return lines;
+	});
+	const fits = wrapped.every((ls) => ls.length <= 3 && ls.every((l) => plainLen(l) <= per));
+	if (fits) {
+		const n = Math.max(1, ...wrapped.map((ls) => ls.length));
+		return { mode: 'wrap', lines: wrapped, cut: cats.map(() => false), height: 4 + n * 12 };
+	}
+	const MAX = 14;
+	// rotated labels are plain text (Unicode sub / superscripts), shortened with an ellipsis
+	const lines = cats.map((c) => {
+		const t = [...toPlain(c)];
+		return [t.length > MAX ? t.slice(0, MAX - 1).join('').trimEnd() + '\u2026' : t.join('')];
+	});
+	const longest = Math.max(1, ...lines.map((l) => plainLen(l[0])));
+	return { mode: 'rotate', lines, cut: cats.map((c) => plainLen(c) > MAX), height: 8 + Math.ceil(longest * CW * Math.sin((40 * Math.PI) / 180)) + 6 };
 }

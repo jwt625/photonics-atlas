@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { levelsLayout } from './levels';
-import { AXES_END, penAt, plotProgressIn, plotWindow, revealAt, colorSlots, legendBlock, legendRows, stemBase, axesK, axisTicks, barK, cleanIndices, cleanPoints, equalAspect, errAt, errText, extent, whiskerEnds, whiskerPx, fitTitle, legendCorner, linTicks, logOf, markup, plainMarkup, logTicks, makeScale, plain, plotLabel, revealed, rich, stagger, styleOf, term, toBars, toggleLog, withAlternates, type LogState } from './plot';
+import { AXES_END, categoriesOf, categoryAt, categoryRange, categoryTicks, penAt, plotProgressIn, plotWindow, revealAt, colorSlots, legendBlock, legendRows, stemBase, axesK, axisTicks, barK, cleanIndices, cleanPoints, equalAspect, errAt, errText, extent, whiskerEnds, whiskerPx, fitTitle, legendCorner, linTicks, logOf, markup, plainMarkup, logTicks, makeScale, plain, plotLabel, revealed, rich, stagger, styleOf, term, toBars, toggleLog, withAlternates, type LogState } from './plot';
 import {
 	chapterAt,
 	chapterIndexAt,
@@ -12,6 +12,7 @@ import {
 	ease,
 	keywordStates,
 	essentialDimText,
+	hiddenParts,
 	thumbP,
 	partTipLines,
 	pickDetail,
@@ -30,7 +31,7 @@ import {
 	seg
 } from './progress';
 import { elementBox, pathPoints } from './trace';
-import type { Chapter, ErrSpec, Plot, Series, ShowcaseSpec } from './types';
+import type { Bar, Chapter, ErrSpec, Plot, Series, ShowcaseSpec } from './types';
 
 const CH: Chapter[] = [
 	{ id: 'rod', p: [0, 0.2], keyword: 'Ruby rod', parts: ['rod'] },
@@ -503,6 +504,45 @@ describe('thumbnail frame', () => {
 		expect(thumbP(withPlot)).toBe(chapterTarget(CH[1]));
 		const named = { chapters: [CH[0], { ...CH[1], plot: 'mid' }, CH[2]], plots: [{ id: 'mid', x: { label: 'x' }, y: { label: 'y' }, series: [] }] };
 		expect(thumbP(named)).toBe(chapterTarget(CH[0]));
+	});
+});
+
+describe('category axes', () => {
+	const cats = ['grating coupler', 'edge coupler', 'prism', 'butt coupling to SMF-28 fiber', 'L_{0} taper'];
+	it('range, hover text and centred bars', () => {
+		expect(categoryRange(5)).toEqual([-0.5, 4.5]);
+		expect(categoriesOf({ categories: [] })).toBeNull();
+		expect(categoriesOf({ categories: cats })).toEqual(cats);
+		expect(categoryAt(cats, 2)).toBe('prism');
+		expect(categoryAt(cats, 2.4)).toBe('prism');
+		expect(categoryAt(cats, -0.6)).toBe('');
+		expect(toBars({ bars: [{ at: 1, height: 3 } as Bar, { at: 2, width: 0.4, height: 1 } as Bar] })).toEqual([
+			{ at: 1, height: 3, from: 0.7, to: 1.3 },
+			{ at: 2, width: 0.4, height: 1, from: 1.8, to: 2.2 }
+		]);
+	});
+	it('wraps on wide slots, rotates and shortens on narrow ones', () => {
+		const wide = categoryTicks(cats, 150, plainMarkup);
+		expect(wide.mode).toBe('wrap');
+		expect(wide.lines[3].length).toBeGreaterThan(1);
+		expect(wide.lines[0]).toEqual(['grating coupler']);
+		expect(wide.height).toBe(4 + Math.max(...wide.lines.map((l) => l.length)) * 12);
+		const narrow = categoryTicks(cats, 50, plainMarkup);
+		expect(narrow.mode).toBe('rotate');
+		expect(narrow.lines.every((l) => l.length === 1 && [...l[0]].length <= 14)).toBe(true);
+		expect(narrow.cut[3]).toBe(true);
+		expect(narrow.lines[3][0].endsWith('\u2026')).toBe(true);
+		expect(narrow.lines[4][0]).toBe('L\u2080 taper'); // markup as plain text
+	});
+});
+
+describe('hidden parts', () => {
+	it('visible() list wins; null = all drawn; else chapter parts_hidden', () => {
+		const ids = ['rod', 'lamp', 'can'];
+		expect([...hiddenParts(ids, ['rod'])]).toEqual(['lamp', 'can']);
+		expect([...hiddenParts(ids, null, ['lamp'])]).toEqual([]);
+		expect([...hiddenParts(ids, undefined, ['lamp', 'ghost'])]).toEqual(['lamp']);
+		expect([...hiddenParts(ids, undefined)]).toEqual([]);
 	});
 });
 

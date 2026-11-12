@@ -178,6 +178,27 @@ Plot pen helpers (2026-11-11; ./plot, the same code PlotAssembler uses)
   onBeforeCompile        modules that patch shaders must set a unique material.customProgramCacheKey() (e.g.
                          `${spec.id}:glass`): every story shares one WebGLRenderer and its program cache
 
+Category axes (2026-11-11)
+  plots[].x.categories   labels of a category x axis (markup rendered): category i sits at x = i, the range defaults
+                         to [-0.5, n - 0.5], the ticks are the labels: word-wrapped (up to 3 lines) when every label
+                         fits its slot, else rotated -40 degrees and shortened to 14 characters with the full text on
+                         hover (phones). Hover shows the category label instead of a number. Works with points
+                         ([i, y]), bars, err and legend_group. Not with a log x axis.
+  bars {at, height[, width]}   a bar centred on category `at`, width 0.6 of the slot unless given
+  plots[].x.category_grid      thin grid lines between categories
+
+Parts not drawn (2026-11-12)
+  handle.visible?()      optional: ids of the parts drawn in the current frame (null = all); called after every
+                         frame(p), so it must follow from that frame. Parts not listed are greyed in the parts list
+                         (as parts not assembled yet) and in the drawing; hovering one shows its tooltip, no highlight.
+  chapters[].parts_hidden   spec fallback for modules without visible(): part ids greyed during that chapter
+
+Compact phone layout (2026-11-12, phones <= 700 px only; desktop unchanged)
+  Plot legend: 10 px rows, 9 px type (legibility floor), smaller swatches, 6 px gap to the data, cap 27 % of the plot
+  panel (columns first, then "+N more"); legend_note 9 px. Parts list: the side row is 18 % of the stage (was 26 %),
+  10 px type, 6 px swatches, 14 px visual rows; every entry keeps a 24 px tap height via padding that overlaps the
+  neighbouring rows (negative margin; the highlight is clipped to the visual row).
+
 Layout to frame for: desktop stage = model pane + 300 px side column (drawing, parts list) + control bar; during a
 plot chapter the plot covers the right half of the model pane (phone: the bottom 56 %), so keep the model in the left
 half then. Keywords sit top-left (about 70 px tall on desktop).

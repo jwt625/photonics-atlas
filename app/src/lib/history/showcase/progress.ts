@@ -269,3 +269,14 @@ export function thumbP(spec: Pick<ShowcaseSpec, 'chapters' | 'plots' | 'thumb_p'
 	if (!Number.isFinite(first)) return chapterTarget(cs[cs.length - 1]);
 	return chapterTarget(cs[Math.max(0, first - 1)]);
 }
+
+/** Parts greyed as not drawn: those missing from the module's visible() list (null = all drawn; undefined = no hook),
+ *  else the chapter's parts_hidden. */
+export function hiddenParts(ids: readonly string[], visible: readonly string[] | null | undefined, chapterHidden?: readonly string[]): Set<string> {
+	if (visible === null) return new Set(); // the module says: everything drawn
+	if (Array.isArray(visible)) {
+		const v = new Set(visible);
+		return new Set(ids.filter((id) => !v.has(id)));
+	}
+	return new Set((chapterHidden ?? []).filter((id) => ids.includes(id)));
+}

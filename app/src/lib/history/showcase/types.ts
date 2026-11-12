@@ -115,6 +115,7 @@
  * 3D environment: `scene.environment` (the shared room map) is set before build and before any render, every run;
  * handle.environmentIntensity scales it per story. Modules using `onBeforeCompile` must give the material a unique
  * `customProgramCacheKey()` (e.g. story id + material role): all stories share one renderer and its program cache.
+ * Category axes: plots[].x.categories (labels; category i at x = i), bars as {at, height[, width]}, category_grid.
  * Play button (runtime only): autoplay scrolls the page, so modules see ordinary frame(p) calls; nothing to do.
  *
  * Chapters: `chapterAt(spec.chapters, p)` and `chapterLocal(chapter, p)` (./progress) give the chapter under p and the
@@ -200,6 +201,8 @@ export interface Chapter {
 	plot?: string;
 	/** id of a process step shown during this chapter (default: a process step whose id equals the chapter id) */
 	process?: string;
+	/** part ids not drawn during this chapter (greyed in the parts list); used when the module has no visible() hook */
+	parts_hidden?: string[];
 	/** part ids that get an on-canvas label in this chapter (default: the chapter's `parts` with `essential: true`);
 	 *  [] = no labels. Only parts with `essential: true` and an anchor() point are labelled. */
 	labels?: string[];
@@ -233,6 +236,12 @@ export interface Axis {
 	scale?: 'none' | 'linear' | 'log';
 	/** number = tick step (short marks at every step, labels at round values); array = explicit labelled ticks */
 	ticks?: number | number[];
+	/** x axis only: category labels (markup rendered); category i sits at x = i, the range defaults to [-0.5, n - 0.5],
+	 *  ticks are the labels (wrapped, or rotated and shortened with the full text on hover when the slots are narrow),
+	 *  hover shows the label instead of a number. Points use x = i; bars use `{at: i, height}` or from / to. */
+	categories?: string[];
+	/** with categories: thin grid lines between the categories */
+	category_grid?: boolean;
 }
 /** Error bar spec: symmetric number for all points, or per point number | [lo, hi] | null. */
 export type ErrSpec = number | (number | [number, number] | null)[];
@@ -241,6 +250,9 @@ export interface Bar {
 	from: number;
 	to: number;
 	height: number;
+	/** category axes: centre of the bar (category index); with `at` the bar spans at +- width / 2 (default width 0.6) */
+	at?: number;
+	width?: number;
 	/** short name shown in the tooltip (e.g. "R1") */
 	line?: string;
 }
@@ -436,6 +448,10 @@ export interface ShowcaseHandle {
 	target?(): [number, number, number];
 	/** Optional: the page theme changed. */
 	theme?(t: Theme): void;
+	/** Optional: ids of the parts drawn in the current frame (null = all). Called after every frame(p), so it must
+	 *  follow from that frame alone. Parts not listed are greyed in the parts list; hovering them shows the tooltip but
+	 *  highlights nothing. Without this hook, chapters[].parts_hidden does the same per chapter. */
+	visible?(): string[] | null;
 	/** Optional: id of the plot on screen (null = none), called whenever it changes (a chapter's plot appears or leaves,
 	 *  the viewer switches to an `alt_of` alternate) and once on mount. Store the id only; frame(p) reads it, so the
 	 *  picture stays a function of (p, selected plot id). The runtime redraws after the call. */

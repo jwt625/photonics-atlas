@@ -137,3 +137,137 @@ Figure measurements used as checks (not plotted), Fig. 3 photograph, crop of img
   printed; (d) the three drawn orders are illustrative, labelled so.
 - Milestone / tag: no disagreement. milestones.csv row and milestone_tags.csv row (device, Al2O3, topic "phased-array
   focusing and dispersive component (AWG)") agree with the story.
+
+7. LATER-WORK CODA (research 2026-11-11; owner decision "yes" to a later-work coda, D1035 pattern of D1008 / D1104)
+Scope: two closing chapters showing the layout of the same group's 1991 demultiplexer, labelled as later work in both
+chapter lines ("Later design: ..."), every coda role / detail ("Later work (1991)"), the title note and the plot notes.
+Existing 1988 chapters, parts, plot and values unchanged; their p ranges scaled by 0.8.
+
+7.1 SOURCE
+- [V] A. R. Vellekoop, M. K. Smit, "Four-channel integrated-optic wavelength demultiplexer with weak polarization
+  dependence", J. Lightwave Technol. 9(3), 310-314 (1991-03), doi:10.1109/50.70004. Delft University of Technology.
+  Cached references/vellekoop1991/ (TU/e repository copy; text.md p.1 = cover sheet). Page map: text.md p.2 = journal
+  p.310 (abstract, Sec. I-II, Eq. (1)); p.3 = p.311 (Fig. 1 geometry, Eq. (2)-(6), Sec. IV design text); p.4 = p.312
+  (Fig. 2, Fig. 3, Table I, Sec. V fabrication, start of Sec. VI); p.5 = p.313 (Fig. 4 mask photo, Fig. 5, Fig. 6,
+  results); p.6 = p.314 (Table II, conclusions). Read from page renders page_03..06.png and the full scans
+  img_p03_1.png .. img_p06_1.png (about 2870 x 3710). No web requests; no downloads.
+- Licence: publisher PDF, repository copy; treated as licensed (no figure images in the build; values only).
+
+7.2 WHAT THE 1991 PAPER FIXES (stated / derived / assumed / withheld)
+Stated (Table I, p.312 unless noted): lambda_0 780 nm (p.311); beta_0 12.46 um^-1; delta beta 0.0274 um^-1
+(delta beta / beta_0 = 0.22 %); beta_TE - beta_TM 0.17 um^-1; w_0 1.34 um; theta_0 6.86 deg; f 123 um; R_0 1200 um;
+t 460 um; alpha_max 14.0 deg ("transceiver maximum angle"); N_p 31; s_0 300 um; Psi 177.8 deg; Theta_1,4 +-3.5 deg,
+Theta_2,3 +-1.16 deg; d_1,4 +-7.5 um, d_2,3 +-2.5 um; a_1,4 +-4.5 um, a_2,3 +-1.5 um; L_1,4 2.26 dB, L_2,3 0.25 dB;
+design crosstalk < -45 dB. Guide width w = 2 um, delta n about 0.02, minimum bend radius 1 mm (p.311). Receiver spacing
+5 um (p.311). t = 460 um chosen to bring Psi to about 180 deg and avoid crossings (p.311). Stack (p.312 Sec. V): RF
+sputtered 0.25 um Al2O3 (n about 1.69) on thermally oxidized Si, 40 nm atom-beam-milled step, 0.6 um sputtered SiO2
+cover (n about 1.46), embedded ridge. Chip 4.5 x 3.2 mm2 (p.310 abstract, p.312). Laser AlGaAs 775-785 nm, 0.25 nm/K,
+prism coupler, input and reference channels excited together by a broad beam (p.311-312). Gap fill-in over about
+70 um, effective f about 193 um (p.313). Measured (p.310, p.313, Table II p.314): channels 776.5 / 778.1 / 779.6 /
+781.2 nm, 1.55 nm spacing, TE loss 0.6 dB central / 1.2 dB outer (excl. 1.3 dB waveguide loss), TM 2.1 / 3.2 dB (text),
+crosstalk 15.4-29.7 dB TE, 13.4-22.2 dB TM; propagation loss 1.5 dB/cm, 8550 um extra length of the bent references.
+Topology (Fig. 1, p.311, schematic): transmitter waveguide, divergence region (length f from the guide end to the
+input plane), fan-out coupling section (t, straight guides at angle alpha_i to the axis), adapter section (s_0 on the
+central channel), concentric section (Psi, R_0), adapter, fan-in coupling section, convergence region, receiver
+waveguides to a cleaved end face; inset: receivers at lateral offset d and axial offset a.
+Derived (all labelled derived in the spec):
+- Fan angular step w/f = 2/123 rad = 0.9316 deg (equal steps assumed). Checks: 15 steps = 13.97 deg vs alpha_max
+  14.0 deg; pitch at the input plane = 2 um = the w in the array-function period of Eq. (5); Eq. (6)
+  f = d / (2 pi / (beta w)) x (delta beta_p / delta beta) = 5 / 0.2521 x 6.204 = 123.04 um (Table I 123 um);
+  period 2 pi / (beta_0 w) = 14.45 deg vs delta Theta_p from Eq. (4) = 14.46 deg (m = 1). Consistent.
+- Concentric radial step dR = (w/f)(f + t + s_0/2) = 0.016260 x 733 = 11.92 um, radii 1021.2-1378.8 um. Basis: Eq. (1)
+  d = (delta beta / beta) Psi (f + t + s_0/2) for a concentric array means dL / d alpha = Psi (f + t + s_0/2), i.e.
+  dR / d alpha = f + t + s_0/2 (the lateral offset a guide acquires through the fan plus half the adapter).
+  Checks: Eq. (1) gives d = 5.002 um for delta beta = 0.0274 um^-1 (stated 5 um); innermost radius 1021 um >= the
+  stated 1 mm minimum; a constant-curvature adapter of length 300 um turning 13.97 deg adds 36.4 um lateral, close to
+  s_0/2 x alpha = 36.6 um. Eq. (2) a = 2 (delta beta / beta)(f + t + s_0/3) gives 4.51 / 1.50 um for 1.5 / 0.5 channel
+  steps (Table I 4.5 / 1.5) and 18.6 um for TM (text: 18 um): the printed equations reproduce Table I.
+- Path-length step Psi x dR = 3.1032 x 11.92 = 36.99 um (not printed; spec says about 37 um, derived).
+- Plan coordinates (frame plan_um_1991, origin at the concentric centre, y up): central arc ends (+-1199.78, 23.04)
+  (polar 1.1 deg and 178.9 deg); legs splay outward 1.1 deg, direction (+-0.0192, -0.9998); adapter / fan junction
+  (+-1205.54, -276.91); input plane centre (+-1214.37, -736.82); transmitter end / focal point (+-1216.73, -859.80).
+  Outermost fan guides (left): inner (-1184.7, -741.0) to (-1065.1, -296.9); outer (-1244.1, -739.9) to
+  (-1346.6, -291.5). Arc starts: R 1021.2 at (-1021.0, 19.6), R 1378.8 at (-1378.5, 26.5). Extent about 2.76 x 2.24 mm
+  plus stubs; fits the stated 4.5 x 3.2 mm chip either way round.
+- Receiver order: channel 1 (776.5 nm) outer-arc side, channel 4 (781.2 nm) inner side, derived (longer guides
+  outside; a longer wavelength lags less across the array, the focus moves toward the shorter guides, same reasoning
+  as the 1988 Eq. (4) direction ruling); agrees with the channel 1 / channel 2 labels of the schematic Fig. 1.
+Assumed: central channel straight through the adapter; fan guides at equal angular steps (strongly supported above);
+transmitter and receiver stubs 200 um long (illustrative); drawn colour of the 780 nm light.
+Figure check (Fig. 4, p.313, mask photograph with 1 mm bar): the cached scan is two-level (0 / 255 only); the guides
+are lost, only the two dense fan regions and two small marks survive. Crop img_p05_1.png x 668-2117, y 294-1370.
+Scale bar: dark run 1144-1399 px on crop row 190 = 256 px/mm (+-2 px). Fan regions: left x 374-424, y 553-662;
+right x 987-1035, y 566-698 (one stray pixel at 696); solid areas 70-73 px = 0.27-0.28 mm long (about 110 px = 0.43 mm only when the sparse specks above
+are counted; t = 0.46 mm; coda audit CI4), 14-19 px = 0.055-0.074
+mm wide at the narrow lower end (31 x 2 um = 0.062 mm), narrow ends down; centroid separation 613.5 px = 2.40 mm, tip
+separation about 617 px = 2.41 mm vs 2.43 mm in the derived plan (input-plane centres), within the bar reading
+(about 1 %). This also shows the bar is at device scale (the mask was projected with a 4x reduction camera). The two
+small marks at crop (583, 475) and (823, 476) are symmetric about the device axis, at about the height of the
+concentric centre, 0.94 mm apart: not identified, not drawn.
+Withheld (spec withheld list, 7 coda entries): chip outline and placement; reference channels (two bent, two straight);
+access-guide routes and cleaved face; adapter guide shapes (plain band); individual radii and exact path-length step;
+receiver aberration offsets on the drawing (direction not resolved); Fig. 2 / Fig. 3 / Fig. 5 not plotted.
+
+7.3 PLOT (coda; coordinator ruling D1038: Fig. 6 main, Table II as alternates)
+- Note on content: Fig. 6 (p.313) is ONE curve, intensity (arb. units) vs lateral position at the cleaved end face
+  for lambda = 778.1 nm, TE; not four channel responses vs wavelength. Labels over it: REF (left pair), CH1-CH4
+  (dashed markers), REF (right pair). Channel 2 is lit; the left pair are the bent references (p.313).
+- later_channels (main, "Fig. 6 scan"), 1 series, basis digitized, 393 points. Source: full scan img_p05_1.png
+  (2888 x 3727, two-level), crop x 509-1189, y 2140-2752 (680 x 612 px; crop = page render box 225-525 x 945-1215 at
+  2888/1275 scale). Calibration from tick marks: x 0 / 50 / 100 um at crop x 154.5 / 397.5 / 641.5 (4.87 px/um);
+  y 1.0 / 0.5 / 0.0 at crop y 47.5 / 249.5 / 454.0, linear fit value = -0.00246 x row + 1.1158 (406.5 px per unit);
+  frame bottom (row 499) = -0.11. Curve isolated as the largest 8-connected ink component inside the frame after
+  blanking the dashed markers above row 446 (crop x 339-342, 429-433, 475-479; dash centres 38.3 / 47.1 / 56.8 /
+  66.2 um). Sampling: baseline outside the five peak windows read per column (stroke centre of the bottom run),
+  median per 1.67 um bin (1/60 of the 100 um span; the shipped flat parts are spaced 3.1-4.2 um, span 2.46-98.16 um,
+  as the plot note now says, coda audit CI2); inside each peak window, flank points read per ROW (centre of
+  each run of width <= 6 px, i.e. the stroke centre on near-vertical flanks, so no column smear and no interpolation),
+  plus per-column reads only at the feet (value < 0.05) and within 0.03 of the apex; points ordered along the curve
+  (left flank by rising value, right flank by falling value) and reduced to medians per 1/60 of the normalized
+  curve length (x span 100 um, y span 1.1), three times denser at the feet (0.004 < value < 0.08); apex reads kept
+  as their own points. Result: peaks at 19.71 / 29.36 um (0.885 / 0.872, bent REF), 47.33 um (0.776, CH2),
+  75.46 / 84.50 um (0.941 / 0.993, straight REF; the last touches the top frame, so its tip is clipped at about
+  1.0); baseline -0.003 to +0.002. Overlay check (fig6_overlay*.png in the agent scratch folder): trace on the stroke
+  everywhere; the two narrow valleys between the REF pairs are about 1-2 px (<= 0.01) above the stroke bottom.
+  Closure: CH2 / mean bent REF = 0.776 / 0.879 = -0.54 dB vs the paper's estimated 0.6 dB (p.313).
+- later_channels_te and later_channels_tm (alternates, alt_of later_channels, labels "Table II TE" / "Table II TM"):
+  x = receiver channel 1-4, y = transmitted power (dB, relative to the bent reference guides), one series per input
+  wavelength (776.5 / 778.1 / 779.6 / 781.2 nm), style points. Values copied from the printed table (verified on
+  img_p06_1.png at full resolution, TE and TM rows): TE rows [-1.2, -19.0, -21.3, -25.7], [-19.4, -0.6, -20.0, -20.6],
+  [-17.5, -16.2, -0.8, -15.4], [-29.7, -21.7, -16.0, -1.2]; TM rows [-2.8, -17.0, -21.5, -22.2],
+  [-17.6, -2.1, -16.5, -20.0], [-20.4, -17.4, -3.2, -15.9], [-18.8, -19.1, -13.4, -3.0]. 16 + 16 points, not
+  digitized. Measurement error +-0.5 dB (p.312).
+- Not used: Fig. 3 (simulated power transfer; x ticks printed 777.7 / 779.2 / 780.8 / 782.3 with the unit misprinted
+  "um"; passbands offset from the measured channels), Fig. 2 (schematic field pattern), Fig. 5 (camera images).
+- Plot chapters in the story: 2 (dispersion, later_channels) <= 3.
+- Model in the plot chapter: on the Fig. 6 scan receiver 2 glows (778.1 nm), the others stay dark; the scan's x
+  (end-face position) is not mapped onto the model because the end-face positions and routes are not drawn.
+  Receiver 2 is lit for the whole chapter at the scan's own level (CH2 / mean bent REF = 0.88, -0.54 dB); the pen only
+  draws the scan. On the Table II toggles the series under the pen sets the input wavelength and all four receivers
+  are lit at once from that row (coda audit CW1, ruling D1040).
+
+7.4 CHAPTER SCRIPT (coda) and p ranges
+- 1988 chapters scaled by 0.8: arrays [0, 0.08], bends [0.08, 0.192], lengths [0.192, 0.288], phase [0.288, 0.384],
+  beam [0.384, 0.48], focus [0.48, 0.592], dispersion [0.592, 0.696], demux [0.696, 0.8].
+- later_fans [0.8, 0.9] "Fan-in, fan-out" / "Later design: fans join the input and receiver guides to the array."
+  (11 words; coda audit CI8). The plan draws in, light diverges, runs the guides, converges.
+- later_channels [0.9, 1.0] "Four receivers" / "Later design: each wavelength lands on its own receiver guide."
+  (10 words); plot later_channels; Fig. 6: receiver 2 lit throughout; Table II: all four receivers from the row of the
+  series under the pen, never between wavelengths (D1040).
+- No numbers in lines, no new essential dims (story keeps 4), no new amber emphasis. Labels: fan-out + concentric,
+  then receivers.
+
+7.5 OPEN QUESTIONS (coda)
+- Q5: story height is 7 for 8 chapters; with 10 chapters the same scroll per chapter needs about 8.75 (runtime field,
+  left to the builder).
+- Q6: drawing the 31 concentric arcs at the derived 11.9 um step (and the equal-angle fan) rests on Eq. (1) plus
+  Table I, with four independent closures (alpha_max, Eq. (6) f, d = 5 um, bend radius >= 1 mm) and the Fig. 4 fan
+  separation. If the coordinator wants only printed values, fall back: central arc (R_0 = 1200 um) as a line plus a
+  plain band for the array, fans unchanged.
+- Q7: adapters drawn as plain bands (shapes not printed). A constant-curvature bend per guide (turning alpha_i over
+  about s_0) is consistent with the s_0/2 term of Eq. (1) but is an inference; kept out.
+- Q8 ruled (D1038): Fig. 6 scan is the main plot (digitized, 7.3), Table II TE / TM as alternates.
+- Q5-Q7 ruled (D1038): height left to the builder; derived radial step accepted; adapters stay plain bands.
+- Milestone / tag: vellekoop1991 rows (device, Al2O3, "four-channel phased-array demultiplexer, weak polarization
+  dependence", 4.5 x 3.2 mm2, 1.55 nm, 776.5-781.2 nm, TE 0.6-1.2 dB) agree with the coda. The paper's TE crosstalk
+  range is 15.4-29.7 dB (abstract and p.313 render; text.md OCR reads "29.1" on p.313, a misread).

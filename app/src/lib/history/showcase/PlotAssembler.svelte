@@ -5,7 +5,7 @@
 	// linear toggle on axes flagged `log: true`; `scale: none` hides ticks; `kind: levels` draws an energy-level diagram.
 	import LevelsDiagram from './LevelsDiagram.svelte';
 	import Rich from './Rich.svelte';
-	import { plotSeries, colorSlots, legendBlock, legendRows, stemBase, axesK, axisTicks, barK, cleanIndices, cleanPoints, equalAspect, errAt, errText, extent, fitTitle, whiskerPx, fmt, legendCorner, makeScale, markup, plainMarkup, plain, revealed, rich, startsLog, styleOf, toBars, type LogPair, type Run } from './plot';
+	import { categoriesOf, categoryAt, categoryRange, categoryTicks, plotSeries, colorSlots, legendBlock, legendRows, stemBase, axesK, axisTicks, barK, cleanIndices, cleanPoints, equalAspect, errAt, errText, extent, fitTitle, whiskerPx, fmt, legendCorner, makeScale, markup, plainMarkup, plain, revealed, rich, startsLog, styleOf, toBars, type LogPair, type Run } from './plot';
 	import type { Axis, Plot } from './types';
 
 	let {
@@ -31,7 +31,14 @@
 	const levels = $derived(plot.kind === 'levels');
 	const xAx = $derived<Axis>(plot.x ?? { label: '' });
 	const yAx = $derived<Axis>(plot.y ?? { label: '' });
-	const PAD0 = $derived({ l: yAx.scale === 'none' ? 26 : 52, r: 14, t: 26, b: 40 });
+	// category x axis: labels as ticks (wrapped, or rotated and shortened on narrow slots); the bottom margin follows them
+	const xCats = $derived(logX ? null : categoriesOf(xAx));
+	const catTicks = $derived.by(() => {
+		if (!xCats) return null;
+		const slotPx = Math.max(10, (w - 52 - 14) / Math.max(1, xCats.length));
+		return categoryTicks(xCats, slotPx, plainMarkup);
+	});
+	const PAD0 = $derived({ l: yAx.scale === 'none' ? 26 : 52, r: 14, t: 26, b: catTicks ? 26 + catTicks.height : 40 });
 	const all = $derived(plotSeries(plot));
 	const series = $derived(all.map((s) => ({ s, pts: cleanPoints(s, logX, logY), idx: cleanIndices(s, logX, logY), bars: toBars(s), style: styleOf(s) })));
 	// plots[].aspect 'equal': letterbox the data area so x and y data units have equal length (not with a log axis)
@@ -41,7 +48,7 @@
 		if (equal) box = equalAspect(xr[1] - xr[0], yr[1] - yr[0], box);
 		return { X: makeScale(xr[0], xr[1], box.x0, box.x1, logX), Y: makeScale(yr[0], yr[1], box.y1, box.y0, logY) };
 	}
-	const xr = $derived(extent(all, 0, logX, xAx.range));
+	const xr = $derived(xCats ? (xAx.range && xAx.range[1] > xAx.range[0] ? xAx.range : categoryRange(xCats.length)) : extent(all, 0, logX, xAx.range));
 	const yr = $derived(extent(all, 1, logY, yAx.range));
 	// legend: the emptiest corner of the data area (all points and bars, so it does not move while assembling); when every
 	// corner covers data (narrow plots), it moves above the data area and the plot shrinks to make room
@@ -50,10 +57,25 @@
 	const slots = $derived(colorSlots(series));
 	const noteRuns = $derived(plot.legend_note ? markup(plot.legend_note) : null);
 	const hasLegend = $derived(rows.length > 1 || (rows.length > 0 && !!noteRuns));
-	const ROWH = 15;
-	const NOTEH = $derived(noteRuns ? 15 : 0);
-	const itemW = $derived(26 + Math.max(0, ...rows.map((r) => plain(markup(series[r.first].s.name)).length)) * 6.2);
-	const LGS = $derived({ w: Math.max(itemW, noteRuns ? plain(noteRuns).length * 6.2 : 0), h: rows.length * ROWH + 2 + NOTEH });
+	// legend metrics; phones (the runtime's 700 px breakpoint) use a 1/1.5 compact legend: 10 px rows, 9 px type (the
+	// legibility floor), smaller swatches, and a 27 % cap of the panel height instead of 40 %
+	let phone = $state(false);
+	$effect(() => {
+		const mq = matchMedia('(max-width: 700px)');
+		const set = () => (phone = mq.matches);
+		set();
+		mq.addEventListener('change', set);
+		return () => mq.removeEventListener('change', set);
+	});
+	const LM = $derived(
+		phone
+			? { row: 10, cy: 4, sw: 8, bh: 5, r: 2, lw: 9, tx: 12, ty: 7.5, note: 10, noteDy: 7.5, cw: 5, colGap: 7, pad: 17, cap: 0.27, gap: 6 }
+			: { row: 15, cy: 6, sw: 12, bh: 8, r: 3, lw: 14, tx: 18, ty: 10, note: 15, noteDy: 11, cw: 6.2, colGap: 10, pad: 26, cap: 0.4, gap: 10 }
+	);
+	const ROWH = $derived(LM.row);
+	const NOTEH = $derived(noteRuns ? LM.note : 0);
+	const itemW = $derived(LM.pad + Math.max(0, ...rows.map((r) => plain(markup(series[r.first].s.name)).length)) * LM.cw);
+	const LGS = $derived({ w: Math.max(itemW, noteRuns ? plain(noteRuns).length * LM.cw : 0), h: rows.length * ROWH + 2 + NOTEH });
 	let lgOpen = $state(false);
 	const LG0 = $derived.by(() => {
 		if (!hasLegend) return null;
@@ -79,16 +101,16 @@
 	// 60 % of the panel height (legend, note and x axis together take at most 40 %) and shows "+N more"
 	const blk = $derived(
 		lgOutside
-			? legendBlock(rows.length, itemW + 10, Math.max(60, w - PAD0.l - PAD0.r), Math.max(ROWH, 0.4 * h - PAD0.b - LG_TOP - 10 - NOTEH), lgOpen)
+			? legendBlock(rows.length, itemW + LM.colGap, Math.max(60, w - PAD0.l - PAD0.r), Math.max(ROWH, LM.cap * h - PAD0.b - LG_TOP - LM.gap - NOTEH), lgOpen, ROWH)
 			: legendBlock(rows.length, itemW, itemW, Infinity)
 	);
-	const PAD = $derived(lgOutside ? { ...PAD0, t: LG_TOP + blk.h + NOTEH + 10 } : PAD0);
+	const PAD = $derived(lgOutside ? { ...PAD0, t: LG_TOP + blk.h + NOTEH + LM.gap } : PAD0);
 	const LG = $derived(lgOutside ? { x: PAD.l, y: LG_TOP } : (LG0 ?? { x: 0, y: 0 }));
-	const lgPos = (k: number) => ({ x: LG.x + Math.floor(k / Math.max(1, blk.perCol)) * (itemW + 10), y: LG.y + (k % Math.max(1, blk.perCol)) * ROWH });
+	const lgPos = (k: number) => ({ x: LG.x + Math.floor(k / Math.max(1, blk.perCol)) * (itemW + LM.colGap), y: LG.y + (k % Math.max(1, blk.perCol)) * ROWH });
 	const XY = $derived(scales(PAD));
 	const X = $derived(XY.X);
 	const Y = $derived(XY.Y);
-	const xt = $derived(axisTicks(xAx, xr[0], xr[1], logX, Math.max(3, Math.floor((X.r1 - X.r0) / 90))));
+	const xt = $derived(xCats ? { major: xCats.map((_, i) => i), minor: [] as number[] } : axisTicks(xAx, xr[0], xr[1], logX, Math.max(3, Math.floor((X.r1 - X.r0) / 90))));
 	const yt = $derived(axisTicks(yAx, yr[0], yr[1], logY, Math.max(3, Math.floor((Y.r0 - Y.r1) / 70))));
 	const ak = $derived(axesK(r));
 	const base = $derived(logY ? Y.r0 : Y.map(Math.min(Math.max(0, yr[0]), yr[1])));
@@ -152,7 +174,7 @@
 			return tip(
 				[
 					s.s.name,
-					`${xAx.label}: ${fmt(x)}${unitTxt(xAx)}${ex ? '  ' + errText(ex, eu(xAx)) : ''}`,
+					xCats ? categoryAt(xCats, x) : `${xAx.label}: ${fmt(x)}${unitTxt(xAx)}${ex ? '  ' + errText(ex, eu(xAx)) : ''}`,
 					yAx.scale === 'none' ? '' : `${yAx.label}: ${fmt(y)}${unitTxt(yAx)}${ey ? '  ' + errText(ey, eu(yAx)) : ''}`,
 					[s.s.basis, s.s.locator].filter(Boolean).join(', ')
 				].filter(Boolean),
@@ -171,7 +193,7 @@
 					return tip(
 						[
 							[s.name, B.b.line].filter(Boolean).join(': '),
-							`${xAx.label}: ${fmt(B.b.from)} to ${fmt(B.b.to)}${unitTxt(xAx)}`,
+							xCats ? categoryAt(xCats, (B.b.from + B.b.to) / 2) : `${xAx.label}: ${fmt(B.b.from)} to ${fmt(B.b.to)}${unitTxt(xAx)}`,
 							yAx.scale === 'none' ? `${yAx.label}: as drawn` : `${yAx.label}: ${fmt(B.b.height)}${unitTxt(yAx)}`,
 							[s.basis, s.locator].filter(Boolean).join(', ')
 						].filter(Boolean),
@@ -208,12 +230,25 @@
 			{:else}
 				<g class="grid" style:opacity={ak}>
 					{#each yt.major as v (v)}<line x1={X.r0} x2={X.r1} y1={Y.map(v)} y2={Y.map(v)} />{/each}
+					{#if xCats && xAx.category_grid}{#each xCats.slice(1) as _, i (i)}<line x1={X.map(i + 0.5)} x2={X.map(i + 0.5)} y1={Y.r1} y2={Y.r0} />{/each}{/if}
 				</g>
 				<line class="ax" x1={X.r0} x2={X.r1} y1={Y.r0} y2={Y.r0} stroke-dasharray={xLen} stroke-dashoffset={(1 - ak) * xLen} />
 				<line class="ax" x1={X.r0} x2={X.r0} y1={Y.r0} y2={Y.r1} stroke-dasharray={yLen} stroke-dashoffset={(1 - ak) * yLen} />
 				<g class="tk" style:opacity={ak}>
 					{#each xt.minor as v (v)}<line class="mn" x1={X.map(v)} x2={X.map(v)} y1={Y.r0} y2={Y.r0 + 3} />{/each}
-					{#each xt.major as v (v)}<line class="mj" x1={X.map(v)} x2={X.map(v)} y1={Y.r0} y2={Y.r0 + 5} /><text x={X.map(v)} y={Y.r0 + 16} text-anchor="middle">{fmt(v)}</text>{/each}
+					{#if xCats && catTicks}
+						{#each xCats as c, i (i)}
+							<line class="mj" x1={X.map(i)} x2={X.map(i)} y1={Y.r0} y2={Y.r0 + 5} />
+							{#if catTicks.mode === 'wrap'}
+								<!-- one text per line: the runs' own tspan dy would reset a per-line tspan dy -->
+								{#each catTicks.lines[i] as ln, j (j)}<text class="cat" x={X.map(i)} y={Y.r0 + 16 + j * 12} text-anchor="middle">{@render runs(markup(ln))}</text>{/each}
+							{:else}
+								<text class="cat" x={X.map(i)} y={Y.r0 + 14} text-anchor="end" transform="rotate(-40 {X.map(i)} {Y.r0 + 14})">{catTicks.lines[i][0]}{#if catTicks.cut[i]}<title>{plainMarkup(c)}</title>{/if}</text>
+							{/if}
+						{/each}
+					{:else}
+						{#each xt.major as v (v)}<line class="mj" x1={X.map(v)} x2={X.map(v)} y1={Y.r0} y2={Y.r0 + 5} /><text x={X.map(v)} y={Y.r0 + 16} text-anchor="middle">{fmt(v)}</text>{/each}
+					{/if}
 					{#each yt.minor as v (v)}<line class="mn" x1={X.r0 - 3} x2={X.r0} y1={Y.map(v)} y2={Y.map(v)} />{/each}
 					{#each yt.major as v (v)}<text x={X.r0 - 6} y={Y.map(v) + 3} text-anchor="end">{fmt(v)}</text>{/each}
 					<text class="at" x={(X.r0 + X.r1) / 2} y={h - 6} text-anchor="middle">{@render runs(title(xAx))}</text>
@@ -247,22 +282,22 @@
 							{@const q = lgPos(k)}
 							{@const c = color(rw.first)}
 							{#if rw.bars}
-								<rect class="swo" x={q.x} y={q.y + 2} width="12" height="8" style:fill={c} style:fill-opacity="0.35" />
+								<rect class="swo" x={q.x} y={q.y + LM.cy - LM.bh / 2} width={LM.sw} height={LM.bh} style:fill={c} style:fill-opacity="0.35" />
 							{:else if rw.stems}
-								<line class="stemsw" x1={q.x + 6} x2={q.x + 6} y1={q.y + 11} y2={q.y + 1} style:stroke={c} />
+								<line class="stemsw" x1={q.x + LM.sw / 2} x2={q.x + LM.sw / 2} y1={q.y + LM.row * 0.73} y2={q.y + 1} style:stroke={c} />
 							{:else if rw.dashed}
-								<line class="dash" x1={q.x} x2={q.x + 12} y1={q.y + 6} y2={q.y + 6} style:stroke={c} />
+								<line class="dash" x1={q.x} x2={q.x + LM.sw} y1={q.y + LM.cy} y2={q.y + LM.cy} style:stroke={c} />
 							{:else if rw.line && rw.dots}
-								<line class="lsw" x1={q.x} x2={q.x + 14} y1={q.y + 6} y2={q.y + 6} style:stroke={c} /><circle class="swo" cx={q.x + 7} cy={q.y + 6} r="3" style:fill={c} />
+								<line class="lsw" x1={q.x} x2={q.x + LM.lw} y1={q.y + LM.cy} y2={q.y + LM.cy} style:stroke={c} /><circle class="swo" cx={q.x + LM.lw / 2} cy={q.y + LM.cy} r={LM.r} style:fill={c} />
 							{:else if rw.dots}
-								<circle class="swo" cx={q.x + 5} cy={q.y + 6} r="3" style:fill={c} />
+								<circle class="swo" cx={q.x + LM.r + 2} cy={q.y + LM.cy} r={LM.r} style:fill={c} />
 							{:else}
-								<rect x={q.x} y={q.y + 5} width="12" height="2" style:fill={c} />
+								<rect x={q.x} y={q.y + LM.cy - 1} width={LM.sw} height="2" style:fill={c} />
 							{/if}
-							<text x={q.x + 18} y={q.y + 10}>{@render runs(markup(series[rw.first].s.name))}</text>
+							<text x={q.x + LM.tx} y={q.y + LM.ty}>{@render runs(markup(series[rw.first].s.name))}</text>
 						{/each}
 						{#if noteRuns}
-							<text class="lnote" x={LG.x} y={LG.y + (lgOutside ? blk.h : rows.length * ROWH) + 11}>{@render runs(noteRuns)}</text>
+							<text class="lnote" x={LG.x} y={LG.y + (lgOutside ? blk.h : rows.length * ROWH) + LM.noteDy}>{@render runs(noteRuns)}</text>
 						{/if}
 					</g>
 				{/if}
@@ -294,14 +329,21 @@
 	/* swatches keep a 1 px neutral outline so near-white / near-black colours stay visible in either theme */
 	.swo { stroke: color-mix(in srgb, var(--ink) 45%, transparent); stroke-width: 0.8; }
 	.lsw { stroke-width: 1.5; }
+	.tk text.cat { fill: var(--ink-2); }
 	.lnote { fill: var(--ink-3); font-size: 10px; font-style: italic; }
 	.lgmore { position: absolute; height: 15px; padding: 0 5px; font-size: 10px; z-index: 1; }
+	@media (max-width: 700px) {
+		/* compact phone legend (1/1.5): 9 px type is the floor */
+		.lg text, .lnote { font-size: 9px; }
+		.lgmore { height: 11px; padding: 0 4px; font-size: 9px; line-height: 9px; }
+	}
 	.stems line, line.stemsw { stroke-width: 1.2; }
 	.dash { stroke-dasharray: 5 4; }
 	line.dash { stroke-width: 1.5; }
 	.lg text { fill: var(--ink-2); }
 	@media (max-width: 700px) {
-		.tk text, .lg text { font-size: 11px; }
+		.tk text { font-size: 11px; }
+		.lg text, .lnote { font-size: 9px; }
 		.tk .at { font-size: 12px; }
 	}
 </style>

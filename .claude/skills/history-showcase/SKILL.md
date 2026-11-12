@@ -146,6 +146,7 @@ Runtime changes stay additive while builders work. Every new runtime option goes
   code), never a copied formula. Crowded legends: `series[].legend: false`, `legend_group`, `plots[].legend_note`.
 - Module hooks: `handle.plot?(id | null)` reports the plot on screen (incl. `alt_of` toggles) so the model can follow it;
   `pick()` may return `{id, label, detail}` for a part to add per-part caveats to its tooltip (D1102).
+- Category bar plots: `plots[].x.categories` with bars `{at: i, height}` and `x.category_grid` (D1110).
 - Also available (D1102): stems `series[].style: 'stems'` (+ `stem_base`, `stem_cap`) for line / comb spectra, error bars `series[].err` / `err_x`, equal-aspect plots `plots[].aspect: 'equal'`, drawing
   `caption` / `note` under the traced drawing, pin / unpin menu bar in the expanded view.
 

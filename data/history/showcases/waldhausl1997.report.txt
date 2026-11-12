@@ -1,0 +1,139 @@
+waldhausl1997 showcase research report (blazed grating couplers for polymer waveguides; Waldhäusl et al. 1997)
+Date: 2026-11-11. Spec: data/history/showcases/waldhausl1997.yaml (DevLog-017 section 4a schema, runtime fields per
+app/src/lib/history/showcase/types.ts). Renderer: 2.5d. Replaces little1997 as the 1990-1999 pick (D1037).
+
+1. SOURCES
+- [P] R. Waldhäusl, B. Schnabel, P. Dannberg, E.-B. Kley, A. Bräuer, W. Karthe, "Efficient coupling into polymer
+  waveguides by gratings", Appl. Opt. 36(36), 9383-9390 (1997-12-20), https://doi.org/10.1364/AO.36.009383.
+  Fraunhofer-Institute for Applied Optics and Precision Engineering and Institute of Applied Physics,
+  Friedrich-Schiller-University, Jena, Germany; received 1997-04-14, revised 1997-07-14. Cached references/waldhausl1997/
+  (manual download by the owner; paywalled, Applied Optics is not an Optica open-access title: local copy only, no
+  Optica web pages fetched). Page map: PDF page 1 = p.9383 ... PDF page 8 = p.9390; two columns per page. text.md
+  renders µ as "m" ("1-mm" = 1 µm, "20-mm" strip border width = 20 µm); every unit was re-read on the page renders
+  (the 20 mm chip waveguide is millimetres, the 20 µm strip border and 15 µm strip are micrometres).
+  Fixes: everything in the model and plots.
+- Figures: page renders references/waldhausl1997/figures/page_02-07.png; native raster figures re-rendered from
+  source.pdf at their own resolution (4.167 px/pt, about 300 dpi) into the git-ignored
+  cache/showcases/waldhausl1997/dig/ (fig1, fig3, fig4, fig5, fig7.png) for digitization.
+- Patent search (one paced web search, no fetch): no US patent of the authors on this work found (results: unrelated
+  embossing patents US 5,861,113 / 6,245,412 of other inventors). No public-domain drawing: no trace.
+- Atlases: this repo's merged component rows (9 components, 21 metrics, cmp_lit_waldhausl1997_*) read and matched
+  (section 2); eo-modulator-atlas / packaging atlas hold no 1990s polymer grating couplers (not relevant).
+- Refs 7 (Waldhäusl 1993, nonideal profile), 16 (Tamir and Peng 1977), 17 (Electron. Lett. 1997) not cached, not read.
+Web requests: 1 web search. No other network use.
+
+2. WHAT THE PAPER FIXES
+Fixed (stated):
+- Abstract (p.9383): e-beam-lithography grating couplers for polymer slab and strip waveguides; maximum input
+  efficiency 67 %; replication by embossing; all-polymer chip; blazed profile and variable depth (Gaussian-like
+  out-coupled profile); focusing blazed grating 42 % into a strip; curvature correction. No "first" claim.
+- Sec. 2 (p.9383 col. 2 - p.9384 col. 1): PMMA copolymer film (< 1 µm) on quartz, resist = waveguide, monomodal at
+  632.8 nm; thin gold or aluminium layer against charging; ZBA 23 (variable shaped beam) with dose rising stepwise
+  across each period; Ni electroplating ~300 µm + ~3 mm Cu; PMMA plates ~2 mm, 150 °C, molded under pressure; PαMS
+  spin-coated over the embossed grating (Fig. 1), n_f 1.603 at 633 nm, 450 nm film; LION LV 1 continuous path for
+  curved lines; development dissolves by dose -> blazed; depth by development time; strips: 20 µm flanking areas
+  fully dissolved -> ridge.
+- Sec. 3 (p.9384-9385): chip = input + output grating, 20 mm waveguide (Fig. 2); I0 reflected / transmitted into
+  orders; TE0 only; Eq. (1); Tamir-Peng; calculated alpha 1.16 /mm; Table 1 (Λ 800 nm, t_g 250 nm, blazed,
+  1 x 1 mm2, λ 633 nm, n_s 1.457, n_f 1.498, n_c 1, t_f 800 nm); Table 2 (41 %, 95 %, 65/35, 0.6 dB/cm, 14 %);
+  alpha 1.48 /mm; second inclination ~200 nm base; replica n_s 1.489; Table 3 (46 %, 75 %, "74/36", 1.2 dB/cm, 12 %);
+  alpha 0.75 /mm; 74 % to the cover; one-order grating Λ 250 nm, t_g 150 nm rectangular, from the substrate side,
+  ~2 mm plate, prism + immersion liquid (Fig. 3), 67 %.
+- Sec. 4 (p.9386-9387): Eq. (3)-(7); Fig. 4 alpha(z); Fig. 5 t_g(z) calculated + SEM-measured; 2 mm grating in 25
+  subareas of 80 µm; ~80 nm zero offset (Fig. 6); near-field set-up (constant-depth input grating, 20 mm waveguide,
+  CCD); Fig. 7 right edge = grating start, left edge = end; fit ~0.9.
+- Sec. 5 (p.9387-9389): Eq. (8)-(15); Δn_eff ≈ 5 x 10^-3; pair of focusing gratings 2f apart (Fig. 8), f = 4 mm,
+  diffraction limit 5.3 µm; Table 4 (40 %, 85 %, 65/35, 12 / 7 µm); alpha 1.2 /mm; strip chip 15 µm x 2 mm, focal
+  points at the strip ends (Fig. 9); Table 5 (42 %, 85 %, 70/30, 12 / 7 µm, throughput 5 / 10 %); 10 / 5 µm strips
+  < 3 % / < 1 %.
+From figures (schematic, no scale): Fig. 1 two mirrored sawtooth groups (5 teeth each), steep side outward, long
+  facet toward the chip centre; master teeth down; replica grating at the substrate-film interface, flat film top.
+  Fig. 2 corrugation on the cover side, three orders each way. Fig. 3 rectangular grating on the cover side, beam in
+  the substrate drawn about 52° from the surface pointing against the guided wave (arrow left), prism face about 45°.
+  Fig. 9 input beam upper right, output upper left, strip between the gratings.
+Derived (this story, hover only, labelled): slab TE mode with Table 1 values: single TE mode, n_eff 1.4753 (632.8 nm)
+  / 1.4753 (633 nm) [PαMS replica: 1.5421]. Eq. (1), Λ 800 nm: first-order input angle about 47° from the surface,
+  forward; orders 1-3 exist on both sides (air 46.8 / 96.2 / 154.0°, quartz 62.0 / 94.2 / 128.1° from the
+  propagation direction), matching the three orders Fig. 2 draws. Λ 250 nm with the Table 1 film: no air order, one
+  substrate order at 136.5° (backward), matching Fig. 3 and the text; with the PαMS film an air order would exist
+  (|1.542 - 2.532| < 1), so the claim depends on the (unstated) film. Output efficiency 1 - exp(-2 alpha L), L = 1 mm:
+  alpha 1.48 -> 94.8 % (printed 95 %), alpha 0.75 -> 77.7 % (printed about 75 %). Eq. (15) inverted for B with
+  2σ = 5.3 µm, f = 4 mm, n_eff 1.475: B ≈ 0.79 mm. Long facet base 800 - 200 = 600 nm.
+Assumed (presentational): drawn thicknesses / lengths in the side and plan views, plate sizes, dose staircase step
+  count, equal brightness among orders on one side, red beam colour, thinned focusing lines.
+Withheld: 13 entries in the spec (angles, exact profile, dose / development, metal layer, laser and measurement
+  method, per-order split, plate sizes and embossing pressure, one-order film / prism / liquid, focusing pattern size,
+  correction values, replica grating dims, CCD scale, figure images).
+Component rows (data/components): all 9 rows and 21 metrics agree with the spec (41 / 46 / 67 / 40 / 42 %, 800 / 250
+  / 150 / 250 nm, 1000 µm grating, 800 / 450 nm films, 0.6 / 1.2 dB/cm, 15 µm x 2 mm strip, 20 µm side bands). The
+  component locators use PDF pages (p.3 = p.9385, p.7 = p.9389); the spec uses journal pages.
+
+3. PLOT DIGITIZATION (scripts and check overlays in cache/showcases/waldhausl1997/dig/)
+- Fig. 4 (p.9386, 927 x 569 px raster). Calibration: least-squares affine (pixel <-> data) from tick marks found by
+  pixel runs: bottom x ticks 233.5 ... 900.0 px = 250 ... 2000 µm, top 235.5 ... 807.0 = 250 ... 1750 µm, left y ticks
+  34.5 ... 438.0 px = 0.95 ... 0.05 /mm (0.05 steps), right 36.5 ... 439.5 = 0.95 ... 0.05. Residual rms 0.23 / 0.40 px;
+  scan rotated about 0.15° (handled by the affine). Curve: largest connected component inside the frame (ticks
+  masked), stroke centre per column ((min + max) / 2), median per 10 µm bin: 199 points, z 8.6-1986 µm. Check:
+  maximum 0.858 /mm at 1424 µm; overlay chk4.png on the stroke along its whole length.
+- Fig. 5 (p.9386, 929 x 665 px). Calibration: bottom ticks 226.0 ... 895.5 px = 250 ... 2000 µm, top 134.0 ... 803.0 =
+  0 ... 1750 µm, left y 45.5 / 129.5 / 213.5 / 298.5 / 383.5 / 467.0 px = 300 ... 50 nm, right 49.5 ... 470.5; rms
+  0.39 / 0.33 px; rotation about 0.3°. Solid curve: component wider than 200 px, stroke centre per column, median per
+  10 µm bin: 195 points, z 25.8-1964.6 µm (the first and last ~25 µm sit under masked tick marks; dropped, not
+  filled). Squares: 9 x 9 binary opening isolates 25 squares (15-16 px boxes); value = box centre: 25 points at
+  z 43.6 ... 1962.2 µm (spacing about 80 µm = the 25 subareas). The dotted connecting line is not digitized.
+  Checks: calculated maximum 305.7 nm at 1426 µm (same z as the Fig. 4 maximum); measured maximum 222.8 nm at
+  1550 µm; calculated minus measured about 83 nm near the peak (text: about 80 nm); overlay chk5.png.
+- Fig. 7 (p.9387, 1245 x 616 px; CCD analyser screen, no numbered axes). x: frame inner edges 252.5 px (left) and
+  1211.0 px (right) mapped to 2 mm and 0 mm (text p.9387 col. 1: right edge = grating start, left edge = end).
+  y: printed background line (row 566.5) = 0, printed peak line (row 114.5) = 1 ("PEAK-Backgnd 241 Levels").
+  Masked: dotted grid rows 214-218 / 335-339 / 455-459, columns 484-489, 492-496, 732-736, 878-882, 971-975.
+  Measured trace: components >= 30 px; per column median row; one bin per CCD pixel (256 bins over the frame),
+  median per bin: 244 points (12 bins empty: masked grid columns and near-baseline fragments; dropped). Fit: dots
+  < 30 px; stray grid dots removed by a robust Gaussian residual (< 6 px, used only to reject outliers; values are
+  the dot reads), median per 1/160 frame bin: 101 points (gaps where the dotted fit lies under the trace).
+  Checks: the dotted verticals at 486.5 and 879.5 px cross the fit at half height (FWHM markers): 393 px = 105 CCD
+  pixels -> the frame spans 256.1 CCD pixels (a 256-pixel line), consistent with one bin per CCD pixel; fit centre
+  1.106 mm from the grating start ("vicinity of the center"); fit FWHM 0.82 mm on the mapped scale; overlay chk7.png.
+- Bars: Tables 2-5 and p.9385 col. 2 values (stated, not digitized).
+
+4. GEOMETRY FOR THE MODEL
+(a) Close-up (true scale, nm): quartz below; film 800 nm; grating region top about 80 nm below the waveguide
+  surface; teeth 800 nm period, 250 nm peak-to-valley, long facet 600 nm base, steep side 200 nm base (stated
+  "second inclination"); orientation per Fig. 1 (input grating: steep side on the outer side of each period, long
+  facet rising toward the waveguide; output mirrored). Remaining film under the groove bottom 800 - 80 - 250 =
+  470 nm (derived; depth taken as peak-to-valley, assumed). Metal layer: thin line, thickness not stated.
+(b) Chip side view (after Fig. 2, schematic): input grating 1 mm, film 20 mm (compress, label), output grating;
+  beam I0 at about 47° (derived) from the upper left, forward; three faint orders up and three down at the input;
+  out-coupled orders at the derived directions, cover group 65 %, substrate 35 %. Replica (after Fig. 1): PMMA plate,
+  embossed mirrored tooth groups, PαMS film over them with a flat top. Single-order coupler (after Fig. 3): film with
+  rectangular grating on top, SiO2 plate below, prism with liquid under the plate, beam rising at about 52° (as drawn)
+  against the guided direction.
+(c) Graded grating: 2 mm in 25 subareas of 80 µm; depth per subarea from the Fig. 5 measured squares (pen).
+(d) Focusing chip (after Fig. 9, isometric): strip 15 µm x 2 mm (width enlarged) between 20 µm dissolved bands;
+  curved gratings 4 mm before the start and 4 mm after the end; lines from Eq. (11) with n_eff 1.475, φc 47°, focus at
+  the strip end, width about 0.79 mm (derived), drawn thinned (every n-th of about 1250 lines per mm).
+
+5. CHAPTER SCRIPT RATIONALE (12 chapters, 3 plot chapters, height 12)
+substrate, resist (resist = waveguide is the paper's enabling point), write (dose staircase per period), develop
+(*sawtooth*: the paper's word; amber emphasis), couple ("In and out", Fig. 2 physics and Table 2 in hover), master and
+replica (Fig. 1 sequence, Table 3), one_order (the 67 % headline, Fig. 3), graded (Fig. 5 plot, Fig. 4 alternate),
+nearfield (Fig. 7 plot; model brightness follows the trace at the pen), focus (Fig. 9, the 42 % strip result),
+efficiency (bar plot of all five input efficiencies; master vs replica table alternate). Essential dims (4): Λ 800 nm,
+t_g 250 nm, waveguide 20 mm, strip width 15 µm. Physics notes: in-coupling forward at the input grating; guided power
+decays only under the output grating; cover orders brighter; one-order coupler is fed from the substrate and its
+guided wave runs back against the beam's in-plane direction; focusing: converging fan to the strip start, diverging
+fan from the strip end to the second grating, output nearly parallel.
+
+6. OPEN QUESTIONS FOR THE COORDINATOR
+1. Bar plot categories: the runtime has no categorical x labels; each coupler is its own series (legend names it,
+   bar hover gives the line text). Request category tick labels from the runtime owner, or accept the legend.
+2. Fig. 7 x axis mapped onto 0-2 mm from the text's statement about the diagram edges (supported by the 256-pixel
+   frame check). Alternative: scale none.
+3. Derived coupling angle (47°) and derived order directions drawn in the model (labelled derived in hover), and the
+   focusing lines drawn from Eq. (11) with derived n_eff / φc / B. Accept, or draw schematic angles / plain arcs.
+4. 12 chapters is long; the master / replica pair could merge into one chapter if the builder needs room.
+5. Milestone row: thread column reads "silicon photonics and microcavities" while milestone_tags.csv (audited, D991)
+   says "integrated optics (dielectric, LiNbO3, III-V)"; the build uses the tag table, but the milestone row is stale.
+   Event text, date, key figure (Fig. 3, PDF page 4 = p.9386) and tags agree with the paper.
+6. Table 3 prints the replica blazing effect "74/36" (sum 110 %, likely a misprint for 74/26); the spec uses the
+   text's "approximately 74%" and flags the printed pair.

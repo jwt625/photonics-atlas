@@ -7,11 +7,11 @@
 // Drawn from the paper only: a bare 30 deg sector of 31 concentric arcs (drawn equidistant at the stated 6 um average;
 // the true radii are not printed), a broad Gaussian He-Ne beam as a band over the input plane, convergence to the
 // focal line 1 mm beyond the output plane. No input guide, no star couplers, no receiver guides (the paper's device
-// has none; the prototype's layout is not printed, so it appears only as its stated 1.3 x 4 mm outline, empty).
+// has none). The five-channel prototype's layout is not printed: it is not drawn (its stated facts are panel text).
 // Ridge height / layer stack are withheld, so the guides are drawn flat (no extrusion).
 // Dispersion chapter: the drawn wavelength is the point under the pen of the derived Eq. (4) plot (+-1 %); the focus
 // sits at the plotted position along the focal line, drawn DRAW_X times larger (said in hover); direction derived.
-import { AXES_END, staggerK } from '../showcase/plot';
+import { AXES_END, penAt, plotProgressIn, plotWindow, stagger, staggerK } from '../showcase/plot';
 import { clamp01, ease, easeOut, lerp, seg } from '../showcase/progress';
 import type { PickInfo, ShowcaseContext, ShowcaseHandle, ShowcaseModule, Theme } from '../showcase/types';
 
@@ -72,6 +72,8 @@ interface Shot {
 	pts?: P2[];
 	/** phone variant of pts (narrow strip between the keyword and the plot) */
 	ptsPhone?: P2[];
+	/** phone variant of az */
+	azPhone?: number;
 }
 interface Cam {
 	ca: number;
@@ -96,8 +98,8 @@ const mod: ShowcaseModule = {
 
 		// ---------------------------------------------------------------------------- chapters
 		const fallback: Record<string, [number, number]> = {
-			arrays: [0, 0.1], bends: [0.1, 0.24], lengths: [0.24, 0.36], phase: [0.36, 0.48], beam: [0.48, 0.6],
-			focus: [0.6, 0.74], dispersion: [0.74, 0.87], demux: [0.87, 1]
+			arrays: [0, 0.0893], bends: [0.0893, 0.2143], lengths: [0.2143, 0.3214], phase: [0.3214, 0.4286], beam: [0.4286, 0.5357],
+			focus: [0.5357, 0.6607], dispersion: [0.6607, 0.7768], later_fans: [0.7768, 0.8884], later_channels: [0.8884, 1]
 		};
 		const C: Record<string, [number, number]> = {};
 		for (const [cid, r] of Object.entries(fallback)) C[cid] = (spec.chapters.find((c) => c.id === cid)?.p ?? r) as [number, number];
@@ -135,16 +137,9 @@ const mod: ShowcaseModule = {
 		const go = geo('other_arrays');
 		const PITCH = num(go.pitch_um, 500);
 		const COPIES = [1, -1, -2, -3].map((k) => k * PITCH); // one above the excited array, three below (Fig. 3)
-		const gp = geo('demux_prototype');
-		const pz = pair(gp.size_mm, [4, 1.3]);
-		const PW = pz[0] * 1000;
-		const PH = pz[1] * 1000;
-		// stand-ins (assumed; not in the paper): substrate rectangle and thickness, prototype placement
+		// stand-ins (assumed; not in the paper): substrate rectangle and thickness
 		const SUB: Box4 = [-420, 1720, -R1 + Math.min(...COPIES) - 210, -80];
 		const T = 160;
-		const PX0 = -500;
-		const PY1 = -1760;
-		const PROTO: Box4 = [PX0, PX0 + PW, PY1 - PH, PY1];
 		// light: Gaussian across the band (stated "Gaussian"; width not stated: drawn so the band covers the input plane)
 		const BC = (band[0] + band[1]) / 2;
 		const SIG = 0.35 * Math.abs(band[1] - band[0]);
@@ -177,10 +172,10 @@ const mod: ShowcaseModule = {
 				const b = ease(seg(q, qs, qs + 0.06));
 				return { x: lerp(0, x, b), y: lerp(0, y, b), onPen: b >= 1 };
 			}
-			if (p >= C.demux[0]) {
+			if (p >= C.dispersion[1]) {
+				// the coda follows: the focus holds at the last plotted point while the 1988 scene fades
 				const [x, y] = pen(1);
-				const b = 1 - ease(seg(cq('demux', p), 0, 0.25));
-				return { x: x * b, y: y * b, onPen: false };
+				return { x, y, onPen: false };
 			}
 			return { x: 0, y: 0, onPen: false };
 		};
@@ -288,8 +283,106 @@ const mod: ShowcaseModule = {
 		const wf = [0, 1, 2].map(() => path(gTop, 'wavefront', { fill: 'none' }));
 		const wfHit = [0, 1, 2].map(() => path(gTop, 'wavefront', { fill: 'none', stroke: 'transparent', 'stroke-width': 10 }));
 		const spots = [0, 1, 2].map((k) => mk('circle', gTop, { fill: `url(#${id}-spot)`, 'data-pick': k === 0 ? 'foci' : 'order_neighbour' }));
-		// prototype outline (empty)
-		const proto = path(root, 'demux_prototype', { fill: 'transparent' });
+
+		// ============================================================================ later design (1991) coda
+		// Vellekoop and Smit, J. Lightwave Technol. 1991: frame plan_um_1991 from the spec (origin at the concentric
+		// centre, y up), placed in the world at W91. Drawn from Table I values (derived ones say so in hover): transmitter
+		// stub, divergence region, fan-out (31 straight guides at the derived equal step), adapters as plain bands,
+		// 31 concentric arcs at the derived radial step, fan-in, convergence region, four receiver stubs. Not drawn: chip
+		// outline, reference channels, access-guide routes, adapter guide shapes, individual radii, aberration offsets.
+		const g88 = mk('g', root, { 'data-era': 'letter' });
+		for (const ch of [...root.childNodes]) if (ch !== defs && ch !== g88) g88.appendChild(ch);
+		const W91: P2 = [1500, -1500];
+		const w91 = (q: P2): P2 => [q[0] + W91[0], q[1] + W91[1]];
+		const gt = geo('later_transmitter'), gfo91 = geo('later_fan_out'), gcc = geo('later_concentric'), grc = geo('later_receivers');
+		const gad = geo('later_adapters'), gdv = geo('later_divergence');
+		const TX91: P2 = pair(gt.end, [-1216.7, -859.8]);
+		const FR91: P2 = [-TX91[0], TX91[1]]; // mirror in x (spec: fan-in and convergence mirror the input side)
+		const nrm = (v: P2): P2 => {
+			const l = Math.hypot(v[0], v[1]) || 1;
+			return [v[0] / l, v[1] / l];
+		};
+		const AX91 = nrm(pair(gfo91.axis, [0.0192, 0.9998])); // left fan axis (toward the array)
+		const NF = Math.max(3, Math.round(num(gfo91.count, 31)));
+		const KF = (NF - 1) / 2;
+		const STEP91 = num(gfo91.step_deg, 0.9316) * DEG;
+		const rf = pair(gfo91.r_um, [123, 583]);
+		const crad = (gcc.radius_um ?? {}) as Geo;
+		const RA0 = num(crad.first, 1021.2);
+		const RST = num(crad.step, 11.92);
+		const pol = pair(gcc.polar_deg, [1.1, 178.9]);
+		const DIVA = num(gdv.half_angle_deg, 13.97) * DEG;
+		const rot = (v: P2, a: number): P2 => [v[0] * Math.cos(a) - v[1] * Math.sin(a), v[0] * Math.sin(a) + v[1] * Math.cos(a)];
+		const mirror = (q: P2): P2 => [-q[0], q[1]];
+		// fan guide k (k = -KF..KF; + = outer side, away from x = 0) on the left: CCW from the axis is outward
+		const fanDir = (k: number): P2 => rot(AX91, k * STEP91);
+		const fanPt = (k: number, r: number): P2 => [TX91[0] + fanDir(k)[0] * r, TX91[1] + fanDir(k)[1] * r];
+		const RAD91 = Array.from({ length: NF }, (_, j) => RA0 + RST * j); // j = k + KF (inner arc = inner fan side)
+		const arcPt = (R: number, polDeg: number): P2 => [R * Math.cos(polDeg * DEG), R * Math.sin(polDeg * DEG)];
+		const cl = (gad.corners_left ?? []) as unknown[];
+		const ADL: P2[] = cl.length === 4 ? cl.map((q, i) => pair(q, [[-1065.1, -296.9], [-1346.6, -291.5], [-1378.5, 26.5], [-1021.0, 19.6]][i] as P2)) : [[-1065.1, -296.9], [-1346.6, -291.5], [-1378.5, 26.5], [-1021.0, 19.6]];
+		const ADR = ADL.map(mirror);
+		const TXDIR = nrm(pair(gt.direction, [-0.0192, -0.9998]));
+		const STUB = num(gt.drawn_length_um, 200);
+		const FPD = nrm(pair(grc.focal_plane_dir, [0.9998, 0.0192]));
+		const RXDIR = nrm(pair(grc.direction, [0.0192, -0.9998]));
+		const lat = (grc.lateral_um ?? {}) as Geo;
+		const RXLAT = [num(lat.channel_1, 7.5), num(lat.channel_2, 2.5), num(lat.channel_3, -2.5), num(lat.channel_4, -7.5)];
+		const RXPT = RXLAT.map((d) => [FR91[0] + d * FPD[0], FR91[1] + d * FPD[1]] as P2);
+		const W2 = num(gfo91.width_um, 2);
+		// transmitter far field (Table I: 1/e^2 half angle theta_0): relative power reaching fan guide k
+		const TH0 = (spec.parts.find((q) => q.id === 'later_transmitter')?.dims?.find((d) => String(d.label).includes('divergence'))?.value as number) || 6.86;
+		const IF = Array.from({ length: NF }, (_, j) => Math.exp(-2 * (((j - KF) * STEP91) / (TH0 * DEG)) ** 2));
+		// drawn spread over the fan and the array: Gaussian-like taper to the fan edges, every guide visibly fed (illustrative;
+		// the stated 6.86 deg far-field half angle would leave the outer guides nearly dark)
+		const SPREAD = Array.from({ length: NF }, (_, j) => 0.5 + 0.5 * Math.exp(-2 * ((j - KF) / KF) ** 2));
+		void IF;
+		const g91 = mk('g', root, { 'data-era': 'later' });
+		const lp = (pid: string | null, attrs: Record<string, string | number> = {}) => path(g91, pid, attrs);
+		const divEl = lp('later_divergence');
+		const convEl = lp('later_convergence');
+		const adEl = [lp('later_adapters'), lp('later_adapters')];
+		const txEl = lp('later_transmitter', { fill: 'none', 'stroke-linecap': 'butt' });
+		const rxEl = RXPT.map(() => lp('later_receivers', { fill: 'none', 'stroke-linecap': 'butt' }));
+		const g91f = mk('g', g91, { fill: 'none', 'stroke-linecap': 'butt' });
+		const foEl = RAD91.map(() => path(g91f, null, { fill: 'none', 'stroke-linecap': 'butt' }));
+		const fiEl = RAD91.map(() => path(g91f, null, { fill: 'none', 'stroke-linecap': 'butt' }));
+		const ccEl = RAD91.map(() => path(g91f, null, { fill: 'none', 'stroke-linecap': 'butt' }));
+		const foHit = lp('later_fan_out', { fill: 'transparent', stroke: 'none' });
+		const fiHit = lp('later_fan_in', { fill: 'transparent', stroke: 'none' });
+		const ccHit = lp('later_concentric', { fill: 'transparent', stroke: 'none' });
+		// light (later_light)
+		const gl91 = mk('g', g91, { fill: 'none', 'stroke-linecap': 'butt', 'pointer-events': 'none' });
+		const divG = mk('linearGradient', defs, { id: `${id}-div`, gradientUnits: 'userSpaceOnUse' });
+		const divStops = [0, 1].map((o) => mk('stop', divG, { offset: o, 'stop-color': '#ff3b2f', 'stop-opacity': 0 }));
+		const ltDiv = path(gl91, null, { stroke: 'none', fill: `url(#${id}-div)` });
+		const ltFo = RAD91.map(() => path(gl91, null, { fill: 'none', 'stroke-linecap': 'butt' }));
+		const ltAd = [path(gl91, null, { stroke: 'none' }), path(gl91, null, { stroke: 'none' })];
+		const ltCc = RAD91.map(() => path(gl91, null, { fill: 'none', 'stroke-linecap': 'butt' }));
+		const ltFi = RAD91.map(() => path(gl91, null, { fill: 'none', 'stroke-linecap': 'butt' }));
+		const convG = mk('linearGradient', defs, { id: `${id}-conv`, gradientUnits: 'userSpaceOnUse' });
+		const convStops = [0, 1].map((o) => mk('stop', convG, { offset: o, 'stop-color': '#ff3b2f', 'stop-opacity': 0 }));
+		const ltConv = path(gl91, null, { stroke: 'none', fill: `url(#${id}-conv)` });
+		const stubG = (k: string) => {
+			const g = mk('linearGradient', defs, { id: `${id}-${k}`, gradientUnits: 'userSpaceOnUse' });
+			return { g, s: [0, 1].map((o) => mk('stop', g, { offset: o, 'stop-color': '#ffffff', 'stop-opacity': 0 })) };
+		};
+		const txG = stubG('tx');
+		txEl.setAttribute('stroke', `url(#${id}-tx)`);
+		const rxG = RXPT.map((_, i) => stubG(`rx${i}`));
+		rxEl.forEach((e, i) => e.setAttribute('stroke', `url(#${id}-rx${i})`));
+		const rxLt = RXPT.map(() => path(gl91, null, { fill: 'none', 'stroke-linecap': 'butt' }));
+		const rxLtG = RXPT.map((_, i) => stubG(`rxl${i}`));
+		rxLt.forEach((e, i) => e.setAttribute('stroke', `url(#${id}-rxl${i})`));
+		const rxSpot = RXPT.map(() => mk('circle', gl91, { fill: `url(#${id}-spot)` }));
+		const lightHit = lp('later_light', { fill: 'transparent', stroke: 'none' });
+		let plotSel: string | null = null;
+		// plot chapter close-up: the long fan-in guides fade out above the model region (no lines through the keyword)
+		const topG = mk('linearGradient', defs, { id: `${id}-top`, gradientUnits: 'userSpaceOnUse', x1: 0, y1: 0, x2: 0, y2: 1 });
+		const topStops = [0, 1].map((o) => mk('stop', topG, { offset: o, 'stop-color': '#ffffff', 'stop-opacity': 1 }));
+		const topMask = mk('mask', defs, { id: `${id}-topm`, maskUnits: 'userSpaceOnUse', x: -1e5, y: -1e5, width: 2e5, height: 2e5 });
+		mk('rect', topMask, { x: -1e5, y: -1e5, width: 2e5, height: 2e5, fill: `url(#${id}-top)` });
+		g91.setAttribute('mask', `url(#${id}-topm)`);
 
 		// ---------------------------------------------------------------------------- camera
 		const regions = (): { full: [number, number, number, number]; plot: [number, number, number, number] } => {
@@ -298,6 +391,7 @@ const mod: ShowcaseModule = {
 			return { full: [0.04, top, 0.96, 0.94], plot: [0.03, top + 0.03, 0.46, 0.92] };
 		};
 		const FLAT: [number, number] = [0, 0];
+		const azOf = (sh: Shot) => (w < 700 && sh.azPhone != null ? sh.azPhone : sh.az);
 		const SHOTS: Record<string, Shot> = {
 			arrive: { az: -24, el: 46, box: SUB, z: [-T, 0], region: 'full' },
 			column: { az: 0, el: 90, box: SUB, z: FLAT, region: 'full' },
@@ -312,7 +406,13 @@ const mod: ShowcaseModule = {
 				pts: [onArc(R0, PSI), onArc(R1, PSI), [M[0] - 130 * E[0], M[1] - 130 * E[1]], [F0[0] + 30 * E[0] + 190 * U[0], F0[1] + 30 * E[1] + 190 * U[1]], [F0[0] + 30 * E[0] - 190 * U[0], F0[1] + 30 * E[1] - 190 * U[1]]],
 				ptsPhone: [onArc(R0, PSI), onArc(R1, PSI), [M[0] - 130 * E[0], M[1] - 130 * E[1]], [F0[0] + 30 * E[0] + 80 * U[0], F0[1] + 30 * E[1] + 80 * U[1]], [F0[0] + 30 * E[0] - 80 * U[0], F0[1] + 30 * E[1] - 80 * U[1]]]
 			},
-			demux: { az: 0, el: 90, box: [PROTO[0] - 60, Math.max(1760, PROTO[1]) + 60, PROTO[2] - 60, -60], z: FLAT, region: 'full' }
+			// later design (1991): the whole plan, then a close-up of the convergence region and the receivers beside the plot
+			later: { az: 0, el: 90, box: [W91[0] - 1460, W91[0] + 1460, W91[1] - 1090, W91[1] + 1430], z: FLAT, region: 'full' },
+			laterCh: {
+				az: 0, el: 90, azPhone: 90, box: [0, 0, 0, 0], z: FLAT, region: 'plot',
+				pts: [w91([FR91[0] - 95, FR91[1] - 150]), w91([FR91[0] + 95, FR91[1] + 135])],
+				ptsPhone: [w91([FR91[0] - 12, FR91[1] - 150]), w91([FR91[0] + 12, FR91[1] + 70])]
+			}
 		};
 		const projRaw = (az: number, el: number, x: number, y: number, z: number): P2 => {
 			const ca = Math.cos(az * DEG), sa = Math.sin(az * DEG);
@@ -332,15 +432,16 @@ const mod: ShowcaseModule = {
 			const pts3: [number, number, number][] = sp
 				? sp.map((q) => [q[0], q[1], 0])
 				: [sh.box[0], sh.box[1]].flatMap((x) => [sh.box[2], sh.box[3]].flatMap((y) => sh.z.map((z) => [x, y, z] as [number, number, number])));
+			const az0 = azOf(sh);
 			for (const v of pts3) {
-				const q = projRaw(sh.az, sh.el, ...v);
+				const q = projRaw(az0, sh.el, ...v);
 				x0 = Math.min(x0, q[0]); x1 = Math.max(x1, q[0]); y0 = Math.min(y0, q[1]); y1 = Math.max(y1, q[1]);
 			}
 			const s = Math.min(rw / Math.max(1e-6, x1 - x0), rh / Math.max(1e-6, y1 - y0));
 			let f: [number, number, number] = [(sh.box[0] + sh.box[1]) / 2, (sh.box[2] + sh.box[3]) / 2, (sh.z[0] + sh.z[1]) / 2];
 			if (sp) {
 				// top view: screen = plan rotated (and mirrored in y), its own inverse; centre of the projected extent
-				const uc = (x0 + x1) / 2, vc = (y0 + y1) / 2, ca = Math.cos(sh.az * DEG), sa = Math.sin(sh.az * DEG);
+				const uc = (x0 + x1) / 2, vc = (y0 + y1) / 2, ca = Math.cos(az0 * DEG), sa = Math.sin(az0 * DEG);
 				f = [uc * ca + vc * sa, uc * sa - vc * ca, 0];
 			}
 			return { s, f, c: [rx0 + rw / 2, ry0 + rh / 2] };
@@ -348,7 +449,7 @@ const mod: ShowcaseModule = {
 		const camBlend = (a: Shot, b: Shot, t: number): Cam => {
 			const fa = fitOf(a), fb = fitOf(b);
 			const u = clamp01(t);
-			const az = lerp(a.az, b.az, u), el = lerp(a.el, b.el, u);
+			const az = lerp(azOf(a), azOf(b), u), el = lerp(a.el, b.el, u);
 			const s = Math.exp(lerp(Math.log(fa.s), Math.log(fb.s), u));
 			const f: [number, number, number] = [lerp(fa.f[0], fb.f[0], u), lerp(fa.f[1], fb.f[1], u), lerp(fa.f[2], fb.f[2], u)];
 			const c: P2 = [lerp(fa.c[0], fb.c[0], u), lerp(fa.c[1], fb.c[1], u)];
@@ -367,8 +468,10 @@ const mod: ShowcaseModule = {
 			if (p < C.beam[0]) return camBlend(S.lengths, S.phase, ease(seg(cq('phase', p), 0, 0.3)));
 			if (p < C.focus[0]) return camBlend(S.phase, S.beam, ease(seg(cq('beam', p), 0, 0.3)));
 			if (p < C.dispersion[0]) return camBlend(S.beam, S.focus, ease(seg(cq('focus', p), 0, 0.25)));
-			if (p < C.demux[0]) return camBlend(S.focus, S.disp, ease(seg(cq('dispersion', p), 0, 0.2)));
-			return camBlend(S.disp, S.demux, ease(seg(cq('demux', p), 0, 0.35)));
+			if (p < C.later_fans[0]) return camBlend(S.focus, S.disp, ease(seg(cq('dispersion', p), 0, 0.2)));
+			// the coda opens straight from the dispersion close-up: turn back, pull out to the 1991 plan
+			if (p < C.later_channels[0]) return camBlend(S.disp, S.later, ease(seg(cq('later_fans', p), 0, 0.3)));
+			return camBlend(S.later, S.laterCh, ease(seg(cq('later_channels', p), 0, 0.22)));
 		};
 		let cam: Cam = camAt(0);
 		const P = (x: number, y: number, z = 0): P2 => [
@@ -418,14 +521,13 @@ const mod: ShowcaseModule = {
 			div: number; // light past the focal line (0 none ... 1 full length)
 			nb: number; // neighbouring orders
 			wf: number;
-			proto: number;
 			x: number; // drawn wavelength offset (%)
 			y: number; // focus position along the focal line (um, Eq. (4); + = inner side)
 			onPen: boolean;
 		}
 		const state = (p: number): State => {
 			const qa = cq('arrays', p), qb = cq('bends', p), ql = cq('lengths', p), qp = cq('phase', p), qe = cq('beam', p);
-			const qf = cq('focus', p), qd = cq('dispersion', p), qm = cq('demux', p);
+			const qf = cq('focus', p), qd = cq('dispersion', p);
 			const after = (cid: string) => p >= C[cid][1];
 			const before = (cid: string) => p < C[cid][0];
 			const arcT = RAD.map((_, i) => {
@@ -450,16 +552,15 @@ const mod: ShowcaseModule = {
 				bandX: before('beam') ? -1e4 : inCh('beam', p) ? lerp(-2400, 0, easeOut(seg(qe, 0.06, 0.34))) : 0,
 				band: before('beam') ? 0 : inCh('beam', p) ? seg(qe, 0.04, 0.1) : 1,
 				guideT: before('beam') ? 0 : inCh('beam', p) ? seg(qe, 0.34, 0.72) : 1,
-				str: before('beam') ? 0 : inCh('beam', p) ? seg(qe, 0.36, 0.42) : inCh('focus', p) ? 1 : inCh('dispersion', p) ? 1 - seg(qd, 0, 0.15) : ease(seg(qm, 0.2, 0.5)),
+				str: before('beam') ? 0 : inCh('beam', p) ? seg(qe, 0.36, 0.42) : inCh('focus', p) ? 1 : inCh('dispersion', p) ? 1 - seg(qd, 0, 0.15) : 0,
 				strX: before('beam') ? 0 : inCh('beam', p) ? lerp(0, SX1, seg(qe, 0.38, 0.86)) : SX1,
 				free: before('focus') ? 0 : inCh('focus', p) ? ease(seg(qf, 0, 0.2)) : 1,
 				focal: before('focus') ? 0 : inCh('focus', p) ? ease(seg(qf, 0.04, 0.2)) : 1,
 				fan: before('focus') ? 0 : inCh('focus', p) ? ease(seg(qf, 0.12, 0.6)) : 1,
 				spot: before('focus') ? 0 : inCh('focus', p) ? seg(qf, 0.5, 0.7) : 1,
-				div: before('focus') ? 0 : inCh('focus', p) ? ease(seg(qf, 0.62, 0.9)) : inCh('dispersion', p) ? 1 - seg(qd, 0, 0.12) : ease(seg(qm, 0.3, 0.6)),
+				div: before('focus') ? 0 : inCh('focus', p) ? ease(seg(qf, 0.62, 0.9)) : inCh('dispersion', p) ? 1 - seg(qd, 0, 0.12) : 0,
 				nb: inCh('focus', p) ? ease(seg(qf, 0.66, 0.86)) : inCh('dispersion', p) ? 1 - seg(qd, 0, 0.14) : 0,
-				wf: inCh('dispersion', p) ? ease(seg(qd, 0.04, 0.18)) : inCh('demux', p) ? 1 - seg(qm, 0, 0.2) : 0,
-				proto: inCh('demux', p) ? ease(seg(qm, 0.32, 0.6)) : 0,
+				wf: inCh('dispersion', p) ? ease(seg(qd, 0.04, 0.18)) : p >= C.dispersion[1] ? 1 : 0,
 				x: dr.x,
 				y: dr.y,
 				onPen: dr.onPen
@@ -470,6 +571,277 @@ const mod: ShowcaseModule = {
 		const pal = () => PAL[theme];
 		const on = (pid: string) => hi.includes(pid);
 		const hl = (c: string, pid: string) => (on(pid) ? mix(c, pal().accent, 0.6) : c);
+
+		// ---------------------------------------------------------------------------- later design (1991): state + draw
+		interface L91 {
+			old: number; // 1988 scene opacity
+			on: number; // 1991 plan opacity
+			tx: number; div: number; fo: number; adL: number; cc: number; adR: number; fi: number; conv: number; rx: number;
+			lDiv: number; lFo: number; lAdL: number; lCc: number; lAdR: number; lFi: number; lConv: number;
+			target: P2; // where the convergence light lands (plan um)
+			glow: number[]; // receiver glow 0..1
+			mode: 'design' | 'scan' | 'table';
+			series: number; // table: printed row reached (-1 none)
+			wpos: number; // table: continuous wavelength position, 0 = first printed wavelength ... 3 = last
+			scanPeak: number; // scan: channel-2 peak value drawn so far
+		}
+		const SCAN_WIN: [number, number] = [36, 58]; // channel-2 peak window on the Fig. 6 scan (um; markers at about 38-57)
+		// receiver-2 level on the scan: channel-2 apex over the mean bent-reference apex (digitized spec points), about 0.88
+		const SCAN_G2 = (() => {
+			const pts = ((spec.plots?.find((x) => x.id === 'later_channels')?.series?.[0]?.points ?? []) as [number, number][]).filter((q) => Array.isArray(q));
+			const mx = (a: number, b: number) => pts.reduce((m, q) => (q[0] >= a && q[0] <= b ? Math.max(m, q[1]) : m), 0);
+			const ref = (mx(14, 24) + mx(24.5, 34)) / 2;
+			const v = ref > 0 ? mx(SCAN_WIN[0], SCAN_WIN[1]) / ref : 0.88;
+			return Number.isFinite(v) && v > 0 ? Math.min(1, v) : 0.88;
+		})();
+		const l91 = (p: number): L91 => {
+			const L: L91 = { old: 1, on: 0, tx: 0, div: 0, fo: 0, adL: 0, cc: 0, adR: 0, fi: 0, conv: 0, rx: 0, lDiv: 0, lFo: 0, lAdL: 0, lCc: 0, lAdR: 0, lFi: 0, lConv: 0, target: FR91, glow: [0, 0, 0, 0], mode: 'design', series: -1, wpos: 0, scanPeak: 0 };
+			if (p < C.later_fans[0]) return L;
+			const q = p >= C.later_channels[0] ? 1 : cq('later_fans', p);
+			L.old = 1 - ease(seg(q, 0, 0.16));
+			L.on = seg(q, 0.05, 0.1);
+			const e = (a: number, b: number) => ease(seg(q, a, b));
+			L.tx = e(0.08, 0.14); L.div = e(0.12, 0.18); L.fo = e(0.16, 0.26); L.adL = e(0.24, 0.29); L.cc = e(0.28, 0.46);
+			L.adR = e(0.45, 0.5); L.fi = e(0.48, 0.56); L.conv = e(0.54, 0.6); L.rx = e(0.58, 0.64);
+			L.lDiv = seg(q, 0.64, 0.68); L.lFo = seg(q, 0.67, 0.72); L.lAdL = seg(q, 0.71, 0.74); L.lCc = seg(q, 0.73, 0.86);
+			L.lAdR = seg(q, 0.85, 0.88); L.lFi = seg(q, 0.87, 0.92); L.lConv = seg(q, 0.91, 0.96);
+			if (p < C.later_channels[0]) return L;
+			// plot chapter: main plot Table II TE; Table II TM and the Fig. 6 scan are its alternates (handle.plot)
+			const MAIN = spec.chapters.find((c) => c.id === 'later_channels')?.plot ?? 'later_channels_te';
+			const sel = plotSel && plotSel !== MAIN && spec.plots?.some((x) => x.id === plotSel && x.alt_of === MAIN) ? plotSel : MAIN;
+			const pens = penAt(spec, sel, p);
+			const pl = spec.plots?.find((x) => x.id === sel);
+			const qc = cq('later_channels', p);
+			const tIn = ease(seg(qc, 0, 0.12));
+			if (sel === 'later_channels') {
+				// Fig. 6 is an end-face scan at one fixed wavelength (778.1 nm): x is a position, not a drive. Receiver 2
+				// carries its light for the whole chapter, at the scan's own level; the pen only draws the scan.
+				L.mode = 'scan';
+				L.scanPeak = SCAN_G2;
+				L.glow = [0, SCAN_G2 * tIn, 0, 0];
+				L.target = [lerp(FR91[0], RXPT[1][0], tIn), lerp(FR91[1], RXPT[1][1], tIn)];
+			} else {
+				// Table II: one series = one input wavelength (the drive). The printed wavelength k is reached when the pen
+				// draws that row's own-channel point (x = k + 1); the focus then sits on receiver k + 1 and every receiver
+				// glows by row k's printed power. Between two printed wavelengths the focus moves linearly across the 5 um
+				// receiver pitch (derived: stated pitch and channel spacing); the glows change only at printed wavelengths.
+				L.mode = 'table';
+				const ser = (pl?.series ?? []).map((x) => (x.points ?? []) as [number, number][]);
+				const nS = Math.max(1, ser.length);
+				const win = plotWindow(spec, sel);
+				const rr = win ? plotProgressIn(win, p) : 1;
+				const at = ser.map((pts, k) => {
+					const own = Math.max(0, pts.findIndex((q) => Math.round(q[0]) === k + 1));
+					const [a, b] = stagger(AXES_END, 1, k, nS);
+					return a + ((b - a) * (own + 1)) / Math.max(1, pts.length);
+				});
+				// row reached: the latest series whose own-channel point the pen has drawn (penAt index), else the first
+				let row = 0;
+				pens.forEach((pn, k) => {
+					const own = (ser[k] ?? []).findIndex((q) => Math.round(q[0]) === k + 1);
+					if (pn && own >= 0 && pn.index >= own) row = Math.max(row, k);
+				});
+				let wv = 0;
+				for (let k = 0; k < at.length - 1; k++) if (rr >= at[k]) wv = k + clamp01((rr - at[k]) / Math.max(1e-6, at[k + 1] - at[k]));
+				wv = Math.min(row + 1, Math.max(row, wv));
+				L.series = row;
+				L.wpos = wv;
+				const pts = ser[row] ?? [];
+				for (const q of pts) {
+					const ch = Math.round(q[0]) - 1;
+					if (ch >= 0 && ch < 4) L.glow[ch] = Math.pow(10, q[1] / 10) * tIn;
+				}
+				const k0 = Math.min(3, Math.floor(wv)), k1 = Math.min(3, k0 + 1), f = wv - k0;
+				const tgt: P2 = [lerp(RXPT[k0][0], RXPT[k1][0], f), lerp(RXPT[k0][1], RXPT[k1][1], f)];
+				L.target = [lerp(FR91[0], tgt[0], tIn), lerp(FR91[1], tgt[1], tIn)];
+			}
+			return L;
+		};
+		let lastL: L91 | null = null;
+		let p91 = 0;
+		const stubGrad = (g: { g: SVGLinearGradientElement; s: SVGStopElement[] }, a: P2, b: P2, col: string, o0: number) => {
+			const A = P(...w91(a)), B = P(...w91(b));
+			g.g.setAttribute('x1', f1(A[0])); g.g.setAttribute('y1', f1(A[1]));
+			g.g.setAttribute('x2', f1(B[0])); g.g.setAttribute('y2', f1(B[1]));
+			g.s.forEach((st, i) => {
+				st.setAttribute('stop-color', col);
+				st.setAttribute('stop-opacity', i === 0 ? o0.toFixed(3) : '0');
+			});
+		};
+		const along = (a: P2, d: P2, r: number): P2 => [a[0] + d[0] * r, a[1] + d[1] * r];
+		const frame91 = (p: number) => {
+			const c = pal();
+			const L = l91(p);
+			lastL = L;
+			p91 = p;
+			show(g88, L.old);
+			if (!show(g91, L.on)) return;
+			{
+				const k = p >= C.later_channels[0] ? ease(seg(cq('later_channels', p), 0, 0.22)) : 0;
+				const rg = regions().plot;
+				const y0 = rg[1] * h;
+				topG.setAttribute('y1', f1(y0 - 10));
+				topG.setAttribute('y2', f1(y0 + Math.max(40, 0.12 * h)));
+				topStops[0].setAttribute('stop-opacity', (1 - k).toFixed(3));
+			}
+			const s = cam.s;
+			const W = (q: P2) => P(...w91(q));
+			const gwid = f1(Math.max(0.5, W2 * s));
+			const gcol = (pid: string) => (on(pid) ? c.accent : c.guide);
+			const AXR: P2 = [-AX91[0], AX91[1]];
+			// divergence / convergence regions: faint sectors (apex at the guide end, arc = input plane)
+			const sector = (apex: P2, ax: P2, t: number): P2[] => {
+				const out: P2[] = [apex];
+				for (let i = 0; i <= 16; i++) out.push(along(apex, rot(ax, lerp(-DIVA, DIVA, i / 16)), rf[0] * t));
+				return out;
+			};
+			for (const [el, apex, ax, t, pid] of [[divEl, TX91, AX91, L.div, 'later_divergence'], [convEl, FR91, AXR, L.conv, 'later_convergence']] as const) {
+				if (!show(el, t > 0.001 ? 1 : 0)) continue;
+				el.setAttribute('d', dOf(sector(apex, ax, t).map(W)));
+				el.setAttribute('fill', hl(c.white, pid));
+				el.setAttribute('fill-opacity', theme === 'light' ? '0.14' : '0.1');
+				// no outline: the paper prints no boundary of the free regions (film without a ridge)
+				el.setAttribute('stroke', on(pid) ? c.accent : 'none');
+				el.setAttribute('stroke-opacity', '0.6');
+				el.setAttribute('stroke-width', '0.8');
+			}
+			// fans: 31 straight guides; fan-out grows outward from the input plane, fan-in inward toward the convergence region
+			const fo = (k: number, t: number): [P2, P2] => [fanPt(k, rf[0]), fanPt(k, lerp(rf[0], rf[1], t))];
+			RAD91.forEach((_, j) => {
+				const k = j - KF;
+				if (show(foEl[j], L.fo > 0.001 ? c.guideA : 0)) {
+					foEl[j].setAttribute('d', dOf(fo(k, L.fo).map(W), false));
+					foEl[j].setAttribute('stroke', gcol('later_fan_out'));
+					foEl[j].setAttribute('stroke-width', gwid);
+				}
+				if (show(fiEl[j], L.fi > 0.001 ? c.guideA : 0)) {
+					const a = mirror(fanPt(k, rf[1])), b = mirror(fanPt(k, lerp(rf[1], rf[0], L.fi)));
+					fiEl[j].setAttribute('d', dOf([a, b].map(W), false));
+					fiEl[j].setAttribute('stroke', gcol('later_fan_in'));
+					fiEl[j].setAttribute('stroke-width', gwid);
+				}
+				if (show(ccEl[j], L.cc > 0.001 ? c.guideA : 0)) {
+					const R = RAD91[j];
+					const n = 90;
+					const q: P2[] = [];
+					for (let i = 0; i <= n; i++) q.push(arcPt(R, lerp(pol[1], lerp(pol[1], pol[0], L.cc), i / n)));
+					ccEl[j].setAttribute('d', dOf(q.map(W), false));
+					ccEl[j].setAttribute('stroke', gcol('later_concentric'));
+					ccEl[j].setAttribute('stroke-width', gwid);
+				}
+			});
+			const wedge = (side: 1 | -1): P2[] => {
+				const m = side === 1 ? (q: P2) => q : mirror;
+				return [fanPt(-KF, rf[0]), fanPt(-KF, rf[1]), fanPt(KF, rf[1]), fanPt(KF, rf[0])].map(m);
+			};
+			show(foHit, L.fo > 0.5 ? 1 : 0);
+			foHit.setAttribute('d', dOf(wedge(1).map(W)));
+			show(fiHit, L.fi > 0.5 ? 1 : 0);
+			fiHit.setAttribute('d', dOf(wedge(-1).map(W)));
+			if (show(ccHit, L.cc > 0.5 ? 1 : 0)) {
+				const q: P2[] = [];
+				for (let i = 0; i <= 60; i++) q.push(arcPt(RAD91[NF - 1] + 6, lerp(pol[1], pol[0], i / 60)));
+				for (let i = 0; i <= 60; i++) q.push(arcPt(RAD91[0] - 6, lerp(pol[0], pol[1], i / 60)));
+				ccHit.setAttribute('d', dOf(q.map(W)));
+			}
+			// adapters: plain bands (guide shapes not printed)
+			[[ADL, L.adL], [ADR, L.adR]].forEach(([poly, t], i) => {
+				const el = adEl[i];
+				if (!show(el, (t as number) * 1)) return;
+				el.setAttribute('d', dOf((poly as P2[]).map(W)));
+				el.setAttribute('fill', hl(c.white, 'later_adapters'));
+				el.setAttribute('fill-opacity', theme === 'light' ? '0.35' : '0.3');
+				el.setAttribute('stroke', on('later_adapters') ? c.accent : 'none');
+			});
+			// transmitter and receiver stubs: short, fading (routes not printed)
+			if (show(txEl, L.tx)) {
+				txEl.setAttribute('d', dOf([TX91, along(TX91, TXDIR, STUB)].map(W), false));
+				txEl.setAttribute('stroke-width', gwid);
+				stubGrad(txG, TX91, along(TX91, TXDIR, STUB), on('later_transmitter') ? c.accent : c.guide, c.guideA);
+			}
+			RXPT.forEach((r0, i) => {
+				if (!show(rxEl[i], L.rx)) return;
+				rxEl[i].setAttribute('d', dOf([r0, along(r0, RXDIR, STUB)].map(W), false));
+				rxEl[i].setAttribute('stroke-width', gwid);
+				stubGrad(rxG[i], r0, along(r0, RXDIR, STUB), on('later_receivers') ? c.accent : c.guide, c.guideA);
+			});
+			// light (colour illustrative: near infrared): diverges, runs the fan, the arcs, the fan-in, converges
+			const lc = on('later_light') ? mix(c.light, c.accent, 0.35) : c.light;
+			const lwid = f1(Math.max(1.1, W2 * s * 1.2));
+			if (show(ltDiv, L.lDiv > 0.001 ? c.lightA : 0)) {
+				// the input beam diffracts over the full angular width of the fan-out (all 31 guides fed)
+				ltDiv.setAttribute('d', dOf(sector(TX91, AX91, L.lDiv).map(W)));
+				const a = W(TX91), b = W(along(TX91, AX91, rf[0]));
+				divG.setAttribute('x1', f1(a[0])); divG.setAttribute('y1', f1(a[1]));
+				divG.setAttribute('x2', f1(b[0])); divG.setAttribute('y2', f1(b[1]));
+				divStops.forEach((st, i) => {
+					st.setAttribute('stop-color', lc);
+					st.setAttribute('stop-opacity', i === 0 ? '0.85' : '0.4');
+				});
+			}
+			RAD91.forEach((R, j) => {
+				const k = j - KF;
+				const o = SPREAD[j] * c.lightA;
+				if (show(ltFo[j], L.lFo > 0.001 ? o : 0)) {
+					ltFo[j].setAttribute('d', dOf(fo(k, L.lFo).map(W), false));
+					ltFo[j].setAttribute('stroke', lc);
+					ltFo[j].setAttribute('stroke-width', lwid);
+				}
+				if (show(ltCc[j], L.lCc > 0.001 ? o : 0)) {
+					const q: P2[] = [];
+					for (let i = 0; i <= 90; i++) q.push(arcPt(R, lerp(pol[1], lerp(pol[1], pol[0], L.lCc), i / 90)));
+					ltCc[j].setAttribute('d', dOf(q.map(W), false));
+					ltCc[j].setAttribute('stroke', lc);
+					ltCc[j].setAttribute('stroke-width', lwid);
+				}
+				if (show(ltFi[j], L.lFi > 0.001 ? o : 0)) {
+					const a = mirror(fanPt(k, rf[1])), b = mirror(fanPt(k, lerp(rf[1], rf[0], L.lFi)));
+					ltFi[j].setAttribute('d', dOf([a, b].map(W), false));
+					ltFi[j].setAttribute('stroke', lc);
+					ltFi[j].setAttribute('stroke-width', lwid);
+				}
+			});
+			[[ADL, L.lAdL], [ADR, L.lAdR]].forEach(([poly, t], i) => {
+				const el = ltAd[i];
+				if (!show(el, (t as number) * 0.35 * c.lightA)) return;
+				el.setAttribute('d', dOf((poly as P2[]).map(W)));
+				el.setAttribute('fill', lc);
+			});
+			// convergence: from the fan-in end (input plane of the convergence region) onto the focal point / receiver
+			if (show(ltConv, L.lConv > 0.001 ? c.lightA : 0)) {
+				const arc: P2[] = [];
+				for (let i = 0; i <= 16; i++) arc.push(along(FR91, rot(AXR, lerp(DIVA, -DIVA, i / 16)), rf[0]));
+				const t = L.lConv;
+				const poly = [...arc, ...arc.slice().reverse().map((q) => [lerp(q[0], L.target[0], t), lerp(q[1], L.target[1], t)] as P2)];
+				ltConv.setAttribute('d', dOf(poly.map(W)));
+				const a = W(along(FR91, AXR, rf[0])), b = W(L.target);
+				convG.setAttribute('x1', f1(a[0])); convG.setAttribute('y1', f1(a[1]));
+				convG.setAttribute('x2', f1(b[0])); convG.setAttribute('y2', f1(b[1]));
+				convStops[0].setAttribute('stop-color', lc);
+				convStops[1].setAttribute('stop-color', lc);
+				convStops[0].setAttribute('stop-opacity', '0.35');
+				convStops[1].setAttribute('stop-opacity', '0.7');
+				lightHit.setAttribute('d', dOf(poly.map(W)));
+				show(lightHit, t > 0.5 ? 1 : 0);
+			} else show(lightHit, 0);
+			// receivers: glow by the plotted value (plot chapter only)
+			const rs = Math.max(3, Math.min(9, 5 * s));
+			RXPT.forEach((r0, i) => {
+				const g = L.glow[i];
+				if (show(rxLt[i], g > 0.01 ? g * c.lightA : 0)) {
+					rxLt[i].setAttribute('d', dOf([r0, along(r0, RXDIR, STUB * 0.6)].map(W), false));
+					rxLt[i].setAttribute('stroke-width', f1(Math.max(1.2, W2 * s * 1.4)));
+					stubGrad(rxLtG[i], r0, along(r0, RXDIR, STUB * 0.6), lc, 1);
+				}
+				const e = rxSpot[i];
+				if (!show(e, g > 0.01 ? g : 0)) return;
+				const q = W(r0);
+				e.setAttribute('cx', f1(q[0]));
+				e.setAttribute('cy', f1(q[1]));
+				e.setAttribute('r', f1(rs));
+			});
+		};
+
 		let lastS: State | null = null;
 		const frame = (p: number) => {
 			const c = pal();
@@ -661,7 +1033,7 @@ const mod: ShowcaseModule = {
 			// region beyond the output plane (faint outline: support of the converging beams)
 			const A = onArc(R0, PSI), B = onArc(R1, PSI);
 			// phone: during the dispersion chapter the model sits in a narrow strip above the plot; focal line drawn shorter
-			const shrink = w < 700 ? 1 - 0.5 * (inCh('dispersion', p) ? ease(seg(cq('dispersion', p), 0, 0.2)) : inCh('demux', p) ? 1 - ease(seg(cq('demux', p), 0, 0.3)) : 0) : 1;
+			const shrink = w < 700 ? 1 - 0.5 * (inCh('dispersion', p) ? ease(seg(cq('dispersion', p), 0, 0.2)) : p >= C.dispersion[1] ? 1 : 0) : 1;
 			if (show(freeReg, S.free)) {
 				const fa: P2 = [F0[0] + 150 * shrink * U[0], F0[1] + 150 * shrink * U[1]], fb: P2 = [F0[0] - 150 * shrink * U[0], F0[1] - 150 * shrink * U[1]];
 				freeReg.setAttribute('d', dOf([P(...A), P(...fa), P(...fb), P(...B)]));
@@ -773,13 +1145,7 @@ const mod: ShowcaseModule = {
 				e.setAttribute('stroke-width', '1.2');
 			});
 
-			// demultiplexer prototype: stated 1.3 x 4 mm outline only, interior empty (layout not printed)
-			if (show(proto, S.proto)) {
-				const [x0, x1, y0, y1] = PROTO;
-				proto.setAttribute('d', dOf([P(x0, y1), P(x1, y1), P(x1, y0), P(x0, y0)]));
-				proto.setAttribute('stroke', on('demux_prototype') ? c.accent : c.ink);
-				proto.setAttribute('stroke-width', on('demux_prototype') ? '1.6' : '1.2');
-			}
+			frame91(p);
 		};
 
 		// ---------------------------------------------------------------------------- picking
@@ -787,6 +1153,24 @@ const mod: ShowcaseModule = {
 		const umTxt = (v: number) => `${v >= 0 ? '+' : '−'}${Math.abs(v).toFixed(1)} µm`;
 		const lenOf = (r: number) => Math.round(PSI * r);
 		const INFO = (pid: string): PickInfo | null => {
+			if (pid === 'later_light') {
+				const L = lastL;
+				const part = spec.parts.find((q) => q.id === 'later_light');
+				const lines = [LATER, 'Drawn colour illustrative (near infrared, about 780 nm); spread over the fan and the array drawn with an illustrative Gaussian-like taper so every guide shows light.'];
+				if (L?.mode === 'scan')
+					lines.push(`Fig. 6 scan at one wavelength, 778.1 nm, TE: receiver 2 is lit throughout at the scan's level (${L.scanPeak.toFixed(2)} of the bent reference guides, about ${(10 * Math.log10(L.scanPeak)).toFixed(1)} dB); receivers 1, 3, 4 stay dark. The scan's end-face positions are not mapped onto the model.`);
+				else if (L?.mode === 'table') {
+					const lam = [776.5, 778.1, 779.6, 781.2];
+					const k0 = Math.min(3, Math.floor(L.wpos)), f = L.wpos - k0, k1 = Math.min(3, k0 + 1);
+					const at = f < 0.03 || k0 === k1;
+					lines.push(
+						at
+							? `Table II: input ${lam[k0].toFixed(1)} nm (printed); focus on receiver ${k0 + 1}; all four receivers glow by this row's power (dB as a power ratio).`
+							: `Between printed wavelengths (about ${lerp(lam[k0], lam[k1], f).toFixed(1)} nm): focus position between printed wavelengths derived from the stated dispersion (5 µm receiver pitch per channel step); glows hold the ${lam[L.series].toFixed(1)} nm row until the next printed wavelength.`
+					);
+				}
+				return { id: pid, label: part?.name ?? 'light', detail: lines };
+			}
 			if (pid === 'inner_guide')
 				return {
 					id: pid,
@@ -849,6 +1233,7 @@ const mod: ShowcaseModule = {
 			return null;
 		};
 
+		const LATER = 'Later work: the 1991 layout of Vellekoop and Smit (J. Lightwave Technol. 1991, Fig. 1, Table I), not the 1988 device.';
 		/** per-part caveats shown under the role in the part tooltip */
 		const PART_DETAIL: Record<string, string[]> = {
 			array: ['Drawn equidistant at the stated 6 µm average; the individual radii (Eq. (3)) are not printed.'],
@@ -857,7 +1242,14 @@ const mod: ShowcaseModule = {
 			straight_light: ['Fraction not stated; drawn faint.'],
 			foci: ['Count and relative strength of the orders not stated; drawn: the central focus and one neighbour each side, 66 µm apart.'],
 			wavefront: ['Direction derived, not stated: a longer wavelength moves the focus toward the inner, smaller-radius guides.'],
-			demux_prototype: ['Interior empty: its guide count, radii, receiver guides and the five wavelengths are not printed.']
+			later_transmitter: [LATER, 'Stub length illustrative; the access-guide route is not printed.'],
+			later_divergence: [LATER, 'Outline = the sector the fan spans; the region edges are not printed.'],
+			later_fan_out: [LATER, 'Equal angular step 0.93° derived (guide width / f = 2 / 123 µm); 15 steps match the printed 14.0°.'],
+			later_adapters: [LATER, 'Plain band: only the central length s_{0} = 300 µm is printed, not the guide shapes.'],
+			later_concentric: [LATER, 'Radial step ≈ 11.9 µm derived from Eq. (1) and Table I; drawn equidistant, the individual radii are not printed.'],
+			later_fan_in: [LATER, 'Mirror of the fan-out (equal angular step derived).'],
+			later_convergence: [LATER, 'Outline = the sector the fan spans; the region edges are not printed.'],
+			later_receivers: [LATER, 'Order derived: channel 1 (776.5 nm) on the outer-arc side; also the order at the cleaved face, bent reference next to channel 1 (Fig. 1, Fig. 6). Aberration offsets (±1.5 / ±4.5 µm) not drawn; stub length illustrative.']
 		};
 
 		return {
@@ -893,15 +1285,21 @@ const mod: ShowcaseModule = {
 					const o = onArc(185, PSI * 0.5);
 					return P(o[0], o[1]);
 				}
-				if (pid === 'demux_prototype') {
-					if (S.proto < 0.9) return null;
-					return P(PROTO[0], PROTO[3] + 110);
+				const L = lastL;
+				if (L && L.on > 0.5) {
+					if (pid === 'later_fan_out' && L.fo > 0.95) return P(...w91(fanPt(KF, (rf[0] + rf[1]) / 2)));
+					if (pid === 'later_concentric' && L.cc > 0.95) return P(...w91([0, RAD91[NF - 1] + 10]));
+					// phones: the receiver strip is too thin for a label beside the lit receiver
+					if (pid === 'later_receivers' && L.rx > 0.95) return w < 700 && p91 >= C.later_channels[0] ? null : P(...w91(along(RXPT[0], RXDIR, 70)));
 				}
 				if (pid === 'focal_plane') {
 					if (S.focal < 0.9) return null;
 					return P(F0[0] + FHALF * U[0], F0[1] + FHALF * U[1]);
 				}
 				return null;
+			},
+			plot(pid) {
+				plotSel = pid;
 			},
 			resize(nw, nh) {
 				w = Math.max(1, nw);
