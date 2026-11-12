@@ -1,0 +1,214 @@
+maiman1960 showcase audit (fresh context, read-only, 2026-11-11)
+================================================================
+
+Scope: data/history/showcases/maiman1960.yaml (+ report), app/src/lib/history/showcases/maiman1960.ts,
+app/static/data/showcases/maiman1960.json (built spec), sources in references/maiman1960/ and
+cache/showcases/maiman1960/, drawing + trace, screenshots ruby_build/ (desk, phone, light, i1-i7).
+Method: Nature p.493-494 re-rendered at 472 dpi (pymupdf) and read from the page images; patent text pages
+re-OCRed (tesseract) and the column:line numbers read from the page images; Smith 1984 and GE catalog read from
+the text layer and page images; Fig. 1 and Fig. 2 re-digitized independently from the 472 dpi render (numpy,
+scripts in the session scratchpad ruby_audit/dig*.py). Nothing run against the app; no network.
+
+VERDICT: NO-GO as is, GO after 3 small fixes (W1-W3). Sources, quotes, locators, digitization and the 3D
+topology are right; the wrong items are one YAML parse bug visible on the canvas and two physics presentation
+errors (levels energy axis, lasing after the flash has died).
+
+Counts: wrong 3, imprecise 9, missing 2, ok 15.
+
+----------------------------------------------------------------------------------------------------------
+WRONG
+----------------------------------------------------------------------------------------------------------
+
+W1. Spectrum y-axis label broken by YAML parsing
+  file:     data/history/showcases/maiman1960.yaml line 226 (plots.spectrum.y)
+  current:  y: {label: Emission (relative, as drawn), unit: arb., ...}
+            The unquoted comma ends the flow-mapping value: built JSON has
+            "y": {"label": "Emission (relative", "as drawn)": null, "unit": "arb.", ...}
+            (app/static/data/showcases/maiman1960.json). On the canvas the axis title reads
+            "Emission (relative (arb.)" (desk_p090.png, desk_p100.png, phone_p100.png, i4/i5).
+  proposed: y: {label: "Emission (relative, as drawn)", unit: arb., log: false, range: [0, 1]}
+            (scan of the whole built JSON: this is the only odd key / null in the file).
+  evidence: JSON key scan (only ODD KEY = plots[0].y 'as drawn)'); screenshots above.
+
+W2. Levels diagram: drawn (schematic) heights shown on a numeric energy axis
+  file:     maiman1960.yaml lines 256-262 (plots.levels y ticks, 2E 13.07, 2Abar 14.25, Ebar 12.15);
+            maiman1960.ts buildLevels lines 899-1036 (tick labels 0-20, "10^3 cm^-1", lines at those energies)
+  current:  2E at 13.07, E-bar at 12.15, 2A-bar at 14.25 x 10^3 cm^-1 on a labelled 0-20 axis, three separate
+            lines. Read literally: R1 from E-bar = 12.15 x 10^3 cm^-1 = 823 nm, contradicting "694.3 nm" one
+            chapter later; the 29 cm^-1 bracket spans about 2.1 x 10^3 cm^-1 on the same axis; three lines read
+            as three levels, while E-bar / 2A-bar are the two components of 2E drawn expanded (Nature: "a sharp
+            doublet the components of which at 300 K are at 6943 A and 6929 A").
+            The digitization itself is correct (see OK-6): Maiman's Fig. 1 is a schematic.
+  proposed: either (a) keep the digitized values but drop the numeric tick labels on the levels axis (axis
+            "Energy, schematic as drawn in Fig. 1") and show the plot note; or (b) put 2E at 14.40 x 10^3 cm^-1
+            (basis stated: 1/6943 A = 14,403 cm^-1; 1/6929 A = 14,432 cm^-1, difference 29 cm^-1 = the printed
+            split) and draw E-bar / 2A-bar as a labelled expanded inset ("29 cm^-1"). Fix before switching to the
+            runtime LevelsDiagram (I6): its hover prints "Energy: 13.07 10^3 cm^-1" for 2E.
+  evidence: Nature p.493 col. 2 (render); my re-measure of Fig. 1: 2E 13.07, 2A-bar 14.27, E-bar 12.17.
+
+W3. Laser output shown after the flash has died; steady beam with the lamp at 8 %
+  file:     app/src/lib/history/showcases/maiman1960.ts lines 676-688 (flashOn, pump, lasing) and 720-738 (beam)
+  current:  flash rises at flash-chapter q 0.10-0.18, holds to 0.45, then decays exp(-4.5 (q-0.45)); at the start
+            of the pulse chapter (p = 0.78) flashOn = exp(-0.55 x 4.5) = 0.084, and it stays 0.084 to p = 1.0
+            (seg() clamps). Lasing glow and beam start only in the pulse chapter (q >= 0.05 / 0.10), i.e. after
+            the pump is ~92 % gone, and the beam then stays on as a steady line through the spectrum chapter.
+            Free-running flash-pumped ruby lases while the flash holds the 2E population above threshold; output
+            starts during the flash and ends soon after the pump falls (stored inversion is used up by the
+            stimulated emission). Order flash -> output is right; the gap and the steady end state are not.
+  proposed: start the beam while flashOn is still high (e.g. move the decay of the flash into the pulse chapter:
+            flash held through pulse q < ~0.5, beam grows from q 0.1, both decay together), and at the end either
+            fade beam + lamp out together or keep both at their "on" level as an explicit frozen frame. Keep the
+            chapter wording ("Intense flash ..." then "694.3 nm").
+  evidence: code above; desk_pulse_p084.png / desk_p090.png / desk_p100.png (beam on, lamp faint).
+
+----------------------------------------------------------------------------------------------------------
+IMPRECISE
+----------------------------------------------------------------------------------------------------------
+
+I1. Spectrum panels a and b overlaid on one y axis; the caveat never reaches the viewer
+  file:     maiman1960.yaml lines 219-247 (plots.spectrum note, series a/b); runtime PlotAssembler.svelte
+  current:  both R1 bars normalised to 1.0 on one axis; Fig. 2 prints (a) and (b) as separate panels with no
+            y scale. The spec note ("does not state how the two panels compare") is not rendered anywhere
+            (PlotAssembler / PartPanel have no plot.note output; grep). Viewer reads equal peak emission at low
+            and high excitation.
+  proposed: draw a above b with separate baselines as printed (or offset b), y label "relative, each panel as
+            drawn"; surface plots[].note in the plot hover or the Sources panel.
+  evidence: page render p.494 Fig. 2; desk_p100.png.
+
+I2. Fig. 2b R2 height and note wording
+  file:     maiman1960.yaml line 224 and series b R2 (height 0.022)
+  current:  "printed as a thin filled sliver; its height is the printed stroke thickness"; height 0.022.
+  proposed: height 0.025 (range 0.024-0.027); note "printed as a flat filled bar about 3 stroke widths tall".
+  evidence: 472 dpi render: sliver filled from y = 2626-2628 to the baseline top 2644 (16-18 px) vs stroke
+            about 5 px; panel-a R1 = 670 px (top 1240, baseline top 1910). Width: 6927.63-6930.45 A (spec
+            6927.64-6930.41), fine.
+
+I3. Pump arrow ends at the 4F2 band bottom
+  file:     maiman1960.ts line 1060-1073 (pump arrow uses energy[0] = 15.3); yaml line 266
+  current:  arrow 0 -> 15.3 x 10^3 cm^-1 (= 654 nm, red light); text says "about 5500 A" = 18.2 x 10^3 cm^-1.
+            Fig. 1 also stops the arrow at the band bottom (schematic).
+  proposed: end the pump arrow at 18.2 x 10^3 cm^-1 inside the band (basis stated, Nature p.493 col. 2), or
+            keep as drawn and label it "as drawn" in the tooltip. Coupled with W2 option choice.
+  evidence: Nature p.493 col. 2; Fig. 1 render.
+
+I4. Lamp tube diameter assumed although a source image exists
+  file:     maiman1960.yaml line 97 (tube_diameter 3.5, basis assumed) and dims line "tube diameter"
+  current:  3.5 mm tube, pitch (25.4 - 3.5)/3 = 7.3 mm, gaps 3.8 mm: an open, thin coil.
+  proposed: the cached GE catalog p.13 has a photo of the FT 506 (3-turn helix in a T-10 bulb). Scaled by the
+            catalog width (1 in) and cross-checked against the T-10 bulb (1.25 in), the tube is about
+            5.5-6.5 mm and the coils nearly touch (pitch about 8 mm). Use tube_diameter about 6 mm,
+            basis "figure (GE catalog p.13 FT 506 photo, scaled to the 1 in source width; estimate, +-1 mm)".
+            Inner clear diameter then about 13 mm, still clears the 10 mm rod.
+  evidence: cache/showcases/maiman1960/GE_Flashtubes.pdf page 1 (printed p.13), FT 506 photo; coil about
+            190 px wide, front tube 45-50 px, bulb about 260 px at 300 dpi (eyeball measurement).
+
+I5. Helix ends drawn as closed glass spheres with the leads attached to them
+  file:     maiman1960.ts lines 328-346 (capA / capB, capRimA / capRimB)
+  current:  rounded caps at both helix ends; leads start on the caps.
+  proposed: acceptable as a schematic termination, but say so: add to withheld "Lamp terminals" reason
+            "helix ends drawn as plain rounded ends; the catalog photo shows the tube continuing into straight
+            legs with electrode bulbs, arrangement in the laser head not given". No geometry change needed.
+  evidence: GE p.13 FT 506 photo; spec withheld "Lamp terminals and trigger electrode".
+
+I6. Levels workaround is stale; the module draws its own canvas text
+  file:     maiman1960.yaml lines 209-211 (comment + plot: scene); maiman1960.ts lines 6-8, 481-483, 818-1089
+  current:  showcase/LevelsDiagram.svelte and levels.ts now exist (modified 14:29-14:33, after maiman1960.ts
+            14:23 and the screenshots 14:23); the module still draws plots.levels itself, with text on the canvas
+            (contrary to types.ts "Draw no text yourself") and without hover values / locators.
+  proposed: after W2, set chapter levels `plot: levels`, delete the YAML comment and buildLevels, re-shoot.
+  evidence: file mtimes; types.ts lines 50-51; grep of ShowcaseStory plots filter (accepts kind: levels).
+
+I7. On-canvas text budget (D983): chapter lines carry non-essential numbers and a duplicate
+  file:     maiman1960.yaml lines 204-213 (chapters[].line)
+  current:  "one has a 1 mm hole" (output_hole dims essential: false); "Light near 5500 A" (pump_light dim
+            essential: false); "GE FT-506" (model, essential: false); "Stimulated emission at 6943 A ..." under
+            the keyword "694.3 nm" (same number twice, two units); "16 May 1960".
+  proposed: either mark the kept numbers essential (hole 1 mm and the date are defensible) or trim, e.g.
+            mirrors: "Polished flat and parallel, silvered; a 1 mm hole in one." (mark hole dim essential);
+            lamp: "Xenon flash lamp; the rod sits on its axis.";
+            levels: "Green light lifts Cr3+ to 4F2; it relaxes to 2E." (5500 A stays in the tooltip);
+            pulse: "Stimulated emission leaves through the hole.".
+  evidence: D983 (DevLog-017); spec dims essential flags.
+
+I8. Rod label shows "10 mm" only; length never appears; which dimension is unstated
+  file:     runtime ShowcaseStory.svelte dimText (lines 205-211); screenshots desk_p002/p015/p060/p075
+  current:  screenshots show "Ruby rod 10 mm" in every chapter, though both diameter and length are essential
+            and the rod chapter action promises "dims 10 mm x 20 mm". Current dimText (modified 14:30, after the
+            screenshots) would print "10 mm x 20 mm": unverified, and still unlabelled.
+  proposed: label "dia. 10 mm x 20 mm" (or a diameter sign); re-shoot to confirm.
+  evidence: screenshots; ShowcaseStory.svelte mtime 14:30 vs screenshots 14:23.
+
+I9. Beam colour not from the spec look
+  file:     maiman1960.ts lines 435, 740 (beam core '#ff4a3a'), flare texture lines 451-455 (white core)
+  current:  core '#ff4a3a' (29 % green, reads orange-red in light_p084 / desk_pulse_p084); spec look '#ff1a1a'.
+  proposed: use look('output_beam').color for the core; keep the white bloom only at the hole if wanted.
+            694.3 nm is outside sRGB and maps to near-pure red.
+  evidence: spec line 168; screenshots.
+
+----------------------------------------------------------------------------------------------------------
+MISSING
+----------------------------------------------------------------------------------------------------------
+
+M1. Source for the blue-white flash colour
+  file:     maiman1960.yaml flash_lamp (line 96 look, detail)
+  current:  emissive "#cfe0ff" with no basis.
+  proposed: cite GE catalog p.13: "A flashtube produces a brilliant flash of blue-white light"; add to the
+            flash_lamp detail / ge_ft_catalog used_for.
+  evidence: GE_Flashtubes.pdf page 1 (printed p.13), first column.
+
+M2. GE p.13 FT 506 photo not listed as corroboration
+  file:     maiman1960.yaml flash_lamp dims (turns, helix width / height); references ge_ft_catalog used_for
+  current:  turns = 3 rests on the HRL caption only; width = outer diameter and height = axial length is an
+            interpretation of "Approx. Source Dimensions" not stated in the catalog.
+  proposed: add "GE catalog p.13 FT 506 photo: 3-turn helix, width about equal to height" to the turns and
+            helix dims locators (supports both the count and the width/height reading).
+  evidence: GE p.13 photo (3 turns; coil about 0.9-1.0 in wide by about 1 in tall).
+
+----------------------------------------------------------------------------------------------------------
+OK (verified)
+----------------------------------------------------------------------------------------------------------
+
+OK-1  Nature quotes and locators (p.493 col. 2, read on the render): "the active material used was ruby
+      (chromium in corundum)"; "irradiated with energy at a wave-length of about 5500 A., chromium ions are
+      excited to the 4F2 state"; "at 300 K. are at 6943 A. and 6929 A."; "ruby crystal of 1-cm. dimensions
+      coated on two parallel faces with silver was irradiated by a high-power flash lamp"; "stimulated optical
+      emission at a wave-length of 6943 A."; inversion wording (2E population greater than the ground state =
+      negative temperature). Fig. 2b and the "(~10^8) reduction in line width" sentence on p.494.
+OK-2  Patent text and column:line locators (page images): col. 2:30-37 (cylindrical ruby, helical flash lamp,
+      green and blue absorbed 2:33-35, hole 2:35-37); col. 2:62-64 FIG. 4 caption; col. 4:68-70 (rod 26
+      coaxially within helical tube 28); col. 4:74-75 (10 percent reflection, "reptitive" 4:72); col. 5:1-3
+      (opening 32, beam 34); 5:3-4 (power supply 36); 5:4-7 (cylinder 38). Front matter: Ser. No. 102,698
+      filed 1961-04-13, this application 1965-11-29 Ser. No. 516,830, granted 1967-11-14, assignor Hughes.
+OK-3  Smith 1984 / HRL excerpt: May 16, 1960; "pink ruby cylinder 1-cm-diameter by 2-cm-long"; ground and
+      polished flat and parallel; evaporated silver; 1-mm hole; GE FT-506 xenon flash lamp; polished aluminum
+      cylinder; "The first laser demonstrated both spectral and beam narrowing ..."; p.1 caption "three-ring
+      coiled flashlamp"; PDF creation 2010-03-25; QE-20 No. 6, June 1984.
+OK-4  GE catalog p.14 FT 506 row: 900 V, 1,000 watt-sec, 40,000 lumen-sec, T-10 (heat resistant glass bulb),
+      Radio Octal, width 1 in, height 1 in, L.C.L. 2 1/8, M.O.L. 4 7/8, 1 per min.
+OK-5  FIG. 4 crop and numerals (sheet 2 of 5): 26, 28, 30, 32, 34, 36, 38 and the unnumbered leads; trace JSON
+      identical in data/ and static/, 22 elements with the verbatim names; FIG. 5 opening 46 on the axis.
+OK-6  Fig. 1 digitization (re-measured, fit E = 50.968 - 0.051319 y, residuals <= 0.16): 4F2 band 15.2-19.25
+      (spec 15.3-19.2), 2E 13.07 (13.07), 2A-bar 14.27 (14.25), E-bar 12.17 (12.15), 4A2 -0.48 (-0.4).
+      Arrows as printed: pump up, 4F2 -> 2E, unlabelled 2E -> 4A2, R2 from 2A-bar, R1 from E-bar; 29 cm^-1 label.
+OK-7  Fig. 2 digitization (re-fit on 22 panel-b ticks: x = 659.56 + 40.438 (lambda - 6925), max residual
+      0.05 A; spec 659.2 + 40.44): a R2 6927.43-6930.53 (spec 6927.44-6930.58), a R1 6940.91-6945.02
+      (6940.90-6945.02), b R1 6942.42-6943.48 (6942.43-6943.49); heights a R2 0.504 (0.50), b R1 1.00.
+OK-8  Topology in code and screenshots: rod (r 5, L 20) coaxial inside the helix (centreline r 10.95, clear
+      r 9.2, 3 turns, 25.4 mm span) inside the cut-away cylinder (ri 17); silver discs on both faces
+      (x = +-10.1); 1 mm hole centred in the +x disc; beam origin x = 10.2 along +x through the hole;
+      ruby visible through the hole (desk_p030). Both helix ends on the same side, as in FIG. 4.
+OK-9  Withheld items not drawn: no rod mount, no cylinder end caps, no FT-506 bulb / octal base, no trigger
+      electrode, power supply a plain schematic box, one lead per helix end to the box sides (FIG. 4 topology).
+OK-10 Assumed values flagged "assumed" in the side panel (i2_panel.png: tube diameter); withheld list shown in
+      the Sources panel (PartPanel.svelte).
+OK-11 "First" claims: title "First laser" and intro line "First laser action 16 May 1960" rest on Smith 1984
+      ("The first laser was a simple device"; "first laser action in ruby on May 16, 1960"); the Nature
+      letter is not credited with a "first" on the canvas.
+OK-12 Chapter physics wording: pumping into 4F2, relaxation to 2E, "2E population exceeds the ground state"
+      under "Negative temperature", R1 6943 A / R2 6929 A, "R1 narrows and dominates" matches Fig. 2a vs 2b.
+OK-13 Colours: xenon flash blue-white (with M1 citation), rod pink (Smith "pink ruby"), rod red glow under
+      pump (R-line fluorescence), pump effect pale blue-white, levels pump arrow green (5500 A), beam red.
+OK-14 Smith ref and Nature cite (Vol. 187, pp. 493-494, 1960-08-06; byline Hughes Research Laboratories,
+      Malibu) match the page headers.
+OK-15 Reflector role sentence combines Smith (polished aluminum cylinder) and patent col. 5:4-7 (reflects
+      pumping energy repeatedly through the rod): supported.

@@ -1,0 +1,328 @@
+# Showcase spec: first laser (ruby), Maiman 1960. Schema: DevLog-017 section 4a.
+# Research 2026-11-11. Bases: stated = Maiman, Nature text or US 3,353,115 text; figure = measured from a printed
+# figure; ref = other source (URL in references); assumed = rendering value only, no source (tooltip says "assumed").
+# Coordinates: mm, x = rod axis, +x = output end (hole, beam). Origin = rod centre.
+id: maiman1960
+title: First laser
+tagline: Flash-pumped ruby emits stimulated light at 6943 Å, Hughes 1960
+renderer: 3d
+height: 8                      # runtime: track length in viewport heights
+
+parts:
+  - id: ruby_rod
+    name: Ruby rod
+    role: Active medium, chromium in corundum, pumped from the side
+    detail: >-
+      Nature: "a ruby crystal of 1-cm. dimensions coated on two parallel faces with silver was irradiated by a
+      high-power flash lamp". G. F. Smith (1984): "a pink ruby cylinder 1-cm-diameter by 2-cm-long. Both ends were
+      ground and polished flat and parallel". Patent: "a cylindrical ruby (Al2O3 doped with Cr2O3) rod".
+      Chromium concentration and crystal-axis orientation are not given in the sources reached.
+    quote: "the active material used was ruby (chromium in corundum)"
+    locator: "Maiman, Nature 1960, p.493 col. 2"
+    material: ruby (Cr3+ in Al2O3)
+    look: {color: "#e0607e", opacity: 0.78, metal: 0.0, rough: 0.12, emissive: "#ff2a2a"}
+    geometry: {type: cylinder, axis: x, diameter: 10, length: 20}
+    dims:
+      - {label: diameter, label_short: dia., value: 10, unit: mm, basis: ref, locator: "Smith 1984 (HRL excerpt 'Maiman's Work' p.2): '1-cm-diameter by 2-cm-long'", essential: true}
+      - {label: length, label_short: length, value: 20, unit: mm, basis: ref, locator: "Smith 1984 (HRL excerpt 'Maiman's Work' p.2)", essential: true}
+      - {label: size (letter wording), value: 1, unit: cm, basis: stated, locator: "Maiman, Nature 1960, p.493 col. 2: 'ruby crystal of 1-cm. dimensions'", essential: false}
+    essential: true
+
+  - id: silver_back
+    name: Silver coating (closed end)
+    role: Rear mirror, evaporated silver on the polished end face
+    detail: >-
+      Both end faces carry silver (Nature: "coated on two parallel faces with silver"; Smith 1984: "coated with
+      evaporated silver"). Coating thickness and reflectivity of the 1960 device are not given in the sources reached;
+      the patent remarks that "a plating ... which will provide approximately 10 percent reflection is adequate"
+      (col. 4:74-75), a patent statement, not a measurement of this device.
+    quote: "coated on two parallel faces with silver"
+    locator: "Maiman, Nature 1960, p.493 col. 2"
+    material: evaporated silver
+    look: {color: "#d9d9de", opacity: 1.0, metal: 1.0, rough: 0.08, emissive: ""}
+    geometry: {type: disc, axis: x, diameter: 10, thickness: 0.2}
+    dims:
+      - {label: diameter, value: 10, unit: mm, basis: ref, locator: "= rod diameter, Smith 1984", essential: false}
+      - {label: thickness (visual only), value: 0.2, unit: mm, basis: assumed, locator: "not stated; drawn thick enough to see", essential: false}
+    essential: false
+
+  - id: silver_output
+    name: Silver coating (output end)
+    role: Output mirror; a small hole in it lets the beam out
+    detail: >-
+      Same evaporated silver as the closed end, with a 1 mm hole (Smith 1984). Patent US 3,353,115 FIG. 4 labels this
+      end 30; the printed text reads "One end of the rod 30 has a nonreflective opening 32 in the end plating"
+      (col. 4:75 - col. 5:2).
+    quote: "One end of the rod 30 has a nonreflective opening 32 in the end plating"
+    locator: "US 3,353,115 col. 4:75 - col. 5:2"
+    material: evaporated silver
+    look: {color: "#d9d9de", opacity: 1.0, metal: 1.0, rough: 0.08, emissive: ""}
+    geometry: {type: disc, axis: x, diameter: 10, thickness: 0.2, hole: {diameter: 1, center: [0, 0]}}
+    dims:
+      - {label: diameter, value: 10, unit: mm, basis: ref, locator: "= rod diameter, Smith 1984", essential: false}
+      - {label: thickness (visual only), value: 0.2, unit: mm, basis: assumed, locator: "not stated", essential: false}
+    essential: false
+
+  - id: output_hole
+    name: Hole in the silver
+    role: Uncoated 1 mm opening; the output coupler
+    detail: >-
+      Smith 1984: "A 1-mm-diameter hole in one of the silver coatings was provided to couple out the radiation."
+      Patent: red light is "coupled out of the system through a hole in the reflective coating at one end of the rod"
+      (col. 2:35-37). Placed on the axis as drawn in patent FIG. 4 and FIG. 5 (opening 46 drawn near the centre of end 44);
+      the text does not state its radial position.
+    quote: "nonreflective opening 32 in the end plating to provide unobstructed passage of the coherent monochromatic beam 34"
+    locator: "US 3,353,115 col. 5:1-3; Smith 1984"
+    material: none (gap in silver)
+    look: {color: "#000000", opacity: 1.0, metal: 0.0, rough: 1.0, emissive: ""}
+    geometry: {type: hole, in: silver_output, diameter: 1}
+    dims:
+      - {label: diameter, value: 1, unit: mm, basis: ref, locator: "Smith 1984 (HRL excerpt p.2): '1-mm-diameter hole'", essential: false}
+      - {label: radial position, value: 0, unit: mm, basis: figure, locator: "US 3,353,115 FIG. 4 / FIG. 5 schematics, beam on axis", essential: false}
+    essential: false
+
+  - id: flash_lamp
+    name: Helical flash lamp
+    role: Xenon flash tube coiled around the rod; the optical pump
+    detail: >-
+      Smith 1984: "The ruby was mounted on the axis of a GE FT-506 xenon flash lamp". Patent: "an active laser rod 26
+      is disposed coaxially within a helical gas-filled flash tube 28" (col. 4:68-70). GE catalog row FT 506: design
+      voltage 900 V, max 1,000 watt-sec, approx. source dimensions 1 in wide x 1 in high, radio octal base, T-10
+      outer bulb. GE catalog p.13: "A flashtube produces a brilliant flash of blue-white light"; its FT 506 photo shows a
+      3-turn helix about as wide as it is tall, coils nearly touching. HRL photo caption: "The original laser had a
+      three-ring coiled flashlamp." Whether the outer bulb and
+      base were present in the laser head is not stated.
+    quote: "disposed coaxially within a helical gas-filled flash tube 28"
+    locator: "US 3,353,115 col. 4:69-70"
+    material: xenon-filled glass helix (glass type not stated for FT-506)
+    look: {color: "#e8f0ff", opacity: 0.35, metal: 0.0, rough: 0.05, emissive: "#cfe0ff"}
+    geometry: {type: helix, axis: x, outer_diameter: 25.4, length: 25.4, turns: 3, tube_diameter: 6}
+    dims:
+      - {label: model, value: "GE FT-506", unit: "", basis: ref, locator: "Smith 1984 (HRL excerpt p.2)", essential: false}
+      - {label: helix width (approx. source dimension), value: 25.4, unit: mm, basis: ref, locator: "GE flashtube catalog p.14, FT 506 row: width 1 in; p.13 FT 506 photo: helix width about equal to height", essential: false}
+      - {label: helix height (approx. source dimension), value: 25.4, unit: mm, basis: ref, locator: "GE flashtube catalog p.14, FT 506 row: height 1 in; p.13 FT 506 photo: helix width about equal to height", essential: false}
+      - {label: turns, value: 3, unit: "", basis: ref, locator: "HRL 'Maiman's Work' p.1 photo caption: 'three-ring coiled flashlamp'; GE flashtube catalog p.13 FT 506 photo: 3-turn helix", essential: false}
+      - {label: "tube diameter (estimate, +-1 mm)", value: 6, unit: mm, basis: ref, locator: "GE flashtube catalog p.13 FT 506 photo, scaled to the 1 in source width (p.14 row); coils nearly touch", essential: false}
+      - {label: flash colour, value: blue-white, unit: "", basis: ref, locator: "GE flashtube catalog p.13: 'A flashtube produces a brilliant flash of blue-white light'", essential: false}
+      - {label: design voltage (catalog), value: 900, unit: V, basis: ref, locator: "GE flashtube catalog p.14, FT 506 row", essential: false}
+      - {label: max energy per flash (catalog), value: 1000, unit: W s, basis: ref, locator: "GE flashtube catalog p.14, FT 506 row", essential: false}
+    essential: true
+
+  - id: reflector
+    name: Polished aluminum cylinder
+    role: Encloses the lamp; reflects pump light back into the rod
+    detail: >-
+      Smith 1984: the lamp "was placed inside a polished aluminum cylinder". Patent: "An outer enclosing cylinder 38
+      is provided which has a very highly reflecting inner surface for reflecting the pumping energy repeatedly
+      through the rod 26" (col. 5:4-7). Dimensions, wall thickness and end closures are not given in the sources
+      reached; the size here is a rendering choice that clears the lamp helix.
+    quote: "An outer enclosing cylinder 38 is provided which has a very highly reflecting inner surface"
+    locator: "US 3,353,115 col. 5:4-6"
+    material: polished aluminum
+    look: {color: "#c9ccd2", opacity: 1.0, metal: 1.0, rough: 0.18, emissive: ""}
+    geometry: {type: tube, axis: x, inner_diameter: 34, wall: 1.5, length: 40, cutaway: true}
+    dims:
+      - {label: inner diameter, value: 34, unit: mm, basis: assumed, locator: "not stated; clears the 25.4 mm helix", essential: false}
+      - {label: length, value: 40, unit: mm, basis: assumed, locator: "not stated", essential: false}
+      - {label: wall, value: 1.5, unit: mm, basis: assumed, locator: "not stated", essential: false}
+    essential: false
+
+  - id: power_supply
+    name: Power supply
+    role: Provides the flashing energy for the lamp
+    detail: >-
+      Patent: "A power supply 36 provides the flashing energy for the tube 28" (col. 5:3-4); FIG. 4 draws it as a box
+      wired to both ends of the helix. Circuit, stored energy, voltage and trigger of the 1960 device are not given in
+      the sources reached. Shown as a schematic box, not a model of the real unit.
+    quote: "A power supply 36 provides the flashing energy for the tube 28."
+    locator: "US 3,353,115 col. 5:3-4"
+    material: ""
+    look: {color: "#2a2d33", opacity: 1.0, metal: 0.2, rough: 0.6, emissive: ""}
+    geometry: {type: box, size: [40, 24, 24], schematic: true}
+    dims:
+      - {label: size, value: "40 x 24 x 24", unit: mm, basis: assumed, locator: "schematic box", essential: false}
+    essential: false
+
+  - id: lamp_leads
+    name: Lamp leads
+    role: Two wires from the helix ends to the power supply
+    detail: >-
+      Drawn in US 3,353,115 FIG. 4 (no reference numeral): one lead from each end of the helix to the power supply.
+      Real terminal geometry of the FT-506 in the laser head is not given.
+    quote: ""
+    locator: "US 3,353,115 FIG. 4 (sheet 2)"
+    material: wire
+    look: {color: "#8a8f99", opacity: 1.0, metal: 0.6, rough: 0.4, emissive: ""}
+    geometry: {type: wire, from: [flash_lamp.end_a, flash_lamp.end_b], to: power_supply, schematic: true}
+    dims: []
+    essential: false
+
+  - id: output_beam
+    name: Output beam
+    role: Stimulated emission at 6943 Å leaving through the hole
+    detail: >-
+      Nature: "stimulated optical emission at a wave-length of 6943 Å". The R1 component of the ruby doublet ("at
+      300° K. are at 6943 Å. and 6929 Å."). Patent: "coherent monochromatic beam 34" through opening 32. Smith 1984:
+      "The first laser demonstrated both spectral and beam narrowing, together with lifetime reduction." Pulse energy,
+      power, duration and divergence of the first device are not given in the sources reached.
+    quote: "stimulated optical emission at a wave-length of 6943 Å."
+    locator: "Maiman, Nature 1960, p.493 col. 2"
+    material: light
+    look: {color: "#ff1a1a", opacity: 0.85, metal: 0.0, rough: 1.0, emissive: "#ff1a1a"}
+    geometry: {type: beam, axis: x, origin: output_hole, diameter: 1, length: 120}
+    dims:
+      - {label: wavelength, value: 694.3, unit: nm, basis: stated, locator: "Maiman, Nature 1960, p.493 col. 2: '6943 Å.'", essential: true}
+      - {label: beam diameter at the hole, value: 1, unit: mm, basis: ref, locator: "= hole diameter, Smith 1984", essential: false}
+      - {label: beam length (visual only), value: 120, unit: mm, basis: assumed, locator: "", essential: false}
+    essential: true
+
+  - id: pump_light
+    name: Pump light
+    role: Lamp flash absorbed by the ruby, mainly green and blue
+    detail: >-
+      Nature: "When this material is irradiated with energy at a wave-length of about 5500 Å., chromium ions are
+      excited to the 4F2 state". Patent: "White light or, predominantly, the green and blue components thereof, is
+      absorbed by the ruby" (col. 2:33-35). Rendered as an effect, not a body.
+    quote: "irradiated with energy at a wave-length of about 5500 Å."
+    locator: "Maiman, Nature 1960, p.493 col. 2"
+    material: light
+    look: {color: "#bfe3ff", opacity: 0.5, metal: 0.0, rough: 1.0, emissive: "#e6f2ff"}
+    geometry: {type: effect, from: flash_lamp, to: ruby_rod}
+    dims:
+      - {label: absorbed wavelength (approx.), value: 550, unit: nm, basis: stated, locator: "Maiman, Nature 1960, p.493 col. 2: 'about 5500 Å.'", essential: false}
+    essential: false
+
+assembly:
+  - {part: ruby_rod, pos: [0, 0, 0], axis: x, basis: ref, locator: "Smith 1984: 'mounted on the axis of a GE FT-506'; patent col. 4:69-70 'disposed coaxially within'"}
+  - {part: silver_back, pos: [-10.1, 0, 0], axis: x, basis: stated, locator: "Nature p.493 'two parallel faces'; Smith 1984 'Both ends'"}
+  - {part: silver_output, pos: [10.1, 0, 0], axis: x, basis: stated, locator: "Nature p.493; Smith 1984; patent col. 4:75 - col. 5:2"}
+  - {part: output_hole, pos: [10.1, 0, 0], axis: x, basis: figure, locator: "patent FIG. 4, FIG. 5: opening on the axis"}
+  - {part: flash_lamp, pos: [0, 0, 0], axis: x, basis: ref, locator: "coaxial: patent col. 4:69-70, Smith 1984; axial centring on the rod: assumed"}
+  - {part: reflector, pos: [0, 0, 0], axis: x, basis: ref, locator: "lamp inside the cylinder: Smith 1984, patent col. 5:4-6; coaxial and centred: assumed (FIG. 4 draws it coaxial)"}
+  - {part: power_supply, pos: [0, -55, 0], axis: x, basis: assumed, locator: "off the head, below it as in FIG. 4; placement schematic"}
+  - {part: lamp_leads, pos: [0, 0, 0], axis: x, basis: figure, locator: "patent FIG. 4: one lead per helix end to the power supply"}
+  - {part: output_beam, pos: [10.2, 0, 0], axis: x, basis: stated, locator: "patent col. 5:1-3; Smith 1984 (hole couples out the radiation)"}
+
+chapters:
+  - {id: intro, p: [0.00, 0.10], keyword: "Ruby, 1960", line: "Hughes Research Laboratories. First laser action 16 May 1960.", action: "all parts float exploded along x, slow orbit", parts: [ruby_rod, silver_back, silver_output, flash_lamp, reflector, power_supply], labels: []}
+  - {id: rod, p: [0.10, 0.22], keyword: "Ruby rod", line: "Pink ruby: chromium in corundum.", action: "rod flies to the centre, rotates; dims 10 mm x 20 mm appear", parts: [ruby_rod], labels: [ruby_rod]}
+  - {id: mirrors, p: [0.22, 0.32], keyword: "Silvered ends", line: "Ends polished flat and parallel, silvered; one has a small hole.", action: "silver discs slide onto both ends, glint; hole on the +x disc", parts: [silver_back, silver_output, output_hole], labels: []}
+  - {id: lamp, p: [0.32, 0.44], keyword: "Helical flash lamp", line: "Xenon flash lamp; the rod sits on its axis.", action: "helix spirals in along x and closes around the rod", parts: [flash_lamp], labels: [flash_lamp]}
+  - {id: reflector, p: [0.44, 0.54], keyword: "Aluminum cylinder", line: "Polished aluminum cylinder reflects lamp light back through the rod.", action: "cylinder slides over the lamp, cut-away opens; leads run to the power supply", parts: [reflector, lamp_leads, power_supply], labels: []}
+  - {id: levels, p: [0.54, 0.66], keyword: "Cr³⁺ levels", line: "Green light lifts Cr³⁺ to ⁴F₂; it relaxes to ²E.", action: "energy-level plot (plots.levels) assembles beside the head: levels, pump arrow, decay arrow", parts: [ruby_rod], plot: levels, labels: []}
+  - {id: flash, p: [0.66, 0.78], keyword: "Negative temperature", line: "Intense flash: ²E population exceeds the ground state.", action: "lamp flashes blue-white, pump light floods the rod, rod glows", parts: [flash_lamp, pump_light, ruby_rod], labels: []}
+  - {id: pulse, p: [0.78, 0.88], keyword: "*694.3 nm*", line: "Stimulated emission leaves through the hole.", action: "beam emerges while the flash is bright; beam and flash decay together to a held frame", parts: [output_beam, output_hole], labels: [output_beam]}
+  - {id: spectrum, p: [0.88, 1.00], keyword: "Line narrows", line: "Low power: R2 and R1. High power: R1 narrows and dominates.", action: "plots.spectrum assembles: axis, panel a bars, then panel b; head holds a frozen moment (flash glow + beam)", parts: [output_beam], plot: spectrum, labels: [output_beam]}
+
+plots:
+  - id: spectrum
+    title: ""
+    source: "Maiman, Nature 1960, Fig. 2, p.494 (PDF p.2), left column: 'Emission spectrum of ruby : a, low-power excitation ; b, high-power excitation'"
+    note: >-
+      The printed figure is a schematic bar chart: hatched rectangles on a wavelength axis with 1 Å ticks, no y scale.
+      Bar edges are the outer edges of the printed outlines. Heights are relative to the panel-a R1 bar; the figure
+      does not state how the two panels compare in absolute intensity (both R1 bars are drawn the same height).
+      Panel b R2 is printed as a flat filled bar about 3 stroke widths tall (audit re-measure: 0.025, range 0.024-0.027).
+      Shown overlaid: each panel normalized to its own R1 bar; the panels are not comparable in absolute intensity.
+    x: {label: Wavelength, unit: "Å", log: false, range: [6925, 6950], ticks: 1}
+    y: {label: "Emission (normalized per panel)", log: false, range: [0, 1.08], scale: none}
+    series:
+      - name: "a, low power (normalized)"
+        color: "var(--pc0)"
+        basis: digitized
+        locator: "Maiman, Nature 1960, p.494 Fig. 2a; heights relative to panel a R1, panels not comparable in absolute intensity"
+        bars:
+          - {line: R2, from: 6927.44, to: 6930.58, height: 0.50}
+          - {line: R1, from: 6940.90, to: 6945.02, height: 1.00}
+        points: [[6925, 0], [6927.44, 0], [6927.44, 0.50], [6930.58, 0.50], [6930.58, 0], [6940.90, 0], [6940.90, 1.00], [6945.02, 1.00], [6945.02, 0], [6950, 0]]
+      - name: "b, high power (normalized)"
+        color: "var(--pc4)"
+        basis: digitized
+        locator: "Maiman, Nature 1960, p.494 Fig. 2b; heights relative to panel b R1, panels not comparable in absolute intensity"
+        bars:
+          - {line: R2, from: 6927.64, to: 6930.41, height: 0.025}
+          - {line: R1, from: 6942.43, to: 6943.49, height: 1.00}
+        points: [[6925, 0], [6927.64, 0], [6927.64, 0.025], [6930.41, 0.025], [6930.41, 0], [6942.43, 0], [6942.43, 1.00], [6943.49, 1.00], [6943.49, 0], [6950, 0]]
+      - name: "R-line positions (text)"
+        style: points
+        color: "var(--pc1)"
+        basis: stated
+        locator: "Maiman, Nature 1960, p.493 col. 2: 'at 300° K. are at 6943 Å. and 6929 Å.'"
+        points: [[6929, 0], [6943, 0]]
+  - id: levels
+    kind: levels
+    title: ""
+    source: "Maiman, Nature 1960, Fig. 1, p.494 (PDF p.2), left column: 'Energy-level diagram of Cr3+ in corundum, showing pertinent processes'"
+    note: >-
+      Level heights digitized as drawn, in the Fig. 1 axis units (10^3 cm^-1, ticks 0-20). Fig. 1 is schematic: read
+      literally, its heights contradict the text (E-bar at 12.15 would put R1 near 823 nm), so the diagram is shown on a
+      schematic axis with no scale; physical values come from the letter's text (level notes, transitions). The 2Ā / Ē
+      split is drawn far larger than its printed value (29 cm-1); 2E is drawn between them. Use the printed 29 cm-1
+      label, not the drawn gap. The pump arrow ends inside the 4F2 band (to_energy 17.25, band middle on the drawn scale; the text gives about 5500 Å, about 18.2 x 10^3 cm^-1).
+    y: {label: "Energy (schematic, after Fig. 1)", log: false, range: [-0.8, 20], scale: none}
+    levels:
+      - {id: 4A2, label: "4A2", kind: line, energy: 0.0, drawn: -0.4, basis: digitized, locator: "Fig. 1, thick line on the 0 tick", note: "ground state; height as drawn in Fig. 1 (schematic)"}
+      - {id: 4F2, label: "4F2", kind: band, energy: [15.3, 19.2], basis: digitized, locator: "Fig. 1, hatched box", note: "absorbs green light, 'about 5500 Å' (Maiman, Nature 1960, p.493 col. 2); heights as drawn in Fig. 1 (schematic)"}
+      - {id: 2E, label: "2E", kind: line, energy: 13.07, basis: digitized, locator: "Fig. 1, thick line", note: "'a sharp doublet the components of which at 300° K. are at 6943 Å. and 6929 Å.' (Maiman, Nature 1960, p.493 col. 2); height as drawn in Fig. 1 (schematic)"}
+      - {id: 2Abar, label: "2Ā_{}", kind: line, energy: 14.25, basis: digitized, locator: "Fig. 1, thin line, right", note: "upper component of 2E; R2 at 6929 Å (Maiman, Nature 1960, p.493 col. 2); height as drawn in Fig. 1 (schematic)"}
+      - {id: Ebar, label: "Ē", kind: line, energy: 12.15, basis: digitized, locator: "Fig. 1, thin line, right", note: "lower component of 2E; R1 at 6943 Å (Maiman, Nature 1960, p.493 col. 2); height as drawn in Fig. 1 (schematic)"}
+    splits:
+      - {between: [2Abar, Ebar], value: 29, unit: "cm^-1", basis: stated, locator: "Fig. 1 label '29cm-1'"}
+    transitions:
+      - {from: 4A2, to: 4F2, to_energy: 17.25, label: "", kind: pump, wavelength_A: 5500, basis: figure, locator: "Fig. 1 vertical up arrow; text (p.493 col. 2): 'irradiated with energy at a wave-length of about 5500 Å.' (approximate)"}
+      - {from: 4F2, to: 2E, label: "", kind: nonradiative, basis: figure, locator: "Fig. 1 arrow; text: 'non-radiative transitions to the 2E state'"}
+      - {from: 2E, to: 4A2, label: "", kind: emission, basis: figure, locator: "Fig. 1 unlabeled diagonal down arrow"}
+      - {from: 2Abar, to: 4A2, label: R2, kind: emission, wavelength_A: 6929, basis: figure, locator: "Fig. 1; wavelength from text p.493 col. 2"}
+      - {from: Ebar, to: 4A2, label: R1, kind: emission, wavelength_A: 6943, basis: figure, locator: "Fig. 1; wavelength from text p.493 col. 2"}
+
+drawings:
+  - source: "US 3,353,115 FIG. 4"
+    url: "https://image-ppubs.uspto.gov/dirsearch-public/print/downloadPdf/3353115"
+    page: "drawing sheet 2 of 5 (PDF page 2)"
+    file: data/history/showcases/drawings/maiman1960-fig4.png
+    image: maiman1960-fig4.png                 # runtime: file name in static/data/showcases/drawings/
+    trace: maiman1960-fig4.json                # runtime: file name in static/data/showcases/traces/ (source: data/history/showcases/traces/)
+    crop: {page_px: [574, 553, 1721, 1102], page_size: [2320, 3408], rotate: 0}
+    coverage: {covered_pct: 98.9, off_scan_pct: 2.1, tol_px: 4}
+    caption: "FIG. 4 is a schematic diagram of one embodiment of the present invention which utilizes a helical gas-filled flash tube for optical pumping of the laser material;"
+    caption_locator: "US 3,353,115 col. 2:62-64"
+    numerals:
+      "26": ruby_rod
+      "28": flash_lamp
+      "30": silver_output
+      "32": output_hole
+      "34": output_beam
+      "36": power_supply
+      "38": reflector
+    names:
+      "26": {name: "active laser rod", locator: "col. 4:69"}
+      "28": {name: "helical gas-filled flash tube", locator: "col. 4:70"}
+      "30": {name: "rod", locator: "col. 5:1", note: "printed 'One end of the rod 30'; the FIG. 4 leader 30 ends on the output end of the rod"}
+      "32": {name: "nonreflective opening", locator: "col. 5:1"}
+      "34": {name: "coherent monochromatic beam", locator: "col. 5:2-3"}
+      "36": {name: "power supply", locator: "col. 5:3"}
+      "38": {name: "outer enclosing cylinder", locator: "col. 5:4-5"}
+    unnumbered: {leads: lamp_leads}
+
+references:
+  - {id: maiman1960, cite: "T. H. Maiman, 'Stimulated Optical Radiation in Ruby', Nature 187, 493-494 (1960-08-06)", url: "https://doi.org/10.1038/187493a0", public_domain: false, used_for: "rod size wording, silver faces, flash lamp, 6943 / 6929 Å, 5500 Å pump, Fig. 1 levels, Fig. 2 spectra"}
+  - {id: us3353115, cite: "T. H. Maiman, US 3,353,115 'Ruby Laser Systems', granted 1967-11-14, continuation of Ser. No. 102,698 filed 1961-04-13, assignor to Hughes Aircraft Company", url: "https://image-ppubs.uspto.gov/dirsearch-public/print/downloadPdf/3353115", public_domain: true, used_for: "FIG. 4 drawing and trace, part names, coaxial topology, reflecting cylinder, opening in the end plating, power supply"}
+  - {id: smith1984, cite: "G. F. Smith, 'The Early Laser Years at Hughes Aircraft Company', IEEE J. Quantum Electron. QE-20(6) (1984-06); excerpt 'Maiman's Work' reprinted by HRL Laboratories (PDF 2010-03-25)", url: "https://www.hrl.com/lasers/pdfs/maiman_work.pdf", public_domain: false, used_for: "1 cm x 2 cm rod, evaporated silver, 1 mm hole, GE FT-506 lamp, polished aluminum cylinder, 1960-05-16, three-ring lamp caption"}
+  - {id: ge_ft_catalog, cite: "General Electric, 'G-E Electronic Flashtubes' catalog pages 13-14 (undated scan), FT 506 row", url: "https://lampes-et-tubes.info/fl/GE_Flashtubes.pdf", public_domain: false, used_for: "FT-506 approx. source dimensions 1 in x 1 in, 900 V design voltage, 1,000 watt-sec, radio octal base, T-10 bulb; p.13 FT 506 photo (3-turn helix, tube diameter estimate, coil proportions); p.13 'brilliant flash of blue-white light' (flash colour)"}
+  - {id: maiman1961a, cite: "T. H. Maiman, 'Stimulated Optical Emission in Fluorescent Solids. I. Theoretical Considerations', Phys. Rev. 123, 1145 (1961-08-15)", url: "https://doi.org/10.1103/PhysRev.123.1145", public_domain: false, used_for: "not read (paywalled); theory only per abstract"}
+  - {id: maiman1961b, cite: "T. H. Maiman, R. H. Hoskins, I. J. D'Haenens, C. K. Asawa, V. Evtuhov, 'Stimulated Optical Emission in Fluorescent Solids. II. Spectroscopy and Stimulated Emission in Ruby', Phys. Rev. 123, 1151 (1961-08-15)", url: "https://doi.org/10.1103/PhysRev.123.1151", public_domain: false, used_for: "not read (paywalled); abstract only, values not used in the spec"}
+  - {id: wills2020, cite: "S. Wills, 'The Laser at 60', Optics & Photonics News 31(5) (2020-05)", url: "https://www.optica-opn.org/Home/Articles/Volume_31/May_2020/Features/The_Laser_at_60", public_domain: false, used_for: "the famous publicity photo shows a rod and lamp that were not the ones Maiman used (do not model from it)"}
+
+withheld:
+  - {what: "How the rod is held on the lamp axis (mount, end supports)", reason: "Sources say only 'mounted on the axis' (Smith 1984) and 'disposed coaxially within' (patent); a Smithsonian record mentioning a holder returned 403 and was not read"}
+  - {what: "Cylinder size, wall, end closures", reason: "No dimension or end detail in any source reached; size in the spec is assumed, end caps are not drawn"}
+  - {what: "FT-506 outer bulb and octal base in the head", reason: "Catalog lists a T-10 outer bulb and radio octal base; no source says whether they were kept in the laser head"}
+  - {what: "Lamp terminals and trigger electrode", reason: "Not described; FIG. 4 only draws one lead per helix end. Helix ends are drawn as plain rounded ends; the catalog photo shows the tube continuing into straight legs with electrode bulbs, arrangement in the laser head not given"}
+  - {what: "Power supply circuit, stored energy, voltage, trigger", reason: "Nature says only 'high-power flash lamp'; patent says only 'provides the flashing energy'"}
+  - {what: "Lasing threshold of the first device", reason: "Not in the Nature letter or Smith 1984; a secondary article (Physics World 2010) gives 'more than 950 V', not used"}
+  - {what: "Output energy, peak power, pulse duration, divergence of the first device", reason: "Not in the Nature letter; Phys. Rev. 123, 1151 abstract values refer to the crystals studied there, not identified as the first device"}
+  - {what: "Fluorescence lifetime and its reduction", reason: "Smith 1984 states lifetime reduction was seen; no value in the sources read"}
+  - {what: "Cr concentration, c-axis orientation, rod surface finish", reason: "Not given in the sources reached"}
+  - {what: "Silver thickness and reflectivity of the 1960 coatings", reason: "Not given; the patent's '10 percent reflection is adequate' is a statement about the invention, not a measurement"}
+  - {what: "Absolute intensity scale of Fig. 2 and comparison of panels a and b", reason: "Figure has no y axis; bars are schematic"}
+  - {what: "Cooling", reason: "Not mentioned in any source reached"}

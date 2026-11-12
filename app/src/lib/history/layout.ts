@@ -28,12 +28,16 @@ export interface Milestone {
 	orgs_printed: string;
 	institutions: string[];
 	inst: string;
+	/** paper type from data/history/milestone_tags.csv (DevLog-017 D991): theory, device, process, measurement, system, review */
+	kind?: string;
 	material: string;
 	materials: string[];
 	components: HistComponent[];
 	n_metrics: number;
 	fig: { label: string; page: string; caption: string; reason: string } | null;
 	has_local_figure: boolean;
+	/** has a showcase spec (static/data/showcases/<id>.json, DevLog-017) */
+	showcase?: boolean;
 }
 export interface HistoryView {
 	eras: Era[];
@@ -161,12 +165,20 @@ export type Mode = 'thread' | 'inst' | 'material' | 'era';
 
 /** Legend and color per category; institution and material keep the top 10 by count and fold the rest into OTHER. */
 export function palette(ms: Milestone[], eras: Era[], mode: Mode): Palette {
+	// era mode keys on the year span: era codes are internal and never shown
+	const years = new Map(eras.map((e) => [e.id, e.years]));
 	const raw = (m: Milestone): string =>
-		mode === 'thread' ? m.thread || 'unknown' : mode === 'inst' ? m.inst || 'unknown' : mode === 'material' ? m.material || 'unknown' : eraOf(m, eras);
+		mode === 'thread'
+			? m.thread || 'unknown'
+			: mode === 'inst'
+				? m.inst || 'unknown'
+				: mode === 'material'
+					? m.material || 'unknown'
+					: (years.get(eraOf(m, eras)) ?? 'unknown');
 	const counts = new Map<string, number>();
 	for (const m of ms) counts.set(raw(m), (counts.get(raw(m)) ?? 0) + 1);
 	let order = [...counts.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
-	if (mode === 'era') order = eras.map((e) => [e.id, counts.get(e.id) ?? 0] as [string, number]).filter(([, n]) => n > 0);
+	if (mode === 'era') order = eras.map((e) => [e.years, counts.get(e.years) ?? 0] as [string, number]).filter(([, n]) => n > 0);
 	const cap = mode === 'inst' || mode === 'material' ? 10 : COLORS.length;
 	const kept = new Set(order.slice(0, cap).map(([k]) => k));
 	const key = (m: Milestone) => (kept.has(raw(m)) ? raw(m) : OTHER);
@@ -178,7 +190,7 @@ export function palette(ms: Milestone[], eras: Era[], mode: Mode): Palette {
 
 /** Lower-case haystack for the text search. */
 export function haystack(m: Milestone): string {
-	return [m.year, m.date, m.title, m.topic, m.event, m.significance, m.thread, m.dri, m.orgs_printed, m.institutions.join(' '), m.inst, m.venue, m.doi, m.material]
+	return [m.year, m.date, m.title, m.topic, m.event, m.significance, m.thread, m.dri, m.orgs_printed, m.institutions.join(' '), m.inst, m.venue, m.doi, m.material, m.kind ?? '']
 		.join(' ')
 		.toLowerCase();
 }

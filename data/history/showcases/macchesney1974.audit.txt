@@ -1,0 +1,296 @@
+macchesney1974 (MCVD) showcase audit (fresh context, read-only, 2026-11-11)
+=========================================================================
+
+Scope: data/history/showcases/macchesney1974.yaml (+ report.txt), DevLog-017 sections 2-4a, D982-D984, D992;
+app/src/lib/history/showcases/macchesney1974.ts; app/static/data/showcases/macchesney1974.json (built spec);
+runtime pieces the story uses (showcase/plot.ts, PlotAssembler.svelte, PartPanel.svelte, ShowcaseStory.svelte);
+sources references/macchesney1974/ (page scans img_p01_1.png = p.1280, img_p02_1.png = p.1281),
+cache/showcases/macchesney1974/US4217027.pdf (11 native 2320 x 3408 scans), drawings fig1/fig3 + traces;
+screenshots mcvd_build/ (d_*, m_*, l_*, i_*, sheet_*).
+Method: patent page scans extracted with pymupdf; text pages re-OCRed (tesseract TSV) and every line mapped to
+column:line by a linear fit to the gutter numerals 5..65 (fit residual <= 0.11 line on all 5 text pages); numbers
+read back on the scan images. Paper quotes read from the page scans. Paper Fig. 1 and Fig. 2 re-measured
+independently (numpy / scipy, scripts in the session scratchpad mcvd_audit/dig1b.py, dig2.py). No app run, no
+network, no git.
+
+VERDICT: NO-GO as is; GO after W1-W3 (all small). Sources, quotes, locators, recipe values, both digitized paper
+figures and the core process topology (flow +x, burner below, forward traverse with the gas, fast return, soot
+downstream, fusion behind the moving zone, barrier then core, collapse behind the hot zone) are right. The wrong
+items: one on-canvas sentence that contradicts both sources and the animation itself, the graded-ring radii, and
+a rotation arrow that turns against its own head.
+
+Counts: wrong 3, imprecise 17, missing 3, ok 16. Plus 2 re-shoot checks (screenshots older than a runtime fix).
+
+----------------------------------------------------------------------------------------------------------
+WRONG
+----------------------------------------------------------------------------------------------------------
+
+W1. "fuse on the next pass" (on-canvas line, soot chapter)
+  file:     macchesney1974.yaml line 499 (chapters.soot.line) and line 500 (action "the following pass turns
+            it into clear glass"); shown on canvas in d_p045, d_p050, l_*, i_* ("Soot and sinter").
+  current:  "Particles form in the gas, settle downstream, fuse on the next pass."
+  proposed: "Particles form in the hot zone, settle downstream, fuse as the zone passes."
+            action: "... settles as white powder ahead of the zone; the advancing hot zone fuses it to clear glass".
+  evidence: paper p.1280 right col.: "this powdery deposit is subsequently fused to a clear film as the burner
+            traverses along the tube" (same traverse). US 4,217,027 claim 1 col. 10:50-58: particles "while
+            traveling downstream" come to rest "within a region which extends from a position within the said hot
+            zone, the moving zone serving the dual functions of: nucleation site ...; and consolidation site for
+            previously produced particulate matter"; col. 7:60-64: the moving hot zone is responsible for
+            homogeneous reaction, adherence, and "fusion of the deposited particles ... into a unitary,
+            homogeneous glassy layer". The module already animates exactly this (ts line 92 barN: the new layer
+            appears behind xb; line 93 powT: porous deposit only ahead of xb, same pass), so the sentence also
+            contradicts the picture.
+
+W2. Graded core rings drawn as equal-area annuli; the paper fixes equal radius increments
+  file:     macchesney1974.ts line 700 (ringR: P2 * sqrt(1 - (i+1)/NG)); also SEC_FS line 146 (collapsed state
+            maps rings with 1 - s^2, same equal-area rule; only reached if uGrade > 0 while the tube is shown).
+  current:  core ring radii 1.400, 1.328, 1.252, 1.171, 1.084, 0.990, 0.885, 0.767, 0.626, 0.443 mm (outer ring
+            0.07 mm wide, inner disc 0.44 mm radius); visible in i_explode_preform.png.
+  proposed: ringR core entries P2 * (1 - (i+1)/NG) (radii 1.40, 1.26, 1.12, ... 0.14 mm: equal steps of 0.1 a);
+            same rule in SEC_FS for the collapsed state (f = (1 - s) * 10 for e = 1). In the open tube the
+            layers should then not be equal-thickness either (deposition time "proportioned according to the
+            quantity of material", i.e. first layers thickest, areas ~ 19:17:...:1); acceptable to keep the tube
+            view equal-thickness only if the cutaway is labelled visual (it is, via withheld).
+  evidence: paper p.1281 left col.: "the preceding expression was evaluated in terms of radius segments in
+            increments of 0.1 a for alpha = 2. Ten layers of equal thickness (producing ultimately equal
+            increments of r in the fiber) were deposited by proportioning the GeCl4 flow ... Deposition times for
+            each layer were proportioned according to the quantity of material required to form the layer."
+            Direction of the grading (Ge rising toward the axis) is right (OK-11).
+
+W3. Rotation arrow turns against its own arrowhead
+  file:     macchesney1974.ts lines 528-539 (arc 0..1.55 pi, cone at 1.55 pi pointing CCW in the arc plane;
+            arrow.rotation.y = pi/2) and line 1030 (arrowPivot.rotation.x = -p * 2 pi * 14).
+  current:  after the y rotation the head points in the +x right-hand sense (local CCW = from world -z toward +y);
+            the pivot turns in the -x sense as p grows, so while scrolling down the gap and head move backward.
+  proposed: arrowPivot.rotation.x = +p * 2 * Math.PI * 14 (or mirror the arc/cone). Sense itself is free:
+            patent FIG. 1 arrow 5a is "for example" (col. 3:63-64), so either sense is fine once head and motion
+            agree.
+  evidence: geometry of TorusGeometry (arc in local XY from +x CCW), ConeGeometry apex +y rotated by 1.55 pi ->
+            (0.988, 0.156) = CCW tangent at 279 deg; R_y(pi/2) maps local x -> world -z, y -> y.
+
+----------------------------------------------------------------------------------------------------------
+IMPRECISE
+----------------------------------------------------------------------------------------------------------
+
+I1. On-canvas numbers do not match the `essential` flags (D983; ruby precedent D995 "no non-essential numbers
+    in chapter lines")
+  file:     yaml chapters lines 476, 531, 539 vs dims/params flags.
+  current:  on canvas but not essential: 100 rpm (lathe line), 723 m and 1.06 um (loss line), dn 0.0165 and
+            alpha 1.6 (graded line). Essential but never on canvas: 1460 C (core).
+  proposed: mark `essential: true` on measure.at_wavelength (1.06 um) and on the graded results (dn max 0.0165,
+            alpha 1.6, add them as params), keep them; drop "Spinning at 100 rpm" -> "Held at both ends,
+            spinning." and "723 m of fiber," -> "Loss minimum at 1.06 um." (both stay in hover), or flag them
+            essential if the owner wants them. Either use 1460 C on the layers line ("... core glass at
+            1460 C") or drop its essential flag.
+  evidence: spec lines 476, 531, 539; params lines 569-573 (no flag), 771-786, 703-722; 683-688 (essential).
+
+I2. "travels with the gas" reads as "at the gas speed"
+  file:     yaml line 491.
+  current:  "Oxy-hydrogen burner travels with the gas, about 45 cm/min."
+  proposed: "Oxy-hydrogen burner moves in the gas-flow direction, about 45 cm/min."
+  evidence: US col. 7:07-08 "approximately 45 cm/min in the forward direction (direction of gas flow)".
+
+I3. Core deposit grows everywhere at once; barrier is front-based
+  file:     ts lines 233, 263 (coreF = q over one forward pass), 97 (b3 uses uCoreF * winX(x), no xb
+            dependence), 93 (powT gated by uCur, which only 'bar' passes set).
+  current:  during the core pass the whole bore thickens uniformly while the burner is still at the inlet end;
+            no porous deposit ahead of the zone in the core passes.
+  proposed: make core growth front-based like barN (e.g. coreN(x) = completed core passes + smoothstep behind xb)
+            over a few visual passes (pass count withheld, say so in the tooltip), and set cur = 1 for 'core'
+            passes so powT shows the porous band ahead of the zone.
+  evidence: same mechanism as W1 (paper p.1280; claim 1); patent General Procedure core step 7:20-26 uses the
+            same moving hot zone.
+
+I4. Barrier : core deposit ratio flips between the tube and the preform
+  file:     ts lines 25-27, 31-32 (TBP 0.08 x 16 = 1.28 mm radial, TC 1.1 mm; preform P1 1.62, P2 1.40).
+  current:  tube annulus areas barrier ~43 mm2 : core ~29 mm2 (1.5 : 1); preform barrier 2.08 mm2 : core
+            6.16 mm2 (0.34 : 1). Glass is conserved through collapse, so the ratio cannot flip. The preform itself
+            is self-consistent: tube glass pi(49-36) = 40.8 mm2 + deposit pi 1.62^2 = 8.2 mm2 = 49.0 mm2 vs
+            pi 4^2 = 50.3 mm2 (8 mm rod).
+  proposed: keep one exaggeration factor for both layers, e.g. TBP 0.03 (barrier 0.48 mm, 17 mm2) and TC 1.8
+            (core ~52 mm2): ratio ~1 : 3 as in the preform, total ~8x real (visual, flagged). Basis for ~1 : 3:
+            General Procedure barrier ~20 min vs core ~1 h at similar SiCl4 flows (estimate, not stated as a
+            volume ratio).
+  evidence: col. 7:16-17 ("approximately twenty minutes"), 7:25-26 ("about one hour"); Example 1 col. 8:36-44.
+
+I5. "Slower traverse" for collapse is not visible
+  file:     ts lines 233-237 (core pass 0.36 x 0.12 = 0.043 p; collapse passes 0.46 x 0.10 = 0.046 p and
+            0.38 x 0.10 = 0.038 p); first barrier pass 0.044 p, soot-chapter pass 0.110 p.
+  current:  collapse passes take the same or less scroll than the deposition passes shown just before.
+  proposed: give the collapse passes clearly more scroll than the core pass (>= 2x), or show the slowdown as the
+            hot zone easing to a crawl in the follow shot.
+  evidence: col. 7:27-31 "simply by reducing the rate of traverse of the hot zone. This resulted in a
+            temperature increase ... about 1900 degrees C."
+
+I6. Fiber draw drawn vertical (downward) without a note
+  file:     ts lines 864 (pfAngle to -pi/2), 1163-1203; yaml chapter preform action line 524 (no orientation).
+  current:  rod turns upright and the fiber leaves its lower end; implies a draw tower. No furnace, capstan or
+            mandrel is drawn (good). Orientation is not in the sources and the spec has no withheld entry for it.
+  proposed: add withheld {what: "draw apparatus and orientation", reason: "US col. 7:43-50 gives only local
+            heating of the preform end, draw at ~60 m/min onto a 30 cm mandrel at 60 rpm, method of Kapany 1967
+            pp.110-117 (not read); orientation not stated; shown vertical as a neutral layout choice"} and put the
+            same line in the fiber tooltip; or keep the rod horizontal on its lathe axis and draw along +x.
+  evidence: col. 7:43-50; Example 2 col. 9:02 "removed to a pulling apparatus" (no orientation).
+
+I7. Preform length and traverse ends
+  file:     ts lines 22-24 (XS -195, XE 195, XC 192), 288 (stubs cut), 699 (pfLen 384 mm).
+  current:  the 457 mm tube is traversed over 390 mm and the preform is cut to 384 mm (15.1 in).
+  proposed: either traverse the full 18 in tube into neutral input / exhaust sections (stated to exist, lengths
+            not stated) and keep a 457 mm preform, or keep the cut but mark preform length visual in the tooltip.
+  evidence: col. 3:31-32 preform "a length of 18 inches"; col. 8:23-26 tubes cut to 18 in and "provided with
+            appropriate input and exhaust sections"; col. 8:01-03 traversal distance "extends beyond the tube at
+            both ends".
+
+I8. Outlet pipe bends down; FIG. 1 outlet runs straight out
+  file:     ts line 659 (exhaust curve to [410, -100, 0]); d_p025.
+  proposed: straight stub along +x past the tailstock (FIG. 1 numeral 18), length visual.
+  evidence: US FIG. 1 (drawings/macchesney1974-fig1.png), col. 4:10-11.
+
+I9. Tube label "14 mm x 12 mm" does not say which is which
+  file:     runtime label from the essential dims (d_p015 "substrate tube 14 mm x 12 mm").
+  proposed: "14 mm OD, 12 mm ID" (or the dims labels "outer diameter" / "inner diameter" shortened to OD / ID).
+  evidence: ruby audit ruling D995 (labels say which number is the diameter).
+
+I10. Hot-zone temperature range in the side panel is too narrow for "the chloride examples"
+  file:     yaml line 116 (parts.flame.detail).
+  current:  "Wall temperature during deposition 1400-1460 C in the chloride examples".
+  proposed: "1400-1460 C in the General Procedure and Example 1 (Example 4, also chlorides: barrier 1740 C,
+            core 1470 C)".
+  evidence: col. 9:64 (Example 4 barrier table "Temp 1740 degrees C."), col. 10:11 and 10:19 ("Temp 1470
+            degrees C."); read on the scan image.
+
+I11. Part "flame" is named "hot zone" but its mesh is the burner flame
+  file:     yaml lines 113-137; ts lines 576-580 (flame userData.part = 'flame').
+  current:  clicking the flame opens "hot zone" with the claim-1 quote; the hot zone (numerals 3 / 32) is the
+            heated tube section, which the module draws as the glow band (glowAt) and does not make pickable.
+  proposed: name the part "flame / hot zone", or route picks on the glow band (|x - xb| < 10 mm) to 'flame' and
+            the flame mesh to 'burner'.
+  evidence: col. 3:62 "hot zone 3 is produced by heating means 4"; col. 4:34-35 "heating means 31 producing a hot
+            zone 32".
+
+I12. Gases chapter lists GeCl4 while the step chip says "Borosilicate barrier deposition"
+  file:     yaml lines 484-487.
+  proposed: line "SiCl4 and BCl3, later GeCl4, carried in oxygen." or set the chapter's process to a neutral
+            step ("Reactants").
+  evidence: barrier = SiCl4 + BCl3 in O2 (col. 7:01-04; 8:36-38); GeCl4 only for the core (7:21-23; 8:41-42).
+
+I13. lambda^-4 guide drawn solid; only partly revealed in the shots
+  file:     yaml line 829 (style: line) for series "lambda^-4 guide (dashed)".
+  current:  solid line; in d_p088 / l_p088 / m_p088 (loss q ~ 0.6) only one short segment near 665-685 nm shows.
+  proposed: style: dashed (runtime supports it, PlotAssembler.svelte:154); re-shoot at loss q ~ 0.95 to confirm the
+            whole guide draws (12 points, gap 703-838 nm where dashes merge with the curve).
+  evidence: paper Fig. 1 (dashed line), runtime styleOf() plot.ts:184.
+
+I14. Core / OD ratio 0.35 mixes two sources
+  file:     ts lines 8 and 32 (P2 = 0.35 x PO, "fiber core 35 um in a 100 um fiber, stated").
+  current:  35 um core is the paper's Fig. 1 fiber; the paper prints no OD for it; 100 um OD is the patent
+            (General Procedure core ~37 um; Example 1, also 723 m, core ~40 um).
+  proposed: keep 0.35 and state the basis ("paper core 35 um / patent OD 100 um; ratio derived") in the comment
+            and the preform tooltip, or use Example 1 alone (40 / 100 = 0.40).
+  evidence: paper p.1280 right col.; US col. 7:38-42, 8:47-50.
+
+I15. No rotation cue while depositing or collapsing
+  file:     ts line 1027 (arrowF only from lathe q 0.55 to gases q 0.95).
+  current:  the tube surface is featureless, so rotation is invisible in the burner, soot, layers and collapse
+            chapters, where it matters (uniformity, no distortion).
+  proposed: keep a faint arrow (after the W3 fix) at the headstock end through the collapse chapter.
+  evidence: col. 2:64-66 (rotation, e.g. 100 rpm, uniformity); 5:15-20; 6:61-62; claim 5 col. 10:66-67.
+
+I16. Phone graded frame: overlaps
+  file:     runtime / ts sh.graded plotShift (line 807-808, 850-853); m_p100.png.
+  current:  the "Graded-index core (paper)" chip covers the x-axis title; the legend covers the peak points
+            (r ~ -2..4 um, dn ~ 16.5).
+  proposed: move the chip above the plot on portrait or pad the plot bottom; legend outside the data area (or
+            lower-right where the profile is near zero).
+
+I17. Withheld wording
+  file:     yaml line 1084.
+  current:  "particle formation mechanism wording (thermophoresis)".
+  proposed: "particle deposition (transport) mechanism wording (thermophoresis)"; thermophoresis names how the
+            particles reach the wall, not how they form.
+  evidence: title of simpkins1979 as cited in the spec ("the mass transfer mechanism").
+
+----------------------------------------------------------------------------------------------------------
+MISSING
+----------------------------------------------------------------------------------------------------------
+
+M1. HUD values are not labelled as patent values (D992 ruling 2)
+  file:     app/src/lib/history/showcase/ShowcaseStory.svelte:646 (step chip tooltip).
+  current:  "SiCl4: 32 cm3/min (stated)" ... (i_hud.png); no source, no column:line. A viewer cannot tell these
+            numbers come from US 4,217,027 and not from the 1974 paper.
+  proposed: append the locator to each line, e.g. "SiCl4: 32 cm3/min (US 4,217,027 col. 8:42)"; the locators are
+            already in the spec params. Runtime change, shared with the ruby story.
+
+M2. Withheld entries for choices the module makes
+  file:     yaml lines 1069-1087.
+  proposed: add (a) draw apparatus / orientation (I6); (b) collapse pass count: the module shows 2 passes
+            (ts header lines 10-11), the patent gives 2 stages (with reactants flowing to nearly complete
+            collapse, then flow stopped, col. 7:27-33), not a pass count; (c) input / exhaust section lengths
+            (now only a dims note, line 47).
+
+M3. Patent graded example not cross-referenced (optional)
+  file:     yaml process.graded (lines 699-722).
+  proposed: side-panel note only: US Example 4 (chlorides, 8 x 10 mm tube) grades GeCl4 0-35 cc/min in 17 equal
+            increments at 2-min intervals at 1470 C after a 1740 C barrier (col. 9:45-10:19); it is a different
+            fiber from the paper's 10-layer Fig. 2 fiber, so not a HUD value for this chapter.
+
+----------------------------------------------------------------------------------------------------------
+OK (verified)
+----------------------------------------------------------------------------------------------------------
+
+OK-1. Patent column:line locators, all within +-1 line: 2:65-66 (100 rpm), 3:30-32 (4-8 mm, 18 in), 3:61-4:15
+      (FIG. 1 numerals 1-18, horizontal), 4:33-47 (FIG. 3, left end, arrows 33/34, zone 35, region 36), 4:48-50
+      (713 m), 5:15-20 (2 cm, 45 cm/min, 100 rpm, 1600 C), 5:24-29 (pyrometer, 300 C), 6:17-22 (bubbling), 6:60-66
+      (12 x 14 mm, glass lathe 100 rpm, 1400 C flush), 7:01-19 (5 min, 10 % / 3 %, 1400 C, 45 cm/min forward, 30 s
+      return, twenty min, O2 passes), 7:20-35 (1450 C, one hour, collapse, 1900 C), 7:38-50 (100 um, 37 um, 0.7 km,
+      60 m/min, 30 cm mandrel 60 rpm), 8:04-06, 8:20-31, Example 1 8:34-51, claim 1 10:50-58. Example 1 SiCl4 /
+      BCl3 / O2 / passes sit one line earlier than the spec says (8:36-39 vs 8:37-40); within the stated +-1.
+OK-2. Paper quotes (8 in parts, title_note "a new method derived from CVD") verbatim against the p.1280 / p.1281
+      scans; Fig. 1 caption, NA 0.235, 723 m, ~35 um, OH 0.72 / 0.88 / 0.95 um < 10 dB/km, NA up to 0.35, Fig. 2
+      dn 0.0165 / alpha 1.6, acknowledgments (DiMarcello, Simpson, Lazay).
+OK-3. Fig. 1 loss digitization: my frame 214 / 843.5 px = 500 / 1100 nm, 56 / 403 px = 100 / 1 dB/km; re-measured
+      (nm: mine vs spec) 610 18.78/18.81, 650 13.84/13.75, 700 9.61/9.59, 750 7.52/7.49, 800 5.50/5.53, 850 4.08/
+      4.08, 880 4.54/4.54, 900 3.90/3.89, 950 10.90/10.97, 1000 3.60/3.60, 1060 2.02/2.02, 1090 2.05/2.05; guide at
+      1000 nm 2.29/2.29. Max deviation 0.7 %.
+OK-4. Fig. 2 profile: my ticks 10.567 px/um, 0 um at 555.5 px, 53.37 px per 1e-3 (spec 10.563 / 555.7 / 53.39);
+      independent disk-opening centroids reproduce all 29 points within 0.05 um and 0.03e-3 (e.g. -29.95/0.61 vs
+      -29.98/0.62; 10.71/13.14 vs 10.70/13.15; 28.24/1.03 vs 28.23/1.04); the peak blob splits as the report says.
+OK-5. Patent FIG. 4: spot check on the sheet scan (start ~16 dB/km at ~615 nm, peak ~11 near 955 nm, ~2.0 at
+      1090 nm) consistent with the spec series; not re-digitized point by point (sheared axes).
+OK-6. Tube 12 / 14 mm (RI 6, RO 7), 457.2 mm (HALF 228.6); preform 8 mm, inside the stated 4-8 mm and consistent
+      with glass conservation (OK in I4).
+OK-7. Gas flow +x from inlet through the headstock to the outlet beyond the tailstock; bubblers upstream with dip
+      tubes, as FIG. 1.
+OK-8. Burner below the tube; forward pass with the gas at constant speed, fast eased return (ts 218-237, 257);
+      FIG. 3 arrows 33 / 34 same way.
+OK-9. Hot zone glow: Gaussian sigma 9 mm (FWHM ~21 mm, "approximately 2 cm") plus a sigma 28 mm wing (heated
+      region ~4 cm either side, col. 8:04-06).
+OK-10. Soot forms at the hot zone (hot tint -> white), drifts downstream up to ~66 mm and moves out to the wall;
+       porous band ahead of the zone, clear layer behind it; zone 35 proxy downstream, region 36 upstream
+       (FIG. 3; col. 7:11-15; claim 1). "Thermophoresis" never appears on canvas (only as a withheld item and a
+       reference title).
+OK-11. Barrier (16 passes, Example 1) then core; graded recolor raises Ge toward the axis (col. 3:10-12 "ratio
+       of high index-producing dopant increasing ... with successive hot zone traversals").
+OK-12. Collapse: front follows the hot zone, first stage with reactants flowing to c = 0.8, flow stops between
+       stages, final stage to a solid rod; glow whiter; ends at the chucks stay open (col. 7:27-35).
+OK-13. Withheld parts as neutral stand-ins: lathe boxes and disc chucks, burner block and simple nozzle, plain
+       feed rod, plain cylinder flasks unlabeled (bubbler mapping withheld), reservoir 13 plain, no mandrel /
+       furnace / capstan in the draw; layer thickness flagged visual in the side panel (withheld list).
+OK-14. "MCVD" title per D992: kept as hero, title_note rendered under the tagline in the story panel
+       (PartPanel.svelte:52).
+OK-15. Spec process params and dims: every value matches the scan (flush 1400 C / 5 min / 100-500 cm3/min;
+       Example 1 41 / 12.5 / 250, 16 passes, 1430 C; 32 / 48 / 650, 68 min, 1460 C; GP 1450 C, 1 h; 1900 C;
+       60 m/min; 30 cm mandrel at 60 rpm, consistent: pi x 0.3 m x 60 = 56.5 m/min).
+OK-16. Plot axes: loss "attenuation" dB/km log 1-100, 500-1100 nm; patent "insertion loss" (col. 3:53) 1-20;
+       profile "radius along major diameter" um, dn x 1e-3, linear -2..18 (built JSON matches).
+
+----------------------------------------------------------------------------------------------------------
+RE-SHOOT CHECKS (not counted; screenshots predate the 14:48 runtime change)
+----------------------------------------------------------------------------------------------------------
+
+R1. Profile plot on a log y axis (0.01-100) in d_p097, d_p100, l_p099 (after scrolling through the loss plot with
+    "log y" on): negative barrier-dip points dropped, a stray point at (34.1, 0.05). i_explode_preform and m_p100
+    show the correct linear axis. plot.ts logOf() now keys the log choice per plot id (file time 14:48:47, after
+    every screenshot); re-shoot a continuous scroll loss -> graded to confirm.
+R2. title_note: i_panel_story.png (14:45:48) shows no note; PartPanel.svelte:52 renders it since 14:48:47.
+    Re-shoot the Sources panel.

@@ -2,13 +2,19 @@
 
 Inputs (read only): data/history/milestones.csv (merged milestone rows), data/_staging/literature/history_candidates.csv
 (title, topic, venue, DOI, institutions, DRI, significance), data/registry/sources.csv (publication record) and
-data/components/components.csv + component_metrics.csv (rows whose source is `lit:<paper_id>`: platform / core
-material, class, metric count). Only values present in these files are emitted; empty stays empty.
+data/components/components.csv + component_metrics.csv (rows whose source is `lit:<paper_id>`: platform, class,
+metric count) and data/history/milestone_tags.csv (DevLog-017 D991: kind, material, topic and thread read from each
+paper; they override the candidate list and the component platform). Only values present in these files are emitted; empty stays empty.
 
 Key figures come from licensed PDFs and are never published. `--figures` (local only) writes downscaled copies (max
 900 px wide) of references/<paper_id>/figures/<key_figure_file> to app/static/data/history_figs/<paper_id>.png (git
 ignored) and marks `has_local_figure`; without it every milestone has `has_local_figure: false`, so the committed view
 never points at an image.
+
+Showcases (DevLog-017): each data/history/showcases/<id>.yaml (spec schema in DevLog-017 section 4a, written by the
+research agents) is written as app/static/data/showcases/<id>.json, and the milestone <id> gets `showcase: true`.
+Public-domain drawing scans (showcases/drawings/*.png) and traces (showcases/traces/*.json) are copied to
+app/static/data/showcases/drawings/ and .../traces/. No specs = no showcase files and no flags.
 
 Usage: uv run python scripts/build_history_view.py [--figures] [--dry-run]
 """
@@ -19,16 +25,21 @@ import argparse
 import importlib
 import json
 import re
+import shutil
 import sys
 from collections import Counter, defaultdict
 from pathlib import Path
 from typing import Any
+
+import yaml
 
 from photonics_atlas.csvio import read_csv
 from photonics_atlas.paths import ROOT
 from photonics_atlas.runlog import RunLog
 
 MILESTONES = ROOT / "data" / "history" / "milestones.csv"
+# DevLog-017 D986 / D991: kind, material, topic, thread per paper
+TAGS = ROOT / "data" / "history" / "milestone_tags.csv"
 CANDIDATES = ROOT / "data" / "_staging" / "literature" / "history_candidates.csv"
 SOURCES = ROOT / "data" / "registry" / "sources.csv"
 COMPONENTS = ROOT / "data" / "components" / "components.csv"
@@ -36,8 +47,12 @@ METRICS = ROOT / "data" / "components" / "component_metrics.csv"
 STATIC = ROOT / "app" / "static" / "data"
 OUT = STATIC / "history.json"
 FIGS = STATIC / "history_figs"
+SHOWCASES = ROOT / "data" / "history" / "showcases"
+SC_OUT = STATIC / "showcases"
 FIG_MAX_W = 900
 NO_DEVICE = "theory / no device"
+NO_MATERIAL = {"theory": NO_DEVICE, "review": "review"}  # empty tag material by kind; else NOT_STATED
+NOT_STATED = "not stated"
 
 # Era intros copied from the DevLog-016 era table ("what changed"); no new claims here.
 ERAS: list[dict[str, str]] = [
@@ -85,12 +100,79 @@ def write_figure(src: Path, dst: Path) -> None:
     pix.save(str(dst))
 
 
+def load_showcases(root: Path = ROOT, log: RunLog | None = None) -> dict[str, dict[str, Any]]:
+    """Showcase specs by id (DevLog-017 section 4a). Light checks only (the specs are under active research): a spec
+    must be a mapping with `chapters`; its id defaults to the file stem; chapter ranges out of [0, 1], unordered or
+    overlapping are reported, not fixed."""
+    d = root / SHOWCASES.relative_to(ROOT)
+    out: dict[str, dict[str, Any]] = {}
+    for f in sorted(d.glob("*.yaml")) if d.is_dir() else []:
+        try:
+            spec = yaml.safe_load(f.read_text(encoding="utf-8"))
+        except yaml.YAMLError as e:
+            if log:
+                log.info(f"showcase {f.name}: YAML error, skipped ({e})")
+            continue
+        if not isinstance(spec, dict) or not isinstance(spec.get("chapters"), list):
+            if log:
+                log.info(f"showcase {f.name}: not a spec mapping with chapters, skipped")
+            continue
+        sid = str(spec.get("id") or f.stem)
+        if sid != f.stem and log:
+            log.info(f"showcase {f.name}: id {sid} differs from the file name")
+        spec["id"] = sid
+        prev = 0.0
+        for c in spec["chapters"]:
+            raw = c.get("p") if isinstance(c, dict) else None
+            rng: list[float] = (
+                [float(v) for v in raw]
+                if isinstance(raw, list) and len(raw) == 2 and all(isinstance(v, int | float) for v in raw)
+                else []
+            )
+            if not rng or not (0 <= rng[0] < rng[1] <= 1) or rng[0] < prev:
+                if log:
+                    log.info(
+                        f"showcase {sid}: chapter {c.get('id') if isinstance(c, dict) else c} range {raw} out of order or outside [0, 1]"
+                    )
+            if rng:
+                prev = max(prev, rng[1])
+        out[sid] = spec
+    return out
+
+
+def write_showcases(specs: dict[str, dict[str, Any]], root: Path = ROOT, log: RunLog | None = None) -> None:
+    """Write static/data/showcases/<id>.json and copy drawings/*.png and traces/*.json beside them."""
+    src = root / SHOWCASES.relative_to(ROOT)
+    out = root / SC_OUT.relative_to(ROOT)
+    if specs:
+        out.mkdir(parents=True, exist_ok=True)
+    for sid, spec in specs.items():
+        # default=str: YAML dates and other scalars json cannot encode
+        (out / f"{sid}.json").write_text(
+            json.dumps(spec, ensure_ascii=False, separators=(",", ":"), default=str), encoding="utf-8"
+        )
+    n = 0
+    for sub, pat in (("drawings", "*.png"), ("traces", "*.json")):
+        files = sorted((src / sub).glob(pat)) if (src / sub).is_dir() else []
+        for f in files:
+            (out / sub).mkdir(parents=True, exist_ok=True)
+            shutil.copyfile(f, out / sub / f.name)
+            n += 1
+    if out.is_dir():
+        stale = sorted(p.stem for p in out.glob("*.json") if p.stem not in specs)
+        if stale and log:
+            log.info(f"showcases: output without a spec (left in place): {', '.join(stale)}")
+    if log:
+        log.info(f"showcases: {len(specs)} specs ({', '.join(specs) or 'none'}), {n} drawing / trace files copied")
+
+
 def build(root: Path = ROOT, figures: bool = False, log: RunLog | None = None) -> dict[str, Any]:
     def rel(p: Path) -> Path:
         return root / p.relative_to(ROOT)
 
     miles = read_csv(rel(MILESTONES))
     cands = {r["paper_id"]: r for r in read_csv(rel(CANDIDATES))}
+    tags = {r["paper_id"]: r for r in read_csv(rel(TAGS))} if rel(TAGS).is_file() else {}
     srcs = {r["source_id"]: r for r in read_csv(rel(SOURCES))}
     comps: dict[str, list[dict[str, str]]] = defaultdict(list)
     for c in read_csv(rel(COMPONENTS)):
@@ -106,7 +188,15 @@ def build(root: Path = ROOT, figures: bool = False, log: RunLog | None = None) -
         cand = cands.get(pid, {})
         src = srcs.get(sid, {})
         rows = comps.get(sid, [])
-        mats = Counter(c["platform"] or c["core_material"] for c in rows if c["platform"] or c["core_material"])
+        tag = tags.get(pid, {})
+        if log and pid not in tags and tags:
+            log.info(f"{pid}: no row in milestone_tags.csv")
+        # platform only: core_material is free text (D989); the paper-level material comes from the tag table
+        mats = Counter(c["platform"] for c in rows if c["platform"])
+        kind = tag.get("kind", "")
+        material = tag.get("material", "") or (
+            mats.most_common(1)[0][0] if mats else NO_MATERIAL.get(kind, NOT_STATED if kind else NO_DEVICE)
+        )
         insts = split_semi(cand.get("institutions", ""))
         printed = m["orgs_printed"]
         key0 = insts[0] if insts else (printed.split(";")[0] if printed else "")
@@ -126,8 +216,9 @@ def build(root: Path = ROOT, figures: bool = False, log: RunLog | None = None) -
                 "year": int(year) if year.isdigit() else None,
                 "date": date,
                 "era": m["era"].split(" ")[0] if m["era"] else cand.get("era", "").split(" ")[0],
-                "thread": m["thread"] or cand.get("thread", ""),
-                "topic": cand.get("topic", ""),
+                "thread": tag.get("thread", "") or m["thread"] or cand.get("thread", ""),
+                "topic": tag.get("topic", "") or cand.get("topic", ""),
+                "kind": kind,
                 "event": m["event"],
                 "significance": CURATION.sub("", cand.get("significance", "")),
                 "title": src.get("title", "") or cand.get("title", ""),
@@ -137,7 +228,7 @@ def build(root: Path = ROOT, figures: bool = False, log: RunLog | None = None) -
                 "orgs_printed": printed,
                 "institutions": insts,
                 "inst": inst_key(key0) if key0 else "",
-                "material": mats.most_common(1)[0][0] if mats else NO_DEVICE,
+                "material": material,
                 "materials": sorted(mats),
                 "components": [
                     {
@@ -163,6 +254,14 @@ def build(root: Path = ROOT, figures: bool = False, log: RunLog | None = None) -
             }
         )
     out.sort(key=lambda r: (r["date"] or str(r["year"] or 9999), r["id"]))
+    specs = load_showcases(root, log)
+    for r in out:
+        if r["id"] in specs:
+            r["showcase"] = True
+    if log:
+        missing = sorted(set(specs) - {r["id"] for r in out})
+        if missing:
+            log.info(f"showcases without a merged milestone (no flag until merged): {', '.join(missing)}")
     return {"eras": ERAS, "milestones": out}
 
 
@@ -183,6 +282,7 @@ def write(figures: bool = False, dry_run: bool = False) -> int:
             STATIC.mkdir(parents=True, exist_ok=True)
             OUT.write_text(json.dumps(view, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
             log.info(f"wrote {OUT.relative_to(ROOT)} ({OUT.stat().st_size} bytes)")
+            write_showcases(load_showcases(ROOT), ROOT, log)
     return 0
 
 

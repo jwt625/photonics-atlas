@@ -1,0 +1,88 @@
+tags_audit (2026-11-11): fresh-context audit of tags_e0_e1.csv (36) + tags_e2_e6.csv (43) = 79 milestones
+Output: data/_staging/history/tags/milestone_tags.audited.csv (79 rows, sorted by paper_id, ASCII, LF)
+Evidence: references/<paper_id>/text.md only; no network.
+
+VERDICT: PASS WITH CORRECTIONS. Both tag tables are sound: every kind call checked is defensible, no "theory" row hides a built device,
+no "device" row is analysis-only, every material is one the paper states. Corrections are mostly label quality (generic or
+editorial topics, long material strings) plus one kind (kao1966) and two clear thread misfits.
+
+Rows changed by field (26 field changes on 25 rows)
+- kind: 1
+- material: 6
+- topic: 17
+- thread: 2
+- rows with any change: 25 / 79
+
+Final counts by kind: device 39, theory 26, measurement 8, review 3, process 2, system 1
+
+Thread vocabulary (distinct thread values in data/_staging/literature/history_candidates.csv, 11):
+- InP PICs, transceivers, systems
+- PLC, WDM, EDFA, systems
+- guided-wave and EM foundations
+- integrated optics (dielectric, LiNbO3, III-V)
+- lasers
+- nanophotonics, programmable, quantum, nonreciprocal
+- new platforms and integrated nonlinear
+- nonlinear optics and combs
+- optical fiber
+- semiconductor optoelectronics
+- silicon photonics and microcavities
+
+CHANGES (paper_id | field | old -> new | reason)
+[kind]
+- kao1966 | device -> measurement | analysis paper whose experiments are corrugated-metal-rod microwave scale measurements and optical mode-launching tests on cladded glass fibres, aimed at assessing waveguide performance (Sec. 6, p.6); no device is the result; consistent with snitzer1961a (measurement)
+[material]
+- berreman1965 | gas (CO2, air) -> gas | paper word "gas"; several gases tested (CO2, air, He-CO2, C4F10, p.4-6), none is the platform
+- faraday1846 | heavy glass (silicated borate of lead) -> heavy glass | paper term "heavy glass"; composition (silicated borate of lead) kept in notes, short legend label
+- koester1964 | Nd glass -> Nd-doped glass | paper: "neodymium-doped glass" (abstract p.1); spelled like Er-doped fiber (mears1987)
+- maiman1960 | ruby (Cr:Al2O3) -> ruby | paper word "ruby (chromium in corundum)" p.1; short canonical
+- miller1954 | metal waveguide (microwave) -> metal | paper: "hollow metallic waveguides" (p.44 footnote); wall metal not named; geometry/band are not material
+- southworth1936 | copper (hollow pipe) -> copper | short canonical; hollow-pipe geometry is not a material (p.1, p.13-14)
+[topic]
+- alfano1970 | supercontinuum -> broadband four-photon parametric emission in glass | "supercontinuum" is the generic candidate label, not in the paper; abstract: four-photon parametric emission 4000-7000 A in borosilicate glass
+- armstrong1962 | nonlinear optics theory; quasi-phase-matching origin -> nonlinear wave-mixing theory; periodic phase correction (QPM) | "origin" is editorial; the paper proposes 180-deg phase-correction schemes after each coherence length (p.19), i.e. the QPM scheme
+- colladon1842 | light guiding in liquid jet -> light guided in a water jet | p.1-2: sunlight totally internally reflected in a water jet ("l'eau"); old label said only "liquid"
+- delhaye2007 | Kerr microcomb -> frequency comb from silica toroid microresonator | title "Optical frequency comb generation from a monolithic microresonator"; silica toroid on Si chip (p.2); old label generic
+- hasegawa1973 | optical solitons (theory) -> envelope solitons in dispersive fiber (theory) | old label generic; title: stationary nonlinear optical pulses in dispersive dielectric fibers, anomalous dispersion (p.2)
+- haus1976 | phase-shifted DFB (theory) -> antisymmetric coupling taper in DFB lasers (theory) | paper title "Antisymmetric taper of distributed feedback lasers" (p.1); "phase-shifted" is not the paper term
+- herr2014 | dissipative Kerr soliton (DKS) -> temporal dissipative solitons in MgF2 microresonator | abstract p.1 "observation of temporal dissipative solitons in a high-Q optical microresonator", MgF2 (p.2); "DKS" acronym not the paper term
+- kaminow1975 | LiNbO3 phase modulator -> Ti-diffused LiNbO3 strip-waveguide phase modulator | owner example; abstract p.2 "strip-waveguide electro-optic phase modulator has been fabricated in Ti-diffused LiNbO3"; old label generic
+- kao1966 | fiber as transmission medium -> clad glass fiber waveguide for optical communication | old "fiber as transmission medium" was the generic candidate label; title "Dielectric-fibre surface waveguides for optical frequencies"
+- kawakami1968 | graded-index fiber theory -> optimum index profile for equal mode group velocity | title: optical waveguide with the optimum distribution of the refractive index (p.1); old label generic
+- knight1996 | photonic crystal fiber -> all-silica single-mode photonic crystal fiber | paper title (p.1); old label generic
+- mears1987 | EDFA -> low-noise Er-doped fiber amplifier at 1.54 um | paper title (p.1) "Low-noise erbium-doped fibre amplifier operating at 1.54 um"; old label acronym only
+- rayleigh1910 | whispering gallery modes -> whispering-gallery waves for sound, wave theory | paper treats sound (and membrane) vibrations clinging to a concave wall (p.1); "modes" of light not discussed
+- roelkens2005 | SOI fiber coupler -> SOI-to-lensed-fiber taper coupler, 248-nm DUV | abstract p.1: SOI waveguide to fiber coupler by 248-nm deep-UV lithography, taper ~1 dB, lensed fiber 1.9 dB; old label generic
+- smit1988 | AWG / PHASAR -> phased-array focusing and dispersive component (AWG) | title "New focusing and dispersive planar component based on an optical phased array" (p.2); AWG kept only as identification
+- soref1986 | silicon waveguide platform -> all-silicon guided-wave components at 1.3 um | title "All-silicon active and passive guided-wave components for 1.3 and 1.6 um"; epitaxial Si on n+ Si (not SOI), power divider fabricated (p.1)
+- yariv1973 | coupled-mode theory -> coupled-mode theory for guided-wave optics | paper title (p.1); old label generic
+[thread]
+- schwartz1978 | optical fiber -> PLC, WDM, EDFA, systems | a lightwave system field trial (44.7 Mb/s links, installed cables, p.1-2), not a fiber result; epworth1977 "fiber field trial" and runge1984 already sit in the systems thread
+- waldhausl1997 | silicon photonics and microcavities -> integrated optics (dielectric, LiNbO3, III-V) | polymer slab/strip waveguide grating couplers (p.1): no silicon, no cavity; sibling of dakss1970 grating coupler and tien1971 couplers, which sit in the integrated-optics thread
+
+Thread reviews with no change (flagged by tag agents, not clear cases)
+- berreman1965 (optical fiber): candidate list files gas and hollow light guides (berreman1965, marcatili1964) under optical fiber as the transmission-medium lineage; kept.
+- kogelnik1969 (integrated optics): thick-hologram coupled-wave theory; the DFB / grating work it feeds (kogelnik1971, dakss1970) is in this thread; no other thread clearly better; kept.
+- faraday1846 (guided-wave and EM foundations): magneto-optic rotation is EM foundations; the nonreciprocal thread is a modern device thread; kept.
+- herr2014 (new platforms and integrated nonlinear): candidate list puts the soliton-microcomb lineage (leo2010, coen2013, yi2015, brasch2016) in this thread; kept.
+- kogelnik1972 / haus1976 (semiconductor optoelectronics) vs kogelnik1971 (integrated optics): both theory papers are generic DFB (kogelnik1972 p.10: DFB suits dye and semiconductor lasers; haus1976 refs are GaAs DFB lasers); kogelnik1971 is a dye-gelatin thin-film demo. Split is defensible, not a clear error; kept.
+All other 70 threads reviewed against the paper topic and the candidate list; no further clear misfit.
+
+Conventions applied
+- Material: display-case spellings of components.csv platform / core_material (GaAs, LiNbO3, Al2O3, SOI, Si, silica, glass, polymer); paper word otherwise.
+  Same thing, same spelling across both tables: glass x9 (paper says glass; not upgraded to silica: kapron1970, stolen1972, snitzer1961a, hopkins1954, kao1966, uchida1970, dakss1970, alfano1970, miller1969),
+  silica x5 only where the paper says silica (kato1973, macchesney1974, ilchenko1999 p.1 "silica spheres", delhaye2007, knight1996).
+  Parenthetical qualifiers removed (geometry or composition is not the legend material): heavy glass, copper, metal, ruby, gas. Dopant spelling aligned: Nd-doped glass / Er-doped fiber.
+  vanheel1954 kept "polymer" (paper: "plastic fibres"; same material class, components.csv spelling).
+- Material empty for theory / review rows except theory papers that work one material as their example (schawlow1958 potassium vapor, kroemer1963 Ge-GaAs, miller1969 glass); schwartz1978 empty (fiber composition never stated).
+- Topic: <= 8 words, the paper's own terms; established names of the exact same thing kept as identification when the paper describes it precisely (macchesney1974 MCVD, smit1988 "(AWG)", armstrong1962 "(QPM)"); "first" / "origin" style claims removed.
+
+Not changed but noted
+- kapron1970, stolen1972 device vs measurement and delhaye2007 device vs herr2014 measurement: both readings defensible; kept as tagged.
+- quist1962 and hall1962 share topic "semiconductor diode laser (GaAs)"; both accurate.
+- Tag-agent milestone issues (dri / date gaps, kao1966 text is the 1986 IEE reprint so page locators refer to it, hopkins1954 / vanheel1954 share the same Nature page) are outside this audit; see the two .report.txt files.
+
+Rows checked by reading the paper (key passages located and read in text.md, material and kind evidence confirmed): 41
+  alfano1970, armstrong1962, berreman1965, colladon1842, dakss1970, delhaye2007, faraday1846, franken1961, hasegawa1973, haus1976, herr2014, hopkins1954, ilchenko1999, kaminow1975, kao1966, kapron1970, kato1973, kawakami1968, knight1996, kogelnik1969, kogelnik1971, kogelnik1972, kroemer1963, macchesney1974, maiman1960, mears1987, miller1954, miller1969, nathan1962, rayleigh1910, roelkens2005, schwartz1978, smit1988, snitzer1961a, soref1986, southworth1936, stolen1972, tien1969, vanheel1954, waldhausl1997, yariv1973
+Rows spot-checked (title / abstract / one key passage or experiment-keyword sweep): 38
+  boyd1961, burns1975, dingle1974, fox1961, giordmaine1965, gloge1971, gloge1973, gordon1954, hall1962, hargrove1964, hayashi1970, holonyak1962, hondros1910, javan1961, koester1964, kogelnik1966, kogelnik1976, little1997, liu2004, marcatili1969, marcatili1969a, marcuse1977, martin1975, maxwell1865, mcintyre1966, miller1978, papuchon1975, personick1973, quist1962, schawlow1958, schmidt1974, snitzer1961, somekh1973, tien1971, tien1977, uchida1970, vellekoop1991, wang2018b

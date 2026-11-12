@@ -1,0 +1,146 @@
+macchesney1974 showcase research report (MCVD preform process)
+Date: 2026-11-11. Spec: data/history/showcases/macchesney1974.yaml (DevLog-017 section 4a schema).
+
+1. SOURCES
+- [P] J. B. MacChesney, P. B. O'Connor, H. M. Presby, "A new technique for the preparation of low-loss and
+  graded-index optical fibers", Proc. IEEE 62(9), 1280-1281 (Sept. 1974). https://doi.org/10.1109/PROC.1974.9608
+  Cached: references/macchesney1974/ (licensed, local only). Read from page scans img_p01_1.png / img_p02_1.png.
+  Letter = p.1280 right column + p.1281 left column. Manuscript received 1974-05-20.
+- [US] J. B. MacChesney, P. B. O'Connor, US 4,217,027 "Optical fiber fabrication and resulting product".
+  Filed 1977-08-29 (Appl. 828,617), continuation of Ser. No. 444,705 filed 1974-02-22 (abandoned); issued 1980-08-12;
+  reexamination certificate B1 4,217,027 issued 1986-07-15 (claims 1 and 26 amended: "visible" suspension).
+  PDF: https://image-ppubs.uspto.gov/dirsearch-public/print/downloadPdf/4217027 (one request, generic UA, HTTP 200,
+  813,435 bytes, 11 pages) cached at cache/showcases/macchesney1974/US4217027.pdf (git-ignored).
+  Text read via tesseract OCR of the native scans + column:line mapping from the gutter numerals; every number used
+  in the spec was checked against the scan image. Column:line locators are +-1 line.
+- [TF] G. W. Tasker, W. G. French, "Low-loss optical waveguides with pure fused SiO2 cores", Proc. IEEE 62(9),
+  1281-1282 (Sept. 1974); its first column is on the cached page p.1281 (right column). DOI not verified.
+  Context only (describes adapting the MacChesney process: "modified glass-working lathe", "thin wall T08 fused
+  quartz tube"). Its 1600-1750 C and >1500 C belong to its own process; not used as recipe values.
+- [ICG] MacChesney et al., "Preparation of low loss optical fibers using simultaneous vapor phase deposition and
+  fusion", 10th Int. Congress on Glass, Kyoto, July 1974, pp. 6-40 to 6-45 (cited on the US front page). Not reached.
+- [N82] S. R. Nagel, J. B. MacChesney, K. L. Walker, "An overview of the modified chemical vapor deposition (MCVD)
+  process and performance", IEEE JQE QE-18(4), 459-476 (April 1982). Bibliographic record only
+  (https://scilit.net/publications/e0fd0357c9fe1b45284c4d6d6342bc20); not read; no numbers used. One ADS mirror
+  lists the same paper under IEEE T-MTT 30, 305 (1982); not resolved.
+- [S79] P. G. Simpkins, S. Greenberg-Kosinski, J. B. MacChesney, "Thermophoresis: the mass transfer mechanism in
+  modified chemical vapor deposition", J. Appl. Phys. 50(9), 5676-5681 (1979). Citation seen only in a citing
+  patent; not read; not used.
+Web requests: 2 web searches, 1 USPTO PDF download. No 403/429/503.
+
+2. WHAT THE PAPER ITSELF FIXES (P)
+- Thin-wall fused-quartz tube (Amersil T08 Commercial Grade) held in a glass-working lathe, supported on both ends;
+  rotating; heated by an oxy-hydrogen burner that traverses along its length; multiple passes.
+- Gas: SiCl4, GeCl4, BCl3 carried in an O2 stream. Reaction at the tube surface and in the gas; gas-phase
+  particles settle as powder downstream of the hot zone and are fused to a clear film as the burner traverses.
+- Sequence: thin borosilicate barrier layer first; then GeO2-SiO2 or GeO2-B2O3-SiO2; tube collapsed to a solid rod;
+  germania-rich layer forms the preform core.
+- Fiber (Fig. 1): 723 m, core ~35 um, NA 0.235, loss minimum just under 2 dB/km at 1.06 um, ~lambda^-4 decrease;
+  OH absorptions 0.72, 0.88, 0.95 um, < 10 dB/km at 0.95 um; fractionally distilled SiCl4 gave peaks ~2 dB/km
+  above background at 0.95 um; NA up to 0.35 with other conditions.
+- Graded index: 10 equal-thickness layers, GeCl4 flow in 10 increments, SiCl4 and BCl3 constant, time per layer
+  proportioned; measured (interference microscopy) delta n max 0.0165, alpha 1.6 (Fig. 2).
+- The paper prints NO temperatures, flows, speeds, rpm or pass counts. It does not use the words "MCVD" or
+  "modified chemical vapor deposition" ("a new method derived from CVD").
+
+3. RECIPE NUMBERS (all from US 4,217,027; HUD source)
+- Tube 12 mm I.D. x 14 mm O.D. (6:60-61; 8:35-36); cut to 18 in (8:23-24); HF-HNO3 3 min, DI rinse 1 h (8:20-23).
+- Rotation 100 rpm (6:62-63; 2:65-66). Hot zone ~2 cm, 45 cm/min, 100 rpm, 1600 C possible without distortion
+  (5:15-20). Pyrometer on the outer surface; wall gradient up to 300 C (5:24-29). Hot zone ~2 cm, heated region
+  extending 4 cm either side of the peak (8:04-06). Traverse 1-8 min per pass across examples (8:27-29).
+- O2 flush: wall 1400 C, 5 min (6:63-7:01); flush flow 100-500 cm3/min (8:29-31).
+- General Procedure barrier: ~10 % SiCl4, 3 % BCl3, rest O2, 1400 C, ~45 cm/min forward (direction of gas flow),
+  rapid return ~30 s, ~20 min; then O2 only for several passes (7:01-19).
+- Example 1 barrier: SiCl4 41 cm3/min, BCl3 12.5 cm3/min, total O2 250 cc/min, 16 passes, 1430 C (8:36-41).
+- Example 1 core: SiCl4 32, GeCl4 48, O2 650 cc/min, 68 min, 1460 C (8:41-45). General Procedure core ~1450 C,
+  ~1 h (7:20-26).
+- Collapse: traverse slowed, temperature rises to ~1900 C with reactants flowing (nearly complete collapse), then
+  flow stopped for final collapse (7:27-35; Example 1 8:45-47). Preform: GeO2-SiO2 core, borosilicate cladding,
+  silica support layer.
+- Draw: ~60 m/min onto a 30 cm mandrel at 60 rpm; fiber ~100 um OD, core ~37 um, ~0.7 km (7:38-50).
+  Example 1: core ~40 um, 100 um OD, 723 m, 2 dB/km at 1060-1100 nm (8:47-51).
+- Essential (on-canvas, D983): 45 cm/min traverse, 1460 C core deposition, ~1900 C collapse, just under 2 dB/km.
+
+4. TOPOLOGY: FIXED / ASSUMED / WITHHELD
+Fixed (source):
+- Horizontal tube in a lathe, supported at both ends [P; US FIG. 1, 4:14-15].
+- Gas in at the left end through inlet tube 7 in the headstock, out through outlet 18 beyond the tailstock;
+  flow left to right [US FIG. 1, 3:67-4:11; FIG. 3 arrow 34, 4:37-40].
+- Burner below the tube (FIG. 3 heating means 31; FIG. 1 heating means 4 on the bed under tube 2), moved by a
+  threaded feed member 6 (double-headed arrow 5b) [3:62-67].
+- Deposition traverse in the direction of gas flow, rapid return [7:06-10]; FIG. 3 arrow 33 points the same way
+  as gas arrow 34.
+- Particle cloud (zone 35) downstream of hot zone 32; particle-free fusion region 36 upstream [4:33-47; P].
+- Gas supply (FIG. 1): O2 bubbled through liquids 16, 17 in reservoirs 14, 15 via inlets 10, 11; inlet 12 from
+  reservoir 13; oxygen inlet 9; assembly 8 [4:01-10]. Text: O2 bubbled through SiCl4 and GeCl4, combined with
+  vapor-phase BCl3 and extra O2 [6:15-22].
+Assumed (render only, flagged in spec):
+- All lathe, burner, pipe and bubbler dimensions; layer thicknesses (visual); look colors.
+Withheld (see spec `withheld`): lathe/chuck/drive geometry; burner geometry; layer thicknesses; core pass count;
+bubbler-to-liquid mapping and reservoir 13 contents; paper-specific recipe values; Fig. 2 comparison curves;
+mechanism wording (thermophoresis); preform diameter for this run (only the general 4-8 mm range, printed as
+"internal diameter of from 4 to 8 mm" at 3:30-32).
+
+5. DISCREPANCIES / CAVEATS
+- Fiber length: P Fig. 1 = 723 m; US Example 1 = 723 m; US FIG. 4 description = "713 meters" (4:48-50).
+- Core diameter: P ~35 um; US General Procedure ~37 um; US Example 1 ~40 um.
+- The match of 723 m suggests the patent Example 1 fiber is the paper's Fig. 1 fiber; not stated by either source.
+- Patent recipe precedes the paper (priority 1974-02-22 vs manuscript 1974-05-20), same first two inventors.
+- "linear rate of 4.5 meter/mins" for the flush (8:30-31) quoted as printed.
+
+6. DIGITIZATION (PIL / numpy / scipy; scripts in the scratchpad, see section 8)
+Plot `loss` = P Fig. 1 (p.1281). Source img_p02_1.png (2413 x 3175), crop box (150,150,1250,700).
+- x: frame left 214 px = 500 nm, frame right 844 px = 1100 nm (1.05 px/nm); detected ticks at 320, 426, 530.5,
+  634.5, 739.5 px agree with 600-1000 nm within 1.5 px.
+- y (log): 403 px = 1 dB/km, 56 px = 100 dB/km (173.5 px/decade); minor ticks 2-90 agree within ~1 px.
+- Solid curve: column tracking by continuity, run centers, sampled every 5 nm, 605-1095 nm (99 points).
+  605-640 nm overlaps the dashed guide (merged center). Uncertainty ~+-2 nm, ~+-4 % in y.
+- Dashed lambda^-4 guide: 12 dash centroids (dashes 720-830 nm merge with the solid curve, not separable).
+  Check: free power-law fit exponent -4.27; lambda^-4 fit gives 2.36 dB/km at 1000 nm, max deviation 11 %.
+Plot `loss_patent` = US FIG. 4 (sheet 2, public domain). Native scan 2320 x 3408, crop (400,1840,1920,3200).
+- Axes sheared: bottom axis slope -0.01304, left axis slope +0.008 px/px; affine projection used.
+- x ticks 236, 472, 705, 938, 1171 px = 600-1000 nm (residual 0.5 nm); right axis evaluates to 1099 nm.
+- y (log) ticks 140 ... 952.5 px = 20, 10, 9 ... 2 dB/km; 813.4 px/decade, residual 0.0035 decade; bottom axis
+  evaluates to 1.02 (printed 1).
+- Curve: column run centers, resampled every 5 nm, 620-1090 nm (95 points). y label printed without unit; unit
+  dB/kilometer from 3:53-54 and 4:48-49.
+Plot `profile` = P Fig. 2 (p.1281). Crop (150,700,1250,2050) of img_p02_1.png.
+- x: ticks 186.5 ... 872.5 px = -35 ... 30 um; 10.563 px/um, 0 um at 555.7 px; max tick residual 1.8 px (0.17 um).
+- y: 21 ticks 64 ... 1127 px = 18 ... -2 (units 1e-3); 53.39 px/unit; max residual 3.2 px (0.06e-3).
+- Measured points: morphological opening (disk r = 4 px) then centroids; legend glyphs and one dash fragment of
+  the alpha = 1.5 curve removed; a merged blob near the peak split with r = 5 px into (3.03, 16.14) and
+  (4.14, 15.86). 29 points. Point (10.70, 13.15) is uncertain (dot merged with the curve). Overlay of all final
+  points on the scan checked by eye.
+- Curve ends: 4 vertices of the measured curve's end segments (dip to about -1.5e-3 at r ~ +-32 um).
+- Not digitized: the solid measured curve between the dips (three curves overlap on the right flank); alpha 2.0 and
+  1.5 comparison curves.
+
+7. DRAWINGS (US 4,217,027, public domain)
+- FIG. 3 (sheet 2): drawings/macchesney1974-fig3.png 1244 x 848, deskewed -0.65 deg (projection-profile maximum),
+  trace traces/macchesney1974-fig3.json, 22 elements, coverage 98.4 % covered, 0.8 % off-scan (tol 4 px).
+  Numerals 30-36 mapped to spec parts (spec `drawings[0].numerals`). Stipple traced dot by dot as filled circles;
+  zone 32 / zone 35 split at x = 615 px, the measured step in dot density (no printed boundary).
+- FIG. 1 (sheet 1): drawings/macchesney1974-fig1.png 1684 x 1149, deskewed -1.55 deg, trace
+  traces/macchesney1974-fig1.json, 59 elements; coverage net 97.9 % covered, 0.4 % off-scan, excluding 4 copier
+  smudge boxes inside the lathe outline (4041 of 96090 ink px; raw 93.2 %). Numerals 1-18 incl. 5a, 5b mapped.
+  Leader 7 is printed dashed (3 segments). Numeral 3 (hot zone) is attached to the two small circles at the tube,
+  as the leader shows. The unnumbered gas manifold lines are an element without ref.
+- Method: ipatent pipeline (TRACE_SCHEMA.md); vectoriser vec.py copied from ipatent work/1894011 into the
+  scratchpad with PN changed; overlay.py / coverage.py copied (coverage calls sys.executable). ipatent repo untouched.
+  Renderer for these traces: ipatent viewer/trace-render.js (GPL-3.0, same author).
+- FIG. 2 (vertical apparatus with ring burner 23) and FIG. 4 (loss plot) not traced; FIG. 4 digitized instead.
+
+8. WHAT RAN / WHERE
+Session scratchpad (temporary, not committed), folder macchesney1974/:
+- pages/ (patent page scans), ocr/ (tesseract txt/tsv, lined.txt = column:line text)
+- scripts/dig_fig1.py, dig_fig2.py, dig_patfig4.py, lines.py, build_spec.py, netcov.py, grid.py
+- tr/gen/gen1.py, gen3.py (trace generators), tr/work/mc/check/ (overlay, trace, diff PNGs)
+Python: scratch uv venv (numpy, pillow, scipy, pymupdf, scikit-image, pyyaml), offline installs.
+
+9. OPEN QUESTIONS
+- Title uses "MCVD", a later name the 1974 paper does not use; keep as the hero keyword (with a side-panel note) or
+  use "Inside-tube deposition"?
+- HUD values come from the patent examples, not the paper; OK to show them labelled "US 4,217,027, Example 1"?
+- Main loss plot: P Fig. 1 (licensed, digitized per D982) or US FIG. 4 (public domain, nearly the same curve)?
+- Bubbler contents are not assigned in the patent; render bubblers unlabeled (current spec) unless another
+  source fixes it.

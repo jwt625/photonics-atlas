@@ -1,0 +1,51 @@
+tags_e0_e1 report (2026-11-11)
+Scope: 36 milestones in data/history/milestones.csv with era E0 or E1. One row each in tags_e0_e1.csv.
+Evidence: references/<paper_id>/text.md only (page numbers = text.md page markers). No memory or other papers used.
+
+Counts by kind
+- device 17, theory 15, measurement 3, review 1, process 0, system 0
+
+Rules applied
+- theory = no experiment in the paper. Theory papers with a built and measured device are tagged device
+  (miller1954: microwave couplers and TE01 mode transducer, p.35-37, p.45; kao1966: cladded glass fibres and
+  corrugated-rod microwave models, p.6 Sec. 6).
+- Material on a theory paper only when the paper works a specific material through as its example
+  (schawlow1958 potassium vapor; kroemer1963 Ge-GaAs; miller1969 glass as the proposed substrate).
+  Otherwise empty (maxwell1865, hondros1910, rayleigh1910, boyd1961, fox1961, snitzer1961, armstrong1962,
+  mcintyre1966, kogelnik1966, kawakami1968, marcatili1969, marcatili1969a, kogelnik1969).
+- Spellings from components.csv where they apply: GaAs, LiNbO3, glass, polymer. Others plain:
+  heavy glass (silicated borate of lead), copper (hollow pipe), ammonia gas, ruby (Cr:Al2O3), He-Ne gas,
+  quartz, GaAsP, Nd glass, gas (CO2, air), ZnO / ZnS, metal waveguide (microwave), potassium vapor, Ge-GaAs.
+
+Material changes (json now shows "theory / no device" unless stated)
+- faraday1846 heavy glass (silicated borate of lead); southworth1936 copper (hollow pipe); gordon1954 ammonia gas;
+  hopkins1954 glass; vanheel1954 polymer (paper: plastic fibres best, first models glass); miller1954 metal waveguide
+  (microwave; wall metal not stated); schawlow1958 potassium vapor; maiman1960 ruby (Cr:Al2O3); javan1961 He-Ne gas;
+  snitzer1961a glass; franken1961 quartz; hall1962 GaAs; nathan1962 GaAs; holonyak1962 GaAsP; quist1962 GaAs;
+  kroemer1963 Ge-GaAs; hargrove1964 He-Ne gas; koester1964 Nd glass; berreman1965 gas (CO2, air);
+  giordmaine1965 LiNbO3; kao1966 glass; miller1969 glass; tien1969 ZnO / ZnS (json showed "other").
+
+Topic changes (old -> new)
+- faraday1846: Faraday rotation (isolator origin) -> magneto-optic (Faraday) rotation in heavy glass (paper says nothing about isolators)
+- maiman1960: first laser (ruby) -> flash-lamp-pumped ruby optical maser (paper makes no 'first' claim)
+- franken1961: second-harmonic generation -> second-harmonic generation in crystalline quartz
+- nathan1962: GaAs injection laser (IBM) -> stimulated emission from GaAs p-n junction (p.2: no resonant modes sought; evidence is line narrowing)
+- hargrove1964: active mode locking -> active mode locking of He-Ne laser
+- koester1964: first fiber amplifier (Nd glass) -> Nd-glass fiber laser amplifier at 1.06 um (p.1 cites the authors' own earlier preliminary amplification results, ref. 8)
+- giordmaine1965: optical parametric oscillator -> tunable LiNbO3 optical parametric oscillator
+- kogelnik1966: lasers -> laser beams and resonators review (ABCD, Gaussian)
+Other topics kept (already specific and consistent with the paper).
+
+Suspected milestone problems (not fixed)
+1. hondros1910: dri empty. Byline p.1: "von D. Hondros und P. Debye".
+2. nathan1962: dri empty. Byline p.2: Marshall I. Nathan, William P. Dumke, Gerald Burns, Frederick H. Dill Jr., Gordon Lasher (IBM).
+3. gordon1954, southworth1936: date empty. gordon1954 p.1 byline block: "(Received May 5, 1954)" (Phys. Rev. Letters to the Editor, journal p.282-284; issue date not in the OCR). southworth1936 is BSTJ 1936 (doi 10.1002/j.1538-7305.1936.tb00733.x); p.1 footnote line reads "April 30, 1936".
+4. berreman1965: thread "optical fiber", but the paper is convective gas light guides / gas lens trains (p.1), not a fibre.
+5. kogelnik1969: thread "integrated optics (dielectric, LiNbO3, III-V)", but the paper is coupled-wave theory of thick hologram gratings (p.1 abstract); no integrated-optics content found in the text.
+6. faraday1846: thread "guided-wave and EM foundations" is loose for a magneto-optic rotation experiment; acceptable only if the thread means EM foundations generally.
+7. koester1964: dri "Elias Snitzer" while first author is Charles J. Koester (byline p.1 "Charles J. Koester and Elias Snitzer"); fine if dri means group lead, check intent.
+8. gordon1954: dri lists Townes first; byline order is J. P. Gordon, H. J. Zeiger, C. H. Townes (p.1); fine if dri means group lead.
+9. nathan1962 event wording is fine, but note the paper (p.2) states no resonant cavity was attempted; it is stimulated-emission evidence, not a laser with a cavity.
+10. kao1966: references/kao1966 text is the IEE Proceedings Pt. J vol. 133 no. 3 (June 1986) reprint (footer p.6); milestone date 1966-07 is the original, page numbers in locators refer to the reprint.
+11. hopkins1954 and vanheel1954 text.md files both contain the same Nature page 39 (van Heel letter); hopkins1954 text p.1 col. 2 onward is Hopkins and Kapany.
+No event text found to contradict its paper among the 36 (spot-checked numbers: hall1962 8500 A/cm2 and 125 -> 15 A; holonyak1962 11,000 A/cm2, 7100 A; javan1961 15 mW at 11530 A; quist1962 90 A / 6 A).

@@ -416,7 +416,7 @@
 	.dt { overflow-x: auto; }
 	.split2 { display: grid; grid-template-columns: minmax(0, 1fr) 220px; gap: 0; align-items: start; }
 	.split2 .cell { min-width: 0; }
-	.types { border-left: 1px solid var(--border); }
+	.types { margin-left: 10px; border-top: 3px solid var(--line); }
 	.detail { min-height: 0; overflow: auto; padding: 8px 10px; background: var(--surface); }
 	h2 { margin: 0 0 4px; font-size: 14px; }
 	h2 .hub { font-size: 11px; font-weight: 400; margin-left: 6px; }
@@ -435,7 +435,7 @@
 		.main { border-right: none; }
 		.detail { border-top: 1px solid var(--border); }
 		.split2 { grid-template-columns: minmax(0, 1fr); }
-		.types { border-left: none; }
+		.types { margin-left: 0; }
 		.bar { flex-wrap: wrap; }
 	}
 </style>

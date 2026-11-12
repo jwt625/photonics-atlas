@@ -1,0 +1,65 @@
+hist_08 component fresh-context audit, 2026-11-11
+Mode: read-only on the batch; findings only in comp_audit_patch.csv (3 patch rows). Scope: the 5 component rows and 11
+metric rows in data/_staging/components/hist_08/, plus a search for missing device rows in all 8 papers.
+
+VERDICT: GO once comp_audit_patch.csv is applied. Patch applied to a scratchpad copy (0 conflicts):
+merge_component_staging --dry-run +5 components +11 metrics, 0 errors (only the pre-existing cmp_lit_ni2025b_pimmwc
+warning).
+
+COUNTS (rows checked 16 = 5 components + 11 metrics)
+  wrong      0
+  imprecise  3  (basis of unit-rescaled values: kaminow1975 -m2, martin1975 switch -m1 and -m5)
+  missing    0
+  ok        13
+
+METHOD
+- Page-1 identity: schmidt1974 (APL 25, 458; text.md p.2 title / byline), kaminow1975 (APL 27, 555, page_02),
+  martin1975 (APL 26, 562, page_02), papuchon1975 (APL 27, 289, page_02): titles and bylines match.
+- Values re-read: schmidt p.4 text; kaminow page_02 / page_03; martin page_02 / page_03 (Fig. 3, Fig. 4 readings) and
+  p.4 text; papuchon page_02 / page_03 / page_04.
+- 0-row papers: macchesney1974 (fiber), burns1975, haus1976, kogelnik1976 (theory / proposal): agree.
+
+PER ROW
+schmidt1974 waveguide_platform.straight other (planar Ti / V / Ni-diffused LiNbO3): ok. Fab empty (passive 'evaporated',
+  'have been constructed'): ok. -m1 ~1 dB/cm at 0.63 um, author_estimate ('estimated', origin not stated, p.4; allowed,
+  decided): ok.
+kaminow1975 waveguide_platform.straight other, fab org_bell_labs ('we have built a modulator', p.2; own-work wording,
+  decided): ok. -m1 < 1 dB/cm, author_estimate ('We believe', p.3): ok. -m2 width 4600 nm (printed 4.6 um, measured
+  +/- 0.2 um, p.2): basis measured -> derived (D157 / D256 unit rescale; the microscope measurement stays in the
+  condition). Modulator metrics (0.30 V/rad, 1.7 uW/MHz rad2, 12 pF bound) out of scope (phase_shifter is non-EO):
+  ok.
+martin1975 switch_fabric.other other (ZnSe): ok (single 1x2 element, D158). Fab empty (passive; staff thanked for
+  'technical support in device fabrication' with no org, p.4; Naval Electronics Laboratory Center not in registry).
+  -m1 rise time <= 0.001 us (printed 'Electronics-limited rise times of 1 nsec', p.4): qualifier le ok; basis
+  measured -> derived (ns -> us rescale; D256a covers author_estimate rows only). -m2 6.8 dB (Fig. 3, 0 V: A 0.40,
+  B ~0.083), -m3 5.7 dB (Fig. 3, 17.5: B 0.30, A ~0.08), -m4 4.4 dB (Fig. 4, 30: B 0.60, A ~0.22-0.23 -> 4.3-4.4 dB):
+  ok within the stated reading ranges; the voltage axes print no unit (verified). -m5 length 6000 um (printed 6.0 mm,
+  Fig. 3 caption): basis design_target -> derived. -m6 n_outputs 2: ok.
+martin1975 splitter.y_branch other: ok. -m1 imbalance <= 0.1 dB (p.3 'within 0.1 dB', separate experiment), measured:
+  ok. band visible inferred (no wavelength stated for this experiment; the paper's measurements are at 0.633 um):
+  accepted as a flagged inference (see hist_06 question 3).
+papuchon1975 waveguide_platform.other other: ok. -m1 ~2 dB/cm TM electrode-induced loss (p.3 'The electrodes introduce
+  approximately 2 dB/cm loss for the TM modes'), author_estimate, polarization tm, band visible inferred from the
+  5145 A argon line used for these guides (p.3-4): ok. Fab empty because Thomson-CSF is not in the registry; the
+  paper's own-work wording ('We report the realization', p.2) with all eight authors at Thomson-CSF qualifies after
+  the org round.
+
+NOT ENTERED, CONFIRMED
+- papuchon1975 Cobra switch: 6 V switching (p.2, p.4; v_pi_v is a pi phase shift, not a coupler switching voltage),
+  coupling lengths ~500 um / ~1 mm (p.3; coupling_length_um is the coupling-section length, here c = 3 mm, a
+  geometry-only value), TM 3x more effective than TE (p.4, no parameter). A switch row would have no performance
+  metric (rule 9): ok to skip.
+- martin1975 capacitance ~0.6 pF (p.4; capacitance_ff not allowed for switch_fabric), schmidt1974 Table I depth / index
+  ('crudely estimated'): ok.
+
+COORDINATOR QUESTIONS
+1. martin1975 crosstalk rows are ratios of two figure readings: recommendation keep extracted_from_figure (reading
+   uncertainty dominates; formula and ranges in notes) rather than derived.
+2. papuchon1975 fab: add Thomson-CSF, Laboratoire Central de Recherches, Orsay (p.2) in the org round, then set fab on
+   the electrode-loaded guide row (own-work wording, D80b analogue).
+MISSING ORGS: Thomson-CSF, Laboratoire Central de Recherches (papuchon1975 p.2, fab candidate); Naval Electronics
+Laboratory Center, Electro-Optics Division (martin1975 p.2, author org only).
+REGISTRY GAPS CONFIRMED: switching voltage of a directional-coupler switch (papuchon p.2), switch_fabric capacitance
+(martin p.4), coupler beat length (papuchon p.3), diffused-guide depth / index change (schmidt Table I).
+
+Housekeeping: dry-run log files written to logs/ by this audit were removed; scratch copies only.

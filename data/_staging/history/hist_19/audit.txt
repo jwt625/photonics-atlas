@@ -1,0 +1,92 @@
+hist_19 fresh-context audit, 2026-11-11
+Mode: read-only on the batch; findings only in audit_patch.csv (3 patch rows). Coordinator rulings D953 (DevLog-016)
+and D987 (DevLog-017) treated as binding.
+
+VERDICT: GO once audit_patch.csv is applied (patch applied to a scratchpad copy, second application 0 changes:
+hist_merge_milestones --dry-run 7 rows 0 errors 0 warnings; merge_component_staging --dry-run +2 components
++2 metrics 0 errors, the only WARN is the known cmp_lit_ni2025b_pimmwc-m18 duplicate outside this batch).
+
+COUNTS (rows checked 18 = 7 milestones + 3 components + 8 metrics)
+  wrong      2  (component cmp_lit_wang2018b_ln_ridge_wg_800nm; its metric -m1 0.2 dB/cm: value from earlier work)
+  imprecise  2  (milestone colladon1842 event; milestone knight1996 key_figure_caption)
+  missing    0
+  ok        14  (5 milestones, 2 components, 2 metrics, plus wg_800nm -m2..-m6: values correct at p.5 Methods
+                 but removed with their component, rule 9)
+
+METHOD
+- Page-1 identity checked for all 7 cached texts (titles and bylines match papers.csv; herr2014 = arXiv v3 with SI,
+  wang2018b = accelerated article preview with Methods and Extended Data, both under D987 (2)).
+- colladon1842 (OCR scan, no page renders on disk): pages 1-3 rendered at 200 dpi from source.pdf with pymupdf in the
+  audit scratchpad (not kept in the repo); event, priority paragraph and apparatus read on the renders; img_p01_1.png
+  opened and confirmed a blurred background layer, not a page image.
+- Key figures opened: mears page_02.png (Fig. 1-4), knight img_p02_1.png (SEM, 10 um bar), little page_02.png
+  (Fig. 1 a-c), liu page_03.png (Fig. 3, Fig. 4 a-b), herr page_10.png (Fig. 4 a-b, 28.4 ps, 1.6 THz), wang
+  page_02.png (Fig. 1 a-d, Vpi 1.4 V, ER 30 dB, cross-section inset).
+- Every metric read at its locator; wang2018b ref. 28 resolved in the reference list (Zhang et al., Optica 4, 1536,
+  2017) and checked in the cached lit:zhang2017a (p.2: width study 800 nm to 2.4 um, Fig. 2(c)).
+- DRI changes (D987 (1)) checked against the contribution statements (herr2014 p.6; wang2018b p.1 footnote, p.4).
+
+MILESTONES
+- colladon1842: date empty ok (pp.800-802 print no session date). DRI Jean-Daniel Colladon, byline 'Lettre de
+  M. Colladon' ok; orgs empty ok (none printed). Notes verified on the renders: vessel 1 m high, screw-in diaphragms,
+  convex lens in the opposite wall, blackened tube, sunlight by mirror into a dark room (p.1); light escapes at solid
+  contact and drop break-up (p.2); Plateau note 1842-07-04, Conservatoire device since October 1841 built by Bourbouze
+  for Pouillet, copies for public courses in London, Geneva courses June 1841 (p.2-3); Babinet note follows (p.3).
+  No 'first' claim. IMPRECISE event: it dropped 'et en suit toutes les inflexions' (the light follows all the jet's
+  bends, p.1 para 4), the guided-light result itself; patched (25 words). Minor, not patched: 'vol. 15' in notes is
+  not printed on these pages (archive.org volume identifier).
+- mears1987: date 1987-09-10 (footer p.1-2) ok; signature 3rd August 1987 (p.3) ok. Event values 28 dB, 3 m,
+  > 300 GHz near 1.536 um, -42 dBm at 140 Mbit/s verified p.1 abstract, p.2, p.3. Fig. 4 on page_02.png ok (points
+  with error bars = diode-laser spectral width, broken line = fluorescence). Notes (threshold a little over 10 mW,
+  20 dB at about 20 mW, 3 dB compression at +7 dBm, 60 mW absorbed, splice < 1 dB, 'demonstate a third approach')
+  ok. DRI Payne kept (no roles printed) ok.
+- knight1996: date 1996-10-01, received 1996-04-08, 'new type of optical waveguide', 458-1550 nm, 38 / 2.3 / 4.6 um,
+  NA about 0.13 to 0.36, Bath footnote (p.3), funding ok. IMPRECISE key_figure_caption: verbatim copy of the printed
+  caption; paraphrased from the caption and the image (lattice, solid core, 10 um bar).
+- little1997: date 1997-06, received 1996-09-19, 'novel' (p.1), 'proposed in [10]' (p.1), 'box like' (p.6, Fig. 5
+  caption p.7), R 1.7 um / 3:1 / 1.334 um (Fig. 2 caption p.5), Fig. 1 on page_02.png ok.
+- liu2004: date 2004-02-12, received 2003-09-22, accepted 2003-12-18; abstract '> 1 GHz', '~20 MHz (refs 10, 11)',
+  'benchmark figure of 1 GHz' (p.3), Intel CMOS production facility (p.2), Figure 4 caption on page_03.png ok;
+  correspondence to A.L. (p.4) ok.
+- herr2014: date empty (D987 (2)). Event wording from the abstract ('report the observation', 'spontaneously
+  generated ... effective zero detuning'), 200 fs (p.4) ok. DRI 'T. Herr; M. L. Gorodetsky; T. J. Kippenberg'
+  supported by p.6 (TH designed, performed, analyzed; TH and MLG simulations and sample fabrication; MLG analytic
+  description; TJK supervised). 'first demonstration' only for the SI external broadening (p.5) ok. FSR 35.2 GHz,
+  450 kHz, Q 4e8, 1553 nm, 5-30 mW (p.5), 1.6 THz, > 45 modes, 28.4 ps (p.4) ok.
+- wang2018b: date empty (D987 (2)); received 2018-04-27, accepted 2018-07-25 (p.4) ok. Event values (Vpi 1.4 V,
+  210 Gbit/s, < 0.5 dB on-chip) match the abstract and p.1-3. DRI 'Cheng Wang; Mian Zhang; Marko Loncar' supported
+  by the p.1 equal-contribution footnote and p.4 (fabricated C.W., M.Z., A.S.; characterized C.W., M.Z., X.C., S.C.;
+  wrote C.W.); note p.4 also names P.W. as co-supervisor and co-conceiver (coordinator question 1). orgs_printed in
+  footnote order ok.
+
+COMPONENTS / METRICS
+- cmp_lit_liu2004_lensed_fiber_facet -m1: '~4.3 dB per interface coupling loss to and from the waveguide, using
+  lensed fibres' inside the ~15.3 dB MZI IL with ~6.7 dB on-chip (p.3), 1.54 um, TE (p.2) ok; loss_breakdown /
+  author_estimate / per_facet ok. Fab org_intel kept under D987 (4).
+- cmp_lit_wang2018b_lensed_fiber_facet -m1: 'coupling loss of about 5 dB per facet' (p.5 Methods), C-band, TE,
+  tapered lensed fibres, diced and polished edges ok; fab org_harvard_university (C.W., M.Z., A.S. fabricated, all
+  Harvard SEAS) and facility CNS (p.4 'Device fabrication is performed at') ok.
+- cmp_lit_wang2018b_ln_ridge_wg_800nm: WRONG, DELETE (D987 (3) confirmed). p.5: 'We have previously done extensive
+  studies on the dependence of waveguide propagation loss on the waveguide geometry28. In the current work, we use a
+  waveguide top width of 800 nm ... The corresponding propagation loss is approximately 0.2 dB/cm, higher than the
+  best value reported in our previous work28'. The value is the loss the ref. 28 geometry study assigns to 800 nm
+  (lit:zhang2017a p.2 reports intrinsic Q for widths 800 nm to 2.4 um, Fig. 2(c)); no propagation-loss measurement of
+  this chip is described, and the only own loss test (fibre-to-fibre comparison, +/-0.5 dB) yields only the < 0.5 dB
+  upper bound. Skill rule 3: not entered. Without -m1 the row holds only geometry (-m2..-m6), which rule 9 does not
+  allow as a row; the stack stays in the facet coupler's core_material / cladding text.
+- Not entered, checked: mears 0.5 dB fibre coupler and < 1 dB splice (setup parts, rule 13); EDFA (fiber amplifier,
+  Contract v4); knight > 50 % objective launch (setup); little (theory / FDTD); liu VpiL, MZI IL / ER, bandwidth
+  (EO scope); herr MgF2 resonator (D411, D987 (5)); wang Vpi / ER / bandwidths / phase-shifter IL (EO scope),
+  simulated metal loss < 0.03 dB/cm, Y-junction (qualitative). No misses found.
+
+COORDINATOR QUESTIONS (not patched)
+1. wang2018b DRI: p.4 lists 'P.W. and M.L. supervised the project' and P.W. among those who conceived it; D987 (1)
+   names Loncar only as PI. Recommendation: keep D987 unless D953 'PI' is read as every named supervisor, then add
+   'Peter Winzer'.
+2. colladon1842 showcase image: renders made by this audit were scratch only; D987 (6) leaves page renders to the
+   colladon showcase research.
+3. liu2004 facet row platform 'soi': the guiding stack away from the phase shifter is an undoped polysilicon
+   waveguide on the SOI slab (p.3-4); facet cross-section not stated. Recommendation: keep 'soi' (SOI wafer, 0.375 um
+   BOX, p.2).
+
+Housekeeping: the two validator dry-runs wrote timestamped files to logs/; left in place as instructed.

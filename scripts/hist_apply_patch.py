@@ -6,7 +6,7 @@ Each change is applied only when the current value equals `old` (or the column i
 otherwise it is reported and nothing is written. A zip backup of the batch files is written before the first change.
 Idempotent: a second run reports 0 changes.
 
-Usage: uv run python scripts/hist_apply_patch.py <batch> [--dry-run]
+Usage: uv run python scripts/hist_apply_patch.py <batch> [--dry-run] [--patch comp_audit_patch.csv]
 """
 
 from __future__ import annotations
@@ -39,8 +39,9 @@ def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("batch")
     ap.add_argument("--dry-run", action="store_true")
+    ap.add_argument("--patch", default="audit_patch.csv", help="patch file name in the batch folder (DevLog-017 D989)")
     a = ap.parse_args()
-    patch = read(STAGING / "history" / a.batch / "audit_patch.csv")[1]
+    patch = read(STAGING / "history" / a.batch / a.patch)[1]
     tables = {f: read(path_of(a.batch, f)) for f in KEYS if path_of(a.batch, f).exists()}
     changes, conflicts = 0, []
     with RunLog("hist_apply_patch", a.dry_run) as log:

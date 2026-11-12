@@ -1,0 +1,69 @@
+hist_04 component fresh-context audit, 2026-11-11
+Mode: read-only on the batch; findings only in comp_audit_patch.csv (0 patch rows). Scope: the 4 component rows and 13 metric
+rows in data/_staging/components/hist_04/, plus a search for missing device rows in all 8 papers of the batch.
+
+VERDICT: GO (no change needed; one optional missing row below). Scratchpad copy: merge_component_staging --dry-run
++4 components +13 metrics, 0 errors; with the proposed missing row +4 / +14, 0 errors (only the pre-existing
+cmp_lit_ni2025b_pimmwc warning, not from this batch).
+
+COUNTS (rows checked 17 = 4 components + 13 metrics)
+  wrong      0
+  imprecise  0
+  missing    1  (holonyak1962 junction area, footprint_um2; add by hand, the patch format cannot add rows)
+  ok        17
+
+METHOD
+- Page-1 identity: hall1962 (PRL 9, 366, p.1 render), holonyak1962 (APL 1, 82, img_p02_1), nathan1962 (APL 1, 62,
+  page_02), quist1962 (APL 1, 91, page_02): titles and bylines match. All four are scans; every number was read on the
+  page renders (hall page_01-03; holonyak img_p02_1, page_03; nathan page_02-03; quist page_02-03 and the 2x scan
+  img_p03_1 for Fig. 2).
+- Fig. 2 readings re-done on zoomed crops: quist Fig. 2(a) taller peak ~8424 A, second ~8436 A; Fig. 2(b) solid peak
+  ~8366-8368 A, dashed ~8365 A; hall Fig. 2 narrow peak ~8400 A.
+- Checked the 0-row papers: armstrong1962 (theory), kroemer1963 (proposal), hargrove1964 (He-Ne gas laser) and
+  koester1964 (Nd-glass fiber amplifier) are out of scope (D411 analogue, decided).
+
+PER ROW
+hall1962 laser.other gaas: ok. -m1 840 nm approx (Fig. 2, L-69, extracted_from_figure, +/- 5 A): ok, peak at the
+  8400 A tick. -m2 length 320 um (printed 0.32 mm for L-70, derived): ok. temperature_k empty ('liquid nitrogen' only):
+  ok under rule 1. Not-entered list verified (8500 / 5000 / 20000 A/cm2, 125 -> 15 A, 3 A resolution, L-75 pattern).
+holonyak1962 laser.other other (Ga(As1-xPx)): ok. -m1 710 nm (printed 7100 A, 77 K from Fig. 1 caption, derived): ok.
+  -m2 forward_voltage_v 1.3 (diode 28A, 'corner' voltage, p.2): ok; current / temperature not printed, noted.
+  MISSING: active (junction) area ~1e-3 cm2 stated for 'our diodes' (p.2), the same quantity entered as footprint_um2
+  for nathan1962 and quist1962. Proposed row (validated on the scratch copy):
+    metric_id cmp_lit_holonyak1962_gaasp_junction_laser-m3, parameter footprint_um2, value 100000, unit um2,
+    qualifier approx, basis derived, locator p.2, condition "active (junction) area stated for the Ga(As1-xPx) diodes
+    of this letter (our diodes); diode 28A not singled out", notes "Printed active (junction) area ~1e-3 cm2 (p.2);
+    cm2 -> um2. Same treatment as the junction areas of nathan1962 and quist1962."
+nathan1962 laser.other gaas: ok as a judgment (class label is 'Laser / light source'; the paper reports stimulated
+  emission line narrowing without a resonator, 'no attempt ... resonant modes', p.2). -m1 841.7 nm (1239.84 / 1.473,
+  derived; low-injection line, 77 K): ok. -m2 footprint 10000 um2 approx (1e-4 cm2, p.2 and Fig. 1 caption): ok.
+quist1962 laser.other gaas: ok. -m1 90 A -> 90000 mA approx, 77 K; -m2 6 A -> 6000 mA, 4.2 K (both derived): ok;
+  cross-check: 90 A / 0.84 mm2 = 1.07e4 A/cm2 and 6 A / 0.84 mm2 = 714 A/cm2 reproduce the printed densities.
+  -m3 842.4 nm (Fig. 2(a), taller peak) and -m4 836.8 nm (Fig. 2(b)): ok within the stated +/- 3 A. -m5 beam divergence
+  < 10 deg (vertical half-power beamwidth, p.2): ok. -m6 280 W (author_estimate, unity QE assumed, note 7): ok (D256a).
+  -m7 footprint 840000 um2 (1.4 x 0.6 mm): ok.
+
+FAB / FACILITY (not patched; coordinator)
+- quist1962: acknowledgment thanks F. M. Sullivan and P. A. Gagnon 'for fabricating the diodes' (p.3, page_03), no org
+  named; all authors at Lincoln Laboratory, MIT; A. J. Strauss 'of this Laboratory' supplied crystals. The Contract v7
+  staff-thanks rule (D84b / D463 / D469: borderline fab kept with a note) would give org_mit_lincoln_laboratory
+  (exists in organizations.csv). Recommendation: set it with a borderline note.
+- holonyak1962: four named people thanked for 'substantial contributions to the fabrication of Ga(As1-xPx) junctions'
+  (p.3), no org; both authors at General Electric Company, Syracuse (not in the registry). Recommendation: org round
+  first, then the same D84b treatment.
+
+COORDINATOR QUESTIONS
+1. hall1962 'liquid nitrogen' without a printed temperature: recommendation keep temperature_k empty (rule 1).
+2. nathan1962 without a cavity as laser.other: recommendation keep (light-source class; note already explains).
+3. Fab for quist1962 / holonyak1962: see above.
+4. Figure-read values converted from Angstrom (hall -m1, quist -m3 / -m4) keep extracted_from_figure (the reading,
+   not the rescale, sets the uncertainty); D256 read literally would make them derived. Recommendation: keep.
+
+REGISTRY GAPS CONFIRMED (values skipped, locators verified): threshold current density (hall p.2 ~8500 A/cm2;
+holonyak p.2 ~11,000; quist p.2 ~1e4 / ~700), laser emission FWHM not called 3 dB (hall p.2 125 -> 15 A; holonyak p.2-3
+125 / 20 / 12 A; quist p.2 175 -> 30, 100 -> < 5 A; nathan p.3 0.026 eV), laser external quantum efficiency (nathan
+p.3 > 0.2 per injected electron).
+MISSING ORGS (report only): General Electric Research Laboratory, Schenectady (hall1962 p.1); General Electric Company,
+Advanced Semiconductor Laboratory, Syracuse (holonyak1962 p.2).
+
+Housekeeping: dry-run log files written to logs/ by this audit were removed; scratch copies only.

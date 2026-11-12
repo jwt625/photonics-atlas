@@ -1,0 +1,144 @@
+maiman1960 showcase research report (2026-11-11)
+================================================
+
+Outputs
+- data/history/showcases/maiman1960.yaml                 spec (10 parts, 9 assembly rows, 9 chapters, 2 plots, 1 drawing, 7 refs, 12 withheld)
+- data/history/showcases/drawings/maiman1960-fig4.png    US 3,353,115 FIG. 4, upright 1-bit crop, 1147 x 549 px
+- data/history/showcases/traces/maiman1960-fig4.json     ipatent TRACE_SCHEMA trace of that crop, 22 elements
+- cache/showcases/maiman1960/ (git-ignored): US3353115.pdf (USPTO), hrl_maiman_work.pdf, GE_Flashtubes.pdf
+
+1. Sources
+----------
+Read in full:
+- [maiman1960] T. H. Maiman, "Stimulated Optical Radiation in Ruby", Nature 187, 493-494 (1960-08-06),
+  https://doi.org/10.1038/187493a0. Cached references/maiman1960 (licensed, not redistributable). Quotes and
+  numbers read from the page renders, not the OCR.
+- [us3353115] T. H. Maiman, US 3,353,115 "Ruby Laser Systems", granted 1967-11-14; continuation of Ser. No.
+  102,698 filed 1961-04-13 (application Ser. No. 516,830 filed 1965-11-29); assignor to Hughes Aircraft Company.
+  Number verified on the scan. https://image-ppubs.uspto.gov/dirsearch-public/print/downloadPdf/3353115
+  (one request, HTTP 200, 10 pages: 5 drawing sheets, 5 text pages, no text layer; text read with tesseract plus
+  the page images). Public domain (US patent).
+- [smith1984] G. F. Smith, "The Early Laser Years at Hughes Aircraft Company", IEEE J. Quantum Electron. QE-20(6),
+  June 1984; 2-page excerpt "Maiman's Work" reprinted by HRL, https://www.hrl.com/lasers/pdfs/maiman_work.pdf
+  (one request, HTTP 200). Page numbers of the IEEE original not verified.
+- [ge_ft_catalog] General Electric "G-E Electronic Flashtubes" catalog, 2 pages (p.13-14), undated scan hosted by a
+  lamp-collector site, https://lampes-et-tubes.info/fl/GE_Flashtubes.pdf (one request, HTTP 200).
+Abstract / page only:
+- [maiman1961a] Phys. Rev. 123, 1145 (1961): received 1961-01-27, published 1961-08-15; theory (abstract via APS).
+- [maiman1961b] Maiman, Hoskins, D'Haenens, Asawa, Evtuhov, Phys. Rev. 123, 1151 (1961): abstract gives peak
+  power about 5 kW, energy near 1 J, collimation better than 1e-2 rad, spectral width about 6e-4 Å at 6943 Å.
+  Not used in the spec: the abstract does not tie these to the first (May 1960) crystal.
+- [wills2020] OPN 31(5) 2020 "The Laser at 60": the famous publicity photo shows a rod and lamp that were not the
+  ones Maiman used. Builders must not model from that photo.
+- Physics World 2010-05-01 (P. Rigby, "And then there was light"): "1 x 2 cm ruby", silver coatings, small hole,
+  polished aluminium cylinder, lasing "once the flash-lamp input was increased to more than 950 V". Secondary;
+  agrees with Smith 1984 on the head; the 950 V figure is not used.
+- lampes-et-tubes.info FT-506 page: height 135 mm, diameter 32 mm (outer bulb), "Nominally rated at 1,000 watt-sec".
+  Secondary; only the linked GE catalog row is cited.
+Not reachable / stopped:
+- British Communications and Electronics 7, 674 (1960) (Maiman's longer account): no open copy found.
+- Smithsonian NMAH object records nmah_712855, nmah_711120 (ruby crystal, laser head): HTTP 403, stopped. Search
+  snippets mention "a holder ... steel" and "several small metal cylinders"; unverified, not used.
+- hrl.com/about/laser: fetch failed; researchgate figure page: 403; SPIE Opt. Eng. 49, 091002: empty. Stopped.
+- Phys. Rev. full texts: paywalled; not fetched (no shadow-library route used).
+Requests: about 6 page fetches + 3 PDF downloads, generic User-Agent, no personal identifiers.
+
+2. What is fixed, assumed, withheld
+-----------------------------------
+Fixed by sources (basis stated / ref / figure):
+- Rod: ruby, chromium in corundum (Nature p.493); "pink ruby cylinder 1-cm-diameter by 2-cm-long" (Smith); Nature
+  says only "1-cm. dimensions". Both ends polished flat, parallel, evaporated silver (Nature + Smith).
+- Output: 1 mm hole in one silver coating (Smith); patent: "coupled out ... through a hole in the reflective
+  coating at one end of the rod" (col. 2:35-37), "nonreflective opening 32 in the end plating" (col. 5:1-2).
+  Hole on the axis: figure basis only (FIG. 4, FIG. 5 schematics); the text does not give its radial position.
+- Lamp: GE FT-506 xenon flash lamp, rod "mounted on the axis" (Smith); helical, rod coaxial inside (patent col.
+  2:32-33, col. 4:69-70); three-ring coil (HRL photo caption, p.1 of the excerpt). Catalog FT 506 row: design
+  voltage 900 V, max 1,000 watt-sec, 40,000 lumen-sec, outer bulb T-10 (heat resistant), base "Radio Octal",
+  approx. source dimensions width 1 in, height 1 in, L.C.L. 2 1/8 in, M.O.L. 4 7/8 in, 1 flash per min.
+- Reflector: lamp "placed inside a polished aluminum cylinder" (Smith); "outer enclosing cylinder 38 ... very highly
+  reflecting inner surface for reflecting the pumping energy repeatedly through the rod 26" (col. 5:4-7).
+- Power supply: "A power supply 36 provides the flashing energy for the tube 28" (col. 5:3-4); FIG. 4 wires it to
+  both helix ends.
+- Physics: pump "about 5500 Å" to 4F2, non-radiative to 2E, doublet "at 300° K. are at 6943 Å. and 6929 Å.",
+  inversion condition, stimulated emission at 6943 Å, expected "(~10^8) reduction in line width when mode
+  selection techniques are used" (Nature p.493-494). First laser action 1960-05-16 (Smith). Smith: the first
+  laser showed "spectral and beam narrowing, together with lifetime reduction"; in mid-July 1960 three better
+  crystals gave a sharp threshold and relaxation oscillations.
+Essential (canvas) numbers, D983: rod 10 mm diameter, rod 20 mm length, 694.3 nm.
+Assumed (rendering only, flagged basis: assumed): silver disc thickness 0.2 mm, lamp tube diameter 3.5 mm, cylinder
+  inner diameter 34 mm / wall 1.5 mm / length 40 mm, power-supply box 40 x 24 x 24 mm and its placement, beam length
+  120 mm, axial centring of lamp and cylinder on the rod.
+Withheld: see `withheld` in the YAML (rod mount, cylinder size and ends, FT-506 bulb/base in the head, terminals and
+  trigger, supply circuit/energy/voltage, threshold, output energy/power/duration/divergence, lifetime values, Cr
+  concentration and c-axis, silver thickness/reflectivity, Fig. 2 absolute scale, cooling).
+
+3. Digitization calibration (maiman1960 p.494 = PDF page 2)
+-----------------------------------------------------------
+Render: pymupdf get_pixmap(dpi=472) of references/maiman1960/source.pdf page 2 -> 3810 x 5204 px (2x the native
+1904 x 2807 1-bit scan). Coordinates below are full-page render px.
+Fig. 2 (emission spectrum), crop origin (466, 1182):
+- x axis: tick labels 6925 and 6950 Å; 26 ticks at 1 Å. 22 unoccluded ticks (panel b) + 19 (panel a) fitted:
+  x_px = 659.2 + 40.44 * (lambda - 6925), i.e. 0.024727 Å/px; max residual 0.07 Å. 6950 Å at x = 1670.2.
+- Check: bar centres come out at 6929.01 / 6929.03 Å (R2) and 6942.96 Å (R1), matching the text's 6929 and 6943 Å.
+- Baselines: panel a y = 1911, panel b y = 2645. Heights normalised to panel-a R1 (668 px).
+- Bars (outer edges of the printed outlines, stroke about 5 px = 0.12 Å):
+    a R2  6927.44 - 6930.58 Å (3.14 Å)  height 0.50
+    a R1  6940.90 - 6945.02 Å (4.13 Å)  height 1.00
+    b R2  6927.64 - 6930.41 Å (2.77 Å)  height 0.022 (printed as a filled sliver; height = its thickness)
+    b R1  6942.43 - 6943.49 Å (1.06 Å)  height 1.00 (667 px)
+- The figure is a schematic bar chart with no y scale; widths are as drawn, not a measured linewidth.
+Fig. 1 (energy levels), crop origin (466, 560):
+- y axis ticks 20 / 15 / 10 / 5 / 0 (10^3 cm^-1) at y = 603, 704, 796, 893, 995.5; linear fit
+  E = 22.229 - 0.051319 * y_crop (y_crop = y - 560), residuals <= 0.16 x 10^3 cm^-1.
+- As drawn: 4F2 band 15.3 - 19.2, 2Ā 14.25, 2E 13.07, Ē 12.15, 4A2 line centre -0.4 (on the 0 tick).
+  The 2Ā / Ē gap is drawn about 2.1 x 10^3 cm^-1 but labelled 29 cm^-1: schematic, use the label.
+- Arrows (all printed): up 4A2 -> 4F2; 4F2 -> 2E; unlabeled diagonal 2E -> 4A2; R2 from 2Ā; R1 from Ē.
+Scripts: scratchpad maiman1960/dig/dig_fig2.py, dig_fig2b.py, dig_fig1.py, dig_fig1b.py.
+
+4. Patent drawing and trace
+---------------------------
+- US 3,353,115 drawing sheet 2 (PDF page 2, 2320 x 3408 px native image), FIG. 4 crop box [574, 553, 1721, 1102],
+  no rotation, thresholded at 128, saved 1-bit.
+- FIG. 4 numerals and verbatim names: 26 "active laser rod" (col. 4:69), 28 "helical gas-filled flash tube"
+  (col. 4:70), 30 printed as "One end of the rod 30" (col. 4:75 - 5:1), 32 "nonreflective opening" (col. 5:1),
+  34 "coherent monochromatic beam" (col. 5:2-3), 36 "power supply" (col. 5:3), 38 "outer enclosing cylinder"
+  (col. 5:4-5). FIG. 4 brief description col. 2:62-64.
+- Printed oddities kept, not corrected: "reptitive" (col. 4:72); "a plating 26 which will provide approximately
+  10 percent reflection" (col. 4:74, numeral 26 is the rod elsewhere); "the rod 30" (col. 5:1, numeral 30 on the
+  drawing points at the output end of the rod). In FIG. 4 the leader of 26 ends on the cylinder's end face, not on
+  the rod; the text fixes 26 as the rod, so the spec maps 26 -> ruby_rod. FIG. 4 draws the helix with about five
+  loops; the spec uses three turns from the HRL caption (FIG. 4 is a schematic).
+- Method (ipatent loop, scripts copied to scratchpad, ipatent repo untouched): main ink component skeletonised
+  (scikit-image), skeleton split at junctions into polylines (RDP 0.9 px, stroke width = median 2 x distance
+  transform); filled regions (morphological opening r = 3 px: cylinder top band, beam, rod shading, PSU bottom
+  edge) traced as solid polygons from contours; each path assigned to a part by measured zones (majority vote of
+  its skeleton points); stipple dots inside the body as solid circles; scan specks outside the body dropped;
+  numerals and text as `t` shapes (bold italic, `len` = measured width).
+- Elements: block 38 cylinder, 28 flash-tube, 26 rod, 34 beam, 36 power-supply; wire `leads` (no numeral);
+  leader + label for 26, 28, 30, 32, 34, 36, 38; text POWER / SUPPLY (ref 36) and "FIG. 4.".
+  30 and 32 have leader + label only (no separate printed body).
+- coverage.py (tol 4 px): scan ink covered 98.9 %, trace ink off scan 2.1 %. Residual MISSING / EXTRA is hand
+  lettering vs Helvetica ("FIG. 4.", "POWER SUPPLY").
+- Generator: scratchpad maiman1960/trace/gen.py (+ skel.py); overlay at trace/check/fig-4.overlay.png.
+
+5. Builder notes
+----------------
+- Model axis x, +x = output end; rod centred at origin. Chapter order: parts, rod, silver, lamp, cylinder,
+  levels plot, flash, pulse, spectrum plot.
+- Lamp helix 25.4 mm wide x 25.4 mm long from the catalog "approx. source dimensions" (approximate, ref basis); rod
+  20 mm long sits inside. Cylinder size is assumed: show "assumed" in the tooltip and do not draw end caps.
+- Power supply is schematic (FIG. 4 box); no capacitor bank, voltage or trigger on the canvas.
+- Spectrum plot: draw bars as rectangles (series[].bars); `points` give the same outlines as polylines. Do not add a
+  y scale or claim a measured linewidth. Panel a and b share the x axis.
+- Levels plot: use energies from `levels`, label the split "29 cm^-1" from `splits`, not the drawn gap.
+- Public build: no Nature figure images (D974/D982); the patent FIG. 4 crop and trace are public domain.
+- The Nature letter does not use the word "laser" or claim "first"; the title "First laser" rests on the milestone
+  row and Smith 1984 ("first laser action in ruby on May 16, 1960").
+
+6. Open questions
+-----------------
+- Smithsonian NMAH records (403) may give the head's measurements and the holder material; worth a manual look.
+- Br. Commun. Electron. 7, 674 (1960) and Phys. Rev. 123, 1151 full text may give lamp energy, threshold and the
+  head layout; not read.
+- Which crystal produced Nature Fig. 2b (the May 1960 crystal or a July 1960 one) is not stated in the letter.
+- Catalog scan is undated; FT-506 specification may have changed between catalog editions.

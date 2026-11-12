@@ -340,7 +340,7 @@
 	@media (max-width: 1100px) {
 		.page, .page.open { grid-template-columns: 160px minmax(0, 1fr); }
 		/* over the table, not instead of it */
-		.detail { position: absolute; top: 0; right: 0; bottom: 0; width: min(400px, 100%); z-index: 6; border-left: 1px solid var(--line); box-shadow: -3px 0 10px rgba(0, 0, 0, 0.3); }
+		.detail { position: absolute; top: 0; right: 0; bottom: 0; width: min(400px, 100%); z-index: 6; border-top: 3px solid var(--line); box-shadow: -3px 0 10px rgba(0, 0, 0, 0.3); }
 	}
 	@media (max-width: 700px) {
 		.page, .page.open { grid-template-columns: minmax(0, 1fr); grid-template-rows: 120px minmax(0, 1fr); }

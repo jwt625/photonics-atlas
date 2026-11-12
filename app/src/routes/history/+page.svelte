@@ -1,7 +1,10 @@
 <script lang="ts">
 	import { onMount, tick } from 'svelte';
 	import { getJson, link, staticUrl } from '../../lib/paths';
+	import Expanded from '../../lib/history/Expanded.svelte';
+	import HistoryFonts from '../../lib/history/HistoryFonts.svelte';
 	import HistoryPanel from '../../lib/history/HistoryPanel.svelte';
+	import { hasShowcase } from '../../lib/history/showcases';
 	import { haystack, layoutTimeline, palette, type HistoryView, type Milestone, type Mode } from '../../lib/history/layout';
 
 	let view = $state<HistoryView | null>(null);
@@ -12,13 +15,15 @@
 	let q = $state('');
 	let qLive = $state('');
 	let selId = $state('');
+	let vmode = $state<'expanded' | 'compact'>('expanded');
+	let failed = $state<Set<string>>(new Set());
 	let timer: ReturnType<typeof setTimeout> | null = null;
 	let lastNode: HTMLElement | null = null;
 
 	const MODES: [Mode, string, string][] = [
 		['thread', 'Topic', 'Research thread of the paper'],
 		['inst', 'Institution', 'First listed institution (top 10 by count, rest as other)'],
-		['material', 'Material', 'Platform of the paper\'s component rows (top 10), else theory / no device'],
+		['material', 'Material', 'Main material the paper states (top 10); theory papers without one show theory / no device'],
 		['era', 'Era', 'Decade-scale era of the timeline']
 	];
 
@@ -26,6 +31,7 @@
 		getJson<HistoryView>('data/history.json').then((v) => (view = v), (e: unknown) => (err = String(e)));
 		const id = decodeURIComponent(location.hash.slice(1));
 		if (id) selId = id;
+		if (new URLSearchParams(location.search).get('view') === 'compact') vmode = 'compact';
 	});
 
 	const ms = $derived(view?.milestones ?? []);
@@ -37,6 +43,26 @@
 	const shown = $derived(ms.map((m, i) => (only.size === 0 || only.has(pal.key(m))) && terms.every((t) => hay[i].includes(t))));
 	const nShown = $derived(shown.filter(Boolean).length);
 	const sel = $derived(ms.find((m) => m.id === selId));
+	// showcase milestones with a scene module (DevLog-017); a story that fails to load falls back to a card
+	const stories = $derived(new Set(ms.filter((m) => m.showcase && hasShowcase(m.id) && !failed.has(m.id)).map((m) => m.id)));
+
+	/** Expanded (default) or compact view; compact is kept in the query (?view=compact), the milestone hash stays. */
+	function setView(v: 'expanded' | 'compact') {
+		if (v === vmode) return;
+		vmode = v;
+		const u = new URL(location.href);
+		if (v === 'compact') u.searchParams.set('view', 'compact');
+		else u.searchParams.delete('view');
+		history.replaceState(history.state, '', u);
+	}
+	async function toStory(id: string) {
+		setView('expanded');
+		await tick();
+		requestAnimationFrame(() => document.getElementById(`story-${id}`)?.scrollIntoView({ block: 'start' }));
+	}
+	function storyFailed(id: string) {
+		failed = new Set(failed).add(id);
+	}
 
 	function onInput(v: string) {
 		qLive = v;
@@ -59,7 +85,7 @@
 		history.replaceState(history.state, '', `#${encodeURIComponent(m.id)}`);
 		// the timeline reflows into the space left of the panel; keep the clicked node in view
 		await tick();
-		setTimeout(() => document.querySelector('.hnode.sel')?.scrollIntoView({ block: 'nearest' }), 220);
+		setTimeout(() => document.querySelector('.hnode.sel, .hcard.sel')?.scrollIntoView({ block: 'nearest' }), 220);
 	}
 	async function close() {
 		if (!selId) return;
@@ -73,7 +99,7 @@
 	}
 	function onDown(e: PointerEvent) {
 		const t = e.target as Element | null;
-		if (selId && !t?.closest('.hpanel') && !t?.closest('.hnode')) close();
+		if (selId && !t?.closest('.hpanel') && !t?.closest('.hnode, .hcard, .shead, .vt')) close();
 	}
 	const label = (m: Milestone) => m.topic || m.title;
 	const tip = (m: Milestone) =>
@@ -84,8 +110,14 @@
 
 <svelte:window onkeydown={onKey} onpointerdown={onDown} />
 
+<HistoryFonts />
+
 <div class="page">
 	<div class="bar">
+		<div class="modes vt" role="group" aria-label="View">
+			<button class:on={vmode === 'expanded'} aria-pressed={vmode === 'expanded'} data-tip="Eras with showcase stories and milestone cards" onclick={() => setView('expanded')}>Expanded</button>
+			<button class:on={vmode === 'compact'} aria-pressed={vmode === 'compact'} data-tip="Serpentine timeline of all milestones" onclick={() => setView('compact')}>Compact</button>
+		</div>
 		<div class="modes" role="group" aria-label="Color by">
 			<span class="muted">Color</span>
 			{#each MODES as [k, l, t]}
@@ -109,6 +141,11 @@
 		{#if err}
 			<div class="err">Could not load the history view: {err}</div>
 		{/if}
+		{#if vmode === 'expanded'}
+			{#if view}
+				<Expanded {ms} {eras} {stories} {shown} color={(m) => pal.color.get(pal.key(m)) ?? ''} {selId} {tip} onopen={open} onfail={storyFailed} />
+			{/if}
+		{:else}
 		<div class="canvas" bind:clientWidth={width} style:height={lay ? `${lay.height}px` : '60vh'}>
 			{#if lay}
 				<svg width={width} height={lay.height} aria-hidden="true">
@@ -116,7 +153,7 @@
 				</svg>
 				{#each lay.bands as b (b.era.id)}
 					<section class="band" style:left="{b.x}px" style:top="{b.y}px" style:width="{b.w}px" style:min-height="{b.h}px">
-						<h2><span class="era">{b.era.id}</span> {b.era.years}<span class="muted num cnt">{b.n} milestone{b.n === 1 ? '' : 's'}</span></h2>
+						<h2>{b.era.years}<span class="muted num cnt">{b.n} milestone{b.n === 1 ? '' : 's'}</span></h2>
 						<p>{b.era.intro}</p>
 					</section>
 				{/each}
@@ -138,9 +175,13 @@
 						<span class="dot"></span>
 						<span class="txt"><b class="num">{m.year ?? ''}</b> <span class="lab">{label(m)}</span></span>
 					</button>
+					{#if stories.has(m.id)}
+						<button class="smark" style:left="{p.x + 6}px" style:top="{p.y - 15}px" data-tip="Showcase story" aria-label="Open the {label(m)} story" onclick={() => toStory(m.id)}></button>
+					{/if}
 				{/each}
 			{/if}
 		</div>
+		{/if}
 	</div>
 
 	{#if sel}
@@ -149,7 +190,13 @@
 </div>
 
 <style>
-	.page { position: relative; height: 100%; display: grid; grid-template-rows: auto auto minmax(0, 1fr); background: var(--bg); }
+	/* Plate type and palette for the history tab (DevLog-017 D997): display and prose faces switch, data UI stays sans. */
+	.page {
+		position: relative; height: 100%; display: grid; grid-template-rows: auto auto minmax(0, 1fr); background: var(--bg);
+		--display: 'Playfair Display', 'Source Serif 4', Georgia, serif; --text: 'Source Serif 4', Georgia, serif;
+		--muted: #a8a69d; --amber: #f7962c; --rule: var(--muted);
+	}
+	:global(:root[data-theme='light']) .page { --muted: #5f5e59; --amber: #b85f08; }
 	.bar { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 14px; padding: 6px 10px; background: var(--surface); border-bottom: 1px solid var(--border); }
 	.modes { display: flex; align-items: center; gap: 2px; }
 	.modes .muted { margin-right: 6px; }
@@ -166,11 +213,12 @@
 	.canvas { position: relative; margin: 0 8px 24px; }
 	svg { position: absolute; inset: 0; pointer-events: none; }
 	.trail { fill: none; stroke: var(--line); stroke-width: 2; }
-	.band { position: absolute; padding: 8px 12px; border-left: 2px solid var(--accent); background: var(--surface); }
-	.band h2 { margin: 0 0 4px; font-size: 13px; font-weight: 600; }
-	.band .era { font-family: var(--mono); color: var(--accent); margin-right: 4px; }
-	.band .cnt { margin-left: 8px; font-weight: 400; font-size: 11px; }
-	.band p { margin: 0; color: var(--ink-2); font-size: 12px; line-height: 17px; }
+	/* scotch rule (2px over 1px) above the era band; accent era number; display face for the years */
+	.band { position: absolute; padding: 8px 12px; border-top: 2px solid var(--rule); background: var(--surface); }
+	.band::before { content: ''; position: absolute; left: 0; right: 0; top: 2px; border-top: 1px solid var(--rule); }
+	.band h2 { margin: 0 0 4px; font: 500 15px/18px var(--display); font-variant-numeric: lining-nums; }
+	.band .cnt { margin-left: 8px; font: 600 12px var(--text); font-variant-caps: all-small-caps; letter-spacing: 0.07em; color: var(--muted); }
+	.band p { margin: 0; color: var(--ink-2); font: 12px/17px var(--text); }
 
 	.hnode { position: absolute; display: flex; flex-direction: column; align-items: center; gap: 4px; height: auto; padding: 0 4px 2px; border: 0; background: transparent; text-align: center; transition: opacity 0.2s; }
 	.hnode:hover { background: transparent; }
@@ -183,6 +231,8 @@
 	.hnode:hover .lab,
 	.hnode.sel .lab { color: var(--ink); }
 	.hnode.dim { opacity: 0.12; }
+	.smark { position: absolute; width: 10px; height: 10px; padding: 0; border: 0; background: var(--accent); clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%); z-index: 1; }
+	.smark:hover { background: var(--ink); }
 	.hnode.mob { flex-direction: row; align-items: flex-start; gap: 10px; text-align: left; padding: 0; }
 	.hnode.mob .txt { -webkit-line-clamp: 2; line-clamp: 2; margin-top: -1px; }
 

@@ -1,0 +1,52 @@
+hist_07 component fresh-context audit, 2026-11-11
+Mode: read-only on the batch; findings only in comp_audit_patch.csv (6 patch rows). Scope: the 2 component rows and 4
+metric rows in data/_staging/components/hist_07/, plus a search for missing device rows in all 8 papers.
+
+VERDICT: GO once comp_audit_patch.csv is applied. Patch applied to a scratchpad copy (0 conflicts):
+merge_component_staging --dry-run +2 components +4 metrics, 0 errors (only the pre-existing cmp_lit_ni2025b_pimmwc
+warning).
+
+COUNTS (rows checked 6 = 2 components + 4 metrics)
+  wrong      0
+  imprecise  4  (kato1973 component platform; somekh1973 component notes; somekh -m2 basis + note; somekh -m3 basis)
+  missing    0  (somekh1973 directional coupler and kato1973 ratio 5.2 have no registry parameter; gaps confirmed)
+  ok         2
+
+METHOD
+- Page-1 identity: kato1973 (J. Appl. Phys. 44, 2756, page_02), somekh1973 (APL 22, 46, page_02): titles and bylines
+  match. Values read on page_02 / page_03 / img_p04_1 (kato) and page_02 / page_03 (somekh).
+- 0-row papers: stolen1972 (fiber Raman oscillator = fiber laser, decided out), gloge1973, hasegawa1973,
+  personick1973, yariv1973 (theory), dingle1974 (quantum-well absorption spectroscopy, no component): agree.
+
+PER ROW
+kato1973 fiber_chip_coupler.other (decided for sphere couplers): class ok. Platform other -> silica: the light is
+  guided in the fused-silica core (Heraeus Suprasil W, p.2-3); the platform enum has silica and merged fiber-facet
+  parts use it (kumar2026 micro-axicon on SMF, margaria2025 splice). The note 'no matching platform value' is
+  incorrect; patched with the platform. Fab empty (single author, passive 'is melted', p.2): ok.
+  -m1 coupling_efficiency_pct > 50 %, 875 nm, per_coupler, author_estimate: ok. p.4: 'The coupling efficiency was not
+  measured directly'; the bound = measured ratio 5.2 (p.3) x estimated flat-end ~10 % (p.4) and is printed in the
+  conclusion. 'around 875 nm' entered as stated (D393): ok.
+somekh1973 waveguide_platform.straight gaas: ok. Notes: 'Fig. 2(a) labels (6.4 um, 4 um, 2.4 um) differ from the text
+  values' is imprecise: 6.4 um is the channel period and equals width + separation of the text (2.5 + 3.9 um, p.2);
+  4 / 2.4 um are the rounded separation / width of the sketch. Patched wording.
+  -m1 prop_loss 8.69 dB/cm from 2 cm-1 (p.3): ok; eq. (1) (p.2) defines alpha as the single-guide attenuation with
+  fields decaying as exp(-alpha z / 2), so 2 cm-1 is a power coefficient and 10 log10(e) x 2 = 8.69 dB/cm. 1150 nm
+  (He-Ne 1.15 mu, p.2): ok. -m2 width 2500 nm (printed 2.5 mu, 'as determined from the mask') and -m3 depth 3000 nm
+  (printed 3 mu, from the proton energy): basis design_target -> derived (D157 / D256 unit rescale; printed values
+  already in notes).
+
+NOT ENTERED, CONFIRMED
+- somekh1973: K = 0.52 +/- 0.02 mm-1 (fit, p.2), ~0.7 and ~0.4 mm-1 for other anneal / dose (p.3), complete transfer
+  in typically 2 mm (abstract); coupling_length_um is a geometry parameter (length of the straight coupling section),
+  not a transfer length, and kappa_per_cm is limited to reflector / laser / wdm. No splitter row is possible without a
+  new parameter. Channel separation 3.9 um (gap_nm on waveguide_platform is defined for vertical gaps): ok to skip.
+- kato1973: ratio 5.2 (p.3), flat-end ~10 % and loss terms (estimates, p.4), > 90 % (projection), separation 75 um,
+  source laser (Hitachi-supplied, rule 13): ok.
+
+COORDINATOR QUESTIONS
+1. Registry gaps from the distiller report stand: directional-coupler coupling coefficient / transfer length
+   (somekh1973), coupling-improvement ratio (kato1973). If a splitter coupling-coefficient parameter is added, somekh1973
+   gets a splitter.directional_coupler row (K = 0.52 /mm, p.2).
+MISSING ORGS: none needed.
+
+Housekeeping: dry-run log files written to logs/ by this audit were removed; scratch copies only.

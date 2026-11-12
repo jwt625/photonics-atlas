@@ -1,0 +1,112 @@
+hist_09 component audit (fresh context), 2026-11-11
+Scope: data/_staging/components/hist_09/components.csv (18 rows) + component_metrics.csv (74 rows). Read-only on the
+batch; findings only in comp_audit_patch.csv (23 patch rows, file,row_key,column,old,new,reason; old = current staged
+value, read from the file). Coordinator rulings given with the task treated as binding: no rows for bulk / gas / fiber
+lasers, masers, fibers, fiber amplifiers; author_estimate loss rows allowed; own-work wording = own fab (D80b);
+free-space prism / grating / sphere couplers = fiber_chip_coupler.other (tien1969 precedent).
+
+VERDICT: GO once comp_audit_patch.csv is applied.
+Validation: batch copied to the scratchpad, patch applied with hist_apply_patch.py semantics (23 changes, 0 conflicts;
+re-apply 0 changes); merge_component_staging.py <copy> --dry-run: +18 components, +74 metrics, 0 errors (one
+pre-existing warning on cmp_lit_ni2025b_pimmwc, not this batch). The audit's own dry-run log files were removed.
+
+COUNTS (rows checked 92 = 18 components + 74 metrics)
+  wrong      0
+  imprecise 17  (components 8: seven waldhausl1997 grating-coupler classes, ilchenko1999 coupler note;
+                 metrics 9: ilchenko1999 470um-m1, 405um_filter-m2 / -m3 / -m4 / -m5; waldhausl1997
+                 embossed_gc_replica-m1, pams_film_wg-m1; soref1986 si_epi_rib_wg-m5; schwartz1978 -m1)
+  missing    0
+  ok        75
+
+METHOD
+- Page-1 identity: ilchenko1999, waldhausl1997, vellekoop1991 (TU/e portal cover p.1, paper from p.2), soref1986,
+  miller1978, schwartz1978 texts match papers.csv titles. marcuse1977 (theory: splice-loss formulas, no measured
+  device; grep for measurements finds only a remark on others' observations) and tien1977 (review, contract: no rows)
+  correctly have no rows.
+- Every metric value checked at its locator. Scans / garbled layers read on page renders: miller1978 page_10-13
+  (Figs. 7-10 mu / sigma / splice counts), img_p08_1 (Table I, rotated: x_s, y_s of connectors 47-50);
+  schwartz1978 page_07 (Fig. 7 axes, budget list); soref1986 page_05 (Table I, Fig. 4 labels); vellekoop1991 page_05
+  (1.5 dB/cm, 29.7 dB), page_06 (Table II, all 32 entries); waldhausl1997 page_04 (Fig. 3), page_06 (Table 4),
+  page_07 (Table 5, Fig. 9). ilchenko1999 text layer is clean for all values used.
+- Conversions re-computed: mil -> um (9.001 / 9.019 / 11.591 / 11.667 x 25.4 = 228.6 / 229.1 / 294.4 / 296.3);
+  4.5 x 3.2 mm2 = 14.4e6 um2; 90 - 40 = 50 deg sidewall (registry: angle to film plane); 405 / 2 = 202.5 um;
+  -10 log10(0.235) = 6.29 dB; Q0 = 2 pi f tau at 1310 nm, tau 80 ns = 1.15e8 (printed 1.1e8).
+- Registry checks: parameter / class pairs (component_parameters.yaml: parameters are per class, so the subtype change
+  to fiber_chip_coupler.other keeps every waldhausl parameter valid); org registry for JPL, RADC, Western Electric,
+  Fraunhofer IOF (none present; org_caltech, org_friedrich_schiller_university_jena, org_delft_university_of_technology,
+  org_bell_labs present); precedent counts in data/components (resonator.disk radius_um basis: derived 9,
+  design_target 2, author_estimate 0; drop_loss_db rows carry no scope).
+
+PER PAPER
+miller1978 (1 component, 12 metrics): all ok.
+  -m1..-m8 mu / sigma 0.20 / 0.17 (140), 0.32 / 0.16 (141), 0.16 / 0.15 (138), 0.16 / 0.15 (139) match the
+  histogram labels (p.10-13). -m9 0.18 dB mean without the seven break losses, p.10 ('variance of 0.09 dB' noted,
+  not entered) ok. -m11 / -m12 Table I ranges for connectors 47-50 ok. Fab empty: chips 'developed and produced by
+  C. M. Schroeder at Western Electric Engineering Research Center' (p.3) = named fab org missing from the registry;
+  connectors 'were fabricated' (passive, p.7). Band visible inferred (He-Ne line not printed) ok.
+schwartz1978 (1 component, 1 metric): -m1 imprecise.
+  0.5 dB 'estimated ... average about 0.5 dB per splice' (p.6) ok as author_estimate. Fig. 7 (p.7) axes print
+  'LOSS (dB/km) AT 0.82 um' for the data the estimate rests on: wavelength printed, not inferred; locator adds
+  p.7 Fig. 7; note reworded. Fab org_bell_labs ('spliced by Bell Laboratories', p.6) ok. Class fiber_interface.other
+  ok (connector design only cited, refs. 4-5).
+soref1986 (2 components, 7 metrics): rib -m5 imprecise.
+  Slab 5-13 dB/cm (Table I samples, n 6; p.4 and p.6) and rib 15-20 dB/cm (p.6) ok; Fresnel 3.2 dB excluded (p.5);
+  rib 'includes' lists the four loss categories of p.6 (absorption, scattering, radiation, coupling / end-face) ok.
+  Fig. 4 labels 10 um, 7 um, 4.2 um ok (7 - 4.2 = 2.8). -m5 etch 'approximately 2.8 um ... removed' is a stated
+  process dimension: author_estimate -> design_target (skill rule 4). Table I ranges in core_material ok (rho(epi)
+  4.6-18.0, t(epi) 7.0-42.8 um, rho(sub) 0.001-0.020). Fab empty with own-work wording ('we developed mechanical
+  polishing techniques', 'We utilized a plasma etch machine', p.4-5): under D80b own fab = RADC, missing from the
+  registry; fill after the org round.
+vellekoop1991 (2 components, 22 metrics): all ok.
+  Table II (p.6 render) diagonal TE 1.2 / 0.6 / 0.8 / 1.2 dB, TM 2.8 / 2.1 / 3.2 / 3.0 dB at 776.5 / 778.1 / 779.6 /
+  781.2 nm match -m1..-m8; off-diagonal TE 15.4-29.7, TM 13.4-22.2 dB match -m9 / -m10; page render p.5 reads 29.7
+  (text layer 29.1) as noted. Text / conclusion TM '2.1 central, 3.2 outer' conflicts with Table II (channel 3 =
+  3.2 dB); table entered, conflict noted: ok. 1.5 dB/cm straight-guide loss (p.5) ok. Design geometry (Table I, Sec.
+  IV-V) ok. Fab empty: passive 'was fabricated' (p.4) and thanks to two named persons 'for fabricating the devices'
+  (p.6) with no org printed: kept empty (ruling 3 below).
+waldhausl1997 (9 components, 21 metrics): 7 component classes and 2 metrics imprecise.
+  41 % / 0.6 dB/cm (Table 2), 46 % / 1.2 dB/cm (Table 3), 67 % (p.3 Sec. 3.C, abstract), 40 % (Table 4), 42 % (Table
+  5) and Table 1 geometry (800 nm period, 250 nm depth, 1 x 1 mm2, 800 nm film) ok. Class: all seven grating
+  couplers take a collimated free-space beam (p.1 'from free space'; Figs. 2, 8, 9; single-order grating via prism +
+  immersion liquid, Fig. 3) -> fiber_chip_coupler.other per the coordinator ruling. Replica chip: polarization TE
+  is not stated (the TE0-only statement on p.2 is for the Table 1 PMMA-copolymer film), so replica-m1 and
+  pams_film_wg-m1 -> unspecified. Fab empty ok: 'we realized' but authors at two institutes (D80b needs one org).
+  Not entered (output efficiency, blazing effect, throughput, focal spot, Gaussian-fit parameter): no parameter or
+  multi-element, correctly reported.
+ilchenko1999 (3 components, 11 metrics): coupler note and 4 metrics imprecise.
+  > 60 % / ~2.1 dB per coupler at 1310 nm (p.2, Fig. 4 caption), Q_L 3.2e6 / 74 MHz (p.2), Q0 ~1.1e8 from tau ~80
+  ns (p.3), 23.5 % -> 6.3 dB fiber-to-fiber, 7.6 MHz, Q_L > 3e7, Q0 ~1.2e8 at 1550 nm (p.3, Fig. 5) ok; D403
+  author_estimate on Q0 and on the linewidth-corrected Q_L ok. 470um-m1: printed radius with no method ->
+  design_target (not author_estimate; precedent). 405um_filter-m2: scope fiber_to_fiber + includes (both couplers):
+  the 6.3 dB is a fiber-to-fiber value, a scopeless drop_loss_db reads as resonator-only. -m3 / -m4 / -m5:
+  polarization te ('These results correspond to excitation of TE modes', p.3), as -m2 already has. Coupler note:
+  stale 'coordinator may rule' replaced (class ruled). Fab empty with own-work wording ('we prepared a SMF-28 fiber
+  tip', 'Our original technique for fabricating angle-polished couplers', p.2-3): under D80b own fab = JPL, missing
+  from the registry; fill after the org round. Quasi-FSR 2.603 GHz (eccentricity splitting) correctly not entered.
+
+NOT PATCHED / FOR THE COORDINATOR
+1. ilchenko1999 microspheres as resonator.disk (D411 scope; not among the rulings given): recommend keep (sub-mm
+   fused-silica sphere, fiber-pigtailed, passive; D411 excludes polished bulk crystalline resonators). The two
+   microsphere notes still say 'coordinator may rule' and need a note edit once ruled.
+2. Missing orgs for the org round (name as printed + locator + role): Jet Propulsion Laboratory, California Institute
+   of Technology (ilchenko1999 p.1, p.3 'This research was carried out at the Jet Propulsion Laboratory'; fab, own
+   work; recommend its own org with parent org_caltech, not an org_caltech alias); Rome Air Development Center
+   (soref1986 p.1 byline, p.6 acknowledgment; fab, own work); Western Electric Engineering Research Center
+   (miller1978 p.3; fab of the Si chips); Fraunhofer-Institute for Applied Optics and Precision Engineering, Jena
+   (waldhausl1997 p.1; affiliation only). Then a component fix batch: fab_org_ids for ilchenko1999 coupler rows
+   (JPL; the 405 um filter row only for its couplers if the coordinator wants the assembly row tagged), soref1986
+   both rows (RADC), miller1978 (Western Electric ERC).
+3. vellekoop1991 fab: two persons thanked 'for fabricating the devices' (p.6), no affiliation printed, no first-person
+   statement: recommend keep empty (D80b; D84b staff-thanks borderline needs a named org).
+4. Consistency: dakss1970 (another hist batch) is staged as fiber_chip_coupler.grating for free-space grating input;
+   the same ruling applied here should be applied there (its audit).
+5. schwartz1978 class fiber_interface.other vs connector / v_groove: recommend keep other (the half-connector design
+   is only cited, refs. 4-5; D259-style reliance on the authors' earlier paper avoided).
+6. soref1986 'propagation loss' includes input coupling and end-face loss by the paper's own account (p.6); entered
+   as prop_loss_db_per_cm with that in includes / notes. Recommend keep (printed as propagation loss).
+7. View note (not data): build_history_view.py uses platform or core_material as the material label; miller1978 and
+   schwartz1978 have empty platform, so their label will be the long core_material free text ('optical fibers
+   (type not stated) ...'). Consider a short fallback in the view rather than editing the rows.
+
+Housekeeping: no file other than comp_audit_patch.csv and this file was written in the repo; scratch work in the
+session scratchpad comp_audit_b/.

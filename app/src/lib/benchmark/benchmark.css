@@ -40,8 +40,10 @@
 .bm-t thead th { position: sticky; background: var(--surface); z-index: 2; }
 .bm-famrow th { top: 0; height: 24px; }
 .bm-colrow th { top: 24px; height: 34px; }
-.bm-famh { padding: 0 6px; text-align: center; color: var(--ink-2); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; border-bottom: 1px solid var(--line); border-left: 1px solid var(--line); }
-.bm-colh { min-width: 72px; max-width: 104px; padding: 4px 9px; border-left: 1px solid var(--grid); text-align: center; vertical-align: bottom; border-bottom: 1px solid var(--line); color: var(--ink-2); }
+/* family groups: a 3px top bar per family, inset so neighbouring families read as separate bars (no vertical rules) */
+.bm-famh { padding: 0 6px; text-align: center; color: var(--ink-2); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; border-bottom: 1px solid var(--line); }
+.bm-t thead th.bm-famh { background: linear-gradient(var(--ink-3), var(--ink-3)) 4px 0 / calc(100% - 8px) 3px no-repeat, var(--surface); }
+.bm-colh { min-width: 72px; max-width: 104px; padding: 4px 9px; text-align: center; vertical-align: bottom; border-bottom: 1px solid var(--line); color: var(--ink-2); }
 .bm-colh .bm-name { display: block; line-height: 1.2; font-weight: 600; color: var(--ink); }
 .bm-colh.lead { background: linear-gradient(var(--bm-lead), var(--bm-lead)), var(--surface); box-shadow: inset 0 2px 0 var(--accent); }
 

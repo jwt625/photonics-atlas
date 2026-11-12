@@ -1,0 +1,73 @@
+tags_e2_e6 report (2026-11-11)
+=============================
+
+Scope: 36 milestones.csv rows with era E2-E6 + 7 hist_19 papers (colladon1842, mears1987, knight1996,
+little1997, liu2004, herr2014, wang2018b) = 43 rows in tags_e2_e6.csv. Each tag read from
+references/<paper_id>/text.md; no other papers, no memory. No other file edited.
+
+Counts by kind
+- device 23, theory 11, measurement 4, review 2, process 2, system 1
+
+Material spelling
+- LiNbO3, GaAs, SOI, silica, Al2O3, Si follow the caller examples / components.csv core_material spelling.
+- Plain names outside that list: glass, ZnSe, polymer, MgF2, water, dye-doped gelatin, Er-doped fiber, LNOI.
+- Empty: all 11 theory + 2 review rows (none is tied to one material), and schwartz1978 (system; the paper
+  gives cable loss at 0.82 um but never names the fiber composition).
+- mears1987: 'Er-doped fiber' because the paper never names the host glass.
+- kapron1970 / stolen1972: the paper says only 'glass' (no silica named), so 'glass', not 'silica'.
+
+Material changes vs history.json (was 'theory / no device' for 33 of 36 E2-E6 rows)
+- now a material: alfano1970 glass, dakss1970 glass, hayashi1970 GaAs, uchida1970 glass, kapron1970 glass,
+  kogelnik1971 dye-doped gelatin, stolen1972 glass, somekh1973 GaAs, kato1973 silica, macchesney1974 silica,
+  dingle1974 GaAs, schmidt1974 LiNbO3, martin1975 ZnSe, papuchon1975 LiNbO3, kaminow1975 LiNbO3,
+  miller1978 Si, soref1986 Si, vellekoop1991 Al2O3, waldhausl1997 polymer, ilchenko1999 silica
+- now empty (theory/review/not stated): gloge1971, tien1971, kogelnik1972, personick1973, hasegawa1973,
+  yariv1973, gloge1973, burns1975, kogelnik1976, haus1976, marcuse1977, tien1977, schwartz1978
+- spelling only: smit1988 al2o3 -> Al2O3, roelkens2005 soi -> SOI; delhaye2007 silica unchanged
+- hist_19 (not in history.json yet): colladon1842 water, mears1987 Er-doped fiber, knight1996 silica,
+  little1997 empty (theory), liu2004 SOI, herr2014 MgF2, wang2018b LNOI
+
+Topic changes
+- dakss1970: grating coupler -> photoresist grating coupler on glass film
+- kapron1970: low-loss silica fiber -> low-loss single-mode glass fiber, radiation loss (paper never says silica)
+- kogelnik1971: DFB laser (thin-film) -> DFB dye laser in gelatin film
+- stolen1972: fiber Raman -> stimulated Raman oscillation in glass fiber
+- personick1973: PLC, WDM, EDFA, systems -> digital fiber receiver front-end design
+- dingle1974: quantum wells -> quantum-confined states in GaAs quantum wells
+- martin1975: Mach-Zehnder modulator -> waveguide Mach-Zehnder switch / modulator
+- tien1977: integrated optics review (participant) -> integrated optics and waveguide phenomena review
+- schwartz1978: field trial -> Chicago lightwave field trial, 44.7 Mb/s
+- miller1978: optical fiber -> fiber array splicing with etched Si chips
+- vellekoop1991: PLC, WDM, EDFA, systems -> four-channel phased-array demultiplexer, weak polarization dependence
+- waldhausl1997: grating coupler -> blazed grating couplers for polymer waveguides
+- little1997 (candidate): microring resonator -> microring channel-dropping filter theory
+- liu2004 (candidate): silicon modulator -> GHz MOS-capacitor silicon modulator
+- all other topics kept
+
+Kind judgement calls
+- herr2014 = measurement (paper reports 'observation of temporal dissipative solitons' in an existing
+  MgF2 resonator); delhaye2007 = device (new comb generator). Either could be flipped.
+- kapron1970, stolen1972 = device (fibers / Raman oscillator built and measured); could be read as measurement.
+- schmidt1974, macchesney1974 = process (fabrication method is the result).
+- kogelnik1976 = theory: switch proposed and analysed; the LiNbO3 experiment is 'reported elsewhere' (p.1).
+- personick1973 = theory: Sec. 7.4 (p.28) cites Goell's experiment, none in this paper.
+- little1997 = theory: coupled-mode-in-time analysis plus FDTD check (p.7), no fabricated device.
+
+Suspected milestone problems (reported, not fixed)
+- dri empty: dakss1970 (byline Dakss, Kuhn, Heidrich, Scott, IBM), burns1975 (Burns, Milton),
+  papuchon1975 (8 authors, Thomson-CSF), haus1976 (Haus, Shank), schwartz1978 (Schwartz, Reenstra,
+  Mullins, Cook), waldhausl1997 (Waldhausl ... Karthe).
+- waldhausl1997 thread 'silicon photonics and microcavities' is wrong: the paper is polymer waveguide
+  grating couplers (no silicon, no cavity).
+- schwartz1978 thread 'optical fiber': the paper is a system field trial; 'PLC, WDM, EDFA, systems' fits better.
+- herr2014 thread 'new platforms and integrated nonlinear': device is a crystalline MgF2 microresonator,
+  not an integrated platform; 'nonlinear optics and combs' (thread of delhaye2007) fits better.
+- kogelnik1972 / haus1976 thread 'semiconductor optoelectronics': both are general DFB theory; the DFB
+  experiments the 1972 paper builds on are dye lasers, and kogelnik1971 sits in 'integrated optics'.
+  Inconsistent rather than clearly wrong.
+- kapron1970 dri order 'Keck; Maurer; Kapron' differs from the byline order Kapron, Keck, Maurer (p.2);
+  no roles printed. Not wrong per se.
+- macchesney1974 topic says 'MCVD'; the paper calls it 'a new method derived from CVD' and never uses the acronym.
+- Events checked against the text: schmidt1974 'Ti, V and Ni' is right (OCR reads 'Y'; p.2 text gives
+  2, 3, 8 d-electrons = Ti, V, Ni); martin1975 Cd diffusion (p.3), kaminow1975 balanced bridge (p.3),
+  macchesney1974 'just under 2 dB/km at 1.06 um' (p.1) all confirmed. No event found wrong.

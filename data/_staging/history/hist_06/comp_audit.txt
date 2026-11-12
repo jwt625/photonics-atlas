@@ -1,0 +1,68 @@
+hist_06 component fresh-context audit, 2026-11-11
+Mode: read-only on the batch; findings only in comp_audit_patch.csv (11 patch rows). Scope: the 4 component rows and
+16 metric rows in data/_staging/components/hist_06/, plus a search for missing device rows in all 8 papers.
+
+VERDICT: GO once comp_audit_patch.csv is applied. Patch applied to a scratchpad copy (0 conflicts):
+merge_component_staging --dry-run +4 components +16 metrics, 0 errors (only the pre-existing cmp_lit_ni2025b_pimmwc
+warning).
+
+COUNTS (rows checked 20 = 4 components + 16 metrics)
+  wrong      2  (dakss1970 glass-film and epoxy-film coupler class: grating -> other, coordinator ruling)
+  imprecise  8  (basis of unit-rescaled values: dakss -m3 / -m4 / -m5, hayashi -m6, kogelnik1971 -m1 / -m2 / -m3 / -m4)
+  missing    0
+  ok        10
+
+METHOD
+- Page-1 identity: dakss1970 (APL 16, 523, img_p02_1), hayashi1970 (APL 17, 109, page_02), kogelnik1971 (APL 18, 152,
+  page_02): titles and bylines match; the first text.md page of each AIP letter is the publisher cover / tail of the
+  preceding letter, as the distiller noted.
+- Every value re-read on the renders: dakss page_03 / page_04 (Fig. 2 angle list, Fig. 3 dips and sum curves, p.4
+  text); hayashi page_03 (Table I, Fig. 2 label, text) and page_04 (Fig. 3); kogelnik page_02 / page_03 / img_p04_1.
+- 0-row papers re-checked: kapron1970 (fiber losses, fiber out of scope, decided), uchida1970 (SELFOC: 0.2 dB per 1 m
+  fiber guide and < 0.1 dB special fibers are fiber values; -20 / -42 dB depolarization has no micro_optics parameter,
+  per_db is not allowed for micro_optics; focal length / resolving power have no parameter), gloge1971 and kogelnik1972
+  (theory), tien1971 (review; the uncited ZnO > 20 dB/cm and ZnS film statements on p.12 sit in a review section on
+  film materials). Agree with 0 rows.
+
+PER ROW
+dakss1970 glass film (fiber_chip_coupler.grating, glass): WRONG subtype under the coordinator ruling (free-space prism /
+  grating / sphere couplers are fiber_chip_coupler.other; input is a ~2 mm free-space He-Ne beam, p.3). Patch class and
+  the class sentence of notes. Platform glass, core_material, fab empty (passive grating formation, p.3): ok.
+  -m1 / -m2 coupling_efficiency_pct ~40 % for TE1 (41.4 deg) and TE0 (48.4 deg), 632.8 nm, per_coupler, method direct,
+  measured: ok (p.4 'In both cases ... about 100% ... to about 60% ... efficiency ... about 40%'; Fig. 3 dips at
+  ~41.5 / ~48.5 deg; abstract p.2). -m3 period 665 nm (printed 0.665 mu, p.3): basis design_target -> derived (D157 /
+  D256 unit rescale). -m4 core thickness 760 nm (fit, printed 0.76 mu, p.3) and -m5 810 nm (printed 0.81 +/- 0.06 mu,
+  p.4): basis measured -> derived (same rule; the fit / spectral origin stays in notes).
+dakss1970 epoxy film (polymer): WRONG subtype, same ruling. -m1 ~10 % (p.4): ok. band visible with wavelength_inferred
+  true: the letter states no wavelength for this experiment; inferred from the only probe laser (6328 A). Rule 8 read
+  literally gives band unspecified; accepted as a flagged inference (see question 3).
+hayashi1970 laser.other gaas, fab org_bell_labs ('enabled us to grow', 'We have prepared lasers', p.2-3; own-work
+  wording counts, decided): ok. -m1 >= 20 mW at 297 K, 30 % above threshold (p.3): ok. -m2 1036 mA (3.5 kA/cm2 CW,
+  311 K) and -m3 592 mA (2.0 kA/cm2 pulsed, 311 K): arithmetic correct (370 um x 80 um = 2.96e-4 cm2), approx: ok
+  pending question 1. -m4 ~2.6 V at 0.8 A (Fig. 2 label 'DIODE VOLTAGE ~2.6V AT 0.8A'): ok. -m5 length 370 um
+  (printed in um): ok. -m6 width 80000 nm (printed about 80 um): basis design_target -> derived (unit rescale).
+  Not-entered list verified (1000 / ~1600 A/cm2 other diodes, 311 K max, ~25 K rise, Fig. 3 peaks 1.433-1.449 eV below
+  lasing, lasing line energy unlabelled).
+kogelnik1971 laser.dfb polymer, fab org_bell_labs ('we have implemented and tested', p.3; decided): ok. -m1 627.5 nm
+  (printed 6275 A, Fig. 3(a) caption): basis measured -> derived (the paper prints only 6275 A and 'about 0.63 um').
+  -m2 period 300 nm (printed about 0.3 um, p.4), -m3 length 10000 um (printed L = 10 mm, p.3; re-stated for the
+  14 um device's mode discussion, p.4), -m4 gelatin thickness 14000 nm (printed 14 um, p.4): basis design_target ->
+  derived (unit rescale).
+
+COORDINATOR QUESTIONS
+1. hayashi1970 threshold_ma derived from printed density x stated (approximate) area: recommendation keep (approx
+   qualifier, formula in notes; the device is a 370 x ~80 um broad-area diode whose dimensions the paper prints).
+2. kogelnik1971 sample identity: the 0.3 um fringe spacing (-m2) is printed in the same 'first test' paragraph as the
+   0.1 mm width and the < 0.5 A linewidth that the distiller withheld under D159. Recommendation: keep -m2 (exposure /
+   process value; L = 10 mm is re-stated for the 14 um device) and keep the other two out; alternative for strict
+   D159: delete -m2.
+3. Band inferred from the paper's only probe wavelength for an experiment that states none (dakss epoxy -m1; same
+   pattern in hist_08 martin1975 Y-branch): recommendation accept (wavelength_inferred true + note).
+4. uchida1970 0 rows and tien1971 0 rows (review): recommendation confirm.
+
+REGISTRY GAPS CONFIRMED: threshold current density (hayashi p.2-3), coupler angular acceptance width (dakss Fig. 3
+0.25 / 0.08 deg), film index (dakss p.3-4), micro_optics focal length / resolving power and per_db for micro_optics
+(uchida), pump threshold as intensity (kogelnik p.4, > 1e6 W/cm2).
+MISSING ORGS: none needed for these rows.
+
+Housekeeping: dry-run log files written to logs/ by this audit were removed; scratch copies only.
