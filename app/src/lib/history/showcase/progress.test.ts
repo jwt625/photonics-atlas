@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { levelsLayout } from './levels';
-import { AXES_END, axesK, axisTicks, barK, cleanPoints, extent, legendCorner, linTicks, logOf, logTicks, makeScale, plain, plotLabel, revealed, rich, stagger, styleOf, term, toBars, toggleLog, withAlternates, type LogState } from './plot';
+import { AXES_END, penAt, plotProgressIn, plotWindow, revealAt, colorSlots, legendBlock, legendRows, stemBase, axesK, axisTicks, barK, cleanIndices, cleanPoints, equalAspect, errAt, errText, extent, whiskerEnds, whiskerPx, fitTitle, legendCorner, linTicks, logOf, markup, plainMarkup, logTicks, makeScale, plain, plotLabel, revealed, rich, stagger, styleOf, term, toBars, toggleLog, withAlternates, type LogState } from './plot';
 import {
 	chapterAt,
 	chapterIndexAt,
@@ -12,6 +12,9 @@ import {
 	ease,
 	keywordStates,
 	essentialDimText,
+	thumbP,
+	partTipLines,
+	pickDetail,
 	labelLeft,
 	orbitLimits,
 	plainKeyword,
@@ -27,7 +30,7 @@ import {
 	seg
 } from './progress';
 import { elementBox, pathPoints } from './trace';
-import type { Chapter, Plot, Series } from './types';
+import type { Chapter, ErrSpec, Plot, Series, ShowcaseSpec } from './types';
 
 const CH: Chapter[] = [
 	{ id: 'rod', p: [0, 0.2], keyword: 'Ruby rod', parts: ['rod'] },
@@ -324,6 +327,185 @@ describe('plot legend corner', () => {
 	});
 });
 
+describe('text markup (Cobra audit)', () => {
+	it('braced sub / superscripts only; plain underscores literal', () => {
+		expect(markup('through r_{zzz} and r_{yzy}')).toEqual([
+			{ t: 'through r', k: '' },
+			{ t: 'zzz', k: 'sub' },
+			{ t: ' and r', k: '' },
+			{ t: 'yzy', k: 'sub' }
+		]);
+		expect(markup('Cr^{3+} in Al_{2}O_{3}').map((r) => r.k)).toEqual(['', 'sup', '', 'sub', '', 'sub']);
+		expect(markup('file_name a^b x_1')).toEqual([{ t: 'file_name a^b x_1', k: '' }]);
+		expect(markup('')).toEqual([]);
+		expect(plainMarkup('L_{0} = 500 µm, O_{2}, Cr^{3+}')).toBe('L\u2080 = 500 µm, O\u2082, Cr\u00b3\u207a');
+		// no Unicode subscript for y / z: the run is printed without its marker
+		expect(plainMarkup('r_{yzy}')).toBe('ryzy');
+		expect(plainMarkup(null)).toBe('');
+	});
+	it('y title fit: shrink, then cut', () => {
+		expect(fitTitle('Power', 200)).toEqual({ text: 'Power', fs: 11, cut: false });
+		const s = fitTitle('Power in excited guide (arb.)', 150);
+		expect(s.fs).toBeLessThan(11);
+		expect(s.cut).toBe(false);
+		const c = fitTitle('Power in excited guide, relative, as printed in Fig. 3 (arb.)', 120);
+		expect(c.cut).toBe(true);
+		expect(c.fs).toBe(9);
+		expect([...c.text].length * 9 * 0.56).toBeLessThanOrEqual(120);
+		expect(c.text.endsWith('\u2026')).toBe(true);
+	});
+});
+
+describe('error bars and equal aspect', () => {
+	it('err specs: symmetric number, per point number / [lo, hi] / null', () => {
+		expect(errAt(0.5, 3)).toEqual([0.5, 0.5]);
+		const per: ErrSpec = [1, [0.2, 0.4], null, 0, [-1, 2]];
+		expect(errAt(per, 0)).toEqual([1, 1]);
+		expect(errAt(per, 1)).toEqual([0.2, 0.4]);
+		expect(errAt(per, 2)).toBeNull();
+		expect(errAt(per, 3)).toBeNull();
+		expect(errAt(per, 4)).toBeNull(); // negative offsets are invalid
+		expect(errAt(per, 9)).toBeNull();
+		expect(errAt(undefined, 0)).toBeNull();
+		expect(errText([0.2, 0.4], 'dB')).toBe('+0.4 / \u22120.2 dB');
+		expect(errText([1, 1])).toBe('\u00b1 1');
+	});
+	it('whiskers: linear and log y (low end clamps to the axis floor)', () => {
+		const X = makeScale(0, 10, 0, 100, false);
+		const Ylin = makeScale(0, 20, 200, 0, false);
+		const w = whiskerPx(5, 10, [2, 4], [1, 1], X, Ylin);
+		expect(w.v).toEqual([50, 120, 60]);
+		expect(w.h).toEqual([100, 40, 60]);
+		const Ylog = makeScale(1, 100, 200, 0, true);
+		expect(whiskerEnds(2, [5, 8], true, 1)).toEqual([1, 10]);
+		const wl = whiskerPx(5, 2, [5, 8], null, X, Ylog);
+		expect(wl.v![1]).toBeCloseTo(200, 9); // clamped to the floor (y = 1, bottom of the axis)
+		expect(wl.v![2]).toBeCloseTo(100, 9); // y = 10, one decade of two
+		expect(wl.h).toBeNull();
+	});
+	it('extents include the whiskers; indices follow the spec points', () => {
+		const s: Series = { name: 'g', points: [[1, 5], [2, -1], [3, 8]], err: [1, 0.5, [0, 4]] };
+		const [, hi] = extent([s], 1, false);
+		expect(hi).toBeGreaterThanOrEqual(12);
+		expect(cleanIndices(s, false, true)).toEqual([0, 2]); // log y drops the negative point
+	});
+	it('equal aspect letterboxes and centres the data area', () => {
+		const box = { x0: 0, x1: 400, y0: 0, y1: 200 };
+		const a = equalAspect(10, 10, box); // square data in a wide panel
+		expect(a.x1 - a.x0).toBeCloseTo(200, 9);
+		expect(a.y1 - a.y0).toBeCloseTo(200, 9);
+		expect((a.x0 + a.x1) / 2).toBeCloseTo(200, 9);
+		const b = equalAspect(40, 10, { x0: 0, x1: 300, y0: 0, y1: 300 }); // wide data in a square panel
+		expect((b.x1 - b.x0) / (b.y1 - b.y0)).toBeCloseTo(4, 9);
+		expect(b.x1 - b.x0).toBeCloseTo(300, 9);
+		expect(equalAspect(0, 10, box)).toEqual(box);
+	});
+});
+
+describe('stems', () => {
+	it('base: stem_base, else range minimum; clamped; log floor', () => {
+		expect(stemBase({}, [0, 10], false)).toBe(0);
+		expect(stemBase({ stem_base: 2 }, [0, 10], false)).toBe(2);
+		expect(stemBase({ stem_base: -5 }, [0, 10], false)).toBe(0);
+		expect(stemBase({ stem_base: 50 }, [0, 10], false)).toBe(10);
+		expect(stemBase({}, [1e-3, 1], true)).toBe(1e-3);
+		expect(stemBase({ stem_base: 0 }, [1e-3, 1], true)).toBe(1e-3);
+		expect(stemBase({ stem_base: 0.01 }, [1e-3, 1], true)).toBe(0.01);
+		expect(styleOf({ name: 'c', style: 'stems', points: [] })).toBe('stems');
+	});
+});
+
+describe('part tooltip with pick detail', () => {
+	it('detail lines go under the role, before the essential dims', () => {
+		const part = { name: 'Ti strip', role: 'diffusion source', dims: [{ label: 'width', value: 2, unit: 'µm', essential: true }] };
+		expect(partTipLines(part, pickDetail({ id: 'strip', label: 'x', detail: ['as drawn, not to scale'] }))).toEqual(['Ti strip', 'diffusion source', 'as drawn, not to scale', 'width: 2 µm']);
+		expect(partTipLines(part, pickDetail('strip'))).toEqual(['Ti strip', 'diffusion source', 'width: 2 µm']);
+		expect(pickDetail({ id: 'a', label: 'b', detail: 'one line' })).toEqual(['one line']);
+		expect(pickDetail(null)).toEqual([]);
+	});
+});
+
+describe('legend rows and block', () => {
+	const S = (name: string, style: string, extra: { legend?: boolean; legend_group?: string } = {}) => ({ s: { name, ...extra } as Series, style, bars: [] as unknown[] });
+	it('hides legend: false, merges legend_group (line + dots), colour slots follow the group', () => {
+		const ser = [
+			S('1.8 mm measured', 'points', { legend_group: 'L1' }),
+			S('1.8 mm simulated', 'line', { legend_group: 'L1' }),
+			S('helper', 'line', { legend: false }),
+			S('2.5 mm measured', 'points', { legend_group: 'L2' }),
+			S('2.5 mm simulated', 'line', { legend_group: 'L2' })
+		];
+		const rows = legendRows(ser);
+		expect(rows.map((r) => [r.first, r.members, r.line, r.dots])).toEqual([
+			[0, [0, 1], true, true],
+			[3, [3, 4], true, true]
+		]);
+		expect(colorSlots(ser)).toEqual([0, 0, 2, 3, 3]);
+	});
+	it('wraps into columns, then clamps with +N more', () => {
+		expect(legendBlock(8, 100, 400, 200)).toEqual({ cols: 4, perCol: 2, shown: 8, hidden: 0, h: 30 });
+		const c = legendBlock(8, 150, 300, 30); // 2 columns, room for 2 rows: 3 shown + toggle
+		expect(c.cols).toBe(2);
+		expect(c.perCol).toBe(2);
+		expect(c.shown + c.hidden).toBe(8);
+		expect(c.hidden).toBeGreaterThan(0);
+		expect(c.h).toBeLessThanOrEqual(30);
+		expect(legendBlock(8, 150, 300, 30, true).hidden).toBe(0);
+		expect(legendBlock(0, 100, 300, 30).h).toBe(0);
+	});
+});
+
+describe('plot pen helpers', () => {
+	const spec: Pick<ShowcaseSpec, 'chapters' | 'plots'> = {
+		chapters: [
+			{ id: 'a', p: [0, 0.5], keyword: 'A' },
+			{ id: 'b', p: [0.5, 1], keyword: 'B', plot: 'main' }
+		],
+		plots: [
+			{ id: 'main', x: { label: 'x' }, y: { label: 'y' }, series: [{ name: 's0', points: [[0, 0], [1, 1], [2, 4], [3, 9]] }, { name: 's1', points: [[0, 1], [10, 2]] }] },
+			{ id: 'alt', alt_of: 'main', x: { label: 'x' }, y: { label: 'y', log: true }, series: [{ name: 'a0', points: [[1, 0], [2, 10], [3, 100]] }] }
+		]
+	};
+	it('matches the runtime reveal (window, axes delay, stagger)', () => {
+		expect(revealAt(spec, 'main', 0.4)).toEqual([0, 0]);
+		const p = 0.8;
+		const rr = plotProgressIn([0.5, 1], p);
+		const exp = [0, 1].map((i) => {
+			const n = [4, 2][i];
+			const { n: k, frac } = revealed(rr, 2, i, n);
+			return Math.min(1, (k + frac) / n);
+		});
+		expect(revealAt(spec, 'main', p)).toEqual(exp);
+		expect(revealAt(spec, 'main', 0.5 + 0.9 * 0.5)).toEqual([1, 1]);
+		expect(revealAt(spec, 'nope', 0.8)).toEqual([]);
+	});
+	it('pen follows the drawn line; alternates use the main chapter; log axes skip non-positive points', () => {
+		expect(penAt(spec, 'main', 0.4)).toEqual([null, null]);
+		const end = penAt(spec, 'main', 1);
+		expect(end[0]).toEqual({ series: 0, index: 3, x: 3, y: 9 });
+		expect(end[1]).toEqual({ series: 1, index: 1, x: 10, y: 2 });
+		const mid = penAt(spec, 'main', 0.7)[0]!;
+		expect(mid.x).toBeGreaterThanOrEqual(0);
+		expect(mid.x).toBeLessThanOrEqual(3);
+		expect(plotWindow(spec, 'alt')).toEqual([0.5, 1]);
+		const a = penAt(spec, 'alt', 1)[0]!;
+		expect(a).toEqual({ series: 0, index: 2, x: 3, y: 100 }); // the y = 0 point is not drawn on log y
+		expect(penAt(spec, 'alt', 0.55)[0]).toBeNull();
+	});
+});
+
+describe('thumbnail frame', () => {
+	it('thumb_p, else end of the chapter before the first plot chapter, else the last chapter', () => {
+		const base = { chapters: CH, plots: [] };
+		expect(thumbP({ ...base, thumb_p: 0.33 })).toBe(0.33);
+		expect(thumbP(base)).toBe(chapterTarget(CH[2]));
+		const withPlot = { chapters: CH, plots: [{ id: 'spec', x: { label: 'x' }, y: { label: 'y' }, series: [] }] }; // default: last chapter
+		expect(thumbP(withPlot)).toBe(chapterTarget(CH[1]));
+		const named = { chapters: [CH[0], { ...CH[1], plot: 'mid' }, CH[2]], plots: [{ id: 'mid', x: { label: 'x' }, y: { label: 'y' }, series: [] }] };
+		expect(thumbP(named)).toBe(chapterTarget(CH[0]));
+	});
+});
+
 describe('autoplay plan', () => {
 	const plot2 = (i: number) => i === 2;
 	it('moves to each chapter end, dwells, ends at 1; monotonic', () => {
@@ -452,5 +634,36 @@ describe('trace geometry (ported from ipatent)', () => {
 		]);
 		expect(elementBox({ shapes: [{ t: 'r', d: [1, 2, 11, 12] }, { t: 'c', d: [20, 20, 5] }] })).toEqual([1, 2, 25, 25]);
 		expect(elementBox({ shapes: [] })).toBeNull();
+	});
+});
+
+import { unitSuffix, withUnit } from './progress';
+describe('unit suffix', () => {
+	it('attaches angle and percent units, spaces the rest', () => {
+		expect(withUnit(26, '°')).toBe('26°');
+		expect(withUnit(26, 'deg')).toBe('26°');
+		expect(withUnit(5, '%')).toBe('5%');
+		expect(withUnit(10, 'mm')).toBe('10 mm');
+		expect(withUnit(10, '')).toBe('10');
+		expect(unitSuffix(undefined)).toBe('');
+	});
+});
+
+import { fmt } from './plot';
+describe('fmt scientific', () => {
+	it('writes decades as 10 with a superscript exponent', () => {
+		expect(fmt(1e5)).toBe('10⁵');
+		expect(fmt(2.5e5)).toBe('2.5×10⁵');
+		expect(fmt(1e-4)).toBe('10⁻⁴');
+		expect(fmt(-1e6)).toBe('−10⁶');
+		expect(fmt(1234)).toBe('1234');
+	});
+});
+
+describe('unit exponent shorthand', () => {
+	it('turns cm^-3 into markup', () => {
+		expect(withUnit(1e18, 'cm^-3')).toBe('1000000000000000000 cm^{-3}');
+		expect(unitSuffix('A/cm^2')).toBe(' A/cm^{2}');
+		expect(unitSuffix('cm^{-1}')).toBe(' cm^{-1}');
 	});
 });

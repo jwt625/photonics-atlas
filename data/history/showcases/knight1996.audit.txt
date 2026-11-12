@@ -1,0 +1,233 @@
+knight1996 (photonic crystal fiber, three-stage stack-and-draw) showcase audit (fresh context, read-only, 2026-11-11)
+====================================================================================================================
+
+Scope: data/history/showcases/knight1996.yaml (+ report.txt), DevLog-017 D1013 (and D995 / D998 / D1005 / D1006),
+skill history-showcase; app/src/lib/history/showcases/knight1996.ts; app/static/data/showcases/knight1996.json (built
+spec: parts, chapters, process, plots, withheld, references, assembly, title_note, tagline identical to the YAML);
+PartPanel.svelte (what the side panel shows: no geometry fields); sources references/knight1996/ (source.pdf, text.md,
+img_p02_1.png = Fig. 1, img_p02_2.png = Fig. 2, img_p03_1.png = Fig. 3) and references/birks1997/ (text.md, source.pdf,
+img_p01_1.png); builder shots knight1996/builder/ (sheet_f_0..3, sheet_fp_0..1, desk_p0880, desk_p0960, hover_early.log).
+Method: page text blocks and 250 dpi clips of p.1547 (process paragraph, Fig. 1 dimensions) and p.1548 (NA sentence)
+read; column locators checked from PDF block coordinates (x 51-296 = left, 314-559 = right). Fig. 2(a) re-digitized
+independently (own hole detection + affine lattice fit set to the printed 2.3 um pitch, stroke centres along 8 rays);
+Fig. 1 ring count re-done independently (own peak detection, BFS indexing, homography, ring-by-ring growth, overlay
+and 4-5x zooms of the rim); Fig. 3(a) spot geometry measured; module frame(p) and pick() strings read in full.
+Scratch: session scratchpad knight1996_audit/. No app run, no network, no git.
+
+VERDICT: NO-GO as is; GO after W1 (small). Every quote, number and locator checked is right; the process sequence
+follows the paper and the module claims no step, temperature, length or speed the paper does not print (all such
+items are labelled visual / assumed / not stated in hover). Ring count (9 rings, 271 canes), the 0.35 um hole from
+Birks 1997 and the Fig. 2(a) digitization reproduce. The wrong item is in the single-mode chapter: the far-field
+light cone is drawn at an NA of about 0.55, above the largest printed NA (0.36), and stays fixed for all four lines
+while the paper says the NA grows about 2.8x; nothing on screen or in hover says the real pattern widens.
+
+Counts: wrong 1, imprecise 12, missing 1, ok 19.
+
+----------------------------------------------------------------------------------------------------------
+WRONG
+----------------------------------------------------------------------------------------------------------
+
+W1. Far-field cone drawn past the printed NA range, fixed for 457.9-1550 nm, widening not disclosed
+  file:     app/src/lib/history/showcases/knight1996.ts line 690 (cone = ConeGeometry(30, Z_PAPER = 45)), lines
+            717-723 (spot ring radius 17, central spot radius 7.5, satellites 5.5 at FF_SPAN 64), lines 730-742
+            (ffInfo); yaml line 307 (single_mode.action).
+  current:  cone radius 30 at 45 from the fiber end: half-angle 33.7 deg, sin = 0.555, i.e. NA about 0.55 for every
+            line (blue to 1550 nm). The six spots sit at 20.7 deg (sin 0.35). desk_p0960.png: the cone footprint shows
+            as a large pale disc on the paper around the spots (no such halo in Fig. 3(a)). Hover says "One schematic
+            size: Fig. 3 prints no angular scale" and lists the two NA values, but not that the pattern widens.
+  proposed: keep the D1013 ruling (one schematic size, no line from "approximately linearly"), but (a) draw the
+            cone no wider than the printed range: half-angle at most asin(0.36) = 21.1 deg (radius at most 17.4 at
+            the drawn 45 mm), ideally just enclosing the drawn pattern, with no visible footprint disc beyond the
+            spots; (b) add to ffInfo and to the screen / guided_mode hover: "The real pattern widens with wavelength:
+            output NA about 0.13 at 457.9 nm to 0.36 at 1550 nm (p.1548); drawn at one size because only these two
+            values are printed." Alternative (owner's call): size the pattern at the two printed end values only
+            (blue NA 0.13, 1550 nm NA 0.36: ratio 2.8) and show 632.8 / 850 nm at an in-between size marked
+            illustrative in hover.
+  evidence: p.1548 right col. (block x 314-559, y 52-181; 250 dpi clip read): "over this whole range the far-field
+            pattern looks remarkably similar to that shown in Fig. 3, although the numerical aperture of the output
+            increases approximately linearly with wavelength (from ~0.13 at 457.9 nm to 0.36 at 1550 nm)". Skill:
+            "never sweep past the measured range"; "Physics must read right in the animation".
+
+----------------------------------------------------------------------------------------------------------
+IMPRECISE
+----------------------------------------------------------------------------------------------------------
+
+I1. Far-field pattern proportions differ from the photograph (relative sizes are fixed by Fig. 3(a) even without
+    an angular scale)
+  file:     knight1996.ts lines 696-729 (radialTex, outerSpots, spotMatC 0.95 / spotMatO 0.62 opacity).
+  current:  central spot half-alpha radius about 4.7 (gradient 1 -> 0.75 at 0.45 r -> 0 at r = 7.5), spot ring
+            radius 17: ratio 0.28; satellites half radius about 3.5 (0.20 of the ring), drawn at 0.65 of the
+            centre's opacity. desk_p0960: satellites look almost as large and bright as the centre.
+  proposed: take the dimensionless proportions from Fig. 3(a) (basis figure, label "proportions from Fig. 3(a)"):
+            central-spot half-max radius about 0.5 of the ring radius, satellite half-max radius about 0.15 of it,
+            satellites clearly weaker than the centre (photograph peak ratio 0.15-0.3, film response unknown, so
+            "weaker" not a number); central spot slightly hexagonal as photographed.
+  evidence: img_p03_1.png panel (a): centre (423, 353) px; half-max radius 57-61 px on 12 rays; six satellites at
+            110-125 px (mean 116) along 30 / 90 / 150 / 210 / 270 / 330 deg; satellite peaks 11-23 grey levels above
+            background 61 vs centre 75-77. Orientation in the module (spots at 30 + 60 i deg, rows horizontal) is
+            right: matches Fig. 2(b) and Fig. 3(a).
+
+I2. Infrared false colour and the current wavelength only in hover; 1550 nm lavender reads as violet
+  file:     knight1996.ts lines 65-70 (LINES: 850 nm '#ff6fb5', 1550 nm '#b47cff'), 664-675 (beamInfo), 730-742;
+            yaml line 306 (single_mode.line), line 141 (lasers.detail "labelled").
+  current:  on the canvas nothing says which laser is on or that pink / lavender are false colours
+            (desk_p0960, sheet_f_3); the lavender used for 1550 nm sits beyond blue on the visible hue wheel, so the
+            step blue -> red -> pink -> lavender reads as non-monotonic in wavelength.
+  proposed: line "One mode for each laser, blue to infrared (false colour)." (10 words), or a chapter label on the
+            far-field / lasers anchor naming the current line ("850 nm, false colour"); pick IR false colours that
+            do not resemble a visible line (e.g. a neutral white-grey for 1550 nm), labelled.
+  evidence: skill: illustrative choices "labelled where they show, not only in withheld".
+
+I3. "Outer spots weaker": which spots the paper means is ambiguous
+  file:     knight1996.ts line 1193 (outerW dims the six first-order spots), line 739 (hover).
+  current:  dims the six spots around the centre.
+  proposed: keep, but hover "the paper's 'outer spots' may mean the higher-order spots of Fig. 3(b); drawn on the
+            six spots, illustrative".
+  evidence: p.1548: "six symmetrically placed spots ... with much weaker spots further from the center" (left col.);
+            Fig. 3(b) caption "higher-order spots on the fringes"; NA sentence "the outer spots become somewhat
+            weaker at longer wavelengths" (right col.).
+
+I4. Near-field outer contour: dropped stretches are bridged by straight chords
+  file:     yaml lines 371-375 (plot note), 390 (outermost series).
+  current:  note says points where the contour touches a hole "are dropped", but the series is one polyline, so the
+            plot draws 8 straight chords across them: 0.51, 0.55, 0.50, 0.60, 0.34, 0.51, 0.16, 0.29 um long (e.g.
+            [2.409, -0.407] -> [2.106, 0.052]; [-1.141, 1.765] -> [-1.718, 1.932]). At 0 and 180 deg the chord sits
+            0.06 um inside my stroke read (2.14 vs about 2.2; 2.236 vs 2.175).
+  proposed: note "... dropped and bridged by straight segments (where the contour runs into a hole)"; or split the
+            series at those gaps if the runtime allows.
+  evidence: own re-digitization below (OK-6); gaps from the YAML points (scratch cmp.py).
+
+I5. Cane drawn as 0.8 mm flat-to-flat without saying so; 13.2 mm stack width depends on it
+  file:     knight1996.ts line 36 (CANE_F used as flat-to-flat in hexShape), lines 437-441 (caneInfo); yaml line 55
+            (dims note), line 83 (stack flat-to-flat 13.2 mm "16.5 pitches x 0.8 mm").
+  current:  hover says flat-to-flat or corner-to-corner is not stated, but not which one is drawn; the 13.2 mm and
+            the 50 um / 0.8 mm consistency assume flat-to-flat (corner-to-corner would give a 0.69 mm pitch).
+  proposed: caneInfo "drawn as 0.8 mm across the flats (assumed)"; stack dim locator "16.5 x 0.8 mm, taking 0.8 mm as
+            the flat-to-flat width; not stated".
+
+I6. Tower role says "used for all three draws"; the paper names the tower for two
+  file:     yaml line 34 (tower.role; shown in hover, hover_early.log p 0.2 / 0.47).
+  current:  "Furnace on a tower; used for all three draws."
+  proposed: "Furnace on a tower for the first two draws; the final draw is 'drawn down again' (furnace stated,
+            tower not named)." The detail text (line 35) already quotes this correctly.
+  evidence: p.1547 right col.: "drawn on a fiber drawing tower", "again drawn on the tower", "a piece of this fused
+            stack is drawn down again"; p.1548 left col.: "varying the furnace temperature during the pulling
+            process".
+
+I7. Vertical downward draw labelled assumed only on the hot zone, not on the tower
+  file:     knight1996.ts lines 349-353 (towerInfo), 354-362 (hotInfo carries it).
+  proposed: add "Vertical, downward draw: assumed" to towerInfo too (the tower ring is the larger pick target).
+
+I8. Milled flats animated as intact slabs falling away
+  file:     knight1996.ts lines 286-307, 978-985; yaml line 242.
+  current:  six circular segments drop off whole, which reads as sawing; the paper says milled.
+  proposed: hover on the segment "Drawn as one piece for clarity; milling removes it as chips" (or shrink / fade the
+            segment in place).
+
+I9. Near-field glow brightness steps are illustrative, not the 25:1 contour ratio
+  file:     knight1996.ts lines 586-612 (4 stacked layers at alpha 0.58: cumulative 0.58 / 0.82 / 0.93 / 0.97).
+  proposed: nfInfo third line "Brightness steps illustrative; only the 25:1 innermost / outermost ratio is printed".
+
+I10. Spec action and module disagree on the stacking order
+  file:     yaml line 258 ("the last to arrive is the solid cane"); knight1996.ts lines 1026, 1034-1045 (solid cane
+            first, then rings 1-9).
+  proposed: align the spec action with the module (either order is unsourced; the paper fixes only the position).
+
+I11. Phone framing: model behind the keyword / line in two frames
+  file:     builder sheet_fp_0 (p 0.485: the top of the upright stack shows behind "Fused and drawn"), sheet_fp_1
+            (p 0.53: the falling fiber crosses the chapter line "dr|awn down to fiber").
+  proposed: phone shot boxes for fuse 0.78-0.95 and fiber 0.2-0.5 a little lower (sy) or fade the stack above the
+            pane top.
+
+I12. Desktop near-field frame: fiber-body edge lines reach the plot's y-axis title
+  file:     desk_p0880.png: grey body streak from the hexagon's right corner to x about 570 px, the plot's "y (um)"
+            title at x about 570 px; knight1996.ts line 815 (nfFace), 565-569 (body).
+  proposed: fade the body (bodyMat) during the near_field chapter or shorten LF there (skill: fibers end before the
+            plot panel).
+
+----------------------------------------------------------------------------------------------------------
+MISSING
+----------------------------------------------------------------------------------------------------------
+
+M1. Stack build orientation not labelled where it shows
+  file:     knight1996.ts lines 452-460 (stackInfo); yaml line 219 (assembly: "stacking orientation not stated").
+  proposed: stackInfo "Built end-on and stood upright for the second draw: assumed (not stated)".
+
+Low priority (no count): dims with value N/A carry basis "assumed" (rod length, cane cut length, temperatures of
+draws 2 and 3; yaml lines 30, 43, 56), so the panel badges a missing value as an assumption; "not stated" with no
+basis badge would read cleaner. The erratum reference's issue number and end page "(7), 484-485" are not in any local
+source (Birks 1997 ref. 1 prints only "22, 484 (1997)"); fine to keep, or cite as printed there. Out of scope: the
+merged milestone row's significance says "First photonic crystal (holey) fiber" while the story (correctly) avoids
+"first"; the paper cites earlier single-material fibers (ref. 6, Kaiser and Astle 1974).
+
+----------------------------------------------------------------------------------------------------------
+OK (verified)
+----------------------------------------------------------------------------------------------------------
+
+OK-1  Process sequence and values (p.1547 right col., 250 dpi clip): 16 mm hole drilled down the length of a 30 mm
+      silica rod; six flats milled, regular hexagon; drawn on a fiber drawing tower at ~2000 C to hexagonal cane "of a
+      diameter of 0.8 mm", cut to length and stacked; stack "again drawn on the tower, fusing ... pitch ... to
+      ~50 um"; "a piece of this fused stack is drawn down again"; "reduced by a factor of more than 10^4"; final
+      pitch ~2 um. Module order and HUD match; ~2000 C only on the first draw; draws 2 and 3 carry no temperature.
+OK-2  No unprinted step, temperature, length or speed claimed: rod length, neck shapes, furnace size, cane / stack
+      lengths, bench distances all say visual / not stated in hover (rodInfo, neckInfo, towerInfo, caneInfo,
+      stackInfo, benchInfo); no speed or tension anywhere. Hexagon at the 26.0 mm bound (30 cos 30 = 25.98),
+      fluid position, bench stand-ins, downward draw (hot zone) labelled assumed where they show.
+OK-3  Fig. 1 dimensions (p.1547 right col.): 38 um flat-to-flat, 2.3 um pitch, core nominally 4.6 um; structure
+      invariant over several meters; holes "0.2-1.2 um" for other draws, surface tension (p.1548 left col.).
+OK-4  Ring count 9 / 271 canes. Independent count: one empty site with six neighbours (the core) at px (567, 313);
+      rings 1-7 complete (6 ... 42), ring 8 near complete (my cruder threshold: 39-43 of 48, losses at the chipped
+      top corner and rim), ring 9 present as faint holes inside the bright edge rim (4-5x zooms of the right and
+      bottom edges: a row of faint dips beyond ring 8), ring 10 falls on the sidewall / background only. Sector
+      check (one 60 deg sector): 1, 2, 3, 4, 5, 6, 7 of 1-7, ring 8 7 of 8. Width cross-check: 38 / 2.3 = 16.5
+      pitches = 2 (0.866 x 9 + 0.43). Outline flats parallel to the rows (ring hexagons follow the face outline).
+      271 = 1 + 3 x 9 x 10. Module: latticeSites(9) = 271, solid centre, cane flats facing lattice neighbours
+      (vertices at 30 + 60 i deg), stack / fused / fiber outlines with vertices at 0 deg (flats parallel to rows).
+OK-5  Hole diameter 0.35 um: Birks et al., Opt. Lett. 1997, p.962 left col. (block x 51-296, y 716-740): "The fiber
+      described in our earlier Letter has Lambda = 2.3 um and d/Lambda ~ 0.15"; 0.15 x 2.3 = 0.345. Same micrograph
+      as Fig. 1 confirmed by eye (identical data bar "20KV X1,800 36mm L01", chipped top-right corner, sidewall
+      marks); Birks p.961: "about 40 um across", "337 nm" (later work, panel only).
+OK-6  Fig. 2(a) digitization reproduces. My calibration: lattice centre px (430.5, 368.3) (report 430.41, 368.19),
+      0.0276 um/px (report 0.0274). Radial stroke-centre crossings, mine vs YAML (um), innermost / second / third /
+      outermost: 30 deg 0.283 / 1.027 / 1.530 / 2.888 vs 0.286 / 1.024 / 1.541 / 2.874; 90 deg 0.481 / 1.078 /
+      1.606 / 2.890 vs 0.477 / 1.050 / 1.577 / 2.840; 210 deg 0.497 / 1.089 / 1.578 / 2.833 vs 0.485 / 1.085 /
+      1.562 / 2.802; 270 deg 0.556 / 1.050 / 1.469 / 2.746 vs 0.553 / 1.046 / 1.458 / 2.703; 330 deg 0.282 / 1.051
+      / 1.534 / 2.715 vs 0.275 / 1.038 / 1.536 / 2.692; 180 deg (inner three) 0.422 / 1.084 / 1.506 vs 0.429 /
+      1.085 / 1.496. Differences 0.00-0.05 um (<= 2 px; my scale is 0.6 % larger). Non-nearest hole centres agree
+      within 0.06 um (e.g. (3.47, -2.04) both; (-3.59, 2.09) vs (-3.63, 2.07)). Sampling 0.06 um on an 8.4 um span
+      (1/140), inner contours max gap 0.09 um. D-shaped innermost with the straight side on the right, six lobes at
+      30 + 60 i deg between the nearest holes: as printed.
+OK-7  aspect: equal set (yaml line 376) and honoured (PlotAssembler.svelte line 36-37; desk_p0880 data area square,
+      x and y ticks equal length). x / y ranges equal [-4.2, 4.2].
+OK-8  NA values only in the side panel / HUD / hover (screen dims, guided_mode dims, process test params, ffInfo);
+      built JSON has one plot (near_field); no "linear" text anywhere in the built JSON (D1013 (3)).
+OK-9  Erratum: title_note, references (used_for "not read ... content unknown") and withheld all say unread
+      (D1013 (1)); its existence is confirmed locally by Birks 1997 ref. 1 "Opt. Lett. 21, 1547 (1996); 22, 484
+      (1997)".
+OK-10 Locators by column: process, solid cane, core argument, Fig. 1 dims = p.1547 right col.; "Air holes arranged in
+      a regular hexagonal pattern" = p.1547 left col.; lasers, 1 m, >50 % coupling, vidicon 60x, paper screen,
+      surface tension, 0.2-1.2 um = p.1548 left col.; NA, single mode 457.9 to beyond 1550 nm = p.1548 right col.;
+      polarization = p.1549 left / right col.; 25x contour ratio = Fig. 2 caption p.1548. All quotes match the text
+      (OCR glyphs ",", "±", "m", "603" read back as ~, deg, um, 60x on the renders).
+OK-11 Near-field chapter physics: glow layers are the plot's own four contours, outermost first, revealed with the
+      plot pen (staggerK with the plot's series index, lines 1120-1128); red 632.8 nm; vidicon with objective on
+      axis; end-face lattice orientation matches the plot (rows horizontal).
+OK-12 Far-field orientation: six spots at 30 + 60 i deg with rows horizontal = reciprocal lattice of the drawn
+      triangular lattice, as Fig. 2(b) and Fig. 3(a) show (spots top / bottom); the paper plane's 180 deg turn
+      keeps it (pattern symmetric under x -> -x).
+OK-13 Launch chapter: beam -> objective -> core; cladding light ends inside the index-matching sleeve; output end
+      lights as the core light arrives (lit 0.76-0.86 vs core front at 0.80).
+OK-14 Hole shrink shown only between the fused cut face (d / pitch 0.62, labelled assumed) and the fiber face
+      (0.15, ref), consistent with "relative diameter ... smaller than in the original unit cell ... surface tension
+      during the final stages"; draw-down chain consistent: 13.2 -> 0.8 mm (pitch 48.5 um, "~50"), 0.8 mm ->
+      38 um (pitch 2.3 um); 26.0 mm / 2.3 um = 1.1 x 10^4 (> 10^4).
+OK-15 frame(p) pure: all state (lineIdx, stackFadeMid, bore key) derived from p; seeded fly-in jitter (rng 1996).
+OK-16 Text budget: keywords <= 3 words; lines 7-11 words, no numbers; essential dims 4 (dia. 30 mm, hole 16 mm,
+      cane dia. 0.8 mm, pitch 2.3 um) with label_short; one amber emphasis ("*Single mode*"); 1 plot chapter.
+OK-17 Markup: only "10^{4}" uses notation; no raw "_" or "^" in viewer-facing strings (underscores in the JSON are
+      ids / geometry fields the panel does not show).
+OK-18 No internal shorthands in viewer-facing text: no era / decision / DevLog / batch codes; paper ids appear only
+      as references[].id (keys, not rendered: PartPanel lines 78-81 show cite and used_for).
+OK-19 Single-mode claim worded as the paper supports it ("One mode for every laser tested, blue to infrared"):
+      launch- and bend-independent far field, single low-loss mode from at least 457.9 to beyond 1550 nm; no
+      "first" in the story; spellings as printed (fiber, center, He-Ne, Ti:sapphire, vidicon).

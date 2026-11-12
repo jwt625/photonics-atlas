@@ -1,0 +1,216 @@
+hayashi1970 showcase research report (2026-11-11)
+=================================================
+
+Spec: data/history/showcases/hayashi1970.yaml (23 parts, 11 chapters, 2 plots, 7 process steps, 1 traced drawing).
+Renderer 2.5d (layer stack). Scratch: session scratchpad hayashi/ (digitization scripts, overlays, trace generator);
+downloads: cache/showcases/hayashi1970/ (git-ignored).
+
+----------------------------------------------------------------------------------------------------------------
+1 SOURCES
+----------------------------------------------------------------------------------------------------------------
+
+[P] I. Hayashi, M. B. Panish, P. W. Foy, S. Sumski, "Junction lasers which operate continuously at room temperature",
+    Appl. Phys. Lett. 17(3), 109-111 (1970-08-01), doi:10.1063/1.1653326. Bell Telephone Laboratories, Murray Hill,
+    New Jersey. Received 1970-06-08. Licensed (restricted_local_only): references/hayashi1970/source.pdf, text.md,
+    figures/img_p0{2,3,4}_1.png (2x page renders, 2392 x 3165 / 2368 x 3146). Journal p.109-111 = text.md pages 2-4
+    (page 1 is a publisher cover sheet). Fixes: everything about the device, process and results; Fig. 1 apparatus
+    arrangement (schematic), Table I (melts, thicknesses), Fig. 2 (L-I, digitized), Fig. 3 (spectra, digitized).
+[PAT] I. Hayashi, US 3,758,875 "Double heterostructure junction lasers", Bell Telephone Laboratories, filed
+    1970-05-01 (Ser. No. 33,705), granted 1973-09-11. Public domain. PDF (14 pp., CCITT 2320 x 3408 at 300 dpi)
+    cached as cache/showcases/hayashi1970/US3758875.pdf. Fixes: FIG. 6A (traced) and its description col. 7:43-52;
+    the example (col. 8:14 to col. 9:58) grows the same four-layer recipe (n-AlGaAs:Sn, compensated p-GaAs:Si,
+    p-AlGaAs:Zn, p-GaAs:Ge cap; col. 9:13-31) on n-GaAs in a sliding holder with a single-loop auxiliary heater and a
+    thermocouple under the seed (col. 8:20-26, 8:52-60), but that wafer had other thicknesses (5 / 1.5 / 1.9 / 2-15 um,
+    col. 9:32-35), other contact times (15 / 30 / 60 s, col. 9:1-6), was lapped to 6 mils and "cut and cleaved" and
+    tested without a heat sink (col. 9:37-48), threshold 3,900 A/cm2. Used only for the drawing, wording of the
+    apparatus, and labelled side-panel remarks; never for this diode's numbers. The example names the LPE technique of
+    copending application Ser. No. 28,365 (Panish-Sumski, filed 1970-04-14) (col. 8:18-21): not retrieved (see 6).
+[PAT2] I. Hayashi, US 3,691,476 "Double heterostructure laser diodes", filed 1970-12-31, granted 1972-09-12. Read via
+    Google Patents text only: a later five-layer structure with a stripe contact on diamond and a tin-plated copper
+    heat sink (FIG. 4, 5); it cites this letter. Not this device; not used beyond the references entry.
+[A] Zh. I. Alferov, V. M. Andreev, D. Z. Garbuzov, Yu. V. Zhilyaev, E. P. Morozov, E. L. Portnoi, V. G. Trofim,
+    Fiz. Tekh. Poluprovodn. 4, 1826-1829 (1970), submitted 1970-05-06; English Sov. Phys. Semicond. 4(9), 1573-1575
+    (1971). Cached (references/alferov1970, licensed, manual download). Used only for the parallel-work title note:
+    "We achieved continuous room-temperature laser emission in small-area (30x250 um active region) samples prepared
+    by the photolithographic technique. Silvered copper plates were used as the heat conductors." (English text,
+    cached copy p.5; Russian original with the journal / page / received date on cached p.2).
+
+Atlases browsed first: this repo's data/components (merged row cmp_lit_hayashi1970_dh_fp_laser_370um and its 6
+metrics: same values as used here; the derived thresholds 1036 / 592 mA are not used in the story),
+data/history/milestones.csv row 38, milestone_tags.csv row 22. eo-modulator-atlas / packaging atlas: not relevant
+(laser, 1970).
+
+Request log (6 web requests, generic client, no personal identifiers):
+  1 WebSearch "Hayashi Panish Bell ... patent double heterostructure ..." -> US 3,758,875 / 3,691,476 candidates
+  2 WebFetch uspto.report/patent/grant/3758875 -> HTTP 403 (stopped on that host, no retry)
+  3 WebFetch patents.google.com/patent/US3758875A/en -> metadata, PDF link, figure list
+  4 WebFetch patents.google.com/patent/US3691476A/en -> metadata (not this device)
+  5 curl (generic UA, one request) patentimages.../US3758875.pdf -> 200, 1,490,495 bytes
+  6 WebSearch "Panish Sumski patent liquid phase epitaxy sliding solution holder ... 1970" -> no US number found
+    (SE362986B listed with priority 1970-04-14; not fetched)
+
+----------------------------------------------------------------------------------------------------------------
+2 WHAT THE PAPER FIXES (fixed / assumed / withheld per part)
+----------------------------------------------------------------------------------------------------------------
+
+Locators: p.109 col. 1 = intro, col. 2 = structure and growth; Fig. 1 across the foot of p.109; p.110 col. 1 =
+Table I, doping targets, preparation, contacts, heat sink, Fig. 2 method; p.110 col. 2 = Fig. 2, diode size, 311 K
+thresholds, 25 K rise, 20 mW, 80 meV; p.111 col. 1 = Fig. 3; p.111 col. 2 = mirror coatings remark, acknowledgments.
+
+Apparatus (Fig. 1, schematic, no scale): fused silica tube, furnace walls, single loop auxiliary heater (coil below
+  the tube), graphite seed holder (bar, STOP at the H2-out end), seed set in its top near the stop end, graphite
+  sliding solution holder (frame around the seed holder, four wells "SOLUTIONS 1 2 3 4" between five solid walls),
+  push rod at the H2-in end, thermocouple from the stop end with its tip under the seed, H2 IN / H2 OUT arrows. FIXED
+  (arrangement). At the start a solid wall covers the seed; pushing the holder toward the stop brings wells 1-4 over
+  the seed in order: this is the reading of the drawing (seed under the leftmost wall, wells ordered away from it).
+  WITHHELD: all sizes, gas flow, furnace type.
+Process: cooling rates of 1-3 C/min established first; layer 1 grown from 840 to 830 C; layers 2, 3, 4 with 15 s
+  each on the seed while cooling (p.109 col. 2). Table I melts (atom %): 1 Ga 92.0 Al 0.5 As 3.0 Sn/4.5; 2 Ga 94.0
+  Al "..." As 4.0 Si/2.0; 3 Ga 95.9 Al 0.8 As 2.8 Zn/0.5; 4 Ga 95.7 Al "..." As 4.0 Ge/0.3. Thicknesses (typical run):
+  3-4, <~1, ~1.5, ~1.5 um; vary up to 2x across a wafer. x ~ 0.2-0.4 chosen from the melt; doping targets (not
+  measured): layer 1 n ~ (1-4)e18, layer 2 p ~ (1-4)e18 compensated, layer 3 p ~ (5-8)e18, layer 4 p ~ (3-5)e18 cm^-3
+  (all four exponents read as 18 on the 2x render at 2.5x zoom; the text layer agrees). Small GaAs excess per melt.
+  Si 1-15 mg/g Ga tried. FIXED. Layer 2 called the "active region" only by combining p.109 col. 1 ("narrower active
+  region") with p.110 col. 1 ("second layer be thin and uniform"); spec says so.
+Zn skin ~0.2 um p+ (p.110 col. 1). FIXED depth; WITHHELD conditions.
+Contacts: Cr then Au on the p side, Sn-Pt-Sn on the n side, vapor plated onto the wafer. FIXED materials and sides;
+  no stripe or pattern is described -> uniform films; WITHHELD thicknesses.
+Diode (Figs. 2, 3): uncoated Fabry-Perot DH diode, 370 um long, about 80 um wide (p.110 col. 1-2). FIXED. WITHHELD:
+  how the chip / faces were made, substrate thickness and orientation of this diode.
+Mounting: Au sides bonded to diamond coated with Cr then Sn; In-coated contact pressed on the n side; diamond bonded
+  to a Cu block; reported temperatures are the Cu block's (p.110 col. 1). FIXED topology (p side down). WITHHELD sizes.
+Results: CW up to 311 K heat sink (abstract; "270-311 K" in the text); at 311 K Jth ~ 3.5 kA/cm2 CW, ~ 2.0 kA/cm2
+  pulsed; junction ~25 K above the sink at 297 K (estimate; "~1.8 um" of AlGaAs in layer 3 and 15 % conductivity are
+  the authors' hypothetical inputs); >= 20 mW at 30 % above threshold at 297 K; emission 80 meV above that expected
+  for GaAs (attributed to Al carry-over into solution 2); lasing seen as "turn on" of several spots with an image
+  converter microscope, or spectrally. Diode voltage ~2.6 V at 0.8 A (Fig. 2 label; text layer garbles it as
+  "-2.SV"). Pulses 0.2 us width, 2 us interval (Fig. 2) = 10 % duty (text).
+Other diodes (side panel only): square fully internally reflecting diodes Jth(300 K) as low as 1000 A/cm2 (text,
+  p.109 col. 1) but the abstract prints "100 A/cm2" (checked on the 2x render: "100"); FP diodes 560 um long ~1600
+  A/cm2; earlier lowest 2300 A/cm2.
+Not in the paper (withheld): band diagram (none printed; the story has no band diagram), stripe, junction position,
+  far field, polarization, efficiency, threshold of the Fig. 2 diode at 297 K.
+Assumed (drawing only): layer 1 drawn 3.5 um (midpoint of 3-4), layer 2 drawn 1.0 um (printed bound), substrate drawn
+  6 um and broken (thickness not stated), heights exaggerated; diamond / Cu / In contact neutral stand-ins; emission
+  colour illustrative (near-infrared; 1.446 eV -> 0.857 um derived).
+
+----------------------------------------------------------------------------------------------------------------
+3 PLOT DIGITIZATION
+----------------------------------------------------------------------------------------------------------------
+
+Fig. 2 (p.110), raster, references/hayashi1970/figures/img_p03_1.png (2368 x 3146).
+  Axis frame: left x 1315.5, bottom y 1702, right x 2142, top y 241 (px).
+  x calibration (ticks above the axis, centres): 0 -> 1313.0, 0.2 -> 1464.0, 0.4 -> 1614.0, 0.6 -> 1767.5,
+    0.8 -> 1917.5, 1.0 -> 2070.5 px; LSQ I = 1.3204e-3 * px - 1.73285 A (757.4 px/A); residuals <= 0.0018 A.
+  y calibration (ticks right of the axis): 0 -> 1702 (axis line), 20 -> 1549, 40 -> 1395.5, 60 -> 1240, 80 -> 1087,
+    100 -> 933.5, 120 -> 777.5, 140 -> 621, 160 -> 470, 180 -> 315 px; LSQ L = -0.129668 * px + 220.841 (7.712
+    px/unit); residuals <= 0.32 units.
+  Markers: 11 open circles (dc) from the hollow centroid (flood fill of the white interior, all closed, 54-72 px);
+    11 crosses (pulsed) from the ink centroid in a 21 x 21 window. dc circles land at 0.102, 0.201, 0.305, 0.403,
+    0.501, 0.602, 0.703, 0.802 A (nominal 0.1 A steps, within 0.005 A: calibration check), then 0.816, 0.825, 0.833 A
+    on the steep part.
+  Curves: ink < 140, text boxes (297 K label, legend, diode-voltage label) and marker discs (r 11.5 / 12 px) masked;
+    curve assignment by guide polylines through the markers (assignment only, never values); per-column reads
+    (stroke centre = middle of the vertical ink run) where the guide slope < 2 px/px, per-row reads (middle of the
+    horizontal run) where steeper; runs wider than 15 px rejected; binned 4 px in x (0.0053 A) or 8 px in y (1.04
+    units), median per bin, bins with < 2 (col) / < 3 (row) reads dropped (dash gaps, marker discs): no
+    interpolation. dc: 125 column + 69 row bins = 194, cut at 183 units below the arrowhead -> 189 points
+    (0.0107 A ... 0.8537 A, 182.65). pulsed: 42 + 118 = 160 points (to 0.622 A, 186.5; the top cross sits on the frame
+    at 188.3). Below about 0.21 A both curves read the same ink (printed curves coincide). Overlay of all points on the
+    scan inspected: on the stroke everywhere (scratch overlay.png, ov_zoom.png).
+  Figure readings (plot note only, basis figure): two-line fits give the drawn bend at 0.811 A / 108 (dc; slopes 163
+    and 1810 units/A) and 0.560 A / 97 (pulsed; 248 and 1436 units/A). Not thresholds printed by the paper.
+Fig. 3 (p.111), raster, img_p04_1.png (2392 x 3165).
+  Frame: left x 275, right 1134, top 270, bottom 1550 px. y log: ticks 100 -> 298.5, 10 -> 803.5, 1 -> 1305.0 px;
+    LSQ log10(I) = -1.98708e-3 * px + 2.59430 (residuals <= 0.0023 decade). Bottom frame = 0.33.
+  x: no printed energy ticks. Scale bars: 10 meV bar ends at 921.5 and 1008.5 px -> 8.70 px/meV; 100 A bar 887.5 to
+    1036 px = 17.07 meV vs 16.86 meV expected at 1.446 eV (1.2 % agreement). Energy increases to the left. Printed
+    peak arrows (shaft centres): 1.446 eV at x 811, 1.449 eV at 766.5, 1.433 eV at 911. With 8.70 px/meV the LSQ
+    offset puts x 811 at 1.44479 eV; residuals of the three labels -1.21, +0.91, +0.30 meV (labels are printed to
+    1 meV). E(eV) = 1.444793 + (811 - px) / 8700. Plot x is drawn increasing to the right (noted in the plot note).
+  Traces (labels, leader lines, scale bars, I-labels masked): 0.1 A dc 101 points (1.4100-1.4597 eV), 0.72 A dc 113
+    (1.4244-1.4785 eV), 0.80 A dc 188 (1.4326-1.4768 eV; peak flanks read per row, top cut at about 62 as drawn,
+    "incomplete" per caption). Same column / row rule, 4 px / 8 px bins (0.46 meV / 0.016 decade), medians, empty
+    bins dropped (0.72 A shoulder under the I = 370 leader line; noisy thick parts of the 0.80 A trace). Overlay on
+    the scan inspected (f3_overlay.png). y values are as drawn: each trace has its own scale, the printed I values
+    are in the series names.
+  Not digitized: the 0.82 A dc line and the dashed "PULSE LASING ENERGY" line: both lie left of two parallel wavy
+    lines that read as an energy-axis break; the 10 meV bar cannot place them. Side panel / plot note only (<= 0.5 meV
+    (3 A) wide, I ~ 100,000).
+Fix pass 2026-11-11 (audit I5, coordinator-authorized): 8 points added to the 0.80 A trace of Fig. 3 between 1.43761
+  and 1.44043 eV (2.8 meV gap where thick runs had been rejected), read by the audit as the centre of the ink run per
+  column (img_p04_1.png columns 850-871, y 880-1060, same calibration): 1.43790 3.10, 1.43824 3.24, 1.43859 3.49,
+  1.43893 3.76, 1.43928 4.12, 1.43962 4.58, 1.43997 5.30, 1.44031 5.74. Trace FIG. 6A: dashed homojunction 226
+  extended to the scan's full length (350-815 px, audit I8).
+Sampling density: Fig. 2 0.0053 A per column bin (1/190 of the 1.0 A span) and 1 unit per row bin (1/180 of the
+  190-unit span); Fig. 3 0.46 meV per bin (1/170 of the 80 meV plotted span). All denser than 1/60.
+
+----------------------------------------------------------------------------------------------------------------
+4 GEOMETRY FOR THE MODEL
+----------------------------------------------------------------------------------------------------------------
+
+- Apparatus: Fig. 1 crop frame fig1_px = img_p02_1.png box (200, 2290)-(1560, 3010) scaled 0.85 (1156 x 612 px).
+  tube walls y 40 / 340; seed holder bar x 190-910, y 168-200, stop circle (170, 183) r 20; seed x 430-490 at y
+  167-174 (under wall 1); top walls x [430-485], [537-590], [640-668], [720-748], [800-860], y 90-160; wells 1-4
+  between them; lower frame y 200-232 and 285-315, x 430-860; push rod x 860-1130, y 222-232; thermocouple from
+  x 35 to tip (478, 258); heater coil box (155, 410)-(1105, 475). Schematic: arrangement only.
+- Motion (from the drawing + "successively brought into contact"): the holder slides toward the stop end; seed under
+  well 1, 2, 3, 4 in turn, then under the last wall. Dwell: layer 1 spans the HUD ramp 840 -> 830 C; layers 2-4
+  equal short dwells (15 s each). The paper does not state the wipe; the patent does (earlier run): not animated as
+  a separate event.
+- Stack (bottom to top as grown): substrate (drawn 6 um, broken) | layer 1 3.5 | layer 2 1.0 | layer 3 1.5 |
+  layer 4 1.5 (top 0.2 = Zn skin) um; Cr-Au film on top, Sn-Pt-Sn film under the substrate. Plan 370 x 80 um to
+  scale (length along the cavity axis, facets = the two 80 um wide end faces). Vertical exaggeration free (say 10x),
+  ratios kept.
+- Mount: chip flipped (p side down): Cu block | diamond (Cr, Sn) | Au-Cr | Zn skin | 4 | 3 | 2 | 1 | substrate |
+  Sn-Pt-Sn | In-coated contact pressed from above. Diamond and Cu block are stand-in blocks wider than the chip.
+- Emission: both end faces, along the 370 um axis, centred on layer 2.
+
+Drawing: US 3,758,875 FIG. 6A, drawing sheet 1 of 3 (PDF p.2), rendered at 300 dpi (2320 x 3408 = native scan),
+  deskewed: page rotated 1.4 deg counter-clockwise about (680, 2770) (horizontal rules sloped 0.026, verticals
+  0.022), cropped (300, 2265)-(1375, 3265), thresholded at 150 -> data/history/showcases/drawings/hayashi1970-fig6a.png
+  (1075 x 1000). Trace data/history/showcases/traces/hayashi1970-fig6a.json, 97 elements (8 blocks, 40 hatch strokes,
+  5 junction lines, 3 dimension marks, 14 leaders incl. the 224 brace and the dashed 226 leader, 13 numerals, 14
+  texts); leaders from skeletons of the scan (skimage) inside per-leader boxes; ipatent overlay.py / coverage.py
+  copied to the scratch folder (coverage calls sys.executable), ipatent repo untouched. Coverage (tol 4 px): 98.4 %
+  scan ink covered, 1.3 % trace ink off scan; largest residuals: glyph shapes of "221", "d2", "n-n" (< 101 px each).
+  Numerals: 214 substrate, 215 layer_1, 224 layer_2, 212 layer_3, 217 layer_4, 218 p_contact, 219 n_contact;
+  216 (heat sink) and junction numerals 220-226 left unmapped (see 6).
+
+----------------------------------------------------------------------------------------------------------------
+5 CHAPTER SCRIPT rationale
+----------------------------------------------------------------------------------------------------------------
+
+seed .00-.07, layer1 .07-.15, layer2 .15-.23, layer3 .23-.30, layer4 .30-.37: LPE in the paper's order, one layer
+  per chapter as asked; the HUD carries Table I and the 840 -> 830 C / 15 s values; the thin layer 2 gets the
+  essential label (<~ 1 um). Hydrogen direction from the drawing.
+contacts .37-.45: Zn skin then both contacts (the paper's order: Zn diffusion, then contacts).
+diode .45-.53: the chip with its essential 370 um x about 80 um; no cleaving animation (method not stated), no stripe.
+mount .53-.62: flip p side down onto diamond on Cu, In contact pressed on top (the paper's order).
+cw .62-.78 (plot li, Fig. 2): pen-synced dc current; brightness from the digitized dc curve; beam narrows past the
+  drawn bend at about 0.81 A; never beyond 0.854 A (last plotted point). Pulsed curve in the plot only.
+spectra .78-.90 (plot spectra, Fig. 3): three traces in current order; I values in legend; 0.82 A line in hover only.
+limit .90-1.0: essential 311 K on the copper block (abstract headline); explode / orbit.
+Emphasis: one amber italic ("*continuously*"). Essential dims (4): layer 2 thickness, diode length, width, 311 K.
+2 plot chapters (limit 3).
+
+----------------------------------------------------------------------------------------------------------------
+6 OPEN QUESTIONS for the coordinator
+----------------------------------------------------------------------------------------------------------------
+
+Q1 Fig. 3 energy axis: calibrated from the 10 meV bar and placed by LSQ on the three printed peak energies (label
+   residuals up to 1.2 meV). Alternative: x scale none with the printed energies in hover. Recommendation: keep the
+   calibrated axis (bar and 100 A bar agree within 1.2 %).
+Q2 Fig. 2 legend has 4 entries (two curves + two marker series). Keep (the symbols are the measured points, the lines
+   hand-drawn curves), or drop the marker series. If kept, the builder should give each marker series its curve's
+   colour (series[].color); none set in the spec.
+Q3 Drawing: FIG. 6A shows the same layer order but puts the heat sink 216 on the substrate side and a homojunction
+   226 inside region 224 (the text allows the sink on contact 218 too, col. 7:50-52). Caption note explains; 216 and
+   220-226 unmapped. Accept, or show no drawing?
+Q4 The Panish-Sumski LPE application Ser. No. 28,365 (filed 1970-04-14; SE362986B counterpart) may carry a public-domain
+   sliding-boat drawing matching Fig. 1. Not retrieved (no US number found in one search). Worth one more paced search?
+Q5 Title "Continuous at room temperature" (4 words, from the paper's title). OK?
+Q6 Abstract "100 A/cm2" vs text "1000 A/cm2" (square diodes): already in the milestone notes; the spec quotes the
+   text value with the abstract value beside it, side panel only.
+Milestone / tag rows: no disagreement found (event, date 1970-08-01, kind device, material GaAs, topic and thread
+agree with the paper; the milestone note on the Fig. 3 caption "diode of Fig. 3" matches the scan).

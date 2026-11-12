@@ -1,0 +1,175 @@
+hall1962 showcase research report (GaAs junction laser, General Electric 1962)
+Date: 2026-11-11. Spec: data/history/showcases/hall1962.yaml (DevLog-017 section 4a schema, runtime fields per
+app/src/lib/history/showcase/types.ts). Renderer: 3d.
+
+Outputs
+- data/history/showcases/hall1962.yaml                spec (16 parts, 16 assembly rows, 10 chapters, 6 process steps,
+                                                       3 plots, 1 drawing, 4 refs, 12 withheld)
+- data/history/showcases/drawings/hall1962-fig1.png   US 3,245,002 FIG. 1, upright 1-bit crop, 995 x 942 px
+- data/history/showcases/traces/hall1962-fig1.json    ipatent TRACE_SCHEMA trace of that crop, 39 elements
+- cache/showcases/hall1962/ (git-ignored): US3245002.pdf (9 pages, 1,272,722 bytes)
+
+1. SOURCES
+----------
+- [L] R. N. Hall, G. E. Fenner, J. D. Kingsley, T. J. Soltys, R. O. Carlson, "Coherent Light Emission From GaAs
+  Junctions", Phys. Rev. Lett. 9(9), 366-368 (1962-11-01), received 1962-09-24, General Electric Research Laboratory,
+  Schenectady, New York. https://doi.org/10.1103/PhysRevLett.9.366. Cached references/hall1962/ (licensed, local
+  only). Read from the page renders and the 4739 x 6257 bilevel scans img_p0N_1.png, not the OCR (text.md misreads
+  "L-69" as "1-69"). Page map: text.md p.1 = journal p.366, p.2 = p.367, p.3 = p.368 (upper half; lower half is the
+  next letter), p.4 unrelated image. Fixes: cube size, junction plane, contacts, metal disc, polished faces, pulses,
+  liquid nitrogen, threshold text, Fig. 2 / Fig. 3 spectra, beam evidence, "first" statements.
+- [US] R. N. Hall, US 3,245,002 "Stimulated Emission Semiconductor Devices", filed 1962-10-24 (Ser. No. 232,846),
+  granted 1966-04-05, assignor to General Electric Company; certificate of correction 1967-09-26 (PDF p.9).
+  Public domain. https://patentimages.storage.googleapis.com/a5/b0/7f/40f65021c43c80/US3245002.pdf (found via the
+  Google Patents page). Same work: one inventor of [L], filed one month after [L] was received, the GaAs example is
+  "a device substantially as illustrated in FIGURE 1", and FIG. 4 is the letter's Fig. 2 redrawn (peaks 4.12 / 2.33 on
+  the same 0-5 scale, broad curve 124 Å wide at half height in both; FIG. 4 misprints the 8400 label as "8900").
+  Fixes: FIG. 1 drawing and part names, wafer doping, zinc diffusion, cut / polish / solder recipe, side-face taper,
+  pulse width, 77 K and 20 K thresholds, FIG. 3 threshold graph. Text read from the scan (tesseract + page images);
+  column:line numbers counted from the printed gutter numbers and checked against the certificate of correction
+  (col. 1:44 "particularly", col. 5:45 "popula-", col. 6:40 "material," all land on the right lines). Col. 1 line
+  numbers are good to +-1 (the brief-description paragraphs drift against the gutter grid).
+- Concurrent reports used only for the title note (repo caches): Nathan et al., Appl. Phys. Lett. 1, 62 (1962)
+  (references/nathan1962, IBM Watson Research Center per its milestone row) and Quist et al., Appl. Phys. Lett. 1, 91
+  (1962) (references/quist1962, MIT Lincoln Laboratory per its milestone row); both are cited on the patent front matter.
+- Not reached: R. N. Hall, "Injection Lasers", IEEE J. Quantum Electron. QE-23(6), 674-678 (1987) (historical
+  recollection, hosted by ETHW): the ETHW file URL redirects and returns 404 (two hosts tried). No recollection value
+  is used anywhere in the spec.
+Request log (generic User-Agent, no personal identifiers): 2 web searches; 1 WebFetch of the Google Patents page
+(200); 1 WebFetch of the ETHW PDF (404); curl: patent PDF (200), ETHW PDF (301 then 404), ieeemilestones.ethw.org
+PDF (404). 7 requests in all, no 403 / 429. Stopped on the 404s.
+
+2. WHAT THE PAPER FIXES (fixed / assumed / withheld per part)
+-----------------------------------------------------------
+Letter, p.366 col. 1: "The diodes can be described approximately as cubes 0.4 mm on an edge, the junction lying in a
+horizontal plane through the center. Current is passed through the junction by means of Ohmic contacts attached to
+the top and bottom faces. The front and back faces are polished parallel to each other and perpendicular to the plane
+of the junction ... Current is applied in the form of pulses of 5 to 20 µsec duration with the diode immersed in
+liquid nitrogen." p.366 col. 2: "its image in the metal disc on which the diode was mounted". p.367 col. 1: L-70
+measured "at 8420 Å on the axis of the beam"; linear below 5000 A/cm^2, rapid rise near 8500, about ten times the
+extrapolated low-current intensity at 20 000; widths 125 Å below threshold, "suddenly to 15 Å" above. p.367 col. 2:
+instrumental resolution about 3 Å; added modes at longer wavelengths (Fig. 3); faces "0.32 mm apart in this diode"
+(L-70); mode spacing about three times the one-half-wavelength estimate. p.368: L-75 pattern almost uniform in azimuth,
+a few tenths of a degree vertically; the two "first" statements (quoted in title_note).
+NOT in the letter: zinc diffusion, wafer, doping numbers, solders, which side is p, side-face finish, disc size or
+metal, leads, Dewar / optics layout, repetition rate, beam angles for L-69 / L-70, power or efficiency, temperature
+in kelvin.
+Per part (basis in the spec):
+- crystal: 0.4 mm cube (stated, letter, essential); L-70 face spacing 0.32 mm (stated); patent "as cut" 0.5 mm x
+  0.4 x 0.4 mm (stated, patent); junction area 0.0016 cm^2 (derived).
+- p_region / n_region: halves of the cube (derived from "through the center"); p on top from patent FIG. 1 (figure).
+- junction: letter "a fraction of a wavelength"; patent example about 1000 Å (stated); drawn 0.012 mm (assumed,
+  exaggerated, labelled).
+- front_face / rear_face: stated (letter); patent polish, ±0.1 µm parallelism, reflectance "of the order of .4".
+- side_faces: letter silent; patent taper / roughening (stated, patent); model plain cube; withheld.
+- top_contact: letter "Ohmic contacts ... top and bottom"; patent In + 3 wt.% Zn solder (stated, patent); thickness
+  assumed.
+- mount_disc: letter "metal disc"; that it is the bottom electrode is an inference (said in the detail); tin solder
+  (patent); size assumed.
+- top_lead: plain wire stand-in (patent strips only in FIG. 1).
+- ln2_bath: letter "liquid nitrogen"; 77 K is the patent's liquid-air figure (col. 4:17-18), basis ref, essential,
+  note says the letter prints no temperature. Volume assumed.
+- pulse_source: 5-20 µs (letter); patent 1-10 µs, 10 A source, series resistor (FIG. 2); about 14 A at threshold
+  derived for the 0.4 mm cube. Schematic box.
+- beam: 842 nm = the letter's 8420 Å measurement wavelength (stated, essential); drawn red (illustrative, labelled);
+  spread illustrative; both faces emit per patent col. 6:26-28.
+- wafer, quartz_ampoule, zn_skin: process stand-ins with patent values; sizes assumed; skin depth 0.1 mm stated.
+Essential (canvas) dims: cube edge 0.4 mm, 77 K, 842 nm (3).
+
+3. PLOT DIGITIZATION
+--------------------
+Plot `spectrum` = letter Fig. 2 (p.367), diode L-69, two curves on different vertical scales.
+- Source img_p02_1.png (4739 x 6257, bilevel), crop box (300, 3150, 2350, 5450); 7x7 binary closing (the scan breaks
+  steep strokes into fragments). Axes: x axis rows 2257-2262, y axis cols 166-171 (crop px).
+- x: ticks 8200-8700 at 488.5, 699.0, 910.5, 1121.5, 1332.5, 1545.0 px; fit px = 2.1126 lambda - 16835.06
+  (0.4734 Å/px), max residual 0.69 px. y: ticks 0-5 at 2259.5, 1836, 1408, 982, 557.5, 135.5 px; fit 425.19 px per
+  unit, max residual 2.05 px.
+- Broad curve: per-column run tracking with linear prediction (long runs = narrow-curve flanks skipped), median per
+  3 Å bin: 167 points, 8204-8791 Å (the tail 8721-8785 merges with the axis line and is masked; the plotted line
+  joins across at about 0.01). Peak 2.34 at 8413.7 Å; width at half height 124.9 Å (text: 125 Å).
+- Narrow curve: tails by columns (3 Å bins, 8310-8382 and 8420-8582 Å), steep flanks by rows (0.05-unit bins, x =
+  horizontal stroke centre), apex at the stroke top + half stroke; reads within 1.3 strokes of the broad curve and
+  junction outliers (more than 1 Å off the median of 6 neighbours) dropped: 209 points. Peak 4.12 at 8401.3 Å.
+  Width at half its drawn height about 25 Å (8392.2-8417.7), not the 15 Å of the text; patent FIG. 4 measures about
+  28 Å. Recorded in the plot note, not corrected.
+- Check: overlay dig/fig2_chk.png, every point on the printed stroke.
+Plot `modes` = letter Fig. 3 (p.367), diode L-70, same vertical scale, (a) 6000, (b) 8600, (c) 10400, (d) 20000
+A/cm^2.
+- Crop box (2400, 3100, 4400, 5300) of img_p02_1.png; 5x5 closing; curve labels a)-d) masked.
+- x: ticks every 10 Å, 8400 at 626.0 px ... 8450 at 1585.0 px (labels read under the ticks); fit px = 19.1686 lambda
+  - 160389.55 (0.0522 Å/px), max residual 0.68 px. y: ticks 0-4 at 2092.5, 1609, 1126, 644.5, 163.5 px; 482.25 px
+  per unit, max residual 1.10 px.
+- Four curves tracked from 8420 Å (where all four are separate) left and right; merged runs (c/d at the left end,
+  a/b at both ends) take a stroke-wide window at the predicted position. Median per 0.4 Å bin: a 151, b 151, c 151,
+  d 144 points. Peaks: a 0.18 at 8414.8, b 0.72 at 8420.4, c 1.78 at 8422.4, d 3.20 at 8430.0 Å (second mode of d
+  near 8436 Å). Overlay dig/fig3_chk.png checked: all points on the strokes.
+Plot `threshold` = patent FIG. 3 (sheet 1), light output vs current density, log-log, hand-drawn.
+- Crop of the native sheet image (2320 x 3408) box (1125, 2010, 1785, 2776) -> 660 x 766 px. Axes: x axis rows
+  624-627, y axis cols 124-127. x decades 10^3 / 10^4 / 10^5 at 125.0 / 329.75 / 537.0 px; y decades 1 / 10 / 100 at
+  463.0 / 270.0 / 61.5 px (unequal: 193 and 208.5 px per decade), so log values are interpolated piecewise between
+  ticks (below 1 extrapolated with the 1-10 decade).
+- Solid curve: letters A, B, C and their leader ticks masked, curve skeletonised, ordered end to end, 160 samples at
+  equal arc length (dense on the steep B part): 1433-22817 A/cm^2, 0.22-69.8. Dashed line: straight-line fit to the
+  6 printed dashes, 12 points 8664-54278 A/cm^2. Check dig/pfig3_chk.png.
+- Reads: 5000 -> 0.87, 8500 -> 1.78, 10000 -> 2.7, 12000 -> 10.2, 20000 -> 61 (dashed 4.0, ratio about 15; the
+  letter says about ten times for L-70). Threshold marker at 8500 A/cm^2 from the letter text (stated).
+Scripts (session scratchpad hall1962/scripts): dig_fig2.py, post_fig2.py, dig_fig3.py, dig_pfig3.py, axes.py,
+ticks.py, runs.py, fill_spec.py (inserts the points into hall1962.tmpl.yaml).
+
+4. GEOMETRY FOR THE MODEL
+-------------------------
+- mm; x = cavity axis (+x front face, beam), y up, origin = disc top centre. Cube 0.4 mm from y 0 to 0.4, junction at
+  y 0.2 (letter), p above n (patent FIG. 1), top contact 0.03 mm (assumed), disc dia. 2 x 0.2 mm (assumed), liquid
+  volume dia. 6 x 3 mm (assumed), pulse source box off to -x (schematic).
+- Patent drawing and trace: FIG. 1 crop of drawing sheet 1 box (455, 740, 1450, 1682), no rotation, 1-bit; the FIG.
+  4 label glyphs reaching into the box whitened. Trace (ipatent loop, overlay / coverage copied to the scratchpad,
+  ipatent repo untouched): main component skeletonised and split at junctions, each path assigned by majority vote to
+  measured zones (connector strips, top face, front / side trapezoids split by offset below their top edges into
+  electrode 5, solder 6, P 2, junction band 4, N 3, solder 8; plate 7 outside the body; leader centrelines); filled
+  arrowheads / thick corners as solid polygons; small components as dash segments (hidden edges -> ref 1 outline,
+  dashed leaders 12, 14) or text (numerals, P, N, "Fig. 1."). 39 elements: blocks for 2-10, outline for hidden crystal
+  edges (ref 1), leaders and labels for 2-14 (label 1 printed underlined).
+- coverage.py (tol 4 px): scan ink covered 97.0 %, trace ink off scan 2.8 %. Residual MISSING / EXTRA is the
+  hand-lettered "Fig. 1." vs the italic font.
+- FIG. 1 numerals (verbatim names, col:line): 1 "crystal of semiconductive material" (1:70-72, not linked to one
+  part), 2 "degenerately impregnated or doped P-type region" (1:72-2:1), 3 "... N-type region" (2:2), 4 "P-N
+  junction region" (2:3), 5 "first electrode" (2:5), 6 "acceptor type or electrically neutral solder layer" (2:5-6),
+  7 "second electrode" (2:7-8), 8 "donor type or electrically neutral solder layer" (2:8-9), 9 / 10 "Electrode
+  connectors" (2:9), 11 "front surface" (2:25-26), 12 "rear surface" (2:26), 13 / 14 "side surfaces" (3:56-57).
+  Mapped: 2 p_region, 3 n_region, 4 junction, 5 / 6 top_contact, 7 / 8 mount_disc, 9 top_lead, 11 front_face,
+  12 rear_face, 13 / 14 side_faces; 10 unmapped (no part).
+- FIG. 1 differs from the letter's diode: tapered side faces and strip connectors. The model keeps the letter's cube;
+  the drawing pane shows the patent embodiment (note in drawings[0].note).
+- Scripts: scratchpad hall1962/trace/gen_hall.py (+ skel.py, overlay.py, coverage.py, trace-render.js copies);
+  check images trace/check/fig-1.*.png, trace/preview.png (zone colours).
+
+5. CHAPTER SCRIPT RATIONALE
+---------------------------
+intro -> wafer -> diffuse -> cut -> polish -> contacts -> cold -> threshold (plot) -> spectrum (plot) -> modes (plot).
+- Process chapters carry the patent recipe in the HUD (every value labelled with its column:line); the letter's own
+  statements are marked source "letter".
+- threshold: drive current density follows the plot pen over the digitized range only (1433-22817 A/cm^2); junction
+  glow from the digitized light output; beam appears only once the solid curve leaves the dashed line (about 8700
+  A/cm^2). Frozen moment within one pulse (pulses are 5-20 µs; repetition rate unknown).
+- spectrum: broad curve with dim glow and no beam, then the narrow curve with the beam on. Heights are not
+  comparable ("Different vertical scales").
+- modes: drive steps 6000 / 8600 / 10400 / 20000 A/cm^2 with the series reveal; glow from each curve's peak (same
+  scale); beam from curve b on.
+- One amber emphasis: "Line *narrows*". No numbers in chapter lines. 3 plot chapters (cap).
+
+6. OPEN QUESTIONS FOR THE COORDINATOR
+-------------------------------------
+1. Threshold plot from patent FIG. 3 (hand drawn, diode not identified, no y unit) as a hero plot chapter, with the
+   letter's 8500 A/cm^2 as a marker. The letter has no L-I figure. Keep, or move to the side panel?
+2. Junction depth: the patent skin is 0.1 mm deep, the letter's cube has its junction at mid-height (0.2 mm). The cut
+   chapter jumps from the patent's skin to the letter's cube; the crystal detail and withheld entry say so. Accept?
+3. Narrow line in Fig. 2 is about 25 Å wide as drawn vs 15 Å in the text (patent FIG. 4 about 28 Å; patent text says
+   150 Å for the broad curve while both figures draw 124-125 Å). Kept as printed with a plot note.
+4. 77 K on the canvas comes from the patent's liquid-air sentence (the letter prints no temperature). Keep as
+   essential (basis ref, note shown), or show only "liquid nitrogen"?
+5. Beam out of both polished faces (patent col. 6:26-28; the letter measured only the front). Builder may dim the
+   rear beam; no source gives the ratio.
+6. Hall's 1987 recollection (IEEE JQE 23, 674) was not reachable (404); a manual copy could confirm diffusion depth
+   and mounting for the letter's diodes.
+Milestone / tag rows: no disagreement found (date 1962-11-01, threshold near 8500 A/cm^2, 125 to 15 Å, GaAs, device,
+semiconductor optoelectronics all agree with the letter).

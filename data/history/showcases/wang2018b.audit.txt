@@ -1,0 +1,532 @@
+wang2018b (thin-film LN Mach-Zehnder modulator) showcase audit (fresh context, read-only, 2026-11-11)
+=====================================================================================================
+
+Scope: data/history/showcases/wang2018b.yaml (+ report.txt), the research original wang2018b.yaml.orig (session
+scratchpad tfln_build/), DevLog-017 D987, D988, D1002-D1005, skill history-showcase; scene module
+app/src/lib/history/showcases/wang2018b.ts; app/static/data/showcases/wang2018b.json (built spec: identical to the YAML,
+every top-level key compared); runtime pieces the story uses (showcase/PartPanel.svelte, PlotAssembler.svelte,
+ShowcaseStory.svelte plot routing, plot.ts markup / rich / stagger / revealed, progress.ts plotRange); sources
+references/wang2018b/ (source.pdf, text.md, figures/img_p11_1.png = Extended Data Fig. 5, img_p12_1.png = Extended Data
+Table 1, img_p02_10.png = Fig. 1d micrograph); cache/showcases/wang2018b/ (submitted manuscript, not used for values);
+builder screenshots tfln_build/ (d_p*, m_p*, l_p*, i_*), all looked at.
+Method: Fig. 1c, 2a, 4a, 4b re-digitized independently from the PDF vector paths (pymupdf; tick marks found as path
+segments, not label positions); Extended Data Fig. 5d re-measured on the raster (row / column profiles); Extended Data
+Table 1 read on the image; Fig. 1 page rendered at 300 dpi; micrograph strip widths re-measured (gold runs); module
+geometry, field signs, drive mapping and the plot pen mapping recomputed from the code (wang2018b.ts, plot.ts,
+ShowcaseStory.svelte). Scratch: session scratchpad tfln_audit/ (render.py, vec.py, ticks.py, dig1c2.py, dig2a.py,
+cross.py, ed5d.py). No app run, no network, no git.
+
+VERDICT: NO-GO as is; GO after W1-W2 (both module-only, small) and I1 (markup). Spec values, quotes, locators,
+digitized plots, Extended Data Table 1 points, the to-scale cross-section and the device topology (x-cut, G-S-G on the
+slab, one centred ridge per gap, push-pull field signs, RF in at the light-input end, 50 Ω at the far end) are right,
+and the builder changed no sourced value. The wrong items are both about the drive shown on the model in the two
+measurement chapters: the bandwidth chapter sweeps the drawn 20 mm device to 100 GHz at constant modulation depth
+(its measured response ends at 42.9 GHz near -3 dB), and the half-wave-voltage chapter's drive is not the voltage the
+plot pen is at (the dark state shows before the curve is drawn).
+
+Counts: wrong 2, imprecise 13, missing 2, ok 18.
+
+----------------------------------------------------------------------------------------------------------
+WRONG
+----------------------------------------------------------------------------------------------------------
+
+W1. Bandwidth chapter: constant modulation depth while the 20 mm device is driven to 100 GHz
+  file:     app/src/lib/history/showcases/wang2018b.ts line 849 (bwF = 100 * seg(q, 0, 0.9)), lines 867-872
+            (fieldAt bandwidth: Wv = 1, Kw = 2π / lamD(bwF)), lines 900-910 (lightAt: modA = 0.7 constant), lines
+            873-878 (fom chapter: 45 GHz wave, modA 0.7); yaml chapter bandwidth action (line 480).
+  current:  the model (the drawn 20 mm device, labelled "length 20 mm" one chapter earlier) shows the microwave
+            wavelength shrinking from 1 to 100 GHz and the output stem carrying the same 0.7 modulation depth at every
+            frequency. The plot shows the 20 mm VNA trace only from 1.0 to 42.85 GHz, rolling off to -3.05 / -3.23 dB
+            at 42.3 / 41.2 GHz. The drive is also not tied to the plot pen: the VNA series is revealed over plot
+            progress 0.25-0.625 (stagger of 2 series) and ends at 42.85 GHz, while bwF runs linearly to 100 GHz
+            (p = 0.84: pen about 35 GHz, model about 56 GHz, d_p084.png; p = 0.88: pen finished at 43 GHz, model at
+            100 GHz with about 29 |E| bands on the strip, d_p088.png). The fom chapter holds a 45 GHz wave at full
+            depth, past the end of the measured 20 mm trace. A viewer reads "full-strength modulation of this device
+            at 100 GHz", which the paper does not report for the 20 mm device (">45 GHz", lower bound).
+  proposed: drive frequency = x of the 20 mm VNA pen (interpolate eo_20mm series 0 at index
+            seg(rr, 0.25, 0.625) * (n - 1), rr = q / 0.9 as the runtime uses), held at 42.85 GHz after the trace
+            ends; modulation depth = 0.7 * 10^(S21(f) / 20) from the same digitized trace (electro-optic S21 is
+            measured on a photodiode, so -3 dB = 0.71 of the low-frequency modulation amplitude). fom chapter: a
+            frequency inside the measured range (e.g. 40 GHz, depth 0.7 * 0.71) or no travelling wave. Hover on the
+            strip / output in this chapter: "drive frequency and modulation depth follow the 20 mm response (Fig. 2a);
+            the 10 mm and 5 mm curves are other, shorter devices". Do not draw microwave attenuation along the line
+            (loss not printed; withheld).
+  evidence: my Fig. 2a re-digitization (x ticks 156.80 pt = 5 GHz ... 256.69 pt = 45 GHz, y ticks 688.49 pt = -10 dB,
+            603.11 pt = 2 dB): path 262 spans 1.00-42.85 GHz, minimum -3.25 dB at 41.1 GHz; plot.ts stagger /
+            revealed; ShowcaseStory.svelte rr = seg(p, r0, r0 + 0.9 (r1 - r0)); screenshots d_p084, d_p088, l_p086.
+
+W2. Half-wave-voltage chapter: output brightness is driven at a different voltage than the plot pen
+  file:     wang2018b.ts line 847 (vpiV = vMax * seg(q, 0, 0.9)), line 899 (L.out = transfer(vpiV(q))).
+  current:  the transfer plot has 2 series, so its curve is revealed over plot progress 0.25-0.625 (pen at
+            2.8 V * seg(rr, 0.25, 0.625)), the markers over 0.625-1; the drive runs 2.8 V * rr. The output goes dark
+            (drive 0.62 V) at rr = 0.22, while the plot is still drawing its axes; when the pen is at the minimum
+            (0.65 V, rr = 0.34) the drive is 0.94 V (transmission 0.14); when the pen is at the maximum (2.05 V,
+            rr = 0.52) the drive is 1.47 V (0.65); when the pen ends at 2.8 V the drive is 1.75 V (0.90).
+            d_p074.png: pen at about 2.28 V, model at 1.56 V. The chapter's point (bright to dark in 1.4 V, read on
+            the curve) does not line up on screen.
+  proposed: v = vMax * seg(rr, 0.25, 0.625) (pen of series 0), held at 2.8 V while the Vπ markers draw; or sweep
+            the drive while the markers appear (min then max) so the dark and bright frames coincide with the two
+            dots. Same derivation for any later change in the number of series.
+  evidence: plot.ts AXES_END = 0.25, stagger(), revealed(); transfer series 0 has 56 points over 0-2.8 V;
+            d_p074.png, d_p078.png.
+
+----------------------------------------------------------------------------------------------------------
+IMPRECISE
+----------------------------------------------------------------------------------------------------------
+
+I1. Raw markup and plain notation in visible text (must fix with the fix pass)
+  file:     yaml line 250 (microwave_field.detail "about 4 x 10^5 V/m"), line 258 (dims value "about 4 x 10^5");
+            line 98, 104 (ln_ridge dims locators "+-0.05 µm", "+-4 deg", hover tooltips); line 522 (transfer note
+            "+-0.01", shown under the plot); line 270 (optical_mode quote "dB cm−1"); part names / materials / params
+            "Buried SiO2", "SiO2 cladding", "SiO2 thickness", "SiO2 (PECVD)", "thin-film LN, gold, SiO2 on Si".
+  current:  the side panel prints "about 4 x 10^5 V/m" with a literal caret (i_panel_field.png): Rich.svelte uses
+            markup(), which only renders ^{...} / _{...}; "+-" and "SiO2" print as typed.
+  proposed: "about 4 × 10^{5}" (both places); "±0.05 µm", "±4 deg", "±0.01"; "dB cm^{−1}" in the quote;
+            "SiO_{2}" in names, roles, details, materials, process labels (or Unicode SiO₂ where the field is not
+            run through Rich, e.g. the parts list and tooltips).
+  evidence: plot.ts markup() lines 195-203; Rich.svelte; i_panel_field.png; legend in every d_p*.png ("Buried SiO2").
+
+I2. Cladding drawn with a conformal profile that no source shows
+  file:     wang2018b.ts lines 353-376 (coatPoly: 0.5 µm sidewall coverage, 0.35 / 0.2 µm ridge bumps, steps over
+            each electrode); yaml cladding detail (line 182) and withheld "Cladding profile over the electrodes".
+  current:  a stepped, conformal 0.8 µm coat (d_p040.png, i_hover_clad.png), while the detail says Fig. 1d inset and
+            Extended Data Fig. 5a "draw a flat oxide over everything", and Extended Data Fig. 5d labels the whole region
+            above the slab "SiO2". The profile is labelled assumed only in the withheld list.
+  proposed: keep the conformal coat (physically plausible for PECVD) but say it where it is seen: cladding detail
+            "Drawn as a conformal 0.8 µm coat; this profile is assumed (the schematics draw a flat oxide)"; or draw
+            the neutral stand-in the schematics show (translucent block from the slab to above the electrodes).
+  evidence: Extended Data Fig. 5a, 5d (img_p11_1.png); Fig. 1d inset (page 2 render).
+
+I3. Output Y-junction branches dim with the output
+  file:     wang2018b.ts line 1102 (ribComb I = 0.75 * (0.35 + 0.65 * sqrt(out))).
+  current:  at the transmission null the two converging branches drop to about 35 % of the arm brightness, as if the
+            arms lost light before they meet.
+  proposed: keep the combiner branches at arm brightness and modulate only the output stem and beam (the null light
+            is radiated at the junction: the antisymmetric field is not guided by the single-mode output). Optional:
+            a faint glow at the junction at the null, labelled illustrative.
+  evidence: code; p.1 "constructive/destructive interference at the output 50:50 Y-junction".
+
+I4. Bandwidth line overstates the 20 mm response
+  file:     yaml line 479 (chapters.bandwidth.line "Flat response to tens of gigahertz; shorter devices go faster.").
+  current:  the 20 mm trace shown with this line is -1.5 dB at 10 GHz, -2.0 dB at 30 GHz, -3 dB near 41-42 GHz.
+  proposed: "Slow roll-off to tens of gigahertz; shorter devices go faster." (no number; keeps the budget).
+  evidence: my Fig. 2a spot values 10.24 GHz -1.51 dB, 20.23 -1.69, 30.32 -2.04, 40.3 -2.95.
+
+I5. Field arrows drawn above the ridge
+  file:     wang2018b.ts line 576 (ARROW_Y = (ridY1 + elY1) / 2 + 0.1 = 1.1 µm).
+  current:  arrows cross the gap at 1.1 µm, in the cladding between the electrode tops; the ridge (0.3-0.6 µm) and
+            the mode sit below them. Extended Data Fig. 5c shows the field filling the gap at electrode height and
+            through the ridge and slab, so the arrows are not wrong, but the Pockels effect acts in the LN.
+  proposed: microwave_field detail: "arrows drawn above the ridge for visibility; the simulated field also crosses the
+            ridge and slab (Extended Data Fig. 5c)". No geometry change.
+  evidence: code; img_p11_1.png panel c.
+
+I6. Electrodes arrive one strip at a time
+  file:     wang2018b.ts lines 974-976 (G, S, G drop at q 0.12-0.40, 0.30-0.58, 0.48-0.76); yaml electrodes action.
+  current:  three separate drops suggest three depositions; the Methods form all strips in one gold lift-off.
+  proposed: optional: drop the three together (or fade a gold sheet onto the resist and lift off). Acceptable as is if
+            the coordinator prefers the staging (same ruling as the Cobra electrodes, D1005 I7).
+  evidence: p.5 Methods "The PMMA resist is used for a lift-off process to produce the 1.1-µm-thick gold strip lines."
+
+I7. Micrograph signal widths quoted as "about 56 and 100 µm"
+  file:     yaml line 118 (signal_line.detail), line 135 (width (render) locator), line 849 (withheld reason).
+  current:  56 / 100 µm come from 16 / 29 px at 3.509 µm/px. The gold runs measure 10-11 / 23-24 px (35-39 /
+            81-84 µm); the dark lines between strips are 5-6 px (18-21 µm) wide, far wider than the 4.5 µm gap, so the
+            edge is not resolved; grounds measure 46 px = 161 µm (spec 158, fine).
+  proposed: "about 40-56 µm and 80-100 µm (strip edges not resolved at this scale)". The rendered 50 µm stays
+            assumed; no geometry change.
+  evidence: img_p02_10.png (stored rotated 180 deg) gold-run profiles at columns 800 / 1200 / 1600; image placed
+            341.9 pt wide for 2137 px, scale bar 22.80 pt = 500 µm.
+
+I8. title_note generalizes the version-of-record check
+  file:     yaml line 11 (title_note "has the same abstract and Extended Data captions").
+  current:  the report verified the abstract and the captions of Extended Data Fig. 1, 3, 4 and 5 only (not Fig. 2
+            or Table 1); main text and Methods of the version of record were not reached.
+  proposed: "has the same abstract and Extended Data Fig. 1, 3, 4, 5 captions; its main text was not compared."
+  evidence: wang2018b.report.txt section 1 and 5.
+
+I9. Unexpanded acronyms in visible text
+  file:     yaml signal_line.detail "EBL", process electrodes "second EBL with alignment", ridge "x-cut LNOI
+            (NANOLN)", ln_slab material "LNOI", mzm role "MZI", plot series names "VNA" / "OSA".
+  current:  shown in the panel, process HUD and plot legends without expansion (the paper expands them).
+  proposed: "electron-beam lithography (EBL)", "LN-on-insulator wafer (NANOLN)", "Mach-Zehnder interferometer",
+            and in the eo plot notes "VNA = vector network analyser, OSA = optical spectrum analyser"; legend may stay
+            short.
+  evidence: grep of the rendered spec fields (script in scratch); i_hud.png.
+
+I10. Phone: figure-of-merit plot squeezed by its legend
+  file:     runtime PlotAssembler.svelte legend layout / yaml plots.fom series names.
+  current:  m_p100.png: seven legend rows take about two thirds of the plot height; the data area is about 60 px
+            tall, the 0-140 GHz axis has three tick labels.
+  proposed: one legend entry for the four iso lines ("constant BW/Vπ: 5, 10, 20, 30 GHz/V", labels on the lines in
+            hover) or a legend outside the plot area on narrow panes.
+  evidence: m_p100.png.
+
+I11. Device side panel: long dimension labels in a narrow label column
+  file:     yaml mzm dims lines 324-364; runtime PartPanel.svelte table.
+  current:  i_panel_mzm.png wraps "half-wave voltage, 20 mm" over 3 lines and "3-dB electro-optic bandwidth" over 4;
+            the six data-rate rows added under D1004 have labels of 60-80 characters and will be taller still.
+  proposed: shorter labels ("BER, 70 Gbit/s, CMOS direct, 200 mV pp"; "energy per bit, 200 / 60 mV") with the rest in
+            dims[].note, or a wider label column in the runtime.
+  evidence: i_panel_mzm.png.
+
+I12. Figure-of-merit hover basis for the two EO Space points
+  file:     yaml line 776-780 (series "Commercial LN", basis stated).
+  current:  (4.9, 40) and (2.9, 25) are range ends chosen where Fig. 4c draws the markers; the hover prints "stated".
+  proposed: split them into their own series with basis figure (locator as now), or add "range in the table" to the
+            hover via the series name. Low priority; the plot note says it.
+  evidence: Extended Data Table 1 (img_p12_1.png): EO Space 4.5-4.9 V / 30-40 GHz and 2.9-3.3 V / 20-25 GHz.
+
+I13. Re-shoot check: screenshots older than the code
+  current:  wang2018b.ts modified 17:42:55, after the main desktop series (d_p002-d_p100 except d_p016 / 060 / 078 /
+            088, 17:40:43-55) and the main phone series (17:40:57-17:41:08); PartPanel / PlotAssembler / ShowcaseStory /
+            Rich / types 17:45:24-17:46:43 and the built JSON 17:48:00, after every shot (no shot shows the plot note
+            line that PlotAssembler now renders).
+  proposed: re-shoot desktop, phone and light series after the fix pass, before the coordinator check.
+  evidence: file mtimes.
+
+----------------------------------------------------------------------------------------------------------
+MISSING
+----------------------------------------------------------------------------------------------------------
+
+M1. Travelling-wave wavelength: an assumed frequency, not labelled anywhere visible
+  file:     wang2018b.ts line 39 (LAMBDA_LINE = 200, comment "about 34 GHz on the 20 mm scale"), line 851 (lamD);
+            yaml microwave_field detail, chapters fields / bandwidth.
+  current:  fields chapter: the drawn wavelength is 200 units = 4.0 mm at the drawn 50 units per mm, i.e.
+            c / (2.2 f) for f = 34.1 GHz: the 2.2 group index is stated (Methods), the 34 GHz is a free choice. The
+            bandwidth chapter's band spacing is c / (2.2 f) along the drawn 20 mm (derived, correct). Neither the
+            chosen frequency, nor that the band spacing encodes frequency, nor that the line is compressed along its
+            length, appears in any tooltip or panel; only the code comment says it.
+  proposed: microwave_field detail (or the strip hover in these chapters): "Travelling wave drawn at about 34 GHz
+            (wavelength c / (2.2 f) = 4 mm, from the stated group index; frequency chosen for the picture). In the
+            bandwidth chapter the wavelength follows the swept frequency. Length along the line shortened; widths to
+            scale." Basis: derived (wavelength), assumed (frequency).
+  evidence: arithmetic 300 / (2.2 × 34.1) = 4.0 mm; MM = EL / 20 = 50 units per mm; TRACER hover text (line 1207)
+            covers only the group index.
+
+M2. Plan-view compression not disclosed where the plan is seen
+  file:     wang2018b.ts lines 31-37 (EL = 1000 drawn units for 20 mm, x in µm to scale: about 20x shortened along
+            the device); yaml signal_line dims (essential "length 20 mm"), mzm / signal_line detail.
+  current:  intro, Mach-Zehnder, 1.4 V, bandwidth and figure-of-merit chapters show the plan with the canvas label
+            "length 20 mm"; the chip reads about 3.5 : 1 (real G-S-G block about 0.36 mm wide by 20 mm long, 56 : 1).
+            The compression is stated only in the withheld list at the bottom of the panel.
+  proposed: signal_line detail and mzm detail: "Plan drawn shortened about 20x along the device; widths and the
+            cross-section to scale (layout of the 20 mm chip withheld)". Optionally label_short "length 20 mm (drawn
+            shortened)" if the canvas budget allows.
+  evidence: d_p053.png, i_panel_mzm.png; spec withheld "Plan layout of the 20 mm device".
+
+----------------------------------------------------------------------------------------------------------
+OK (verified)
+----------------------------------------------------------------------------------------------------------
+
+OK-1  Bibliography: authors and title as printed; Nature 562, 101-104 (2018), DOI 10.1038/s41586-018-0551-y;
+      received 27 April 2018, accepted 25 July 2018 (p.4); preview "Published online xx xx xxxx" (so the online date
+      comes from the record, as the reference says); affiliations Harvard SEAS, City University of Hong Kong, Nokia
+      Bell Labs. Milestone row and tag row agree with the story (Vπ 1.4 V, 210 Gbit/s, <0.5 dB; kind device,
+      material LNOI, topic "TFLN EO modulator (CMOS voltage)").
+OK-2  Quotes and locators read against text.md and the page renders: Si 500 µm and the handle-substrate sentence,
+      buried SiO2 4.7 µm and "about 4,700 nm" (Extended Data Fig. 5 caption), NANOLN x-cut 600 nm device layer,
+      300 nm slab, 800 nm top width "to ensure single-mode operation" (Electro-optic characterization), 1.1 µm gold
+      lift-off with 1.5 µm PMMA and aligned EBL, 800 nm PECVD cladding, dicing and polishing, G-S-G sentence (p.1),
+      opposite-sign field sentence (p.1), Y-junction sentences (p.1, p.5), GGB probes and 50 Ω load (p.5), <2.5 µm
+      spacing and <0.03 dB/cm (p.5), Santec TSL-510, TE excitation, 5 dB per facet, <0.5 dB upper bound with ±0.5 dB,
+      Vπ 1.4 / 2.3 / 4.4 V, 2.8 / 2.3 / 2.2 V·cm, 5 V pp triangular drive, ER 30 dB, group indices "both
+      approximately 2.2", impedance "near 50 Ω". Data-rate values in the mzm panel: 70 Gbit/s, 200 mV <1 × 10⁻⁶ in
+      1.1 × 10⁶ bits, 60 mV 3.4 × 10⁻³, 0.37 fJ / 37 aJ, 100 Gbaud 7.8 × 10⁻⁵ (electrical 3.6 × 10⁻⁵), 4-ASK
+      140 Gbit/s 2.1 × 10⁻⁵, 8-ASK 210 Gbit/s 1.5 × 10⁻² vs 1.9 × 10⁻² (20 % overhead), 14 fJ/bit (p.2-3, p.5).
+OK-3  Builder changes vs the research original (diff of wang2018b.yaml.orig): height 10 -> 9; microwave_field /
+      optical_mode roles gain "illustrative (simulation figure)"; six mzm dims added with values and locators
+      identical to plots.data / the text; chapters restructured per D1004 (velocity and data chapters removed,
+      actions rewritten, p ranges shifted, fields line rewritten "Fields point opposite in the two arms and travel
+      with the light."); three process `source` labels ("Wang et al., Nature 2018, Methods") removed, every param
+      keeps its locator "Wang et al., Nature 2018, p.5, Methods". No sourced value, quote, locator, basis, plot
+      point or withheld item changed. Built JSON equals the YAML.
+OK-4  Fig. 1c re-digitized from path 223: x ticks 397.9-398.4 ... 476.35-476.85 pt (31.38 pt/V), y ticks
+      138.55 ... 62.87 pt (63.07 pt per unit). Centre values (mine / spec): 0 V 0.411 / 0.413, 0.3 0.122 / 0.123,
+      0.65 0.003 / 0.003, 1.0 0.201 / 0.206, 1.4 0.572 / 0.571, 1.75 0.901 / 0.897, 2.05 0.999 / 0.999, 2.5 0.824 /
+      0.823, 2.7 0.638 / 0.639, 2.8 0.554 / 0.554; curve ends at 2.805 V. Dashed Vπ markers at 417.61 pt = 0.620 V
+      and 461.85 pt = 2.030 V (1.41 V).
+OK-5  Fig. 2a re-digitized from path 262 (ticks found as segments): trace 1.00-42.85 GHz; 2.25 GHz -0.61, 10.24
+      -1.51, 20.23 -1.69, 30.32 -2.04, 40.3 -2.95, 41.17 -3.23, 42.28 -3.05 dB, all equal to the spec bins.
+OK-6  Fig. 4a / 4b OSA crosses re-digitized (paths 49 / 63, bar centres): 107 / 32 points, max deviation 0.01 dB /
+      0.01 GHz from the spec; first below -3 dB at 76.6 GHz (10 mm) and 84 / 86 GHz (5 mm), as the report says;
+      stated 80 / 100 GHz are lower bounds (probes not de-embedded), kept in the notes.
+OK-7  Extended Data Table 1 read on the image: this work 1.4 V / 45 GHz, 2.3 / 80, 4.4 / 100; thin-film [26] 4 / 33,
+      [34] 9.4 / 40, [25] 9 / 15, [35] 2.5 / 8, [29] 13 / 100; Fujitsu 3.5 / 35, EO Space 4.5-4.9 / 30-40 and
+      2.9-3.3 / 20-25, Thorlabs 5.5 / 35: every fom point matches; this-work phase-shifter losses 0.4 / 0.2 / 0.1 dB
+      (not used, Fig. 4d withheld).
+OK-8  Extended Data Fig. 5d re-measured: electrode top 1161.5, slab 1263.5-1293.5 (30 px = 300 nm, 100 px/µm),
+      ridge top 1233 (0.305 µm), electrode inner edges about 1581 / 2039 px (gap 4.55 µm), ridge centre 1810.5 vs
+      gap centre 1810. Module: gap 4.5 µm (25 -> 29.5), ridge centre 27.25 = gap centre, ridge 0.8 top / 1.0 bottom
+      (sidewall 71.6 deg, inside the digitized 74 ± 4), metal to ridge base 1.75 µm (stated <2.5), electrodes
+      0.3-1.4 µm on the slab, film 0-0.6 µm, oxide 4.7 µm, Si truncated (said in the detail).
+OK-9  Topology: crystal axes x up, z across, y along propagation (Fig. 1d micrograph axes "z, y", inset "x, z");
+      G-S-G on the LN slab with one ridge per gap (Fig. 1d inset, Extended Data Fig. 5a, d); both grounds are drawn
+      in every cross-section and in the plan; Y-junction in, arms through the two gaps, Y-junction out; RF in marker
+      at the light-input end of the strip line, 50 Ω marker at the output end (Fig. 1d "RF in" arrows and
+      "Microwave terminator").
+OK-10 Push-pull: arrow direction = sign(E) × side (wang2018b.ts line 1158): S -> G in both gaps for E > 0, G -> S for
+      E < 0, i.e. opposite crystal-z fields in the two arms, flipping together (d_p060 / d_p062); in the travelling
+      wave the opposition holds at every z (d_p065, l_p067).
+OK-11 Co-propagation and velocity matching: the wave phase Zw moves from the RF-in end toward the termination as p
+      grows; the light tracer sits on the crest (trZ used for both); wavelength c / (2.2 f) with the stated 2.2 for
+      both indices; output-stem intensity pattern uses the same index (optical group index 2.2). Tracer hover:
+      "Microwave and optical group indices both about 2.2 (Methods)", "Illustrative tracer ... not a pulse".
+OK-12 Output brightness uses the digitized Fig. 1c curve (transfer() interpolation, 0.413 at 0 V in the intro and
+      Mach-Zehnder chapters); only its timing against the pen is off (W2).
+OK-13 Claims: no "first" anywhere visible (the one hit is "first author's ... page" in a reference); the 0.2 dB/cm
+      appears only in the withheld list, worded as the Methods' figure tied to ref. 28, with <0.5 dB as the measured
+      statement (D987 / D988); "More bandwidth per volt than earlier lithium niobate modulators" matches p.3
+      ("better voltage-bandwidth performance (about 30 GHz V−1) than commercial LN modulators and previously
+      reported thin-film LN devices"); "CMOS-level voltage" matches p.1.
+OK-14 Text budget: 10 chapters, 3 plot chapters (transfer, eo_20mm with 10 / 5 mm alternates, fom; velocity and data
+      plots not routed, D1004); keywords 1-3 words; lines 7-12 words, no numbers; one amber keyword "1.4 V"; 3
+      essential dims shown as "film 600 nm", "length 20 mm", "Vπ 1.4 V"; canvas labels one per labelled chapter.
+OK-15 No internal shorthands in rendered fields: no paper ids, decision or DevLog ids, era or batch codes in names,
+      roles, details, quotes, locators, dims, process params, plot labels, series names, notes, references (cite,
+      used_for) or withheld (reference ids are list keys only); locators read "Wang et al., Nature 2018, p.N ...".
+OK-16 Withheld vs drawn: signal (50 µm) and ground (150 µm) widths drawn but marked assumed in the dims ("width
+      (render)", basis assumed); gap and sidewall shown as digitized with their range; probes and fibres as neutral
+      markers and beams; mode spot and field arrows labelled illustrative in their roles; no eye diagrams, no
+      Fig. 4d, no DC bias drawn. Plan layout drawn schematic (M2 for its disclosure); cladding profile see I2.
+OK-17 Optical mode spot: centred at y = 0.32 µm under each ridge (Extended Data Fig. 5d darkest core at the slab-top
+      line, row 1264.7 vs 1263.5), extent of the same order as the digitized red region (1.06 × 0.55 µm).
+OK-18 Fabrication order matches the Methods: film on oxide on Si, EBL + Ar+ RIE leaving a 300 nm slab, gold strips on
+      the slab, PECVD cladding; Velocity plot data (Extended Data Fig. 5e, RF 2.254 at 4.0 µm to 2.200 at 5.4 µm,
+      optical 2.225, crossing near 4.7 µm) checked by eye on the image, kept in the spec though not routed.
+
+
+==========================================================================================================
+Pass 3 (differential T-rail)
+==========================================================================================================
+
+Fresh-context audit, read-only, 2026-11-11. Scope: only what pass 3 changed under D1100 (electrodes redrawn as a later
+differential T-rail line; plots and values stay the 2018 G-S-G device's).
+Read: skill history-showcase, DevLog-017 D1004-D1006 and D1100, this file (pass 1), research
+data/_staging/showcases/wang2018b_coda.yaml + .report.txt, spec data/history/showcases/wang2018b.yaml, module
+app/src/lib/history/showcases/wang2018b.ts, built app/static/data/showcases/wang2018b.json (parsed: identical to the YAML),
+builder shots tfln_build3/ (d_p*, m_p*, l_p*, i_*, a*, b*, msheet; looked at d_p002, 030, 034, 036, 037, 040, 053, 058,
+060, 062, 065, 068, 084, 100, l_p060, a3, msheet, i_panel_story / trail / outer / pads / field, i_hover_fields / vpi).
+Sources: eo-modulator-atlas references/kharel2021 (arXiv v1 source.pdf, text.md, page_02.png, img_p02_2.png SEM),
+references/aimone2026 (source.pdf, text.md, img_p02_1.png Fig. 1), coda pdfrender (Kharel Fig. 1a zoom, 1e; US 12,619,109
+sheets 1-2), Crossref record of Kharel (published online 2021-03-09) and erratum (2021-09-14, Fig. 4 only).
+Method: diff of the parsed spec against the pre-pass-3 copy (tfln_build2/wang2018b.yaml.pass2); T-rail geometry recomputed
+from the module (frame(), capZ, PADS, LOADS, STRIPS, arrow direction); Kharel Fig. 1a right end rendered at 900 dpi to
+read which letter marks which feature; SEM Fig. 1b measured (row / column profiles, image 8.21 px/pt, scale bar 23.60 pt =
+50 µm); Aimone Fig. 1a rendered at 900 dpi around the loads; strip colours sampled in d_p058 / 060 / 062. Scratch:
+session scratchpad tfln_audit3/ (sem*.py, aim.py, k1a.py, px.py, cmp.py, diff.py, grep.py, keys.py, renders). No app run,
+no network, no git.
+
+VERDICT: NO-GO as is; GO after W1-W2 (both text / hover level, small), I1 and I5. The T-rail geometry is right (letters,
+stem and cap placement, mirror alignment, ridge centred between facing caps, period, true size in the close-ups,
+illustrative count disclosed), the differential drive physics is right (S-bar / S / S-bar, field from S outward in both
+gaps for S > 0, opposite in the two arms at every z, no ground between signals, pads S-bar S S S-bar as Aimone Fig. 1a),
+every new Kharel / Aimone value, quote and locator checks, and no 2018 value, plot point or locator changed beyond the
+ruling. The two wrong items are what the fields chapter now shows on the drawn T-rail line: velocity matching of the
+drawn combination (which the T-rail detail itself disclaims) and a segment period that turns the drawn microwave
+wavelength into about 4 periods (200 µm at the stated true size).
+
+Counts: wrong 2, imprecise 9, missing 1, ok 16.
+
+----------------------------------------------------------------------------------------------------------
+WRONG
+----------------------------------------------------------------------------------------------------------
+
+P3-W1. Fields chapter shows velocity matching on the drawn T-rail-on-silicon line
+  file:     wang2018b.ts lines 1274-1283 (tracer pick: label "Light keeps pace with the microwave", "Microwave and
+            optical group indices both about 2.2 (Methods)"); fieldAt / lightAt fields branch (tracer on the crest);
+            yaml chapters.fields.line (line 597) "...fields oppose and travel with light."; microwave_field.detail.
+  current:  under the keyword "Differential drive", the look-down view (d_p065) runs the wave along the drawn T-rail line
+            on the 2018 Si / 4.7 µm oxide stack with the light packet on the crest, and the hover cites the 2018 matched
+            indices. The t_rail detail says "velocity matching of this combination is not claimed", and Kharel et al.
+            say the opposite is expected: segments add capacitance and slow the microwave, and "On thin-film LN on
+            silicon substrate, the slow wave effect is also undesirable since silicon substrate with a reasonably thick
+            silicon dioxide insulating layer can already provide a good velocity match" (p.3, Sec. II); they switched
+            to quartz for that reason. A viewer who does not open the T-rail panel sees a matched T-rail line on silicon.
+  proposed: tracer hover line 1: "Group indices about 2.2: the 2018 plain line (Methods); the drawn T-rail line is not
+            claimed to match". microwave_field.detail, append: "The velocity matching shown is the 2018 plain
+            ground-signal-ground line's. T segments add capacitance and slow the microwave; Kharel et al. note that on
+            LN on silicon with a thick oxide this slow-wave effect is undesirable and used a quartz handle (Optica 2021,
+            arXiv v1, p.3). Matching of the drawn T-rail line on the 2018 stack is not claimed." t_rail.detail: add the
+            same reason after "velocity matching of this combination is not claimed". Chapter line: see I1.
+  evidence: Kharel text.md p.3 (quoted); yaml t_rail.detail line 230; d_p065.png; tracer code.
+
+P3-W2. Segment period and drawn microwave wavelength share one axis in the fields close-up: about 4 periods per wavelength
+  file:     wang2018b.ts line 39 (LAMBDA_LINE = 200), line 48-49 (ARROW_DZ, LINE_L = 600), lines 380-392 (NSEG, capZ,
+            period tP = 50 units); yaml microwave_field.detail ("4 mm on the drawn 20 mm line"), t_rail.detail ("Close-ups
+            are true size (period 50 µm)").
+  current:  the fields block (600 units) carries 12 T periods and 3 microwave wavelengths (d_p065: the arrow sign flips
+            every 2 periods). Read with the T-rail label (close-ups true size), the drawn wavelength is 200 µm, i.e.
+            about 680 GHz at n = 2.2; read with the microwave label (34 GHz, 4 mm), the segments are 1 mm long. The true
+            ratio at 34 GHz is 4 mm / 50 µm = 80 periods per wavelength (deeply sub-wavelength loading, the design
+            condition of a capacitively loaded line). Before pass 3 the strips had no feature along z, so the compressed
+            wavelength did not collide with anything; the periodic segments now act as a scale bar. Same in the
+            bandwidth chapter at 43 GHz (3.17 mm = 158 units, about 3 periods), whole-chip view, where the count is
+            labelled illustrative (acceptable there).
+  proposed: minimum: microwave_field.detail and the tracer / strip hover in the fields chapter: "Along the line the
+            wavelength is drawn shortened about 20x (4 mm at 34 GHz); the T segments in this view are true size, so the
+            real wavelength spans about 80 segment periods." Better (module only): in the fields look-down use the
+            whole-line scale for the segments too (segment count illustrative, as in the whole-chip view) or keep
+            the true-size block and show the field nearly uniform over it (600 µm is 0.15 of the 4 mm wavelength).
+  evidence: arithmetic 300 / (2.2 x 34.1) = 4.0 mm; c / (2.2 x 0.2 mm) = 682 GHz; d_p065.png, d_p068.png; code.
+
+----------------------------------------------------------------------------------------------------------
+IMPRECISE
+----------------------------------------------------------------------------------------------------------
+
+P3-I1. "Later design" never appears on the canvas where the redesign is shown
+  file:     yaml chapters.electrodes (keyword "T-rail electrodes", line 571 "Three gold strips on the slab; T segments
+            reach into each gap."), chapters.fields (keyword "Differential drive", line 597).
+  current:  the title note, part details, hover roles of t_rail / ground_lines and every plot note say it; the canvas
+            (chapter lines, labels, process HUD) does not, except the HUD "Gold lift-off (2018 recipe)". A viewer who
+            scrolls without hovering reads the 2018 device as T-rail and differentially driven (d_p037, d_p062).
+  proposed: electrodes line "Later design: T segments reach from three gold strips into each gap." (12 words);
+            fields line "Later design: outer strips carry the inverted signal; fields oppose." (10 words; the
+            co-propagation stays in the hover per W1). Keywords unchanged.
+  evidence: d_p037.png, d_p062.png, i_hover_fields.png; skill rule D1008 (later work labelled in the chapter line).
+
+P3-I2. Terminations: three loads drawn, Aimone Fig. 1(a) draws four, all to the 5 V supply
+  file:     wang2018b.ts line 370 (LOADS, 3 markers); yaml rf_termination (role "Each conductor terminated", detail "one
+            neutral load marker per conductor", geometry count 3), chapters.mzi action.
+  current:  Fig. 1(a) (900 dpi render) shows one resistor on each outer strip and two in parallel on the centre strip,
+            mirroring the two inner pads, all to a 5 V rail; text p.2: "terminated by monolithically integrated
+            resistors connected to the 5 V supply voltage via wire-bonds"; fabricated 35 Ω instead of 50 Ω (p.2).
+  proposed: four load markers (two on the centre strip) or keep three and say in the detail: "Fig. 1(a) draws one
+            resistor per outer strip and two on the centre strip, all to the 5 V supply (open-collector driver); drawn
+            as one neutral marker per conductor. Fabricated terminations 35 Ω instead of the targeted 50 Ω."
+  evidence: tfln_audit3/aimone_fig1a_load.png; Aimone text.md p.2.
+
+P3-I3. Antiphase strip glow on the outer strips is barely visible
+  file:     wang2018b.ts WAVE_FS edge factor (glow 0.35 at a strip edge, 1 at its centre) and STRIPS; yaml
+            microwave_field.detail "(amber positive, blue negative on the strips)".
+  current:  the outer strips' centres (±112.75 µm) are outside the cross-section window, so only their low-weight
+            edges show. Sampled colours: centre strip R 145 -> 196 at the positive peak (d_p058 -> d_p062); left outer
+            strip changes by +9 R / +13 G / +18 B, right outer by +7 B; at the negative half (d_p060) the centre gains
+            only +7 B. The arrows carry the physics; the strip colours do not read as antiphase.
+  proposed: weight the glow by distance from the gap edge (bright at the gap-facing edge, as the current crowds there
+            for plain strips) or uniform across each strip; or drop "blue negative on the strips" from the detail.
+  evidence: tfln_audit3/px.py on d_p058 / 060 / 062; code.
+
+P3-I4. Aimone V_{π} 3.26 V labelled "stand-alone ground-signal-ground drive"
+  file:     yaml ground_lines dims line 206.
+  current:  p.1 says the electrode "can be characterized stand-alone in such a way" and then "The Vπ of the modulator is
+            measured to be 3.26 V, which translates to a very low VπL = 1.1 Vcm referenced to the single-ended signal
+            thanks to the push-pull differential drive"; the drive configuration of the 3.26 V measurement is not
+            stated (3.26 V x 0.75 cm / 2 = 1.22 V·cm, not 1.1, as the existing note says).
+  proposed: label "V_{π}, measured (differential device)", note "drive configuration not stated; the sentence follows
+            the stand-alone ground-signal-ground remark".
+  evidence: Aimone text.md p.1.
+
+P3-I5. YAML flow-mapping bug drops half a note and adds a junk key
+  file:     yaml line 203 (ground_lines dims '2018 device: ground width', note: 2018 device, not the drawn value).
+  current:  parsed as note "2018 device" plus a key "not the drawn value": null (also in the built JSON); the panel
+            loses "not the drawn value".
+  proposed: note: '2018 device, not the drawn value' (quoted). keys.py found no other dims with unexpected keys.
+  evidence: tfln_audit3/keys.py.
+
+P3-I6. "2018 arm positions" are drawing positions, not 2018 values
+  file:     yaml signal_line.detail line 124 ("chosen so that each ridge sits in the centre of a 5 µm T-rail gap at the
+            2018 arm positions").
+  current:  ±27.25 µm came from the pass-1 render (assumed 50 µm signal + digitized 4.5 µm gap); ln_ridge geometry note
+            says so correctly ("not printed for the 2018 device").
+  proposed: "at the arm positions of the earlier drawing (assumed)".
+  evidence: pass-2 spec signal_line z ±25, ground z_inner 29.5; ln_ridge note.
+
+P3-I7. Plot notes open with the unexpanded "G-S-G"
+  file:     yaml plots.*.note (7 notes, "(2018 device, G-S-G electrodes)").
+  current:  the visible first words of every plot note (d_p084, d_p100, i_hover_vpi); the acronym is expanded only in
+            part details. Withheld item "GSSG or G-S-G-S-G ..." likewise (GS̅GSG / GS̅SG are quoted, fine).
+  proposed: "(2018 device: ground-signal-ground electrodes, single drive)".
+  evidence: grep of the built JSON (grep.py).
+
+P3-I8. Fabricated SEM proportions differ from the caption in h (no change to the drawing needed)
+  file:     yaml t_rail dims h (stem length).
+  current:  the drawing uses the caption design set (6 µm), which is right. Measured on Fig. 1b (3.88 px/µm from the
+            scale bar): period about 53.6 µm, stem about 6.2 µm, open band (h) about 10 µm (upper rows) and 12 µm
+            (lower rows), caps about 1.5-2 µm, cap gap 5-6 µm. Only h departs clearly.
+  proposed: optional note on h: "caption design value; the Fig. 1b micrograph shows a wider open band (about 10-12 µm
+            by its scale bar)". Low priority.
+  evidence: tfln_audit3/sem2.py, sem3.py.
+
+P3-I9. Shots and code comment out of step
+  current:  d_p060.png, a1.png, a2.png (22:10:49-50) predate the last module write (22:11:20); the other shots are
+            later. Module header comment lines 5-7 still say "gap 4.5 (digitized)" and "Signal 50 / ground 150 um" (not
+            user-visible).
+  proposed: re-shoot after the fix pass (phone 390x844 for the electrodes close-up p 0.36-0.37 too: m_p034 is the
+            last phone shot in that chapter); update the header comment.
+  evidence: file mtimes.
+
+----------------------------------------------------------------------------------------------------------
+MISSING
+----------------------------------------------------------------------------------------------------------
+
+P3-M1. Two later papers named in visible withheld text have no reference entry
+  file:     yaml withheld "GSSG or G-S-G-S-G ..." and "First thin-film LN differential drive"; references.
+  current:  Chen et al., Laser Photonics Rev. 2025 is named (and the patent US 12,619,109 B2 is cited as the physics
+            check) but neither is in the references list (the research patch had ciena_us12619109 and chen2025_lpr,
+            with "not read" for Chen).
+  proposed: add both reference entries from the research patch (Chen: used_for "context only, not read"; patent:
+            "physics check only, FIG. 1C, not drawn").
+  evidence: wang2018b_coda.yaml references; spec references (5 entries).
+
+----------------------------------------------------------------------------------------------------------
+OK (verified)
+----------------------------------------------------------------------------------------------------------
+
+P3-OK1  Letters (Kharel Fig. 1a right end at 900 dpi, Fig. 1e): r = cap length along the line (arrows span the last cap
+        of the lower row), c = slit between caps, t = stem width along the line (gold column between openings),
+        h = open band from body edge to cap (stem length), s = cap width across, g = cap-to-cap gap with the ridge
+        centred (Fig. 1e). Caption set (g, h, s, t, r, c) = (5, 6, 2, 6, 45, 5) µm, repeated without g on p.3 and
+        "electrode gap g = 5µm" on p.4.
+P3-OK2  Module geometry: stem from the body edge (16.75 / 37.75 µm) over h = 6 to the cap, cap s = 2: caps at
+        22.75-24.75 and 29.75-31.75 µm, gap 5.00 µm, ridge centre 27.25 = gap centre; channel-to-channel 21 µm
+        (= g + 2(s + h)); stem t = 6 centred on each 45 µm cap (zm = capZ + r/2); slits 5 µm midway between stems;
+        all four rows share capZ (facing rows mirror-aligned, as Fig. 1a, 1b); rows on both edges of the centre strip
+        and the inner edge of each outer strip only. Close-ups render x and z in µm (d_p037: caps long, slits narrow,
+        stems about 0.13 of a cap).
+P3-OK3  Whole-chip count: NSEG = 20 on the 1000-unit line (period 1 mm on the line scale); disclosed in t_rail.detail
+        ("the true 400 periods along 20 mm would alias") and the period dim note; 20 mm / 50 µm = 400 correct.
+P3-OK4  Differential polarity: STRIPS signs (-1, +1, -1); arrow dir = sign(E) x side, i.e. for S above S-bar the field
+        points from S outward in both gaps (-x left, +x right) and inward when the sign flips: opposite in the two arms
+        at every z (d_p060, d_p062, l_p060; travelling wave d_p065). No ground conductor anywhere in the drawn line.
+P3-OK5  Pads: x = (-112.75 ± 8), (-14.75 ... -2), (2 ... 14.75), (112.75 ± 8): S-bar S S S-bar with the two inner pads
+        on the centre strip, as Aimone Fig. 1(a) (upper output stage - to the top strip and + to the centre, lower
+        stage + to the centre and - to the bottom) and p.1 "two inner pads connected to the same central electrode".
+P3-OK6  Aimone values, quotes, locators: 7.5 mm, 50 Ω, periodic capacitive loading, NiCr terminations, 350 nm LN on
+        silicon (p.1 Sec. 2); V_{π}L 1.1 V·cm referenced to the single-ended signal (abstract, p.1); >67 GHz equipment
+        limit (p.1, Fig. 1b); 347 Gbit/s net at 140 GBd PAM-8, 1.4 pJ/bit (p.3 Sec. 3); 2.8 V simulated differential
+        swing per output-stage pair into 50 Ω (p.2); "doubles the available voltage between the electrodes" (p.2,
+        paraphrased as gap voltage doubles); both quotes verbatim ("The driver IC is modified ...", p.1; "It is split
+        into two parallel output stages ...", p.2); "GS̅GSG or GS̅SG are not inherently compatible" (p.1).
+P3-OK7  Kharel values, quotes, locators: quote "The segments prevent ..." verbatim, p.3 Sec. II; quartz 500 µm, 600 nm
+        x-cut, 350 nm etch, 800 nm gold, 1 µm CVD oxide (p.3-4); 2 vs 7 dB/cm at 50 GHz, 10 mm electrodes, gap 5 µm,
+        gold 800 nm, segmented on quartz vs regular on silicon (p.4, Fig. 2 caption); V_{π,1GHz} 1.3 V for 20 mm (p.4
+        and abstract); 100 µm simulated signal (Table I, segmented quartz row). Reference: authors, title, Optica 8,
+        357, online 2021-03-09 (Crossref), arXiv 2011.13422v1 2020-11-26, erratum 2021-09-14 Fig. 4 only.
+P3-OK8  GSSG withheld physics: US 12,619,109 B2 FIG. 1C (sheet 2, prior art, dual coplanar strips G S-bar S G, arms in
+        the outer gaps) is crossed out "same phase shift in both arms"; FIG. 1A (G S G) and 1B (G S-bar G S G) ticked.
+        The withheld wording matches.
+P3-OK9  Quartz vs silicon disclosed: t_rail.detail names Kharel's quartz stack and says the drawing applies the
+        segment geometry to the 2018 silicon stack with 1.1 µm gold kept and no matching claimed (see W1 for where the
+        animation contradicts it).
+P3-OK10 Honesty labels in the panel layer: title note, signal_line / ground_lines / t_rail / rf_input / rf_termination
+        details ("Later work, not the 2018 device"), hover roles of t_rail and ground_lines ("later design" / "later
+        differential drive"), every plot note "(2018 device, ...)", mzm Vπ dim note, mzm detail ("every value here is
+        the 2018 device's"), process HUD "Gold lift-off (2018 recipe)", withheld "The 2018 electrode layout as drawn
+        geometry". Assumed widths labelled (body 33.5 µm, outer 150 µm, basis assumed, "drawing only").
+P3-OK11 2018 values unchanged: diff against the pass-2 spec shows no change to any plot series, mzm value, stack value,
+        quote or locator of a 2018 item; 2018 gap 4.5 µm, metal spacing <2.5 µm, 50 Ω load, signal / ground widths
+        moved to "2018 device:" dims with their original values and locators; signal width now "not printed"
+        (correct) instead of the old assumed 50 µm render value.
+P3-OK12 S-bar renders as S with U+0305 in Source Serif (panel titles, quotes, legend: i_panel_outer, i_panel_pads,
+        d_p002 legend); no "S-bar" text visible.
+P3-OK13 No internal ids, decision ids or DevLog references in the built JSON's visible fields (grep.py: 0 hits); the
+        only raw "_" is in a chapter action (not displayed); "first" appears only in a reference cite ("first
+        author's page") and the withheld priority item, which reports Chen et al.'s title (printed in Aimone ref. [4])
+        and states no first is shown.
+P3-OK14 Text budget: electrodes and fields keywords 2 words, lines 11 and 12 words, no numbers; essential dims 4 (film
+        600 nm, length 20 mm, Vπ 1.4 V, segment 45 µm), the budget maximum; one amber keyword; one canvas label in the
+        electrodes chapter ("T-rail segments segment 45 µm", d_p037).
+P3-OK15 Build order: one lift-off for the three strips, then stems and caps grow (actions say so; HUD 2018 recipe);
+        cladding still flat-topped over the segments (d_p040); assembledAt stays at the start of the Vπ chapter.
+P3-OK16 Built JSON equals the YAML (all top-level keys compared).

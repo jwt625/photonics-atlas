@@ -1,0 +1,209 @@
+gordon1954 showcase research report (2026-11-11)
+=================================================
+
+Outputs
+- data/history/showcases/gordon1954.yaml                 spec (16 parts, 11 assembly rows, 8 chapters, 5 plots = 2 plot
+                                                         chapters + 3 alternates, 1 drawing, 3 refs, 12 withheld)
+- data/history/showcases/drawings/gordon1954-fig4.png    US 2,879,439 FIG. 4, upright 1-bit crop, 1252 x 624 px
+- data/history/showcases/traces/gordon1954-fig4.json     ipatent TRACE_SCHEMA trace of that crop, 41 elements
+- cache/showcases/gordon1954/US2879439.pdf (git-ignored) USPTO image PDF, 7 pages (2 drawing sheets, 5 text pages)
+
+1. SOURCES
+----------
+Read in full:
+- [gordon1954] J. P. Gordon, H. J. Zeiger, C. H. Townes, "Molecular Microwave Oscillator and New Hyperfine Structure in
+  the Microwave Spectrum of NH3", Phys. Rev. 95, 282-284 (1954), received 1954-05-05 (no publication date printed),
+  https://doi.org/10.1103/PhysRev.95.282. Cached references/gordon1954 (licensed, local only). Read from the page
+  renders and the 5220 x 6746 scan img_p02_1.png; the text layer is clean (garbled_text_layer false). Letter starts
+  p.282 col. 2; p.283 holds Figs. 1-3 and most of the text; p.284 col. 1 the end. PDF p.4 is a separate reproduction of
+  Fig. 2. Fixes: the arrangement (Fig. 1 block diagram: NH3 source with END X-SECTION, FOCUSSER and its X-SECTION with
+  V / O electrodes, CAVITY with OUTPUT GUIDE near the upstream end and INPUT GUIDE at the downstream end), focuser
+  principle, copper cylinder TE011 cavity 12 cm long, field sin(pi x / L), most probable velocity 4 x 10^4 cm/sec,
+  expected width 1.2 v/L = 4 kc/sec, observed 6-8 kc/sec, oscillation produced, power estimated about 10^-8 W (not
+  measured), amplifier, 3,3 line at 23 870 Mc/sec (Fig. 2 caption), hyperfine spectra Fig. 3a-d.
+- [us2879439] C. H. Townes, US 2,879,439 "Production of Electromagnetic Energy", application 1958-01-28 Ser. No.
+  717,290, 10 claims, granted 1959-03-24; inventor Charles H. Townes, New York, N.Y. (no assignee printed).
+  https://image-ppubs.uspto.gov/dirsearch-public/print/downloadPdf/2879439 (one request, HTTP 200, application/pdf,
+  757,875 bytes, generic browser User-Agent, no personal identifiers). No text layer: columns split at the gutter and
+  OCRed (tesseract 5.5.3, psm 4); column:line numbers counted per column and checked against the printed gutter numbers
+  (col. 4:50, 4:55, 4:60, 4:65, 4:70 and col. 5:20, 5:25, 5:30, 5:35, 5:40 on the page images). Public domain.
+  FIGS. 4-6 are "a practical embodiment of the invention as an amplifier, using ammonia gas" (col. 4:46-48): FIG. 4
+  side section (source tube 43, chamber 417, pump connection 418, focusing electrodes 423 / 424, leads 426 / 427,
+  aperture 413, cavity 414, output guide 421, input waveguide 419), FIG. 5 source end with apertures 45, FIG. 6
+  electrode cross-section with V / O marks and wiring. Same topology as the letter's Fig. 1 (source, focuser,
+  cavity with the output guide near the entrance and the input guide at the far end; same V / O diagonal pattern).
+  The patent values are written as examples ("may be, for example, about"); the patent cavity is "about five inches"
+  long against the letter's 12 cm, so patent sizes are labelled patent values, not measurements of the 1954 apparatus.
+Title / abstract only:
+- [gordon1955] Gordon, Zeiger, Townes, "The Maser - New Type of Microwave Amplifier, Frequency Standard, and
+  Spectrometer", Phys. Rev. 99, 1264 (1955), received 1955-05-04, published 1955-08-15. NOT cached: not in references/,
+  listed only as a reserve candidate in data/_staging/literature/history_candidates.csv (paper_id gordon1955, route
+  manual, oa_pdf link.aps.org/pdf/10.1103/PhysRev.99.1264 = APS, paywalled). Read only the APS abstract page (one
+  WebFetch): 7 kc/sec resolution, stability 4 parts in 10^12 over about a second and 1 part in 10^10 over an hour or
+  more. No dimension was taken from it. Used only for the name "maser" (its title). It is the source most likely to
+  give the 1954-55 focuser length, voltage, cavity diameter and gaps; an owner-provided copy would let the withheld
+  items below be filled.
+Not used: the patent's FIG. 1-3 and FIG. 7 (magnetic deflection scheme, two-cavity amplifier, solid paramagnetic
+  maser), not the ammonia apparatus.
+Request log: 1 USPTO PDF (curl, generic User-Agent) + 1 WebFetch (journals.aps.org abstract page). No other network use.
+Local corpora checked first: references/ (only basov1954 and gordon1954 near this topic), data/history, data/_staging
+  history papers lists, ../ipatent/data (no maser patent).
+
+2. WHAT THE PAPER FIXES (fixed / assumed / withheld per part)
+-------------------------------------------------------------
+Letter locators: p.282 col. 2 (abstract-like opening, source, focuser), p.283 col. 1 (focuser forces, spectrometer
+operation, oscillation, amplifier, cavity, velocity), p.283 col. 2 (4 kc/sec expected, 6-8 kc/sec observed, hyperfine
+structure), Figs. 1-3 on p.283.
+- NH3 source: fixed = exists, on the axis, end with many holes (Fig. 1 END X-SECTION; patent FIG. 5 apertures 45);
+  source pressure about 10^-3 mm Hg (patent col. 4:48-49). Assumed = tube OD 16 mm, wall 1.5, 60 mm shown. Withheld =
+  hole count / size (FIG. 5 pattern used as drawn, 33 holes, schematic; letter's end view draws fewer).
+- Focuser: fixed = quadrupolar cylindrical electrostatic field along the beam (letter p.282-283); four electrodes, V and
+  O on alternate diagonals (letter Fig. 1, patent FIG. 6; FIG. 6 wires V to the source, O to ground); upper states
+  pushed in, lower out (letter p.283; patent col. 5:14-23 with the field proportional to radius). Patent example values
+  (col. 4:56-59): about 2 cm diameter, about 20 cm length, minimum spacing about 4 mm, 20-30 kV. Profile: digitized
+  from the letter's Fig. 1 cross-section (scan px, crop origin (1162, 1529), mean electrode width 128 px) and scaled
+  to 20 mm width: neighbour gaps 3.1 / 3.3 / 4.2 / 4.5 mm (consistent with the patent's "about 4 mm"), clear radius at
+  the axis 4.8-5.7 mm. Patent FIG. 6 has much wider gaps (gap / width 0.63, clear radius / width 0.54) and is not used
+  for proportions. Liquid-air cooling = patent option only (withheld for 1954).
+- Cavity: fixed = cylindrical, copper, TE011, 12 cm long, coaxial with the beam, field sin(pi x / L) (letter p.283
+  col. 1); diameter about 0.6 in, tuned by a sliding end section, entrance aperture 413 about 0.4 in (patent col.
+  5:27-32). Derived check: TE011 resonance f = (c / 2 pi) sqrt((3.8317 / a)^2 + (pi / L)^2) at 23 870 Mc/sec with
+  L = 120 mm needs a = 7.670 mm, D = 15.34 mm (0.604 in): consistent with "about 0.6 inch" (with L = 127 mm: 15.34 mm).
+  Assumed = wall 1.5 mm. Withheld = end construction, exit hole.
+- Guides: fixed = output guide on the top near the upstream end, input guide at the downstream end (letter Fig. 1,
+  patent FIG. 4; measured positions 0.22 (letter) and 0.27 (patent) of the cavity length for the output guide; the input
+  guide runs down along the downstream end wall in FIG. 4); mica windows (patent col. 5:44-46). Assumed = 10 x 5 mm
+  rectangular stand-ins. Withheld = guide size and shape, coupling holes.
+- Chamber 417 / pump connection 418: patent only (col. 4:50-52, FIG. 4), 10^-4 mm Hg; shape and size assumed (faint box,
+  30 mm stub).
+- Leads 426 / 427: patent FIG. 4 / FIG. 6 only; plain wires.
+- Beam: velocity 4 x 10^4 cm/sec (stated); cavity transit 0.3 ms (derived, L/v); "virtually all in the upper states"
+  at the cavity (stated). Particle counts, spread, and the half-and-half mix at the source are illustrative.
+- Emission / oscillation: the spectrometer reading (emission line when the klystron passes the transition) and
+  self-sustained oscillation (produced; about 10^-8 W estimated, not measured) are stated. The letter does not say
+  which line oscillated: the 23 870 Mc/sec label is given only to the J = K = 3 line of Figs. 2-3 and is not shown in
+  the oscillation chapter.
+Essential (canvas) numbers: focuser length about 20 cm (patent, labelled "length (patent)"), cavity length 12 cm
+  (letter), 3,3 line 23 870 Mc/sec (letter). Three.
+
+3. PLOT DIGITIZATION
+--------------------
+Source raster: references/gordon1954/figures/img_p02_1.png (5220 x 6746, page p.283). Fig. 3 crop origin
+(2610, 4200), size 1900 x 1350 px; all values below in crop px. Ink = gray < 128; connected components < 40 px dropped
+(scan specks). The figure has no y scale in any panel: y is relative, as drawn (axis scale: none).
+Panel b (main plot, "Main line with magnetic satellites"):
+- x: label digit centres (minus signs excluded) -100 -> 226.5, -50 -> 581.0, 0 -> 954.5, 50 -> 1315.5, 100 -> 1682.5;
+  least-squares x_px = 952.0 + 7.293 kc^-1; residuals 0.52, -0.87, 0.34, -0.16, 0.16 kc/sec. Tick marks are printed as
+  well (audit 2026-11-11: b at 219, 581.5, 950.5, 1316.5, 1682 px; c at 252.5 / 618; d at 1279 / 1647.5); against them
+  the b / c / d points shift by at most 0.6 / 0.5 / 1.3 kc/sec, below a stroke width: no data change.
+- y: axis line rows 1176-1183 (centre 1179.5); main peak stroke centre row 22.5 at column 943 (x = -1.23 kc/sec on the
+  label calibration); height 1157 px = 1.0. Outer frame rows 11-19 excluded; panel a/c and d boxes (rows <= 825 at
+  x <= 775 or x >= 1126) excluded.
+- Sampling: |x| > 12 kc/sec: per-column stroke centres, median per 1 kc/sec bin (half width 0.5): 177 points.
+  Main line |x| <= 12: the flanks are near vertical, so they are read per ROW (stroke centre of the left and right
+  flank, median over +-2 rows) at v = 0.03 ... 0.91 in steps of 0.02 (45 + 45 points); the rounded top (v > 0.92) and
+  the feet (v < 0.03) per column in 0.25 kc/sec bins (28 + 32 points). Total 326 points, in curve order (the flank
+  points are not re-sorted by x, so sub-pixel wobble does not zig-zag the line).
+- Checks: overlay of the points on the scan (scratch fig3_check*.png) follows the stroke centre on the main line, both
+  satellite groups and their small side lobes. Drawn main-line width at half height 10.08 kc/sec (row read at row 601:
+  stroke centres 910 and 984 px, 74 px = 10.1 kc/sec): the text says observed lines are 6-8 kc/sec wide; the
+  difference is put in the plot note, not corrected.
+Panel a (alternate, complete spectrum, bars): axis rows 306-312 (centre 309); labels 0 -> 405.0, 1 -> 545.5,
+  2 -> 694.5 (fit 144.75 px per Mc/sec, residuals <= 2.8 px = 0.02 Mc/sec). 9 printed vertical lines found by columns
+  with ink above the axis (the "a." label region excluded), heights relative to the main line (271.5 px). Positions
+  relative to the main line: -2.38, -2.33, -1.70, -0.069, 0, +0.069, +1.70, +2.36, +2.40 Mc/sec; they agree with
+  panels b (satellites near +-65 kc/sec), c (1670-1690 kc/sec) and d (2290-2370 kc/sec). Main line at -0.05 Mc/sec on
+  the label calibration (label placement).
+Panel c (alternate): axis rows 668-674 (centre 671); labels 1650 -> 249.5, 1700 -> 619.5 (7.40 px per kc/sec; panel b
+  gives 7.29); 0.5 kc/sec bins, half width 0.25, columns 82-734: 176 points, x 1627.4-1715.5; heights relative to the
+  panel's tallest peak (145 px at 1688.2). A small printed mark near 1712 kc/sec is read as drawn (two points, 0.03).
+Panel d (alternate): axis rows 669-675 (centre 672); labels 2300 -> 1286.5, 2350 -> 1650.5 (7.28 px per kc/sec);
+  0.5 kc/sec bins, columns 1140-1861: 198 points, x 2279.9-2378.9; heights relative to the tallest peak (147 px at
+  2317.2).
+Scripts: scratchpad gordon1954/dig/dig_fig3.py, dig_fig3a.py, check_fig3.py; outputs fig3.json, fig3a.json.
+Levels plot (select chapter): schematic, built from the text (the letter prints no level figure): two inversion
+  levels, split labelled 23 870 Mc/sec (Fig. 2 caption), one emission arrow. Scale none; drawn gap not to scale.
+Not digitized: Fig. 2 (oscilloscope photograph without frequency scale, licensed).
+No calculated alternate added: the transit-time line shape (amplitude cos(pi f T) / (1 - 4 f^2 T^2), T = L/v = 0.3 ms,
+  half-power full width 1.2 v/L = 4 kc/sec) could be overlaid as a derived dashed curve on a main-line zoom; left out
+  because the drawn line is 10 kc/sec wide and the text compares 4 vs 6-8 kc/sec (open question 3).
+
+4. GEOMETRY FOR THE MODEL
+-------------------------
+Axes: mm, x = beam axis (+x downstream), y up, origin = centre of the source's perforated face.
+- Source tube: x -60 ... 0, OD 16 (assumed), apertures pattern on the +x face from FIG. 5 (holes_norm in units of the
+  face radius, hole radius 0.079 R; 31 detected + 2 read by eye where leaders touch them).
+- Focuser: 4 electrodes, x 30 ... 230 (200 mm, patent); upper-left profile in mm (y up, looking downstream) in the
+  spec (36 points, arc-length resampled, centroid (-11.7, 11.7)); mirror for the other three; V upper-left and
+  lower-right, O upper-right and lower-left. Gap source -> focuser 30 mm: assumed.
+- Cavity: x 250 ... 370 (120 mm, letter), ID 15.24 mm (patent 0.6 in), wall 1.5 assumed, entrance hole 10.16 mm (patent
+  0.4 in) on the axis in the upstream end. Gap focuser -> cavity 20 mm: assumed.
+- Output guide: rises from the top wall at x about 280 (quarter length); input guide against the downstream end
+  wall, rising up out of the chamber. Stand-in sections 10 x 5 mm.
+- Chamber: faint box x -20 ... 400, +-60 in y and z (assumed); pump stub under the cavity (FIG. 4), 30 mm.
+- Leads: ground up from the O pair, high voltage down from the V pair, through the chamber wall (FIG. 4).
+Drawing and trace (US 2,879,439 FIG. 4):
+- Sheet 1 (PDF page 1, 2320 x 3408 px, 1-bit), crop [488, 1718, 1740, 2342], no rotation. Neighbour ink removed from the
+  crop (components entirely inside): FIG. 2 text "MICROWAVE INPUT" and its arrow (x <= 745, y <= 1806), FIG. 3 arrow
+  tail (x 1150-1215, y <= 1745), the "FIG. 6" label (y >= 2316, x <= 760).
+- Numerals and names (text): 43 (drawing only, no name), 412 beam (col. 5:25; not printed in FIG. 4, given to the
+  dashed beam), 413 aperture (col. 5:26), 414 cavity (5:26), 417 chamber (4:50), 418 (no noun, "evacuated at 418",
+  4:51), 419 input waveguide (5:37), 421 output guide (5:38), 423 / 424 focusing electrodes (4:53-54; 423 is an O,
+  424 a V in FIG. 6), 426 / 427 leads (4:55-56). Printed oddities kept: "Mica windows 419, 421" (5:44) reuses the guide
+  numerals (the double lines across both guides near their tops are those windows); "42.3" (a speck between 2 and 3)
+  is traced as 423.
+- Method (ipatent loop; overlay.py, coverage.py, trace-render.js copied to the scratchpad, ipatent untouched): text
+  glyphs blanked from the line mask by bbox; thick regions (feedthrough blocks, arrowheads, heavy dashes) as solid
+  polygons (opening r = 3); thin strokes skeletonised into polylines (RDP 0.9 px, width = median 2 x distance
+  transform, junction stubs capped at 3 px); beam dashes as filled polygons; every path assigned to a part by measured
+  zones (majority vote); strings as `t` shapes with measured length; the stylised "FIG. 4." as skeleton strokes.
+- Elements: chamber 417, source 43, electrodes 423 / 424, beam 412, cavity 414, guides 421 / 419 (+ flow arrows and
+  MICROWAVE OUTPUT / INPUT text), pump connection 418, leads 427 (ground symbol) / 426 (TO VOLTAGE SOURCE), 11 leaders
+  + 11 labels, section marks 5-5 and 6-6, FIG. 4 label. 41 elements, 85 KB.
+- coverage.py (tol 4 px): scan ink covered 99.2 %, trace ink off scan 0.6 %. Residual: Helvetica vs hand lettering in
+  "TO VOLTAGE" (E merged with the 418 wall in the scan). Overlay and per-element colour check read (scratch
+  trace/check/). Generator: scratchpad gordon1954/trace/gen4.py (+ crop4.py, skel.py, classview.py).
+Other measured figures (not traced; runtime shows one drawing): FIG. 6 electrode profiles and gaps (fig6.py), FIG. 5
+  hole pattern (fig5_holes.json).
+
+5. CHAPTER SCRIPT RATIONALE
+---------------------------
+Order follows the beam and the letter: source -> focuser built -> voltage on, states separate (levels plot) -> cavity
+-> emission in the cavity with klystron power in (spectrometer) -> klystron sweep with the Fig. 3b plot (drive offset
+= plot pen x, glow / output brightness from the digitized curve, D1006 rule) -> input off, oscillation held. Physics
+checks for the builder: no focusing before the voltage is on; lower-state molecules leave inside the focuser and never
+reach the cavity; molecules change colour only inside the cavity, after entering through the aperture; the field glow
+follows sin(pi x / L) along the axis, zero at both ends; output leaves through the output guide (top, upstream end),
+input enters through the input guide (downstream end); in the oscillation chapter the input fades while the output
+stays; no 23 870 Mc/sec label on the oscillation. Beam motion is slowed (hover says not to scale).
+Amber emphasis: the spectrum keyword "*23 870 Mc/sec*" (the one essential frequency). Plot chapters: 2 (levels,
+spectrum); Fig. 3a, 3c, 3d are alternates of the spectrum plot.
+
+6. OPEN QUESTIONS FOR THE COORDINATOR
+-------------------------------------
+1. Patent sizes: the focuser (about 2 cm x 20 cm, about 4 mm spacing, 20-30 kV) and cavity diameter / aperture are
+   patent example values of the same apparatus family (filed 1958); the letter prints none. Ruling like D992 (patent
+   values labelled with column:line) assumed. The focuser length is an essential canvas dim, labelled "length
+   (patent)": keep, or drop it to two essential dims (cavity 12 cm, 23 870 Mc/sec)?
+2. Phys. Rev. 99, 1264 (1955) is not cached; if the owner can provide it, it likely fixes the 1954-55 focuser, gaps and
+   cavity details now withheld or assumed.
+3. Add a derived transit-time line shape (4 kc/sec, the letter's own calculation) as a dashed curve on a main-line
+   zoom alternate? Left out: the drawn Fig. 3b main line is about 10 kc/sec wide, not the text's 6-8 kc/sec.
+4. Only one drawing is shown by the runtime (first with trace). FIG. 6 (cross-section with V / O wiring) would be a
+   good second drawing if the runtime supports more than one; not traced now.
+5. Tag row: material "ammonia gas" is the patent's word ("using ammonia gas", col. 4:48); the letter says "ammonia
+   molecules" / NH3. Minor; the milestone row agrees with the story (built and operated as spectrometer, amplifier
+   and oscillator; 6-8 vs 4 kc/sec; about 10^-8 W estimated; 23 870 Mc/sec).
+6. Title "Ammonia maser": the letter does not use "maser"; title_note cites the 1955 title. Same pattern as the MCVD
+   ruling (D992).
+
+7. PROVENANCE OF LATER EDITS
+----------------------------
+2026-11-11 fix pass after the audit (coordinator ruling, digitized-data edit authorized): Fig. 3a re-calibrated on the
+  printed tick marks under the panel-a axis (crop rows 314-320: ticks at x 396-399, 543-546, 690-693 px; fit
+  x_Mc = (px - 397.54) / 146.875; the audit's (px - 397.5) / 146.75 agrees within 0.003 Mc/sec over the panel). Stroke
+  centres re-read by the builder (columns with ink in rows 299-304 just above the axis): -2.353, -2.305, -1.675,
+  -0.075, 0.000, +0.061, +1.668, +2.311, +2.362 Mc/sec (audit: -2.354, -2.303, -1.680, -0.075, 0.000, +0.058, +1.666,
+  +2.317, +2.361); heights unchanged. Main line on the 0 tick (the "0" glyph sits 7 px right of it, which caused the
+  earlier -0.05 Mc/sec). Series now style stems (single printed strokes), bars dropped. Section 3 "Panel a" above
+  keeps the original label-glyph calibration for the record.

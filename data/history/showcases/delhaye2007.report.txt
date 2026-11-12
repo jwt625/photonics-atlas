@@ -1,0 +1,167 @@
+delhaye2007 showcase research report (Kerr frequency comb from a silica toroid microresonator on a silicon chip)
+Date: 2026-11-11. Spec: data/history/showcases/delhaye2007.yaml (DevLog-017 section 4a schema, runtime fields per
+app/src/lib/history/showcase/types.ts). Renderer: 3d.
+
+1. SOURCES
+- [D] P. Del'Haye, A. Schliesser, O. Arcizet, T. Wilken, R. Holzwarth, T. J. Kippenberg, "Optical frequency comb
+  generation from a monolithic microresonator", Nature 450, 1214-1217 (2007), https://doi.org/10.1038/nature06401.
+  Cached copy: references/delhaye2007/ = arXiv:0708.0611v1 (2007-08-04) with supplementary information (main text
+  p.1-5, SI p.6-15), not the version of record. All page locators are arXiv pages (same convention as the milestone
+  row). Max Planck Institut fur Quantenoptik (printed with u-umlaut), Garching, Germany. Read from text.md and the
+  page renders; figures read from the embedded rasters (pymupdf extract: p.2 JPEG 728 x 770 = Fig. 1 A/B/C; p.4 JPEG
+  770 x 595 = Fig. 4 A/B; p.6 JPEG 981 x 596 = SI Fig. 5). No vector paths on these pages.
+  Fixes: 75 µm toroid, 60 mW CW pump at 1555 nm (Fig. 1 caption), Q > 10^8 (generic), threshold approx. 50 µW
+  (generic), > 1 GW/cm^2 intracavity, four-wave-mixing mechanism, tapered-fiber coupling, setup (ECL, polarization
+  controller, nitrogen enclosure, reference comb 100 MHz, beat note detection units, hydrogen maser), Fig. 1A
+  spectrum, Fig. 1B colours, Fig. 1C SEM shape, Fig. 4A / 4B, Table I.
+- [A] D. K. Armani, T. J. Kippenberg, S. M. Spillane, K. J. Vahala, "Ultra-high-Q toroid microcavity on a chip",
+  Nature 421, 925-928 (2003), doi 10.1038/nature01371 = ref. 13 of [D], the toroid process [D] cites. Cached:
+  references/armani2003/ (licensed, local). Read from the page renders (text.md turns µm into "mm"; checked: p.925
+  col. 2 "2-µm layer", "160 µm in diameter"; p.926 "5 µW", not "5 mW"). Fixes the process sequence and its values for
+  that paper's toroids: (100) prime-grade Si, 2 µm wet thermal oxide (horizontal tube furnace), 160 µm resist pads,
+  resist reflow bake, buffered HF at room temperature, acetone strip, XeF2 at 3 torr (isotropic, selective, equal
+  undercut, circular Si pillars), Q > 10^5 before reflow, CO2 laser 10.6 µm surface-normal, Gaussian spot about
+  200 µm, typically 100 MW m^-2, melting along the periphery and not over the pillar, Si 100 times more thermally
+  conductive, self-quenching, 120 µm toroid with 7 µm rim (Fig. 2 device), "various radii (80-120 µm) and tori
+  thickness (5-10 µm)", tapers (SMF-28, hydrogen flame, waist several micrometres, < 10 % insertion loss, taper axis
+  in the equatorial plane, gap of hundreds of nm).
+- [US] T. Kippenberg, P. Del'Haye, A. Schliesser (Max-Planck-Gesellschaft), US 7,982,944 B2 "Method and apparatus for
+  optical frequency comb generation using a monolithic micro-resonator", filed 2008-05-05, provisional 60/916,045
+  (May 2007), granted 2011-07-19. Public domain. Same group, same work: FIG. 1 = paper Fig. 1, FIG. 5 = SI Fig. 5.
+  PDF cached at cache/showcases/delhaye2007/US7982944.pdf (20 pages, 2,358,594 bytes). Used: FIG. 2A (drawing sheet
+  2, traced), its label "Generated Comb Mode Spacing 1 THz", FIG. 2A caption col. 5:1-4. Its text prints the
+  intracavity intensity as "exceeding 100 GW/cm^2" (col. 6:10-11) where the paper prints 1 GW/cm^2: paper value kept.
+  The patent has no fabrication text (no reflow, pillar or XeF2).
+- Cited, not used for values: Kippenberg, Spillane, Vahala, PRL 93, 083904 (2004) (ref. 14; cached
+  references/kippenberg2004/).
+- Sibling atlases: eo-modulator-atlas and advanced-packaging-atlas carry no microresonator-comb or toroid rows
+  (not relevant columns); this repo's data/components/ has 4 delhaye2007 rows (75 µm comb, broadband comb, 375 GHz
+  comb, 80 µm dispersion toroid); the story agrees with them (21.2 % tied to the broadband inset sample there and here).
+Web requests: 1 web search (patent number), 1 Google Patents page fetch (PDF link, figure list), 1 PDF download
+(generic User-Agent, HTTP 200). No 403 / 429 / 503.
+
+2. WHAT THE PAPER FIXES (per part)
+- Silicon chip: stated ("on a silicon chip", Fig. 1C caption); substrate type from [A]; patch size / depth assumed.
+- Thermal oxide, resist pad, silica disk, XeF2, CO2 beam: sequence and values from [A] only, each labelled as the
+  cited process's value for its 120 µm toroids. [D] prints no process values. Disk / pad diameter for the 75 µm device
+  not stated: drawn 100 µm (75 x 160/120), basis assumed.
+- Silicon pillar: topology from [A] ("circular silicon pillars supporting larger SiO2 disks"); shape read from the
+  Fig. 1C SEM (see section 4); the SEM toroid is about 62 µm across by its scale bar, so it is not the 75 µm device.
+- Toroid: 75 µm stated (outer vs centre-line not stated; drawn outer); rim about 5 µm (SEM, figure); Q > 10^8
+  stated generically for the toroids used; membrane 2 µm from [A].
+- Tapered fiber: stated method ([D] p.2, Fig. 2 caption, SI p.6-7); waist and gap only as ranges in [A]; drawn
+  3 µm waist and 0.3 µm gap are assumed values inside those ranges. Side of the toroid and circulation sense: not
+  fixed; drawn with circulation following the taper light at the coupling point.
+- Pump: 60 mW, 1555 nm (Fig. 1 caption; essential); ECDL tunable, in-fiber polarization controller (SI p.6);
+  threshold approx. 50 µW and Q > 10^8 are generic statements, not tied to the 75 µm device.
+- Sidebands / comb: mechanism stated (p.1); colours after Fig. 1B arrows (blue m+1, pink m-1), illustrative for IR.
+- Pump laser, OSA, reference comb: schematic boxes (Fig. 2A, SI p.6-7, patent FIG. 2A).
+- Withheld (14 entries in the spec): device process values, disk size, pillar of the comb device, diameter meaning,
+  taper waist / gap / coupling regime, taper side and circulation sense, nitrogen enclosure in the model, pump detuning /
+  locking / amplifier, Q / dispersion of the 75 µm device, cascade time order, light colours, inset and SI Fig. 5 not
+  digitized, asymmetry origin, instrument details.
+
+3. PLOT DIGITIZATION
+3a. comb = Fig. 1A (p.2), raster JPEG 728 x 770 at native resolution.
+- Frame x 93 / 696 px (black columns), y 22 / 441 px (black rows). x ticks at 93, 160, 227, 294, 361, 428, 495, 629,
+  696 px = 1300 ... 1750 nm (1562 tick hidden by the trace): 1.340 px/nm, linear. y ticks on both frames at 54 (20),
+  184 (0, hidden left), 248 (-10), 313 (-20), 377 (-30), 441 (-40) dBm: 6.45 px/dB. Axis range [-40, 25] dBm.
+- Trace mask: blueness (b - (r+g)/2)/200 > 0.35; inset box interior (x 150-410, y <= 147) excluded. Per column: top of
+  the blue run (upper envelope). Lines: columns whose envelope exceeds the local floor (30th percentile of the envelope
+  in a 15-px window) by > 2.5 dB, merged into runs; line x = mean of the run's columns within 1.5 dB of its max; power =
+  max of the envelope (pixel row top, about +-0.3 dB; JPEG).
+- Result: 49 lines, 1359.7 to 1725.8 nm, pump at 1551.9 nm / 17.7 dBm, 28 lines on the short side, 20 on the long side.
+  Every interval is one spacing (no gaps): linear fit in frequency gives 0.9750 THz, residuals <= 0.5 px (0.05 THz max,
+  0.022 rms). Outermost short lines 1359.7 (2.9 dB above floor) and 1365.7 nm (4.6 dB) are marginal but sit on the
+  grid; next grid positions (1353.7, 1735.5 nm) show < 1.6 dB, at the noise: not counted.
+- Checks: overlay of all 49 points on a 3x render (scratch ov_comb.png): every circle on a line tip. The red dotted
+  Delta-lambda marker overlays the 1669.8 nm line; its blue tip (4.8 dBm) is above the red dots.
+- Background series: per column the median row of the blue run, columns within 2.5 px of a line excluded; median per
+  2.5 nm bin (1/180 of the span); 131 bins kept, 49 bins dropped (each falls on a line), no filling.
+- Discrepancies, recorded in the plot note: the pump reads 1551.9 nm on the printed axis while labelled 1555 nm
+  (3.1 nm, about 4 px); the spacing near the pump reads 7.8 nm (8.9 nm at the marked 1670-1679 nm pair) while labelled
+  "about 7 nm". The patent's FIG. 2A labels the generated comb "Mode Spacing 1 THz", and the paper's 80 µm dispersion
+  toroid has FSR 0.96 THz (SI p.10), both consistent with the digitized 0.975 THz. No correction applied.
+- Series order: comb lines listed from the pump outward (pump, then -1/+1, -2/+2, ...) so the reveal shows the cascade
+  outward; the background is in wavelength order. Line table (order, nm, THz, dBm, floor, prominence) in the scratch
+  spec_data.json; the spec carries [nm, dBm] per line.
+
+3b. spacing = Fig. 4A (p.4), raster JPEG 770 x 595.
+- Frame x 79 / 723.5 px = -1.5 / +1.5 Hz (12 ticks of 0.25 Hz found at 132.7 ... 669.8 px), y 301.5 px = 0 counts,
+  ticks every 50 counts at 49.7 px (0.994 px/count).
+- Bars: 31 vertical blue edges (rows 285-300) at a pitch of 10.715 px = 0.0499 Hz, fit residual <= 0.47 px; bins
+  centred on multiples of 0.05 Hz within 0.002 Hz. Height per bin = median over the inner columns of the topmost
+  orange-or-blue pixel (outer edge of the bar outline). 47 non-empty bins; sum 3466 vs the printed "Total Counts = 3493"
+  (0.8 % low; about 1 count per bar). Tail bars of 1-2 counts read as 2.5 (outline thickness).
+- Gaussian fit curve (black): per-column runs <= 8 px, nearest-continuity tracking from the peak, text boxes masked
+  (x < 362, y < 121; x > 530, y < 80); median per 0.02 Hz bin: 78 points from -0.75 to 0.79 Hz (tails merge with the
+  axis, not separable). Overlay check (scratch ov_hist.png): bar tops and curve on the print.
+- Printed labels kept in the note: mean -0.91 mHz +- 5.46 mHz, standard deviation 322 mHz, gate time 1 s.
+- Fix pass 2026-11-11 (coordinator-authorized digitized-data edit, DevLog-017 D1034, after the audit item I1): heights
+  re-read on the same JPEG (audit extraction p4_x108.jpeg) at the centre of the 2 px bar outline (outer edge + 1 px,
+  0.992 px/count; the outer edge reproduces the earlier reads within 0.5 count), and seven 1-count bins whose bar lies
+  on the axis line added (-1.40, -1.25, -1.15, +1.15, +1.30, +1.35, +1.40 Hz, found by the audit's htail.py). 54 bins,
+  sum about 3430 of the printed 3493; the remainder is not visible in the printed histogram. Script: builder scratch
+  delhaye2007/fix/reread.py.
+3c. allan = Fig. 4B (p.4), alternate of spacing.
+- Frame x 98 / 723 px = 1 / 1000 s (decade 208.3 px; minor gridlines 2, 3, 4, 6, 7 matched at 161, 197, 223, 260,
+  274 px), y gridlines 395 / 455 / 515.5 px = 1e-15 / 1e-16 / 1e-17 (60.25 px/decade).
+- Five navy stars, centroids: tau 3.00, 9.95, 29.71, 98.96, 296.6 s (plotted at 3, 10, 30, 100, 300 s);
+  sigma_A 6.94e-16, 3.65e-16, 2.49e-16, 1.15e-16, 5.70e-17 (legend star excluded). Fit line: printed formula
+  sigma_A = 1.29e-15 tau^-0.53 evaluated at 61 log-spaced points (1/60 of the 3-decade span), basis derived; it passes
+  the stars within 4 % (7.2e-16 at 3 s vs 6.94e-16 read).
+Not digitized (withheld with reason): Fig. 1A inset (lines about 3 px apart at native resolution) and SI Fig. 5
+(375 GHz comb; peak search found 117 lines with gaps in the noisy short-wavelength wing and about 1.5 px position
+scatter, so lines there are not separable from noise; the paper states 134 modes). Their stated values are in the
+comb side panel.
+
+4. GEOMETRY FOR THE MODEL (µm, y up, origin on the pillar axis at the etched floor)
+- SEM Fig. 1C (p.2), native crop x 380-728, y 560-770 of the JPEG: scale bar ticks at 212 and 314 px = 30 µm
+  (0.294 µm/px). Toroid outer width 210 px = 61.8 µm (so not the 75 µm device). Rim vertical extent at the left
+  extreme about 16-17 px = about 5 µm (minor diameter estimate, +-1 µm). Rim ellipse aspect about 0.12, i.e. the view
+  is about 7 degrees above the disk plane, so vertical distances are nearly true.
+- Pillar profile (shading threshold 140 on a 9-px smoothed row, centre column 164): width 104 px (30.6 µm) just under
+  the rim, 113 (33.2) 18 px lower, 131 (38.5), 145 (42.6), 167 (49.1), 175-180 (51.5-52.9) near the base at row
+  134-143; the flare blends into the floor at about row 143. Visible height 81 px = 23.8 µm plus about 3.7 µm hidden
+  behind the near rim (R sin 7 deg), so about 27 µm (+-5). Spec profile_h_r lists (h, r) pairs from these reads.
+- Placement: pillar top / disk underside y 27.5; 2 µm membrane 27.5-29.5 ([A] oxide); rim centre y 28.5, outer
+  diameter 75; taper axis along +x at y 28.5, z = -(37.5 + 0.3 + 1.5) = -39.3 (rim outer radius + drawn gap + drawn
+  waist radius).
+- CO2 spot 200 µm centred on the disk (centring assumed); XeF2 drops the Si floor from 27.5 to 0 around the pillar.
+- Drawing: US 7,982,944 FIG. 2A, drawing sheet 2 (PDF page 4, CCITT 2560 x 3300, printed sideways). Crop = ink bbox
+  +-20 px (page x 493-2097, y 430-3051), rotated 90 degrees clockwise (rotate 270 CCW) to upright, 2621 x 1604 px,
+  saved 1-bit: data/history/showcases/drawings/delhaye2007-fig2a.png. Trace: traces/delhaye2007-fig2a.json, 73
+  elements, generated by a script (scratch pat/gen_trace.py): rounded boxes and their halftone drop shadows (fine
+  45-degree hatching, pitch 5), double-line fibers with measured centrelines and bends, polarization controller cells
+  and loops, the nitrogen box dashes measured one by one, the halftone microscope image (dense hatching with a lighter
+  disk and a white ring), free-space beams (dense hatching), comb-spectrum icons (bars on a 10 px grid with the
+  measured envelope), BDU optics (grating, two PBS cubes, five wave plates, photodiode fitted through three rim points,
+  two fiber connectors), electrical wires, legend, and all printed text (30 strings, boxes measured, len forced).
+  Coverage (ipatent coverage.py, tol 4 px, copied to scratch, ipatent repo untouched): 97.4 % of scan ink covered,
+  1.1 % of trace ink off the scan. Residual: glyph shapes (the scan font is not Helvetica, "FIG. 2A" in particular),
+  the lower right fiber bend, halftone fringes. FIG. 2A prints no numerals: elements carry label keys (laser,
+  refcomb, toroid, comb) mapped in drawings[].numerals to pump_laser, reference_comb, toroid, comb_light.
+
+5. CHAPTER SCRIPT (10 chapters, 2 plot chapters, height 9)
+intro (finished device preview), oxide / undercut / reflow (process HUD with [A] values, labelled as the cited
+process), toroid (diameter label), taper (enters in the equatorial plane, never from above), pump (60 mW, 1555 nm
+labels; light runs +x and circulates in the matching sense), fwm (one blue and one pink sideband appear together,
+symmetric about the pump, and leave through the taper with the pump), comb (plot Fig. 1A; lines appear from the pump
+outward, matching the series order; the one amber emphasis "*Kerr comb*"), spacing (plot Fig. 4A with Fig. 4B as the
+alternate). Essential dims: toroid diameter, pump power, pump wavelength (3). Lines <= 12 words, keywords <= 3 words,
+no numbers in lines. Physics checks: XeF2 removes Si downward and sideways while the silica stays; the pillar is
+unchanged by the reflow (stays cool, heat sink); reflow shrinks the disk and thickens the rim, then stops by itself;
+comb light leaves in the forward direction of the taper (SI p.6-7: outcoupled back into the taper).
+
+6. OPEN QUESTIONS FOR THE COORDINATOR
+- Comb lines render as points over a background line; a stem style (vertical line from the background or the axis
+  floor to each point) would read like the printed OSA trace. Runtime option, or keep points?
+- Drawing link keys: FIG. 2A has no numerals; label keys (laser, refcomb, toroid, comb) are used as refs. Accept, or
+  add a runtime field for label-linked drawings?
+- Axis vs labels in Fig. 1A (pump 1551.9 vs 1555 nm; 7.8 vs "about 7" nm): plotted as printed on the axis, both noted.
+  Keep, or shift x by the 3.1 nm label offset? (Recommend keep.)
+- Patent intracavity intensity "100 GW/cm^2" vs paper "1 GW/cm^2": paper value used; flag only.
+- The 100 µm drawn disk and pad (Armani ratio) are assumptions needed to animate the reflow shrink; alternative is a
+  shrink with no stated start size shown only qualitatively (no label). Current spec: assumed value, labelled.
+- No milestone or tag disagreement: milestones.csv row (Fig. 1, p.2, arXiv-page locators, 7.3e-18) and tag row
+  (device, silica, frequency comb from silica toroid microresonator, nonlinear optics and combs) match the story.

@@ -19,9 +19,19 @@ export function loadOrbit(): Promise<OrbitCtor> {
 let renderer: THREE_NS.WebGLRenderer | null = null;
 let env: THREE_NS.Texture | null = null;
 
-/** The shared renderer (created on first call) and a neutral room environment map for PBR metals. */
-export async function shared(): Promise<{ THREE: Three; renderer: THREE_NS.WebGLRenderer; env: THREE_NS.Texture }> {
+type Shared = { THREE: Three; renderer: THREE_NS.WebGLRenderer; env: THREE_NS.Texture };
+let sharedP: Promise<Shared> | null = null;
+
+/** The shared renderer and a neutral room environment map for PBR metals. One promise for every caller: a story only
+ *  gets the renderer together with the finished environment (before, a second story asking while the first was still
+ *  loading the room environment got `env` null and rendered darker until the next build, run to run). */
+export function shared(): Promise<Shared> {
+	return (sharedP ??= makeShared());
+}
+
+async function makeShared(): Promise<Shared> {
 	const THREE = await loadThree();
+	const { RoomEnvironment } = await import('three/examples/jsm/environments/RoomEnvironment.js');
 	if (!renderer) {
 		renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
 		renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
@@ -29,7 +39,6 @@ export async function shared(): Promise<{ THREE: Three; renderer: THREE_NS.WebGL
 		renderer.toneMapping = THREE.ACESFilmicToneMapping;
 		renderer.toneMappingExposure = 1;
 		renderer.domElement.className = 'sc-gl';
-		const { RoomEnvironment } = await import('three/examples/jsm/environments/RoomEnvironment.js');
 		const pm = new THREE.PMREMGenerator(renderer);
 		env = pm.fromScene(new RoomEnvironment(), 0.04).texture;
 		pm.dispose();

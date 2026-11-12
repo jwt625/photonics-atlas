@@ -1,0 +1,187 @@
+herr2014 (temporal solitons, MgF2 microresonator) showcase audit (fresh context, read-only, 2026-11-11)
+=====================================================================================================
+
+Scope: data/history/showcases/herr2014.yaml (+ report.txt), DevLog-017 D1020 (and D995 / D998 / D1005 / D1006),
+skill history-showcase; app/src/lib/history/showcases/herr2014.ts; app/static/data/showcases/herr2014.json (built
+spec; identical to the YAML except the three `on:` keys, I4); runtime pieces the story uses (showcase/plot.ts,
+PartPanel.svelte); sources references/herr2014/ (source.pdf = arXiv:1211.0733v3, text.md); builder screenshots
+scratchpad herr2014b/shots/ and contact sheets.
+Method: pages 5, 7, 8, 9, 10, 11 rendered with PyMuPDF (2-10x); Fig. 2a main and top panels re-extracted
+independently from the PDF vector paths (stroke colour 0.08/0.29/0.86, 92 + 128 paths), tick marks re-found
+(black tick strokes + label spans), steps re-detected (median per 2 µs bin, 10 µs windows) and plateau slopes fitted;
+red marker arrows I-III re-read from their PDF paths; Fig. 2c beat-note map read per pixel at 8x; every spec point of
+transmission / transmission_steps tested against the path vertices; transmission_sim, spectrum (+ envelope),
+spectrum_two, spectrum_five and the FROG sech^2 tested against the PDF segments (point-to-segment distance);
+FWHMs and the Fig. 5c peak spacing recomputed from the spec points. Module frame / state / pick code read in full.
+Scratch: session scratchpad herr2014_audit/ (render.py, d2a.py, ticks.py, steps.py, near.py, other.py, beat2.py,
+t10.py). No app run, no network, no git.
+
+VERDICT: NO-GO as is; GO after W1 (small, module + two spec texts) and the crystal-spec edits I1-I2 / M1 that the
+builder already flagged. Sources, quotes, locators, every digitized plot, the Fig. 2a step times and scan markers,
+the essential dims, the coupling (tapered fiber), the fabrication wording and the 1 / 2 / 5 soliton states are right.
+The wrong item: the illustrative scan keeps 2 pulses on the ring after the last Fig. 2a step, where the paper's own
+figures show no soliton (narrow beat note ends, transmission back at the off-resonance level, no small thermal
+triangle).
+
+Counts: wrong 1, imprecise 7, missing 1, ok 20.
+
+----------------------------------------------------------------------------------------------------------
+WRONG
+----------------------------------------------------------------------------------------------------------
+
+W1. Pulses drawn on the ring (and coupled out) after the last step of Fig. 2a
+  file:     app/src/lib/history/showcases/herr2014.ts lines 276-278 (T_STEPS, N0 = T_STEPS.length + 2 = 6,
+            nPulsesAt), 306-307 (deathT: only 4 of 6 pulses ever die), 702 (ring background 0.1 for all t >= 3.12),
+            1187-1196 (hover); data/history/showcases/herr2014.yaml lines 487-488 (withheld), 314-318 (plot note).
+            Visible: builder shot a2_zoom_0555.png (zoom alternate, pen near 3.9 ms: two pulses on the ring on the
+            flat top plateau) and the 10 % hold at the end of the transmission chapter (pen at 4 ms, 2 pulses).
+  current:  6 pulses at the first step (3.12 ms), one fewer at 3.547 / 3.647 / 3.756 / 3.855 ms, so 2 pulses (and
+            their output pulses) from 3.855 ms to 4 ms; hover: "nor the state after the last step" is unknown.
+  proposed: no pulses after the last step: every drawn pulse dies by 3.855 ms (illustrative counts before it, e.g.
+            5 -> 4 -> 3 -> 2 -> 0, so the scan never shows a single soliton the paper does not state); ring
+            brightness after 3.855 ms from inside(t) (about 0.01 of full: 0.993 vs 0.997), not the fixed 0.1;
+            output pulses stop with them. Hover (pulsesInfo, ringInfo for t >= 3.855): "After the last step the
+            narrow beat note ends (Fig. 2c) and the transmission returns to about its off-resonance level, with no
+            small thermal triangle: no solitons drawn." Withheld line 488 reason: replace "and the state after the
+            last step" by the same sentence (figure-based, not stated in the text). Plot note line 317-318: add
+            "the narrow beat note ends at the last step (about 3.86 ms, Fig. 2c)".
+  evidence: (a) Fig. 2c (p.8), 8x render, 20 MHz row: narrow line bright to 3.80 ms, fading 3.82-3.87 ms, background
+            from 3.89 ms (x pt -> ms with the shared 148.97 / 359.44 pt = 0 / 4 ms ticks). (b) Fig. 2a top panel,
+            own extraction: plateau medians 0.928 / 0.937 / 0.949 / 0.963 / 0.9925, fitted slopes -0.026 / -0.021 /
+            -0.019 / -0.012 / +0.003 per ms: the four plateaus before 3.855 ms each carry a small falling ramp,
+            the last one is flat at 0.9925 against an off-resonance level of 0.9966 (0-0.3 ms, main panel).
+            (c) p.4: "the series of steps that correspond to a set of small thermal triangles (characteristic for
+            stable blue detuning; one triangle per realized soliton state)". (d) Fig. 3a/3c (p.9), the simulation
+            the paper calls equivalent to Fig. 2a: after the last soliton state (XI) the intracavity power drops to
+            the cw background. The text states no per-step count, so the counts before the last step stay
+            illustrative; nothing in the paper supports solitons after it. The rest of the scan logic is right
+            (first step 3.12 ms, steps 3.547 / 3.647 / 3.756 / 3.855 ms, hover labels counts illustrative).
+
+----------------------------------------------------------------------------------------------------------
+IMPRECISE
+----------------------------------------------------------------------------------------------------------
+
+I1. Crystal chapter line says two resonators; one disc is drawn (builder flag confirmed)
+  file:     data/history/showcases/herr2014.yaml line 252 (chapters[crystal].line).
+  current:  "A crystal carrying two resonators; the smaller one is used."
+  proposed: "A disc of crystalline MgF_{2} holds the light." or "The smaller of the crystal's two resonators is
+            used." (keeps the caption fact but still names an undrawn second disc); prefer the first, with the two
+            resonators in the crystal part detail (already there) and the withheld entry line 483-484.
+  evidence: Fig. 1a caption p.7 (the caption is right; the mismatch is text vs picture, desk_p0020 / phone shots
+            show one disc on a post).
+
+I2. Crystal part keeps the stepped-spindle geometry and describes tiers that are not drawn (builder flag confirmed)
+  file:     data/history/showcases/herr2014.yaml lines 18 (detail), 23-34 (geometry: stepped_spindle,
+            tiers_top_down, widths), 37-38 (dims "top tier width" / "widest body"). Shown in the side panel on
+            click; the hover (module line 1237) already says "plain post stand-in".
+  current:  detail "The photograph shows a stepped spindle: a narrow top tier (about 2.0 mm wide ...) ... a stem
+            about 5 mm wide ..."; geometry type stepped_spindle with five tier widths.
+  proposed: geometry {type: post_standin, note: 'plain post stand-in; tiers of Fig. 1a not drawn'} (move the tier
+            widths into the report or the withheld reason, M1); detail: keep the caption quote and append "Drawn as
+            a plain post stand-in: the tiers of the photo are not drawn."; dims: keep the two photo widths only
+            with note "photo reading, not drawn" (or move them to the withheld reason).
+  evidence: module lines 976-1010 draw one cylinder of radius 0.6 R under the disc (no tiers), per D1020 (4).
+
+I3. Pen re-implemented in the module instead of the runtime's penAt
+  file:     app/src/lib/history/showcases/herr2014.ts lines 230-248 (penOf: own seg(..., 0.9 ...) + revealed()).
+  current:  copy of plotWindow / plotProgressIn / revealed; points filtered with Number.isFinite, not cleanPoints.
+  proposed: use penAt(spec, plotId, p)[0] from showcase/plot.ts (skill: "never a copied formula"). Behaviour is
+            the same today (linear axes, one series, PLOT_SPAN 0.9), so this is a drift risk, not a visible error.
+
+I4. YAML key `on:` parses as boolean true; the built JSON carries "true" instead of "on"
+  file:     data/history/showcases/herr2014.yaml lines 68, 208, 222 (geometry {..., on: resonator / wgm / taper});
+            app/static/data/showcases/herr2014.json parts wgm / soliton / pulse_train geometry {"true": ...}.
+  proposed: quote the key ('on': resonator) or rename it (on_part). Not viewer-facing (the module does not read it).
+  evidence: yaml.safe_load gives {True: 'resonator'}; JSON diff against the YAML shows only these three keys.
+
+I5. Spectrum y axis title renders "Relative power (dB (20 dB/div))"
+  file:     data/history/showcases/herr2014.yaml lines 372, 393, 409 (y.unit 'dB (20 dB/div)').
+  proposed: unit 'dB'; "20 dB/div as printed, dB from the frame bottom" is already in each plot note. Label
+            "Relative power" itself is right (D1020 (2)).
+  evidence: builder shots sheet_alts.png / a5_five.png (axis title with nested parentheses).
+
+I6. Noisy waveform starts at marker II (1.96 ms); the broad noisy beat note of Fig. 2c starts near 1.55 ms
+  file:     app/src/lib/history/showcases/herr2014.ts lines 703-705, 1153-1156; yaml line 281 (action says
+            "from about 1.5 ms").
+  current:  periodic waveform 1.50-1.96 ms, noisy from 1.96 ms.
+  proposed: either switch to the noisy waveform at about 1.55 ms (Fig. 2c onset) or keep 1.96 ms and say in the
+            hover that the noisy beat note appears between I and II (Fig. 2c). Minor; the waveform is labelled
+            illustrative.
+  evidence: Fig. 2c 8x render: first red (broad) beat streaks at x of about 1.54 ms; caption names spectra II and
+            III as high-noise, which is consistent with either choice.
+
+I7. Crystal stand-in narrower than the resonator disc
+  file:     app/src/lib/history/showcases/herr2014.ts line 204 (RP = 0.6 R).
+  current:  post radius 0.6 x disc radius; Fig. 1a shows the crystal body about 3.5x wider than the used tier
+            (about 7 mm vs about 2 mm).
+  proposed: keep the plain post (a wider one would hide the rim and taper) but add to the crystal hover "not to
+            scale; the crystal body in Fig. 1a is wider than the resonator". Minor.
+
+----------------------------------------------------------------------------------------------------------
+MISSING
+----------------------------------------------------------------------------------------------------------
+
+M1. No withheld entry for the crystal shape (tiers) (builder flag confirmed)
+  file:     data/history/showcases/herr2014.yaml lines 478-496. Line 481 withholds only "tier heights"; D1020 (4)
+            rules "tiers withheld".
+  proposed: add {what: 'Shape of the crystal (tiers)', reason: 'Fig. 1a photographs a stepped crystal (top tier
+            about 2.0 mm, body about 7 mm wide, read against the 2 mm scale bar of a 106-pixel oblique photo);
+            heights and which tier is the larger resonator are not given, so the crystal is drawn as a plain post
+            stand-in.'} and shorten line 481 to the resonator diameter and rim profile.
+
+----------------------------------------------------------------------------------------------------------
+OK (verified)
+----------------------------------------------------------------------------------------------------------
+
+O1. Fig. 2a main panel: 796 spec points, all on PDF path vertices (0 off by > 1e-3); x ticks 148.97 ... 359.44 pt
+    (0-4 ms, 9 ticks), y ticks 244.22 / 149.16 pt = 0.7 / 1.0 re-found; minimum 0.711 at 3.070 ms reproduced;
+    max x gap 0.019 ms (axis/60 = 0.067 ms).
+O2. Fig. 2a top panel (zoom alternate): 777 points, all on vertices; ticks 177.26 ... 479.09 pt = 3.2 ... 4.0 ms;
+    steps re-detected at 3.547, 3.647, 3.755, 3.855 ms (spec 3.547 / 3.647 / 3.756 / 3.855); plateau medians
+    0.928 / 0.937 / 0.949 / 0.963 / 0.993 reproduced to 0.001.
+O3. Steps stay sharp: each jump spans adjacent vertices < 1 µs apart (e.g. 3.5463 -> 3.5470 ms, 0.922 -> 0.948,
+    the printed overshoot spike kept); no interpolation across a step; M4 keeps the noise band edges.
+O4. Scan markers I / II / III: red arrow paths at x 227.90 / 252.14 / 291.97 pt = 1.500 / 1.961 / 2.718 ms
+    (spec 1.50 / 1.96 / 2.72; module T_I / T_II / T_III).
+O5. First step 3.12 ms: main-panel noise band ends 3.10-3.12 ms, green shading at 3.124 ms; module T_STEP 3.12.
+O6. Fig. 3a simulation alternate: 451 points within 0.125 pt of the blue path (median 0.025 pt); larger x gaps only
+    on straight path stretches (tail at zeta_0 > 31); labelled "Simulation" (button), "Simulation, not a
+    measurement" (note), "simulation shown" (hover); "steps point down" matches p.3 and the caption.
+O7. Spectra: one / two / five soliton series within 0.005 pt of the PDF paths; 20 dB per 20.995 pt and frame
+    bottom 141.63 pt re-found; y labelled "Relative power" with "no absolute level printed" in each note (D1020 (2)).
+O8. sech^2 envelope: 137 points within 0.005 pt of the red dashed path; peak 36.99 dB, -3 dB span 13.0 nm at
+    0.5 nm sampling vs 12.87 nm for 1.6 THz at 1553 nm. The figure itself prints "~sech^2, FWHM = 1.6 THz".
+O9. FROG (Fig. 5a right): sech^2 FWHM from the spec points 0.202 ps vs printed "FWHM = 200 fs" (rounding);
+    reconstruction peak 0.929, FWHM at its own half maximum 0.229 ps, both disclosed in the plot note; sech^2
+    points within 0.28 pt of the path (median 0.001 pt).
+O10. Pulse spacing (Fig. 5c frame 1): peaks at -14.254 and +14.087 ps = 28.34 ps; printed 28.4 ps; 1 / 35.2 GHz =
+    28.41 ps; the 0.07 ps gap is far below the about 2.5 ps resolution (p.4) and the 0.17 ps vertex step;
+    note says "28.4 ps printed; 28.3 ps between the digitized peaks".
+O11. Finesse: page render p.5 reads "F = 78 x 10^4"; 35.2 GHz / 450 kHz = 7.82 x 10^4; dims note correct.
+O12. Derived values: diameter c / (pi 1.37 35.2 GHz) = 1.980 mm; Q = 193 THz / 450 kHz = 4.3 x 10^8 (printed 4 x
+    10^8); TBP 0.315 / 1.6 THz = 197 fs (printed 197 fs); T_R 28.4 ps = 1 / FSR.
+O13. Coupling: "evanescently coupled ... via a tapered optical fiber" (p.5 Methods); Fig. 2d (10x) draws the fiber
+    thinning past the resonator; no prism anywhere in spec, module or JSON.
+O14. Fabrication: "machined", diamond turning, polishing absent from every viewer-facing field (only in the
+    builder-only chapter action, which the runtime does not show); withheld line 479-480 says "not described";
+    p.6 contributions read.
+O15. Quotes and locators (spot-checked 12): FSR / 450 kHz quote p.2; scan "with decreasing optical frequency" p.2;
+    "Further steps can be associated ..." p.3; "several hundreds" p.3; beat note RBW 1 kHz / SNR 60 dB p.4;
+    TR = 28.4 ps p.4; "reconstructed temporal width of 200 fs" p.4; ±0.5 nm p.4; Methods pump / taper / n0 /
+    finesse / D2 / beta2 / Aeff / gamma p.5; simulation Q 2 x 10^8, 100 mW p.5; FROG pump suppression -30 dB, 50 mW
+    p.5; Fig. 1a, 2, 4, 5 captions p.7-11. All match text.md and the renders.
+O16. Single-soliton chapter shows one pulse (module 718, multi[1]); spectrum alternates draw 2 / 5 pulses through
+    handle.plot (module 608; shots a4_two, a5_five); hovers say positions illustrative and that the one-soliton
+    state comes from the tuned scan (SI Fig. 6), not necessarily the last Fig. 2a step.
+O17. Circulation direction: at the tangent point (PHI_T = -pi/2, back of the disc) increasing ring angle moves +X,
+    the direction of the fiber light; one output pulse per soliton per roundtrip (d0 = RR x angle since the last
+    pass); output pulses travel at the drawn ring speed.
+O18. Drive follows the plot pen (scan marker = pen scan time, output brightness = digitized transmission at the pen,
+    ring brightness = local mean transmission inverted); holds at 4 ms, never past the measured range; the
+    simulation alternate drives ring brightness from the simulated power without pulses.
+O19. Presentation: keywords <= 3 words, lines 6-10 words, 3 essential dims (FSR 35.2 GHz, Q 4 x 10^8, 1553 nm),
+    one amber emphasis (*200 fs*), 3 plot chapters, no numbers in lines; no internal tokens in viewer fields of
+    the built JSON (only "arxiv" inside a URL), no raw _ / ^ outside markup.
+O20. Composition: plots right / model left on desktop, plot below on phone; output fiber ends before the plot
+    (yMax 345); light theme readable (light_p*); illustrative pulse counts labelled in hover and withheld
+    (D1020 (1)); title_note states the arXiv source and the absence of a "first" claim.

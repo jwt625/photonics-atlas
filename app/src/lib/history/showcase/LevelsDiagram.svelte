@@ -5,6 +5,7 @@
 	// labelled with the printed value, transition arrows by kind; assembled by plot progress r; hover for value + locator.
 	import { levelsLayout, lo, hi, PAD } from './levels';
 	import { fmt, plain, rich, term, type Run } from './plot';
+	import { unitSuffix } from './progress';
 	import type { Level, Plot, Split, Transition } from './types';
 
 	let { plot, r, w, h, tip }: { plot: Plot; r: number; w: number; h: number; tip: (lines: string[] | null, x?: number, y?: number) => void } = $props();
@@ -16,14 +17,14 @@
 		return l ? plain(term(l.label ?? l.id)) : id;
 	};
 	const asDrawn = $derived(plot.y?.scale === 'none');
-	const energyText = (l: Level) => (Array.isArray(l.energy) ? `${fmt(lo(l.energy))} to ${fmt(hi(l.energy))}` : fmt(l.energy)) + (unit ? ' ' + unit : '');
+	const energyText = (l: Level) => (Array.isArray(l.energy) ? `${fmt(lo(l.energy))} to ${fmt(hi(l.energy))}` : fmt(l.energy)) + unitSuffix(unit);
 	const src = (x: { basis?: string; locator?: string }) => [x.basis, x.locator].filter(Boolean).join(', ');
 
 	function tipLevel(e: PointerEvent, l: Level) {
 		tip([plain(term(l.label ?? l.id)), `${plot.y?.label ?? 'Energy'}: ${asDrawn ? 'as drawn' : energyText(l)}`, l.note ?? '', src(l)].filter(Boolean), e.clientX, e.clientY);
 	}
 	function tipSplit(e: PointerEvent, s: Split) {
-		tip([`${lvName(s.between[0])} / ${lvName(s.between[1])} split`, `${s.value}${s.unit ? ' ' + plain(rich(s.unit)) : ''} (printed)`, src(s)].filter(Boolean), e.clientX, e.clientY);
+		tip([`${lvName(s.between[0])} / ${lvName(s.between[1])} split`, `${s.value}${unitSuffix(s.unit ? plain(rich(s.unit)) : '')} (printed)`, src(s)].filter(Boolean), e.clientX, e.clientY);
 	}
 	function tipTr(e: PointerEvent, t: Transition) {
 		tip(
@@ -42,6 +43,19 @@
 	const dy = (rs: Run[], i: number) => `${shift(rs[i].k) - (i ? shift(rs[i - 1].k) : 0)}em`;
 	const yLen = $derived(Math.max(0, g.yBot - g.yTop));
 	const yTitle = $derived<Run[]>(plot.y?.unit ? [{ t: `${plot.y.label} (`, k: '' }, ...rich(plot.y.unit), { t: ')', k: '' }] : [{ t: plot.y?.label ?? '', k: '' }]);
+
+	/** measured label widths of the split brackets (px), so the hover area covers value and unit */
+	let spW = $state<number[]>([]);
+	function measureW(node: SVGTextElement, i: number) {
+		const set = () => {
+			const w = node.getBBox?.().width ?? 0;
+			if (w && spW[i] !== w) spW[i] = w;
+		};
+		set();
+		const ro = typeof ResizeObserver === 'undefined' ? null : new ResizeObserver(set);
+		ro?.observe(node);
+		return { update: set, destroy: () => ro?.disconnect() };
+	}
 </script>
 
 {#snippet runs(rs: Run[])}
@@ -77,8 +91,9 @@
 	{#each g.splits as S, i (i)}
 		<g class="sp" style:opacity={S.k} role="presentation" onpointerenter={(e) => tipSplit(e, S.sp)} onpointermove={(e) => tipSplit(e, S.sp)} onpointerleave={() => tip(null)}>
 			<path d="M{S.x} {S.ya} h5 V{S.yb} h-5" />
-			<text x={S.x + 9} y={(S.ya + S.yb) / 2 + 4}>{S.sp.value}&#32;{#if S.sp.unit}{@render runs(rich(S.sp.unit))}{/if}</text>
-			<rect class="hit" x={S.x - 4} y={S.ya - 4} width="70" height={S.yb - S.ya + 8} />
+			<text x={S.x + 9} y={(S.ya + S.yb) / 2 + 4} use:measureW={i}>{S.sp.value}&#32;{#if S.sp.unit}{@render runs(rich(S.sp.unit))}{/if}</text>
+			<!-- hit area covers the bracket and the measured label (value and unit) -->
+			<rect class="hit" x={S.x - 4} y={Math.min(S.ya - 4, (S.ya + S.yb) / 2 - 8)} width={Math.max(70, 9 + (spW[i] ?? 61) + 8)} height={Math.max(S.yb - S.ya + 8, 16)} />
 		</g>
 	{/each}
 

@@ -35,9 +35,19 @@ Build data: `uv run --offline python scripts/build_history_view.py --figures` (l
    `hist_merge_milestones.py`) and a row in `milestone_tags.csv`; the story and the timeline must agree.
 2. **Research agent** writes the spec, the report, and (if a public-domain patent or pre-1929 figure shows the device)
    the drawing crop + trace with the loop of the sibling `ipatent` repo (its skill `patent-figure-viewer` and
-   `pipeline/TRACE_SCHEMA.md`; copy overlay / coverage into a scratch folder, never edit the ipatent repo; 90 %+
-   coverage). Patent PDFs: one paced request, generic User-Agent, into git-ignored `cache/showcases/<paper_id>/`.
+   `pipeline/TRACE_SCHEMA.md`; copy overlay / coverage into a scratch folder, never edit the ipatent repo).
+   A traced drawing is a clean object-by-object redrawing in the original's style (owner 2026-11-11, D1023, on an
+   edge-map trace of the Colladon engraving: "horrible. focus on the actual objects, instead of bruteforce mimicry of
+   the drawing"): recognize each object, draw deliberate outlines in measured proportions plus a few controlled
+   hatching / tonal strokes; background plain or sparse. Never edge-map or pixel-following mimicry. Judge by a
+   side-by-side render at equal size (clean and recognisable); coverage is only a sanity number. Crops contain the
+   whole figure (bounds measured from the ink, frame to frame). Patent line drawings fit this naturally (their parts
+   are already deliberate lines); engravings and photo-like plates need the redrawing. Patent PDFs: one paced request, generic User-Agent, into git-ignored `cache/showcases/<paper_id>/`.
    Plots are digitized from the page renders with axis calibration recorded in the report.
+   Find sources by browsing the sibling atlases as structured data before any web search: `eo-modulator-atlas`
+   (`data/devices.csv` columns such as `eo_material`, `electrode_type`, `drive`, joined to `data/papers.csv`, and
+   `data/evidence/<paper_id>.yaml`; read its README and distill skill first), `advanced-packaging-atlas`, and this
+   repo's `data/` and `references/`. Filter by columns, never blind keyword grep.
 3. **Builder agent** writes the scene module against `types.ts` and adds runtime fields to the spec only (never sourced
    values). Verifies with `pnpm check`, `pnpm test`, Playwright shots at 1440x900 and 390x844 over p = 0.02 ... 1.0,
    hover, side panel, explode, orbit, light theme, reduced motion, a Play run, frame-time sampling; looks at every shot.
@@ -63,12 +73,25 @@ Runtime changes stay additive while builders work. Every new runtime option goes
   same work and label each as a patent value with column:line.
 - Schematic figures stay schematic: an energy-level figure drawn out of scale gets a schematic axis (`scale: none`),
   with the real values (wavelengths, splits) only in hover. Never put drawn heights on a numbered axis.
+- Animated quantities follow the plot pen: when a plot draws, the model's drive (voltage, frequency) is the plotted point,
+  and any response (brightness, modulation depth) comes from the digitized curve; never sweep past the measured range
+  (D1006). Illustrative choices (a drawn wavelength, a compressed plan) are labelled where they show, not only in withheld.
 - Physics must read right in the animation: lasing during the pump flash, soot depositing downstream of the hot zone
   and fusing as the zone passes, beam leaving through the output hole along the axis, rotation sense matching arrows.
 - Do not model from famous publicity photos without checking they show the real hardware (the well-known Maiman ruby
   photo does not).
 - "First" appears only when a cited source supports it; a later name for a process (MCVD) is fine with a side-panel
   note that the paper does not use it.
+- Digitize densely: sample each curve at about 1/60 of its axis span (roughly 150-200 points for a full-width curve)
+  from real reads of the figure, never by interpolating sparse reads. Vector figures: sample the exact PDF path at the
+  centre of the drawn stroke (intersect the sample line with the path segments), not a mean of nearby vertices. Raster
+  figures: per-column reads, median per bin; where a bin falls on masked grid-line columns on a steep part of the
+  curve, drop the bin (it biases into a visible kink) rather than fill it. Record the sampling in the plot note and
+  the report (D1007).
+- When the owner wants features the paper's device did not have (e.g. T-rail electrodes, double differential drive on
+  a 2018 TFLN modulator), keep the published device as is and add closing "what came next" chapters sourced from the
+  later papers, labelled as later work in the chapter line and side panel (D1008).
+- Names and spellings as the paper prints them ("Cobra", not "COBRA"); keep the tag table consistent with the story.
 - Licensed papers: plots are re-plotted from digitized points (figure + page locator); no figure images in the public
   build. Public-domain drawings (US patents, pre-1929) may be shown as crop + trace.
 
@@ -77,9 +100,15 @@ Runtime changes stay additive while builders work. Every new runtime option goes
 - Clean and elegant, Apple-product-page feel: a big keyword (at most 3 words) and one line (at most 12 words) per
   chapter; on the canvas only `essential: true` dimensions (2-4 per story) and short part labels per chapter
   (`chapters[].labels`); everything technical lives in hover tooltips and the click-open side panel.
+- Notation: write sub/superscripts as `_{...}` / `^{...}` in any spec text (`r_{33}`, `L_{0}`, `Cr^{3+}`, `Al_{2}O_{3}`);
+  the runtime renders them (D1005). A raw `_` or `^` must never show: the data build logs "raw markup in <path>" for
+  shown text fields (grep it before handover); unit fields may use the exponent shorthand `cm^-3` (D1106). Very large or
+  small numbers print as 10⁵ / 2.5×10⁵, never 1e5. Caveats go in `plots[].note` / `dims[].note`, which
+  the runtime displays.
 - No numbers in chapter lines unless they are essential dims; labels say which number is which ("dia. 10 mm,
   length 20 mm", "OD 14 mm, ID 12 mm" via `dims[].label_short`).
-- At most one amber italic emphasis per story (`*694.3 nm*` in a keyword).
+- At most one amber italic emphasis per story (`*694.3 nm*` in a keyword). At most 3 plot chapters per story; further
+  results go to the side panel (D1004).
 - Editorial plate typography in the History tab: Playfair Display for era titles and story keywords, Source Serif 4
   for lines and panel prose (both self-hosted in `app/static/fonts` with OFL texts), small-caps kickers, double
   scotch rules (2px over 1px) above sections, booktabs tables; toolbar, legend and data ticks keep the app sans.
@@ -111,6 +140,14 @@ Runtime changes stay additive while builders work. Every new runtime option goes
   `kind: levels` diagrams with `splits` and `transitions`), drawing pane, parts list, tooltips, side panel (incl.
   `title_note`), process HUD (`process[].params[]` with `basis`, `source`, `locator`), steps, scrub bar, Play,
   parts tour, explode slider, orbit.
+- 3D lighting: use `handle.environmentIntensity` for the shared room environment's strength (not material.envMapIntensity);
+  materials with onBeforeCompile set a unique `customProgramCacheKey()` (`${spec.id}:<role>`) (D1107).
+- Follow the plot pen with `penAt(spec, plotId, p)` / `revealAt(...)` from `showcase/plot.ts` (the runtime's own reveal
+  code), never a copied formula. Crowded legends: `series[].legend: false`, `legend_group`, `plots[].legend_note`.
+- Module hooks: `handle.plot?(id | null)` reports the plot on screen (incl. `alt_of` toggles) so the model can follow it;
+  `pick()` may return `{id, label, detail}` for a part to add per-part caveats to its tooltip (D1102).
+- Also available (D1102): stems `series[].style: 'stems'` (+ `stem_base`, `stem_cap`) for line / comb spectra, error bars `series[].err` / `err_x`, equal-aspect plots `plots[].aspect: 'equal'`, drawing
+  `caption` / `note` under the traced drawing, pin / unpin menu bar in the expanded view.
 
 ## Coordinator final check (before handing over)
 
@@ -120,6 +157,9 @@ Runtime changes stay additive while builders work. Every new runtime option goes
    it indexes the build's files at start and returns 404 for new hashed files (the page then loads empty).
 4. Playwright on the preview: wait for the milestone count to load before asserting anything; shots of each story at
    desktop and phone; console errors; a Play run measuring the longest stall; visible-text grep for shorthands.
+   Test Play on a phone profile too (390x844, touch, device scale 3, CPU throttle 4x via CDP): p must never step
+   back, no long stalls, no fight between programmatic and user scroll (owner found mobile Play glitchy, D1009).
+   Check the expanded view with the menu bar pinned and unpinned (auto-hide) as well.
 5. Look at the shots yourself; give the owner the URL and the open decisions.
 
 ## Milestone tags (what the History tab colors by)

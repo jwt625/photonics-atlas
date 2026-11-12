@@ -90,6 +90,31 @@
  * Ruby pass 3: canvas labels stay inside the pane (flip left of the anchor or clamp and wrap), so anchor() may return
  * any visible point; keywords are shown without their *markers* outside the big keyword; levels tooltips print
  * "as drawn" under y scale none (split values are printed values and stay).
+ * Cobra audit (2026-11-11): plots[].note and dims[].note reach the viewer (line under the plot / under the dims row).
+ * Text markup in prose, names, notes, labels, legends and tooltips: `_{...}` subscript, `^{...}` superscript (braces
+ * required: r_{33}, r_{yzy}, L_{0}, O_{2}, Cr^{3+}); plain underscores and carets stay literal. Units keep their own
+ * shorthand (`cm^-1`, `10^3`). Plain-text tooltips use Unicode sub / superscripts where every character has one.
+ * Error bars and equal aspect (2026-11-11): series[].err / err_x (number = symmetric for all points, or per point
+ * number | [lo, hi] | null; offsets in data units; on a log axis a low end at or below zero clamps to the axis floor);
+ * whiskers with small caps in the series colour, revealed with their point; hover adds "+hi / -lo". plots[].aspect:
+ * 'equal' letterboxes the data area so x and y data units have equal length (ignored with a log axis).
+ * Drawings: drawings[].caption (source line under the drawing, default `source`) and drawings[].note (short caveat,
+ * 2 lines, full text on hover); both take `_{}` / `^{}` markup.
+ * Stems: series[].style 'stems' draws a vertical line from series[].stem_base (data units; default the y-range
+ * minimum, on log y the axis floor) to each point, revealed point by point; series[].stem_cap adds a small top marker.
+ * Works with err / err_x and log axes.
+ * handle.plot(id): see ShowcaseHandle. pick() returning a PickInfo whose id is a spec part: the part tooltip shows as
+ * usual with the PickInfo detail lines added under the role (markup-rendered), for per-part caveats.
+ * Legend: series[].legend false hides an entry; series[].legend_group merges series into one row (shared colour unless
+ * `color` is set); plots[].legend_note prints one line under the legend. A legend that would leave the data area under
+ * 60 % of the plot panel wraps into columns, then shows "+N more". Swatches carry a 1 px neutral outline.
+ * Plot pen (shared with the runtime, ./plot): `revealAt(spec, plotId, p)` gives each series' revealed fraction 0..1
+ * and `penAt(spec, plotId, p)` each series' pen {series, index, x, y} (data units; null before it starts), both in
+ * plotSeries(plot) order. Pass the plot id on screen (from handle.plot); an `alt_of` alternate uses its main plot's
+ * chapter. Example (in frame(p)): `const pen = shownPlot ? penAt(spec, shownPlot, p)[0] : null; if (pen) setVoltage(pen.x);`
+ * 3D environment: `scene.environment` (the shared room map) is set before build and before any render, every run;
+ * handle.environmentIntensity scales it per story. Modules using `onBeforeCompile` must give the material a unique
+ * `customProgramCacheKey()` (e.g. story id + material role): all stories share one renderer and its program cache.
  * Play button (runtime only): autoplay scrolls the page, so modules see ordinary frame(p) calls; nothing to do.
  *
  * Chapters: `chapterAt(spec.chapters, p)` and `chapterLocal(chapter, p)` (./progress) give the chapter under p and the
@@ -129,6 +154,8 @@ export interface Dim {
 	/** on-canvas label shows the dim name: `label_short` if given (e.g. "dia."), else `label` when show_label is true */
 	show_label?: boolean;
 	label_short?: string;
+	/** caveat shown under the row in the side panel dims table (e.g. "model assumption, not a measured depth") */
+	note?: string;
 }
 export interface PartLook {
 	color?: string;
@@ -207,6 +234,8 @@ export interface Axis {
 	/** number = tick step (short marks at every step, labels at round values); array = explicit labelled ticks */
 	ticks?: number | number[];
 }
+/** Error bar spec: symmetric number for all points, or per point number | [lo, hi] | null. */
+export type ErrSpec = number | (number | [number, number] | null)[];
 /** A filled bar of a bar-style series: object form or [x0, x1, height]. */
 export interface Bar {
 	from: number;
@@ -220,13 +249,28 @@ export interface Series {
 	name: string;
 	basis?: string;
 	locator?: string;
-	/** 'line' | 'points' | 'both' | 'dashed' (dashed line, no markers); default: 'line' above 40 points, else 'both' */
-	style?: 'line' | 'points' | 'both' | 'dashed';
+	/** 'line' | 'points' | 'both' | 'dashed' (dashed line, no markers) | 'stems' (a vertical line from stem_base up to
+	 *  each point, e.g. comb lines); default: 'line' above 40 points, else 'both' */
+	style?: 'line' | 'points' | 'both' | 'dashed' | 'stems';
+	/** stems: base in data units (default: the y-range minimum; on a log axis never below the axis floor) */
+	stem_base?: number;
+	/** stems: small cap marker at the top of each stem */
+	stem_cap?: boolean;
+	/** false: no legend entry for this series */
+	legend?: boolean;
+	/** series sharing a key share one legend row (swatch combines line and dot when the group has both; label from the
+	 *  group's first series) and, unless they set `color`, the colour of that first series */
+	legend_group?: string;
 	points: [number, number][];
 	/** filled bars (low-alpha fill, thin outline); when present they replace the series' line and markers */
 	bars?: BarInput[];
 	/** CSS colour override (default palette: blue, amber, green, violet, pink, tuned per theme) */
 	color?: string;
+	/** y error bars: one number (symmetric, every point) or one entry per point: number (symmetric), [lo, hi] (absolute
+	 *  offsets below / above the value, data units) or null (no bar for that point) */
+	err?: ErrSpec;
+	/** x error bars, same forms as err */
+	err_x?: ErrSpec;
 }
 /** kind: levels. One energy level (kind line) or band (kind band, energy [low, high]). */
 export interface Level {
@@ -270,6 +314,14 @@ export interface Plot {
 	alt_of?: string;
 	/** short name on the alternates toggle (default: title, else id), e.g. "Paper Fig. 1" / "Patent FIG. 4" */
 	label?: string;
+	/** caveat shown as a small muted line under the plot (full text in its hover), e.g. "calculated (Eq. (2)), not a
+	 *  measurement" */
+	note?: string;
+	/** 'equal': one data unit on x spans the same length as one on y (data area letterboxed, centred); ignored when
+	 *  either axis is on a log scale */
+	aspect?: 'equal' | 'auto';
+	/** one line printed under the legend (markup-rendered), e.g. "line: simulated, dots: measured" */
+	legend_note?: string;
 	/** 'xy' (default): x / y axes with series; 'levels': energy-level diagram (y axis, levels, splits, transitions) */
 	kind?: 'xy' | 'levels';
 	x?: Axis;
@@ -289,6 +341,10 @@ export interface Drawing {
 	trace?: string;
 	/** public-domain scan (static/data/showcases/drawings/<image>), shown under the trace when present */
 	image?: string;
+	/** source line under the drawing (e.g. "US 3,584,230 FIG. 1"); default: `source` */
+	caption?: string;
+	/** one short caveat under the drawing (2 lines, full text on hover), e.g. a different embodiment from the paper */
+	note?: string;
 }
 export interface Reference {
 	id: string;
@@ -313,6 +369,9 @@ export interface ShowcaseSpec {
 	tagline?: string;
 	/** note on the title / naming, shown under the tagline in the story side panel */
 	title_note?: string;
+	/** p of the frame used for the compact-view thumbnail (default: end of the last chapter before the first plot
+	 *  chapter, i.e. the model assembled and no plot; without plot chapters the end of the last chapter) */
+	thumb_p?: number;
 	/** orbit limits for free orbit (default polar [2, 88] deg: never under the floor); the module may override */
 	orbit?: OrbitLimits;
 	renderer: '3d' | '2.5d';
@@ -377,8 +436,16 @@ export interface ShowcaseHandle {
 	target?(): [number, number, number];
 	/** Optional: the page theme changed. */
 	theme?(t: Theme): void;
+	/** Optional: id of the plot on screen (null = none), called whenever it changes (a chapter's plot appears or leaves,
+	 *  the viewer switches to an `alt_of` alternate) and once on mount. Store the id only; frame(p) reads it, so the
+	 *  picture stays a function of (p, selected plot id). The runtime redraws after the call. */
+	plot?(id: string | null): void;
 	/** p from which orbit / zoom and the explode slider are offered (default: start of the last chapter). */
 	assembledAt?: number;
+	/** Optional (3D): strength of the shared room environment for this story, applied to `ctx.scene.environmentIntensity`
+	 *  before each render (default three.js 1). In three r186 `material.envMapIntensity` does not scale
+	 *  `scene.environment`; use this instead. The value lives on the story's own scene, so other stories are unaffected. */
+	environmentIntensity?: number;
 	/** Optional orbit limits (degrees / world units); wins over spec.orbit. Polar is measured from +y (camera.up). */
 	orbit?: OrbitLimits;
 }

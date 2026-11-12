@@ -1,0 +1,176 @@
+liu2004 showcase research report (MOS-capacitor silicon modulator, Intel 2004)
+Date: 2026-11-11. Spec: data/history/showcases/liu2004.yaml (DevLog-017 section 4a schema, runtime fields per types.ts).
+
+Outputs
+- data/history/showcases/liu2004.yaml   spec: 18 parts, 12 assembly rows, 10 chapters (3 plot chapters), 2 process steps,
+                                        4 plots (1 of them an alternate), 2 references, 11 withheld items. YAML parsed and
+                                        round-tripped to JSON (pyyaml); chapter part / label ids checked against parts.
+- No drawing, no trace, no figure image (licensed 2004 paper; no public-domain drawing of this device found, see 1).
+- Nothing written to cache/showcases/liu2004/ (no downloads were needed).
+
+1. SOURCES
+- [P] A. Liu, R. Jones, L. Liao, D. Samara-Rubio, D. Rubin, O. Cohen, R. Nicolaescu, M. Paniccia, "A high-speed silicon
+  optical modulator based on a metal-oxide-semiconductor capacitor", Nature 427, 615-618 (2004-02-12), Letter,
+  https://doi.org/10.1038/nature02310. Received 2003-09-22, accepted 2003-12-18 (p.618). Affiliations: Intel
+  Corporation, Santa Clara, California, USA; Intel Corporation, Jerusalem, Israel (street parts omitted).
+  Cached copy references/liu2004/source.pdf: 4 PDF pages = journal pp.615-618 (p.615 opens with the end of an unrelated
+  astronomy letter, p.618 runs into an unrelated DNA letter). Spec locators use journal pages. All figures (Fig. 1-5)
+  are vector graphics in the PDF (page 2: 354 paths, page 3: 542 paths, two small embedded images = the stipple of the
+  Fig. 3a phase shifters); axis labels are outlined glyphs (no text layer), so tick values were matched to tick paths
+  on 5x page renders.
+- nature.com article page (one fetch through the cookie redirect, 3 requests): Letter, published and issue date
+  2004-02-12, 427, 615-618, received / accepted as above; no Supplementary Information listed; no correction or
+  retraction notice. So no SI exists to use.
+- Patent search for a public-domain drawing of the same device (4 web searches, 4 Google Patents pages, 1 Justia page
+  = HTTP 403, stopped, not retried):
+  US 6,801,676 B1 (A. Liu, Intel, filed 2003-06-24, granted 2004-10-05, "... with a buffer plug"): FIG. 1 is a related
+  rib phase shifter (p-type region over an n-type slab with an optional insulating region, insulating buffers between
+  side contacts and the light, rib 2.5 um wide and 0.9 um high, slab 1.5 um) but adds a buffer plug the paper's device
+  does not have and states no 120 A oxide, 10.5 um or doping values. Different device: not traced; listed as context
+  reference only, no value taken.
+  US 7,116,847 B2 (Liu, Jones, Paniccia, Reed; priority 2004-02-10): polarization-insensitive V-shaped oxide; FIG. 1 is
+  a planar-oxide shifter without dimensions in the text; later and different purpose, not used.
+  US 6,912,079 B2 (p-i-n / pumped) and US 8,450,186 B2 (wafer-bonded, 2009): different devices, not used.
+  No patent drawing of the Nature device with its dimensions was found; the story therefore has no drawing pane.
+- Sibling data: this repo data/components/: one merged liu2004 row, cmp_lit_liu2004_lensed_fiber_facet
+  (fiber_chip_coupler.edge, 4.3 dB per facet at 1540 nm, TE) with metric m1; no phase-shifter row exists (the
+  distiller left VpiL, ER, IL, bandwidth out as EO-modulator scope, its notes say so). The prompt's "phase shifter row"
+  is not in components.csv or the hist_19 staging. The facet row's core_material ("n-type crystalline Si slab about
+  1.4 um with p-type polysilicon rib about 0.9 um ... undoped polysilicon waveguide elsewhere") agrees with the spec.
+  ../eo-modulator-atlas: no row (papers.csv starts in 2012; no DOI or title match). In that atlas's vocabulary
+  (data/schema/devices.schema.yaml) the device would read electrode_type `lumped` (capacitive device whose on-chip
+  voltage rolls off with the drive output impedance and the shifter capacitance, p.617) and drive `single_ended`
+  (Fig. 3b: "applied the drive voltage to one of the two phase shifters"; Fig. 4 / 5: a single shifter in one arm).
+  This is my reading for consistency, not an atlas row.
+Web requests in total: 4 searches, 8 fetches (4 Google Patents pages, 1 Justia page = 403, 3 nature.com requests
+through the cookie redirect). Generic client, no personal identifiers, no 429.
+
+2. WHAT THE PAPER FIXES
+Cross-section (Fig. 1 caption and labels p.616; text p.615-616), basis stated unless noted:
+- n-type crystalline silicon slab = the silicon layer of the SOI wafer: ~1.4 um, active doping ~1.7e16 cm^-3, grounded.
+- Gate oxide 120 A (text p.617: "thin gate oxide (12 nm)"), width ~2.5 um = rib width.
+- p-type polysilicon rib: width ~2.5 um, thickness ~0.9 um at the waveguide centre, active doping ~3e16 cm^-3.
+  Amorphous Si by LPCVD at 550 C, crystallized by a high-temperature anneal (temperature not stated).
+- "wide (~10.5 um) polysilicon layer on the top of the oxide layers on both sides of the polysilicon rib"; Al contacts on
+  top of it, to the side of the rib. Surface doping 1e19 cm^-3 on both the Si slab and the polysilicon for ohmic
+  contacts.
+- Oxide regions on either side of the rib (confinement, keep the field off the contacts). Buried oxide ~0.375 um; oxide
+  cover on top, "not shown in Fig. 1", thickness not stated.
+- Fig. 1 labels (basis figure): "5 um" from the inner edge of the left n-Si contact region to the rib edge; "1 x 10^19"
+  on the n-Si contact regions and on the outer polysilicon; V_D on a contact; ground at the left n-Si region; axes
+  x across, y up, z out of the page (propagation).
+- Operation: n-Si grounded, positive V_D on the p-poly; charge layers accumulate on both sides of the oxide; Eq. (1)
+  dN = eps0 epsr (V_D - V_FB) / (e tox t); V_FB = 1.25 V and t = 10 nm from DESSIS device simulation; Eqs (2), (3)
+  index changes at 1.55 um. epsr is named but its value is not printed (so no density number is shown; withheld).
+- TE efficiency ~7x TM; single-mode around 1.55 um; ~9 % of TE power in the polysilicon (simulation).
+Device and results:
+- Phase shifter lengths 1, 2.5, 5, 8 mm (Fig. 2, 1.55 um, free-space interferometer); VpiL ~8 V cm with V_FB = 1.25 V.
+- Asymmetric MZI with two identical shifters (Fig. 3a), optical path difference ~16.7 um, Y junctions; 10 mm shifters,
+  1.54 um, drive on one shifter: ER > 16 dB at ~7.7 V peak-to-trough; IL ~15.3 dB on state = 2 x ~4.3 dB lensed-fibre
+  coupling + ~6.7 dB on-chip (mainly doped and undoped polysilicon; waveguide loss by cutback, no value printed).
+- High-frequency device: asymmetric MZI with one 2.5 mm shifter in one arm; 1.558 um; 3 V d.c. bias; 0.18 V r.m.s. sine;
+  15 GHz photoreceiver; on-chip voltage monitored; response normalized by on-chip voltage; 3-dB roll-off "in excess
+  of" 1 GHz. 1 Gbit/s PRBS with 3.5 V digital pulses on 3 V bias (Fig. 5).
+- Outlook (p.618): single-crystal Si via epitaxial lateral overgrowth could cut ~5 dB of loss (modelling); smaller
+  waveguide, thinner oxide, graded doping. Not in chapters.
+Fixed / assumed / withheld per part (spec `dims[].basis`, `withheld`):
+- Stated: n-Si 1.4, BOX 0.375, gate oxide 120 A x 2.5 um, rib 2.5 x 0.9, poly layer 10.5 (read as total), dopings.
+- Figure (as drawn, vertical scale of the 0.9 / 1.4 um labels): oxide block height ~0.67 um, top poly thickness ~0.2 um;
+  "5 um" rib-to-contact-region label.
+- Assumed (render only): substrate thickness drawn 2 um (truncated); slab / oxide lateral extent +-7.83 um; n-Si contact
+  regions 1.58 um wide, 0.2 um deep; contacts 2.2 um wide, 0.27 um thick, inner edge 0.48 um from the rib (as drawn,
+  scaled to the 10.5 um poly layer); doped stretch of the top poly from |x| = 0.89 um; mode spot; plan view.
+- Withheld: process order, oxide cover, n-side metal, mode profile, plan layout, passive-guide cross-section, Fig. 5
+  traces, charge density number, probe / fibre / circuit geometry.
+
+3. PLOT DIGITIZATION (scripts in the session scratchpad liu2004/; pymupdf, exact PDF coordinates)
+- phase = Fig. 2 (p.616). x ticks 340.39 pt = 0 V ... 514.14 pt = 10 V (17.375 pt/V; frame to 531.53 = 11 V); y ticks
+  666.59 pt = 0.00, 631.61 = 0.25, 596.64 = 0.50, 561.66 = 0.75, 526.68 = 1.00 pi (139.91 pt per pi; frame bottom
+  680.61 = -0.10). Simulated lines = paths #80-83, 10 vertices each (straight polylines, first vertex 0.993 V): the
+  vertices are the exact curve. Measured = the centres of the printed error bars (paths #84-87, cap y values; marker
+  outlines are offset from the data point: down-triangle bbox centres sit about 0.007 pi low and 0.015 V right), 10
+  points per length at 1.00-10.00 V (+-0.003 V). Error half-heights 0.0002-0.046 pi (not drawn; values in the
+  digitized.json and the plot note). Checks: 8 mm measured at 10 V = 0.863 pi -> (10 - 1.25) / 0.863 x 0.8 cm =
+  8.1 V cm; 2.5 mm 0.270 pi -> 8.1 V cm (stated ~8 V cm). Point counts 10 / 10 per series, 8 series (the source has
+  only 10 measured voltages and 10 line vertices per length; no denser read exists).
+- transfer = Fig. 3b (p.617). x ticks 90.15 pt = 0 V ... 254.05 pt = 14 V (11.707 pt/V); y ticks 582.48 pt = 0 dB ...
+  670.59 pt = -20 dB (4.4055 pt/dB). The curve is 225 filled pen-stroke pieces (0.53 pt square pen) plus 3 thin
+  stroked bits; each piece reduced to its centre segment (bbox inset by half the pen). Sampled every 0.071 V (181
+  sample lines, about 1/210 of the 0-15 V axis) by intersection with the centre segments; mean where the noisy
+  trace crosses a line more than once (10 lines, spread up to 1.0 dB); one line in a gap dropped: 180 points,
+  1.03-13.73 V. Raw centreline extremes: minimum -19.06 dB at 1.94 V, maximum -1.355 dB at 9.45 V; the sampled series
+  gives -18.2 dB at 1.8 V and -1.375 dB at 9.43 V. ER 16.8 dB (raw 17.7), stated "more than 16 dB"; trough to peak
+  7.5-7.6 V, stated ~7.7 V.
+- response = Fig. 4b (p.617). x log: ticks 364.95 pt = 0.1 GHz, 450.09 pt = 1 GHz (85.14 pt per decade; minor ticks
+  0.07 ... 4 GHz reproduce within 0.1 pt). y: 604.37 pt = 0 dB, 693.71 pt = -5 dB (17.868 pt/dB), top 586.53 = +1.
+  Stroked path #13-18 (w 0.875, single-valued in x, no back-steps): all 299 vertices used as points (exact path, no
+  resampling; 0.100-3.165 GHz). Minimum -3.35 dB at 3.10 GHz (a single dip), last vertex -2.93 dB at 3.165 GHz.
+- rms = Fig. 4a (p.617, alternate). Same log x (364.58 = 0.1, 449.79 = 1 GHz, 85.21 pt per decade). Left axis
+  556.54 pt = 1e-4, 503.17 = 1e-3, 449.80 = 1e-2 V (53.37 pt per decade); right axis = left x 100 (1e-2 ... 1 V).
+  Red path #58-62 = photoreceiver output (left axis; arrow to the left), 292 vertices; blue path #63-67 = on-chip
+  voltage (right axis; arrow to the right), 290 vertices; both exact vertices, 0.0996-3.169 GHz. Low-frequency
+  on-chip voltage 0.178 V r.m.s. (stated 0.18 V).
+- Consistency check 4a vs 4b (derived): normalizing photoreceiver / on-chip by its 0.10-0.15 GHz mean gives, at
+  0.5 / 1.0 / 1.5 / 2.0 / 2.5 / 3.0 GHz, 10 log10 = -0.51 / -1.20 / -1.60 / -1.21 / -2.10 / -2.18 dB versus Fig. 4b
+  -0.46 / -1.21 / -1.56 / -1.17 / -2.02 / -2.16 dB (within 0.05 dB). So Fig. 4b plots 10 log10 of the r.m.s. voltage
+  ratio. The paper does not state the convention. With 20 log10 of the same ratio the first point below -3 dB falls at
+  about 1.0 GHz. Plot note states the convention fact only; see open question 1.
+Overlays of every series on 5x page renders checked by eye (all points on the printed strokes, markers and bars).
+
+4. GEOMETRY FOR THE MODEL
+- Units um for the cross-section (world x across, y up, z propagation; x = 0 rib centre, y = 0 top of the n-Si).
+  Stack: substrate y -3.775..-1.775 (drawn, truncated) / buried oxide -1.775..-1.4 / n-Si -1.4..0 / gate oxide
+  0..0.012 (|x| < 1.25) / rib 0.012..0.9 (|x| < 1.25) / oxide blocks 0..0.69 (1.25 < |x| < 7.83) / top poly 0.69..0.9
+  (|x| < 5.25) / Al contacts 0.9..1.175 (1.73 < |x| < 3.93) / n-Si contact regions -0.2..0 (6.25 < |x| < 7.83).
+  Topology checked with a test sketch from the spec numbers against the Fig. 1 render (same order, rib continuous
+  with the top layer, contacts on the poly over oxide, n-contact regions at the slab ends under the oxide).
+- Fig. 1 scale: vertical labels 0.9 um = 22.23 pt and 1.4 um = 34.27 pt (24.70 / 24.48 pt per um: one scale within
+  1 %); horizontal labels 2.5 um = 34.27 pt and 5 um = 46.51 pt (13.71 / 9.30 pt per um: not one scale). Buried oxide
+  drawn 6.76 pt = 0.27 um on the vertical scale vs stated 0.375 um. Hence vertical as-drawn values are given with basis
+  figure and a "schematic" note; horizontal as-drawn values only as assumed rendering values.
+- 10.5 um: per side would make the polysilicon layer about 23.5 um wide in total, against 9-13 um from the figure's
+  proportions (121.4 pt drawn vs 2.5 um = 34.27 pt or 5 um = 46.51 pt); "total" fits, so rendered as total, with
+  the ambiguity in the detail and in withheld.
+- Gate oxide (12 nm) and charge sheets (10 nm) are invisible at the cross-section scale: draw them exaggerated in a
+  macro shot; hovers say so.
+- Lengths along z in mm: 10 mm (Fig. 3 MZI), 2.5 mm (Fig. 4 / 5 device), 1-8 mm (Fig. 2). Plan view schematic and
+  shortened (no layout printed; Fig. 3a is a perspective sketch).
+- Physics for the builder: holes accumulate in the p-poly just above the oxide, electrons in the n-Si just below; none
+  below V_FB = 1.25 V; density linear in V_D - V_FB (Eq. 1). Light: TE. Fig. 2 was measured in a free-space
+  interferometer on single shifters (show one shifter, no MZI output). Fig. 3b: drive on one of the two shifters;
+  output brightness from the digitized dB curve at the pen voltage (10^(dB/10)). Fig. 4: a different MZI with one
+  2.5 mm shifter in one arm, 3 V bias plus a small sine; modulation depth from the plotted response at the pen
+  frequency (10^(y/10) = the measured voltage ratio); frequency held at the end of the trace (3.17 GHz), never beyond.
+
+5. CHAPTER SCRIPT (10 chapters, 3 plot chapters, height 9)
+intro / Silicon on insulator / Gate oxide / Polysilicon rib (process HUD: LPCVD 550 C, anneal, dopings) / Side contacts
+(HUD: 1e19 surface doping, Al, Intel CMOS facility) / Accumulation / Mach-Zehnder / Phase shift (Fig. 2) / Dark to
+bright (Fig. 3b) / *Beyond 1 GHz* (Fig. 4b, toggle to Fig. 4a).
+- Keywords 1-3 words; lines 8-11 words, no numbers; the one amber emphasis is "Beyond 1 GHz" (the paper's headline
+  number). Essential dims (3): n-Si 1.4 um (soi), gate oxide 120 A (gate), rib 2.5 um (rib).
+- The cross-section is assembled, not "fabricated": the paper gives no process order, so the gate / rib / contact
+  chapters make no sequence claim (withheld + action note).
+- Fig. 2 legend has 8 entries (4 lengths x measured / simulated), colour-paired per length via series[].color
+  (palette hexes from D997; builder may retune for the light theme). On phones the legend will be tall (the TFLN fom
+  plot had the same issue, audit I10).
+- "first" appears nowhere; title_note quotes the paper's own comparison (about 20 MHz before, 1 GHz benchmark).
+
+6. OPEN QUESTIONS (coordinator)
+1. Fig. 4b dB convention: the plotted response equals 10 log10 of the normalized r.m.s. voltage ratio (my check, 0.05 dB);
+   with 20 log10 the -3 dB point is near 1.0 GHz. Keep the plot as printed with the factual note (current spec), add the
+   20 log10 comparison to the side panel, or say nothing beyond the note?
+2. Optical mode spot: no profile is printed (only ~9 % of TE power in the polysilicon). Keep an illustrative spot
+   labelled as such (current spec, as the TFLN story did from a simulation figure), or withhold it?
+3. 10.5 um polysilicon layer rendered as the total width (figure proportions support it); accept?
+4. Fig. 2 with 8 series: keep all four lengths, or show 8 mm and 1 mm only with the others in hover?
+5. Charge density: Eq. (1) needs epsr, which is not printed. Keep it withheld (current), or allow a derived value with a
+   labelled textbook SiO2 permittivity (would be about 1.8e18 cm^-3 per volt above flat band with epsr 3.9; not in the
+   spec)?
+Milestone / tag rows: agree with the story (event, Fig. 4 key figure p.617, Intel orgs; tag device / SOI / "GHz
+MOS-capacitor silicon modulator"). No disagreement. Note for the components table: the prompt mentions a merged phase-
+shifter row; only the facet-coupler row exists.
+
+7. WHAT RAN / WHERE (session scratchpad liu2004/, temporary)
+- probe.py, dump.py, items.py, words.py (path inventory), dig.py, dig2.py (digitization), digitized.json, pts.py,
+  flows.json, template.yaml, build.py, fixes.py (spec assembly), overlay.py + ov/ (overlays, Fig. 1 render, xs.png test
+  sketch), crop.py. Python via the repo uv venv (pymupdf, pyyaml) and uv --with pillow, offline, -I.

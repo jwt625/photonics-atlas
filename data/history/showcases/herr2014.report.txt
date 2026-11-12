@@ -1,0 +1,181 @@
+herr2014 showcase research report (temporal solitons in a crystalline MgF2 microresonator)
+Date: 2026-11-11. Spec: data/history/showcases/herr2014.yaml (DevLog-017 section 4a schema, runtime fields per
+app/src/lib/history/showcase/types.ts). Renderer: 2.5d + plots.
+
+1. SOURCES
+- [A] T. Herr, V. Brasch, J. D. Jost, C. Y. Wang, N. M. Kondratiev, M. L. Gorodetsky, T. J. Kippenberg, "Temporal
+  solitons in optical microresonators", arXiv:1211.0733v3 [physics.optics], stamped 2013-06-27 (p.1 margin).
+  Cached: references/herr2014/source.pdf (23 pages, licensed arXiv non-exclusive, local only), text.md, figures/.
+  Page map (arXiv v3): main text p.1-5, Methods p.5, acknowledgments / author contributions p.5-6, Fig. 1-5 on
+  p.7-11, Supplementary Information p.12-23 (SI Fig. 6-9 on p.18-21), references p.22-23.
+  EVERY locator in the spec is an arXiv v3 page / figure locator, written "Herr et al., arXiv v3 (2013), p.N ...".
+  Figures are vector PDF drawings (Fig. 2a trace, Fig. 3a, Fig. 4a, Fig. 5a, 5c); the Fig. 1a photo is a 106 x 106
+  embedded raster.
+- [J] Published version: Nature Photonics 8(2), 145-152 (2014), DOI 10.1038/nphoton.2013.343, published online
+  2013-12-22, print 2014-02 (Crossref API record, fetched once). NOT read: not cached, and nature.com redirected the
+  article request to an authentication flow (idp.nature.com), which was not followed. Consequence: journal page
+  numbers and journal figure numbering are unchecked; no journal locator is used anywhere. The milestone row's key
+  figure "Fig. 4, p.10" is the arXiv numbering (Fig. 4 = spectra + FROG traces on arXiv p.10); the transmission
+  steps are Fig. 2a (arXiv p.8), not Fig. 4. source.json lists publication_date 2013-12-20; Crossref says
+  2013-12-22 (online) - reported, not edited.
+- [B] V. Brasch, T. Herr, M. Geiselmann, G. Lihachev, M. H. P. Pfeiffer, M. L. Gorodetsky, T. J. Kippenberg,
+  arXiv:1410.8598v2 (2015-09-08), published in Science 2016 (DOI 10.1126/science.aad4811; volume / pages not
+  verified locally). Cached references/brasch2016/. Used only for a "later work" sentence in the soliton part detail:
+  "800 nm thick SiN ring resonators with 238 µm diameter" (p.2), sub-30 fs solitons, 2/3 octave via soliton
+  Cherenkov radiation (p.1, p.4). Author order as printed in arXiv v2.
+- Cited by [A], not read: ref. 24 Grudinin et al., Opt. Commun. 265, 33-38 (2006) (crystalline microcavities);
+  refs. 25-27 (MgF2 combs). Context only.
+Web requests: 2 (1 WebFetch of nature.com -> 303 to an auth URL, not followed; 1 Crossref API metadata). No 403/429.
+No browser. Sibling data: ../eo-modulator-atlas/data/papers.csv has no herr2014 / MgF2 entry; this repo's
+data/components has no row for this paper (the bulk MgF2 resonator was excluded from component rows at distillation).
+
+2. WHAT THE PAPER FIXES (A)
+Device
+- "MgF2 crystal carrying two whispering-gallery-mode microresonators of different size (the smaller one with an FSR
+  of 35.2 GHz is used)" (Fig. 1a caption, p.7). "crystalline MgF2 resonator" (p.2).
+- FSR 35.2 GHz; coupled resonance width κ/2π = 450 kHz measured with modulation sidebands of a scanning laser;
+  Q = 4×10^8; n0 = 1.37; D2/2π = 16 kHz, β2 = -9.39 ps^2/km (p.2, p.5). Finesse printed "F = 78 × 10^4" (p.5, checked
+  on the page render); FSR / κ from the same sentence = 7.8×10^4: printed value kept, discrepancy in a dims note.
+- A_eff 90×10^-12 m^2, V_eff 5.6×10^-13 m^3, n2 0.9×10^-20 m^2/W, γ 4.1×10^-4 /(m W) (p.5). Circulating power
+  "several hundreds of Watts" for Pin 5-30 mW (p.5). T_R = 28.4 ps (p.4); "T_R = n_eff L/c" printed on Fig. 1a.
+- Coupling: "evanescently coupled to the MgF2 resonator ... via a tapered optical fiber" (p.5). Not a prism.
+- NOT in the paper: resonator diameter, fabrication method ("machined" / diamond turning / polishing appear nowhere;
+  p.6 says only "TH and MLG fabricated the sample. CYW assisted in sample fabrication."), rim profile dimensions,
+  which tier is the larger resonator, taper size / gap / coupling regime, mount.
+Setup (Fig. 2d, p.8, block diagram + caption; p.5 Methods)
+- Pump: fiber laser Koheras Adjustik, 1553 nm, short-term linewidth 10 kHz, amplified by an EDFA; scan box linked
+  to the laser; FPC (three paddles); fiber thins past the resonator; output fiber branches to OSA; PD -> oscilloscope
+  (transmission); FBG (pump filtered out, in transmission) -> PD -> mixer with LO (11.7 GHz, third harmonic) ->
+  ESA, with a branch to the oscilloscope (beat sampled, down-mixed to 20 MHz, p.2).
+Experiment
+- Laser scanned "with decreasing optical frequency" (p.2). Fig. 2a (coupled pump 5 mW): thermal triangle with
+  deviations as discrete steps (green shading). Spectra I-III at three scan positions (Fig. 2b); broad noisy beat
+  then a single narrow beat (Fig. 2c). "the first step, that is the transition to low noise, coincides with the
+  zero crossing of the PDH signal" (p.2, Fig. 2e, a separate 20 ms scan).
+- Number of solitons controlled by detuning; steps = transitions to and between soliton states (abstract p.1).
+  Per-step soliton counts are given only in simulation (Fig. 3c: "stepwise reduction of the number of pulses", p.3).
+- Single soliton: smooth sech^2 envelope, 3 dB bandwidth 1.6 THz (>45 modes), TBP 0.315 -> 197 fs expected; beat
+  note RBW-limited 1 kHz, SNR >60 dB; FROG pulses spaced 28.4 ps; multi-soliton states (2 and 5) structured (p.4,
+  Fig. 4). FROG reconstruction 200 fs FWHM, error 1.7 % (Fig. 5a). Temporal magnifier x105.5, ~2.5 ps resolution,
+  4 GHz sampling scope: pulses spaced by T_R, constant amplitude (p.4, Fig. 5c, 5d).
+- Simulation parameters (p.5): 101 (and 501) modes, D1/2π 35.2 GHz, D2/2π 10 kHz, D3/2π -130 Hz, Q 2×10^8,
+  Pin 100 mW, 193 THz.
+- "First": none for the solitons ("Here we report the observation", p.1). The paper never says "dissipative Kerr
+  soliton" (title_note says so).
+
+3. PLOT DIGITIZATION (all from vector paths of the arXiv v3 PDF, PyMuPDF get_drawings, PDF pt coordinates)
+Method: collect the stroke paths of the trace colour inside the plot frame, keep path order (x non-decreasing; small
+backsteps only at chunk joins), map pt -> data with the printed tick marks (black tick strokes matched to the tick
+label text spans). Dense traces are decimated with M4: in each x bin keep the first, lowest, highest and last vertex
+at their own x. Every kept point is a real path vertex, the noise band keeps its edges, and steps stay sharp (the
+last vertex of one bin and the first of the next are adjacent path vertices, so no segment is invented). Overlays of
+the kept points on 4-8x page renders checked by eye (scratch ov_main.png, ov_zoom.png, ov_sim.png, ov4_one.png,
+ov4_five.png, ov_5a.png, ov_5c.png): all on the printed traces.
+a) transmission = Fig. 2a main panel (p.8). Trace colour RGB (0.08, 0.29, 0.86), 92 paths, 9021 vertices; inset
+   (thermal-triangle sketch, 1-item paths) excluded by min 2 items per path; no x gap > 0.3 pt.
+   x: ticks 148.97 pt = 0 ms ... 359.44 pt = 4 ms (52.62 pt/ms, ticks every 0.5 ms, labels 0-4).
+   y: ticks 244.22 pt = 0.7, 149.16 pt = 1.0 (316.9 pt per unit); frame 0.650-1.050.
+   M4, 200 bins of 0.02 ms: 796 points. Range 0.711-1.000.
+   Reads (for the builder sync and the audit): off-resonance level 0.997 (0-0.3 ms); minimum 0.711 at 3.070 ms;
+   noise band ends 3.103-3.113 ms; green shading (embedded gradient image) starts at 313.0 pt = 3.124 ms; the red
+   zoom box starts at 313.65 pt = 3.130 ms. Fig. 2b/2c markers I, II, III (red arrows) at 227.9, 252.1, 292.0 pt =
+   1.50, 1.96, 2.72 ms.
+b) transmission_steps (alternate) = Fig. 2a top panel. Same colour, 128 paths, 12119 vertices.
+   x: ticks 177.26 pt = 3.2 ms ... 479.09 pt = 4.0 ms (377.3 pt/ms); frame left edge 148.97 pt = 3.125 ms.
+   y: ticks 99.52 pt = 0.9, 73.03 pt = 1.0; frame 0.850-1.050. M4, 200 bins of 0.0044 ms: 777 points.
+   Steps (median of 10 µs windows either side): 3.547 ms (0.925 -> 0.939), 3.647 ms (0.936 -> 0.950), 3.756 ms
+   (0.949 -> 0.964), 3.855 ms (0.962 -> 0.992). Plateau medians 3.30-3.50: 0.928; 3.57-3.64: 0.937; 3.67-3.74:
+   0.949; 3.78-3.85: 0.963; 3.88-3.99: 0.993.
+c) transmission_sim (alternate, SIMULATION) = Fig. 3a blue curve (p.9), RGB (0.08, 0.29, 1.0), 11 paths, 858
+   vertices, x monotonic. x: ticks 97.77/142.16/186.46/230.77/275.16 pt = -10/0/10/20/30 (4.430 pt/unit), frame
+   -15.0 to 35.0. y: no printed values (tick marks only): value = fraction of the frame height (284.51 pt = 0,
+   67.01 pt = 1), axis scale none. M4, 200 bins: 451 points (the curve is clipped by the frame near IV, max 1.000).
+   Orange alternative paths, dashed analytic lines and coloured regions not digitized.
+d) spectrum = Fig. 4a top (p.10), one soliton. Trace RGB (0.02, 0.27, 0.71): one continuous OSA polyline split in
+   680 paths, 2175 vertices, about 0.0925 nm per recorded point (comb lines 0.28 nm apart, not separated).
+   x: ticks 105.60 / 152.35 pt = 1520 / 1540 nm (2.3375 pt/nm); frame 1510.0-1600.0 nm.
+   y: tick marks every 20.995 pt = 20 dB ("20 dB/div"), no absolute level: value = dB above the frame bottom
+   (141.63 pt = 0 dB); frame 0-79.8 dB; trace vertices 0.2 pt below the frame bottom (hidden under the axis line)
+   clamped to 0. 8 vertices under the RF inset (white box x > 236.6 pt, y < 124.9 pt) dropped. M4, 200 bins of
+   0.45 nm: 633 points. Pump line top 1552.97 nm, 69.08 dB (paper: 1553 nm).
+   sech^2 envelope: red dashed path, RGB (0.8, 0, 0), 1518 vertices, 1520.0-1588.1 nm; sampled exactly on the path
+   (segment interpolation) every 0.5 nm: 137 points; peak 36.99 dB; -3 dB span 1546.5-1559.5 nm = 13.0 nm at the
+   0.5 nm sampling vs 12.87 nm for 1.6 THz at 1553 nm (check passed).
+e) spectrum_two / spectrum_five (alternates) = Fig. 4a middle / bottom; frames x 81.26-291.67 pt, ticks 104.64 /
+   151.40 pt = 1520 / 1540 nm; y bottoms 254.62 / 370.07 pt; same 20.995 pt per 20 dB. M4 200 bins: 618 / 639 points.
+f) pulse = Fig. 5a right panel (p.11). x: ticks 276.36 / 296.17 / 315.98 pt = -1 / 0 / 1 ps (19.81 pt/ps), frame
+   -2 to 2 ps; y: 153.52 pt = 0, 72.88 pt = 1 (printed 0 and 1). Reconstructed intensity = green filled polygon
+   (17 line items, vertices about 0.0546 ps apart = the reconstruction grid as drawn); sech^2 = red dashed path
+   (3 dashed pieces + 2 solid baseline ends). Each sampled exactly on the path every 1/120 of the axis plus every
+   original vertex: 114 and 125 points. Checks: sech^2 FWHM 0.202 ps (label 200 fs); reconstruction peak 0.929, FWHM
+   at its own half maximum 0.229 ps (stated in the plot note). Phase (yellow) not digitized.
+g) pulse_sampled (alternate) = Fig. 5c frame 1. x: ticks 102.89 / 122.58 / 142.17 pt = -10 / 0 / 10 ps (1.964
+   pt/ps), frame -20 to 20 ps (caption: 40 ps); y: zero tick 239.48 pt, frame top 172.18 pt = 1 (as drawn, scale
+   none). Red trace, 3 paths, 180 vertices (0.17 ps apart); all vertices kept, 2 just outside ±20 ps dropped: 178.
+   Peaks at -14.25 and +14.09 ps: spacing 28.34 ps (printed 28.4 ps).
+Series point counts: 796, 777, 451, 633 + 137, 618, 639, 114 + 125, 178.
+Uncertainty: vector paths, so read error is below 0.05 pt (< 0.001 ms, < 0.0002 transmission, < 0.05 dB, < 3 fs);
+the main limit is the figure itself (line width 0.75-0.9 pt).
+
+4. GEOMETRY FOR THE 2.5D MODEL
+- Crystal / resonator (Fig. 1a photo, p.7): embedded image 106 x 106 px over 122.42 pt (1.155 pt/px); scale bar
+  white fill 122.26-151.37 pt = 29.11 pt = 2 mm (14.56 pt/mm), so 1 photo px = 0.079 mm. Per-row extent of warm
+  pixels (R - B > 45), axis centre at photo px 52-54: top tier rows 12-18 about 2.0 mm wide (dashed zoom box on its
+  right edge = the used resonator); rows 4-10 narrower cap 1.0-1.7 mm (top of the tier, oblique view); rows 22-30
+  about 3.1 mm; rows 32-42 cone widening to about 6.6 mm; rows 44-88 body about 6.7-7.1 mm; rows 94-104 stem about
+  5.1 mm (photo cut off). Heights not read (oblique view). Derived diameter from FSR: c / (π × 1.37 × 35.2 GHz) =
+  1.98 mm (n0 used in place of the group index); agrees with the 2.0 mm tier. The x6.5 inset shows the rim as a
+  protruding wedge (profile only, no dimensions); the x140 inset is a simulated mode profile (no scale).
+- Setup (Fig. 2d, p.8) in PDF pt (frame "fig2d_pt", x right, y down): main-setup panel 382.0-490.1 x 282.6-337.8;
+  pump + EDFA box 384.2-430.9 x 292.5-320.2; scan box 392.8-430.9 x 322.6-335.4 (control line from the pump box at
+  x 390.1); FPC paddles 433.3-456.2 x 298.4-305.4; fiber y 306.5 from 425.9; thin (taper) section 460.1-483.0;
+  resonator glow centred near (470, 316); output fiber down x 486.0 from y 309.5 to 400.7; branches at y 357.5 (OSA
+  box 384.2-430.9 x 347.2-366.9), y 376.0 (PD 456.8-462.6 x 372.3-379.7, electrical to the oscilloscope box
+  384.2-430.9 x 369.1-391.4), y 403.7 (FBG 462.6-483.1, PD 456.8-462.6 x 399.9-407.4, mixer 440.8-447.2 x
+  400.5-406.9 with LO line up, ESA box 384.2-430.8 x 394.2-413.8; oscilloscope branch from x 436.8, y 385.3-403.3).
+- Taper: plain fiber line with a thin waist tangent to the rim; no size, gap or contact height (withheld).
+- Intracavity waveform: schematic (Fig. 1c insets) or simulation (Fig. 3c, 3e); pulse width vs roundtrip 1:142
+  (200 fs / 28.4 ps) cannot be drawn to scale; labelled schematic in the part geometry note.
+
+5. CHAPTER SCRIPT (8 chapters, height 9; 3 plot chapters with alternates)
+1 crystal 0-0.08 "MgF2 crystal" (silhouette from Fig. 1a; no fabrication shown: not described)
+2 resonator 0.08-0.17 "Whispering gallery" (canvas label FSR 35.2 GHz, Q 4×10^8: 2 essential dims)
+3 taper 0.17-0.25 "Tapered fiber"
+4 setup 0.25-0.34 "Pump and detectors" (Fig. 2d topology; canvas label pump 1553 nm: 3rd essential dim)
+5 transmission 0.34-0.60 "Transmission steps", plot transmission (+ zoom, + simulation alternates)
+6 soliton 0.60-0.69 "Soliton inside" (no plot; one pulse circulating, one pulse out per roundtrip)
+7 spectrum 0.69-0.84 "Smooth comb", plot spectrum (+ two, five solitons)
+8 pulse 0.84-1.00 "*200 fs* pulses" (the one amber emphasis), plot pulse (+ sampled pulse train)
+Physics for the builder (D1006 rule: the drive follows the plot pen):
+- Chapter 5 drive = scan time at the pen (0-4 ms, never beyond); the pump wavelength marker moves to longer
+  wavelength (decreasing optical frequency). Response = digitized transmission at the pen (output fiber brightness).
+  Intracavity: dim until about 0.5 ms; brightens as transmission falls (thermal triangle, blue side, self-locked);
+  comb sidebands at I 1.50, II 1.96, III 2.72 ms; noisy waveform from about 1.5 ms to 3.11 ms; at 3.12 ms (first
+  step, effective zero detuning) noise collapses into several sharp pulses; at 3.55, 3.65, 3.76, 3.86 ms fewer
+  pulses. Counts are illustrative (open question 1). Transmission UP = intracavity power DOWN (p.3).
+- The simulation alternate has steps pointing down (intracavity power), said in its note.
+- Chapter 6 says "one soliton" for the state after the scan chapter: the paper's single-soliton state is the
+  Fig. 4/5 state reached with the tuned scan method (SI Fig. 6), not necessarily the last step of Fig. 2a.
+
+6. OPEN QUESTIONS FOR THE COORDINATOR
+1. Pulse counts on the ring during the Fig. 2a scan: not stated for the experiment. Proposal: draw several pulses
+   after the first step and one fewer per later step (illustrative, hover-labelled), or show a generic "several ->
+   fewer" without counts. Ending at one pulse would imply the last Fig. 2a step is a single soliton, which the paper
+   does not say.
+2. Spectrum y axis: dB counted from the plot-frame bottom (keeps the printed 20 dB tick marks) vs 0 dB at the sech^2
+   envelope peak (36.99 dB above the frame bottom). Spec uses the frame bottom.
+3. Keep the Fig. 3a simulation as a third alternate of the transmission plot (labelled simulation), or drop it.
+4. Crystal silhouette from the 106-pixel photo (figure basis, widths only) vs a plain neutral cylinder stand-in.
+5. Milestone row: key_figure "Fig. 4, p.10" (arXiv numbering) is right for the arXiv copy; the story's main plot is
+   Fig. 2a. source.json publication_date 2013-12-20 vs Crossref online 2013-12-22. Tag row (measurement / MgF2 /
+   temporal dissipative solitons) agrees with the story. The prompt's "machined" is not in the paper: not used.
+
+7. WHAT RAN / WHERE
+Scratch: session scratchpad folder herr2014/ (not committed): dig.py (path collector + M4), fig2a.py, steps.py,
+fig3a.py, fig4a.py, tops.py, fig4a_dec.py, fig5.py, fig5a.py, series.py (all series -> series.json), fill.py
+(template -> spec, YAML parse + chapter / id / word-count checks), check.py (raw _ / ^ and internal-token scan of
+viewer text: 0 issues), overlays ov_*.png, crops fig1a_x6.png, fig1a_src_x8.png, fig2d_x6.png, p5_finesse.png.
+Python via `uv run --offline --with pymupdf --with pillow --with pyyaml python -I`. Spec parses with
+yaml.safe_load; scripts/build_history_view.load_showcases() lists herr2014 (load only, nothing written). No drawing:
+the 2013 paper's figures are licensed (not shown) and no patent was searched (a 2013 device has no public-domain
+drawing under the pre-1929 / US-patent rule unless a US patent exists); drawings: [].

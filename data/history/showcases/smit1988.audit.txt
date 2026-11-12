@@ -1,0 +1,220 @@
+smit1988 (optical phased array) showcase audit (fresh context, read-only, 2026-11-11)
+=====================================================================================
+
+Scope: data/history/showcases/smit1988.yaml (+ report.txt), DevLog-017 D1011 (and D995 / D998 / D1005 / D1006),
+skill history-showcase; app/src/lib/history/showcases/smit1988.ts; app/static/data/showcases/smit1988.json (built
+spec); runtime pieces the story uses (showcase/plot.ts staggerK / revealed, PlotAssembler.svelte, PartPanel.svelte,
+Rich.svelte, ShowcaseStory.svelte plot progress); sources references/smit1988/ (page_02.png = p.385, text.md p.3 =
+p.386, img_p03_1.png 2958 x 3827 scan for Fig. 3), cache/showcases/smit1988/fig1-3 crops, references/smit2014,
+takahashi1990, vellekoop1991 text; builder screenshots smit1988/shots/ (desk_p*, b/desk_p*, r_step1-8, i1-i8,
+light_p*, phone_p*, play*, playphone*).
+Method: Eq. (1)-(4) and all quotes read on the p.385 render and the p.386 text; Fig. 3 re-measured on the
+full-resolution scan (crop 380,680-1390,1360; scale bar, array blobs by threshold + connected components, dashed
+focal line dashes at 4x); Eq. (4) plot recomputed (y = 1000 um x 0.5236 rad x dl/l); plan geometry recomputed
+(guide ends, output-plane midpoint, focus, neighbouring orders, phase-front sag); module pen code compared line by
+line with the runtime reveal (revealed() / staggerK / rr window 0.9); dispersion sign derived independently.
+Scratch: session scratchpad smit1988_audit/. No app run, no network, no git.
+
+VERDICT: NO-GO as is; GO after W1-W2 (both small, text / one-line runtime). Topology is the paper's: a bare 30 deg
+sector of 31 concentric arcs at true scale (910-1090 um, 3 um wide, 6 um average pitch), dash-dot input / output
+planes per Fig. 1, five arrays at 0.50 mm pitch with the second excited, convergence to a dashed focal line 1 mm out,
+prototype only as an empty 1.3 x 4 mm outline. Nothing the letter does not fix is drawn: no input / output guides,
+no star couplers or free-region couplers, no receiver guides, no coloured / multi-wavelength foci on the Fig. 3
+array (module and every shot checked). The Eq. (4) plot is exact (61 points, max error 1.5e-4 um), the model focus
+follows the plot pen exactly, the shift direction (longer wavelength -> inner guides) is physically right, and the
+phase-chapter parabola is a converging wavefront. Wrong: a visible render break in the side panel's reference list
+(runtime), and a false "offsets not resolved" figure read.
+
+Counts: wrong 2, imprecise 9, missing 1, ok 18.
+
+----------------------------------------------------------------------------------------------------------
+WRONG
+----------------------------------------------------------------------------------------------------------
+
+W1. Side panel: a reference cite with markup and no URL breaks into stacked lines (runtime)
+  file:     app/src/lib/history/showcase/PartPanel.svelte line 80 ({:else}<Rich text={r.cite} />) with line 124
+            (.refs li { display: flex; flex-direction: column }); triggered here by yaml references smit1986tsf
+            ('"Al_{2}O_{3}-films for integrated optics"', no url).
+  current:  without a URL the Rich output (text runs + <sub>) are direct children of a column flex box, so every run
+            becomes its own row: the panel shows "Al" / "2" / "O" / "3" / "-films for integrated optics" on five
+            lines (shot i2_panel_array.png, References, second entry). Cites with a URL are wrapped in <a> and
+            render fine; the withheld list wraps its Rich in <span> and renders fine.
+  proposed: {:else}<span><Rich text={r.cite} /></span>{/if} (same as the withheld list). Runtime agent; affects
+            every story with markup in a URL-less cite.
+  evidence: i2_panel_array.png (22:23) vs PartPanel.svelte as of 22:45 (structure unchanged).
+
+W2. "Horizontal offsets between the arrays are not resolved in the halftone": they are
+  file:     data/history/showcases/smit1988.yaml line 33 (other_arrays.detail: "Horizontal offsets between the
+            arrays are not resolved in the halftone; drawn aligned."), line 367 (withheld: "horizontal offsets not
+            resolved in the halftone"); report.txt section 2 ("Column alignment / offsets not resolved").
+  current:  arrays drawn in a vertical column; text says the photo does not resolve offsets.
+  proposed: keep them drawn aligned (cause unknown) but correct the text: "In the photograph each array sits about
+            0.07 mm left of the one above (about 0.27 mm over the column; a stagger or a slight tilt of the
+            column, not stated); drawn aligned (assumed)." Withheld: "array offsets: the photograph shows a steady
+            leftward drift down the column, cause not stated; drawn aligned". Basis of the alignment: assumed.
+  evidence: img_p03_1.png crop (380,680)-(1390,1360), threshold 215 (and 5-px smoothed 170), five blobs top to
+            bottom: centroid x 236.6, 226.3, 220.6, 211.7, 202.0 px; right edge 276, 272, 259, 247, 235 px; left
+            edge at mid-height 203, 188, 189, 182, 174 px. Monotonic, 29-41 px over 4 pitches at 130 px/mm (scale
+            bar rows 631-637, x 569-698/699) = 0.22-0.32 mm, i.e. 0.06-0.08 mm per array, against halftone noise
+            of 2-4 px. Vertical pitch re-measured 66.7 / 63.9 / 65.8 / 65.9 px = 0.505 mm (spec 0.50 mm: OK).
+
+----------------------------------------------------------------------------------------------------------
+IMPRECISE
+----------------------------------------------------------------------------------------------------------
+
+I1. Shift direction and the 10x model exaggeration are not visible where the plot shows (hover only)
+  file:     yaml line 274-282 (plots.dispersion note, y label); smit1988.ts DRAW_X line 29, focus_now hover
+            (INFO 'focus_now', about line 795-806).
+  current:  the plot note is clamped to two lines (PlotAssembler .pnote line-clamp 2); the visible part ends at
+            "...of the Fig. 3 arrays (not the demultiplexer..." (r_step7.png, i1_hover_focus.png), so "Positive =
+            toward the inner, smaller-radius guides ... (direction derived, not stated)" is visible only by hovering
+            the note. The y label "Focus position along the focal line" gives no sign convention. "drawn 10x
+            larger" appears only in the focus-spot tooltip and the wavefront role. On the phone the y label is cut
+            to "Focus position along the focal li..." (phone_p0865.png).
+  proposed: y label "Focus shift to inner side" (unit um; short enough for the phone). Note reordered so the first
+            two lines carry the caveats: "Computed from Eq. (4), not measured. + = toward the inner guides for a
+            longer wavelength (direction derived). Model shift drawn 10x larger. f x psi x (dl/l), psi = 30 deg,
+            f = 1 mm of the Fig. 3 arrays; |d beta / beta| = |dl/l| as the letter's 1 % example; 61 points."
+  evidence: plot recomputed: y = 1000 x 0.523599 x x/100 um, 5.2360 um at 1 %, all 61 points within 1.5e-4 um;
+            sampling 1/30 % (1/60 of the axis span). Eq. (4) read on p.385 col. 2: d alpha ~ d beta psi dR_i/beta
+            / dR_i = psi d beta/beta; "a wavelength shift of 1% will cause an angular dispersion of 0.01 psi; with
+            psi = pi this is roughly 2 deg" (0.01 pi rad = 1.8 deg, consistent). Direction re-derived: phase per
+            guide beta psi R_i; a longer wavelength lowers beta, so the outer (longer) guides lag less than the
+            2 pi m design, their light leads, and the wavefront normal turns toward the inner side; plot + =
+            inner, model U = (-sin psi, cos psi) = inner, disp camera puts inner up (i1: +0.14 % -> spot 3 px up;
+            r_step7: +1 % -> 22 px up = 52 um drawn at 0.43 px/um). Sign and magnitude right; only its visibility.
+
+I2. Four part roles exceed the 12-word role budget (DevLog-017 section 4a: "role: <= 12 words, hover line")
+  file:     yaml line 21 (substrate, 14 words), line 46 (array, 13), line 109 (he_ne_beam, 14), line 169
+            (wavefront, 16). The other nine roles are 8-12 words.
+  current / proposed:
+            substrate: "Silicon wafer under the Al₂O₃ guides; size not stated, drawn as a stand-in." ->
+                       "Silicon wafer under the Al₂O₃ guides; size not stated (stand-in)." (10)
+            array:     "... drawn equidistant, the true radii are not printed." ->
+                       "Concentric bent Al₂O₃ ridge guides; drawn equidistant (true radii not printed)." (10)
+            he_ne_beam: "Wide red beam over the whole input plane; λ = 0.6320 µm as printed." ("as printed" reads as
+                       a flag without its reason) -> "Broad He-Ne beam over the input plane; λ printed 0.6320 µm
+                       (sic)." (10) or keep "as printed" and rely on the detail's 0.6328 µm note.
+            wavefront: "A wavelength shift tilts the wavefront and moves the focus; shift drawn 10× larger, direction
+                       derived." -> "Wavelength shift tilts the wavefront, moving the focus; shift drawn 10× larger."
+                       (12); the direction goes to the plot label (I1) and stays in the focus-spot tooltip.
+  evidence: word counts from app/static/data/showcases/smit1988.json parts[].role; i6_hover_wf.png shows the
+            16-word role wrapping to three lines.
+
+I3. Phase-chapter curvature drawn about 4x, tooltip says only "drawn larger"; label calls the wavefront a "phase"
+  file:     smit1988.ts SAG line 31 (16 um), phase-front drawing about line 573-591, INFO 'phase_front' line 773-783.
+  current:  dots at base 12 um + 16 um x ((R - R_mid)/90 um)^2 ahead of the output plane; tooltip "Phase at the
+            output plane ... the curvature is drawn larger than the ≈ 4 µm sag a 1 mm focus needs (derived)".
+  proposed: "Wavefront leaving the output plane" as the label; "... sag drawn about 4× larger (true ≈ 4 µm for
+            f = 1 mm, derived)". No canvas change.
+  evidence: physics is right: a wave converging on F (on the axis 1 mm ahead) has a circular front centred on F, so
+            the aperture edges sit h^2 / 2f ahead of the centre: 90^2 / 2000 = 4.05 um; the drawing puts the edges
+            ahead (r_step4.png: edge dots about 55 px, centre about 33 px from the output-plane line), i.e. concave
+            toward the focus = converging. Aligned state (Eq. (2)) = straight row parallel to the output plane:
+            right. Factor 16 / 4.05 = 4.0.
+
+I4. Prototype outline has no on-canvas name
+  file:     yaml chapters.demux labels: [] (line ~266), demux_prototype essential: false (line ~196).
+  current:  the "Five channels" chapter shows a large empty rectangle with no text on the canvas (r_step8.png); the
+            viewer learns it is the 1.3 x 4 mm prototype only by hovering.
+  proposed: label it in that chapter (demux_prototype essential: true with no essential dim, chapters.demux labels:
+            [demux_prototype], anchor() returning a corner of PROTO), giving "five-channel demultiplexer prototype";
+            or add "1.3 × 4 mm" via label_short if the 4-dim budget is relaxed for this one. Interior stays empty.
+  evidence: r_step8.png, i8_hover_proto.png; outline aspect 836 x 271 px = 3.08 = 4 / 1.3 (true scale, OK).
+
+I5. Guide length low end "477" vs 476 (double rounding); hover shows 476
+  file:     yaml line 67 (dims 'guide length ψR_{i}' value '477-571'); report.txt section 4 ("476.5-570.7 um").
+  current:  0.523599 x 910 = 476.47 um; the report rounded to 476.5 and then to 477. The inner-guide tooltip
+            (Math.round) prints 476, the side panel 477.
+  proposed: '476-571' in the dim (report: 476.5 -> 476.5 is acceptable as one decimal of 476.47), so panel and
+            tooltip agree.
+
+I6. Uncoupled-light strips band visibly in the light theme
+  file:     smit1988.ts NSTR = 17 strips (line 262-263, 613-627), opacity per strip = gauss(centre).
+  current:  light_p0730.png / light_p0590.png show distinct horizontal bands below the fan (17 steps of a Gaussian
+            drawn as separate flat strips); hardly visible in dark.
+  proposed: one rect with a 2D falloff (the band already uses a linearGradient across y; use the same stops
+            for the straight part with a mask or a second gradient along x), or 40+ strips.
+
+I7. Degree sign printed with a space: "sector angle ψ 30 °" (runtime unit join)
+  file:     yaml line 104 (unit: '°'); runtime label formatter (value + ' ' + unit).
+  current:  r_step3.png label "sector angle ψ 30 °".
+  proposed: runtime: no space before ° (and %); or value '30°' with unit ''. Runtime agent.
+
+I8. Dispersion pre-roll: the model goes 0 -> -1 % while the plot axes draw and no curve is shown
+  file:     smit1988.ts drive() line 169-176 (b = ease(seg(q, 0.02, 0.9 x AXES_END))).
+  current:  during chapter q 0.02-0.225 the focus slides from the design point to the -1 % position (-52 um drawn)
+            before the first plot point appears; the tooltip then prints intermediate values without "(plot pen)".
+            Within range and on the Eq. (4) line, so not a physics error; from q 0.225 the model follows the pen
+            exactly (pen index kk N - 1 with kk = seg(seg(q, 0, 0.9), 0.25, 1) equals revealed() n - 1 + frac).
+  proposed: acceptable as is; optionally hold at 0 during the axes and let the first pen frames carry the move, or
+            add "moving to the first plotted point" to the tooltip when onPen is false.
+
+I9. Focal-line distance on Fig. 3: "about 0.95-1.05 mm" is at the low end of a re-read
+  file:     yaml focal_plane.detail ("On the photograph the dashed line lies about 0.95-1.05 mm from the excited
+            array").
+  current / proposed: dashes re-read at 4x (crop coords (332.5,230), (348.8,257.5), (363.8,287.5), (395,341),
+            (412.5,370)): line at 29.7 deg from vertical (perpendicular to the beams, OK); distance from the
+            output-plane midpoint estimated from the array blob (about (244-262, 382-392) px) is 140-149 px =
+            1.07-1.14 mm; the blob is glow-enlarged so the array position is uncertain by about 0.15 mm. Suggest
+            "about 1 mm (0.95-1.15 mm, limited by the glow around the excited array)". The stated f = 1 mm is what
+            the model uses; no geometry change.
+
+----------------------------------------------------------------------------------------------------------
+MISSING
+----------------------------------------------------------------------------------------------------------
+
+M1. Light past the focal plane
+  Fig. 3 shows the bright fan continuing up and to the right well beyond the dashed line (to about crop x 650,
+  y 170, some 2 mm out); the model ends every fan at the focus (focus and later chapters), as if the light stopped
+  there. Proposed: a faint diverging continuation beyond the focal line in the focus chapter (no plot on screen
+  then), fading before the right column; basis Fig. 3. Low priority.
+
+----------------------------------------------------------------------------------------------------------
+OK (verified)
+----------------------------------------------------------------------------------------------------------
+
+OK-1  Quotes (13, all parts) match the letter verbatim (OCR differences only: "1/1 was chosen 30”" = psi, "pm" =
+      um, "cf= 1 mm" = (f = 1 mm)): substrate, other_arrays, array, input_plane (fan-in sentence), output_plane,
+      sector, he_ne_beam, straight_light, focal_plane, foci, wavefront, demux_prototype.
+OK-2  Locators: p.385 col. 1 (basic principle, Eq. (1)), p.385 col. 2 (Fig. 1, Eq. (2)-(4), "We realised a set
+      of arrays"), p.386 col. 1 (array parameters, Fig. 3, orders, fan-in recommendation), p.386 col. 2 (receiver
+      guides, prototype). Report's correction of the ruling (Eq. (4) on p.385, not p.386) is right.
+OK-3  Essential geometry: 31 guides, 3 um, 6 um average, 910-1090 um (30 x 6 = 180 closure), psi = 30 deg,
+      f = 1 mm; drawn equidistant with the reason in the array role and detail; individual radii withheld.
+OK-4  Plan geometry recomputed: inner end (455.0, -788.1), outer (545.0, -944.0), midpoint (500.0, -866.0), focus
+      (1366.0, -366.0), orders (1333.0, -308.8) / (1399.0, -423.2): all as in the spec and module. Plan extent
+      545 x 302 um vs Fig. 3 blobs 0.49-0.71 x 0.30-0.37 mm: consistent. r_step2: top-arc rise / run 190 / 710 px =
+      0.268 = 122 / 455: true scale.
+OK-5  Orientation as Fig. 3 (beam from the left, guides turn up, beams leave up-right; Fig. 3 blob right edges slant
+      down-right like the drawn output plane); Fig. 1 mirror noted in the spec.
+OK-6  Five arrays, second from the top excited, pitch 0.50 mm (re-measured 0.505 mm at 130 px/mm); post-fix shot
+      b/desk_p0098 shows all five at the end of the arrays chapter (the older r_step1 single-array frame is gone).
+OK-7  Withheld parts not drawn: no input waveguide, no input / output free-region couplers, no fan-in / fan-out, no
+      receiver guides, no multi-colour foci; prototype only as an empty 4 x 1.3 mm outline, not on the substrate.
+OK-8  Neighbouring orders: one per side at the stated theoretical 66 um, labelled illustrative in hover; they fade
+      out before the dispersion pen starts, so the 10x-scaled focus never sits beside true-scale orders.
+OK-9  Plot: derived basis, labelled computed, range +-1 % (never exceeded by the model: pen clamps to the points),
+      61 points, exact; 5.236 um per 1 % = 0.01 x 0.5236 rad x 1000 um. Cross-check: 66 um order spacing /
+      5.236 um per % = 12.6 % free spectral range = 1/m with m = n psi dR / lambda = 7.95 for n = 1.60, the index
+      that the 66 um spacing itself implies (report closure). Consistent with the letter's model.
+OK-10 Model follows the pen: drive() uses the runtime's own reveal window (rr = seg(q, 0, 0.9), axes 0.25, single
+      series) and interpolates exactly where the drawn line ends; holds at +1 %; returns to the design point in
+      the first quarter of the last chapter. Focal length unchanged (stated) - focus moves along the focal line.
+OK-11 Wavefront arcs are centred on the current (drawn) focus, so their tilt follows the shift; Fig. 2 concept.
+OK-12 Physics order: beam band reaches the input plane, light runs the arcs input -> output, fans converge only in
+      the focus chapter, foci appear after the fan arrives; uncoupled light continues straight (p.385, Fig. 3
+      streak).
+OK-13 Text budget: keywords 2-3 words; lines 7-11 words; only number in a line is the essential 31; one amber
+      emphasis ("*1 mm* focus"); one plot chapter; 4 essential dims (31 guides, R_i, psi, f); tagline 11 words.
+OK-14 Markup: no raw _ or ^ in any viewer-facing string of the built JSON (only in object keys); Al_{2}O_{3},
+      R_{i}, m_{i}, Phi(R_{i}) render (panel, labels).
+OK-15 No internal shorthands in viewer text: no paper ids, D-numbers, DevLog, era codes in roles, details, notes,
+      locators, chapter text or plot text (paper ids only as reference object ids, not rendered).
+OK-16 Title note: the letter uses neither "PHASAR" nor "arrayed-waveguide grating" (checked); Takahashi 1990 title
+      has "arrayed-waveguide grating"; Smit et al. 2014 "the first AWG by Smit [8] in 1988" is on journal p.2
+      (text.md p.3, cover page first); Vellekoop and Smit 1991 p.310 "considerable loss ... multiple foci".
+OK-17 He-Ne wavelength kept as printed (0.6320 um) and flagged against 0.6328 um in the detail (ruling D1011 Q3).
+OK-18 Composition: plot chapter frames the model left, beams end before the plot (r_step7: fan ends x 511, plot
+      axis x 565); phone strip fits between the line and the plot; Play log: no step back, longest hold 307 ms
+      desktop / 252 ms phone.

@@ -1,0 +1,198 @@
+colladon1842 (light guided in a water jet) showcase audit (fresh context, read-only, 2026-11-11)
+=============================================================================================
+
+Scope: data/history/showcases/colladon1842.yaml (+ report.txt), DevLog-017 D1016 / D1022 / D1023 (and D995, D998,
+D1005, D1006 for earlier audit patterns), skill history-showcase; app/src/lib/history/showcases/colladon1842.ts;
+app/static/data/showcases/colladon1842.json (built spec: identical to the YAML in every key); drawing
+data/history/showcases/drawings/colladon1842-lanature1884.png + traces/colladon1842-lanature1884.json (both
+byte-identical to the static copies; trace = builder's final scratch t3.json); builder screenshots
+scratchpad colladon1842/shots/ (desk_p*, phone_p*, light_p*, sheet_l2, i1-i4, play_*, r_step*, x_*); drawing notes
+scratchpad colladon1842/drawing/v2/. Sources: references/colladon1842/text.md + 300 dpi page renders
+cache/showcases/colladon1842/renders/page_01-03.png (read at full resolution for every quote); blog source image
+cache/showcases/colladon1842/blog/photonics_history_cover.png (crop bounds re-measured from its ink profile).
+Method: every spec quote compared word for word with the page renders; derived geometry recomputed (Torricelli
+reach, mirror normal, focal distance, drop height); module frame(p) read for timing and physics; trace rendered
+independently with the app's own renderer (app/src/lib/history/showcase/trace.ts transpiled, app.css theme colours,
+headless Chrome) at 1x and at pane size 0.37x, side by side with the engraving, plus 2x crops of vessel, lamp,
+table, basin and 3x of the optics; bright-pixel extent of the engraving's light cone measured per column. Scratch:
+session scratchpad colladon1842_audit/ (rend.py, sbs.py, sbs_full.png, z_*.png, small_sbs.png). No app run, no
+build, no network, no git.
+
+VERDICT: NO-GO until W1 is re-shot and, if still present, fixed; then GO. The story is right: every quote and locator
+matches the letter, the set-up is the 1842 sunlight / mirror / shutter / tube / lens path with no lamp in the model,
+the only stated size (1 m) is the only essential dim, every other size is labelled assumed or derived in hover, the
+jet runs on the Torricelli parabola of the assumed 800 mm head, the TIR rays are schematic and say so, the basin floor
+lights, and the merged closing chapter shows drops flashing at pinch-off and the clouded upper jet glowing. The
+redrawn engraving (D1023) is clean, recognisable and in proportion in both themes, whole figure in. The one wrong
+item is presentation: in the light theme the "Into the orifice" keyword sits on a near-black band and cannot be read.
+All builder shots predate the final module (22:45:22) and the shipped trace (22:56:45): a re-shoot is required (M1).
+
+Counts: wrong 1, imprecise 11, missing 1, ok 20.
+
+----------------------------------------------------------------------------------------------------------
+WRONG
+----------------------------------------------------------------------------------------------------------
+
+W1. Light theme, chapter 8 "Into the orifice": keyword and line unreadable
+  file:     app/src/lib/history/showcases/colladon1842.ts lines 822-827 (shutter cutaway: opacity x (1 - 0.88 cut)),
+            836-842 (light theme keeps ambient 0.6), SHOTS.focus line 689 (az 26, R 300 x 170).
+  current:  at p = 0.69 (light_p0690.png, and again in the later light sheet sheet_l2.png, 22:44:45, tile "Into the
+            orifice" 2) a full-height near-black band (x 0-110 px solid black, x 110-350 dark grey at 1440 x 900; the
+            shutter / tube side seen past the vessel) lies under the black Playfair keyword: "Into" and the start of
+            the line vanish ("o the orifice"). Dark theme is fine (white text).
+  proposed: in the light theme fade the shutter cutaway to near 0 (and keep the tube from filling the upper left), or
+            frame the focus shot so the left band stays below the text block; re-shoot light p = 0.61-0.70.
+  evidence: light_p0690.png (22:38:27) and sheet_l2.png (22:44:45), both before the last module edit (22:45:22),
+            so the fix state is unknown; the skill requires the light theme to work and the keyword is the chapter's
+            main text.
+
+----------------------------------------------------------------------------------------------------------
+IMPRECISE
+----------------------------------------------------------------------------------------------------------
+
+I1. "Light escapes": the jet still reads as a bright lit line, the line says it barely shows
+  file:     colladon1842.ts lines 915-922 (rayI 1 -> 0.3 in the basin phase), 876 (jet body 0.4 x 0.35).
+  current:  desk_p0860.png: three white zigzag rays clearly visible along the whole jet into the basin.
+  proposed: rays to about 0.08-0.12 in the basin chapter (the letter: "la veine est à peine visible, quoiqu'une
+            lumière très-intense circule dans son intérieur", p.800-801), so the contrast with the lit basin floor is
+            the point of the chapter.
+
+I2. Drawing: the lit cone between the lamp nozzle and the lens is drawn as a constant-width rounded "tube end"
+  file:     traces/colladon1842-lanature1884.json, element lens, path "M191,241 C191,232 ... L226,252 ..." (height
+            about 22 px, round end at the left).
+  current:  a bullet-shaped cylinder, x 191-226.
+  proposed: a diverging cone from the nozzle to the lens (narrow at the left, about lens height at the right), in
+            the same line language as the converging cone after the lens.
+  evidence: engraving bright pixels (> 200) per column, rows 215-270: x 192: 6 px, x 196-204: 16-19 px, x 216: 26 px,
+            x 224: 32 px (flanges add noise; the trend is a widening cone). 3x crop z_optics.png.
+
+I3. Drawing: vessel above the water line drawn as an opaque fluted front face
+  file:     traces/colladon1842-lanature1884.json, element vessel (upper panel, x 217-315, y 28-124).
+  current:  vertical ruling on a front face; in the dark theme the empty top and the lit water body read the same tone
+            (only the hatch direction differs).
+  proposed: optional: draw the open interior (inner left and right walls as narrow dark strips, back wall lighter),
+            as the engraving does; keeps the water body as the brightest object, the engraving's main tonal cue.
+  evidence: z_vessel.png (2x, engraving | dark | light).
+
+I4. Drawing, minor shapes
+  current:  stool legs about 8 px wide (engraving: thick dark posts, about 15-25 px, at x about 355-385 and 515-540);
+            lamp foot a plain flaring cone (engraving: ringed stem and turned foot, y about 430-520).
+  proposed: optional; objects are recognisable as drawn. z_basin.png, z_lamp.png.
+
+I5. "About a third of the way up": the engraving draws the orifice about two fifths up
+  file:     colladon1842.yaml line 75 (diaphragm dim note) and line 340 (drawing caption_note).
+  current:  "about a third of the height up" / "about a third of the way up the vessel".
+  proposed: "about two fifths of the way up" (or "well above the bottom").
+  evidence: drawing px: rim y about 28, vessel bottom y about 375, orifice centre y 240: (375 - 240) / 347 = 0.39.
+
+I6. Assumed water level 900 mm (head 800 mm) where the engraving draws a lower one
+  file:     colladon1842.yaml lines 56-57.
+  current:  basis assumed, "not stated".
+  proposed: keep the value (D1016 allows it), but add to the note that the 1884 engraving (unscaled, later version)
+            draws the surface at about 0.72 of the height, about 0.33 of the height above the orifice; the model's
+            arc is therefore much flatter and longer than the drawing's.
+  evidence: water line y about 125 in the 569 x 914 drawing; orifice y 240; vessel y 28-375.
+
+I7. Report out of date after the chapter merge and the drawing switch
+  file:     colladon1842.report.txt line 7 ("12 chapters"), lines 179-191 (open questions 4: "Confirm shipping the
+            CNUM-derived 1-bit crop", 5: "12 chapters at height 9").
+  proposed: 11 chapters; the shipped drawing is the owner's copy (D1022), not the CNUM 1-bit crop, so the CNUM reuse
+            question is closed; question 5 answered by the merged "Drops and dust" chapter. DevLog D1016 still lists
+            the CNUM terms as open.
+
+I8. Play: the merged closing chapter is short for two observations; drops barely move
+  file:     colladon1842.ts line 947 (A = dq0 * 1.6 + 0.37), lines 111-117 (drops / clouded = halves of 0.87-1.00).
+  current:  Play = 11 x (3500 + 80) ms + 800 ms = 40.2 s (12 chapters: 43.8 s; ruby 33 s, D1000). The last leg gives
+            drops and clouded water about 1.75 s each; across the whole drops half the drops advance only 1.6 drop
+            intervals, so in Play about two pinch-off flashes are seen.
+  proposed: faster drop cadence (e.g. 6-10 intervals per half) so "flashing drops" is visible in Play; length OK.
+
+I9. Basin floor starts to glow just before the rays arrive
+  file:     colladon1842.ts line 931 (esc = span(tir 0.72 -> basin 0.55)) vs line 914 (rayF = span(focus 0.75 ->
+            tir 0.80)).
+  current:  glow starts at p = 0.772 with the ray front at 92 % of the arc; at arrival (p = 0.780) esc = 0.12.
+  proposed: start esc at tir 0.80 (rayF = 1). Barely visible; physics order.
+
+I10. Spec assembly row for the escaped light points at the water surface, the model lights the floor
+  file:     colladon1842.yaml line 304 (escaped_light pos [1290, -520, 0], locator "basin bottom lit").
+  proposed: y = -604 (basin floor = -610 + 6 mm wall), as the module draws it (line 579, bWall + 0.8).
+
+I11. Milestone text says "First", the story says the letter makes no "first" claim
+  file:     app/static/data/history.json, colladon1842 significance: "First published report of light guided by
+            total internal reflection along a curved water jet; experiment performed in Geneva in 1841" (institution
+            "per Hecht 2006", not among the story references); story title_note: 'The letter makes no "first" claim'.
+  proposed: coordinator: drop "First" or cite the source that supports it (skill: "First" only when a cited source
+            supports it; the same page prints Babinet's note on his earlier candle-lit water stream). Outside the
+            story's files; flagged so story and timeline agree.
+
+I12. Light theme drops faint
+  file:     colladon1842.ts line 963 (light: amber lerped to white by 1 - b).
+  current:  light_p0930.png: drops are pale dots on the light page.
+  proposed: keep light-theme drops amber (do not lerp toward white).
+
+----------------------------------------------------------------------------------------------------------
+MISSING
+----------------------------------------------------------------------------------------------------------
+
+M1. No in-app shots of the shipped drawing or the final module
+  current:  every builder shot (desk / phone / light 22:37-22:38, interactions 22:41, Play 22:42-22:43, explode /
+            orbit 22:44, sheet_l2 22:44:45) shows the earlier edge-map trace in the drawing pane and predates the last
+            module edit (22:45:22) and the shipped trace (22:56:45).
+  proposed: re-shoot desk / phone / light at p = 0.02-1.0 with the new trace in the pane (phone pane is about
+            150 px wide: check legibility), hover linking drawing <-> model for vessel, jet, basin, stand (table +
+            pedestal), lens, diaphragm, the Trace / Scan toggle, and W1.
+
+----------------------------------------------------------------------------------------------------------
+OK (verified)
+----------------------------------------------------------------------------------------------------------
+
+O1. All 11 part quotes match the page renders word for word (p.800: vessel, diaphragm, jet, lens, tube, shutter,
+    mirror, beam, guided_light; p.800-801: water; p.801: basin, escaped_light, drops, scatter "louchir l'eau, soit
+    avec des solutions"); OCR slips (eircule, avee, "l'axe, du jet") correctly read as circule / avec / l'axe du jet.
+O2. Locators: page split p.800 / p.801 / p.802 correct for every quote and dim (dew precaution and room temperature
+    p.801; dating paragraph p.801-802).
+O3. title_note dating facts (Plateau 4 July 1842, "antérieures de plusieurs mois", Conservatoire since October 1841,
+    Bourbouze, Pouillet, London courses, Geneva June 1841) match p.801-802; no "first" claim in the story.
+O4. Vessel height 1 m stated ("de 1 mètre de hauteur", p.800); booklet 7 m not used (D1016); 1 essential dim per
+    the D1016 ruling, shown on canvas as "Rectangular vessel height 1 m".
+O5. Set-up per the 1842 letter: sunlight, mirror outside, hole in a shutter of a darkened room, blackened tube, lens
+    in the opposite wall, focus in the orifice. No lamp in the model (module builds none; lamp only in the drawing,
+    caption note "later lamp-lit demonstration (1884)").
+O6. Jet path: module computes v0 = (2 g h)^1/2, flight to the basin water, reach = (4 h y)^1/2 = (4 x 800 x 520)^1/2
+    = 1290 mm = spec; spec curve y = -x^2/3200 = x^2/(4h); front advances in physical time along the arc.
+O7. Geometry consistent: orifice 100 mm above the inner floor (vessel y -110 ... 890, wall 10), water to y 800
+    (head 800), stand 500 mm, basin water y = -610 + 90 = -520, drop 520 mm; lens centre -315 in the -x wall, focal
+    distance 315 mm; tube -620 ... -320 meets the shutter face (-640 ... -620); mirror 270 mm outside.
+O8. Mirror normal (0.707, 0.354, 0.612) = normalize(+x + sun direction (0, 0.5, 0.866)): elevation 30 deg from +z,
+    reflected ray +x (module recomputes the incoming ray by d = r - 2 (r.n) n).
+O9. Every non-stated size is labelled in hover: roles say "assumed", "derived", "stand-in", "illustrative",
+    "schematic"; dims carry basis tags (assumed shown amber in the panel, i2_panel_lens.png).
+O10. TIR rays: three schematic rays, glancing angles <= 0.95 x lens cone half-angle (7.2 deg), i.e. incidence >= 83
+    deg, above the water critical angle (48.8 deg); zigzag period 4a / tan(theta) wall to wall; role "Rays schematic".
+O11. Order of light: room darkens (room chapter) before sunlight; sun -> mirror, then parallel beam to the lens, then
+    the cone in the water with its apex at the orifice, then rays along the jet.
+O12. Basin: glow drawn on the basin floor (bWall + 0.8 mm), contact sprite at the landing point; set horizontally.
+O13. Drops: small diaphragm swaps in, thin jet continuous to the break-up point (lower half, assumed and labelled),
+    seeded drops on the same ballistic path at equal time spacing, drop diameter 1.89 x jet (Rayleigh, labelled
+    illustrative), newest drop flashes at the rupture point, upper thin jet unlit (rays off), as p.801 says ("C'est là
+    seulement que le liquide s'éclaire, et chaque point de rupture de la veine lance une vive lumière").
+O14. Clouded water: water turns milky, scatter glow strongest at the orifice and decaying downstream (uDecay 0.16 of
+    the arc), matching "la lumière se disperse à sa sortie du vase, et la veine devient lumineuse à sa partie
+    supérieure" (p.801).
+O15. frame(p) is pure: seeded PRNGs (1842, 7), no timers or accumulated state.
+O16. Text budget: 11 keywords <= 3 words, lines 9-12 words (max 12, closing chapter); one amber emphasis
+    ("*Total reflection*"); no plot (the letter has none); no numbers in lines except "one metre" (the essential dim).
+O17. No internal shorthands in viewer-facing strings of the built JSON or module (grep: paper ids, D-numbers, DevLog,
+    batch / era codes, raw _ or ^); markup x^{2}, (2gh)^{1/2} used; drawing caption "Colladon, La Nature 1884, p.325".
+O18. Drawing crop: 569 x 914, 8-bit grayscale, identical to the coordinator's cache crop; ink profile of the blog
+    image: frame columns 25-593 and rows 133-1046 inside, column 24 / 594 and rows 131 / 1048 blank: whole figure in,
+    jet end, basin and stool included, caption excluded.
+O19. Drawing look (D1023): a clean object-by-object redrawing, no edge-map noise. Objects and positions match the
+    engraving within a few px: vessel front x 217-315 + side face 315-340, water line y about 124, bottom y about 377;
+    lens at x 230; both wall flanges; orifice (320, 240); jet to the pool (452, 768); turned pedestal with fluted shaft,
+    bell and notched foot ring; table top / apron (front edge y about 590, apron bottom about 667, front-right corner
+    x about 330, back corner 385), two right legs; lamp house with framed front, chimney with ribbed dome, fluted
+    cylinder, four rods, base plate, supply wire; bowl rim x 345-555, bowl bottom y about 832; stool slab x 341-543;
+    floor line y 812; POYET. Clean in both themes and legible at pane size (small_sbs.png).
+O20. Trace element mapping per drawings[].numerals (vase, eau, lentille, orifice, faisceau, veine, bassin, support);
+    lamp, stool, wall, floor, frame, signature unlinked; shape counts match the report (lens 9, basin 38, lamp 70).

@@ -1,0 +1,245 @@
+liu2004 (GHz silicon modulator, MOS capacitor) showcase audit (fresh context, read-only, 2026-11-11)
+====================================================================================================
+
+Scope: data/history/showcases/liu2004.yaml (+ report.txt), DevLog-017 D1014 (coordinator rulings) and D995 / D998 /
+D1005 / D1006, skill history-showcase; app/src/lib/history/showcases/liu2004.ts; app/static/data/showcases/liu2004.json
+(identical to the YAML, key by key); runtime pieces the story uses (showcase/plot.ts revealed / penAt / staggerK,
+progress.ts essentialDimText, types.ts legend / err options); builder spec before edits liu2004-build/liu2004.yaml.orig;
+builder shots liu2004-build/ (desk_s1-s6, phone_s1-s4, light_a / b, iA, shots/i1-i7); research digitization
+liu2004/digitized.json; source references/liu2004/source.pdf (journal pp.615-618) and text.md.
+Method: pages p.616 / p.617 rendered with PyMuPDF (2x pages, Fig. 1 at 6x, Fig. 2 at 5x) and read; Fig. 1 layer
+sizes measured in render pixels; Fig. 2 8 mm series re-digitized independently from the vector paths (path #83 line
+vertices, path #84 error-bar caps, path #78-79 markers; f2b.py / f2c.py); Fig. 3b and Fig. 4b spec points overlaid on
+5x renders with the report calibration (ov.py: ov3b.png, ov4b.png); Fig. 4b path #13-18 re-extracted (f4.py); the
+derived 20 log_{10} reading and the 10 log_{10} identity recomputed from the Fig. 4a / 4b vertices (der.py, cmp.py);
+builder diff against the .orig spec; module frame / pen / light / pick code read line by line. Scratch: session
+scratchpad liu2004_audit/. No app run, no network, no git, no builds.
+
+VERDICT: GO after two small spec fixes (M1 error bars, M2 compact phase legend) and a phone re-shoot of the phase
+chapter; no wrong items. Sources, quotes, locators, the cross-section topology against Fig. 1, the Fig. 2 / 3b / 4a /
+4b digitizations, the flat-band threshold, the pen-following drive / brightness / modulation depth and the coordinator
+rulings of D1014 are right. The derived 20 log_{10} value is arithmetically right and labelled derived, but "about
+1.0 GHz" rests on one noisy vertex (I1).
+
+Counts: wrong 0, imprecise 10, missing 2, ok 20.
+
+----------------------------------------------------------------------------------------------------------
+WRONG
+----------------------------------------------------------------------------------------------------------
+
+None.
+
+----------------------------------------------------------------------------------------------------------
+IMPRECISE
+----------------------------------------------------------------------------------------------------------
+
+I1. Derived 20 log_{10} -3 dB point rests on a single-vertex dip
+  file:     liu2004.yaml line 272 (mzi dims, side panel)
+  current:  value 'about 1.0' GHz; note "first falls below -3 dB at 1.01 GHz (Fig. 4b values doubled: 1.22 GHz)"
+  proposed: value 'about 1.0 to 1.3'; note: "derived here, not in the paper: 20 log_{10} of the Fig. 4a photoreceiver /
+            on-chip ratio (normalized at 0.10-0.15 GHz) touches -3 dB in a single dip at 1.01 GHz and stays mostly below
+            it from about 1.2-1.3 GHz (Fig. 4b values doubled: first below -3 dB at 1.22 GHz). As plotted (10 log_{10})
+            ..." (rest unchanged).
+  evidence: cmp.py on the exact vertices: 1.008 GHz = -3.06 dB (4a, 20 log) / -2.98 dB (4b x 2), neighbours 0.971-1.039
+            GHz at -2.51 to -2.65 dB (4a) / -2.40 to -2.54 dB (4b x 2). Share of vertices below -3 dB (4a, 20 log):
+            0.9-1.1 GHz 1 of 18, 1.1-1.3 GHz 6 of 14, 1.3-1.5 GHz 9 of 12, 1.5-2.0 GHz 18 of 25. Running median over
+            +-0.05 decade crosses -3 dB near 1.3 GHz. The derivation itself is right (see OK-7).
+
+I2. Gate chapter line reads as an order of construction
+  file:     liu2004.yaml line 309 (chapters.gate.line)
+  current:  "A thin oxide, as wide as the rib to come."
+  proposed: "A thin oxide under the rib, just as wide." (9 words; no sequence implied; D1014 "assembles the cross-
+            section without claiming a sequence").
+  evidence: D1014; withheld "Process flow of the phase shifter" (line 644). The fact (oxide width = rib width, both
+            about 2.5 um) is stated in the Fig. 1 caption, p.616.
+
+I3. V_D drawn on one contact only
+  file:     liu2004.yaml line 139 (metal_contacts.detail)
+  current:  "Fig. 1 draws one contact on each side ("Metal contact"), with the drive voltage V_{D} wired to them."
+  proposed: "... with the drive voltage V_{D} wired to the left one."
+  evidence: Fig. 1 (p.616, 6x render fig1.png): the V_D lead ends on the left contact (px 430, 200); the right contact
+            has only the "Metal contact" arrow. The module already draws V_D on the left contact (liu2004.ts line 138).
+
+I4. Exaggeration of the thin layers is stated without its size
+  file:     liu2004.yaml line 79 (gate_oxide.role), line 165 (accumulation.role); liu2004.ts lines 49-50
+  current:  "drawn thicker than to scale" / "illustrative thickness"; module draws the 12 nm oxide 0.04 um and the
+            10 nm sheets 0.06 um.
+  proposed: gate_oxide role "...; drawn 40 nm, about 3 times thicker than to scale"; accumulation role "...; drawn
+            60 nm each, 6 times the 10 nm effective thickness". Optional, but it answers the obvious question when the
+            sheet is hovered next to the 1.4 um slab.
+  evidence: T_OX = 0.04, T_Q = 0.06 (liu2004.ts lines 49-50); 120 A (Fig. 1 caption p.616), t = 10 nm (p.616).
+
+I5. Oxide block height: dim and geometry disagree
+  file:     liu2004.yaml line 100 (geometry y [0, 0.69]) vs line 102 (dim "about 0.67")
+  current:  0.69 drawn, 0.67 stated as the figure reading
+  proposed: dim "about 0.7" (figure), matching the geometry.
+  evidence: Fig. 1 at 6x: oxide block top px y 274, n-Si top 377 (103 px); 0.9 um label spans y 245-377 (132 px,
+            146.7 px/um) -> 0.70 um; top polysilicon 245-274 = 0.198 um (spec 0.2, OK).
+
+I6. "Asymmetric" MZI drawn with equal arms, not said where it shows
+  file:     liu2004.yaml line 259 (mzi.role), chapter mzi line 339; liu2004.ts lines 422-425 (mirror-image bends)
+  current:  role "plan schematic and shortened"; the chapter line says "asymmetric interferometer" while the two drawn
+            arms are mirror images.
+  proposed: role "...; plan schematic and shortened; the 16.7 um path difference is not drawn (layout not given)".
+  evidence: p.617 "optical path length difference of ~16.7 um"; withheld "Plan layout of the MZIs ... how the 16.7 um
+            path difference is laid out" (side panel only). Skill: illustrative choices labelled where they show.
+
+I7. Plot tick labels differ from the printed axes
+  file:     liu2004.yaml lines 394-395 (phase x ticks 2, y ticks 0.25), 457 (transfer x ticks 2)
+  current:  rendered labels 0 / 2.5 / 5 / 7.5 / 10 V and 0 / 0.2 / ... / 1 pi (desk_s5, i7_phase.png); transfer x 0 / 5 /
+            10 / 15 V. A number step only sets marks; the runtime picks label values (types.ts line 231).
+  proposed: explicit lists as printed: phase x [0, 2, 4, 6, 8, 10], y [0, 0.25, 0.5, 0.75, 1.0]; transfer x
+            [0, 2, 4, 6, 8, 10, 12, 14], y [0, -5, -10, -15, -20].
+  evidence: Fig. 2 (p.616) and Fig. 3b (p.617) tick labels (fig2.png, ov3b.png).
+
+I8. n-type silicon label visible only in the last fifth of its chapter
+  file:     liu2004.ts line 1158 (anchor n_si: cq('soi') >= 0.8, i.e. p 0.134-0.150)
+  current:  the essential dim "thickness 1.4 um" shows in 1.6 % of the scroll; no builder shot (p 0.10, 0.13) shows it.
+  proposed: show from cq 0.6 (the slab has settled by 0.78: stNsi = arrive('soi', 0.5, 0.78)), or extend into the first
+            part of the gate chapter.
+  evidence: desk_s1 / phone_s1 soi frames without the label; interact_log TIP at p 0.13 shows the dim only in hover.
+
+I9. Phase chapter action text still says "simulated"
+  file:     liu2004.yaml line 347 (chapters.phase.action, builder note, not viewer-facing)
+  current:  "wave crests in the shifter slide by the 8 mm simulated phase at the pen voltage; charge sheets follow V_D"
+  proposed: "... by the 8 mm measured phase (the plotted point) ...; charge sheets not visible at this scale". The
+            module follows the measured series as ruled (PH_SI, liu2004.ts line 147; hover "8 mm, measured; the plotted
+            point"); the charge sheets are hidden in the wide shot (line 949, wppQ < 0.12).
+
+I10. Builder shots predate the current runtime
+  file:     liu2004-build/ shots 22:29-22:46; showcase/types.ts and PlotAssembler.svelte modified 22:53 (legend
+            wrapping, legend_group, legend_note)
+  proposed: re-shoot the phase chapter at 390 x 844 after M1 / M2 (the phone legend was the only framing problem seen).
+  Minor, same item: liu2004.yaml line 39 buried_oxide.material "SiO_{2}" while gate_oxide (line 83) says "SiO_{2}
+  not named in the paper"; the paper names neither; use "oxide (buried oxide of the SOI wafer)".
+
+----------------------------------------------------------------------------------------------------------
+MISSING
+----------------------------------------------------------------------------------------------------------
+
+M1. Fig. 2 error bars (coordinator question: add them - yes)
+  file:     liu2004.yaml lines 404, 418, 432, 446 (the four "measured" series); note line 393
+  current:  bars not drawn; note "bars not drawn here; half-heights 0.0002-0.046 pi"
+  proposed: add symmetric per-point `err` (pi units) from the research digitization (digitized.json fig2_meas[L]
+            .bar_mid[i][2]) and drop "bars not drawn here" from the note:
+            8.0 mm [0.0065, 0.0089, 0.014, 0.0128, 0.0147, 0.0145, 0.0214, 0.0149, 0.0453, 0.0462]
+            5.0 mm [0.001, 0.0027, 0.0053, 0.0084, 0.0113, 0.0149, 0.0183, 0.027, 0.0407, 0.0287]
+            2.5 mm [0.0002, 0.0014, 0.0024, 0.0041, 0.0058, 0.0075, 0.0089, 0.0147, 0.0169, 0.0246]
+            1.0 mm [0.0002, 0.0005, 0.001, 0.0017, 0.0022, 0.0029, 0.0036, 0.0041, 0.0051, 0.0053]
+            (null or omit where the half-height is under about 0.002 pi if the whiskers clutter; the printed bars of
+            the 1 mm series are hidden inside the markers.)
+  evidence: the runtime has series[].err (D1102, types.ts lines 266-268). My independent read of the 8 mm caps (path
+            #84 horizontal segments, f2c.py) gives exactly the 8 mm list above (top / bottom caps e.g. 10 V 0.8165 /
+            0.9090 pi, 9 V 0.7182 / 0.8088 pi). The 8 mm bars at 9-10 V (+-0.045 pi) are the most visible feature
+            distinguishing measured from simulated in the printed figure.
+
+M2. Compact phase legend on phones (D1014 ruling 4) not applied
+  file:     liu2004.yaml lines 396-452 (8 series, no legend_group); shots phone_p0620 / p0660 / p0710 (phone_s3)
+  current:  8 legend rows; on 390 x 844 the data area is about 30 px tall, points barely readable.
+  proposed: legend_group per length on each simulated / measured pair (4 rows "8.0 mm", "5.0 mm", "2.5 mm", "1.0 mm";
+            series names may stay for hover) and plots.phase.legend_note "line: simulated, dots: measured" (types.ts
+            lines 108-109, 256-260, 320-321). Re-shoot the phone phase chapter.
+
+----------------------------------------------------------------------------------------------------------
+OK
+----------------------------------------------------------------------------------------------------------
+
+OK-1. Flat-band threshold is the paper's: "The simulation results suggest that the flat band voltage of our devices is
+  V_FB = 1.25 V, and the effective charge layer thickness is t = 10 nm" (p.616, DESSIS); also used for V_pi L (p.617).
+  Module: charge(v) = clamp01((v - 1.25) / (10 - 1.25)), zero at or below 1.25 V (liu2004.ts lines 53, 189, 944);
+  hover "Below the 1.25 V flat-band voltage: no accumulation" (line 1119). Holes above, electrons below the oxide
+  (lines 940-943) as p.616 ("holes ... electrons", positive V_D on the p-poly, n-Si grounded).
+
+OK-2. Fig. 2 re-digitized independently (8 mm, all 10 points): error-bar cap mid-points from path #84 = 0.0291, 0.0864,
+  0.1642, 0.2579, 0.3572, 0.4639, 0.5571, 0.6667, 0.7635, 0.8627 pi at 1-10 V, identical to the spec (lines 410-411).
+  Down-triangle marker centroids (bbox centre + h/6 = +0.0047 pi) agree within 0.002 pi. Simulated 8 mm line = path
+  #83 vertices 0.993 V / 0.0009 pi ... 9.992 V / 0.815 pi, identical. Calibration 340.39 pt = 0 V, 17.375 pt/V,
+  666.59 pt = 0, 139.91 pt/pi reproduces the printed ticks (fig2.png). Ten points per series is all the source has.
+
+OK-3. Phase chapter follows the 8 mm measured pen: PH_SI finds "8.0 mm, measured" (series 1 of 8); pen() =
+  staggerK(seg(q, 0, 0.9), AXES_END, 1, si, n), t = k N - 1, identical to the runtime revealed() / penAt() (plot.ts
+  lines 90-103, 478-497); drive V = pen x, crest phase pi * pen y (liu2004.ts lines 769, 813); holds at 9.998 V /
+  0.8627 pi; never below 1.0 V or above 10 V in the chapter; hover prints the plotted point (i7_phase.png "V_D 10.0 V,
+  phase shift 0.86 pi"). One single shifter with in / out beams, free-space measurement said in hover (p.617).
+
+OK-4. Dark to bright: output intensity = 10^(dB/10) of the Fig. 3b pen (linear power ratio, liu2004.ts line 819), drive =
+  pen x (1.03-13.73 V); hover "brightness = that power ratio, linear". Spec points lie on the printed stroke (ov3b.png);
+  0.071 V sampling (1/210 of the axis); the raw dip to -19.1 dB at 1.94 V is in the note.
+
+OK-5. Beyond 1 GHz: frequency = Fig. 4b pen, or the Fig. 4a on-chip pen when the viewer toggles (handle.plot ->
+  plotSel, lines 180-186, 1176-1178); modulation depth 0.85 x 10^(y/10) of Fig. 4b at that frequency (line 824); holds
+  at the last vertex, 3.165 GHz (4b) / 3.169 GHz (4a), which is the end of the printed data (f4.py: 299 vertices,
+  0.100-3.165 GHz, min -3.35 dB at 3.097 GHz, last -2.93 dB). Bands only after the combiner (lines 1014-1016). The
+  driven arm shortens to the 2.5 mm shifter and the other arm becomes a plain guide (lines 784, 903-904), as p.617.
+  Spec points on the printed trace (ov4b.png).
+
+OK-6. Fig. 4b = 10 log_{10} of the normalized Fig. 4a ratio: point by point (286 matched vertices) the difference is a
+  near-constant offset, median 0.05 dB, max 0.066 dB (cmp.py). Plot note "checked within 0.05 dB" is fair.
+
+OK-7. Derived 20 log_{10} dim (line 272): arithmetic right (OK-6 identity doubled; 4a 1.008 GHz -3.06 dB; 4b x 2 first
+  below -3 dB at 1.218 GHz, -3.14 dB), basis derived, note "derived here, not in the paper". Wording of the value: I1.
+
+OK-8. Cross-section topology against Fig. 1 (fig1.png, 6x): substrate / buried oxide / n-Si / gate oxide (dotted, rib
+  width) / p-poly rib continuous with the wide top polysilicon / oxide blocks from the rib to the slab ends / Al
+  contacts on the top polysilicon over the oxide, beside the rib / n+ regions at both slab ends under the oxide, depth
+  0.204 um vs spec 0.2 / "5 um" from the inner edge of the left n+ region to the rib edge (spec x_inner 6.25 = 1.25 + 5)
+  / V_D on the left contact, ground at the left n+ region. The undoped (light) centre of the top polysilicon is
+  narrower than the rib (px 590-737 vs rib 560-768: 0.70 of the half width; spec dopIn 0.89 / 1.25 = 0.71): the
+  module's ribC / ribS / top split (lines 351-353) reproduces it. Buried oxide drawn 0.30 um in Fig. 1; the stated
+  0.375 um is used and said in the detail.
+
+OK-9. Lateral sizes assumed and labelled where they show (hover roles, builder additions): n_si "lateral extent
+  assumed", n_contact_regions "width and depth assumed", oxide_regions "lateral extent assumed", metal_contacts
+  "width, thickness and offset assumed", poly_top "drawn 10.5 um in total (assumed ...)" (D1014 ruling 3). Fig. 1
+  horizontal scales disagree (2.5 um = 208 px, 5 um = 277 px at 6x), as the spec header says.
+
+OK-10. Gate oxide exaggeration labelled (role line 79 "drawn thicker than to scale", detail "Drawn thicker than to scale
+  in the close-up"); charge sheets "illustrative thickness" / "Sheets drawn far thicker than 10 nm". Size: I4.
+
+OK-11. No fabrication sequence claimed: process HUD steps are unnumbered and carry only stated values (LPCVD 550 C,
+  anneal temperature not stated, 1e19 surface doping, Al, Intel CMOS facility, p.615-616); withheld "Process flow"
+  says the order is not given; rib / charge chapter actions say "layers of the cross-section, no process order".
+  Wording of the gate line: I2.
+
+OK-12. No optical-mode spot anywhere: optical_mode part removed (D1014 ruling 2), nothing in the module draws a mode
+  profile; light is off in the cross-section chapters (lightAt L.on = 0 for gate ... charge, lines 804-805) and drawn
+  only as ribbons along the guides in the plan views. The output-facet glow (flare, lines 1040-1048) appears only in
+  the wide MZI shots as the brightness of the light leaving the chip, not as a cross-section profile; acceptable.
+
+OK-13. Plan compression: MM = 16 drawn units (um) per mm -> 62.5 times shorter; labelled "plan shortened about 60
+  times, lengths drawn in proportion" in phase_shifter.role (hover on the chip in wide shots returns phase_shifter,
+  line 1151); 10 / 8 / 2.5 mm drawn 160 / 128 / 40 units, in proportion. Illustrative crest spacing and 1 / f band
+  spacing labelled in the hovers (lines 1073, 1099); zero-drive output level labelled (line 1107).
+
+OK-14. Quotes and locators (16 checked against text.md and the page renders): buried oxide, n-Si slab (p.615), surface
+  doping, gate oxide 120 A (Fig. 1 caption), oxide regions, poly rib (p.615), 10.5 um layer, Al contacts, terminals,
+  accumulation (p.616), V_pi L ~8 V cm, passive waveguide loss, Y junction, lensed fibres 4.3 dB, 15 GHz photoreceiver,
+  asymmetric MZI (p.617). All verbatim (case aside) and on the cited pages.
+
+OK-15. Values: 1.4 / 0.9 / 2.5 um, 120 A = 12 nm, 1.7e16 / 3e16 / 1e19 cm^-3, 0.375 um, ~10.5 um, ~9 % TE power, TE / TM
+  factor 7, Eq. (2) -8.8e-22, Eq. (3) -8.5e-18 (dN)^0.8, V_FB 1.25 V, t 10 nm, lengths 1 / 2.5 / 5 / 8 mm, 10 mm MZI,
+  16.7 um, >16 dB at ~7.7 V, 15.3 / 4.3 / 6.7 dB, ~5 dB with single-crystal Si, 1.55 / 1.54 / 1.558 um, 0.18 V r.m.s.,
+  3 V bias, 3.5 V pulses, 1 Gbit/s, 15 GHz: all as printed (pp.615-618).
+
+OK-16. Builder diff vs liu2004.yaml.orig: only presentation fields (label_short, roles with caveats, series colours,
+  actions) and coordinator-ruled items (optical_mode removed, 10.5 um note, derived mzi dim, withheld reason); no
+  data point changed (0 differing point lines), no stated value changed.
+
+OK-17. Presentation: keywords 1-3 words; lines 8-11 words, no numbers; 3 essential dims (n-Si thickness 1.4 um, gate
+  oxide thickness 120 A, rib width 2.5 um; canvas text "part name + thickness / width value", essentialDimText); one
+  amber emphasis (*Beyond 1 GHz*); 3 plot chapters with Fig. 4a as an alternate; no raw _ / ^ in viewer fields of
+  the built JSON or module strings; no internal shorthands (the only "liu2004" token is references[].id, not shown).
+
+OK-18. Built JSON identical to the YAML (all keys equal).
+
+OK-19. Composition: beams and the output glow end before the plot on desktop (desk_s5 / s6, i6) and above it on phones
+  (phone_s3 / s4); model in the left half in plot chapters; light theme readable (light_a / b); title_note makes no
+  "first" claim and cites 20 MHz (p.615) and "the benchmark figure" (p.617).
+
+OK-20. Physics of the build: positive V_D on p-poly with n-Si grounded accumulates holes above and electrons below the
+  oxide; Fig. 2 single shifter outside the MZI; drive on one 10 mm shifter for Fig. 3b; one 2.5 mm shifter with 3 V
+  bias for Fig. 4; intensity modulation shown only after the output Y junction. All match p.616-617.
+
+Scripts (session scratchpad liu2004_audit/): render.py, r2.py (page / figure renders), f2.py, f2b.py, f2c.py (Fig. 2
+vector re-digitization), f4.py (Fig. 4b vertices), ov.py (Fig. 3b / 4b overlays), der.py, cmp.py (dB convention and
+20 log_{10} reading).

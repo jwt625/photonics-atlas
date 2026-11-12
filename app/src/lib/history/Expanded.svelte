@@ -14,7 +14,8 @@
 		selId,
 		tip,
 		onopen,
-		onfail
+		onfail,
+		storiesOnly = false
 	}: {
 		ms: Milestone[];
 		eras: Era[];
@@ -29,6 +30,8 @@
 		tip: (m: Milestone) => string;
 		onopen: (m: Milestone, el: HTMLElement) => void;
 		onfail: (id: string) => void;
+		/** "Stories" filter: only the story sections; eras without a story and the card strips are left out */
+		storiesOnly?: boolean;
 	} = $props();
 
 	const groups = $derived(
@@ -40,7 +43,7 @@
 </script>
 
 <div class="exp">
-	{#each groups as g (g.era.id)}
+	{#each groups.filter((g) => !storiesOnly || g.story.length) as g (g.era.id)}
 		<section class="era" id="era-{g.era.id}">
 			<header class="eh">
 				<div class="eid"><span class="yrs num">{g.era.years}</span></div>
@@ -50,7 +53,7 @@
 			{#each g.story as m (m.id)}
 				<ShowcaseStory id={m.id} year={m.year} dri={m.dri} onmilestone={(el) => onopen(m, el)} {onfail} />
 			{/each}
-			{#if g.cards.length}
+			{#if g.cards.length && !storiesOnly}
 				<div class="strip">
 					{#each g.cards as [m, i] (m.id)}
 						<button class="hcard" class:dim={!shown[i]} class:sel={m.id === selId} style:--c={color(m)} data-tip={tip(m)} onclick={(e) => onopen(m, e.currentTarget)}>

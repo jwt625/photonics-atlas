@@ -1,0 +1,277 @@
+tien1969 (prism-film coupler) showcase audit (fresh context, read-only, 2026-11-11)
+==================================================================================
+
+Scope: data/history/showcases/tien1969.yaml (+ report.txt), DevLog-017 D1015 (and D995 / D998 / D1005 / D1006 /
+D1023 for precedent), skill history-showcase; app/src/lib/history/showcases/tien1969.ts (mtime 22:41, i.e. after the
+builder's tooltip shots 22:39 and light shots 22:30); app/static/data/showcases/tien1969.json (identical to the YAML,
+key by key); drawings/tien1969-fig1.png + traces/tien1969-fig1.json (static copy identical); sources
+references/tien1969/ (page scans img_p02_1 = p.291 ... img_p05_1 = p.294, text.md), cache/showcases/tien1969/
+US3584230.pdf (sheet 1 image 2320 x 3408, text layer); builder shots and logs tien1969/build/.
+Method: Fig. 1 cropped from img_p02_1.png at the spec's fig1_px box and read at 2x / 4x (inset at 4x); Table I read at
+full resolution from img_p04_1.png and transcribed independently; Eq. (5) solved independently (TE / TM, n_2 = 1,
+S -> infinity); the module's ray geometry re-implemented in Python from its own code (trace, ANG_OFF, shiftFree, g);
+the trace rendered from its JSON and laid beside the 1-bit crop at equal size and at 2x; patent sheet crop bounds
+checked against the ink; built JSON grepped for shorthands and raw markup. Scripts: session scratchpad
+tien1969_audit/ (geom.py, tab.py, render.py). No app run, no network, no git.
+
+VERDICT: NO-GO as is; GO after W1 and W2 (both small). Table I values (all three plots), Eq. (5) check, quotes,
+essential dims, prism / press / turntable logic, Fig. 1 screen pattern and the drawing crop are right. W1: the
+coupling strength is computed from where the B3 spot lands on the screen, so the half-prism chapter's parallel shift
+of the laser (no change of angle) detunes the "synchronous" condition and runs the streak and the scratch glow at
+46 %. W2: the half-prism, streak and pointed-tool quotes are cited to p.294 col. 1; they are in col. 2.
+
+Counts: wrong 2, imprecise 11, missing 1, ok 19.
+
+Coordinator questions (short answers; details below):
+- Index ratio: the drawn Fig. 1 ray implies n = 2.73 (my re-computation; external incidence 49.4 deg, internal
+  16.2 deg at the 26 deg face). Internal only: no string, label, tooltip or plot shows an index or a computed angle;
+  theta_3 hover says "Drawn as in Fig. 1 (about 42 deg)", which matches the drawn 42.2 deg. OK (O5).
+- Turntable 7 deg, pivot, rest gap: the 7 deg never appears as a number; the turntable tooltip says "pivot and
+  amount are schematic, no angle is given"; the rest gap (34 drawn px) is covered by the gap tooltip ("drawn far
+  wider than to scale") and the withheld gap entry. OK (O6, O7).
+- B3 fading in the half prism: not in the paper and not in withheld: M1.
+- Coupling physics: light enters the film only at the synchronous angle and only after pressing: OK (O7, O8).
+  Spot dip: drawn at the paper's extreme every time (I1). Dark line: as Fig. 1 (O9).
+- m lines: as Fig. 1, curvature re-measured (O10); line widths uniform vs Fig. 1's thinning (I9).
+- Half-prism streak and scratch vs the text: geometry and sequence right (O13) but W1 dims them; label I7.
+- Table I plots: every value verified, basis stated (O1, O2); observed points hidden under computed ones (I4).
+- Hover colours (changed after the shots): checked in code (O16): consistent accent per theme, no defects found
+  beyond I11.
+
+----------------------------------------------------------------------------------------------------------
+WRONG
+----------------------------------------------------------------------------------------------------------
+
+W1. Half-prism chapter: synchronism is tied to the spot position on the screen, so a parallel beam shift detunes it
+  file:     app/src/lib/history/showcases/tien1969.ts line 734-736 (du = ray.u - lineU[syncLine]; g from du), used by
+            line 830 (glowO = g: film glow, streak), line 887 (scratch glow S.scratch * g), line 769 / 935 (dip),
+            with line 482 shift: shiftFree * half (trace(S.ang, S.shift) at line 731).
+  current:  in the free chapter the laser line is translated by shiftFree = -24.0 drawn px (angle unchanged, ang = 0)
+            so that the coupling ends at the 90 deg corner. The B3 hit then moves 7.0 px along the screen
+            (u 106.85 -> 99.84), and g = exp(-(7.0 / 7.92)^2) = 0.46. Re-computed from the module's own code
+            (geom.py): half = 0 / 0.25 / 0.5 / 0.75 / 1 -> g = 1.00 / 0.95 / 0.82 / 0.64 / 0.46. The guided streak and
+            the "radiates brightly" scratch are drawn at 46 % of the synchronous brightness, fading while the right
+            half slides away; the shots desk_p0930 / desk_p1000 / light_p0975 show a visibly weaker streak than the
+            m-lines chapter's glow.
+  proposed: compute the synchronous overlap from the angle only, e.g. evaluate du with trace(S.ang, 0) (the screen
+            position at zero shift), or from the internal angle difference; keep everything else. The streak and
+            scratch then run at full synchronous strength, as the paper's set-up ("It is set to the synchronous
+            direction of this single-mode film").
+  evidence: physics: the synchronous condition beta = k n_3 sin theta_3 (p.292 col. 1) depends on theta_3 only; a
+            parallel translation of the beam does not change theta_3. Paper p.294 col. 2: "The laser beam is
+            adjusted so that the 90 deg corner plays the role of the point x = L ... It is set to the synchronous
+            direction of this single-mode film and a bright streak of light is seen".
+
+W2. Half-prism / streak / pointed-tool locators name p.294 col. 1; the text is in col. 2
+  file:     data/history/showcases/tien1969.yaml line 65 (prism height note "(p.294 col. 1)"), 87 (pressure_tool
+            detail, pointed tool "(p.294 col. 1)"), 89 (pressure_tool locator "...; p.294 col. 1"), 201
+            (half_prism detail "(p.294 col. 1)"), 203 (half_prism locator "p.294 col. 1-2"), 214 (streak detail,
+            1 cm quote "(p.294 col. 1)"), 216 (streak locator "p.294 col. 1-2"), 221 (essential dim length ≈ 1 cm
+            "p.294 col. 1"), 236 and 237 (assembly half_prism / streak "p.294 col. 1"). All viewer-facing (side
+            panel detail, locator line, dim basis tooltip).
+  current:  p.294 col. 1 (or col. 1-2)
+  proposed: p.294 col. 2 for every one of these (the paragraph's first sentence, "In another experiment we show that
+            a mode ... will propagate", is the last line of col. 1; a part-level locator may keep "col. 1-2", but the
+            quotes "For this purpose we cut the prism ...", "pressed against the prism base by a pointed tool",
+            "The streak is about 1 cm long ..." and the dim must say col. 2). Lines 34, 36, 42 (n_1 = 1.973, Bond,
+            W fit) are correctly col. 1.
+  evidence: p.294 scan img_p05_1.png (2374 x 3151): left column = Fig. 2 photo, Fig. 2 caption, then "between
+            psi_12' and psi_12 being neglected ... In another experiment we show that a mode, once it is launched
+            into the film, will propagate" (bottom of the left column, about y 2090-2150); right column from the top (about y 240-1090)
+            "freely provided that coupling back into the prism is prevented. For this purpose we cut the prism of
+            Fig. 1 ... pointed tool ... about 1 cm long ... scratch itself radiates brightly ... 3 mm apart".
+            The module's own scratch tooltip (line 1010) already says col. 2.
+
+----------------------------------------------------------------------------------------------------------
+IMPRECISE
+----------------------------------------------------------------------------------------------------------
+
+I1. Spot and B3 beam always dip to 50 % at the synchronous angle
+  file:     tien1969.ts line 769 and 935 (b3 = 1 - 0.5 g); no per-part caveat where it shows (spot and beam
+            tooltips give only the role line).
+  current:  every synchronous pass shows the deepest dip the paper reports.
+  proposed: keep the 50 % (it is the stated extreme and matches the abstract's "Up to 50 %") but say so where it
+            shows: pick() for the spot / B3 beam returns {id: 'beam_reflected', label, detail: ['Drawn at the
+            deepest dip reported: "occasionally down to 50%" (Tien et al., Appl. Phys. Lett. 1969, p.293 col. 1)']}.
+            Alternatively a typical smaller dip; the paper gives no typical value.
+  evidence: p.293 col. 1 "This dip, occasionally down to 50%, means that part of the incident light has been fed
+            into the film"; abstract "Up to 50 % of the incident laser energy has been fed into a single mode".
+
+I2. m-lines chapter line says "every mode"
+  file:     tien1969.yaml line 285
+  current:  "Scattered light displays every mode as a bright line."
+  proposed: "Scattered light displays the film's modes as bright lines." (9 words)
+  evidence: p.293 col. 1-2 "The m lines are therefore a direct display of the spectrum of the film modes"; Table I
+            footnote: some modes "could not be observed with the 26 deg rutile prism" (6328 Å TM m = 0, 1; 4880 Å TM
+            m = 0-2), so not every mode shows as a line.
+
+I3. Press chapter line drops "in the order of"
+  file:     tien1969.yaml line 264
+  current:  "Pressure from below closes the gap to half a wavelength."
+  proposed: "Pressure from below closes the gap to about half a wavelength." (11 words; matches the essential dim
+            "S ≈ λ/2")
+  evidence: p.291 col. 2 "Typically, S is in the order of half a wavelength."; p.293 col. 1 S adjusted by pressure.
+
+I4. Plot: observed points are hidden under the computed markers; computed values joined by lines
+  file:     tien1969.yaml lines 316-341 and 352-377 (series order observed, computed, observed, computed; computed
+            style: both at lines 325, 335, 361, 371).
+  current:  computed series draw after (on top of) the observed ones with the same marker size; observed and computed
+            differ by at most 0.0008 (6328 Å) / 0.0017 (4880 Å) on a 0.56-wide axis, so the blue / teal observed
+            dots are invisible in the finished plot (desk_p0840, phone_p0840: only orange / violet markers; the
+            teal TM observed point shows only during assembly, i1_hover_darkline). Lines between integer orders
+            suggest a continuous curve the paper does not have.
+  proposed: list computed series first and observed last; computed as small open markers or a thin line labelled
+            "computed (Eq. (5))", observed as larger filled markers on top. The "Observed minus computed" alternate
+            stays as the agreement view.
+  evidence: Table I (p.293); runtime draws series in list order.
+
+I5. Viewer-facing locator cites an internal report section
+  file:     tien1969.yaml line 81 (gap dims "gap index n_{2}", locator "... reproduces the Table I theory values
+            (report section 3)"); shown in the basis tooltip of the side panel.
+  current:  "(report section 3)"
+  proposed: "Eq. (5) (Tien et al., Appl. Phys. Lett. 1969, p.292) with n_{2} = 1 reproduces every Table I theory value
+            to 0.0001 (checked for this story)". The check holds: my own solver gives 0 or 1 x 10^-4 difference for
+            all 31 computed values (tab.py).
+  evidence: skill presentation rule (no internal references in anything a user sees).
+
+I6. Half-prism chapter label never appears
+  file:     tien1969.yaml line 303 (labels: [half_prism, streak]); tien1969.ts anchor() lines 1032-1050 handle only
+            prism, gap, streak.
+  current:  anchor('half_prism') returns null; desk_p0930 / desk_p1000 / light_p0975 show only the streak label.
+  proposed: add an anchor for half_prism (e.g. a point on the remaining sloped face, as for prism) once S.half > 0.9,
+            or drop it from labels.
+
+I7. Streak label "length ≈ 1 cm" stays on the shortened streak after the scratch
+  file:     tien1969.ts line 1044-1048 (streak anchor follows SCRATCH_X once S.scratch > 0.5); line 313
+            (SCRATCH_X = corner + 0.62 x streak, assumed).
+  current:  after the scratch the lit streak is 0.62 of the 1 cm (assumed position) but the essential label still
+            reads "length ≈ 1 cm" (desk_p1000).
+  proposed: show the length label only while the full streak is lit (before the scratch), or anchor it on the full
+            1 cm span (corner to corner + STREAK) with a faint extent mark, so the number names the unscratched
+            streak the paper measured.
+  evidence: p.294 col. 2: "The streak is about 1 cm long" (before scratching); scratch position not stated.
+
+I8. Traced drawing: skeleton (pixel-following) trace; clean at panel size, defects at zoom
+  file:     data/history/showcases/traces/tien1969-fig1.json (63 elements, 762 polylines, 527 of them shorter than
+            4 px, median polyline length 1.4 px; report section 6: skeleton + RDP 0.9 px).
+  current:  side-by-side render at equal size (side.png) reads as a clean patent line drawing, recognisable object
+            by object, no edge-map noise, so it passes the D1023 look check at the size the pane shows it. At 2x
+            (z_theta.png) the dimension arrowheads are lost or turned into hooks / blobs: both theta_1 arrows (scan
+            about (500-520, 545-590) and (700-720, 545-590)), both alpha arrowheads (about (555-600, 555-580)), and
+            the propagation arrow inside the film (about (580-745, 615), now a plain line); the alpha arc and its
+            leader close into a small loop with the prism edge. Laser mirrors and lettering are fine.
+  proposed: redraw the five arrowheads as filled triangles and the alpha arc as one clean arc (object-by-object
+            elements, measured from the scan); optionally replace the skeleton fragments of the prism, film,
+            substrate and beam lines by straight segments / dash-dot strokes. If the coordinator applies D1023
+            strictly to the method (pixel-following = wrong regardless of look), escalate to WRONG.
+  evidence: drawings/tien1969-fig1.png vs trace render; crop bounds verified (O14).
+
+I9. m-line widths uniform; Fig. 1 draws them thinning outward
+  file:     tien1969.ts line 925-930 (all lines stroke 4 soft / 1.4 core)
+  current:  five equal lines.
+  proposed: optional: taper core width with order as drawn (line 1 widest, line 5 thin and broken), schematic.
+  evidence: Fig. 1 inset at 4x (fig1_inset4x.png): line 1 about 3 px wide, lines 2-4 about 1.5-2 px, line 5 a thin
+            dotted arc.
+
+I10. Builder verification gaps in the logs
+  file:     tien1969/build/log_interact.txt ("purity p=0.8: from above false, from below false"; p = 0.55 true);
+            log_play.txt (run 1: p 0.101 at 5 s then p 0, playing=false at 10 s; run 2 never starts; "p samples 1");
+            play2.mjs prints to the console only (no log file).
+  current:  no record that the p = 0.8 purity failure or the Play stop was investigated. The module code is pure by
+            inspection (all geometry fixed at build: fan, ANG_OFF, shiftFree; state(p) and camAt(p) pure), so the
+            p = 0.8 mismatch is likely the plot assembly or the pointer hovering the model, but that is unverified.
+  proposed: coordinator re-runs purity at p = 0.8 with the pointer outside the pane and a Play run on desktop and
+            phone (D1009 protocol) after the fix pass, logging to files.
+
+I11. Dark-line hover has no highlight
+  file:     tien1969.ts line 953 (darkLine stroke always c.dark), INFO.dark_line lines 993-1000.
+  current:  the tooltip shows, but highlight('dark_line') changes nothing on the canvas (all other picks tint with the
+            accent).
+  proposed: on hover draw the dark line's outline or a thin accent bracket around it; minor.
+
+----------------------------------------------------------------------------------------------------------
+MISSING
+----------------------------------------------------------------------------------------------------------
+
+M1. The B3 beam disappears in the half-prism chapter without a note
+  file:     tien1969.ts line 481 (offPeriph: 1 - seg(qFr, 0, 0.1)) multiplying b3 at line 769: the reflected beam
+            inside and outside the prism fades out before the right half moves; the incident beam then ends at the
+            base (desk_p0930, desk_p1000), which reads as all light entering the film.
+  current:  not stated in the paper, not in withheld, no hover.
+  proposed: keep the reflected segment from the coupling spot to the cut face (about 16 drawn px; it meets the
+            vertical cut face, where its further path depends on the rutile index, which the paper does not print)
+            and stop it there; add a withheld entry: "Path of the totally reflected beam in the half-prism
+            experiment" / "Not described; Fig. 2 shows only the streak. Drawn up to the cut face." Hiding it
+            entirely is acceptable only with that entry and a hover note.
+  evidence: p.291 col. 1 "Normally, the incident power is totally reflected"; p.293 col. 1 dip "occasionally down to
+            50%" (so at least half the light is still reflected at the synchronous angle); p.294 col. 2 says nothing
+            on the reflected beam of the half prism.
+
+----------------------------------------------------------------------------------------------------------
+OK (verified)
+----------------------------------------------------------------------------------------------------------
+
+O1. Table I plot values, all three plots: my transcription of the p.293 scan (tab_a.png / tab_b.png, full res)
+    matches the spec and the built JSON for every observed (25), computed (31) and Diff. (25) value, footnote "a"
+    rows omitted from observed; every printed Diff. equals observed - computed; plot notes (max 0.0008 at 6328 Å,
+    max -0.0017 at 4880 Å TE m = 0) right; n_1 per group 1.9732 / 1.9779 / 2.0428 / 2.0485, n_0 1.5127 / 1.5206;
+    basis stated with "Values from Table I, not digitized"; axis ranges contain all values.
+O2. Eq. (5) with an air gap (n_2 = 1, S -> infinity, psi per Eq. (2a) / (2b)) and W = 15 881 Å reproduces all 31
+    printed theory values within 0.0001 (my solver); Eq. (5)-(7), t_1^{-2}, 81 %, t_1 = 0.1 read on the p.292 scan.
+O3. Quotes verbatim (12 checked: substrate, film, prism, gap, pressure tool, polarizer, beam_in, beam_reflected,
+    guided_mode, screen, m_lines, half_prism, streak, scratch) and locators other than W2: p.291 col. 1 / col. 2,
+    p.292 col. 1 (beta = k n_3 sin theta_3), p.292 col. 2 (deposited on glass, Eq. 6-7), p.293 col. 1 (rutile,
+    pressing, turntable, B3, dip, m lines), p.293 col. 2 (dark line, 1 deg, F 50, t_1^2 0.06), p.294 col. 1 (n_1,
+    Bond 1.988).
+O4. Essential dims (4): alpha 26 deg (p.293 col. 1, Table I footnote), height 0.5 cm (Fig. 2 caption; the half prism
+    is cut along the symmetry plane, so the height is the Fig. 1 prism's), S ≈ λ/2, streak ≈ 1 cm. Other values: 800
+    to 30 000 Å, 15 881 ± 60 Å, 1500 Å ZnS, 5 deg cone, 1.973 ± 0.001, 3 mm, 6328 / 4880 Å, 1 deg aperture, F ≈ 50.
+O5. Index ratio: the drawn Fig. 1 ray gives n = 2.73 (external incidence 49.4 deg, internal 16.2 deg on the 26 deg
+    face), used only to keep rays consistent while turning; never shown; theta_3 drawn 42.2 deg, as Fig. 1
+    (about 42 deg in the hover, labelled "Drawn as in Fig. 1"); synchronous angles withheld (no rutile index).
+    No value implied as data on screen.
+O6. Turntable: prism, film, substrate, tool and screen turn together (asm group), laser, polarizer and optic fixed
+    (p.293 col. 1 "including the screen but not the laser"); 7 deg off, back to the Fig. 1 pose; arrow sense matches
+    the SVG rotation (head at the end of increasing angle for dir = sign d(ang)/dp); tooltip says pivot and amount
+    schematic, no angle given.
+O7. Press: prism never moves (D1015), substrate and film pushed up by the pointed tool from a 34 px rest gap to the
+    drawn final gap; the beam turns on only after the press chapter (beamOn = 1 only near the end of the reveal at
+    qR about 0.8), so no light reaches the film before the gap is closed; gap tooltip "drawn far wider than to
+    scale" and the withheld gap entry cover the schematic rest gap.
+O8. Coupling only at the synchronous angle (angle part): g = 8 x 10^-5 at the 7 deg off pose, 0.49 at 2 deg, 1 at the
+    Fig. 1 pose; dip, dark line, film glow, out-coupled rays and m lines all scale with g and appear together, as
+    p.293 col. 1 "All these phenomena disappear if any of the three coupling conditions ... is violated". The B3 spot
+    moves on the screen while the m lines stay fixed to the screen (it turns with the prism).
+O9. Face-on view: the B3 spot sits on the second line from the left with a dark line along that m line inside the
+    spot, as Fig. 1 (fig1_inset4x.png); dark-line tooltip text matches p.293 col. 1-2.
+O10. m lines as Fig. 1: five lines, the outer three bulging left; drawn mid-height bulge 3 / 5.5 / 8 px vs my reading
+    2.9 / 4.4 / 7.5 fig1_px (lines at x 638 / 683 / 751 top, 635 / 679 / 742.5 mid); schematic, tooltip says not tied
+    to a film.
+O11. Out-coupled rays fan from the coupling spot through the right face onto the four other line positions, dashed
+    projections vertical to the face-on view, as Fig. 1 (rays to about (545,333), (630,418), (673,470), (740,527)).
+O12. Guided light: localized bright film near the coupling spot under the full prism (p.293 col. 1), build-up and
+    decay shapes per Eq. (6) / (7) without numbers, +x direction.
+O13. Half prism: right half slides away from the symmetry plane through the apex; the beam enters the remaining
+    sloped (hypotenuse) face from the upper left; coupling ends at the 90 deg corner (x = L, B at corner - 11 px);
+    streak in +x about two prism heights (1 cm vs 0.5 cm); scratch ends the streak sharply and glows; scratch
+    position labelled assumed in its tooltip; tool tip under the corner ("pointed tool").
+O14. Drawing: US 3,584,230 sheet 1 crop [430, 615, 1910, 1465] holds the whole FIG. 1 (3 stray ink px in an 80 px
+    band outside); numerals 16 prism, 17 gap, 13 film, 14 substrate, 11 laser, 19 lens, 12 circuit, 23 monitoring
+    equipment match col. 2-3; gap "less than a half-wavelength", gap index one, canted surface 21, "more than 50
+    percent", filed 1969-01-24, granted 1971-06-08 confirmed in the text layer; caption and note say it is a patent
+    embodiment that differs from the paper's set-up.
+O15. Presentation: keywords <= 3 words, lines <= 12 words, one amber emphasis (Optical *tunneling*, the paper's
+    term), one plot chapter with two alternates, 4 essential dims, markup only as _{} / ^{} (no raw _ or ^ in any
+    viewer-facing field of the built JSON or module strings), no paper ids / era / decision codes in viewer-facing
+    fields (reference ids and geometry frames are not rendered), title_note has no "first" claim ("novel").
+O16. Hover colours (code check, the shots predate the change): accent #3987e5 dark / #2a78d6 light as in the other
+    modules; prism fill mixed 40 % with doubled alpha, edges in accent; beams / guided core mixed 60 % (dark
+    #8899cf, light #7f72a6), m lines 50 % on the black field, spot 40 %; substrate, film, tool, screen, polarizer,
+    optic, gap marks, normal / theta_3 arc, turntable arrow and projections switch to the accent; half_prism hover
+    tints only the left half. Contrast fine in both themes.
+O17. Framing: plot chapter puts the whole set-up in the left half, beams end before the plot (desk_p0840); phone
+    puts the model above the plot; inset stays in the pane.
+O18. Withheld items not drawn: synchronous angles, turntable hardware (arrow only), laser, two-prism experiment;
+    biconvex element shown as a neutral outline with "not named in the paper".
+O19. Tag row (milestone_tags.csv line 72: device, ZnO / ZnS, prism coupler / thin-film waveguide) agrees with the
+    story.

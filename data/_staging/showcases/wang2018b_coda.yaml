@@ -1,0 +1,295 @@
+# Spec patch (staging): coda chapters for the thin-film LN modulator story (Wang et al., Nature 2018), owner ruling 2026-11-11:
+# the 2018 device stays as published (plain G-S-G, single drive); one or two closing chapters show what came next, labelled
+# as later work. Research 2026-11-11. Merge into data/history/showcases/wang2018b.yaml by the builder (append parts,
+# chapters, references, withheld; apply the p re-split; append coda_note to title_note). Bases as in the main spec:
+# stated = paper text / caption; figure = arrangement read from a printed figure; derived = arithmetic on stated values;
+# assumed = rendering value only. Sources and reasoning: wang2018b_coda.report.txt (same folder).
+# Coordinates as in the main spec: cross-section in um, world x = crystal z (across the gaps), world y = film normal,
+# world z = propagation; y = 0 at the bottom of the LN film.
+
+coda_note: 'The last two chapters show later work by other groups, not the 2018 device: T-rail electrodes (Kharel et al.,
+  Optica 2021) and a differential drive (Aimone et al., OFC 2026). Wang et al. 2018 used plain ground-signal-ground strips
+  driven from one signal line.'
+
+# ------------------------------------------------------------------------------------------------- p re-split (proposal)
+# Option A (recommended): raise height 9 -> 10.8 and scale every existing chapter by 1/1.2, so each keeps its scroll length;
+# the coda gets 0.083 each (about the length of the ridge or electrodes chapter).
+# Option B: height unchanged; only the tail is re-split (fields to fom shortened by about 0.02 each).
+resplit:
+  option_a:
+    height: 10.8
+    p:
+      intro: [0.0, 0.058]
+      stack: [0.058, 0.142]
+      ridge: [0.142, 0.225]
+      electrodes: [0.225, 0.308]
+      cladding: [0.308, 0.367]
+      mzi: [0.367, 0.458]
+      fields: [0.458, 0.575]
+      vpi: [0.575, 0.658]
+      bandwidth: [0.658, 0.742]
+      fom: [0.742, 0.833]
+      t_rail: [0.833, 0.917]
+      differential: [0.917, 1.0]
+  option_b:
+    height: 9
+    p:
+      fields: [0.55, 0.65]
+      vpi: [0.65, 0.73]
+      bandwidth: [0.73, 0.81]
+      fom: [0.81, 0.88]
+      t_rail: [0.88, 0.94]
+      differential: [0.94, 1.0]
+  assembled_at_note: orbit / explode default to the start of the last chapter; with the coda that would be the differential
+    chapter. Set handle.assembledAt to the start of fom so the 2018 device stays orbitable, or keep orbit in the coda only
+    if the builder prefers (builder decision).
+
+# ------------------------------------------------------------------------------------------------------------- chapters
+chapters:
+- id: t_rail
+  p: [0.833, 0.917]
+  keyword: T-rail electrodes
+  line: 'Later work: T-shaped segments cut microwave loss at the gap.'
+  action: 'Model leaves the plot layout and returns to an oblique close-up of one gap (plan + cross-section, as in the
+    electrodes chapter). Morph, in order: (1) the handle under the film crossfades from the 2018 silicon + 4.7 um buried
+    oxide to a quartz handle (quartz_substrate; Kharel et al. used LN on quartz, the T-rails slow the microwave and quartz
+    compensates; on the 2018 silicon stack the design would lose velocity matching, so the substrate must change with the
+    electrodes). Film 600 nm stays; the ridge etch deepens from 300 to 350 nm (slab 250 nm); gold thins from 1.1 to 0.8 um;
+    cladding thickens from 0.8 to 1 um (all Kharel values, tweened). (2) Along each gap-facing edge of the G and S strips the
+    solid edge retracts outward by h + s = 8 um (body edge), and a row of T segments grows back into the freed band: stem
+    t = 6 um wide (along propagation), h = 6 um long; cap s = 2 um wide (across), r = 45 um long; neighbouring caps
+    separated by slits c = 5 um; one stem centred on each cap, slits midway between stems; caps facing caps across the gap
+    at g = 5 um, mirror-aligned (Fig. 1a, 1b). Segments on both edges of both gaps (signal: both sides; grounds: inner
+    side only). Ridge stays centred in each gap. (3) Optional, labelled illustrative: RF current drawn as a glow crowded at
+    the plain strip edges before the morph and spread across the wide bodies after (Fig. 1c, d are artistic views).
+    Camera ends on a top-down oblique showing about five periods. No plot. Light keeps running through both arms.'
+  parts: [t_rail, quartz_substrate, ln_ridge, signal_line, ground_lines]
+  labels: [t_rail]
+- id: differential
+  p: [0.917, 1.0]
+  keyword: Differential drive
+  line: 'Later work: outer strips carry the inverted signal, doubling the swing.'
+  action: 'Same close-up, pulled back to show the whole cross-section with three conductors (T-rail geometry carried over
+    from the previous chapter, labelled). The two outer strips change role from ground to the inverted signal: their tag
+    changes from G to S̅ (no geometry change: the three-conductor line is the same as for a ground-signal-ground drive,
+    per the source). The RF input marker becomes a differential driver marker with four pads S̅ S S S̅ (the two inner pads
+    joined to the centre strip); the far-end marker becomes one load per conductor (integrated resistors). Drive animation:
+    centre strip at +v while both outer strips sit at -v, then the signs swap; the field arrows in the two gaps stay
+    opposite to each other (push-pull kept) and are drawn twice as long as the same per-line swing on the 2018
+    single-ended line (voltage across each gap 2v instead of v). Never draw a ground between the signal strips and never
+    put both arms in gaps whose fields point the same way (see withheld: GSSG). Orbit / explode may be offered here.'
+  parts: [diff_outer_lines, diff_driver, t_rail, signal_line, microwave_field]
+  labels: [diff_outer_lines]
+
+# ---------------------------------------------------------------------------------------------------------------- parts
+parts:
+- id: t_rail
+  name: T-rail segments
+  role: 'Later work: T-shaped segments along every gap edge; current flows in the wide bodies'
+  detail: 'Kharel et al. (HyperLight; arXiv 2020-11-26, Optica 2021) replaced the plain coplanar strips with
+    "micro-structured" (segmented, T-rail) electrodes: rectangular channel electrodes like a coplanar line plus T segments
+    reaching toward the waveguide. The segments keep the current out of the narrow gap and spread it in the wide channel,
+    so the ohmic loss drops without widening the gap. Measured on 10 mm electrodes at 50 GHz: 2 dB/cm (segmented, LN on
+    quartz) against 7 dB/cm (regular, LN on silicon), both 800 nm gold, gap 5 um; square-root fits 0.26 and 0.69
+    dB cm^{-1} GHz^{-1/2}. The segments add capacitance and slow the microwave, so the authors used a quartz handle (RF
+    index about 1.8 with plain electrodes) and tuned the segments to an RF index of about 2.2; measured RF phase index 2.23.
+    A 20 mm device: V_{π} 1.3 V at 1 GHz, 1.8 dB electro-optic roll-off at 50 GHz (V_{π} 1.6 V there), extinction about
+    20 dB, on-chip loss <1 dB. Single drive, push-pull, as in 2018. The authors state that on LN such structures "have not
+    been previously implemented to improve RF performances". Segment count in the compressed plan is illustrative.'
+  quote: The segments prevent electrical current from flowing in the closest gap region, while allowing the current to be distributed more uniformly in the wide channel region.
+  locator: Kharel et al., Optica 2021 (arXiv v1, 2020), p.3, Sec. II
+  material: gold, 800 nm, lift-off
+  look: {color: '#e3b04b', opacity: 1.0, metal: 1.0, rough: 0.3, emissive: ''}
+  geometry:
+    type: t_segment_rows
+    unit: um
+    y: [0.25, 1.05]
+    gap_g: 5
+    stem_t: 6
+    stem_h: 6
+    cap_s: 2
+    cap_r: 45
+    slit_c: 5
+    period: 50
+    alignment: facing caps mirror-aligned across each gap; one stem centred on each cap; slits midway between stems
+    edges: both edges of both gaps (signal strip both sides, ground strips inner side)
+    note: letter meanings from Fig. 1(a) top view and Fig. 1(e) cross-section; Fig. 1(a) is not to scale, values from the caption
+  dims:
+  - {label: gap between facing caps (g), value: 5, unit: µm, basis: stated, locator: 'Kharel et al., Optica 2021 (arXiv v1), p.2, Fig. 1 caption; p.4 Sec. III', essential: false}
+  - {label: stem length, cap to channel (h), value: 6, unit: µm, basis: stated, locator: 'Kharel et al., Optica 2021 (arXiv v1), p.2, Fig. 1 caption; letter meaning from Fig. 1(a), 1(e)', essential: false}
+  - {label: cap width across the line (s), value: 2, unit: µm, basis: stated, locator: 'Kharel et al., Optica 2021 (arXiv v1), p.2, Fig. 1 caption; letter meaning from Fig. 1(a), 1(e)', essential: false}
+  - {label: stem width along the line (t), value: 6, unit: µm, basis: stated, locator: 'Kharel et al., Optica 2021 (arXiv v1), p.2, Fig. 1 caption; letter meaning from Fig. 1(a)', essential: false}
+  - label: segment (cap) length (r)
+    label_short: segment
+    value: 45
+    unit: µm
+    basis: stated
+    locator: 'Kharel et al., Optica 2021 (arXiv v1), p.2, Fig. 1 caption; letter meaning from Fig. 1(a)'
+    essential: true
+    show_label: true
+  - {label: slit between caps (c), value: 5, unit: µm, basis: stated, locator: 'Kharel et al., Optica 2021 (arXiv v1), p.2, Fig. 1 caption; letter meaning from Fig. 1(a)', essential: false}
+  - {label: segment period (r + c), value: 50, unit: µm, basis: derived, locator: '45 µm + 5 µm, Kharel et al., Optica 2021 (arXiv v1), p.2, Fig. 1 caption', essential: false}
+  - {label: channel-to-channel spacing (g + 2(s + h)), value: 21, unit: µm, basis: derived, locator: 'from g, s, h, Kharel et al., Optica 2021 (arXiv v1), p.2, Fig. 1(e) and caption', note: 'arithmetic on the stated parameters; not printed', essential: false}
+  - {label: signal width (simulated design), value: 100, unit: µm, basis: stated, locator: 'Kharel et al., Optica 2021 (arXiv v1), p.3, Table I, segmented (quartz) row', note: 'simulation table; fabricated width not stated separately', essential: false}
+  - {label: gold thickness, value: 0.8, unit: µm, basis: stated, locator: 'Kharel et al., Optica 2021 (arXiv v1), p.3, Sec. III', essential: false}
+  - {label: 'RF loss at 50 GHz, segmented / regular', value: 2 / 7, unit: dB/cm, basis: stated, locator: 'Kharel et al., Optica 2021 (arXiv v1), p.4, Sec. III; Fig. 2(a)', note: 'segmented on LN on quartz, regular on LN on silicon; 10 mm electrodes, gap 5 µm, gold 800 nm', essential: false}
+  - {label: RF phase index (measured), value: 2.23, unit: '', basis: stated, locator: 'Kharel et al., Optica 2021 (arXiv v1), p.4, Sec. III', essential: false}
+  - {label: 'V_{π} at 1 GHz, 20 mm / 10 mm', value: 1.3 / 2.3, unit: V, basis: stated, locator: 'Kharel et al., Optica 2021 (arXiv v1), abstract p.1; p.4 Sec. III; Fig. 3(b)', essential: false}
+  - {label: 'electro-optic roll-off at 50 GHz, 20 mm / 10 mm', value: 1.8 / 0.8, unit: dB, basis: stated, locator: 'Kharel et al., Optica 2021 (arXiv v1), p.4, Sec. III; Fig. 3(b)', note: 'relative to the 1 GHz response; no 3-dB crossing reported up to 50 GHz', essential: false}
+  - {label: 'DC V_{π}, 20 mm', value: 1.35, unit: V, basis: stated, locator: 'Kharel et al., Optica 2021 (arXiv v1), p.4, Sec. III', essential: false}
+  - {label: extinction ratio, value: about 20, unit: dB, basis: stated, locator: 'Kharel et al., Optica 2021 (arXiv v1), p.4, Sec. III; Fig. 3(a)', essential: false}
+  essential: true
+- id: quartz_substrate
+  name: Quartz handle
+  role: 'Later work: low-permittivity handle under the LN film, for velocity matching with T-rails'
+  detail: 'Kharel et al. fabricated on a NanoLN wafer with a 600 nm x-cut LN film on a 500 um quartz handle (no buried
+    oxide named). Quartz has low permittivity (about 4.5) and a microwave loss tangent below 10^{-4}; with plain electrodes
+    the RF index would be about 1.8, below the optical group index of about 2.2, and the slowing by the segments brings it
+    back to about 2.2. The authors note that on LN on silicon with a thick oxide, plain electrodes already match, so the
+    slow-wave effect would be undesirable there. Ridge: 350 nm of the film etched (slab 250 nm, derived); cladding 1 um
+    SiO_{2} by chemical vapour deposition (profile not stated). Ridge width and sidewall not stated: the 2018 ridge shape
+    is kept, labelled carried over.'
+  quote: Here we instead take advantage of the slow wave effects by using a quartz substrate
+  locator: Kharel et al., Optica 2021 (arXiv v1), p.3, Sec. II and Sec. III
+  material: quartz
+  look: {color: '#cfd8df', opacity: 0.55, metal: 0.0, rough: 0.15, emissive: ''}
+  geometry:
+    type: slab
+    unit: um
+    y: [-500.0, 0.0]
+    drawn_depth: 8
+    note: truncated in the render like the 2018 silicon; replaces si_substrate + buried_oxide in the t_rail chapter only
+  dims:
+  - {label: handle thickness, value: 500, unit: µm, basis: stated, locator: 'Kharel et al., Optica 2021 (arXiv v1), p.3, Sec. III', essential: false}
+  - {label: LN film (x-cut), value: 600, unit: nm, basis: stated, locator: 'Kharel et al., Optica 2021 (arXiv v1), p.3, Sec. III', essential: false}
+  - {label: ridge etch depth, value: 350, unit: nm, basis: stated, locator: 'Kharel et al., Optica 2021 (arXiv v1), p.3, Sec. III', essential: false}
+  - {label: slab left after etch, value: 250, unit: nm, basis: derived, locator: '600 nm film minus 350 nm etch (Kharel et al., Optica 2021 (arXiv v1), p.3, Sec. III)', essential: false}
+  - {label: 'SiO_{2} cladding', value: 1, unit: µm, basis: stated, locator: 'Kharel et al., Optica 2021 (arXiv v1), p.3-4, Sec. III', essential: false}
+  - {label: quartz permittivity, value: about 4.5, unit: '', basis: stated, locator: 'Kharel et al., Optica 2021 (arXiv v1), p.3, Sec. II', essential: false}
+  essential: false
+- id: diff_outer_lines
+  name: Inverted-signal strips (S̅)
+  role: 'Later work: the outer strips carry the complement of the centre signal instead of ground'
+  detail: 'Aimone et al. (Nokia Bell Labs, OFC 2026) kept a standard three-conductor travelling-wave electrode, 7.5 mm long,
+    50 Ω, periodically capacitively loaded (T-rail type; segment sizes not printed), with integrated NiCr terminations,
+    on a 350 nm LN film on silicon from a commercial foundry run (C-band I/Q chip; only the I channel characterized).
+    A co-designed SiGe driver delivers S̅ S S S̅ to four input pads: the two inner pads feed the centre strip, the outer
+    pads the two outer strips, with no ground between the signal electrodes (Fig. 1a labels the strips -, +, -). The gap
+    voltage doubles compared with a single-ended drive while the two arms still see opposite fields (push-pull). The
+    electrode can also be driven stand-alone as ground-signal-ground: V_{π} 3.26 V that way; the authors quote V_{π}L 1.1
+    V·cm referenced to the single-ended signal under the differential drive. Electro-optic 3-dB bandwidth of the modulator
+    above 67 GHz (instrument limit); driver plus modulator about 60 GHz at mid gain. 140 GBd PAM-8 (8-level pulse
+    amplitude modulation), 347 Gbit/s net, 1.4 pJ/bit for the assembly. The drawing keeps the T-rail geometry of the
+    previous chapter (Kharel et al.); this paper prints no electrode dimensions.'
+  quote: The driver IC is modified to deliver a custom S̅SSS̅ output signal with no ground planes in between the signal electrodes.
+  locator: Aimone et al., OFC 2026, paper M4D.4, p.1, Sec. 2; p.2, Fig. 1(a)
+  material: metal (not named), on 350 nm LN on silicon
+  look: {color: '#e3b04b', opacity: 1.0, metal: 1.0, rough: 0.3, emissive: ''}
+  geometry:
+    type: role_change
+    of: ground_lines
+    note: no geometry change; tag G -> S̅ and drive sign opposite to the centre strip
+  dims:
+  - {label: electrode length, value: 7.5, unit: mm, basis: stated, locator: 'Aimone et al., OFC 2026, paper M4D.4, p.1, Sec. 2', essential: false}
+  - {label: LN film, value: 350, unit: nm, basis: stated, locator: 'Aimone et al., OFC 2026, paper M4D.4, p.1, Sec. 2', essential: false}
+  - {label: line impedance (design), value: 50, unit: Ω, basis: stated, locator: 'Aimone et al., OFC 2026, paper M4D.4, p.1, Sec. 2', essential: false}
+  - {label: 'V_{π}, stand-alone ground-signal-ground drive', value: 3.26, unit: V, basis: stated, locator: 'Aimone et al., OFC 2026, paper M4D.4, p.1, Sec. 2', essential: false}
+  - label: V_{π}L referenced to the single-ended signal, differential drive
+    value: 1.1
+    unit: V·cm
+    basis: stated
+    locator: Aimone et al., OFC 2026, paper M4D.4, abstract and p.1, Sec. 2
+    note: authors' figure; not reproducible from 3.26 V and 7.5 mm by halving (1.22 V·cm), the paper gives no derivation
+    essential: false
+  - {label: electro-optic 3-dB bandwidth, modulator, value: '>67', unit: GHz, basis: stated, locator: 'Aimone et al., OFC 2026, paper M4D.4, p.1, Sec. 2; Fig. 1(b)', note: 'limit of the measurement equipment', essential: false}
+  - {label: 3-dB bandwidth, driver plus modulator, value: about 60, unit: GHz, basis: stated, locator: 'Aimone et al., OFC 2026, paper M4D.4, p.2; Fig. 1(d)', note: 'mid driver gain; terminations 35 Ω instead of the targeted 50 Ω', essential: false}
+  - {label: 'line rate, net', value: 347, unit: Gbit/s, basis: stated, locator: 'Aimone et al., OFC 2026, paper M4D.4, p.3, Sec. 3', note: '140 GBd PAM-8; 1.4 pJ/bit for driver plus modulator', essential: false}
+  essential: true
+- id: diff_driver
+  name: Differential driver
+  role: 'Later work: driver output S̅ S S S̅ bonded to the electrode input pads; neutral marker'
+  detail: 'SiGe BiCMOS driver (130 nm, two gain stages, 20 dB gain, 605 mW per channel). The open-collector output stage is
+    split in two, each half driving one differential pad pair of the S̅ S S S̅ configuration; simulated maximum
+    differential swing 2.8 V per output pair into 50 Ω, 3-dB bandwidth above 90 GHz. Wire-bonded next to the modulator
+    chip. Geometry not drawn in the source beyond a micrograph: neutral marker only.'
+  quote: It is split into two parallel output stages, each driving a pair of differential pads of the S̅SSS̅ configuration.
+  locator: Aimone et al., OFC 2026, paper M4D.4, p.2, Sec. 2; Fig. 1(a), 1(c)
+  material: ''
+  look: {color: '#9aa0a8', opacity: 1.0, metal: 0.4, rough: 0.5, emissive: ''}
+  geometry: {type: marker, at: electrode input end (replaces rf_input in the differential chapter), schematic: true}
+  dims:
+  - {label: simulated max differential swing per output pair, value: 2.8, unit: V, basis: stated, locator: 'Aimone et al., OFC 2026, paper M4D.4, p.2, Sec. 2', note: 'simulation, 50 Ω load', essential: false}
+  - {label: driver power per channel, value: 605, unit: mW, basis: stated, locator: 'Aimone et al., OFC 2026, paper M4D.4, p.2, Sec. 2', essential: false}
+  essential: false
+
+# ----------------------------------------------------------------------------------------------------------- references
+references:
+- id: kharel2021
+  cite: P. Kharel, C. Reimer, K. Luke, L. He, M. Zhang, "Breaking voltage-bandwidth limits in integrated lithium niobate
+    modulators using micro-structured electrodes", Optica 8, 357 (2021); published online 2021-03-09; arXiv:2011.13422v1
+    (2020-11-26); erratum Optica 8, 1218 (2021-09-14) corrects Fig. 4 only
+  url: https://doi.org/10.1364/OPTICA.416155
+  public_domain: false
+  used_for: 'T-rail chapter: segment geometry (g, h, s, t, r, c), stack, RF loss, RF index, V_{π}, roll-off. Read from the
+    arXiv v1 text and figures; the journal abstract (Crossref) agrees on 1.3 V and 1.8 dB at 50 GHz; journal main text not
+    compared'
+- id: aimone2026
+  cite: A. Aimone, P. Thomas, C. Deakin, K. Kim, T. Huynh, X. Chen, M. Earnshaw, Y. Baeyens, S. Shahramian, N. Fontaine,
+    "Truly-Differential Drive of TFLN TWE-MZM by Linear SiGe Driver in a Codesigned Hybrid Integrated Assembly", Optical
+    Fiber Communication Conference (OFC) 2026, paper M4D.4
+  url: https://doi.org/10.1364/OFC.2026.M4D.4
+  public_domain: false
+  used_for: 'differential chapter: S̅ S S S̅ drive of a three-conductor capacitively loaded electrode, length, film,
+    V_{π}, bandwidth, data rate'
+- id: ciena_us12619109
+  cite: M. Jacques, G. Brookes, M. Vitic, A. Simard, D. McGhan, Y. Gao (Ciena), "Differential drive modulator structures for
+    a linear electro-optic platform", US 12,619,109 B2, granted 2026-05-05, filed 2023-04-06, priority 2023-01-25
+  url: https://image-ppubs.uspto.gov/dirsearch-public/print/downloadPdf/12619109
+  public_domain: true
+  used_for: 'physics check only, not drawn: FIG. 1A-1F (sheets 1-3, labelled prior art) compare drive schemes on thin-film
+    LN; FIG. 1C (dual coplanar-strip GSSG) is marked "same phase shift in both arms", FIG. 1E (S̅ S S̅) and FIG. 1B
+    (G S̅ G S G) push-pull'
+- id: chen2025_lpr
+  cite: G. Chen, Z. Ruan, H. Wei, H. Wang, Y. Zhou, K. Chen, K. Zhong, C. Guo, L. Liu, "First Demonstration of
+    Differential-Drive Push-Pull Modulators on Thin-Film Lithium Niobate", Laser Photonics Rev. 19(19), e00018 (2025),
+    published online 2025-10-07
+  url: https://doi.org/10.1002/lpor.202500018
+  public_domain: false
+  used_for: 'context only, not read (publisher page HTTP 403): abstract per the university portal, two-segment Mach-Zehnder,
+    V_{π} 670 mV, extrapolated bandwidth about 109 GHz; electrode layout unknown'
+- id: chen2022_apl
+  cite: G. Chen et al., "High performance thin-film lithium niobate modulator on a silicon substrate using periodic
+    capacitively loaded traveling-wave electrode", APL Photonics 7, 026103 (2022)
+  url: https://doi.org/10.1063/5.0077232
+  public_domain: false
+  used_for: 'context only: T-segment electrodes kept on a silicon handle by undercutting the silicon under the modulator
+    (alternative to the quartz handle); not drawn'
+
+# ------------------------------------------------------------------------------------------------------------- withheld
+withheld:
+- what: GSSG or G-S-G-S-G electrode drawn as the differential drive
+  reason: 'Not drawn. A plain GSSG with one arm in each outer gap gives the same phase shift in both arms on x-cut LN (US
+    12,619,109 B2, FIG. 1C), so push-pull is lost; Aimone et al. (p.1) state that GS̅GSG and GS̅SG "are not inherently
+    compatible" with the three-conductor electrode. Thin-film LN papers that make a GSSG or split G-S-G-G-S-G layout work
+    (Chen et al., Laser Photonics Rev. 2025, two-segment Mach-Zehnder; Zhou et al., OFC 2026, "GSSG differential electrode
+    configuration") could not be read in full or print no layout, so their arm placement and crossings are unknown. The
+    story shows the S̅ S S̅ scheme instead, the only differential layout on thin-film LN whose conductor roles are printed.'
+- what: Segment dimensions of the differential-drive electrode
+  reason: Aimone et al. state periodic capacitive loading but print no segment, gap or width values; the differential chapter
+    carries over the Kharel et al. T-rail geometry, labelled as carried over.
+- what: Cross-section of the differential-drive device
+  reason: 'Aimone et al. give only "350 nm of Lithium Niobate on a Silicon substrate"; oxide, etch, ridge and metal are not
+    printed. The differential chapter keeps the drawn cross-section of the T-rail chapter (Kharel et al., quartz), labelled.'
+- what: Ridge width and sidewall of the T-rail device
+  reason: Not stated by Kharel et al. (Fig. 1e is a schematic); the 2018 ridge shape is kept, labelled carried over.
+- what: Number of segments along the 20 mm line
+  reason: Not stated (whether segments run the full electrode length is not printed); the compressed plan draws an
+    illustrative count.
+- what: Field and current distribution around the T segments
+  reason: Fig. 1(c, d) of Kharel et al. are artistic views; no simulated field map printed. Any current glow is illustrative.
+- what: Plot for the coda
+  reason: None added (the story already has 3 plot chapters; the coda results are single numbers in the side panel).
+- what: First thin-film LN differential drive
+  reason: 'Chen et al. (Laser Photonics Rev. 2025) claim the first differential-drive push-pull modulator on thin-film LN;
+    Aimone et al. cite an earlier conference paper (N. Chen et al., OECC 2024) not found. No "first" is shown for the
+    differential chapter.'

@@ -1,0 +1,166 @@
+wang2018b coda research report ("what came next": T-rail electrodes, differential drive)
+Date: 2026-11-11. Spec patch: data/_staging/showcases/wang2018b_coda.yaml (YAML parse checked; part ids in chapters resolve
+against the main spec plus the patch). Owner ruling: the 2018 chapters stay as published; coda chapters labelled later work.
+
+Outputs
+- data/_staging/showcases/wang2018b_coda.yaml   coda_note, p re-split (2 options), 2 chapters, 4 parts, 5 references,
+                                                 8 withheld items. No plot chapter.
+- cache/showcases/wang2018b_coda/ (git-ignored): US12619109B2.pdf (one request, HTTP 200, 1,865,663 bytes, 24 pages,
+  scanned, no text layer).
+- No drawing crop, no trace (see section 5).
+
+1. HOW THE SOURCES WERE FOUND (local atlas first)
+eo-modulator-atlas, data/devices.csv queried by columns (eo_material = lithium_niobate and electrode_type in {cl_twe,
+slow_wave, segmented, tw_gssg} or drive in {differential, dual_drive, series_push_pull}), joined to papers.csv, sorted by
+published_on. Rows used:
+- T-rail: kharel2021-a (10 mm) and kharel2021-b (20 mm), cl_twe, lnoi_rib, published_on 2020-11-26 (arXiv v1): the earliest
+  thin-film LN cl_twe rows in the atlas. Next: liu2021-a (2021-02-04, Chinese Optics Letters), xu2022-a, chen2022-a/b/c
+  (silicon handle, undercut). Evidence: data/evidence/kharel2021.yaml; text and figures: references/kharel2021/.
+- Differential on thin-film LN: only 2025-2026 rows. kari2025-c/d/e (lumped resonator MZI, not travelling wave);
+  aimone2026-a (cl_twe + differential, OFC 2026 M4D.4); zhou2026-a (tw_gssg + differential, OFC 2026 Th1C.3); yu2026-a
+  (differential, no layout); starnault2026-a/b (dual_drive, no layout). Evidence and text: references/aimone2026/,
+  references/zhou2026/, references/yu2026/.
+- The atlas is not exhaustive. Aimone et al. cite two earlier thin-film LN differential papers not in the atlas (their
+  refs [4], [5]): G. Chen et al., Laser Photonics Rev. 19(19) e00018 (2025) and N. Chen et al., OECC 2024. The same
+  Chen 2025 DOI (10.1002/lpor.202500018) is also cited in references/tran2026 and references/wu2025.
+- This repo: data/registry/sources.csv holds only the eo:* mirrors of the same atlas rows; no local copy of the
+  Chen 2025 paper.
+Web (generic User-Agent, no personal identifiers): 3 searches; fetches: university portal page for Chen 2025 (200),
+Wiley full text (403, stopped, not retried), arXiv abs 2412.12556 (200, not relevant: capacitively loaded, single drive),
+Google Patents US 12,619,109 (200), USPTO PDF (200), Crossref API x2 (200: Kharel erratum and version of record).
+No 429 / 503.
+
+2. SOURCES, VERIFIED VS NOT
+[K] Kharel, Reimer, Luke, He, Zhang (HyperLight), "Breaking voltage-bandwidth limits in integrated lithium niobate
+    modulators using micro-structured electrodes", Optica 8, 357 (2021), doi 10.1364/OPTICA.416155; arXiv:2011.13422v1
+    (2020-11-26). VERIFIED from the cached arXiv v1 PDF (eo-modulator-atlas references/kharel2021/source.pdf, 7 pages),
+    text and 500-600 dpi renders of Fig. 1. Version of record: Crossref abstract agrees (RF V_pi 1.3 V, 1.8 dB roll-off
+    at 50 GHz); its main text was not compared. Erratum Optica 8, 1218 (2021-09-14, doi 10.1364/optica.440484):
+    Crossref abstract says it corrects Fig. 4 only (the sub-volt projection); no value in the patch comes from Fig. 4.
+    Locators cite "Kharel et al., Optica 2021 (arXiv v1), p.N"; p.N are arXiv v1 pages.
+[A] Aimone et al. (Nokia Bell Labs), "Truly-Differential Drive of TFLN TWE-MZM by Linear SiGe Driver in a Codesigned
+    Hybrid Integrated Assembly", OFC 2026, paper M4D.4, doi 10.1364/ofc.2026.m4d.4. VERIFIED from the cached 3-page PDF
+    text and the embedded Fig. 1 (references/aimone2026/). Rights: OFC paper, restricted local only; only stated values
+    and short quotes are used, no figure image, no affiliations' addresses or emails.
+[P] US 12,619,109 B2 (Ciena), "Differential drive modulator structures for a linear electro-optic platform", granted
+    2026-05-05, filed 2023-04-06, priority 2023-01-25 (bibliographic data from Google Patents; sheets 1-3 checked on
+    the USPTO scan). VERIFIED drawings FIG. 1A-1F only (scan has no text layer; the description was not OCR-read).
+    Public domain. Used only as a physics check, not as a device source.
+[C25] G. Chen, Z. Ruan, H. Wei, H. Wang, Y. Zhou, K. Chen, K. Zhong, C. Guo, L. Liu, "First Demonstration of
+    Differential-Drive Push-Pull Modulators on Thin-Film Lithium Niobate", Laser Photonics Rev. 19(19), e00018 (2025),
+    published online 2025-10-07. NOT READ: Wiley 403; no arXiv version found. Abstract only (Hong Kong Polytechnic
+    University research portal): two-segment Mach-Zehnder, V_pi 670 mV, extrapolated bandwidth about 109 GHz after
+    compensating optical / microwave delay mismatch. Electrode layout unknown. Aimone et al. describe refs [4,5] as
+    "splitting and rearranging the TWE itself in a GS̅GGSG or GS̅SG fashion" (which paper uses which is not stated).
+[Z] Zhou et al., "400G/lane for Linear-drive Optics Applications", OFC 2026 Th1C.3 (atlas zhou2026): VERIFIED text says
+    only "employs a GSSG differential electrode configuration" (Liobate Technology), V_pi 2.7 V, 1 dB roll-off at 67 GHz.
+    No geometry, no arm placement: not usable for a drawing.
+[C22] Chen et al., APL Photonics 7, 026103 (2022) (atlas chen2022): T-segment electrodes on a silicon handle with the
+    silicon undercut under the modulator (35 um design optimum), 400 nm film, 3 um buried oxide, two metal levels.
+    Context only, not drawn.
+
+3. WHAT EACH NUMBER RESTS ON
+T-rail chapter (all [K]):
+- Segment parameters (g, h, s, t, r, c) = (5, 6, 2, 6, 45, 5) um: stated, Fig. 1 caption p.2; the same set without g is
+  repeated in Sec. II p.3 ("(h, s, t, r, c) = (6, 2, 6, 45, 5) µm as defined in Fig. 1"). Letter meanings read from
+  Fig. 1(a) top view and Fig. 1(e) cross-section (basis figure):
+    g = gap between facing caps across the waveguide (Fig. 1e; also "electrode gap g = 5 µm", p.4);
+    h = stem length = open band between the channel body and the cap (Fig. 1a vertical arrows; Fig. 1e, body to cap);
+    s = cap width across the line (Fig. 1a near the lower arm; Fig. 1e, small Au block);
+    t = stem width along the line (Fig. 1a, top arrows over a stem);
+    r = cap length along the line (Fig. 1a, bottom arrows);
+    c = slit between neighbouring caps (Fig. 1a).
+  Topology from the 600 dpi render of Fig. 1(a) (artistic, "not to scale"): one stem centred on each cap; slits midway
+  between stems; facing T rows mirror-aligned across each gap (also seen in the SEM, Fig. 1b); T rows on both edges of
+  both gaps (centre strip both sides, outer strips inner side only). Drawn proportions in Fig. 1(a) are not to scale:
+  use the caption values.
+- Period 50 um = r + c: derived. Channel-to-channel spacing 21 um = g + 2(s + h): derived, consistent with Fig. 1(e).
+- Signal width 100 um: stated in Table I (p.3) for the simulated segmented design on quartz; the fabricated width is not
+  separately stated.
+- Stack (Sec. III p.3-4): NanoLN 600 nm x-cut film on 500 um quartz; 350 nm etched (slab 250 nm derived); 800 nm gold
+  lift-off; 1 um SiO2 by chemical vapour deposition. Quartz permittivity about 4.5, loss tangent <10^-4 (p.3).
+- RF loss at 50 GHz 2 dB/cm (segmented, LN on quartz) vs 7 dB/cm (regular, LN on silicon), 10 mm electrodes (Fig. 2
+  caption), gold 800 nm, g = 5 um (p.4); fits 0.26 vs 0.69 dB cm^-1 GHz^-1/2 (p.4, Fig. 2). Note the comparison mixes
+  substrates (as printed).
+- RF phase index 2.23 measured (p.4); plain electrodes on quartz would give about 1.8 (p.3, statement).
+- 20 mm: DC V_pi 1.35 V, V_pi at 1 GHz 1.3 V (Bessel method), 1.8 dB roll-off at 50 GHz, V_pi(50 GHz) 1.6 V (stated),
+  ER about 20 dB, on-chip loss <1 dB (p.4). 10 mm: V_pi(1 GHz) 2.3 V, 0.8 dB at 50 GHz (p.4).
+- "Not previously implemented [on LN] to improve RF performances" (p.3) is the authors' claim; the chapter line does not
+  say "first".
+- Coincidence worth knowing, not a claim in the story: the 2018 main device and the Kharel headline device are both
+  20 mm; M. Zhang is an author of both papers (author lists).
+Differential chapter (all [A] unless noted):
+- Three-conductor travelling-wave electrode, 7.5 mm, 50 ohm design, "periodic capacitive loading", integrated NiCr
+  terminations; 350 nm LN on silicon, commercial foundry MPW, C-band I/Q, only the I channel characterized (p.1 Sec. 2).
+- Drive: driver output S̅ S S S̅ to four pads, the two inner pads connected to the central electrode, "no ground planes
+  in between the signal lines" (p.1); Fig. 1(a) labels the three strips -, +, - with one arm in each gap (p.2). The
+  electrode is "identical to the one of a modulator to be driven in a standard GSG fashion" apart from the input (p.1).
+  This is the same scheme as US 12,619,109 FIG. 1E ("Differential CPW electrode, push-pull differential", S̅ S S̅).
+- "The differential signal doubles the available voltage between the electrodes compared with single-ended drive" (p.2):
+  basis of the 2x field arrows in the action.
+- V_pi 3.26 V measured stand-alone; V_pi L 1.1 V cm "referenced to the single-ended signal" (p.1). Halving 3.26 V x
+  0.75 cm gives 1.22 V cm, not 1.1; the paper gives no derivation (the atlas row records the same caveat). Shown with
+  that note, not used on canvas.
+- Modulator EO 3-dB bandwidth >67 GHz (equipment limit, Fig. 1b); assembly about 60 GHz at mid gain, terminations 35
+  instead of 50 ohm (p.2, Fig. 1d). 140 GBd PAM-8, 347 Gbit/s net, 1.4 pJ/bit (p.3). Driver: 130 nm SiGe BiCMOS, 20 dB,
+  605 mW per channel, simulated max differential swing 2.8 V per output pair into 50 ohm, >90 GHz (p.2).
+Physics check (from [P] drawings and [A] text):
+- Plain GSSG (dual coplanar strips) with one arm in each outer gap: FIG. 1C "same phase shift in both arms" (crossed
+  out). SGS: FIG. 1D same. G S̅ G S G (dual CPW, arms in the first gap of each CPW): FIG. 1B push-pull, "2x the
+  electrical power vs Case 1". S̅ S S̅: FIG. 1E push-pull. [A] p.1: GS̅GSG and GS̅SG "are not inherently compatible"
+  with the three-conductor electrode; adaptations "often result in the loss of the push-pull effect".
+  Simple check: x-cut, field along crystal z across the gaps. G(0) S(+v) S̅(-v) G(0): left gap field points from S to
+  G, right gap from G to S̅: same direction in both arms, so both phases move together: no intensity modulation.
+
+4. PROPOSED CHAPTERS (spec has full actions)
+- t_rail "T-rail electrodes" / "Later work: T-shaped segments cut microwave loss at the gap." Morph: Si + buried oxide
+  -> quartz handle; etch 300 -> 350 nm, gold 1.1 -> 0.8 um, cladding 0.8 -> 1 um; gap edges retract by h + s = 8 um and
+  T rows grow back (t 6, h 6, s 2, r 45, c 5, g 5 um). Canvas label: t_rail with one essential dim "segment 45 µm"
+  (story total becomes 4 essential dims, the budget maximum).
+- differential "Differential drive" / "Later work: outer strips carry the inverted signal, doubling the swing." Outer
+  strips change tag G -> S̅, driver marker S̅ S S S̅, one load per conductor, field arrows opposite in the two gaps and
+  twice the single-ended length; geometry carried over from t_rail (labelled). Canvas label: diff_outer_lines (name
+  only, no essential dim).
+- No new plot (3 plot chapters already; coda values are single numbers, side panel only).
+- p re-split: option A (recommended) height 9 -> 10.8 with every existing chapter scaled by 1/1.2 (same scroll length
+  each), coda 0.083 each; option B keeps height 9 and shortens fields / vpi / bandwidth / fom by about 0.02 each, coda
+  0.06 each.
+- coda_note (append to title_note): later work by other groups, not the 2018 device.
+
+5. WITHHELD (in the spec) AND WHY
+- GSSG / G-S-G-S-G drawn as the differential drive: naive GSSG loses push-pull; the thin-film LN papers that make GSSG or
+  split layouts work could not be read (Chen 2025: 403) or print no layout (Zhou 2026). The owner's literal ask
+  ("G-S-G-S-G or GSSG") is therefore not met; the S̅ S S̅ scheme is shown because its conductor roles are printed.
+- Differential-device segment sizes and cross-section (not printed by [A]); T-rail ridge width / sidewall (not printed
+  by [K]); segment count along 20 mm (not printed); field / current maps (Fig. 1c, d artistic); a "first" for the
+  differential drive (claimed by Chen 2025, not verified; an earlier OECC 2024 paper is cited but not found).
+- No drawing / trace: [K] and [A] are licensed (no figure images); [P] FIG. 1E is public domain and shows the S̅ S S̅
+  scheme, but it is a prior-art comparison sketch, not the demonstrated device. It could be cropped and traced for the
+  drawing pane if the coordinator wants it (one more research step; not done).
+
+6. WHAT THE BUILDER MUST KNOW
+- Two sources, two different stacks: the T-rail chapter is Kharel's device (LN on quartz, 600 nm, 350 nm etch, 0.8 um
+  gold, 1 um cladding). Drawing T-rails on the 2018 silicon + 4.7 um oxide stack would misrepresent it (the authors say
+  the slow-wave effect is undesirable there). The differential chapter is a composite: Aimone's drive scheme on the
+  T-rail geometry of the previous chapter; label it (part detail says so; consider a short canvas note via
+  dims[].note or the tooltip).
+- Never draw ground between the two signals and never place both arms in gaps with the same field direction.
+- S̅ is written with U+0305 (combining overline) as the sources print it; check the font renders it in Playfair /
+  Source Serif / app sans. Fallback: "-S" as the patent drawings write it. Do not use "_" or "^" for it.
+- Plan scale: 50 um period on a 20 mm line compressed about 20x would alias; draw true-size segments in the close-up and
+  an illustrative count in the whole-chip view.
+- handle.assembledAt: set to the start of fom (or the coda) deliberately; the default (start of the last chapter) moves
+  orbit to the differential chapter.
+- The coda chapters reuse existing parts (signal_line, ground_lines, ln_ridge, microwave_field); new ids: t_rail,
+  quartz_substrate, diff_outer_lines, diff_driver. Geometry types t_segment_rows and role_change are new free-form types
+  for the module, not runtime types.
+- Grep the built JSON for internal ids before hand-over; reference ids (kharel2021, aimone2026, ...) follow the main
+  spec's convention and are not shown.
+
+7. OPEN QUESTIONS FOR THE COORDINATOR / OWNER
+1. Accept S̅ S S̅ (Aimone, OFC 2026) as the "double differential" chapter, or wait for a readable copy of Chen et al.,
+   Laser Photonics Rev. 2025 (owner-licensed route; it may show the split G-S-G-G-S-G layout the owner may mean)?
+2. Keep the quartz swap in the T-rail chapter (faithful to Kharel), or use a silicon-handle T-rail paper (Chen et al.,
+   APL Photonics 2022, undercut silicon, two metal levels) to keep the 2018 stack? The patch assumes quartz.
+3. Re-split option A (height 10.8) or B (height 9)?
+4. Trace US 12,619,109 FIG. 1E for the drawing pane in the differential chapter (public domain, but a prior-art sketch)?

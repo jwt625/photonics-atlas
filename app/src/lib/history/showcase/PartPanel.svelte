@@ -1,6 +1,9 @@
 <script lang="ts">
 	// Side panel of a story: one part (detail, quote, locator, full dimension table with basis) or, with no part, the
 	// story (process steps with their parameters); both end with the story's references and withheld items.
+	import { plainMarkup } from './plot';
+	import { withUnit } from './progress';
+	import Rich from './Rich.svelte';
 	import type { Part, ShowcaseSpec } from './types';
 
 	let { spec, part, onclose }: { spec: ShowcaseSpec; part: Part | null; onclose: () => void } = $props();
@@ -13,10 +16,11 @@
 		derived: 'Derived from stated values',
 		digitized: 'Digitized from a figure'
 	};
-	const val = (v: number | string, u?: string) => `${v}${u ? ' ' + u : ''}`;
+	const val = (v: number | string, u?: string) => withUnit(v, u);
+	const tipOf = (...xs: (string | undefined)[]) => xs.filter(Boolean).map((x) => plainMarkup(x)).join('\n');
 </script>
 
-<aside class="pp" aria-label={part ? `${part.name} details` : `${spec.title} sources`}>
+<aside class="pp" aria-label={part ? `${plainMarkup(part.name)} details` : `${plainMarkup(spec.title)} sources`}>
 	<div class="head">
 		<span class="kind">{part ? 'Part' : 'Story'}</span>
 		<div class="grow"></div>
@@ -24,42 +28,43 @@
 	</div>
 	<div class="body">
 		{#if part}
-			<h2>{part.name}</h2>
-			{#if part.role}<p class="role">{part.role}</p>{/if}
-			{#if part.material}<p class="muted">{part.material}</p>{/if}
-			{#if part.detail}<p>{part.detail}</p>{/if}
+			<h2><Rich text={part.name} /></h2>
+			{#if part.role}<p class="role"><Rich text={part.role} /></p>{/if}
+			{#if part.material}<p class="muted"><Rich text={part.material} /></p>{/if}
+			{#if part.detail}<p><Rich text={part.detail} /></p>{/if}
 			{#if part.quote}
-				<blockquote>{part.quote}</blockquote>
+				<blockquote><Rich text={part.quote} /></blockquote>
 			{/if}
-			{#if part.locator}<p class="loc">{part.locator}</p>{/if}
+			{#if part.locator}<p class="loc"><Rich text={part.locator} /></p>{/if}
 			{#if part.dims?.length}
 				<h3>Dimensions</h3>
 				<table>
 					<tbody>
 						{#each part.dims as d, i (i)}
-							<tr class:assumed={d.basis === 'assumed'}>
-								<td>{d.label}</td>
-								<td class="num v">{val(d.value, d.unit)}</td>
-								<td><span class="b" data-tip={[BASIS[d.basis ?? ''] ?? d.basis, d.locator].filter(Boolean).join('\n')}>{d.basis ?? ''}</span></td>
+							<tr class:assumed={d.basis === 'assumed'} class:noted={!!d.note}>
+								<td><Rich text={d.label} /></td>
+								<td class="num v"><Rich text={val(d.value, d.unit)} /></td>
+								<td class="bc"><span class="b" data-tip={tipOf(BASIS[d.basis ?? ''] ?? d.basis, d.locator)}>{d.basis ?? ''}</span></td>
 							</tr>
+							{#if d.note}<tr class="note-row"><td colspan="3"><Rich text={d.note} /></td></tr>{/if}
 						{/each}
 					</tbody>
 				</table>
 			{/if}
 		{:else}
-			<h2>{spec.title}</h2>
-			{#if spec.tagline}<p class="role">{spec.tagline}</p>{/if}
-			{#if spec.title_note}<p class="note">{spec.title_note}</p>{/if}
+			<h2><Rich text={spec.title} /></h2>
+			{#if spec.tagline}<p class="role"><Rich text={spec.tagline} /></p>{/if}
+			{#if spec.title_note}<p class="note"><Rich text={spec.title_note} /></p>{/if}
 			{#each spec.process ?? [] as st (st.id)}
-				<h3>{st.name}</h3>
+				<h3><Rich text={st.name} /></h3>
 				{#if st.params?.length}
 					<table>
 						<tbody>
 							{#each st.params as q, i (i)}
 								<tr class:assumed={q.basis === 'assumed'}>
-									<td>{q.label}</td>
-									<td class="num v">{val(q.value, q.unit)}</td>
-									<td><span class="b" data-tip={[BASIS[q.basis ?? ''] ?? q.basis, q.source ?? st.source, q.locator].filter(Boolean).join('\n')}>{q.basis ?? ''}</span></td>
+									<td><Rich text={q.label} /></td>
+									<td class="num v"><Rich text={val(q.value, q.unit)} /></td>
+									<td class="bc"><span class="b" data-tip={tipOf(BASIS[q.basis ?? ''] ?? q.basis, q.source ?? st.source, q.locator)}>{q.basis ?? ''}</span></td>
 								</tr>
 							{/each}
 						</tbody>
@@ -72,8 +77,8 @@
 			<ul class="refs">
 				{#each spec.references as r (r.id)}
 					<li>
-						{#if r.url}<a href={r.url} target="_blank" rel="noopener">{r.cite}</a>{:else}{r.cite}{/if}
-						{#if r.used_for}<span class="muted">{r.used_for}</span>{/if}
+						{#if r.url}<a href={r.url} target="_blank" rel="noopener"><Rich text={r.cite} /></a>{:else}<Rich text={r.cite} />{/if}
+						{#if r.used_for}<span class="muted"><Rich text={r.used_for} /></span>{/if}
 					</li>
 				{/each}
 			</ul>
@@ -82,7 +87,7 @@
 			<h3>Withheld</h3>
 			<ul class="refs">
 				{#each spec.withheld as w, i (i)}
-					<li><span>{w.what}</span><span class="muted">{w.reason}</span></li>
+					<li><span><Rich text={w.what} /></span><span class="muted"><Rich text={w.reason} /></span></li>
 				{/each}
 			</ul>
 		{/if}
@@ -104,10 +109,15 @@
 	.note { font-size: 12.5px; color: var(--ink-3); line-height: 1.45; }
 	blockquote { margin: 10px 0 4px; padding: 6px 10px; background: color-mix(in srgb, var(--accent) 8%, transparent); color: var(--ink-2); font-style: italic; }
 	.loc { font: 12px var(--text, inherit); color: var(--ink-3); }
-	table { width: 100%; border-collapse: collapse; border-top: 2px solid var(--muted, var(--ink-3)); border-bottom: 1px solid var(--muted, var(--ink-3)); font-variant-numeric: lining-nums tabular-nums; }
+	/* fixed layout: long values wrap, the basis badge column keeps its width */
+	table { width: 100%; table-layout: fixed; border-collapse: collapse; border-top: 2px solid var(--muted, var(--ink-3)); border-bottom: 1px solid var(--muted, var(--ink-3)); font-variant-numeric: lining-nums tabular-nums; }
 	td { padding: 4px 6px 4px 0; border-bottom: 1px solid var(--grid); vertical-align: top; }
 	tr:last-child td { border-bottom: 0; }
-	td.v { white-space: nowrap; }
+	td:first-child { width: 42%; }
+	td.v { overflow-wrap: anywhere; }
+	td.bc { width: 64px; text-align: right; padding-right: 0; }
+	tr.noted td { border-bottom: 0; padding-bottom: 0; }
+	tr.note-row td { padding: 0 0 5px; font-size: 12.5px; font-style: italic; color: var(--ink-3); }
 	.b { font: 600 12px var(--text, inherit); font-variant-caps: all-small-caps; letter-spacing: 0.06em; color: var(--ink-3); background: var(--surface-2); padding: 0 5px; }
 	tr.assumed .b { color: var(--amber, var(--warn)); background: color-mix(in srgb, var(--amber, var(--warn)) 14%, transparent); }
 	.refs { margin: 0; padding: 0; list-style: none; }

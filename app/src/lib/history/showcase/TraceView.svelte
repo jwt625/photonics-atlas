@@ -2,6 +2,8 @@
 	// Traced public-domain drawing (ipatent trace schema) linked to the story's parts: hover / click a numbered part to
 	// highlight it in the model and the parts list. Parts not yet introduced at the current p are dimmed.
 	import { untrack } from 'svelte';
+	import { plainMarkup } from './plot';
+	import Rich from './Rich.svelte';
 	import { hitLayer, renderTrace, type Trace } from './trace';
 	import type { Drawing } from './types';
 
@@ -27,6 +29,7 @@
 
 	let svg: SVGSVGElement | undefined = $state();
 	let groups: SVGGElement[] = [];
+	let pats: Record<string, SVGPatternElement[]> = {};
 	let mode = $state<'trace' | 'scan'>('trace');
 	const uid = `tr${Math.random().toString(36).slice(2, 8)}`;
 
@@ -39,6 +42,7 @@
 		root.replaceChildren();
 		const r = renderTrace(root, t, uid, partOf);
 		groups = Object.values(r.groups);
+		pats = r.patterns;
 		root.appendChild(hitLayer(t, partOf));
 		untrack(paint);
 	});
@@ -48,7 +52,10 @@
 		svg?.classList.toggle('sel', sel.size > 0);
 		for (const g of groups) {
 			const p = g.dataset.part;
-			g.classList.toggle('on', !!p && sel.has(p));
+			const lit = !!p && sel.has(p);
+			g.classList.toggle('on', lit);
+			// the element's own hatch / stipple / dash fills follow its highlight
+			for (const pt of pats[g.dataset.id ?? ''] ?? []) pt.classList.toggle('on', lit);
 			g.classList.toggle('fut', !!p && pending.has(p));
 		}
 	}
@@ -74,17 +81,18 @@
 		}}
 	>
 		{#if trace}
-			<svg bind:this={svg} class:hide={mode === 'scan'} preserveAspectRatio="xMidYMid meet" role="img" aria-label={drawing.source}></svg>
+			<svg bind:this={svg} class:hide={mode === 'scan'} preserveAspectRatio="xMidYMid meet" role="img" aria-label={plainMarkup(drawing.caption || drawing.source)}></svg>
 		{/if}
-		{#if image && (mode === 'scan' || !trace)}<img src={image} alt={drawing.source} />{/if}
+		{#if image && (mode === 'scan' || !trace)}<img src={image} alt={plainMarkup(drawing.caption || drawing.source)} />{/if}
 	</div>
 	<figcaption>
-		{#if drawing.url}<a href={drawing.url} target="_blank" rel="noopener">{drawing.source}</a>{:else}{drawing.source}{/if}
+		{#if drawing.url}<a href={drawing.url} target="_blank" rel="noopener"><Rich text={drawing.caption || drawing.source} /></a>{:else}<Rich text={drawing.caption || drawing.source} />{/if}
 		{#if trace && image}
 			<span class="seg">
 				<button class:on={mode === 'trace'} onclick={() => (mode = 'trace')}>Trace</button><button class:on={mode === 'scan'} onclick={() => (mode = 'scan')}>Scan</button>
 			</span>
 		{/if}
+		{#if drawing.note}<span class="dnote" data-tip={plainMarkup(drawing.note)}><Rich text={drawing.note} /></span>{/if}
 	</figcaption>
 </figure>
 
@@ -94,6 +102,8 @@
 	svg, img { position: absolute; inset: 4px; width: calc(100% - 8px); height: calc(100% - 8px); object-fit: contain; }
 	svg.hide { display: none; }
 	img { background: #fff; }
+	.dnote { flex: 1 0 100%; order: 3; padding: 2px 0 0; font: italic 12px/1.35 var(--text, inherit); color: var(--ink-3); display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+	figcaption { flex-wrap: wrap; }
 	figcaption { display: flex; align-items: center; gap: 8px; padding: 3px 0 0; font-size: 10px; color: var(--ink-3); }
 	.seg { margin-left: auto; display: inline-flex; }
 	.seg button { height: 18px; font-size: 10px; padding: 0 5px; }
@@ -112,6 +122,8 @@
 	svg :global(.tr-el.on) { opacity: 1 !important; }
 	svg :global(.tr-el.on .tr-s) { stroke: var(--accent); }
 	svg :global(.tr-el.on .tr-t), svg :global(.tr-el.on .tr-fill-solid), svg :global(.tr-el.on .tr-arrow) { fill: var(--accent); }
+	svg :global(.tr-pat.on .tr-hatchline) { stroke: var(--accent); }
+	svg :global(.tr-pat.on .tr-arrow) { fill: var(--accent); }
 	svg :global(.tr-hit [data-part]) { cursor: pointer; }
 	@media (prefers-reduced-motion: reduce) {
 		svg :global(.tr-el) { transition: none; }

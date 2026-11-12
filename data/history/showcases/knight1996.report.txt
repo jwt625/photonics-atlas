@@ -1,0 +1,204 @@
+knight1996 (photonic crystal fiber, three-stage stack-and-draw) showcase research report, 2026-11-11
+=====================================================================================================
+
+Spec: data/history/showcases/knight1996.yaml (15 parts, 10 chapters, 6 process steps, 2 plots, 0 drawings).
+Scripts and intermediate reads (git-ignored, re-runnable with uv --with numpy scipy pillow scikit-image):
+cache/showcases/knight1996/ (sem1 / lat / lat2 / homog / det2 / outline = Fig. 1 lattice and ring count;
+f2a_dig.py = Fig. 2(a) calibration and contours, args: image out.json threshold closing step mode [calibration];
+env WF = stroke-width drop factor, 1.35 used for the outer contour).
+Renderer: 3D process. No public-domain drawing exists for this work (licensed journal letter; see 1.4).
+
+----------------------------------------------------------------------------------------------------------
+1 SOURCES
+----------------------------------------------------------------------------------------------------------
+
+1.1 Main source (licensed, local copy only: references/knight1996/source.pdf, sha256 1dca3cdb...)
+    J. C. Knight, T. A. Birks, P. St. J. Russell, D. M. Atkin, "All-silica single-mode optical fiber with photonic
+    crystal cladding", Opt. Lett. 21(19), 1547-1549 (1996-10-01), received 1996-04-08; Optoelectronics Research
+    Centre, University of Southampton, UK. DOI 10.1364/OL.21.001547.
+    Journal p.1547 = text.md page 1, p.1548 = page 2, p.1549 = page 3; two columns per page. The text layer prints
+    "~" as ",", "°" as "±" and "µ" as "m"; every quoted number was read back on 300 dpi page renders made from the
+    PDF (scratch only): "~2000 °C", "0.8 mm", "~50 µm", "more than 10^4", "~2 µm", "38 µm", "2.3 µm", "4.6 µm",
+    "0.2- 1.2 µm", "60× objective", "~0.13 at 457.9 nm to 0.36 at 1550 nm".
+    Fixes: the whole process (rod, hole, flats, three draws, solid cane), Fig. 1 fiber dimensions, test set-up
+    (lasers, objective, 1 m, index-matching fluid, >50 % coupling, vidicon with 60× objective, paper screen), the
+    near field (Fig. 2(a), digitized), the far field (Fig. 3, qualitative), NA values, polarization remark.
+    Figures: Fig. 1 SEM (p.1548 left col., embedded 900 x 704 px, img_p02_1.png); Fig. 2(a) near-field contours on an
+    approximately scaled SEM portion and 2(b) calculated Fourier transform (p.1548 right col., embedded 796 x 1328,
+    img_p02_2.png); Fig. 3(a)/(b) far-field photographs (p.1549, img_p03_1.png). No xy plot is printed.
+
+1.2 Erratum: J. C. Knight, T. A. Birks, P. St. J. Russell, D. M. Atkin, "... : errata", Opt. Lett. 22(7), 484-485
+    (1997), DOI 10.1364/OL.22.000484. Not cached locally; Optics Letters is not open access, so no publisher page was
+    fetched (repo rule). One web search confirmed only the citation; the University of Southampton repository record
+    (eprints.soton.ac.uk/78010) returned HTTP 403 and was not retried. Birks et al. 1997 (ref. 1) and Cregan et al.
+    1999 (ref. 5) cite the letter together with the erratum. CONTENT UNKNOWN: whether it changes any number used here
+    cannot be checked. Recorded in withheld and title_note; open question O1.
+
+1.3 Secondary (licensed, local copy: references/birks1997/)
+    T. A. Birks, J. C. Knight, P. St. J. Russell, "Endlessly single-mode photonic crystal fiber", Opt. Lett. 22(13),
+    961-963 (1997-07-01). Fixes: "The fiber described in our earlier Letter has Λ = 2.3 µm and d/Λ ≈ 0.15" (p.962
+    left col.) -> hole diameter about 0.35 µm (basis ref). Its Fig. 1 (p.961) is the same micrograph (identical data
+    bar: 20KV, X1,800, 36mm, L01), captioned pitch 2.3 µm, fiber about 40 µm across; "Subsequent measurements have
+    extended this range to 337 nm" (p.961, later work, side panel only).
+
+1.4 Patents: none of the same work found. One web search: US 6,334,019 B1 "Single mode optical fiber" (Birks,
+    Knight, Russell; GB priority 1997-06-26) is the later large-core endlessly single-mode work, not this fiber; not
+    downloaded, not traced (open question O4).
+
+1.5 Request log (all generic, no personal identifiers): WebSearch x2 (erratum citation; patent identity), WebFetch
+    x1 (eprints.soton.ac.uk/78010 -> 403, stopped). No Optica page requested. No downloads. Sibling atlases: the
+    eo-modulator / packaging atlases do not cover fibers; this repo's references/ gave birks1997 and cregan1999 (both
+    already cached).
+
+----------------------------------------------------------------------------------------------------------
+2 WHAT THE PAPER FIXES (per part)
+----------------------------------------------------------------------------------------------------------
+
+rod          FIXED: 30 mm silica rod, 16 mm hole down its length, six milled flats forming a regular hexagon
+             (p.1547 right col.). ASSUMED: flat-to-flat drawn at the geometric upper bound 26.0 mm (30 cos 30°,
+             corners on the original surface); rod length visual. WITHHELD: silica grade.
+tower        FIXED: fiber drawing tower, ~2000 °C for the first draw; second and third draws "on the tower";
+             furnace temperature varied during pulling to control hole size (p.1547 right col.; p.1548 left col.).
+             STAND-IN: plain furnace ring on a vertical axis; downward draw assumed (a tower is stated, feed and draw
+             directions are not). WITHHELD: furnace type, speeds, tension, temperatures of draws 2 and 3.
+cane         FIXED: hexagonal cane "of a diameter of 0.8 mm", cut to length (p.1547 right col.). WITHHELD: whether
+             0.8 mm is flat-to-flat or corner-to-corner; cut length. ASSUMED: hole proportion of the preform kept in
+             the first draw (16 / 26.0 = 0.62); derived draw-down about 32x (37x from the 30 mm rod).
+solid_cane   FIXED: one hollow cane replaced by a similar cane without a hole, at the stacking stage, center
+             (p.1547 right col.; "into the middle of the fiber", p.1547 left col.).
+stack        NOT STATED: count, holder. FIGURE: 9 rings (271 canes) counted from Fig. 1, see 4.2; outline flats
+             parallel to the rows of holes (Fig. 1). No jacket drawn.
+fused_stack  FIXED: canes fused, pitch ~50 µm; a piece drawn down again (p.1547 right col.). DERIVED: about 0.8 mm
+             across the flats (16.5 x 50 µm), estimate only.
+fiber        FIXED: flat-to-flat 38 µm, pitch 2.3 µm, solid core nominally 4.6 µm, invariant over several meters,
+             holes run the entire length, many meters long, unit cell reduced by more than 10^4, final pitch ~2 µm
+             (p.1547); 1 m test length (p.1548). Consistency: 26.0 mm / 2.3 µm = 1.1 x 10^4 (30 mm / 2.3 µm =
+             1.3 x 10^4), agrees with "more than 10^4".
+air_holes    FIXED: regular hexagonal pattern along the whole length (p.1547 left col.); relative diameter smaller
+             than in the original unit cell (surface tension); other draws 0.2-1.2 µm (p.1548 left col.).
+             REF: d/Λ ≈ 0.15 -> 0.35 µm (Birks et al. 1997, p.962). FIGURE check: 0.16-0.20 Λ, see 4.3.
+core         FIXED: nominally 4.6 µm wide; index-guiding argument quoted (p.1547 right col.).
+lasers       FIXED: argon-ion 457.9 nm, He-Ne 632.8 nm, Ti:sapphire 850 nm, diode 1550 nm (p.1548 left col.).
+             STAND-IN box; 850 / 1550 nm shown in labelled false colour.
+launch_lens  FIXED: objective lens, >50 % coupling (p.1548 left col.). WITHHELD: objective type.
+index_fluid  FIXED: used to strip cladding-mode light (p.1548 left col.). ASSUMED: position near the input end.
+vidicon      FIXED: near field imaged onto a vidicon camera with a 60x objective (p.1548 left col.).
+screen       FIXED: sheet of paper several centimeters from the far end, photographed (p.1548 left col.; Fig. 3
+             on p.1549). WITHHELD: exact distance, angular scale.
+guided_mode  FIXED: Fig. 2(a) near field (digitized); factor 25 innermost / outermost contour (caption); far field
+             six spots, launch- and bend-independent, single low-loss mode 457.9 to beyond 1550 nm; NA ~0.13 at
+             457.9 nm to 0.36 at 1550 nm, approximately linear; outer spots weaker at longer wavelengths (p.1548
+             right col.); V-value argument (p.1549 left col.).
+Withheld overall: loss number (none printed: only "low-loss"), polarization-axis orientation, erratum content.
+Polarization (two perpendicular preferred axes, p.1549 left col.) and applications (gas sensing, nonlinear
+optics, frequency doubling; planned band-gap fiber) stay in the side panel; the spec does not animate them.
+
+----------------------------------------------------------------------------------------------------------
+3 PLOT DIGITIZATION
+----------------------------------------------------------------------------------------------------------
+
+Plot near_field: Fig. 2(a), p.1548 right col. (embedded raster img_p02_2.png, 796 x 1328 px; panel (a) = rows
+0-725). Licensed: points only, no image in the build.
+  Calibration: the SEM under the contours shows the hole lattice. Holes = dark blobs (Gaussian sigma 1 px,
+  threshold 15 of 255, opening with a 5 px disk, area 80-700 px): 53 holes. Nearest-neighbour vectors clustered,
+  integer lattice indices assigned, affine lattice refined by least squares: a1 = (83.63, 0.12) px, a2 = (41.89,
+  -73.45) px, |a1| 83.6, |a2| 84.6, |a2 - a1| 84.6 px, angle 60.4 deg (near-isotropic, rows horizontal), fit rms
+  4.75 px (0.13 µm). Pixel -> µm by the affine map that sends the lattice to an ideal triangular lattice with the
+  printed pitch 2.3 µm (Λ/px about 0.0274 µm). Origin = the lattice site with no hole that is surrounded by six
+  holes (the core), at px (430.41, 368.19); x right, y up (image y flipped). Caveat in the plot note: the caption
+  calls the SEM portion "approximately scaled", so absolute µm values carry that approximation.
+  Contours: four closed black lines. Inner three: dark mask (threshold 15, closing disk 2) -> each closed stroke
+  component filled; stroke-centre line = the 0.5 level of d_in / (d_in + d_out) (distance transforms to the
+  enclosed region and to the outside), sub-pixel via find_contours: an exact stroke-centre read of every printed
+  pixel column, no interpolation. Outer contour: same with threshold 20 and closing disk 3 (at 15 its stroke has a
+  break at lower right; the closing bridges it), same calibration. Resampling: every 0.06 µm of contour length the
+  nearest real centre-line point is kept (axis span 8.4 µm, so 0.06 µm is about 1/140 of the span, denser than
+  1/60). Points where the stroke is wider than 1.35 x its median width (the outer contour touching a hole: six
+  places) are dropped, not filled: 57 dropped.
+  Point counts (each closed by repeating its first point): innermost 50, second 114, third 166, outermost 279;
+  air-hole centres inside the axis box 16 (style points).
+  Checks: contour centroids within 0.06 µm of the origin (innermost (-0.06, -0.05), outermost (0.03, 0.04)); the
+  outer contour dips toward each of the six nearest holes as the text says; nearest holes at 2.37-2.59 µm from the
+  core site (the affine fit spreads the lattice error); replot compared by eye against the figure
+  (cache/showcases/knight1996/nf_replot.png): shapes, D-shaped innermost contour and the six lobes match.
+  Axes: x, y in µm, range [-4.2, 4.2] both. Equal aspect is needed for a true shape (open question O2).
+
+Plot na: no NA figure is printed. Two stated values, p.1548 right col.: ~0.13 at 457.9 nm and 0.36 at 1550 nm,
+  plus the words "increases approximately linearly with wavelength". Series: the two points (basis stated) and a
+  dashed line between them labelled as the paper's words, not a measurement (plot note). Pen rule for the builder:
+  the scene's output cone follows the NA only at and between the two printed points; nothing beyond them.
+
+Not plotted: Fig. 2(b) is calculated (Fourier transform) and has no axis scale; Fig. 3 photographs have no scale.
+The far-field picture in the scene is schematic: a central spot plus six spots, with the six spots placed along
+the directions of Fig. 2(b) relative to the lattice of Fig. 2(a) (spots at 90 / 270 deg and +-30 / +-150 deg when
+the rows of holes run at 0 deg; consistent with the reciprocal lattice of a triangular lattice); Fig. 3(a) shows the
+same orientation but the camera-to-fiber orientation is not stated.
+
+----------------------------------------------------------------------------------------------------------
+4 GEOMETRY FOR THE MODEL
+----------------------------------------------------------------------------------------------------------
+
+4.1 Scale chain (stated unless marked): rod 30 mm, hole 16 mm -> hexagon at most 26.0 mm across the flats
+    (derived bound) -> cane 0.8 mm (as printed) -> stack 9 rings, 271 canes, about 13.2 mm across (derived) ->
+    fused stack pitch ~50 µm, about 0.8 mm across (derived) -> fiber pitch 2.3 µm, 38 µm across the flats, core
+    4.6 µm, holes about 0.35 µm (ref). The builder zooms between stages; the spec keeps real values in dims.
+
+4.2 Ring count (Fig. 1, img_p02_1.png, 900 x 704 px, oblique SEM view):
+    Hole detection: background-subtracted (median 13-15 px) local minima, face region only (excludes the bright
+    sidewall and the black background). First pass (depth > 12): 211 holes; nearest-neighbour vectors
+    (3.2, -33.3), (29.3, -13.1), (26.1, 20.1) px. Indices assigned; a projective (homography) map lattice -> pixel
+    fitted (rms 0.12 pitch; the residual is lattice irregularity, not tilt). The empty site surrounded by six holes is
+    the core. Second pass (depth > 5, accepted only within 0.35 pitch of a lattice site): rings 1-7 complete
+    (6, 12, ..., 42), ring 8 47/48 (the missing site is at the chipped top corner, px (593, 44)), ring 9 28/54 at
+    the fiber edge, mostly in the bright edge rim (median depth 12 vs 21 for rings 1-7: smaller or less resolved
+    holes), beyond ring 9 only scattered noise outside the face.
+    Outline: the face boundary mapped to lattice coordinates; minimum widths at normals 27-29, 88, 155 deg from a
+    row direction, i.e. the outer flats are parallel to the rows of holes. Flat-to-flat 15.5 Λ (inside the edge
+    rim) to 16.2 Λ (rim included) vs printed 38 / 2.3 = 16.5 Λ.
+    Stack model: hexagonal canes, flats touching, N rings, outline flats parallel to the rows -> half width about
+    (0.866 N + 0.29 ... 0.58) Λ (notch ... corner), mean 0.866 N + 0.43. With 8.26 Λ (printed) N = 9.04 -> 9.
+    Result: 9 rings, 271 canes (basis figure + derived; not stated in the paper).
+    Scale bar: the "10 µm" bar runs into the bright sidewall, its left end is not visible; not used. All lengths
+    rely on the printed 2.3 µm pitch.
+
+4.3 Hole size check (Fig. 1): half-depth area of 126 holes in rings 1-6, converted with the local homography
+    Jacobian: equivalent diameter median 0.185 Λ (IQR 0.16-0.20). Blur (holes are 5-6 px across) biases this up;
+    consistent with the authors' d/Λ ≈ 0.15 (Birks 1997), which the spec uses (0.35 µm, basis ref).
+
+4.4 Test bench: laser box, objective, 1 m fiber (render shortened or coiled, length in hover), index-matching
+    sleeve near the input (position assumed), output to the vidicon with a 60x objective (near-field chapter) or to
+    a paper sheet several cm away (far-field chapter). All boxes are neutral stand-ins; no layout is stated.
+
+----------------------------------------------------------------------------------------------------------
+5 CHAPTER SCRIPT RATIONALE
+----------------------------------------------------------------------------------------------------------
+
+Ten chapters, two plot chapters (D1004 limit 3). The process follows the paper's order exactly: drill, mill, draw to
+cane, cut and stack with the solid cane at the center, draw to fuse (pitch ~50 µm), draw a piece to fiber. The
+lattice chapter is the reveal (pitch 2.3 µm essential). Then the test in the paper's order: launch with stripping,
+near field (Fig. 2(a) plot), far field and single-mode range (NA plot). Physics: surface tension shrinks the
+relative hole size in the final draw stages (shown in the final-draw chapter, not earlier); light in the cladding
+is stripped at the index-matching fluid; the near field is at 632.8 nm (red); the far-field pattern keeps its
+shape across wavelengths while the NA grows, outer spots slightly weaker at long wavelengths. Essential dims (4):
+rod dia. 30 mm, hole 16 mm, cane 0.8 mm, pitch 2.3 µm. One amber emphasis: "*Single mode*". Lines carry no other
+numbers. Spelling as printed: "fiber", "center" (US), "He-Ne", "Ti:sapphire", "vidicon".
+
+----------------------------------------------------------------------------------------------------------
+6 OPEN QUESTIONS FOR THE COORDINATOR
+----------------------------------------------------------------------------------------------------------
+
+O1 Erratum (Opt. Lett. 22, 484 (1997)) not read; any corrected number is unknown. Options: leave as is with the
+   title_note / withheld line (current), or ask the owner to drop the erratum PDF into references/ by hand.
+O2 Near-field plot needs equal x / y scale to show the true mode shape; the runtime has no equal-aspect option that
+   I found in types.ts. Either a runtime option (e.g. axis `equal`) or accept the panel aspect (ranges are equal).
+O3 NA plot has only two printed points plus a dashed "approximately linear" line. Keep it as the single-mode plot,
+   or drop it and leave the NA values to hover / side panel (then the story has one plot chapter).
+O4 US 6,334,019 (same authors, 1997 priority, endlessly single-mode / large-core work) may hold a public-domain
+   stack drawing; it is later work, not this fiber. Not downloaded. Use only if the owner wants a "what came next"
+   coda (D1008 pattern).
+O5 Milestone / tag rows agree with the paper and the story (device, silica, "all-silica single-mode photonic
+   crystal fiber", optical fiber; 458-1550 nm). Minor: the milestone note says "(10 um scale bar)"; the bar is
+   printed but mostly hidden against the sidewall, so it cannot be measured (no change requested).
+O6 The story idea in the brief said "capillaries stacked around a solid rod"; the paper's process is different
+   (drilled and milled hexagonal rod drawn to hexagonal cane, one solid cane at the center). The spec follows the
+   paper.

@@ -62,6 +62,35 @@ interface Ctx {
 	defs: SVGDefsElement;
 	made: Set<string>;
 	sub?: SubStyle;
+	/** element being drawn: its pattern fills get their own copies, so highlighting it recolours only its fills */
+	el?: string;
+	/** pattern copies per element id */
+	pats: Record<string, SVGPatternElement[]>;
+}
+
+/** Pattern fill for the current element: a private copy of the figure pattern (hatch / stipple / dashes, or a custom
+ *  hatch), tagged with the element id; highlighting the element then recolours its fill and no other element's. */
+function elementPattern(ctx: Ctx, fill: 'hatch' | 'stipple' | 'dashes', custom: { pitch: number; angle: number; hw?: number } | null): string {
+	const key = custom ? `hatch-${custom.pitch}-${custom.angle}-${custom.hw || 0}` : fill;
+	const el = ctx.el ?? 'x';
+	const id = `${ctx.uid}-${el}-${key}`.replace(/[^A-Za-z0-9_-]/g, '_');
+	if (ctx.made.has(id)) return id;
+	ctx.made.add(id);
+	let p: SVGPatternElement;
+	if (custom) {
+		const { pitch, angle, hw } = custom;
+		p = mk('pattern', { id, width: pitch, height: pitch, patternUnits: 'userSpaceOnUse', patternTransform: `rotate(${angle})` });
+		p.appendChild(mk('line', { x1: 0, y1: 0, x2: 0, y2: pitch, class: 'tr-hatchline', style: hw ? `stroke-width:${hw}` : null }));
+	} else {
+		const base = ctx.defs.querySelector<SVGPatternElement>(`#${CSS.escape(`${ctx.uid}-${fill}`)}`);
+		p = (base ? base.cloneNode(true) : mk('pattern', {})) as SVGPatternElement;
+		p.setAttribute('id', id);
+	}
+	p.classList.add('tr-pat');
+	p.dataset.el = el;
+	ctx.defs.appendChild(p);
+	(ctx.pats[el] ??= []).push(p);
+	return id;
 }
 
 function defs(svg: SVGSVGElement, uid: string): SVGDefsElement {
@@ -94,25 +123,15 @@ function defs(svg: SVGSVGElement, uid: string): SVGDefsElement {
 	return d;
 }
 
-// hatch with custom pitch / angle (px, degrees), defined once per combination
-function hatchId(ctx: Ctx, pitch: number, angle: number, hw?: number): string {
-	const id = `${ctx.uid}-hatch-${pitch}-${angle}-${hw || 0}`.replace(/\./g, '_');
-	if (!ctx.made.has(id)) {
-		ctx.made.add(id);
-		const p = mk('pattern', { id, width: pitch, height: pitch, patternUnits: 'userSpaceOnUse', patternTransform: `rotate(${angle})` });
-		p.appendChild(mk('line', { x1: 0, y1: 0, x2: 0, y2: pitch, class: 'tr-hatchline', style: hw ? `stroke-width:${hw}` : null }));
-		ctx.defs.appendChild(p);
-	}
-	return id;
-}
-
 function shape(s: TraceShape, ctx: Ctx, dflt: number): SVGElement | null {
 	const uid = ctx.uid;
 	const w = s.w != null ? s.w : dflt;
 	const pat = s.fill === 'hatch' || s.fill === 'stipple' || s.fill === 'dashes';
 	const fill = s.fill === 'solid' ? 'tr-fill-solid' : s.fill === 'light' ? 'tr-fill-light' : s.fill === 'paper' ? 'tr-fill-paper' : pat ? 'tr-fill-pat' : 'tr-fill-none';
 	const a: Attrs = { class: `tr-s ${fill}${s.dash ? ' tr-dash' : ''}${s.ink === 'paper' ? ' tr-ink-paper' : ''}`, 'stroke-width': w };
-	const patId = s.fill === 'hatch' && (s.pitch || s.angle != null || s.hw) ? hatchId(ctx, s.pitch || 14, s.angle != null ? s.angle : 45, s.hw) : `${uid}-${s.fill}`;
+	const patId = pat
+		? elementPattern(ctx, s.fill as 'hatch' | 'stipple' | 'dashes', s.fill === 'hatch' && (s.pitch || s.angle != null || s.hw) ? { pitch: s.pitch || 14, angle: s.angle != null ? s.angle : 45, hw: s.hw } : null)
+		: `${uid}-${s.fill}`;
 	// inline style: stylesheet rules on .tr-s would override presentation attributes
 	a.style = (pat ? `fill:url(#${patId});` : '') + (s.w === 0 ? 'stroke:none;' : '') || null;
 	if (s.dash) a['stroke-dasharray'] = Array.isArray(s.dash) ? s.dash.join(' ') : `${w * 4} ${w * 3}`;
@@ -177,6 +196,8 @@ function shape(s: TraceShape, ctx: Ctx, dflt: number): SVGElement | null {
 
 export interface Rendered {
 	groups: Record<string, SVGGElement>;
+	/** per element id: its private pattern fills (recolour them with the element on highlight) */
+	patterns: Record<string, SVGPatternElement[]>;
 	byRef: Record<string, SVGGElement[]>;
 	uid: string;
 }
@@ -184,7 +205,7 @@ export interface Rendered {
 /** Render `trace` into `svg`; `partOf` maps a reference numeral to a spec part id (set as data-part on its groups). */
 export function renderTrace(svg: SVGSVGElement, trace: Trace, uid: string, partOf: (ref: string) => string | undefined = () => undefined): Rendered {
 	svg.setAttribute('viewBox', `0 0 ${trace.w} ${trace.h}`);
-	const ctx: Ctx = { uid, defs: defs(svg, uid), made: new Set(), sub: trace.sub };
+	const ctx: Ctx = { uid, defs: defs(svg, uid), made: new Set(), sub: trace.sub, pats: {} };
 	const body = mk('g', { class: 'tr-body' });
 	svg.appendChild(body);
 	const groups: Record<string, SVGGElement> = {};
@@ -199,6 +220,7 @@ export function renderTrace(svg: SVGSVGElement, trace: Trace, uid: string, partO
 			if (part) g.dataset.part = part;
 		}
 		if (el.step != null) g.dataset.step = String(el.step);
+		ctx.el = el.id;
 		for (const s of el.shapes || []) {
 			const n = shape(s, ctx, dflt);
 			if (n) g.appendChild(n);
@@ -207,7 +229,7 @@ export function renderTrace(svg: SVGSVGElement, trace: Trace, uid: string, partO
 		groups[el.id] = g;
 		if (el.ref) (byRef[el.ref] ??= []).push(g);
 	}
-	return { groups, byRef, uid };
+	return { groups, byRef, uid, patterns: ctx.pats };
 }
 
 /** End and control points of an absolute-command path (M L H V C S Q T A Z); arc radii / flags are skipped. */

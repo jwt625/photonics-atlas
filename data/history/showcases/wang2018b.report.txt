@@ -1,0 +1,172 @@
+wang2018b showcase research report (thin-film LN Mach-Zehnder modulator)
+Date: 2026-11-11. Spec: data/history/showcases/wang2018b.yaml (DevLog-017 section 4a schema, runtime fields per types.ts).
+
+Outputs
+- data/history/showcases/wang2018b.yaml   spec: 16 parts, 11 assembly rows, 12 chapters, 3 process steps, 7 plots
+                                          (3 of them alternates), 4 references, 13 withheld items. YAML round-trip checked.
+- cache/showcases/wang2018b/ (git-ignored): cityu_LNMOD2018_2_100Gmod.pdf (submitted manuscript, see 1).
+- No drawing, no trace, no figure image (2018 paper, licensed; plots rebuilt from digitized points per D982).
+
+1. SOURCES
+- [P] C. Wang, M. Zhang, X. Chen, M. Bertrand, A. Shams-Ansari, S. Chandrasekhar, P. Winzer, M. Loncar,
+  "Integrated lithium niobate electro-optic modulators operating at CMOS-compatible voltages", Nature 562, 101-104
+  (2018), https://doi.org/10.1038/s41586-018-0551-y. Cached copy references/wang2018b/source.pdf = accelerated article
+  preview, 12 pages ("Published online xx xx xxxx"): main text p.1-4, Methods p.5-6, Extended Data Fig. 1-5 p.7-11,
+  Extended Data Table 1 p.12. Locators "p.N" in the spec are pages of this PDF. All numbers read from the text layer
+  and checked on 400 dpi renders; plots digitized from the PDF's own vector paths where the figure is vector.
+- Version of record, metadata only (body paywalled):
+  Crossref record (api.crossref.org/works/10.1038/s41586-018-0551-y): Nature 562(7725) 101-104, published-online
+  2018-09-24, published-print October 2018, no update-to / relation entries (no correction).
+  nature.com article page (one fetch via the cookie redirect): published 2018-09-24, issue date 2018-10-04; lists
+  Extended Data Fig. 1-5 and Extended Data Table 1; no Supplementary Information file; no correction notice;
+  abstract identical to the preview; Extended Data Fig. 1, 3, 4, 5 captions identical to the preview.
+  Not reached: VoR main text and Methods (paywall; the Harvard group copy
+  nano-optics.seas.harvard.edu/.../2018_cw_s41586-018-0551-y.pdf returned HTTP 403, stopped, not retried).
+- [SUB] Submitted manuscript with "Supplemental Information", dated 2018-04-15 (PDF CreationDate 2018-04-15),
+  https://www.ee.cityu.edu.hk/~cwang/document/LNMOD2018_2_100Gmod_.pdf (one request, HTTP 200, 1,602,529 bytes,
+  12 pages). Pre-review version; used for comparison only (section 5); no value in the spec comes from it.
+- Context only, not read: Zhang et al., Optica 4, 1536 (2017) (ref. 28: process and loss study the Methods cite);
+  Wang et al., Opt. Express 26, 1547 (2018) (ref. 25: same group's earlier thin-film LN modulator).
+Web requests: 1 web search, 3 page fetches (Crossref, nature.com via redirect), 2 PDF downloads (1 x 200, 1 x 403).
+Generic User-Agent, no personal identifiers. No 429 / 503.
+
+2. WHAT THE PAPER FIXES (all basis stated unless noted)
+Stack / cross-section (Methods p.5):
+- Commercial x-cut LNOI (NANOLN), 600 nm LN device layer; final LN slab 300 nm (ridge height 300 nm: derived);
+  buried SiO2 4.7 um; Si substrate 500 um.
+- Waveguide top width 800 nm (single mode). EBL + Ar+-based RIE.
+- Gold strip lines 1.1 um thick, PMMA 1.5 um lift-off, second aligned EBL. PECVD SiO2 cladding 800 nm. Facets diced
+  and polished.
+- Metal to waveguide edge spacing <2.5 um; simulated metal absorption loss <0.03 dB/cm.
+- Group indices microwave and optical "both approximately 2.2"; impedance "near 50 ohm"; eps_RF 28, eps_opt 5 of LN.
+- Crystal axes (Fig. 1d inset, Extended Data Fig. 5a; basis figure): x normal to the film, z in-plane across the gaps;
+  micrograph axes z / y: propagation along y. TE excitation (Methods).
+- Arrangement (Fig. 1d inset, Extended Data Fig. 5a, c, d; basis figure): G-S-G on the LN slab, one ridge centred in
+  each gap (inset ridge centre 432.31 pt vs gap centre 432.18 pt), oxide above, buried oxide, Si.
+Device / layout:
+- Travelling-wave MZI; 50:50 Y-junction in, arms through the two G-S / S-G gaps, 50:50 Y-junction out (p.1).
+- RF in at the light-input end, co-propagating; 50 ohm termination at the far end (Fig. 1d labels; Methods).
+- Devices 20, 10, 5 mm active length (p.2-3). Total waveguide length >3 cm (Methods).
+Results:
+- Vpi 1.4 V (20 mm), 2.3 V (10 mm), 4.4 V (5 mm); Vpi.L 2.8 / 2.3 / 2.2 V.cm (Extended Data Table 1; Methods for the
+  last two). ER 30 dB. Vpi measured with a 5 V peak-to-peak triangular drive.
+- 3-dB EO bandwidth >45 GHz (20 mm, VNA), 80 GHz (10 mm), 100 GHz (5 mm; OSA method above 35 GHz); probes not
+  de-embedded, so lower bounds.
+- 70 Gbit/s directly from the CMOS DAC: 200 mV pp, BER <1e-6 (no errors in 1.1e6 bits), 0.37 fJ/bit; 60 mV pp,
+  BER 3.4e-3, 37 aJ/bit. Binary = BPSK with the modulator biased at null (Methods).
+- Amplified to about 2.5 V pp: 100 Gbaud binary BER 7.8e-5 (electrical BER 3.6e-5); 70 Gbaud 4-ASK 140 Gbit/s
+  BER 2.1e-5; 8-ASK 210 Gbit/s BER 1.5e-2 (FEC limit 1.9e-2, 20 % overhead), 14 fJ/bit.
+- On-chip loss <0.5 dB: upper bound, modulators (>3 cm waveguide) vs short bare waveguides, +-0.5 dB uncertainty.
+- About 30 GHz/V bandwidth / Vpi (Fig. 4c).
+Essential (on-canvas) dims, 3: LN film 600 nm (stack chapter), electrode length 20 mm (mzi chapter), Vpi 1.4 V
+(vpi chapter; the story's one amber keyword "*1.4 V*").
+
+3. DIGITIZED / FIGURE-READ GEOMETRY (basis digitized; simulation drawing, not a measured fabricated device)
+Source: Extended Data Fig. 5c, d (p.11), embedded raster img_p11_1.png 3570 x 1730 px (panels drawn at the same scale).
+- Lines (5d, column profiles at x = 1450 / 2150 px): electrode top 1161.5, slab top 1263.5, slab bottom 1293.5,
+  ridge top 1233 px. Electrode inner edges 1583.5 and 2038 px. Ridge top corners 1769.5 / 1851.5 px, bottom corners
+  about 1760.5 / 1860 px.
+- Scale from the stated 300 nm slab (30 px) = 100 px/um. Cross-checks: ridge height 30.5 px = 0.305 um (stated
+  300 nm derived), ridge top width 82 px = 0.82 um (stated 800 nm), i.e. the drawing is to scale within ~3 %.
+  Electrode thickness in the drawing 102 px = 1.02 um (stated 1.1 um: -7 %).
+- Results: electrode gap 454.5 px = 4.5 um (4.4-4.6 um with the top-width or slab scale); 5c gives the same gap
+  (electrode edges at 249 / 705 px, 455 px). Ridge bottom width about 1.0 um; sidewall angle about 74 deg from the
+  film plane (+-4 deg; offset 8.75 px over 30.5 px). Metal to ridge base 1.77 um (stated <2.5 um: consistent).
+- Optical mode (5d): darkest core centroid at row 1264.7 / col 1810.3 (slab top line, ridge centre); red region
+  rows 1237-1292, cols 1757-1863 (about 1.06 x 0.55 um). Spec gives this as "as drawn", no intensity scale.
+- Microwave field (5c): colour bar 0 to about 4.2 x 10^5 V/m for 1 V; spec says "about 4 x 10^5" (basis figure).
+  Sanity check: 1 V / 4.5 um = 2.2 x 10^5 V/m, in the orange (2-3 x 10^5) band of the gap.
+Fig. 1d micrograph (p.2, vector scale bar 157.84-180.64 pt = 22.80 pt = 500 um; electrode runs at 400 dpi):
+- Electrodes 151.2-379.3 pt (5.00 mm), 149.0-370.4 pt (4.86 mm), 234.4-379.1 pt (3.17 mm). Visible on-chip label
+  "Length 0.5 cm Width 700 nm". So the micrograph is a chip of short devices, not the 20 mm device (withheld item).
+- Signal lines on that chip (embedded image, 3.509 um/px): about 16 px = 56 um and 29 px = 102 um; grounds about
+  45 px = 158 um. Used only to justify the assumed render widths (signal 50 um, ground 150 um, basis assumed).
+  (The embedded micrograph is stored rotated 180 deg; further chip labels "Length 0.3 cm", "TL 50 um", "TL 100 um"
+  sit under the inset and are not visible in print; not used.)
+
+4. PLOT DIGITIZATION (scripts in the scratchpad, section 7)
+All main-text figures are vector in the PDF: points are the PDF path coordinates mapped by the figure's own tick marks.
+- transfer = Fig. 1c (p.2). Curve = filled outline of a stroked path (drawing #223, 377 items). x ticks 398.15 pt = 0,
+  476.60 pt = 2.5 V (31.38 pt/V; 0.5 and 2 V ticks reproduce exactly); y ticks 138.55 pt = 0, 62.87 pt = 1.2.
+  Centre = mean of outline vertices within +-0.6 pt of each 0.05 V sample (56 points, one gap near 2.65 V where
+  the outline has no vertex). Stroke width = 0.02 in y. Dashed Vpi markers at 0.620 V and 2.030 V (difference
+  1.41 V; stated 1.4 V). Min 0.003 at 0.65 V, max 0.999 at 2.05 V.
+- eo_20mm = Fig. 2a (p.2). Stroke path #262, 626 vertices, 1.00-42.85 GHz. x ticks 156.80 pt = 5, 256.69 pt = 45 GHz;
+  y ticks 688.49 pt = -10, 603.11 pt = 2 dB. Averaged in 0.5 GHz bins (85 points). Trace ends near 43 GHz at
+  about -3 dB (bins at 41.2 GHz -3.23 dB, 42.3 GHz -3.05 dB); paper states >45 GHz.
+- eo_10mm = Fig. 4a (p.3). VNA #48 (877 vertices, 1-46 GHz, 91 bins); OSA crosses #49: 107 crosses, centres from the
+  horizontal bars, 36.4-100 GHz, 0.6 GHz pitch. x ticks 348.24 = 20, 428.77 = 100 GHz; y 141.76 = -10, 64.40 = 2 dB.
+  OSA first falls below -3 dB at 76.6 GHz (-3.04), stated 80 GHz.
+- eo_5mm = Fig. 4b (p.3). VNA #62 (671 vertices, 88 bins); OSA #63, 32 crosses, 38-100 GHz, 2 GHz pitch. x ticks
+  471.62 = 20, 552.18 = 100 GHz; y 142.23 = -10, 65.10 = 2 dB. OSA at 84 / 86 GHz reads -3.14 / -3.09 dB; stated
+  100 GHz.
+- Printed "-3 dB" reference lines sit at -3.12 dB (Fig. 2a), -3.09 dB (4a) and -3.08 dB (4b) on the axes; the spec
+  draws the reference at -3 and says so in the plot notes.
+- velocity = Extended Data Fig. 5e (p.11, raster). Frame x 2728.5 px = 4.0 um, 3506.5 px = 5.4 um, intermediate ticks
+  every 111 px (555.7 px/um); y ticks 1534.5 px = 2.19 ... 945.5 px = 2.26 (84.14 px per 0.01). Red (RF) and blue
+  (optical) pixel row centroids at 0.1 um steps, legend swatches excluded; +-0.0005 in index. Crossing about 4.70 um
+  at 2.225 (stated "about 4,700 nm", "both approximately 2.2").
+- data = stated values only (no figure digitized). 200 mV point drawn at the 1e-6 bound; 100 Gbaud binary placed
+  at 100 Gbit/s (one bit per symbol, derived).
+- fom = Fig. 4c / Extended Data Table 1. Points are table values (stated). Fig. 4c markers re-measured from the vector
+  paths (x inverse scale: 1/V linear, 339.22 pt = 1/10, 428.79 pt = 1/1, 99.52 pt per 1/V; y 251.34 pt = 0,
+  167.33 pt = 140 GHz): this work (4.40, 99.95), (2.30, 79.95), (1.40, 44.9); Fujitsu (3.55, 35.2); Thorlabs
+  (5.53, 35.2); EO Space ranges plotted at (4.92, 40.2) and (2.91, 25.2); previous thin film (3.90, 33.0),
+  (9.41, 40.0), (9.0, 15.0), (2.50, 8.0), (13.4, 100.4). All within 0.1 V / 0.5 GHz of the table. Iso lines:
+  BW = k x Vpi for k = 5, 10, 20, 30 GHz/V (basis derived; Fig. 4c labels); check: 30 GHz/V path #79 reaches 140 GHz
+  at 4.67 V (= 140/30). Spec uses a log Vpi axis (the runtime has no inverse axis).
+Overlays of every digitized series on the 400 dpi renders were checked by eye (all on the printed curves / markers).
+
+5. PREVIEW VS PUBLISHED / VERSION DIFFERENCES
+- Preview vs version of record: abstract and Extended Data captions identical; dates and pagination now known
+  (online 2018-09-24, issue 2018-10-04, 562, 101-104). VoR main text / Methods / figures not compared (not reached).
+  No number difference found; none can be ruled out for the main text.
+- references/wang2018b/source.json carries publication_date 2018-09-21; Crossref and nature.com give 2018-09-24.
+- The milestone date (empty per D987) can now be set from the VoR metadata: 2018-09-24 (coordinator decision; not
+  edited here).
+- Submitted manuscript [SUB] (2018-04-15) vs preview: gold 500 nm thick vs 1.1 um; no slab (300 nm), buried oxide
+  (4.7 um), Si (500 um), top width (800 nm), 0.2 dB/cm, <2.5 um spacing, <0.03 dB/cm, group index 2.2 or Extended
+  Data Fig. 5c-e (all added in review); Vpi drive "at 75 kHz" dropped later; index contrast "~0.7" vs ">0.7"; figure
+  panel lettering of Fig. 1 differs (micrograph c, transfer d). Vpi, ER, bandwidths, BERs, energies identical.
+- Inside the paper: Extended Data Table 1 lists this-work phase-shifter losses 0.4 / 0.2 / 0.1 dB, Fig. 4d plots them
+  at about 0.61 / 0.31 / 0.16 dB (triangle centroids, y 174.13 pt = 0, 7.016 pt/dB). Both scale with length; the
+  per-length loss is the about 0.2 dB/cm the Methods tie to the earlier study (D987 / D988). Fig. 4d not plotted.
+
+6. FIXED / ASSUMED / WITHHELD (see spec `withheld`)
+Assumed (render only, flagged): signal width 50 um, ground width 150 um, Si drawn truncated, cladding profile,
+all plan-view lengths (Y-junctions, bends, compression), RF / termination markers, look colours.
+Withheld: 20 mm device line widths; gap as a stated value (digitized only); plan layout of the 20 mm chip; sidewall
+angle as a stated value; cladding profile; chip propagation loss (0.2 dB/cm tied to ref. 28); Fig. 4d; eye diagrams
+and constellations; ED Fig. 4 and ED Fig. 1b, c; microwave loss and impedance value; probe / fibre geometry; field
+magnitudes as measurements; DC bias arrangement.
+
+7. WHAT RAN / WHERE (session scratchpad, folder wang2018b/; temporary)
+- pages/pNN_400.png (pymupdf renders); crops/ (panels, overlays ov_*.png).
+- scripts/vec.py (vector path helpers), dump_region.py, ticks.py, dig_fig1c.py, dig_s21.py, dig_all.py,
+  dig_ed5e.py, dig_ed5e_b.py, ed5d_geom.py, ed5_geom2.py, ed5c_geom.py, reflines.py, overlay.py, build_spec.py,
+  write_yaml.py; digitized.json, spec.json; cityu_text.txt.
+- Python: existing scratch uv venv (pymupdf, numpy, pillow, scipy, pyyaml), offline; downloaded PDF read with -I.
+
+8. NOTES FOR THE BUILDER
+- Two scales: cross-section in um (film 0.6 um, gap 4.5 um, signal 50 um assumed, oxide 4.7 um) and length in mm
+  (20 mm). Do not draw the device to scale along y; the plan view is schematic and compressed (say nothing on canvas
+  that implies scale). Within the cross-section, stack heights and the ridge / gap geometry are to scale; the signal
+  strip (50 um) dwarfs the ridges: frame the gaps (e.g. break the signal strip or zoom to one gap pair).
+- One ridge per gap, centred; electrodes sit on the 300 nm slab (not on the buried oxide); cladding translucent and
+  faint after its chapter.
+- Physics: fields in the two gaps point in opposite z directions (signal at +V: field from S to both G), so one arm's
+  index rises while the other's falls; flip both arrows together with the drive sign. Light and microwave travel the
+  same way (RF in at the light-input end). Output brightness follows the transfer curve (bright at the maximum, dark
+  at the minimum, 1.4 V apart).
+- Plot axes: eo_20mm and its alternates share 0-100 GHz so the toggle compares like with like. data: log BER. fom: log
+  Vpi axis (paper uses an inverse axis; note says so).
+- The optical-mode spot and field arrows are illustrative (simulation figures, no printed mode scale).
+- No figure images; no drawing pane (no public-domain drawing exists for this paper).
+
+9. OPEN QUESTIONS (coordinator)
+- Show the digitized 4.5 um gap and 74 deg sidewall in the side panel as now (basis digitized, labelled simulation
+  drawing), or withhold them entirely?
+- Fill the milestone date with 2018-09-24 (VoR online date) now that it is verified?
+- fom on a log Vpi axis acceptable, or add an inverse-axis runtime option to match Fig. 4c?
+
+2026-11-11 (coordinator, owner request "3x points in the Vpi plot"): Fig. 1c transfer curve re-sampled from the same vector path (drawing 223, p.2) every 1/60 V at the centre of the stroke outline (intersection of the vertical line with the path segments): 169 points, 3x the earlier 56; minimum at 0.617 V and maximum at 2.033 V (markers 0.62 / 2.03 V); max difference to the earlier vertex-mean samples 0.023.

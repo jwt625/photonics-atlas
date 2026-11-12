@@ -1,0 +1,142 @@
+tien1969 showcase research report (prism-film coupler; Tien, Ulrich, Martin 1969)
+Date: 2026-11-11. Spec: data/history/showcases/tien1969.yaml (DevLog-017 section 4a schema, runtime fields per
+app/src/lib/history/showcase/types.ts). Renderer: 2.5d (side view after the paper's Fig. 1).
+
+1. SOURCES
+- [P] P. K. Tien, R. Ulrich, R. J. Martin, "Modes of propagating light waves in thin deposited semiconductor films",
+  Appl. Phys. Lett. 14(9), 291-294 (1969-05-01), https://doi.org/10.1063/1.1652820. Bell Telephone Laboratories,
+  Holmdel, New Jersey; received 1969-03-12. Cached references/tien1969/ (licensed, local only). Read from the page
+  scans img_p02_1.png (p.291), img_p03_1.png (p.292), img_p04_1.png (p.293), img_p05_1.png (p.294), 2362-2374 x
+  3142-3151 px. Page map: text.md p.1 = publisher cover; p.2 = journal p.291 ... p.5 = p.294. text.md drops Eq. (5)
+  and garbles t_1^2 as "t12"; Table I OCR checked digit by digit against the p.293 scan (all values agree).
+  Fixes: everything in the model; Fig. 1 arrangement (schematic), Table I (plot), Eq. (5)-(7), Fig. 2 caption.
+- [US] P. K. Tien (Bell Telephone Laboratories), US 3,584,230 "Light wave coupling into thin films", application
+  793,696 filed 1969-01-24, granted 1971-06-08, 17 claims, 9 drawing figures. Public domain (US patent).
+  PDF https://patentimages.storage.googleapis.com/35/af/1d/8ad2b7785e7f5c/US3584230.pdf, one request, generic UA,
+  HTTP 200, 1,079,076 bytes, 10 pages, cached cache/showcases/tien1969/US3584230.pdf (git-ignored). Text pages have a
+  text layer; drawing sheet 1 is a 2320 x 3408 1-bit image. Fixes: the traced FIG. 1 only (context drawing).
+  Read: FIG. 1 brief description col. 2:13-14; FIG. 1 description col. 2:42-75 and col. 3:1-30 (laser 11, circuit 12,
+  guide 13, substrate 14, prism 16, gap 17, internal-reflection surface 18, lens 19, surfaces 20 / 21 / 22, monitoring
+  equipment 23; gap "preferably less than a half-wavelength" col. 2:60-61; gap index one col. 2:62-63; surface 21
+  canted to decouple col. 3:6-12); "substantially more than 50 percent" col. 1:57-58 and "more than 50 percent" col. 3:21-22; example
+  (rutile prism, ZnS films on glass, He-Ne 6328 A, n3 2.901 extraordinary, gap 1330 A, film 1522 A, alpha 18 deg 30')
+  col. 4:13-29. The example is a patent illustration, not the paper's experiment: none of its values enter the model.
+- [T70] P. K. Tien, R. Ulrich, J. Opt. Soc. Am. 60, 1325 (1970), "Theory of prism-film coupler and thin-film light
+  guides". Not cached; JOSA is not open access (Optica OA-only rule): not read, listed as a reference.
+- [T71] P. K. Tien, Appl. Opt. 10, 2395 (1971), cached references/tien1971 (licensed). Context only (its ref. 3 = [P],
+  ref. 6 = [T70]); no values used.
+- Atlases: this repo's references/ has tien1969, tien1971, tien1977, ulrich1975 (no other prism-coupler source of
+  1969); eo-modulator-atlas / packaging atlas hold no 1960s thin-film coupler rows (not relevant).
+Web requests: 1 web search, 1 Google Patents page fetch, 1 PDF download. No 403 / 429 / 503.
+
+2. WHAT THE PAPER FIXES
+Fixed (stated):
+- Abstract (p.291): "novel prism-film coupler", also used to measure phase velocities; "Up to 50 % of the incident
+  laser energy has been fed into a single mode". No "first" claim.
+- Films (p.291 col. 1; p.292 col. 2 - p.293 col. 1): sputtered ZnO (argon-oxygen, sintered ZnO powder; c axes within
+  a 5 deg cone of the normal; polished after growth) and e-beam-evaporated ZnS (not oriented); 800 to 30 000 A; on
+  glass.
+- Coupler (p.291 col. 1-2): beam totally reflected at the prism base at theta_3; film at distance S parallel to the
+  base; "optical tunneling" by the evanescent fields in the gap; three coupling conditions (synchronous direction,
+  matching polarization, S "in the order of half a wavelength"); beta = k n3 sin theta_3 (p.292 col. 1).
+- Theory (p.292): Eq. (1)-(5) mode equation 2 b1 W - 2 psi12' - 2 psi10 = 2 m pi; linewidth 2 t1^2, finesse
+  pi / t1^2; Eq. (6) buildup for 0 < x < L, Eq. (7) decay beyond L; typical t1 = 0.1; max about 81 % transfer;
+  decoupling beyond L by a wider gap or by cutting the prism.
+- Experiment (p.293 col. 1): rutile prism, alpha = 26 deg, optical axis parallel to y (TM couples via the ordinary
+  ray, TE via the extraordinary ray in the prism); film pressed with adjustable pressure against the base, dust
+  particles as spacers, substrate elasticity; linear polarized beam; screen; prism-film assembly and screen on a
+  turntable, laser fixed; B3 spot always seen; at a synchronous angle: spot dip "occasionally down to 50%", bright
+  film near the coupling spot, one or more m lines, one through the B3 spot; lines brighten, then broaden and shift
+  with coupling; explanation by azimuthally degenerate and intermode scattering.
+- p.293 col. 2: dark line in the B3 spot; aperture about 1 deg inside the prism; F about 50, t1^2 = 0.06.
+- Table I (p.293) + p.293 col. 2 - p.294 col. 1: ZnO film W = 15 881 +- 60 A (fitted to the 6 lowest TE modes at
+  6328 A), n1 fitted per group (1.9732 / 1.9779 / 2.0428 / 2.0485), n0 = 1.5127 (6328 A), 1.5206 (4880 A);
+  n1 = 1.973 +- 0.001 vs 1.988 (Bond, bulk). Footnote a: some modes not observable with the 26 deg rutile prism.
+- Half prism (p.294): prism of Fig. 1 cut along its plane of symmetry, right half removed, 90 deg corner = x = L;
+  ZnS 1500 A film pressed by a pointed tool; beam enters the hypotenuse face from the upper left; streak about 1 cm;
+  scratch ends the streak and radiates; two 90 deg prisms 3 mm apart (input / output), m line on the output screen.
+  Fig. 2 caption: ZnS 1500 A, 6328 A, prism height 0.5 cm, viewed through the substrate.
+From figures (Fig. 1, schematic): side-view topology (substrate, film, gap, prism with short vertical end faces,
+  apex over the coupling spot, polarizer and an unlabelled biconvex element in the incident beam, tilted screen,
+  face-on screen view with five lines, pressure tool under the substrate with upward arrows), theta_3 drawn about
+  42 deg, drawn prism slopes 27.7 / 26.7 deg (consistent with alpha = 26 deg).
+Derived (this story): Eq. (5) with an air cover (n2 = 1) and the printed W, n0, n1 reproduces every Table I theory
+  value to +-0.0001 (script below): the theory used n2 = 1. Mode counts of the Table I film: 7 TE / 6 TM at 6328 A,
+  9 / 9 at 4880 A. Prism height 0.5 cm holds for the Fig. 1 prism (the half prism was cut along its symmetry plane).
+Assumed (presentational): drawn film and gap thickness (enlarged), substrate size, prism end-face height about 1 mm
+  (Fig. 1 proportion 22/109 px), screen size, turntable rotation amount, scratch position, beam colour.
+Withheld: 13 entries in the spec (synchronous angles, laser data, identity of the biconvex element, prism indices
+  and size, gap values, turntable hardware, m-line count for a given film, L, screen, film/substrate size, losses,
+  scratch position, Fig. 2 photo).
+
+3. PLOT
+Not digitized: the plot uses the printed Table I numbers (locator "Table I (p.293)"), basis stated. The paper prints no
+data figure other than the Fig. 2 photograph. Main plot "modes" (6328 A: TE observed 6 pts, TE computed 7, TM observed
+4, TM computed 6, substrate index dashed 2), alternate "modes_4880" (TE 9 / 9, TM 6 / 9, n0 dashed 2), alternate
+"modes_diff" (the printed Diff. column: 6, 4, 9, 6 points). Checks: every printed Diff. equals observed - computed
+(script table1.py asserts all 25); every computed value matches Eq. (5) (eq5.py, n2 = 1) within 0.0001; Table I OCR
+read against the scan crop at full resolution.
+
+4. GEOMETRY FOR THE 2.5D MODEL (fig1_px = crop (1270, 1300)-(2080, 1960) of img_p02_1.png, x right, y down)
+- Prism outline (154,500) (154,478) (320,391) (491,477) (491,500); base y 499.5; apex over the coupling spot (320,498).
+  Height 109 px = 0.5 cm, but film and gap are drawn enlarged; no scale bar or numbered axis on the model.
+- Film band x 52-535, y 509.5-521.5 (hatched); substrate x 52-535, y 522-563 (stippled); gap 499.5-509.5.
+- Incident beam: converging band from the left edge (45, 358-382) through the polarizer (line (88,341)-(64,420)) and
+  the biconvex outline (top (120,350), bottom (97,418)) to the left face at about (253,424), then to (320,498);
+  normal dashed at x = 320; theta_3 drawn about 42 deg.
+- Reflected B3 band from (320,498) through the right face to the screen at about (585,368); four thin out-coupled
+  rays from the same spot hit the screen at about (545,333), (630,418), (673,470), (740,527).
+- Screen edge-on: double line (518,296)-(776,553). Face-on view: dark field x 523-788, y 72-190; bright lines at
+  x 548, 587, 638, 682, 748 (outer three curved, bulging left); B3 spot centre (587,137), r about 16, dark line through
+  it; dashed projection lines at x 548, 585, 636, 682, 748.
+- Pressure tool: pointed body x 300-338, y 560-648, tip (320,560); arrows at x 283 and 357 (y 592-645).
+- Half prism: left half of the outline, 90 deg corner at (320,500); streak in +x about 2 prism heights (1 cm / 0.5 cm).
+Model scale suggestion (mm): prism height 5, alpha 26 deg, end face 1 (assumed) -> half base 4 / tan 26 deg = 8.2.
+
+5. CHAPTER SCRIPT RATIONALE (9 chapters, 1 plot chapter, height 9)
+substrate, film, prism (alpha + height on canvas), press (gap S label: the paper presses the film up against a fixed
+prism; the story idea "prism lowered" is corrected), reflect (off-synchronous: total reflection, spot only), tunnel
+(turntable turns prism + film + screen, laser fixed; at the synchronous angle spot dims with a dark line, film glows
+near the spot, guided light in +x per Eq. (6)/(7)), mlines (Fig. 1 face-on screen, five lines as drawn), modes (Table I
+plot, model left), free (half prism, streak 1 cm, scratch). Amber emphasis: "Optical *tunneling*" (the paper's term).
+Essential dims (4): alpha 26 deg, prism height 0.5 cm, gap S about lambda/2, streak about 1 cm.
+Physics notes for the builder: m lines appear only at a synchronous angle (all phenomena vanish if a coupling
+condition is violated); the m lines are fixed relative to the screen (it turns with the prism) while the B3 spot moves
+as theta_3 changes, sitting on a line when synchronous; under the full prism the guided glow is local (prism also
+couples out beyond L); in the half-prism chapter the beam enters the remaining sloped face and the corner is x = L.
+
+6. DRAWING (US 3,584,230 FIG. 1)
+- Crop of drawing sheet 1 (PDF page 2, 2320 x 3408 native 1-bit image), box [430, 615, 1910, 1465], no rotation,
+  thresholded at 128, saved 1-bit: data/history/showcases/drawings/tien1969-fig1.png (1480 x 850).
+- Trace data/history/showcases/traces/tien1969-fig1.json (ipatent TRACE_SCHEMA, 63 elements): skeleton of the line
+  art (scikit-image), polylines split at junctions, RDP 0.9 px, stroke width from the distance transform; elements by
+  measured zones and corridors: blocks 11 laser, 19 lens, 16 internal-reflection prism (with surfaces 18, 20, 21, 22),
+  13 thin-film light guide, 12 light-utilizing thin-film integrated circuit (band split at the drawn tick x = 798),
+  14 substrate, 23 monitoring equipment, 17 gap (invisible hit area); beam (dash-dot and solid ray lines, no numeral);
+  angle marks; leaders per numeral and for the text labels; all printed strings as t shapes (names verbatim from
+  col. 2:42 - col. 3:30).
+- coverage.py (tol 4 px): scan ink covered 96.4 %, trace ink off scan 4.7 % (residual = hand lettering vs Helvetica:
+  MONITORING, LOSS PORT, INTEGRATED, subscripted index labels).
+- Numerals mapped to spec parts: 16 prism, 17 gap, 13 film, 14 substrate. 11, 12, 19, 23 have no model counterpart.
+- The patent FIG. 1 is an embodiment, not the paper's set-up (collimating lens, canted surface 21 for decoupling,
+  monitoring equipment instead of a screen, different index labels); the spec's drawings[].note and title_note say so.
+- Tools: ipatent overlay.py / coverage.py / viewer/trace-render.js copied to the session scratchpad (ip/); the
+  ipatent repo was not modified. Generator: scratchpad tien1969/trace/gen.py + zones.json.
+
+7. WHAT RAN / WHERE (session scratchpad tien1969/, temporary)
+fig1.png, tab1*.png, z_*.png (crops with grids); pat/ (patent page renders, text, crops); dig/eq5.py (Table I theory
+check), dig/table1.py (Diff. column check); trace/ (gen.py, zones.json, cls.py); ip/ (copied ipatent tools, crop,
+trace, check images). Python via uv (pillow, numpy, scipy, scikit-image, matplotlib, pymupdf, pyyaml), offline.
+Spec parses with yaml.safe_load; chapters ordered in [0, 1]; all chapter parts / labels are part ids; 4 essential
+dims; 1 amber emphasis; no raw _ or ^ and no internal ids in viewer-facing fields (script check).
+
+8. OPEN QUESTIONS FOR THE COORDINATOR
+1. Plot with observed and computed points that differ by at most 0.0017 on a 1.5-2.06 axis: the main plot shows them
+   overlapping; the Diff. alternate carries the agreement. Keep three plots (6328 A, 4880 A, Diff.) or drop one?
+2. The runtime Drawing type has no caption / note field; the patent-vs-paper difference is in title_note and in the
+   spec drawings[].note (not rendered). Should the runtime show drawings[].caption / note under the trace?
+3. Synchronous angles: deriving theta_3 per mode would need rutile indices from outside the paper (e.g. the patent's
+   2.901 extraordinary at 6328 A, or a handbook). Currently withheld; the beam stays at the Fig. 1 angle.
+4. The milestone row / tag row agree with the paper (1969-05-01, device, ZnO / ZnS, prism coupler / thin-film
+   waveguide). Their locators use text.md page numbers (p.2-5); the spec uses journal pages (p.291-294). No change
+   proposed.

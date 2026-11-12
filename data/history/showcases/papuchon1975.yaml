@@ -1,0 +1,470 @@
+# Showcase spec: Cobra electro-optic directional-coupler switch (papuchon1975). Schema: DevLog-017 section 4a,
+# runtime fields in app/src/lib/history/showcase/types.ts. Research 2026-11-11 (report: papuchon1975.report.txt).
+# Sole technical source: Papuchon et al., Appl. Phys. Lett. 27(5), 289-291 (1975-09-01), licensed, local only.
+# Page / column locators: p.289 = first journal page (two columns), p.290 = figures 3-6 and text, p.291 col. 1 = results.
+# Plan view (Fig. 5) and cross-section (Fig. 3a) are schematic drawings without scale; geometry below is given in the
+# drawings' own pixel units (crop origins in the report) and only the printed dimensions carry physical values.
+id: papuchon1975
+title: Cobra
+title_note: 'Name: "Cobra" is the authors'' acronym for "commutateur optique binaire rapide" (literally "fast binary optical switch") (Papuchon et al., Appl. Phys. Lett. 1975, p.289 col. 1). The paper calls the electrode configuration "original" and "novel"; it makes no "first" claim.'
+tagline: Two electrodes switch light between Ti:LiNbO₃ guides at 6 V.
+renderer: 2.5d
+height: 8
+
+parts:
+- id: substrate
+  name: LiNbO₃ substrate
+  role: Electro-optic crystal; C axis normal to the guide surface.
+  detail: 'Lithium niobate crystal carrying the guides and electrodes. In the Cobra configuration "the crystal C axis is normal to the guide surface" (p.289 col. 2); Fig. 3a draws C vertical and y across the guides, so light runs along x (propagation axis read from the figure axes, not stated in the text). Fig. 3b prints the electro-optic tensor of LiNbO₃. Crystal size, thickness and supplier are not given.'
+  quote: In this configuration the crystal C axis is normal to the guide surface
+  locator: Papuchon et al., Appl. Phys. Lett. 1975, p.289 col. 2; Fig. 3a (p.290)
+  material: LiNbO₃
+  look: {color: '#d9d3c4', opacity: 0.55, metal: 0.0, rough: 0.4, emissive: ''}
+  geometry: {type: slab, plan: 'stand-in rectangle around the Fig. 5 pattern (size not stated)', axes: {c: 'up (normal to surface)', y: 'across the guides', x: 'along the guides (from Fig. 3a axes)'}}
+  dims:
+  - {label: crystal orientation, value: 'C axis normal to the guide surface', basis: stated, locator: 'Papuchon et al., Appl. Phys. Lett. 1975, p.289 col. 2'}
+  essential: false
+
+- id: ti_film
+  name: Ti film
+  role: Sputtered titanium layer, later patterned into strips.
+  detail: 'About 500 Å of titanium is rf-sputtered on the LiNbO₃ substrate (text); Fig. 4 row 1 labels it "Ti (500 Å)".'
+  quote: Approximately 500 Å of Ti is deposited by rf sputtering on the LiNbO₃ substrate.
+  locator: Papuchon et al., Appl. Phys. Lett. 1975, p.289 col. 2; Fig. 4 (p.290)
+  material: titanium
+  look: {color: '#8c9096', opacity: 0.9, metal: 0.7, rough: 0.4, emissive: ''}
+  geometry: {type: layer, plan: substrate, thickness_A: 500, drawn: 'thin layer, height schematic'}
+  dims:
+  - {label: thickness, value: 500, unit: 'Å', basis: stated, locator: 'Papuchon et al., Appl. Phys. Lett. 1975, p.289 col. 2 ("Approximately 500 Å"); Fig. 4'}
+  essential: false
+
+- id: resist
+  name: resist
+  role: Photoresist mask exposed to light, then the Ti is ion-etched.
+  detail: 'Fig. 4 row 2 shows a resist layer on the Ti film exposed to "light", then "Masking and Ion etching" leaves Ti strips. The text says the Ti "is then masked and etched" (ref. 7, Ostrowsky et al., Appl. Opt. 1974). Resist type and thickness are not given; Fig. 4 draws the etch step slightly into the substrate surface (schematic).'
+  quote: This Ti is then masked and etched to obtain the desired guide configuration in the Ti.
+  locator: Papuchon et al., Appl. Phys. Lett. 1975, p.289 col. 2 to p.290 col. 1; Fig. 4 row 2 (p.290)
+  material: photoresist (type not stated)
+  look: {color: '#b8607e', opacity: 0.5, metal: 0.0, rough: 0.6, emissive: ''}
+  geometry: {type: layer, plan: substrate, drawn: 'thin layer over the Ti film, height schematic; removed after etching'}
+  essential: false
+
+- id: ti_strips
+  name: Ti strips
+  role: Patterned titanium, two 2 µm strips 3 µm apart along the coupler.
+  detail: 'The etched Ti pattern follows Fig. 5: a wide launching region tapering into one strip, a second strip that bends in from the lower left, the two running parallel over the coupling region, then one bending away and the other tapering into a second wide region. Strip width a = 2 µm and separation b = 3 µm (Fig. 5 caption; "2-µm-wide Ti strips", "3-µm separation (which was actually used in the switching experiment)"). Fig. 5 dimension arrows put a across one strip and b between the facing strip edges (read from the small print).'
+  quote: 'Typical coupling lengths L_{0} observed for couplers formed from 2-µm-wide Ti strips were ≈ 500 µm for a 2-µm separation and ≈ 1 mm for a 3-µm separation (which was actually used in the switching experiment).'
+  locator: Papuchon et al., Appl. Phys. Lett. 1975, p.290 col. 2; Fig. 5 caption (p.290)
+  material: titanium
+  look: {color: '#8c9096', opacity: 0.95, metal: 0.7, rough: 0.4, emissive: ''}
+  geometry: {type: plan_pattern, source: 'Fig. 5 outline (guides + tapers + wide regions), see guide_1 / guide_2 / launch_region / output_region', drawn: 'Fig. 5 proportions, not to scale'}
+  dims:
+  - {label: strip width (a), value: 2, unit: 'µm', basis: stated, locator: 'Papuchon et al., Appl. Phys. Lett. 1975, Fig. 5 caption "a = 2 µm" (p.290); p.290 col. 2', essential: true, label_short: width}
+  - {label: separation (b), value: 3, unit: 'µm', basis: stated, locator: 'Papuchon et al., Appl. Phys. Lett. 1975, Fig. 5 caption "b = 3 µm" (p.290); p.290 col. 2', essential: true, label_short: gap, note: 'edge-to-edge as read from the Fig. 5 arrows; the text says only "separation"'}
+  essential: true
+
+- id: guide_1
+  name: curved guide
+  role: Initially excited guide; bends away at the output end.
+  detail: 'Ti-diffused channel guide fed from the launching region (Fig. 5). The paper names it by its output end: "the initially excited guide (curved guide)". Light switched back into this guide at 6 V. Guide model used for the coupling length (Marcatili): same width as the Ti strip, 2 µm thickness, uniform Δn about 5×10⁻³; the authors call this "a rather pragmatic description" (nonuniform profile, lateral Ti diffusion makes the guide wider than the strip).'
+  quote: With 6 V applied the guided light has been switched back to the initially excited guide (curved guide).
+  locator: Papuchon et al., Appl. Phys. Lett. 1975, p.291 col. 1; Fig. 5 (p.290); guide model p.290 col. 1-2
+  material: Ti-diffused LiNbO₃
+  look: {color: '#7fb6c8', opacity: 0.85, metal: 0.0, rough: 0.3, emissive: ''}
+  geometry:
+    type: polyline_channel
+    frame: fig5_px
+    centerline: [[200, 130], [230, 131], [705, 131], [740, 124], [775, 108], [805, 85], [825, 62], [833, 47]]
+    drawn_width_px: 15
+    note: 'straight from the launch taper to x about 705 px, then a quarter bend up and out of the coupling region; open end at top right (Fig. 5). Bend shape read from the drawing, radius not stated'
+  dims:
+  - {label: width (model), value: 2, unit: 'µm', basis: stated, locator: 'Papuchon et al., Appl. Phys. Lett. 1975, p.290 col. 1 ("same widths as the original Ti strip")', note: model assumption of the authors}
+  - {label: thickness (model), value: 2, unit: 'µm', basis: stated, locator: 'Papuchon et al., Appl. Phys. Lett. 1975, p.290 col. 1', note: 'model assumption ("a 2-µm thickness"), not a measured depth'}
+  - {label: index step (model), value: '5×10⁻³', basis: stated, locator: 'Papuchon et al., Appl. Phys. Lett. 1975, p.290 col. 1 ("a uniform Δn of about 5×10⁻³")', note: model assumption}
+  essential: false
+
+- id: guide_2
+  name: straight guide
+  role: Initially unexcited guide; runs straight to the output end.
+  detail: 'Ti-diffused channel guide that bends in from the lower left (open end), runs parallel to the curved guide over the coupling region and continues straight into the wide output region (Fig. 5). At 0 V "most of the guided light" leaves through this guide, as expected for a 3 mm coupling region and L_{0} = 1 mm. Same guide model as the curved guide.'
+  quote: We note that with 0 V applied most of the guided light is in the initially unexcited guide (straight guide), as would be expected since L_{0} = 1 mm and the actual length of the coupling region is 3 mm.
+  locator: Papuchon et al., Appl. Phys. Lett. 1975, p.291 col. 1; Fig. 5 (p.290)
+  material: Ti-diffused LiNbO₃
+  look: {color: '#7fb6c8', opacity: 0.85, metal: 0.0, rough: 0.3, emissive: ''}
+  geometry:
+    type: polyline_channel
+    frame: fig5_px
+    centerline: [[196, 250], [199, 229], [207, 210], [215, 199], [230, 183.5], [245, 174], [260, 168], [285, 165], [820, 165]]
+    drawn_width_px: 15
+    note: 'open end at the bottom left, quarter bend up into the parallel section, straight to the output taper at x about 820 px (Fig. 5). Bend radius not stated'
+  essential: false
+
+- id: launch_region
+  name: launching region
+  role: Wide region where the prism coupler launches light into one guide.
+  detail: 'Labelled "Launching region" in Fig. 5: a wide rectangle that tapers into the curved guide. The text says one guide was excited "using a rutile prism coupler". Whether the wide region is itself Ti-diffused is not stated; Fig. 5 draws it as one outline with the guide. Size not stated.'
+  quote: Coupler configuration - launching and observation regions are also shown.
+  locator: Papuchon et al., Appl. Phys. Lett. 1975, Fig. 5 and caption (p.290)
+  material: drawn continuous with the guide (makeup not stated)
+  look: {color: '#7fb6c8', opacity: 0.6, metal: 0.0, rough: 0.3, emissive: ''}
+  geometry: {type: plan_rect_taper, frame: fig5_px, rect: [17, 92, 168, 169], taper: {from_x: 168, from_y: [100, 160], to_x: 200, to_y: [120, 141]}, note: 'neck 200-230 px then guide_1'}
+  essential: false
+
+- id: output_region
+  name: wide output region
+  role: Unlabelled wide region at the straight guide's output end.
+  detail: 'Fig. 5 draws the straight guide tapering into a wide rectangle at the right, mirroring the launching region. It carries no label and the text does not mention it; purpose and size are not stated.'
+  locator: Papuchon et al., Appl. Phys. Lett. 1975, Fig. 5 (p.290), unlabelled
+  material: drawn continuous with the guide (makeup not stated)
+  look: {color: '#7fb6c8', opacity: 0.6, metal: 0.0, rough: 0.3, emissive: ''}
+  geometry: {type: plan_rect_taper, frame: fig5_px, rect: [860, 128, 1008, 204], taper: {from_x: 820, from_y: [158, 173], to_x: 860, to_y: [128, 204]}}
+  essential: false
+
+- id: coupling_region
+  name: coupling region
+  role: Parallel section where the guides exchange power; 3 mm long.
+  detail: 'Fig. 5 marks the length c = 3 mm with a dashed outline around the parallel section. The text: "the actual length of the coupling region is 3 mm", three coupling lengths for the 3 µm separation (L_{0} about 1 mm). Total switching needs a length that is an odd multiple of L_{0} (p.289 col. 2).'
+  quote: Note that total switching can only occur when the coupler length is an odd multiple of L_{0}, i.e., all the energy has been transferred out of the guide initially excited.
+  locator: Papuchon et al., Appl. Phys. Lett. 1975, p.289 col. 1-2; Fig. 5 caption "c = 3 mm" (p.290); p.291 col. 1
+  material: ''
+  look: {color: '#a8a69d', opacity: 0.0, metal: 0.0, rough: 1.0, emissive: ''}
+  geometry: {type: dashed_outline, frame: fig5_px, rect: [285, 35, 744.5, 263], dim_line_y: 304}
+  dims:
+  - {label: length (c), value: 3, unit: mm, basis: stated, locator: 'Papuchon et al., Appl. Phys. Lett. 1975, Fig. 5 caption "c = 3 mm" (p.290); p.291 col. 1', essential: true, label_short: length}
+  - {label: 'coupling length L_{0} (3 µm separation)', value: '≈ 1', unit: mm, basis: stated, locator: 'Papuchon et al., Appl. Phys. Lett. 1975, p.290 col. 2; p.291 col. 1 ("L_{0} = 1 mm")'}
+  - {label: 'coupling length L_{0} (2 µm separation)', value: '≈ 500', unit: 'µm', basis: stated, locator: 'Papuchon et al., Appl. Phys. Lett. 1975, p.290 col. 2', note: other couplers, not the switch}
+  essential: true
+
+- id: electrode_1
+  name: electrode over the curved guide
+  role: One of two gold electrodes; lies over one guide.
+  detail: 'rf-sputtered 2000 Å gold, patterned by optical superposition masking and ion etching into two 1 × 3 mm electrodes separated by 3 µm at the coupler center. Fig. 3a and the last row of Fig. 4 draw each electrode over one guide with the gap above the gap between the guides (Fig. 4 labels the film "Au or Al (2000 Å)"; the text says gold). Under the electrodes the TM modes see about 2 dB/cm extra loss. Which electrode sits over which guide follows from that topology; the paper does not number them. Drawn with the inner edges over the guide inner edges (assumed from the equal printed 3 µm electrode gap and guide separation; Fig. 3a draws one electrode overhanging its guide) and 3 mm long, the length c of the coupling region (printed 1 × 3 mm); drawn width schematic.'
+  quote: The electrodes were made by rf sputtering a 2000-Å-thick gold film onto the structure and masking (using a standard optical superposition technique) and ion etching the film to form two 1 × 3-mm electrodes separated by 3 µm at the coupler center.
+  locator: Papuchon et al., Appl. Phys. Lett. 1975, p.290 col. 2; Fig. 3a, Fig. 4 (p.290)
+  material: gold (Fig. 4 "Au or Al")
+  look: {color: '#d4a640', opacity: 1.0, metal: 0.9, rough: 0.3, emissive: ''}
+  geometry: {type: plan_rect, length_of: coupling_region, side: 'outer side of guide_1, inner edge at the electrode gap', drawn: 'length = c along the dashed coupling region (printed 1 × 3 mm); width schematic (printed 1 mm cannot be drawn to the Fig. 5 proportions); inner edge over the guide inner edge (assumed)', thickness_A: 2000}
+  dims:
+  - {label: size, value: '1 × 3', unit: mm, basis: stated, locator: 'Papuchon et al., Appl. Phys. Lett. 1975, p.290 col. 2'}
+  - {label: gold thickness, value: 2000, unit: 'Å', basis: stated, locator: 'Papuchon et al., Appl. Phys. Lett. 1975, p.290 col. 2; Fig. 4'}
+  - {label: gap between electrodes, value: 3, unit: 'µm', basis: stated, locator: 'Papuchon et al., Appl. Phys. Lett. 1975, p.290 col. 2 ("separated by 3 µm at the coupler center")'}
+  - {label: TM loss under electrode, value: '≈ 2', unit: dB/cm, basis: stated, locator: 'Papuchon et al., Appl. Phys. Lett. 1975, p.290 col. 2'}
+  essential: false
+
+- id: electrode_2
+  name: electrode over the straight guide
+  role: Second gold electrode; no electrode between the guides.
+  detail: 'Mirror of the first electrode across the 3 µm gap. With the C axis normal to the surface, the fringing field between the two electrodes points in opposite directions in the two guides (Fig. 3a), giving opposite index changes, mainly for TM light through r_{zzz}. This removes the central electrode of the classical three-electrode layout.'
+  quote: the opposite direction of the fringing fields in the two guiding regions gives the desired, opposite, index changes (Fig. 3).
+  locator: Papuchon et al., Appl. Phys. Lett. 1975, p.289 col. 2; p.290 col. 2; Fig. 3a (p.290)
+  material: gold (Fig. 4 "Au or Al")
+  look: {color: '#d4a640', opacity: 1.0, metal: 0.9, rough: 0.3, emissive: ''}
+  geometry: {type: plan_rect, length_of: coupling_region, side: 'outer side of guide_2, inner edge at the electrode gap', drawn: 'as electrode_1', thickness_A: 2000}
+  dims:
+  - {label: size, value: '1 × 3', unit: mm, basis: stated, locator: 'Papuchon et al., Appl. Phys. Lett. 1975, p.290 col. 2'}
+  - {label: gold thickness, value: 2000, unit: 'Å', basis: stated, locator: 'Papuchon et al., Appl. Phys. Lett. 1975, p.290 col. 2; Fig. 4'}
+  essential: false
+
+- id: central_electrode
+  name: central electrode (classical layout)
+  role: The third electrode of the classical layout, which Cobra drops.
+  detail: 'Fig. 2(a) "Classical configuration (three electrodes)" puts a narrow electrode between the guides, with the C axis in the plane across the guides; Fig. 2(b) "Cobra configuration (two electrodes)" has none, C axis normal to the surface. The text: such a central electrode, 2000 Å × 2 µm in section and several mm long, "will be rather fragile and have a high resistance". Shown only as a fading ghost for contrast; it was not part of the device.'
+  quote: Elimination of the central electrode is desirable since, due to its small section (2000 Å × 2 µm) and relatively long length (~ several mm) it will be rather fragile and have a high resistance.
+  locator: Papuchon et al., Appl. Phys. Lett. 1975, p.289 col. 2; Fig. 2 (p.289)
+  material: metal (classical proposal)
+  look: {color: '#d4a640', opacity: 0.35, metal: 0.5, rough: 0.5, emissive: ''}
+  geometry: {type: plan_rect, frame: fig5_px, between: [guide_1, guide_2], length_of: coupling_region, drawn: 'ghost only'}
+  dims:
+  - {label: section, value: '2000 Å × 2 µm', basis: stated, locator: 'Papuchon et al., Appl. Phys. Lett. 1975, p.289 col. 2'}
+  essential: false
+
+- id: prism
+  name: rutile prism coupler
+  role: Couples the argon laser beam into one guide.
+  detail: 'One guide was excited "using a rutile prism coupler"; Fig. 5 marks the launching region. Prism size, angle, clamping and exact position are not given: drawn as a plain neutral prism stand-in over the launching region.'
+  quote: were examined by exciting one of the guides (using a rutile prism coupler)
+  locator: Papuchon et al., Appl. Phys. Lett. 1975, p.290 col. 1
+  material: rutile (TiO₂)
+  look: {color: '#e9e2d0', opacity: 0.35, metal: 0.0, rough: 0.05, emissive: ''}
+  geometry: {type: stand_in_prism, over: launch_region, note: 'plain stand-in; no dimensions'}
+  essential: false
+
+- id: argon_beam
+  name: argon laser light (5145 Å)
+  role: Probe light; mainly TM in the switching test.
+  detail: 'The 5145 Å argon line made the energy exchange visible by fluorescence or by light diffused out of the guides. In the switching test an "essentially TM guided wave was excited". Laser power is not given.'
+  quote: The use of the 5145-Å line of an argon laser permitted this observation to be made using either a fluorescence technique or direct observation of diffused light.
+  locator: Papuchon et al., Appl. Phys. Lett. 1975, p.290 col. 1; p.291 col. 1
+  material: ''
+  look: {color: '#36ff3c', opacity: 0.9, metal: 0.0, rough: 1.0, emissive: '#36ff3c'}
+  geometry: {type: beam, enters: prism, then: 'guided light along guide_1 / guide_2 per chapter', wavelength_A: 5145}
+  dims:
+  - {label: wavelength, value: 5145, unit: 'Å', basis: stated, locator: 'Papuchon et al., Appl. Phys. Lett. 1975, p.290 col. 1'}
+  - {label: polarization in the switching test, value: essentially TM, basis: stated, locator: 'Papuchon et al., Appl. Phys. Lett. 1975, p.291 col. 1'}
+  essential: false
+
+- id: observation_region
+  name: observation region
+  role: Output end where the light in each guide was watched.
+  detail: 'Circle in Fig. 5 where the curved guide leaves and the straight guide continues. Light diffused out of the guides there was observed while voltages were applied; Fig. 6 shows photographs at 0 V and 6 V (in the scan used here the photographs reproduce as black fields, so no intensities are read from them).'
+  quote: Light from an argon laser was coupled into one of the guides, and the light diffused out of the guides at the output was observed as various voltages were applied to the electrodes.
+  locator: Papuchon et al., Appl. Phys. Lett. 1975, p.291 col. 1; Fig. 5, Fig. 6 (p.290)
+  material: ''
+  look: {color: '#a8a69d', opacity: 0.0, metal: 0.0, rough: 1.0, emissive: ''}
+  geometry: {type: circle_outline, frame: fig5_px, center: [763, 150], r: 62}
+  essential: false
+
+- id: field_lines
+  name: fringing field
+  role: Field lines dive under the gap; opposite directions in the two guides.
+  detail: 'Fig. 3a, "Section of the coupling region showing the crystal orientation, electrode configuration, and electric field lines": three field lines run from under one electrode down through its guide, arc beneath the gap and rise through the other guide. Arrows point down in the left guide and up in the right guide as drawn; the applied polarity and which guide of Fig. 5 is on the left are not stated. With C vertical, the TM index change comes mainly from r_{zzz}; the r_{yzy} coefficient makes the index change between the guides asymmetric for opposite polarities, which was observed. Section tints: index changes of opposite sign in the two guides (p.289 col. 2, Fig. 3); the paper gives no sign. Lighter = index raised, darker = lowered for the polarity drawn; the tint direction follows r_{33} > 0 (textbook sign, assumed, not from the paper).'
+  quote: With this electrode configuration the principal effect will be to change the Δβ of TM polarized waves due to the r_{zzz} coefficient.
+  locator: Papuchon et al., Appl. Phys. Lett. 1975, p.289 col. 2; Fig. 3a (p.290); p.291 col. 1
+  material: ''
+  look: {color: '#4c9bf0', opacity: 0.9, metal: 0.0, rough: 1.0, emissive: ''}
+  geometry:
+    type: section_fig3a
+    frame: fig3a_px
+    surface_y: 237.5
+    electrodes: [[120, 207.5, 400, 237.5], [538, 207.5, 815, 237.5]]
+    guides_half_ellipse: [{x: [259, 350], bottom_y: 306}, {x: [536, 625], bottom_y: 309}]
+    c_axis: {x: 462, from_y: 237.5, to_y: 170}
+    y_axis: {y: 238, to_x: 980}
+    arcs: 'three arcs between the guides, lowest points about y 394, 421 and lower (drawn); arrows down in the left guide, up in the right guide'
+    note: 'Fig. 3a is schematic: drawn guide width 91 px vs gap 186 px (printed 2 µm / 3 µm), left electrode overhangs its guide inner edge while the right one is flush; do not read sizes from it'
+  essential: false
+
+- id: voltage
+  name: control voltage
+  role: 6 V across the two electrodes switches the light back.
+  detail: 'Abstract: "Efficient switching is observed with 6 V applied." Results: at 0 V most light leaves by the straight guide; at 6 V it is switched back to the curved guide. The effect was about 3 times stronger for TM than TE, and opposite polarities behaved differently, as expected from the r_{yzy} coefficient. Source, leads, polarity and switching speed are not described: drawn as a plain stand-in with a 0 V / 6 V toggle; only the 0 V and 6 V states are shown, intermediate voltages are not.'
+  quote: Efficient switching is observed with 6 V applied.
+  locator: Papuchon et al., Appl. Phys. Lett. 1975, p.289 abstract; p.291 col. 1
+  material: ''
+  look: {color: '#a8a69d', opacity: 0.8, metal: 0.0, rough: 0.8, emissive: ''}
+  geometry: {type: stand_in_source, leads_to: [electrode_1, electrode_2], note: 'plain stand-in; no circuit detail'}
+  dims:
+  - {label: switching voltage, value: 6, unit: V, basis: stated, locator: 'Papuchon et al., Appl. Phys. Lett. 1975, p.289 abstract; p.291 col. 1'}
+  - {label: TM vs TE effectiveness, value: '≈ 3×', basis: stated, locator: 'Papuchon et al., Appl. Phys. Lett. 1975, p.291 col. 1'}
+  essential: false
+
+assembly:
+- {part: substrate, pos: [0, 0, 0], basis: assumed, locator: 'stand-in slab framing the Fig. 5 pattern; size not stated'}
+- {part: ti_film, pos: 'on substrate top', basis: figure, locator: 'Papuchon et al., Appl. Phys. Lett. 1975, Fig. 4 row 1 (p.290)'}
+- {part: resist, pos: 'on ti_film', basis: figure, locator: 'Papuchon et al., Appl. Phys. Lett. 1975, Fig. 4 row 2 (p.290)'}
+- {part: ti_strips, pos: 'Fig. 5 pattern on substrate top', basis: figure, locator: 'Papuchon et al., Appl. Phys. Lett. 1975, Fig. 5 (p.290)'}
+- {part: guide_1, pos: 'diffused into substrate under the upper strip of Fig. 5', basis: figure, locator: 'Papuchon et al., Appl. Phys. Lett. 1975, Fig. 4 row 3, Fig. 5 (p.290)'}
+- {part: guide_2, pos: 'diffused into substrate under the lower strip of Fig. 5', basis: figure, locator: 'Papuchon et al., Appl. Phys. Lett. 1975, Fig. 4 row 3, Fig. 5 (p.290)'}
+- {part: launch_region, pos: 'left end of guide_1', basis: figure, locator: 'Papuchon et al., Appl. Phys. Lett. 1975, Fig. 5 (p.290)'}
+- {part: output_region, pos: 'right end of guide_2', basis: figure, locator: 'Papuchon et al., Appl. Phys. Lett. 1975, Fig. 5 (p.290)'}
+- {part: electrode_1, pos: 'on surface over guide_1 along the coupling region, extending outward; inner edge at the 3 µm electrode gap', basis: figure, locator: 'Papuchon et al., Appl. Phys. Lett. 1975, Fig. 3a, Fig. 4 row 4 (p.290); Fig. 2(b) (p.289)', note: 'edge alignment with the guide is not fixed; printed electrode gap and guide separation are both 3 µm'}
+- {part: electrode_2, pos: 'mirror of electrode_1 over guide_2', basis: figure, locator: 'Papuchon et al., Appl. Phys. Lett. 1975, Fig. 3a, Fig. 4 row 4 (p.290); Fig. 2(b) (p.289)'}
+- {part: prism, pos: 'over launch_region', basis: figure, locator: 'Papuchon et al., Appl. Phys. Lett. 1975, p.290 col. 1; Fig. 5 "Launching region"'}
+- {part: observation_region, pos: 'right end of the coupling region, where guide_1 bends away', basis: figure, locator: 'Papuchon et al., Appl. Phys. Lett. 1975, Fig. 5 (p.290)'}
+
+chapters:
+- id: substrate
+  p: [0.0, 0.08]
+  keyword: Lithium niobate
+  line: An electro-optic crystal, C axis normal to the surface.
+  action: 'LiNbO3 slab drops in, isometric; a short C-axis arrow rises normal to the surface (Fig. 3a)'
+  parts: [substrate]
+  labels: []
+- id: titanium
+  p: [0.08, 0.17]
+  keyword: Titanium film
+  line: A thin titanium layer is sputtered on.
+  action: 'sputter arrows rain down (Fig. 4 row 1); a thin grey Ti layer fades in over the whole surface; height exaggerated, schematic'
+  parts: [ti_film]
+  process: sputter
+  labels: []
+- id: strips
+  p: [0.17, 0.28]
+  keyword: Two strips
+  line: Masked and ion-etched to the coupler pattern.
+  action: 'resist layer appears, exposure arrows (Fig. 4 row 2), the film etches away leaving the Fig. 5 pattern: launching region tapering into one strip, a second strip bending in from the lower left, parallel section, one strip bending away, the other tapering into the wide output region. Dashed coupling-region outline appears'
+  parts: [resist, ti_strips, coupling_region]
+  process: pattern
+  labels: [ti_strips, coupling_region]
+- id: diffusion
+  p: [0.28, 0.38]
+  keyword: In-diffusion
+  line: Hours in hot oxygen; titanium sinks in and forms guides.
+  action: 'furnace glow tint; the grey strips sink into the crystal and turn into faint blue channels slightly wider than the strips (lateral diffusion, p.290 col. 2); surface flat afterwards'
+  parts: [guide_1, guide_2, launch_region, output_region]
+  process: diffuse
+  labels: []
+- id: electrodes
+  p: [0.38, 0.48]
+  keyword: Two electrodes
+  line: Gold over each guide; no electrode between them.
+  action: 'ghost of the classical central electrode (Fig. 2a) appears between the guides and fades out; gold film sputtered over the surface, resist, exposure (optical superposition), ion etch back to two pads over the two guides along the coupling region with a narrow gap above the gap between the guides (Fig. 4 row 4, Fig. 2b, Fig. 3a)'
+  parts: [electrode_1, electrode_2, central_electrode]
+  process: electrodes
+  labels: []
+- id: crossover
+  p: [0.48, 0.6]
+  keyword: Light crosses over
+  line: Power swaps guides and leaves by the straight one.
+  action: 'prism stand-in over the launching region; green beam enters; guided glow in the curved guide hands over to the straight guide and back along the coupling region (Eq. (2), Δβ = 0: full transfer at L0, back at 2L0, across at 3L0); at the output most light leaves by the straight guide, a faint residue in the curved one (fraction not stated); observation circle lights'
+  parts: [prism, argon_beam, guide_1, guide_2, observation_region]
+  process: test
+  labels: [coupling_region]
+- id: field
+  p: [0.6, 0.7]
+  keyword: Opposite fields
+  line: Field points down in one guide, up in the other.
+  action: 'section through the middle of the coupling region lifts out (Fig. 3a layout): electrodes, two half-elliptic guides, C axis up, y across; three field lines draw from one guide under the gap to the other with arrows down / up; the two guides tint in opposite directions (index up / down); no numbers'
+  parts: [field_lines, electrode_1, electrode_2, guide_1, guide_2]
+  labels: []
+- id: switch
+  p: [0.7, 0.82]
+  keyword: Switched at *6 V*
+  line: Light returns to the guide it entered.
+  action: 'voltage stand-in toggles 0 V -> 6 V; the 0 V pattern crossfades into the 6 V pattern (no intermediate voltages drawn); along the coupling region the glow stays mostly in the curved guide, dipping and recovering (pattern from Eq. (2) for Δβ = c√12, the Fig. 1 case: the paper does not state the Δβ reached at 6 V); at the output the curved guide carries the light out and up'
+  parts: [voltage, guide_1, observation_region, argon_beam]
+  process: test
+  labels: []
+- id: power
+  p: [0.82, 1.0]
+  keyword: Coupled-mode theory
+  line: Zero mismatch hands the power over; mismatch brings it back.
+  action: 'model frames left; plot assembles right: axes, Δβ = 0 curve, then Δβ = c√12 curve, then the dashed marker at 3 L0 (coupling region end). Toggle to the Eq. (2) curves extended to 3 L0'
+  parts: [coupling_region]
+  plot: power
+  labels: []
+
+process:
+- id: sputter
+  name: Ti sputtering
+  source: Papuchon et al., Appl. Phys. Lett. 1975
+  params:
+  - {label: method, value: rf sputtering, basis: stated, locator: 'p.289 col. 2; Fig. 4 row 1 "Sputtering"'}
+  - {label: Ti thickness, value: 500, unit: 'Å', basis: stated, locator: 'p.289 col. 2 ("Approximately 500 Å"); Fig. 4 "Ti (500 Å)"'}
+  parts: [ti_film]
+- id: pattern
+  name: Masking and ion etching
+  source: Papuchon et al., Appl. Phys. Lett. 1975
+  params:
+  - {label: method, value: masked and etched, basis: stated, locator: 'p.289 col. 2 to p.290 col. 1 (ref. 7)'}
+  - {label: masking, value: 'resist, light; ion etching', basis: figure, locator: 'Fig. 4 row 2 labels (p.290)'}
+  - {label: strip width a, value: 2, unit: 'µm', basis: stated, locator: 'Fig. 5 caption (p.290)'}
+  - {label: separation b, value: 3, unit: 'µm', basis: stated, locator: 'Fig. 5 caption (p.290)'}
+  - {label: coupling region c, value: 3, unit: mm, basis: stated, locator: 'Fig. 5 caption (p.290)'}
+  parts: [resist, ti_strips]
+- id: diffuse
+  name: Ti in-diffusion
+  source: Papuchon et al., Appl. Phys. Lett. 1975
+  params:
+  - {label: temperature, value: 1100, unit: '°C', basis: stated, locator: 'p.290 col. 1; Fig. 4 row 3'}
+  - {label: time, value: '≈ 11', unit: h, basis: stated, locator: 'p.290 col. 1 ("approximately 11 h"); Fig. 4 "11 hours"'}
+  - {label: atmosphere, value: 'O_{2}', basis: stated, locator: 'p.290 col. 1'}
+  parts: [guide_1, guide_2]
+- id: electrodes
+  name: Electrodes
+  source: Papuchon et al., Appl. Phys. Lett. 1975
+  params:
+  - {label: film, value: 'gold, rf sputtered', basis: stated, locator: 'p.290 col. 2 (Fig. 4: "Au or Al")'}
+  - {label: thickness, value: 2000, unit: 'Å', basis: stated, locator: 'p.290 col. 2; Fig. 4'}
+  - {label: patterning, value: 'optical superposition masking, ion etching', basis: stated, locator: 'p.290 col. 2; Fig. 4 row 4'}
+  - {label: electrodes, value: 'two, 1 × 3 mm', basis: stated, locator: 'p.290 col. 2'}
+  - {label: gap, value: 3, unit: 'µm', basis: stated, locator: 'p.290 col. 2'}
+  parts: [electrode_1, electrode_2]
+- id: test
+  name: Switching test
+  source: Papuchon et al., Appl. Phys. Lett. 1975
+  params:
+  - {label: light, value: 'argon laser, 5145 Å line', basis: stated, locator: 'p.290 col. 1'}
+  - {label: launch, value: rutile prism coupler, basis: stated, locator: 'p.290 col. 1'}
+  - {label: polarization, value: essentially TM, basis: stated, locator: 'p.291 col. 1'}
+  - {label: 'coupling length L_{0}', value: '≈ 1', unit: mm, basis: stated, locator: 'p.290 col. 2; p.291 col. 1'}
+  - {label: 0 V, value: 'most light in the straight guide', basis: stated, locator: 'p.291 col. 1'}
+  - {label: 6 V, value: 'switched back to the curved guide', basis: stated, locator: 'p.291 col. 1'}
+  parts: [argon_beam, guide_1, guide_2, voltage]
+
+plots:
+- id: power
+  title: ''
+  label: Paper Fig. 1
+  source: "Papuchon et al., Appl. Phys. Lett. 1975, Fig. 1 (p.289): 'Power in the initially excited guide vs propagation length when Δβ = 0 and Δβ = c(12)^{1/2}.'"
+  note: >-
+    Calculated curves (coupled-mode theory, Eq. (2)), not a measurement; the paper prints no measured switching or
+    extinction curve. x in units of the coupling length L_{0} (printed ticks 0, L_{0}, 2L_{0}; grid every L_{0}/2), y relative
+    power (printed ticks 0 and 1). The Δβ = c√12 curve is drawn only to 2L_{0}. Its drawn minima sit at about 0.72 (an
+    unlabelled horizontal line at about 0.72); Eq. (2) gives 0.75. Points where the curves merge with the axis at L_{0}
+    and 3L_{0} are read as 0.
+  x: {label: Propagation length, unit: 'L_{0}', log: false, range: [0, 3.05], ticks: [0, 1, 2, 3]}
+  y: {label: Power in the initially excited guide, unit: relative, log: false, range: [0, 1.05], ticks: [0, 1]}
+  series:
+  - name: Δβ = 0
+    basis: digitized
+    locator: Papuchon et al., Appl. Phys. Lett. 1975, p.289 Fig. 1
+    style: line
+    points: [[0, 0.986], [0.0167, 1], [0.0333, 1], [0.05, 1], [0.0667, 1], [0.0833, 1], [0.1, 0.99], [0.1167, 0.982], [0.1333, 0.969], [0.15, 0.956], [0.1667, 0.929], [0.1833, 0.914], [0.2, 0.89], [0.2167, 0.871], [0.2333, 0.849], [0.25, 0.829], [0.2667, 0.807], [0.2833, 0.785], [0.3, 0.763], [0.3167, 0.742], [0.3333, 0.721], [0.35, 0.7], [0.3667, 0.677], [0.3833, 0.656], [0.4, 0.633], [0.4167, 0.612], [0.4333, 0.59], [0.45, 0.571], [0.4667, 0.548], [0.4833, 0.529], [0.5167, 0.477], [0.5333, 0.459], [0.55, 0.439], [0.5667, 0.417], [0.5833, 0.397], [0.6, 0.373], [0.6167, 0.353], [0.6333, 0.331], [0.65, 0.309], [0.6667, 0.288], [0.6833, 0.267], [0.7, 0.244], [0.7167, 0.223], [0.7333, 0.202], [0.75, 0.18], [0.7667, 0.158], [0.7833, 0.14], [0.8, 0.117], [0.8167, 0.099], [0.8333, 0.081], [0.85, 0.066], [0.8667, 0.053], [0.8833, 0.042], [0.9, 0.032], [0.9167, 0.026], [0.9333, 0.019], [0.95, 0.013], [0.9667, 0.013], [0.9833, 0], [1, 0], [1.0167, 0.012], [1.0333, 0.012], [1.05, 0.02], [1.0667, 0.026], [1.0833, 0.035], [1.1, 0.043], [1.1167, 0.054], [1.1333, 0.066], [1.15, 0.082], [1.1667, 0.095], [1.1833, 0.115], [1.2, 0.133], [1.2167, 0.152], [1.2333, 0.172], [1.25, 0.191], [1.2667, 0.211], [1.2833, 0.231], [1.3, 0.252], [1.3167, 0.273], [1.3333, 0.295], [1.35, 0.314], [1.3667, 0.334], [1.3833, 0.355], [1.4, 0.376], [1.4167, 0.397], [1.4333, 0.419], [1.45, 0.437], [1.4667, 0.458], [1.4833, 0.474], [1.5167, 0.52], [1.5333, 0.54], [1.55, 0.562], [1.5667, 0.582], [1.5833, 0.602], [1.6, 0.621], [1.6167, 0.642], [1.6333, 0.662], [1.65, 0.682], [1.6667, 0.703], [1.6833, 0.721], [1.7, 0.742], [1.7167, 0.762], [1.7333, 0.784], [1.75, 0.806], [1.7667, 0.827], [1.7833, 0.848], [1.8, 0.869], [1.8167, 0.891], [1.8333, 0.909], [1.85, 0.936], [1.8667, 0.951], [1.8833, 0.962], [1.9, 0.974], [1.9167, 0.982], [1.9333, 0.992], [1.95, 0.996], [1.9667, 0.998], [1.9833, 1], [2, 1], [2.0167, 1], [2.0333, 1], [2.05, 0.999], [2.0667, 0.997], [2.0833, 0.987], [2.1, 0.981], [2.1167, 0.97], [2.1333, 0.96], [2.15, 0.946], [2.1667, 0.932], [2.1833, 0.915], [2.2, 0.895], [2.2167, 0.874], [2.2333, 0.851], [2.25, 0.831], [2.2667, 0.81], [2.2833, 0.789], [2.3, 0.766], [2.3167, 0.745], [2.3333, 0.721], [2.35, 0.703], [2.3667, 0.678], [2.3833, 0.659], [2.4, 0.636], [2.4167, 0.613], [2.4333, 0.595], [2.45, 0.573], [2.4667, 0.552], [2.4833, 0.531], [2.5167, 0.48], [2.5333, 0.465], [2.55, 0.441], [2.5667, 0.422], [2.5833, 0.399], [2.6, 0.378], [2.6167, 0.355], [2.6333, 0.334], [2.65, 0.311], [2.6667, 0.291], [2.6833, 0.269], [2.7, 0.246], [2.7167, 0.225], [2.7333, 0.205], [2.75, 0.181], [2.7667, 0.162], [2.7833, 0.139], [2.8, 0.117], [2.8167, 0.097], [2.8333, 0.078], [2.85, 0.06], [2.8667, 0.045], [2.8833, 0.032], [2.9, 0.024], [2.9167, 0.018], [2.9333, 0.005], [2.95, 0.003], [2.9667, 0.003], [2.9833, 0], [3, 0]]
+  - name: Δβ = c√12
+    basis: digitized
+    locator: Papuchon et al., Appl. Phys. Lett. 1975, p.289 Fig. 1
+    style: line
+    points: [[0, 1], [0.0167, 1], [0.0333, 1], [0.05, 1], [0.0667, 1], [0.0833, 1], [0.1, 0.99], [0.1167, 0.982], [0.1333, 0.969], [0.15, 0.956], [0.1667, 0.954], [0.1833, 0.94], [0.2, 0.925], [0.2167, 0.909], [0.2333, 0.892], [0.25, 0.875], [0.2667, 0.858], [0.2833, 0.842], [0.3, 0.824], [0.3167, 0.809], [0.3333, 0.794], [0.35, 0.778], [0.3667, 0.767], [0.3833, 0.756], [0.4, 0.748], [0.4167, 0.739], [0.4333, 0.734], [0.45, 0.726], [0.4667, 0.725], [0.4833, 0.723], [0.5, 0.723], [0.5167, 0.723], [0.5333, 0.724], [0.55, 0.727], [0.5667, 0.733], [0.5833, 0.74], [0.6, 0.746], [0.6167, 0.753], [0.6333, 0.762], [0.65, 0.774], [0.6667, 0.787], [0.6833, 0.8], [0.7, 0.815], [0.7167, 0.83], [0.7333, 0.848], [0.75, 0.863], [0.7667, 0.88], [0.7833, 0.895], [0.8, 0.913], [0.8167, 0.928], [0.8333, 0.943], [0.85, 0.956], [0.8667, 0.967], [0.8833, 0.977], [0.9, 0.985], [0.9167, 0.995], [0.9333, 1], [0.95, 1], [0.9667, 1], [0.9833, 1], [1, 1], [1.0167, 1], [1.0333, 1], [1.05, 1], [1.0667, 1], [1.0833, 0.992], [1.1, 0.985], [1.1167, 0.976], [1.1333, 0.969], [1.15, 0.956], [1.1667, 0.946], [1.1833, 0.93], [1.2, 0.916], [1.2167, 0.897], [1.2333, 0.881], [1.25, 0.865], [1.2667, 0.85], [1.2833, 0.835], [1.3, 0.818], [1.3167, 0.803], [1.3333, 0.79], [1.35, 0.776], [1.3667, 0.764], [1.3833, 0.753], [1.4, 0.745], [1.4167, 0.737], [1.4333, 0.732], [1.45, 0.722], [1.4667, 0.722], [1.4833, 0.721], [1.5, 0.72], [1.5167, 0.72], [1.5333, 0.722], [1.55, 0.729], [1.5667, 0.734], [1.5833, 0.739], [1.6, 0.747], [1.6167, 0.753], [1.6333, 0.763], [1.65, 0.775], [1.6667, 0.788], [1.6833, 0.802], [1.7, 0.817], [1.7167, 0.833], [1.7333, 0.848], [1.75, 0.863], [1.7667, 0.877], [1.7833, 0.892], [1.8, 0.907], [1.8167, 0.922], [1.8333, 0.935], [1.85, 0.936], [1.8667, 0.951], [1.8833, 0.962], [1.9, 0.974], [1.9167, 0.982], [1.9333, 0.992], [1.95, 0.996], [1.9667, 0.998], [1.9833, 1], [2, 1]]
+  - name: end of the 3 mm coupling region (L_{0} ≈ 1 mm)
+    basis: stated
+    locator: 'Papuchon et al., Appl. Phys. Lett. 1975, p.291 col. 1 ("L_{0} = 1 mm and the actual length of the coupling region is 3 mm")'
+    style: dashed
+    points: [[3, 0], [3, 1.0]]
+- id: power_eq2
+  alt_of: power
+  label: Eq. (2)
+  title: ''
+  source: "Papuchon et al., Appl. Phys. Lett. 1975, Eq. (2) (p.289 col. 1): |E_{1}|^{2} = cos^{2}(s c x) + (Δβ^{2}/4c^{2})/(Δβ^{2}/4c^{2} + 1) sin^{2}(s c x), s = (Δβ^{2}/4c^{2} + 1)^{1/2}"
+  note: >-
+    Evaluated from the printed Eq. (2) with L_{0} = π/(2c) (full transfer at Δβ = 0), both cases to 3 L_{0}, the length of
+    the switch. Basis derived. The paper does not state which Δβ the 6 V setting reached; for a 3 L_{0} coupler Eq. (2)
+    also returns all light at 3 L_{0} for Δβ ≈ 1.76 c, so c√12 is one of several such values.
+  x: {label: Propagation length, unit: 'L_{0}', log: false, range: [0, 3.05], ticks: [0, 1, 2, 3]}
+  y: {label: Power in the initially excited guide, unit: relative, log: false, range: [0, 1.05], ticks: [0, 1]}
+  series:
+  - name: Δβ = 0 (Eq. 2)
+    basis: derived
+    locator: Papuchon et al., Appl. Phys. Lett. 1975, p.289 Eq. (2)
+    style: line
+    points: [[0, 1], [0.0083, 0.9998], [0.0167, 0.9993], [0.025, 0.9985], [0.0333, 0.9973], [0.0417, 0.9957], [0.05, 0.9938], [0.0583, 0.9916], [0.0667, 0.9891], [0.075, 0.9862], [0.0833, 0.983], [0.0917, 0.9794], [0.1, 0.9755], [0.1083, 0.9713], [0.1167, 0.9668], [0.125, 0.9619], [0.1333, 0.9568], [0.1417, 0.9513], [0.15, 0.9455], [0.1583, 0.9394], [0.1667, 0.933], [0.175, 0.9263], [0.1833, 0.9194], [0.1917, 0.912], [0.2, 0.9045], [0.2083, 0.8967], [0.2167, 0.8885], [0.225, 0.8802], [0.2333, 0.8716], [0.2417, 0.8627], [0.25, 0.8536], [0.2583, 0.8442], [0.2667, 0.8345], [0.275, 0.8247], [0.2833, 0.8147], [0.2917, 0.8043], [0.3, 0.7939], [0.3083, 0.7832], [0.3167, 0.7723], [0.325, 0.7612], [0.3333, 0.75], [0.3417, 0.7385], [0.35, 0.727], [0.3583, 0.7153], [0.3667, 0.7033], [0.375, 0.6913], [0.3833, 0.6792], [0.3917, 0.6669], [0.4, 0.6545], [0.4083, 0.6421], [0.4167, 0.6294], [0.425, 0.6167], [0.4333, 0.604], [0.4417, 0.5911], [0.45, 0.5782], [0.4583, 0.5653], [0.4667, 0.5522], [0.475, 0.5392], [0.4833, 0.5262], [0.4917, 0.513], [0.5, 0.5], [0.5083, 0.487], [0.5167, 0.4738], [0.525, 0.4608], [0.5333, 0.4478], [0.5417, 0.4347], [0.55, 0.4218], [0.5583, 0.4089], [0.5667, 0.396], [0.575, 0.3833], [0.5833, 0.3706], [0.5917, 0.3579], [0.6, 0.3455], [0.6083, 0.3331], [0.6167, 0.3208], [0.625, 0.3087], [0.6333, 0.2967], [0.6417, 0.2847], [0.65, 0.273], [0.6583, 0.2615], [0.6667, 0.25], [0.675, 0.2388], [0.6833, 0.2277], [0.6917, 0.2168], [0.7, 0.2061], [0.7083, 0.1957], [0.7167, 0.1853], [0.725, 0.1753], [0.7333, 0.1655], [0.7417, 0.1558], [0.75, 0.1464], [0.7583, 0.1373], [0.7667, 0.1284], [0.775, 0.1198], [0.7833, 0.1115], [0.7917, 0.1033], [0.8, 0.0955], [0.8083, 0.088], [0.8167, 0.0806], [0.825, 0.0737], [0.8333, 0.067], [0.8417, 0.0606], [0.85, 0.0545], [0.8583, 0.0487], [0.8667, 0.0432], [0.875, 0.0381], [0.8833, 0.0332], [0.8917, 0.0287], [0.9, 0.0245], [0.9083, 0.0206], [0.9167, 0.017], [0.925, 0.0138], [0.9333, 0.0109], [0.9417, 0.0084], [0.95, 0.0062], [0.9583, 0.0043], [0.9667, 0.0027], [0.975, 0.0015], [0.9833, 0.0007], [0.9917, 0.0002], [1, 0], [1.0083, 0.0002], [1.0167, 0.0007], [1.025, 0.0015], [1.0333, 0.0027], [1.0417, 0.0043], [1.05, 0.0062], [1.0583, 0.0084], [1.0667, 0.0109], [1.075, 0.0138], [1.0833, 0.017], [1.0917, 0.0206], [1.1, 0.0245], [1.1083, 0.0287], [1.1167, 0.0332], [1.125, 0.0381], [1.1333, 0.0432], [1.1417, 0.0487], [1.15, 0.0545], [1.1583, 0.0606], [1.1667, 0.067], [1.175, 0.0737], [1.1833, 0.0806], [1.1917, 0.088], [1.2, 0.0955], [1.2083, 0.1033], [1.2167, 0.1115], [1.225, 0.1198], [1.2333, 0.1284], [1.2417, 0.1373], [1.25, 0.1464], [1.2583, 0.1558], [1.2667, 0.1655], [1.275, 0.1753], [1.2833, 0.1853], [1.2917, 0.1957], [1.3, 0.2061], [1.3083, 0.2168], [1.3167, 0.2277], [1.325, 0.2388], [1.3333, 0.25], [1.3417, 0.2615], [1.35, 0.273], [1.3583, 0.2847], [1.3667, 0.2967], [1.375, 0.3087], [1.3833, 0.3208], [1.3917, 0.3331], [1.4, 0.3455], [1.4083, 0.3579], [1.4167, 0.3706], [1.425, 0.3833], [1.4333, 0.396], [1.4417, 0.4089], [1.45, 0.4218], [1.4583, 0.4347], [1.4667, 0.4478], [1.475, 0.4608], [1.4833, 0.4738], [1.4917, 0.487], [1.5, 0.5], [1.5083, 0.513], [1.5167, 0.5262], [1.525, 0.5392], [1.5333, 0.5522], [1.5417, 0.5653], [1.55, 0.5782], [1.5583, 0.5911], [1.5667, 0.604], [1.575, 0.6167], [1.5833, 0.6294], [1.5917, 0.6421], [1.6, 0.6545], [1.6083, 0.6669], [1.6167, 0.6792], [1.625, 0.6913], [1.6333, 0.7033], [1.6417, 0.7153], [1.65, 0.727], [1.6583, 0.7385], [1.6667, 0.75], [1.675, 0.7612], [1.6833, 0.7723], [1.6917, 0.7832], [1.7, 0.7939], [1.7083, 0.8043], [1.7167, 0.8147], [1.725, 0.8247], [1.7333, 0.8345], [1.7417, 0.8442], [1.75, 0.8536], [1.7583, 0.8627], [1.7667, 0.8716], [1.775, 0.8802], [1.7833, 0.8885], [1.7917, 0.8967], [1.8, 0.9045], [1.8083, 0.912], [1.8167, 0.9194], [1.825, 0.9263], [1.8333, 0.933], [1.8417, 0.9394], [1.85, 0.9455], [1.8583, 0.9513], [1.8667, 0.9568], [1.875, 0.9619], [1.8833, 0.9668], [1.8917, 0.9713], [1.9, 0.9755], [1.9083, 0.9794], [1.9167, 0.983], [1.925, 0.9862], [1.9333, 0.9891], [1.9417, 0.9916], [1.95, 0.9938], [1.9583, 0.9957], [1.9667, 0.9973], [1.975, 0.9985], [1.9833, 0.9993], [1.9917, 0.9998], [2, 1], [2.0083, 0.9998], [2.0167, 0.9993], [2.025, 0.9985], [2.0333, 0.9973], [2.0417, 0.9957], [2.05, 0.9938], [2.0583, 0.9916], [2.0667, 0.9891], [2.075, 0.9862], [2.0833, 0.983], [2.0917, 0.9794], [2.1, 0.9755], [2.1083, 0.9713], [2.1167, 0.9668], [2.125, 0.9619], [2.1333, 0.9568], [2.1417, 0.9513], [2.15, 0.9455], [2.1583, 0.9394], [2.1667, 0.933], [2.175, 0.9263], [2.1833, 0.9194], [2.1917, 0.912], [2.2, 0.9045], [2.2083, 0.8967], [2.2167, 0.8885], [2.225, 0.8802], [2.2333, 0.8716], [2.2417, 0.8627], [2.25, 0.8536], [2.2583, 0.8442], [2.2667, 0.8345], [2.275, 0.8247], [2.2833, 0.8147], [2.2917, 0.8043], [2.3, 0.7939], [2.3083, 0.7832], [2.3167, 0.7723], [2.325, 0.7612], [2.3333, 0.75], [2.3417, 0.7385], [2.35, 0.727], [2.3583, 0.7153], [2.3667, 0.7033], [2.375, 0.6913], [2.3833, 0.6792], [2.3917, 0.6669], [2.4, 0.6545], [2.4083, 0.6421], [2.4167, 0.6294], [2.425, 0.6167], [2.4333, 0.604], [2.4417, 0.5911], [2.45, 0.5782], [2.4583, 0.5653], [2.4667, 0.5522], [2.475, 0.5392], [2.4833, 0.5262], [2.4917, 0.513], [2.5, 0.5], [2.5083, 0.487], [2.5167, 0.4738], [2.525, 0.4608], [2.5333, 0.4478], [2.5417, 0.4347], [2.55, 0.4218], [2.5583, 0.4089], [2.5667, 0.396], [2.575, 0.3833], [2.5833, 0.3706], [2.5917, 0.3579], [2.6, 0.3455], [2.6083, 0.3331], [2.6167, 0.3208], [2.625, 0.3087], [2.6333, 0.2967], [2.6417, 0.2847], [2.65, 0.273], [2.6583, 0.2615], [2.6667, 0.25], [2.675, 0.2388], [2.6833, 0.2277], [2.6917, 0.2168], [2.7, 0.2061], [2.7083, 0.1957], [2.7167, 0.1853], [2.725, 0.1753], [2.7333, 0.1655], [2.7417, 0.1558], [2.75, 0.1464], [2.7583, 0.1373], [2.7667, 0.1284], [2.775, 0.1198], [2.7833, 0.1115], [2.7917, 0.1033], [2.8, 0.0955], [2.8083, 0.088], [2.8167, 0.0806], [2.825, 0.0737], [2.8333, 0.067], [2.8417, 0.0606], [2.85, 0.0545], [2.8583, 0.0487], [2.8667, 0.0432], [2.875, 0.0381], [2.8833, 0.0332], [2.8917, 0.0287], [2.9, 0.0245], [2.9083, 0.0206], [2.9167, 0.017], [2.925, 0.0138], [2.9333, 0.0109], [2.9417, 0.0084], [2.95, 0.0062], [2.9583, 0.0043], [2.9667, 0.0027], [2.975, 0.0015], [2.9833, 0.0007], [2.9917, 0.0002], [3, 0]]
+  - name: Δβ = c√12 (Eq. 2)
+    basis: derived
+    locator: Papuchon et al., Appl. Phys. Lett. 1975, p.289 Eq. (2)
+    style: line
+    points: [[0, 1], [0.0083, 0.9998], [0.0167, 0.9993], [0.025, 0.9985], [0.0333, 0.9973], [0.0417, 0.9957], [0.05, 0.9939], [0.0583, 0.9917], [0.0667, 0.9892], [0.075, 0.9864], [0.0833, 0.9833], [0.0917, 0.9798], [0.1, 0.9761], [0.1083, 0.9722], [0.1167, 0.9679], [0.125, 0.9634], [0.1333, 0.9587], [0.1417, 0.9536], [0.15, 0.9485], [0.1583, 0.9431], [0.1667, 0.9375], [0.175, 0.9317], [0.1833, 0.9259], [0.1917, 0.9198], [0.2, 0.9136], [0.2083, 0.9074], [0.2167, 0.901], [0.225, 0.8946], [0.2333, 0.8881], [0.2417, 0.8815], [0.25, 0.875], [0.2583, 0.8685], [0.2667, 0.8619], [0.275, 0.8554], [0.2833, 0.849], [0.2917, 0.8426], [0.3, 0.8364], [0.3083, 0.8302], [0.3167, 0.8241], [0.325, 0.8183], [0.3333, 0.8125], [0.3417, 0.8069], [0.35, 0.8015], [0.3583, 0.7964], [0.3667, 0.7913], [0.375, 0.7866], [0.3833, 0.7821], [0.3917, 0.7778], [0.4, 0.7739], [0.4083, 0.7702], [0.4167, 0.7667], [0.425, 0.7636], [0.4333, 0.7608], [0.4417, 0.7583], [0.45, 0.7561], [0.4583, 0.7543], [0.4667, 0.7527], [0.475, 0.7515], [0.4833, 0.7507], [0.4917, 0.7502], [0.5, 0.75], [0.5083, 0.7502], [0.5167, 0.7507], [0.525, 0.7515], [0.5333, 0.7527], [0.5417, 0.7543], [0.55, 0.7561], [0.5583, 0.7583], [0.5667, 0.7608], [0.575, 0.7636], [0.5833, 0.7667], [0.5917, 0.7702], [0.6, 0.7739], [0.6083, 0.7778], [0.6167, 0.7821], [0.625, 0.7866], [0.6333, 0.7913], [0.6417, 0.7964], [0.65, 0.8015], [0.6583, 0.8069], [0.6667, 0.8125], [0.675, 0.8183], [0.6833, 0.8241], [0.6917, 0.8302], [0.7, 0.8364], [0.7083, 0.8426], [0.7167, 0.849], [0.725, 0.8554], [0.7333, 0.8619], [0.7417, 0.8685], [0.75, 0.875], [0.7583, 0.8815], [0.7667, 0.8881], [0.775, 0.8946], [0.7833, 0.901], [0.7917, 0.9074], [0.8, 0.9136], [0.8083, 0.9198], [0.8167, 0.9259], [0.825, 0.9317], [0.8333, 0.9375], [0.8417, 0.9431], [0.85, 0.9485], [0.8583, 0.9536], [0.8667, 0.9587], [0.875, 0.9634], [0.8833, 0.9679], [0.8917, 0.9722], [0.9, 0.9761], [0.9083, 0.9798], [0.9167, 0.9833], [0.925, 0.9864], [0.9333, 0.9892], [0.9417, 0.9917], [0.95, 0.9939], [0.9583, 0.9957], [0.9667, 0.9973], [0.975, 0.9985], [0.9833, 0.9993], [0.9917, 0.9998], [1, 1], [1.0083, 0.9998], [1.0167, 0.9993], [1.025, 0.9985], [1.0333, 0.9973], [1.0417, 0.9957], [1.05, 0.9939], [1.0583, 0.9917], [1.0667, 0.9892], [1.075, 0.9864], [1.0833, 0.9833], [1.0917, 0.9798], [1.1, 0.9761], [1.1083, 0.9722], [1.1167, 0.9679], [1.125, 0.9634], [1.1333, 0.9587], [1.1417, 0.9536], [1.15, 0.9485], [1.1583, 0.9431], [1.1667, 0.9375], [1.175, 0.9317], [1.1833, 0.9259], [1.1917, 0.9198], [1.2, 0.9136], [1.2083, 0.9074], [1.2167, 0.901], [1.225, 0.8946], [1.2333, 0.8881], [1.2417, 0.8815], [1.25, 0.875], [1.2583, 0.8685], [1.2667, 0.8619], [1.275, 0.8554], [1.2833, 0.849], [1.2917, 0.8426], [1.3, 0.8364], [1.3083, 0.8302], [1.3167, 0.8241], [1.325, 0.8183], [1.3333, 0.8125], [1.3417, 0.8069], [1.35, 0.8015], [1.3583, 0.7964], [1.3667, 0.7913], [1.375, 0.7866], [1.3833, 0.7821], [1.3917, 0.7778], [1.4, 0.7739], [1.4083, 0.7702], [1.4167, 0.7667], [1.425, 0.7636], [1.4333, 0.7608], [1.4417, 0.7583], [1.45, 0.7561], [1.4583, 0.7543], [1.4667, 0.7527], [1.475, 0.7515], [1.4833, 0.7507], [1.4917, 0.7502], [1.5, 0.75], [1.5083, 0.7502], [1.5167, 0.7507], [1.525, 0.7515], [1.5333, 0.7527], [1.5417, 0.7543], [1.55, 0.7561], [1.5583, 0.7583], [1.5667, 0.7608], [1.575, 0.7636], [1.5833, 0.7667], [1.5917, 0.7702], [1.6, 0.7739], [1.6083, 0.7778], [1.6167, 0.7821], [1.625, 0.7866], [1.6333, 0.7913], [1.6417, 0.7964], [1.65, 0.8015], [1.6583, 0.8069], [1.6667, 0.8125], [1.675, 0.8183], [1.6833, 0.8241], [1.6917, 0.8302], [1.7, 0.8364], [1.7083, 0.8426], [1.7167, 0.849], [1.725, 0.8554], [1.7333, 0.8619], [1.7417, 0.8685], [1.75, 0.875], [1.7583, 0.8815], [1.7667, 0.8881], [1.775, 0.8946], [1.7833, 0.901], [1.7917, 0.9074], [1.8, 0.9136], [1.8083, 0.9198], [1.8167, 0.9259], [1.825, 0.9317], [1.8333, 0.9375], [1.8417, 0.9431], [1.85, 0.9485], [1.8583, 0.9536], [1.8667, 0.9587], [1.875, 0.9634], [1.8833, 0.9679], [1.8917, 0.9722], [1.9, 0.9761], [1.9083, 0.9798], [1.9167, 0.9833], [1.925, 0.9864], [1.9333, 0.9892], [1.9417, 0.9917], [1.95, 0.9939], [1.9583, 0.9957], [1.9667, 0.9973], [1.975, 0.9985], [1.9833, 0.9993], [1.9917, 0.9998], [2, 1], [2.0083, 0.9998], [2.0167, 0.9993], [2.025, 0.9985], [2.0333, 0.9973], [2.0417, 0.9957], [2.05, 0.9939], [2.0583, 0.9917], [2.0667, 0.9892], [2.075, 0.9864], [2.0833, 0.9833], [2.0917, 0.9798], [2.1, 0.9761], [2.1083, 0.9722], [2.1167, 0.9679], [2.125, 0.9634], [2.1333, 0.9587], [2.1417, 0.9536], [2.15, 0.9485], [2.1583, 0.9431], [2.1667, 0.9375], [2.175, 0.9317], [2.1833, 0.9259], [2.1917, 0.9198], [2.2, 0.9136], [2.2083, 0.9074], [2.2167, 0.901], [2.225, 0.8946], [2.2333, 0.8881], [2.2417, 0.8815], [2.25, 0.875], [2.2583, 0.8685], [2.2667, 0.8619], [2.275, 0.8554], [2.2833, 0.849], [2.2917, 0.8426], [2.3, 0.8364], [2.3083, 0.8302], [2.3167, 0.8241], [2.325, 0.8183], [2.3333, 0.8125], [2.3417, 0.8069], [2.35, 0.8015], [2.3583, 0.7964], [2.3667, 0.7913], [2.375, 0.7866], [2.3833, 0.7821], [2.3917, 0.7778], [2.4, 0.7739], [2.4083, 0.7702], [2.4167, 0.7667], [2.425, 0.7636], [2.4333, 0.7608], [2.4417, 0.7583], [2.45, 0.7561], [2.4583, 0.7543], [2.4667, 0.7527], [2.475, 0.7515], [2.4833, 0.7507], [2.4917, 0.7502], [2.5, 0.75], [2.5083, 0.7502], [2.5167, 0.7507], [2.525, 0.7515], [2.5333, 0.7527], [2.5417, 0.7543], [2.55, 0.7561], [2.5583, 0.7583], [2.5667, 0.7608], [2.575, 0.7636], [2.5833, 0.7667], [2.5917, 0.7702], [2.6, 0.7739], [2.6083, 0.7778], [2.6167, 0.7821], [2.625, 0.7866], [2.6333, 0.7913], [2.6417, 0.7964], [2.65, 0.8015], [2.6583, 0.8069], [2.6667, 0.8125], [2.675, 0.8183], [2.6833, 0.8241], [2.6917, 0.8302], [2.7, 0.8364], [2.7083, 0.8426], [2.7167, 0.849], [2.725, 0.8554], [2.7333, 0.8619], [2.7417, 0.8685], [2.75, 0.875], [2.7583, 0.8815], [2.7667, 0.8881], [2.775, 0.8946], [2.7833, 0.901], [2.7917, 0.9074], [2.8, 0.9136], [2.8083, 0.9198], [2.8167, 0.9259], [2.825, 0.9317], [2.8333, 0.9375], [2.8417, 0.9431], [2.85, 0.9485], [2.8583, 0.9536], [2.8667, 0.9587], [2.875, 0.9634], [2.8833, 0.9679], [2.8917, 0.9722], [2.9, 0.9761], [2.9083, 0.9798], [2.9167, 0.9833], [2.925, 0.9864], [2.9333, 0.9892], [2.9417, 0.9917], [2.95, 0.9939], [2.9583, 0.9957], [2.9667, 0.9973], [2.975, 0.9985], [2.9833, 0.9993], [2.9917, 0.9998], [3, 1]]
+  - name: end of the 3 mm coupling region (L_{0} ≈ 1 mm)
+    basis: stated
+    locator: 'Papuchon et al., Appl. Phys. Lett. 1975, p.291 col. 1'
+    style: dashed
+    points: [[3, 0], [3, 1.0]]
+
+drawings: []
+
+references:
+- {id: papuchon1975, cite: "M. Papuchon, Y. Combemale, X. Mathieu, D. B. Ostrowsky, L. Reiber, A. M. Roy, B. Sejourne, M. Werner, 'Electrically switched optical directional coupler: Cobra', Appl. Phys. Lett. 27(5), 289-291 (1975-09-01); Thomson-CSF, Laboratoire Central de Recherches, Orsay; received 1975-05-19", url: "https://doi.org/10.1063/1.88449", public_domain: false, used_for: "every part, number and arrangement in this story; Fig. 1 (digitized), Eq. (2), Figs. 2-5 (topology, schematic), text values"}
+- {id: us4035058, cite: "M. Papuchon (Thomson-CSF), US 4,035,058 'Electro-optical switch and a method of manufacturing same', filed 1975-06-10, French priority 1974-06-14, granted 1977-07-12", url: "https://patentimages.storage.googleapis.com/44/95/39/abcbacde9d2e9d/US4035058.pdf", public_domain: true, used_for: "context only: an earlier switch by the same inventor with oppositely polarized guides between two electrodes flanking the guides (FIG. 1, FIG. 2); a different device, not the Cobra; not used for geometry and not traced"}
+- {id: kogelnik1976, cite: "H. Kogelnik, R. V. Schmidt, 'Switched directional couplers with alternating Δβ', IEEE J. Quantum Electron. QE-12(7), 396-401 (1976-07)", url: "https://doi.org/10.1109/JQE.1976.1069190", public_domain: false, used_for: "secondary context only: Fig. 1 (p.397) draws its switched coupler 'in the COBRA configuration'; no values used"}
+- {id: schmidt1974, cite: "R. V. Schmidt, I. P. Kaminow, Appl. Phys. Lett. 25, 458 (1974) (ref. 4 of the paper, titanium diffusion)", public_domain: false, used_for: "not read; cited by the paper for Ti diffusion"}
+- {id: ostrowsky1974, cite: "D. B. Ostrowsky, M. Papuchon, A. M. Roy, J. Trotel, Appl. Opt. 13, 636 (1974) (ref. 7 of the paper, masking and etching)", public_domain: false, used_for: "not read; cited by the paper for the Ti patterning"}
+- {id: marcatili1969, cite: "E. A. J. Marcatili, Bell Syst. Tech. J. 48, 2071 (1969) (ref. 9 of the paper)", public_domain: false, used_for: "not read; coupling-length model named by the paper"}
+- {id: boa1977, cite: "'Electrically active optical bifurcation: BOA', Appl. Phys. Lett. 31(4), 266-267 (1977-08-15)", url: "https://doi.org/10.1063/1.89655", public_domain: false, used_for: "not read; later device from the same laboratory per its title search (authors not verified)"}
+
+withheld:
+- {what: "Measured switching curve (output vs voltage), extinction or crosstalk ratio", reason: "Not reported: the paper gives only 0 V and 6 V photographs (Fig. 6) and the words 'most of the guided light' / 'switched back'. The only plot is the calculated Fig. 1"}
+- {what: "Light fractions in each guide at 0 V and 6 V", reason: "Not stated ('most'); the Fig. 6 photographs reproduce as black fields in the cached scan, so no intensities are read"}
+- {what: "Δβ reached at 6 V, voltage polarity used, voltage-length product", reason: "Not stated; the 6 V intensity pattern along the coupler is drawn from Eq. (2) for the Fig. 1 case Δβ = c√12 and labelled as such. Only the 0 V and 6 V states are shown (crossfade, no intermediate voltages): for the 3 L_{0} coupler Eq. (2) also returns all light at 3 L_{0} for a smaller Δβ ≈ 1.76 c (derived), so the Δβ at 6 V cannot be read from the result"}
+- {what: "Real guide depth and index profile", reason: "Only the authors' Marcatili model values (2 µm thickness, Δn about 5×10⁻³), which they call pragmatic; lateral diffusion widens the guides by an unstated amount"}
+- {what: "Substrate size, thickness, end faces, supplier", reason: "Not given; the slab is a stand-in"}
+- {what: "Bend radii, taper lengths, sizes of the launching and wide output regions", reason: "Fig. 5 is a schematic without scale except c = 3 mm; shapes follow the drawing, sizes are not physical"}
+- {what: "Purpose of the wide region at the straight guide's output", reason: "Unlabelled in Fig. 5, not mentioned in the text"}
+- {what: "Electrode edge alignment with the guides and the electrodes' plan shape beyond 1 × 3 mm", reason: "Fig. 3a is schematic (one electrode overhangs its guide, the other is flush); text gives only 1 × 3 mm and a 3 µm gap. The model draws the inner edges over the guide inner edges as an assumption (equal printed 3 µm gap and separation), labelled assumed in the electrode detail"}
+- {what: "Prism size, angle, position; laser power; observation optics", reason: "Not given"}
+- {what: "Electrode leads, bonding, voltage source, switching speed or bandwidth", reason: "Not described; 'rapide' is in the name, no speed was measured"}
+- {what: "Unloaded guide loss and insertion loss", reason: "Not given; only the about 2 dB/cm TM loss added by the electrodes"}
+- {what: "Mapping of the Fig. 3a field arrows to a specific guide of Fig. 5", reason: "The section's viewing direction and the applied polarity are not stated"}
+
+notes:
+- 'Locators in this spec are short forms of "Papuchon et al., Appl. Phys. Lett. 27(5), 1975"; process params cite only page / column / figure and take the step source label.'
+- 'look values are presentational, not material data.'
+- 'fig5_px: pixel coordinates in the Fig. 5 crop (x right, y down), see the report for the crop origin; 459.5 px along x = 3 mm (c) but the drawing is not to scale (guide width 15 px drawn = 2 µm). fig3a_px: same for the Fig. 3a crop; schematic.'

@@ -1,0 +1,196 @@
+mears1987 (erbium-doped fibre amplifier) showcase audit (fresh context, read-only, 2026-11-11)
+==========================================================================================
+
+Scope: data/history/showcases/mears1987.yaml (+ report.txt), DevLog-017 D1012 (and D995 / D998 / D1005 / D1006),
+skill history-showcase; app/src/lib/history/showcases/mears1987.ts; app/static/data/showcases/mears1987.json (built
+22:36:47, identical to the YAML in every top-level key); runtime pieces the story uses (PartPanel.svelte, Rich.svelte,
+plot.ts markup, types.ts err_x); sources references/mears1987/ (600 dpi scan img_p02_1.png = p.1027, text.md),
+references/desurvire1987/text.md, references/poole1985/text.md; builder shots mears1987/builder/shots/ (desk_final_*,
+phone_final_*, light_v1_*, i2, i12, i13 read).
+Method: Fig. 1-4 cropped from img_p02_1.png and read at 2-12x; axis ticks of Fig. 2 re-measured (553 / 749 / 945.5 /
+1138 px; 535.5 / 340.5 / 145.5 / 727.5 px, same as the report); Fig. 2 re-read per column at 15 wavelengths x 3
+curves; Fig. 3 and Fig. 4 circle centres re-measured by hole centroids (scipy fill_holes); Fig. 4 error-bar extents
+re-measured from row ink runs and row dumps; Fig. 4 fluorescence re-read at 14 columns plus per-column dumps over the
+peak; Fig. 1 detector arm re-read at 2x. Module frame(p) / lightAt / fig2 / fig3 / fig4 read line by line.
+Scripts: session scratchpad mears1987_audit/ (dig2.py, eb.py, pc.py, fl.py, dash.py, rows.py, rows2.py).
+No app run, no network, no git.
+
+VERDICT: NO-GO as is; GO after W1-W2 (two data edits in the Fig. 4 plot) and M1 (labels for the illustrative
+light levels). Setup topology, the backward pump, the 90 % R / 85 % T factors, the absence of any WDM coupler or
+isolator, quotes, locators, the Fig. 2 and Fig. 3 digitization, the reordered Fig. 2 series, Fig. 4 point centres
+and 6 of 7 error bars, and the plot-pen physics are right.
+
+Counts: wrong 2, imprecise 9, missing 1, ok 22.
+
+----------------------------------------------------------------------------------------------------------
+WRONG
+----------------------------------------------------------------------------------------------------------
+
+W1. Fig. 4 fluorescence: a visible dash at the peak was dropped, so the drawn curve has a shoulder the print lacks
+  file:     data/history/showcases/mears1987.yaml line 419 (series "fluorescence (scaled as printed)", points
+            [1535.0, 24.4] -> [1537.0, 25.09]); report.txt line 113 ("main peak 25.1 at 1537.0 nm").
+  current:  last left-side point 24.40 dB at 1535.0 nm, next point 25.09 dB at 1537.0 nm; the line bridges 2 nm
+            and reads 24.44 dB at 1535.12 nm. The rendered plot (shot i13_spec_hover.png, desk_final_p0950 series)
+            shows a flat step at about 24.4 dB, then a peak at 1537 nm.
+  proposed: add the reads of the dash that is printed there and of the first right-side dash end:
+            [1534.97, 25.60], [1535.07, 25.73], [1535.17, 25.81], [1535.27, 25.97] and [1536.91, 25.27],
+            [1536.97, 25.20] (or re-run the per-column read with the error-bar mask narrowed to the bar rows);
+            say in the note that the apex between about 1535.3 and 1536.9 nm is hidden behind the two highest
+            measured points and is bridged by a straight line; fix "main peak 25.1 at 1537.0" in the report.
+  evidence: crop (1640, 3420) of img_p02_1.png, row dump cols 440-519 / rows 195-300: a separate dash at cols
+            457-463, rows 230-244 (row 229 empty, so it is not the cap of the 1535.89 nm point at rows 215-223);
+            per-column centres 25.60-25.97 dB at 1534.97-1535.27 nm (piecewise y calibration of the report).
+            Right side: dash cols 494-504, rows 243-263, 25.4 -> 24.5 dB at 1536.86-1537.38 nm (the spec's
+            1537.0-1537.25 values agree with this dash). The printed apex is therefore at least 25.8-26.0 dB,
+            not 25.1. Elsewhere the fluorescence agrees within 0.05 dB (W1 is local to the peak).
+
+W2. Fig. 4 first error bar: right end taken from the neighbouring point's cap
+  file:     data/history/showcases/mears1987.yaml line 415 (err_x[0] = [1.41, 0.99]); report.txt section 3
+            ("1529.5-1531.9").
+  current:  1530.91 nm point drawn with -1.41 / +0.99 nm (tooltip "+0.99 / -1.41", shot i13); right end
+            1531.90 nm.
+  proposed: [1.41, 1.40] (right end about 1532.3 nm, ±0.15 nm), i.e. symmetric like the other six bars.
+  evidence: row dump crop rows 476-508, cols 345-440: the bar of the 1530.91 nm point (row 500-502) is continuous ink
+            from col 350 to col 407, with its right cap at cols 402-407 (rows 494-504) = 1532.15-1532.4 nm. The
+            1531.90 nm end used by the spec is col 396-398, which is the LEFT cap of the 1532.74 nm point at rows
+            484-492, 10 rows above this bar (12x zoom z_f4p12.png). The other six bars re-measure within 0.1 nm of
+            the spec: 1531.84-1533.53 (spec 1531.90-1533.60), 1533.07-1534.45 (1533.10-1534.50), 1533.99-1535.33
+            (1534.00-1535.40), 1535.12-1536.45 (1535.20-1536.50), 1536.04-1537.58 (1536.10-1537.60),
+            1537.58-1539.78 (1537.60-1539.80). The 0.4 nm miss is twice the stated ±0.2 nm.
+
+----------------------------------------------------------------------------------------------------------
+IMPRECISE
+----------------------------------------------------------------------------------------------------------
+
+I1. Raw caret visible in the side panel: unit "cm^-3"
+  file:     yaml line 163 (doped_fibre dim "Er^{3+} concentration", unit "cm^-3").
+  current:  PartPanel renders val(value, unit) through Rich/markup(), which only handles ^{...}; the panel shows
+            "≈ 10^19 cm^-3" with the 19 superscripted and a literal "^-3".
+  proposed: unit "cm^{-3}". (The same pattern exists in other stories' units; not this audit's scope.)
+
+I2. Signal and pump hues nearly the same, worst in the light theme
+  file:     yaml lines 268 / 288 (looks #ff4fa0 / #ff3b1f); module lines 478-479 (light #c8156c / #c42a12).
+  current:  in light_v1_p0580 the output beam, the pump and the doped-fibre glow all read as one dark red; in the
+            dark theme pink vs red is readable only side by side. Counter-running signal vs pump is the story's
+            point (chapters pump, gain, detect).
+  proposed: the signal colour is already labelled illustrative: pick a hue clearly apart from the pump red (for
+            example a violet or cyan-magenta) in both themes; keep the pump red (670 nm is red).
+
+I3. "Pump wavelengths measured ≈ 640 - 690 nm" is the axis span, not the measured span
+  file:     yaml line 252 (dye_laser dim), line 242 (detail "Gain was measured for pump wavelengths from about 640
+            to 690 nm").
+  current:  640-690 nm (Fig. 2 x-axis ends).
+  proposed: "Fig. 2 axis 640-690 nm; gain above 0 dB from about 642 to 685 nm (100 mW curve)"; the text does not
+            state the tuning range of the dye laser.
+  evidence: curve feet 642.12 / 685.34 nm (spec points, re-read 644 nm 5.64 dB, 684 nm 6.44 dB).
+
+I4. Detector lens placed off the plate-to-detector line
+  file:     yaml line 307 (lens_detector pos [98.75, 0, 27.5], Fig. 1 px (810, 460)).
+  current:  z 27.5; the beam plate -> lens runs at about 138.6 deg and lens -> detector at 132.5 deg (6 deg kink).
+  proposed: Fig. 1 px (809, 474): pos [98.5, 0, 31]; then plate, lens and detector are collinear (about 136 deg).
+  evidence: 2x crop z_f1det.png (page px 880-1180, 580-880): ellipse extents about crop x 777-841, y 441-507,
+            centre (809, 474); detector cross (752, 520) matches the spec (755, 520).
+
+I5. Dye-laser box cut by the parts column in the gain and detect chapters
+  file:     module SHOTS lines 47-48 (gain t [68, 0, -6], R [98, 38]; detect t [112, 0, 14], R [58, 36]).
+  current:  desk_final_p0580 and desk_final_p0650: the box ends in a hard vertical edge at x about 1140 px.
+  proposed: shift the target left or widen R[0] so the box ends inside the pane, or fade it as a prop.
+
+I6. Signal-beam label sits on the density filter plate
+  file:     module anchor() line 967 (signal_beam anchor at lerp(FOCUS_X, lens2, 0.35)).
+  current:  desk_final_p0170: "Signal light 1.54 µm, drawn colour illustrative" overlaps the filter and its edge.
+  proposed: anchor between lens 2 and the cell (beyond the filter), or lift it (y) above the plate top.
+
+I7. Fluorescence gap 1531.5-1532.5 nm bridged
+  file:     yaml line 419.
+  current:  11.78 dB at 1531.5 -> 13.98 at 1532.5 (1 nm gap under the two lowest points' bars); small visible kink.
+  proposed: re-read the dash ends next to the bars (as in W1) or mention the bridged gaps in the plot note.
+
+I8. Report out of date after the error-bar change
+  file:     report.txt line 67 ("15 withheld ... Fig. 4 error bars") and Q3 line 146; the YAML has 14 withheld
+            entries and draws the bars (err_x).
+  proposed: update the report; not viewer-facing.
+
+I9. Stale module comment
+  file:     module lines 1004-1005 ("Not in the contract yet (runtime need)"): types.ts lines 106-107 now document
+            handle.plot(id). Not viewer-facing.
+
+----------------------------------------------------------------------------------------------------------
+MISSING
+----------------------------------------------------------------------------------------------------------
+
+M1. Illustrative light levels not labelled where they show (D1006 rule, skill "labelled where they show")
+  file:     module lines 118-128 (signal brightness linear in dB, 0.6 per 28 dB; fibre glow 0.25 + 0.75 P/100 mW;
+            P_ON 0.85 where the pump power is not stated; PUMP_ATT 3), lines 758-770 (pump tone ramp 640-690 nm),
+            lines 930-934 (hover = role + essential dims + "schematic").
+  current:  the growth of the signal and the fading of the pump along the fibre are disclosed only in the
+            signal_beam / pump_beam side-panel details and in withheld; the brightness scales and the pump-tone
+            ramp are disclosed nowhere a viewer sees (only in a module comment and in chapter actions, which the
+            runtime does not show). Hover on the doped fibre (gain chapter, shot desk_final_p0580) shows "length
+            3 m, max. gain 28 dB" with no caveat; the three plot notes do not say the model follows the plotted
+            point on a relative, illustrative scale.
+  proposed: (a) PickInfo detail lines (types.ts lines 106-107 allow them for spec parts) on doped_fibre,
+            signal_beam and pump_beam: "Brightness illustrative: signal on a dB scale, pump glow by absorbed power;
+            growth and fading along the fibre drawn, not measured"; pump_beam also "tone follows the plotted pump
+            wavelength (illustrative)". (b) One sentence in each plot note: "The model shows the plotted point on a
+            relative, illustrative brightness scale" (Fig. 2: "pump power from the curve, tone from the pump
+            wavelength"; Fig. 3: "pump held at 60 mW"; Fig. 4: "pump power and wavelength not stated, drawn as on").
+
+----------------------------------------------------------------------------------------------------------
+OK (verified)
+----------------------------------------------------------------------------------------------------------
+
+O1. Quotes against the scan (p.1027 col. 1 crops z_col1a/b/c, text.md): diode, density-filter label, index-matched
+    endface, coupler monitor port, butt-splice oil, doped-fibre sentence (λ_{cutoff}, ≃10^{19} cm^{-3}; the
+    omitted ref. superscript 4 is fine), dichroic "(90% R at 1·54 µm; 85% T at 670 nm)", GaInAs PIN diode,
+    reverse-pumped / CW DCM-dye laser, abstract "up to 28 dB ... 3m-long", "20 dB ... approximately 20 mW
+    absorbed", "maximum gain observed was 28 dB", 655-675 nm unimpaired, Fig. 2-4 captions, "a third approach"
+    (p.1027 col. 1), "a new technique" (p.1028 col. 1). All match; locators right.
+O2. Values: 3 m, NA 0.2, cutoff 1.4 µm, ≈1e19 cm^-3, 1.532-1.540 µm, 140 Mbit/s, coupler 0.5 dB / 10 dB, splice
+    < 1 dB and ≈1 dB included, threshold a little over 10 mW, 60 mW for Fig. 3, -20 dBm / +5 dBm / +7 dBm,
+    300 GHz at 1.536 µm, 50 Ω, 200 pA/√Hz, -42 / -62 dBm, 50 µW ASE.
+O3. Title note against references/desurvire1987/text.md: argon-ion 514.5 nm, forward pumping, 1.53 µm signal,
+    +22.2 dB at 13 m / 100 mW, +29 dB at 77 K, received 1987-06-18, AT&T Bell Laboratories.
+O4. Fig. 1 topology: diode, lens, intermediate focus, dashed filter, lens, index-matching cell, one loop above the
+    line, output lens, plate, dye-laser box on the axis, reflected arm to lens and detector toward -x, +z. Re-read
+    positions match the spec (filter px 273, cell 420-485, loop tangent, output lens 793-795, plate centre about
+    (935, 350), dye box 1060-1230 x 285-405, detector (752-755, 520)); plate tilt 67-70 deg, reflected arm
+    134-137 deg, module plate rotation (-tilt about y) sends the reflection to -x, +z as drawn.
+O5. Coupler and butt-splice: text-only, neutral stand-ins in the text's order (D1012 (2)); hover says "not drawn in
+    Fig. 1"; monitor stub open; butt joint inside the sleeve (DF0 37 in 34.5-37.5).
+O6. No WDM coupler and no isolator anywhere: model (bulk plate only), spec parts / assembly, built JSON (the words
+    appear only in the negative statements in the plate detail and withheld). Matches D1012.
+O7. Backward pump: pump chain dye face -> plate -> output lens -> fibre output end (DF1), then inside the doped
+    fibre from s = 1 toward s = 0 (uPumpF = 1 - fPumpDf, smoothstep from uPumpF), decaying toward the input; no
+    pump in the input fibre (uPump = 0, "residual pump not described"). Pump chapter precedes the gain chapter,
+    pump stays on while the signal runs.
+O8. 85 % T and 90 % R: pump segments after the plate x 0.85 (line 885); signal after the plate x 0.9 (line 866).
+O9. Fig. 2 digitization: 15 wavelengths x up to 3 curves re-read per column, all within 0.11 dB of the spec (e.g.
+    652 nm 26.42 / 19.70 / 5.69 vs spec 26.42 / 19.71 / 5.72; 680 nm 22.46 / 7.73 vs 22.46 / 7.75); sampling
+    0.25 nm (1/200 of the span); steep feet sampled, not interpolated.
+O10. Fig. 2 series order 16 / 40 / 100 mW: each series' points lie on the curve its name gives (16 mW = the low
+     curve, max 16.52 dB; 100 mW = the plateau 27.2 dB); mwOf() parses "P_{abs} = 100 mW" as 100; the model's pump
+     level follows the series whose pen started last.
+O11. Fig. 3: 7 circle centres re-measured within 0.06 dB / 0.06 dBm; axis note (y axis at -39.7 dBm) right.
+O12. Fig. 4: 7 point centres re-measured within 0.04 nm / 0.01 dB; err_x semantics [lo, hi] match types.ts.
+O13. Fig. 4 fluorescence away from the peak: 10 columns within 0.05 dB (e.g. 1522 5.54 / 5.54, 1551.5 13.66 /
+     13.66, 1569 5.26 / 5.26).
+O14. Derived alternate (D1012 (1)): 3 digitized maxima + the stated 20 dB / 20 mW pair, points not joined, note says
+     "not a printed figure"; the model follows the last revealed point of the alternate when it is shown.
+O15. Plot pens (D1006): Fig. 2 output = digitized gain under the pen, pump tone = pen wavelength, never beyond the
+     curve ends; Fig. 3 steps through the 7 circles at 60 mW, dashed guide never drives; Fig. 4 steps through the
+     measured points only, fluorescence never drives. The 0.1-chapter blend at each plot start is a transition
+     between end states, not a sweep past data.
+O16. Brightness slopes consistent: Fig. 3 output - input brightness equals the dB slope of bGain, so the gain
+     chapter and the plot chapters use one scale.
+O17. Presentation budget: keywords 2-3 words, lines 7-10 words, one amber emphasis (*28 dB* gain), 3 plot chapters,
+     4 essential dims (3 m, 28 dB, 1.54 µm, drawn colour), no numbers in lines.
+O18. No internal shorthands in viewer fields of the built JSON (paper ids only in references[].id and the story id);
+     no raw _ / ^ outside ids and the I1 unit.
+O19. Built JSON identical to the YAML (all keys compared).
+O20. Patent US 4,955,025 used as context only, not traced, no values taken (spec references, report section 1).
+O21. Milestone row agrees with the story (28 dB, 3 m, > 300 GHz near 1.536 µm, -42 dBm at 140 Mbit/s).
+O22. Composition: plot chapters frame the bench in the left half, beams end before the plot panel (desk_final_p0750,
+     p0860, p0950); phone shots place the model above the plot; side panel (i2) renders markup and bases.
+
+Not re-checked: the Fig. 3 dashed-guide dash centroids; patent page content.

@@ -1,6 +1,17 @@
 // Pure helpers of the showcase runtime (DevLog-017): scroll position -> progress p, chapter lookup, keyword fades,
 // step targets. No DOM; tested in progress.test.ts. Scene modules may use the easing helpers too.
-import type { Chapter, Dim, ProcessStep, ShowcaseSpec } from './types';
+import type { Chapter, Dim, Part, PickInfo, ProcessStep, ShowcaseSpec } from './types';
+
+/** Text after a number for its unit: " mm", " GHz"; angle and percent units attach without a space ("26°", "5%");
+ *  "deg" / "degree(s)" print as "°". Used everywhere a value meets its unit (labels, tooltips, panel). */
+export function unitSuffix(unit?: string | null): string {
+	const u = (unit ?? '').trim();
+	if (!u) return '';
+	// unit exponent shorthand (cm^-3, cm^2) becomes markup, so every place that renders markup shows a superscript
+	const uu = /^deg(rees?)?$/i.test(u) ? '\u00b0' : u.replace(/\^(-?\d+)/g, '^{$1}');
+	return /^(\u00b0|%|\u2032|\u2033)/.test(uu) ? uu : ' ' + uu;
+}
+export const withUnit = (v: number | string, unit?: string | null): string => `${v}${unitSuffix(unit)}`;
 
 export const clamp01 = (x: number): number => (x < 0 ? 0 : x > 1 ? 1 : Number.isFinite(x) ? x : 0);
 
@@ -202,7 +213,7 @@ export function playAt(legs: readonly PlayLeg[], t: number): number {
 export function essentialDimText(dims: readonly Dim[] | undefined): string {
 	const ds = (dims ?? []).filter((x) => x.essential);
 	const name = (d: Dim) => d.label_short || (d.show_label ? d.label : '');
-	const one = (d: Dim) => [name(d), `${d.value}${d.unit ? ' ' + d.unit : ''}`].filter(Boolean).join(' ');
+	const one = (d: Dim) => [name(d), withUnit(d.value, d.unit)].filter(Boolean).join(' ');
 	if (ds.length < 2) return ds.map(one).join('');
 	const same = ds.every((d) => (d.unit ?? '') === (ds[0].unit ?? '')) && !ds.some(name);
 	return ds.map(one).join(same ? ' x ' : ', ');
@@ -213,7 +224,7 @@ export function essentialDimText(dims: readonly Dim[] | undefined): string {
 export function stepTipLines(step: Pick<ProcessStep, 'params' | 'source'>): string[] {
 	return (step.params ?? []).flatMap((q) => {
 		const prov = [q.basis, q.source ?? step.source, q.locator].filter(Boolean).join(', ');
-		return [`${q.label}: ${q.value}${q.unit ? ' ' + q.unit : ''}`, ...(prov ? [`  ${prov}`] : [])];
+		return [`${q.label}: ${withUnit(q.value, q.unit)}`, ...(prov ? [`  ${prov}`] : [])];
 	});
 }
 
@@ -227,4 +238,34 @@ export function labelLeft(x: number, w: number, paneW: number, pad = 4): number 
 	if (x + LABEL_GAP + w <= paneW - pad) return x + LABEL_GAP;
 	if (x - LABEL_GAP - w >= pad) return x - LABEL_GAP - w;
 	return Math.max(pad, Math.min(paneW - pad - w, x - w / 2));
+}
+
+/** Tooltip lines of a part: name, role, then extra lines (a PickInfo detail), then its essential dims. */
+export function partTipLines(q: Pick<Part, 'name' | 'role' | 'dims'>, extra: readonly string[] = []): string[] {
+	const dims = (q.dims ?? []).filter((d) => d.essential).map((d) => `${d.label}: ${withUnit(d.value, d.unit)}`);
+	return [q.name, q.role ?? '', ...extra, ...dims].filter(Boolean);
+}
+
+/** Detail lines of a pick result (PickInfo.detail as a list; nothing for a plain id). */
+export function pickDetail(hit: string | PickInfo | null): string[] {
+	if (!hit || typeof hit === 'string' || hit.detail == null) return [];
+	return (Array.isArray(hit.detail) ? hit.detail : [hit.detail]).filter(Boolean);
+}
+
+/** p of a story's thumbnail frame: spec.thumb_p, else the settled end of the last chapter before the first plot chapter
+ *  (model assembled, no plot on screen), else the end of the last chapter. */
+export function thumbP(spec: Pick<ShowcaseSpec, 'chapters' | 'plots' | 'thumb_p'>): number {
+	if (typeof spec.thumb_p === 'number' && Number.isFinite(spec.thumb_p)) return clamp01(spec.thumb_p);
+	const cs = spec.chapters ?? [];
+	if (!cs.length) return 0;
+	let first = Infinity;
+	for (const pl of spec.plots ?? []) {
+		if (pl.alt_of) continue;
+		const r = plotRange(spec, pl.id);
+		if (!r) continue;
+		const i = cs.findIndex((c) => c.p[0] === r[0] && c.p[1] === r[1]);
+		if (i >= 0) first = Math.min(first, i);
+	}
+	if (!Number.isFinite(first)) return chapterTarget(cs[cs.length - 1]);
+	return chapterTarget(cs[Math.max(0, first - 1)]);
 }

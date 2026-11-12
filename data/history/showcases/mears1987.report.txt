@@ -1,0 +1,175 @@
+mears1987 showcase research report (erbium-doped fibre amplifier, Southampton 1987)
+Date: 2026-11-11. Spec: data/history/showcases/mears1987.yaml (DevLog-017 section 4a schema, runtime fields per
+app/src/lib/history/showcase/types.ts). Renderer: 3d.
+
+1. SOURCES
+- [M] R. J. Mears, L. Reekie, I. M. Jauncey, D. N. Payne, "Low-noise erbium-doped fibre amplifier operating at
+  1·54 µm", Electronics Letters 23(19), 1026-1028 (1987-09-10), https://doi.org/10.1049/el:19870719. Optical Fibre
+  Group, Department of Electronics, University of Southampton, United Kingdom; signature dated 1987-08-03.
+  Cached: references/mears1987/ (licensed, local only). Read from the 600 dpi page scans img_p0{1,2,3}_1.png
+  (3232 x 4815 grayscale, raster only: the PDF has no vector figure paths) and text.md.
+  Page map: PDF p.1 = journal p.1026 (letter starts at the bottom of col. 2: title, abstract, introduction);
+  p.2 = p.1027 (col. 1: Fig. 1, experimental configuration, gain measurements, start of power transfer; col. 2:
+  Fig. 2, Fig. 3, Fig. 4, spectral dependence, pump wavelength); p.3 = p.1028 (col. 1: diode pumping, noise,
+  conclusion; col. 2: end of conclusion, authors, references; then an unrelated open-cavity resonator letter).
+- [P85] S. B. Poole, D. N. Payne, M. E. Fermann, Electron. Lett. 21(17), 737-738 (1985-08-15), cached
+  references/poole1985/ (ref. 4 of [M], cited for the Er fibre). Describes the MCVD variant with a heated dopant
+  carrier chamber; core composition is given only for the Nd fibres (SiO2, GeO2, Nd2O3); an Er fibre with about
+  2 ppm Er is shown only as an absorption spectrum. Used for the fabrication remark in the doped-fibre side panel;
+  no parameter of the 1987 fibre taken from it.
+- [D] E. Desurvire, J. R. Simpson, P. C. Becker, "High-gain erbium-doped traveling-wave fiber amplifier", Opt. Lett.
+  12(11), 888-890 (November 1987; received 1987-06-18, accepted 1987-08-12), https://doi.org/10.1364/OL.12.000888,
+  cached references/desurvire1987/. Used only for the title_note (parallel work), printed facts: 514.5 nm argon-ion
+  pump, forward pumping, index-matching oil cells at the fibre ends, core radius 2.5 µm, NA 0.18, 1.8 x 10^18 cm^-3;
+  Table 1: 22.2 dB with l = 13 m at 100 mW input pump (295 K); +29 dB at 77 K (13 m, 450 mW pump); "To the best of
+  our knowledge, this represents the highest gain value reported for Er3+-doped fiber amplifiers" (p.890).
+- [US] R. J. Mears, L. Reekie, S. B. Poole, D. N. Payne, US 4,955,025 "Fibre-optic lasers and amplifiers", granted
+  1990-09-04, filed 1989-03-20 (continuation of Ser. No. 211,093 of 1988-06-10, continuation of Ser. No. 56,997 of
+  1987-04-09), GB priority 8520300 / 8520301 of 1985-08-13. Public domain. One request, generic User-Agent, HTTP 200,
+  787,836 bytes, 11 pages, cached cache/showcases/mears1987/US4955025.pdf (git-ignored).
+  Finding: NOT the setup of [M]. Its amplifier FIG. 10 is "an open-ended 4-port coupler 29, 33 comprised of doped
+  fibre 1" inserted into transmission fibre 35, pump source 31 into coupling fibre 33 (PDF p.8, text before the claims). It mentions "A single
+  pass gain of 25 dB has been measured for a 3 m length of erbium-doped fibre (300 ppm Er) using a similar
+  arrangement" - a different arrangement and number than [M] (28 dB, dichroic bulk optics); not used. Not traced
+  (same ruling as the Cobra patent: a non-matching drawing would misrepresent the device). The front page prints the
+  inventors' home addresses; none copied anywhere.
+- Cited by [M], not read: ref. 3 Mears et al., Proc. OFC Reno 1987 (the authors' earlier report at 1.55 µm).
+Web requests: 1 web search, 1 PDF download. No 403 / 429. No browser.
+
+2. WHAT THE PAPER FIXES
+- Setup (Fig. 1, p.1027; text p.1027 col. 1). Signal: "modulated GaInAsP laser diode" = "1·54 µm GaInAsP DCPBH
+  laser", thermoelectrically tuned 1.532-1.540 µm, modulation limited to a few hundred MHz by the mount, most data
+  at 140 Mbit/s. Launch optics as drawn: diode, lens, intermediate focus, dashed "variable density filter", lens,
+  fibre end in an "index-matching cell". Text only (not drawn): single-mode fibre coupler, loss 0.5 dB, splitting
+  ratio 10 dB at 1.54 µm, second port = monitor for signal power and wavelength; index-matched butt-splice into the
+  doped fibre, loss < 1 dB, index-matching oil. Doped fibre: 3 m, NA 0.2, λcutoff 1.4 µm, dopant ≃1e19 cm^-3,
+  drawn as one loop. Pump: "reverse-pumped longitudinally with light from a CW DCM-dye laser", Fig. 1 box
+  "Ar+ion pumped DCM dye laser". Output: lens, collimated beam, "dichroic beam-splitter (90% R at 1·54 µm; 85% T at
+  670 nm)": pump transmitted from the dye laser into the fibre, signal reflected to a lens and the "GaInAs detector"
+  (biased PIN, 50 Ω load of a Tektronix sampling head or Marconi spectrum analyser).
+- NOT in the setup: no fibre wavelength-division coupler (pump and signal are combined / separated by the bulk
+  dichroic plate), no isolator (feedback suppressed by index matching). The story idea in the brief ("WDM coupler")
+  is therefore replaced by the dichroic beam-splitter.
+- Results: threshold "a little over 10 mW"; 20 dB for about 20 mW absorbed; gain saturates thereafter; maximum
+  observed 28 dB; gains include the ≃1 dB splice loss (fibre/fibre gain) (p.1027 col. 1). Fig. 3 at 60 mW absorbed:
+  saturation begins above -20 dBm input (+5 dBm output), 3 dB compression at +7 dBm output (p.1027 col. 1-2).
+  Highest gains in a 300 GHz band centred on 1.536 µm; > 10 dB expected over 4 THz (30 nm) from the fluorescence;
+  gain unimpaired for pump 655-675 nm; 670 nm diodes, the 800 nm band or Er/Yb codoping (930 nm) suggested
+  (p.1027 col. 2 - p.1028 col. 1). Noise near 100 MHz 200 pA/√(Hz), -42 dBm at 140 Mbit/s for 10^-9 BER; ASE
+  50 µW; -62 dBm suggested by shot-noise calculation (p.1028 col. 1).
+- Figure numbering: Fig. 1 setup; Fig. 2 "Amplifier gain against pump power and wavelength" = gain vs PUMP
+  WAVELENGTH (640-690 nm) for three absorbed powers 16 / 40 / 100 mW (the text calls it the pump-power dependence);
+  Fig. 3 power transfer; Fig. 4 gain spectrum vs signal wavelength with fluorescence. The brief's "gain vs pump power
+  (key figure Fig. 4)" mixes two figures: no printed gain-vs-pump-power curve exists. The spec shows Fig. 2 as printed
+  and a derived "peak gain vs pump power" alternate (3 Fig. 2 maxima + the stated 20 dB / 20 mW pair).
+- No "first" claim ("we demonstate a third approach", p.1027; "a new technique", p.1028).
+- Fixed / assumed / withheld per part: see the spec (15 parts; every dim carries basis + locator). Assumed values:
+  stand-in sizes only (diode block, cell, coupler box, splice sleeve, plate thickness, beam colours). 15 withheld
+  entries (coil size and turns, core / host glass, pump wavelength of the Fig. 3 / 4 runs, launched pump, gain
+  distribution along the fibre, coupler type and monitor destination, output-end lead fibre, lens data and real
+  distances, incidence angle, cell / oil type, use of the density filter, laser models, diode package, Fig. 4 error
+  bars, isolators = none).
+
+3. PLOT DIGITIZATION (all from img_p02_1.png, page p.1027; raster, threshold gray < 140; crops in page px)
+Fig. 2 -> plot gain_pump. Crop (1640, 440, 3060, 1340).
+- x: y-axis line col 161.5 = 640 nm; ticks 553 / 749.5 / 945.5 / 1138 px = 660 / 670 / 680 / 690 nm (650 tick hidden
+  by the 16 mW curve foot). Linear fit 19.551 px/nm, max residual 1.61 px (0.08 nm).
+- y: axis row 728.5 = 0 dB; ticks 535.5 / 340.5 / 145.5 px = 10 / 20 / 30 dB. 19.440 px/dB, max residual 0.80 px.
+- Curves are smooth printed lines (no data points). Each curve is one connected ink component after masking the
+  axes (labels are separate components). Per scan column: centre of the longest ink run (stroke centre); resampled
+  every 0.25 nm (1/200 of the axis span) by the median within ±0.125 nm; curve ends: the near-axis column centres
+  (rows 690-723) extrapolated linearly to the axis centre row, gain 0.
+- Points: 100 mW 175 (642.12-685.34 nm, plateau max 27.22 dB at 658.75 nm), 40 mW 151 (645.09-682.44 nm, max 26.14 dB
+  at 667.0 nm), 16 mW 100 (649.84-674.35 nm, max 16.52 dB at 663.75 nm). Steep edges get fewer points per dB
+  (x-binned). Overlay checked by eye (scratch fig2_chk.png): all points on the strokes.
+- Uncertainty about ±0.15 nm / ±0.15 dB (stroke 5 px wide).
+- gain_power (alternate): the three maxima above at 16 / 40 / 100 mW (basis digitized) + [20, 20] (stated).
+Fig. 3 -> plot transfer. Crop (1640, 1800, 2800, 3060).
+- x: ticks 405 / 636.5 / 866.5 px = -30 / -20 / -10 dBm; 23.075 px/dB, residual 0.50 px. The y axis (col 181.5)
+  sits at -39.70 dBm, not at -40 (the -40 label is printed under it); the x axis ends at col 925 (-7.5 dBm).
+- y: ticks 80.5 / 308.5 / 536.5 / 768.5 / 998.5 px = 20 / 10 / 0 / -10 / -20 dBm (the x axis is the -20 line);
+  22.960 px/dB, max residual 2.0 px (0.09 dB).
+- Circles: ring-template match (radius 9 px, ±1.6), sub-pixel peak centroid; 7 points:
+  (-39.84, -14.04) on the y axis, (-32.96, -7.57) touching a dash, (-30.96, -4.96), (-28.57, -2.00),
+  (-19.24, 5.12), (-14.07, 7.61), (-11.63, 8.64). Text check: "-20 dBm ... +5 dBm" and "+7 dBm" match.
+  Small-signal gain from the points 25.4-25.8 dB.
+- Dashed line: 27 dash centroids (circles masked, r 12.5 px) + 2 ends at the ink extent: (-39.50, -13.69) to
+  (-10.73, 15.70); least-squares in data units out = 1.02 in + 26.66 (about 26 dB). A straight printed guide, so
+  dash centroids are the reads.
+Fig. 4 -> plot spectrum. Crop (1640, 3420, 3060, 4240).
+- x: y-axis col 165 = 1520 nm; ticks 359 / 553.5 / 750 / 945 px = 1530-1560 nm; axis end tick 1140.5 = 1570 nm.
+  19.510 px/nm, residual 1.0 px.
+- y: axis row 741 = 0; ticks 547 / 346 / 157.5 px = 10 / 20 / 30 dB. Printed tick spacing is uneven (194, 201,
+  188.5 px; a linear fit leaves 4.3 px = 0.22 dB): calibrated piecewise linearly between the printed ticks; above
+  30 dB the 20-30 segment slope. Axis top end at 61.5 px (about 35 dB).
+- Measured points: ring template radius 5.5 px (outer 7.5, hole 3.5), empty-hole check, score > 1.4 of the
+  reference circle: 7 points (1530.91, 12.40), (1532.74, 12.92), (1533.81, 17.85), (1534.75, 21.84),
+  (1535.89, 26.73), (1536.81, 25.79), (1538.70, 22.87). Peak 26.7 dB near 1535.9 nm agrees with "centred on
+  1·536 µm". Approximate error-bar extents (ink runs on the point row; diode spectral width, not plotted):
+  1529.5-1531.9 [corrected to 1529.5-1532.3, section 8], 1531.9-1533.6, 1533.1-1534.5, 1534.0-1535.4, 1535.2-1536.5, 1536.1-1537.6, 1537.6-1539.8 nm (the
+  first one's right cap and the last one's left cap touch neighbouring ink; ±0.2 nm).
+- Fluorescence (broken line): circles and error-bar bands masked; per scan column the longest ink run centre;
+  median per 0.25 nm bin, bins with fewer than 2 ink columns dropped (dash gaps, masked points), one y-tick read at
+  1520.5 nm removed: 152 points, 1520.75-1569.5 nm; dip 10.0 at 1544.75 nm, second
+  peak 13.7 at 1551.5 nm. Overlay checked by eye (fig4_chk_v.png). [Corrected 2026-11-11, see section 8: the main
+  peak is not 25.1 at 1537.0 nm; the printed curve reaches at least 26.0 dB near 1535.2 nm, apex hidden.]
+- Discrepancy to note: the first measured point is centred at 1530.9 nm, below the stated diode tuning range
+  1.532-1.540 µm (p.1027 col. 1); its error bar spans about 1529.5-1531.9 nm. Calibration residual is 0.05 nm, so it
+  is a property of the printed figure, not of the digitization. Recorded here only.
+
+4. GEOMETRY FOR THE MODEL (Fig. 1, schematic)
+- Fig. 1 crop of img_p02_1.png at (180, 300), size 1520 x 850. Schematic units = crop px / 4; origin = input fibre end
+  (px 415, 350); +x right, +z = Fig. 1 down (table plane = Fig. 1 plane), beams on y = 0.
+- Measured (crop px): diode (45, 350); lens 1 x 147; intermediate focus x 232; filter dashed line x 273, y 260-425;
+  lens 2 x 310; cell x 420-485, y 338-362; fibre line y 350; loop centre (595, 285) r 65, tangent to the line; output
+  end x 715; output lens x 793; collimated beam y 330-360; plate (915, 300)-(955, 395), centre (935, 347), 67 deg to
+  the axis; dye-laser box x 1060-1230, y 285-405; reflected beam toward -x, +z (about 136 deg from +x); detector lens
+  (810, 460); detector (755, 520). Converted values are in the spec assembly.
+- Not drawn in Fig. 1 but placed from the text order: coupler (x 25) and butt-splice (x 36) between the cell and
+  the loop. Plain stand-ins; the coupler's monitor port is an open stub (destination not stated).
+- Not to scale anywhere; no numbered axis or scale bar on the model.
+
+5. CHAPTER SCRIPT RATIONALE (10 chapters, 3 plot chapters, height 9)
+intro; signal (diode, launch optics, filter); launch (index matching and splice: the paper's anti-lasing care, its
+own paragraph); fibre (3 m label); pump (reverse pumping: pump enters the far end through plate and output lens,
+runs against the signal); gain (pump on first, signal grows only in the doped section, the amber "28 dB");
+detect (dichroic: signal reflected to detector, pump transmitted); then Fig. 2 (pump power / wavelength, with the
+derived gain-vs-power alternate), Fig. 3 (power handling), Fig. 4 (gain spectrum; the milestone's key figure).
+Drives follow the plot pen (D1006): Fig. 2 pump wavelength and series power, output from the digitized curve; Fig.
+3 and Fig. 4 step through the measured points only, no interpolated states, the dashed guides never drive the model.
+Essential dims: fibre length 3 m, maximum gain 28 dB, signal 1.54 µm. One amber emphasis: "*28 dB* gain".
+Signal colour is illustrative (1.54 µm is infrared), labelled in the part detail and dims.
+
+6. OPEN QUESTIONS FOR THE COORDINATOR
+- Q1. Keep the derived "Peak gain vs pump power" alternate (4 points, two bases), or show only the printed Fig. 2?
+- Q2. Show the fibre coupler and butt-splice as plain stand-ins (text-only parts, not in Fig. 1; current spec), or
+  keep them in the side panel only and draw Fig. 1 strictly?
+- Q3. [Resolved: drawn with series err_x, D1012 / D1024.] Fig. 4 error bars: the runtime has no error-bar option; extents are in section 3. Add a runtime option
+  (series `xerr`) or leave them out (current, noted in the plot note and withheld)?
+- Q4. Milestone / tag rows: no disagreement with the story. Minor: the tag table writes "Er-doped fiber"
+  (house spelling, as noted in its koester1964 row) while the paper and the story print "fibre"; left as is.
+- Q5. The first Fig. 4 point lies at 1530.9 nm, outside the stated 1.532-1.540 µm diode tuning range (section 3):
+  keep as printed (current) with no comment on the canvas?
+
+7. WHAT RAN / WHERE
+Session scratchpad folder mears1987/ (temporary, not committed): .venv (uv, offline: numpy, pillow, scipy, pymupdf,
+pyyaml); crops fig1_*, fig2_*, fig3_*, fig4_*; scripts axes.py, ticks.py, dig_fig2.py, dig_fig3.py, dig_fig3b.py,
+dig_fig3c.py, dig_fig4a.py, dig_fig4b.py, overlay.py, fill_spec.py; outputs fig2_pts.json, fig3_pts.json,
+fig4_points.json, fig4_fluor.json; overlays fig2_chk.png, fig3_chk.png, fig4_chk_v.png; template mears1987.tmpl.yaml;
+pat/ (US 4,955,025 page renders). Spec parses with yaml.safe_load; chapter ranges ordered in [0, 1]; all chapter
+parts / labels are part ids; keywords <= 3 words, lines <= 12 words, tagline 12 words; no raw _ / ^ in viewer text
+outside unit fields; no paper ids or internal codes in viewer-facing fields.
+
+8. FIX PASS 2026-11-11 (builder, after the fresh-context audit; coordinator ruling D1024)
+- Fig. 4 fluorescence near the apex re-read from img_p02_1.png at the section 3 calibration (x = 0.051229 nm/px *
+  crop col + 1511.590; y piecewise between the printed ticks), per scan ROW on the steep stroke (per-column centres
+  are biased there): rows 257-273 (dash at 1534.82-1534.95 nm, 24.0-24.7 dB) and rows 230-244 (dash at
+  1535.10-1535.21 nm, 25.5-26.05 dB) replace the mixed 0.25 nm bin [1535.0, 24.4]; rows 245-256 (first falling
+  dash, 1537.05-1537.18 nm, 25.31-24.85 dB) replace [1537.0, 25.09]. 163 points. The apex between about 1535.2 and
+  1537.05 nm lies behind the 1535.89 / 1536.81 nm points and their bars; the plot bridges it with a straight line
+  (plot note). The audit's own reads (1534.97-1535.27 nm, 25.6-26.0 dB) agree within its 0.06 nm x offset.
+- Fig. 4 first error bar: its own right cap is at crop cols 402-407 (rows 494-504), centre 1532.31 nm (outer ink
+  1532.44 nm); the 1531.9 nm end used before was the left cap of the 1532.74 nm point, 10 rows above. err_x[0] =
+  [1.41, 1.40]. Script: session scratchpad mears1987/builder/fix_f4.py (dump / cols / rows modes).
+- Withheld list: the Fig. 4 error-bar entry was removed (bars drawn); 14 entries.
+

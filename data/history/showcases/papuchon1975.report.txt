@@ -1,0 +1,145 @@
+papuchon1975 showcase research report (Cobra: Ti-diffused LiNbO3 electro-optic directional-coupler switch)
+Date: 2026-11-11. Spec: data/history/showcases/papuchon1975.yaml (DevLog-017 section 4a schema, runtime fields per
+app/src/lib/history/showcase/types.ts). Renderer: 2.5d.
+
+1. SOURCES
+- [P] M. Papuchon, Y. Combemale, X. Mathieu, D. B. Ostrowsky, L. Reiber, A. M. Roy, B. Sejourne, M. Werner,
+  "Electrically switched optical directional coupler: Cobra", Appl. Phys. Lett. 27(5), 289-291 (1975-09-01),
+  https://doi.org/10.1063/1.88449. Thomson-CSF, Laboratoire Central de Recherches, Orsay; received 1975-05-19.
+  Cached: references/papuchon1975/ (licensed, local only). Read from the bilevel page scans img_p02_1.png /
+  img_p03_1.png (2539 x 3425) and the page renders; text.md has OCR errors in the equations (t:.13 = Δβ).
+  Page map: text.md p.1 = publisher cover; p.2 = journal p.289; p.3 = p.290; p.4 = p.291 (results in col. 1, then an
+  unrelated letter by Baldis, Pepin, Grek).
+- [US] M. Papuchon (Thomson-CSF), US 4,035,058 "Electro-optical switch and a method of manufacturing same", filed
+  1975-06-10, French priority FR 74 20717 of 1974-06-14 (FR 2,299,662), granted 1977-07-12. Public domain.
+  PDF: https://patentimages.storage.googleapis.com/44/95/39/abcbacde9d2e9d/US4035058.pdf (one request, generic UA,
+  HTTP 200, 406,248 bytes, 5 pages) cached at cache/showcases/papuchon1975/US4035058.pdf (git-ignored).
+  Finding: NOT the Cobra device. FIG. 1 / FIG. 2 show guides 1, 2 of a ferroelectric material polarized in opposite
+  senses (11, 12), separated by a medium 3, with electrodes 4, 5 flanking the guides on the outside; the abstract and
+  col. 1-2 describe enabling / inhibiting coupling by opposite index changes from oppositely polarized guides. The
+  Cobra instead uses an unpoled Z-normal crystal and the opposite fringing-field directions under two electrodes laid
+  over the guides. Not traced, not used for geometry; listed as context in references. No other US patent on the
+  Cobra electrode layout was found in 3 web searches (family of FR 2,299,662: US 4,035,058, US 4,077,113 method,
+  DE 2526117, GB 1507035, JP 51-94974, per Google Patents metadata; not read).
+- [KS] H. Kogelnik, R. V. Schmidt, IEEE JQE QE-12(7), 396-401 (1976-07), cached references/kogelnik1976/. Secondary:
+  its Fig. 1 caption (p.397) draws the electrodes "in the COBRA configuration [7]". Context only, no values used.
+- Cited by [P], not read: Schmidt and Kaminow APL 25, 458 (1974) (Ti diffusion, ref. 4); Ostrowsky, Papuchon, Roy,
+  Trotel, Appl. Opt. 13, 636 (1974) (masking / etching, ref. 7); Marcatili BSTJ 48, 2071 (1969) (ref. 9).
+- Related, not read: "Electrically active optical bifurcation: BOA", APL 31(4), 266-267 (1977-08-15),
+  doi 10.1063/1.89655 (authors not verified from the search result).
+Web requests: 3 web searches, 2 Google Patents page fetches, 1 PDF download. No 403/429/503.
+
+2. WHAT THE PAPER FIXES (P)
+- Name: Cobra = "commutateur optique binaire rapide" (p.289 col. 1). "original electrode configuration", abstract
+  "novel electrode configuration"; no "first" claim.
+- Theory (p.289 col. 1): coupled-mode Eq. (1), solution Eq. (2) for guide 1 excited; Fig. 1 plots |E1|^2 vs x for
+  Δβ = 0 (full transfer at L0) and Δβ = c(12)^1/2 (partial exchange, back in guide 1 at L0). Total switching needs a
+  coupler length that is an odd multiple of L0 (p.289 col. 2).
+- Classical vs Cobra (p.289 col. 2, Fig. 2): classical = three electrodes, C axis in-plane across the guides;
+  Cobra = two electrodes, C axis normal to the guide surface, opposite fringing-field directions in the two guides
+  give opposite index changes (Fig. 3). Central electrode section 2000 Å x 2 µm, length ~several mm: fragile, high
+  resistance. Principal effect on TM through r_zzz; r_yzy (printed subscript y, z, y; Fig. 3b lists r_yyy and r_yzy separately) gives polarity-asymmetric behavior.
+- Fabrication (p.289 col. 2 - p.290 col. 1, Fig. 4): ~500 Å Ti by rf sputtering; masked (resist, light) and ion
+  etched (ref. 7); diffused in O2 at 1100 °C for ~11 h. Electrodes (p.290 col. 2): 2000 Å gold, rf sputtered, optical
+  superposition masking, ion etching, two 1 x 3 mm electrodes separated by 3 µm at the coupler center; ~2 dB/cm TM
+  loss from the electrodes. Fig. 4 labels the film "Au or Al (2000 Å)".
+- Geometry (Fig. 5 caption): a = 2 µm, b = 3 µm, c = 3 mm. Fig. 5 arrows: a across one strip, b between the facing
+  strip edges (small print, read at 8x zoom), c along the dashed coupling-region outline.
+- Test (p.290 col. 1): one guide excited with a rutile prism coupler, argon 5145 Å line, observation by fluorescence
+  or diffused light. Coupling lengths with 2 µm strips: ≈ 500 µm at 2 µm separation, ≈ 1 mm at 3 µm (used for the
+  switch). Marcatili model with strip width, 2 µm thickness, uniform Δn ~5e-3 ("rather pragmatic").
+- Result (p.291 col. 1): essentially TM; 0 V: most light in the initially unexcited (straight) guide, as expected for
+  L0 = 1 mm and a 3 mm coupling region; 6 V: switched back to the initially excited (curved) guide. ~3 x more
+  effective for TM than TE; asymmetry with polarity observed. Abstract: "Efficient switching is observed with 6 V".
+- Fig. 6 photographs (0 V / 6 V): the cached scan is bilevel; both photographs are black fields with a few white
+  specks (146 and 2629 non-black pixels). No intensity information can be read from them.
+- NOT in the paper: any measured switching curve, extinction ratio, crosstalk, insertion loss, speed, substrate
+  size, bend radii, prism details, polarity used, Δβ at 6 V.
+
+3. PLOT DIGITIZATION
+Plot `power` = Fig. 1 (p.289), calculated curves (not a measurement).
+- Source img_p02_1.png (2539 x 3425, bilevel), crop box (150, 2450, 1300, 3200) -> crop px below.
+- x: vertical grid columns at 68.5 (0), 204, 338, 472, 609, 743, 877 px = 0 ... 3 L0 in L0/2 steps (labels printed:
+  0, L0, 2L0). Linear fit 269.61 px/L0, offset 68.66 px, max residual 1.12 px (0.004 L0).
+- y: bottom axis (y = 0) at 527.5 px at x = 68 rising to 530.5 px at x = 877; top line (y = 1) 221.5 -> 223.0 px
+  (slight scan skew, interpolated per column). 305.9 px per unit. An unlabelled horizontal line sits at 307 -> 311 px
+  = 0.72 relative.
+- Curves: per column ink runs (threshold 150), frame / top line / 0.72 line runs removed; runs within 30 px of
+  either Eq. (2) curve assigned by vertical order where two exist, nearest within 15 px otherwise; Δβ = c√12 only to
+  x = 2.0 L0 (the printed curve stops there; beyond it one run only). Resampled every 0.05 L0 by the median within
+  ±0.021 L0. Δβ = 0: 59 resampled points + 2 points read as 0 at L0 and 3L0 (the curve merges with the axis line).
+  Δβ = c√12: 41 points. Overlay on the scan checked by eye (scratch fig1_chk.png): all points on the printed lines.
+- Agreement with Eq. (2): Δβ = 0 max |dev| 0.054, mean +0.004; Δβ = c√12 max |dev| 0.034, mean -0.010. The printed
+  Δβ = c√12 minima are at 0.72 (digitized 0.720-0.726), Eq. (2) gives 0.75: the drawing is slightly off the equation
+  (recorded in the plot note, not corrected). Uncertainty about ±0.01 L0 in x, ±0.015 in y.
+Plot `power_eq2` (alternate of `power`, label "Eq. (2)"): Eq. (2) evaluated with L0 = π/(2c), Δβ/c = 0 and √12,
+0 to 3 L0 in 0.025 L0 steps (121 points each). Basis derived. Shows the Δβ = c√12 case to the switch length 3 L0.
+Both plots carry a dashed marker at x = 3 L0 (coupling region 3 mm, L0 ≈ 1 mm; stated p.291 col. 1).
+
+4. GEOMETRY FOR THE 2.5D MODEL (schematic, from the figures)
+- Plan view = Fig. 5. Crop of img_p03_1.png box (1290, 200, 2400, 660) -> "fig5_px" (x right, y down).
+  Measured: guide edges in the parallel section at y 124 / 139 (curved guide) and 158 / 172.5 (straight guide);
+  launching region rect x 17-168, y 92-169, taper to the guide at x 168-200, neck to x 230; straight guide open end
+  at (196, 250), bend up into the parallel section at x 285; curved guide straight to x about 705, then bends up to an
+  open end near (833, 47); straight guide tapers at x 820-860 into the unlabelled wide region x 860-1008, y 128-204;
+  dashed coupling region x 285-744.5, y 35-263, c dimension line at y 304; observation circle center (763, 150),
+  r about 62. Not to scale: 459.5 px = 3 mm along x, but the 2 µm guide is drawn 15 px and the 3 µm gap 19 px.
+- Section = Fig. 3a. Crop of img_p03_1.png box (180, 200, 1300, 680) -> "fig3a_px". Surface y 237.5; electrodes
+  x 120-400 and 538-815, top y 207.5; guides drawn as half-ellipses x 259-350 (bottom 306) and 536-625 (bottom 309);
+  C axis at x 462; field arrows down in the left guide, up in the right. Schematic: guide 91 px vs gap 186 px
+  (printed 2 / 3 µm); left electrode overhangs its guide inner edge by about 50 px, right electrode is flush.
+- Fig. 2(b) (p.289): two hatched electrodes over the guides only along the parallel section; Fig. 2(a) classical:
+  third electrode between the guides, C axis in plane. Fig. 4 row 4: electrodes over each guide, gap above the
+  guide gap.
+- Electrodes: printed 1 x 3 mm each, 3 µm apart; 1 mm width cannot be drawn in Fig. 5 proportions; spec keeps
+  the topology (over each guide, outward, along the coupling region, ending before the bends) and leaves the drawn
+  width schematic. Edge alignment with the guides is not fixed (withheld; equal printed 3 µm gap and 3 µm guide
+  separation would make them flush only if b is edge-to-edge, which is how Fig. 5 reads).
+
+5. FIXED / ASSUMED / WITHHELD (summary; full list in the spec)
+- Fixed (stated): all process values (500 Å Ti, 1100 °C, ~11 h, O2, 2000 Å Au, 1 x 3 mm, 3 µm gap), a, b, c, L0,
+  5145 Å, rutile prism, TM, 6 V, 3 x TM/TE, polarity asymmetry, 2 dB/cm, model values.
+- From figures: plan topology (Fig. 5), section topology (Fig. 3a), electrode layouts (Fig. 2), process sequence
+  (Fig. 4), C axis direction, propagation along x (read from the Fig. 3a axes c / y; not in the text).
+- Assumed (presentational only): substrate slab size, layer heights in the extrusion, look colors.
+- Stand-ins (no detail): substrate slab, prism, voltage source.
+- Withheld: 12 entries (measured switching curve / extinction, light fractions, Δβ at 6 V and polarity, real
+  guide profile, substrate size, bend / taper / pad sizes, purpose of the output wide region, electrode edge
+  alignment, prism / laser / optics details, leads / speed, unloaded loss, field-arrow mapping to Fig. 5 guides).
+
+6. DRAWINGS
+None. No public-domain drawing of the Cobra device was found. US 4,035,058 is public domain but shows a different
+device (section 1); tracing it would put a non-Cobra drawing next to the model. The paper's figures are licensed
+(D982: no figure images in the public build). `drawings: []` in the spec.
+
+7. WHAT RAN / WHERE
+Session scratchpad folder papuchon1975/ (temporary, not committed):
+- crops/ (fig1, fig2, fig3a, fig3b, fig4, fig5 and zooms, fig6_stretch), pat/ (US 4,035,058 page renders)
+- scripts/dig_fig1.py (first pass, theory-gated), dig_fig1b.py (order-only, rejected), dig_fig1c.py (final),
+  fill_spec.py (inserts the points into the spec template)
+- fig1_pts.json (digitized), eq2_pts.json (Eq. (2)), fig1_chk.png (overlay), papuchon1975.tmpl.yaml
+Python: existing scratch uv venv (numpy, pillow, scipy, pymupdf, pyyaml), offline. Spec parses with yaml.safe_load;
+chapter p ranges ordered in [0, 1]; all chapter parts / labels are spec part ids; 3 essential dims.
+
+8. NOTES FOR THE BUILDER / COORDINATOR
+- Story physics: launch on the left into the curved guide (launching region); at 0 V power goes across at L0, back
+  at 2L0, across at 3L0 = the end of the 3 mm region, so most light leaves by the straight guide (keep a faint
+  residue in the curved one: the paper says "most"). At 6 V the light leaves by the curved guide; the along-guide
+  pattern is the Eq. (2) Δβ = c√12 case, label it as theory in hover (the paper observed only the output end).
+- No scale bar or numbered axis on the model: Fig. 5 and Fig. 3a are schematic; only a, b, c carry numbers.
+- Cross-section chapter: cut through the middle of the coupling region; field direction per Fig. 3a, polarity
+  unspecified; tint the two guides in opposite senses without numbers.
+- Plot chapter: model in the left half, plot right; the green beam must end before the plot panel.
+- Keyword amber emphasis: "Switched at *6 V*" (the one emphasis).
+- Locators are written in short form "Papuchon et al., Appl. Phys. Lett. 1975, p.290 col. 2"; process params carry
+  page / figure only and rely on the step `source` label.
+
+9. OPEN QUESTIONS
+- Keep the Eq. (2) alternate plot (derived from the paper's own equation, extends the Δβ = c√12 curve to 3 L0), or
+  show only the digitized Fig. 1?
+- The 6 V along-coupler intensity pattern drawn from the Fig. 1 Δβ = c√12 case (labelled theory), or show only the
+  output state at 6 V?
+- Title "Cobra" (paper's spelling; the tag row topic writes COBRA, as Kogelnik and Schmidt 1976 do).
+
+2026-11-11 (coordinator, owner request "3x more points"): Fig. 1 curves re-digitized from the same crop and calibration at 1/60 L0 resampling (dig_fig1d.py: bins of +-0.0085 L0, the original +-0.021 L0 window on the masked grid-line columns; the axis-merge rule extended to the bins next to L0 and 3 L0): 181 (Delta beta = 0) and 121 (c sqrt(12)) points, 3x the earlier 61 / 41. Eq. (2) alternate evaluated at 1/120 L0: 361 points per curve.
+Dropped the Delta beta = 0 bins at 0.5, 1.5 and 2.5 L0: they fall on masked grid-line columns where the curve is steep, and the wider fallback window biased them (visible kinks); the plotted line joins the neighbouring reads. Final: 178 and 121 points.

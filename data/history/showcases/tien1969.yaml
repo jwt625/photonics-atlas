@@ -1,0 +1,457 @@
+# Showcase spec: prism-film coupler (tien1969). Schema: DevLog-017 section 4a, runtime fields in
+# app/src/lib/history/showcase/types.ts. Research 2026-11-11 (report: tien1969.report.txt).
+# Technical source: Tien, Ulrich, Martin, Appl. Phys. Lett. 14(9), 291-294 (1969-05-01), licensed, local only.
+# Same-work patent (public domain, traced drawing): P. K. Tien, US 3,584,230, filed 1969-01-24, granted 1971-06-08.
+# Page locators are journal pages (p.291 = text.md page 2 ... p.294 = text.md page 5), two columns per page.
+# The 2.5D model is a side view after the paper's Fig. 1 (p.291), a schematic without scale. Geometry below is in
+# the drawing's own pixel units ("fig1_px" = crop (1270, 1300)-(2080, 1960) of references/tien1969/figures/img_p02_1.png,
+# x right, y down); only printed values carry physical units. Film and gap thicknesses are drawn enlarged.
+id: tien1969
+title: Prism-film coupler
+title_note: 'The paper calls the coupler "a novel prism-film coupler" (Tien et al., Appl. Phys. Lett. 1969, p.291 abstract) and makes no "first" claim. The same arrangement is the subject of P. K. Tien, US 3,584,230 "Light wave coupling into thin films" (Bell Telephone Laboratories, filed 1969-01-24); its FIG. 1 is the traced drawing beside the model. The model follows the paper''s Fig. 1, not the patent drawing.'
+tagline: A rutile prism tunnels laser light into a deposited thin film.
+renderer: 2.5d
+height: 9
+
+parts:
+- id: substrate
+  name: glass substrate
+  role: Carries the film; its elasticity lets pressure set the gap.
+  detail: 'Both ZnO and ZnS films were "deposited on glass" (p.292 col. 2). For the ZnO film of Table I the substrate index is n_{0} = 1.5127 at 6328 Å and 1.5206 at 4880 Å. The film is pressed against the prism base from below; "residual dust particles, serving as spacers, and the elasticity of the substrate permit adjustment of S by variation of the pressure" (p.293 col. 1). Glass type, size and thickness are not given.'
+  quote: Both ZnO and ZnS films, deposited on glass, have been used for the experiments.
+  locator: Tien et al., Appl. Phys. Lett. 1969, p.292 col. 2; Table I caption (p.293)
+  material: glass (type not stated)
+  look: {color: '#cfd8dc', opacity: 0.45, metal: 0.0, rough: 0.3, emissive: ''}
+  geometry: {type: slab_side, frame: fig1_px, rect: [52, 522, 535, 563], drawn: 'stippled band below the film in Fig. 1; length and thickness not stated (stand-in)'}
+  dims:
+  - {label: 'index n_{0} at 6328 Å', value: 1.5127, basis: stated, locator: 'Tien et al., Appl. Phys. Lett. 1969, Table I caption (p.293)', note: substrate of the Table I ZnO film}
+  - {label: 'index n_{0} at 4880 Å', value: 1.5206, basis: stated, locator: 'Tien et al., Appl. Phys. Lett. 1969, Table I caption (p.293)', note: substrate of the Table I ZnO film}
+  essential: false
+
+- id: film
+  name: ZnO or ZnS film
+  role: Thin deposited film that guides the light; drawn far thicker than to scale.
+  detail: 'Sputtered ZnO films (argon-oxygen atmosphere, sintered ZnO powder target; crystallite c axes within a 5° cone of the film normal; polished after growth) and ZnS films evaporated by electron bombardment (not oriented), 800 to 30 000 Å thick (p.291 col. 1; p.292 col. 2 to p.293 col. 1). Guiding needs n_{1} > n_{0} and n_{1} > n_{2} (p.292 col. 1). The ZnO film of Table I: thickness W = 15 881 ± 60 Å and n_{1} fitted to the measured modes, n_{1} = 1.973 ± 0.001 at 6328 Å (TE, ordinary ray), slightly below the 1.988 interpolated from Bond''s bulk ZnO data (p.294 col. 1). The film of the half-prism experiment is ZnS, 1500 Å thick (Fig. 2 caption). Drawn many times thicker than to scale.'
+  quote: In our experiments, we used sputtered films of ZnO and films of ZnS evaporated by electron bombardment. The films used range from 800 to 30 000 Å thick.
+  locator: Tien et al., Appl. Phys. Lett. 1969, p.291 col. 1; p.293 col. 1; p.294 col. 1; Table I (p.293)
+  material: ZnO (rf-sputtered) or ZnS (electron-beam evaporated)
+  look: {color: '#e6c86e', opacity: 0.85, metal: 0.0, rough: 0.35, emissive: ''}
+  geometry: {type: band_side, frame: fig1_px, rect: [52, 509.5, 535, 521.5], drawn: 'hatched band in Fig. 1, drawn enlarged (not to scale)'}
+  dims:
+  - {label: thickness range, value: '800 to 30 000', unit: 'Å', basis: stated, locator: 'Tien et al., Appl. Phys. Lett. 1969, p.291 col. 1'}
+  - {label: 'thickness W (ZnO film of Table I)', value: '15 881 ± 60', unit: 'Å', basis: stated, locator: 'Tien et al., Appl. Phys. Lett. 1969, Table I caption (p.293); p.294 col. 1', note: 'fitted to the 6 lowest TE modes at 6328 Å, together with n_{1}'}
+  - {label: 'index n_{1}, TE / TM at 6328 Å', value: '1.9732 / 1.9779', basis: stated, locator: 'Tien et al., Appl. Phys. Lett. 1969, Table I (p.293)', note: 'fitted per group; text: 1.973 ± 0.001 (TE)'}
+  - {label: 'index n_{1}, TE / TM at 4880 Å', value: '2.0428 / 2.0485', basis: stated, locator: 'Tien et al., Appl. Phys. Lett. 1969, Table I (p.293)', note: fitted per group}
+  - {label: 'thickness (ZnS film, half-prism experiment)', value: 1500, unit: 'Å', basis: stated, locator: 'Tien et al., Appl. Phys. Lett. 1969, Fig. 2 caption (p.294)'}
+  essential: false
+
+- id: prism
+  name: rutile prism
+  role: High-index prism; its totally reflected beam couples into the film.
+  detail: 'Rutile, base angle α = 26°, optical axis parallel to the y axis of Fig. 1, so light coupling to TM modes of the film runs as the ordinary ray in the prism and light coupling to TE modes as the extraordinary ray (p.293 col. 1). The prism index must exceed β/k (p.292 col. 1); the rutile indices are not printed. Height 0.5 cm (Fig. 2 caption, for the half prism cut from this prism along its plane of symmetry, which keeps the height). Fig. 1 draws a symmetric prism with short vertical end faces at the base; base length and end-face height are not stated (drawn from Fig. 1 proportions). Some low-order modes "could not be observed with the 26° rutile prism" (Table I footnote).'
+  quote: The coupling prism was of rutile, α = 26°, optical axis parallel to the y axis of Fig. 1.
+  locator: Tien et al., Appl. Phys. Lett. 1969, p.293 col. 1; Fig. 1 (p.291); Fig. 2 caption (p.294)
+  material: rutile (TiO_{2})
+  look: {color: '#bfe3f2', opacity: 0.35, metal: 0.0, rough: 0.05, emissive: ''}
+  geometry:
+    type: polygon_side
+    frame: fig1_px
+    outline: [[154, 500], [154, 478], [320, 391], [491, 477], [491, 500]]
+    base_y: 499.5
+    apex: [320, 391]
+    note: 'Fig. 1 outline: base x 153-491, short vertical end faces (about 22 px of the 109 px height), apex above the coupling spot. Drawn slopes measure 27.7° (left) and 26.7° (right); the model uses the printed α = 26° with height 5 mm (0.5 cm) and an end-face height of about 1 mm (assumed, Fig. 1 proportion 22/109)'
+  dims:
+  - {label: base angle α, value: 26, unit: '°', basis: stated, locator: 'Tien et al., Appl. Phys. Lett. 1969, p.293 col. 1; Table I footnote', essential: true, label_short: 'α'}
+  - {label: height, value: 0.5, unit: cm, basis: stated, locator: 'Tien et al., Appl. Phys. Lett. 1969, Fig. 2 caption (p.294)', essential: true, label_short: height, note: 'printed for the half prism of Fig. 2, cut from this prism along its plane of symmetry (p.294 col. 2)'}
+  - {label: optical axis, value: 'parallel to y (normal to the plane of Fig. 1)', basis: stated, locator: 'Tien et al., Appl. Phys. Lett. 1969, p.293 col. 1'}
+  - {label: end-face height (drawn), value: '≈ 1', unit: mm, basis: assumed, locator: 'Fig. 1 proportion 22 px / 109 px applied to the 0.5 cm height', note: 'drawing value only; not stated'}
+  essential: true
+
+- id: gap
+  name: gap S
+  role: Air gap about λ/2 that light tunnels across; drawn far wider than to scale.
+  detail: 'The film is "placed at a close distance S parallel to the prism base"; the evanescent fields excited in the gap by the total reflection carry the light across ("optical tunneling"). Coupling condition (3): "The film must be placed close enough to the prism base. Typically, S is in the order of half a wavelength." Dust particles act as spacers and S is adjusted by the pressure (p.293 col. 1). The paper gives no gap index; the Table I theory column is reproduced to 0.0001 by Eq. (5) with an air cover n_{2} = 1 (evaluated for this story; the patent states gap index 1 for its FIG. 1). Drawn far wider than to scale.'
+  quote: Typically, S is in the order of half a wavelength.
+  locator: Tien et al., Appl. Phys. Lett. 1969, p.291 col. 1-2; p.293 col. 1
+  material: air (dust particles as spacers)
+  look: {color: '#a8a69d', opacity: 0.0, metal: 0.0, rough: 1.0, emissive: ''}
+  geometry: {type: gap_side, frame: fig1_px, between: [499.5, 509.5], x: [153, 491], drawn: 'drawn about 10 px; real gap about λ/2 (not to scale)'}
+  dims:
+  - {label: gap S, value: '≈ λ/2', basis: stated, locator: 'Tien et al., Appl. Phys. Lett. 1969, p.291 col. 2 ("in the order of half a wavelength")', essential: true, label_short: S}
+  - {label: 'gap index n_{2}', value: '1 (air)', basis: derived, locator: 'Eq. (5) (Tien et al., Appl. Phys. Lett. 1969, p.292) with n_{2} = 1 reproduces every Table I theory value (p.293) to 0.0001 (checked for this story)', note: 'not printed in the paper'}
+  essential: true
+
+- id: pressure_tool
+  name: pressure tool
+  role: Presses the film against the prism base from below.
+  detail: 'Fig. 1 labels "ADJUSTABLE PRESSURE" under the substrate (a pointed shape with upward arrows). "The film is pressed with adjustable pressure against the prism base (Fig. 1)." In the half-prism experiment the film "is pressed against the prism base by a pointed tool" (p.294 col. 2). Force, tool material and mechanism are not given: drawn as a plain pointed stand-in.'
+  quote: The film is pressed with adjustable pressure against the prism base (Fig. 1).
+  locator: Tien et al., Appl. Phys. Lett. 1969, p.293 col. 1; Fig. 1 (p.291); p.294 col. 2
+  material: not stated
+  look: {color: '#6b6b66', opacity: 1.0, metal: 0.3, rough: 0.6, emissive: ''}
+  geometry: {type: pointed_stand_in, frame: fig1_px, rect: [300, 560, 338, 648], tip: [320, 560], arrows_x: [283, 357], note: 'tip under the coupling spot, as drawn'}
+  essential: false
+
+- id: polarizer
+  name: polarizer
+  role: Sets TE or TM polarization of the incident beam.
+  detail: 'Labelled in Fig. 1 across the incident beam. The modes have a distinct polarization (TM or TE) and the incident beam "must have the same polarization as the mode to be excited" (coupling condition (2), p.291 col. 2). The text speaks of "the linear polarized laser beam" (p.293 col. 1). Type not given.'
+  quote: As the modes of the film have a distinct polarization (TM or TE) the incident beam must have the same polarization as the mode to be excited.
+  locator: Tien et al., Appl. Phys. Lett. 1969, Fig. 1 (p.291); p.291 col. 2
+  material: not stated
+  look: {color: '#9aa4ad', opacity: 0.8, metal: 0.0, rough: 0.5, emissive: ''}
+  geometry: {type: thin_disc_edge, frame: fig1_px, from: [88, 341], to: [64, 420]}
+  essential: false
+
+- id: optic
+  name: unlabelled optic
+  role: Biconvex outline after the polarizer; not named in the paper.
+  detail: 'Fig. 1 draws a biconvex outline in the incident beam just after the polarizer; the beam narrows toward the prism after it. Neither the figure nor the text names it. The text states only that the aperture of the incident beam is "about 1° (inside the prism)" (p.293 col. 2). Drawn as an outline only.'
+  locator: Tien et al., Appl. Phys. Lett. 1969, Fig. 1 (p.291), unlabelled
+  material: not stated
+  look: {color: '#9aa4ad', opacity: 0.5, metal: 0.0, rough: 0.5, emissive: ''}
+  geometry: {type: biconvex_outline, frame: fig1_px, top: [120, 350], bottom: [97, 418]}
+  essential: false
+
+- id: beam_in
+  name: incident laser beam
+  role: Linearly polarized; meets the prism base at angle θ_{3}.
+  detail: '"A laser beam enters a prism of sufficiently high refractive index n_{3}. It reaches the base of the prism at an angle of incidence θ_{3} and is totally reflected" (p.291 col. 1). Its component of the propagation vector parallel to the film is k n_{3} sin θ_{3}; θ_{3} is synchronous for a mode when β = k n_{3} sin θ_{3} (p.291 col. 2 - p.292 col. 1). Wavelengths used: 6328 Å and 4880 Å (Table I; 6328 Å in Fig. 2). The laser type and power are not stated. The refraction at the entrance face is taken into account in the β measurements (p.293 col. 2). Aperture about 1° inside the prism. Drawn red; θ_{3} as drawn in Fig. 1 (about 42°), not a computed synchronous angle.'
+  quote: A laser beam enters a prism of sufficiently high refractive index n_{3}. It reaches the base of the prism at an angle of incidence θ_{3} and is totally reflected.
+  locator: Tien et al., Appl. Phys. Lett. 1969, p.291 col. 1; p.293 col. 2; Table I (p.293)
+  material: ''
+  look: {color: '#ff3b30', opacity: 0.85, metal: 0.0, rough: 1.0, emissive: '#ff3b30'}
+  geometry:
+    type: beam_side
+    frame: fig1_px
+    outside: {from_band: [[45, 358], [45, 382]], to: [253, 424], note: 'converging band through the polarizer and the unlabelled optic'}
+    inside: {from: [253, 424], to: [320, 498]}
+    theta3_drawn_deg: 42
+    normal: {x: 320, from_y: 400, to_y: 497, dashed: true}
+  dims:
+  - {label: wavelengths, value: '6328 and 4880', unit: 'Å', basis: stated, locator: 'Tien et al., Appl. Phys. Lett. 1969, Table I (p.293); Fig. 2 caption (p.294)'}
+  - {label: aperture inside the prism, value: '≈ 1', unit: '°', basis: stated, locator: 'Tien et al., Appl. Phys. Lett. 1969, p.293 col. 2'}
+  - {label: 'synchronous condition', value: 'β = k n_{3} sin θ_{3}', basis: stated, locator: 'Tien et al., Appl. Phys. Lett. 1969, p.292 col. 1'}
+  essential: false
+
+- id: beam_reflected
+  name: reflected beam B_{3}
+  role: Totally reflected beam; makes the bright spot on the screen. Its dip is drawn at the deepest reported (50 %).
+  detail: '"In the experiment, a bright spot produced by the reflected wave B_{3} is always observed on the screen." At a synchronous direction the spot dims; "this dip, occasionally down to 50%, means that part of the incident light has been fed into the film and was then lost by absorption or scattering before it could be coupled back into the prism again" (p.293 col. 1). A dark line appears in the spot: the mode accepts only a small part of the beam''s 1° range of θ_{3} (p.293 col. 2).'
+  quote: In the experiment, a bright spot produced by the reflected wave B_{3} is always observed on the screen.
+  locator: Tien et al., Appl. Phys. Lett. 1969, p.293 col. 1-2
+  material: ''
+  look: {color: '#ff3b30', opacity: 0.7, metal: 0.0, rough: 1.0, emissive: '#ff3b30'}
+  geometry: {type: beam_side, frame: fig1_px, from: [320, 498], exit_face: right, screen_hit: [585, 368], note: 'stippled band widening to the screen, as drawn'}
+  dims:
+  - {label: spot dip at a synchronous angle, value: 'occasionally down to 50', unit: '%', basis: stated, locator: 'Tien et al., Appl. Phys. Lett. 1969, p.293 col. 1'}
+  essential: false
+
+- id: guided_mode
+  name: guided mode
+  role: Light fed into one mode of the film; travels in +x.
+  detail: 'At a synchronous angle the beam "excites in the film a mode of order m. This mode propagates in the positive x direction" (p.293 col. 1); "a small area of the film near the coupling spot appears very bright" (scattering into the substrate). Theory (Eq. (6), (7), p.292 col. 2): for a beam illuminating the base uniformly from x = 0 to x = L the power in the film builds up from x = 0 toward 4 t_{1}^{-2} |A_{3}|^{2}, then decays beyond x = L where the prism acts as an output coupler; at most about 81 % of the incident power can be transferred (by choice of S or L). Measured: "Up to 50 % of the incident laser energy has been fed into a single mode of propagation" (abstract). The glow profile is drawn after Eq. (6), (7) without numbers.'
+  quote: Up to 50 % of the incident laser energy has been fed into a single mode of propagation.
+  locator: Tien et al., Appl. Phys. Lett. 1969, p.291 abstract; p.292 col. 2; p.293 col. 1
+  material: ''
+  look: {color: '#ff5a4f', opacity: 0.9, metal: 0.0, rough: 1.0, emissive: '#ff3b30'}
+  geometry: {type: film_glow, frame: fig1_px, start_x: 320, direction: '+x', note: 'bright near the coupling spot; rises over the illuminated base length and decays beyond it under the full prism (Eq. (6), (7)); illuminated length L not stated'}
+  dims:
+  - {label: fed into one mode (measured), value: 'up to 50', unit: '%', basis: stated, locator: 'Tien et al., Appl. Phys. Lett. 1969, p.291 abstract'}
+  - {label: theoretical maximum (uniform illumination), value: '≈ 81', unit: '%', basis: stated, locator: 'Tien et al., Appl. Phys. Lett. 1969, p.292 col. 2'}
+  - {label: 'finesse F (one case)', value: '≈ 50', basis: stated, locator: 'Tien et al., Appl. Phys. Lett. 1969, p.293 col. 2', note: 'F = π / t_{1}^{2}, so t_{1}^{2} = 0.06'}
+  essential: false
+
+- id: screen
+  name: screen
+  role: Shows the B_{3} spot and the m lines; turns with the prism.
+  detail: 'The reflected light is observed on a screen (Fig. 1). "The whole prism-film assembly, including the screen but not the laser, is mounted on a turntable so that the direction θ_{3} can be varied at will" (p.293 col. 1). Fig. 1 draws the screen edge-on at the right and, above it, a face-on view: a dark field with the bright B_{3} spot crossed by a dark line, and bright lines. Distance, size and material are not given.'
+  quote: As shown in Fig. 1, the reflected light is observed on a screen.
+  locator: Tien et al., Appl. Phys. Lett. 1969, p.293 col. 1; Fig. 1 (p.291)
+  material: not stated
+  look: {color: '#d9d6cc', opacity: 0.9, metal: 0.0, rough: 0.8, emissive: ''}
+  geometry:
+    type: screen_side
+    frame: fig1_px
+    edge_on: {from: [518, 296], to: [776, 553], thickness_px: 6}
+    face_on_inset: {rect: [523, 72, 788, 190], note: 'black field as drawn; dashed projection lines at x 548, 585, 636, 682, 748 connect it to the edge-on screen'}
+  essential: false
+
+- id: m_lines
+  name: m lines
+  role: Bright lines on the screen, one per mode order; schematic, as Fig. 1 draws them.
+  detail: 'At a synchronous angle "we observe one or more (depending on the film thickness) bright lines on the screen (Fig. 1). One of these lines always intersects the bright B_{3} spot. These lines will be called m lines" (p.293 col. 1). Light scattered into modes azimuthally degenerate with the excited one is coupled out by the same prism and forms the line through the spot; intermode scattering into other orders forms the other lines: "The m lines are therefore a direct display of the spectrum of the film modes" (p.293 col. 1-2). With increasing coupling the lines first brighten, then broaden and shift. Drawn as in the Fig. 1 face-on view (five lines, the outer three curved), a schematic not tied to a particular film; the ZnO film of Table I has seven TE modes at 6328 Å.'
+  quote: The m lines are therefore a direct display of the spectrum of the film modes.
+  locator: Tien et al., Appl. Phys. Lett. 1969, p.293 col. 1-2; Fig. 1 (p.291)
+  material: ''
+  look: {color: '#ff5a4f', opacity: 1.0, metal: 0.0, rough: 1.0, emissive: '#ff3b30'}
+  geometry:
+    type: screen_pattern
+    frame: fig1_px
+    lines_x: [548, 587, 638, 682, 748]
+    curved: [638, 682, 748]
+    spot: {center: [587, 137], r: 16, dark_line_x: 587}
+    rays_to_edge_on_screen: [[545, 333], [585, 368], [630, 418], [673, 470], [740, 527]]
+    note: 'as drawn in the Fig. 1 face-on inset; schematic positions; the line through the spot is the second from the left'
+  essential: false
+
+- id: half_prism
+  name: half prism
+  role: Prism cut at its symmetry plane; the 90° corner ends coupling.
+  detail: '"We cut the prism of Fig. 1 along its plane of symmetry and removed the right half-prism. The laser beam is adjusted so that the 90° corner plays the role of the point x = L discussed in the theory" (p.294 col. 2). Beyond the corner nothing couples the light back out, so the mode propagates freely in the film. Fig. 2 photographs this arrangement through the substrate (ZnS film 1500 Å, 6328 Å, prism height 0.5 cm). The authors also used two such 90° prisms, one as input and one as output coupler, 3 mm apart; an m line again appeared on the output screen (p.294 col. 2).'
+  quote: For this purpose we cut the prism of Fig. 1 along its plane of symmetry and removed the right half-prism.
+  locator: Tien et al., Appl. Phys. Lett. 1969, p.294 col. 2; Fig. 2 caption (p.294)
+  material: rutile (TiO_{2})
+  look: {color: '#bfe3f2', opacity: 0.35, metal: 0.0, rough: 0.05, emissive: ''}
+  geometry: {type: polygon_side, frame: fig1_px, outline: [[154, 500], [154, 478], [320, 391], [320, 500]], note: 'left half of the prism outline; 90° corner at (320, 500)'}
+  dims:
+  - {label: 'two-prism experiment, spacing', value: 3, unit: mm, basis: stated, locator: 'Tien et al., Appl. Phys. Lett. 1969, p.294 col. 2'}
+  essential: false
+
+- id: streak
+  name: guided streak
+  role: Light scattered from the freely propagating mode; about 1 cm.
+  detail: 'Set to the synchronous direction of the single-mode ZnS film, "a bright streak of light is seen extending from the coupling spot toward the lower right. The streak is about 1 cm long and consists of light scattered from the propagating mode, much like a laser beam is visible in dusty air" (p.294 col. 2). In the side view it runs in +x along the film from the 90° corner. "When the continuity of the film is interrupted by scratching across the streak with a fine point, the streak ends sharply at the scratch and the scratch itself radiates brightly" (p.294 col. 2). The scratch position is not stated (drawn at an assumed place along the streak).'
+  quote: The streak is about 1 cm long and consists of light scattered from the propagating mode, much like a laser beam is visible in dusty air.
+  locator: Tien et al., Appl. Phys. Lett. 1969, p.294 col. 2; Fig. 2 (p.294)
+  material: ''
+  look: {color: '#ff5a4f', opacity: 0.9, metal: 0.0, rough: 1.0, emissive: '#ff3b30'}
+  geometry: {type: film_glow, frame: fig1_px, from_x: 320, length: 'about 2 prism heights (1 cm vs 0.5 cm, both stated)', scratch: 'assumed position along the streak'}
+  dims:
+  - {label: length, value: '≈ 1', unit: cm, basis: stated, locator: 'Tien et al., Appl. Phys. Lett. 1969, p.294 col. 2', essential: true, label_short: length}
+  essential: true
+
+assembly:
+- {part: substrate, pos: 'stand-in slab below the film, Fig. 1 band', basis: figure, locator: 'Tien et al., Appl. Phys. Lett. 1969, Fig. 1 (p.291)'}
+- {part: film, pos: 'on the substrate top surface', basis: stated, locator: 'Tien et al., Appl. Phys. Lett. 1969, p.292 col. 2 ("deposited on glass"); Fig. 1'}
+- {part: prism, pos: 'above the film, base parallel to it at distance S', basis: stated, locator: 'Tien et al., Appl. Phys. Lett. 1969, p.291 col. 1 ("placed at a close distance S parallel to the prism base")'}
+- {part: gap, pos: 'between prism base and film', basis: stated, locator: 'Tien et al., Appl. Phys. Lett. 1969, p.291 col. 1-2'}
+- {part: pressure_tool, pos: 'under the substrate below the coupling spot, pushing up', basis: figure, locator: 'Tien et al., Appl. Phys. Lett. 1969, Fig. 1 (p.291); p.293 col. 1'}
+- {part: polarizer, pos: 'in the incident beam, left of the prism', basis: figure, locator: 'Tien et al., Appl. Phys. Lett. 1969, Fig. 1 (p.291)'}
+- {part: optic, pos: 'in the incident beam just after the polarizer', basis: figure, locator: 'Tien et al., Appl. Phys. Lett. 1969, Fig. 1 (p.291)'}
+- {part: beam_in, pos: 'enters the left prism face, meets the base under the apex', basis: figure, locator: 'Tien et al., Appl. Phys. Lett. 1969, Fig. 1 (p.291)'}
+- {part: beam_reflected, pos: 'from the base spot through the right face to the screen', basis: figure, locator: 'Tien et al., Appl. Phys. Lett. 1969, Fig. 1 (p.291)'}
+- {part: screen, pos: 'right of the prism, tilted, on the turntable with the prism and film', basis: figure, locator: 'Tien et al., Appl. Phys. Lett. 1969, Fig. 1 (p.291); p.293 col. 1'}
+- {part: m_lines, pos: 'on the screen; one through the B_{3} spot', basis: stated, locator: 'Tien et al., Appl. Phys. Lett. 1969, p.293 col. 1; Fig. 1'}
+- {part: half_prism, pos: 'left half of the prism, 90° corner over the coupling spot', basis: stated, locator: 'Tien et al., Appl. Phys. Lett. 1969, p.294 col. 2'}
+- {part: streak, pos: 'in the film from the 90° corner toward +x', basis: stated, locator: 'Tien et al., Appl. Phys. Lett. 1969, p.294 col. 2'}
+
+chapters:
+- id: substrate
+  p: [0.0, 0.07]
+  keyword: Glass substrate
+  line: A glass plate to carry a thin film.
+  action: 'side view after Fig. 1; the stippled glass slab slides in'
+  parts: [substrate]
+  labels: []
+- id: film
+  p: [0.07, 0.16]
+  keyword: Deposited film
+  line: Sputtered zinc oxide or evaporated zinc sulfide on the glass.
+  action: 'the film grows on the slab as a thin hatched band (drawn enlarged); hover gives the 800 to 30 000 Å range'
+  parts: [film, substrate]
+  labels: []
+- id: prism
+  p: [0.16, 0.25]
+  keyword: Rutile prism
+  line: A high-index prism hangs over the film.
+  action: 'the symmetric rutile prism (Fig. 1 outline with short end faces) descends to a hover position above the film; base angle α marked'
+  parts: [prism]
+  labels: [prism]
+- id: press
+  p: [0.25, 0.35]
+  keyword: Pressed close
+  line: Pressure from below closes the gap to about half a wavelength.
+  action: 'the pointed pressure tool rises under the substrate and pushes substrate and film up toward the prism base; the gap shrinks to its final (drawn enlarged) width; the prism stays still (the paper presses the film, it does not lower the prism)'
+  parts: [pressure_tool, gap, film, substrate]
+  labels: [gap]
+- id: reflect
+  p: [0.35, 0.45]
+  keyword: Total reflection
+  line: Polarized laser light reflects off the base onto a screen.
+  action: 'polarizer and unlabelled optic fade in; red incident beam enters the left face, meets the base under the apex at θ_{3} (as drawn), totally reflects through the right face to the tilted screen; bright B_{3} spot on the screen; no light in the film (not synchronous)'
+  parts: [polarizer, optic, beam_in, beam_reflected, screen]
+  labels: []
+- id: tunnel
+  p: [0.45, 0.57]
+  keyword: Optical *tunneling*
+  line: At the synchronous angle, light crosses the gap into one mode.
+  action: 'the prism, film, substrate, tool and screen turn together (turntable, laser fixed) by a small schematic angle; at the synchronous angle the B_{3} spot dims and a dark line crosses it, the film near the coupling spot glows, and light runs in +x in the film, rising over the illuminated base and fading beyond it (Eq. (6), (7), no numbers)'
+  parts: [guided_mode, beam_in, beam_reflected, gap, screen]
+  labels: []
+- id: mlines
+  p: [0.57, 0.67]
+  keyword: m lines
+  line: Scattered light displays the film's modes as bright lines.
+  action: 'out-coupled rays fan from the coupling spot through the right face to the screen; the face-on screen view (Fig. 1 inset) lights: five bright lines, one through the B_{3} spot with its dark line, the outer three curved'
+  parts: [m_lines, screen, beam_reflected]
+  labels: []
+- id: modes
+  p: [0.67, 0.85]
+  keyword: Mode spectrum
+  line: Measured mode indices match theory for a zinc oxide film.
+  action: 'model frames in the left half (assembly at the synchronous angle, m lines lit); plot assembles right: Table I β/k vs mode order, observed points over computed points, substrate index as a dashed floor; alternates for 4880 Å and for the observed minus computed differences'
+  parts: [m_lines, film]
+  plot: modes
+  labels: []
+- id: free
+  p: [0.85, 1.0]
+  keyword: Half prism
+  line: Cut in half, the prism lets the guided mode run free.
+  action: 'the right half of the prism slides away (cut along the symmetry plane through the apex); the beam now enters the remaining hypotenuse face and couples in up to the 90° corner (x = L); beyond it the mode runs on as a bright streak about 1 cm long (two prism heights); a fine scratch across the film ends the streak sharply and glows'
+  parts: [half_prism, streak, film, beam_in]
+  labels: [streak]
+
+plots:
+- id: modes
+  title: ''
+  label: 6328 Å
+  source: "Tien et al., Appl. Phys. Lett. 1969, Table I (p.293): 'Comparison between observed and theoretically expected propagation constants of a ZnO film. Film thickness W = 15 881 ± 60 Å, refractive index of glass substrate n_{0} = 1.5127 at 6328 Å and n_{0} = 1.5206 at 4880 Å.'"
+  note: >-
+    Values from Table I, not digitized. ZnO film, W = 15 881 ± 60 Å. Computed values from the mode equation Eq. (5)
+    with W and n_{1} fitted (n_{1} = 1.9732 TE, 1.9779 TM). Modes without an observed point could not be observed
+    with the 26° rutile prism (Table I footnote). Observed and computed points differ by at most 0.0008 here.
+  x: {label: Mode order m, log: false, range: [-0.5, 8.5], ticks: [0, 1, 2, 3, 4, 5, 6, 7, 8]}
+  y: {label: 'β/k', log: false, range: [1.5, 2.06]}
+  series:
+  - name: TE computed
+    basis: stated
+    locator: Tien et al., Appl. Phys. Lett. 1969, Table I (p.293), 6328 Å TE, theory column
+    style: both
+    points: [[0, 1.9647], [1, 1.9389], [2, 1.8954], [3, 1.8332], [4, 1.7510], [5, 1.6473], [6, 1.5249]]
+  - name: TE observed
+    basis: stated
+    locator: Tien et al., Appl. Phys. Lett. 1969, Table I (p.293), 6328 Å TE
+    style: points
+    points: [[1, 1.9383], [2, 1.8961], [3, 1.8329], [4, 1.7518], [5, 1.6469], [6, 1.5248]]
+  - name: TM computed
+    basis: stated
+    locator: Tien et al., Appl. Phys. Lett. 1969, Table I (p.293), 6328 Å TM, theory column
+    style: both
+    points: [[0, 1.9686], [1, 1.9404], [2, 1.8929], [3, 1.8249], [4, 1.7355], [5, 1.6246]]
+  - name: TM observed
+    basis: stated
+    locator: Tien et al., Appl. Phys. Lett. 1969, Table I (p.293), 6328 Å TM
+    style: points
+    points: [[2, 1.8933], [3, 1.8251], [4, 1.7353], [5, 1.6242]]
+  - name: 'substrate index n_{0}'
+    basis: stated
+    locator: Tien et al., Appl. Phys. Lett. 1969, Table I caption (p.293)
+    style: dashed
+    points: [[-0.5, 1.5127], [8.5, 1.5127]]
+- id: modes_4880
+  alt_of: modes
+  label: 4880 Å
+  title: ''
+  source: "Tien et al., Appl. Phys. Lett. 1969, Table I (p.293), 4880 Å groups"
+  note: >-
+    Values from Table I, not digitized. Same ZnO film (W = 15 881 ± 60 Å); n_{1} fitted per group (2.0428 TE,
+    2.0485 TM). Modes without an observed point could not be observed with the 26° rutile prism (Table I footnote).
+  x: {label: Mode order m, log: false, range: [-0.5, 8.5], ticks: [0, 1, 2, 3, 4, 5, 6, 7, 8]}
+  y: {label: 'β/k', log: false, range: [1.5, 2.06]}
+  series:
+  - name: TE computed
+    basis: stated
+    locator: Tien et al., Appl. Phys. Lett. 1969, Table I (p.293), 4880 Å TE, theory column
+    style: both
+    points: [[0, 2.0377], [1, 2.0223], [2, 1.9964], [3, 1.9596], [4, 1.9115], [5, 1.8513], [6, 1.7781], [7, 1.6910], [8, 1.5892]]
+  - name: TE observed
+    basis: stated
+    locator: Tien et al., Appl. Phys. Lett. 1969, Table I (p.293), 4880 Å TE
+    style: points
+    points: [[0, 2.0360], [1, 2.0215], [2, 1.9973], [3, 1.9603], [4, 1.9117], [5, 1.8511], [6, 1.7786], [7, 1.6907], [8, 1.5898]]
+  - name: TM computed
+    basis: stated
+    locator: Tien et al., Appl. Phys. Lett. 1969, Table I (p.293), 4880 Å TM, theory column
+    style: both
+    points: [[0, 2.0430], [1, 2.0265], [2, 1.9987], [3, 1.9593], [4, 1.9078], [5, 1.8433], [6, 1.7652], [7, 1.6729], [8, 1.5687]]
+  - name: TM observed
+    basis: stated
+    locator: Tien et al., Appl. Phys. Lett. 1969, Table I (p.293), 4880 Å TM
+    style: points
+    points: [[3, 1.9598], [4, 1.9089], [5, 1.8432], [6, 1.7649], [7, 1.6727], [8, 1.5677]]
+  - name: 'substrate index n_{0}'
+    basis: stated
+    locator: Tien et al., Appl. Phys. Lett. 1969, Table I caption (p.293)
+    style: dashed
+    points: [[-0.5, 1.5206], [8.5, 1.5206]]
+- id: modes_diff
+  alt_of: modes
+  label: Observed minus computed
+  title: ''
+  source: "Tien et al., Appl. Phys. Lett. 1969, Table I (p.293), column 'Diff.'"
+  note: >-
+    The printed Diff. column (observed minus computed β/k); every printed value equals the difference of the two
+    printed columns. Largest: -0.0017 (4880 Å TE, m = 0).
+  x: {label: Mode order m, log: false, range: [-0.5, 8.5], ticks: [0, 1, 2, 3, 4, 5, 6, 7, 8]}
+  y: {label: 'Δ(β/k)', log: false, range: [-0.002, 0.0015]}
+  series:
+  - name: 6328 Å TE
+    basis: stated
+    locator: Tien et al., Appl. Phys. Lett. 1969, Table I (p.293)
+    style: points
+    points: [[1, -0.0006], [2, 0.0007], [3, -0.0003], [4, 0.0008], [5, -0.0004], [6, -0.0001]]
+  - name: 6328 Å TM
+    basis: stated
+    locator: Tien et al., Appl. Phys. Lett. 1969, Table I (p.293)
+    style: points
+    points: [[2, 0.0004], [3, 0.0002], [4, -0.0002], [5, -0.0004]]
+  - name: 4880 Å TE
+    basis: stated
+    locator: Tien et al., Appl. Phys. Lett. 1969, Table I (p.293)
+    style: points
+    points: [[0, -0.0017], [1, -0.0008], [2, 0.0009], [3, 0.0007], [4, 0.0002], [5, -0.0002], [6, 0.0005], [7, -0.0003], [8, 0.0006]]
+  - name: 4880 Å TM
+    basis: stated
+    locator: Tien et al., Appl. Phys. Lett. 1969, Table I (p.293)
+    style: points
+    points: [[3, 0.0005], [4, 0.0011], [5, -0.0001], [6, -0.0003], [7, -0.0002], [8, -0.0010]]
+
+drawings:
+- source: 'US 3,584,230 FIG. 1'
+  url: 'https://patentimages.storage.googleapis.com/35/af/1d/8ad2b7785e7f5c/US3584230.pdf'
+  page: 'drawing sheet 1 of 4 (PDF page 2)'
+  file: data/history/showcases/drawings/tien1969-fig1.png
+  image: tien1969-fig1.png
+  trace: tien1969-fig1.json
+  crop: {page_px: [430, 615, 1910, 1465], page_size: [2320, 3408], rotate: 0}
+  coverage: {covered_pct: 96.4, off_scan_pct: 4.7, tol_px: 4}
+  caption: 'US 3,584,230 FIG. 1 (Tien, Bell Labs)'
+  caption_quote: 'FIG. 1 is a partially pictorial and partially block diagrammatic illustration of a basic embodiment of the invention;'
+  caption_locator: 'US 3,584,230 col. 2:13-14'
+  note_full: 'The patent embodiment, not the paper''s experiment: laser 11 and lens 19 make a broad collimated beam, surface 21 of prism 16 is canted away from the film beyond the illuminated region to decouple it, and the residual beam goes to monitoring equipment 23 instead of a screen. Patent index labels differ from the paper (gap n_{1}, film n_{2}, prism n_{3}, substrate n_{4}; angle θ_{1} measured from the base).'
+  note: 'A patent embodiment, not the paper''s set-up: collimating lens 19, canted decoupling face 21 and monitoring equipment 23 instead of a screen; patent index labels differ (gap n_{1}, film n_{2}).'
+  numerals:
+    '16': prism
+    '17': gap
+    '13': film
+    '14': substrate
+
+references:
+- {id: tien1969, cite: "P. K. Tien, R. Ulrich, R. J. Martin, 'Modes of propagating light waves in thin deposited semiconductor films', Appl. Phys. Lett. 14(9), 291-294 (1969-05-01); Bell Telephone Laboratories, Holmdel, New Jersey; received 1969-03-12", url: "https://doi.org/10.1063/1.1652820", public_domain: false, used_for: "every part, number and arrangement in the model; Fig. 1 (arrangement, schematic), Table I (plot values), Eq. (5)-(7), Fig. 2 caption and text (half prism, streak)"}
+- {id: us3584230, cite: "P. K. Tien (Bell Telephone Laboratories), US 3,584,230 'Light wave coupling into thin films', application 793,696 filed 1969-01-24, granted 1971-06-08", url: "https://patentimages.storage.googleapis.com/35/af/1d/8ad2b7785e7f5c/US3584230.pdf", public_domain: true, used_for: "traced FIG. 1 (the same coupling principle in a patent embodiment); gap index 1 in its FIG. 1 (col. 2:62-63); no values move into the model"}
+- {id: tien1970, cite: "P. K. Tien, R. Ulrich, 'Theory of prism-film coupler and thin-film light guides', J. Opt. Soc. Am. 60(10), 1325-1337 (1970)", url: "https://doi.org/10.1364/JOSA.60.001325", public_domain: false, used_for: "not read (not cached, not open access); the detailed theory the letter announces"}
+- {id: tien1971, cite: "P. K. Tien, 'Light waves in thin films and integrated optics', Appl. Opt. 10(11), 2395-2413 (1971)", url: "https://doi.org/10.1364/AO.10.002395", public_domain: false, used_for: "context only (cached): later review by the first author describing the prism-film coupler; no values used"}
+- {id: bond1965, cite: "W. L. Bond, J. Appl. Phys. 36, 1674 (1965) (ref. 6 of the paper)", public_domain: false, used_for: "not read; bulk ZnO index 1.988 interpolated by the paper"}
+
+withheld:
+- {what: "Synchronous angles θ_{3} of the modes", reason: "The paper prints β/k (Table I), not angles; θ_{3} = arcsin(β/(k n_{3})) needs the rutile indices, which it does not print. The beam is drawn at the Fig. 1 angle (about 42°) and the turntable rotation is schematic"}
+- {what: "Laser type, power, beam diameter", reason: "Not stated; only the wavelengths 6328 Å and 4880 Å, linear polarization and an aperture of about 1° inside the prism"}
+- {what: "Identity of the biconvex element after the polarizer", reason: "Drawn in Fig. 1 without a label and not mentioned in the text; shown as an outline only"}
+- {what: "Rutile prism indices, base length, end-face height, width in y", reason: "Not printed; the outline follows Fig. 1 with the printed α = 26° and 0.5 cm height, end-face height assumed from the drawing"}
+- {what: "Gap value at each setting, dust particle size, pressing force", reason: "Only 'in the order of half a wavelength' and the adjustment by pressure; the gap is drawn enlarged"}
+- {what: "Turntable", reason: "Only its function is stated (prism, film and screen turn together, laser fixed); not drawn, shown as a rotation of the assembly about an axis normal to the drawing (the axis needed to change θ_{3}; orientation not stated)"}
+- {what: "Number and positions of the m lines for a given film", reason: "The Fig. 1 face-on view is a schematic not tied to a film or wavelength; it is reproduced as drawn (five lines). The Table I film carries seven TE modes at 6328 Å"}
+- {what: "Illuminated length L and the buildup length in the film", reason: "Not stated for the experiments; the Eq. (6), (7) glow is drawn without numbers"}
+- {what: "Screen distance, size and material", reason: "Not given"}
+- {what: "Film and substrate lateral size, glass type, substrate thickness", reason: "Not given; slab and film are stand-ins with drawn (not to scale) thicknesses"}
+- {what: "Propagation loss of the films, ZnS film index", reason: "Not given"}
+- {what: "Scratch position in the half-prism experiment; layout of the two-prism experiment beyond the 3 mm spacing", reason: "Not stated; the scratch is placed at an assumed point along the streak"}
+- {what: "Path of the totally reflected beam in the half-prism experiment", reason: "Not described; Fig. 2 shows only the streak. Drawn up to the cut face of the half prism"}
+- {what: "Fig. 2 photograph", reason: "Licensed figure; not shown. Its caption values (ZnS 1500 Å, 6328 Å, prism height 0.5 cm, viewed through the substrate) are used"}
+
+notes:
+- 'Locators in this spec are short forms of "Tien, Ulrich, Martin, Appl. Phys. Lett. 14(9), 1969"; page numbers are journal pages 291-294.'
+- 'look values are presentational, not material data; the red beam colour stands for 6328 Å (drawn colour, illustrative).'
+- 'fig1_px: pixel coordinates in the Fig. 1 crop (1270, 1300)-(2080, 1960) of img_p02_1.png (x right, y down); Fig. 1 is a schematic without scale; prism height 109 px = 0.5 cm, but film and gap are drawn enlarged.'
+- 'Plot values are the printed Table I numbers (basis stated); no digitization was needed.'

@@ -1,0 +1,226 @@
+delhaye2007 (Kerr comb, silica toroid) showcase audit (fresh context, read-only, 2026-11-11)
+=========================================================================================
+
+Scope: data/history/showcases/delhaye2007.yaml (+ report.txt), DevLog-017 D1021 (and D995 / D998 / D1005 / D1006),
+skill history-showcase; app/src/lib/history/showcases/delhaye2007.ts; app/static/data/showcases/delhaye2007.json
+(built spec, identical to the YAML in every key); runtime pieces the story uses (showcase/plot.ts revealAt /
+revealed / plotSeries / cleanPoints, PlotAssembler.svelte stems); drawing
+data/history/showcases/drawings/delhaye2007-fig2a.png + traces/delhaye2007-fig2a.json; builder shots
+scratchpad/delhaye2007/ (shots/, final_a/b/p.png, play/perf logs).
+Sources: references/delhaye2007/ (arXiv:0708.0611v1 with SI; text.md, page renders, embedded rasters re-extracted
+myself: p.2 JPEG 728 x 770 = Fig. 1, p.4 JPEG 770 x 595 = Fig. 4), references/armani2003/ (page renders p.925 rendered
+myself, p.926), cache/showcases/delhaye2007/US7982944.pdf (cols. 5-6 rendered at 200 dpi).
+Method (own scripts, scratchpad delhaye2007_audit/): Fig. 1A recalibrated from tick marks and re-digitized
+(dig_comb.py, bg.py), own frequency fit; Fig. 4A bars and Gaussian curve re-read (hdig.py, htail.py, hstroke.py,
+hfit.py); Fig. 4B gridlines and star centroids (allan.py); SEM scale bar and toroid width; trace rendered with the
+ipatent renderer next to the scan at equal size (side.html -> side.png, headless Chrome from file://, no server);
+module frame(p) code read for timing, direction and reveal. No edits other than this file, no git, no builds, no
+network.
+
+VERDICT: GO after the imprecise fixes below (none blocks). No wrong items. Every process value is Armani et al.'s
+(verbatim, locators right) or marked assumed; the comb lines, spacing fit, Fig. 4A curve and Fig. 4B stars re-measure
+within reading accuracy; taper geometry, circulation sense, pump -> pair -> cascade order and the pump-outward reveal
+are right; the FIG. 2A trace is a clean object-by-object redrawing. Main points: the Fig. 4A bar sum misses seven
+1-count tail bins and reads the outer edge of the bar outline, so "about 1 count per bar" does not explain the gap to
+the printed 3493; "the 160 µm pads gave 120 µm toroids" is an inference, not printed; model comb lines lead their
+stems by up to one stem.
+
+Counts: wrong 0, imprecise 12, missing 1, ok 21. Plus 1 item for the coordinator (timeline significance text).
+
+----------------------------------------------------------------------------------------------------------
+WRONG
+----------------------------------------------------------------------------------------------------------
+
+(none)
+
+----------------------------------------------------------------------------------------------------------
+IMPRECISE
+----------------------------------------------------------------------------------------------------------
+
+I1. Fig. 4A bars: seven 1-count tail bins missing; outer-edge bias; the gap to 3493 is not explained by the note
+  file:     yaml line 354-355 (spacing series bars / points), line 345 (note "read heights sum to 3466, about 1 count
+            per bar uncertainty"); report section 3b.
+  current:  47 non-empty bins, heights from the topmost orange-or-blue pixel (outer edge of the outline), sum 3466.
+  evidence: p.4 JPEG, axis calibrated on the left ticks (0 at y 301.5, 50 counts = 49.6 px; 250 at y 53.75) and
+            x -1.5 / +1.5 Hz at x 79 / 723.5. Own outer-edge read: 47 bins, sum 3478 (bin heights match the spec within
+            1.2 counts). Bar outline stroke is 2 px (bin +0.05 Hz, column 412: blue rows 46-47, orange from 48), so the
+            outer edge reads about 1 count high per bar (stroke-centre sum about 3430). A blue 1-count line lies on the
+            axis (row 300, more than half the inner columns) in bins -1.40, -1.25, -1.15, +1.15, +1.30, +1.35, +1.40 Hz
+            (htail.py; also visible at 4x, h_tailL_x4.png / h_tailR_x4.png); none is in the spec. Net: about 3440 counts
+            are visible against the printed 3493; the remaining about 50 are not visible in the printed histogram
+            (possibly beyond the +-1.5 Hz axis; the paper does not say).
+  proposed: add the seven 1-count bins; take heights at the stroke centre (outer edge minus about 1 count) or keep the
+            outer edge and say so; note: "bars read from the printed raster sum to about 3440 of the printed 3493
+            (1-count bins on the axis line included); the rest is not visible in the figure".
+
+I2. Armani process attributed to "its 120 µm toroids" and "160 µm pads gave 120 µm toroids": link not printed
+  file:     yaml line 6 (comment), line 15 title_note is fine; resist_pad.detail ("The 160 µm pads gave toroids of
+            120 µm in that paper ... drawn at the same 4 : 3 ratio"), resist_pad dims note line 58 ("for 120 µm toroids
+            in that paper"), process.oxide params line 268 source "cited process, 120 µm toroids", withheld line 420
+            ("for their 120 µm toroids"); module delhaye2007.ts line 1118 hover ("the cited process used 160 µm pads for
+            120 µm toroids"), line 7 comment.
+  current:  the pad diameter is tied causally to the 120 µm Fig. 2 toroid.
+  evidence: Armani p.925 col. 2 gives the process generically ("photo-resist pads (160 µm in diameter)"); p.926 col. 2
+            gives "In these micrographs, the overall disk diameter was reduced to 120 µm" for the Fig. 2 device, and the
+            same paper shows 94 µm (Fig. 3) and 90 µm (Fig. 4) toroids and Q data on "various radii (80-120 µm)". The
+            paper never states which pad size gave the 120 µm toroid, and notes the final size is set by "lithography
+            and chemical etch steps" and the pillar.
+  proposed: "values of the cited toroid process (Armani et al. 2003; its Fig. 2 example toroid: 120 µm)"; for the
+            drawn disk: "drawn 100 µm, assumed: 75 µm x 160 / 120, the cited pad size over its example toroid size (the
+            paper does not link the two)". D1021 wording "for its 120 µm toroids" can stay as the example label.
+
+I3. CO2 beam detail paraphrase drops the stated mechanism
+  file:     yaml co2_beam.detail ("Silica absorbs strongly at 10.6 µm and the undercut rim is thermally isolated").
+  evidence: Armani p.926 col. 1: "Owing to the strong temperature dependence of the silica optical extinction
+            coefficient near 10.6 µm ... as well as the thermal isolation of the undercut SiO2 disk, melting of the disk
+            occurs along the periphery"; silicon has "a far weaker optical absorption at 10.6 µm".
+  proposed: "Silica's absorption near 10.6 µm rises strongly with temperature and the undercut rim is thermally
+            isolated, so ...".
+
+I4. Model comb lines lead their stems by up to one stem
+  file:     delhaye2007.ts line 1028 (a = clamp01(pen - i)), line 253 (penAt), comment lines 14-15 ("lights exactly
+            when the plot pen draws its stem").
+  evidence: PlotAssembler draws whole stems only: stems 0 .. floor(t)-1 at pen t (revealed(): n = floor(t)). Line i
+            therefore appears in the stems at t >= i + 1, while the model ramps line i in over t in (i, i + 1), i.e.
+            before its stem. Small in p (about 0.0015 per stem) but contrary to the stated sync.
+  proposed: a = pen >= i + 1 ? 1 : 0 (or a short ramp starting at i + 1) for i >= 3; pair (i = 1, 2) unchanged.
+
+I5. Rim light starts before the pump front reaches the coupling point
+  file:     delhaye2007.ts lines 1011-1012 (pumpIn = seg(pq, 0.08, 0.40); ringFill = ease(seg(pq, 0.36, 0.62))),
+            line 1022 (pump weight on as soon as ringFill > 0).
+  evidence: at pq 0.36-0.40 the input front is still about 40 µm short of x = 0 while the ring window opens (6 % of
+            the ring lit at pq 0.40).
+  proposed: start ringFill at pq 0.40 (front arrival) or end pumpIn at 0.36.
+
+I6. "In its plane" does not read on screen: taper shots look from 13-24 degrees above
+  file:     delhaye2007.ts SHOTS.taper (el 13 -> 20), SHOTS.pump / fwm (el 18-24); chapter taper line "slides in beside
+            the rim, in its plane".
+  evidence: shots/desk_p0500.png, final_a.png row 5 right, i3_hover_pump.png: the taper (correctly at y 28.5 = rim
+            centre, z -39.3, behind the toroid) projects above the far rim and reads as lying on top of the ring.
+            Geometry is right; the view hides it.
+  proposed: end the taper chapter at el about 3-5 degrees (near side-on) so waist and rim sit at one height, then
+            rise for the pump chapter.
+
+I7. Coordinate jargon in a viewer tooltip
+  file:     delhaye2007.ts line 1107 ("Runs +x along the taper; ... (+x at the coupling point)").
+  proposed: "Runs along the taper toward the output; in the rim it circulates the same way as the taper light at the
+            coupling point."
+
+I8. "in the rim the lines share one mode family" (hover) has no source in the paper
+  file:     delhaye2007.ts line 1104 (STRIPES).
+  evidence: no such statement in the arXiv text (grep "mode family": 0 hits); the patent says it: "measurements with a
+            grating based optical spectrum analyzer reveal that the generated modes belong to the same mode family"
+            (US 7,982,944 col. 6:20-24).
+  proposed: append "(US 7,982,944 col. 6:20-24)" or drop the clause.
+
+I9. "1.29e-15" e-notation in a legend and a plot note
+  file:     yaml line 380 (series name 'Fit σ_{A} = 1.29e-15 τ^{-0.53}', shown in the legend), line 369 (note).
+  evidence: skill / D1106: numbers print as 10^{n} with superscripts, never 1e5. The figure prints "1.29e-15"; quote
+            marks would make it a quote, as is it reads as app notation.
+  proposed: 'Fit σ_{A} = 1.29 × 10^{-15} τ^{-0.53}' in name and note (optionally: printed as "1.29e-15 · τ^-0.53").
+
+I10. Drawing caption inventor order
+  file:     yaml line 396 (caption "US 7,982,944 FIG. 2A (Del'Haye, Kippenberg et al.)"; visible under the drawing pane,
+            final_a.png).
+  evidence: patent front page (75) Inventors: Tobias Kippenberg; Pascal Del Haye; Albert Schliesser (the spec's own
+            references entry has this order).
+  proposed: "US 7,982,944 FIG. 2A (Kippenberg, Del'Haye, Schliesser)".
+
+I11. "relative Allan deviation" is not the figure's label
+  file:     yaml line 368 (allan.note).
+  evidence: Fig. 4B y label "Allan Deviation σ_A", dimensionless, no reference quantity printed in caption or text.
+  proposed: "(Allan deviation as printed, dimensionless; ...)".
+
+I12. "+-" instead of ± in shown dim / geometry notes
+  file:     yaml line 103 ("about +-2 µm"), 106 ("about +-5 µm"), 136 ("estimate +-1 µm"); visible in the side panel
+            (i2_panel_toroid.png "estimate +-1 µm").
+  proposed: ±.
+
+----------------------------------------------------------------------------------------------------------
+MISSING
+----------------------------------------------------------------------------------------------------------
+
+M1. 375 GHz comb sample size differs between main text and SI
+  file:     yaml comb_light.detail ("the largest samples (190 µm) gave 380 nm wide combs of 134 modes spaced by
+            375 GHz (p.2)"); withheld line 431 (SI Fig. 5); report section 3c.
+  evidence: p.2 col. 2: "largest fabricated samples (190 µm diameter) 380-nm broad Kerr combs comprising 134 modes
+            spaced by 375 GHz"; SI p.6 Fig. 5 caption: "Kerr comb generated in an 177-µm-diameter toroid ... more than
+            134 lines. The free spectral range is 3 nm".
+  proposed: add "(the SI Fig. 5 caption says 177 µm and more than 134 lines)".
+
+----------------------------------------------------------------------------------------------------------
+OK (verified)
+----------------------------------------------------------------------------------------------------------
+
+O1. Fig. 1A calibration: x ticks at 160 / 294 / 428 / 495 / 629 px (1350 ... 1700 nm), frame 93 / 696 = 1300 / 1750,
+    1.340 px/nm; y ticks 54 / 313 / 377 / 441 px = 20 / -20 / -30 / -40 dBm, 6.45 px/dB; top frame 22 = 25 dBm.
+O2. Comb lines re-digitized independently (48 lines at a 3 dB prominence threshold; the spec's 49th, 1359.7 nm, is its
+    marked marginal line): positions within 0.5 nm, powers within 0.1 dB of the spec; pump 1551.9 nm / 17.7 dBm;
+    28 short-side and 20 long-side lines.
+O3. Spacing: own linear fit in frequency over 48 lines 0.9744 THz (rms 0.024 THz, max 0.046), spec 0.975 THz; 7.8 nm at
+    the pump; label "Δλ ≈ 7 nm" and 1555 nm vs 1551.9 nm noted in the plot note, the pump_light dim note and detail
+    (D1021 (3)). Patent FIG. 2A label "Mode Spacing 1 THz" read on the scan.
+O4. Background trace bins spot-checked (1306.25, 1563.75, 1596.25, 1693.75, 1743.75 nm) within 0.6 dB; the pedestal
+    near 1564 nm (-16 dBm) is in the print.
+O5. Fig. 4A Gaussian curve: 9 own reads (-0.6 ... +0.7 Hz) within 1.5 counts of the spec; labelled "as drawn".
+O6. Fig. 4B: decades at x 98 / 306 / 514 / 723 (208.3 px), gridlines y 395 / 455 / 515.5 (60.25 px/decade); own star
+    centroids tau 3.00 / 9.94 / 29.8 / 99.0 / 296 s, σ 6.93e-16 / 3.65e-16 / 2.51e-16 / 1.15e-16 / 5.73e-17, within
+    1 % of the spec; fit line = printed formula (7.20e-16 at 3 s), basis derived, dashed, legend says Fit.
+O7. Armani 2003 values and locators, all verbatim on the page renders: (100) prime grade Si, 2 µm wet thermal oxide,
+    160 µm resist pads, reflow bake (p.925 col. 2); buffered HF at room temperature, acetone, XeF2 at 3 torr,
+    isotropic selective, equal undercut, Q > 10^5, CO2 10.6 µm surface-normal, about 200 µm gaussian spot, typically
+    100 MW m^-2, melting at the periphery, Si 100x more conductive, self-quenching (p.926 col. 1); 120 µm / 7 µm rim,
+    SMF-28, hydrogen flame, < 10 % insertion loss, waist several µm, equatorial plane, gap hundreds of nm (p.926
+    col. 2). Every process HUD value carries basis ref + Armani locator and the process source line; drawn sizes
+    (100 µm disk / pad, 1.5 µm pad, 3 µm waist, 0.3 µm gap, 400 µm patch) are basis assumed and say so in hover.
+O8. Process order matches Armani Fig. 1 / text: oxide, resist pad, HF, strip, XeF2 undercut, CO2 reflow; pillar
+    unchanged in the reflow; melt glow masked to the periphery (uR0); shrink 50 -> 37.5 µm radius eases out and stops
+    before the beam turns off (self-quenching).
+O9. Comb-paper quotes and locators: Fig. 1 caption (75 µm, 60 mW CW, 1555 nm), p.2 col. 1 (toroids [13] on a silicon
+    chip, Q > 10^8, tapered fibers [25], approx. 50 µW), p.2 col. 2 (60 mW, > 1 GW/cm^2, ECL at 1550 nm, Menlo
+    reference comb 100 MHz, MPQ hydrogen maser), p.1 FWM quotes, SI p.6 ECDL / polarization controller / nitrogen,
+    SI p.7 OSA, Table I p.4 and SI p.8 (7.3 × 10^-18), Table II p.10 (3493, -0.91 ± 5.46 mHz, 0.32 Hz).
+O10. Intracavity intensity from the paper (> 1 GW/cm^2, p.2 col. 2); the patent's "exceeding 100 GW/cm^2" verified at
+    col. 6:10-11 and kept out of the story (D1021 (4)). FIG. 2A caption quote verified at col. 5:1-4.
+O11. SEM Fig. 1C: scale bar 103 px = 30 µm (0.291 µm/px), toroid 208 px = 60.6 µm (spec 61.8): not the 75 µm device,
+    as the spec says; pillar / rim values labelled SEM-sample estimates.
+O12. Fig. 1B colours: blue arrow m+1 is the longer (higher-frequency) one, pink m-1; spec / module blue = short
+    wavelength, pink = long; colours labelled illustrative.
+O13. Taper geometry: axis along x at y 28.5 = rim centre (equatorial plane, Armani p.926 col. 2), z -39.3 = rim 37.5 +
+    gap 0.3 + waist radius 1.5; enters along -z -> rim at constant height, never from above; explode moves it away.
+O14. Circulation and flow: ring ribbon tangent is +x at the coupling point (phi = -90 deg), travelling pattern advances
+    with p in the circulation sense; input front runs from the laser to the coupling point; transmitted pump and
+    generated lines leave toward the output; input fiber carries the pump only.
+O15. Order of light: ring fills during the pump chapter (complete at pump q 0.62); the signal / idler pair appears at
+    fwm q 0.16-0.60, after the ring is full, symmetric about the pump (spec points 1 and 2: 1544.0 / 1560.1 nm), with
+    brightness from their digitized -0.9 dBm.
+O16. Comb chapter: stems are listed pump-outward and the runtime keeps point order (cleanPoints filters, never sorts);
+    the module follows the runtime's revealAt (no copied formula); line width / brightness from each line's digitized
+    dBm (-30 dBm .. pump peak). Light ends before the plot panel (light_p0840.png, final_b.png).
+O17. Text budget: keywords <= 3 words, lines 9-12 words with no numbers, essential dims 3 (diameter, pump power, pump
+    wavelength), one amber emphasis (*Kerr comb*), 2 plot chapters (Fig. 4B as alternate).
+O18. Notation and shorthands: no raw "_" / "^" in shown fields of the built JSON (scan of all strings, ids / files / urls
+    skipped); units "GW/cm^2", "MW m^-2" use the allowed unit shorthand; no decision ids, DevLog refs, era codes or
+    paper ids in viewer text (paper ids only as reference ids and file names). Built JSON equals the YAML.
+O19. "First": the story makes no priority claim (title_note says the paper calls it "entirely novel" and makes no "first"
+    claim; grep of the paper for "first": only "first order sidebands" and the like); "microcomb" not used.
+O20. Drawing: side-by-side render at equal size (scratchpad delhaye2007_audit/side.png): the trace is a clean
+    object-by-object redrawing of FIG. 2A (rounded boxes, polarization controller loops, nitrogen box dashes,
+    microscope image as a hatched field with disk and ring, BDU optics, beams, wires, comb icons, legend, all labels),
+    not an edge map; recognisable at pane size. Crop holds the whole figure (all boxes, legend and "FIG. 2A" inside).
+    Differences are stylistic: the scan's halftone halo around boxes is drawn as a lower-left hatched shadow; Helvetica
+    for the scan's humanist sans. Label-key linking (no numerals printed) accepted per D1021 (2).
+O21. Builder runs: Play desktop and phone with no p step-back, rAF median 16.7 ms; phone and light-theme shots framed,
+    keyword readable in light theme; side panel renders markup (10^{8}, SiO_{2}).
+
+----------------------------------------------------------------------------------------------------------
+FOR THE COORDINATOR (not the story's file)
+----------------------------------------------------------------------------------------------------------
+
+C1. Timeline milestone significance (app/static/data/history.json, from the curated candidate list,
+    data/_staging/history/hist_01/papers.csv and data/_staging/literature/history_candidates.csv): "First frequency comb
+    from a monolithic microresonator: cw-pumped silica toroid, Kerr four-wave mixing, about 130 lines at about 400 GHz
+    spacing." The paper makes no "first" claim (abstract: "an entirely novel approach"). Also "about 130 lines at about
+    400 GHz" describes the large-sample 375 GHz / 134-mode comb (190 µm on p.2, 177 µm in SI Fig. 5), not the headline
+    Fig. 1A device (75 µm, about 1 THz spacing). The event text prints "7.3e-18" in e-notation. Same class as the
+    gordon1954 / colladon1842 sweep question (D1026, D1031).

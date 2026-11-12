@@ -1,0 +1,573 @@
+# Showcase spec: room-temperature continuous junction laser (hayashi1970). Schema: DevLog-017 section 4a, runtime
+# fields in app/src/lib/history/showcase/types.ts. Research 2026-11-11 (report: hayashi1970.report.txt).
+# Main source: Hayashi, Panish, Foy, Sumski, Appl. Phys. Lett. 17(3), 109-111 (1970-08-01), licensed, local only.
+# Journal pages: p.109 = text.md page 2 (abstract, col. 1 intro, col. 2 growth, Fig. 1 across the foot), p.110 = page 3
+# (col. 1 Table I and preparation, col. 2 Fig. 2 and results), p.111 = page 4 (col. 1 Fig. 3, col. 2 closing text).
+# Same-work patent (public domain): I. Hayashi, US 3,758,875 (filed 1970-05-01): FIG. 6A layer order and the
+# sliding-boat procedure of an earlier, non-heat-sinked wafer; used for the drawing and wording only, never for this
+# diode's numbers. The paper prints no band diagram, no stripe and no substrate thickness.
+id: hayashi1970
+title: Continuous at room temperature
+title_note: 'The paper''s title is "Junction lasers which operate continuously at room temperature"; it makes no "first" claim. Temperatures are printed in °K and are heat-sink (copper block) temperatures, not junction temperatures (Hayashi et al., Appl. Phys. Lett. 1970, p.110 col. 1). Parallel work: Alferov et al. (A. F. Ioffe Physicotechnical Institute) reported continuous room-temperature emission from small-area AlAs-GaAs heterojunction lasers, submitted 1970-05-06 (Fiz. Tekh. Poluprovodn. 4, 1826 (1970); Sov. Phys. Semicond. 4, 1573 (1971)); this letter was received 1970-06-08.'
+tagline: A four-layer GaAs-Al_{x}Ga_{1-x}As diode lases continuously on a diamond heat sink.
+renderer: 2.5d
+height: 9
+
+parts:
+# ---------------------------------------------------------------- liquid-phase epitaxy apparatus (Fig. 1, schematic)
+- id: silica_tube
+  name: fused silica tube
+  role: Growth tube; hydrogen flows in at one end, out at the other.
+  detail: 'Fig. 1 draws the graphite holders inside a fused silica tube in a furnace, with "H_{2} IN" at the push-rod end and "H_{2} OUT" at the stop end. The text says only that the layers were grown "in the apparatus shown in Fig. 1". Tube and furnace sizes, gas flow rate and furnace type are not given. The same group''s patent describes the same kind of set-up for an earlier wafer: hydrogen passed through the tube, furnace at 870 °C (US 3,758,875 col. 8:52-56); those values belong to that run, not to this paper.'
+  quote: The layers were grown on polished and etched (111) and (100) faces of n-type GaAs in the apparatus shown in Fig. 1.
+  locator: Hayashi et al., Appl. Phys. Lett. 1970, p.109 col. 2; Fig. 1 (p.109)
+  material: fused silica
+  look: {color: '#cfd8dc', opacity: 0.25, metal: 0.0, rough: 0.1, emissive: ''}
+  geometry: {type: tube_section, frame: fig1_px, walls_y: [40, 340], x: [0, 1156], gas: 'H2 in at right (push-rod end), out at left (stop end)', drawn: schematic}
+  essential: false
+
+- id: aux_heater
+  name: single loop auxiliary heater
+  role: Extra heater below the tube, under the growth region.
+  detail: 'Labelled "SINGLE LOOP AUXILIARY HEATER" in Fig. 1, drawn as a coil running along under the tube, inside the furnace walls. Its power and purpose are not given in the paper. The patent''s example describes "a single loop of about 2 feet of 20 mil nichrome wire heated by 20 volts a.c." disposed under the seed (US 3,758,875 col. 8:56-59, earlier run).'
+  locator: Hayashi et al., Appl. Phys. Lett. 1970, Fig. 1 (p.109)
+  material: not stated
+  look: {color: '#b07a4a', opacity: 0.8, metal: 0.6, rough: 0.5, emissive: ''}
+  geometry: {type: coil, frame: fig1_px, box: [155, 410, 1105, 475], drawn: schematic}
+  essential: false
+
+- id: thermocouple
+  name: thermocouple
+  role: Reads the temperature just under the seed.
+  detail: 'Fig. 1 draws the thermocouple entering from the stop end inside the sliding holder, its tip below the seed. The growth temperatures (layer 1 from 840 to 830 °C) are presumably read here; the paper does not say where they were measured.'
+  locator: Hayashi et al., Appl. Phys. Lett. 1970, Fig. 1 (p.109)
+  material: not stated
+  look: {color: '#9aa0a6', opacity: 1.0, metal: 0.5, rough: 0.5, emissive: ''}
+  geometry: {type: rod, frame: fig1_px, from: [35, 258], tip: [478, 258], drawn: schematic}
+  essential: false
+
+- id: seed_holder
+  name: graphite seed holder
+  role: Fixed graphite bar holding the seed; a stop at its end.
+  detail: 'Fig. 1: a long hatched graphite bar with the seed set into its top surface near the stop end ("STOP", a round end piece). The sliding solution holder wraps around it and moves along it.'
+  locator: Hayashi et al., Appl. Phys. Lett. 1970, Fig. 1 (p.109)
+  material: graphite
+  look: {color: '#4a4d52', opacity: 1.0, metal: 0.1, rough: 0.8, emissive: ''}
+  geometry: {type: bar, frame: fig1_px, box: [190, 168, 910, 200], stop: {center: [170, 183], r: 20}, drawn: schematic}
+  essential: false
+
+- id: solution_holder
+  name: graphite sliding solution holder
+  role: Four wells of melt; pushed so each passes over the seed.
+  detail: 'Fig. 1: a graphite block with four wells (solutions 1-4, left to right) between solid walls, sliding on the seed holder and pushed by a push rod from the far end. At the start a solid wall covers the seed; pushing the holder brings solutions 1, 2, 3 and 4 over the seed in turn. "After cooling rates of 1-3 °C/min had been established, the solutions were successively brought into contact with the seed." The patent example adds that the last close-fitting graphite surface wiped the residual melt from the seed (US 3,758,875 col. 9:6-9, earlier run).'
+  quote: After cooling rates of 1-3 °C/min had been established, the solutions were successively brought into contact with the seed.
+  locator: Hayashi et al., Appl. Phys. Lett. 1970, p.109 col. 2; Fig. 1 (p.109)
+  material: graphite
+  look: {color: '#5b5f66', opacity: 1.0, metal: 0.1, rough: 0.8, emissive: ''}
+  geometry:
+    type: sliding_block
+    frame: fig1_px
+    walls_x: [[430, 485], [537, 590], [640, 668], [720, 748], [800, 860]]
+    wells_x: {solution_1: [485, 537], solution_2: [590, 640], solution_3: [668, 720], solution_4: [748, 800]}
+    top_y: [90, 160]
+    lower_frame: {under_bar_y: [200, 232], bottom_y: [285, 315], x: [430, 860]}
+    push_rod: {x: [860, 1130], y: [222, 232]}
+    seed_at_start: 'under the leftmost wall'
+    motion: 'slides toward the stop end (left in Fig. 1) so wells 1-4 pass over the seed'
+    drawn: schematic
+  essential: false
+
+- id: solution_1
+  name: solution 1 (Sn)
+  role: Ga melt with Al, As and Sn; grows n-type layer 1.
+  detail: 'Table I, atom %: Ga 92.0, Al 0.5, As 3.0, Sn 4.5. Layer 1 grew while cooling from 840 to 830 °C. Al in the melt was chosen for x ≈ 0.2-0.4 in the Al_{x}Ga_{1-x}As; a small excess of GaAs ensured saturation.'
+  quote: Layer 1 was grown from 840 to 830 °C
+  locator: Hayashi et al., Appl. Phys. Lett. 1970, Table I (p.110); p.109 col. 2; p.110 col. 1
+  material: 'Ga-Al-As-Sn melt'
+  look: {color: '#c9c3a8', opacity: 0.85, metal: 0.4, rough: 0.2, emissive: ''}
+  geometry: {type: melt_in_well, well: solution_1}
+  dims:
+  - {label: 'Ga / Al / As / Sn', value: '92.0 / 0.5 / 3.0 / 4.5', unit: atom %, basis: stated, locator: 'Hayashi et al., Appl. Phys. Lett. 1970, Table I (p.110)'}
+  essential: false
+
+- id: solution_2
+  name: solution 2 (Si)
+  role: Ga melt with As and Si, no Al; grows thin layer 2.
+  detail: 'Table I, atom %: Ga 94.0, Al none ("..."), As 4.0, Si 2.0. On the seed for 15 s while cooling. Lasers were made with Si from 1 to 15 mg/g Ga; within the scatter this was not the main factor. The emission of the Fig. 2 diode was 80 meV above that expected for GaAs, which the authors attribute to a small amount of Al carried from solution 1 into solution 2.'
+  quote: 'layers 2, 3, and 4 by allowing solutions 2, 3, and 4 to remain on the seed for 15 sec each while cooling.'
+  locator: Hayashi et al., Appl. Phys. Lett. 1970, Table I (p.110); p.109 col. 2; p.110 col. 1-2
+  material: 'Ga-As-Si melt'
+  look: {color: '#c9c3a8', opacity: 0.85, metal: 0.4, rough: 0.2, emissive: ''}
+  geometry: {type: melt_in_well, well: solution_2}
+  dims:
+  - {label: 'Ga / Al / As / Si', value: '94.0 / none / 4.0 / 2.0', unit: atom %, basis: stated, locator: 'Hayashi et al., Appl. Phys. Lett. 1970, Table I (p.110)'}
+  - {label: time on seed, value: 15, unit: s, basis: stated, locator: 'Hayashi et al., Appl. Phys. Lett. 1970, p.109 col. 2'}
+  essential: false
+
+- id: solution_3
+  name: solution 3 (Zn)
+  role: Ga melt with Al, As and Zn; grows p-type layer 3.
+  detail: 'Table I, atom %: Ga 95.9, Al 0.8, As 2.8, Zn 0.5. On the seed for 15 s while cooling.'
+  locator: Hayashi et al., Appl. Phys. Lett. 1970, Table I (p.110); p.109 col. 2
+  material: 'Ga-Al-As-Zn melt'
+  look: {color: '#c9c3a8', opacity: 0.85, metal: 0.4, rough: 0.2, emissive: ''}
+  geometry: {type: melt_in_well, well: solution_3}
+  dims:
+  - {label: 'Ga / Al / As / Zn', value: '95.9 / 0.8 / 2.8 / 0.5', unit: atom %, basis: stated, locator: 'Hayashi et al., Appl. Phys. Lett. 1970, Table I (p.110)'}
+  - {label: time on seed, value: 15, unit: s, basis: stated, locator: 'Hayashi et al., Appl. Phys. Lett. 1970, p.109 col. 2'}
+  essential: false
+
+- id: solution_4
+  name: solution 4 (Ge)
+  role: Ga melt with As and Ge, no Al; grows GaAs layer 4.
+  detail: 'Table I, atom %: Ga 95.7, Al none ("..."), As 4.0, Ge 0.3. On the seed for 15 s while cooling.'
+  locator: Hayashi et al., Appl. Phys. Lett. 1970, Table I (p.110); p.109 col. 2
+  material: 'Ga-As-Ge melt'
+  look: {color: '#c9c3a8', opacity: 0.85, metal: 0.4, rough: 0.2, emissive: ''}
+  geometry: {type: melt_in_well, well: solution_4}
+  dims:
+  - {label: 'Ga / Al / As / Ge', value: '95.7 / none / 4.0 / 0.3', unit: atom %, basis: stated, locator: 'Hayashi et al., Appl. Phys. Lett. 1970, Table I (p.110)'}
+  - {label: time on seed, value: 15, unit: s, basis: stated, locator: 'Hayashi et al., Appl. Phys. Lett. 1970, p.109 col. 2'}
+  essential: false
+
+# ---------------------------------------------------------------- the wafer and the diode (layer stack)
+- id: substrate
+  name: n-type GaAs seed
+  role: Substrate the four layers grow on.
+  detail: 'Polished and etched (111) and (100) faces of n-type GaAs were used; which orientation the Fig. 2 diode had is not stated. Substrate thickness, doping and whether it was thinned are not given, so it is drawn cut short (schematic). The paper notes that layers 1, 3 and 4 should be as thin as possible for efficient heat sinking.'
+  quote: The layers were grown on polished and etched (111) and (100) faces of n-type GaAs
+  locator: Hayashi et al., Appl. Phys. Lett. 1970, p.109 col. 2; p.110 col. 1
+  material: n-type GaAs
+  look: {color: '#6f7d8c', opacity: 1.0, metal: 0.2, rough: 0.5, emissive: ''}
+  geometry: {type: slab, drawn_thickness_um: 6, drawn: 'schematic, broken edge; thickness not stated'}
+  dims:
+  - {label: faces, value: '(111) and (100)', basis: stated, locator: 'Hayashi et al., Appl. Phys. Lett. 1970, p.109 col. 2'}
+  essential: false
+
+- id: layer_1
+  name: 'layer 1: n-Al_{x}Ga_{1-x}As'
+  role: Wide-gap n-type layer from solution 1 (Sn).
+  detail: 'Grown from solution 1 while cooling from 840 to 830 °C. Typical thickness 3-4 µm (Table I). Doping not measured; the melt was chosen for n ≈ (1-4)×10^{18} cm^{-3} and the Al for x ≈ 0.2-0.4. Thicknesses vary by up to a factor of 2 across a wafer.'
+  quote: 'the liquid concentrations were selected to yield for layer 1, n ≈ (1-4)×10^{18}'
+  locator: Hayashi et al., Appl. Phys. Lett. 1970, p.109 col. 2; Table I and p.110 col. 1
+  material: n-Al_{x}Ga_{1-x}As (Sn), x ≈ 0.2-0.4
+  look: {color: '#4c9bf0', opacity: 0.85, metal: 0.1, rough: 0.5, emissive: ''}
+  geometry: {type: layer, drawn_thickness_um: 3.5, drawn: 'midpoint of the printed 3-4 µm (assumed for drawing), heights exaggerated'}
+  dims:
+  - {label: thickness, value: '3-4', unit: 'µm', basis: stated, locator: 'Hayashi et al., Appl. Phys. Lett. 1970, Table I (p.110)', note: typical run; varies up to 2× across a wafer}
+  - {label: electron density (target), value: '(1-4)×10^{18}', unit: 'cm^{-3}', basis: stated, locator: 'Hayashi et al., Appl. Phys. Lett. 1970, p.110 col. 1', note: chosen from the melt; not measured in the layer}
+  - {label: growth, value: '840 → 830', unit: '°C', basis: stated, locator: 'Hayashi et al., Appl. Phys. Lett. 1970, p.109 col. 2'}
+  essential: false
+
+- id: layer_2
+  name: 'layer 2: GaAs (Si)'
+  role: Thin compensated p-type GaAs; the narrow active region.
+  detail: 'Grown in 15 s from solution 2 (no Al). Thickness ≲ 1 µm in a typical run; target p ≈ (1-4)×10^{18} cm^{-3}, compensated. The authors credit the lower threshold "primarily" to a narrower active region than before and call a thin, uniform second layer "the most important factor"; the width was not yet optimized below 1 µm. In the Fig. 2 diode the emission was 80 meV above that expected for GaAs, attributed to a little Al carried over from solution 1.'
+  quote: The most important factor is that the second layer be thin and uniform although we have not, as yet, optimized the width at less than 1 µm.
+  locator: Hayashi et al., Appl. Phys. Lett. 1970, p.109 col. 1; p.110 col. 1; p.110 col. 2; Table I (p.110)
+  material: p-GaAs (Si, compensated)
+  look: {color: '#f7962c', opacity: 0.95, metal: 0.1, rough: 0.4, emissive: ''}
+  geometry: {type: layer, drawn_thickness_um: 1.0, drawn: 'printed upper bound ≲ 1 µm, heights exaggerated'}
+  dims:
+  - {label: thickness, value: '≲ 1', unit: 'µm', basis: stated, locator: 'Hayashi et al., Appl. Phys. Lett. 1970, Table I (p.110)', essential: true, label_short: active layer}
+  - {label: hole density (target), value: '(1-4)×10^{18}, compensated', unit: 'cm^{-3}', basis: stated, locator: 'Hayashi et al., Appl. Phys. Lett. 1970, p.110 col. 1', note: chosen from the melt; not measured}
+  - {label: time on seed, value: 15, unit: s, basis: stated, locator: 'Hayashi et al., Appl. Phys. Lett. 1970, p.109 col. 2'}
+  essential: true
+
+- id: layer_3
+  name: 'layer 3: p-Al_{x}Ga_{1-x}As'
+  role: Wide-gap p-type layer from solution 3 (Zn).
+  detail: 'Grown in 15 s from solution 3. Typical thickness about 1.5 µm; target p ≈ (5-8)×10^{18} cm^{-3}; x ≈ 0.2-0.4. For the Fig. 2 diode the authors estimate the junction ran about 25 K above the heat sink, as expected for about 1.8 µm of Al_{x}Ga_{1-x}As in layer 3 if its heat conductivity were about 15 % of that of GaAs (not known).'
+  quote: This temperature rise would be expected with a thickness of Al_{x}Ga_{1-x}As of ~1.8 µm in layer 3 if the heat conductivity of the Al_{x}Ga_{1-x}As were about 15% that of GaAs.
+  locator: Hayashi et al., Appl. Phys. Lett. 1970, Table I and p.110 col. 1; p.110 col. 2
+  material: p-Al_{x}Ga_{1-x}As (Zn), x ≈ 0.2-0.4
+  look: {color: '#46dca5', opacity: 0.85, metal: 0.1, rough: 0.5, emissive: ''}
+  geometry: {type: layer, drawn_thickness_um: 1.5}
+  dims:
+  - {label: thickness, value: '≈ 1.5', unit: 'µm', basis: stated, locator: 'Hayashi et al., Appl. Phys. Lett. 1970, Table I (p.110)'}
+  - {label: thickness assumed in the heat estimate, value: '≈ 1.8', unit: 'µm', basis: stated, locator: 'Hayashi et al., Appl. Phys. Lett. 1970, p.110 col. 2', note: 'hypothetical value in the authors'' estimate, not a measurement of this diode'}
+  - {label: hole density (target), value: '(5-8)×10^{18}', unit: 'cm^{-3}', basis: stated, locator: 'Hayashi et al., Appl. Phys. Lett. 1970, p.110 col. 1'}
+  essential: false
+
+- id: layer_4
+  name: 'layer 4: p-GaAs (Ge)'
+  role: Added GaAs layer for a better p-side contact.
+  detail: 'Grown in 15 s from solution 4. The diodes were four-layer structures like those of the authors'' earlier letter except for this extra GaAs layer, "used to provide a better contact to the p side of the diode than with Al_{x}Ga_{1-x}As". Typical thickness about 1.5 µm; target p ≈ (3-5)×10^{18} cm^{-3}.'
+  quote: an additional layer (layer 4) of GaAs was used to provide a better contact to the p side of the diode than with Al_{x}Ga_{1-x}As.
+  locator: Hayashi et al., Appl. Phys. Lett. 1970, p.109 col. 2; Table I and p.110 col. 1
+  material: p-GaAs (Ge)
+  look: {color: '#c6a6fa', opacity: 0.85, metal: 0.1, rough: 0.5, emissive: ''}
+  geometry: {type: layer, drawn_thickness_um: 1.5}
+  dims:
+  - {label: thickness, value: '≈ 1.5', unit: 'µm', basis: stated, locator: 'Hayashi et al., Appl. Phys. Lett. 1970, Table I (p.110)'}
+  - {label: hole density (target), value: '(3-5)×10^{18}', unit: 'cm^{-3}', basis: stated, locator: 'Hayashi et al., Appl. Phys. Lett. 1970, p.110 col. 1'}
+  essential: false
+
+- id: zn_skin
+  name: Zn-diffused p^{+} skin
+  role: Thin heavily doped surface region for the p contact.
+  detail: 'For continuous operation the as-grown wafer was diffused with Zn to form a thin (about 0.2 µm) p^{+} region at the p-side surface (inside layer 4). Diffusion temperature and time are not given.'
+  quote: For continuous operation the as-grown wafer was diffused with Zn to form a thin (~0.2 µm) p^{+} region.
+  locator: Hayashi et al., Appl. Phys. Lett. 1970, p.110 col. 1
+  material: p^{+} GaAs (Zn)
+  look: {color: '#ea70a3', opacity: 0.8, metal: 0.1, rough: 0.5, emissive: ''}
+  geometry: {type: layer, within: layer_4, drawn_thickness_um: 0.2}
+  dims:
+  - {label: depth, value: '≈ 0.2', unit: 'µm', basis: stated, locator: 'Hayashi et al., Appl. Phys. Lett. 1970, p.110 col. 1'}
+  essential: false
+
+- id: p_contact
+  name: Cr-Au contact (p side)
+  role: Vapor-plated chromium then gold over the whole p side.
+  detail: 'Contacts were vapor plated onto the wafer: Cr then Au on the p side. No stripe or pattern is described, so the contact covers the p side of the chip. Thicknesses are not given.'
+  quote: Contacts were vapor plated onto the wafer, Cr then Au on the p side, and a Sn-Pt-Sn sandwich on the n side.
+  locator: Hayashi et al., Appl. Phys. Lett. 1970, p.110 col. 1
+  material: Cr, then Au
+  look: {color: '#d4a640', opacity: 1.0, metal: 0.9, rough: 0.3, emissive: ''}
+  geometry: {type: film, side: p, drawn: 'thin film, thickness not stated'}
+  essential: false
+
+- id: n_contact
+  name: Sn-Pt-Sn contact (n side)
+  role: Tin-platinum-tin sandwich on the substrate side.
+  detail: 'Vapor plated onto the n side of the wafer as a Sn-Pt-Sn sandwich. Thicknesses are not given.'
+  quote: and a Sn-Pt-Sn sandwich on the n side.
+  locator: Hayashi et al., Appl. Phys. Lett. 1970, p.110 col. 1
+  material: Sn, Pt, Sn
+  look: {color: '#b8bcc2', opacity: 1.0, metal: 0.8, rough: 0.4, emissive: ''}
+  geometry: {type: film, side: n, drawn: 'thin film, thickness not stated'}
+  essential: false
+
+- id: diode
+  name: Fabry-Perot double-heterostructure diode
+  role: Uncoated broad-area chip; the diode of Figs. 2 and 3.
+  detail: 'The data of Figs. 2 and 3 are for "an uncoated Fabry-Perot double heterostructure diode 370 µm long and about 80 µm wide". The two end faces 370 µm apart form the resonator; they are uncoated. How the chip and its end faces were made is not stated (the patent''s earlier diodes were "cut and cleaved", US 3,758,875 col. 9:47-48). No stripe contact is described. Other diodes: square, fully internally reflecting diodes reached J_{th}(300 K) as low as 1000 A/cm^{2} (text; the abstract prints 100 A/cm^{2}), and uncoated Fabry-Perot diodes 560 µm long about 1600 A/cm^{2}.'
+  quote: The data of Figs. 2 and 3 are for an uncoated Fabry-Perot double heterostructure diode 370 µm long and about 80 µm wide.
+  locator: Hayashi et al., Appl. Phys. Lett. 1970, p.110 col. 1-2; p.109 abstract and col. 1
+  material: GaAs-Al_{x}Ga_{1-x}As
+  look: {color: '#a8a69d', opacity: 0.0, metal: 0.0, rough: 1.0, emissive: ''}
+  geometry: {type: chip, length_um: 370, width_um: 80, facets: 'the two 80 µm wide end faces, uncoated', drawn: 'plan to scale; heights exaggerated'}
+  dims:
+  - {label: length, value: 370, unit: 'µm', basis: stated, locator: 'Hayashi et al., Appl. Phys. Lett. 1970, p.110 col. 2', essential: true, label_short: length}
+  - {label: width, value: '≈ 80', unit: 'µm', basis: stated, locator: 'Hayashi et al., Appl. Phys. Lett. 1970, p.110 col. 2 ("about 80 µm wide")', essential: true, label_short: width}
+  - {label: facets, value: uncoated, basis: stated, locator: 'Hayashi et al., Appl. Phys. Lett. 1970, p.110 col. 1'}
+  essential: true
+
+- id: diamond
+  name: diamond heat sink
+  role: Diamond with Cr then Sn; the gold side is bonded to it.
+  detail: 'The Au (p) sides of the units were bonded to a diamond on which layers of Cr and then Sn had been vapor deposited, so the epitaxial layers face the diamond and the substrate faces up. The technique is a modification of the one Dyment and D''Asaro used with homostructure diodes (ref. 10). Diamond size and type are not given.'
+  quote: The Au sides of the units were bonded to a diamond upon which layers of Cr and then Sn had been vapor deposited
+  locator: Hayashi et al., Appl. Phys. Lett. 1970, p.110 col. 1
+  material: diamond (Cr, Sn coated)
+  look: {color: '#e6f1f5', opacity: 0.45, metal: 0.0, rough: 0.05, emissive: ''}
+  geometry: {type: block, drawn: 'stand-in block wider than the chip; size not stated'}
+  essential: false
+
+- id: cu_block
+  name: copper block
+  role: Heat sink; its temperature is the reported temperature.
+  detail: 'The diamond was bonded to a Cu block. "Reported heat-sink temperatures are those of this Cu block." Diodes lased continuously with heat-sink temperatures as high as 270-311 K; at 311 K in continuous operation J_{th} ≈ 3.5 kA/cm^{2} (pulsed ≈ 2.0 kA/cm^{2}). The Fig. 2 diode''s junction was estimated to run about 25 K above the block at 297 K. Block size not given.'
+  quote: The diamond was bonded to a Cu block. Reported heat-sink temperatures are those of this Cu block.
+  locator: Hayashi et al., Appl. Phys. Lett. 1970, p.110 col. 1-2; p.109 abstract
+  material: copper
+  look: {color: '#b87333', opacity: 1.0, metal: 0.85, rough: 0.35, emissive: ''}
+  geometry: {type: block, drawn: 'stand-in block; size not stated'}
+  dims:
+  - {label: highest heat-sink temperature (continuous), value: 311, unit: K, basis: stated, locator: 'Hayashi et al., Appl. Phys. Lett. 1970, p.109 abstract; p.110 col. 2', essential: true, label_short: continuous up to, note: 'highest heat-sink temperature among the diodes studied (270-311 K); the paper does not say which diode'}
+  - {label: 'J_{th} at 311 K, continuous', value: '≈ 3.5', unit: 'kA/cm^{2}', basis: stated, locator: 'Hayashi et al., Appl. Phys. Lett. 1970, p.110 col. 2'}
+  - {label: 'J_{th} at 311 K, pulsed', value: '≈ 2.0', unit: 'kA/cm^{2}', basis: stated, locator: 'Hayashi et al., Appl. Phys. Lett. 1970, p.110 col. 2'}
+  - {label: 'junction above heat sink (Fig. 2 diode, 297 K)', value: '≈ 25', unit: K, basis: stated, locator: 'Hayashi et al., Appl. Phys. Lett. 1970, p.110 col. 2', note: estimated by the authors}
+  essential: true
+
+- id: in_contact
+  name: In-coated contact
+  role: Pressed on the n side to bring in the current.
+  detail: 'An In-coated contact was pressed on the n side (now facing up). Its shape and size are not given: drawn as a plain neutral stand-in.'
+  quote: an In-coated contact was pressed on the n side.
+  locator: Hayashi et al., Appl. Phys. Lett. 1970, p.110 col. 1
+  material: indium-coated (base metal not stated)
+  look: {color: '#a8a69d', opacity: 1.0, metal: 0.6, rough: 0.5, emissive: ''}
+  geometry: {type: stand_in_probe, drawn: 'plain stand-in, no detail'}
+  essential: false
+
+- id: drive
+  name: diode current (dc or pulsed)
+  role: Forward current; dc, or 0.2 µs pulses every 2 µs.
+  detail: 'Fig. 2 compares dc operation with pulses of 0.2 µs width at 2 µs interval (the text: a 10 % duty cycle), heat sink at 297 K. Diode voltage about 2.6 V at 0.8 A (Fig. 2 label). The current source itself is not described: drawn as a plain stand-in. In the model only the dc state is animated; its current follows the plot pen and stays within the plotted range.'
+  quote: the intensity of light output was plotted as a function of current as shown at 297 °K in Fig. 2 for dc and pulsed operation at a 10% duty cycle.
+  locator: Hayashi et al., Appl. Phys. Lett. 1970, p.110 col. 1; Fig. 2 (p.110)
+  material: ''
+  look: {color: '#a8a69d', opacity: 0.8, metal: 0.0, rough: 0.8, emissive: ''}
+  geometry: {type: stand_in_source, leads_to: [in_contact, diamond], note: 'p lead drawn to the Cr-Sn film on the diamond beside the chip: assumed; the paper does not say how current reaches the p side'}
+  dims:
+  - {label: diode voltage, value: '≈ 2.6 V at 0.8 A', basis: figure, locator: 'Hayashi et al., Appl. Phys. Lett. 1970, Fig. 2 label (p.110)'}
+  - {label: pulses, value: '0.2 µs width, 2 µs interval', basis: figure, locator: 'Hayashi et al., Appl. Phys. Lett. 1970, Fig. 2 legend (p.110); text: 10 % duty cycle, p.110 col. 1'}
+  essential: false
+
+- id: emission
+  name: light from the end faces
+  role: Output through the two uncoated end faces.
+  detail: 'Light leaves through the uncoated end faces of the Fabry-Perot diode. Lasing was recognized by the "turn on" of several spots seen with an image converter microscope, or spectrally (Fig. 3). At 297 K on its heat sink this diode gave at least 20 mW at 30 % above threshold (whether one or both faces were collected is not stated). The emission is near-infrared (about 1.45 eV in Fig. 3, about 0.86 µm, derived); the colour drawn is illustrative.'
+  quote: Lasing was observed by watching the "turn on" of several spots with an image converter microscope or spectrally, Fig. 3.
+  locator: Hayashi et al., Appl. Phys. Lett. 1970, p.110 col. 1-2; Fig. 3 (p.111)
+  material: ''
+  look: {color: '#ff5a3c', opacity: 0.9, metal: 0.0, rough: 1.0, emissive: '#ff5a3c'}
+  geometry: {type: beam, from: diode facets, axis: 'along the 370 µm length', colour: 'illustrative (infrared)'}
+  dims:
+  - {label: power, value: '≥ 20 mW at 30 % above threshold', basis: stated, locator: 'Hayashi et al., Appl. Phys. Lett. 1970, p.110 col. 2', note: '297 K heat sink; dc or pulsed not stated'}
+  - {label: photon energy (Fig. 3 peaks), value: '1.446 at the 0.80 A peak (spontaneous peaks 1.433 at 0.1 A, 1.449 at 0.72 A)', unit: eV, basis: figure, locator: 'Hayashi et al., Appl. Phys. Lett. 1970, Fig. 3 labels (p.111)'}
+  - {label: wavelength near 1.446 eV, value: '≈ 0.857', unit: 'µm', basis: derived, locator: 'λ = 1.2398 eV·µm / 1.446 eV', note: 'not printed in the paper'}
+  essential: false
+
+assembly:
+- {part: silica_tube, pos: 'encloses both graphite holders', basis: figure, locator: 'Hayashi et al., Appl. Phys. Lett. 1970, Fig. 1 (p.109)'}
+- {part: aux_heater, pos: 'below the tube, along the growth region', basis: figure, locator: 'Hayashi et al., Appl. Phys. Lett. 1970, Fig. 1 (p.109)'}
+- {part: seed_holder, pos: 'fixed bar along the tube axis; stop at the H2-out end', basis: figure, locator: 'Hayashi et al., Appl. Phys. Lett. 1970, Fig. 1 (p.109)'}
+- {part: substrate, pos: 'set into the top of the seed holder near the stop end; starts under the first solid wall', basis: figure, locator: 'Hayashi et al., Appl. Phys. Lett. 1970, Fig. 1 (p.109)'}
+- {part: solution_holder, pos: 'rides on and around the seed holder; push rod at the H2-in end', basis: figure, locator: 'Hayashi et al., Appl. Phys. Lett. 1970, Fig. 1 (p.109)'}
+- {part: thermocouple, pos: 'inside the holder frame, tip under the seed', basis: figure, locator: 'Hayashi et al., Appl. Phys. Lett. 1970, Fig. 1 (p.109)'}
+- {part: layer_1, pos: 'on the substrate', basis: stated, locator: 'Hayashi et al., Appl. Phys. Lett. 1970, p.109 col. 2 (layer order); Table I (p.110)'}
+- {part: layer_2, pos: 'on layer 1', basis: stated, locator: 'Hayashi et al., Appl. Phys. Lett. 1970, p.109 col. 2; Table I (p.110)'}
+- {part: layer_3, pos: 'on layer 2', basis: stated, locator: 'Hayashi et al., Appl. Phys. Lett. 1970, p.109 col. 2; Table I (p.110)'}
+- {part: layer_4, pos: 'on layer 3 (top of the as-grown wafer)', basis: stated, locator: 'Hayashi et al., Appl. Phys. Lett. 1970, p.109 col. 2; Table I (p.110)'}
+- {part: zn_skin, pos: 'top 0.2 µm of layer 4', basis: stated, locator: 'Hayashi et al., Appl. Phys. Lett. 1970, p.110 col. 1'}
+- {part: p_contact, pos: 'on the p side (over the Zn skin)', basis: stated, locator: 'Hayashi et al., Appl. Phys. Lett. 1970, p.110 col. 1'}
+- {part: n_contact, pos: 'on the n side (under the substrate as grown)', basis: stated, locator: 'Hayashi et al., Appl. Phys. Lett. 1970, p.110 col. 1'}
+- {part: diamond, pos: 'under the chip after mounting: the Au (p) side is bonded to it, so the chip is upside down relative to growth', basis: stated, locator: 'Hayashi et al., Appl. Phys. Lett. 1970, p.110 col. 1'}
+- {part: cu_block, pos: 'under the diamond', basis: stated, locator: 'Hayashi et al., Appl. Phys. Lett. 1970, p.110 col. 1'}
+- {part: in_contact, pos: 'pressed on the n side (top after mounting)', basis: stated, locator: 'Hayashi et al., Appl. Phys. Lett. 1970, p.110 col. 1'}
+- {part: emission, pos: 'out of both end faces along the 370 µm axis', basis: stated, locator: 'Hayashi et al., Appl. Phys. Lett. 1970, p.110 col. 1-2 (uncoated Fabry-Perot diode, 370 µm long)'}
+
+chapters:
+- id: seed
+  p: [0.0, 0.07]
+  keyword: GaAs seed
+  line: A polished n-type GaAs wafer waits in a graphite holder.
+  action: 'Fig. 1 section assembles (schematic): fused silica tube, auxiliary heater coil below, seed holder bar with stop, sliding solution holder with four filled wells, push rod, thermocouple under the seed. Hydrogen arrows run from the push-rod end to the stop end. A solid wall covers the seed. Furnace glow is ambient (temperature in the HUD only). Inset to the right: a small empty stack frame above the seed'
+  parts: [silica_tube, aux_heater, seed_holder, solution_holder, thermocouple, substrate]
+  process: seed
+  labels: []
+- id: layer1
+  p: [0.07, 0.15]
+  keyword: Layer one
+  line: The first melt slides over the seed; n-type Al_{x}Ga_{1-x}As grows.
+  action: 'push rod moves the holder toward the stop end until well 1 sits over the seed; HUD temperature counts 840 → 830 °C while the blue layer 1 rises on the seed in the inset (3-4 µm, drawn 3.5); holder moves on (a solid wall passes over the seed)'
+  parts: [solution_holder, solution_1, layer_1]
+  process: layer1
+  labels: []
+- id: layer2
+  p: [0.15, 0.23]
+  keyword: Thin layer two
+  line: A brief touch of the second melt leaves a thin GaAs layer.
+  action: 'well 2 over the seed for a short dwell (HUD: 15 s, still cooling); the thin amber layer 2 appears on layer 1 in the inset; label shows the essential thickness'
+  parts: [solution_holder, solution_2, layer_2]
+  process: layer2
+  labels: [layer_2]
+- id: layer3
+  p: [0.23, 0.30]
+  keyword: Layer three
+  line: p-type Al_{x}Ga_{1-x}As closes the double heterostructure.
+  action: 'well 3 over the seed, 15 s; green layer 3 on layer 2 in the inset'
+  parts: [solution_holder, solution_3, layer_3]
+  process: layer3
+  labels: []
+- id: layer4
+  p: [0.30, 0.37]
+  keyword: Contact layer
+  line: A last GaAs layer for a better p-side contact.
+  action: 'well 4 over the seed, 15 s; violet layer 4 on top; then the last solid wall passes over the seed (the patent says it wipes the melt; the paper is silent, so no wiping detail). The apparatus fades; the inset stack grows to the centre'
+  parts: [solution_holder, solution_4, layer_4]
+  process: layer4
+  labels: []
+- id: contacts
+  p: [0.37, 0.45]
+  keyword: Zinc and metal
+  line: A shallow zinc skin, then Cr-Au and Sn-Pt-Sn contacts.
+  action: 'thin pink p+ skin appears at the top of layer 4; Cr-Au film on top (p side), Sn-Pt-Sn film under the substrate (n side); films uniform over the whole face, no stripe'
+  parts: [zn_skin, p_contact, n_contact]
+  process: contacts
+  labels: []
+- id: diode
+  p: [0.45, 0.53]
+  keyword: Fabry-Perot diode
+  line: A chip with no stripe; its bare end faces are the mirrors.
+  action: 'wafer slab narrows to one chip, plan drawn to scale (370 × 80), heights exaggerated; both end faces glint once; no cleaving animation (method not stated). Canvas label with the essential length and width'
+  parts: [diode, substrate, layer_1, layer_2, layer_3, layer_4, p_contact, n_contact]
+  labels: [diode]
+- id: mount
+  p: [0.53, 0.62]
+  keyword: Diamond heat sink
+  line: Flipped gold side down onto diamond on a copper block.
+  action: 'chip turns over (p side down) and lands on the Cr-Sn coated diamond, which sits on the copper block; the In-coated contact stand-in presses on the n side from above; drive stand-in leads to the In contact and to the Cr-Sn film on the diamond (assumed)'
+  parts: [diode, diamond, cu_block, in_contact, drive]
+  process: mount
+  labels: []
+- id: cw
+  p: [0.62, 0.78]
+  keyword: Lasing *continuously*
+  line: Light rises with dc current; pulsed drive shown for comparison.
+  plot: li
+  action: 'model framed in the left half. The dc current is the plot pen x on the dc curve (0 to 0.854 A, where the drawn dc curve leaves the scale; last measured point 0.833 A; never beyond); end-face glow = min(L, L_B) / L_end (spontaneous, clamps at the bend); past the bend (about 0.81 A) a narrow beam = (L - L_B) / (L_end - L_B) along the 370 µm axis from both faces. Small heat arrows from layer 2 down through the diamond into the copper block. Pulsed curve drawn in the plot only (model shows dc). Prop leads fade'
+  parts: [diode, emission, diamond, cu_block, drive]
+  labels: []
+- id: spectra
+  p: [0.78, 0.90]
+  keyword: Line narrows
+  line: A broad glow sharpens into a laser line as current rises.
+  plot: spectra
+  action: 'model holds the lasing state; the three Fig. 3 traces draw in order of current (0.1, 0.72, 0.80 A dc); hover gives the printed relative intensities I and peak energies'
+  parts: [emission, diode]
+  labels: []
+- id: limit
+  p: [0.90, 1.0]
+  keyword: Hottest heat sink
+  line: Lasing stays continuous with the copper block at 311 K.
+  action: 'final assembled state, beam on, no drive current (the paper gives only current densities at 311 K); canvas label on the copper block with the essential temperature; explode / orbit offered'
+  parts: [cu_block, diamond, diode, emission]
+  labels: [cu_block]
+
+process:
+- id: seed
+  name: Seed and apparatus
+  source: Hayashi et al., Appl. Phys. Lett. 1970
+  params:
+  - {label: substrate, value: 'n-type GaAs, polished and etched (111) and (100) faces', basis: stated, locator: 'p.109 col. 2'}
+  - {label: method, value: liquid-phase epitaxy, basis: stated, locator: 'p.109 abstract; Fig. 1 (graphite sliding solution holder)'}
+  - {label: cooling rate before contact, value: '1-3', unit: '°C/min', basis: stated, locator: 'p.109 col. 2'}
+  - {label: melts, value: 'small excess of GaAs in each solution (saturation)', basis: stated, locator: 'p.110 col. 1'}
+  parts: [seed_holder, solution_holder, substrate]
+- id: layer1
+  name: Layer 1 from solution 1
+  source: Hayashi et al., Appl. Phys. Lett. 1970
+  params:
+  - {label: 'solution 1, atom %', value: 'Ga 92.0, Al 0.5, As 3.0, Sn 4.5', basis: stated, locator: 'Table I (p.110)'}
+  - {label: growth, value: '840 → 830', unit: '°C', basis: stated, locator: 'p.109 col. 2'}
+  - {label: thickness (typical), value: '3-4', unit: 'µm', basis: stated, locator: 'Table I (p.110)'}
+  - {label: Al fraction aimed at, value: 'x ≈ 0.2-0.4', basis: stated, locator: 'p.110 col. 1'}
+  parts: [solution_1, layer_1]
+- id: layer2
+  name: Layer 2 from solution 2
+  source: Hayashi et al., Appl. Phys. Lett. 1970
+  params:
+  - {label: 'solution 2, atom %', value: 'Ga 94.0, As 4.0, Si 2.0 (no Al)', basis: stated, locator: 'Table I (p.110)'}
+  - {label: time on seed, value: 15, unit: s, basis: stated, locator: 'p.109 col. 2'}
+  - {label: thickness (typical), value: '≲ 1', unit: 'µm', basis: stated, locator: 'Table I (p.110)'}
+  parts: [solution_2, layer_2]
+- id: layer3
+  name: Layer 3 from solution 3
+  source: Hayashi et al., Appl. Phys. Lett. 1970
+  params:
+  - {label: 'solution 3, atom %', value: 'Ga 95.9, Al 0.8, As 2.8, Zn 0.5', basis: stated, locator: 'Table I (p.110)'}
+  - {label: time on seed, value: 15, unit: s, basis: stated, locator: 'p.109 col. 2'}
+  - {label: thickness (typical), value: '≈ 1.5', unit: 'µm', basis: stated, locator: 'Table I (p.110)'}
+  parts: [solution_3, layer_3]
+- id: layer4
+  name: Layer 4 from solution 4
+  source: Hayashi et al., Appl. Phys. Lett. 1970
+  params:
+  - {label: 'solution 4, atom %', value: 'Ga 95.7, As 4.0, Ge 0.3 (no Al)', basis: stated, locator: 'Table I (p.110)'}
+  - {label: time on seed, value: 15, unit: s, basis: stated, locator: 'p.109 col. 2'}
+  - {label: thickness (typical), value: '≈ 1.5', unit: 'µm', basis: stated, locator: 'Table I (p.110)'}
+  - {label: thickness spread, value: 'up to 2× across a wafer', basis: stated, locator: 'p.110 col. 1'}
+  parts: [solution_4, layer_4]
+- id: contacts
+  name: Zinc skin and contacts
+  source: Hayashi et al., Appl. Phys. Lett. 1970
+  params:
+  - {label: 'Zn-diffused p^{+} region', value: '≈ 0.2', unit: 'µm', basis: stated, locator: 'p.110 col. 1'}
+  - {label: p side, value: 'Cr then Au, vapor plated', basis: stated, locator: 'p.110 col. 1'}
+  - {label: n side, value: 'Sn-Pt-Sn sandwich, vapor plated', basis: stated, locator: 'p.110 col. 1'}
+  parts: [zn_skin, p_contact, n_contact]
+- id: mount
+  name: Heat sinking
+  source: Hayashi et al., Appl. Phys. Lett. 1970
+  params:
+  - {label: bond, value: 'Au side to diamond coated with Cr then Sn', basis: stated, locator: 'p.110 col. 1'}
+  - {label: n-side contact, value: 'In-coated contact, pressed', basis: stated, locator: 'p.110 col. 1'}
+  - {label: heat sink, value: 'diamond bonded to a Cu block (reported temperature)', basis: stated, locator: 'p.110 col. 1'}
+  - {label: origin, value: "modification of Dyment and D'Asaro's homostructure technique", basis: stated, locator: 'p.110 col. 1 (ref. 10)'}
+  parts: [diamond, cu_block, in_contact]
+
+plots:
+- id: li
+  title: ''
+  label: Paper Fig. 2
+  source: "Hayashi et al., Appl. Phys. Lett. 1970, Fig. 2 (p.110): 'Light output versus current for a heat-sinked Fabry-Perot double-heterostructure diode in pulsed and dc operation at 297 °K.'"
+  note: >-
+    Heat sink at 297 K; light intensity in the paper's arbitrary units. Lines are the printed curves, sampled every
+    0.005 A (flat parts) or every 1 unit of light (steep parts); symbols are the printed data points. Below about 0.21 A
+    the two printed curves coincide. The dc curve runs off the top of the printed scale (arrow). No threshold is printed
+    for this diode; the drawn curves bend upward near 0.81 A (dc) and 0.56 A (pulsed).
+  x: {label: Diode current, unit: A, log: false, range: [0, 1.0], ticks: [0, 0.2, 0.4, 0.6, 0.8, 1.0]}
+  y: {label: Light intensity, unit: arb. units, log: false, range: [0, 190], ticks: 20}
+  series:
+  - {name: dc, color: 'var(--pc0)', legend_group: dc, basis: digitized, locator: 'Hayashi et al., Appl. Phys. Lett. 1970, Fig. 2 (p.110), solid curve', style: line, points: [[0.0107, 1.38], [0.016, 1.93], [0.0213, 2.48], [0.0265, 3.06], [0.0318, 3.68], [0.0371, 4.17], [0.0424, 4.62], [0.0477, 5.2], [0.0529, 5.75], [0.0582, 6.37], [0.0635, 6.73], [0.111, 12.04], [0.1163, 12.34], [0.1216, 12.79], [0.1269, 13.41], [0.1322, 13.99], [0.1374, 14.41], [0.1427, 14.96], [0.148, 15.45], [0.1533, 15.74], [0.185, 19.5], [0.1903, 19.73], [0.2107, 23.03], [0.222, 23.65], [0.2272, 24.2], [0.2325, 24.72], [0.2378, 25.3], [0.2431, 25.95], [0.2484, 26.63], [0.2536, 27.02], [0.2589, 27.6], [0.2642, 28.41], [0.2695, 29.0], [0.2748, 29.71], [0.28, 30.26], [0.2853, 30.98], [0.2906, 31.53], [0.2959, 31.66], [0.317, 34.54], [0.3223, 35.19], [0.3276, 35.84], [0.3329, 36.45], [0.3381, 37.23], [0.3434, 38.01], [0.3487, 38.59], [0.354, 39.24], [0.3593, 39.79], [0.3646, 40.57], [0.3698, 41.12], [0.3751, 41.8], [0.3804, 42.48], [0.3857, 43.13], [0.391, 43.78], [0.3956, 44.04], [0.4121, 46.96], [0.4174, 47.38], [0.4226, 48.06], [0.4279, 48.77], [0.4332, 49.68], [0.4385, 50.52], [0.4438, 51.27], [0.4491, 51.98], [0.4543, 52.6], [0.4596, 53.28], [0.4649, 54.06], [0.4702, 54.87], [0.4755, 55.64], [0.4807, 56.36], [0.486, 57.01], [0.4913, 57.62], [0.4966, 57.88], [0.5085, 60.96], [0.5124, 61.06], [0.5177, 61.77], [0.523, 62.52], [0.5283, 63.17], [0.5336, 63.78], [0.5388, 64.46], [0.5441, 65.34], [0.5494, 66.08], [0.5547, 66.89], [0.56, 67.7], [0.5652, 68.61], [0.5705, 69.39], [0.5758, 70.07], [0.5811, 70.69], [0.5864, 71.46], [0.5917, 72.11], [0.5956, 72.24], [0.6075, 75.42], [0.6128, 75.87], [0.6181, 76.59], [0.6233, 77.46], [0.6286, 78.27], [0.6339, 79.05], [0.6392, 80.05], [0.6445, 80.86], [0.6498, 81.58], [0.655, 82.36], [0.6603, 83.17], [0.6656, 84.01], [0.6709, 84.98], [0.6762, 85.92], [0.6814, 86.73], [0.6867, 87.58], [0.692, 88.16], [0.6966, 88.32], [0.7085, 91.37], [0.7131, 91.63], [0.7184, 92.57], [0.7237, 93.51], [0.729, 94.35], [0.7343, 95.36], [0.7395, 96.1], [0.7448, 97.01], [0.7501, 97.98], [0.7554, 99.05], [0.7607, 100.06], [0.7659, 101.09], [0.7712, 102.0], [0.7765, 102.91], [0.7818, 103.62], [0.7871, 104.72], [0.7924, 105.57], [0.7976, 106.18], [0.8092, 110.04], [0.8115, 111.08], [0.8151, 112.11], [0.8164, 113.15], [0.8168, 114.19], [0.8174, 114.9], [0.8168, 118.4], [0.8168, 119.38], [0.8188, 120.41], [0.8194, 121.45], [0.8201, 122.49], [0.8204, 123.53], [0.8207, 124.56], [0.8194, 125.6], [0.8207, 126.64], [0.8207, 127.67], [0.8227, 128.71], [0.8234, 129.75], [0.8247, 130.79], [0.8247, 131.82], [0.8247, 132.86], [0.824, 133.83], [0.8273, 137.34], [0.8273, 138.05], [0.8283, 139.09], [0.8287, 140.12], [0.8293, 141.16], [0.8273, 142.2], [0.8287, 143.24], [0.8287, 144.27], [0.8306, 145.31], [0.8313, 146.35], [0.8326, 147.38], [0.8326, 148.42], [0.8339, 152.57], [0.8353, 153.61], [0.8369, 154.65], [0.8379, 155.68], [0.8379, 156.72], [0.8392, 157.76], [0.8389, 158.8], [0.8399, 159.83], [0.8415, 160.87], [0.8419, 161.91], [0.8419, 162.94], [0.8419, 163.98], [0.8425, 165.02], [0.8432, 166.06], [0.8438, 167.09], [0.8432, 168.13], [0.8445, 169.17], [0.8445, 170.21], [0.8458, 171.24], [0.8468, 172.28], [0.8471, 173.32], [0.8478, 174.36], [0.8481, 175.39], [0.8481, 176.43], [0.8485, 177.47], [0.8511, 178.5], [0.8511, 179.54], [0.8524, 180.58], [0.8524, 181.62], [0.8537, 182.65]]}
+  - {name: 'pulsed', color: 'var(--pc1)', legend_group: pulsed, basis: digitized, locator: 'Hayashi et al., Appl. Phys. Lett. 1970, Fig. 2 (p.110), dashed curve', style: dashed, points: [[0.0107, 1.38], [0.016, 1.93], [0.0213, 2.48], [0.0265, 3.06], [0.0318, 3.68], [0.0371, 4.17], [0.0424, 4.62], [0.0477, 5.2], [0.0529, 5.75], [0.0582, 6.37], [0.0635, 6.73], [0.111, 12.04], [0.1163, 12.34], [0.1216, 12.79], [0.1269, 13.41], [0.1322, 13.99], [0.1374, 14.41], [0.1427, 14.96], [0.148, 15.45], [0.1533, 15.74], [0.1797, 19.31], [0.1837, 19.5], [0.2061, 22.81], [0.2101, 22.97], [0.2233, 25.37], [0.2272, 25.63], [0.2325, 26.4], [0.2365, 26.89], [0.2596, 30.42], [0.2642, 30.98], [0.2688, 31.46], [0.2748, 32.56], [0.28, 33.11], [0.2853, 33.93], [0.2906, 34.35], [0.2959, 35.29], [0.3012, 35.87], [0.3065, 36.52], [0.3276, 40.6], [0.3325, 41.58], [0.3388, 42.81], [0.3431, 43.65], [0.3497, 44.69], [0.3546, 45.47], [0.3712, 49.16], [0.3725, 49.87], [0.3797, 51.24], [0.3807, 51.95], [0.385, 52.99], [0.3883, 53.83], [0.3936, 55.19], [0.3959, 56.1], [0.4134, 60.38], [0.417, 61.29], [0.4213, 62.32], [0.4286, 63.68], [0.4309, 64.4], [0.4352, 65.43], [0.4388, 66.47], [0.4411, 67.18], [0.4454, 68.55], [0.4507, 69.58], [0.4557, 70.56], [0.4609, 71.92], [0.4639, 72.7], [0.4685, 73.73], [0.4712, 74.77], [0.4732, 75.55], [0.4913, 80.05], [0.4966, 81.03], [0.5019, 82.0], [0.5065, 83.13], [0.521, 87.22], [0.5266, 88.26], [0.5309, 89.29], [0.5349, 90.33], [0.5388, 91.37], [0.5421, 92.21], [0.5478, 93.57], [0.5514, 94.48], [0.556, 95.39], [0.5639, 99.67], [0.5639, 100.7], [0.5646, 102.0], [0.5652, 102.78], [0.5666, 103.82], [0.5659, 105.18], [0.5679, 105.89], [0.5685, 106.93], [0.5692, 107.77], [0.5722, 112.11], [0.5732, 113.15], [0.5745, 114.19], [0.5738, 115.49], [0.5745, 116.26], [0.5742, 117.3], [0.5745, 118.34], [0.5771, 120.41], [0.5785, 121.45], [0.5791, 122.42], [0.5791, 123.85], [0.5798, 124.56], [0.5798, 125.6], [0.5798, 126.64], [0.5821, 127.93], [0.5831, 128.71], [0.5837, 129.75], [0.5847, 130.79], [0.5851, 131.57], [0.5851, 132.86], [0.5844, 133.9], [0.5864, 134.94], [0.587, 135.91], [0.5884, 137.34], [0.589, 138.05], [0.589, 139.09], [0.5903, 140.12], [0.591, 140.97], [0.589, 142.33], [0.59, 143.24], [0.5926, 144.27], [0.593, 145.31], [0.5936, 146.15], [0.5956, 147.45], [0.5956, 148.42], [0.5969, 149.46], [0.5969, 150.5], [0.5969, 151.21], [0.5992, 152.7], [0.5996, 153.61], [0.6009, 154.65], [0.6016, 155.68], [0.6029, 156.92], [0.6035, 157.76], [0.6035, 158.8], [0.6049, 159.83], [0.6062, 161.19], [0.6062, 161.91], [0.6068, 162.94], [0.6068, 163.98], [0.6075, 164.76], [0.6088, 166.06], [0.6095, 167.09], [0.6098, 168.13], [0.6101, 169.1], [0.6115, 171.24], [0.6128, 172.28], [0.6138, 173.32], [0.6141, 174.29], [0.6141, 175.59], [0.6148, 176.43], [0.6164, 177.47], [0.6181, 178.5], [0.6194, 180.71], [0.6194, 181.62], [0.622, 182.65], [0.6227, 183.56], [0.6217, 184.99], [0.622, 185.77], [0.622, 186.48]]}
+  - {name: dc points, color: 'var(--pc0)', legend_group: dc, basis: digitized, locator: 'Hayashi et al., Appl. Phys. Lett. 1970, Fig. 2 (p.110), open circles', style: points, points: [[0.102, 10.6], [0.201, 21.0], [0.305, 33.1], [0.403, 45.5], [0.501, 59.5], [0.602, 73.7], [0.703, 89.8], [0.802, 107.9], [0.816, 116.5], [0.825, 135.7], [0.833, 150.5]]}
+  - {name: pulsed points, color: 'var(--pc1)', legend_group: pulsed, basis: digitized, locator: 'Hayashi et al., Appl. Phys. Lett. 1970, Fig. 2 (p.110), crosses', style: points, points: [[0.081, 8.7], [0.168, 17.5], [0.242, 29.1], [0.319, 38.5], [0.361, 47.3], [0.402, 58.4], [0.477, 77.7], [0.52, 84.9], [0.561, 97.4], [0.567, 109.8], [0.623, 188.3]]}
+- id: spectra
+  title: ''
+  label: Paper Fig. 3
+  source: "Hayashi et al., Appl. Phys. Lett. 1970, Fig. 3 (p.111): 'Spectra for the diode of Fig. 3 [sic; the Fig. 2 diode] at 295 °K at several current densities. The numbers (I) are the relative intensities. The peak at 0.8 A is incomplete but is included to illustrate the shape of the base.'"
+  note: >-
+    Heat sink at 295 K, dc. Each trace is drawn at its own scale; the printed relative intensities are I ≈ 12 (0.1 A),
+    I = 370 (0.72 A) and I ≈ 10,000 (0.80 A, peak cut off). Energy axis from the printed 10 meV bar, placed by the three
+    printed peak energies (within about 1 meV); the paper draws energy increasing to the left. At 0.82 A the paper
+    shows a single line no wider than 0.5 meV (3 Å) with I ≈ 100,000, beyond an apparent axis break: not plotted.
+  x: {label: Photon energy, unit: eV, log: false, range: [1.405, 1.485]}
+  y: {label: 'Relative intensity, as drawn', unit: '', log: true, range: [0.3, 100]}
+  series:
+  - {name: '0.1 A dc (I ≈ 12)', basis: digitized, locator: 'Hayashi et al., Appl. Phys. Lett. 1970, Fig. 3 (p.111)', style: line, points: [[1.41002, 0.374], [1.41048, 0.382], [1.41094, 0.383], [1.4114, 0.384], [1.41186, 0.385], [1.41232, 0.388], [1.41278, 0.392], [1.41324, 0.394], [1.4137, 0.392], [1.41416, 0.392], [1.41462, 0.399], [1.41508, 0.404], [1.41554, 0.404], [1.41594, 0.403], [1.41784, 0.415], [1.4183, 0.418], [1.41876, 0.425], [1.41922, 0.43], [1.41968, 0.432], [1.42014, 0.433], [1.4206, 0.438], [1.42106, 0.442], [1.42152, 0.445], [1.42198, 0.446], [1.42232, 0.446], [1.42571, 0.486], [1.42611, 0.486], [1.42657, 0.486], [1.42703, 0.486], [1.42749, 0.486], [1.42795, 0.486], [1.42841, 0.486], [1.42887, 0.486], [1.42933, 0.478], [1.42979, 0.478], [1.43025, 0.479], [1.43071, 0.479], [1.43117, 0.481], [1.43163, 0.482], [1.43209, 0.48], [1.43255, 0.483], [1.43301, 0.484], [1.43347, 0.487], [1.43393, 0.487], [1.43439, 0.489], [1.43485, 0.489], [1.43531, 0.489], [1.43566, 0.491], [1.43583, 0.491], [1.43623, 0.491], [1.43669, 0.487], [1.43715, 0.483], [1.43761, 0.482], [1.43807, 0.473], [1.43853, 0.469], [1.43899, 0.467], [1.43945, 0.464], [1.43991, 0.459], [1.44037, 0.461], [1.44083, 0.461], [1.44129, 0.461], [1.44175, 0.461], [1.44221, 0.459], [1.44267, 0.454], [1.44313, 0.449], [1.44359, 0.451], [1.44405, 0.45], [1.44451, 0.449], [1.44497, 0.445], [1.44543, 0.441], [1.44589, 0.441], [1.44634, 0.442], [1.4468, 0.439], [1.44726, 0.438], [1.44772, 0.436], [1.44818, 0.434], [1.44864, 0.43], [1.4491, 0.426], [1.44956, 0.422], [1.45002, 0.42], [1.45048, 0.417], [1.45094, 0.411], [1.4514, 0.41], [1.45186, 0.409], [1.45232, 0.403], [1.45278, 0.398], [1.45324, 0.393], [1.4537, 0.39], [1.45416, 0.386], [1.45462, 0.381], [1.45508, 0.376], [1.45554, 0.374], [1.456, 0.37], [1.45646, 0.367], [1.45692, 0.364], [1.45738, 0.359], [1.45784, 0.354], [1.4583, 0.35], [1.45876, 0.346], [1.45922, 0.342], [1.45968, 0.337]]}
+  - {name: '0.72 A dc (I = 370)', basis: digitized, locator: 'Hayashi et al., Appl. Phys. Lett. 1970, Fig. 3 (p.111)', style: line, points: [[1.42439, 0.508], [1.42468, 0.515], [1.42485, 0.519], [1.4252, 0.531], [1.42566, 0.546], [1.42611, 0.559], [1.42657, 0.575], [1.42703, 0.586], [1.42749, 0.599], [1.42795, 0.616], [1.42841, 0.635], [1.42876, 0.648], [1.42893, 0.658], [1.42933, 0.677], [1.42979, 0.699], [1.43025, 0.725], [1.43071, 0.74], [1.43117, 0.76], [1.43163, 0.786], [1.43209, 0.81], [1.43255, 0.843], [1.43301, 0.866], [1.43336, 0.88], [1.43353, 0.884], [1.43393, 0.906], [1.43439, 0.928], [1.43485, 0.956], [1.43531, 0.982], [1.43577, 1.02], [1.43623, 1.05], [1.43669, 1.06], [1.43715, 1.08], [1.43761, 1.1], [1.43807, 1.14], [1.43853, 1.18], [1.43899, 1.22], [1.43945, 1.26], [1.43991, 1.31], [1.44025, 1.36], [1.44037, 1.38], [1.44086, 1.43], [1.44114, 1.48], [1.44157, 1.54], [1.44215, 1.59], [1.44244, 1.64], [1.44692, 2.0], [1.44726, 1.99], [1.44772, 2.04], [1.44818, 2.05], [1.44864, 2.06], [1.4491, 2.04], [1.44945, 2.04], [1.44962, 2.04], [1.45002, 2.05], [1.45048, 2.04], [1.45094, 2.05], [1.4514, 2.05], [1.45186, 2.04], [1.45232, 2.03], [1.45278, 2.04], [1.45324, 2.02], [1.4537, 2.0], [1.45416, 1.97], [1.45462, 1.91], [1.45508, 1.87], [1.45554, 1.84], [1.456, 1.8], [1.45646, 1.77], [1.45692, 1.73], [1.45738, 1.68], [1.45784, 1.62], [1.4583, 1.57], [1.45876, 1.53], [1.45922, 1.47], [1.45968, 1.42], [1.46014, 1.38], [1.4606, 1.34], [1.46106, 1.31], [1.46152, 1.28], [1.46198, 1.25], [1.46244, 1.21], [1.4629, 1.17], [1.46336, 1.15], [1.46382, 1.11], [1.46428, 1.08], [1.46474, 1.05], [1.4652, 1.03], [1.46566, 1.0], [1.46611, 0.968], [1.46657, 0.945], [1.46703, 0.926], [1.46795, 0.875], [1.46841, 0.847], [1.46882, 0.829], [1.46939, 0.799], [1.47071, 0.735], [1.47111, 0.718], [1.47163, 0.688], [1.47209, 0.67], [1.47255, 0.655], [1.47301, 0.632], [1.47347, 0.606], [1.47393, 0.582], [1.47439, 0.563], [1.47485, 0.548], [1.47531, 0.535], [1.47577, 0.52], [1.47623, 0.503], [1.47669, 0.491], [1.47715, 0.48], [1.47761, 0.468], [1.47807, 0.459], [1.47853, 0.445]]}
+  - {name: '0.80 A dc (I ≈ 10,000)', basis: digitized, locator: 'Hayashi et al., Appl. Phys. Lett. 1970, Fig. 3 (p.111)', style: line, points: [[1.43255, 1.75], [1.43301, 1.76], [1.43347, 1.87], [1.43387, 1.92], [1.43611, 2.3], [1.43632, 2.39], [1.4368, 2.48], [1.4368, 2.57], [1.4368, 2.66], [1.43741, 2.76], [1.43761, 2.85], [1.4379, 3.1], [1.43824, 3.24], [1.43859, 3.49], [1.43893, 3.76], [1.43928, 4.12], [1.43962, 4.58], [1.43997, 5.3], [1.44031, 5.74], [1.44043, 5.78], [1.44048, 5.96], [1.44066, 6.18], [1.44077, 6.41], [1.44083, 6.65], [1.44094, 6.9], [1.44106, 7.16], [1.4414, 7.42], [1.44175, 7.63], [1.44175, 7.75], [1.44183, 7.99], [1.44203, 8.26], [1.44318, 13.9], [1.44318, 14.3], [1.4433, 14.9], [1.4433, 15.2], [1.4433, 15.5], [1.4433, 16.0], [1.44324, 16.6], [1.44327, 17.2], [1.44336, 17.9], [1.44347, 18.5], [1.4435, 19.2], [1.44353, 19.9], [1.44341, 20.7], [1.44347, 21.5], [1.44359, 22.3], [1.44353, 23.1], [1.44353, 23.9], [1.44353, 24.8], [1.44359, 25.8], [1.44347, 26.7], [1.44353, 27.7], [1.44359, 28.8], [1.44359, 29.8], [1.44364, 30.9], [1.44359, 32.1], [1.44353, 33.3], [1.44364, 34.5], [1.44376, 35.8], [1.44364, 37.1], [1.44364, 38.5], [1.44353, 40.0], [1.44356, 41.5], [1.44364, 43.0], [1.44376, 44.6], [1.44376, 46.3], [1.44387, 48.0], [1.44376, 49.8], [1.44376, 51.6], [1.44376, 53.6], [1.44382, 55.6], [1.44393, 57.6], [1.44387, 59.8], [1.44387, 61.7], [1.44502, 61.7], [1.44502, 59.8], [1.44514, 57.6], [1.44517, 55.6], [1.4452, 53.6], [1.4452, 51.6], [1.4452, 49.8], [1.44534, 48.0], [1.44537, 46.3], [1.44537, 44.6], [1.44525, 43.0], [1.44525, 41.5], [1.44525, 40.0], [1.44537, 38.5], [1.44537, 37.1], [1.44563, 35.8], [1.44566, 34.5], [1.44571, 33.3], [1.44574, 32.1], [1.44583, 30.9], [1.44583, 29.8], [1.4458, 28.8], [1.4458, 27.7], [1.44577, 26.7], [1.44591, 25.8], [1.44594, 24.8], [1.44589, 23.9], [1.44591, 23.1], [1.44611, 22.3], [1.4462, 21.5], [1.44623, 20.7], [1.44634, 19.9], [1.44634, 19.2], [1.44634, 18.5], [1.44623, 17.9], [1.44623, 17.2], [1.44623, 16.6], [1.44629, 16.0], [1.4464, 15.5], [1.44634, 15.2], [1.44634, 14.9], [1.44646, 14.3], [1.44652, 13.8], [1.44663, 13.3], [1.44657, 12.9], [1.44686, 12.4], [1.44692, 11.9], [1.44692, 11.5], [1.44692, 11.1], [1.44692, 10.7], [1.44703, 10.3], [1.44703, 9.95], [1.44703, 9.59], [1.44698, 9.31], [1.44701, 9.16], [1.44724, 8.91], [1.44732, 8.59], [1.44738, 8.28], [1.44744, 7.99], [1.44761, 7.7], [1.44784, 7.42], [1.44784, 7.16], [1.44804, 6.9], [1.44818, 6.65], [1.4483, 6.41], [1.4483, 6.2], [1.44836, 6.1], [1.4485, 5.96], [1.4487, 5.78], [1.45111, 4.76], [1.45175, 4.43], [1.45192, 4.29], [1.45232, 4.13], [1.45258, 3.98], [1.45284, 3.84], [1.45318, 3.7], [1.45353, 3.58], [1.45468, 3.1], [1.45502, 3.06], [1.45554, 2.88], [1.45594, 2.85], [1.45698, 2.67], [1.45738, 2.63], [1.45922, 2.39], [1.45968, 2.36], [1.46014, 2.24], [1.4606, 2.18], [1.46094, 2.1], [1.46111, 2.06], [1.46152, 2.06], [1.46198, 2.01], [1.46244, 1.95], [1.4629, 1.91], [1.46324, 1.82], [1.46433, 1.72], [1.46474, 1.68], [1.4652, 1.69], [1.46554, 1.65], [1.46571, 1.62], [1.466, 1.56], [1.46663, 1.52], [1.46761, 1.44], [1.46784, 1.42], [1.46893, 1.39], [1.46933, 1.4], [1.46979, 1.35], [1.47025, 1.29], [1.47071, 1.28], [1.47111, 1.3], [1.47163, 1.22], [1.47209, 1.18], [1.47224, 1.17], [1.47232, 1.15], [1.47249, 1.11], [1.47278, 1.07], [1.47364, 1.02], [1.47359, 0.991], [1.47459, 0.956], [1.47531, 0.921], [1.4764, 0.888], [1.47663, 0.856], [1.4768, 0.827]]}
+
+drawings:
+- source: US 3,758,875 FIG. 6A
+  url: https://patentimages.storage.googleapis.com/2b/a7/e6/39643164f99968/US3758875.pdf
+  page: drawing sheet 1 of 3 (PDF page 2)
+  file: data/history/showcases/drawings/hayashi1970-fig6a.png
+  image: hayashi1970-fig6a.png
+  trace: hayashi1970-fig6a.json
+  crop: {page_px: [300, 2265, 1375, 3265], page_size: [2320, 3408], rotate: 1.4, rotate_center: [680, 2770], threshold: 150}
+  coverage: {covered_pct: 98.4, off_scan_pct: 1.3, tol_px: 4}
+  caption: US 3,758,875 FIG. 6A (Hayashi, Bell Labs)
+  note: 'Patent drawing: heat sink on the substrate side and a junction inside the narrow-gap region; the letter''s diode was mounted p side down on diamond.'
+  quote: 'The DH diode, shown in FIG. 6A with the dimensions exaggerated for the purposes of illustration, comprises in one embodiment a heat-sink 216 on which is formed a multilayered structure including a metal contact 219, a substrate 214, a wide band gap n-type layer 215, a narrow band gap region 224, a wide band gap p-type layer 212, a contact layer 217 and a second contact 218. It should be noted that it is readily possible to fabricate the heat sink on contact 218, or on both contacts 218 and 219.'
+  quote_locator: US 3,758,875 col. 7:43-52
+  remark: 'Same inventor and laboratory, filed 1970-05-01, before this letter. The patent''s example grows the same four layers (n-AlGaAs with Sn, compensated p-GaAs with Si, p-AlGaAs with Zn, p-GaAs with Ge) on n-GaAs in a sliding holder (col. 8:14 to col. 9:35), but that wafer had other thicknesses and was tested without a heat sink. FIG. 6A draws the heat sink on the substrate side and a p-n homojunction 226 inside region 224; in this letter the gold (p) side is bonded to diamond, and layer 2 is p-type, the FIG. 6B case where the junction lies at the layer 1 / layer 2 interface (the letter does not say where the junction lies).'
+  numerals:
+    "214": substrate
+    "215": layer_1
+    "224": layer_2
+    "212": layer_3
+    "217": layer_4
+    "218": p_contact
+    "219": n_contact
+
+references:
+- {id: hayashi1970, cite: "I. Hayashi, M. B. Panish, P. W. Foy, S. Sumski, 'Junction lasers which operate continuously at room temperature', Appl. Phys. Lett. 17(3), 109-111 (1970-08-01); Bell Telephone Laboratories, Murray Hill, New Jersey; received 1970-06-08", url: "https://doi.org/10.1063/1.1653326", public_domain: false, used_for: "all device, process and result values; Fig. 1 arrangement; Fig. 2 and Fig. 3 digitized"}
+- {id: us3758875, cite: "I. Hayashi (Bell Telephone Laboratories), US 3,758,875 'Double heterostructure junction lasers', filed 1970-05-01, granted 1973-09-11", url: "https://patentimages.storage.googleapis.com/2b/a7/e6/39643164f99968/US3758875.pdf", public_domain: true, used_for: "FIG. 6A traced (layer order); wording for the sliding holder and auxiliary heater of an earlier run (col. 8-9), labelled as patent values; never used for this diode's numbers"}
+- {id: alferov1970, cite: "Zh. I. Alferov, V. M. Andreev, D. Z. Garbuzov, Yu. V. Zhilyaev, E. P. Morozov, E. L. Portnoi, V. G. Trofim, 'Investigation of the influence of the AlAs-GaAs heterostructure parameters on the laser threshold current and the realization of continuous emission at room temperature', Fiz. Tekh. Poluprovodn. 4, 1826-1829 (1970), submitted 1970-05-06; English: Sov. Phys. Semicond. 4(9), 1573-1575 (1971); A. F. Ioffe Physicotechnical Institute", public_domain: false, used_for: "parallel-work note in the title note only: continuous room-temperature emission in small-area (30 × 250 µm active region) samples on silvered copper plates (English text, cached copy p.5)"}
+- {id: panish1970, cite: "M. B. Panish, I. Hayashi, S. Sumski, Appl. Phys. Lett. 16, 326 (1970) (ref. 2 of the paper)", public_domain: false, used_for: "not read; the earlier three-layer structures this four-layer diode is said to resemble"}
+- {id: dyment1967, cite: "J. C. Dyment, L. A. D'Asaro, Appl. Phys. Lett. 11, 292 (1967) (ref. 10 of the paper)", public_domain: false, used_for: "not read; heat-sinking technique the paper modified"}
+- {id: us3691476, cite: "I. Hayashi (Bell Telephone Laboratories), US 3,691,476 'Double heterostructure laser diodes', filed 1970-12-31, granted 1972-09-12", url: "https://patents.google.com/patent/US3691476A/en", public_domain: true, used_for: "checked, not used: a later five-layer structure with a stripe contact on diamond; it cites this letter"}
+
+withheld:
+- {what: "Band diagram (band gaps, offsets, Fermi levels)", reason: "The paper shows none and gives only x ≈ 0.2-0.4 for the melts; no diagram is drawn"}
+- {what: "Stripe contact or any contact pattern", reason: "Not described: contacts were vapor plated onto the wafer; the model shows uniform films"}
+- {what: "Substrate thickness, doping, thinning; chip and end-face preparation (cleave, saw)", reason: "Not stated for this diode; the patent's earlier diodes were lapped to about 6 mils and cut and cleaved (col. 9:42-48), a different wafer"}
+- {what: "Which substrate orientation, (111) or (100), the Fig. 2 diode used", reason: "Both were used; not stated per diode"}
+- {what: "Measured layer thicknesses and doping of the Fig. 2 diode", reason: "Table I gives a typical run (thickness varies up to 2× across a wafer); doping values are melt targets, not measured"}
+- {what: "Position of the p-n junction", reason: "Not stated in the letter (layer 2 is compensated p-type; the patent's FIG. 6A / 6B show both cases)"}
+- {what: "Zn diffusion conditions, contact metal thicknesses, diamond and copper block sizes, In contact shape", reason: "Not given; drawn as neutral stand-ins"}
+- {what: "Furnace, tube and boat dimensions; gas flow; push-rod travel", reason: "Fig. 1 is a schematic without scale; the patent's run values (870 °C furnace, 3 °C/min, 30 s and 60 s contacts) belong to a different wafer"}
+- {what: "Threshold current of the Fig. 2 diode at 297 K", reason: "Not printed; only the 311 K densities (3.5 kA/cm^{2} dc, 2.0 kA/cm^{2} pulsed). The drawn bends of Fig. 2 are noted in the plot note as figure readings"}
+- {what: "The 0.82 A line and the pulse lasing energy of Fig. 3", reason: "Drawn left of two parallel wavy lines that read as an energy-axis break; the energy there cannot be read from the scale bar"}
+- {what: "Far field, polarization, output from each face, efficiency", reason: "Not given (power only: at least 20 mW at 30 % above threshold)"}
+
+notes:
+- 'Locators are short forms of "Hayashi et al., Appl. Phys. Lett. 17(3), 1970"; process params cite only page / column / table and take the step source label. Journal p.109-111 = cached text.md pages 2-4 (page 1 is a publisher cover sheet).'
+- 'fig1_px: pixel coordinates in a crop of the paper''s Fig. 1 (2x page render of p.109, box 200,2290-1560,3010, scaled 0.85; x right, y down). Fig. 1 is a schematic without scale; use it for arrangement only.'
+- 'Layer heights: the drawn thickness values keep the printed thickness ratios; the stack is drawn with a large vertical exaggeration and the substrate cut short. The plan (370 × 80 µm) is to scale.'
+- 'look values are presentational, not material data; the emission colour is illustrative (the light is near-infrared).'

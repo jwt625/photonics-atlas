@@ -1,0 +1,266 @@
+papuchon1975 (Cobra) showcase audit (fresh context, read-only, 2026-11-11)
+=========================================================================
+
+Scope: data/history/showcases/papuchon1975.yaml (+ report.txt), DevLog-017 D1002-D1004, skill history-showcase;
+app/src/lib/history/showcases/papuchon1975.ts; app/static/data/showcases/papuchon1975.json (built spec, identical to
+the YAML in parts / chapters / plots / process / withheld / references); runtime pieces the story uses
+(showcase/PartPanel.svelte, PlotAssembler.svelte, plot.ts); sources references/papuchon1975/ (page scans
+img_p02_1.png = p.289, img_p03_1.png = p.290, text.md for p.291), cache/showcases/papuchon1975/US4035058.pdf,
+references/kogelnik1976/text.md; builder screenshots cobra_build/ (desk_p*, phone_p*, light_p*, i1-i8).
+Method: figures cropped from the 2539 x 3425 page scans and read at 2-8x zoom (Fig. 1, 2, 3a, 3b, 4, 5, subscripts
+in the p.289 text); Fig. 1 re-digitized independently (numpy, grid-line detection, column ink runs; scripts
+dig1.py / dig2.py); Eq. (2) evaluated independently and compared with both plots (eq2.py); module geometry
+recomputed from its own code (roundLine / bendAt / parStart); patent pages rendered and read. Scratch:
+session scratchpad cobra_audit/. No app run, no network, no git.
+
+VERDICT: NO-GO as is; GO after W1-W2 (both small). Sources, quotes, locators, process values, the Fig. 5 / Fig. 3a
+geometry, the Fig. 1 digitization, the Eq. (2) alternate and the 0 V / 6 V end states are right. The wrong items:
+the polarity-asymmetry coefficient is misread (r_yyy instead of the printed r_yzy), and the voltage ramp of the
+switch chapter (delta beta proportional to V, c*sqrt(12) at 6 V) passes through complete switching at about 3 V
+and partly back before 6 V.
+
+Counts: wrong 2, imprecise 11, missing 2, ok 17. Plus 1 re-shoot check (I11).
+
+----------------------------------------------------------------------------------------------------------
+WRONG
+----------------------------------------------------------------------------------------------------------
+
+W1. Polarity-asymmetry coefficient: the paper prints r_yzy, the spec says r_yyy
+  file:     data/history/showcases/papuchon1975.yaml line 220 (field_lines.detail: "r_yyy adds a polarity-dependent
+            asymmetry"), line 240 (voltage.detail: "as expected from r_yyy"); papuchon1975.report.txt line 41.
+            Visible in the side panel (field_lines, control voltage).
+  current:  r_yyy
+  proposed: r_yzy ("One expects ... a different behavior when opposite electrical polarities are applied, due to
+            the r_yzy coefficient, which will lead to an asymmetric change of index between the guides.")
+  evidence: p.289 col. 2, scan img_p02_1.png about x 1400-1580, y 2060-2130 at 6x: subscript y, z, y; the middle
+            glyph is the same italic z as the three of "r_zzz" four lines above (x 1340-1440, y 1860-1910).
+            Fig. 3b (p.290) lists both r_yyy and r_yzy as separate tensor elements, so the two are not
+            interchangeable. text.md OCR "r y. y" is inconclusive; the scan is not.
+
+W2. Switch chapter ramp: complete switching at half the voltage, then partly back
+  file:     app/src/lib/history/showcases/papuchon1975.ts line 912 (d2 = 3 * S.v * S.v), line 625 (v ramps over
+            switch-chapter q 0.32-0.66), line 1121 (hover "voltage rising: delta beta drawn proportional to the
+            voltage"); yaml line 325 (switch.action), line 455 (withheld), line 421 (power_eq2 note).
+  current:  delta beta proportional to V with (delta beta / 2c)^2 = 3 at 6 V. Output in the curved guide at
+            3 L0 from Eq. (2) along the drawn ramp: 0 V 0.00, 1.5 V 0.30, 2.4 V 0.82, 3.0 V 1.00, 3.6 V 0.88,
+            4.5 V 0.63, 5.4 V 0.88, 6.0 V 1.00. Scrubbing the chapter therefore shows full switching near 3 V,
+            light leaking back to the straight guide (about 37 %) near 4.5 V, and switching again at 6 V, while
+            the keyword says "Switched at 6 V". Cause: the Fig. 1 case delta beta = c*sqrt(12) is the paper's bar
+            state for a coupler one L0 long ("all the power transferred to 2 has returned to 1 over the same
+            distance L0", p.289 col. 1); for the 3 L0 switch Eq. (2) returns all light to guide 1 whenever
+            s = sqrt(delta beta^2/4c^2 + 1) = 2m/3, first at s = 4/3, delta beta = (2 sqrt(7)/3) c = 1.76 c,
+            and c*sqrt(12) (s = 2) is the second such state.
+  proposed: (B, preferred: keeps the paper's own Fig. 1 value and the plot chapter consistent) keep c*sqrt(12)
+            for the 6 V frame but do not interpolate delta beta through intermediate values: crossfade the 0 V
+            pattern into the 6 V pattern while the voltage stand-in steps up; hover for the 6 V state: "6 V
+            drawn for delta beta = c*sqrt(12), the Fig. 1 case; Eq. (2) also returns all light at 3 L0 for
+            smaller delta beta (1.76 c); the delta beta reached at 6 V is not stated". Drop "drawn proportional
+            to the voltage".
+            (A) or use s = 4/3 at 6 V (basis derived from Eq. (2)): the ramp is then monotonic (output 0 -> 1),
+            pattern dips to 0.44 at 0.75 and 2.25 L0, full return at 1.5 and 3 L0; needs a note that the
+            plot's c*sqrt(12) curve is a different delta beta.
+  evidence: eq2.py (scratch): P1(3 L0, 3 v^2) table above; s = 2m/3 solutions m = 2, 3, 4 give delta beta / c =
+            1.764, 3.464, 4.944 with minima 0.4375, 0.75, 0.859. Kogelnik and Schmidt 1976 (cached, Sec. II,
+            Fig. 2): for the single-section switch the bar states form concentric circles in the (L/l, Δβ L/π)
+            switching diagram and "an increase in the voltage moves the point ... parallel to the Δβ L/π axis",
+            so a ramp at L = 3 L0 crosses the first bar circle before the second. The 6 V end state itself is
+            right (OK-9).
+
+----------------------------------------------------------------------------------------------------------
+IMPRECISE
+----------------------------------------------------------------------------------------------------------
+
+I1. Raw notation in visible text
+  file:     yaml lines 157, 220, 221 (r_zzz, r_yyy), plot series names / note / dashed-marker name "L0",
+            process "O2", tagline / parts "Ti:LiNbO3", "LiNbO3"
+  current:  side panel shows "through r_zzz" with a literal underscore (i2_panel.png); the plot legend reads
+            "(L0 ≈ 1 mm)" while the axis title renders L with subscript 0 (desk_p100.png); "O2" in the Sources
+            HUD table (i8_sources_panel.png).
+  proposed: Unicode subscripts or the runtime rich-text runs: r with subscript zzz / yzy (or "r33 (r_zzz in the
+            paper's notation)"), L₀, O₂, LiNbO₃ in parts, chapters, legend, hover and panel text; quotes may keep
+            the paper's subscripts as subscripts.
+  evidence: screenshots above; plot.ts rich() already renders "_" runs as subscripts in axis units only.
+
+I2. Patterning method: basis "stated" covers figure-only content
+  file:     yaml line 350 (process.pattern.params method)
+  current:  value "resist exposed to light, then ion etching of the Ti", basis stated, locator "p.289 col. 2
+            ('masked and etched', ref. 7); Fig. 4 row 2".
+  proposed: basis figure (the text says only "masked and etched"; resist, light and ion etching are the Fig. 4
+            row 2 labels), or split into "masked and etched" (stated) and "resist, light; ion etching" (figure).
+            A shorter value also fixes the table overflow in I9.
+  evidence: p.289 col. 2 last lines; Fig. 4 row 2 labels "resist", "light", "Masking and Ion etching".
+
+I3. Prism position: basis "stated"
+  file:     yaml line 262 (assembly prism)
+  current:  pos 'over launch_region', basis stated.
+  proposed: basis figure: the text states only "using a rutile prism coupler"; the position is inferred from the
+            Fig. 5 label "Launching region".
+  evidence: p.290 col. 1; Fig. 5.
+
+I4. Electrode edges drawn flush with the guide inner edges while the spec withholds the alignment
+  file:     papuchon1975.ts lines 253-254 (e1 / e2 inner edges = guide inner edges, gapIn1 / gapIn2);
+            yaml line 460 (withheld "Electrode edge alignment with the guides")
+  current:  electrode gap = guide gap = 19 px (both 3 µm printed); drawn as fact, no note.
+  proposed: keep the drawing (simplest reading of the equal printed 3 µm values, consistent with Fig. 2(b) and
+            Fig. 4 row 4) but say so: electrode_1 / electrode_2 detail "drawn with the inner edges over the guide
+            edges (assumed from the equal 3 µm gap and separation; Fig. 3a draws one electrode overhanging)";
+            withheld reason amended the same way.
+  evidence: Fig. 3a crop: left electrode x 120-400 over guide 259-350 (overhang 50 px), right 538-815 over
+            536-625 (flush).
+
+I5. Electrodes drawn 0.90 of the coupling-region length
+  file:     papuchon1975.ts lines 253-254 (X range parStart 285.0 to bendAt 699.0 px)
+  current:  electrode length 414 px vs c = 459.5 px (0.90); spec geometry says length_of: coupling_region.
+  proposed: either extend to the dashed region end (744.5 px; 1 x 3 mm electrodes and c = 3 mm are both
+            printed) where the guide clearance allows, or change the spec geometry note to "ends at the start of
+            the bend (Fig. 2(b)); printed length 3 mm".
+  evidence: recomputed from the module's roundLine / bendAt / parStart code; p.290 col. 2 "two 1 x 3-mm
+            electrodes"; Fig. 5 caption c = 3 mm.
+
+I6. Spikes ("barbs") on the guide and strip outlines at every bend
+  file:     papuchon1975.ts roundLine (line 68) + ribbon (line 87, segN line 91)
+  current:  roundLine emits a repeated point where consecutive rounded corners meet (cl1: 1, cl2: 2 zero-length
+            segments); segN then returns a zero normal and the miter factor 2, giving small triangular spikes
+            on the Ti strips and diffused channels at the bends (desk_p028.png bends at the curved guide and at
+            the straight guide's input arc; also faint in desk_p060).
+  proposed: drop consecutive points closer than about 0.01 px after roundLine (or skip zero-length segments in
+            segN); re-shoot strips / electrodes chapters.
+  evidence: scratch bend_zoom.png, bend2_zoom.png (crops of desk_p028.png); duplicate count from the module code.
+
+I7. Electrodes arrive as finished pads
+  file:     papuchon1975.ts eBox (drop from dz = 90); yaml line 301 (electrodes.action)
+  current:  two gold pads fall into place; the HUD lists "gold, rf sputtered" and "optical superposition
+            masking, ion etching" (Fig. 4 row 4: gold film over the whole surface, resist, light, etch).
+  proposed: optional: a thin gold sheet fades in over the surface, then etches back to the two pads (as the Ti
+            film does in the strips chapter). Acceptable as is if the coordinator prefers brevity.
+  evidence: p.290 col. 2; Fig. 4 row 4.
+
+I8. Phone: plot y-axis title clipped
+  file:     runtime PlotAssembler.svelte (y title placement) / yaml line 397 (y label)
+  current:  phone_p100.png reads "ower in the initially excited guide (relative)" (first letter cut).
+  proposed: shorter label for narrow panes ("Power in excited guide") or runtime margin for the rotated title.
+  evidence: phone_p100.png.
+
+I9. Sources panel: Masking and ion etching table overflows
+  file:     yaml line 350 value length; runtime PartPanel.svelte table
+  current:  the long method value pushes the basis column out of the panel; rows "strip width a", "separation
+            b", "coupling region c" show no basis badge (i8_sources_panel.png).
+  proposed: shorter value (see I2) and/or wrap the value cell.
+  evidence: i8_sources_panel.png.
+
+I10. "Switching test" HUD in the "Opposite fields" chapter
+  file:     yaml line 319 (chapters.field.process: test)
+  current:  the section chapter shows the test step HUD (argon line, prism, 0 V / 6 V results).
+  proposed: no process for the field chapter (or keep; low priority).
+  evidence: desk_p065.png, desk_p070.png, light_p069.png.
+
+I11. Re-shoot check: screenshots older than the code
+  current:  papuchon1975.ts modified 17:26:03 after the desk / phone / light series (desk_p100.png 17:24:49);
+            ShowcaseStory.svelte 17:30:35 and the built JSON 17:30:19 after all shots (i8 17:27:48).
+  proposed: re-shoot after the fix pass before the coordinator check.
+  evidence: file mtimes.
+
+----------------------------------------------------------------------------------------------------------
+MISSING
+----------------------------------------------------------------------------------------------------------
+
+M1. Plot and dimension notes never reach the viewer
+  file:     runtime PlotAssembler.svelte / PartPanel.svelte (no plots[].note, no dims[].note output)
+  current:  the key caveat of the only plot ("Calculated curves (coupled-mode theory, Eq. (2)), not a
+            measurement; the paper prints no measured switching or extinction curve", the 0.72 vs 0.75 minima,
+            "drawn only to 2L0") and dimension notes (b "edge-to-edge as read from the Fig. 5 arrows", guide
+            model values "model assumption", L0 at 2 µm "other couplers, not the switch") are in the spec only.
+            The y title "Power in the initially excited guide" next to a 0 V / 6 V model can read as measured.
+  proposed: runtime: show plots[].note in the plot hover or under the alternates toggle, and dims[].note as a
+            second line / tooltip in the dimension table. Until then, put "calculated (Eq. (2)), not measured"
+            into the plot label ("Paper Fig. 1, calculated").
+  evidence: grep of PlotAssembler.svelte / PartPanel.svelte; same gap as maiman1960 audit I1.
+
+M2. Opposite guide tints unexplained
+  file:     papuchon1975.ts lines 821-822 (tint +0.8 curved guide, -0.8 straight guide); yaml field_lines
+  current:  in the section the curved guide (field down) turns lighter, the straight guide (field up) darker;
+            nothing on hover or in the panel says what the tints mean or that the sign is not given.
+  proposed: field_lines detail: "Tints: lighter = index raised, darker = lowered, as drawn for the polarity shown;
+            the paper gives neither polarity nor sign. For TM light the change comes mainly from r_zzz: a field
+            along -c raises the extraordinary index when r_zzz > 0 relative to +c (textbook sign rule, not from
+            the paper)." The drawn direction is consistent with that rule (OK-10).
+  evidence: light_p069.png / desk_p070.png; p.289 col. 2.
+
+----------------------------------------------------------------------------------------------------------
+OK (verified)
+----------------------------------------------------------------------------------------------------------
+
+OK-1  Bibliography: title "Electrically switched optical directional coupler: Cobra", 8 authors as listed,
+      Thomson-CSF Laboratoire Central de Recherches, B.P. 10, Domaine de Corbeville, 91401 Orsay; received
+      19 May 1975; Appl. Phys. Lett. Vol. 27, No. 5, 1 September 1975, pp. 289-291; acronym "commutateur optique
+      binaire rapide"; "original electrode configuration" (text) and "novel electrode configuration" (abstract).
+OK-2  Quotes and locators read on the scans: substrate (C axis normal, p.289 col. 2), Ti film (500 Å, rf
+      sputtering), resist ("masked and etched ... in the Ti", p.289 col. 2 to p.290 col. 1), Ti strips (coupling
+      lengths ≈ 500 µm / ≈ 1 mm, p.290 col. 2), curved / straight guide (p.291 col. 1), launching region
+      (Fig. 5 caption), coupling region ("odd multiple of L0", p.289 col. 2), electrodes (2000 Å gold, optical
+      superposition, 1 x 3 mm, 3 µm, p.290 col. 2), central electrode (2000 Å x 2 µm, several mm, fragile),
+      prism (p.290 col. 1), argon 5145 Å (p.290 col. 1), observation (p.291 col. 1), r_zzz sentence, abstract
+      6 V, Fig. 1 caption.
+OK-3  Process values: ~500 Å Ti by rf sputtering; Fig. 4 "Ti (500 Å)"; diffusion in O2 at 1100 °C for about 11 h
+      (text p.290 col. 1; Fig. 4 "1100°C, O", "11 hours"); 2000 Å gold, Fig. 4 "Au or Al (2000 Å)"; superposition
+      masking and ion etching; two 1 x 3 mm electrodes 3 µm apart; about 2 dB/cm TM loss; Marcatili model (strip
+      width, 2 µm thickness, uniform Δn about 5e-3, "rather pragmatic", lateral diffusion).
+OK-4  a / b / c: caption a = 2 µm, b = 3 µm, c = 3 mm. At 6-8x: the left "a" arrows bound the upper (curved)
+      guide, the right "a" arrows the lower (straight) guide near the output; the "b" arrows sit on the lower
+      edge of the upper guide and the upper edge of the lower guide, i.e. b is the edge-to-edge gap as the spec
+      reads it; c spans the dashed region.
+OK-5  Fig. 5 geometry re-measured on the crop (1290, 200)-(2400, 660): guide edges 124/139 and 158/172.5, launch
+      rect x 17-170 y 91-169, output rect x 856-1009 y 128-204, curved-guide open end about (830, 47), straight
+      guide open end (196, 250), observation circle centre (762, 150) r about 61, dashed region x 284-745.
+      Topology right: launching region feeds the upper guide, which bends up and out at the right (curved
+      guide); the lower guide bends in from the lower left and continues straight into the wide region
+      (straight guide). Screens desk_p028 / p048 show the same plan.
+OK-6  Fig. 1 re-digitized: grid columns 68.5, 204, 337, 472.5, 608, 742.5, 876.5 px (269.3 px per L0, report
+      269.61); top / bottom lines 221.5-223 / 527.5-530.5 px (skew as reported). Spot values (mine vs spec):
+      Δβ = 0 at 0.2 0.894/0.89, 0.25 0.829/0.829, 0.4 0.637/0.633, 0.75 0.179/0.18, 1.25 0.188/0.193,
+      1.6 0.618/0.621, 1.75 0.802/0.806, 2.25 0.833/0.831, 2.75 0.186/0.181; Δβ = c√12 at 0.2 0.927/0.922,
+      0.25 0.875/0.875, 0.4 0.748/0.748, 0.75 0.863/0.863, 1.25 0.867/0.863, 1.6 0.745/0.747, 1.75 0.861/0.863.
+      Max deviation 0.006. Only one curve beyond 2 L0 (c√12 printed to 2 L0 only, confirmed at 2.25 and 2.75);
+      the unlabelled horizontal line sits at 0.71-0.72.
+OK-7  Eq. (2) as printed: |E1|^2 = cos^2(sqrt(Δβ^2/4c^2 + 1) c x) + (Δβ^2/4c^2)(Δβ^2/4c^2 + 1)^-1 sin^2(...),
+      Δβ = β1 - β2, ic = k; the spec source string and the module P1() match it. power_eq2 series equal my
+      evaluation to 5e-5 (121 points each, L0 = π/(2c)). c√12 gives Δβ^2/4c^2 = 3, s = 2, minima 0.75 at L0/2,
+      full return at L0, as the paper states. Digitized vs Eq. (2): max 0.052 / 0.034, as in the report.
+OK-8  0 V physics in the animation: light launched into the curved guide, full transfer at L0, back at 2 L0,
+      across at 3 L0 = end of the 3 mm region; exits by the straight guide into the wide region, faint residue
+      in the curved guide labelled as not a measured fraction (desk_p060 zoom; hover text). Matches "most of
+      the guided light is in the initially unexcited guide (straight guide), as would be expected since L0 =
+      1 mm and the actual length of the coupling region is 3 mm".
+OK-9  6 V end state: P1(3 L0, c√12) = 1.000; curved guide carries the light up and out, straight guide and wide
+      region dark (desk_p082, light_p082); matches "switched back to the initially excited guide (curved
+      guide)". Hover states the Δβ at 6 V is not given and that only the output end was observed.
+OK-10 Electro-optic section: C axis normal to the surface (arrow up from the gap, as Fig. 3a); electrodes over
+      each guide extending outward, no central electrode (Fig. 2(b), Fig. 3a, Fig. 4 row 4); three nested field
+      lines from under one electrode, down through its guide, under the gap, up through the other guide; arrows
+      down / up as Fig. 3a; lines starting farther from the gap go deeper (right ordering; near-semicircles
+      about the gap centre, the coplanar-strip picture; schematic like Fig. 3a). Tint direction (field down ->
+      lighter) is consistent with Δn_e = -1/2 n_e^3 r_zzz E_z for r_zzz > 0 on the drawn +c (see M2 for the
+      missing explanation). Polarity / guide mapping unstated and said so in the field_lines detail.
+OK-11 Fabrication order: substrate, sputtered Ti film over the whole surface, resist sheet, exposure, resist left
+      on the pattern, ion etch to the strips, resist removed, diffusion in a furnace tint with the strips sinking
+      into wider channels and a flat surface, then electrodes (I7 for the deposition picture).
+OK-12 Fig. 3a values in the spec (crop (180, 200)-(1300, 680)): surface y 237.5; electrodes 120-400 / 538-815,
+      top 207.5; guides 259-350 / 536-625; C axis x 462; overhang / flush note correct.
+OK-13 Withheld items not drawn: no scale bar or numbers on the model, slab and voltage source plain stand-ins,
+      prism a plain stand-in without dimensions, no bend radii or taper sizes claimed, no light fractions; leads
+      are plain lines to the two electrodes (as accepted in the pilots).
+OK-14 US 4,035,058: Michel Papuchon, Thomson-CSF; filed June 10, 1975; French priority June 14, 1974; granted
+      July 12, 1977; FIG. 1 / FIG. 2 show electrodes 4, 5 outside guides 1, 2 of oppositely polarized
+      ferroelectric material (11, 12), a different device; correctly used as context only, not traced.
+OK-15 Claims: no "first" anywhere in visible text; title_note says the paper makes none. Kogelnik and Schmidt 1976
+      (cached) draws its electrodes "in the COBRA configuration [7]" (text lines 168 / 198), as the reference
+      entry says. Milestone row and tag row agree (1975-09-01, device, LiNbO3, topic "directional coupler switch
+      (Cobra)").
+OK-16 Text budget: 9 keywords of at most 3 words; lines 7-10 words; no numbers in lines; one amber emphasis
+      ("Switched at *6 V*"); one plot chapter; 3 essential dims shown as "Ti strips width 2 µm, gap 3 µm" and
+      "coupling region length 3 mm" (desk_p028, desk_p053).
+OK-17 No internal shorthands in rendered fields: grep of the built JSON finds part ids / frame names
+      (guide_1, fig5_px, ...) only in assembly.pos, notes, geometry and chapter actions, none of which the
+      runtime renders (grep of the showcase components); no era, decision or DevLog codes; locators read
+      "Papuchon et al., Appl. Phys. Lett. 1975, p.xxx col. y". Light theme and phone layouts render the
+      story (light_p069, light_p082, phone_p069, phone_p100), except I8.

@@ -1,0 +1,196 @@
+colladon1842 showcase research report (light guided in a water jet, Colladon 1842)
+================================================================================
+Date: 2026-11-11. Spec: data/history/showcases/colladon1842.yaml (DevLog-017 section 4a schema, runtime fields per
+app/src/lib/history/showcase/types.ts). Renderer: 3d.
+
+Outputs
+- data/history/showcases/colladon1842.yaml        spec (15 parts, 15 assembly rows, 11 chapters, 0 plots, 1 drawing,
+                                                   4 references, 13 withheld)
+- data/history/showcases/drawings/colladon1842-lanature1884.png   La Nature 1884 engraving (owner's copy), 8-bit gray,
+                                                                   569 x 914 px, whole engraving, caption excluded
+- data/history/showcases/traces/colladon1842-lanature1884.json    ipatent TRACE_SCHEMA, hand-built vector drawing,
+                                                                   15 elements, 250 shapes
+- cache/showcases/colladon1842/ (git-ignored): renders/page_01-03.png (300 dpi page renders of the letter, D987
+  ruling 6); dl_cnum/cnum_4KY28.23.pdf (La Nature 1884, 2nd half-year, CNUM scan), the article text, the native
+  figure image, 400 dpi renders of pp.325-326; trace_tools/ (generator, coverage, overlay scripts, full overlay PNG)
+
+1. SOURCES
+----------
+- [C] M. Colladon, "Sur les réflexions d'un rayon de lumière à l'intérieur d'une veine liquide parabolique", letter
+  ("Lettre de M. Colladon", section PHYSIQUE), Comptes rendus hebdomadaires des séances de l'Académie des sciences 15,
+  800-802 (1842). https://archive.org/details/comptesrendusheb15acad. Cached references/colladon1842 (3 pages, manual
+  download; PDF p.1 = journal p.800, p.2 = p.801, p.3 = p.802). Text layer garbled; OCR in text.md; every quote in the
+  spec was read against 300 dpi page renders made for this report (cache/showcases/colladon1842/renders/). OCR
+  misreads checked: "eircule" = "circule" (p.801), "louchir" is printed as such (p.801, = cloud the water). Public
+  domain by age. p.800 top = end of a zoology note; p.802 after the letter = Babinet's note, then organic chemistry.
+  No session date is printed on the three pages. Byline: "M. COLLADON" only, no affiliation.
+- [LN] D. Colladon, "La fontaine Colladon. Réflexion d'un rayon de lumière à l'intérieur d'une veine liquide
+  parabolique", La Nature 12e année, 2e semestre (1884), no. 595 (25 October 1884), pp.325-326, with an introduction
+  signed "G. T." (the 1884 imprint names G. Tissandier as propriétaire-gérant, seen in the 1st half-year volume). CNUM (Conservatoire numérique des Arts et
+  Métiers) record https://cnum.cnam.fr/redir?4KY28.23 ; PDF https://cnum.cnam.fr/PDF/cnum_4KY28.23.pdf (PDF pages
+  336-337 = pp.325-326; issue header "N° 595. - 25 OCTOBRE 188[4]" on p.321, last digit under the library stamp,
+  volume = 1884). Public domain (published 1884). What it fixes:
+    * the engraving "Expérience de la fontaine Colladon." (p.325), signed POYET. G. T.: the apparatus "n'a jamais été
+      représenté"; Colladon "a bien voulu nous communiquer le dessin de son expérience, avec une description faite
+      d'après une note qu'il a autrefois présentée à l'Académie des sciences".
+    * text = the 1842 letter with small changes: "la grosseur et la forme du jet"; "un tube court, horizontal, noirci";
+      the shutter "peut être percé"; added: "On peut encore employer avec avantage une lampe oxyhydrique ou électrique
+      projetant un faisceau de lumière horizontale comme le représente la figure ci-dessus"; coloured glasses between
+      lamp and tube give "toutes les couleurs du prisme"; clouded water: light disperses "dès la sortie du jet";
+      fissures persist "un instant". The priority paragraph is dropped. Vessel still "de un mètre de hauteur".
+- [B] M. Babinet, "Note sur la transmission de la lumière par des canaux sinueux", Comptes rendus 15, 802 (1842),
+  same cached PDF p.3. Context only: on Colladon's communication Arago cited Babinet's experiment (water poured from a
+  carafe in a thin stream, candle at the height of the carafe bottom; light follows the stream by total reflections);
+  Babinet adds bent glass rods. Not used for any part.
+- [MHS] Musée d'histoire des sciences, Genève, booklet "Jean-Daniel Colladon, savant et industriel genevois", local
+  secondary copy cache/literature/secondary/colladon1842_museum_booklet (pp.10-11 = PDF p.7; its p.7 image is a
+  lower-resolution copy of the same La Nature engraving). Says the first experiments used sunlight and later fountains
+  (e.g. Auguste de la Rive's) an electric arc lamp; Opéra de Paris 1853; Glasgow 1888 / Paris 1889 exhibitions.
+  CONFLICT: it says Colladon had "un grand vase de 7 mètres de hauteur" built about 1841; both primary texts print
+  1 m ("de 1 mètre de hauteur", C p.800; "de un mètre de hauteur", LN p.325). Spec uses 1 m; booklet value not used.
+  Its caption "Une lampe à arc alimentée par une pile électrique" is the booklet's reading of the engraving; LN says
+  "lampe oxyhydrique ou électrique" and the spec keeps that.
+- Also found, not used: Wikimedia Commons "DanielColladon's_Lightfountain_or_Lightpipe,LaNature(magazine),1884.JPG"
+  (458 x 737 px, Public Domain Mark; no volume / page given) = same engraving at lower resolution. Jonckheere,
+  "Luminous fountains and fairies" (Univ. Antwerp PDF): secondary, cites Hecht, "City of Light"; no primary values;
+  downloaded once by the fetch tool, deleted.
+- Not found: any patent; any 1841-1842 drawing of the apparatus (LN 1884 states none had been published).
+
+Request log (generic User-Agent, no personal identifiers; no 403 / 429 / anti-bot response):
+- 5 WebSearch queries (La Nature 1884 fountain on CNUM / Wikisource / page number / Hecht citation / CNUM shelfmark).
+- 9 WebFetch: fr.wikisource Livre:La_Nature,_1884,_S1 (404); en.wikipedia Jean-Daniel_Colladon (200); Commons file
+  page (200); Univ. Antwerp PDF (200); archive.org advancedsearch (200, no La Nature 1884 volume); cnum redir?4KY28
+  (200); cnum redir.php onglet=a (404); cnum redir?4KY28.22 (200: 1884 1st half-year, nos. 548-574); cnum redir.php
+  onglet=d (404).
+- 4 curl requests to cnum.cnam.fr (User-Agent "Mozilla/5.0"): HEAD + GET cnum_4KY28.22.pdf (1884 1st half-year,
+  151.6 MB, 41 s; text search found no article: deleted), HEAD + GET cnum_4KY28.23.pdf (2nd half-year, 146.8 MB,
+  38 s; article found at PDF pp.336-337 by text-layer search; index p.429 "Fontaine Colladon (La), 325").
+  Total 18 requests.
+
+2. WHAT THE PAPER FIXES
+-----------------------
+Fixed (basis stated, all Colladon, Comptes rendus 1842):
+- Purpose (p.800): make the shapes of a fluid vein leaving various orifices visible to all students; light the vein
+  from inside, in a dark space; "une des plus belles et des plus curieuses expériences" of an optics course.
+- Vessel (p.800): "vase parallélipédique de 1 mètre de hauteur". THE ONLY NUMBER IN THE LETTER (dates aside).
+- Orifice (p.800): on one face, "un peu au-dessus du fond", an opening taking screw-in diaphragms of different sizes.
+- Jet (p.800): leaves horizontally; title: parabolic vein.
+- Lens (p.800): hole in the opposite wall "sur la même direction", convex lens fitted to it.
+- Tube (p.800): outside the vessel, horizontal, blackened inside, keeps rays oblique to the jet axis out.
+- Room (p.800): darkened room; a shutter pierced with a hole takes the blackened tube.
+- Light (p.800): sunlight sent by a mirror parallel to the tube axis.
+- Path (p.800): rays cross lens and liquid, converge in the orifice; inside the vein they meet the surface at a small
+  enough angle for total internal reflection, again at each new incidence; light circulates "comme dans un canal" and
+  follows all the bends.
+- Visibility (p.800-801): clear water + clean diaphragm edge: vein barely visible though intense light circulates.
+- Escape (p.801): where the vein meets a solid, the light escapes and contact points become luminous; a basin set
+  horizontally gets its bottom lit.
+- Drops (p.801): from a great height or with a diameter of only a few mm, the vein breaks into drops in its lower
+  part; only there does the liquid light up; each rupture point throws out a bright light.
+- Savart vibrating-plate experiments repeatable (p.801); any jet direction can be lit with reflectors (p.801).
+- Precaution (p.801): water at room temperature, so no dew forms on the outer face of the lens.
+- Clouded water (p.801): to see the jet near the orifice (contraction of the vein), cloud the water with solutions or
+  dust; light disperses on leaving the vessel and the vein glows in its upper part.
+- Fissures (p.801): small taps on the vessel near the orifice break the vein in the orifice plane; bright fissures,
+  sometimes persisting down the vein.
+- Dating (p.801-802): see spec title_note. No "first" claim in the letter.
+Assumed (rendering only, each flagged in the spec): vessel inside 300 x 300 mm, wall 10 mm, orifice centre 100 mm above
+  the inner floor, water level 900 mm (head 800 mm, held constant), apertures 10 mm (continuous) and 3 mm (drops
+  chapter, stands for "quelques millimètres"), diaphragm plate 60 mm, lens 80 mm, tube 300 mm x 80 mm bore, shutter
+  panel 1210 x 900 mm, mirror 200 x 200 mm at 270 mm outside the shutter, sun elevation 30 deg from +z, stand 500 mm,
+  basin 500 mm x 120 mm (water 90 mm), drop break-up from mid-path.
+Derived: jet path y = x^2/(4h) (Torricelli efflux, horizontal launch, contraction and friction ignored), reach
+  1290 mm for h = 800 mm and 520 mm drop; lens focal distance in water 315 mm (focus at the orifice); mirror normal
+  (0.707, 0.354, 0.612) = bisector of +x and the reversed assumed sun direction (check: reflected ray = (1, 0, 0)).
+Figure basis (LN 1884 engraving, no scale): open-top box; vessel raised on a pedestal on a table; basin on a stool.
+Withheld: 13 entries in the spec (sizes, level upkeep, apertures, jet numbers, lens data, tube size, mirror / sun,
+  supports, optics angles and index, brightness, fissures, Savart experiment, 1884 lamp and coloured glasses).
+
+3. PLOT DIGITIZATION
+--------------------
+None. The letter has no figure, table or measured value (tag kind = measurement, an observation). No plot was made and
+none invented. The derived jet parabola is geometry for the model, not a plot.
+
+4. GEOMETRY FOR THE MODEL, DRAWING AND TRACE
+--------------------------------------------
+Coordinates (mm): origin = orifice centre on the vessel's outer face; +x = jet direction; +y = up.
+- vessel outer box x [-320, 0], y [-110, 890] (1000 tall), z [-160, 160]; inner floor y = -100; water to y = 800.
+- diaphragm at the origin on the +x face; lens centre (-315, 0, 0); tube x [-620, -320]; shutter plane x = -630
+  (20 thick, hole 86); mirror centre (-900, 0, 0); stand y [-610, -110]; floor y = -610.
+- jet y = -x^2/3200 for x in [0, 1290]; basin centred (1290, -610, 0), water surface y = -520.
+Drawing: La Nature 1884 p.325 engraving, from the owner's copy (his blog collage image, cached as
+  cache/showcases/colladon1842/blog/photonics_history_cover.png, 2702 x 1582 RGBA; the engraving is its left column).
+  Crop in the collage: x 25-593, y 133-1046 inclusive (569 x 914 px; coordinator's ink-profile bounds of the full
+  engraving, file cache/showcases/colladon1842/blog/colladon_engraving_full_25_133_594_1047.png shipped as is) = the
+  whole engraving inside its own frame line, with the whole jet down to the basin, the basin and its stool; caption
+  line "Expérience de la fontaine Colladon." excluded, no neighbouring panel; no rotation (the border leans about
+  0.3-0.5 deg; kept as printed). Mode: 8-bit grayscale (not quantised), 352 KB. Replaces the earlier 1-bit threshold (50) of the CNUM embedded figure image
+  (CNUM PDF page 336, xref 4067, 1079 x 1778 px, still cached as dl_cnum/lanature1884_p325_fig_native.png): at 1:1 the
+  1-bit version blew out the lens, beam cone and basin water to flat white and broke the dark ground into speckle; the
+  owner's copy is tonal and clean, at 0.54x the linear resolution of the CNUM image (border interior about 556 x 903 px
+  vs 1035 x 1688 px).
+Trace method (owner override 2026-11-11, replaces the edge-map trace): hand-built vector drawing measured from the
+  engraving, object by object, not traced from pixels. Coordinates = px of this 569 x 914 file, read off zoomed grids
+  (10 px) of the engraving; the jet centreline from the lit-pixel centroid per column (x 333-420) and per row (y 260-725),
+  orifice (320, 240) to the pool (452, 768). Each object is a set of clean outlines in perspective (vessel box with its
+  open top and right side face, water line, lens in its mount with the lit tube end, pierced orifice fitting, beam cone
+  with converging rays, pedestal with fluted shaft, bell and notched foot ring, table top / slab / apron / two legs,
+  bowl, rim and pool with radiating light, stool, lamp house with framed front, chimney with ribbed dome, fluted column,
+  four legs, slotted base plate, flange and tube, supply wire); volume by a few controlled hatch fills (pattern hatch,
+  hw 0.35-0.45) on the side faces, apron, legs, bowl and water face; background = a plain 8 % tone on the wall
+  (no traced texture) and ruled floor boards. Painter's order, objects filled with the page colour so nearer parts hide
+  farther ones. Generator and renderer scripts outside the repo.
+  Theme scheme (runtime has two colours, ink and page, swapped between themes, so tone alone inverts in one theme):
+  light is drawn in line language, not by luminance alone. Jet = solid ink core inside a page-colour channel; pool =
+  radiating ink rays on two faint 8 % glows with a solid impact spot; beam = converging rays; lit surfaces = page fill
+  with sparse ink lines. Dark theme (default): jet and rays bright on a dark ground, as in the engraving. Light theme:
+  the jet reads as a dark inked stream in a white channel, the pool white with dark rays, objects white on the tinted
+  wall. Checked side by side with the engraving in both themes at 0.6x, 0.8x, 1x, 2x, 3x, plus hover highlight of
+  vessel and of table + pedestal.
+  Elements and refs (word refs, mapped by drawings[].numerals; shapes): vessel (vase, 17), water (eau, 5), lens
+  (lentille, 9), diaphragm (orifice, 6), beam (faisceau, 7), jet (veine, 19: page-colour channel and solid body in
+  short pieces so hover boxes stay small, plus the centreline as the hover line), basin (bassin, 38), pedestal (support,
+  38) + table (support, 14) -> stand; unlinked: wall (1), floor (13), lamp (1884 light source, 70), stool (10),
+  frame (2, double printed rule), signature POYET (1). 15 elements, 250 shapes, stroke 1.2.
+Coverage (sanity number only; success test was the side-by-side look): Canny edges of the engraving (sigma 2.5,
+  thresholds 0.06 / 0.12, components >= 60 px, border band excluded) within tol of drawn ink of the light-theme render:
+  57.6 % at 2 px, 68.5 % at 3 px, 74.8 % at 4 px. Expected below a pixel trace: wall stipple, hatching texture and
+  small engraved details are deliberately not drawn.
+
+5. CHAPTER SCRIPT RATIONALE
+---------------------------
+Order follows the letter: apparatus (vessel, diaphragm, jet, lens and tube), then the darkened room and sunlight, then
+the optics (convergence in the orifice, total reflection along the jet), then the three observations the letter
+reports: light escaping into the basin with the clear jet barely visible, drops lighting up (thin jet), and clouded
+water making the upper jet glow. Physics checks for the builder:
+- the room goes dark before sunlight enters; the beam is parallel outside, converges inside the water to the orifice;
+- in clear water the jet must stay faint while the basin bottom lights (the letter's main observation); the glowing
+  jet only appears in the clouded-water chapter, brightest at the orifice and fading downstream;
+- drops: only the broken lower part lights, each rupture flashes; upper continuous part dark;
+- rays in the jet are schematic, at glancing incidence, reflecting at each incidence and following the curve;
+- the jet path does not change with lighting; level held constant (assumed).
+Essential on-canvas dims: only the vessel height (1 m) is sourced; the story has 1 essential dim instead of 2-4
+(see open questions). One amber emphasis: "*Total reflection*". No numbers in lines except "one metre".
+Light source: sunlight per the letter (DevLog idea mentioned the arc lamp; the lamp is an 1884 addition, kept to the
+drawing pane, the beam part detail and withheld).
+
+6. OPEN QUESTIONS FOR THE COORDINATOR
+-------------------------------------
+1. Only one sourced dimension exists (vessel height 1 m). Accept a single essential dim, or add none?
+2. The drawing shows the 1884 lamp-lit set-up (lamp, table, pedestal, stool), not the 1842 sunlight one. Spec links
+   the shared parts and leaves the lamp unlinked, caption source "later lamp-lit version". Alternative per the D1008
+   pattern: a closing "what came next" chapter with the lamp and coloured glasses from La Nature 1884 (owner call).
+3. Assumed scale (head 800 mm, stand 500 mm -> 1.29 m reach, wider than the vessel is tall). A lower assumed head
+   shortens the arc if framing needs it; values are flagged assumed either way.
+4. Closed: the shipped drawing is the owner's copy of the engraving (his blog image) with a hand-built vector
+   drawing over it; the CNUM 1-bit crop is no longer used, so the CNUM reuse question does not arise.
+5. Answered: Play with 12 chapters ran about 43 s; "Drops" and "Clouded water" were merged into one closing chapter
+   "Drops and dust" (11 chapters, height 9, Play about 40 s with the runtime pacing).
+Builder note (fix pass): the 1884 engraving draws the orifice about 0.39 of the vessel height up and the water level
+   about 0.72 (head about 0.33 of the height); the model's assumed level 900 mm / head 800 mm (D1016) gives a flatter,
+   longer arc than the drawing's; both are noted in the spec dims.
+6. Milestone row and tag row agree with the story (event, page locators, vessel 1 m, sunlight, mirror, dark room;
+   tag kind measurement, material water, topic "light guided in a water jet"). Kind "device" would also be defensible
+   (the letter describes an apparatus); no change requested. Session date: not on the cached pages (row date empty is
+   consistent).
+7. Museum booklet "7 mètres" contradicts both primary texts; noted, not used.

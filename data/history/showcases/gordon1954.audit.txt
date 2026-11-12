@@ -1,0 +1,266 @@
+gordon1954 (ammonia maser) showcase audit (fresh context, read-only, 2026-11-11)
+================================================================================
+
+Scope: data/history/showcases/gordon1954.yaml (+ report.txt), DevLog-017 D1018 (and D995 / D998 / D1005 / D1006),
+skill history-showcase; app/src/lib/history/showcases/gordon1954.ts; app/static/data/showcases/gordon1954.json (built
+spec; field-by-field identical to the YAML, checked by script); runtime pieces the story uses (LevelsDiagram.svelte,
+ShowcaseStory.svelte label / tooltip code, PartPanel.svelte, progress.ts partTipLines); trace
+traces/gordon1954-fig4.json + drawings/gordon1954-fig4.png; sources references/gordon1954/ (img_p02_1.png 5220 x 6746 =
+p.283, page_02.png, text.md), cache/showcases/gordon1954/US2879439.pdf (7 image pages rendered myself with PyMuPDF);
+builder screenshots scratchpad gordon1954/build/shots (sheet1-3, psheet1-2, lsheet, esheet, isheet, desk_p0020,
+p0230, p0280, p0360, p0440, p0660, p0800, p1000).
+Method: Fig. 1 and Fig. 3a-d cropped from img_p02_1.png and read at 1-6x; Fig. 3b, 3c, 3d re-digitized independently
+(numpy, stroke centre per column, median over 5-7 columns; scripts dig3b.py, dig3b2.py and inline reads); Fig. 3a
+line positions and heights re-read with tick-mark calibration; patent columns 2-5 read at the gutter line numbers
+(p3, p4, p5 renders), FIG. 4 / 5 / 6 read on sheet 1; module geometry recomputed from the spec profile (clear
+radius, gaps) and from frame(p) (focusing crossover, guide offsets). Scratch: session scratchpad gordon1954_audit/.
+No app run, no network, no git.
+
+VERDICT: GO after small fixes (M1-M4, I1-I3); no WRONG items. Sources, quotes, column:line locators, the Fig. 3b /
+3c / 3d digitization, the V / O topology, the beam physics (upper state focused, lower defocused, emission only
+inside the cavity, sin(pi x / L) envelope, flow directions in the guides, input fading while output stays) and the
+text budget are right. Open: three unlabelled illustrative choices (force asymmetry, emitting share, wave-stripe
+spacing / cut-aways), a hover that shows 23 870 Mc/sec on the oscillator, and Fig. 3a calibrated on label glyphs
+although the figure prints tick marks (main line plotted at -0.049 on an axis titled "from the main line").
+
+Counts: wrong 0, imprecise 11, missing 5, ok 22.
+
+----------------------------------------------------------------------------------------------------------
+WRONG
+----------------------------------------------------------------------------------------------------------
+
+(none)
+
+----------------------------------------------------------------------------------------------------------
+IMPRECISE
+----------------------------------------------------------------------------------------------------------
+
+I1. Fig. 3a calibrated on label glyphs; the printed tick marks put the main line at 0
+  file:     yaml lines 306-311 (spectrum_a note: "On the printed labels the main line sits at about -0.05
+            Mc/sec (label placement)"), 317-327 (bars / points); report.txt lines 109-114, and line 96 ("No tick
+            marks printed" for panel b).
+  current:  label-glyph fit 0 -> 405.0, 1 -> 545.5, 2 -> 694.5 crop px (144.75 px per Mc/sec); points
+            [-2.429, -2.377, -1.745, -0.118, -0.049, 0.020, 1.647, 2.307, 2.352].
+  proposed: calibrate on the tick marks printed under the axis: x_Mc = (px - 397.5) / 146.75 (crop px, crop
+            origin (2610, 4200)). Line centres then: -2.354, -2.303, -1.680, -0.075, 0.000, +0.058, +1.666,
+            +2.317, +2.361 Mc/sec (heights unchanged: 0.037, 0.081, 0.096, 0.092, 1.0, 0.088, 0.088, 0.096,
+            0.044). Drop the "-0.05 Mc/sec (label placement)" sentence (the "0" glyph sits 7 px right of its
+            tick; the main line is on the tick). Report: panels b, c, d also print ticks (b at 219, 581.5, 950.5,
+            1316.5, 1682 px; c at 252.5 / 618; d at 1279 / 1647.5); against those ticks the b / c / d points
+            shift by at most 0.6 / 0.5 / 1.3 kc/sec, below a stroke width, so they need no change, only the
+            report wording.
+  evidence: img_p02_1.png, crop rows 314-320 below the panel-a axis (axis rows 306-312): tick runs at x 396-399,
+            543-546, 690-693 (spacing 147 / 146.5 px); "0" glyph rows 324-344 spans x 393-416 (centre 404.5),
+            "1" 542-548, "2" 685-703. Main line at x 396-399 = the 0 tick. Tick-calibrated positions agree with
+            panel c (inner satellites 1669-1697 kc/sec: 1.666 / -1.680) and panel d (tall cluster 2286-2324,
+            small lines 2354 / 2368: 2.317 / 2.361) better than the current values relative to the main line
+            (2.356 / 2.401).
+
+I2. Fig. 3a drawn as bars: stems are truer (builder question)
+  file:     yaml lines 313-327 (series bars from / to).
+  current:  filled bars 0.03-0.07 Mc/sec wide; the widths are the printed stroke widths (3-5 px), not line widths.
+  proposed: `style: stems` with the tick-calibrated centres of I1 as points, no bars, no cap; keep the line names
+            in the note (they are already there). The figure is a stick spectrum of single strokes.
+  evidence: Fig. 3a at 6x: nine single vertical strokes of uniform width on the axis (fig3a.png); D1102 stems
+            exist for exactly this case.
+
+I3. Input guide: spec position disagrees with the module and with both figures
+  file:     yaml line 250 (assembly input_guide pos [376, 0, 0], "exact offset assumed"); module lines 165, 469-471
+            (inBase = -cavRo overrides y).
+  current:  guide centre x 376: its upstream wall spans x 372.5-373.5, a 2.5 mm gap behind the cavity end cap at
+            x 370 (visible as a dark gap in desk_p0660); y from the spec (0) ignored by the module, which starts the
+            guide at the cavity bottom (-9.12).
+  proposed: pos [373.5, -9.1, 0] (upstream guide wall flush on the cavity end wall), basis figure, locator "shares
+            the cavity's downstream end wall and runs from the cavity bottom up out of the chamber: letter Fig. 1,
+            US 2,879,439 FIG. 4"; module reads both from the spec.
+  evidence: letter Fig. 1 (img_p02_1.png crop 1900-2450 x 750-1450): the INPUT GUIDE's left wall is the cavity's
+            right wall (gap = coupling hole), its right wall drops to the cavity bottom line. FIG. 4 (drawing crop
+            x 905-935): guide 419 runs down along the end wall to the cavity bottom (y about 415).
+
+I4. "the beam oscillates"
+  file:     yaml line 263 (oscillation line), line 15 (tagline "... emits in a cavity and oscillates").
+  current:  "Emitted power holds the field; the beam oscillates."
+  proposed: "Emitted power holds the field; oscillation needs no input." (9 words); tagline "A state-selected
+            ammonia beam emits in a cavity; the device oscillates, 1954." The letter: "self-sustained
+            oscillations will result. Such oscillations have been produced" (p.283 col. 1); the oscillator is beam
+            plus cavity, not the beam.
+
+I5. Focuser gaps / clear radius in the panel are the printed electrodes, not the model
+  file:     yaml lines 61-62 (dims 3.1-4.5 mm, 4.8-5.7 mm); module line 520 (RCLEAR = 5.2).
+  current:  the model mirrors the one upper-left profile: neighbour gaps 4.06 mm (horizontal) / 4.74 mm
+            (vertical), clear radius 5.85 mm (computed from profile_mm_upper_left).
+  proposed: add to the two dims a note "model mirrors the upper-left electrode: gaps 4.1 / 4.7 mm, clear radius
+            5.8 mm"; set RCLEAR from the profile (5.85) or leave and say nothing on canvas (it is not shown).
+
+I6. Lower-state fade in the focuser is not gated by the voltage
+  file:     module line 912 (`if (!m.up && x <= XF1 + 30) a *= 1 - fPres * seg(hypot(y, z), RCLEAR, RCLEAR + 3)`).
+  current:  in the focuser chapter (voltage off, straight flight) lower-state particles that drift past the clear
+            radius dim, upper-state ones on the same paths do not: a state difference before the field is on.
+  proposed: multiply that term by V (as line 913 already does), or apply the same radial clip to both states
+            while V = 0.
+
+I7. Stream runs under the levels plot during the camera move into the state-selection chapter
+  file:     module line 880 (xEnd = 258 mm with the focuser in place and no cavity), SHOTS.select.
+  current:  desk_p0360: particles reach x about 605 px, under the "Energy (schematic)" axis label (x 570) and up
+            to the plot axis (x 614); settled frames (desk_p0440) end at 548 px.
+  proposed: in plot chapters end the stream at XF1 + 10 (or fade it until the shot has settled), so beams end
+            before the plot panel (skill composition rule).
+
+I8. Patent locator off by one line
+  file:     yaml line 179 (upper_state detail: "is proportional to the radius. The energy ... increases with the
+            radius" (col. 5:16-19)).
+  proposed: col. 5:17-19 (line 16 is "distribution in the region between the electrodes in which"; line 17
+            starts "the electric field is proportional to the radius").
+
+I9. Pump connection position
+  file:     yaml line 252 (pump_port pos x 330 = 0.67 of the cavity length).
+  current / proposed: FIG. 4 draws 418 under the downstream end of the cavity and the input guide (pipe centre
+            about 0.83 of the cavity length from the entrance, crop x 840-922 vs cavity 765-905); x about 350 would
+            match. Cosmetic (size and shape assumed anyway).
+
+I10. Timeline and story disagree on "first"
+  file:     app/static/data/history.json milestone gordon1954 `significance` ("First report of the ammonia-beam
+            maser oscillator ...; basis of Townes's 1964 Nobel share") vs yaml title_note ("The letter makes no
+            'first' claim").
+  proposed: route to the milestone owner: drop "First" (and the Nobel clause unless a cited source is added), or
+            cite a source. Not a story file; the skill requires story and timeline to agree.
+
+I11. Split bracket hover area narrower than its label (runtime, minor)
+  file:     LevelsDiagram.svelte line 80 (hit rect width 70).
+  current:  the label "23 870 Mc/sec" is about 78 px wide (desk_p0440 x 1043-1121) and starts 9 px right of the
+            bracket, so "Mc/sec" is not hoverable; the bracket is. Bracket text and tooltip do carry the unit and
+            locator ("23 870 Mc/sec (printed)", "stated, Gordon, Zeiger, Townes, Phys. Rev. 1954, Fig. 2 caption
+            (p.283) ..."), so the string value '23 870' is fine (builder question).
+  proposed: size the hit rect from the label (or 110 px). Runtime owner.
+
+----------------------------------------------------------------------------------------------------------
+MISSING
+----------------------------------------------------------------------------------------------------------
+
+M1. Outward force drawn much stronger than the inward force, unlabelled
+  file:     module lines 518-519 (KU = 1.4 / L, KL = 3.5 / L), 913 (lower states also faded from 0.6 L on);
+            yaml line 193 (lower_state detail), 179 (upper_state detail).
+  current:  rate constant 2.5x, so the drawn outward force constant (kappa^2) is 6.25x the inward one; neither
+            source gives magnitudes, and the patent describes the two states symmetrically ("energy ... in an upper
+            inversion state increases with the radius while that of ... a lower inversion state decreases",
+            col. 5:17-20). The upper-state rate is itself chosen (crossover at x about 255 mm, just inside the
+            entrance hole).
+  proposed: add to the lower_state detail: "Drawn: the outward push is drawn stronger than the inward one, and
+            the few lower-state molecules near the axis are faded out, so that none reach the cavity
+            ("virtually all in the upper states"); neither source gives the size of the forces." Upper_state:
+            "focusing strength chosen to bring the beam onto the entrance hole (illustrative)". Keep the
+            animation.
+
+M2. Share of molecules that emit (up to 0.45) unlabelled
+  file:     module line 857 (F = 0.45 e); yaml line 179 (upper_state detail says count and spread are
+            illustrative, not the emitting share).
+  proposed: upper_state / output_wave detail: "The share of molecules drawn turning blue in the cavity (up to
+            about half) is illustrative; the letter gives no transition probability."
+
+M3. Wave stripes and cut-aways unlabelled
+  file:     module line 276 (uLam 14 mm stripe period), 461 (guides without their near wall), 413-431 (cavity lid
+            sector fades); yaml lines 166, 152, 217, 121.
+  current:  stripes every 14 mm in both guides read like a wavelength (free-space wavelength at 23 870 Mc/sec is
+            12.6 mm; guide wavelength in a 10 mm wide guide would be longer); guides and cavity drawn open on the
+            camera side without a word (precedent: D1006 counted an unlabelled drawn wavelength as missing).
+  proposed: input_wave / output_wave detail: "Stripes show the direction of the power flow; their spacing is
+            illustrative, not the guide wavelength." Cavity, output_guide, input_guide detail: "Drawn cut open on
+            the near side to show the inside (the patent's FIG. 4 is likewise partly in section)."
+
+M4. Hovering the emission in the oscillation chapter shows 23 870 Mc/sec
+  file:     yaml line 236 (output_wave essential dim "3,3 line 23 870 Mc/sec"); progress.ts partTipLines (tooltip
+            lists essential dims); module pick() lines 954-973 (returns a plain id).
+  current:  chapter labels are empty in the oscillation chapter (no canvas label, right), but the hover tooltip
+            of "Emission" there reads "J = K = 3 inversion line: 23 870 Mc/sec", i.e. it attaches the frequency to
+            the oscillator, which the letter does not (withheld item, yaml line 418).
+  proposed: in pick(), for p >= C.oscillation[0] return {id: 'output_wave', label: 'Emission', detail: 'Oscillator:
+            the letter does not say on which line it ran; 23 870 Mc/sec is the 3,3 line of Figs. 2-3'} (D1102
+            pick detail).
+
+M5. "High voltage on one diagonal" is not visible
+  file:     yaml line 258 (focuser chapter: labels [], action "end-on view shows V / O on alternate diagonals");
+            module ANCH lines 944-947 (anchors only for cavity and output_wave).
+  current:  desk_p0280: four grey electrodes end-on; V and O differ only by a slight shade (#b8bcc4 / #8f949c); no
+            mark says which pair carries the voltage. Camera at az 76 looks upstream, so the picture is the mirror
+            of the letter's / FIG. 6 view (V upper-left looking downstream): fine in 3D, but a reader comparing
+            with the drawing sees V upper-right.
+  proposed: chapter labels [focuser_hv, focuser_ground] with anchors on the end face of one electrode of each pair
+            (focuser_ground essential: true as a part flag, no dims), short names "V (high voltage)" / "O
+            (ground)"; or a stronger tint on the V pair stated in hover.
+
+----------------------------------------------------------------------------------------------------------
+OK (verified)
+----------------------------------------------------------------------------------------------------------
+
+OK-1  Letter quotes (8) against p.282-283: source sentence, focuser field sentence, upper / lower force sentences,
+      "virtually all in the upper states", "Power of varying frequency is transmitted through the cavity ...
+      klystron frequency goes through the molecular transition frequency", copper TE011 cavity, sin(pi x / L)
+      with x from 0 to L, "twelve centimeters long", 4 x 10^4 cm/sec, 1.2 v/L = 4 kc/sec, 6-8 kc/sec (p.282
+      "six to eight kilocycles" and p.283 col. 2), "Such oscillations have been produced", about 10^-8 watt not
+      measured, amplifier, "these new magnetic satellites", received May 5, 1954, Columbia affiliation.
+OK-2  Fig. 2 caption "J = K = 3 inversion line at 23 870 Mc/sec ... Frequency increases to the left" (p.283 and the
+      separate p.4 copy); Fig. 3 caption (a)-(d) wording and the mirror-image sentence; Fig. 3 axes increase to
+      the right ("kc/sec" arrows), as plotted.
+OK-3  Patent column:line locators re-counted on the page renders against the printed gutter numbers: col. 2:44-45
+      ("These latter molecules are diverted"), col. 3:10-13 (FIG. 4 caption), 3:14 (FIG. 5), col. 4:46-48
+      ("using ammonia gas"), 4:48-50 (10^-3 mm Hg, apertures 45, chamber 417), 4:50-52 (418, 10^-4 mm Hg),
+      4:53-54 (423, 424), 4:54-56 (leads 426, 427), 4:56-57 (2 cm, 20 cm), 4:58 (4 mm), 4:59 (20-30 kV),
+      4:60-61 (FIG. 6 shape), 4:64-67 (liquid air, condense), col. 5:24-26 (beam 412, aperture 413, cavity 414),
+      5:27-30 (0.6 in, five inches, sliding end), 5:31-32 (0.4 in), 5:35-37 (input waveguide 419), 5:37-39
+      (output guide 421 emission line), 5:44-46 (mica windows 419, 421). All right except I8.
+OK-4  Patent front matter: C. H. Townes, New York, N.Y.; application January 28, 1958, Ser. No. 717,290; 10 claims;
+      patented March 24, 1959; no assignee printed.
+OK-5  V / O topology: letter Fig. 1 FOCUSSER X-SECTION V upper-left, O upper-right, O lower-left, V lower-right;
+      FIG. 6 same, V pair wired to the arrow (source), O pair to ground; FIG. 4 423 (upper, an O) to ground lead
+      427, 424 (lower, a V) to 426 "TO VOLTAGE SOURCE". Module EL table and lead placement (up from the
+      upper-right O, down from the lower-right V) match; numerals 423 -> focuser_ground, 424 -> focuser_hv right.
+OK-6  FIG. 5 orientation: section 5-5 arrows point upstream in FIG. 4, so FIG. 5 is viewed looking upstream;
+      module maps drawing x -> world -z (right-handed check: right = forward x up = -z). Hole pattern placed
+      correctly.
+OK-7  Fig. 3b re-digitized independently (27 off-main columns, median of 7, stroke centre): all within 0.002 of
+      the spec (e.g. -69: 0.124 / 0.124, -63: 0.109 / 0.110, 62: 0.120 / 0.120, 71: 0.125 / 0.125, 76: 0.042 /
+      0.042); baseline feet 0 vs 0.006 (stroke on the axis). Main-line flanks at v = 0.2 / 0.5 / 0.8: -6.51 /
+      -5.76 / -4.87 and 5.48 / 4.39 / 3.15 kc/sec vs spec -6.4..-6.6 / -5.6..-5.8 / -4.9..-5.0 and 5.45-5.49 /
+      4.32-4.59 / 3.08-3.22. Half-height width 10.15 kc/sec (report 10.1). Peak at about -0.8 to -1.2 kc/sec on
+      either calibration (note right). Sampling 1 kc/sec off the line (1/200 of the span), flanks per row: dense
+      enough, steep parts not interpolated.
+OK-8  Fig. 3c re-read at 9 points: within 0.01 (1677.5: 0.924 / 0.924, 1682.5: 0.662 / 0.659, 1688: 0.997 /
+      0.995). Fig. 3d at 13 points after normalizing to the 147 px peak: within 0.01 (2294: 0.853 / 0.854,
+      2311: 0.544 / 0.543, 2317.5: 1.0 / 1.0, 2353.5: 0.174 / 0.174).
+OK-9  Fig. 3a heights re-read: 0.037, 0.081, 0.096, 0.092, 1.0, 0.088, 0.088, 0.096, 0.044, identical to the spec.
+OK-10 Physics of the focuser: upper inversion state (the higher level in the levels plot) focused (harmonic,
+      cos / sin), lower defocused (cosh / sinh), matching the letter and patent col. 5:17-23; no focusing before
+      the voltage (V = 0 until select q 0.06); upper-state crossover about 25 mm after the focuser exit, at the
+      cavity entrance; upper-state radius at the far end of the cavity at most 0.8 r0 (inside the 7.6 mm bore).
+OK-11 Emission only inside the cavity: `emitted` requires cavOn and x > xc with xc in 0.25-0.75 of the cavity;
+      molecules change colour only there and fade before the far end cap (withheld: beam after the cavity).
+OK-12 Field glow follows sin(pi u) along the cavity, zero at both ends (shader mode 0); radial pattern not drawn
+      and withheld as such.
+OK-13 Flow directions: input stripes travel down into the cavity (mode 1), output stripes up and out (mode 2);
+      output guide on top at 0.25 of the length (letter 0.21-0.22 measured, patent 0.27), input guide at the far
+      end (but see I3).
+OK-14 Spectrometer chapter: klystron offset = plot pen x; emission e = digitized Fig. 3b value under the pen
+      (pen() mirrors plot.ts staggerK); output = transmitted klystron power + emission; the pen never passes
+      +100 kc/sec (the measured range).
+OK-15 Oscillation chapter: input fades to zero while field and output stay; no canvas label and no frequency in
+      the line or keyword (hover caveat: M4).
+OK-16 Levels plot: schematic axis (scale none), upper above lower, split bracket labelled "23 870 Mc/sec" with
+      unit, hover "(printed)" + basis + locator; note says not to scale and not a printed figure.
+OK-17 Cavity size check: TE011 at 23 870 Mc/sec with L = 12 cm needs D = 15.34 mm (re-derived), consistent with
+      the patent's "about 0.6 inch"; patent values labelled as patent values with column:line throughout.
+OK-18 Rulings D1018 applied: two essential dims (cavity length 12 cm, 3,3 line 23 870 Mc/sec); focuser length in
+      hover / panel only; no derived 4 kc/sec alternate (width note kept); one drawing (FIG. 4); title note
+      for "maser".
+OK-19 Text budget: 8 keywords of at most 3 words; lines 8-10 words; one amber emphasis ("*23 870 Mc/sec*"); 2 plot
+      chapters (levels, spectrum) with 3a / 3c / 3d as alternates; numbers in lines only "1954" and the mode
+      name.
+OK-20 Notation and shorthands: no raw `_` / `^` in any rendered string of the built JSON (script walk over all
+      non-geometry fields); paper ids appear only as reference keys and file names, which the runtime does not
+      render; no era, decision or DevLog codes in viewer-facing text.
+OK-21 Trace: 41 elements, refs 43 / 412-427 linked through the numerals map to the right parts; drawing crop
+      matches sheet 1 FIG. 4; caption and caption locator (col. 3:10-13) right.
+OK-22 Screens: desktop, phone, light theme and explode frames render all chapters; labels inside the pane; plot
+      chapters frame the model in the left half (except the transition in I7); chamber and pump faded in plot
+      chapters.
+
+Sources not checkable offline: the 1955 Phys. Rev. 99, 1264 title / dates (not cached; used only for the name).

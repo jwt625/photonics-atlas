@@ -100,6 +100,56 @@ def write_figure(src: Path, dst: Path) -> None:
     pix.save(str(dst))
 
 
+# Spec text the runtime shows; a bare ^ or a word_character subscript there renders literally (D1106). Ids, file names,
+# URLs and part-id lists are not shown and are not checked.
+_SHOWN = {
+    "name",
+    "role",
+    "detail",
+    "quote",
+    "locator",
+    "material",
+    "label",
+    "label_short",
+    "keyword",
+    "line",
+    "note",
+    "caption",
+    "title",
+    "tagline",
+    "title_note",
+    "cite",
+    "used_for",
+    "what",
+    "reason",
+    "unit",
+    "source",
+    "legend_note",
+}
+_RAW = re.compile(r"\^(?!\{)|(?<=[A-Za-z0-9)])_(?!\{)(?=[A-Za-z0-9])")
+
+
+def raw_markup(node: Any, path: str = "") -> list[tuple[str, str]]:
+    """(path, context) of raw ^ / _ markers in shown text fields of a showcase spec."""
+    hits: list[tuple[str, str]] = []
+    if isinstance(node, dict):
+        for k, v in node.items():
+            sub = f"{path}.{k}" if path else str(k)
+            if k == "geometry":
+                continue  # render geometry for the module, never shown as text
+            if isinstance(v, str) and k in _SHOWN:
+                # units may use the exponent shorthand cm^-3 / cm^2 (the runtime renders it)
+                txt = re.sub(r"\^-?\d+", "", v) if k == "unit" else v
+                for m in _RAW.finditer(txt):
+                    hits.append((sub, txt[max(0, m.start() - 12) : m.end() + 12]))
+            else:
+                hits.extend(raw_markup(v, sub))
+    elif isinstance(node, list):
+        for i, v in enumerate(node):
+            hits.extend(raw_markup(v, f"{path}[{i}]"))
+    return hits
+
+
 def load_showcases(root: Path = ROOT, log: RunLog | None = None) -> dict[str, dict[str, Any]]:
     """Showcase specs by id (DevLog-017 section 4a). Light checks only (the specs are under active research): a spec
     must be a mapping with `chapters`; its id defaults to the file stem; chapter ranges out of [0, 1], unordered or
@@ -136,6 +186,9 @@ def load_showcases(root: Path = ROOT, log: RunLog | None = None) -> dict[str, di
                     )
             if rng:
                 prev = max(prev, rng[1])
+        if log:
+            for path, frag in raw_markup(spec):
+                log.info(f"showcase {sid}: raw markup in {path}: ...{frag}... (write ^{{...}} / _{{...}})")
         out[sid] = spec
     return out
 

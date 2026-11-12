@@ -1,0 +1,244 @@
+hayashi1970 (continuous room-temperature DH laser) showcase audit (fresh context, read-only, 2026-11-11)
+====================================================================================================
+
+Scope: data/history/showcases/hayashi1970.yaml (+ report.txt), DevLog-017 D1017 (and D995 / D998 / D1005 / D1006),
+skill history-showcase; app/src/lib/history/showcases/hayashi1970.ts; app/static/data/showcases/hayashi1970.json;
+drawing data/history/showcases/drawings/hayashi1970-fig6a.png + traces/hayashi1970-fig6a.json; runtime pieces the story
+uses (showcase/Rich.svelte, plot.ts markup(), trace.ts, PartPanel.svelte); sources references/hayashi1970/
+(img_p02_1.png = p.109, img_p03_1.png = p.110, img_p04_1.png = p.111, text.md), cache/showcases/hayashi1970/
+US3758875.pdf (text layer read for col. 7-9), references/alferov1970/text.md; builder screenshots
+scratchpad/hayashi1970/shots/ (desk_p*, phone_p*, light_p*, i_*).
+Method: Fig. 1, Table I, Fig. 2, Fig. 3 and p.110 col. 1-2 cropped from the page renders and read at 1-4x; Fig. 2
+axis ticks re-found by ink-run search, all 11 dc circles re-located (hollow-interior centroids), 9 columns and 5 rows
+of both curves re-read; Fig. 3 y ticks, both scale bars, the three peak arrows re-measured, 9 columns re-read and the
+two largest digitization gaps read column by column; trace rendered beside the scan and the app's drawing pane
+compared at equal height (side_app.png); module frame(p) / lightAt / leads / holderDx read line by line. Scratch:
+session scratchpad hayashi1970_audit/ (f2cal.py, f2tick.py, f2col.py, circ.py, f3bar.py, f3col.py, f3gap.py,
+rtrace.py, side_app.png). No app run, no network, no git.
+
+VERDICT: NO-GO as is; GO after W1-W2 (both module / hover edits, no sourced value changes). Sources, quotes, Table I,
+both digitized plots, the Fig. 3 energy calibration, the LPE order, slide and hydrogen directions, the p-side-down
+mount topology and the FIG. 6A trace are right. Wrong: the model shows no light at all below the 0.81 A bend, where
+Fig. 2 plots a large, linearly rising output (about 108 of the 183 units at 0.80 A); and the 311 K chapter quotes a
+297 K Fig. 2 operating point, mislabelled as a plotted point.
+
+Counts: wrong 2, imprecise 8, missing 1, ok 16.
+
+Coordinator questions (D1017 audit brief), short answers:
+ 1 Below-threshold light: Fig. 2 plots no "low" level: dc light rises linearly from 0 to 107.9 units at the 0.802 A
+   circle (59 % of the 182.65 where the drawn curve leaves the frame). Animate a glow at min(L, L_bend) / L_end from
+   the pen and a beam only past the bend (W1).
+ 2 p lead: the paper (p.110 col. 1) names no lead and Fig. 1 is the growth apparatus; neither "leads_to cu_block"
+   (spec) nor "lead on the Cr-Sn coating" (module) is stated. The module's choice is the physical one; make the spec
+   agree and label the landing point as assumed (I2, M1).
+ 3 Thicknesses 3.5 / 1.0 / 1.5 / 1.5 µm at 5x match Table I (3-4, ≲1, ~1.5, ~1.5) with the bound / midpoint labelled;
+   well order 1-4 left to right, holder pushed toward the stop, hydrogen right to left: all match Fig. 1 (OK-6, OK-7,
+   OK-8). One drawing artifact: the holder runs through the STOP circle in the layer-4 chapter (I3).
+ 4 Fig. 3 calibration reproduced exactly (OK-5). Fig. 3 supports threshold onset at 0.80 A (narrowing peak, I jumps
+   370 -> about 10,000), not yet the single laser line (0.82 A, ≤ 0.5 meV): keep the dim beam, fix the hover (I1).
+ 5 311 K label is right (abstract); the state and hover under it are not (W2).
+
+----------------------------------------------------------------------------------------------------------
+WRONG
+----------------------------------------------------------------------------------------------------------
+
+W1. No light below the bend of the dc curve; Fig. 2 plots a large sub-threshold output
+  file:     app/src/lib/history/showcases/hayashi1970.ts line 220 (kb = 0 for I < IB), line 810 (facet and beams drawn
+            only when Lt.k > 0.005), line 814 (facet opacity min(1, 0.4 + a): a step from nothing to 0.4 at 0.81 A),
+            line 234 (spectra: k = 0 for the 0.1 A and 0.72 A traces), lines 12-15 (header), line 889 (hover "Shown
+            only above the bend"). The spec already asks for the glow: yaml line 411 ("Below the drawn bend (about
+            0.81 A) a dim, wide glow from both end faces").
+  current:  cw chapter: model dark from 0 to 0.81 A while the plot pen draws 0 -> 110 units (desk_p0660.png: pen at
+            0.13 A, model dark); at the bend the facet band and beam pop in. Spectra chapter: dark during the 0.1 A
+            and 0.72 A traces, although the chapter line says "A broad glow sharpens ...".
+  proposed: Two quantities from the dc pen (L_B = 110.0 units at 0.8092 A from the dc points, L_END = 182.65 at
+            0.8537 A):
+              glow = min(L, L_B) / L_END       wide soft glow from both end faces (facet band at layer 2 + short
+                                               diffuse halo, no directional sheet), from the first revealed point;
+                                               clamped at the bend (spontaneous emission clamps at threshold)
+              beam = I >= 0.81 A ? clamp01((L - L_B) / (L_END - L_B)) : 0   the narrow beam, as now
+            Levels: 0.1 A -> 0.06, 0.4 A -> 0.25, 0.72 A -> 0.51, 0.80 A -> 0.59. No step at the bend: the facet keeps
+            the glow level and the beam grows from 0. Spectra chapter: glow at the Fig. 2 dc level of the trace's
+            current (0.1 A: 10.6 units; 0.72 A: about 92.7; 0.80 A: about 106) plus the dim beam only for 0.80 A (I1).
+            Hover (glow): "Below the bend: spontaneous emission, broad spectra in Fig. 3 at 0.1 and 0.72 A; brightness
+            from the Fig. 2 dc curve (297 K; Fig. 3 is at 295 K)." Drop "dim" from the spec action: at 0.80 A the
+            glow is 59 % of the end value; what changes at the bend is the narrow beam, not the overall brightness.
+  evidence: Fig. 2 (img_p03_1.png), dc circles re-located (circ.py) at 0.1016 A / 10.6 (px 1389, 1621), 0.4033 /
+            45.5, 0.5010 / 59.5, 0.7026 / 89.8, 0.8024 / 107.9 (px 1920, 871); the curve through them is straight from
+            the origin (column reads f2col.py: 0.05 A 5.4, 0.15 A 15.7, 0.35 A 38.7, 0.55 A 66.1, 0.75 A 97.9). Fig. 3
+            (img_p04_1.png): the 0.1 A trace (I ≈ 12) and the 0.72 A trace (I = 370) are broad (0.72 A FWHM about
+            30 meV, 1.436-1.466 eV from the spec's own points): emission below threshold is real and broad.
+
+W2. 311 K chapter shows and quotes a 297 K Fig. 2 operating point, called a "plotted dc point"
+  file:     hayashi1970.ts line 236 (limit chapter: I = LAST[0], L = LAST[1], full beam), line 882 (hover "Last plotted
+            dc point of Fig. 2: 0.854 A, light 183 arb. units."), line 194 (LAST = last point of the digitized curve);
+            yaml line 411 ("0.854 A, the last plotted point"), line 426 (limit action).
+  current:  Under "Hottest heat sink" with the canvas label "copper block continuous up to 311 K", the beam hover
+            gives 0.854 A / 183 units. (a) 0.8537 A / 182.65 is where the hand-drawn dc curve leaves the frame at the
+            arrowhead (the curve runs off scale); the last measured circle is 0.8328 A / 150.5. (b) It is the 297 K
+            state. At 311 K the paper gives J_th ≈ 3.5 kA/cm^2 continuous; for a 370 × 80 µm chip that is about
+            1.04 A (derived), above the whole Fig. 2 range, so 0.854 A would be below threshold at 311 K if those
+            densities belong to this diode (the sentence follows its description, p.110 col. 2).
+  proposed: Limit chapter: keep the beam on (the abstract's claim is continuous operation at a 311 K heat sink), but
+            carry no current from Fig. 2. Hover: "Continuous lasing with the copper block at up to 311 K (abstract; text:
+            diodes lased continuously at 270-311 K). At 311 K: J_th ≈ 3.5 kA/cm^{2} continuous, ≈ 2.0 kA/cm^{2} pulsed;
+            for 370 × 80 µm about 1.04 A continuous (derived), beyond the Fig. 2 range; the paper does not say which
+            diode reached 311 K." Heat arrows at full strength without a current value. In the cw chapter and the
+            spec, call 0.854 A "the end of the drawn dc curve (runs off the scale)", not "the last plotted point";
+            the last measured point is 0.833 A.
+  evidence: Fig. 2 last circle (circ.py) 0.8328 A / 150.5 at px (1943, 542); the curve continues to the arrowhead at
+            the frame top (y 241); report section 3 cut the curve at 183. p.110 col. 2 (render read): "With the heat
+            sink at 311 °K and in continuous operation, the threshold current density J_th ≈ 3.5 kA/cm^2 and in pulsed
+            operation, J_th ≈ 2.0 kA/cm^2"; p.110 col. 1: "a number of diodes which lased continuously with heat-sink
+            temperatures as high as 270-311 °K were studied". 3.5e3 A/cm^2 × 370e-4 cm × 80e-4 cm = 1.036 A.
+
+----------------------------------------------------------------------------------------------------------
+IMPRECISE
+----------------------------------------------------------------------------------------------------------
+
+I1. 0.80 A beam in the spectra chapter: right to show, hover overstates it
+  file:     hayashi1970.ts line 234 (k = 0.35 for I ≥ 0.795 A), line 881 (hover "shows a narrow laser line on a broad
+            base"); yaml line 419.
+  current:  dim beam with the 0.80 A trace; hover calls it a narrow laser line. In the cw chapter the same 0.80 A
+            (297 K) shows no beam (below the 0.811 A bend).
+  proposed: keep the dim beam at 0.80 A (threshold onset at 295 K). Hover: "0.80 A dc, 295 K: a narrow peak grows out
+            of the broad base (I ≈ 10,000 against 370 at 0.72 A; peak cut off in the paper): threshold. The single
+            laser line, ≤ 0.5 meV wide with I ≈ 100,000, appears at 0.82 A (not plotted). Fig. 2 (297 K) bends at
+            about 0.81 A." That also explains the 2 K / 0.01 A difference between the two chapters.
+  evidence: Fig. 3: 0.80 A peak at the 1.446 eV arrow, flank width 1.15 meV at the cut-off level (spec points
+            1.44387-1.44502 eV at 61.7) and about 5 meV at 10; caption "The peak at 0.8 A is incomplete but is included
+            to illustrate the shape of the base"; 0.82 A line "≲ 0.5 meV (3 Å)", "I ≈ 100,000" (render read).
+
+I2. Drive leads: spec says copper block, module lands the p lead on the diamond's Cr-Sn coating; neither is stated
+  file:     yaml line 302 (leads_to: [in_contact, cu_block]), line 402 (mount action "leads to the contact and the
+            block"); hayashi1970.ts lines 788-791 (lead b ends at (-220, -60, 0), the coating top beside the chip).
+  current:  the module's p lead lands on the Cr-Sn film beside the chip (the electrically sensible choice: the chip's
+            Au side is bonded to that film, and a diamond heat sink is normally insulating; diamond type not stated).
+            The spec's cu_block would need the film to continue onto the block, which the paper does not describe.
+  proposed: spec leads_to: [in_contact, diamond] with geometry note "p lead drawn to the Cr-Sn film on the diamond
+            beside the chip: assumed; the paper does not say how current reaches the p side". Same wording in the
+            mount action. (Ref. 10, Dyment and D'Asaro 1967, the technique this mount modifies, is not read; it may
+            settle it.)
+  evidence: p.110 col. 1 (render read): "The Au sides of the units were bonded to a diamond upon which layers of Cr and
+            then Sn had been vapor deposited, and an In-coated contact was pressed on the n side. The diamond was
+            bonded to a Cu block." No lead, wire or block contact is mentioned; Fig. 1 shows only the LPE apparatus.
+
+I3. Sliding holder passes through the STOP (and reaches the thermocouple tip) in the layer-4 chapter
+  file:     hayashi1970.ts lines 177-184 (seed and holder offsets), 455-468 (holderDx), 312 (stop); yaml line 56
+            (stop centre 170, r 20), line 70 (walls).
+  current:  bringing well 4 over the seed needs dx = -314 fig px and wall 5 needs -370; the holder's left edge (x 430)
+            then sits at 116 / 60, across the stop circle (x 150-190). desk_p0340.png: the holder's top wall and lower
+            frame cover the stop. At the final offset the holder's closed right end (850-860 -> 480-490) touches the
+            thermocouple tip (drawn to x 481).
+  proposed: Fig. 1 is a schematic without scale (spec note): either (a) move the stop and the bar's left end left by
+            about 150 fig px (stop centre about x 20, still inside the tube) and shorten the thermocouple's free length
+            to match, with the seed_holder tooltip "drawn bar lengthened so the holder can travel; Fig. 1 is not to
+            scale", or (b) keep Fig. 1 positions and fade the stop while the holder overlaps it. (a) preferred.
+  evidence: Fig. 1 (img_p02_1.png crop 150,2250): stop circle right edge at crop x 280 (fig px 190), holder left wall
+            at crop x 550 (fig px 430): room for 240 fig px of travel; wells 3 / 4 centres at fig px 694 / 774, seed
+            centre 460.
+
+I4. Raw caret visible in dimension units
+  file:     yaml lines 158, 173, 189, 203 (unit 'cm^-3'), 278, 279 (unit 'kA/cm^2'); built JSON same.
+  current:  PartPanel renders units through markup(), which only knows ^{...}: "compensated cm^-3" shows literally
+            (i_panel_layer2.png, dimensions table).
+  proposed: 'cm^{-3}', 'kA/cm^{2}'.
+  evidence: plot.ts markup() splits on _\{...\} / \^\{...\} only; Rich.svelte comment "Everything else is literal".
+
+I5. Fig. 3 low-energy flank of the 0.80 A trace: 2.8 meV gap bridged by a chord
+  file:     yaml line 523 (points 1.43761 / 2.85 -> 1.44043 / 5.78); also 1.4487 -> 1.45111 (2.4 meV) and the 0.72 A
+            trace 1.44244 -> 1.44692 (4.5 meV).
+  current:  thick (> 15 px) runs rejected, gaps of 1/28-1/18 of the 80 meV span; the drawn chord on the 0.80 A low-E
+            flank lies up to 0.05 decade above the printed trace (at 1.4389 eV: chord 4.22, scan 3.76). The other two
+            gaps are within 0.01-0.02 decade (no visible kink).
+  proposed: read the thick parts by the centre of the run (median per bin) instead of rejecting them; at least fill
+            1.4379-1.4403 eV on the 0.80 A trace. Scan values (f3gap.py, centre of run): 1.43790 3.10, 1.43824 3.24,
+            1.43859 3.49, 1.43893 3.76, 1.43928 4.12, 1.43962 4.58, 1.43997 5.30, 1.44031 5.74.
+  evidence: img_p04_1.png columns 850-871, y 880-1060; calibration as report section 3 (reproduced, OK-5).
+
+I6. 311 K attribution and chapter line
+  file:     yaml line 425 (line "Continuous lasing held with the copper block up to 311 K."), line 426 (action "copper
+            block tints slightly warm": not implemented, fine), cu_block detail line 270.
+  current:  line reads awkwardly ("held with the copper block"); nothing on canvas or in hover says the 311 K figure is
+            the highest among several diodes, not necessarily this one.
+  proposed: line "Lasing stays continuous with the copper block at 311 K." (10 words); attribution in the W2 hover and
+            the cu_block dim note ("highest heat-sink temperature among the diodes studied, 270-311 K"); drop the
+            unimplemented tint from the spec action.
+  evidence: abstract "heat-sink temperatures as high as 311 °K"; p.110 col. 1 "a number of diodes ... 270-311 °K".
+
+I7. Emission photon-energy dim mixes spontaneous and lasing peaks
+  file:     yaml line 319 ('1.433-1.449 eV', "Fig. 3 peaks"); hayashi1970.ts line 888.
+  current:  range spans the 0.1 A spontaneous peak (1.433), the 0.72 A peak (1.449) and the 0.80 A peak (1.446).
+  proposed: "1.446 eV at the 0.80 A peak (spontaneous peaks 1.433 eV at 0.1 A, 1.449 eV at 0.72 A); about 0.857 µm
+            (derived)".
+  evidence: Fig. 3 arrows under each trace (render read).
+
+I8. FIG. 6A trace: homojunction dashes start at the leader, not at the block edge
+  file:     data/history/showcases/traces/hayashi1970-fig6a.json element homojunction-226 (d [[392, 452.5], [798, 453]]).
+  current:  dashed line 392-798 px; the scan's dashes run from the block's left edge (x about 350) to about 815 (past
+            the right edge as the d1 extension line).
+  proposed: d [[350, 452.5], [815, 453]].
+  evidence: drawings/hayashi1970-fig6a.png row y 453; side_app.png (scan beside the app's drawing pane).
+
+----------------------------------------------------------------------------------------------------------
+MISSING
+----------------------------------------------------------------------------------------------------------
+
+M1. No viewer-facing note that the lead landing points are assumed
+  file:     hayashi1970.ts line 919 (drive / diamond tooltips say only "Neutral stand-in: shape and size not given.").
+  proposed: drive tooltip line "Leads drawn to the In contact (n side) and to the Cr-Sn film on the diamond (p side):
+            assumed; the paper does not describe the leads." (pairs with I2).
+
+----------------------------------------------------------------------------------------------------------
+OK (verified)
+----------------------------------------------------------------------------------------------------------
+
+OK-1  All 14 spec quotes match the paper (text.md and the renders of p.109-110): growth, cooling, 840-830 °C, 15 s,
+      doping targets, second-layer quote, layer-3 heat estimate, layer-4 contact, Zn ~0.2 µm, contacts, diamond, Cu
+      block, In contact, Fig. 2 method, "turn on" spots, diode size.
+OK-2  Table I (render, table.png / table2.png): Ga/Al/As/dopant for solutions 1-4 and thicknesses 3-4, ≲1 (printed
+      with the tilde-under symbol), ~1.5, ~1.5 µm; "..." for Al in 2 and 4. All spec values match.
+OK-3  Doping targets (1-4), (1-4) compensated, (5-8), (3-5) ×10^18; x ≈ 0.2-0.4; Si 1-15 mg/g Ga; factor-2 spread;
+      25 K rise, ~1.8 µm, 15 %; ≥ 20 mW at 30 % above threshold; 80 meV; 2.6 V at 0.8 A; 0.2 µs / 2 µs; 10 % duty.
+OK-4  Fig. 2 calibration reproduced (f2tick.py): x ticks at px 1313 / 1464 / 1614 / 1767.5 / 1917.5 / 2070.5, y ticks
+      1702.5 ... 315 = report values. 11 dc circles re-located identical to the spec to 0.001 A / 0.1 unit. dc and
+      pulsed curves at 9 columns and 5 rows (incl. the steep parts at 115-175 units) agree within 0.5 unit / 0.001 A.
+      Sampling 0.0053 A / 1 unit, curves coincide below 0.21 A as the note says.
+OK-5  Fig. 3 calibration reproduced: y ticks 100 / 10 / 1 at py 298.5 / 804 / 1304.5; 10 meV bar 921.75-1008.75 px
+      (87 px, 8.70 px/meV); 100 Å bar 887.5-1036.25 (148.75 px = 8.82 px/meV at 1.446 eV, 1.4 % from the 10 meV bar);
+      arrows 811 / 766.5 / 911; LSQ offset gives residuals -1.21 / +0.90 / +0.30 meV. Note: the outer labels (1.449,
+      1.433) agree with the bar within 0.6 meV over 16 meV; the 1.446 label is the outlier; "within about 1 meV" in
+      the plot note could say "up to 1.2 meV". 9 column re-reads (f3col.py) agree with the spec within 1-3 %.
+      Energy-increases-to-the-left disclosed in the note; 0.82 A line and pulse lasing energy withheld (axis break).
+OK-6  Hydrogen: Fig. 1 "H2 IN" at the push-rod end (right), "H2 OUT" at the stop end (left), both arrows pointing left;
+      module arrows point left (line 336) and dashes drift toward the path start (dashoffset grows with p): right to
+      left. Hover cites Fig. 1.
+OK-7  LPE: solutions 1-4 left to right, seed under the first (leftmost) wall at the start, push rod at the right, holder
+      slides toward the stop so wells 1, 2, 3, 4 pass over the seed in order (dxWell < 0), a wall between wells;
+      thermocouple fixed, entering from the stop end, tip under the seed; layer 1 grows while well 1 sits over the
+      seed during the 840 -> 830 °C HUD ramp.
+OK-8  Drawn stack: 3.5 / 1.0 / 1.5 / 1.5 µm × EX 5, Zn 0.2 µm inside layer 4, substrate 6 µm with break marks, films
+      drawn thin; every drawn value has its basis in the hover (DRAWN_NOTE); plan 370 × 80 µm to scale.
+OK-9  Mount topology (desk_p0610.png): Cu block | diamond | Cr-Sn film | Cr-Au | Zn skin | 4 | 3 | 2 | 1 | substrate |
+      Sn-Pt-Sn | In contact pressed from above: matches p.110 col. 1. Diamond, Cu, In contact, drive are plain stand-ins.
+OK-10 Beam geometry: both uncoated end faces, along the 370 µm axis, at layer 2; back beam ends before the plot panel
+      (desk_p0770.png, light_p0740.png); colour labelled illustrative (near-infrared).
+OK-11 Pen sync: cw chapter current is the revealed dc point (same reveal as the plot), brightness from the digitized
+      curve, never past 0.8537 A (D1006 rule).
+OK-12 Heat arrows from layer 2 down through the p side into the diamond and copper, labelled illustrative, with the
+      25 K estimate cited.
+OK-13 Drawing: US 3,758,875 FIG. 6A crop contains the whole figure (title to the bottom of heat sink 216); the trace is a
+      clean object-by-object redrawing (8 blocks, hatched contacts, junction lines, dimension arrows d1 / t / d2,
+      dashed homojunction, smooth leaders, lettering), recognisable beside the scan at equal size (side_app.png); not an
+      edge map. Numerals 214 / 215 / 224 / 212 / 217 / 218 / 219 map as the col. 7 quote (verified in the patent text
+      layer, PDF p.8); caption note on the heat-sink side correct; FIG. 6B remark (junction coincident with 225)
+      matches the patent text.
+OK-14 Patent example values (870 °C furnace, single loop of 20 mil nichrome at 20 V a.c., thermocouple under the seed,
+      15 / 30 / 60 s, wiping by a close-fitting graphite surface, lapped to about 6 mils, cut and cleaved) verified in
+      the text layer and kept out of this diode's numbers.
+OK-15 Title note: Alferov et al. submitted 1970-05-06 ("Submitted May 6, 1970" / "6 мая 1970", references/alferov1970
+      text.md lines 60, 107); letter received 1970-06-08; no "first" claim. Abstract "100 A/cm2" vs text "1000" noted.
+OK-16 Presentation: keywords ≤ 3 words, lines ≤ 12 words, essential dims 4 (layer 2 thickness, length, width, 311 K),
+      one amber emphasis, 2 plot chapters, sub/superscripts as _{} / ^{} in prose (except I4 units); no era, batch,
+      decision or DevLog tokens in the built JSON; paper ids appear only as reference ids / part ids (not displayed);
+      spec notes (fig1_px) are not rendered.

@@ -1,0 +1,139 @@
+smit1988 showcase research report (optical phased array of concentric bent Al2O3 waveguides; five-channel prototype)
+Date: 2026-11-11. Spec: data/history/showcases/smit1988.yaml (DevLog-017 section 4a schema, runtime fields per
+app/src/lib/history/showcase/types.ts). Renderer: 2.5d (plan view, true scale in micrometres).
+
+1. SOURCES
+- [S] M. K. Smit, "New focusing and dispersive planar component based on an optical phased array", Electron. Lett.
+  24(7), 385-386 (1988-03-31), doi:10.1049/el:19880260. Single author; Laboratory of Telecommunication & Remote Sensing
+  Technology, Faculty of Electrical Engineering, Delft University of Technology, Delft, The Netherlands; dated
+  1988-02-02. Cached references/smit1988/ (licensed, local only; TU/e repository copy, text.md p.1 is the cover sheet).
+  Read from the page renders page_02.png / page_03.png and the full-resolution scans img_p02_1.png (2976 x 3839) and
+  img_p03_1.png (2958 x 3827). Page map: text.md p.2 = journal p.385 (title, intro, Basic principle, Fig. 1, Fig. 2,
+  Eq. (1)-(4), start of Experimental realisation); text.md p.3 = journal p.386 (col. 1: array parameters, Fig. 3,
+  multiple orders; col. 2: receiver guides, five-channel prototype, conclusions, signature, refs).
+  Fixes: everything in the spec (geometry, wavelength, f, order spacing, prototype size / channels / spacing / 20 dB).
+- [V] A. R. Vellekoop, M. K. Smit, J. Lightwave Technol. 9(3), 310-314 (1991), doi:10.1109/50.70004, cached
+  references/vellekoop1991/. p.310 "Basic principle": the 1988 component "had considerable loss, however,
+  evidenced by the occurrence of multiple foci", reduced by fan-in / fan-out and adapter sections. Used only as the
+  "later work" reference (not drawn). It is its own milestone in the timeline.
+- [T] H. Takahashi et al., Electron. Lett. 26(2), 87-88 (1990-01-18), doi:10.1049/el:19900058, cached. Title gives the
+  name "arrayed-waveguide grating". Title note only.
+- [R] M. Smit et al., Semicond. Sci. Technol. 29, 083001 (2014), cached references/smit2014/. Journal p.2: "It started
+  with the publication of the first AWG by Smit [8] in 1988, followed by Takahashi [9] and Dragone [10]." Same-author
+  review; used only in the title note, attributed; the 1988 letter says "novel".
+- Refs 4 and 5 of [S] (Smit, van der Laan, Acket, Thin Solid Films 138, 171-181, 1986; Smit, Sensors & Actuators
+  symposium, Twente, 1986, pp. 45-55) define the Al2O3 ridge-guide technology; not cached, not read. Layer stack withheld.
+- Sibling data checked: data/components/components.csv row cmp_lit_smit1988_phasar_demux_5ch (wdm.awg, Al2O3, Delft)
+  and its metrics m1-m4 (crosstalk > 20 dB at 632 nm, 5 channels, spacing 3.16 nm derived, footprint 5.2 mm2 derived):
+  the story agrees. Its note already records that the demultiplexer's own array geometry is not stated.
+  scripts/layouts/cells/: four curated AWG cells (bogaerts2006, fan2025, pathak2014, th2a9), none for this paper;
+  build.py NOT_DRAWN withholds plan views the source does not fix (e.g. pathak2014: "the paper has no plan view of this
+  device"). The same rule is applied here to the demultiplexer prototype.
+- Request log: 1 web search (no same-work patent; the 1988 work exists only as the journal letter; EP 0444817 and
+  US 5,680,236 are later patents by others / not of this device). No downloads. No public-domain drawing exists, so no
+  trace and no drawing crop.
+
+2. WHAT THE PAPER FIXES (fixed / assumed / withheld per part)
+Key finding for the coordinator: the 1988 device is NOT the later AWG layout (input guide, input star / free region,
+arrayed guides, output star, output guides). It is a bare sector of 31 concentric arcs; a broad Gaussian He-Ne beam
+falls directly on its input plane, and the light leaving the output plane converges across the film to a focal plane
+1 mm away. Fan-in / fan-out sections are only recommended (p.386 col. 1). The pick's story idea ("input guide, free
+region, arrayed guides, output guides") would draw a device that this paper does not contain; the spec follows the paper.
+- array: FIXED 31 guides, width 3 um, average radial spacing 6 um, R 910-1090 um, psi = 30 deg (p.386 col. 1); topology
+  concentric arcs on one centre between two radial planes (Fig. 1, Eq. (1)). Closure: 30 x 6 = 180 = 1090 - 910 um.
+  WITHHELD: individual R_i (Eq. (3) with a quadratic Phi and integers m_i, not printed). DRAWN equidistant at 6 um
+  (basis: stated average); the paper's example says deviations of at most +/-5 % for m_i - m_(i-1) = 10.
+- input / output planes, sector angle: FIXED (Fig. 1 labels, psi value p.386).
+- other arrays: FIXED count 5 identical, the second excited (p.386 col. 1, Fig. 3); pitch FIGURE about 0.50 mm.
+  Column alignment / offsets not resolved: drawn aligned.
+- substrate: FIXED silicon (p.385 col. 2); size not stated -> stand-in.
+- he_ne_beam: FIXED broad, Gaussian, He-Ne, lambda printed 0.6320 um (common He-Ne line 0.6328 um; kept as printed and
+  flagged). Launch method and width WITHHELD; drawn as a band over the input plane (assumed).
+- straight_light: FIXED qualitatively ("propagate straight forward or be scattered", p.385 col. 1); Fig. 3 streak.
+- free_region: existence from Fig. 3 (beams visible between array and focal line); makeup WITHHELD.
+- focal_plane: FIXED f = 1 mm design position (p.386 col. 1, Fig. 3 dashed line). Axis through the output-plane
+  midpoint perpendicular to the output plane: FIGURE (Fig. 3) + physics of a symmetric quadratic profile; centre of the
+  profile not printed (said in the panel).
+- foci: FIXED order separation 66 um, theoretical, measured "compares well" (no number). Count of orders WITHHELD;
+  drawn 3 (illustrative, labelled).
+- wavefront / dispersion: FIXED Eq. (4) d alpha ~ psi d beta / beta; "1 % -> 0.01 psi; with psi = pi roughly 2 deg";
+  linear focus shift with constant focal length (p.385 col. 2). DERIVED for this array: 0.01 x 0.5236 rad = 5.2 mrad,
+  about 5 um along the focal plane per 1 % at f = 1 mm. Direction DERIVED (not stated): longer wavelength -> toward the
+  inner (smaller-radius) guides, from n_eff dL + n_s d sin(theta) = m lambda neglecting waveguide dispersion, as Eq. (4)
+  does. Drawn shift exaggerated and labelled.
+- demux_prototype: FIXED 1.3 x 4 mm, five channels, 0.5 % spacing, "good focusing properties", channel separation
+  better than 20 dB, receiver waveguides next to each other in the focal plane (p.386 col. 2). WITHHELD: its array
+  geometry (count, radii, psi, f), receiver positions / spacing / width, the five wavelengths and how they were
+  produced ("working at He-Ne wavelength"), crosstalk definition, placement on a substrate, orientation. Drawn as an
+  empty outline only. Note: with the Fig. 3 array parameters a 0.5 % step moves the focus only about 2.6 um (derived),
+  less than one 3 um guide width, so the prototype must have used a different design; drawing receiver guides on the
+  Fig. 3 array would be wrong.
+
+3. PLOT DIGITIZATION
+Nothing digitized: the letter prints no measured or calculated curve or table (Fig. 1 and Fig. 2 are geometry
+schematics, Fig. 3 is a photograph). Results are text only: order spacing "compares well" with 66 um; channel
+separation better than 20 dB.
+Derived plot (coordinator ruling D1011, 2026-11-11), id `dispersion`, hooked to the "wavelength moves focus" chapter:
+- Eq. (4), p.385 col. 2 (the ruling said p.386; Eq. (4) is on journal p.385): d alpha ~ psi d beta / beta, with the
+  letter's own reading "a wavelength shift of 1 % will cause an angular dispersion of 0.01 psi" (|d beta / beta| =
+  |d lambda / lambda|, waveguide dispersion neglected as the letter does).
+- y = f psi (d lambda / lambda) with the printed psi = 30 deg = 0.5236 rad and f = 1 mm (p.386 col. 1, Fig. 3 arrays):
+  5.236 um per 1 %. Linear, as the letter states ("shift linearly with df").
+- Range +/-1 %, the shift the letter discusses; the 66 um order spacing lies far outside and is not drawn.
+- Sampling: 61 points, every 1/30 % = 1/60 of the 2 % axis span, exact evaluation (no reads). End points
+  (-1, -5.236), (+1, +5.236).
+- Sign: positive = toward the inner (smaller-radius) guides for a longer wavelength; derived from
+  n_eff dL + n_s d sin(theta) = m lambda, not stated in the letter; said in the plot note.
+- Basis derived; plot note says computed from Eq. (4), not measured, and that it applies to the Fig. 3 arrays, not the
+  prototype (whose design is not printed). Same convention as the Cobra Eq. (2) alternate.
+Figure measurements used as checks (not plotted), Fig. 3 photograph, crop of img_p03_1.png at (380, 680)-(1390, 1360):
+- Scale: "1 mm" bar spans x 568/569 to 698/699 px over rows 630-638 -> 130-131 px = 1 mm (+/- 2 px, 1.5 %).
+- Five white areas (threshold > 215, connected components): centroids y = 330.9, 397.6, 461.5, 527.3, 593.2 px ->
+  pitch 66.7, 63.9, 65.8, 65.9 px, mean 65.6 px = 0.50 mm (+/- 0.03). Widths 64-93 px (0.49-0.71 mm; the excited one
+  is enlarged by its glow), heights 39-49 px (0.30-0.37 mm). Computed plan extent from the stated geometry: 545 x 302 um
+  (x from 0 to 1090 sin 30 deg; y from -1090 to -788). Agrees.
+- Outgoing beam: ridge of maximum brightness (9-px smoothing) at x 430-655 px fitted -> 28.8 deg above horizontal
+  (rms scatter 15 px from halftone noise), close to psi = 30 deg; confirms beams leave perpendicular to the output plane.
+- Dashed focal line: about 0.95-1.05 mm from the excited array's right end (line fit contaminated by the overlay
+  lettering; distance 125 px from a robust fit, about 130-137 px by eye). Consistent with f = 1 mm.
+- Orientation: in Fig. 3 the guides turn upward (beams rise to the right); Fig. 1 draws the mirror image. The spec uses
+  the Fig. 3 orientation.
+- Closure check (report only): the 66 um order spacing implies n_s = f lambda / (dx dR) = 1000 x 0.632 / (66 x 6) =
+  1.60 in the region beyond the output plane (small-angle grating relation, output pitch = 6 um), a plausible index for
+  an Al2O3 film guide; not used in the spec.
+
+4. GEOMETRY FOR THE MODEL (plan, um, origin = centre of curvature, x right, y up)
+- Guide i = 1..31: R_i = 910 + 6 (i - 1) (drawn), arc (R sin t, -R cos t), t = 0..30 deg, width 3 um. Lengths psi R_i
+  476.5-570.7 um, mean step 3.14 um.
+- Input plane: x = 0 (dash-dot, radial). Output plane: radial at 30 deg; guide ends inner (455.0, -788.1), outer
+  (545.0, -944.0); midpoint (500.0, -866.0).
+- Exit direction (0.866, 0.5). Focus (1366.0, -366.0) at f = 1000 um. Focal plane direction (-0.5, 0.866), which points
+  toward the inner-guide side. Neighbouring orders at (1333.0, -308.8) and (1399.0, -423.2).
+- Beam: band y -1100..-900 arriving along +x; uncoupled light continues along +x faintly.
+- Other arrays: copies offset in y by +500, -500, -1000, -1500 um.
+- True scale works at pane widths of 600 px or more for a 1.4 mm window: 3 um guide = 1.3 px, 6 um pitch = 2.6 px;
+  the bends chapter may zoom to the array (0.6 mm window: guide 3 px).
+- Prototype outline 4 x 1.3 mm, separate from the arrays, interior empty.
+
+5. CHAPTER SCRIPT rationale (8 chapters, 1 plot chapter, height 7)
+- arrays (Fig. 3 context: five white areas), bends (Fig. 1 topology, 31 guides), lengths (Eq. (1): same angle, longer
+  outside), phase (Eq. (2)/(3): aligned then quadratic phase; drawn radii stay equidistant, hover explains), beam
+  (broad Gaussian beam, part coupled, part straight on: p.385), focus (f = 1 mm, orders 66 um apart: p.386), dispersion
+  (Fig. 2 / Eq. (4); exaggerated shift labelled; direction derived), demux (stated results; layout withheld).
+- Physics order: beam enters from the left, runs through all guides to the output plane, then converges; foci appear
+  only after light crosses the free region; the dispersion shift keeps the focal length (stated).
+- Essential dims (4): 31 guides, R_i 910-1090 um, psi 30 deg, f 1 mm. Amber emphasis once: "*1 mm* focus".
+- Lines contain no numbers except the essential 31.
+
+6. OPEN QUESTIONS for the coordinator (rulings D1011, 2026-11-11, applied)
+- Q1 ruled: no Vellekoop and Smit 1991 coda for now (owner decision pending); kept out of the spec. The pick's story
+  idea (input guide, free region, arrayed guides, output guides) does not match this paper; the spec follows the paper.
+- Q2 ruled: derived Eq. (4) plot added (section 3).
+- Q3 ruled: wavelength kept as printed (0.6320 um) with the hover flag.
+- Q4 ruled. BUILDER NOTES: (a) keep the prototype outline empty: no receiver-guide stubs, no five coloured foci, nothing
+  on the Fig. 3 array that implies the prototype layout; (b) in the dispersion chapter the focus moves with the plot pen
+  (position from the plotted point, never beyond +/-1 %), shown exaggerated on the model with the exaggeration said in
+  hover; focal length stays fixed; (c) draw the guides equidistant at 6 um and say in hover that the true radii are not
+  printed; (d) the three drawn orders are illustrative, labelled so.
+- Milestone / tag: no disagreement. milestones.csv row and milestone_tags.csv row (device, Al2O3, topic "phased-array
+  focusing and dispersive component (AWG)") agree with the story.

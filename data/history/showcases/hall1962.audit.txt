@@ -1,0 +1,246 @@
+hall1962 (GaAs junction laser) showcase audit (fresh context, read-only, 2026-11-11)
+====================================================================================
+
+Scope: data/history/showcases/hall1962.yaml (+ report.txt), DevLog-017 D1019 (and D995 / D998 / D1005 / D1006 /
+D1023), skill history-showcase; app/src/lib/history/showcases/hall1962.ts; app/static/data/showcases/hall1962.json;
+drawing data/history/showcases/drawings/hall1962-fig1.png + traces/hall1962-fig1.json (identical to the static copy);
+runtime pieces used for presentation checks (Rich.svelte / plot.ts markup(), PartPanel.svelte, ShowcaseStory.svelte
+detail lines); builder shots scratchpad hall1962/shots/ (desk, phone, light, hover, panel) and sheets.
+Sources: references/hall1962/ (page_01-03.png, img_p02_1.png 4739 x 6257, text.md), cache/showcases/hall1962/
+US3245002.pdf (9 sheets, 2320 x 3408 images + text layer, certificate of correction p.9).
+Method: patent column:line counted from the text-layer word boxes against the printed gutter numbers (cols 2-4, 6)
+and anchored on the certificate of correction (col. 1 line 44 "particularly", col. 6 line 40 "material,"); FIG. 3
+(patent) and letter Figs. 2 and 3 re-digitized with my own scripts (own tick detection, column / row ink runs);
+trace rendered with my own PIL renderer side by side with the scan at equal size and at 1.6x zoom; module read in
+full (frame, emission, pick, anchor). Scratch: session scratchpad hall1962_audit/ (render_trace.py, sbs.png,
+z_top.png, z_lowright.png, dig3b.py, dig2b.py, dig3L.py, emis.py, lines.py). No app run, no network, no git.
+
+VERDICT: GO after W1 (a units fix in the spec, minutes). Sources, quotes, 24 patent locators, all three digitized
+plots, the cube / junction / face topology and the coordinator rulings of D1019 hold. Recommended in the same fix
+pass: I1 (roles over budget, caveats into pick() detail lines), I2 (glow clamped above threshold), I3 (pulse slowing
+labelled where it shows), I5 (stuck hover colour).
+
+Counts: wrong 1, imprecise 13, missing 2, ok 22.
+
+----------------------------------------------------------------------------------------------------------
+WRONG
+----------------------------------------------------------------------------------------------------------
+
+W1. Raw carets in viewer-facing units (side panel dims and process tables)
+  file:     data/history/showcases/hall1962.yaml line 32, 33 (wafer dims unit "cm^-3"), 94 (junction area unit
+            "cm^2"), 351, 352 (process wafer params "cm^-3"), 398, 399 (process cold params "A/cm^2"); same in
+            app/static/data/showcases/hall1962.json.
+  current:  PartPanel.svelte renders val(value, unit) through <Rich>, i.e. markup() in plot.ts, which converts only
+            braced ^{...} / _{...}. "about 10^{18} cm^-3" therefore shows "about 10^18-superscript cm^-3" with a
+            literal caret; "0.0016 cm^2", "about 10,000 A/cm^2", "below 2000 A/cm^2" likewise. Skill: "A raw _ or ^
+            must never show."
+  proposed: units "cm^{-3}", "cm^{2}", "A/cm^{2}" in all dims / params; also plots[0].x.unit (line 411) for
+            consistency (plot axes use rich(), which accepts both forms, so the axis already renders A/cm-squared).
+  evidence: Rich.svelte line 1-8 (markup = braces required), progress.test.ts line 330 ("braced sub / superscripts
+            only"); PartPanel.svelte line 46, 66.
+
+----------------------------------------------------------------------------------------------------------
+IMPRECISE
+----------------------------------------------------------------------------------------------------------
+
+I1. Part roles over the 12-word budget; caveats should move to pick() detail lines
+  file:     yaml line 131 (junction, 15 words), 254 (ln2_bath, 19 words incl. a patent locator), 293 (beam, 14
+            words); hall1962.ts pick() line 1020-1038 returns bare part ids, never {id, label, detail}.
+  current:  caveats ("drawn about 100x thicker than scale", "77 K for liquid air (US 3,245,002 col. 4:17-18)",
+            "drawn red ... the letter measured the front beam") packed into roles.
+  proposed: roles within 12 words, e.g. junction "Thin active region where injected carriers recombine and
+            lase"; ln2_bath "The diode runs immersed in it"; beam "Near-infrared beam out of both polished faces".
+            pick() returns {id, label, detail} for these parts (types.ts line 107, ShowcaseStory.svelte line 502):
+            junction: "Drawn about 100x thicker than scale (patent example about 1000 Å)."; ln2_bath: "Patent:
+            liquid air, about 77 K (US 3,245,002 col. 4:17-18); the letter prints no temperature."; beam: "Drawn
+            red: 8420 Å is infrared. Spread illustrative. The letter measured the front beam only."; pulse_source and
+            junction / beam in plot chapters: see I3.
+
+I2. Threshold chapter: spontaneous glow keeps rising along the dashed extrapolation above threshold
+  file:     hall1962.ts line 726-731 (G = sqrt(min(y, dash) / gRef), B = sqrt(excess / exMax)); line 746-748
+            (modes: G = 0.25 + 0.75 sqrt(peak / peakMax)).
+  current:  computed from the spec points (emis.py): G 0.43 at 5000, 0.58 at 8500, 0.70 at 12000, 0.93 at 20000,
+            1.00 at 22817 A/cm^2 (glow grows 1.7x after threshold). B 0.06 at 8500, 0.12 at 10000, 0.37 at 12000,
+            0.94 at 20000.
+  ruling asked ("glow from the dashed part, beam from the excess: physically fair?"): the beam = excess over the
+            extrapolated low-current line is fair: the letter itself quotes the above-threshold output against "the
+            extrapolated low-current intensity" (p.367 col. 1), and FIG. 3 output is measured on the front axis
+            ("measured in the direction perpendicular to surface 11", col. 4:32-34). The glow is not: above threshold
+            the carrier density, hence the spontaneous emission, pins near its threshold value; the dashed line is
+            only the extrapolation the authors compare against. Neither source states clamping, so keep it simple:
+  proposed: G = sqrt(min(y, dash(min(J, Jk))) / dash(Jk)) with Jk = where the solid curve leaves the dashed line
+            (about 7500 A/cm^2, y / dash = 1.05) or the 8500 marker; same rule for the modes chapter (glow held at
+            the threshold level for curves b-d, beam from the curve peak). Hover detail on the junction: "glow =
+            low-current line, beam = excess above it (illustrative split)".
+
+I3. Pulsed drive drawn slowed: labelled only where it is not visible
+  file:     yaml line 272 (pulse_source role "pulse timing drawn slowed"); hall1962.ts line 936 (pulse source fades
+            out in plot chapters), line 706-711 (9 blinks per chapter, 24 % of each period dark).
+  current:  the blinking is most visible in the three plot chapters, where the pulse source is hidden, so the
+            "drawn slowed" note cannot be reached there. Scrolling stops in the dark part of a period show a dark
+            diode beside a finished curve (builder shot light_p0735.png: curve at 70, no glow, no beam).
+  proposed: add the caveat to the junction and beam detail lines ("Pulses drawn slowed; the letter's pulses last 5
+            to 20 µs"); optionally shorten the dark fraction.
+
+I4. Beam present (faintly) below threshold
+  file:     hall1962.ts line 730-731, 987 (side.g.visible = Bv > 0.004).
+  current:  the digitized region A lies 2-5 % above the least-squares dashed line (slope 1.09 vs 1.11), so the
+            excess is non-zero from the first point: B = 0.012 at 1433, 0.015 at 3000-5000, 0.018 at 6000 A/cm^2.
+            Beam meshes are on (alpha about 0.01-0.02) in the region the patent calls "incoherent" (col. 4:30-31).
+  proposed: treat y / dash < 1.05 as zero excess (fit residual), or start B at Jk (I2).
+
+I5. Liquid-nitrogen ring keeps the hover colour after hover
+  file:     hall1962.ts line 1003-1007 (lnRingMat.color.copy(accent) on hover; no else branch; only applyTheme()
+            line 699 sets the normal colour).
+  current:  after hovering the liquid once, its rim stays accent blue in every later frame until a theme change;
+            the arrow material (line 1008-1009) has the else branch, the ring does not. frame(p) is not pure w.r.t.
+            hover history.
+  proposed: else lnRingMat.color.set(light ? '#5d8fbf' : '#a9cfee').
+
+I6. Liquid rim and wall edge draw long arcs across the keyword and under the plot in plot chapters
+  file:     hall1962.ts line 925-929 (wall at 0.4, rim at 0.55 x (0.4 + 0.6 x 0.4) = 0.35 opacity in plot chapters).
+  current:  the camera frames 1.3 mm around the diode inside a 6 mm bath, so the rim and wall become unexplained
+            thin arcs through "Threshold" and behind the plot panel (desk_p0660.png, desk_p0680.png, light_p0735.png
+            x 0-930, y 0-80 and x 560-830, y 400-700).
+  proposed: fade the rim / wall outline to near 0 in plot chapters (keep the faint fill), or clip it to the left
+            half.
+
+I7. Cut chapter: two junction planes visible at once
+  file:     hall1962.ts line 823 (piece fades qc 0.64-0.74), 845 (cube fades in qc 0.62-0.72).
+  current:  for about 0.1 of the chapter the patent piece (junction 0.1 mm below its top) and the letter's cube
+            (junction at mid-height) overlap, showing two red bands under the keyword "One junction" (desk_p0330.png).
+            The hover on the piece explains the switch (ruling 2 met), but the overlap reads as two junctions.
+  proposed: fade the piece's junction band out before the cube's band appears (e.g. piece junction qc 0.58-0.64,
+            cube junction from 0.66).
+
+I8. 8500 A/cm^2 marker line runs through the plot legend
+  file:     yaml line 424-429 (marker series); runtime legend position.
+  current:  the vertical marker crosses all three legend rows on desktop (light_p0735.png, x 840, y 695-735);
+            on the phone the legend sits above the axes and is clear.
+  proposed: legend top-left for this plot (the curve occupies the right half above 10), or end the marker at
+            y = 30 (its points are [8500, 0.2]-[8500, 100]).
+
+I9. Log x axis tick "1e5"
+  file:     runtime plot tick formatting (plot.ts); shows in desk_p0660.png and phonefin2_p0745.png.
+  current:  ticks read "1000", "10000", "1e5".
+  proposed: runtime: "100000" or 10^{5} for all log ticks (route to the runtime owner).
+
+I10. Traced drawing: clean at pane size, but a skeleton trace with visible artifacts at zoom (D1023 look check)
+  file:     data/history/showcases/traces/hall1962-fig1.json.
+  current:  side by side at 995 x 942 (sbs.png) the trace is recognisable and in the patent's line style; objects
+            and proportions match (connectors 9 / 10, electrode 5, solder 6 / 8, tapered body, P / N, plate 7,
+            dashed hidden edges, dashed leaders 12 / 14, all numerals). It is not an object-by-object redrawing:
+            198 polylines from the skeleton, 46 shorter than 10 px, widths 2 to 7 px mixed within one edge class.
+            Visible at 1.6x (z_top.png, z_lowright.png): arrowheads of leaders 11, 12, 13 are irregular blobs (e.g.
+            leader-12 polygon of 18 vertices at x 711-739, y 576-599) instead of the clean filled arrows of the scan;
+            a dot where leader 3 meets the right body edge (x about 705, y about 600); the junction band line broken
+            into fragments at the hidden vertex (x 458-468, y 475-500); hand lettering replaced by an italic font
+            (acceptable).
+  ruling:   not WRONG: at the drawing-pane size (about 285 px wide, desk shots) it reads clean, and patent line
+            art is the case D1023 says fits naturally. Proposed cleanup if the owner wants the D1023 standard:
+            merge each edge into one polyline per object edge, one stroke width per class (outline 4, leaders 3,
+            hidden 3 dashed), redraw arrowheads as 3-point filled triangles, remove junction dots and fragments.
+
+I11. Front face role implies the beam leaves only there
+  file:     yaml line 150 ("One mirror of the cavity; the beam leaves here").
+  current:  the model and the patent (col. 6:26-28) send light out of both faces.
+  proposed: "One cavity mirror; the measured beam leaves here".
+
+I12. Beam label "842 nm" in the spectrum chapter (diode L-69)
+  file:     yaml line 309 (essential dim), chapter spectrum labels [beam].
+  current:  842 nm is diode L-70's measurement wavelength (p.367 col. 1); the L-69 narrow line plotted beside it
+            peaks at 8401 Å (840 nm). The dim label in hover says "diode L-70 measurement", the canvas only "842 nm".
+  proposed: acceptable as is; or label_short "842 nm (L-70)" / drop the beam label in the spectrum chapter.
+
+I13. Phone: lead crosses the chapter line in plot chapters
+  file:     hall1962.ts line 640 (phone lift), lead path line 550-560.
+  current:  phonefin2_p0745.png: the lead from the left edge passes behind "beam." of the chapter line (y 85-100).
+  proposed: on phones shorten the visible lead (draw range) in plot chapters or lift the target slightly less.
+
+----------------------------------------------------------------------------------------------------------
+MISSING
+----------------------------------------------------------------------------------------------------------
+
+M1. Threshold plot note: FIG. 3 output is on the front axis
+  The patent says the light output of FIG. 3 is "measured in the direction perpendicular to surface 11" (col.
+  4:32-34). One clause in plots[0].note (yaml line 406-410) ties the beam-from-excess display (I2) and the
+  front-only measurement (ruling 5) to the source.
+
+M2. Pick detail lines for spec parts unused
+  types.ts line 107 / ShowcaseStory.svelte line 502 support {id, label, detail} for spec parts; the module uses
+  PickInfo only for the cut piece and the cavity axis. See I1 / I3 for the lines.
+
+----------------------------------------------------------------------------------------------------------
+OK (verified)
+----------------------------------------------------------------------------------------------------------
+
+O1. Letter quotes (page renders): cube 0.4 mm / junction through the centre / Ohmic contacts top and bottom / front
+    and back polished / 5 to 20 µsec pulses / liquid nitrogen (p.366 col. 1); metal disc image bands (p.366 col. 2);
+    L-70 at 8420 Å on the beam axis, linear below 5000, rapid rise near 8500, ten times at 20 000 A/cm^2, 125 Å,
+    "suddenly to 15 Å" (p.367 col. 1); 3 Å resolution, 0.32 mm (p.367 col. 2); L-75 few tenths of a degree, both
+    "first" sentences (p.368 col. 1-2), all verbatim. Fig. 2 / Fig. 3 captions verbatim (L-69, L-70).
+O2. Patent locators re-counted (text-layer word boxes vs printed gutter numbers; certificate anchors): col. 3:34-35
+    wafer, 3:36-37 Te 10^18, 3:38-39 melt 5x10^18, 3:40-41 zinc into all surfaces, 3:42 1000 °C, 3:42-43 1/2 hour,
+    3:43-44 quartz tube + 10 mg, 3:45-46 1000 Å, 3:46-47 0.1 mm, 3:47-49 cut and ground, 3:49-50 .5 mm and
+    ".4 mm. x .4 mm." (scan read: decimal points present; the text layer drops them), 3:52 optical smoothness,
+    3:53-55 ±0.1 micron, 3:55-56 cleavage, 3:56-61 taper / abrasive, 3:61-63 In + 3 wt.% Zn, 3:63 tin, 3:67-68
+    500-2000 Å, 4:8-10 1-10 µs, 4:17-18 liquid air 77 K, 4:17-21 10 000 / 2000 A/cm^2, 4:21-24 .001 cm^2 + 10 A,
+    4:25-29 FIG. 3 sentence, 4:29-43 regions A / B / C, 4:47-48 20 to 50 times, 6:8-10 reflectance .4, 6:15-22
+    metallizing option, 6:26-28 "transmitted through the polished front and rear surfaces", 2:3-11 numerals 4-10,
+    2:25-26 surfaces 11 / 12. All on the stated lines (col. 1:70-72 for numeral 1 is 71-72 by my count, within the
+    stated +-1).
+O3. caption_locator "col. 1:49-50" (yaml line 478), flagged stale by the builder: correct. With the certificate's
+    anchor (col. 1 line 44 = "particularly") the FIGURE 1 brief description is lines 49-50. The runtime does not
+    render caption_locator (TraceView.svelte uses caption / source only), so nothing viewer-facing is affected.
+O4. Patent FIG. 3 re-digitized independently (own ticks: x 10^3 / 10^4 / 10^5 at 125 / 329.5 / 537 px, y 1 / 10 /
+    100 at 463 / 270 / 61 px, same as the report): columns 160-295 px agree with the spec within 1 % in y; rows
+    120-395 px on the steep B part agree within 0.7 % in J (e.g. y 10.0: mine 11 979, spec 11 922; y 52.4: mine
+    16 998, spec 16 977). 160 arc-length samples, dense on B.
+O5. Letter Fig. 2 re-digitized: own ticks identical (x 488.5 ... 1545.0, y 2259.5 ... 135.5 px); broad curve at
+    8250 / 8300 / 8350 / 8450 / 8500 / 8550 / 8600 / 8650 Å within 0.005 of the spec; narrow curve within one
+    stroke width; narrow apex top 4.14 vs spec 4.12 (stroke centre); widths from the spec points 129 Å / 26.5 Å, so
+    the 25 vs 15 Å plot note (ruling 3) is right.
+O6. Letter Fig. 3 re-digitized at 10 wavelengths 8395-8449 Å: all four curves within 0.005, except d at 8433 Å
+    (steep flank between the 8430 peak and the dip: column read 2.74 vs spec 2.85, a column-read bias of mine); peaks
+    a 0.18 / b 0.72 at 8420 / c 1.78 at 8422 / d 3.20 at 8430 Å confirmed; shared a/b and c/d left ends match the
+    merged strokes of the figure.
+O7. Sampling density: threshold 160 points over a 1.2-decade arc; spectrum 167 / 209 points (3 Å bins of a 650 Å
+    span); modes about 150 points per curve (0.4 Å of 64 Å). The broad-curve gap 8721-8785 Å lies on the baseline
+    (about 0.01) and is disclosed in the report.
+O8. Ruling (1): threshold plot kept with relative y ("Light output (relative)"), note says the diode is not
+    identified and there is no unit; 8500 marker labelled "threshold, diode L-70 (letter text)" and the note gives
+    the letter's numbers. The marker sits where the patent curve has just left the dashed line (y / dash 1.16), a
+    fair comparison with the disclosure in the note.
+O9. Ruling (2): the hover on the cut piece ("Cut piece, patent example") states the 0.1 mm junction of the patent
+    and the switch to the letter's centred junction (i1_hover_piece.png); withheld entry 1 repeats it.
+O10. Junction drawn 0.012 mm (about 120x the 1000 Å patent example; "about 100x" fair); labelled in the role and
+    the piece hover (role length: I1).
+O11. Ruling (4): canvas label "Liquid nitrogen" only (77 K dim essential: false); 77 K with "US 3,245,002 col.
+    4:17-18" in hover and panel (i4_hover_ln2.png); the dim note says the letter prints no temperature.
+O12. Ruling (5): both faces emit (beamSide(+1) and beamSide(-1), equal intensity; no source gives a ratio, and
+    equal output is the plain reading of two uncoated polished faces); hover says the letter measured the front.
+O13. Spectrum chapter physics: broad curve = glow without beam, narrow curve = beam on; matches the letter
+    (spectrometer on the beam axis; width falls through threshold; Fig. 1a below threshold shows no beamed pattern).
+O14. Modes chapter physics: beam only for curves above 8500 A/cm^2 (b 8600, c, d), parsed from the series names;
+    curve a (6000) below threshold shows glow only; extra modes at longer wavelength per the letter.
+O15. Beam geometry: flat fan in the junction plane (6 deg half-angle horizontal, 0.6 deg vertical, both labelled
+    illustrative) has the sense of L-75's pattern (wide in azimuth, a few tenths of a degree vertical, p.368);
+    beam clipped before the plot panel (beamClip with plotBox), rear beam stops right of the pulse source.
+O16. Topology: p above n (patent FIG. 1, basis figure), junction at mid-height (letter), contacts top and bottom,
+    disc as bottom contact (inference stated in the detail), front / back faces normal to the junction, side faces
+    plain with the taper withheld; Dewar, converter tube, spectrometer, leads' shape not drawn.
+O17. Patent piece geometry: 0.4 x 0.4 mm faces, 0.5 mm tall after the bottom skin is ground off, p skin 0.1 mm on
+    top, as col. 3:45-50 ("As cut ... .5 mm. thick and .4 mm. x .4 mm."); wafer 0.6 mm and ampoule size labelled
+    assumed.
+O18. Process chapters: every HUD value carries basis + locator; letter rows marked source "letter"; zinc skin grows
+    from all surfaces during the hot phase; ampoule fades after.
+O19. Text budgets: keywords <= 3 words; lines <= 12 words (diffuse line exactly 12); one amber emphasis
+    ("Line *narrows*"); 3 plot chapters; 2 essential dims (cube edge 0.4 mm, 842 nm).
+O20. No internal shorthands in viewer-facing fields of the built JSON or module strings (grep for paper ids, D-ids,
+    DevLog, hist_, cmp_, era codes: only file names and part ids, which are not displayed); PickInfo ids
+    (patent_piece, cavity_axis) are not shown.
+O21. title_note: both "first" sentences quoted; Nathan et al. (APL 1, 62, 1962-11-01) and Quist et al. (APL 1, 91,
+    1962-12-01) are in the patent's References Cited (PDF p.8; the report says "front matter", report wording only).
+O22. Drawing note "Patent body tapered (side faces 13, 14); the letter's diodes were about 0.4 mm cubes, as
+    modelled." shown under the drawing; crop contains the whole FIG. 1 (connector 9 end to plate 7 corner, "Fig. 1."
+    label included).

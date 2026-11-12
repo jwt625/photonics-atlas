@@ -22,12 +22,13 @@
 		scrollProgress,
 		seg
 	} from './progress';
-	import { logOf, plotLabel, toggleLog, withAlternates, type LogState } from './plot';
+	import Rich from './Rich.svelte';
+	import { plotProgressIn, logOf, plainMarkup, plotLabel, toggleLog, withAlternates, type LogState } from './plot';
 	import { claim, loadOrbit, shared, unclaim, type Claimant } from './three';
 	import type { Trace } from './trace';
 	import TraceView from './TraceView.svelte';
 	import type { Part, PickInfo, ShowcaseHandle, ShowcaseSpec } from './types';
-	import { essentialDimText, labelLeft, orbitLimits, plainKeyword, stepTipLines, playAt, playDuration, playPlan, type PlayLeg } from './progress';
+	import { thumbP, partTipLines, pickDetail, essentialDimText, labelLeft, orbitLimits, plainKeyword, stepTipLines, playAt, playDuration, playPlan, type PlayLeg } from './progress';
 
 	let {
 		id,
@@ -103,7 +104,7 @@
 	);
 	const plotNow = $derived(
 		plots
-			.map((it) => ({ ...it, o: it.idx >= 0 ? kws[it.idx].o : seg(p, it.r[0], it.r[0] + 0.05), dy: it.idx >= 0 ? kws[it.idx].dy : 0, rr: seg(p, it.r[0], it.r[0] + 0.9 * (it.r[1] - it.r[0])) }))
+			.map((it) => ({ ...it, o: it.idx >= 0 ? kws[it.idx].o : seg(p, it.r[0], it.r[0] + 0.05), dy: it.idx >= 0 ? kws[it.idx].dy : 0, rr: plotProgressIn(it.r, p) }))
 			.find((it) => it.o > 0.01) ?? null
 	);
 	// alternates of the plot on screen (main first) and the one chosen per main plot id; log choices per plot id
@@ -111,6 +112,15 @@
 	let logState = $state<LogState>({});
 	const alts = $derived(plotNow && spec?.plots ? withAlternates(spec.plots, plotNow.pl.id).filter((q) => q.kind === 'levels' || Array.isArray(q.series)) : []);
 	const plotShown = $derived(plotNow ? (alts.find((q) => q.id === altSel[plotNow.pl.id]) ?? plotNow.pl) : null);
+	// handle.plot(id): tell the module which plot is on screen (null = none) when it changes, and once when ready
+	let lastPlotId: string | null | undefined = undefined;
+	$effect(() => {
+		const id = plotShown?.id ?? null;
+		if (!ready || !handle?.plot || id === lastPlotId) return;
+		lastPlotId = id;
+		handle.plot(id);
+		requestDraw();
+	});
 	const step = $derived.by(() => {
 		const c = chapters[cb];
 		if (!c || !spec?.process) return null;
@@ -138,7 +148,8 @@
 		if (raf) return;
 		raf = requestAnimationFrame(() => {
 			raf = 0;
-			if (reduced) return;
+			// Play sets p itself in the same frame as its scroll; the scroll it causes is not a new input
+			if (reduced || playing) return;
 			const m = measure();
 			if (m) setP(scrollProgress(m.secTop, m.secH, m.viewTop, m.viewH));
 		});
@@ -170,6 +181,25 @@
 		if (scroller) scroller.scrollBy({ top, behavior: 'auto' });
 		else window.scrollBy({ top, behavior: 'auto' });
 	}
+	let sro: ResizeObserver | null = null;
+	/** The scroll container changed height (menu bar hidden / shown, address bar, rotation): the stage and the track
+	 *  follow it; the story in view keeps its p (its scroll position is re-derived), Play re-reads its geometry. */
+	function onScrollerResize() {
+		if (!scroller) return;
+		const h = scroller.clientHeight;
+		if (h === viewH) return;
+		const keep = p;
+		const inView = !reduced && share > 0.5;
+		viewH = h;
+		tick().then(() => {
+			if (!scroller || disposed) return;
+			if (inView && !playing) {
+				const m = measure();
+				if (m) scroller.scrollTop += scrollDeltaFor(keep, m.secTop, m.secH, m.viewTop, m.viewH);
+			}
+			if (playing) playGeom();
+		});
+	}
 	let near: IntersectionObserver | null = null;
 	let vis: IntersectionObserver | null = null;
 	let share = 0;
@@ -196,6 +226,11 @@
 			);
 			near.observe(track);
 			vis.observe(track);
+			sro?.disconnect();
+			if (scroller) {
+				sro = new ResizeObserver(onScrollerResize);
+				sro.observe(scroller);
+			}
 		}
 		viewH = scroller ? scroller.clientHeight : innerHeight;
 		onScroll();
@@ -204,17 +239,26 @@
 	// ------------------------------------------------------------------------------------------- model
 	function draw() {
 		if (!handle) return;
+		drawnKey = drawKey();
 		handle.explode?.(kEff);
 		handle.frame(p);
 		if (three && free && pose) {
 			three.camera.position.copy(pose.pos);
 			three.camera.lookAt(pose.target);
 		}
-		if (three && renderer && holding) renderer.render(three.scene, three.camera);
+		if (three && renderer && holding) {
+			// optional per-story strength of the shared room environment (three r186: material.envMapIntensity does not
+			// scale scene.environment); scene-owned, so it never leaks into another story's renders
+			if (typeof handle.environmentIntensity === 'number') three.scene.environmentIntensity = handle.environmentIntensity;
+			renderer.render(three.scene, three.camera);
+		}
 		placeLabels();
 	}
 	function placeLabels() {
-		if (!handle?.anchor || !spec) return (labels = []);
+		if (!handle?.anchor || !spec) {
+			if (labels.length) labels = [];
+			return;
+		}
 		const c = chapters[cb];
 		const ids = (Array.isArray(c?.labels) ? c.labels : (c?.parts ?? [])).filter((q) => partById.get(q)?.essential);
 		const out: typeof labels = [];
@@ -222,8 +266,10 @@
 			const a = handle.anchor(q);
 			const part = partById.get(q);
 			if (!a || !part) continue;
-			out.push({ id: q, x: a[0], y: a[1], name: part.name, dim: dimText(part) });
+			out.push({ id: q, x: Math.round(a[0] * 2) / 2, y: Math.round(a[1] * 2) / 2, name: part.name, dim: dimText(part) });
 		}
+		// unchanged labels keep the same array: no DOM work on frames where nothing moved
+		if (out.length === labels.length && out.every((l, i) => l.id === labels[i].id && l.x === labels[i].x && l.y === labels[i].y)) return;
 		labels = out;
 	}
 	/** all essential dims of a part: "10 mm x 20 mm" when the units agree, else comma separated */
@@ -231,19 +277,28 @@
 	/** measured label widths (canvas labels flip left or clamp to stay inside the pane) */
 	let labW = $state<Record<string, number>>({});
 	let drawQueued = false;
-	function requestDraw() {
+	let drawForce = false;
+	let drawnKey = '';
+	const drawKey = () => `${p}|${kEff}|${free}`;
+	/** Draw on the next frame; unforced requests (p, explode, orbit changes) are dropped when that state was already
+	 *  drawn this frame (Play draws synchronously with its scroll). */
+	function requestDraw(force = true) {
+		drawForce ||= force;
 		if (drawQueued) return;
 		drawQueued = true;
 		requestAnimationFrame(() => {
 			drawQueued = false;
-			if (!disposed) draw();
+			const f = drawForce;
+			drawForce = false;
+			if (disposed || (!f && drawnKey === drawKey())) return;
+			draw();
 		});
 	}
 	$effect(() => {
 		void p;
 		void kEff;
 		void free;
-		if (ready) requestDraw();
+		if (ready) requestDraw(false);
 	});
 	$effect(() => {
 		const ids = on;
@@ -295,6 +350,7 @@
 		},
 		revoke(moving) {
 			if (moving && renderer && three && pane?.contains(renderer.domElement)) {
+				if (typeof handle?.environmentIntensity === 'number') three.scene.environmentIntensity = handle.environmentIntensity;
 				renderer.render(three.scene, three.camera);
 				try {
 					poster = renderer.domElement.toDataURL('image/png');
@@ -339,6 +395,15 @@
 			requestDraw();
 		});
 		controls = c;
+	}
+	/** Phones during Play: render at most `cap` device pixels per CSS pixel (the shared renderer), restore on pause. */
+	function setRenderCap(cap: number) {
+		if (!renderer || !holding) return;
+		const pr = Math.min(window.devicePixelRatio || 1, cap);
+		if (renderer.getPixelRatio() === pr) return;
+		renderer.setPixelRatio(pr);
+		renderer.setSize(paneW || 1, paneH || 1);
+		requestDraw();
 	}
 	function resetView() {
 		free = false;
@@ -405,6 +470,7 @@
 		if (pane) ro.observe(pane);
 		const onWin = () => refreshScroller();
 		addEventListener('resize', onWin);
+		window.visualViewport?.addEventListener('resize', onWin);
 		return () => {
 			disposed = true;
 			pause();
@@ -413,6 +479,8 @@
 			vis?.disconnect();
 			ro.disconnect();
 			removeEventListener('resize', onWin);
+			window.visualViewport?.removeEventListener('resize', onWin);
+			sro?.disconnect();
 			(scroller ?? window).removeEventListener('scroll', onScroll);
 			if (raf) cancelAnimationFrame(raf);
 			unclaim(claimant);
@@ -424,10 +492,7 @@
 	});
 
 	// ------------------------------------------------------------------------------------------- parts linking
-	function partTip(q: Part): string[] {
-		const dims = (q.dims ?? []).filter((d) => d.essential).map((d) => `${d.label}: ${d.value}${d.unit ? ' ' + d.unit : ''}`);
-		return [q.name, q.role ?? '', ...dims].filter(Boolean);
-	}
+	const partTip = (q: Part, extra: string[] = []): string[] => partTipLines(q, extra);
 	function hover(idv: string | null, e?: { clientX: number; clientY: number }) {
 		hoverId = idv;
 		const q = idv ? partById.get(idv) : null;
@@ -437,10 +502,16 @@
 	function hoverPick(hit: string | PickInfo | null, e: { clientX: number; clientY: number }) {
 		if (!hit) return hover(null);
 		const id = typeof hit === 'string' ? hit : hit.id;
-		if (partById.has(id)) return hover(id, e);
+		const det = pickDetail(hit);
+		const part = partById.get(id);
+		if (part) {
+			// a spec part: the usual part tooltip, plus the module's detail lines (per-part caveats) under the role
+			hover(id, e);
+			if (det.length) tipBox = { x: e.clientX, y: e.clientY, lines: partTip(part, det) };
+			return;
+		}
 		if (typeof hit === 'string') return hover(null);
 		hoverId = id;
-		const det = hit.detail == null ? [] : Array.isArray(hit.detail) ? hit.detail : [hit.detail];
 		tipBox = { x: e.clientX, y: e.clientY, lines: [hit.label, ...det].filter(Boolean) };
 	}
 	const pickId = (hit: string | PickInfo | null): string | null => (hit == null ? null : typeof hit === 'string' ? hit : hit.id);
@@ -468,11 +539,17 @@
 		return [e.clientX - r.left, e.clientY - r.top];
 	}
 	// overlays with their own pointer handling (plot) are not part of the model
-	const overlay = (e: Event) => !!(e.target as Element | null)?.closest?.('.plotbox, .ctrl, .lab');
+	const overlay = (e: Event) => !!(e.target as Element | null)?.closest?.('.plotbox, .ctrl, .lab, .step');
 	function onPaneMove(e: PointerEvent) {
 		if (!handle || !ready || e.buttons) return;
 		if (overlay(e)) {
-			if (hoverId) hoverId = null;
+			// over the plot: the plot owns the tooltip (point / bar values); only the model hover is dropped
+			if ((e.target as Element | null)?.closest?.('.plotbox')) {
+				if (hoverId) hoverId = null;
+				return;
+			}
+			// over a control or chip: drop the model hover and its tooltip
+			if (hoverId || tipBox) hover(null);
 			return;
 		}
 		if (pickQueued) return;
@@ -517,13 +594,36 @@
 	let lastPlayP = -1;
 	let article: HTMLElement | undefined = $state();
 	const plotIdx = $derived(new Set(plots.map((it) => it.idx).filter((i) => i >= 0)));
+	// Play geometry: scrollTop of p = 0 and the scroll run of the track, cached so frames write scrollTop without reading
+	// layout; recomputed when the scroll container resizes (menu bar hidden / shown, rotation)
+	let playOffset = 0;
+	let playRun = 0;
+	let expectTop = -1;
+	function playGeom(): boolean {
+		const m = measure();
+		if (!m || !scroller) return false;
+		playOffset = scroller.scrollTop + (m.secTop - m.viewTop);
+		playRun = Math.max(0, m.secH - m.viewH);
+		return true;
+	}
+	/** One Play frame: write scrollTop, set p and draw in the same frame (no scroll-event round trip). */
+	function playTo(v: number) {
+		if (reduced || !scroller) return goTo(v, false);
+		scroller.scrollTop = playOffset + v * playRun;
+		expectTop = scroller.scrollTop;
+		setP(v);
+		if (ready) draw();
+	}
 	function play() {
 		if (!ready || !chapters.length) return;
 		const p0 = p >= 0.999 ? 0 : p;
 		plan = playPlan(chapters, p0, (i) => plotIdx.has(i), reduced);
-		goTo(p0, false);
+		if (!reduced) playGeom();
+		expectTop = -1;
+		playTo(p0);
 		lastPlayP = p0;
 		playing = true;
+		if (coarse) setRenderCap(1.5);
 		playStart = performance.now();
 		addEventListener('wheel', interrupt, { capture: true, passive: true });
 		addEventListener('touchstart', interrupt, { capture: true, passive: true });
@@ -536,10 +636,12 @@
 		playRaf = requestAnimationFrame((now) => {
 			if (!playing || disposed) return;
 			const t = now - playStart;
+			// the user (or leftover touch momentum) moved the page since our last write: they take over
+			if (!reduced && scroller && expectTop >= 0 && Math.abs(scroller.scrollTop - expectTop) > 3) return pause();
 			const v = playAt(plan, t);
 			if (Math.abs(v - lastPlayP) > 1e-5) {
 				lastPlayP = v;
-				goTo(v, false);
+				playTo(v);
 			}
 			if (t >= playDuration(plan)) return pause();
 			stepPlay();
@@ -548,6 +650,8 @@
 	function pause() {
 		if (!playing) return;
 		playing = false;
+		expectTop = -1;
+		if (coarse) setRenderCap(2);
 		cancelAnimationFrame(playRaf);
 		removeEventListener('wheel', interrupt, { capture: true });
 		removeEventListener('touchstart', interrupt, { capture: true });
@@ -560,7 +664,7 @@
 		else play();
 	}
 	function interrupt(e: Event) {
-		if ((e.target as Element | null)?.closest?.('.playbtn')) return;
+		if ((e.target as Element | null)?.closest?.('.playbtn, .pinbtn, .chrome-handle, .chrome-hot')) return;
 		pause();
 	}
 	function interruptKey(e: KeyboardEvent) {
@@ -611,11 +715,11 @@
 
 <svelte:window onkeydown={onKey} />
 
-<article class="story" id="story-{id}" class:reduced bind:this={article}>
+<article class="story" id="story-{id}" class:reduced bind:this={article} data-thumb-p={spec ? thumbP(spec) : null}>
 	<header class="shead">
 		<div class="tl">
-			<h3>{spec?.title ?? ''}</h3>
-			{#if spec?.tagline}<p>{spec.tagline}</p>{/if}
+			<h3><Rich text={spec?.title ?? ''} /></h3>
+			{#if spec?.tagline}<p><Rich text={spec.tagline} /></p>{/if}
 		</div>
 		<div class="meta">
 			<span class="num">{year ?? ''}</span>
@@ -632,14 +736,14 @@
 				<div class="kw" style:--kw="{kwSize}px">
 					{#each chapters as c, i (c.id)}
 						<div class="kwi" style:opacity={kws[i]?.o ?? 0} style:transform="translateY({kws[i]?.dy ?? 0}px)" aria-hidden={i !== cb}>
-							<div class="big">{#each emphasis(c.keyword) as run, j (j)}{#if run.em}<em>{run.t}</em>{:else}{run.t}{/if}{/each}</div>
-							{#if c.line}<div class="line">{c.line}</div>{/if}
+							<div class="big">{#each emphasis(c.keyword) as run, j (j)}{#if run.em}<em><Rich text={run.t} /></em>{:else}<Rich text={run.t} />{/if}{/each}</div>
+							{#if c.line}<div class="line"><Rich text={c.line} /></div>{/if}
 						</div>
 					{/each}
 				</div>
 				{#each labels as l (l.id)}
 					<div class="lab" class:on={on.includes(l.id)} bind:offsetWidth={labW[l.id]} style:left="{labelLeft(l.x, labW[l.id] ?? 0, paneW)}px" style:top="{l.y}px">
-						<span>{l.name}</span>{#if l.dim}<b class="num">{l.dim}</b>{/if}
+						<span><Rich text={l.name} /></span>{#if l.dim}<b class="num"><Rich text={l.dim} /></b>{/if}
 					</div>
 				{/each}
 				{#if plotNow}
@@ -652,14 +756,14 @@
 						{#if alts.length > 1}
 							<div class="alts" role="group" aria-label="Plot source">
 								{#each alts as q (q.id)}
-									<button class:on={q.id === plotShown?.id} onclick={() => plotNow && (altSel = { ...altSel, [plotNow.pl.id]: q.id })} data-tip={q.title || q.id}>{plotLabel(q)}</button>
+									<button class:on={q.id === plotShown?.id} onclick={() => plotNow && (altSel = { ...altSel, [plotNow.pl.id]: q.id })} data-tip={plainMarkup(q.title || q.id)}><Rich text={plotLabel(q)} /></button>
 								{/each}
 							</div>
 						{/if}
 					</div>
 				{/if}
 				{#if step}
-					<div class="step" class:above={!!plotNow && plotNow.o > 0.01} data-tip={stepTipLines(step).join('\n')}>{step.name}</div>
+					<div class="step" class:above={!!plotNow && plotNow.o > 0.01} data-tip={stepTipLines(step).map(plainMarkup).join('\n')}><Rich text={step.name} /></div>
 				{/if}
 			</div>
 			<div class="side">
@@ -692,7 +796,7 @@
 								onblur={() => hover(null)}
 								onclick={() => togglePin(q.id)}
 							>
-								<span class="sw" style:background={q.look?.color ?? 'var(--ink-3)'}></span>{q.name}
+								<span class="sw" style:background={q.look?.color ?? 'var(--ink-3)'}></span><span><Rich text={q.name} /></span>
 							</button>
 						</li>
 					{/each}
@@ -706,7 +810,7 @@
 				</button>
 				<div class="chap" role="group" aria-label="Chapters">
 					{#each chapters as c, i (c.id)}
-						<button class:on={i === cb} data-tip={plainKeyword(c.keyword)} aria-label={plainKeyword(c.keyword)} onclick={() => (pause(), goTo(chapterTarget(c)))}><span class="cn num">{i + 1}</span><span class="ck">{plainKeyword(c.keyword)}</span></button>
+						<button class:on={i === cb} data-tip={plainMarkup(plainKeyword(c.keyword))} aria-label={plainMarkup(plainKeyword(c.keyword))} onclick={() => (pause(), goTo(chapterTarget(c)))}><span class="cn num">{i + 1}</span><span class="ck"><Rich text={plainKeyword(c.keyword)} /></span></button>
 					{/each}
 				</div>
 				<input class="scrub" type="range" min="0" max="1000" value={Math.round(p * 1000)} aria-label="Story progress" data-tip="Story progress" oninput={(e) => (pause(), goTo(+e.currentTarget.value / 1000, false))} />
@@ -715,7 +819,7 @@
 					<span class="muted">Parts</span>
 					<button onclick={() => tour(1)} aria-label="Next part" data-tip="Next part (Right)">&gt;</button>
 				</div>
-				{#if canOrbit && hasExplode}
+				{#if assembled && hasExplode}
 					<label class="grp ex" data-tip="Explode the assembly">
 						<span class="muted">Explode</span>
 						<input type="range" min="0" max="100" value={Math.round(k * 100)} oninput={(e) => (k = +e.currentTarget.value / 100)} />
@@ -738,12 +842,14 @@
 	</section>
 	{#if tipBox}
 		<div class="sctip" role="tooltip" style:left="{Math.min(tipBox.x + 14, innerWidth - 270)}px" style:top="{tipBox.y + 16}px">
-			{#each tipBox.lines as l, i (i)}<div class:b={i === 0}>{l}</div>{/each}
+			{#each tipBox.lines as l, i (i)}<div class:b={i === 0}><Rich text={l} /></div>{/each}
 		</div>
 	{/if}
 </article>
 
 <style>
+	/* thumbnail capture mode (?thumb=1, app/scripts/showcase-thumbs.mjs): the model only, no text or overlays */
+	:global(html.sc-thumb) .kw, :global(html.sc-thumb) .lab, :global(html.sc-thumb) .plotbox, :global(html.sc-thumb) .step, :global(html.sc-thumb) .sctip { display: none !important; }
 	.story { position: relative; margin: 0 0 8px; }
 	/* plate language (D997): scotch rule over the story, display title, italic serif tagline; no edge bars, glows or
 	   shadows in the chrome */
@@ -795,7 +901,8 @@
 	.parts button:hover { color: var(--ink); background: var(--hover); }
 	.parts button.on { color: var(--ink); background: color-mix(in srgb, var(--accent) 18%, transparent); }
 	.parts button.fut { opacity: 0.35; }
-	.sw { width: 9px; height: 9px; flex-shrink: 0; }
+	/* 1 px neutral outline: near-white swatches stay visible in the light theme, near-black ones in the dark theme */
+	.sw { width: 9px; height: 9px; flex-shrink: 0; box-sizing: border-box; border: 1px solid color-mix(in srgb, var(--ink) 35%, transparent); }
 
 	.ctrl { grid-area: ctrl; display: flex; flex-wrap: wrap; align-items: center; gap: 6px 14px; padding: 6px 12px 8px; border-top: 1px solid var(--border); background: var(--surface); }
 	.chap { display: flex; gap: 2px; flex-wrap: wrap; }
