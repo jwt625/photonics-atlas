@@ -833,18 +833,18 @@
 					<span class="muted">Parts</span>
 					<button onclick={() => tour(1)} aria-label="Next part" data-tip="Next part (Right)">&gt;</button>
 				</div>
-				{#if assembled && hasExplode}
-					<label class="grp ex" data-tip="Explode the assembly">
+				<!-- p-dependent controls keep their slot (hidden before assembly): a control appearing mid-drag would resize the
+				     scrub bar under the pointer and make it jump -->
+				{#if hasExplode}
+					<label class="grp ex" class:slot={!assembled} data-tip="Explode the assembly" aria-hidden={!assembled}>
 						<span class="muted">Explode</span>
-						<input type="range" min="0" max="100" value={Math.round(k * 100)} oninput={(e) => (k = +e.currentTarget.value / 100)} />
+						<input type="range" min="0" max="100" value={Math.round(k * 100)} disabled={!assembled} oninput={(e) => (k = +e.currentTarget.value / 100)} />
 					</label>
 				{/if}
-				{#if canOrbit}
-					{#if free}
-						<button onclick={resetView} data-tip="Back to the story camera">Reset view</button>
-					{:else if coarse}
-						<button onclick={() => (free = true, pose = three ? { pos: three.camera.position.clone(), target: controls?.target.clone() ?? new three.THREE.Vector3() } : null)} data-tip="Drag to orbit, pinch to zoom">Orbit</button>
-					{/if}
+				{#if spec?.renderer === '3d' && free}
+					<button class:slot={!canOrbit} disabled={!canOrbit} aria-hidden={!canOrbit} onclick={resetView} data-tip="Back to the story camera">Reset view</button>
+				{:else if spec?.renderer === '3d' && coarse}
+					<button class:slot={!canOrbit} disabled={!canOrbit} aria-hidden={!canOrbit} onclick={() => (free = true, pose = three ? { pos: three.camera.position.clone(), target: controls?.target.clone() ?? new three.THREE.Vector3() } : null)} data-tip="Drag to orbit, pinch to zoom">Orbit</button>
 				{/if}
 			</div>
 			{#if panel && spec}
@@ -929,6 +929,7 @@
 	.scrub { flex: 1; min-width: 120px; accent-color: var(--accent); }
 	.grp { display: inline-flex; align-items: center; gap: 4px; }
 	.ex input { width: 90px; accent-color: var(--accent); }
+	.ctrl .slot { visibility: hidden; }
 
 	.pwrap { grid-row: 1; grid-column: 1 / -1; position: relative; pointer-events: none; }
 	.pwrap > :global(*) { pointer-events: auto; }

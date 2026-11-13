@@ -354,7 +354,7 @@ async function captureStory(browser, id) {
 	const hero = id === HERO;
 	const scale = hero ? 1 : SMALL;
 	const dir = join(OUT, 'frames', id);
-	const sig = JSON.stringify({ T, FPS, scale, DSF, PAUSE, GLIDE, RAMP, v: 4 });
+	const sig = JSON.stringify({ T, FPS, scale, DSF, PAUSE, GLIDE, RAMP, v: 5 });
 	const factor = Math.round(DSF / scale);
 	const done = join(dir, 'done.json');
 	if (!flag('force') && existsSync(done) && JSON.parse(readFileSync(done, 'utf8')).sig === sig) return log(`${id} skip (done)`);
@@ -392,7 +392,7 @@ async function captureStory(browser, id) {
 		const [b0, b1] = (opt('range', '') || `0:${N}`).split(':').map(Number);
 		for (let i = b0; i < Math.min(b1, N); i++) {
 			const fr = tl.frames[i];
-			const key = `${fr.p.toFixed(6)}|${fr.x}|${fr.y}`;
+			const key = `${fr.p.toFixed(6)}|${fr.x}|${fr.y}|${fr.pause}`; // pause in the key: with the ramps the last pre-hold frame can equal the hold's p and cursor (D1135)
 			if (key !== last || !lastBuf) {
 				const first = fr.pause >= 0 && (i === 0 || tl.frames[i - 1].pause !== fr.pause);
 				await pg.evaluate(

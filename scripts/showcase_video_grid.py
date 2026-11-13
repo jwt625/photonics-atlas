@@ -8,11 +8,11 @@ Reads the per-story frame sequences written by app/scripts/showcase-video.mjs (o
 plays the hero story full frame for two loops, and zooms out from the hero tile to the 4x4 chronological grid between
 --zoom-start (default 1/2 of the duration, D1130) and the last frame. The zoom is one scale about the fixed point of the
 hero-tile-to-frame map, interpolated in log scale with a sine ease-in-out, so it ends exactly on the grid; the grid then
-holds for --hold s with every tile still looping (default 15 s = one complete loop, ending with all stories at p = 1).
+holds for --hold s with every tile still looping (default 8 s, D1134; tiles restart at 30 s and stop part way).
 
 Usage (repo root):
   uv run scripts/showcase_video_grid.py [--src cache/showcase_video] [--hero macchesney1974] [--loops 2]
-      [--zoom-start 0.5] [--gap 4] [--hold 15] [--out cache/showcase_video/history_stories_grid.mp4] [--frames a:b --png DIR]
+      [--zoom-start 0.5] [--gap 4] [--hold 8] [--out cache/showcase_video/history_stories_grid.mp4] [--frames a:b --png DIR]
 """
 
 from __future__ import annotations
@@ -45,7 +45,7 @@ def main() -> int:
     ap.add_argument("--fps", type=int, default=30)
     ap.add_argument("--zoom-start", type=float, default=0.5)
     ap.add_argument("--gap", type=float, default=4)
-    ap.add_argument("--hold", type=float, default=15, help="s of the full grid after the zoom, all tiles playing (D1131)")
+    ap.add_argument("--hold", type=float, default=8, help="s of the full grid after the zoom, all tiles playing (D1131, D1134)")
     ap.add_argument("--out", default=None)
     ap.add_argument("--frames", default=None, help="a:b subset (test); writes PNGs to --png instead of a video")
     ap.add_argument("--png", default=None)
