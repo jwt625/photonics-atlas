@@ -1,0 +1,251 @@
+# Audit patch lit_126 (fresh-context audit 2026-11-12, DevLog/audits/2026-11-12-lit_126-audit.md).
+# 166 metrics: 154 ok / 12 imprecise / 0 wrong; 37 components: 33 ok / 4 imprecise / 0 wrong; 0 deleted; 20 misses added.
+# Coordinator rulings open (audit Q1-Q7): Q1 Ps fit parameter as psat_out_dbm (no op), Q2 thai2018 T0 of an optical pump
+# threshold (no op; to remove it add delete_metrics cmp_lit_thai2018_gesn_microdisk_10um-m3), Q3 kumar2025 class butt (no op),
+# Q4 souleiman2024 / gasse2019 fab empty (no op), Q5 beeck2020 ring-laser wavelength miss (to drop, remove the add for
+# cmp_lit_beeck2020_ring_laser-m9), Q6 D153 geometry misses (to drop the souleiman2024 BOX rows, remove the four -m3 adds),
+# Q7 lee2022 SOA 10 dB (no op).
+components:
+  cmp_lit_kumar2025_pic_pic_oxide_align:
+    notes: 'Fab: ''We fabricate the devices'' (p.5 Sec. 3), both authors at the University of Rochester; facility: acknowledgment places device fabrication at the Cornell NanoScale Facility and the Integrated Nanosystems Center at University of Rochester (p.10; the latter missing from the registry). Alignment: elastic averaging, rings on the PIC back (outer radius about 800 um, 10 um high, 100 um wide) on pillars of an SiO2-on-Si interposer (4 um high, radius about 600 um), 1000 x 1000 um2 cells (p.4, design). Coupling loss = Lt - L1A - L1B, the fiber-to-PIC losses of each chip measured separately with a 20x / 0.4 NA objective (p.6). SiO2 alignment structures about 9 um tall on the PIC back and 4 um on the interposer (Fig. 6 caption). Measured placement: lateral misalignment 260 nm (+/-100 nm, optical microscopy) and height difference 238 nm mean, 66.1 nm std over 15 reassemblies (p.8): no assembly-accuracy parameter. Fig. 6 holds six ports per assembly; the sixth sits on the right plot border and also carries the right-axis misalignment reading. Audit read of the oxide ports (250 dpi, 420 px/dB): about -3.05 / -2.79 / -2.39 / -2.77 / -3.00 / -2.28 dB, i.e. best -2.28, mean -2.71, std 0.29-0.32 dB, matching the printed -2.3 / -2.7 / 0.3 dB (no conflict). Abstract / p.2 print -2.4 dB link loss between two PICs without naming the assembly or port (oxide port 3 reads about -2.39 dB). Simulated 1-dB height tolerance 1.8 um (p.4): no vertical-tolerance parameter. Simulated values apply to the coupler design shared with cmp_lit_kumar2025_pic_pic_si_align.'
+    why: 'p.7 Fig. 6: the batch note read only ports 1-5 and called the printed -2.3 dB a D417 conflict; the sixth port (right border, left-axis reading about -2.28 dB) is the best port, and the six-port mean / std reproduce the printed -2.7 / 0.3 dB'
+  cmp_lit_kumar2025_pic_pic_si_align:
+    notes: 'Fab: ''We fabricate the devices'' (p.5 Sec. 3), both authors at the University of Rochester; facility: acknowledgment places device fabrication at the Cornell NanoScale Facility and the Integrated Nanosystems Center at University of Rochester (p.10; the latter missing from the registry). Alignment: elastic averaging, rings on the PIC back (outer radius about 800 um, 10 um high, 100 um wide) on pillars of an SiO2-on-Si interposer (4 um high, radius about 600 um), 1000 x 1000 um2 cells (p.4, design). Coupling loss = Lt - L1A - L1B, the fiber-to-PIC losses of each chip measured separately with a 20x / 0.4 NA objective (p.6). Si alignment structures shallow etched, about 30 um (Fig. 6 caption), DRIE. Fig. 6 holds six ports per assembly, the sixth on the right plot border. Audit read of the Si ports (250 dpi, 420 px/dB): about -3.15 / -2.84 / -3.27 / -3.65 / -3.22 / -2.50 dB, i.e. best -2.50, mean -3.11, std 0.36 dB (population), matching the printed -2.5 / -3.1 / 0.36 dB (no conflict); -2.5 dB also equals the -0.4 dB misalignment estimate plus the -2.1 dB simulated gap loss. Same coupler design as cmp_lit_kumar2025_pic_pic_oxide_align (simulated values there).'
+    why: 'p.7 Fig. 6: the batch note compared the printed -2.5 dB with the best of ports 1-5 (about -2.84 dB) and called it a conflict; the sixth port (right border, about -2.50 dB) is the best port and the six-port mean / std reproduce the printed -3.1 / 0.36 dB'
+  cmp_lit_lee2022_sgdbr_laser_1:
+    notes: 'Fab: the PIC was made on the generic InP foundry platform of Fraunhofer HHI in MPW runs (p.2, p.8). Front SG DBR Z0 93.9 um, Z1 7.63 um, 6 bursts; rear Z0 106 um, Z1 12.12 um, 8 bursts (Table 2, design). Output path: MMIs, SOA1 and the 7 deg SSC1 (AR-coated facet). The printed maximum SMSR 48 dB (p.5) belongs to laser 2 (Fig. 5(b): highest point orange near 1556 nm; laser 1 points reach about 45 dB near 1534 nm), entered on cmp_lit_lee2022_sgdbr_laser_2. Fig. 3 caption prints 6 mA SOA current, text 60 mA. Combined two-laser tuning 43 nm (5.36 THz beat bandwidth) and THz power 1.8-320 uW are PIC / system values with an external photodiode emitter: not entered.'
+    why: 'p.6 Fig. 5(b) ties the printed 48 dB maximum SMSR to laser 2 (legend colours); the note said the laser was not named'
+  cmp_lit_lee2022_sgdbr_laser_2:
+    notes: 'Fab: the PIC was made on the generic InP foundry platform of Fraunhofer HHI in MPW runs (p.2, p.8). Front SG DBR Z0 97.5 um, Z1 7.63 um, 6 bursts; rear Z0 110.1 um, Z1 12.58 um, 8 bursts (Table 2, design). Output path: MMIs, SOA1 and the 7 deg SSC1 (AR-coated facet). Maximum SMSR 48 dB (p.5) is tied to this laser by Fig. 5(b) (highest point, orange, near 1556 nm): entered as m14. Fig. 3 caption prints 6 mA SOA current, text 60 mA. Combined two-laser tuning 43 nm (5.36 THz beat bandwidth) and THz power 1.8-320 uW are PIC / system values with an external photodiode emitter: not entered.'
+    why: 'p.6 Fig. 5(b) ties the printed 48 dB maximum SMSR to laser 2 (legend colours); the note said the laser was not named'
+  cmp_lit_thai2018_gesn_microdisk_10um:
+    notes: 'Fab empty: patterning and etching described with passive verbs, no fabricator named (D80b); all authors at Univ. Grenoble Alpes / CEA (INAC-Pheliqs, Leti). Pump: pulsed 1064 nm Nd:YAG, 51 kHz, 0.6 ns, 20 um spot. Thresholds are optical pump power densities, no registry parameter: 134 kW/cm2 at 15 K, 375 at 135 K, 640 at 190 K (p.4), 503 kW/cm2 by extrapolation and at most 790 kW/cm2 from the spectral change at 230 K (p.5). Maximum lasing temperature 230 K, no lasing at 250 K (p.4): no parameter. Simulated (1D, TE0) confinement 63 % in the perimeter (p.6). Pages 6 and 8 of the text layer interleave columns: values there read from the page renders. Multimode lasing. Characteristic temperature T0 = 117 K (''nominal'', exponential fit 15-230 K of the optical pump threshold power density, p.5 Sec. 3.1, Fig. 3(c)): not a threshold-current T0, so no metric row (registry candidate: T0 of an optical pump threshold).'
+    why: 'coordinator ruling D568 (audit Q2, strict definition): characteristic_temperature_k is defined for the threshold current; the 117 K fit is of an optical pump density threshold, value kept in notes'
+metrics:
+  cmp_lit_gasse2019_si_iiiv_taper-m2:
+    band: ''
+    wavelength_nm: '1575'
+    notes: 'wavelength not stated with the simulation; entered as the device operating wavelength (material gain peak about 1575 nm, p.5; the measured taper loss is also at 1575 nm, p.8). 1575 nm lies in the L band, so c_band was not the device band'
+    why: 'p.5 Sec. 3 states the gain peak (and fiber-angle optimum) at about 1575 nm; rule 8 enters the stated operating wavelength, and the note already said 1575 nm while the row carried c_band'
+  cmp_lit_kumar2025_pic_pic_oxide_align-m1:
+    n_samples: 6
+    notes: 'no wavelength stated anywhere in the paper; printed -2.3 dB next to the -2.7 dB average, read as the best port; Fig. 6 port 6 (right plot border) reads about -2.28 dB, the lowest of the six oxide ports (audit read, 420 px/dB at 250 dpi, about +/-0.01 dB): consistent'
+    why: 'p.7 Fig. 6 shows six oxide ports (x = 1-6, port 6 on the right border); the note compared the printed value with ports 1-5 only and reported a conflict that does not exist'
+  cmp_lit_kumar2025_pic_pic_oxide_align-m2:
+    n_samples: 6
+    why: 'p.7 Fig. 6: six ports per assembly; the six-port mean of the audit read (about -2.71 dB) reproduces the printed -2.7 dB'
+  cmp_lit_kumar2025_pic_pic_oxide_align-m3:
+    n_samples: 6
+    why: 'p.7 Fig. 6: six ports per assembly; the six-port spread (std 0.29-0.32 dB) reproduces the printed 0.3 dB'
+  cmp_lit_kumar2025_pic_pic_oxide_align-m4:
+    n_samples: 6
+    why: 'p.6 Sec. 4 and p.7 Fig. 6 right axis: the misalignment estimate is the best of the six measured oxide ports minus the simulated gap loss'
+  cmp_lit_kumar2025_pic_pic_oxide_align-m5:
+    n_samples: 6
+    why: 'p.6 Sec. 4: the -0.6 dB average misalignment loss is the six-port mean minus the simulated gap loss (Fig. 6, six ports)'
+  cmp_lit_kumar2025_pic_pic_si_align-m1:
+    n_samples: 6
+    notes: 'no wavelength stated anywhere in the paper; printed -2.5 dB next to the -3.1 dB average, read as the best port; Fig. 6 port 6 (right plot border) reads about -2.50 dB, the lowest of the six Si ports (audit read, 420 px/dB at 250 dpi): consistent'
+    why: 'p.7 Fig. 6 shows six Si ports; the note compared the printed value with the best of ports 1-5 (about -2.84 dB) and reported a conflict that does not exist'
+  cmp_lit_kumar2025_pic_pic_si_align-m2:
+    n_samples: 6
+    why: 'p.7 Fig. 6: six ports per assembly; the six-port mean of the audit read (about -3.11 dB) reproduces the printed -3.1 dB'
+  cmp_lit_kumar2025_pic_pic_si_align-m3:
+    n_samples: 6
+    why: 'p.7 Fig. 6: six ports per assembly; the six-port population std (about 0.36 dB) reproduces the printed 0.36 dB'
+  cmp_lit_kumar2025_pic_pic_si_align-m4:
+    n_samples: 6
+    why: 'p.6 Sec. 4 and p.7 Fig. 6 right axis: the misalignment estimate is the best of the six measured Si ports minus the simulated gap loss'
+  cmp_lit_lee2022_sgdbr_laser_1-m3:
+    qualifier: ''
+    why: 'p.4-5 Sec. 3: about qualifies the 3 mW facet power; the voltage is printed as 2.2 V without a qualifier (rule 7)'
+  cmp_lit_lee2022_sgdbr_laser_2-m3:
+    qualifier: ''
+    why: 'p.4-5 Sec. 3: about qualifies the 3 mW facet power; the voltage is printed as 2.2 V without a qualifier (rule 7)'
+add_metrics:
+- metric_id: cmp_lit_beeck2020_ring_laser-m9
+  component_id: cmp_lit_beeck2020_ring_laser
+  parameter: center_wavelength_nm
+  value: 1550
+  unit: nm
+  qualifier: approx
+  condition: 'operating wavelength as stated in the abstract; multimode cavity without spectral filter'
+  basis: measured
+  locator: p.1 abstract; p.7 Fig. 9
+  notes: 'printed as operating around 1550 nm (D393: a stated wavelength). Fig. 9 (20 C, 30 pm resolution), audit read of a 300 dpi render: single prominent peak about 1563 nm at 70 mA, about 1555.5 nm at 80 mA, peaks about 1555-1577 nm at 100 mA (+/-0.5 nm)'
+  why: 'Miss. p.1 abstract states the operating wavelength of the ring laser; the report said only the abstract gives it and left it out, but rule 8 / D393 treat an approximate printed wavelength as stated (Q5)'
+- metric_id: cmp_lit_beeck2020_ring_laser-m10
+  component_id: cmp_lit_beeck2020_ring_laser
+  parameter: length_um
+  value: 10000
+  unit: um
+  condition: 'Si3N4 spiral waveguide closing the cavity (passive part; the 1148 um SOA is cmp_lit_beeck2020_soa_1148um)'
+  basis: derived
+  locator: p.6 Sec. 4.B; Fig. 7
+  notes: 'printed 1 cm (1-cm-long spiral); cm -> um (D157 / D256)'
+  why: 'Miss (D153 geometry). p.6 Sec. 4.B and the Fig. 7 caption state the 1 cm spiral length of the cavity'
+- metric_id: cmp_lit_beeck2020_asi_wg_3um-m2
+  component_id: cmp_lit_beeck2020_asi_wg_3um
+  parameter: width_nm
+  value: 3000
+  unit: nm
+  basis: design_target
+  locator: p.3 Sec. 2
+  notes: 'printed 3000-nm-wide a-Si:H waveguide (the loss statement of m1)'
+  why: 'Miss (D153 geometry). p.3 Sec. 2 states the width of the waveguide the 5 dB/cm refers to'
+- metric_id: cmp_lit_beeck2020_asi_wg_3um-m3
+  component_id: cmp_lit_beeck2020_asi_wg_3um
+  parameter: core_thickness_nm
+  value: 370
+  unit: nm
+  condition: PECVD a-Si:H
+  basis: design_target
+  locator: p.2 Sec. 2; p.4 Sec. 3.B
+  why: 'Miss (D153 geometry). p.2 and p.4 state the 370 nm a-Si:H layer thickness; the row had no geometry'
+- metric_id: cmp_lit_beeck2020_sin_wg_reference-m2
+  component_id: cmp_lit_beeck2020_sin_wg_reference
+  parameter: width_nm
+  value: 3000
+  unit: nm
+  basis: design_target
+  locator: p.4 Sec. 3.B
+  notes: 'printed 3 um for the cutback waveguides of both samples (p.4); the Si3N4 waveguide width is printed 3000 nm on p.2 (same convention as cmp_lit_beeck2020_sin_wg_processed-m2)'
+  why: 'Miss (D153 geometry). p.4 Sec. 3.B gives the 3 um width for the reference cutback; the processed sibling carries it, the reference row did not'
+- metric_id: cmp_lit_beeck2020_sin_wg_reference-m3
+  component_id: cmp_lit_beeck2020_sin_wg_reference
+  parameter: core_thickness_nm
+  value: 300
+  unit: nm
+  condition: LPCVD stoichiometric Si3N4
+  basis: design_target
+  locator: p.4 Sec. 3.B
+  why: 'Miss (D153 geometry). p.4 Sec. 3.B states the 300 nm Si3N4 layer of the target and reference wafers; the processed sibling carries it, the reference row did not'
+- metric_id: cmp_lit_souleiman2024_vernier_ring_1-m2
+  component_id: cmp_lit_souleiman2024_vernier_ring_1
+  parameter: core_thickness_nm
+  value: 300
+  unit: nm
+  condition: Si waveguide height for the Vernier filters (500 nm SOI etched to two heights)
+  basis: design_target
+  locator: p.2 Sec. 2
+  why: 'Miss (D153 geometry). p.2 Sec. 2 states the 300 nm Si waveguide height used for the Vernier filters'
+- metric_id: cmp_lit_souleiman2024_vernier_ring_1-m3
+  component_id: cmp_lit_souleiman2024_vernier_ring_1
+  parameter: box_thickness_um
+  value: 2
+  unit: um
+  basis: design_target
+  locator: p.2 Sec. 2
+  why: 'Miss (D153 geometry). p.2 Sec. 2 states the 2 um BOX of the SOI platform (Q6)'
+- metric_id: cmp_lit_souleiman2024_vernier_ring_2-m2
+  component_id: cmp_lit_souleiman2024_vernier_ring_2
+  parameter: core_thickness_nm
+  value: 300
+  unit: nm
+  condition: Si waveguide height for the Vernier filters (500 nm SOI etched to two heights)
+  basis: design_target
+  locator: p.2 Sec. 2
+  why: 'Miss (D153 geometry). p.2 Sec. 2 states the 300 nm Si waveguide height used for the Vernier filters'
+- metric_id: cmp_lit_souleiman2024_vernier_ring_2-m3
+  component_id: cmp_lit_souleiman2024_vernier_ring_2
+  parameter: box_thickness_um
+  value: 2
+  unit: um
+  basis: design_target
+  locator: p.2 Sec. 2
+  why: 'Miss (D153 geometry). p.2 Sec. 2 states the 2 um BOX of the SOI platform (Q6)'
+- metric_id: cmp_lit_souleiman2024_sagnac_mirror-m2
+  component_id: cmp_lit_souleiman2024_sagnac_mirror
+  parameter: core_thickness_nm
+  value: 300
+  unit: nm
+  condition: Si waveguide height for the Sagnac mirrors (500 nm SOI etched to two heights)
+  basis: design_target
+  locator: p.2 Sec. 2
+  why: 'Miss (D153 geometry). p.2 Sec. 2 states the 300 nm Si waveguide height used for the Sagnac mirrors'
+- metric_id: cmp_lit_souleiman2024_sagnac_mirror-m3
+  component_id: cmp_lit_souleiman2024_sagnac_mirror
+  parameter: box_thickness_um
+  value: 2
+  unit: um
+  basis: design_target
+  locator: p.2 Sec. 2
+  why: 'Miss (D153 geometry). p.2 Sec. 2 states the 2 um BOX of the SOI platform (Q6)'
+- metric_id: cmp_lit_souleiman2024_si_gc-m2
+  component_id: cmp_lit_souleiman2024_si_gc
+  parameter: core_thickness_nm
+  value: 300
+  unit: nm
+  condition: Si waveguide height for the vertical grating couplers (500 nm SOI etched to two heights)
+  basis: design_target
+  locator: p.2 Sec. 2
+  why: 'Miss (D153 geometry). p.2 Sec. 2 states the 300 nm Si height used for the vertical grating couplers'
+- metric_id: cmp_lit_souleiman2024_si_gc-m3
+  component_id: cmp_lit_souleiman2024_si_gc
+  parameter: box_thickness_um
+  value: 2
+  unit: um
+  basis: design_target
+  locator: p.2 Sec. 2
+  why: 'Miss (D153 geometry). p.2 Sec. 2 states the 2 um BOX of the SOI platform (Q6)'
+- metric_id: cmp_lit_souleiman2024_tunable_laser_soa-m8
+  component_id: cmp_lit_souleiman2024_tunable_laser_soa
+  parameter: length_um
+  value: 920
+  unit: um
+  condition: SOA booster section at the transmitter output (QW confinement 10.95 %)
+  basis: design_target
+  locator: p.3 Sec. 2
+  notes: 'the SOA has no standalone metric (no SOA row, rule 9); its length sits on the transmitter row whose output metrics include it'
+  why: 'Miss (D153 geometry). p.3 Sec. 2 states L = 920 um for the SOA that this row includes in its output-power values; the report listed it as geometry only'
+- metric_id: cmp_lit_lee2022_sgdbr_laser_1-m12
+  component_id: cmp_lit_lee2022_sgdbr_laser_1
+  parameter: length_um
+  value: 400
+  unit: um
+  condition: gain section
+  basis: design_target
+  locator: p.2 Sec. 2
+  why: 'Miss (D153 geometry). p.2 Sec. 2 prints the section lengths 500 / 400 / 120 / 800 um; the mirror rows carry 500 / 800 um, the gain and phase sections were only in core_material'
+- metric_id: cmp_lit_lee2022_sgdbr_laser_1-m13
+  component_id: cmp_lit_lee2022_sgdbr_laser_1
+  parameter: length_um
+  value: 120
+  unit: um
+  condition: phase section
+  basis: design_target
+  locator: p.2 Sec. 2
+  why: 'Miss (D153 geometry). p.2 Sec. 2 prints the 120 um phase section length'
+- metric_id: cmp_lit_lee2022_sgdbr_laser_2-m12
+  component_id: cmp_lit_lee2022_sgdbr_laser_2
+  parameter: length_um
+  value: 400
+  unit: um
+  condition: gain section
+  basis: design_target
+  locator: p.2 Sec. 2
+  why: 'Miss (D153 geometry). p.2 Sec. 2 prints the section lengths for both lasers; the gain section length was only in core_material'
+- metric_id: cmp_lit_lee2022_sgdbr_laser_2-m13
+  component_id: cmp_lit_lee2022_sgdbr_laser_2
+  parameter: length_um
+  value: 120
+  unit: um
+  condition: phase section
+  basis: design_target
+  locator: p.2 Sec. 2
+  why: 'Miss (D153 geometry). p.2 Sec. 2 prints the 120 um phase section length'
+- metric_id: cmp_lit_lee2022_sgdbr_laser_2-m14
+  component_id: cmp_lit_lee2022_sgdbr_laser_2
+  parameter: smsr_db
+  value: 48
+  unit: dB
+  statistic: best
+  temperature_k: 293.15
+  condition: 'maximum over the tuning map (gain 100 mA, SOA1 60 mA, front 0-45 mA / rear 0-35 mA), TEC 20 C'
+  basis: measured
+  locator: p.5 Sec. 3; p.6 Fig. 5(b)
+  notes: 'printed maximum 48 dB for the PIC (p.5); Fig. 5(b) places it on laser 2 (orange, about 47.7 dB near 1556 nm); laser 1 points reach about 45 dB near 1534 nm (audit read of a 300 dpi render)'
+  why: 'Miss. p.5 prints the 48 dB maximum and p.6 Fig. 5(b) identifies the laser unambiguously by its legend colour (D156 satisfied); the batch left it out as unattributed (D159)'
+delete_metrics:
+- id: cmp_lit_thai2018_gesn_microdisk_10um-m3
+  why: 'coordinator ruling D568 (audit Q2): characteristic_temperature_k is the T0 of the threshold current; this T0 is fitted to an optical pump power density threshold (p.5 Sec. 3.1, Fig. 3(c)); value kept in the component notes'

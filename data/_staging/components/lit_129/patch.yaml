@@ -1,0 +1,63 @@
+# Audit patch lit_129 (fresh-context audit 2026-11-12, DevLog/audits/2026-11-12-lit_129-audit.md).
+# 118 metrics: 112 ok / 6 imprecise / 0 wrong; 16 components: 12 ok / 4 imprecise / 0 wrong; 1 miss added (zhang2025d Table 2 '~2' dB).
+# Coordinator rulings open (no op unless stated): Q1 wu2025 IL scope per_coupler (kept), Q2 wu2025 fabricated stack (notes only),
+# Q3 vaerenbergh2021 20.5 vs 21.3 nm (kept 20.5), Q4 vaerenbergh2021 PDK GC fab (kept), Q5 gordillo2019 class (kept connector;
+# to reclass set class fiber_chip_coupler.other on cmp_lit_gordillo2019_funnel_connector), Q6 gordillo2019 / vaerenbergh2021 basis
+# (patched to measured), Q7 zhang2025d IL conflict (kept, miss added), Q8 tian2019 height step row_kind (kept design).
+components:
+  cmp_lit_wu2025_psgc:
+    notes: 'Two orthogonal TE00 output waveguides (port 1 for LP01x, port 2 for LP01y), fiber at 0 deg (p.2-3 Sec. 2). Fab empty: p.2 Sec. 1, p.6 Sec. 3.2 and the p.8 Fig. 6 caption say the device was fabricated on a commercially available SOI platform by EBL; the first-person sentence names all authors, who sit at two unrelated orgs (BUPT; Second Institute for Wuhan Ship Development & Design), and p.3 refers to an unnamed ''EBL foundry'' (D154, D80b). The fabrication section names only the SOI wafer, EBL and the Bosch etch; whether the fabricated chip carries the Al bottom reflector and the 530 nm oxide of the design (Table 2) is not stated. Upper cladding of the fabricated chip not stated (the simulation background is SiO2). Measurement (p.8 Fig. 6(d)): SLED + polarization controller, lensed fibers, 3 dB splitter to OSA and power meter; the DUT sketch shows the PSGC with two conventional fan-shaped GCs, and how their contribution is removed is not stated. Not entered: simulated Hbox tolerance (peak IL within 0.27 dB for Hbox 450-580 nm, IL at 1550 nm within 0.33 dB, p.6 Fig. 4; Fig. 4 caption says 450-600 nm), simulated etch-bias tolerance (Fig. 5, no number), the FOM design target of a polarization extinction below -9.5 dB (p.3, objective), Table 1 comparison rows (cited works, p.2), Al thickness 40 nm (no parameter).'
+    why: 'Locator: the fabrication statements are on p.2, p.6 (Sec. 3.2) and p.8 (Fig. 6 caption); p.7 holds only Fig. 4 and Fig. 5'
+  cmp_lit_vaerenbergh2021_vgc_ai_doe1:
+    notes: 'Fab CEA-Leti: p.2 says the GCs were fabricated on 300 mm SOI wafers in a pilot line fab (CEA Leti) and p.3 that the loopback test structures were fabricated in 193 nm DUV immersion lithography by CEA LETI on a 300 mm wafer; the acknowledgment also thanks CEA-LETI clean room staff for assistance in device fabrication (p.14). Population row (D165): values summarize a design-of-experiments family measured on five dies with three alignment wavelengths (1300 / 1310 / 1320 nm); 5 outlier measurements with peak loss > 10 dB excluded (p.8). Piecewise-linear parameterization with 9 variables (duty cycle 5, period 4), factorial 1^1 x 2^6 x 3^2 = 576 designs, one of 9 variables fixed, 65 nm minimal feature (p.4 Sec. 2.2). Per-device values of Fig. 5 / Fig. 6 not read. Measured on an automated 300 mm probe station with a flat-polished fiber array (250 um pitch, no AR coating, PM fibers, vendor MFD 10.3 um) 25 um above the top oxide; loopback test structures (two GCs 250 um apart); IL from the Hilbert-transform envelope of the fringed spectrum (p.5-6 Sec. 3); setup gauge R&R (6 sigma) 0.3 dB for 0 deg GCs (p.5).'
+    why: 'p.4 Sec. 2.2 (page render): the factorial is 1^1 x 2^6 x 3^2 = 576; the text layer drops the superscripts, and the note copied 11 x 26 x 32'
+  cmp_lit_vaerenbergh2021_vgc_ai_doe2:
+    notes: 'Fab CEA-Leti: p.2 says the GCs were fabricated on 300 mm SOI wafers in a pilot line fab (CEA Leti) and p.3 that the loopback test structures were fabricated in 193 nm DUV immersion lithography by CEA LETI on a 300 mm wafer; the acknowledgment also thanks CEA-LETI clean room staff for assistance in device fabrication (p.14). Population row (D165): values summarize a design-of-experiments family measured on five dies with three alignment wavelengths (1300 / 1310 / 1320 nm); 5 outlier measurements with peak loss > 10 dB excluded (p.8). Piecewise-linear parameterization with 9 variables (duty cycle 5, period 4), factorial 1^5 x 3^4 = 81 designs, 5 of 9 variables fixed, 63 nm minimal feature; one third of the designs replicated 18x, the rest 9x (p.4 Sec. 2.2). Per-device values of Fig. 5 / Fig. 6 not read. Measured on an automated 300 mm probe station with a flat-polished fiber array (250 um pitch, no AR coating, PM fibers, vendor MFD 10.3 um) 25 um above the top oxide; loopback test structures (two GCs 250 um apart); IL from the Hilbert-transform envelope of the fringed spectrum (p.5-6 Sec. 3); setup gauge R&R (6 sigma) 0.3 dB for 0 deg GCs (p.5).'
+    why: 'p.4 Sec. 2.2 (page render): the factorial is 1^5 x 3^4 = 81; the text layer drops the superscripts, and the note copied 15 x 34 (which would be 510)'
+  cmp_lit_gordillo2019_imec_te_gc:
+    process_name: 'imec MPW run (basic fiber coupler TE [FC]); ref. 14 names imec-ePIXfab SiPhotonics iSiPP50G'
+    why: 'p.2 Sec. 2: the MPW-run sentence cites ref. [14], whose title names the imec-ePIXfab SiPhotonics iSiPP50G technology (p.6 reference list); Contract v7 keeps the printed process name'
+metrics:
+  cmp_lit_wu2025_psgc-m4:
+    notes: 'PDL below 1 dB from 1490 to 1558 nm, printed as a 68 nm ''1-dB bandwidth of PDL'' (p.1, p.9); 1490 nm is the lower end of the measured span; audit read of Fig. 7 (p.9, 400 dpi render, tick-calibrated): PDL fringe peaks cross the 1 dB dash-dot line from about 1552.5 nm (about 1.15 dB), highest about 1.35-1.4 dB near 1555.5 nm, i.e. inside the printed 1490-1558 nm range; printed bound kept (D417), reading uncertainty about +/-0.3 nm and +/-0.03 dB'
+    why: 'p.9 Fig. 7: the plotted PDL exceeds 1 dB at several fringe peaks between about 1552.5 and 1558 nm, which the note did not record (D417 conflict note)'
+  cmp_lit_vaerenbergh2021_vgc_dor-m4:
+    basis: 'measured'
+    notes: 'printed -16.5 dB (stored positive); the paper''s own extraction from the measured GC-GC Fabry-Perot fringe amplitude (Hilbert-transform ripple envelope, p.5-6), which the authors call an estimate to be interpreted with caution (p.6); no arithmetic by the distiller, so basis measured (rule 4: an ''estimate'' from own test-structure data; D80a); band inferred from the O-band design (p.2)'
+    why: 'Rule 4 / D80a: the value is printed by the paper from its own measured spectra (fringe-amplitude extraction); derived is for arithmetic on printed measurements, and none is done here'
+  cmp_lit_vaerenbergh2021_vgc_id_doe-m3:
+    notes: 'simulated 1.31 dB for this design (p.8). p.7 calls the DOR the best device of the DOE and p.11 picks the best 139 nm-target design as DOR, but p.8 does not say that the device with the best single IL measurement is the DOR (the 139 nm design has horn angle / taper length / eccentricity variants that share the 2D simulation); value kept on the DOE row (D159); the DOR 67-die median is 1.82 dB (cmp_lit_vaerenbergh2021_vgc_dor-m1)'
+    why: 'p.7 Sec. 4.1 defines the DOR as the best device of the DOE; the note said the paper never links the two, which overstates the gap'
+  cmp_lit_vaerenbergh2021_vgc_ai_doe2-m5:
+    value: '2.22'
+    notes: 'p.9 prints the simulated minimal IL of AI DOE 2 as 2.22 dB (p.4 rounds it to 2.2 dB)'
+    why: 'p.9 Sec. 4.2 prints the more precise 2.22 dB for the same quantity (p.4: min. 2.2 dB)'
+  cmp_lit_gordillo2019_funnel_connector-m1:
+    basis: 'measured'
+    notes: 'printed average 0.05 dB excess loss of the coupler beyond the inherent grating coupler loss (p.1, p.3); the paper normalizes the 18 spectra to the bare-GC peak loss (-4.7 dB at 1582 nm) while the connector minimum is at 1544 nm; no total is printed and the subtraction is the paper''s own (D167 / D441 / D452), so basis measured'
+    why: 'Rule 4, D167 / D452: a de-embedded value printed by the paper with no total printed and no arithmetic shown is measured; derived is reserved for arithmetic the source shows or the distiller does'
+  cmp_lit_gordillo2019_funnel_connector-m3:
+    condition: 'total coupler length as labelled in Fig. 4 (segment labels 10 / 40 / 85 / 18.75 um sum to 153.75 um; an unlabelled gap of about 3 um between the funnel and waveguide segments makes up the rest)'
+    notes: 'labelled 156.75 um in the Fig. 4 schematic (p.5); text p.3 prints 23 um x 23 um x 160 um'
+    why: 'p.5 Fig. 4: the labelled total is 156.75 um, but the four labelled segments sum to 153.75 um; the condition presented them as the sum'
+  cmp_lit_zhang2025d_mcbg_adc_pbs-m8:
+    notes: 'Table 2 prints Exp. IL ''<2'' dB for the 220 nm ER > 30 dB band (the ''~2'' dB of the 315 nm ER > 10 dB band is -m25); the conclusion (p.11-12) says ILs below 0.9 dB over the measured > 220 nm band, which equals the simulated bound of the abstract; conflict kept (D417)'
+    why: 'Note-only edit: the Table 2 ~2 dB value is now entered as -m25 (audit miss)'
+add_metrics:
+- metric_id: 'cmp_lit_zhang2025d_mcbg_adc_pbs-m25'
+  component_id: 'cmp_lit_zhang2025d_mcbg_adc_pbs'
+  parameter: 'insertion_loss_db'
+  value: '2'
+  unit: 'dB'
+  qualifier: 'approx'
+  wavelength_nm: '1300'
+  wavelength_max_nm: '1615'
+  polarization: 'both'
+  scope: 'per_component'
+  excludes: 'grating couplers and access waveguides (reference waveguide per input polarization)'
+  condition: 'experimental IL over the ER > 10 dB band (Table 2 ''Exp.'', 315 nm, 1300-1615 nm per p.10); reference-waveguide normalization; vertical fiber probe with adjustable coupling angle; supercontinuum source, OSA'
+  method: 'reference_structure'
+  basis: 'measured'
+  locator: 'p.11 Table 2; p.10 Sec. 4'
+  notes: 'Table 2 prints Exp. IL ''~2'' dB for the 315 nm ER > 10 dB band; band edges from p.10 (TE ER > 30 dB over 1300-1615 nm, TM ER above 10 dB over 1300-1615 nm); the ER > 30 dB band carries ''<2'' dB (-m8)'
+  why: 'Miss. p.11 Table 2 prints the experimental IL ''~2'' dB over the 315 nm ER > 10 dB band (rule 7: approx); only the ''<2'' dB row was entered'

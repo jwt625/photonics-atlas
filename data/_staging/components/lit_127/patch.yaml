@@ -1,0 +1,99 @@
+# Audit patch lit_127 (fresh-context audit 2026-11-12, DevLog/audits/2026-11-12-lit_127-audit.md).
+# 151 metrics: 139 ok / 12 imprecise / 0 wrong; 25 components: 24 ok / 1 imprecise / 0 wrong; 0 deleted; 1 miss added.
+# Ops: 1 component, 13 metrics (12 imprecise + 1 note-only edit on an ok row), 1 add_metrics; 15 ops.
+# Coordinator rulings open (audit Q1-Q11): Q1 zhou2020 45.2 mA/cm2 (kept, note only), Q2 zhou2020 Fig. 6 / Fig. 9 reads on the
+# 250 um rows (kept; strict alternative: delete cmp_lit_zhou2020_nopt_d250-m2, cmp_lit_zhou2020_pt_r600_d250-m1 and -m2),
+# Q3 thermal_time_constant_us (kept; strict alternative for miller2019: delete cmp_lit_miller2019_ps_1pass-m2, ps_3pass-m3,
+# ps_5pass-m3, ps_7pass-m3), Q4 sheng2026 heater_thickness_nm (no op), Q5 li2018 20 levels (no op), Q6 jacques2019 fab (no op),
+# Q7 zhou2020 NTU fab (no op), Q8 miller2019 fab per component (no op), Q9 jacques2019 TiN < 0.4 dB (note only),
+# Q10 zeng2019 Fig. 4(b) 300 nm point (added; to drop it, remove the add_metrics entry), Q11 li2018 source-row licence (no op).
+components:
+  cmp_lit_jacques2019_tin_tops_7p5um:
+    notes: "Fab: both TOPS designs fabricated on the same die in a multi-project wafer at A*STAR's Institute of Microelectronics (IME) Foundry (p.7 Sec. 2.3; IME printed 'now AMF', p.2; AMF, CMC Microsystems, Lumerical thanked for support only, p.15, not fab). Tested in a thermally tuned MZI with one output, grating couplers in and out (p.7 Sec. 3, Fig. 5(a)); 15 test structures, all C-band. Not entered (no parameter): power drift < 0.1 mW over 10 min at fixed voltage (p.9 Fig. 6(b)); thermal crosstalk into a victim MZI (Fig. 9; deep trench reduces the victim phase by 0.31 / 0.11 / 0.08 / 0.02 rad at 5 / 15 / 45 / 135 um gaps, p.11); frequency-response peaking; FOM P_pi x tau. Fabricated TiN width is the widest simulated case (Fig. 2), chosen to validate the simulations (p.7). Measured P_pi exceeds the Fig. 2(a) simulation by about 3.0 mW (p.10). Per-pitch P_pi: the text prints only the 29.2-31.5 mW span and the +2.3 mW increase from d_intra 200 to 50 um (p.10; Fig. 8 render on p.10 shows the four pitches with linear fits); the 100 / 150 um values would be figure reads of the pi crossings and are not entered."
+    why: "p.10 Fig. 8 is rendered (page_10) with a readable legend; the note said the legend was missing and no render existed. Not entering the intermediate pitches stays right (figure-only crossings), the reason is corrected"
+  cmp_lit_miller2019_ps_1pass:
+    notes: 'Measured in an MZI (Fig. 1(d)); heater on the SiO2 cladding above the 2.44 um multimode waveguide. Fabrication of the test devices not stated in the main text (Supplement 1, not cached): fab empty; the first-person fabrication sentence names only the phased array (D515). Facilities: work performed in part at the Advanced Science Research Center at the City College of New York and at Columbia Nano Initiative Nano Fabrication Facilities (p.4 Acknowledgment). Not entered: insertion loss (not reported for the one-pass device). Phase tuning time 6.5 us printed (p.2, P_pi x tau figure of merit), stated independent of the number of passes; its definition is only in Supp. Fig. S9 (not cached), so no thermal_time_constant_us row.'
+    why: 'coordinator ruling D569 (audit Q3, strict definition, lit_43 practice): the paper prints a ''phase tuning time'' of 6.5 us whose definition is only in an uncached supplement; thermal_time_constant_us is a first-order time constant, not a rise time; value kept in the component notes'
+  cmp_lit_miller2019_ps_3pass:
+    notes: 'Measured in an MZI (Fig. 1(d)); heater on the SiO2 cladding above the 2.44 um multimode waveguide. Fabrication of the test devices not stated in the main text (Supplement 1, not cached): fab empty; the first-person fabrication sentence names only the phased array (D515). Facilities: work performed in part at the Advanced Science Research Center at the City College of New York and at Columbia Nano Initiative Nano Fabrication Facilities (p.4 Acknowledgment). Not entered: 3-dB optical bandwidth > 100 nm (IL within 3 dB of its minimum, Fig. 2(b); no bandwidth parameter for phase_shifter, registry gap); 3.3x power reduction (ratio). Phase tuning time 6.5 us printed (p.2, P_pi x tau figure of merit), stated independent of the number of passes; its definition is only in Supp. Fig. S9 (not cached), so no thermal_time_constant_us row.'
+    why: 'coordinator ruling D569 (audit Q3, strict definition, lit_43 practice): the paper prints a ''phase tuning time'' of 6.5 us whose definition is only in an uncached supplement; thermal_time_constant_us is a first-order time constant, not a rise time; value kept in the component notes'
+  cmp_lit_miller2019_ps_5pass:
+    notes: 'Measured in an MZI (Fig. 1(d)); heater on the SiO2 cladding above the 2.44 um multimode waveguide. Fabrication of the test devices not stated in the main text (Supplement 1, not cached): fab empty; the first-person fabrication sentence names only the phased array (D515). Facilities: work performed in part at the Advanced Science Research Center at the City College of New York and at Columbia Nano Initiative Nano Fabrication Facilities (p.4 Acknowledgment). In the phased array the five-pass shifters are separated by 28 um (p.3; pitch_um not allowed for phase_shifter). Not entered: 3-dB optical bandwidth > 100 nm (registry gap); 5.9x power reduction (ratio). Phase tuning time 6.5 us printed (p.2, P_pi x tau figure of merit), stated independent of the number of passes; its definition is only in Supp. Fig. S9 (not cached), so no thermal_time_constant_us row.'
+    why: 'coordinator ruling D569 (audit Q3, strict definition, lit_43 practice): the paper prints a ''phase tuning time'' of 6.5 us whose definition is only in an uncached supplement; thermal_time_constant_us is a first-order time constant, not a rise time; value kept in the component notes'
+  cmp_lit_miller2019_ps_7pass:
+    notes: 'Measured in an MZI (Fig. 1(d)); heater on the SiO2 cladding above the 2.44 um multimode waveguide. Fabrication of the test devices not stated in the main text (Supplement 1, not cached): fab empty; the first-person fabrication sentence names only the phased array (D515). Facilities: work performed in part at the Advanced Science Research Center at the City College of New York and at Columbia Nano Initiative Nano Fabrication Facilities (p.4 Acknowledgment). Not entered: P_pi x tau = 11.1 mW us (product of entered values); 3.7 % phase-shift variation over 1525-1600 nm (no parameter); 3-dB optical bandwidth > 100 nm (registry gap); 8.9x reduction; 2-3 dB total IL over 150 nm with optimized converters (Supp. Fig. S2, not cached; optimized design, not this device); comparison values of refs. [33], [34], [39], [40] (cited). Phase tuning time 6.5 us printed (p.2, P_pi x tau figure of merit), stated independent of the number of passes; its definition is only in Supp. Fig. S9 (not cached), so no thermal_time_constant_us row.'
+    why: 'coordinator ruling D569 (audit Q3, strict definition, lit_43 practice): the paper prints a ''phase tuning time'' of 6.5 us whose definition is only in an uncached supplement; thermal_time_constant_us is a first-order time constant, not a rise time; value kept in the component notes'
+metrics:
+  cmp_lit_zhou2020_pt_r700_d60-m2:
+    value: '1.0'
+    notes: 'read off the blue (-3 V, R = 700 nm) trace of Fig. 14(b) at the -3 dB line: about 0.99 GHz (audit pixel read on the embedded figure, log axis 182 px per decade, quadratic fit of the trace either side of the dashed line; calibration checked on the printed 2.7 GHz star); reading uncertainty about +/-0.03 GHz'
+    why: 'p.12 Fig. 14(b): the -3 V trace crosses -3 dB at about 1.0 GHz (x within 1 px of the 1e9 tick), not 0.95 GHz'
+  cmp_lit_zhou2020_pt_r700_d60-m3:
+    value: '2.25'
+    notes: 'read off the blue (-5 V, R = 700 nm) trace of Fig. 14(a) at the -3 dB line: about 2.22-2.29 GHz (audit pixel read, log axis 182 px per decade; the dashed circle around the crossing excluded, trace fitted either side); reading uncertainty about +/-0.05 GHz; printed +12.3 % vs the 60 um non-trapping device at -5 V (p.11), which with the 2.0 GHz non-trapping read gives 2.25 GHz'
+    why: 'p.12 Fig. 14(a): the -5 V R = 700 nm trace crosses -3 dB at about 2.25 GHz, not 2.4 GHz; 2.25 / 2.0 also matches the printed +12.3 %'
+  cmp_lit_zhou2020_pt_r700_d60-m4:
+    value: '0.70'
+    notes: 'read off the red (-3 V, R = 700 nm) trace of Fig. 14(a) at the -3 dB line: about 0.70 GHz (audit pixel read, log axis 182 px per decade; dashed circle excluded); reading uncertainty about +/-0.03 GHz; printed +1.4 % vs the non-trapping device at -3 V (p.11)'
+    why: 'p.12 Fig. 14(a): the -3 V R = 700 nm trace crosses -3 dB at about 0.70 GHz, not 0.75 GHz'
+  cmp_lit_zhou2020_nopt_d60-m1:
+    value: '2.0'
+    notes: 'read off the green (-5 V, w/o holes) trace of Fig. 14(a) at the -3 dB line: about 1.99 GHz (audit pixel read, log axis 182 px per decade); reading uncertainty about +/-0.05 GHz'
+    why: 'p.12 Fig. 14(a): the -5 V non-trapping trace crosses -3 dB at about 2.0 GHz, not 2.1 GHz'
+  cmp_lit_zhou2020_nopt_d60-m2:
+    value: '0.70'
+    notes: 'Fig. 14(a) -3 V w/o-holes (black) trace lies under the red R = 700 nm trace near -3 dB; read about 0.70 GHz (audit pixel read); the printed +1.4 % for the trapping device (p.11) places it about 0.01 GHz lower; reading uncertainty about +/-0.03 GHz'
+    why: 'p.12 Fig. 14(a): the black and red -3 V traces overlap and cross -3 dB at about 0.70 GHz, not 0.75 GHz'
+  cmp_lit_zeng2019_apd_3t_gap300-m7:
+    value: '7.9'
+    notes: 'read off the Fig. 4(d) marker at 2.0 V: about 7.9 GHz (audit pixel read on the embedded figure, 44.5 px per GHz in a 2x crop; calibration checked on the printed 18.9 GHz point at 6.4 V); neighbouring markers about 7.8 GHz (1.8 V) and 8.2 GHz (2.2 V); reading uncertainty about +/-0.1 GHz'
+    why: 'p.4 Fig. 4(d): the 2.0 V marker sits at about 7.9 GHz (scale 6-20 GHz), not 7.6 GHz'
+  cmp_lit_jacques2019_npp_si_tops-m19:
+    basis: design_target
+    notes: 'p.3 prints a 90 nm high Si slab; Fig. 4 caption H_slab = 0.09 um (design)'
+    why: 'p.3 Sec. 2.2 prints the slab height in nm (90 nm), so no unit rescale is involved: design_target, not derived'
+  cmp_lit_jacques2019_npp_si_tops-m17:
+    locator: p.3 Sec. 2.2; p.8 Fig. 4
+    notes: 'W_rib = 0.5 um (Fig. 4 caption); p.3 prints the 500 nm waveguide width and builds the rib by adding the 90 nm slab to it (design)'
+    why: 'The only locator printed the width in um (design_target would need a rescale, D157 / D256); p.3 Sec. 2.2 prints 500 nm for the waveguide that the rib design extends'
+  cmp_lit_miller2019_mode_converter_adc-m1:
+    wavelength_inferred: 'true'
+    notes: "printed 'we estimate'; reproduces as 2.2 dB / 5 (five-pass minimum IL at 1594 nm); also printed as 0.44 dB per pass (p.3). No wavelength printed with the per-event value: band from the input minimum (1594 nm, L band)"
+    why: 'Rule 8: the 0.44 dB value has no printed wavelength; the band comes from the five-pass minimum it reproduces from, so wavelength_inferred is true'
+  cmp_lit_miller2019_mode_converter_adc-m2:
+    wavelength_inferred: 'true'
+    notes: "printed 'we estimate'; reproduces as (4.6 - 2.2) dB / 2 from the minima at 1601 / 1594 nm; higher loss attributed to closer mode effective indices. No wavelength printed with the per-event value: band from the input minima (L band)"
+    why: 'Rule 8: the 1.2 dB value has no printed wavelength; the band comes from the minima it reproduces from, so wavelength_inferred is true'
+  cmp_lit_miller2019_mmi_1x2-m1:
+    band: ''
+    wavelength_nm: '1552'
+    wavelength_max_nm: '1575'
+    notes: "printed 'less than 0.03 dB loss per splitter'; origin not stated; no wavelength printed with the value: the phased array that contains the splitter tree is operated over 1552-1575 nm (p.4), entered as the inferred span (it crosses the C / L boundary)"
+    why: 'Rule 8: the inferred band c_band does not cover the stated 1552-1575 nm operating span of the array (p.4); the span itself is entered with wavelength_inferred true'
+  cmp_lit_jacques2019_tin_tops_7p5um-m6:
+    notes: 'p.9: the heated-segment loss vs back-to-back grating couplers is below the effective measurement resolution (FAU drift +/- 0.2 dBm) for both fabricated designs; the 0.4 dB bound is printed only in Table 2 (p.13), on the row of the optimal 2.5 um TiN design, which was not fabricated, so the bound can only come from this 7.5 um device; simulation predicts < 0.01 dB; no voltage dependence measured'
+    why: 'Audit Q9: the number 0.4 dB is printed for the unfabricated 2.5 um design row of Table 2, not for this device; the note now records why it is placed here'
+  cmp_lit_zhou2020_pt_r700_d250-m2:
+    notes: 'mesa diameter not printed with the value. Identification from the paper''s own numbers: the abstract pairs 45.2 with the non-trapping 31.5 mA/cm2, which Fig. 10(b) places at 4/D = 160 /cm (250 um); with J_bulk 28.7 mA/cm2 and the Fig. 11 with-holes surface shares 26 / 31 / 28 / 37 % at 60 / 80 / 150 / 250 um, 28.7 / (1 - share) gives 38.8 / 41.6 / 39.9 / 45.6 mA/cm2, so only the 250 um device reproduces 45.2 (photon-trapping devices of Fig. 10 have R = 700 nm)'
+    why: 'Note-only (audit Q1): records the full reproduction across the four Fig. 11 diameters, which is why the D159 risk does not apply'
+add_metrics:
+- metric_id: cmp_lit_zeng2019_apd_3t_gap300-m17
+  component_id: cmp_lit_zeng2019_apd_3t_gap300
+  parameter: breakdown_voltage_v
+  value: '5.7'
+  unit: V
+  condition: Fig. 4(b) breakdown voltage vs drawn finger gap, point at the 300 nm drawn gap; criterion not stated
+  method: direct
+  basis: extracted_from_figure
+  locator: p.4 Fig. 4(b)
+  notes: 'Audit read of the 300 nm marker (2x crop, 85.1 px per V): about 5.70 V; reading uncertainty about +/-0.1 V; sign as printed (positive axis). The Fig. 4(b) series device at 300 nm is not stated to be the Fig. 4(a) device (4 x 10 um Ge block, -6 V in the abstract); the paper says its nominal 300 nm gap devices broke down near 6 V (p.5)'
+  why: 'Miss. p.4 Fig. 4(b) has five points (200 / 300 / 400 / 600 / 800 nm); the sibling rows carry four of them and the 300 nm point was not entered on the 300 nm gap design row (audit Q10)'
+delete_metrics:
+- id: cmp_lit_miller2019_ps_1pass-m2
+  why: 'coordinator ruling D569 (audit Q3, strict definition, lit_43 practice): the paper prints a ''phase tuning time'' of 6.5 us whose definition is only in an uncached supplement; thermal_time_constant_us is a first-order time constant, not a rise time; value kept in the component notes'
+- id: cmp_lit_miller2019_ps_3pass-m3
+  why: 'coordinator ruling D569 (audit Q3, strict definition, lit_43 practice): the paper prints a ''phase tuning time'' of 6.5 us whose definition is only in an uncached supplement; thermal_time_constant_us is a first-order time constant, not a rise time; value kept in the component notes'
+- id: cmp_lit_miller2019_ps_5pass-m3
+  why: 'coordinator ruling D569 (audit Q3, strict definition, lit_43 practice): the paper prints a ''phase tuning time'' of 6.5 us whose definition is only in an uncached supplement; thermal_time_constant_us is a first-order time constant, not a rise time; value kept in the component notes'
+- id: cmp_lit_miller2019_ps_7pass-m3
+  why: 'coordinator ruling D569 (audit Q3, strict definition, lit_43 practice): the paper prints a ''phase tuning time'' of 6.5 us whose definition is only in an uncached supplement; thermal_time_constant_us is a first-order time constant, not a rise time; value kept in the component notes'

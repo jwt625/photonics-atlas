@@ -1,0 +1,55 @@
+# Audit patch lit_128 (fresh-context audit 2026-11-12, DevLog/audits/2026-11-12-lit_128-audit.md).
+# 183 metrics: 175 ok / 8 imprecise / 0 wrong; 27 components: 27 ok / 0 imprecise / 0 wrong; 1 miss added; 0 deletions.
+# Coordinator rulings open (no op unless noted): Q1 yang2024a "Applied Nanotechnology (ANT)" -> org_applied_nanotools kept
+# (strict alternative: set fab_org_ids '' on the four yang2024a fabricated rows until the org round adds the alias);
+# Q2 li2024b fab stays empty with process_name "180 nm production line" (alternative: org_beijing_information_science_and_technology_university
+# on the four li2024b rows); Q3 li2024b Si-Ge taper kept as waveguide_platform.transition; Q4 ni2024 per-crossing losses set to
+# measured below (to keep derived, drop the four ni2024 metric ops); Q5 mode filters stay mode_converter.other.
+metrics:
+  cmp_lit_yang2024a_te0_te1_unidir_mc-m1:
+    excludes: 'grating couplers and the auxiliary inverse-designed mode (de)MUXes (Fig. 4(a) labels an on-chip calibration structure for the TE0 / TE1 mode (de)MUX; the normalization step itself is not described)'
+    why: 'p.6 Sec. 3.1 and p.7 Fig. 4(a): the test link includes auxiliary mode (de)MUXes and the micrograph labels a (de)MUX calibration structure; the row excluded only the GCs and access path and called the reference undescribed'
+  cmp_lit_yang2024a_te1_hompf-m1:
+    excludes: 'grating couplers and auxiliary mode (de)MUXes (p.8: same measurement approach as for the mode converter, whose chip carries a (de)MUX calibration structure, p.7 Fig. 4(a); normalization step not described)'
+    why: 'Note-only edit on an ok row: p.8 Sec. 3.2 states the HOMPF was measured like the converter; p.7 Fig. 4(a) labels the (de)MUX calibration structure'
+  cmp_lit_yang2024a_te1_hompf_x2-m1:
+    excludes: 'grating couplers and auxiliary mode (de)MUXes (p.8: same measurement approach as for the mode converter, whose chip carries a (de)MUX calibration structure, p.7 Fig. 4(a); normalization step not described)'
+    why: 'Note-only edit on an ok row: p.8 Sec. 3.2 states the cascade was measured like the converter; p.7 Fig. 4(a) labels the (de)MUX calibration structure'
+  cmp_lit_yang2024a_euler_bend-m1:
+    notes: 'printed ''a mere 0.002 dB'' over 1500-1600 nm; Fig. 5(e) curve about -0.0021 dB at 1500 nm, -0.0015 to -0.0017 dB over 1530-1580 nm and about -0.0007 dB at 1600 nm (audit read on a 400 dpi render, +/-0.0002 dB); polarization not stated for the bend'
+    why: 'p.8 Fig. 5(e): the plotted curve stays between about -0.0007 and -0.0021 dB; the note gave about -0.0015 to -0.003 dB'
+  cmp_lit_ni2024_shmw_crossing_te0_tm0_tm1-m1:
+    basis: measured
+    notes: 'printed 0.72 dB at 1550 nm; per-crossing average from ten identical cascaded crossings normalized to on-chip reference waveguides (p.8-9); no cascade total is printed and no division is shown (Fig. 9 is already per crossing), so basis measured (D167 / D452; merged ni2025a rows, lit_11 audit)'
+    why: 'D80a makes explicit cascade / N arithmetic derived; p.8-9 only says ten crossings were cascaded to obtain average ILs and Fig. 9 plots normalized per-crossing transmission near 0 dB; D167 / D452 and the merged ni2025a rows (same group, same method) keep such values measured'
+  cmp_lit_ni2024_shmw_crossing_te0_tm0_tm1-m2:
+    basis: measured
+    notes: 'printed 0.27 dB at 1550 nm; per-crossing average from ten identical cascaded crossings normalized to on-chip reference waveguides (p.8-9); no cascade total is printed and no division is shown (Fig. 9 is already per crossing), so basis measured (D167 / D452; merged ni2025a rows, lit_11 audit)'
+    why: 'D80a makes explicit cascade / N arithmetic derived; p.8-9 shows none (Fig. 9 per-crossing spectra); D167 / D452 and ni2025a precedent'
+  cmp_lit_ni2024_shmw_crossing_te0_tm0_tm1-m3:
+    basis: measured
+    notes: 'printed 0.90 dB at 1550 nm; per-crossing average from ten identical cascaded crossings normalized to on-chip reference waveguides (p.8-9); no cascade total is printed and no division is shown (Fig. 9 is already per crossing), so basis measured (D167 / D452; merged ni2025a rows, lit_11 audit)'
+    why: 'D80a makes explicit cascade / N arithmetic derived; p.8-9 shows none (Fig. 9 per-crossing spectra); D167 / D452 and ni2025a precedent'
+  cmp_lit_ni2024_shmw_crossing_te0_tm0_tm1-m4:
+    basis: measured
+    notes: 'printed lower than 2 dB over about 75 nm (1505-1580 nm) for the three modes; per-crossing values from ten identical cascaded crossings normalized to on-chip reference waveguides (p.8-9); no division shown (Fig. 9 per crossing), so basis measured (D167 / D452; ni2025a precedent)'
+    why: 'D80a makes explicit cascade / N arithmetic derived; p.9 Sec. 3 and Fig. 9 show none; D167 / D452 and ni2025a precedent'
+  cmp_lit_xu2025a_bezier_mm_bend-m1:
+    wavelength_inferred: 'true'
+    notes: 'printed bend loss below -0.1 dB (sign quoted), p.6; wavelength range from the Fig. 4(d) axis (1250-1350 nm), not stated with the value'
+    why: 'p.5 Fig. 4(d): the 1250-1350 nm span is the plot axis, not a stated condition (schema: wavelength_inferred true for a plot-axis range)'
+  cmp_lit_li2024b_ge_pd-m4:
+    wavelength_nm: 1555
+    wavelength_max_nm: 1580
+    notes: 'printed 0.13 A/W average responsivity of the monolithic chip from the tunable-laser test of Fig. 12 (p.9); wavelength not stated with the value: the nine channel photocurrent peaks in Fig. 12(b) lie at about 1555-1580 nm (axis about 1551-1585 nm); 1556.32-1557.88 nm (p.10) is the interrogation dynamic range, not this test'
+    why: 'p.9 and p.10 Fig. 12(b): the responsivity comes from the photocurrent test across the nine channels (peaks about 1555-1580 nm); the row carried the Gauss-fit interrogation range 1556.32-1557.88 nm from p.10'
+add_metrics:
+- metric_id: cmp_lit_yang2024a_te1_hompf_straight-m4
+  component_id: cmp_lit_yang2024a_te1_hompf_straight
+  parameter: footprint_um2
+  value: 12
+  unit: um2
+  basis: derived
+  locator: p.10 Table 1
+  notes: 'Table 1 (this work) prints 1.5 x 8 um2 for the filter without bends (two 4 x 1.5 um converters joined directly); product computed'
+  why: 'Miss (D153 geometry): p.10 Table 1 lists 1.5 x 8 (without bends) next to 12.5 x 32.6 um2 for this work; the straight-link design row had no footprint'

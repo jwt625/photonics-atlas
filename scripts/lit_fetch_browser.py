@@ -127,6 +127,7 @@ CAPTCHA_RE = re.compile(
     r"g-recaptcha|recaptcha/api|hcaptcha\.com|captcha[-_](?:container|form|image|challenge|box)|id=\"captcha", re.I
 )
 JSCHECK_RE = re.compile(r"checkjs\.cfm|<p>\s*Please wait\.\.\.\s*</p>", re.I)
+OPTICA_VIEWMEDIA_RE = re.compile(r'href="([^"]*viewmedia\.cfm\?[^"]*uri=[^"]*seq=0[^"]*)"', re.I)
 # Article pages: citation_* meta, or the IEEE Xplore document app (no citation meta; 2026-10-22 false positive).
 ARTICLE_RE = re.compile(
     r'<meta[^>]+name="citation_(?:title|doi)"|xplGlobal\.document\.metadata|class="document-title', re.I
@@ -172,7 +173,7 @@ def optica_pdf_url(html: str, page_url: str) -> str | None:
     meta = meta_pdf_url(html, page_url)
     if meta:
         return meta
-    m = re.search(r'href="([^"]*viewmedia\.cfm\?[^"]*uri=[^"]*seq=0[^"]*)"', html, re.I)
+    m = OPTICA_VIEWMEDIA_RE.search(html)
     if m:
         return urljoin(page_url, htmllib.unescape(m.group(1)))
     journal, uri = optica_uri_from_url(page_url)
@@ -872,6 +873,9 @@ class Fetcher:
         pdf_url = optica_pdf_url(html, page_url)
         if not pdf_url:
             return "no_pdf_link", b"", f"landing {page_url[:120]}"
+        if not meta_pdf_url(html, page_url) and not OPTICA_VIEWMEDIA_RE.search(html):
+            # landing offered no PDF link; the link is built from the uri: keep the landing for diagnosis
+            snapshot(self.site, pid, f"<!-- page_url {page_url} -->\n{html}")
         link_uri = optica_uri_from_url(pdf_url)[1]
         if is_stale_uri(link_uri, pid, self.seen_uris):
             snapshot(self.site, pid, html)
