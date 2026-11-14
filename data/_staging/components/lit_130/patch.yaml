@@ -1,0 +1,127 @@
+# Audit patch lit_130 (fresh-context audit 2026-11-14, DevLog/audits/2026-11-14-lit_130-audit.md).
+# 123 metrics: 115 ok / 8 imprecise / 0 wrong; 17 components: 13 ok / 4 imprecise / 0 wrong; 0 deleted; 6 misses added.
+# Coordinator rulings open (audit Q1-Q8): Q1 wang2023 absorption-only rows kept beside the added totals (to drop the totals,
+# remove the adds cmp_lit_wang2023_gesbs_er_waveguide-m8 / -m9), Q2 li2025b on-chip powers added as author_estimate (to drop,
+# remove the adds cmp_lit_li2025b_dfb_sil_tfln-m7 / cmp_lit_li2025b_vernier_ring_laser-m6 and restore the two component
+# notes), Q3 li2025b ring Q author_estimate (to keep measured, remove the two basis ops), Q4 zhao2025b RIN as the printed
+# bound (to keep the printed range, remove the -m19 op), Q5 zhao2025b far-field axes per figure legend (no op beyond the
+# simulated-row conditions), Q6 yokokawa2022 RIN bound kept as printed (no op), Q7 xia2024 8.1 mW on Device II and the Q
+# range on both ring rows (no op), Q8 fab empty on wang2023 / zhao2025b / wang2023a / yokokawa2022 and on xia2024 Device I
+# (no op).
+components:
+  cmp_lit_zhao2025b_dfb_array_8ch_flipchip:
+    notes: 'Fab empty: chip and bonding steps are described with passive verbs (p.4 Sec. 2.2: ''is fabricated'', ''can be easily prepared''); authors at Nanjing University (incl. the Nanjing University-Tongding joint lab), China United Network Communications Nanjing Branch and Jiangsu University of Science and Technology (D80b). Bonding tool named as equipment only. Flip-chip versus p-side-up: junction temperature lower by 28 % (calculated from the 0.94 nm current-shift difference and 0.1 nm/C) and maximum power about 20 % higher (p.5); simulated steady-state difference 4.08 C (Fig. 6): no parameter. Simulated APS-grating single-mode yield 90 % vs 13 % (Fig. 3): design only. Values from Fig. 9-10 are the flip-chip bonded laser unit of the same design (comparison units on one AlN submount); Fig. 11-15 values are the 8-channel array. Far-field axes conflict between figures (D417): Fig. 13 (measured) labels the narrower curve Horizontal (25.8 / 26.3 deg), Fig. 4(d) (simulated) labels the narrower curve Vertical (25.2 deg), and p.3-4 say the design reduces the vertical divergence; each row follows its own figure legend (audit read: Fig. 13(a) FWHM about 25.6 deg blue / 29.9 deg red, Fig. 4(d) about 25.4 deg red / 31.0 deg blue, +/-0.5 deg).'
+    why: 'p.3 Fig. 4(d) and p.6 Fig. 13 assign the narrower far-field angle to opposite axes; the note said only that the text does not assign the axes'
+  cmp_lit_li2025b_dfb_sil_tfln:
+    notes: 'Fab org_ucsb + org_university_of_rochester: author contributions name nine fabricators (five at UC Santa Barbara, four at the University of Rochester; D80b, D395). Facility: UCSB Nanofabrication Facility (''performed in part at'') and Cornell NanoScale Facility (''a portion of this work was performed at''). LN film from NanoLN (supplier note, D428). The 6.7 dB chip-to-fiber coupling loss (p.4, in a sentence carrying ref. [31]; p.5 calls it the consistent loss of the packaging setup) has no measurement shown and is not entered as a coupler row; the on-chip power built on it (18.7 mW at 700 mA, p.4, p.6) is entered as author_estimate (m7; rule 4, D429). Free-running white frequency-noise floor 0.33 MHz2/Hz at 40 MHz offset and locked floor 3.5 kHz2/Hz (Fig. 3(d)). L-I irregularities attributed to mode hops (p.4). TFLN resonator: cmp_lit_li2025b_tfln_sil_ring.'
+    why: 'audit Q2: the on-chip power is this paper''s own value resting on a coupling loss of unstated origin (rule 4: author_estimate, ahmadi2022 D429 precedent), not a value cited from earlier work; note updated for the added m7'
+  cmp_lit_li2025b_vernier_ring_laser:
+    notes: 'Fab org_ucsb + org_university_of_rochester: author contributions name nine fabricators (five at UC Santa Barbara, four at the University of Rochester; D80b, D395). Facility: UCSB Nanofabrication Facility (''performed in part at'') and Cornell NanoScale Facility (''a portion of this work was performed at''). LN film from NanoLN (supplier note, D428). The 6.7 dB chip-to-fiber coupling loss (p.4, in a sentence carrying ref. [31]; p.5 calls it the consistent loss of the packaging setup, no citation there) has no measurement shown and is not entered as a coupler row; the on-chip power built on it (2.01 mW, p.5) is entered as author_estimate (m6; rule 4, D429). Abstract calls the 44 nm tuning continuous; p.5-6 call it coarse tuning (Fig. 4(c) shows discrete lines). Si rings (FSR 215 / 208 GHz, Q): cmp_lit_li2025b_si_vernier_rings.'
+    why: 'audit Q2: the 2.01 mW sentence carries no citation and rests on the setup coupling loss (rule 4: author_estimate); note updated for the added m6'
+  cmp_lit_wang2023a_qd_lcdfb:
+    notes: 'Fab empty: growth and fabrication described with passive verbs (p.2 Sec. 2.1); authors at the Institute of Semiconductors CAS / University of Chinese Academy of Sciences and Zhejiang University / Zhejiang Lab (D80b). Same-wafer FP lasers (same cavity and ridge) gave alpha factor 0.34 at the 1315 nm gain peak (ASE method, p.2): no row (no laser metric). Threshold / slope variation < 9 mA and < 0.012 W/A over 25-85 C (p.3); threshold current density 1243 A/cm2 (Table 1); critical feedback for coherence collapse -14 / -11 / -8 dB at 25 / 55 / 85 C, 300 mA (p.7): no parameter (D77 / D431 candidates). Grating etch: ICP etch of the AlGaAs to 50 nm followed by a short wet etch removing about 10 nm (p.2), consistent with the 60 nm grating etch depth of the design sentence (p.2) and p.7; entered as etch_depth_nm 60 (m24, design_target); m20 is the 1500 nm ridge etch. Current tuning 0.0087 nm/mA at 85 C (p.4): no parameter (D83g).'
+    why: 'p.2 Sec. 2.1: 50 nm ICP plus about 10 nm wet etch gives the 60 nm design depth, so there is no conflict; the note also said the 60 nm was entered while no row held it'
+metrics:
+  cmp_lit_xia2024_wopo_pulley_gap650-m1:
+    condition: 'threshold of the wide-separation OPO (Device II); pump wavelength not stated with the value (the Device II spectra of Fig. 2(c) are pumped at 1552 nm); threshold curve in Supp. Fig. S5, not cached'
+    why: 'p.3 Sec. 2.2 prints the threshold without a pump wavelength; the condition stated a pump near 1552 nm as if printed with the value'
+  cmp_lit_zhao2025b_dfb_array_8ch_flipchip-m16:
+    condition: 'simulated far-field FWHM full angle of the fundamental mode, vertical (Fig. 4(d) legend: red Vertical curve is the narrower one)'
+    notes: 'printed 25.2 x 30.7 deg (p.3); axis from the Fig. 4(d) legend (audit read about 25.4 deg red / 31.0 deg blue at half maximum, +/-0.5 deg); opposite to the measured Fig. 13 assignment (component notes, D417)'
+    why: 'p.3 Fig. 4(d) labels Horizontal (blue) and Vertical (red); the red curve is the narrower one, so 25.2 deg is the vertical angle; the row said the axes were not assigned'
+  cmp_lit_zhao2025b_dfb_array_8ch_flipchip-m17:
+    condition: 'simulated far-field FWHM full angle of the fundamental mode, horizontal (Fig. 4(d) legend: blue Horizontal curve is the wider one)'
+    notes: 'printed 25.2 x 30.7 deg (p.3); axis from the Fig. 4(d) legend (audit read about 31.0 deg blue at half maximum, +/-0.5 deg); opposite to the measured Fig. 13 assignment (component notes, D417)'
+    why: 'p.3 Fig. 4(d) labels the wider blue curve Horizontal, so 30.7 deg is the horizontal angle; the row said the axes were not assigned'
+  cmp_lit_zhao2025b_dfb_array_8ch_flipchip-m19:
+    value: -135.3
+    value_max: ''
+    qualifier: lt
+    statistic: ''
+    locator: p.1 Abstract; p.6 Sec. 3; p.6 Fig. 15; p.7 Sec. 4
+    notes: 'printed bound ''below -135.3 dB/Hz'' for all 8 channels (abstract, conclusion), consistent with Fig. 15: per-channel maxima read about -141 / -139 / -138 / -135.5 / -143 / -136 / -139 / -141.5 dB/Hz for CH1-CH8 (+/-1 dB, relaxation peaks near 7-8 GHz). The p.6 sentence prints a range -135.3 to -138.7 dB/Hz, whose lower end is above the CH1, CH5 and CH8 maxima (D417); kept here as the figure-consistent printed bound (audit Q4)'
+    why: 'audit Q4: the abstract and conclusion print the bound below -135.3 dB/Hz, which Fig. 15 supports for every channel; the stored range put -138.7 dB/Hz as the value although three channels peak below it'
+  cmp_lit_zhao2025b_dfb_unit_psideup-m4:
+    value: 67
+    notes: 'read off the Fig. 10(c) end point at 250 mA (audit read 400 dpi, 3.67 px/mW: about 66.7 mW, +/-1 mW); the flip-chip curve reads about 80.7 mW at the same point, consistent with the printed ''approximately 20 %'' higher'
+    why: 'p.5 Fig. 10(c): the black P-side-up curve ends at about 66.7 mW (pixel read against the 0-100 mW ticks); 68 was high by about 1 mW'
+  cmp_lit_li2025b_tfln_sil_ring-m1:
+    basis: author_estimate
+    notes: 'printed loaded Q of 3 x 10^5 (p.5); no transmission trace or fit is shown, so author_estimate (heim2026 D460, velha2016 D544 precedents); wavelength taken from the lasing line aligned to this resonance (1559.0 nm, p.4)'
+    why: 'audit Q3: p.5 states the Q as a device property with no measurement shown anywhere in the paper (D460: stated ring Q without a shown measurement is author_estimate)'
+  cmp_lit_li2025b_si_vernier_rings-m1:
+    basis: author_estimate
+    notes: 'printed ''low loaded Q of 4 x 10^4 in the Si rings'' (p.6), one value for both rings; no measurement shown, so author_estimate (D460, D544); band from the 1533-1577 nm lasing range'
+    why: 'audit Q3: p.6 states the Si ring Q as the reason for the linewidth with no measurement shown (D460)'
+  cmp_lit_yokokawa2022_soa_dfb-m9:
+    basis: derived
+    notes: 'printed 1 mm total length of DFB laser and SOA (p.2, conclusion ''1 mm chip length''); mm -> um (D157)'
+    why: 'p.2 Sec. 2 prints 1 mm; the stored 1000 um is a unit rescaling of a printed dimension, derived under D157 / D256'
+add_metrics:
+- metric_id: cmp_lit_wang2023_gesbs_er_waveguide-m8
+  component_id: cmp_lit_wang2023_gesbs_er_waveguide
+  parameter: prop_loss_db_per_cm
+  value: 3.25
+  unit: dB/cm
+  wavelength_nm: 1533
+  condition: 'total loss incl. Er3+ absorption (background propagation plus absorption), no pump; cutback over the 0.8 / 1.5 / 2 / 4.6 cm devices'
+  method: cutback
+  basis: derived
+  locator: p.4 Sec. 2.3; p.5 Fig. 3(d)
+  notes: '2.20 dB/cm absorption + 1.05 dB/cm propagation (the authors obtained the absorption by subtracting the 1.05 dB/cm from the total, p.4); Fig. 3(d) plots the total at each wavelength (dots above the 1.05 dB/cm shaded region), audit read about 3.25 dB/cm at 1533 nm (+/-0.05)'
+  why: 'Miss (audit Q1). p.4 Sec. 2.3 and Fig. 3(d): the unpumped total loss is the quantity measured by cutback and the one merged Er waveguide rows carry (bonneville2024, cai2021, qiu2026); the batch held only the absorption-only share'
+- metric_id: cmp_lit_wang2023_gesbs_er_waveguide-m9
+  component_id: cmp_lit_wang2023_gesbs_er_waveguide
+  parameter: prop_loss_db_per_cm
+  value: 2.1
+  unit: dB/cm
+  wavelength_nm: 1550
+  condition: 'total loss incl. Er3+ absorption (background propagation plus absorption), no pump; cutback over the 0.8 / 1.5 / 2 / 4.6 cm devices'
+  method: cutback
+  basis: derived
+  locator: p.4 Sec. 2.3; p.5 Fig. 3(d)
+  notes: '1.05 dB/cm absorption + 1.05 dB/cm propagation (p.4); Fig. 3(d) dot at 1550 nm reads about 2.05 dB/cm (+/-0.05)'
+  why: 'Miss (audit Q1). p.4 Sec. 2.3 and Fig. 3(d): unpumped total loss at the second gain peak, same reasoning as m8'
+- metric_id: cmp_lit_wang2023_gesbs_er_waveguide-m10
+  component_id: cmp_lit_wang2023_gesbs_er_waveguide
+  parameter: layer2_thickness_nm
+  value: 302
+  unit: nm
+  condition: 'Er3+:Al2O3 gain slab under the GeSbS strip (ALD, annealed at 850 C)'
+  basis: measured
+  locator: p.4 Sec. 2.2.2; p.5 Fig. 3(b)
+  notes: 'SEM cross-section label 302 nm; the design sentence (p.2) uses a 300 nm Er3+:Al2O3 layer for the overlap simulation'
+  why: 'Miss (D153 geometry). p.4 and the Fig. 3(b) SEM give the second guiding layer of the bilayer strip waveguide; it was only in core_material'
+- metric_id: cmp_lit_li2025b_dfb_sil_tfln-m7
+  component_id: cmp_lit_li2025b_dfb_sil_tfln
+  parameter: output_power_mw
+  value: 18.7
+  unit: mW
+  statistic: best
+  ref_plane: on_chip
+  condition: 'on-chip power at 700 mA, self-injection locked DFB on TFLN; 4.0 mW fiber-coupled power plus a 6.7 dB chip-to-fiber coupling loss'
+  basis: author_estimate
+  locator: p.4 Sec. 2.2.1; p.6 Sec. 3
+  notes: 'printed 18.7 mW of on-chip power (p.4), ''estimated on-chip power'' (p.6); rests on the 6.7 dB coupling loss, for which no measurement is shown and whose sentence carries ref. [31] (rule 4, D429 ahmadi2022 precedent)'
+  why: 'Miss (audit Q2). p.4 Sec. 2.2.1: the paper''s own on-chip power, computed from its measured 4.0 mW and a coupling loss of unstated origin'
+- metric_id: cmp_lit_li2025b_vernier_ring_laser-m6
+  component_id: cmp_lit_li2025b_vernier_ring_laser
+  parameter: output_power_mw
+  value: 2.01
+  unit: mW
+  ref_plane: on_chip
+  condition: 'on-chip power at the operating point (current not stated); 0.43 mW fiber-coupled power plus the 6.7 dB chip-to-fiber coupling loss of the setup'
+  basis: author_estimate
+  locator: p.5 Sec. 2.2.2
+  notes: 'printed on-chip power of 2.01 mW; rests on the ''consistent 6.7 dB'' coupling loss of the packaging setup (no citation in this sentence, no measurement shown)'
+  why: 'Miss (audit Q2). p.5 Sec. 2.2.2 prints the on-chip power without a citation; rule 4 author_estimate'
+- metric_id: cmp_lit_wang2023a_qd_lcdfb-m24
+  component_id: cmp_lit_wang2023a_qd_lcdfb
+  parameter: etch_depth_nm
+  value: 60
+  unit: nm
+  condition: 'lateral surface grating etch depth (the 1500 nm ridge etch is m20)'
+  basis: design_target
+  locator: p.2 Sec. 2.1; p.7 Sec. 3
+  notes: 'design sentence: 60 nm grating etch depth with duty cycle about 50 % (p.2); process: ICP etch to 50 nm, then a short wet etch removing about 10 nm (p.2); p.7 repeats shallower lateral gratings of 60 nm'
+  why: 'Miss (D153 geometry). p.2 Sec. 2.1 states the grating etch depth; the component note mistook the 50 nm ICP step for a conflict and no row held the value'

@@ -1,0 +1,263 @@
+# Audit patch lit_131 (fresh-context audit 2026-11-14, DevLog/audits/2026-11-14-lit_131-audit.md).
+# 131 metrics: 127 ok / 4 imprecise / 0 wrong; 21 components: 21 ok / 0 imprecise / 0 wrong; 0 deleted; 27 misses added.
+# Coordinator rulings open (audit Q1-Q8): Q1 ren2025 PDE author_estimate (no op), Q2 ma2024 PWB 2-3 dB author_estimate (no op),
+# Q3 ma2024 PLC class wdm.other (no op; to switch, add components: cmp_lit_ma2024_plc_combiner: class splitter.other),
+# Q4 ma2024 kappa / kL kept out (no op), Q5 ma2024 21.9 GHz current conflict (no op), Q6 sun2026 Fig. 4 rows and the D153 stack
+# adds (to drop the stack rows, remove the adds cmp_lit_sun2026_opa_s1/_s2/_s3/_s4/_s6/_s7-m7..-m10 and
+# cmp_lit_morenopozas2026_swg_grating_antenna-m9/-m10), Q7 fab orgs Henan Shijia / Yunnan University (org round, no op),
+# Q8 ren2025 dark count per gate (registry gap, no op).
+metrics:
+  cmp_lit_kim2023_pmma_metalens_3layer-m5:
+    basis: derived
+    notes: printed 1.8 um per PMMA layer (p.1, p.3, p.7; 5.4 um for three layers, p.7); um -> nm (D157 / D256)
+    why: p.3 Sec. 3 and p.7 Sec. 5 print the layer thickness as 1.8 um; the nm form is not printed, so the stored 1800 nm is a unit rescale (D157 / D256), not design_target
+  cmp_lit_kim2023_pmma_oam_metasurface_3layer-m2:
+    basis: derived
+    locator: p.1 Abstract; p.3 Sec. 3; p.8 Sec. 6
+    notes: printed 1.8 um per PMMA layer (p.1, p.3); three stacked OAM layers, 5.4 um total (p.8); um -> nm (D157 / D256)
+    why: p.3 Sec. 3 prints the layer thickness as 1.8 um; the nm form is not printed, so the stored 1800 nm is a unit rescale (D157 / D256), not design_target; the OAM stacking sentence (5.4 um total) is on p.8, not p.9
+  cmp_lit_ren2025_pwb_tfln_spad-m8:
+    basis: derived
+    notes: printed 50 nm (selected h); nm -> um (D157 / D256); top oxide elsewhere 1 um
+    why: p.3 Sec. 2.1 prints h = 50 nm; stored as 0.05 um the value is a unit rescale (D157 / D256); the note already said nm -> um while the basis stayed design_target
+  cmp_lit_morenopozas2026_cassegrain_ssc_x310-m3:
+    notes: abstract 'exceeding 200 nm' (1.45-1.65 um), conclusion '200 nm'; from the halved back-to-back spectrum. The paper's 1-dB bandwidth is the span with IL below 1 dB (absolute), not 1 dB from the best point; Fig. 7 measured minimum about 0.56 dB near 1.52 um and both band edges about 0.9 dB, so the registry criterion (within 1 dB of peak) also holds over at least the same 200 nm span
+    why: p.2 Abstract and p.6 Sec. V define the paper's 1-dB bandwidth as sub-decibel loss, while the registry bw_1db_nm is relative to the peak; Fig. 7 (audit render) shows the bound holds under both, which the row did not say
+add_metrics:
+- metric_id: cmp_lit_ren2025_ingaas_spad_pwb-m4
+  component_id: cmp_lit_ren2025_ingaas_spad_pwb
+  parameter: absorber_width_um
+  value: 25
+  unit: um
+  condition: diameter of the round photon-sensitive area of the SPAD chip
+  basis: design_target
+  locator: p.3 Sec. 2.2; p.4 Fig. 2(b) caption
+  notes: active-area diameter stored as absorber_width_um (qi2024 / reddy2020 precedent); stated property of the chip provided by Yunnan University
+  why: Miss (D153 geometry). p.3 Sec. 2.2 and the Fig. 2(b) caption state the 25 um diameter of the photon-sensitive area; it was only in core_material
+- metric_id: cmp_lit_morenopozas2026_swg_grating_antenna-m9
+  component_id: cmp_lit_morenopozas2026_swg_grating_antenna
+  parameter: box_thickness_um
+  value: 2
+  unit: um
+  basis: design_target
+  locator: p.6 Sec. V; p.6 Sec. VI
+  why: Miss (D153 geometry). p.6 Sec. VI says the antenna was fabricated with the process of Sec. V, which states the 2 um buried oxide; the SSC row carries it, the antenna row did not
+- metric_id: cmp_lit_morenopozas2026_swg_grating_antenna-m10
+  component_id: cmp_lit_morenopozas2026_swg_grating_antenna
+  parameter: cladding_thickness_um
+  value: 2.2
+  unit: um
+  condition: CVD SiO2 upper cladding
+  basis: design_target
+  locator: p.6 Sec. V; p.6 Sec. VI
+  why: Miss (D153 geometry). p.6 Sec. VI says the antenna was fabricated with the process of Sec. V, which states the 2.2 um CVD oxide upper cladding; the SSC row carries it, the antenna row did not
+- metric_id: cmp_lit_sun2026_opa_s1-m7
+  component_id: cmp_lit_sun2026_opa_s1
+  parameter: core_thickness_nm
+  value: 200
+  unit: nm
+  condition: Si3N4 waveguide layer
+  basis: design_target
+  locator: p.2 Sec. 2.1
+  why: Miss (D153 geometry). p.2 Sec. 2.1 states the Si3N4 stack of the device (500 x 200 nm waveguide, 4 um lower and 3 um LPCVD upper SiO2) for all designs; the S5, S8 and population rows carry it, the S1 row did not
+- metric_id: cmp_lit_sun2026_opa_s1-m8
+  component_id: cmp_lit_sun2026_opa_s1
+  parameter: width_nm
+  value: 500
+  unit: nm
+  condition: single-mode feed waveguide width
+  basis: design_target
+  locator: p.2 Sec. 2.1
+  why: Miss (D153 geometry). p.2 Sec. 2.1 states the Si3N4 stack of the device (500 x 200 nm waveguide, 4 um lower and 3 um LPCVD upper SiO2) for all designs; the S5, S8 and population rows carry it, the S1 row did not
+- metric_id: cmp_lit_sun2026_opa_s1-m9
+  component_id: cmp_lit_sun2026_opa_s1
+  parameter: box_thickness_um
+  value: 4
+  unit: um
+  basis: design_target
+  locator: p.2 Sec. 2.1
+  why: Miss (D153 geometry). p.2 Sec. 2.1 states the Si3N4 stack of the device (500 x 200 nm waveguide, 4 um lower and 3 um LPCVD upper SiO2) for all designs; the S5, S8 and population rows carry it, the S1 row did not
+- metric_id: cmp_lit_sun2026_opa_s1-m10
+  component_id: cmp_lit_sun2026_opa_s1
+  parameter: cladding_thickness_um
+  value: 3
+  unit: um
+  condition: LPCVD SiO2 upper cladding
+  basis: design_target
+  locator: p.2 Sec. 2.1
+  why: Miss (D153 geometry). p.2 Sec. 2.1 states the Si3N4 stack of the device (500 x 200 nm waveguide, 4 um lower and 3 um LPCVD upper SiO2) for all designs; the S5, S8 and population rows carry it, the S1 row did not
+- metric_id: cmp_lit_sun2026_opa_s2-m7
+  component_id: cmp_lit_sun2026_opa_s2
+  parameter: core_thickness_nm
+  value: 200
+  unit: nm
+  condition: Si3N4 waveguide layer
+  basis: design_target
+  locator: p.2 Sec. 2.1
+  why: Miss (D153 geometry). p.2 Sec. 2.1 states the Si3N4 stack of the device (500 x 200 nm waveguide, 4 um lower and 3 um LPCVD upper SiO2) for all designs; the S5, S8 and population rows carry it, the S2 row did not
+- metric_id: cmp_lit_sun2026_opa_s2-m8
+  component_id: cmp_lit_sun2026_opa_s2
+  parameter: width_nm
+  value: 500
+  unit: nm
+  condition: single-mode feed waveguide width
+  basis: design_target
+  locator: p.2 Sec. 2.1
+  why: Miss (D153 geometry). p.2 Sec. 2.1 states the Si3N4 stack of the device (500 x 200 nm waveguide, 4 um lower and 3 um LPCVD upper SiO2) for all designs; the S5, S8 and population rows carry it, the S2 row did not
+- metric_id: cmp_lit_sun2026_opa_s2-m9
+  component_id: cmp_lit_sun2026_opa_s2
+  parameter: box_thickness_um
+  value: 4
+  unit: um
+  basis: design_target
+  locator: p.2 Sec. 2.1
+  why: Miss (D153 geometry). p.2 Sec. 2.1 states the Si3N4 stack of the device (500 x 200 nm waveguide, 4 um lower and 3 um LPCVD upper SiO2) for all designs; the S5, S8 and population rows carry it, the S2 row did not
+- metric_id: cmp_lit_sun2026_opa_s2-m10
+  component_id: cmp_lit_sun2026_opa_s2
+  parameter: cladding_thickness_um
+  value: 3
+  unit: um
+  condition: LPCVD SiO2 upper cladding
+  basis: design_target
+  locator: p.2 Sec. 2.1
+  why: Miss (D153 geometry). p.2 Sec. 2.1 states the Si3N4 stack of the device (500 x 200 nm waveguide, 4 um lower and 3 um LPCVD upper SiO2) for all designs; the S5, S8 and population rows carry it, the S2 row did not
+- metric_id: cmp_lit_sun2026_opa_s3-m7
+  component_id: cmp_lit_sun2026_opa_s3
+  parameter: core_thickness_nm
+  value: 200
+  unit: nm
+  condition: Si3N4 waveguide layer
+  basis: design_target
+  locator: p.2 Sec. 2.1
+  why: Miss (D153 geometry). p.2 Sec. 2.1 states the Si3N4 stack of the device (500 x 200 nm waveguide, 4 um lower and 3 um LPCVD upper SiO2) for all designs; the S5, S8 and population rows carry it, the S3 row did not
+- metric_id: cmp_lit_sun2026_opa_s3-m8
+  component_id: cmp_lit_sun2026_opa_s3
+  parameter: width_nm
+  value: 500
+  unit: nm
+  condition: single-mode feed waveguide width
+  basis: design_target
+  locator: p.2 Sec. 2.1
+  why: Miss (D153 geometry). p.2 Sec. 2.1 states the Si3N4 stack of the device (500 x 200 nm waveguide, 4 um lower and 3 um LPCVD upper SiO2) for all designs; the S5, S8 and population rows carry it, the S3 row did not
+- metric_id: cmp_lit_sun2026_opa_s3-m9
+  component_id: cmp_lit_sun2026_opa_s3
+  parameter: box_thickness_um
+  value: 4
+  unit: um
+  basis: design_target
+  locator: p.2 Sec. 2.1
+  why: Miss (D153 geometry). p.2 Sec. 2.1 states the Si3N4 stack of the device (500 x 200 nm waveguide, 4 um lower and 3 um LPCVD upper SiO2) for all designs; the S5, S8 and population rows carry it, the S3 row did not
+- metric_id: cmp_lit_sun2026_opa_s3-m10
+  component_id: cmp_lit_sun2026_opa_s3
+  parameter: cladding_thickness_um
+  value: 3
+  unit: um
+  condition: LPCVD SiO2 upper cladding
+  basis: design_target
+  locator: p.2 Sec. 2.1
+  why: Miss (D153 geometry). p.2 Sec. 2.1 states the Si3N4 stack of the device (500 x 200 nm waveguide, 4 um lower and 3 um LPCVD upper SiO2) for all designs; the S5, S8 and population rows carry it, the S3 row did not
+- metric_id: cmp_lit_sun2026_opa_s4-m7
+  component_id: cmp_lit_sun2026_opa_s4
+  parameter: core_thickness_nm
+  value: 200
+  unit: nm
+  condition: Si3N4 waveguide layer
+  basis: design_target
+  locator: p.2 Sec. 2.1
+  why: Miss (D153 geometry). p.2 Sec. 2.1 states the Si3N4 stack of the device (500 x 200 nm waveguide, 4 um lower and 3 um LPCVD upper SiO2) for all designs; the S5, S8 and population rows carry it, the S4 row did not
+- metric_id: cmp_lit_sun2026_opa_s4-m8
+  component_id: cmp_lit_sun2026_opa_s4
+  parameter: width_nm
+  value: 500
+  unit: nm
+  condition: single-mode feed waveguide width
+  basis: design_target
+  locator: p.2 Sec. 2.1
+  why: Miss (D153 geometry). p.2 Sec. 2.1 states the Si3N4 stack of the device (500 x 200 nm waveguide, 4 um lower and 3 um LPCVD upper SiO2) for all designs; the S5, S8 and population rows carry it, the S4 row did not
+- metric_id: cmp_lit_sun2026_opa_s4-m9
+  component_id: cmp_lit_sun2026_opa_s4
+  parameter: box_thickness_um
+  value: 4
+  unit: um
+  basis: design_target
+  locator: p.2 Sec. 2.1
+  why: Miss (D153 geometry). p.2 Sec. 2.1 states the Si3N4 stack of the device (500 x 200 nm waveguide, 4 um lower and 3 um LPCVD upper SiO2) for all designs; the S5, S8 and population rows carry it, the S4 row did not
+- metric_id: cmp_lit_sun2026_opa_s4-m10
+  component_id: cmp_lit_sun2026_opa_s4
+  parameter: cladding_thickness_um
+  value: 3
+  unit: um
+  condition: LPCVD SiO2 upper cladding
+  basis: design_target
+  locator: p.2 Sec. 2.1
+  why: Miss (D153 geometry). p.2 Sec. 2.1 states the Si3N4 stack of the device (500 x 200 nm waveguide, 4 um lower and 3 um LPCVD upper SiO2) for all designs; the S5, S8 and population rows carry it, the S4 row did not
+- metric_id: cmp_lit_sun2026_opa_s6-m7
+  component_id: cmp_lit_sun2026_opa_s6
+  parameter: core_thickness_nm
+  value: 200
+  unit: nm
+  condition: Si3N4 waveguide layer
+  basis: design_target
+  locator: p.2 Sec. 2.1
+  why: Miss (D153 geometry). p.2 Sec. 2.1 states the Si3N4 stack of the device (500 x 200 nm waveguide, 4 um lower and 3 um LPCVD upper SiO2) for all designs; the S5, S8 and population rows carry it, the S6 row did not
+- metric_id: cmp_lit_sun2026_opa_s6-m8
+  component_id: cmp_lit_sun2026_opa_s6
+  parameter: width_nm
+  value: 500
+  unit: nm
+  condition: single-mode feed waveguide width
+  basis: design_target
+  locator: p.2 Sec. 2.1
+  why: Miss (D153 geometry). p.2 Sec. 2.1 states the Si3N4 stack of the device (500 x 200 nm waveguide, 4 um lower and 3 um LPCVD upper SiO2) for all designs; the S5, S8 and population rows carry it, the S6 row did not
+- metric_id: cmp_lit_sun2026_opa_s6-m9
+  component_id: cmp_lit_sun2026_opa_s6
+  parameter: box_thickness_um
+  value: 4
+  unit: um
+  basis: design_target
+  locator: p.2 Sec. 2.1
+  why: Miss (D153 geometry). p.2 Sec. 2.1 states the Si3N4 stack of the device (500 x 200 nm waveguide, 4 um lower and 3 um LPCVD upper SiO2) for all designs; the S5, S8 and population rows carry it, the S6 row did not
+- metric_id: cmp_lit_sun2026_opa_s6-m10
+  component_id: cmp_lit_sun2026_opa_s6
+  parameter: cladding_thickness_um
+  value: 3
+  unit: um
+  condition: LPCVD SiO2 upper cladding
+  basis: design_target
+  locator: p.2 Sec. 2.1
+  why: Miss (D153 geometry). p.2 Sec. 2.1 states the Si3N4 stack of the device (500 x 200 nm waveguide, 4 um lower and 3 um LPCVD upper SiO2) for all designs; the S5, S8 and population rows carry it, the S6 row did not
+- metric_id: cmp_lit_sun2026_opa_s7-m7
+  component_id: cmp_lit_sun2026_opa_s7
+  parameter: core_thickness_nm
+  value: 200
+  unit: nm
+  condition: Si3N4 waveguide layer
+  basis: design_target
+  locator: p.2 Sec. 2.1
+  why: Miss (D153 geometry). p.2 Sec. 2.1 states the Si3N4 stack of the device (500 x 200 nm waveguide, 4 um lower and 3 um LPCVD upper SiO2) for all designs; the S5, S8 and population rows carry it, the S7 row did not
+- metric_id: cmp_lit_sun2026_opa_s7-m8
+  component_id: cmp_lit_sun2026_opa_s7
+  parameter: width_nm
+  value: 500
+  unit: nm
+  condition: single-mode feed waveguide width
+  basis: design_target
+  locator: p.2 Sec. 2.1
+  why: Miss (D153 geometry). p.2 Sec. 2.1 states the Si3N4 stack of the device (500 x 200 nm waveguide, 4 um lower and 3 um LPCVD upper SiO2) for all designs; the S5, S8 and population rows carry it, the S7 row did not
+- metric_id: cmp_lit_sun2026_opa_s7-m9
+  component_id: cmp_lit_sun2026_opa_s7
+  parameter: box_thickness_um
+  value: 4
+  unit: um
+  basis: design_target
+  locator: p.2 Sec. 2.1
+  why: Miss (D153 geometry). p.2 Sec. 2.1 states the Si3N4 stack of the device (500 x 200 nm waveguide, 4 um lower and 3 um LPCVD upper SiO2) for all designs; the S5, S8 and population rows carry it, the S7 row did not
+- metric_id: cmp_lit_sun2026_opa_s7-m10
+  component_id: cmp_lit_sun2026_opa_s7
+  parameter: cladding_thickness_um
+  value: 3
+  unit: um
+  condition: LPCVD SiO2 upper cladding
+  basis: design_target
+  locator: p.2 Sec. 2.1
+  why: Miss (D153 geometry). p.2 Sec. 2.1 states the Si3N4 stack of the device (500 x 200 nm waveguide, 4 um lower and 3 um LPCVD upper SiO2) for all designs; the S5, S8 and population rows carry it, the S7 row did not

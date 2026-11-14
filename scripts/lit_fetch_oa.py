@@ -41,6 +41,7 @@ import json
 import os
 import random
 import re
+import ssl
 import sys
 import time
 import urllib.error
@@ -66,6 +67,7 @@ CACHE_LIST = LIT / "cache_list.csv"
 STATUS_LOG = LOGS / "lit_fetch_status.jsonl"
 PART_DIR = CACHE / "literature" / "fetch_part"
 DEBUG_DIR = CACHE / "literature" / "fetch_debug"
+EXTRA_CA_DIR = ROOT / "config" / "literature" / "extra_ca"
 
 UA = "photonics-atlas-literature-fetch/0.1 (open-access research corpus)"
 ROUTES = ("arxiv", "oa_publisher")
@@ -405,7 +407,20 @@ class _NoRedirect(urllib.request.HTTPRedirectHandler):
         return None
 
 
-_OPENER = urllib.request.build_opener(_NoRedirect, urllib.request.HTTPCookieProcessor(http.cookiejar.CookieJar()))
+def ssl_context() -> ssl.SSLContext:
+    """System trust store plus the intermediate CAs in config/literature/extra_ca: some hosts (www.researching.cn,
+    2026-11-14) send only their leaf certificate, which browsers complete through AIA and urllib cannot."""
+    ctx = ssl.create_default_context()
+    for pem in sorted(EXTRA_CA_DIR.glob("*.pem")):
+        ctx.load_verify_locations(cafile=str(pem))
+    return ctx
+
+
+_OPENER = urllib.request.build_opener(
+    _NoRedirect,
+    urllib.request.HTTPCookieProcessor(http.cookiejar.CookieJar()),
+    urllib.request.HTTPSHandler(context=ssl_context()),
+)
 
 
 @dataclass

@@ -230,6 +230,10 @@ def test_publisher_host_and_breaker_paths() -> None:
     assert m.publisher_host("10.1021/acsphotonics.3c00834") == "pubs.acs.org"
     assert m.publisher_host("10.1088/2631-7990/abc674") == "iopscience.iop.org"
     assert m.publisher_host("10.1515/nanoph-2023-0524") == "www.degruyterbrill.com"
+    assert m.publisher_host("10.3788/col202523.041402") == "www.researching.cn"
+    assert m.publisher_host("10.1117/1.apn.5.1.016009") == "www.spiedigitallibrary.org"
+    assert m.publisher_host("10.1186/s43074-022-00056-2") == "link.springer.com"
+    assert m.publisher_host("10.1016/j.optlastec.2023.109493") == "www.sciencedirect.com"
     assert m.publisher_host("10.1364/oe.1") is None
     assert m.doi_ok(PUB, "10.1038/x") and not m.doi_ok(PUB, "10.1364/oe.1")
     assert m.breaker_key(PUB, "10.1038/x") == "www.nature.com"

@@ -1,0 +1,88 @@
+# Audit patch lit_133 (fresh-context audit 2026-11-14, DevLog/audits/2026-11-14-lit_133-audit.md).
+# 188 metrics: 182 ok / 6 imprecise / 0 wrong; 16 components: 16 ok / 0 imprecise / 0 wrong; 0 deleted; 6 misses added.
+# Coordinator rulings open (audit Q1-Q8), all with no op unless noted: Q1 deng2025 IL bounds and single-crossing
+# scope (no op), Q2 deng2025 mmi_width_um range (no op; to drop, delete cmp_lit_deng2025_pi_mmi_crossing-m17),
+# Q3 gao2025 TM tolerance bound (no op), Q4 xu2025 1.26 / 1.42 dB rows (no op; to drop, delete
+# cmp_lit_xu2025_bspline_mm_crossing-m7 / -m8), Q5 xu2025 fab HUST (no op), Q6 zhao2022 MUX-pair row (no op; to drop,
+# delete_components cmp_lit_zhao2022_mode_mux_pair), Q7 jin2024 initial / uniform GC simulated values and per-GC scope
+# (no op), Q8 yi2024 transition row and licence field (no op; to drop, delete_components
+# cmp_lit_yi2024_bilevel_dualcore_transition).
+metrics:
+  cmp_lit_deng2025_pi_mmi_crossing-m9:
+    notes: 'printed below 0.2 dB over 1480-1640 nm; Fig. 8 trace about 0.07-0.22 dB, highest about 0.22 dB near 1590 nm (audit read of a 400 dpi render, +/-0.02 dB): the printed bound is loose against its own figure (D417)'
+    why: 'p.4 Fig. 8: the PDL trace exceeds the printed 0.2 dB bound near 1565 and 1590 nm; the note did not record the conflict'
+  cmp_lit_zhao2022_swg_mwc_3mode-m1:
+    condition: 'average excess loss over 1525-1605 nm vs number of crossings, linear fit (Fig. 11 points at 0, 1, 3 and 7 MWCs; the text lists cascades M = 0, 3, 5, 7 with M = 5 broken); three-mode dual-core adiabatic-taper MUX / DEMUX; ASE source + OSA'
+    excludes: 'MUX / DEMUX pair, grating couplers and routing (cascade slope)'
+    why: 'p.7 Fig. 11 (400 dpi render) plots points at 0, 1, 3 and 7 MWCs; the condition named only M = 0, 3, 7'
+  cmp_lit_zhao2022_swg_mwc_3mode-m2:
+    condition: 'average excess loss over 1525-1605 nm vs number of crossings, linear fit (Fig. 11 points at 0, 1, 3 and 7 MWCs; the text lists cascades M = 0, 3, 5, 7 with M = 5 broken); three-mode dual-core adiabatic-taper MUX / DEMUX; ASE source + OSA'
+    excludes: 'MUX / DEMUX pair, grating couplers and routing (cascade slope)'
+    notes: 'printed ''estimated to be'' about 0.16 dB per MWC (p.8; fit of own data, D80a; the paper calls it excess loss, per-crossing loss -> crossing_loss_db, D164); the Fig. 11 fit label reads 0.15 dB/MWC (D417, text value entered)'
+    why: 'p.7 Fig. 11 plots points at 0, 1, 3 and 7 MWCs (condition named only M = 0, 3, 7); the note repeated the Fig. 11 label twice'
+  cmp_lit_zhao2022_swg_mwc_3mode-m3:
+    condition: 'average excess loss over 1525-1605 nm vs number of crossings, linear fit (Fig. 11 points at 0, 1, 3 and 7 MWCs; the text lists cascades M = 0, 3, 5, 7 with M = 5 broken); three-mode dual-core adiabatic-taper MUX / DEMUX; ASE source + OSA'
+    excludes: 'MUX / DEMUX pair, grating couplers and routing (cascade slope)'
+    why: 'p.7 Fig. 11 (400 dpi render) plots points at 0, 1, 3 and 7 MWCs; the condition named only M = 0, 3, 7'
+  cmp_lit_yi2024_bilevel_dualcore_ec-m1:
+    qualifier: approx
+    why: 'p.6 Sec. 3: the measured coupling loss is printed as about 0.82-1.35 dB (rule 7: about -> approx)'
+  cmp_lit_yi2024_bilevel_dualcore_ec-m2:
+    qualifier: approx
+    why: 'p.6 Sec. 3: the measured coupling loss is printed as about 0.94-1.49 dB (rule 7: about -> approx)'
+add_metrics:
+- metric_id: cmp_lit_jin2024_gc_mfs60_ebl-m12
+  component_id: cmp_lit_jin2024_gc_mfs60_ebl
+  parameter: box_thickness_um
+  value: 2
+  unit: um
+  basis: extracted_from_figure
+  locator: p.2 Fig. 1
+  notes: 'BOX labelled 2 um in the design schematic of the optimized GC (Fig. 1, beside the 740 nm TOX, 220 nm Si and 100 nm etch labels); no text value'
+  why: 'Miss (D153 geometry). p.2 Fig. 1 labels the 2 um BOX of the optimized GC stack'
+- metric_id: cmp_lit_jin2024_gc_mfs100_ebl-m13
+  component_id: cmp_lit_jin2024_gc_mfs100_ebl
+  parameter: box_thickness_um
+  value: 2
+  unit: um
+  basis: extracted_from_figure
+  locator: p.2 Fig. 1
+  notes: 'BOX labelled 2 um in the design schematic of the optimized GC (Fig. 1, beside the 740 nm TOX, 220 nm Si and 100 nm etch labels); no text value'
+  why: 'Miss (D153 geometry). p.2 Fig. 1 labels the 2 um BOX of the optimized GC stack'
+- metric_id: cmp_lit_jin2024_gc_mfs130_ebl-m12
+  component_id: cmp_lit_jin2024_gc_mfs130_ebl
+  parameter: box_thickness_um
+  value: 2
+  unit: um
+  basis: extracted_from_figure
+  locator: p.2 Fig. 1
+  notes: 'BOX labelled 2 um in the design schematic of the optimized GC (Fig. 1, beside the 740 nm TOX, 220 nm Si and 100 nm etch labels); no text value'
+  why: 'Miss (D153 geometry). p.2 Fig. 1 labels the 2 um BOX of the optimized GC stack'
+- metric_id: cmp_lit_jin2024_gc_mfs160_ebl-m12
+  component_id: cmp_lit_jin2024_gc_mfs160_ebl
+  parameter: box_thickness_um
+  value: 2
+  unit: um
+  basis: extracted_from_figure
+  locator: p.2 Fig. 1
+  notes: 'BOX labelled 2 um in the design schematic of the optimized GC (Fig. 1, beside the 740 nm TOX, 220 nm Si and 100 nm etch labels); no text value'
+  why: 'Miss (D153 geometry). p.2 Fig. 1 labels the 2 um BOX of the optimized GC stack'
+- metric_id: cmp_lit_jin2024_gc_mfs180_ebl-m12
+  component_id: cmp_lit_jin2024_gc_mfs180_ebl
+  parameter: box_thickness_um
+  value: 2
+  unit: um
+  basis: extracted_from_figure
+  locator: p.2 Fig. 1
+  notes: 'BOX labelled 2 um in the design schematic of the optimized GC (Fig. 1, beside the 740 nm TOX, 220 nm Si and 100 nm etch labels); no text value'
+  why: 'Miss (D153 geometry). p.2 Fig. 1 labels the 2 um BOX of the optimized GC stack'
+- metric_id: cmp_lit_yi2024_bilevel_dualcore_ec-m18
+  component_id: cmp_lit_yi2024_bilevel_dualcore_ec
+  parameter: taper_length_um
+  value: 50
+  unit: um
+  condition: 'facet inverse-taper section L9 of the mode expanding region (Section 4), chosen with a 3 um BOX'
+  basis: design_target
+  locator: p.4 Sec. 2.2
+  notes: 'L9 printed 50 um (trade-off between mode conversion and substrate leakage); the other taper sections L6-L8 are not given in the main text'
+  why: 'Miss (D153 geometry). p.4 Sec. 2.2 states the 50 um length of the facet taper section; the row kept it only in notes'

@@ -105,6 +105,12 @@ PUBLISHER_HOSTS = {
     "10.1021/": "pubs.acs.org",
     "10.1088/": "iopscience.iop.org",
     "10.1515/": "www.degruyterbrill.com",
+    # OA rows the plain-HTTP fetcher cannot take (2026-11-14): researching.cn sends no intermediate certificate,
+    # SPIE answers HTML to a plain GET, Springer / SpringerOpen and Elsevier serve challenges.
+    "10.3788/": "www.researching.cn",
+    "10.1117/": "www.spiedigitallibrary.org",
+    "10.1186/": "link.springer.com",
+    "10.1016/": "www.sciencedirect.com",
 }
 
 SITES = {

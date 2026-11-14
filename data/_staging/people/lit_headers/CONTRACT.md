@@ -50,6 +50,9 @@ Restricted corpus (D357): copy only names and the org / unit / city / country of
   its own block(s) ("A, B and C \n Org1 \n D \n Org2"): one block per printed org, marker `G<n>`, carried by every
   author of the group. List authors in printed reading order. The checker verifies the position (block after its
   authors, no other author between). A single unmarked block next to marked blocks stays `layout` (grade B).
+- Affiliations only in an end-of-paper author-information section (ACS style, D572): `per_author` with
+  `locator: "p.N affiliations"` when the blocks differ per author (wang2026h), `single` with the same locator when one
+  block is shared by all authors (cai2021).
 - Cover pages (D366): when page 1 is a cover and the marked author line is on page N, set `locator: "p.N header"` on
   every block; the checker then searches from page N. `show` prints page separators with text.md page numbers.
 - Joint-printed orgs with their own unit / place (D367): `more_orgs: [{org: "Ghent University", unit: "Photonics

@@ -1,0 +1,86 @@
+# Audit patch lit_132 (fresh-context audit 2026-11-14, DevLog/audits/2026-11-14-lit_132-audit.md).
+# 110 metrics: 104 ok / 6 imprecise / 0 wrong; 19 components: 13 ok / 6 imprecise / 0 wrong; 1 duplicate metric deleted; 2 misses added.
+# Coordinator rulings open (audit Q1-Q8): Q1 zhang2025e 0 rows under D411 (no op); Q2 chowdhury2022 fab empty and Fig. 3(b)
+# labels measured (no op; process_name shortened to the cited-PDK style); Q3 wang2026h subtype apd (to keep `other`, remove the
+# two `class` fields below); Q4 wang2026h Cj / Rs measured (no op); Q5 zhang2026d programmed filters coupled two-ring, Vernier and
+# dual-injection -> wdm.mrr (to keep the distiller classes, remove the three `class` fields below), interleaver / 1x8 / fab imec
+# (no op); Q6 zhang2026d 93 GHz dual-injection FSR measured (no op; to drop, add delete_metrics
+# cmp_lit_zhang2026d_dual_injection_ring-m1); Q7 wang2026j classes, 0.22 dB/cm derived, fab SITRI (no op); Q8 perezarmenta2023
+# MZI-model values measured (no op). Figure-read misses (chowdhury2022 m30, wang2026h m13): to drop, remove the two add_metrics.
+components:
+  cmp_lit_chowdhury2022_ge_si_apd:
+    process_name: '(45CLO cited, ref. 2: same Si device layer)'
+    notes: 'Fab empty: p.1 Sec. 2 and p.3 Sec. 5 say the APD was fabricated in a standard 12-inch wafer / a monolithic Si photonics process (passive, no org named); all authors are at GlobalFoundries (p.1), which is not enough (D80b, Contract v7; lee2024 GlobalFoundries Fotonix precedent). process_name keeps the cited platform only (ref. 2 title names 45CLO; the body never names the process). Structure similar to ref. 3 with a narrower multiplication region (p.1). Light coupled from a pigtail fiber via a TE-optimized GC with peak coupling at 1310 nm for wafer-scale measurement (p.1-2); GC has no reported performance (no row). Input power quoted ''at the APD'' (p.1 Sec. 3); how the GC loss was removed is not stated. Room temperature. Not entered: responsivity-bandwidth product 839.8 (A/W) GHz (p.1, Table 1; no parameter, product of the entered values); Fig. 2(a) and 2(c) curves without printed values; Table 1 lowest power -35 dBm (DC measurement, sensitivity-type figure, no parameter); Table 1 rows of other works (cited). The Fig. 2(b) -35 dBm maximum (about 75 A/W near -6.9 V) is entered from the render as m30. No avalanche gain value printed. Fig. 3(b) value labels tied to input power by the legend colour (cyan -23, green -20, salmon -15, purple -7 dBm) and to bias by the x axis (-5 to 0 V); the -23 dBm series reproduces the printed 32.3 GHz at -5 V and the -15 dBm series the printed about 13 GHz at 0 V and about 32 GHz at -4 V of Fig. 3(a) (the text values are the same points as the 13.5 / 32.2 GHz labels, m22 / m18; not separate rows).'
+    why: 'p.1 Sec. 2, p.3 refs. 2-5: process_name held a paraphrased sentence (dual Si thicknesses, refs. 2 / 5); Contract v7 cited-PDK style keeps only the cited process name and reference. Notes updated for the m29 deletion and the m30 figure-read add'
+  cmp_lit_wang2026h_tmrr_pd:
+    class: photodetector.apd
+    notes: 'Two identical rings side-coupled to one bus by bent directional couplers (power coupling ratio about 0.09, p.3; no photodetector parameter), electrodes in parallel, one heater per ring; operating point 200 pm resonance detuning (about 0.2 rad, p.5). Fab empty: ''fabricated by a commercial foundry using a standard CMOS-compatible process'' (p.4; no org, no node / flow for process_name). The Fig. 5(d) circuit has a buried-oxide capacitance and a high-resistivity Si substrate. Subtype apd: the paper calls the device a microring-based all-silicon APD (p.6), models its responsivity with an avalanche gain M (p.3) and operates it near breakdown (p.6); absorption is sub-bandgap photon-assisted tunneling in Si (no Ge / III-V absorber). Measurements at 1554.2 nm (p.5); GCs about 6 dB per fiber-chip interface (row cmp_lit_wang2026h_gc). Not entered: simulated RC-limited bandwidth > 100 GHz (circuit model only, p.6); pad / parasitic elements of Fig. 5(d) (Cp 14.68 fF, Cox 5.89 fF, Rsub 1097 ohm, Lp 30 pH, Rp 2.4 ohm; not the junction); simulated relative gains (about 70 % responsivity at 200 pm detuning, about 33 % bandwidth vs single ring, p.4); data rates 128 Gb/s NRZ / 200 Gb/s PAM-4 (link result, no parameter); theoretical 6 WDM channels below -30 dB crosstalk (p.5); breakdown voltage (not printed); Table 1 rows of other works.'
+    why: 'registry subtype apd = avalanche PD; p.6 names the device class microring-based all-silicon APDs and attributes the bandwidth limit partly to avalanche build-up, p.3 responsivity model includes the avalanche gain; the kramnik2024 `other` precedent is a non-avalanche in-cavity p-i-n monitor (Q3)'
+  cmp_lit_wang2026h_mrr_pd_reference:
+    class: photodetector.apd
+    notes: 'Reference single-ring device measured for comparison at matched responsivity (p.6; Fig. 5(c), measured and fitted at -8.4 V, the TMRR-PD operating bias near breakdown). Subtype apd as the TMRR-PD (p.6 groups microring-based all-silicon APDs). Geometry not stated separately (not entered). Fab as for the TMRR-PD (commercial foundry, no org, p.4).'
+    why: 'same subtype ruling as the TMRR-PD (Q3); notes drop an unsupported presumption about the ring geometry (rule 1)'
+  cmp_lit_zhang2026d_coupled_two_ring:
+    class: wdm.mrr
+    why: 'p.7 Sec. 5.3.2: a tunable IIR band-pass filter (in -> drop) demonstrated as a wavelength filter; merged coupled-ring band-pass filters are wdm.mrr (taddei2019 CROW band-pass, hosseinnia2026 5-pole BPF, manganelli2017, popovic2006); resonator.coupled_rings holds photonic molecules, wavemeters and laser-mirror test rings (Q5)'
+  cmp_lit_zhang2026d_vernier_rings:
+    class: wdm.mrr
+    why: 'p.7 Sec. 5.3.2, Fig. 10: Vernier two-ring band-pass filter (in -> drop) with IL / ER / FSR as filter metrics; merged Vernier filters are wdm.mrr (morichetti2021 Vernier MRR filters); resonator.coupled_rings is used for Vernier circuits with a non-filter function (roeloffzen2018 wavemeter, OFC Th1D.5 laser mirror) (Q5)'
+  cmp_lit_zhang2026d_dual_injection_ring:
+    class: wdm.mrr
+    why: 'p.7-9 Sec. 5.3.2, Fig. 11: dual-injection ring configured as an IIR band-pass filter (ER 16 dB at out1, FSR 93 GHz); same filter function as the coupled two-ring and Vernier rows (Q5; alternative wdm.other)'
+metrics:
+  cmp_lit_chowdhury2022_ge_si_apd-m22:
+    notes: 'Value label printed in Fig. 3(b); series identified by legend colour (component notes). The p.2 Sec. 4 text gives the same point (Fig. 3(a), -15 dBm, 0 V) as about 13 GHz.'
+    why: 'p.2 Sec. 4: the text value for this measurement point was a separate row (m29, deleted as a duplicate); its wording is kept here'
+  cmp_lit_wang2026h_tmrr_pd-m1:
+    notes: 'Fig. 5(b) label 40.2 GHz marks the -3 dB crossing of the fitted -8.4 V curve (fit of the measured trace, inside the data range: measured, D80a / D435); text and abstract print approximately 40 GHz / 40 GHz. The -8.6 V bandwidth (no printed value) is entered from the render as m13.'
+    why: 'p.5 Fig. 5(b): the star sits on the Fitted@-8.4 V curve, not on the raw measured trace; note made explicit'
+  cmp_lit_zhang2026d_hex_mesh_7cell-m2:
+    wavelength_inferred: ''
+    why: 'p.5 Fig. 5(c) caption states the resonance around 1550 nm: a stated wavelength (D393), not inferred'
+  cmp_lit_zhang2026d_splitter_1x8-m1:
+    wavelength_inferred: 'true'
+    notes: 'Printed: expected total transmission about -10 dB (3 x 3 dB plus about 1 dB path loss) that matches the measurement; Fig. 6(c) traces of o1-o8 lie about -9.2 to -10.3 dB against the -10 dB guide line (audit read of a 300 dpi render, +/-0.2 dB). Wavelength span = Fig. 6(c) plotted range (no wavelength printed with the value).'
+    why: 'p.6 Fig. 6(c): the span comes from the figure axis, flagged inferred as on the interleaver / coupled-ring / Vernier rows of the same paper; figure read added to the note'
+  cmp_lit_zhang2026d_vernier_rings-m4:
+    notes: 'Reference plane not stated. Wavelength span = Fig. 10(c) axis. Printed around 8 dB; the upper dashed guide line of Fig. 10(c) (passband peaks) reads about -8.6 dB (audit read, 300 dpi, about 19.4 px/dB, +/-0.2 dB), the 7 dB arrow spans to about -16 dB: value kept as printed (D417 note).'
+    why: 'p.8 Fig. 10(c): the plotted passband level is about 8.6 dB below the reference, slightly above the printed around 8 dB; conflict noted'
+  cmp_lit_perezarmenta2023_swg_mmi_2x2_n135-m6:
+    notes: '135 x 0.25 um. The paper prints NMMI = 135 and calls the change from the nominal 129 periods (32.25 um) 6 additional periods of 1.6 um (p.4); 6 x 250 nm = 1.5 um, so the printed 1.6 um does not match the stated period (33.75 um from the period count, 33.85 um from the printed addition).'
+    why: 'p.3 Sec. 2 (Lambda z 250 nm, NMMI = 129 -> 32.25 um) vs p.4 Sec. 3 (6 periods = 1.6 um): internal inconsistency not noted'
+delete_metrics:
+- id: cmp_lit_chowdhury2022_ge_si_apd-m29
+  why: 'p.2 Sec. 4 about 13 GHz at -15 dBm / 0 V is the same measurement point as the Fig. 3(b) label 13.5 GHz (m22); one value per operating point (the text value goes in the m22 note; wang2026h m1 handles its text / label pair the same way)'
+add_metrics:
+- metric_id: cmp_lit_chowdhury2022_ge_si_apd-m30
+  component_id: cmp_lit_chowdhury2022_ge_si_apd
+  parameter: responsivity_a_per_w
+  value: 75
+  unit: A/W
+  qualifier: approx
+  statistic: best
+  wavelength_nm: 1310
+  polarization: te
+  bias_v: -6.9
+  ref_plane: on_chip
+  condition: 'maximum of the -35 dBm responsivity curve vs anode bias (Fig. 2(b)); input power at the APD; room temperature; DC measurement'
+  method: direct
+  basis: extracted_from_figure
+  locator: p.2 Fig. 2(b)
+  notes: 'Audit read of a 400 dpi render (gridlines 10 A/W per 44.8 px, 1 V per 94.5 px): highest cyan markers about 74-76 A/W between about -7.0 and -6.7 V (+/-2 A/W, +/-0.2 V); the same read reproduces the printed about 49 A/W at -6 V and about 26 A/W at -5 V. No value printed for the peak.'
+  why: 'Miss. p.2 Fig. 2(b): the -35 dBm curve peaks well above the printed -6 V value; a figure-read performance value (skill Contract v6) the report listed as not entered'
+- metric_id: cmp_lit_wang2026h_tmrr_pd-m13
+  component_id: cmp_lit_wang2026h_tmrr_pd
+  parameter: bw3db_ghz
+  value: 34
+  unit: GHz
+  qualifier: approx
+  wavelength_nm: 1554.2
+  bias_v: -8.6
+  condition: 'small-signal OE S21, -3 dB crossing of the Fitted@-8.6 V curve (Fig. 5(b)); bandwidth drop attributed to longer avalanche build-up at higher gain'
+  method: direct
+  basis: extracted_from_figure
+  locator: p.5 Fig. 5(b); p.6 Sec. Results
+  notes: 'Audit read of a 400 dpi render: x calibrated on the 15 / 30 / 45 GHz labels (10.78 px/GHz; the same calibration puts the printed 40.2 GHz star at about 40.1 GHz), -3 dB from the dotted guide line; blue curve crosses at about 34.1 GHz (+/-1 GHz). The text says only that the bandwidth drops at -8.6 V.'
+  why: 'Miss. p.5 Fig. 5(b) plots the -8.6 V response; the report noted the drop without a value; figure-read performance value (Contract v6)'
