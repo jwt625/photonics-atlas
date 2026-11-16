@@ -1,0 +1,32 @@
+# Audit patch lit_136 (fresh-context audit 2026-11-15, DevLog/audits/2026-11-15-lit_136-audit.md).
+# 90 metrics: 84 ok / 5 imprecise / 1 wrong; 21 components: 21 ok / 0 imprecise / 0 wrong; 1 metric deleted; 0 misses added.
+# Coordinator rulings open (audit Q1-Q6), no op unless noted: Q1 kim2021a class nonreciprocal.isolator (no op; to switch,
+# set class nonreciprocal.other on cmp_lit_kim2021a_aln_synthetic_hall_isolator), Q2 bonneville2020 gain basis
+# author_estimate (no op), Q3 bonneville2020 psat_in_dbm -8.5 dBm (deleted here; to keep, drop the delete op and the
+# edwa notes change), Q4 zhou2021a platform lnoi_strip (no op; to empty, set platform '' on the 4 zhou2021a rows),
+# Q5 zhou2021a bw_3db_nm > 40 nm (no op; to drop, delete cmp_lit_zhou2021a_er_tfln_spiral_amp_3p6cm-m6),
+# Q6 vu2010 registry title (outside the batch: data/registry/sources.csv and references/vu2010/source.json).
+metrics:
+  cmp_lit_bonneville2020_edwa_film3_3cm-m1:
+    condition: 'internal net gain quantified with the Film 3 waveguide loss estimate 0.5 +/- 0.3 dB/cm (p.9); formula not printed; the Fig. 5(b) unpumped trace sits at negative internal net gain (about -10 dB at 1533 nm), so it is not a pumped-minus-unpumped signal enhancement; dual-side 970 nm diode pumping with fiber WDMs, lock-in detection; launched pump about 190 mW (highest Fig. 5(c) point); low-level signal'
+    why: 'p.9 Sec. 3.3 and p.8 Fig. 5(b): the paper does not print a pumped-minus-unpumped formula, and the Fig. 5(b) no-pump trace at about -10 dB internal net gain near 1533 nm shows the Er3+ absorption is kept in the gain; the condition stated a formula the paper does not use'
+  cmp_lit_bonneville2020_edwa_film3_3cm-m2:
+    condition: 'internal net gain quantified with the Film 3 waveguide loss estimate 0.5 +/- 0.3 dB/cm (p.9); formula not printed; the Fig. 5(b) unpumped trace sits at negative internal net gain (about -10 dB at 1533 nm), so it is not a pumped-minus-unpumped signal enhancement; dual-side 970 nm diode pumping with fiber WDMs, lock-in detection; launched pump about 190 mW (highest Fig. 5(c) point); low-level signal; 3.0 cm length'
+    why: 'p.9 Sec. 3.3 and p.8 Fig. 5(b): same correction as m1 (the gain definition is not pumped minus unpumped)'
+  cmp_lit_bonneville2020_edwa_film3_3cm-m3:
+    condition: 'internal net gain quantified with the Film 3 waveguide loss estimate 0.5 +/- 0.3 dB/cm (p.9); formula not printed; the Fig. 5(b) unpumped trace sits at negative internal net gain (about -10 dB at 1533 nm), so it is not a pumped-minus-unpumped signal enhancement; dual-side 970 nm diode pumping with fiber WDMs, lock-in detection; launched pump about 190 mW (highest Fig. 5(c) point); low-level signal'
+    why: 'p.9 Sec. 3.3 and p.8 Fig. 5(b): same correction as m1'
+  cmp_lit_bonneville2020_edwa_film3_3cm-m4:
+    condition: 'internal net gain quantified with the Film 3 waveguide loss estimate 0.5 +/- 0.3 dB/cm (p.9); formula not printed; the Fig. 5(b) unpumped trace sits at negative internal net gain (about -10 dB at 1533 nm), so it is not a pumped-minus-unpumped signal enhancement; dual-side 970 nm diode pumping with fiber WDMs, lock-in detection; launched pump about 190 mW (highest Fig. 5(c) point); low-level signal'
+    why: 'p.9 Sec. 3.3 and p.8 Fig. 5(b): same correction as m1'
+  cmp_lit_vu2010_er_teo2_rib_7cm_2p7pct-m1:
+    wavelength_max_nm: 1400
+    notes: 'printed minimum insertion loss ~2.5 dB; the coupling configuration is not stated with the value; wavelength span of the minimum read from the Fig. 2 trace (about -2.3 to -3 dB from about 1100 to 1400 nm, apart from the 1290 nm OH dip at about -5 dB; the trace falls to about -5 dB near 1420 nm and about -8 dB at 1450 nm; audit reading +/-0.5 dB)'
+    why: 'p.4 Fig. 2 (audit zoom of the page render): at 1450 nm the trace reads about -8 dB, so the 1100-1450 nm span overstated where the ~2.5 dB minimum holds; the flat region ends near 1400 nm'
+delete_metrics:
+- id: cmp_lit_bonneville2020_edwa_film3_3cm-m5
+  why: 'p.9 Sec. 3.3 and p.8 Fig. 5(c) inset: the paper states only that net internal gain was achieved up to about -8.5 dBm launched signal; it does not call this a saturation power or define saturation by the 0-dB point (cai2021 prints that definition; this paper does not), and the inset shows gain compressing from about -15 dBm. psat_in_dbm (input saturation power) does not fit; value moved to the component notes'
+components:
+  cmp_lit_bonneville2020_edwa_film3_3cm:
+    notes: 'Fab: first-person deposition, patterning and ''we designed and fabricated single mode waveguides and ring resonator structures'' (p.2-5), all four authors at McMaster University -> fab McMaster University, which is missing from the registry (report; fab_org_ids left empty until the org round). Acknowledgement (p.10) thanks two CEDT staff for assistance with fabrication (staff thanks: not a facility, D84b). RBS of calibration films at Western University''s Tandetron facility (p.3) is a characterization facility for the films, not entered. Internal net gain uses the Film 3 waveguide loss estimate 0.5 +/- 0.3 dB/cm (between the film background loss and the Film 2 ring upper limit, p.9) and the estimated -4.5 dB coupling loss per facet for the launched powers (p.8): gain rows author_estimate. No gain saturation observed (pump power limited, p.9). Net internal gain stays positive up to about -8.5 dBm launched 1533 nm signal at 190 mW launched pump (p.9, Fig. 5(c) inset; launched power rests on the estimated facet loss); the paper does not call this a saturation power, so it is not entered as psat_in_dbm (audit 2026-11-15). Single-mode design: simulated minimum bend radius about 2.4 mm (p.5, not entered).'
+    why: 'carries the -8.5 dBm statement after deleting m5 (p.9 Sec. 3.3)'

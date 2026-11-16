@@ -1,0 +1,84 @@
+# Audit patch lit_140 (fresh-context audit 2026-11-15, DevLog/audits/2026-11-15-lit_140-audit.md).
+# 165 metrics: 161 ok / 3 imprecise / 1 wrong (deleted); 32 components: 20 ok / 12 imprecise (tran2019 fab, Q1) / 0 wrong; 1 miss added.
+# Coordinator rulings open: Q1 tran2019 fab org_ucsb (12 component ops; to keep empty, drop the cmp_lit_tran2019_* entries;
+# Gen. 1 only: drop the five cmp_lit_tran2019_gen2_* entries), Q2 lihachev2024 laser fab (no op), Q3 poulton2019 EO phase
+# shifter class (no op), Q4 oldenbeuving2012 design PHR row (delete; to keep, remove the delete_metrics entry and the mrr_mirror op).
+components:
+  cmp_lit_tran2019_gen1_dual_ring_laser:
+    fab_org_ids: org_ucsb
+    notes: 'Fab org_ucsb (audit Q1): Gen. 1 lasers ''built upon the standard process-design-kit for the heterogeneous Si/InP developed at UCSB'' (p.4) and ''fabricated in a standard Si/InP heterogeneous process'' [35], [36] (p.5): the fabrication sentence names that UCSB process (org named with the process, Contract v7; the authors'' own institution''s process, D84a); no facility named; staff thanks (p.12) not used. Rings: cmp_lit_tran2019_gen1_ring_r60, cmp_lit_tran2019_gen1_ring_r62p5 (D400); front mirror cmp_lit_tran2019_gen1_front_loop_mirror; tap cmp_lit_tran2019_gen1_tap_mmi. Measured at 20 C into a 2.5 um spot lensed fiber after a polished angled facet. Si/III-V taper loss 0.5 dB and < -33 dB reflection are cited ([26], [27]; rule 3). Fig. 12(a) labels the white-noise level 650 Hz2/Hz while p.7 prints 65 Hz2/Hz; pi x 650 matches the printed 2.1 kHz (D417 note). Fig. 13(b): output about 10.8 mW at zero detuning at 120 mA (separate measurement, not entered). Model inputs (Table I: ng 3.689, internal loss 6 /cm, alpha_H 4.0) not entered.'
+    why: 'Q1 (p.4 Sec. III; p.5 Sec. III.A.1): the paper names the fabricating process with its org (''the standard process-design-kit for the heterogeneous Si/InP developed at UCSB'', then ''fabricated in'' that process); Contract v7 counts an org named with the process, D84a counts the authors'' own process. Coordinator may drop (keep empty, D80b) or limit to Gen. 1'
+  cmp_lit_tran2019_gen1_ring_r60:
+    fab_org_ids: org_ucsb
+    notes: 'Fab org_ucsb (audit Q1): Gen. 1 lasers ''built upon the standard process-design-kit for the heterogeneous Si/InP developed at UCSB'' (p.4) and ''fabricated in a standard Si/InP heterogeneous process'' [35], [36] (p.5): the fabrication sentence names that UCSB process (org named with the process, Contract v7; the authors'' own institution''s process, D84a); no facility named; staff thanks (p.12) not used. Ring of the laser mirror (D400); laser cmp_lit_tran2019_gen1_dual_ring_laser. Ring power coupling from Table I (design). Radii larger than 60 um chosen so bend loss is negligible (p.4).'
+    why: 'Q1 (p.4 Sec. III; p.5 Sec. III.A.1): the paper names the fabricating process with its org (''the standard process-design-kit for the heterogeneous Si/InP developed at UCSB'', then ''fabricated in'' that process); Contract v7 counts an org named with the process, D84a counts the authors'' own process. Coordinator may drop (keep empty, D80b) or limit to Gen. 1'
+  cmp_lit_tran2019_gen1_ring_r62p5:
+    fab_org_ids: org_ucsb
+    notes: 'Fab org_ucsb (audit Q1): Gen. 1 lasers ''built upon the standard process-design-kit for the heterogeneous Si/InP developed at UCSB'' (p.4) and ''fabricated in a standard Si/InP heterogeneous process'' [35], [36] (p.5): the fabrication sentence names that UCSB process (org named with the process, Contract v7; the authors'' own institution''s process, D84a); no facility named; staff thanks (p.12) not used. Ring of the laser mirror (D400); laser cmp_lit_tran2019_gen1_dual_ring_laser. Ring power coupling from Table I (design). Radii larger than 60 um chosen so bend loss is negligible (p.4).'
+    why: 'Q1 (p.4 Sec. III; p.5 Sec. III.A.1): the paper names the fabricating process with its org (''the standard process-design-kit for the heterogeneous Si/InP developed at UCSB'', then ''fabricated in'' that process); Contract v7 counts an org named with the process, D84a counts the authors'' own process. Coordinator may drop (keep empty, D80b) or limit to Gen. 1'
+  cmp_lit_tran2019_gen1_front_loop_mirror:
+    fab_org_ids: org_ucsb
+    notes: 'Fab org_ucsb (audit Q1): Gen. 1 lasers ''built upon the standard process-design-kit for the heterogeneous Si/InP developed at UCSB'' (p.4) and ''fabricated in a standard Si/InP heterogeneous process'' [35], [36] (p.5): the fabrication sentence names that UCSB process (org named with the process, Contract v7; the authors'' own institution''s process, D84a); no facility named; staff thanks (p.12) not used. Part of cmp_lit_tran2019_gen1_dual_ring_laser.'
+    why: 'Q1 (p.4 Sec. III; p.5 Sec. III.A.1): the paper names the fabricating process with its org (''the standard process-design-kit for the heterogeneous Si/InP developed at UCSB'', then ''fabricated in'' that process); Contract v7 counts an org named with the process, D84a counts the authors'' own process. Coordinator may drop (keep empty, D80b) or limit to Gen. 1'
+  cmp_lit_tran2019_gen1_tap_mmi:
+    fab_org_ids: org_ucsb
+    notes: 'Fab org_ucsb (audit Q1): Gen. 1 lasers ''built upon the standard process-design-kit for the heterogeneous Si/InP developed at UCSB'' (p.4) and ''fabricated in a standard Si/InP heterogeneous process'' [35], [36] (p.5): the fabrication sentence names that UCSB process (org named with the process, Contract v7; the authors'' own institution''s process, D84a); no facility named; staff thanks (p.12) not used. Part of cmp_lit_tran2019_gen1_dual_ring_laser. Fig. 8(a) labels the ring-mirror coupler ''1x2 MMI'' while the text and Fig. 6 say 3-dB MMI coupler (that MMI has no row).'
+    why: 'Q1 (p.4 Sec. III; p.5 Sec. III.A.1): the paper names the fabricating process with its org (''the standard process-design-kit for the heterogeneous Si/InP developed at UCSB'', then ''fabricated in'' that process); Contract v7 counts an org named with the process, D84a counts the authors'' own process. Coordinator may drop (keep empty, D80b) or limit to Gen. 1'
+  cmp_lit_tran2019_gen1_rib_wg_w650:
+    fab_org_ids: org_ucsb
+    notes: 'Fab org_ucsb (audit Q1): Gen. 1 lasers ''built upon the standard process-design-kit for the heterogeneous Si/InP developed at UCSB'' (p.4) and ''fabricated in a standard Si/InP heterogeneous process'' [35], [36] (p.5): the fabrication sentence names that UCSB process (org named with the process, Contract v7; the authors'' own institution''s process, D84a); no facility named; staff thanks (p.12) not used. Measurement method not stated. Conclusion: ''propagation loss ~1.2 dB/cm'' for the standard rib waveguide.'
+    why: 'Q1 (p.4 Sec. III; p.5 Sec. III.A.1): the paper names the fabricating process with its org (''the standard process-design-kit for the heterogeneous Si/InP developed at UCSB'', then ''fabricated in'' that process); Contract v7 counts an org named with the process, D84a counts the authors'' own process. Coordinator may drop (keep empty, D80b) or limit to Gen. 1'
+  cmp_lit_tran2019_gen1_rib_wg_w800:
+    fab_org_ids: org_ucsb
+    notes: 'Fab org_ucsb (audit Q1): Gen. 1 lasers ''built upon the standard process-design-kit for the heterogeneous Si/InP developed at UCSB'' (p.4) and ''fabricated in a standard Si/InP heterogeneous process'' [35], [36] (p.5): the fabrication sentence names that UCSB process (org named with the process, Contract v7; the authors'' own institution''s process, D84a); no facility named; staff thanks (p.12) not used. Measurement method not stated. Conclusion: ''propagation loss ~1.2 dB/cm'' for the standard rib waveguide.'
+    why: 'Q1 (p.4 Sec. III; p.5 Sec. III.A.1): the paper names the fabricating process with its org (''the standard process-design-kit for the heterogeneous Si/InP developed at UCSB'', then ''fabricated in'' that process); Contract v7 counts an org named with the process, D84a counts the authors'' own process. Coordinator may drop (keep empty, D80b) or limit to Gen. 1'
+  cmp_lit_tran2019_gen2_triple_ring_laser:
+    fab_org_ids: org_ucsb
+    notes: 'Fab org_ucsb (audit Q1): ''fabricated in a modified version of the Si/III-V heterogeneous process'' (p.10), the UCSB heterogeneous process named on p.4, modified with a self-aligned 56 / 231 nm etch and selective bonding (flow in [35], [42]); no facility named. Rings: cmp_lit_tran2019_gen2_ring_r599p97, _r600p86, _r707p57 (D400); mirror cmp_lit_tran2019_gen2_triple_ring_mirror. Ultra-low-loss waveguide loss about 0.16 dB/cm and about 600 um minimum bend radius are taken from ref. [22] (rule 3, not entered). Calculated effective cavity length added by the triple-ring mirror over 50 mm at resonance (Fig. 19, no parameter). The text calls the frequency-noise plot ''Figure 26''; it is Fig. 24. Lasing wavelength drifts along the L-I sweep from thermal crosstalk (Fig. 22(b)).'
+    why: 'Q1 (p.4 Sec. III; p.10 Sec. III.B.2): the paper names the fabricating process with its org (''the standard process-design-kit for the heterogeneous Si/InP developed at UCSB'', then ''fabricated in'' that process); Contract v7 counts an org named with the process, D84a counts the authors'' own process. Coordinator may drop (keep empty, D80b) or limit to Gen. 1'
+  cmp_lit_tran2019_gen2_triple_ring_mirror:
+    fab_org_ids: org_ucsb
+    notes: 'Fab org_ucsb (audit Q1): ''fabricated in a modified version of the Si/III-V heterogeneous process'' (p.10), the UCSB heterogeneous process named on p.4, modified with a self-aligned 56 / 231 nm etch and selective bonding (flow in [35], [42]); no facility named. Rings cmp_lit_tran2019_gen2_ring_r599p97, _r600p86, _r707p57; laser cmp_lit_tran2019_gen2_triple_ring_laser. Superstructure period 114 nm (design) entered on the laser row.'
+    why: 'Q1 (p.4 Sec. III; p.10 Sec. III.B.2): the paper names the fabricating process with its org (''the standard process-design-kit for the heterogeneous Si/InP developed at UCSB'', then ''fabricated in'' that process); Contract v7 counts an org named with the process, D84a counts the authors'' own process. Coordinator may drop (keep empty, D80b) or limit to Gen. 1'
+  cmp_lit_tran2019_gen2_ring_r599p97:
+    fab_org_ids: org_ucsb
+    notes: 'Fab org_ucsb (audit Q1): ''fabricated in a modified version of the Si/III-V heterogeneous process'' (p.10), the UCSB heterogeneous process named on p.4, modified with a self-aligned 56 / 231 nm etch and selective bonding (flow in [35], [42]); no facility named. Ring of the laser mirror (D400); laser cmp_lit_tran2019_gen2_triple_ring_laser. Coupling from Table I (design; gap from the simulated Fig. 15(b) map, not printed).'
+    why: 'Q1 (p.4 Sec. III; p.10 Sec. III.B.2): the paper names the fabricating process with its org (''the standard process-design-kit for the heterogeneous Si/InP developed at UCSB'', then ''fabricated in'' that process); Contract v7 counts an org named with the process, D84a counts the authors'' own process. Coordinator may drop (keep empty, D80b) or limit to Gen. 1'
+  cmp_lit_tran2019_gen2_ring_r600p86:
+    fab_org_ids: org_ucsb
+    notes: 'Fab org_ucsb (audit Q1): ''fabricated in a modified version of the Si/III-V heterogeneous process'' (p.10), the UCSB heterogeneous process named on p.4, modified with a self-aligned 56 / 231 nm etch and selective bonding (flow in [35], [42]); no facility named. Ring of the laser mirror (D400); laser cmp_lit_tran2019_gen2_triple_ring_laser. Coupling from Table I (design; gap from the simulated Fig. 15(b) map, not printed).'
+    why: 'Q1 (p.4 Sec. III; p.10 Sec. III.B.2): the paper names the fabricating process with its org (''the standard process-design-kit for the heterogeneous Si/InP developed at UCSB'', then ''fabricated in'' that process); Contract v7 counts an org named with the process, D84a counts the authors'' own process. Coordinator may drop (keep empty, D80b) or limit to Gen. 1'
+  cmp_lit_tran2019_gen2_ring_r707p57:
+    fab_org_ids: org_ucsb
+    notes: 'Fab org_ucsb (audit Q1): ''fabricated in a modified version of the Si/III-V heterogeneous process'' (p.10), the UCSB heterogeneous process named on p.4, modified with a self-aligned 56 / 231 nm etch and selective bonding (flow in [35], [42]); no facility named. Ring of the laser mirror (D400); laser cmp_lit_tran2019_gen2_triple_ring_laser. Coupling from Table I (design; gap from the simulated Fig. 15(b) map, not printed).'
+    why: 'Q1 (p.4 Sec. III; p.10 Sec. III.B.2): the paper names the fabricating process with its org (''the standard process-design-kit for the heterogeneous Si/InP developed at UCSB'', then ''fabricated in'' that process); Contract v7 counts an org named with the process, D84a counts the authors'' own process. Coordinator may drop (keep empty, D80b) or limit to Gen. 1'
+  cmp_lit_oldenbeuving2012_mrr_mirror:
+    notes: 'Fab empty: ''We have fabricated such frequency selective waveguide circuits'' (p.3) with authors at the University of Twente, XiO Photonics, FOM DIFFER and Delft / Zhejiang; fabricating org not stated (D154 / D395). Selected from ten mirrors with different designed kappa (highest single-mode-fiber output); other mirrors typically 20-30 % reflectivity (p.4). Fitted kappa^2 and ng on cmp_lit_oldenbeuving2012_mrr_pair. Part of cmp_lit_oldenbeuving2012_wecsl. Design PHR requirement below 0.63 (above 2.0 dB, from the 0.48 dB/nm gain slope) and the calculated optimum (PHR 0.63, FWHM 0.51 nm) belong to a kappa^2 = 0.44 design; the selected mirror comes from a set designed for 0.3 < kappa^2 < 0.4 (fitted 0.39), so they are not entered (p.3-4, D159).'
+    why: 'p.3 Sec. II and p.4: record why the design PHR / 2.0 dB row was deleted (delete_metrics -m3)'
+metrics:
+  cmp_lit_tran2019_gen1_front_loop_mirror-m1:
+    wavelength_inferred: 'true'
+    notes: 'Design value (D82a). Wavelength inferred: the p.5 sentence prints no wavelength; 1.575 um is the Table I design wavelength of both generations.'
+    why: 'p.5 Sec. III.A.1 prints the designed 40-50 % reflectivity with no wavelength; the 1575 nm comes from Table I (rule 8: inferred)'
+  cmp_lit_lihachev2024_ring_r1-m8:
+    value: '110'
+    value_max: '247'
+    notes: 'Read off Fig. 2(d) (audit 600 dpi render, +/- 5 MHz): points span about 111-247 MHz; all but three points near 193.8-194.0 THz (about 168 / 247 / 181 MHz) lie at about 110-150 MHz.'
+    why: 'p.4 Fig. 2(d): the stored 110-140 MHz range dropped one 247 MHz point and also missed points at about 147, 168 and 181 MHz; the range of the plotted data is about 111-247 MHz'
+  cmp_lit_lihachev2024_vernier_ecl-m5:
+    condition: frequency excursion 1833 MHz of the linear chirp before linearization, 11 Vpp triangular on both PZT actuators at 10 kHz
+    why: p.5 Sec. V prints 'Frequency excursions of 1833 MHz' without calling it mode-hop-free; condition reworded to the printed wording
+delete_metrics:
+- id: cmp_lit_oldenbeuving2012_mrr_mirror-m3
+  why: 'p.3 Sec. II: PHR < 0.63 (> 2.0 dB) is a design requirement and the calculated 0.63 is for kappa^2 = 0.44; p.4: the characterized mirror was selected from a set designed for 0.3 < kappa^2 < 0.4 (fit 0.39), so the design value does not belong to this component (D159; the distiller excluded the 0.51 nm FWHM of the same calculation for this reason); measured 2.6 dB stays on -m2; values in the component notes'
+add_metrics:
+- metric_id: cmp_lit_lihachev2024_pzt_actuator-m6
+  component_id: cmp_lit_lihachev2024_pzt_actuator
+  parameter: heater_gap_um
+  value: '15'
+  unit: um
+  condition: Pt microheater strip to the ring Si3N4 waveguide
+  basis: design_target
+  locator: p.3 Sec. II; p.2 Fig. 1(e)
+  notes: Printed 15 um (p.3) and labelled 15 um in Fig. 1(e); placement set by the minimum spacing to the PZT bottom electrode.
+  why: 'Miss (D153 geometry): p.3 Sec. II states the microheater is placed 15 um from the ring waveguide; Fig. 1(e) labels 15 um'

@@ -3,7 +3,7 @@
 | | |
 |---|---|
 | Date | 2026-11-15 |
-| Status | B1-B2 done (653 packet status lines, 3416 items, 3006 distinct reference strings); B3 resolve running |
+| Status | B1-B7a done; list `data/_staging/literature/bench_cache_list.csv` (1249 new works, 813 above the cut) queued as days 200-210; day 201 cached (96 PDFs, 95 registered) and ingested (DevLog-007 D577-D600); days 202-210 pending |
 | Scope | Find cached papers whose authors compiled a comparison table or a trend / benchmark plot of other works, extract the cited works, dedup, resolve and rank them into the next cache list (~1200 new papers, about 2x the `lit` corpus) |
 | Related | DevLog-006 (scouting, retrieval, access rules), DevLog-007 (distill), `src/photonics_atlas/litfetch.py` (rate-limited client), `src/photonics_atlas/litpool.py` (norm_doi / norm_title) |
 | Decisions | D1200-D1229 reserved for this DevLog |
@@ -52,6 +52,7 @@ current library by roughly 2x."
 | D1204 | Storage: packets, raw extraction JSONL and resolver caches in git-ignored `cache/literature/bench/`; committed: scripts, config, the final `data/_staging/literature/bench_cache_list.csv` (ids, title, venue, year, class, citing count, access tier, rationale) and the report | D126 pattern |
 | D1206 | Trend plots with unlabelled points but caption / legend reference tags count: one item per listed reference, no values | coordinator, from b07 report (ji2024) |
 | D1207 | A table whose caption says it compares reported / previous / literature / state-of-the-art works is a candidate without `[n]` tags (superscript and author-year citations) | coordinator, recall check |
+| D1209 | Benchmark list joins the lit pipeline like the history stream: cache_list rows `selection_reason = benchmark_cite`, queue days 201+ (manual day 200), per-day caps per route; caching starts with open routes + IEEE | owner go 2026-11-15 + coordinator |
 | D1208 | Any table caption containing compar* / summary / overview / survey is a candidate (no tags needed); agents reject own-design comparisons | coordinator, recall pass 2 |
 | D1205 | Network: Crossref and OpenAlex only through `litfetch.py` (per-host lock, min interval, breaker, OpenAlex cost cap, generic UA); pilot 20 refs before the bulk resolve | rate-limit rules |
 
@@ -60,12 +61,14 @@ current library by roughly 2x."
 - [x] B0. Inspect corpora, owner questions, this plan.
 - [x] B1. Prefilter script `scripts/bench_prefilter.py` -> `cache/literature/bench/candidates.jsonl` + packets; stats.
 - [x] B2. Extraction subagents in batches -> `cache/literature/bench/extract/*.jsonl`; pilot batch first, check, then fan out (<= 10 concurrent).
-- [ ] B3. Resolver `scripts/bench_resolve.py` (pilot, then bulk).
-- [ ] B4. Dedup against sources.csv, cache_list.csv, EO atlas papers.csv and within the set.
-- [ ] B5. Enrich access / venue / OA from pool and OpenAlex.
-- [ ] B6. Classify (component class, modulator -> EO side list) and rank; `bench_cache_list.csv` with a cut line at ~1200.
-- [ ] B7. Fresh-context audit of extraction, resolution and dedup; corrections recorded.
-- [ ] Inspection point: list and access split for owner review before caching.
+- [x] B3. Resolver `scripts/bench_resolve.py` (pilot, then bulk).
+- [x] B4. Dedup against sources.csv, cache_list.csv, EO atlas papers.csv and within the set.
+- [x] B5. Enrich access / venue / OA from pool and OpenAlex.
+- [x] B6. Classify (component class, modulator -> EO side list) and rank; `bench_cache_list.csv` with a cut line at ~1200.
+- [x] B7a. Fresh-context audit of the extraction (sample of 40 items, 25 no_benchmark papers).
+- [ ] B7b. Audit of resolution and dedup (sample of resolved DOIs, in_library / new splits).
+- [x] Owner: "cmt, and then start a new day's caching" (2026-11-15): commit 232066e; list queued (B8).
+- [ ] B8. Days 201-210: open routes + IEEE per day; Optica OA-journal and publisher-browser sessions only on an explicit owner go.
 
 ## Progress
 
@@ -133,5 +136,52 @@ current library by roughly 2x."
 - 2026-11-15 b28 / b29 (D1208 papers): 9 / 20 and 10 / 21 ok, 78 + 74 items (lower yield than D1207, as expected).
   B2 totals: 653 paper lines (376 ok, 274 no_benchmark, 3 refs_missing), 3416 items, 3006 distinct reference
   strings; agent cost ~0.15-0.29 M tokens per batch of 16-28 packets.
+- 2026-11-15 B7a fresh-context extraction audit (`cache/literature/bench/audit_extract_a.md`, seed 20261115, 40
+  items from 20 batches, 25 no_benchmark papers): (a) cross-work comparison and (b) ref_num 38 pass / 0 fail / 2
+  unverifiable; (c) reference entry 40 / 40; (d) class 40 / 40; (e) values 34 / 34 (95 % upper bound on item error
+  ~9-10 %). no_benchmark 24 / 25 correct (missed: vaskasi2022 Fig. 4 legend "Earlier work [22]"). 10 citing papers
+  appear twice (EO-atlas vs OFC 2026 copies; the OFC copy without renders yields fewer items, e.g. huang2026 11 vs
+  Th4A.6 1): handled in curate by the twin map (one citing paper, items of both copies kept). 7 ids have
+  conflicting status lines between first pass and the s01 sweep (qiu2026, richardson2013): curate reads items only,
+  never status lines, so no effect. Remaining caveats: OFC tables without text or render (M1E.2) are incomplete;
+  literature-parameter tables are accepted inconsistently (taballione2019 yes, campenhout2010 no); footnote flags
+  stay in values (cross-check material only, D1202).
 - 2026-11-15 B3 code: `scripts/bench_resolve.py` (printed DOI / arXiv -> pool or sources.csv title match ->
   verified Crossref bibliographic query; OpenAlex `filter=doi:` enrichment, 50 per page; resumable caches).
+- 2026-11-15 B3 final: 3006 distinct reference strings -> 2829 resolved, 178 unresolved, 2 errors (Crossref
+  ~3 s per query; ~1400 Crossref queries in three passes; OpenAlex `filter=doi:` enrichment). B4-B6
+  (`bench_curate.py`): 3416 items -> 2192 works (+206 unresolved refs) -> new 1249, in library 326, already queued
+  15, EO atlas 49, out of scope 321, modulators 232 (EO side list `bench_eo_candidates.csv`, 232 rows). New by
+  tier: 1 (arXiv / OA) 569, 2 (IEEE) 225, 3 (other paywalled) 455. Above the cut: 813 = all tier 1-2 + 19 tier-3
+  works cited by >= 3 benchmarks (no subtype hit the cap of 70). The ~1200 target is not reached from this round:
+  tier 1-2 supply is 794; the rest are 436 tier-3 rows below the cut (manual-download pool) and the second hop
+  (benchmark tables of the papers cached from this list).
+- 2026-11-15 B8 (`scripts/bench_prepare.py`, D1209): above-cut rows appended to `cache_list.csv`
+  (`selection_reason = benchmark_cite`, rationale = citing count + topics) and to `retrieval_queue.csv` (backup
+  `cache/literature/backup/bench_queue_20261116T053306Z.zip`): 813 rows; routes ieee_browser 295, optica_browser
+  225, arxiv 121, oa_publisher 76, publisher_browser 57, manual 36, ieee_search 3; days 201-210 with caps per day
+  (arxiv 40, oa_publisher 20, IEEE 30 = one session, Optica 24 in sessions of 12, publisher 10), manual rows day 200.
+  paper_id = OpenAlex first-author surname (initial tokens skipped: "Daoxin Dai A" -> dai) + year, else the printed
+  reference's first author; unique against references/, cache_list, queue and every registry native id.
+- 2026-11-15 21:33 PST day 201 started (owner: "start a new day's caching"): tmux `lit_bench_d201`
+  (`lit_fetch_oa.py --day 201`: 40 arxiv + 20 oa_publisher, log `logs/lit_bench_d201_oa_20261115T213316.log`) and
+  `lit_ieee_d201` (`lit_fetch_browser.py --site ieee --run --day 201 --wait-login`, 30 rows, log
+  `logs/lit_bench_d201_ieee_20261115T213316.log`). Not run (standing rule: explicit owner go per run): Optica
+  OA-journal session (24 rows, OE / Optica / OME only) and publisher-browser session (10 rows). First minute: MDPI
+  HTTP 403 -> breaker `www.mdpi.com` until 2026-11-16T06:03Z (wilmart2019 blocked).
+- 2026-11-15 day 201 result (21:33-22:29 PST). Open routes (`lit_fetch_oa.py --day 201`, done 21:41): 42 ok, 15
+  blocked, 3 not_pdf; new breakers (until 2026-11-16T06:03Z) MDPI (HTTP 403) and figshare (WAF challenge); also
+  blocked: link.aps.org, cell.com, ssrn, pubs.acs.org (403), ntt-review.jp (TLS verify failed), AIP (standing).
+  IEEE (`lit_ieee_d201`): institutional access detected at 21:33:51 without a sign-in, 30 / 30 ok, spacing 86-115 s,
+  done 22:28 (owner note: tell him before an IEEE session starts, he logs in first). Optica OA journals (owner go
+  "go ahead with optica too"; runner `logs/lit_optica_oa_d201_runner.py`, OE / Optica / OME only, probe 3 + 11,
+  15 min pause, + 10): 24 / 24 ok, 21:37-22:29, no challenge, breaker not armed. Publisher-browser rows (10) not
+  run. Total 96 PDFs; extracted 96 (`logs/lit_extract_d201_*`; flags: 24 institutional_stamp, 3 garbled text layer:
+  boller2019, chen2022c, hu2025a). Page-1 title check (title words in page-1 text): 90 >= 0.9; below: park2007 0.80,
+  subramanian2012 0.88 (ligatures / subscripts in IEEE scans, same paper), zheng2020 0.82, chen2022c 0.88,
+  stokowski2023 0.89 (arXiv preprint titles, same papers), yu2022 0.62 = wrong paper: the OpenAlex pool's arXiv id
+  2212.01945 is Yu et al., "Integrated electro-optic isolator on TFLN", not the Nature 2022 femtosecond pulse
+  generator -> folder moved to `cache/literature/quarantine/yu2022_holds_arxiv2212.01945_eo_isolator_20261115`,
+  queue / cache_list row re-routed to manual (day 200, arxiv_id cleared). Registered 95 (`lit` 1198 -> 1293,
+  sources.csv +95 lines only), validate_db 0 errors / 1386 warnings, manual list 148 rows. Not committed.
+- 2026-11-16 day 201 ingested (owner "go", then "cmt and push once everything is done"): 21 distill batches lit_134-lit_154 with one fresh audit each, header batches lit_h43-lit_h46, supply lit_07 / lit_08 (DevLog-007 D577-D600, DevLog-011 D599, DevLog-003 D598): components 4715 -> 5206, metrics 29078 -> 32254, people 11715 -> 12066. A classifier outage stopped two agents mid-run (lit_150 audit, lit_152 distill); both were rerun from scratch, partial outputs kept in the session scratchpad. Next: days 202-210 (about 690 rows; Optica OA journals and publisher-browser sessions need an owner go per run; tell the owner before each IEEE session).

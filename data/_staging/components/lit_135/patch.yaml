@@ -1,0 +1,40 @@
+# Audit patch lit_135 (fresh-context audit 2026-11-15, DevLog/audits/2026-11-15-lit_135-audit.md).
+# 80 metrics: 75 ok / 5 imprecise / 0 wrong; 20 components: 20 ok / 0 imprecise / 0 wrong; 0 deleted; 1 miss added.
+# Coordinator rulings open (audit Q1-Q4), all with no op unless noted: Q1 akiyama2007 ref. [21] values and the QW
+# comparison SOA stay out (no op); Q2 dostart2020a 13.1 dB contrast stays out of isolation_db (no op; enter as
+# conversion_contrast_db once the D419 registry extension exists); Q3 kaspar2015 internal gain / bandwidth / on-chip
+# Psat / internal NF stay author_estimate (no op; strict rule 3 alternative: delete_metrics
+# cmp_lit_kaspar2015_hybrid_soa_packaged-m3, -m4, -m8, -m10); Q4 yang2024c Q 1.3 M stays q_loaded measured (no op).
+metrics:
+  cmp_lit_yang2024c_tisaoi_amp_spiral_8mm-m3:
+    scope: de_embedded
+    excludes: 'facet coupling (passive loss from a statistical analysis of waveguides of different lengths)'
+    why: 'p.11 Methods: the passive loss is measured from a statistical analysis of waveguides of different lengths, so the facet coupling is removed; a device-level value with the couplers removed is de_embedded (skill rule 6), and excludes was empty'
+  cmp_lit_yang2024c_tisaoi_amp_spiral_8mm-m4:
+    scope: de_embedded
+    excludes: 'facet coupling (passive loss from a statistical analysis of waveguides of different lengths)'
+    why: 'p.11 Methods: the passive loss is measured from a statistical analysis of waveguides of different lengths, so the facet coupling is removed; a device-level value with the couplers removed is de_embedded (skill rule 6), and excludes was empty'
+  cmp_lit_yang2024c_tisaoi_amp_spiral_8mm-m7:
+    basis: derived
+    notes: 'Printed 8.1 mm (Methods p.11); mm -> um (D157). Text and caption say 8 mm.'
+    why: 'p.11 Methods prints the length only in mm ("8.1 mm"); a pure unit rescaling is derived (D157 / D256)'
+  cmp_lit_kaspar2015_hybrid_soa_packaged-m11:
+    basis: derived
+    notes: 'Printed ''around 1.1 mm long''; mm -> um (D157).'
+    why: 'p.1 Sec. II prints the active-section length only in mm ("around 1.1 mm long"); a pure unit rescaling is derived (D157 / D256)'
+  cmp_lit_yang2024c_tisaoi_amp_straight_0p485mm-m1:
+    condition: 'peak small-signal on-chip gain, signal input 0.10 mW (Methods p.11), pump 150 mW (532 nm), CW tunable Ti:sapphire signal; pump and signal chopped, amplification from the time-dependent detector signal (Methods p.11)'
+    why: 'p.11 Methods: small-signal gain per unit length is measured for an input power of 0.10 mW; the stated input was missing from the condition'
+add_metrics:
+- metric_id: cmp_lit_yang2024c_tisaoi_ring_tunable_laser-m14
+  component_id: cmp_lit_yang2024c_tisaoi_ring_tunable_laser
+  parameter: output_power_mw
+  value: 0.16
+  unit: mW
+  wavelength_nm: 823
+  ref_plane: unspecified
+  condition: 'laser of the on-chip array used for above-resonant raster excitation in the cavity-QED demonstration (single-mode regime for above-resonant excitation, p.6); pump source for this demonstration not stated'
+  basis: measured
+  locator: 'p.7 Sec. V; p.7 Fig. 4(c)'
+  notes: 'Printed ''output power 0.160 mW'' at 823 nm; measurement plane and coupling gap of the device not stated (same unnamed-device practice as the other rows of this component).'
+  why: 'p.7 Sec. V prints a measured output power of a Ti:SaOI laser at a stated wavelength; the BATCH_REPORT lists it as not entered without a rule (application operating point, not link-level)'

@@ -1,0 +1,45 @@
+# Audit patch lit_142 (fresh-context audit 2026-11-15, DevLog/audits/2026-11-15-lit_142-audit.md).
+# 64 metrics: 59 ok / 3 imprecise / 2 wrong; 12 components: 12 ok; 0 deleted; 2 misses added (D153 geometry).
+# Coordinator rulings open (audit Q1-Q4):
+# Q1 kita2021 no-heat-sink time constants: follow Table I and the Fig. 8 traces (t_fall 1.30 us, t_rise 3.28 us), text p.4
+#    prints them reversed (ops below). To keep the distiller's text assignment instead: drop the two metric ops.
+# Q2 zheng2020 endurance: keep 500 cycles, qualifier gt (no op).
+# Q3 gao2022 Q_i / Q_e author_estimate (D403) and empty fab ("provided the samples"): keep (no op).
+# Q4 kita2021 fab / process_name empty ("a CMOS foundry"): keep (no op).
+metrics:
+  cmp_lit_kita2021_mzi_switch_nohs-m4:
+    value: "1.30"
+    notes: "Value follows Table I (Fall 1.30 us) and the Fig. 8(a) trace: the bar-port light falls to 30 % about 1.3-1.4 us after the step (audit reading of the p.5 render, +/- 0.2 us). The p.4 Sec. IV text prints t_fall 3.28 us and t_rise 1.30 us, reversed against both Table I and the measured traces (D417 note); the heat-sink device values agree in text, table and Fig. 9."
+    why: "p.5 Fig. 8(a) (heating step, light fall): the trace crosses 30 % about 1.35 us after t = 0 (pixel reading of the cached render, 4.75 px/us); Table I p.6 lists Fall 1.30 us for the switch without heat sink; only the p.4 text gives 3.28 us for t_fall. Two of three statements and the measurement agree on 1.30 us"
+  cmp_lit_kita2021_mzi_switch_nohs-m5:
+    value: "3.28"
+    notes: "Value follows Table I (Rise 3.28 us) and the Fig. 8(b) trace: the bar-port light rises to 70 % about 3.1-3.3 us after the power is switched off (audit reading of the p.5 render, +/- 0.2 us). The p.4 Sec. IV text prints t_rise 1.30 us and t_fall 3.28 us, reversed against both Table I and the measured traces (D417 note); the heat-sink device values agree in text, table and Fig. 9."
+    why: "p.5 Fig. 8(b) (switch-off, light rise): the trace crosses 70 % about 3.3 us after t = 0 (pixel reading of the cached render, 4.8 px/us); Table I p.6 lists Rise 3.28 us for the switch without heat sink; only the p.4 text gives 1.30 us for t_rise"
+  cmp_lit_kita2021_mzi_switch_hs-m6:
+    notes: "Simulation wavelength not stated (device operated at 1550 nm, C band inferred). The simulated heat sink is aluminium (p.3 Sec. III, Fig. 5), while the fabricated heat sink is TiN (p.4 Sec. III); the paper attributes the simulation-measurement deviation partly to the assumed heat-sink metal properties (p.4 Sec. IV)."
+    why: "p.3 Sec. III: 'aluminum is used as the material of the metal heat sink' in the Fig. 5 simulation; p.4 Sec. III: the fabricated heat sink is TiN. The simulated row did not say it models a different heat-sink metal"
+  cmp_lit_kita2021_mzi_switch_hs-m7:
+    notes: "Simulated with an aluminium heat sink (p.3 Sec. III, Fig. 5); the fabricated heat sink is TiN (p.4 Sec. III)."
+    why: "p.3 Sec. III: the heat-sink simulation uses aluminium; p.4 Sec. III: fabricated heat sink TiN"
+  cmp_lit_kita2021_mzi_switch_hs-m8:
+    notes: "Simulated with an aluminium heat sink (p.3 Sec. III, Fig. 5); the fabricated heat sink is TiN (p.4 Sec. III)."
+    why: "p.3 Sec. III: the heat-sink simulation uses aluminium; p.4 Sec. III: fabricated heat sink TiN"
+add_metrics:
+- metric_id: cmp_lit_zheng2020_ring_gst_cell_3um-m3
+  component_id: cmp_lit_zheng2020_ring_gst_cell_3um
+  parameter: slab_thickness_nm
+  value: 100
+  unit: nm
+  condition: slab of the partially etched Si rib at the PIN switching unit
+  basis: design_target
+  locator: p.3; p.9 Fig. 4(b)
+  why: "Miss (D153 geometry). p.3 gives the 100 nm slab of the partially etched waveguide of the photonic switching units, which the p.9 text places on the ring ('integrating the photonic switching units on microring resonators'; Fig. 4(b) p++ / n++ slab); the row's core_material already states it and the sibling 5 um / 4 um unit rows carry it"
+- metric_id: cmp_lit_zheng2020_ring_gst_cell_3um-m4
+  component_id: cmp_lit_zheng2020_ring_gst_cell_3um
+  parameter: core_thickness_nm
+  value: 220
+  unit: nm
+  condition: SOI device layer
+  basis: design_target
+  locator: p.3; p.10 Methods
+  why: "Miss (D153 geometry). p.3 and p.10 Methods: 220 nm Si top layer of the commercial SOI wafer used for all devices; the sibling switching-unit rows carry it"

@@ -1,0 +1,210 @@
+# Audit patch lit_151 (fresh-context audit 2026-11-15, DevLog/audits/2026-11-15-lit_151-audit.md).
+# 78 metrics: 74 ok / 4 imprecise / 0 wrong; 15 components: 10 ok / 5 imprecise / 0 wrong; 0 deleted; 17 misses added
+# (1 simulated ON-state range at the assumed 20 nm gap, 16 D153 stack / etch geometry rows on the passive test-structure rows).
+# Coordinator rulings open (audit Q1-Q8):
+# Q1 mode-converter pair stays waveguide_platform.other (no op).
+# Q2 test-structure wavelengths 1550 nm wavelength_inferred kept (no op).
+# Q3 platform soi_rib on vw_mmi_crossing, euler_sbend (stated ridge) and the three routing_wg rows (ops below). To keep the
+#    spiral rows at soi instead: drop the three routing_wg component ops and the three routing_wg etch_depth_nm add_metrics
+#    (cmp_lit_hu2025a_routing_wg_w600-m5, _w1200-m5, _w3000-m5).
+# Q4 Benes rows m4 / m5 / m6 kept (no op). To drop the loss-budget estimate: delete_metrics cmp_lit_hu2025a_benes_64x64-m5.
+# Q5 82-switch statistics stay on the main 2x2 row (no op).
+# Q6 vw crossing simulated 4 mdB / PSO design kept with a cross-note to ref. 51 / Supp. ref. 16 (op below).
+# Q7 mechanical resonance m21 / m22 derived -> simulated (D83f; ops below).
+# Q8 single 2x2 MEMS element keeps switch_fabric.mems (no op).
+components:
+  cmp_lit_hu2025a_vw_mmi_crossing:
+    platform: soi_rib
+    notes: "Fab: author contributions (p.21) 'Y. H. fabricated the devices', all authors at Zhejiang University; facility support of the ZJU Micro-Nano Fabrication Center and the Westlake Center for Micro/Nano Fabrication and Instrumentation acknowledged (p.21). Process (p.16): commercial SOI wafers (SOITEC, 220 nm Si, 2 um BOX), EBL with proximity-effect correction, 150 nm shallow and 220 nm full etch, Cr 50 nm / Au 300 nm electrodes by photolithography and lift-off, HF-vapor release; manual EBL also for the 64x64 array (p.12). Ridge crossing (Fig. S17 caption 'ridge-waveguide crossing', p.45; connection shuffles use 150 nm partial-etch ridge waveguides, p.42). Measured on cascaded test structures (Fig. S15(a), (i)); 1824 such crossings in the 64x64 array (p.42). Simulated fabrication tolerance (+/-40 nm width: 3-31 mdB, < -35 dB; +/-10 nm etch depth: 3-16 mdB, < -37 dB; p.44-45, Fig. S17) not entered. The main text cites ref. 51 (the authors' earlier crossing paper, = Supp. ref. 16) for this crossing type (p.12) and the Supplement says the simulated ultralow loss was validated there (p.43); the PSO design, the simulated 4 mdB and the measured 28 mdB are presented in this paper without a citation on the value sentences and are kept (D408). The 6 mdB measured in that earlier work (p.47) is cited, not entered."
+    why: "p.45 Fig. S17 caption names the crossing a ridge-waveguide crossing and p.42 says the shuffle waveguides are 150 nm partial-etch ridges: skill rule 11 (stack guiding light in this component), lit_138 soi_rib precedent; cross-note on ref. 51 / Supp. ref. 16 added for the D408 check (p.12, p.43)"
+  cmp_lit_hu2025a_euler_sbend:
+    platform: soi_rib
+    why: "p.42 Supp. Sec. 12: waveguides in the connection shuffles are ridge (150 nm partial etch), the Euler S-bend is the shuffle bend (Fig. S16(b)-(e)); skill rule 11"
+  cmp_lit_hu2025a_routing_wg_w600:
+    platform: soi_rib
+    why: "p.42 Supp. Sec. 12: the waveguides connecting the switch cells are ridge (150 nm partial etch); p.45 Table 2 applies the Section 11 spiral losses of the 600 nm / 1.2 um / 3 um routing waveguides (L1-L3) to these array paths. The test spirals' own cross-section is not printed (core_material says so); see audit Q3"
+  cmp_lit_hu2025a_routing_wg_w1200:
+    platform: soi_rib
+    why: "p.42 Supp. Sec. 12: the waveguides connecting the switch cells are ridge (150 nm partial etch); p.45 Table 2 applies the Section 11 spiral losses of the 600 nm / 1.2 um / 3 um routing waveguides (L1-L3) to these array paths. The test spirals' own cross-section is not printed (core_material says so); see audit Q3"
+  cmp_lit_hu2025a_routing_wg_w3000:
+    platform: soi_rib
+    why: "p.42 Supp. Sec. 12: the waveguides connecting the switch cells are ridge (150 nm partial etch); p.45 Table 2 applies the Section 11 spiral losses of the 600 nm / 1.2 um / 3 um routing waveguides (L1-L3) to these array paths. The test spirals' own cross-section is not printed (core_material says so); see audit Q3"
+metrics:
+  cmp_lit_hu2025a_swx_switch_2x2-m1:
+    method: unspecified
+    notes: "Fig. 3(c) label -0.40 dB <= T11 <= -0.12 dB (sign as printed); span limited by the grating couplers; per-switch value printed from ten cascaded switches 'measured and averaged' (p.11), no cascade-length series and no normalization reference shown, so method unspecified (printed per-switch value, measured: D567)"
+    why: "p.11: one ten-switch cascade measured and averaged; nothing shows several cascade lengths or a slope fit, so `cutback` overstates the method; basis and scope unchanged (D567 precedent)"
+  cmp_lit_hu2025a_swx_switch_2x2-m3:
+    method: unspecified
+    notes: "Fig. 3(d) label -0.76 dB <= T12 <= -0.54 dB; the ten-cascade averaging sentence (p.11) precedes both Fig. 3(c) and 3(d), the paper does not describe the ON-state isolation separately; no cascade-length series or normalization reference shown, so method unspecified; higher than simulated, attributed to SWX / SWT fabrication imperfection"
+    why: "p.11: same ten-cascade sentence as m1; no cut-back series shown"
+  cmp_lit_hu2025a_swx_switch_2x2-m21:
+    basis: simulated
+    notes: "printed 0.14 MHz (unit rescale); simple-harmonic-oscillator calculation from the FEM spring constant and the computed moving mass, arithmetic on simulated values stays simulated (D83f)"
+    why: "p.37 Supp. Sec. 5: f from omega = sqrt(k / m) with k 0.332 N/m from the FEM simulation and m from the designed volume; D83f (arithmetic on simulated values stays simulated) takes precedence over D82d for a rescale of a simulated value"
+  cmp_lit_hu2025a_swx_switch_2x2-m22:
+    basis: simulated
+    notes: "printed 0.152 MHz, eigenfrequency of the FEM simulation of the entire mechanical structure (unit rescale of a simulated value, D83f)"
+    why: "p.37 Supp. Sec. 5: 'calculated eigenfrequency of 0.152 MHz from the simulation of the entire mechanical structures'; D83f"
+add_metrics:
+- metric_id: cmp_lit_hu2025a_swx_switch_2x2-m35
+  component_id: cmp_lit_hu2025a_swx_switch_2x2
+  parameter: excess_loss_db
+  value: 0.12
+  value_max: 0.55
+  unit: dB
+  wavelength_nm: 1400
+  wavelength_max_nm: 1700
+  scope: per_component
+  condition: "ON state, T12, final SWT design (p 290 nm, d 300 nm) with an assumed 20 nm gap between the SWT facets, FDTD"
+  basis: simulated
+  locator: "p.30 Supp. Sec. 2, Fig. S2(d)"
+  notes: "printed 0.12-0.55 dB over 1400-1700 nm and 0.12-0.39 dB over 1450-1650 nm for the chosen d = 300 nm; the OFF-state T11 of the same design at g = 1 um (0.11-0.52 dB, p.29-30) repeats m15 within rounding and is not entered"
+  why: "Miss: p.30 states the losses of the chosen SWT design (not a sweep point) at the assumed 20 nm ON-state gap; the batch entered the 1550 nm point of the same case (m19, p.32) but not the printed band range"
+- metric_id: cmp_lit_hu2025a_routing_wg_w600-m3
+  component_id: cmp_lit_hu2025a_routing_wg_w600
+  parameter: core_thickness_nm
+  value: 220
+  unit: nm
+  basis: design_target
+  locator: "p.16 Methods"
+  notes: "purchased SOI wafer top Si (D402)"
+  why: "Miss (D153 geometry; waveguide_xsec template needs core_thickness_nm): p.16 states the 220 nm top Si of the SOITEC wafers used for all devices"
+- metric_id: cmp_lit_hu2025a_routing_wg_w600-m4
+  component_id: cmp_lit_hu2025a_routing_wg_w600
+  parameter: box_thickness_um
+  value: 2
+  unit: um
+  basis: design_target
+  locator: "p.16 Methods"
+  notes: "purchased SOI wafer BOX (D402)"
+  why: "Miss (D153 geometry): p.16 states the 2 um BOX"
+- metric_id: cmp_lit_hu2025a_routing_wg_w600-m5
+  component_id: cmp_lit_hu2025a_routing_wg_w600
+  parameter: etch_depth_nm
+  value: 150
+  unit: nm
+  condition: "ridge partial etch of the routing (connecting) waveguides"
+  basis: design_target
+  locator: "p.42 Supp. Sec. 12; p.16 Methods"
+  notes: "the test spirals' own cross-section is not printed; the paper applies their losses to the ridge routing waveguides of the array (p.45 Table 2)"
+  why: "Miss (D153 geometry), follows the Q3 platform op: p.42 ridge waveguides with 150 nm partial etch connect the switch cells"
+- metric_id: cmp_lit_hu2025a_routing_wg_w1200-m3
+  component_id: cmp_lit_hu2025a_routing_wg_w1200
+  parameter: core_thickness_nm
+  value: 220
+  unit: nm
+  basis: design_target
+  locator: "p.16 Methods"
+  notes: "purchased SOI wafer top Si (D402)"
+  why: "Miss (D153 geometry; waveguide_xsec template needs core_thickness_nm): p.16 states the 220 nm top Si"
+- metric_id: cmp_lit_hu2025a_routing_wg_w1200-m4
+  component_id: cmp_lit_hu2025a_routing_wg_w1200
+  parameter: box_thickness_um
+  value: 2
+  unit: um
+  basis: design_target
+  locator: "p.16 Methods"
+  notes: "purchased SOI wafer BOX (D402)"
+  why: "Miss (D153 geometry): p.16 states the 2 um BOX"
+- metric_id: cmp_lit_hu2025a_routing_wg_w1200-m5
+  component_id: cmp_lit_hu2025a_routing_wg_w1200
+  parameter: etch_depth_nm
+  value: 150
+  unit: nm
+  condition: "ridge partial etch of the routing (connecting) waveguides"
+  basis: design_target
+  locator: "p.42 Supp. Sec. 12; p.16 Methods"
+  notes: "the test spirals' own cross-section is not printed; the paper applies their losses to the ridge routing waveguides of the array (p.45 Table 2)"
+  why: "Miss (D153 geometry), follows the Q3 platform op: p.42 ridge waveguides with 150 nm partial etch connect the switch cells"
+- metric_id: cmp_lit_hu2025a_routing_wg_w3000-m3
+  component_id: cmp_lit_hu2025a_routing_wg_w3000
+  parameter: core_thickness_nm
+  value: 220
+  unit: nm
+  basis: design_target
+  locator: "p.16 Methods"
+  notes: "purchased SOI wafer top Si (D402)"
+  why: "Miss (D153 geometry; waveguide_xsec template needs core_thickness_nm): p.16 states the 220 nm top Si"
+- metric_id: cmp_lit_hu2025a_routing_wg_w3000-m4
+  component_id: cmp_lit_hu2025a_routing_wg_w3000
+  parameter: box_thickness_um
+  value: 2
+  unit: um
+  basis: design_target
+  locator: "p.16 Methods"
+  notes: "purchased SOI wafer BOX (D402)"
+  why: "Miss (D153 geometry): p.16 states the 2 um BOX"
+- metric_id: cmp_lit_hu2025a_routing_wg_w3000-m5
+  component_id: cmp_lit_hu2025a_routing_wg_w3000
+  parameter: etch_depth_nm
+  value: 150
+  unit: nm
+  condition: "ridge partial etch of the routing (connecting) waveguides"
+  basis: design_target
+  locator: "p.42 Supp. Sec. 12; p.16 Methods"
+  notes: "the test spirals' own cross-section is not printed; the paper applies their losses to the ridge routing waveguides of the array (p.45 Table 2)"
+  why: "Miss (D153 geometry), follows the Q3 platform op: p.42 ridge waveguides with 150 nm partial etch connect the switch cells"
+- metric_id: cmp_lit_hu2025a_euler_sbend-m6
+  component_id: cmp_lit_hu2025a_euler_sbend
+  parameter: core_thickness_nm
+  value: 220
+  unit: nm
+  basis: design_target
+  locator: "p.16 Methods"
+  notes: "purchased SOI wafer top Si (D402)"
+  why: "Miss (D153 geometry; waveguide_xsec template needs core_thickness_nm): p.16 states the 220 nm top Si"
+- metric_id: cmp_lit_hu2025a_euler_sbend-m7
+  component_id: cmp_lit_hu2025a_euler_sbend
+  parameter: box_thickness_um
+  value: 2
+  unit: um
+  basis: design_target
+  locator: "p.16 Methods"
+  notes: "purchased SOI wafer BOX (D402)"
+  why: "Miss (D153 geometry): p.16 states the 2 um BOX"
+- metric_id: cmp_lit_hu2025a_euler_sbend-m8
+  component_id: cmp_lit_hu2025a_euler_sbend
+  parameter: etch_depth_nm
+  value: 150
+  unit: nm
+  condition: "ridge partial etch of the connection-shuffle waveguides"
+  basis: design_target
+  locator: "p.42 Supp. Sec. 12; p.16 Methods"
+  why: "Miss (D153 geometry): p.42 the shuffle waveguides (where the Euler bends sit) are ridge with 150 nm partial etch"
+- metric_id: cmp_lit_hu2025a_vw_mmi_crossing-m6
+  component_id: cmp_lit_hu2025a_vw_mmi_crossing
+  parameter: core_thickness_nm
+  value: 220
+  unit: nm
+  basis: design_target
+  locator: "p.16 Methods"
+  notes: "purchased SOI wafer top Si (D402)"
+  why: "Miss (D153 geometry; mmi template xsec needs core_thickness_nm): p.16 states the 220 nm top Si"
+- metric_id: cmp_lit_hu2025a_vw_mmi_crossing-m7
+  component_id: cmp_lit_hu2025a_vw_mmi_crossing
+  parameter: box_thickness_um
+  value: 2
+  unit: um
+  basis: design_target
+  locator: "p.16 Methods"
+  notes: "purchased SOI wafer BOX (D402)"
+  why: "Miss (D153 geometry): p.16 states the 2 um BOX"
+- metric_id: cmp_lit_hu2025a_circular_bend_90-m2
+  component_id: cmp_lit_hu2025a_circular_bend_90
+  parameter: core_thickness_nm
+  value: 220
+  unit: nm
+  basis: design_target
+  locator: "p.16 Methods"
+  notes: "purchased SOI wafer top Si (D402); bend width, radius and etch not stated"
+  why: "Miss (D153 geometry): p.16 states the 220 nm top Si of the wafers used for all devices"
+- metric_id: cmp_lit_hu2025a_circular_bend_90-m3
+  component_id: cmp_lit_hu2025a_circular_bend_90
+  parameter: box_thickness_um
+  value: 2
+  unit: um
+  basis: design_target
+  locator: "p.16 Methods"
+  notes: "purchased SOI wafer BOX (D402)"
+  why: "Miss (D153 geometry): p.16 states the 2 um BOX"

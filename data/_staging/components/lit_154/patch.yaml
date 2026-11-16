@@ -1,0 +1,195 @@
+# Audit patch lit_154 (fresh-context audit 2026-11-15, DevLog/audits/2026-11-15-lit_154-audit.md).
+# 315 metrics: 309 ok / 6 imprecise / 0 wrong (+1 note sync); 36 components: 31 ok / 5 imprecise (4 fab, 1 note) / 0 wrong (+2 note syncs);
+# 0 deleted; 15 misses added (3 shang2017a design FSR rows, 12 template geometry rows). After the patch: 36 components, 330 metrics.
+# Coordinator rulings asked (audit Q1-Q6): Q1 harris2017 fab org_elenion per D395 / D80b (4 component ops; to keep fab empty,
+# drop the fab_org_ids fields of those ops and keep the notes); Q2 bucio2017 Table 2 losses stay measured (no op);
+# Q3 bogaerts2010 crossing kept (new 0-91 crossing data set, note op); GC 33 % stays author_estimate with a cross-note to
+# bogaerts2006 (note op); Q4 shang2017a 16x25 GHz IL stays 2.7 dB (note op); Q5 gao2017 IL stays author_estimate (D428, no op);
+# Q6 shang2017a FSR rows added as author_estimate (to skip, drop the three add_metrics rows).
+components:
+  cmp_lit_harris2017_pnp_mesh_26x26:
+    fab_org_ids: org_elenion
+    notes: 'Mesh of reconfigurable beamsplitters (two 50 % directional couplers + internal theta / external phi thermo-optic phase shifters, p.3). Mean unit-cell extinction ratio 0.9996 +/- 0.0005 (limited by polarization drift, p.4): not entered (visibility-type ratio, dB form not printed). Nearest-neighbour thermal crosstalk 1 % (p.4): no parameter. Phase-shifter 3-dB bandwidth 130.0 +/- 5.59 kHz is cited to the authors'' ref. [36] (rule 3, not entered). Bend radii below 15 um used (p.2; min_bend_radius_um not allowed on switch_fabric). Fab: author contributions ''T.B.J. and M.H. fabricated the system'' (p.7), both printed at Elenion Technologies (p.1) -> org_elenion (D395, D80b); Methods ''We fabricated the PNP ... in the Optoelectronic Systems Integration in Silicon foundry'' (p.7; acronym OpSIS printed in the acknowledgments, p.8) names OpSIS as the foundry / MPW service, not in the registry (org round, D398 / D439 / D458; add next to org_elenion once registered). The paper does not say where T.B.J. and M.H. worked when the chip was made; printed affiliation only. Supplement (Sections 1-7) not cached; arXiv v3 text of the Nature Photonics paper.'
+    why: 'p.7 author contributions name the fabricators T.B.J. and M.H., both printed at Elenion Technologies (p.1): D395 (fab = org of the authors the fabrication sentence names), D80b (fabricators named in the contributions); OpSIS is an additional MPW / foundry fab org pending the org round (coordinator Q1)'
+  cmp_lit_harris2017_rbs_mzi_unit:
+    fab_org_ids: org_elenion
+    notes: 'Unit cell of cmp_lit_harris2017_pnp_mesh_26x26 (p.3, Fig. 2(b)). The extinction value is for ''a single MZI measured with the test setup shown in Supplement Section 3'' (p.4; supplement not cached), with careful input polarization filtering (Fig. 2(d) caption). Fab: author contributions ''T.B.J. and M.H. fabricated the system'' (p.7), both printed at Elenion Technologies (p.1) -> org_elenion (D395, D80b); Methods name the Optoelectronic Systems Integration in Silicon (OpSIS) foundry (p.7), not in the registry (org round, D398 / D439 / D458). Printed affiliation only. Supplement (Sections 1-7) not cached; arXiv v3 text of the Nature Photonics paper.'
+    why: 'as cmp_lit_harris2017_pnp_mesh_26x26 (p.7, D395, coordinator Q1)'
+  cmp_lit_harris2017_doped_si_tops:
+    fab_org_ids: org_elenion
+    notes: '176 phase shifters on the PNP; design from the authors'' ref. [36] (p.3). Two Al and two via layers for routing (p.7). Fab: author contributions ''T.B.J. and M.H. fabricated the system'' (p.7), both printed at Elenion Technologies (p.1) -> org_elenion (D395, D80b); Methods name the Optoelectronic Systems Integration in Silicon (OpSIS) foundry (p.7), not in the registry (org round, D398 / D439 / D458). Printed affiliation only. Supplement (Sections 1-7) not cached; arXiv v3 text of the Nature Photonics paper.'
+    why: 'as cmp_lit_harris2017_pnp_mesh_26x26 (p.7, D395, coordinator Q1)'
+  cmp_lit_harris2017_inverse_taper_glass_pic:
+    fab_org_ids: org_elenion
+    notes: '52 modes coupled to fibers through two laser-written glass PICs (pitch reducer and spot-size converter, p.3-4); glass PIC maker not stated; the fab org covers the Si chip only. Fab: author contributions ''T.B.J. and M.H. fabricated the system'' (p.7), both printed at Elenion Technologies (p.1) -> org_elenion (D395, D80b); Methods name the Optoelectronic Systems Integration in Silicon (OpSIS) foundry (p.7), not in the registry (org round, D398 / D439 / D458). Printed affiliation only. Supplement (Sections 1-7) not cached; arXiv v3 text of the Nature Photonics paper.'
+    why: 'as cmp_lit_harris2017_pnp_mesh_26x26 (p.7, D395, coordinator Q1); note says the fab covers the Si chip, not the glass PICs (D450)'
+  cmp_lit_bogaerts2010_awg_8x400:
+    notes: 'Fig. 15-16 (p.9), measured as the echelle grating (broadband source + OSA). Fig. 16 annotations: 1.1 dB from 0 dB to the center-channel peak and 1.3 dB from the center-channel level to the outer-channel peak, i.e. 1.1 + 1.3 = 2.4 dB, consistent with the text and caption (1.1 dB center, 2.4 dB outer). Fab: first-person ''We fabricate our devices using industrial CMOS tools'' (p.3) at the IMEC research facilities (p.1) and acknowledgment of ''the people of the IMEC p-line for the processing of the devices'' (p.10) -> org_imec (stated processing place, D448 / D84b); ''ePIXfab for the support in design and fabrication'' (p.10): MPW service, see report. Invited overview paper: only the results it shows as its own current-generation (193 nm) devices are entered; values in sentences citing refs. [1], [12], [16], [38], [39], [42] are not entered (rule 3).'
+    why: 'p.9 Fig. 16 render: the 1.3 dB mark is the roll-off from the center-channel level (dashed line near -1.1 dB) to the channel-1 peak (near -2.4 dB), so the figure agrees with the printed 2.4 dB; the batch note called it a D417 conflict'
+  cmp_lit_bogaerts2010_shallow_etch_crossing:
+    notes: 'Crossing concept attributed to ref. [15] (the authors'' own 2007 paper, merged as cmp_lit_bogaerts2007_double_etch_crossing: 248 nm DUV, 0.16 dB from 0 / 5 / 10 / 21 crossings, 6 um long). The 2010 loss / crosstalk sentence and Fig. 8 carry no citation and show a different data set (0 / 10 / 21 / 48 / 91 crossings, per-crossing curve 1510-1590 nm), so the values are kept as this paper''s result (D408). Optimized-geometry 0.2 dB crossing without shallow etch is ref. [16] (not entered); simple direct crossing ''about 30 %'' loss and -10 dB crosstalk is a generic statement (not entered). Fab: first-person ''We fabricate our devices using industrial CMOS tools'' (p.3) at the IMEC research facilities (p.1) and acknowledgment of ''the people of the IMEC p-line for the processing of the devices'' (p.10) -> org_imec (stated processing place, D448 / D84b); ''ePIXfab for the support in design and fabrication'' (p.10): MPW service, see report. Invited overview paper: only the results it shows as its own current-generation (193 nm) devices are entered; values in sentences citing refs. [1], [12], [16], [38], [39], [42] are not entered (rule 3).'
+    why: 'p.6 Fig. 8 labels (0 / 10 / 21 / 48 / 91 crossings) vs the merged 2007 row (0 / 5 / 10 / 21 crossings, 0.16 dB): a new data set, which settles the batch''s weak-point flag (coordinator Q3)'
+  cmp_lit_bogaerts2010_shallow_gc:
+    notes: 'Measurement couplers for all devices (p.4); design from ref. [25], fiber at 10 deg from vertical per ref. [24]. Period not printed. The printed 33 % (-5 dB) equals the value merged from the authors'' 248 nm paper (cmp_lit_bogaerts2006_gc_10deg, 33 % / 5 dB at 10 deg; this paper''s ref. [11]); no measurement is shown here, so the 2010 rows stay author_estimate (origin not stated). Fab: first-person ''We fabricate our devices using industrial CMOS tools'' (p.3) at the IMEC research facilities (p.1) and acknowledgment of ''the people of the IMEC p-line for the processing of the devices'' (p.10) -> org_imec (stated processing place, D448 / D84b); ''ePIXfab for the support in design and fabrication'' (p.10): MPW service, see report. Invited overview paper: only the results it shows as its own current-generation (193 nm) devices are entered; values in sentences citing refs. [1], [12], [16], [38], [39], [42] are not entered (rule 3).'
+    why: 'cross-note: the identical 33 % / 5 dB value is merged on bogaerts2006 (248 nm process); supports author_estimate (coordinator Q3)'
+metrics:
+  cmp_lit_liu2020c_cwdm_mwg_4ch-m1:
+    qualifier: approx
+    why: 'p.4 Sec. III prints ''about 0.8 dB, 0.3 dB, 0.9 dB and 0.7 dB'' (rule 7: about -> approx); the row note quotes ''about'' but the qualifier was empty'
+  cmp_lit_liu2020c_cwdm_mwg_4ch-m2:
+    qualifier: approx
+    why: 'as m1 (p.4 Sec. III, rule 7)'
+  cmp_lit_liu2020c_cwdm_mwg_4ch-m3:
+    qualifier: approx
+    why: 'as m1 (p.4 Sec. III, rule 7)'
+  cmp_lit_liu2020c_cwdm_mwg_4ch-m4:
+    qualifier: approx
+    why: 'as m1 (p.4 Sec. III, rule 7)'
+  cmp_lit_bogaerts2010_shallow_mmi_1x2-m1:
+    qualifier: approx
+    notes: 'Printed ''of the order of -0.2 dB or less'' (p.6); wavelength span from the Fig. 9 axis. The Fig. 9 measured excess loss spans about 0.09-0.24 dB over 1500-1600 nm (minima near 1525 and 1585 nm), so the printed figure is an order-of-magnitude statement, not a bound over the span: entered as approx.'
+    why: 'p.6 Fig. 9 render: the trace exceeds 0.2 dB near 1520-1530 and 1580-1590 nm, so qualifier le over 1500-1600 nm contradicts the paper''s own plot; ''of the order of'' -> approx (rule 7)'
+  cmp_lit_bogaerts2010_ring_bistable-m1:
+    condition: 'Q printed in the Fig. 11 caption; measurement power not stated (Fig. 11 traces 1-20 mW in fiber, linear wavelength sweep)'
+    notes: 'Caption ''a Q of 9500'' (unqualified, entered as loaded Q); the paper does not say at which power the Q was obtained. Wavelength = resonance of the lowest-power (1 mW) trace read off Fig. 11 (about 1564.65 nm, +/-0.05 nm), inferred.'
+    why: 'p.7 Fig. 11 caption gives the Q with no power; the condition attributed it to the 1 mW trace, which the paper does not state'
+  cmp_lit_shang2017a_awg_16x25-m1:
+    notes: 'C band from the Fig. 3 wavelength axes (about 1538-1558 nm). Printed 2.7 dB in the abstract (p.2), the results text (p.5) and the conclusion range ''1.5 to 2.7 dB'' (p.6); Table 1 (p.5) prints 2.1 dB for this AWG (D417 conflict, kept as the thrice-printed value). Fig. 3(d) does not decide it: the channel peaks sit at about -3 to -4.5 dB on the normalized axis, below both printed values (the other three AWGs show the same offset between plotted peaks and printed IL; statistic of the printed IL not stated).'
+    why: 'p.4 Fig. 3(d) render checked for the 2.1 / 2.7 dB conflict (coordinator Q4): the figure supports neither; value unchanged'
+add_metrics:
+- metric_id: cmp_lit_shang2017a_awg_16x100-m15
+  component_id: cmp_lit_shang2017a_awg_16x100
+  parameter: fsr_ghz
+  value: '1800'
+  unit: GHz
+  basis: author_estimate
+  locator: 'p.3 Sec. 2'
+  notes: 'Design FSR printed as 1.8 THz (converted to GHz; D256a keeps author_estimate). The sentence lists the three 34-arm AWGs (16 x 100, 16 x 50, 16 x 25 GHz) and the FSRs 1.8 / 0.9 / 0.45 THz in the same order; each exceeds 16 x the channel spacing (1.6 / 0.8 / 0.4 THz). Design value, no measured FSR printed (D82a).'
+  why: 'Miss. p.3 Sec. 2 ties three FSR values to the three 34-arm AWGs in parallel order (not four devices as the batch note says, so D156 does not apply); design performance -> author_estimate (D82a)'
+- metric_id: cmp_lit_shang2017a_awg_16x50-m15
+  component_id: cmp_lit_shang2017a_awg_16x50
+  parameter: fsr_ghz
+  value: '900'
+  unit: GHz
+  basis: author_estimate
+  locator: 'p.3 Sec. 2'
+  notes: 'Design FSR printed as 0.9 THz (converted to GHz; D256a). Same sentence as the 16 x 100 GHz row (three 34-arm AWGs, FSRs in the same order). Design value, no measured FSR printed (D82a).'
+  why: 'Miss, as cmp_lit_shang2017a_awg_16x100-m15 (p.3 Sec. 2)'
+- metric_id: cmp_lit_shang2017a_awg_16x25-m15
+  component_id: cmp_lit_shang2017a_awg_16x25
+  parameter: fsr_ghz
+  value: '450'
+  unit: GHz
+  basis: author_estimate
+  locator: 'p.3 Sec. 2'
+  notes: 'Design FSR printed as 0.45 THz (converted to GHz; D256a). Same sentence as the 16 x 100 GHz row (three 34-arm AWGs, FSRs in the same order). Design value, no measured FSR printed (D82a).'
+  why: 'Miss, as cmp_lit_shang2017a_awg_16x100-m15 (p.3 Sec. 2)'
+- metric_id: cmp_lit_shang2017a_polished_facet-m3
+  component_id: cmp_lit_shang2017a_polished_facet
+  parameter: core_thickness_nm
+  value: '200'
+  unit: nm
+  basis: design_target
+  locator: 'p.3 Sec. 3'
+  notes: ''
+  why: 'Miss (D153): edge_taper template requires core_thickness_nm; 200 nm Si3N4 core printed (p.3 Sec. 3), as on the sibling rows'
+- metric_id: cmp_lit_gao2017_apodized_gc-m2
+  component_id: cmp_lit_gao2017_apodized_gc
+  parameter: core_thickness_nm
+  value: '340'
+  unit: nm
+  basis: design_target
+  locator: 'p.4 Sec. 2'
+  notes: 'SiN layer height H = 340 nm; the grating is fully etched in the same single etch step (p.4 Sec. 3); etch depth not printed as a number.'
+  why: 'Miss (D153): grating_coupler template requires core_thickness_nm; H = 340 nm printed (p.4 Sec. 2)'
+- metric_id: cmp_lit_harris2017_inverse_taper_glass_pic-m6
+  component_id: cmp_lit_harris2017_inverse_taper_glass_pic
+  parameter: width_nm
+  value: '500'
+  unit: nm
+  condition: 'waveguide width at the start of the inverse taper (500 -> 200 nm over 300 um)'
+  basis: design_target
+  locator: 'p.7 Methods'
+  notes: ''
+  why: 'Miss (D153): edge_taper template optional width_nm; ''inverse taper from 500 nm wide to 200 nm wide over a distance of 300 um'' (p.7)'
+- metric_id: cmp_lit_harris2017_inverse_taper_glass_pic-m7
+  component_id: cmp_lit_harris2017_inverse_taper_glass_pic
+  parameter: core_thickness_nm
+  value: '220'
+  unit: nm
+  basis: design_target
+  locator: 'p.7 Methods'
+  notes: 'Full-etch structures 220 nm thick (partial-etch structures 90 nm, p.7).'
+  why: 'Miss (D153): edge_taper template requires core_thickness_nm (p.7 Methods)'
+- metric_id: cmp_lit_harris2017_inverse_taper_glass_pic-m8
+  component_id: cmp_lit_harris2017_inverse_taper_glass_pic
+  parameter: box_thickness_um
+  value: '2'
+  unit: um
+  basis: design_target
+  locator: 'p.7 Methods'
+  notes: ''
+  why: 'Miss (D153): ''2 um of buried SiO2'' (p.7 Methods)'
+- metric_id: cmp_lit_harris2017_inverse_taper_glass_pic-m9
+  component_id: cmp_lit_harris2017_inverse_taper_glass_pic
+  parameter: cladding_thickness_um
+  value: '2'
+  unit: um
+  basis: design_target
+  locator: 'p.7 Methods'
+  notes: 'Printed ''A silica cladding 2 um thick is thermally grown on top of the device layer''.'
+  why: 'Miss (D153): 2 um silica cladding printed (p.7 Methods)'
+- metric_id: cmp_lit_harris2017_doped_si_tops-m2
+  component_id: cmp_lit_harris2017_doped_si_tops
+  parameter: core_thickness_nm
+  value: '220'
+  unit: nm
+  basis: design_target
+  locator: 'p.7 Methods'
+  notes: 'Device layer 220 nm (full etch); phase shifters defined by full and partial (90 nm) etches (p.7). Phase-shifter waveguide width not printed for the heater section.'
+  why: 'Miss (D153): thermo_optic template requires core_thickness_nm (p.7 Methods)'
+- metric_id: cmp_lit_bogaerts2010_shallow_gc-m5
+  component_id: cmp_lit_bogaerts2010_shallow_gc
+  parameter: core_thickness_nm
+  value: '220'
+  unit: nm
+  basis: design_target
+  locator: 'p.3 Sec. III-A'
+  notes: ''
+  why: 'Miss (D153): grating_coupler template requires core_thickness_nm; 220 nm Si layer on 2 um BOX printed for all devices (p.3 Sec. III-A)'
+- metric_id: cmp_lit_bogaerts2010_shallow_mmi_1x2-m5
+  component_id: cmp_lit_bogaerts2010_shallow_mmi_1x2
+  parameter: core_thickness_nm
+  value: '220'
+  unit: nm
+  basis: design_target
+  locator: 'p.3 Sec. III-A; p.6 Fig. 9'
+  notes: 'Shallow-etched MMI section (70 nm etch, p.4 Sec. III-B).'
+  why: 'Miss (D153): mmi template cross-section core_thickness_nm (p.3 Sec. III-A)'
+- metric_id: cmp_lit_bogaerts2010_ring_drop_filter-m10
+  component_id: cmp_lit_bogaerts2010_ring_drop_filter
+  parameter: core_thickness_nm
+  value: '220'
+  unit: nm
+  basis: design_target
+  locator: 'p.3 Sec. III-A'
+  notes: ''
+  why: 'Miss (D153): ring template cross-section core_thickness_nm (p.3 Sec. III-A)'
+- metric_id: cmp_lit_bogaerts2010_ring_bistable-m8
+  component_id: cmp_lit_bogaerts2010_ring_bistable
+  parameter: core_thickness_nm
+  value: '220'
+  unit: nm
+  basis: design_target
+  locator: 'p.3 Sec. III-A'
+  notes: ''
+  why: 'Miss (D153): ring template cross-section core_thickness_nm (p.3 Sec. III-A)'
+- metric_id: cmp_lit_bogaerts2010_awg_8x400-m7
+  component_id: cmp_lit_bogaerts2010_awg_8x400
+  parameter: core_thickness_nm
+  value: '220'
+  unit: nm
+  basis: design_target
+  locator: 'p.3 Sec. III-A'
+  notes: ''
+  why: 'Miss (D153): awg template cross-section core_thickness_nm (p.3 Sec. III-A)'

@@ -1,0 +1,93 @@
+# Audit patch lit_149 (fresh-context audit 2026-11-15, DevLog/audits/2026-11-15-lit_149-audit.md).
+# 125 metrics: 119 ok / 6 imprecise / 0 wrong (+1 note sync); 17 components: 11 ok / 6 imprecise (notes) / 0 wrong; 0 deleted;
+# 2 misses added (li2013 Fig. 3(c) std rows). After the patch: 17 components, 127 metrics.
+# Coordinator rulings (audit Q1-Q6): Q1 shang2023 crossing crosstalk 36 / 39 dB kept as printed, no statistic (no op);
+# Q2 kim2014 fab AIST kept, notes cite the p.7 'We fabricated' sentence (5 component note ops; to drop the fab instead, empty
+# fab_org_ids on the 5 kim2014 rows); Q3 wu2020b MUX / DEMUX excess loss scope unspecified -> device_total of the reference
+# pair (m1 / m2 ops; to keep unspecified, drop those two ops and the component note op); Q4 li2013 > 17 dB back-reflection
+# stays derived (no op); Q5 li2013 fill factor 0.469 (D253) kept (no op); Q6 chen2022d modulator values stay out, EO-atlas
+# candidate (no op).
+components:
+  cmp_lit_kim2014_te_te_mmi_crossing:
+    notes: 'Fab AIST: all authors at AIST (Network Photonics Research Center; printed ''National Institute of Advanced Science and Technology'', p.1); first-person fabrication statements ''we used a simple reactive ion etching'' and ''We laid on a waveguide chip patterns'' (p.5) and ''We fabricated such a diversity circuit'' (p.7) qualify under D80b (''we fabricate''); staff are also thanked for technical assistance in device fabrication (p.8, D84b). No facility named. Two 1x1 MMIs with a common centre intersecting at theta = 110 deg (p.5); taper width 1.0 um at the MMI end, taper length 3 um, access core 0.45 um (p.4). Crossing angle has no registry parameter (notes). Simulated loss vs taper width (Fig. 2) and vs angle / MMI length (Fig. 3(a)-(b)) not entered beyond the stated optima.'
+    why: 'p.7 ''We fabricated such a diversity circuit'' plus the p.5 first-person RIE sentence and the one-org author list meet D80b; the note called the fab borderline and missed the p.7 sentence (fab unchanged)'
+  cmp_lit_kim2014_tm_tm_mmi_crossing:
+    notes: 'Fab AIST: all authors at AIST (Network Photonics Research Center; printed ''National Institute of Advanced Science and Technology'', p.1); first-person fabrication statements ''we used a simple reactive ion etching'' and ''We laid on a waveguide chip patterns'' (p.5) and ''We fabricated such a diversity circuit'' (p.7) qualify under D80b (''we fabricate''); staff are also thanked for technical assistance in device fabrication (p.8, D84b). No facility named. Optimal angle 105 deg and MMI length 6.3 um (p.5), MMI width 1.5 um and taper width 1.5 um for TM (p.3-4). Insertion loss of the TM-TM crossing not stated; simulated spectra only plotted (Fig. 3(d)).'
+    why: 'as cmp_lit_kim2014_te_te_mmi_crossing (p.5, p.7, D80b)'
+  cmp_lit_kim2014_te_tm_mmi_crossing:
+    notes: 'Fab AIST: all authors at AIST (Network Photonics Research Center; printed ''National Institute of Advanced Science and Technology'', p.1); first-person fabrication statements ''we used a simple reactive ion etching'' and ''We laid on a waveguide chip patterns'' (p.5) and ''We fabricated such a diversity circuit'' (p.7) qualify under D80b (''we fabricate''); staff are also thanked for technical assistance in device fabrication (p.8, D84b). No facility named. One MMI for TE (port 1) and one for TM (port 2); optimal angle 105 deg, MMI length 6.0 um for both (p.5). MMI widths not restated for this design. How the per-crossing losses were obtained is not described (the chip carries series crossings for per-crossing loss, p.5).'
+    why: 'as cmp_lit_kim2014_te_te_mmi_crossing (p.5, p.7, D80b)'
+  cmp_lit_kim2014_pol_diversity_crossing:
+    notes: 'Fab AIST: all authors at AIST (Network Photonics Research Center; printed ''National Institute of Advanced Science and Technology'', p.1); first-person fabrication statements ''we used a simple reactive ion etching'' and ''We laid on a waveguide chip patterns'' (p.5) and ''We fabricated such a diversity circuit'' (p.7) qualify under D80b (''we fabricate''); staff are also thanked for technical assistance in device fabrication (p.8, D84b). No facility named. Circuit of the three MMI crossing types and polarization splitters PS-1 to PS-4 (p.7, Fig. 9); crosstalk limited by leakage in the PBSs (p.7). Insertion loss not stated; PBS performance not stated.'
+    why: 'as cmp_lit_kim2014_te_te_mmi_crossing (p.5, p.7, D80b)'
+  cmp_lit_kim2014_ssc:
+    notes: 'Fab AIST: all authors at AIST (Network Photonics Research Center; printed ''National Institute of Advanced Science and Technology'', p.1); first-person fabrication statements ''we used a simple reactive ion etching'' and ''We laid on a waveguide chip patterns'' (p.5) and ''We fabricated such a diversity circuit'' (p.7) qualify under D80b (''we fabricate''); staff are also thanked for technical assistance in device fabrication (p.8, D84b). No facility named. ''A spot-size-converter using a narrow waveguide core is formed at each of the input and output ends'' (p.5); tip width and length not stated. Input light focused by a lens, output collected by a lensed fiber (p.5).'
+    why: 'as cmp_lit_kim2014_te_te_mmi_crossing (p.5, p.7, D80b)'
+  cmp_lit_wu2020b_mode_mux_demux:
+    notes: 'Fab empty: ''The device is fabricated by using the 284 nm deep ultraviolet lithography and inductively coupled plasma etching'' (p.4, printed ''284 nm''), passive, no org named (D80b). No facility acknowledged. Counter-tapered-coupler design cited to ref. [21] (p.4); the measurements are this paper''s. Reference MUX + DEMUX structure on the same chip, spectra normalized by subtracting GC losses (p.4, Fig. 5). Excess losses and crosstalk are those of the back-to-back MUX + DEMUX reference pair (Fig. 5 panel title ''Mode MUX + Mode DEMUX''); the per-device split is not stated. Geometry not stated.'
+    why: 'Note sync with the m1 / m2 scope change (device_total of the reference pair, Q3)'
+metrics:
+  cmp_lit_shang2023_te0_te1_mode_mux-m1:
+    excludes: ''
+    why: 'p.5 / p.9: the paper does not say how the pair spectra were normalized (the row''s own note says so); excludes named facet coupling as subtracted, which the source does not state (rule 6: excludes = what was subtracted)'
+  cmp_lit_chen2022d_tfln_crossing-m3:
+    wavelength_nm: ''
+    why: 'p.3 prints no wavelength for the simulated -36 dB; the row is band c_band inferred (as tfln_waveguide m1 / m2), so a point 1550 nm reads as stated'
+  cmp_lit_wu2020b_mode_mux_demux-m1:
+    scope: device_total
+    condition: 'back-to-back reference MUX + DEMUX pair (one MUX, one DEMUX), TE0 link, GC losses subtracted'
+    notes: 'Printed ''average excess losses of the referenced mode MUX and DEMUX are 0.05 dB for TE0'' (p.4); the Fig. 5 spectrum is of the MUX + DEMUX pair (panel title ''Mode MUX + Mode DEMUX'', TE0-TE0 trace near 0 dB) and no halving is stated, so the value is the pair''s; the same pair total is deducted from the MUX + 10 crossings + DEMUX chain (p.5).'
+    why: 'p.4-5, Fig. 5: the measured quantity is the reference pair (one MUX + one DEMUX), deducted once from the crossing chain; scope device_total of the pair instead of unspecified (coordinator Q3)'
+  cmp_lit_wu2020b_mode_mux_demux-m2:
+    scope: device_total
+    condition: 'back-to-back reference MUX + DEMUX pair (one MUX, one DEMUX), TE1 link, GC losses subtracted'
+    notes: 'Printed 0.43 dB for TE1 (p.4); pair value as m1 (Fig. 5(b) TE1-TE1 trace).'
+    why: 'as m1 (coordinator Q3)'
+  cmp_lit_li2013_nonuniform_gc-m1:
+    notes: 'Printed average insertion loss 3.1 +/- 0.2 dB across 31 dies with peak wavelength around 1550 nm (p.3); the per-GC value from the loops is printed directly, no total or halving shown (D452). Fig. 3(c) summary statistics print mean 3.12 dB and std dev 0.17 dB (std row m15); text ''standard variation of 0.2 dB'' (p.4).'
+    why: 'Note sync: p.3 Fig. 3(c) prints the unrounded mean and the standard deviation (added as m15)'
+  cmp_lit_li2013_nonuniform_gc-m4:
+    wavelength_inferred: 'true'
+    notes: 'Printed ''return-loss must be better than 17 dB'' taking the pessimistic view that all ripples are due to GC back-reflection (p.4); ''better than 17 dB across the wafer'' (abstract). Bound computed by the authors from their own 0.2 dB ripple data with a stated assumption (D80a model extraction; ripple precedents shen2019, liu2022, korcek2023); formula not printed. No wavelength printed with the bound: 1550 nm is the GC peak (inferred); the ripples are seen over the Fig. 5 span 1520-1580 nm.'
+    why: 'rule 8: p.1 abstract and p.4 give the bound with no wavelength; 1550 nm is the operating peak, so inferred'
+  cmp_lit_li2013_uniform_gc-m1:
+    value: '3.49'
+    qualifier: ''
+    basis: measured
+    wavelength_inferred: 'true'
+    locator: 'p.3 Fig. 3(c); p.3 Sec. III'
+    notes: 'Fig. 3(c) summary statistics of the uniform-design IL distribution print mean 3.49 dB (std dev 0.24 dB, row m2); the text says the nonuniform average is 0.37 dB better (3.12 + 0.37 = 3.49, consistent). Per GC from GC loops, printed directly (D452). No wavelength printed for the uniform data; 1550 nm is the measurement setting of the cross-wafer data (inferred).'
+    why: 'p.3 Fig. 3(c) prints the uniform mean 3.49 dB; the row carried 3.47 approx derived from the rounded 3.1 + 0.37'
+add_metrics:
+- metric_id: cmp_lit_li2013_nonuniform_gc-m15
+  component_id: cmp_lit_li2013_nonuniform_gc
+  parameter: insertion_loss_db
+  value: '0.17'
+  unit: dB
+  statistic: std
+  n_samples: '31'
+  wavelength_nm: '1550'
+  polarization: te
+  scope: loopback_half
+  condition: 'cross-wafer GC loop data (31 dies); fiber array 20.2 deg polish, about 7 deg tilt'
+  method: loopback
+  basis: measured
+  locator: 'p.3 Fig. 3(c); p.4 Conclusion'
+  notes: 'Fig. 3(c) nonuniform summary statistics: Std Dev 0.17 dB; the text rounds to 0.2 dB (''3.1 +/- 0.2 dB'', p.3; ''standard variation of 0.2 dB'', p.4)'
+  why: 'Miss. p.3 Fig. 3(c) prints the cross-wafer standard deviation (statistic std, D81); the batch kept it only in notes'
+- metric_id: cmp_lit_li2013_uniform_gc-m2
+  component_id: cmp_lit_li2013_uniform_gc
+  parameter: insertion_loss_db
+  value: '0.24'
+  unit: dB
+  statistic: std
+  wavelength_nm: '1550'
+  wavelength_inferred: 'true'
+  polarization: te
+  scope: loopback_half
+  condition: 'cross-wafer GC loop data, uniform design'
+  method: loopback
+  basis: measured
+  locator: 'p.3 Fig. 3(c)'
+  notes: 'Fig. 3(c) uniform summary statistics: Std Dev 0.24 dB; die count not printed for the uniform design; wavelength as m1'
+  why: 'Miss. p.3 Fig. 3(c) prints the uniform-design standard deviation beside its mean'

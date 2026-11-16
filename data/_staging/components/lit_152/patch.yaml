@@ -1,0 +1,438 @@
+# Audit patch lit_152 (fresh-context audit, DevLog/audits/2026-11-15-lit_152-audit.md).
+# 194 metrics: 151 ok / 43 imprecise / 0 wrong; 34 components: 33 ok / 1 note sync / 0 wrong; 0 deleted; 19 misses added
+# (vagionas2021 Si3N4 / Al2O3:Er3+ stack on the transition, waveguide and fiber-interface rows; tu2024 simulated IL ~3 dB;
+# ning2022 measured kappa = 0.29 coupling ratio read off Fig. 8 and the 220 nm / 2 um stack on the five DC rows).
+# 34 of the 43 imprecise rows are rule 8 (performance value without wavelength / band); the other 9: vagionas2021 net gain
+# basis (2), MMI approx (1), tu2024 facet scope (1), ning2022 FDTD coupling lengths basis (5, design dimensions).
+# Coordinator rulings open (audit Q1-Q6):
+# Q1 catalalahoz2026 Vpi / rise / fall / ER kept on the phase-shifter row (no op; EO-atlas candidate).
+# Q2 catalalahoz2026 platform bto_on_si kept on PUC / mesh / configured-filter rows, soi on the grating couplers (no op).
+# Q3 catalalahoz2026 fab org_cea_leti + org_lumiphase kept (no op).
+# Q4 vagionas2021 net gain and gain per cm -> author_estimate (ops below). To keep derived: drop the two
+#    cmp_lit_vagionas2021_edwa_5p9cm-m1 / -m2 ops.
+# Q5 ning2022 fab org_amf kept, process_name empty (no op).
+# Q6 ning2022 kappa = 0.29 Fig. 8 read added (cmp_lit_ning2022_dc_k029-m5); the kappa 0.2 / 0.08 / 0.04 curves stay out. To drop
+#    the read: remove that add_metrics entry and the dc_k029 component note op.
+components:
+  cmp_lit_ning2022_dc_k029:
+    notes: "Fab: 'fabricated on a SOI wafer ... by utilizing the silicon photonics multi-project wafer (MPW) service of Advanced Micro Foundry (AMF)' (p.3). TE polarization; fiber grating couplers; spectra normalized to the two-GC coupling loss (stated for the stand-alone filters, p.3). Measured on cascaded-DC test trees (Fig. 1(c)); measured ratios only in Fig. 8 (p.4); the red dashed kappa = 0.29 curve is distinct from the three low-kappa curves (kappa 0.2 / 0.08 / 0.04, which overlap near 0.03-0.15 and are not read, D156) and is read in m5. The paper attributes the filter degradation mainly to DC dispersion and fabrication errors."
+    why: "Note sync with the added m5 (p.4 Fig. 8: the red dashed kappa = 0.29 trace lies between 0.1 and 0.22, clear of the other curves)"
+metrics:
+  # --- catalalahoz2026: rule 8 (C band inferred like m2 / nv_puc m1; FSR rows take the spectrum axes)
+  cmp_lit_catalalahoz2026_bto_nv_phase_shifter-m1:
+    band: c_band
+    wavelength_inferred: 'true'
+    notes: "measurement wavelength of the NV-PUC tests not printed; C band inferred: the chip grating couplers peak at 1565 +/- 15 nm and the mesh spectra were taken around 1560 nm (p.6, p.11)"
+    why: "Rule 8: optical MZI transmission value without wavelength; same test structure and inference as m2 (p.5, p.6, p.11)"
+  cmp_lit_catalalahoz2026_bto_nv_phase_shifter-m3:
+    band: c_band
+    wavelength_inferred: 'true'
+    notes: "Printed 'around 82 ns' (ns -> us, D256); Fig. 2(b) labels 82.197 ns; abstract and Table 1 print ~80 ns. Measurement wavelength not printed; C band inferred (GC window 1565 +/- 15 nm, p.6)."
+    why: "Rule 8 (as m2); Fig. 2(b) inset label checked on the p.4 render"
+  cmp_lit_catalalahoz2026_bto_nv_phase_shifter-m4:
+    band: c_band
+    wavelength_inferred: 'true'
+    notes: "Printed 'rise and fall times around 82 ns' (ns -> us, D256); Fig. 2(b) labels 81.479 ns for the falling edge. Measurement wavelength not printed; C band inferred (GC window 1565 +/- 15 nm, p.6)."
+    why: "Rule 8 (as m2); Fig. 2(b) inset label checked on the p.4 render"
+  cmp_lit_catalalahoz2026_bto_nv_phase_shifter-m5:
+    band: c_band
+    wavelength_inferred: 'true'
+    notes: "measurement wavelength not printed; C band inferred (GC window 1565 +/- 15 nm, p.6; mesh spectra around 1560 nm, p.11)"
+    why: "Rule 8: phase shift read from MZI transmission (Fig. 2(c)-(d)); same inference as m2"
+  cmp_lit_catalalahoz2026_bto_nv_phase_shifter-m6:
+    band: c_band
+    wavelength_inferred: 'true'
+    notes: "measurement wavelength not printed; C band inferred (GC window 1565 +/- 15 nm, p.6; mesh spectra around 1560 nm, p.11)"
+    why: "Rule 8: extinction of the NV-PUC MZI without wavelength; same inference as m2"
+  cmp_lit_catalalahoz2026_hex_mesh-m3:
+    band: c_band
+    wavelength_inferred: 'true'
+    notes: "wavelength not printed for the 4x4 transformer test; C band inferred (GC window 1565 +/- 15 nm, p.6; spectra around 1560 nm, p.11)"
+    why: "Rule 8: p.8 ~25 dB desired / undesired ratio without wavelength"
+  cmp_lit_catalalahoz2026_hex_mesh-m4:
+    band: c_band
+    wavelength_inferred: 'true'
+    notes: "25 C = 298.15 K. ER degrades at 20 and 30 C (no values printed). Fig. S6 is a voltage sweep with no wavelength; C band inferred (GC window 1565 +/- 15 nm, p.6). Render: 25 C trace about -15 dBm to -57 dBm."
+    why: "Rule 8: p.22 Supp. Note 4 voltage sweep, wavelength not printed; 42 dB checked on the p.22 render"
+  cmp_lit_catalalahoz2026_umzi_2lpuc-m1:
+    wavelength_nm: 1563.8
+    wavelength_max_nm: 1564.8
+    wavelength_inferred: 'true'
+    notes: "Wavelength span = Fig. 3(a) / Fig. S5(e) axis (1563.8-1564.8 nm). Fig. S5(e) labels FSR1 = 0.356 nm."
+    why: "Rule 8: FSR without wavelength; the spectrum axis is printed (p.7 Fig. 3(a), p.21 Fig. S5(e))"
+  cmp_lit_catalalahoz2026_umzi_4lpuc-m1:
+    wavelength_nm: 1563.8
+    wavelength_max_nm: 1564.8
+    wavelength_inferred: 'true'
+    notes: "Wavelength span = Fig. 3(a) / Fig. S5(f) axis (1563.8-1564.8 nm). Fig. S5(f) labels FSR2 = 0.156 nm."
+    why: "Rule 8: FSR without wavelength; spectrum axis p.7 Fig. 3(a), p.21 Fig. S5(f)"
+  cmp_lit_catalalahoz2026_umzi_8lpuc-m1:
+    wavelength_nm: 1563.8
+    wavelength_max_nm: 1564.8
+    wavelength_inferred: 'true'
+    notes: "Printed 78.1 pm (pm -> nm, D256). Wavelength span = Fig. S5(g) axis (1563.8-1564.8 nm)."
+    why: "Rule 8: FSR without wavelength; spectrum axis p.21 Fig. S5(g)"
+  cmp_lit_catalalahoz2026_ring_6lpuc-m1:
+    wavelength_nm: 1562.8
+    wavelength_max_nm: 1563.2
+    wavelength_inferred: 'true'
+    notes: "Wavelength span = Fig. 3(b) / Fig. S4(e) axis (1562.8-1563.2 nm). Fig. S4(e) labels FSR1 = 0.11 nm."
+    why: "Rule 8: FSR without wavelength; spectrum axis p.7 Fig. 3(b), p.21 Fig. S4(e)"
+  cmp_lit_catalalahoz2026_ring_10lpuc-m1:
+    wavelength_nm: 1562.8
+    wavelength_max_nm: 1563.2
+    wavelength_inferred: 'true'
+    notes: "Wavelength span = Fig. 3(b) / Fig. S4(f) axis (1562.8-1563.2 nm). Fig. S4(f) labels FSR2 = 64.7 pm (about 7.9 GHz, consistent)."
+    why: "Rule 8: FSR without wavelength; spectrum axis p.7 Fig. 3(b), p.21 Fig. S4(f)"
+  cmp_lit_catalalahoz2026_ring_14lpuc-m1:
+    wavelength_nm: 1562.8
+    wavelength_max_nm: 1563.2
+    wavelength_inferred: 'true'
+    notes: "Printed 44.5 pm (pm -> nm, D256). Wavelength span = Fig. S4(g) axis (1562.8-1563.2 nm)."
+    why: "Rule 8: FSR without wavelength; spectrum axis p.21 Fig. S4(g)"
+  cmp_lit_catalalahoz2026_ramzi_2ring-m1:
+    wavelength_nm: 1563.9
+    wavelength_max_nm: 1564.3
+    wavelength_inferred: 'true'
+    notes: "Wavelength span = Fig. 3(d) axis (1563.9-1564.3 nm)."
+    why: "Rule 8: FSR without wavelength; spectrum axis p.7 Fig. 3(d)"
+  # --- vagionas2021
+  cmp_lit_vagionas2021_roadm_1x4-m1:
+    wavelength_nm: 1550
+    notes: "Introduction prints 'around 0.6 nm' with the 2.55 dB FtF loss 'in the 1550 nm region' (p.2; D393, as m3). Fig. 2(e) spectra span about 1544.7-1548.4 nm."
+    why: "Rule 8: p.2 ties the channel bandwidth to the 1550 nm region (stated, D393); Fig. 2(e) axis checked on the render"
+  cmp_lit_vagionas2021_roadm_1x4-m2:
+    wavelength_nm: 1545
+    wavelength_max_nm: 1548
+    wavelength_inferred: 'true'
+    notes: "Printed 'lower than -18 dB' (sign as printed). Wavelength span = Fig. 2(e) axis ticks (spectra about 1544.7-1548.4 nm)."
+    why: "Rule 8: p.3 crosstalk sentence has no wavelength; it is read from the Fig. 2(e) spectra"
+  cmp_lit_vagionas2021_edwa_5p9cm-m1:
+    basis: author_estimate
+    notes: "Net gain printed 3.6 dB (p.5; Fig. 3(d) label '3.6 dB net gain'). The p.5 method sentence defines net gain as signal output minus input minus the fiber-to-active-region coupling losses on both sides: -27.4 + 18.8 + 12.2 = 3.6 dB reproduces it exactly, and the 18.8 / 12.2 dB terms are sums of 'estimated' / 'calculated' parts (10 dB interface, 8.3 / 1.7 dB MMI port, 0.5 dB adiabatic coupler, p.4), so the value rests on estimated inputs (rule 4; D429, D583). The alternative route 11.8 dB enhancement minus 1.4 dB/cm x 5.9 cm gives 3.54 dB. 'in the 1550 nm wavelength region' (D393)."
+    why: "Rule 4: p.5 'the estimation of the net-gain has to be based on ... minus the coupling loss from the fiber till the Al2O3:Er3+ active region'; those losses are the p.4 estimated / calculated terms, which reproduce 3.6 dB exactly (the 1.4 dB/cm route gives 3.54). D166 (derived) needs own measured losses"
+  cmp_lit_vagionas2021_edwa_5p9cm-m2:
+    basis: author_estimate
+    notes: "Printed 0.6 dB/cm = 3.6 dB / 5.9 cm; follows m1 (net gain resting on estimated coupling losses, rule 4)."
+    why: "Same basis as m1 (p.5)"
+  cmp_lit_vagionas2021_pump_signal_mmi-m2:
+    qualifier: approx
+    why: "p.4: 'calculated around 1.7 dB for signal port and 8.3 for the pump port' - one 'around' governs both values (m1 already approx)"
+  # --- zou2020: rule 8
+  cmp_lit_zou2020_awg1_confocal-m1:
+    wavelength_nm: 1535
+    wavelength_max_nm: 1590
+    wavelength_inferred: 'true'
+    notes: "Figure label 'FSR = 52.34 nm'. Wavelength span = Fig. 4(a) axis (the FSR arrow runs from about 1537 to 1589 nm)."
+    why: "Rule 8: measured FSR without wavelength; p.3 Fig. 4(a) axis 1535-1590 nm (as awg2 m7)"
+  cmp_lit_zou2020_awg2_rowland-m1:
+    wavelength_nm: 1535
+    wavelength_max_nm: 1590
+    wavelength_inferred: 'true'
+    notes: "Figure label 'FSR = 52.34 nm'. Wavelength span = Fig. 4(b) axis (as m7)."
+    why: "Rule 8: measured FSR without wavelength; p.3 Fig. 4(b) axis 1535-1590 nm"
+  cmp_lit_zou2020_spectrometer1-m2:
+    wavelength_nm: 1560
+    wavelength_max_nm: 1590
+    wavelength_inferred: 'true'
+    notes: "Printed 'varies from -6 dB to -10 dB'. Wavelength span = Fig. 8(a) axis (as m1)."
+    why: "Rule 8: crosstalk from the same Fig. 8(a) spectra as m1, which carries the span"
+  cmp_lit_zou2020_spectrometer2-m2:
+    wavelength_nm: 1560
+    wavelength_max_nm: 1590
+    wavelength_inferred: 'true'
+    notes: "Printed 'varies from -9 dB to -12 dB'. Wavelength span = Fig. 8(b) axis (as m1; the axis starts slightly below 1560 nm)."
+    why: "Rule 8: crosstalk from the same Fig. 8(b) spectra as m1"
+  # --- tu2024
+  cmp_lit_tu2024_awg_100ch-m2:
+    wavelength_nm: 1541.8
+    notes: "Printed 'about 6 dB'; same scan 'around 1541.8 nm' as m1 (stated, D393)."
+    why: "Rule 8: p.5 adjacent-channel crosstalk comes from the 12th-31st channel scan 'around 1541.8 nm' (m1 carries it)"
+  cmp_lit_tu2024_awg_100ch-m3:
+    wavelength_nm: 1542
+    wavelength_max_nm: 1562
+    notes: "'consistent with the design value' (20 nm design, p.4). Fig. 7(a) labels the two peaks at 1542 nm and 1562 nm (31st channel, 25 nm scan)."
+    why: "Rule 8: measured FSR without wavelength; p.5 Fig. 7(a) labels the peak wavelengths"
+  cmp_lit_tu2024_awg_100ch-m4:
+    wavelength_nm: 1541.8
+    notes: "Printed 'each channel spacing matched the design value of 50 pm' (pm -> nm, D256); scan 'around 1541.8 nm' (stated, D393); Fig. 7(c) label '~50pm'."
+    why: "Rule 8: measured spacing from the 1541.8 nm scan (p.5, Fig. 7(b)-(c))"
+  cmp_lit_tu2024_lensed_fiber_facet-m1:
+    scope: fiber_to_fiber
+    includes: "two lensed-fiber facets and the straight reference waveguide"
+    notes: "Printed 'the coupling loss is 8 dB, measured by the straight waveguide' (p.4); per-facet split not stated. The AWG insertion loss is normalized to this straight-waveguide transmission and the printed chain -2.6 dBm input - 8 dB - 13 dB = -23.6 dBm peak (p.4-5) uses the 8 dB as the whole straight-waveguide loss, so the value is the two-facet fiber-to-fiber total. 'for the C-band range' (p.4)."
+    why: "Scope: p.4-5 arithmetic (-2.6 - 8 - 13 = -23.6 dBm) and the normalization sentence fix the 8 dB as the total fiber-to-fiber transmission loss of the straight reference waveguide, not an unspecified per-facet value (D83a: fiber-to-fiber totals keep fiber_to_fiber)"
+  # --- ning2022: rule 8 (O band stated for the devices; Fig. 6 / 7 / 8 axes 1270-1310 nm)
+  cmp_lit_ning2022_demux_flat-m3:
+    band: o_band
+    wavelength_inferred: 'true'
+    notes: "no wavelength printed with the widths; O-band device (title, p.3 O-band laser; Fig. 6 axis 1270-1310 nm)"
+    why: "Rule 8 (p.3 bandwidth sentence; device band stated)"
+  cmp_lit_ning2022_demux_flat-m4:
+    band: o_band
+    wavelength_inferred: 'true'
+    notes: "no wavelength printed with the widths; O-band device (title, p.3; Fig. 6 axis 1270-1310 nm)"
+    why: "Rule 8 (p.3)"
+  cmp_lit_ning2022_demux_flat-m7:
+    band: o_band
+    wavelength_inferred: 'true'
+    notes: "calculated curve of an O-band design (Fig. 3(a) axis 1270-1310 nm); right-most channel"
+    why: "Rule 8 (p.2 Fig. 3)"
+  cmp_lit_ning2022_demux_gaussian-m3:
+    band: o_band
+    wavelength_inferred: 'true'
+    notes: "no wavelength printed with the widths; O-band device (title, p.3; Fig. 7 axis 1270-1310 nm)"
+    why: "Rule 8 (p.3)"
+  cmp_lit_ning2022_demux_gaussian-m4:
+    band: o_band
+    wavelength_inferred: 'true'
+    notes: "no wavelength printed with the widths; O-band device (title, p.3; Fig. 7 axis 1270-1310 nm)"
+    why: "Rule 8 (p.3)"
+  cmp_lit_ning2022_demux_gaussian-m7:
+    band: o_band
+    wavelength_inferred: 'true'
+    notes: "calculated curve of an O-band design (Fig. 3(b) axis 1270-1310 nm); at the passband centers"
+    why: "Rule 8 (p.2-3 Fig. 3)"
+  cmp_lit_ning2022_dc_k050-m1:
+    band: o_band
+    wavelength_inferred: 'true'
+    notes: "Printed kappa = 0.5 (fraction stored in %; basis stays simulated, D83f). Synthesis value for the O-band filter; the matching coupling length is set at 1291 nm (p.2)."
+    why: "Rule 8: coupling ratio is wavelength dependent (Fig. 2); design band stated"
+  cmp_lit_ning2022_dc_k020-m1:
+    band: o_band
+    wavelength_inferred: 'true'
+    notes: "Printed kappa = 0.2 (fraction stored in %; basis stays simulated, D83f). Synthesis value for the O-band filter; coupling length set at 1291 nm (p.2)."
+    why: "Rule 8 (p.2)"
+  cmp_lit_ning2022_dc_k004-m1:
+    band: o_band
+    wavelength_inferred: 'true'
+    notes: "Printed kappa = 0.04 (fraction stored in %; basis stays simulated, D83f). Synthesis value for the O-band filter; coupling length set at 1291 nm (p.2)."
+    why: "Rule 8 (p.2)"
+  cmp_lit_ning2022_dc_k029-m1:
+    band: o_band
+    wavelength_inferred: 'true'
+    notes: "Printed kappa = 0.29 (fraction stored in %; basis stays simulated, D83f). Synthesis value for the O-band filter; coupling length set at 1291 nm (p.2)."
+    why: "Rule 8 (p.2)"
+  cmp_lit_ning2022_dc_k008-m1:
+    band: o_band
+    wavelength_inferred: 'true'
+    notes: "Printed kappa = 0.08 (fraction stored in %; basis stays simulated, D83f). Synthesis value for the O-band filter; coupling length set at 1291 nm (p.2)."
+    why: "Rule 8 (p.2)"
+  # --- ning2022: FDTD-chosen coupling lengths are the design dimensions of the fabricated DCs
+  cmp_lit_ning2022_dc_k050-m2:
+    basis: design_target
+    notes: "coupling length chosen by FDTD at 1291 nm for kappa = 0.5 (p.2); a design dimension of the fabricated coupler (rule 4: dimensions stated as design are design_target)"
+    why: "Rule 4: p.2 states the coupling lengths the layout uses (from FDTD); a dimension, not a simulated performance (152 merged coupling_length_um rows design_target, none simulated)"
+  cmp_lit_ning2022_dc_k020-m2:
+    basis: design_target
+    notes: "coupling length chosen by FDTD at 1291 nm for kappa = 0.2 (p.2); design dimension (rule 4)"
+    why: "Rule 4 (as dc_k050-m2)"
+  cmp_lit_ning2022_dc_k004-m2:
+    basis: design_target
+    notes: "coupling length chosen by FDTD at 1291 nm for kappa = 0.04 (p.2); design dimension (rule 4)"
+    why: "Rule 4 (as dc_k050-m2)"
+  cmp_lit_ning2022_dc_k029-m2:
+    basis: design_target
+    notes: "coupling length chosen by FDTD at 1291 nm for kappa = 0.29 (p.2); design dimension (rule 4)"
+    why: "Rule 4 (as dc_k050-m2)"
+  cmp_lit_ning2022_dc_k008-m2:
+    basis: design_target
+    notes: "coupling length chosen by FDTD at 1291 nm for kappa = 0.08 (p.2); design dimension (rule 4)"
+    why: "Rule 4 (as dc_k050-m2)"
+add_metrics:
+# --- vagionas2021: stack of the Si3N4 / Al2O3:Er3+ parts (D153; transition_bilayer and waveguide_xsec templates)
+- metric_id: cmp_lit_vagionas2021_si3n4_al2o3_adiabatic_coupler-m2
+  component_id: cmp_lit_vagionas2021_si3n4_al2o3_adiabatic_coupler
+  parameter: core_thickness_nm
+  value: 200
+  unit: nm
+  condition: "lower layer: LPCVD Si3N4"
+  basis: design_target
+  locator: "p.4 Sec. II-B"
+  notes: "deposited thickness as stated (not SEM-measured)"
+  why: "Miss (D153 geometry; transition_bilayer xsec needs core_thickness_nm): p.4 'LPCVD of a 200 nm thick Si3N4 layer'"
+- metric_id: cmp_lit_vagionas2021_si3n4_al2o3_adiabatic_coupler-m3
+  component_id: cmp_lit_vagionas2021_si3n4_al2o3_adiabatic_coupler
+  parameter: layer2_thickness_nm
+  value: 800
+  unit: nm
+  condition: "upper layer: Al2O3:Er3+ (RF reactive co-sputtering)"
+  basis: design_target
+  locator: "p.4 Sec. II-B"
+  notes: "deposited thickness as stated"
+  why: "Miss (D153 geometry; transition_bilayer xsec needs layer2_thickness_nm): p.4 'Al2O3:Er3+ layer deposition with 800 nm thickness'"
+- metric_id: cmp_lit_vagionas2021_si3n4_al2o3_adiabatic_coupler-m4
+  component_id: cmp_lit_vagionas2021_si3n4_al2o3_adiabatic_coupler
+  parameter: width_nm
+  value: 1400
+  unit: nm
+  condition: "upper (Al2O3:Er3+) waveguide width away from the taper"
+  basis: derived
+  locator: "p.4 Sec. II-B"
+  notes: "Printed cross-section 1.4 um x 800 nm (um -> nm, D157); taper tip widths not printed"
+  why: "Miss (D153 geometry): p.4 Al2O3 waveguides 'forming a cross-section of 1.4 um x 800 nm'"
+- metric_id: cmp_lit_vagionas2021_si3n4_al2o3_adiabatic_coupler-m5
+  component_id: cmp_lit_vagionas2021_si3n4_al2o3_adiabatic_coupler
+  parameter: lower_width_nm
+  value: 1400
+  unit: nm
+  condition: "lower (Si3N4) waveguide width away from the taper"
+  basis: derived
+  locator: "p.4 Sec. II-B"
+  notes: "Printed 1.4 um x 200 nm Si3N4 core (um -> nm, D157)"
+  why: "Miss (D153 geometry): p.4 Si3N4 'patterned to a 1.4 um width ... 1.4 um x 200 nm waveguide core'"
+- metric_id: cmp_lit_vagionas2021_edwa_waveguide-m2
+  component_id: cmp_lit_vagionas2021_edwa_waveguide
+  parameter: width_nm
+  value: 1400
+  unit: nm
+  condition: "Al2O3:Er3+ waveguide width"
+  basis: derived
+  locator: "p.4 Sec. II-B"
+  notes: "Printed 1.4 um (um -> nm, D157); same value as the amplifier row m5 (D396 cross-note)"
+  why: "Miss (D153 geometry; waveguide_xsec needs width_nm and core_thickness_nm): p.4 cross-section 1.4 um x 800 nm"
+- metric_id: cmp_lit_vagionas2021_edwa_waveguide-m3
+  component_id: cmp_lit_vagionas2021_edwa_waveguide
+  parameter: core_thickness_nm
+  value: 800
+  unit: nm
+  condition: "Al2O3:Er3+ layer, deposited thickness"
+  basis: design_target
+  locator: "p.4 Sec. II-B"
+  notes: "same value as the amplifier row m6"
+  why: "Miss (D153 geometry): p.4 800 nm Al2O3:Er3+ layer"
+- metric_id: cmp_lit_vagionas2021_edwa_fiber_interface-m3
+  component_id: cmp_lit_vagionas2021_edwa_fiber_interface
+  parameter: core_thickness_nm
+  value: 200
+  unit: nm
+  condition: "Si3N4 coupling waveguide layer (facet design not stated)"
+  basis: design_target
+  locator: "p.4 Sec. II-B"
+  notes: "LPCVD Si3N4 thickness; the 1.4 um waveguide width is not entered here because the facet / taper geometry is not stated"
+  why: "Miss (D153 geometry; edge_taper xsec needs core_thickness_nm): p.4 200 nm Si3N4 layer hosting the fiber-to-Si3N4 coupling waveguides"
+# --- tu2024: simulated device transmission (Fig. 4)
+- metric_id: cmp_lit_tu2024_awg_100ch-m21
+  component_id: cmp_lit_tu2024_awg_100ch
+  parameter: insertion_loss_db
+  value: 3
+  unit: dB
+  qualifier: approx
+  wavelength_nm: 1547.5
+  wavelength_max_nm: 1552.5
+  wavelength_inferred: 'true'
+  polarization: te
+  scope: device_total
+  method: unspecified
+  condition: "simulated transmission spectra of the 100 channels (MATLAB transmission model with the Rsoft TE00 indices), peak transmission"
+  basis: simulated
+  locator: "p.4 Fig. 4(a)-(b)"
+  notes: "Read off the page render: channel peaks at about -3.0 dB (Fig. 4(b), 12 px/dB) and -3.1 dB (Fig. 4(a)); reading uncertainty about +/- 0.3 dB (D454). Span = Fig. 4(a) axis (about 1547.4-1552.6 nm). No simulated value printed in the text; measured ~13 dB in m1."
+  why: "Miss: p.4 Fig. 4 shows the simulated device spectra (uniform peaks near -3 dB, unambiguous); D454 simulated curve read off a plot stays simulated"
+# --- ning2022: measured coupling ratio of the kappa = 0.29 DC and DC stack (D153)
+- metric_id: cmp_lit_ning2022_dc_k029-m5
+  component_id: cmp_lit_ning2022_dc_k029
+  parameter: split_ratio_pct
+  value: 11
+  value_max: 22
+  unit: "%"
+  statistic: range
+  wavelength_nm: 1270
+  wavelength_max_nm: 1310
+  polarization: te
+  condition: "measured cross-coupling ratio over 1270-1310 nm (cascaded DC test tree)"
+  method: direct
+  basis: extracted_from_figure
+  locator: "p.4 Fig. 8"
+  notes: "Read off the red dashed kappa = 0.29 curve (legend): about 0.12 at 1270 nm, minimum about 0.11 near 1275 nm, rising to about 0.22 at 1310 nm; reading uncertainty about +/- 0.02 (page render, 0.8 = 250 px). Well below the 0.29 design, consistent with the paper's DC-dispersion / fabrication-error explanation (p.4)."
+  why: "Miss: p.4 Fig. 8 red dashed curve is distinct from the overlapping low-kappa curves (D156 does not apply); same treatment as dc_k050-m5"
+- metric_id: cmp_lit_ning2022_dc_k050-m6
+  component_id: cmp_lit_ning2022_dc_k050
+  parameter: core_thickness_nm
+  value: 220
+  unit: nm
+  basis: design_target
+  locator: "p.3 Sec. III"
+  notes: "SOI top Si of the AMF MPW wafer (D402)"
+  why: "Miss (D153 geometry; dc template xsec needs core_thickness_nm): p.3 220-nm-thick top silicon layer"
+- metric_id: cmp_lit_ning2022_dc_k050-m7
+  component_id: cmp_lit_ning2022_dc_k050
+  parameter: box_thickness_um
+  value: 2
+  unit: um
+  basis: design_target
+  locator: "p.3 Sec. III"
+  notes: "SOI BOX (D402)"
+  why: "Miss (D153 geometry): p.3 2-um-thick buried oxide"
+- metric_id: cmp_lit_ning2022_dc_k020-m5
+  component_id: cmp_lit_ning2022_dc_k020
+  parameter: core_thickness_nm
+  value: 220
+  unit: nm
+  basis: design_target
+  locator: "p.3 Sec. III"
+  notes: "SOI top Si of the AMF MPW wafer (D402)"
+  why: "Miss (D153 geometry): p.3"
+- metric_id: cmp_lit_ning2022_dc_k020-m6
+  component_id: cmp_lit_ning2022_dc_k020
+  parameter: box_thickness_um
+  value: 2
+  unit: um
+  basis: design_target
+  locator: "p.3 Sec. III"
+  notes: "SOI BOX (D402)"
+  why: "Miss (D153 geometry): p.3"
+- metric_id: cmp_lit_ning2022_dc_k004-m5
+  component_id: cmp_lit_ning2022_dc_k004
+  parameter: core_thickness_nm
+  value: 220
+  unit: nm
+  basis: design_target
+  locator: "p.3 Sec. III"
+  notes: "SOI top Si of the AMF MPW wafer (D402)"
+  why: "Miss (D153 geometry): p.3"
+- metric_id: cmp_lit_ning2022_dc_k004-m6
+  component_id: cmp_lit_ning2022_dc_k004
+  parameter: box_thickness_um
+  value: 2
+  unit: um
+  basis: design_target
+  locator: "p.3 Sec. III"
+  notes: "SOI BOX (D402)"
+  why: "Miss (D153 geometry): p.3"
+- metric_id: cmp_lit_ning2022_dc_k029-m6
+  component_id: cmp_lit_ning2022_dc_k029
+  parameter: core_thickness_nm
+  value: 220
+  unit: nm
+  basis: design_target
+  locator: "p.3 Sec. III"
+  notes: "SOI top Si of the AMF MPW wafer (D402)"
+  why: "Miss (D153 geometry): p.3"
+- metric_id: cmp_lit_ning2022_dc_k029-m7
+  component_id: cmp_lit_ning2022_dc_k029
+  parameter: box_thickness_um
+  value: 2
+  unit: um
+  basis: design_target
+  locator: "p.3 Sec. III"
+  notes: "SOI BOX (D402)"
+  why: "Miss (D153 geometry): p.3"
+- metric_id: cmp_lit_ning2022_dc_k008-m5
+  component_id: cmp_lit_ning2022_dc_k008
+  parameter: core_thickness_nm
+  value: 220
+  unit: nm
+  basis: design_target
+  locator: "p.3 Sec. III"
+  notes: "SOI top Si of the AMF MPW wafer (D402)"
+  why: "Miss (D153 geometry): p.3"
+- metric_id: cmp_lit_ning2022_dc_k008-m6
+  component_id: cmp_lit_ning2022_dc_k008
+  parameter: box_thickness_um
+  value: 2
+  unit: um
+  basis: design_target
+  locator: "p.3 Sec. III"
+  notes: "SOI BOX (D402)"
+  why: "Miss (D153 geometry): p.3"

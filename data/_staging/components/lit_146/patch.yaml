@@ -1,0 +1,139 @@
+# Audit patch lit_146 (fresh-context audit 2026-11-15, DevLog/audits/2026-11-15-lit_146-audit.md).
+# 170 metrics: 153 ok / 17 imprecise / 0 wrong; 23 components: 22 ok / 1 wrong (liu2018b NIR ring stack); 0 deleted;
+# 7 misses added (6 D153 geometry, 1 figure point).
+# Coordinator rulings open (audit Q1-Q5), all "keep" (no op) unless stated:
+# Q1 west2019 fab org_mit (first-person etch / realize statements, MIT + MIT Lincoln Laboratory authors, D154 parent): keep.
+# Q2 west2019 loaded Q 275k / 2.7 GHz on the 400 nm gap ring: keep (Q_L arithmetic and the Fig. 4(a) dip depth both fit).
+# Q3 liu2018b one row per cascaded-ring design, resonance in condition; Q_int basis split 390 nm author_estimate /
+#    455 nm derived: keep.
+# Q4 xie2020 "insertion loss" as excess_loss_db per_component: keep.
+# Q5 deng2019 Table I "This work" SR 78 %/22 % and 6.2 % left out (D159): keep.
+components:
+  cmp_lit_liu2018b_ring_nir_r100:
+    core_material: "single-crystalline AlN rib, 1.6 um total height with 0.4 um unetched slab, 3.0 um wide (Fig. S3(b) caption and inset); growth, substrate and etch of this chip not stated (the about 0.5 um MOCVD AlN-on-sapphire process of p.1-2 belongs to the UV chips)"
+    cladding: ""
+    notes: "No fabrication sentence names an org (passive process description); the acknowledgment thanks two named people 'for assistance in the device fabrication' without an org -> fab empty; AlN grower not stated (authors at Yale University and the Institute of Semiconductors, CAS). Q_int from Q_int = 2QL/(1 + sqrt(T0)) with the under-coupled regime assumed (D403 -> author_estimate). Propagation loss alpha_ring = 4.343 f0 / (Q_int FSR R) (p.3). Supplement Fig. S3(b), measured with a swept telecom laser; cross section printed as 3.0 x 1.6 um2 with 0.4 um unetched AlN, and the inset draws the 1.6 um arrow over the full rib height (core 1.6 um, slab 0.4 um): a thicker film than the 0.5 um UV chips. Cladding not stated for this chip (inset unlabelled). The main text calls it one of 'our visible and near-infrared single-crystalline AlN microrings' (p.4), no citation; whether it is a cascaded pair is not stated."
+    why: "p.7 Supp. Fig. S3(b): cross section 3.0 x 1.6 um2 with 0.4 um unetched AlN; the inset's 1.6 um arrow spans the whole rib. The row's core_material described the about 0.5 um MOCVD film of the UV chips (p.1-2) and PECVD SiO2 cladding, neither stated for this chip; the cascaded-pair sentence of the UV devices does not apply"
+metrics:
+  cmp_lit_deng2019_adc_dw0-m2:
+    condition: "Port 3 SR curve (temperature of the plotted curve not stated, 'at certain temperature'); error bars = SR variation for 20-50 C stage temperature"
+    why: "p.8 Sec. III: Fig. 14 shows 'the simulated and measured SRs at certain temperature'; no room-temperature statement for this curve"
+  cmp_lit_deng2019_adc_dw0-m3:
+    value: "51"
+    notes: "simulated Port 3 curve read off Fig. 14 (+/- 0.005): minimum about 0.51 near 1278 nm and 1320 nm, maximum about 0.53 near 1300 nm"
+    why: "p.8 Fig. 14: pixel trace of the orange solid curve on the cached render (frame 0.4-0.7 SR, 7.55 px per 0.01) gives 0.509-0.529; the lower end 0.52 was misread"
+  cmp_lit_liu2018b_ring_w800_g140-m3:
+    wavelength_nm: "390"
+    why: "D393: the condition's 'around 390 nm' is a stated wavelength; the Q rows of the same resonance carry 390 nm (p.2-3 Fig. 2)"
+  cmp_lit_liu2018b_ring_w800_g140-m7:
+    wavelength_nm: "390"
+    why: "D393: stated 'around 390 nm' (p.2-3 Fig. 2(a)-(c)); same resonance as m5 / m6"
+  cmp_lit_liu2018b_ring_w800_g140-m11:
+    wavelength_nm: "390"
+    why: "D393: stated 'around 390 nm' (p.3 Fig. 2(d)-(e)); same resonance as m9 / m10"
+  cmp_lit_liu2018b_ring_w800_g140-m15:
+    wavelength_nm: "390"
+    why: "D393: stated 'around 390 nm' (p.3 Fig. 2(d), (f)); same resonance as m13 / m14"
+  cmp_lit_liu2018b_ring_w800_g140-m17:
+    wavelength_nm: "390"
+    why: "D393: TE00 FSRs of the 390 nm scan (p.3 Fig. 2(d))"
+  cmp_lit_liu2018b_ring_w800_g140-m18:
+    wavelength_nm: "390"
+    why: "D393: TM00 FSRs of the 390 nm scan (p.3 Fig. 2(a))"
+  cmp_lit_liu2018b_ring_w800_g140-m19:
+    wavelength_nm: "390"
+    why: "D393: TM10 FSR of the 390 nm scan (p.3 Fig. 2(a))"
+  cmp_lit_liu2018b_ring_w800_g140-m27:
+    wavelength_nm: "455"
+    why: "p.4 Fig. 4: measured at 455 nm (resonance near 455.46 nm, as m25 / m26)"
+  cmp_lit_liu2018b_ring_w800_g140-m29:
+    wavelength_nm: "455"
+    why: "p.4: FSR recorded for TE00 at 455 nm"
+  cmp_lit_liu2018b_ring_w600_g130-m3:
+    wavelength_nm: "390"
+    why: "p.3 Fig. 3: Q-factors at 390 nm; same resonance as m1 / m2"
+  cmp_lit_liu2018b_ring_w400_g120-m3:
+    wavelength_nm: "390"
+    why: "p.3 Fig. 3: Q-factors at 390 nm; same resonance as m1 / m2"
+  cmp_lit_liu2018b_ring_w800_g130-m3:
+    wavelength_nm: "455"
+    why: "p.4 Fig. 4 caption: measured at 455 nm; same resonance as m1 / m2"
+  cmp_lit_liu2018b_ring_w800_g150-m3:
+    wavelength_nm: "455"
+    why: "p.4 Fig. 4 caption: measured at 455 nm; same resonance as m1 / m2"
+  cmp_lit_liu2018b_ring_w800_g140-m23:
+    condition: "TM00, re-extracted assuming the over-coupled regime; matches resonance II by arithmetic (2 x 103k / (1 - 10^(-22/20)) = 224k; resonance I would give 198k)"
+    why: "p.4 prints Q_int 226k without naming the resonance; the over-coupled formula of the Fig. 4 caption applied to the p.2 / Fig. 2(c) values reproduces it only for resonance II"
+  cmp_lit_liu2018b_ring_nir_r100-m2:
+    qualifier: le
+    why: "Skill rule 7: 'up to' -> qualifier le (p.7 Supp. Fig. S3(b) caption 'up to 2.0 x 10^6'); statistic best kept (merged precedent le + best)"
+add_metrics:
+- metric_id: cmp_lit_west2019_ring_r90-m12
+  component_id: cmp_lit_west2019_ring_r90
+  parameter: box_thickness_um
+  value: 3.2
+  unit: um
+  basis: design_target
+  locator: p.5 Sec. III
+  notes: "3.5 um PECVD oxide polished by CMP to a final 3.2 um ('for all samples')"
+  why: "Miss (D153 geometry). p.5 Sec. III: the 3.2 um bottom oxide is stated for all samples; the ring row carried only the core thickness while its sibling waveguide rows carry the stack"
+- metric_id: cmp_lit_west2019_ring_r90-m13
+  component_id: cmp_lit_west2019_ring_r90
+  parameter: cladding_thickness_um
+  value: 3
+  unit: um
+  basis: design_target
+  locator: p.6 Sec. III
+  notes: "3 um PECVD oxide on top of the remaining 200 nm SiO2 hard mask"
+  why: "Miss (D153 geometry). p.6 Sec. III: 3 um PECVD oxide cladding of the process used for all devices (ring_bus xsec optional dimension)"
+- metric_id: cmp_lit_west2019_ring_r90-m14
+  component_id: cmp_lit_west2019_ring_r90
+  parameter: sidewall_angle_deg
+  value: 80
+  unit: deg
+  qualifier: approx
+  basis: measured
+  locator: p.6 Sec. III; p.6 Fig. 2(c)
+  notes: "printed about 80 degrees to horizontal for the alumina etch; measurement method not stated (SEM of an etched ridge in Fig. 2(c))"
+  why: "Miss (D153 geometry). p.6 Sec. III: the etch's sidewall angle, entered on the sibling waveguide rows; the rings are etched in the same step"
+- metric_id: cmp_lit_liu2018b_ring_w800_g130-m8
+  component_id: cmp_lit_liu2018b_ring_w800_g130
+  parameter: core_thickness_nm
+  value: 500
+  unit: nm
+  basis: design_target
+  locator: p.1; p.2 Fig. 1(a)
+  notes: "printed 'approximately 0.5 um' AlN; ring height 0.5 um"
+  why: "Miss (D153 geometry). p.1 / Fig. 1(a): about 0.5 um AlN for the UV rings; p.4 Fig. 4 rings are the 0.8 um wide rings of that chip family (p.7 Supp. Fig. S3(c) caption: the 390 / 455 nm rings have the 0.8 x 0.5 um2 cross section); the 390 nm rows carry it"
+- metric_id: cmp_lit_liu2018b_ring_w800_g150-m8
+  component_id: cmp_lit_liu2018b_ring_w800_g150
+  parameter: core_thickness_nm
+  value: 500
+  unit: nm
+  basis: design_target
+  locator: p.1; p.2 Fig. 1(a)
+  notes: "printed 'approximately 0.5 um' AlN; ring height 0.5 um"
+  why: "Miss (D153 geometry). As g130: p.1 / Fig. 1(a) 0.5 um AlN; p.7 Supp. Fig. S3(c) caption gives the 0.8 x 0.5 um2 cross section of the 390 / 455 nm rings"
+- metric_id: cmp_lit_liu2018b_ring_nir_r100-m9
+  component_id: cmp_lit_liu2018b_ring_nir_r100
+  parameter: core_thickness_nm
+  value: 1600
+  unit: nm
+  basis: derived
+  locator: p.7 Supp. Fig. S3(b)
+  notes: "printed cross section 3.0 x 1.6 um2 (unetched AlN 0.4 um); the inset's 1.6 um arrow spans the full rib height; um -> nm (D157)"
+  why: "Miss (D153 geometry). p.7 Supp. Fig. S3(b) caption and inset; the row had width and slab but no core height"
+- metric_id: cmp_lit_liu2018b_ring_w600_g130-m12
+  component_id: cmp_lit_liu2018b_ring_w600_g130
+  parameter: q_intrinsic
+  value: 169000
+  unit: "1"
+  wavelength_nm: 390
+  polarization: tm
+  mode: TM00
+  condition: second TM00 point at 0.6 um width (other ring of the cascaded pair), under-coupled assumption
+  method: ring_extraction
+  basis: extracted_from_figure
+  locator: p.3 Fig. 3(c)
+  notes: "read off Fig. 3(c) (+/- 3k); the other TM00 point at 0.6 um is the printed 175k (m2); the TM00 loss range m7 covers both points"
+  why: "Miss. p.3 Fig. 3(c) shows two TM00 points at 0.6 um (about 175k and 169k, pixel reading of the cached render); only 175k was entered while both TE00 points (m5) and both TM00 loss points (m7) were"

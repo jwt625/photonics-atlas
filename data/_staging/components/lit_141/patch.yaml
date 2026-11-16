@@ -1,0 +1,128 @@
+# Audit patch lit_141 (fresh-context audit 2026-11-15, DevLog/audits/2026-11-15-lit_141-audit.md).
+# 68 metrics: 60 ok / 8 imprecise / 0 wrong; 16 components: 14 ok / 2 imprecise / 0 wrong; 0 deleted; 10 misses added.
+# Coordinator rulings open (audit Q1-Q4), all with no op unless noted: Q1 baumgartner2020 fab BRNC (no op; to empty,
+# set fab_org_ids '' on the 7 cmp_lit_baumgartner2020_* rows), Q2 morgan2021 dark-current bias -2 V (no op; to drop,
+# delete cmp_lit_morgan2021_pd_type1_100um-m2 and cmp_lit_morgan2021_pd_type2_100um-m3), Q3 morgan2021 2.9 dB/cm and
+# 8.4 dB own measurement (no op beyond the note fix below), Q4 chen2022c switch_fabric.other (no op).
+components:
+  cmp_lit_morgan2021_al2o3_wg_600nm:
+    notes: "Measured on paperclip devices 'fabricated on the same run' as the detectors (p.2); that calibration sentence ends with a citation of [4] (West et al., APL Photonics 2019, the Al2O3 platform paper also cited on p.1), while the value sentence ('was measured to be -2.9 dB/cm at 405 nm') carries no citation: own measurement of this run (D80i), with [4] read as the source of the paperclip / platform design. Fab: 'fabricated using MITLL's 200 mm CMOS foundry line during a standard silicon photonics process run' (p.1); the paperclip calibration devices were 'fabricated on the same run' (p.2)."
+    why: "p.2 Sec. III: the [4] citation sits on the calibration sentence itself ('paperclip devices fabricated on the same run [4]'), not on a preceding platform sentence as the note said"
+  cmp_lit_baumgartner2020_mqw_inp_butt_joint:
+    notes: "Loss per butt-joint from transmission vs number of cascaded couplers (Fig. 2(d), points at 2, 4, 6, 8 and 12 couplers on a 0-12 axis, linear fit), characterized in the MQW transparency region; the text says this loss 'is expected' at the interface (p.4). Platform other: III-V membrane on SOI (no enum value). Fab (borderline, D84b): first-person fabrication account (p.3-4) and the acknowledgment thanks 'the BRNC OpTeam for support in fabricating the devices' (p.6), so fab is set to the org of that team (BRNC, registry org); authors at IBM Research - Zurich, ETH Zurich and IBM T. J. Watson, no single own org (D154). Staff thanks set no facility (D72). Si PIC platform 'fabricated using a 220 nm SOI wafer' (passive, p.3). Coordinator question in BATCH_REPORT (alternatives: empty as iadanza2024, or IBM Research - Zurich)."
+    why: "p.4 Fig. 2(d) (300 dpi render): data points at 2, 4, 6, 8 and 12 couplers; the note gave the axis range 0-12 as the cascade"
+metrics:
+  cmp_lit_chen2022c_switch_2x2-m3:
+    notes: "Printed '< 2 dB' across the entire C-band (abstract, summary). Fig. 2(a)(ii) a-GST cross trace reads about 2.2-2.4 dB below 0 dB at 1530-1535 nm (about 2.7 dB at 1525 nm) and about 2.0 dB from 1545 nm up (audit read of a 450 dpi render, +/-0.2 dB): the printed bound is loose at the short C-band edge (D417; printed value kept)."
+    why: "p.5 Fig. 2(a)(ii): the cross-port trace sits below the -2 dB reference line at the blue end of the C-band; the note did not record the conflict"
+  cmp_lit_chen2022c_switch_2x2-m4:
+    notes: "Printed 'over 10 dB' (p.4); no wavelength printed with it. Fig. 2(a)(i) (audit read of a 450 dpi render, +/-0.5 dB): bar about -1.4 dB, cross about -11.8 dB at 1525 nm (about 10.4 dB), about 9 dB contrast near 1544 nm and about 7.5 dB at 1565 nm, so the printed 'over 10 dB' holds only at the short-wavelength edge (D417; printed value kept). The ER=10dB markers of Fig. 2(a)(ii)-(iii) sit near 1543-1544 nm; ER=8dB is annotated at the band edges."
+    why: "p.5 Fig. 2(a)(i): the initial-state contrast falls below 10 dB over most of the C-band; the note placed the ER=10dB marker near 1545-1550 nm (it is at about 1543-1544 nm)"
+  cmp_lit_chen2022c_switch_2x2-m5:
+    notes: "Printed 'over 10 dB' (p.5); Fig. 2(a)(ii) annotates ER=10dB at about 1543-1544 nm (cross about -2.0 dB, bar about -12 dB) and ER=8dB at about 1527 nm (audit read of a 450 dpi render, +/-1 nm)."
+    why: "p.5 Fig. 2(a)(ii): the ER=10dB arrow is at about 1543-1544 nm and the ER=8dB arrow at about 1527 nm, not near 1548 / 1529 nm as noted"
+  cmp_lit_chen2022c_switch_1x2-m4:
+    condition: "mode simulation (Lumerical MODE, supermode decomposition), gap 450 nm; GST state not specified in the printed sentence"
+    notes: "Printed 'an insertion loss smaller than 0.5 dB' at the selected 450 nm gap (p.22) without naming the GST state; Fig. S4(c) reads about 0.55 dB for both a-GST and c-GST at 450 nm (curves cross near 450-455 nm) and a coupling length of about 40 um (printed 42 um) (audit read of a 500 dpi render, +/-0.03 dB): loose against its own figure (D417; printed bound kept). Wavelength of the simulation not printed (GST data at 1550 nm, Supp. Sec. 2.1)."
+    why: "p.22-23 Supp. Sec. 2.2, Fig. S4(c): the text does not say a-GST, and the figure shows both states at about 0.55 dB at the 450 nm gap"
+  cmp_lit_chen2022c_wg_switch_1x1-m1:
+    locator: "p.8; p.33 Supp. Sec. 4.3; p.34 Supp. Fig. S14(d)"
+    why: "Fig. S14 is printed on p.34 (render); p.33 carries only the Sec. 4.3 text"
+  cmp_lit_chen2022c_wg_switch_1x1-m2:
+    locator: "p.8; p.33 Supp. Sec. 4.3; p.34 Supp. Fig. S14(c), (e)"
+    why: "Fig. S14 is printed on p.34 (render); p.33 carries only the Sec. 4.3 text"
+  cmp_lit_morgan2021_pd_type1_100um-m1:
+    condition: "405 nm laser fiber-coupled into the Al2O3 waveguide; light at the detector calculated from the measured 8.4 dB input coupling loss and 2.9 dB/cm propagation loss; dark current subtracted; uncertainty about 0.02 A/W; illumination direction not printed with the value"
+    notes: "De-embedded with the paper's own coupling and propagation losses (wen2022 precedent). Printed 'in excess of 0.24 A/W' (p.2) and 'up to 0.24 A/W' (p.2 Conclusions). Fig. 2(b) at 100 um: Type I forward about 0.243 A/W, backward about 0.215 A/W; Fig. 2(c) (one direction) shows the 0.215 A/W point (audit read of a 500 dpi render, +/-0.005 A/W): the printed value matches the forward point."
+    why: "p.2 Fig. 2(b)-(c): the direction is not printed with the value; 'forward' is the figure match, not a stated condition, and Fig. 2(c) plots the backward series"
+  cmp_lit_morgan2021_pd_type2_100um-m1:
+    condition: "405 nm laser fiber-coupled into the Al2O3 waveguide; light at the detector calculated from the measured 8.4 dB input coupling loss and 2.9 dB/cm propagation loss; dark current subtracted; uncertainty about 0.02 A/W; illumination direction not printed with the value"
+    notes: "De-embedded with the paper's own coupling and propagation losses (wen2022 precedent). Printed 0.25 A/W (p.2), 'up to 0.25 A/W' (Conclusions), 'above 0.25 A/W' (abstract). Fig. 2(b) at 100 um: Type II backward about 0.250 A/W, forward about 0.248 A/W; Fig. 2(c) shows the 0.25 A/W point (audit read of a 500 dpi render, +/-0.005 A/W)."
+    why: "p.2 Fig. 2(b)-(c): the 0.25 A/W point is the backward series (red) with the forward point about 0.248 A/W; the condition stated 'forward direction'"
+add_metrics:
+- metric_id: cmp_lit_chen2022c_switch_2x2-m23
+  component_id: cmp_lit_chen2022c_switch_2x2
+  parameter: n_inputs
+  value: 2
+  unit: count
+  basis: design_target
+  locator: p.1 Abstract; p.3
+  why: "Miss (port count, switch_fabric precedent campenhout2009 / gao2025a). p.1 and p.3 describe the device as a 2 x 2 switch"
+- metric_id: cmp_lit_chen2022c_switch_2x2-m24
+  component_id: cmp_lit_chen2022c_switch_2x2
+  parameter: n_outputs
+  value: 2
+  unit: count
+  basis: design_target
+  locator: p.1 Abstract; p.3
+  why: "Miss (port count, switch_fabric precedent campenhout2009 / gao2025a). p.1 and p.3 describe the device as a 2 x 2 switch with bar and cross ports"
+- metric_id: cmp_lit_chen2022c_switch_1x2-m9
+  component_id: cmp_lit_chen2022c_switch_1x2
+  parameter: n_inputs
+  value: 1
+  unit: count
+  basis: design_target
+  locator: p.7; p.21 Supp. Sec. 2.2
+  why: "Miss (port count). p.7 and Supp. Sec. 2.2 describe a 1 x 2 switch"
+- metric_id: cmp_lit_chen2022c_switch_1x2-m10
+  component_id: cmp_lit_chen2022c_switch_1x2
+  parameter: n_outputs
+  value: 2
+  unit: count
+  basis: design_target
+  locator: p.7; p.21 Supp. Sec. 2.2
+  why: "Miss (port count). p.7 and Supp. Sec. 2.2 describe a 1 x 2 switch with bar and cross outputs (Fig. S12)"
+- metric_id: cmp_lit_chen2022c_switch_1x2-m11
+  component_id: cmp_lit_chen2022c_switch_1x2
+  parameter: core_thickness_nm
+  value: 220
+  unit: nm
+  basis: design_target
+  locator: p.11 Methods
+  notes: "Commercial SOI wafer, 220 nm Si (p.11; applies to all fabricated switches, D402)"
+  why: "Miss (D153 geometry). p.11 Methods: all switches fabricated on 220 nm SOI; entered only on the 2x2 row"
+- metric_id: cmp_lit_chen2022c_switch_1x2-m12
+  component_id: cmp_lit_chen2022c_switch_1x2
+  parameter: etch_depth_nm
+  value: 120
+  unit: nm
+  basis: design_target
+  locator: p.11 Methods
+  notes: "Rib waveguides partially etched by 120 nm (p.11; applies to all fabricated switches)"
+  why: "Miss (D153 geometry). p.11 Methods: rib waveguides partially etched by 120 nm; entered only on the 2x2 row"
+- metric_id: cmp_lit_chen2022c_switch_1x2-m13
+  component_id: cmp_lit_chen2022c_switch_1x2
+  parameter: box_thickness_um
+  value: 3
+  unit: um
+  basis: design_target
+  locator: p.11 Methods
+  notes: "Commercial SOI wafer, 3 um SiO2 (p.11, D402)"
+  why: "Miss (D153 geometry). p.11 Methods: 3 um BOX; entered only on the 2x2 row"
+- metric_id: cmp_lit_chen2022c_wg_switch_1x1-m5
+  component_id: cmp_lit_chen2022c_wg_switch_1x1
+  parameter: core_thickness_nm
+  value: 220
+  unit: nm
+  basis: design_target
+  locator: p.11 Methods
+  notes: "Commercial SOI wafer, 220 nm Si (p.11; applies to all fabricated switches, D402)"
+  why: "Miss (D153 geometry). p.11 Methods: all switches fabricated on 220 nm SOI; entered only on the 2x2 row"
+- metric_id: cmp_lit_chen2022c_wg_switch_1x1-m6
+  component_id: cmp_lit_chen2022c_wg_switch_1x1
+  parameter: etch_depth_nm
+  value: 120
+  unit: nm
+  basis: design_target
+  locator: p.11 Methods
+  notes: "Rib waveguides partially etched by 120 nm (p.11; applies to all fabricated switches)"
+  why: "Miss (D153 geometry). p.11 Methods: rib waveguides partially etched by 120 nm; entered only on the 2x2 row"
+- metric_id: cmp_lit_chen2022c_wg_switch_1x1-m7
+  component_id: cmp_lit_chen2022c_wg_switch_1x1
+  parameter: box_thickness_um
+  value: 3
+  unit: um
+  basis: design_target
+  locator: p.11 Methods
+  notes: "Commercial SOI wafer, 3 um SiO2 (p.11, D402)"
+  why: "Miss (D153 geometry). p.11 Methods: 3 um BOX; entered only on the 2x2 row"

@@ -1,0 +1,61 @@
+# Audit patch lit_150 (fresh-context audit 2026-11-15, DevLog/audits/2026-11-15-lit_150-audit.md).
+# 142 metrics: 132 ok / 10 imprecise / 0 wrong; 13 components: 7 ok / 6 imprecise / 0 wrong; 0 deleted, 0 added.
+# After the patch: 13 components, 142 metrics.
+# Coordinator rulings (audit Q1-Q5): Q1 chen2023b resonator-assisted IL / crosstalk stay author_estimate (D76 / D459:
+# n_g and ring circumference not printed; no op; to switch to derived set basis on sym45 m1 / m3, asym_yz m1 / m3 / m4 /
+# m6); Q2 chen2023b fab CityU (3 component ops; to keep fab empty drop them); Q3 ma2023 crossing IL stays derived
+# (authors' own subtraction of bounds, D80a; no op); Q4 wu2017 excess loss stays insertion_loss_db (no op); Q5 ma2023
+# fab NUDT waits for the org round (no op).
+components:
+  cmp_lit_chen2023b_mmi_crossing_sym45:
+    fab_org_ids: org_city_university_of_hong_kong
+    notes: 'Symmetric design routing along the 45 deg direction between y and z of x-cut LN (p.3). Measured embedded in a ring (resonator-assisted IL / crosstalk) and in a cut-back set. Example spectra: crossing-embedded ring Q_L 226,000 vs reference ring about 300,000 (p.4, Fig. 4(a)); the reference ring is its own row. Single-crossing through / cross-port crosstalk measured the traditional way is about -40 dB, which the paper attributes to scattered light and a noise floor of about -45 dB (p.4, Fig. 3(a), 3(d)): not entered (setup-limited by the paper''s own statement). Simulated crosstalk stated only as about -60 dB for the crossings in general (p.4): not entered. Conclusion: IL < 0.070 dB and crosstalk < -50 dB at 1550 nm for all devices (p.5). Fab org_city_university_of_hong_kong: first-person ''we design and fabricate low-loss MMI-based waveguide crossings'' (p.2) with all five authors at City University of Hong Kong (incl. its Dongguan and Shenzhen research institutes, p.1): D80b ''we fabricate'' plus one-org author list (chen2021 precedent); the p.3 process sentences themselves are passive. Stepper lithography ''NFF, HKUST'' (p.3) -> facility org_nanosystem_fabrication_facility (xie2024 precedent: CityU fab plus NFF facility). Cladding not stated (a SiO2 layer is deposited as an etch mask). The printed ''rib waveguide thickness'' 250 nm is not entered as etch_depth_nm or core thickness (role not stated beyond the wording).'
+    why: p.2 'we design and fabricate low-loss MMI-based waveguide crossings ... on an x-cut TFLN chip' is a first-person fabrication statement and all authors are at City University of Hong Kong (p.1); D80b / rule 12, precedents cmp_lit_chen2021_adiabatic_prs and cmp_xie2024_adddrop_ring (CityU fab + NFF facility). The batch read only the passive p.3 sentence
+  cmp_lit_chen2023b_mmi_crossing_asym_yz:
+    fab_org_ids: org_city_university_of_hong_kong
+    notes: 'Asymmetric design along the y / z crystal directions (z = 0 deg, y = 90 deg propagating arms), MMI parameters optimized separately per arm (p.3). Per-direction values follow the printed order 45 / 90 / 0 deg (p.4-5). Fab org_city_university_of_hong_kong: first-person ''we design and fabricate low-loss MMI-based waveguide crossings'' (p.2) with all five authors at City University of Hong Kong (incl. its Dongguan and Shenzhen research institutes, p.1): D80b ''we fabricate'' plus one-org author list (chen2021 precedent); the p.3 process sentences themselves are passive. Stepper lithography ''NFF, HKUST'' (p.3) -> facility org_nanosystem_fabrication_facility (xie2024 precedent: CityU fab plus NFF facility). Cladding not stated (a SiO2 layer is deposited as an etch mask). The printed ''rib waveguide thickness'' 250 nm is not entered as etch_depth_nm or core thickness (role not stated beyond the wording).'
+    why: p.2 'we design and fabricate low-loss MMI-based waveguide crossings ... on an x-cut TFLN chip' is a first-person fabrication statement and all authors are at City University of Hong Kong (p.1); D80b / rule 12, precedents cmp_lit_chen2021_adiabatic_prs and cmp_xie2024_adddrop_ring (CityU fab + NFF facility). The batch read only the passive p.3 sentence
+  cmp_lit_chen2023b_reference_ring:
+    fab_org_ids: org_city_university_of_hong_kong
+    notes: 'Reference ring without a crossing, fabricated side by side with the 45 deg crossing-embedded ring (p.4, Fig. 4(a)). Radius / circumference, gap and group index not printed. Fig. 4(b) plots the reference-ring Q_L over 1520-1600 nm for each routing direction (not read). Fab org_city_university_of_hong_kong: first-person ''we design and fabricate low-loss MMI-based waveguide crossings'' (p.2) with all five authors at City University of Hong Kong (incl. its Dongguan and Shenzhen research institutes, p.1): D80b ''we fabricate'' plus one-org author list (chen2021 precedent); the p.3 process sentences themselves are passive. Stepper lithography ''NFF, HKUST'' (p.3) -> facility org_nanosystem_fabrication_facility (xie2024 precedent: CityU fab plus NFF facility). Cladding not stated (a SiO2 layer is deposited as an etch mask). The printed ''rib waveguide thickness'' 250 nm is not entered as etch_depth_nm or core thickness (role not stated beyond the wording).'
+    why: p.2 'we design and fabricate low-loss MMI-based waveguide crossings ... on an x-cut TFLN chip' is a first-person fabrication statement and all authors are at City University of Hong Kong (p.1); D80b / rule 12, precedents cmp_lit_chen2021_adiabatic_prs and cmp_xie2024_adddrop_ring (CityU fab + NFF facility). The batch read only the passive p.3 sentence
+  cmp_lit_ma2023_3ch_dual_mode_crossing:
+    notes: 'Three 0.9 um waveguides at 60 deg through a regular-hexagon design region 4.32 um wide; hole row spacing 104 nm, column spacing 120 nm (p.3). Measured between two mode (de)MUXs; a back-to-back (de)MUX reference circuit on the chip is subtracted (p.5-6). The CT the paper reports (simulated and measured) is intermodal TE0 <-> TE1 crosstalk in the through output: Fig. 3(d) / 5(a) legends TE0-TE1 and TE1-TE0, Fig. 6(d)-(e) legends I1-O2 and I2-O1 (I1 launches TE0, I2 TE1, O1 / O2 the deMUX outputs); crosstalk into the other crossing arms is not reported. Platform soi (etch of the access waveguides not stated). Fab: author contributions ''Hansi Ma and Junbo Yang fabricated the devices'' (p.9), both at the National University of Defense Technology, which is not in the registry: fab empty, org reported for the org round.'
+    why: 'p.4 Fig. 3(d), p.5 Fig. 5(a), p.6 Fig. 6(d)-(e) legends: every CT trace is a TE0 <-> TE1 conversion trace, so the definition is determinable from the figures'
+  cmp_lit_ma2023_4ch_dual_mode_crossing:
+    notes: 'Four 0.9 um waveguides through a regular-octagon design region 6.68 um wide; hole row spacing 99.4 nm, column spacing 160 nm (p.3, p.5). The conclusion prints ''three 0.9 um-wide waveguides'' for this device (p.9), against four on p.3 (D417 note). Losses obtained with the same method as the 3-channel device (reference back-to-back MDM circuit subtracted, p.6). Fab: author contributions ''Hansi Ma and Junbo Yang fabricated the devices'' (p.9), both at the National University of Defense Technology, which is not in the registry: fab empty, org reported for the org round. The CT the paper reports is intermodal TE0 <-> TE1 crosstalk in the through output (Fig. 4(d) / 5(b) legends TE0-TE1 and TE1-TE0, Fig. 7(d) legends I1-O2 and I2-O1); crosstalk into the other crossing arms is not reported. Fig. 7 shows no reference MDM spectrum for this chip: the subtracted < 2.7 dB is the value printed for the reference circuit of Fig. 6(d).'
+    why: p.4 Fig. 4(d), p.5 Fig. 5(b), p.7 Fig. 7(d) legends (intermodal CT); p.6 the 4-channel IL bounds subtract the 2.7 dB of the Fig. 6(d) reference, Fig. 7 has no reference panel
+  cmp_lit_han2018_hole_crossing:
+    notes: 'First PSO design (Table 1: C1 0.250, C2 0.101 um, 2 holes per repeating unit, radii 0.040 um). The fabrication sentence ''The waveguide crossings designed above are fabricated'' (p.6) is plural and could cover both designs, but the SEM (Fig. 7, ''four deep sub-wavelength lens-like structures''), the cut-back data (Fig. 8) and the conclusion''s measured values are all of the lens-like design; no hole-design device is shown or measured (row_kind design kept, D80e). Variants with 3-5 holes (Fig. 2) reach > 95 % after 100 iterations (no rows). Fab: passive sentence, no org named (p.6); authors at Nanjing University and NUDT: fab empty (D80b, D154). No facility statement.'
+    why: p.6 Sec. 3 first sentence is plural ('The waveguide crossings designed above are fabricated'); the note said fabrication of this design is not stated
+metrics:
+  cmp_lit_ma2023_3ch_dual_mode_crossing-m2:
+    condition: measured through the entire device including the two mode (de)MUXs; intermodal TE0 <-> TE1 crosstalk at the deMUX outputs (Fig. 6(e) traces I1-O2 and I2-O1)
+    why: 'p.6 Fig. 6(e) legend: the CT the paper reports is TE0 <-> TE1 conversion in the through path, not crosstalk into the other crossing arms; the row did not say which crosstalk'
+  cmp_lit_ma2023_3ch_dual_mode_crossing-m5:
+    condition: FDTD, nominal design; intermodal TE0 <-> TE1 crosstalk in the through output (Fig. 3(d) traces TE0-TE1 and TE1-TE0)
+    why: 'p.4 Fig. 3(d) legend: the CT the paper reports is TE0 <-> TE1 conversion in the through path, not crosstalk into the other crossing arms; the row did not say which crosstalk'
+  cmp_lit_ma2023_3ch_dual_mode_crossing-m8:
+    condition: FDTD, hole diameter deviation -5 to +10 nm; intermodal TE0 <-> TE1 crosstalk in the through output (Fig. 5(a) traces TE0-TE1 and TE1-TE0)
+    why: 'p.5 Fig. 5(a) legend: the CT the paper reports is TE0 <-> TE1 conversion in the through path, not crosstalk into the other crossing arms; the row did not say which crosstalk'
+  cmp_lit_ma2023_4ch_dual_mode_crossing-m3:
+    condition: measured through the entire device including the two mode (de)MUXs; intermodal TE0 <-> TE1 crosstalk at the deMUX outputs (Fig. 7(d) traces I1-O2 and I2-O1)
+    why: 'p.7 Fig. 7(d) legend: the CT the paper reports is TE0 <-> TE1 conversion in the through path, not crosstalk into the other crossing arms; the row did not say which crosstalk'
+  cmp_lit_ma2023_4ch_dual_mode_crossing-m6:
+    condition: FDTD, nominal design; intermodal TE0 <-> TE1 crosstalk in the through output (Fig. 4(d) traces TE0-TE1 and TE1-TE0)
+    why: 'p.4 Fig. 4(d) legend: the CT the paper reports is TE0 <-> TE1 conversion in the through path, not crosstalk into the other crossing arms; the row did not say which crosstalk'
+  cmp_lit_ma2023_4ch_dual_mode_crossing-m9:
+    condition: FDTD, hole diameter deviation -5 to +5 nm; intermodal TE0 <-> TE1 crosstalk in the through output (Fig. 5(b) traces TE0-TE1 and TE1-TE0)
+    why: 'p.5 Fig. 5(b) legend: the CT the paper reports is TE0 <-> TE1 conversion in the through path, not crosstalk into the other crossing arms; the row did not say which crosstalk'
+  cmp_lit_ma2023_mode_demux-m2:
+    condition: back-to-back reference MDM circuit (two mode (de)MUXs); intermodal TE0 <-> TE1 crosstalk at the deMUX outputs (Fig. 6(d) traces I1-O2 and I2-O1)
+    why: 'p.6 Fig. 6(d) legend: the CT the paper reports is TE0 <-> TE1 conversion in the through path, not crosstalk into the other crossing arms; the row did not say which crosstalk'
+  cmp_lit_ma2023_4ch_dual_mode_crossing-m1:
+    notes: Arithmetic by the authors on their own bounds (4.5 - 2.7 dB). The 2.7 dB is the reference MDM circuit value printed for Fig. 6(d); Fig. 7 shows no reference spectrum for the 4-channel chip ('the same measurement method', p.6).
+    why: 'p.6-7: the subtracted reference is the Fig. 6(d) value; the note did not say where the 2.7 dB comes from'
+  cmp_lit_ma2023_4ch_dual_mode_crossing-m2:
+    notes: Arithmetic by the authors on their own bounds (5.2 - 2.7 dB). The 2.7 dB is the reference MDM circuit value printed for Fig. 6(d); Fig. 7 shows no reference spectrum for the 4-channel chip ('the same measurement method', p.6).
+    why: as m1 (p.6-7)
+  cmp_lit_ma2023_mode_demux-m1:
+    method: reference_structure
+    why: 'on-chip back-to-back (de)MUX pair halved to a per-device value: merged precedent is per_component + reference_structure + derived (7 mode_converter rows); loopback is the fiber-coupler loop method'

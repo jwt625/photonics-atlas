@@ -1,0 +1,161 @@
+# Audit patch lit_139 (fresh-context audit 2026-11-15, DevLog/audits/2026-11-15-lit_139-audit.md).
+# 126 metrics: 117 ok / 9 imprecise / 0 wrong; 23 components: 23 ok / 0 imprecise / 0 wrong; 0 deleted; 9 misses added.
+# Coordinator rulings open (audit Q1-Q7), all with no op unless noted: Q1 chen2024c fab org_amf from the author
+# contribution (no op; to drop, empty fab_org_ids on the 4 chen2024c rows), Q2 xu2022a SJTU-Pinghu on the ECL row
+# (no op), Q3 vissers2021 fab empty on the laser rows (no op; ibrahimi2021 reading would add org_smart_photonics to
+# cmp_lit_vissers2021_mll_a_1p2mm / _mll_b_3cm), Q4 nejadriahi2024 JPL / Photodigm wait for the org round (no op),
+# Q5 chen2024c main-beam loss row (added m9; to drop, delete cmp_lit_chen2024c_tx_opa_128-m9), Q6 nejadriahi2024
+# heater power row (added m6; to drop, delete cmp_lit_nejadriahi2024_ecl_852-m6), Q7 xu2022a 17 dB beamforming loss
+# stays out (registry gap, no op).
+components:
+  cmp_lit_xu2022a_opa_256_aperiodic:
+    notes: 'Two-axis steering: phased array (psi, 256 TO phase shifters, average TO power 5 W after phase alignment) and wavelength (theta, grating antennas). Measured with an off-chip laser through the fiber array (ECL below threshold) unless the condition says on-chip ECL. Linearly increasing pitch: minimum 3.6 um, increment 20 nm, average 6.14 um (p.5; increment has no parameter). Not entered: beamforming loss 17 dB from free-space power vs distance (p.8, Fig. 10(d); no parameter, registry gap); average TO power 5 W (power_consumption_w not allowed on free_space_emitter, D432 candidate); maximum steering error 0.01 deg over 350 incidences (p.6, no parameter); simulated beamforming loss < 10.1 dB and EML (p.5, Fig. 4); theoretical aliasing-free FOV ''~150 deg'' (p.5) vs 154 deg (p.5, entered). Grating-antenna element: cmp_lit_xu2022a_grating_antenna. Fab: ''Fabricated by Advanced Micro Foundry (AMF Singapore)'' (p.5) -> org_amf on the PIC rows. ''For device characterization, the chip is packaged by SJTU-Pinghu Institute of Intelligent Optoelectronics'' (p.5); the assembled device comprises fiber array, RSOA and PIC (Fig. 6). Platform: tri-layer Si3N4-on-Si PIC (Fig. 1 inset: three waveguide layers and a TiN heater; ref. [32] cited for the platform); the paper names no PDK or process, so process_name is empty. Chip 15.6 mm x 11.7 mm.'
+    why: 'Note sync with the added m22 (simulated psi divergence < 0.056 deg, p.5): drop it from the not-entered list'
+  cmp_lit_nejadriahi2024_ecl_852:
+    notes: 'Fab: the Si3N4 chip is ''fabricated in the ultra-low loss silicon nitride platform'' (p.1, passive, no org); the acknowledgment thanks JPL''s cleanroom staff for assistance in the preparation of samples and says the research was carried out at the Jet Propulsion Laboratory (p.4): borderline fab at JPL (D84b / D448), but JPL is not in the registry (reported), so fab_org_ids is empty. No facility named. RSOA purchased from Photodigm, Inc. (part 850SAF100; not in the registry): vendor of a part, not of the laser (winkler2024 precedent). Characterized with the RSOA on a 5-axis stage butt-coupled to the Si3N4 chip (p.2, Fig. 1(c)); RSOA TEC 25 C, Si3N4 chip TEC 25-27 C. Reference plane of the output power: p.2 says on-chip power is measured with a free-space lens and photodetector directly at the waveguide output, the Fig. 2(a) caption and the conclusion say free-space power at the chip output, but the p.3 text calls it the ''fiber-coupled output'' (conflict, D417; entered as chip). Output power printed as 24 mW (abstract, p.1, p.4) and ~25 mW at 215 mA (p.3); Fig. 2(a) maximum about 24.5 mW. Not entered: round-trip optical cavity length 6.5 cm (p.4, no parameter); multimode lasing above ~170 mA (p.3); Schawlow-Townes estimate about two orders of magnitude below 65 Hz (p.3, calculation per ref. [22]). Cross-section from the Fig. 1 labels (p.2 image): Si3N4 40 nm core, 8 um thermal SiO2, 5 um LPCVD + PECVD SiO2 top cladding, Si 600 um; anneal 1050 C for > 12 h (p.2).'
+    why: 'Note sync with the added m6 (heater power ~0-500 mW, p.3): drop it from the not-entered list'
+  cmp_lit_chen2024c_tx_opa_128:
+    notes: 'Transmit half of the monolithic Vernier OPA transceiver (cmp_lit_chen2024c_vernier_opa_transceiver); antenna element cmp_lit_chen2024c_chained_grating_antenna; phase shifter cmp_lit_chen2024c_to_phase_shifter. Beam power within the FoV measured with a free-space power meter on a rotation stage, 0 dBm input (p.4 Fig. 2(b), p.8 Appendix); the power drop at -79 / 80 deg is caused by an obstacle on both sides of the chip (p.5). Operating wavelength of the steering data not stated (Santec TSL550 laser, EDFA). Main beam ~11 dBm for 25 dBm input (p.6) entered as insertion_loss_db device_total (m9, audit). Not entered: input power > 37 dBm for SiN-on-SOI (p.6, cited ref. 11); ranging accuracy 5.5 mm, velocity and SNPR values (system level, no parameter); far-field grating-lobe positions +/-21.5 / +/-47.5 deg (design). Fab: ''fabricated on a multilayered SiN-on-SOI ... platform'' (p.3, passive); author contributions (p.8): ''G.L. support the wafer fabrication process'', G.L. affiliated with ''Advance Micro Foundry Pte. Ltd.'' (printed spelling; registry org_amf ''Advanced Micro Foundry'') -> org_amf as the fabrication-support org of the fabrication sentence (D395 / D398 reading; borderline). No facility named. process_name empty (no PDK or process named). The chip is packaged with a PM fiber array and wire-bonded to a 256-channel DAC board (p.3, Fig. 1(e)); packaging org not stated.'
+    why: 'Note sync with the added m9 (25 dBm in, ~11 dBm main beam, p.6)'
+metrics:
+  cmp_lit_nejadriahi2024_ecl_852-m3:
+    notes: 'printed > 50 dB (abstract, p.3, Fig. 2(c) label); the Fig. 2(c)(ii) lasing peak sits at about 848 nm (+/-0.3 nm, audit read of a 400 dpi render), not at 852 nm; 852 nm kept as the stated operating wavelength (D393)'
+    why: 'p.3 Fig. 2(c)(ii): the single-mode spectrum that carries the > 50 dB label peaks near 848 nm; the row gave 852 nm with no note'
+  cmp_lit_nejadriahi2024_loop_mirror_dc-m1:
+    wavelength_nm: 852
+    wavelength_inferred: 'true'
+    notes: 'coupling ratio from simulation and experimental validation (p.2), no measurement shown; wavelength not stated with the value, laser operates around 852 nm (inferred, as the loop-mirror reflectivity row)'
+    why: 'rule 8: spectral value with no stated wavelength gets the operating band inferred; the sibling Sagnac reflectivity row already carries 852 nm inferred'
+  cmp_lit_xu2022a_ecl_sin_vernier-m2:
+    wavelength_inferred: 'true'
+    why: 'p.5: the frequency-noise measurement (200 mA) states no wavelength; 1549 nm is the Fig. 7(a) L-I-V operating point, so the wavelength is inferred (the note already says so)'
+  cmp_lit_snigirev2023_sil_dfb_lnod-m7:
+    wavelength_inferred: 'true'
+    notes: 'Supp. Fig. 8 inset read 29.4 MHz/V (+/-0.2 MHz/V), converted with lambda^2 / c at 1555.4 nm (1 MHz/V = 0.00807 pm/V); the wavelength of the Supp. Fig. 8 measurement is not stated, 1555.4 nm is the Fig. 2(c) lasing wavelength (inferred; lambda^2 / c changes by < 1 % over +/-8 nm)'
+    why: 'p.11 Supp. Fig. 8 states no wavelength; 1555.4 nm is taken from the p.3 / Fig. 2(c) spectrum, so it is inferred'
+  cmp_lit_snigirev2023_sil_dfb_lnod-m8:
+    wavelength_inferred: 'true'
+    notes: 'Supp. Fig. 8 inset read 27.3 MHz/V (+/-0.2 MHz/V), converted with lambda^2 / c at 1555.4 nm (1 MHz/V = 0.00807 pm/V); the wavelength of the Supp. Fig. 8 measurement is not stated, 1555.4 nm is the Fig. 2(c) lasing wavelength (inferred; lambda^2 / c changes by < 1 % over +/-8 nm)'
+    why: 'p.11 Supp. Fig. 8 states no wavelength; 1555.4 nm is taken from the p.3 / Fig. 2(c) spectrum, so it is inferred'
+  cmp_lit_snigirev2023_sil_dfb_lnod-m9:
+    wavelength_inferred: 'true'
+    notes: 'Supp. Fig. 8 inset read 25.1 MHz/V (+/-0.2 MHz/V), converted with lambda^2 / c at 1555.4 nm (1 MHz/V = 0.00807 pm/V); the wavelength of the Supp. Fig. 8 measurement is not stated, 1555.4 nm is the Fig. 2(c) lasing wavelength (inferred; lambda^2 / c changes by < 1 % over +/-8 nm)'
+    why: 'p.11 Supp. Fig. 8 states no wavelength; 1555.4 nm is taken from the p.3 / Fig. 2(c) spectrum, so it is inferred'
+  cmp_lit_snigirev2023_sil_dfb_lnod-m11:
+    wavelength_inferred: 'true'
+    notes: 'printed ''on the level of 500 MHz'', converted with lambda^2 / c at 1555.4 nm; the wavelength of the Fig. 3 large-signal measurement is not stated, 1555.4 nm is the Fig. 2(c) lasing wavelength (inferred)'
+    why: 'p.4-5 Fig. 3 states no wavelength; 1555.4 nm is taken from the p.3 / Fig. 2(c) spectrum, so it is inferred'
+  cmp_lit_snigirev2023_ring_102ghz-m2:
+    notes: 'span of the histogram not printed; 1500-1630 nm is the full measured span of Supp. Fig. 6 (inferred), which holds only about 160 resonances at 102 GHz FSR, so the 593 (legend 532) resonances come from a wider span or several rings of this design (not stated). Fig. 2(b) axis label kappa_0/2pi and legend ''532 resonances'' conflict with the caption (593) and the text ''loaded linewidth'' (D417); the loaded reading is the one consistent with the printed 8.5 dB/m (kappa_0 about 50 MHz at critical coupling needs n_g about 1.9; kappa_0 = 100 MHz would need n_g about 0.9)'
+    why: 'p.10 Supp. Fig. 6 (render) shows 1500-1630 nm, about 160 resonances at 102 GHz FSR, fewer than the histogram count; the note implied the histogram came from that span. Audit consistency check of the loaded-vs-intrinsic conflict recorded'
+  cmp_lit_snigirev2023_ring_102ghz-m3:
+    notes: 'arithmetic on the measured median linewidth (D80a); same span note as the linewidth row (the 593 resonances exceed the about 160 resonances in 1500-1630 nm, so the population span is not stated)'
+    why: 'p.10 Supp. Fig. 6: the inferred span holds fewer resonances than the histogram population'
+add_metrics:
+- metric_id: cmp_lit_xu2022a_opa_256_aperiodic-m19
+  component_id: cmp_lit_xu2022a_opa_256_aperiodic
+  parameter: beam_divergence_deg
+  value: 0.02
+  unit: deg
+  qualifier: lt
+  wavelength_nm: 1471.92
+  wavelength_max_nm: 1571.18
+  condition: 'FWHM, wavelength axis (theta), every wavelength-scanning incidence over the ECL tuning range, OPA LUT generated at 1540 nm, off-chip laser'
+  basis: measured
+  locator: 'p.7 Sec. III-B; p.7 Fig. 9(c)'
+  notes: 'printed: the theta divergence fluctuates beneath the level of 0.02 deg; Fig. 9(c) points about 0.016-0.019 deg'
+  why: 'Miss. p.7 states the measured theta divergence bound over the wavelength scan (Fig. 9(c)); only the 1540 nm broadside value was entered'
+- metric_id: cmp_lit_xu2022a_opa_256_aperiodic-m20
+  component_id: cmp_lit_xu2022a_opa_256_aperiodic
+  parameter: beam_divergence_deg
+  value: 0.017
+  unit: deg
+  qualifier: lt
+  statistic: typical
+  wavelength_nm: 1471.92
+  wavelength_max_nm: 1571.18
+  condition: 'FWHM, wavelength axis (theta), typical wavelength-scanning incidence over the ECL tuning range, off-chip laser'
+  basis: measured
+  locator: 'p.7 Sec. III-B; p.7 Fig. 9(c)'
+  notes: 'printed: typical incidences better than 0.017 deg'
+  why: 'Miss. p.7 states the typical measured theta divergence over the wavelength scan'
+- metric_id: cmp_lit_xu2022a_opa_256_aperiodic-m21
+  component_id: cmp_lit_xu2022a_opa_256_aperiodic
+  parameter: beam_divergence_deg
+  value: 0.07
+  unit: deg
+  qualifier: lt
+  wavelength_nm: 1540
+  wavelength_inferred: 'true'
+  condition: 'FWHM, phased-array axis (psi), steering -30 to 30 deg with the theoretical phase-front-sampling LUT, off-chip laser'
+  basis: measured
+  locator: 'p.7 Sec. III-B; p.7 Fig. 9(f)'
+  notes: 'printed: SLSR typically better than 6 dB with a psi divergence finer than 0.07 deg within -30 to 30 deg; Fig. 9(f) points in that range about 0.05-0.065 deg (render read); wavelength not restated, the OPA LUT was generated at 1540 nm (inferred)'
+  why: 'Miss. p.7 states the measured psi divergence bound over the -30 to 30 deg steering range (m12 carries only the SLSR of the same sentence)'
+- metric_id: cmp_lit_xu2022a_opa_256_aperiodic-m22
+  component_id: cmp_lit_xu2022a_opa_256_aperiodic
+  parameter: beam_divergence_deg
+  value: 0.056
+  unit: deg
+  qualifier: lt
+  condition: 'simulated FWHM, phased-array axis (psi), steering -30 to 30 deg, 256-element aperiodic design'
+  basis: simulated
+  locator: 'p.5; p.5 Fig. 5(c)'
+  why: 'Miss. p.5 states the simulated psi divergence bound within -30 to 30 deg; the component note listed it as not entered without a reason'
+- metric_id: cmp_lit_xu2022a_opa_256_aperiodic-m23
+  component_id: cmp_lit_xu2022a_opa_256_aperiodic
+  parameter: steering_range_deg
+  value: 16
+  unit: deg
+  qualifier: approx
+  condition: 'theoretical aliasing-free FOV in the wavelength axis (theta), design'
+  basis: simulated
+  locator: p.5
+  notes: 'printed theoretical aliasing-free FOV ~150 deg (psi) by 16 deg (theta); the psi value is in m10 (154 deg, same paragraph)'
+  why: 'Miss. p.5 states the theoretical theta FOV; only the psi range was entered'
+- metric_id: cmp_lit_xu2022a_opa_256_aperiodic-m24
+  component_id: cmp_lit_xu2022a_opa_256_aperiodic
+  parameter: grating_width_um
+  value: 1500
+  unit: um
+  condition: 'emitting aperture width across the 256 antennas'
+  basis: derived
+  locator: p.5
+  notes: 'printed emitting aperture 1.5 mm by 10.3 mm (unit rescaling, D157); OPA aperture as grating_width_um follows the merged dostart2020 / poulton2017 / notaros2019 OPA rows'
+  why: 'Miss (D153 geometry). p.5 states the 1.5 mm x 10.3 mm emitting aperture'
+- metric_id: cmp_lit_xu2022a_opa_256_aperiodic-m25
+  component_id: cmp_lit_xu2022a_opa_256_aperiodic
+  parameter: grating_length_um
+  value: 10300
+  unit: um
+  condition: 'emitting aperture length along the antennas'
+  basis: derived
+  locator: p.5
+  notes: 'printed emitting aperture 1.5 mm by 10.3 mm (unit rescaling, D157); equals the antenna length of cmp_lit_xu2022a_grating_antenna'
+  why: 'Miss (D153 geometry). p.5 states the 1.5 mm x 10.3 mm emitting aperture'
+- metric_id: cmp_lit_chen2024c_tx_opa_128-m9
+  component_id: cmp_lit_chen2024c_tx_opa_128
+  parameter: insertion_loss_db
+  value: 14
+  unit: dB
+  qualifier: approx
+  band: unspecified
+  scope: device_total
+  includes: 'input coupling at the stated 25 dBm input (reference plane of that input not stated), MMI tree, SiN-Si transitions, phase shifters, antenna emission incl. downward emission, grating lobes and side lobes (main-beam power only)'
+  condition: 'FMCW ranging experiment: 25 dBm input to the OPA, ~11 dBm main beam emitted'
+  method: direct
+  basis: derived
+  locator: p.6
+  notes: '25 dBm - ~11 dBm = ~14 dB (main-beam power over input power, poulton2016 / poulton2017 precedent); wavelength not stated (Santec tunable laser + EDFA, band not printed)'
+  why: 'Miss. p.6 prints the input and main-beam powers; merged OPA rows enter main-beam over input power as insertion_loss_db device_total derived (poulton2016 m3, poulton2017 m5)'
+- metric_id: cmp_lit_nejadriahi2024_ecl_852-m6
+  component_id: cmp_lit_nejadriahi2024_ecl_852
+  parameter: tuning_power_mw
+  value: 500
+  unit: mW
+  qualifier: le
+  condition: 'heater powers on the rings, phase section and Sagnac loop mirror adjusted manually to cover the ~15 nm single-mode range, pump 120 mA'
+  basis: measured
+  locator: p.3
+  notes: 'printed ''~0-500 mW''; whether the bound is per heater or summed over the heaters is not stated; attributed to the unoptimized heater design and the low thermo-optic coefficient of Si3N4'
+  why: 'Miss. p.3 states the heater power span used for the full tuning range; tuning_power_mw is allowed on laser (chen2020 / ferrotti2016 precedents); the component note gave no registry reason for leaving it out'

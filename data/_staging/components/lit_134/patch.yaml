@@ -1,0 +1,89 @@
+# Audit patch lit_134 (fresh-context audit 2026-11-15, DevLog/audits/2026-11-15-lit_134-audit.md).
+# 68 metrics: 63 ok / 3 imprecise / 2 wrong; 21 components: 19 ok / 2 imprecise / 0 wrong; 0 deleted; 5 misses added.
+# Coordinator rulings open (audit Q1-Q5), no op unless noted: Q1 park2007 5 dB facet and dependent rows stay
+# author_estimate (alternative D166 / D167: facet m1 -> measured, soa m1 / m3 / m7 and m5 -> derived), Q2 zhang2019c
+# fab org_mit only (no op; alternative adds org_uestc on all 8 rows) and loss-budget rows author_estimate (no op),
+# Q3 yu2025a 41.4 / 44.44 / 49 % rows (no op), Q4 zhou2024 no converter row (no op), Q5 yang2020a reflectivity basis
+# (patched to measured below; to revert, set basis simulated on the two reflector m1 rows).
+components:
+  cmp_lit_yang2020a_fano_pte_reflector:
+    notes: 'Fab: author contributions (p.7) state K.Y.Y. and J.S. (Stanford) fabricated and tested the devices with assistance from co-authors (D395: assisting authors'' orgs are not fab); acknowledgment: the silicon devices were fabricated in the Stanford Nanofabrication Facility and the Stanford Nano Shared Facilities (p.7): facility orgs as printed (pre-merger names, D80d; D448). The cached text is arXiv v1 titled ''Inverse-designed photonic circuits for fully passive, bias-free Kerr-based nonreciprocal transmission and routing''; the source row carries the Nature Photonics title (same work, D430 / D433). Transmission normalized to a single waveguide with grating couplers (p.6 Methods). Supp. Fig. S1 (p.9) states that the Fano resonators of Figs. 1-3 use the 60 % and 80 % target reflectors and plots measured reflectances at 1550 nm (Fabry-Perot finesse method) against the design targets: about 0.55 / 0.78 / 0.89 / 0.93 for the 60 / 80 / 95 / 99 % targets (audit read, +/-0.02). The Fig. 1(a) label R = 56 % matches the measured 60 % target point; the simulated optimization trajectory of inset 4 ends near 0.6. Methods lists targets 60 / 80 / 99 %, the supplement 60 / 80 / 95 / 99 %. The same element is used in the cascaded devices (p.5 Fig. 3 caption).'
+    why: 'p.9 Supp. Fig. S1 (500 dpi render): the reflectivities are measured (FP finesse) and the labels match the measured points, not the simulated trajectories; the note said the paper shows no measured reflectivity'
+  cmp_lit_yang2020a_lorentzian_reflector:
+    notes: 'Fab: author contributions (p.7) state K.Y.Y. and J.S. (Stanford) fabricated and tested the devices with assistance from co-authors (D395: assisting authors'' orgs are not fab); acknowledgment: the silicon devices were fabricated in the Stanford Nanofabrication Facility and the Stanford Nano Shared Facilities (p.7): facility orgs as printed (pre-merger names, D80d; D448). The cached text is arXiv v1 titled ''Inverse-designed photonic circuits for fully passive, bias-free Kerr-based nonreciprocal transmission and routing''; the source row carries the Nature Photonics title (same work, D430 / D433). Transmission normalized to a single waveguide with grating couplers (p.6 Methods). Supp. Fig. S1 (p.9) main panel is the measured reflectance spectrum of this structure (the Fig. 3(a) inset reflector): about 0.91-0.94 over about 1512-1575 nm, FDTD of the fabricated structure about 0.92-0.94; the inset places the 99 % design target at about 0.93 measured at 1550 nm (audit read, +/-0.02). The Fig. 3(a) inset optimization trajectory (simulated) ends near 0.99. Fig. 3(a) inset also shows a measured Lorentzian resonance near 1555.3 nm (no value printed).'
+    why: 'p.9 Supp. Fig. S1 (500 dpi render): measured reflectance spectrum of this reflector; the note said no measured reflectivity is shown'
+metrics:
+  cmp_lit_yang2020a_fano_pte_reflector-m1:
+    basis: measured
+    condition: 'reflectance at 1550 nm from the finesse of a Fabry-Perot resonator (single-mode waveguide with identical reflectors at both ends), waveguide propagation loss from cutback and ring Q (Supp. Appendix I); fundamental TE mode; 60 % design target'
+    locator: 'p.2 Fig. 1(a) inset 4; p.9 Supp. Fig. S1'
+    notes: 'label ''Fano resonator (R = 56 %)''; Supp. Fig. S1 inset: the 60 % target reflector measures about 0.55 at 1550 nm (audit read, +/-0.02), while the inset-4 simulated optimization trajectory ends near 0.6; the label is the measured value'
+    why: 'p.9 Supp. Fig. S1: the paper measures the reflectances (FP finesse) and 56 % matches the measured 60 %-target point, not the simulated trajectory (about 0.6): basis simulated was wrong'
+  cmp_lit_yang2020a_lorentzian_reflector-m1:
+    basis: measured
+    condition: 'reflectance from the finesse of a Fabry-Perot resonator (single-mode waveguide with identical reflectors at both ends), waveguide propagation loss from cutback and ring Q (Supp. Appendix I); fundamental TE mode; 1550 nm (Supp. Fig. S1 inset); 99 % design target'
+    locator: 'p.5 Fig. 3(a) inset; p.9 Supp. Fig. S1'
+    notes: 'caption: ''the inverse-design of the 94 % reflector''; label ''Lorentzian resonator (R = 94 %)''; Supp. Fig. S1 main panel (this structure) reads about 0.93-0.94 near 1550 nm and the inset 99 % target about 0.93 (audit read, +/-0.02), while the Fig. 3(a) simulated trajectory ends near 0.99; the label is the measured value'
+    why: 'p.9 Supp. Fig. S1: measured reflectance spectrum of the Fig. 3(a) inset structure about 0.93-0.94; basis simulated was wrong'
+  cmp_lit_park2007_hybrid_soa-m5:
+    statistic: ''
+    ref_plane: on_chip
+    basis: author_estimate
+    notes: 'printed ''TM gain is around 1 dB when TE gain is 10 dB'' as an example (''typically'' refers to TM being lower than TE, not to the 1 dB); wavelength and current not stated. The 10 dB TE gain exceeds the 3 dB maximum fiber-to-fiber gain (p.2), so the pair is chip-referred and rests on the 5 dB coupling term (see facet row), as m1'
+    why: 'p.2 Sec. III: the value is an example operating point, not a typical value; a 10 dB TE gain is only reachable chip-referred (fiber-to-fiber maximum 3 dB), so ref_plane on_chip and basis as m1'
+  cmp_lit_park2007_hybrid_soa-m6:
+    wavelength_nm: 1575
+    wavelength_inferred: 'true'
+    notes: 'printed ''varies between 13 and 10 dB depending on the current level''; Fig. 5 points read about 13.5 (100 mA), 10.3 (150 mA) and 9.8 dB (200 mA), slightly outside the printed range (D417); signal wavelength not printed: Fig. 5 inset signal line near 1575 nm, the gain-peak wavelength of Figs. 2 and 4'
+    why: 'p.3 Fig. 5 inset (250 dpi render): the amplified-signal line sits near 1575 nm; the row carried no wavelength or band condition (rule 8)'
+  cmp_lit_park2007_hybrid_soa-m7:
+    wavelength_nm: 1575
+    wavelength_inferred: 'true'
+    notes: 'printed ''can be between 8 and 5 dB considering 5-dB coupling loss''; rests on the 5 dB coupling term; signal wavelength not printed (Fig. 5 inset line near 1575 nm, as m6)'
+    why: 'p.3 Fig. 5 inset: same signal as m6; the row carried no wavelength or band condition (rule 8)'
+add_metrics:
+- metric_id: cmp_lit_yang2020a_fano_ring-m2
+  component_id: cmp_lit_yang2020a_fano_ring
+  parameter: bus_width_nm
+  value: 500
+  unit: nm
+  condition: 'input (bus) waveguide width in which the inverse-designed reflectors are placed'
+  basis: design_target
+  locator: p.6 Methods
+  why: 'D153 miss: p.6 Methods states the 500 nm input-waveguide width that holds the PTE (ring_bus template optional dimension)'
+- metric_id: cmp_lit_yang2020a_fano_ring-m3
+  component_id: cmp_lit_yang2020a_fano_ring
+  parameter: core_thickness_nm
+  value: 220
+  unit: nm
+  condition: Si device layer (SOI, D402)
+  basis: design_target
+  locator: p.2
+  why: 'D153 miss: p.2 states the 220 nm device layer on 2 um oxide'
+- metric_id: cmp_lit_yang2020a_fano_ring-m4
+  component_id: cmp_lit_yang2020a_fano_ring
+  parameter: box_thickness_um
+  value: 2
+  unit: um
+  condition: buried oxide (SOI, D402)
+  basis: design_target
+  locator: p.2
+  why: 'D153 miss: p.2 states the 2 um silicon oxide under the device layer'
+- metric_id: cmp_lit_yang2020a_fano_isolator-m4
+  component_id: cmp_lit_yang2020a_fano_isolator
+  parameter: core_thickness_nm
+  value: 220
+  unit: nm
+  condition: Si device layer (SOI, D402)
+  basis: design_target
+  locator: p.2
+  why: 'D153 miss: p.2 states the 220 nm device layer (the zhang2019c isolator rows of this batch carry the same stack rows)'
+- metric_id: cmp_lit_yang2020a_fano_isolator-m5
+  component_id: cmp_lit_yang2020a_fano_isolator
+  parameter: box_thickness_um
+  value: 2
+  unit: um
+  condition: buried oxide (SOI, D402)
+  basis: design_target
+  locator: p.2
+  why: 'D153 miss: p.2 states the 2 um silicon oxide under the device layer'

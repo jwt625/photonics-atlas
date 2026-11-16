@@ -1,0 +1,212 @@
+# Audit patch lit_137 (fresh-context audit 2026-11-15, DevLog/audits/2026-11-15-lit_137-audit.md).
+# 153 metrics: 123 ok / 26 imprecise / 4 wrong (3 of them pending Q4); 34 components: 26 ok / 8 imprecise / 0 wrong;
+# 3 metrics deleted; 6 misses added. After the patch: 34 components, 156 metrics.
+# Coordinator rulings (audit Q1-Q4): Q1 rudenkov2025 laser-written Cr:ZnS waveguide amplifier kept (no op; to drop,
+# delete_components the eight cmp_lit_rudenkov2025_* rows); Q2 cheung2015 fab org_university_of_california_davis on all
+# 7 rows (to keep fab empty, remove the seven `components` entries for cmp_lit_cheung2015_*); Q3 cheung2015 Pout - Pin
+# gain rows kept as derived (no op; to drop, delete straight m2 / m4 / m6 and flared m2 / m4); Q4 subramanian2012 measured
+# gain rows m1-m3 deleted as reproduced from the authors' ref. [11] (to keep them, remove the three delete_metrics entries
+# and the subramanian2012 amplifier `components` entry).
+components:
+  cmp_lit_cheung2015_soa_straight_si500:
+    fab_org_ids: org_university_of_california_davis
+    notes: 'Fab org_university_of_california_davis (audit Q2, D72): first-person fabrication sentences (''we employ photoresist reflow'', p.7; ''We fabricated several flared SOA devices'', p.11) and UC Davis is the only org printed for the work; the fourth author''s Furukawa Electric line is a ''Currently with'' present address (p.1), not a work affiliation. No facility named (no acknowledgment section). No acknowledgment section. 6-inch SOI wafer and 3-inch III-V wafer: supplier not named. Headline wall-plug efficiencies (WPE = 100 (Pout - Pin) / (I V), on-chip powers) are not entered: wpe_pct is a laser-only parameter (registry gap, reported). Printed WPE: 9.2 % at 35 mA / 7.0 dBm (p.9-10, conclusion), 7.2 % at 95 mA / 10.1 dBm (p.10, Fig. 6(b)), ~0.38 % at Pin 0.1 mW (Fig. 8(b)); the abstract prints 7.3 % for output < 10 mW (conflicts with 9.2 % in body and conclusion). Siblings with Si width 600 / 700 nm (Fig. 6(a), 8(a)) and lengths 500-700 um (p.10) were measured but have no printed
+      values (figure curves only; not entered). Fig. 6 caption prints ''width = 4um'' for the straight SOA while Fig. 6(a), Fig. 7 and p.10 say Si width 500 nm. Gain ripple < 1 dB (p.10, 0.06 nm OSA RBW): no parameter. Leakage current 0.9 uA: no amplifier parameter. Design simulations (WPE maps, Fig. 3) not entered.'
+    why: 'p.7 Sec. 3 and p.11: first-person fabrication (''we employ'', ''We fabricated''); p.1 prints UC Davis as the only work affiliation (Furukawa is a present address), so the authors'' own org is unambiguous (D72, D80b; audit Q2)'
+  cmp_lit_cheung2015_soa_flared_si4to8:
+    fab_org_ids: org_university_of_california_davis
+    notes: 'Fab org_university_of_california_davis (audit Q2, D72): first-person fabrication sentences (''we employ photoresist reflow'', p.7; ''We fabricated several flared SOA devices'', p.11) and UC Davis is the only org printed for the work; the fourth author''s Furukawa Electric line is a ''Currently with'' present address (p.1), not a work affiliation. No facility named (no acknowledgment section). No acknowledgment section. 6-inch SOI wafer and 3-inch III-V wafer: supplier not named. Headline wall-plug efficiencies (WPE = 100 (Pout - Pin) / (I V), on-chip powers) are not entered: wpe_pct is a laser-only parameter (registry gap, reported). Printed WPE: 12.1 % at Pin 2 mW (p.1 Abstract, p.11, Fig. 9(b)), ~0.4 % at Pin 0.1 mW (Fig. 11(b)). Flared siblings 6-10, 8-12 and 10-14 um and lengths 500 / 600 um (p.11, Fig. 9, 11) have no printed values (curves only; not entered). The paper notes improved chip mounting on the copper chuck for these devices (p.11).'
+    why: 'p.7 Sec. 3 and p.11: first-person fabrication (''we employ'', ''We fabricated''); p.1 prints UC Davis as the only work affiliation (Furukawa is a present address), so the authors'' own org is unambiguous (D72, D80b; audit Q2)'
+  cmp_lit_cheung2015_si_rib_w500:
+    fab_org_ids: org_university_of_california_davis
+    notes: 'Fab org_university_of_california_davis (audit Q2, D72): first-person fabrication sentences (''we employ photoresist reflow'', p.7; ''We fabricated several flared SOA devices'', p.11) and UC Davis is the only org printed for the work; the fourth author''s Furukawa Electric line is a ''Currently with'' present address (p.1), not a work affiliation. No facility named (no acknowledgment section). Wavelength of the loss measurement not printed (device band 1550 nm). Loss from fringe contrast with a simulated reflectivity input: measured (D394).'
+    why: 'p.7 Sec. 3 and p.11: first-person fabrication (''we employ'', ''We fabricated''); p.1 prints UC Davis as the only work affiliation (Furukawa is a present address), so the authors'' own org is unambiguous (D72, D80b; audit Q2)'
+  cmp_lit_cheung2015_si_rib_w600:
+    fab_org_ids: org_university_of_california_davis
+    notes: 'Fab org_university_of_california_davis (audit Q2, D72): first-person fabrication sentences (''we employ photoresist reflow'', p.7; ''We fabricated several flared SOA devices'', p.11) and UC Davis is the only org printed for the work; the fourth author''s Furukawa Electric line is a ''Currently with'' present address (p.1), not a work affiliation. No facility named (no acknowledgment section). Wavelength of the loss measurement not printed (device band 1550 nm). Loss from fringe contrast with a simulated reflectivity input: measured (D394).'
+    why: 'p.7 Sec. 3 and p.11: first-person fabrication (''we employ'', ''We fabricated''); p.1 prints UC Davis as the only work affiliation (Furukawa is a present address), so the authors'' own org is unambiguous (D72, D80b; audit Q2)'
+  cmp_lit_cheung2015_si_rib_w700:
+    fab_org_ids: org_university_of_california_davis
+    notes: 'Fab org_university_of_california_davis (audit Q2, D72): first-person fabrication sentences (''we employ photoresist reflow'', p.7; ''We fabricated several flared SOA devices'', p.11) and UC Davis is the only org printed for the work; the fourth author''s Furukawa Electric line is a ''Currently with'' present address (p.1), not a work affiliation. No facility named (no acknowledgment section). Wavelength of the loss measurement not printed (device band 1550 nm). Loss from fringe contrast with a simulated reflectivity input: measured (D394).'
+    why: 'p.7 Sec. 3 and p.11: first-person fabrication (''we employ'', ''We fabricated''); p.1 prints UC Davis as the only work affiliation (Furukawa is a present address), so the authors'' own org is unambiguous (D72, D80b; audit Q2)'
+  cmp_lit_cheung2015_si_rib_w3000:
+    fab_org_ids: org_university_of_california_davis
+    notes: 'Fab org_university_of_california_davis (audit Q2, D72): first-person fabrication sentences (''we employ photoresist reflow'', p.7; ''We fabricated several flared SOA devices'', p.11) and UC Davis is the only org printed for the work; the fourth author''s Furukawa Electric line is a ''Currently with'' present address (p.1), not a work affiliation. No facility named (no acknowledgment section). Wavelength of the loss measurement not printed (device band 1550 nm). Loss from fringe contrast with a simulated reflectivity input: measured (D394).'
+    why: 'p.7 Sec. 3 and p.11: first-person fabrication (''we employ'', ''We fabricated''); p.1 prints UC Davis as the only work affiliation (Furukawa is a present address), so the authors'' own org is unambiguous (D72, D80b; audit Q2)'
+  cmp_lit_cheung2015_si_facet_3um_lensed:
+    fab_org_ids: org_university_of_california_davis
+    notes: 'Fab org_university_of_california_davis (audit Q2, D72): first-person fabrication sentences (''we employ photoresist reflow'', p.7; ''We fabricated several flared SOA devices'', p.11) and UC Davis is the only org printed for the work; the fourth author''s Furukawa Electric line is a ''Currently with'' present address (p.1), not a work affiliation. No facility named (no acknowledgment section). Coupling loss stated as relatively high because of the 500 nm Si layer chosen for the active-passive transition (p.9). III-V/Si adiabatic taper: FDTD reflection 1.7e-5 % (p.5-6) not entered (back_reflection_db not allowed on waveguide_platform.transition; geometry-only otherwise). Lensed fibers angled 23 deg to the facet normal (p.9).'
+    why: 'p.7 Sec. 3 and p.11: first-person fabrication (''we employ'', ''We fabricated''); p.1 prints UC Davis as the only work affiliation (Furukawa is a present address), so the authors'' own org is unambiguous (D72, D80b; audit Q2)'
+  cmp_lit_subramanian2012_er_ta2o5_rib_amp_2p3cm:
+    notes: 'Fab empty: passive fabrication sentences only (p.1-2); all authors at the Optoelectronics Research Centre, University of Southampton at the time (D80b). Acknowledgment thanks named persons only. Values are from the page renders (the text layer drops numbers in math font). Measured gain values not entered (audit Q4, D259a / D424): Sec. V introduces the 2.3 cm waveguides as ''used for gain measurements as discussed in [11]'', the same authors'' Opt. Commun. 285 (2011) amplifier paper that p.1 calls their first gain measurements in Er:Ta2O5; values for reference: 4.83 +/- 0.11 dB net (2.1 +/- 0.05 dB/cm) at 1531.5 nm with 20 mW launched 977 nm pump, net-gain threshold about 4.5 mW (p.5 Sec. V, Fig. 9; p.6). The theory curves and the upconversion fit are this paper''s own (m4, m5 kept). Theory: 3.75 dB/cm gross gain without upconversion (p.5) and fitted Cup 1e-17 cm3/s (fit parameter, no component parameter) not entered. Coupling into the chip by fiber / objective; coupling losses
+      not printed.'
+    why: 'p.5 Sec. V: the gain measurement is introduced as discussed in the authors'' ref. [11] (p.1: their first gain measurements); notes record the removed values (audit Q4)'
+metrics:
+  cmp_lit_subramanian2012_er_ta2o5_rib_amp_2p3cm-m4:
+    notes: printed 3.75 dB/cm ideal gross gain reduced to 3.1 dB/cm by the waveguide loss (3.75 - 0.65); the Fig. 9 "Theory no upconversion" curve levels off near 3.5-3.6 dB/cm at 20 mW (audit read of the p.5 render, +/-0.1 dB/cm), above the printed 3.1 dB/cm (D417; printed value entered)
+    why: 'p.5 Fig. 9: the plotted no-upconversion theory curve sits near 3.5-3.6 dB/cm, not 3.1 dB/cm; conflict not noted'
+  cmp_lit_cheung2015_soa_straight_si500-m1:
+    condition: 'Pin = 2 mW (3.0 dBm) on chip; 95 mA; CW drive through DC probes; stage 20 C; TE; on-chip input Pin set with two EDFAs compensating the 14 dB input coupling loss; on-chip output = measured output with the output coupling loss removed (value used not stated: 13.74 dB per facet on p.9 / p.12, 14 dB in the p.9 text and the Fig. 7 / 10 captions)'
+    notes: printed 10.1 dBm (operating point of the printed WPE 7.2 %); on-chip de-embedded value (D394); the output coupling loss used is not stated; Fig. 6 caption prints 10.11 dBm
+    why: 'p.9-12: the paper prints 13.74 dB per facet and also 14 dB (p.9, Fig. 7 / 10 captions) and never says which value de-embeds the output power; the row named 13.74 dB'
+  cmp_lit_cheung2015_soa_straight_si500-m2:
+    condition: 'on-chip gain Pout - Pin at Pin = 2 mW, 95 mA; CW drive through DC probes; stage 20 C; TE; on-chip input Pin set with two EDFAs compensating the 14 dB input coupling loss; on-chip output = measured output with the output coupling loss removed (value used not stated: 13.74 dB per facet on p.9 / p.12, 14 dB in the p.9 text and the Fig. 7 / 10 captions)'
+    why: 'p.9-12: the paper prints 13.74 dB per facet and also 14 dB (p.9, Fig. 7 / 10 captions) and never says which value de-embeds the output power; the row named 13.74 dB'
+  cmp_lit_cheung2015_soa_straight_si500-m3:
+    condition: 'Pin = 2 mW (3.0 dBm) on chip; 35 mA; CW drive through DC probes; stage 20 C; TE; on-chip input Pin set with two EDFAs compensating the 14 dB input coupling loss; on-chip output = measured output with the output coupling loss removed (value used not stated: 13.74 dB per facet on p.9 / p.12, 14 dB in the p.9 text and the Fig. 7 / 10 captions)'
+    notes: printed 7.0 dBm (operating point of the printed WPE 9.2 %); on-chip de-embedded value (D394); the output coupling loss used is not stated
+    why: 'p.9-12: the paper prints 13.74 dB per facet and also 14 dB (p.9, Fig. 7 / 10 captions) and never says which value de-embeds the output power; the row named 13.74 dB'
+  cmp_lit_cheung2015_soa_straight_si500-m4:
+    condition: 'on-chip gain Pout - Pin at Pin = 2 mW, 35 mA; CW drive through DC probes; stage 20 C; TE; on-chip input Pin set with two EDFAs compensating the 14 dB input coupling loss; on-chip output = measured output with the output coupling loss removed (value used not stated: 13.74 dB per facet on p.9 / p.12, 14 dB in the p.9 text and the Fig. 7 / 10 captions)'
+    why: 'p.9-12: the paper prints 13.74 dB per facet and also 14 dB (p.9, Fig. 7 / 10 captions) and never says which value de-embeds the output power; the row named 13.74 dB'
+  cmp_lit_cheung2015_soa_straight_si500-m5:
+    condition: 'Pin = 0.1 mW (-10 dBm) on chip; current of the printed WPE point not stated; CW drive through DC probes; stage 20 C; TE; on-chip input Pin set with two EDFAs compensating the 14 dB input coupling loss; on-chip output = measured output with the output coupling loss removed (value used not stated: 13.74 dB per facet on p.9 / p.12, 14 dB in the p.9 text and the Fig. 7 / 10 captions)'
+    why: 'p.9-12: the paper prints 13.74 dB per facet and also 14 dB (p.9, Fig. 7 / 10 captions) and never says which value de-embeds the output power; the row named 13.74 dB'
+  cmp_lit_cheung2015_soa_straight_si500-m6:
+    condition: 'on-chip gain Pout - Pin at Pin = 0.1 mW; CW drive through DC probes; stage 20 C; TE; on-chip input Pin set with two EDFAs compensating the 14 dB input coupling loss; on-chip output = measured output with the output coupling loss removed (value used not stated: 13.74 dB per facet on p.9 / p.12, 14 dB in the p.9 text and the Fig. 7 / 10 captions)'
+    why: 'p.9-12: the paper prints 13.74 dB per facet and also 14 dB (p.9, Fig. 7 / 10 captions) and never says which value de-embeds the output power; the row named 13.74 dB'
+  cmp_lit_cheung2015_soa_flared_si4to8-m1:
+    condition: 'Pin = 2 mW (3.0 dBm) on chip; current not stated; CW drive through DC probes; stage 20 C; TE; on-chip input Pin set with two EDFAs compensating the 14 dB input coupling loss; on-chip output = measured output with the output coupling loss removed (value used not stated: 13.74 dB per facet on p.9 / p.12, 14 dB in the p.9 text and the Fig. 7 / 10 captions)'
+    why: 'p.9-12: the paper prints 13.74 dB per facet and also 14 dB (p.9, Fig. 7 / 10 captions) and never says which value de-embeds the output power; the row named 13.74 dB'
+  cmp_lit_cheung2015_soa_flared_si4to8-m2:
+    condition: 'on-chip gain Pout - Pin at Pin = 2 mW; CW drive through DC probes; stage 20 C; TE; on-chip input Pin set with two EDFAs compensating the 14 dB input coupling loss; on-chip output = measured output with the output coupling loss removed (value used not stated: 13.74 dB per facet on p.9 / p.12, 14 dB in the p.9 text and the Fig. 7 / 10 captions)'
+    why: 'p.9-12: the paper prints 13.74 dB per facet and also 14 dB (p.9, Fig. 7 / 10 captions) and never says which value de-embeds the output power; the row named 13.74 dB'
+  cmp_lit_cheung2015_soa_flared_si4to8-m3:
+    condition: 'Pin = 0.1 mW (-10 dBm) on chip; current of the printed WPE point not stated; CW drive through DC probes; stage 20 C; TE; on-chip input Pin set with two EDFAs compensating the 14 dB input coupling loss; on-chip output = measured output with the output coupling loss removed (value used not stated: 13.74 dB per facet on p.9 / p.12, 14 dB in the p.9 text and the Fig. 7 / 10 captions)'
+    why: 'p.9-12: the paper prints 13.74 dB per facet and also 14 dB (p.9, Fig. 7 / 10 captions) and never says which value de-embeds the output power; the row named 13.74 dB'
+  cmp_lit_cheung2015_soa_flared_si4to8-m4:
+    condition: 'on-chip gain Pout - Pin at Pin = 0.1 mW; CW drive through DC probes; stage 20 C; TE; on-chip input Pin set with two EDFAs compensating the 14 dB input coupling loss; on-chip output = measured output with the output coupling loss removed (value used not stated: 13.74 dB per facet on p.9 / p.12, 14 dB in the p.9 text and the Fig. 7 / 10 captions)'
+    why: 'p.9-12: the paper prints 13.74 dB per facet and also 14 dB (p.9, Fig. 7 / 10 captions) and never says which value de-embeds the output power; the row named 13.74 dB'
+  cmp_lit_cheung2015_si_facet_3um_lensed-m4:
+    wavelength_inferred: 'true'
+    why: 'p.6: the FDTD reflection has no stated wavelength; 1550 nm comes from the 1.55 um device band (rule 8)'
+  cmp_lit_rudenkov2025_cr_zns_wga_d40_s3-m3:
+    notes: 'figure label k = 56; 10 log10(56); figure label; the plotted curve is identified by its legend marker (circle = 3 um step, square = 4 um step, caption); the label arrow points to the 11.1 W point (about 1.72 W), but k = 56 and 13.6 % reproduce only with the 14.3 W end point (about 1.98 W): (1.98 - 1.98/56) / 14.3 = 13.6 % (audit check)'
+    why: 'p.6 Fig. 7(a): the WG#8 label arrow and the reproducing operating point differ; the condition named the highest-pump point without saying so'
+  cmp_lit_jung2021_ring_rw3um_570nm-m1:
+    wavelength_nm: 1542.62
+    notes: Q_L printed as a figure label; resonance wavelength read off the axis (audit pixel read of the embedded figure against the 1542-1554 nm ticks, +/- 0.05 nm)
+    why: 'p.4 Fig. 2(f): the labelled dip sits at 1542.62 nm (ticks 2 nm = 77.5 px); the row had 1542.66 nm, off by up to 0.4 nm toward the long-wavelength end'
+  cmp_lit_jung2021_ring_rw3um_570nm-m2:
+    wavelength_nm: 1546.31
+    notes: Q_L printed as a figure label; resonance wavelength read off the axis (audit pixel read of the embedded figure against the 1542-1554 nm ticks, +/- 0.05 nm)
+    why: 'p.4 Fig. 2(f): the labelled dip sits at 1546.31 nm (ticks 2 nm = 77.5 px); the row had 1546.22 nm, off by up to 0.4 nm toward the long-wavelength end'
+  cmp_lit_jung2021_ring_rw3um_570nm-m3:
+    wavelength_nm: 1550.03
+    notes: Q_L printed as a figure label; resonance wavelength read off the axis (audit pixel read of the embedded figure against the 1542-1554 nm ticks, +/- 0.05 nm)
+    why: 'p.4 Fig. 2(f): the labelled dip sits at 1550.03 nm (ticks 2 nm = 77.5 px); the row had 1549.78 nm, off by up to 0.4 nm toward the long-wavelength end'
+  cmp_lit_jung2021_ring_rw3um_570nm-m4:
+    wavelength_nm: 1553.72
+    notes: Q_L printed as a figure label; resonance wavelength read off the axis (audit pixel read of the embedded figure against the 1542-1554 nm ticks, +/- 0.05 nm)
+    why: 'p.4 Fig. 2(f): the labelled dip sits at 1553.72 nm (ticks 2 nm = 77.5 px); the row had 1553.34 nm, off by up to 0.4 nm toward the long-wavelength end'
+  cmp_lit_jung2021_ring_rw3um_570nm-m5:
+    wavelength_nm: 1544.16
+    notes: Q_L printed as a figure label; resonance wavelength read off the axis (audit pixel read of the embedded figure against the 1542-1554 nm ticks, +/- 0.05 nm)
+    why: 'p.4 Fig. 2(f): the labelled dip sits at 1544.16 nm (ticks 2 nm = 77.5 px); the row had 1544.16 nm, off by up to 0.4 nm toward the long-wavelength end'
+  cmp_lit_jung2021_ring_rw3um_570nm-m6:
+    wavelength_nm: 1547.84
+    notes: Q_L printed as a figure label; resonance wavelength read off the axis (audit pixel read of the embedded figure against the 1542-1554 nm ticks, +/- 0.05 nm)
+    why: 'p.4 Fig. 2(f): the labelled dip sits at 1547.84 nm (ticks 2 nm = 77.5 px); the row had 1547.68 nm, off by up to 0.4 nm toward the long-wavelength end'
+  cmp_lit_jung2021_ring_rw3um_570nm-m7:
+    wavelength_nm: 1551.48
+    notes: Q_L printed as a figure label; resonance wavelength read off the axis (audit pixel read of the embedded figure against the 1542-1554 nm ticks, +/- 0.05 nm)
+    why: 'p.4 Fig. 2(f): the labelled dip sits at 1551.48 nm (ticks 2 nm = 77.5 px); the row had 1551.19 nm, off by up to 0.4 nm toward the long-wavelength end'
+  cmp_lit_jung2021_ring_rw3um_570nm-m8:
+    value: 3.7
+    condition: spacing of the four labelled TE00 resonances, 1542.6-1553.7 nm
+    notes: 'mean spacing of the TE00 dips read off the axis: (1553.72 - 1542.62) / 3 = 3.70 nm (spacings 3.69 / 3.72 / 3.69), +/- 0.03 nm'
+    why: 'p.4 Fig. 2(f): TE00 dips at 1542.62 / 1546.31 / 1550.03 / 1553.72 nm give 3.70 nm, outside the stated +/- 0.05 nm of 3.56'
+  cmp_lit_jung2021_ring_rw3um_570nm-m13:
+    wavelength_inferred: 'true'
+    notes: read +/- 0.1e6 (error bar about +/- 0.5e6); wavelength not printed for Fig. 2(b), 1550 nm inferred from the 1550 nm Q test laser (p.4) and the C-band Fig. 2(f) data
+    why: 'p.4 Fig. 2(b) / p.5: no wavelength is printed for the ring-width series; 1550 nm is inferred (rule 8)'
+  cmp_lit_jung2021_ring_rw1um_570nm-m1:
+    wavelength_inferred: 'true'
+    value: 230000
+    notes: read 0.23e6 +/- 0.03e6 (audit pixel read of the marker centre against the 0-3M ticks); wavelength not printed for Fig. 2(b), 1550 nm inferred from the 1550 nm Q test laser (p.4) and the C-band Fig. 2(f) data
+    why: 'p.4 Fig. 2(b) / p.5: no wavelength is printed for the ring-width series; 1550 nm is inferred (rule 8); marker centre reads 0.23e6 (row had 0.17e6)'
+  cmp_lit_jung2021_ring_rw1p5um_570nm-m1:
+    wavelength_inferred: 'true'
+    notes: read +/- 0.1e6; wavelength not printed for Fig. 2(b), 1550 nm inferred from the 1550 nm Q test laser (p.4) and the C-band Fig. 2(f) data
+    why: 'p.4 Fig. 2(b) / p.5: no wavelength is printed for the ring-width series; 1550 nm is inferred (rule 8)'
+  cmp_lit_jung2021_ring_rw2um_570nm-m1:
+    wavelength_inferred: 'true'
+    notes: read +/- 0.1e6; wavelength not printed for Fig. 2(b), 1550 nm inferred from the 1550 nm Q test laser (p.4) and the C-band Fig. 2(f) data
+    why: 'p.4 Fig. 2(b) / p.5: no wavelength is printed for the ring-width series; 1550 nm is inferred (rule 8)'
+  cmp_lit_jung2021_ring_rw4um_570nm-m1:
+    wavelength_inferred: 'true'
+    value: 1970000
+    notes: read 1.97e6 +/- 0.03e6 (audit pixel read of the marker centre against the 0-3M ticks); wavelength not printed for Fig. 2(b), 1550 nm inferred from the 1550 nm Q test laser (p.4) and the C-band Fig. 2(f) data
+    why: 'p.4 Fig. 2(b) / p.5: no wavelength is printed for the ring-width series; 1550 nm is inferred (rule 8); marker centre reads 1.97e6 (row had 1.90e6)'
+  cmp_lit_jung2021_ring_rw5um_570nm-m1:
+    wavelength_inferred: 'true'
+    notes: read +/- 0.1e6; wavelength not printed for Fig. 2(b), 1550 nm inferred from the 1550 nm Q test laser (p.4) and the C-band Fig. 2(f) data
+    why: 'p.4 Fig. 2(b) / p.5: no wavelength is printed for the ring-width series; 1550 nm is inferred (rule 8)'
+delete_metrics:
+- id: cmp_lit_subramanian2012_er_ta2o5_rib_amp_2p3cm-m1
+  why: 'p.5 Sec. V: ''used for gain measurements as discussed in [11]'' (the authors'' Opt. Commun. 2011 gain paper, p.1 ''we reported the first measurements of gain''); value reproduced from their earlier journal paper, rule 3 / D259a / D424 (audit Q4)'
+- id: cmp_lit_subramanian2012_er_ta2o5_rib_amp_2p3cm-m2
+  why: 'p.5 Sec. V: ''used for gain measurements as discussed in [11]'' (the authors'' Opt. Commun. 2011 gain paper, p.1 ''we reported the first measurements of gain''); value reproduced from their earlier journal paper, rule 3 / D259a / D424 (audit Q4)'
+- id: cmp_lit_subramanian2012_er_ta2o5_rib_amp_2p3cm-m3
+  why: 'p.5 Sec. V: ''used for gain measurements as discussed in [11]'' (the authors'' Opt. Commun. 2011 gain paper, p.1 ''we reported the first measurements of gain''); value reproduced from their earlier journal paper, rule 3 / D259a / D424 (audit Q4)'
+add_metrics:
+- metric_id: cmp_lit_subramanian2012_design_cup5e18-m3
+  component_id: cmp_lit_subramanian2012_design_cup5e18
+  parameter: width_nm
+  value: 2000
+  unit: nm
+  condition: rib width W of the gain model (Table I)
+  basis: derived
+  locator: p.4 Table I
+  notes: Table I prints 2 um (unit rescale, D157); model geometry used for Figs. 6-8 (design)
+  why: Miss (D153 geometry). p.4 Table I states the width of the modelled rib for the Fig. 8 design optima
+- metric_id: cmp_lit_subramanian2012_design_cup5e18-m4
+  component_id: cmp_lit_subramanian2012_design_cup5e18
+  parameter: core_thickness_nm
+  value: 2000
+  unit: nm
+  condition: rib height H of the gain model (Table I)
+  basis: derived
+  locator: p.4 Table I
+  notes: Table I prints 2 um (unit rescale, D157); model geometry used for Figs. 6-8 (design)
+  why: Miss (D153 geometry). p.4 Table I states the core of the modelled rib for the Fig. 8 design optima
+- metric_id: cmp_lit_subramanian2012_design_cup5e18-m5
+  component_id: cmp_lit_subramanian2012_design_cup5e18
+  parameter: etch_depth_nm
+  value: 400
+  unit: nm
+  condition: rib etch depth D of the gain model (Table I)
+  basis: design_target
+  locator: p.4 Table I
+  notes: model geometry used for Figs. 6-8 (Table I)
+  why: Miss (D153 geometry). p.4 Table I states the etch of the modelled rib for the Fig. 8 design optima
+- metric_id: cmp_lit_subramanian2012_design_cup1e17-m3
+  component_id: cmp_lit_subramanian2012_design_cup1e17
+  parameter: width_nm
+  value: 2000
+  unit: nm
+  condition: rib width W of the gain model (Table I)
+  basis: derived
+  locator: p.4 Table I
+  notes: Table I prints 2 um (unit rescale, D157); model geometry used for Figs. 6-8 (design)
+  why: Miss (D153 geometry). p.4 Table I states the width of the modelled rib for the Fig. 8 design optima
+- metric_id: cmp_lit_subramanian2012_design_cup1e17-m4
+  component_id: cmp_lit_subramanian2012_design_cup1e17
+  parameter: core_thickness_nm
+  value: 2000
+  unit: nm
+  condition: rib height H of the gain model (Table I)
+  basis: derived
+  locator: p.4 Table I
+  notes: Table I prints 2 um (unit rescale, D157); model geometry used for Figs. 6-8 (design)
+  why: Miss (D153 geometry). p.4 Table I states the core of the modelled rib for the Fig. 8 design optima
+- metric_id: cmp_lit_subramanian2012_design_cup1e17-m5
+  component_id: cmp_lit_subramanian2012_design_cup1e17
+  parameter: etch_depth_nm
+  value: 400
+  unit: nm
+  condition: rib etch depth D of the gain model (Table I)
+  basis: design_target
+  locator: p.4 Table I
+  notes: model geometry used for Figs. 6-8 (Table I)
+  why: Miss (D153 geometry). p.4 Table I states the etch of the modelled rib for the Fig. 8 design optima

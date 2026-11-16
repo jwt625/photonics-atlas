@@ -1,0 +1,352 @@
+# Audit patch lit_148 (fresh-context audit 2026-11-15, DevLog/audits/2026-11-15-lit_148-audit.md).
+# 360 metrics: 344 ok / 16 imprecise / 0 wrong; 37 components: 28 ok / 9 imprecise / 0 wrong.
+# 11 envelope copies deleted and replaced by 14 per-device figure reads (D552); 4 misses added. After the patch: 37 components, 367 metrics.
+# Coordinator rulings open (audit Q1-Q5):
+# Q1 sacher2019 family-level ranges (recommended, ops below): the printed minimum crossing loss 0.07-0.09 dB, minimum divider
+#    excess loss 0.19-0.47 dB and divider 1-dB bandwidth 70-172 nm summarize all devices (Figs. 8 / 11 show the device spread),
+#    so the per-device copies are deleted (D552 hu2020, D254 / D159) and per-device, per-polarization minima are read from the
+#    cached embedded figure rasters (the extreme reads reproduce the printed endpoints: 0.066 / 0.085 dB and 0.190 / 0.466 dB).
+#    Bounds printed "in all cases" stay on every row (crosstalk > 20 dB, split within 1.1 dB of 50:50; D552 lin2023).
+#    Alternative (keep envelopes): drop the delete_metrics / add_metrics for sacher2019 and the 7 component note edits.
+# Q2 sun2017 fab org_university_of_toronto via the TNFC acknowledgment: keep (no op; D448, D84b borderline); TNFC facility
+#    waits for the org round.
+# Q3 wu2020a insertion losses: keep the four measured rows with conflict notes (D417); conclusion values and PDL moved from
+#    c_band to 1550 nm inferred (ops below); abstract "< 1 dB for both" stays out.
+# Q4 li2018a D-MWC TE2 "crosstalk" +9.08 / +12.01 dB: keep in notes (no op).
+# Q5 chen2006 fabricated rows platform soi -> soi_rib (ops below; printed slab ~0.02 um under a ~0.34 um rib).
+components:
+  cmp_lit_chen2006_mmi_crossing_lm4p3:
+    platform: soi_rib
+    why: "p.2 Sec. III gives the fabricated cross-section as rib height ~0.34 um and slab height ~0.02 um, a rib with a thin residual slab; platform from the stated geometry (D434 soi_strip / soi_rib practice)"
+  cmp_lit_chen2006_plain_crossing:
+    platform: soi_rib
+    why: "Same fabricated cross-section as the MMI crossing (p.2 Sec. III: rib ~0.34 um, slab ~0.02 um); D434"
+  cmp_lit_sacher2019_mmi_crossing_w1:
+    notes: "Fab: waveguides 'formed on 200 mm Si wafers using the Advanced Micro Foundry (AMF) foundry process' (p.2); no process name printed. Wafers backgrinded to ~100 um (92-100 um). Same design on all wafers (p.10). The printed 'minimum loss per crossing ranged from 0.07-0.09 dB/crossing' (p.10) summarizes all wafers and both polarizations; it is not entered per device (D552 / D254); per-polarization minima read from Fig. 8(a) instead. Loss < 0.1 dB/crossing over >= 58 nm and < 0.2 dB/crossing over >= 138 nm 'in all cases' (p.10) not entered (no bandwidth parameter for crossings; registry gap). Cutback fit standard error <= 0.02 dB/crossing."
+    why: "Note rewritten for the envelope deletion and the Fig. 8 per-device reads (Q1, D552)"
+  cmp_lit_sacher2019_mmi_crossing_w2:
+    notes: "Fab: waveguides 'formed on 200 mm Si wafers using the Advanced Micro Foundry (AMF) foundry process' (p.2); no process name printed. Wafers backgrinded to ~100 um (92-100 um). Same design on all wafers (p.10). The printed 'minimum loss per crossing ranged from 0.07-0.09 dB/crossing' (p.10) summarizes all wafers and both polarizations; it is not entered per device (D552 / D254); per-polarization minima read from Fig. 8(b) instead. Loss < 0.1 dB/crossing over >= 58 nm and < 0.2 dB/crossing over >= 138 nm 'in all cases' (p.10) not entered (no bandwidth parameter for crossings; registry gap). Cutback fit standard error <= 0.02 dB/crossing."
+    why: "Note rewritten for the envelope deletion and the Fig. 8 per-device reads (Q1, D552)"
+  cmp_lit_sacher2019_mmi_crossing_w3:
+    notes: "Fab: waveguides 'formed on 200 mm Si wafers using the Advanced Micro Foundry (AMF) foundry process' (p.2); no process name printed. Wafers backgrinded to ~100 um (92-100 um). Same design on all wafers (p.10). The printed 'minimum loss per crossing ranged from 0.07-0.09 dB/crossing' (p.10) summarizes all wafers and both polarizations; it is not entered per device (D552 / D254); per-polarization minima read from Fig. 8(c) instead. Loss < 0.1 dB/crossing over >= 58 nm and < 0.2 dB/crossing over >= 138 nm 'in all cases' (p.10) not entered (no bandwidth parameter for crossings; registry gap). Cutback fit standard error <= 0.02 dB/crossing."
+    why: "Note rewritten for the envelope deletion and the Fig. 8 per-device reads (Q1, D552)"
+  cmp_lit_sacher2019_mmi_1x2_w1_d1:
+    notes: "Fab: waveguides 'formed on 200 mm Si wafers using the Advanced Micro Foundry (AMF) foundry process' (p.2); no process name printed. Wafers backgrinded to ~100 um (92-100 um). blue-wavelength design (Design 1). Output aperture spacing dap = 760 nm (p.10-12) not entered (center-to-center vs edge gap not defined). The minimum excess loss 0.19-0.47 dB and the < 1 dB excess-loss bandwidth 70-172 nm are printed once for all four divider / wafer combinations (p.12) and are not entered per device (D552 / D254); per-polarization minima read from Fig. 11(a) instead (bandwidths not read). Split within 1.1 dB of 50:50 holds for all dividers (entered). Standard error of the divider loss averaged over the 1-dB bandwidth < 0.06 dB."
+    why: "Note rewritten for the envelope deletion and the Fig. 11 per-device reads (Q1, D552)"
+  cmp_lit_sacher2019_mmi_1x2_w3_d1:
+    notes: "Fab: waveguides 'formed on 200 mm Si wafers using the Advanced Micro Foundry (AMF) foundry process' (p.2); no process name printed. Wafers backgrinded to ~100 um (92-100 um). blue-wavelength design (Design 1). Output aperture spacing dap = 760 nm (p.10-12) not entered (center-to-center vs edge gap not defined). The minimum excess loss 0.19-0.47 dB and the < 1 dB excess-loss bandwidth 70-172 nm are printed once for all four divider / wafer combinations (p.12) and are not entered per device (D552 / D254); per-polarization minima read from Fig. 11(c) instead (bandwidths not read). Split within 1.1 dB of 50:50 holds for all dividers (entered). Standard error of the divider loss averaged over the 1-dB bandwidth < 0.06 dB."
+    why: "Note rewritten for the envelope deletion and the Fig. 11 per-device reads (Q1, D552)"
+  cmp_lit_sacher2019_mmi_1x2_w1_d2:
+    notes: "Fab: waveguides 'formed on 200 mm Si wafers using the Advanced Micro Foundry (AMF) foundry process' (p.2); no process name printed. Wafers backgrinded to ~100 um (92-100 um). yellow-wavelength design (Design 2). Output aperture spacing dap = 760 nm (p.10-12) not entered (center-to-center vs edge gap not defined). The minimum excess loss 0.19-0.47 dB and the < 1 dB excess-loss bandwidth 70-172 nm are printed once for all four divider / wafer combinations (p.12) and are not entered per device (D552 / D254); per-polarization minima read from Fig. 11(a) instead (bandwidths not read). Split within 1.1 dB of 50:50 holds for all dividers (entered). Standard error of the divider loss averaged over the 1-dB bandwidth < 0.06 dB."
+    why: "Note rewritten for the envelope deletion and the Fig. 11 per-device reads (Q1, D552)"
+  cmp_lit_sacher2019_mmi_1x2_w2_d3:
+    notes: "Fab: waveguides 'formed on 200 mm Si wafers using the Advanced Micro Foundry (AMF) foundry process' (p.2); no process name printed. Wafers backgrinded to ~100 um (92-100 um). blue-wavelength design (Design 3). Output aperture spacing dap = 860 nm (p.10-12) not entered (center-to-center vs edge gap not defined). The minimum excess loss 0.19-0.47 dB and the < 1 dB excess-loss bandwidth 70-172 nm are printed once for all four divider / wafer combinations (p.12) and are not entered per device (D552 / D254); per-polarization minima read from Fig. 11(b) instead (bandwidths not read; spectra terminated at long wavelengths, p.12). Split within 1.1 dB of 50:50 holds for all dividers (entered). Standard error of the divider loss averaged over the 1-dB bandwidth < 0.08 dB."
+    why: "Note rewritten for the envelope deletion and the Fig. 11 per-device reads (Q1, D552)"
+metrics:
+  cmp_lit_chen2006_plain_crossing_design-m3:
+    locator: p.1 Fig. 1 caption
+    why: "The Fig. 1 caption (plain crossing inset, waveguide width 0.3 um) is on p.1 of the text / render, not p.2"
+  cmp_lit_wu2020a_swg_mmi_crossing-m1:
+    notes: "Printed 'averaged insertion loss is around 1.1 dB'; averaging basis (wavelength or 3-crossing cascade) not stated. Fig. 7 TE trace about 1.0-1.2 dB over 1530-1565 nm; the conclusion's 1 dB (m3) reads as the 1550 nm value."
+    why: "p.7 Fig. 7: TE trace is flat near 1.0-1.2 dB, so ~1.1 dB (band average) and 1 dB (conclusion) are not a real conflict; note reworded"
+  cmp_lit_wu2020a_swg_mmi_crossing-m3:
+    band: ""
+    wavelength_nm: 1550
+    wavelength_inferred: "true"
+    notes: "Conclusion value; no wavelength printed with it. Wavelength inferred: p.7-8 ties the low insertion loss and PDL to 1550 nm, and Fig. 7 at 1550 nm reads about 1.1 dB (TE). Band-averaged TE value ~1.1 dB in m1."
+    why: "p.7-8 'low insertion loss and low polarization-dependence loss at 1550 nm wavelength'; Fig. 7 (p.7 render) TE at 1550 nm about 1.1 dB. c_band was imprecise for a single printed value"
+  cmp_lit_wu2020a_swg_mmi_crossing-m4:
+    band: ""
+    wavelength_nm: 1550
+    wavelength_inferred: "true"
+    notes: "Conclusion value; no wavelength printed with it. Wavelength inferred: p.7-8 ties the low insertion loss and PDL to 1550 nm, and Fig. 7 at 1550 nm reads about 1.6-1.7 dB (TM), while the TM trace reaches about 2.5 dB near 1542 nm, so 1.6 dB cannot hold over the C-band. Conflicts with the abstract IL < 1 dB for both polarizations (not entered, D417)."
+    why: "p.7 Fig. 7 TM trace 1.4-2.5 dB over 1530-1565 nm (dip at 1542 nm, '< 3 dB in the entire wavelength range'); 1.6 dB matches the 1550 nm reading, not a C-band value"
+  cmp_lit_wu2020a_swg_mmi_crossing-m5:
+    band: ""
+    wavelength_nm: 1550
+    wavelength_inferred: "true"
+    notes: "Printed in the abstract only ('< 0.6 dB'); equals the conclusion's TM - TE difference (1.6 - 1 dB). Wavelength inferred from the p.7-8 sentence tying low PDL to 1550 nm; over the C-band the Fig. 7 TE / TM difference exceeds 1 dB near 1542 nm."
+    why: "p.1 abstract; p.7-8; Fig. 7 TM - TE difference near 1542 nm is about 1.3 dB, so the < 0.6 dB bound is a 1550 nm value, not a C-band one"
+delete_metrics:
+- id: cmp_lit_sacher2019_mmi_crossing_w1-m1
+  why: "p.10 Sec. 3.2: 'minimum loss per crossing ranged from 0.07-0.09 dB/crossing' summarizes three wafers x two polarizations; Fig. 8 shows the per-device spread; per-device copy deleted (D552 hu2020, D254), replaced by Fig. 8(a) reads m12 / m13"
+- id: cmp_lit_sacher2019_mmi_crossing_w2-m1
+  why: "As w1-m1 (p.10 family range, D552); replaced by Fig. 8(b) reads m12 / m13"
+- id: cmp_lit_sacher2019_mmi_crossing_w3-m1
+  why: "As w1-m1 (p.10 family range, D552); replaced by Fig. 8(c) reads m12 / m13"
+- id: cmp_lit_sacher2019_mmi_1x2_w1_d1-m1
+  why: "p.12 Sec. 3.3: 'minimum excess insertion losses between 0.19-0.47 dB' summarizes four dividers x two polarizations; Fig. 11 shows minima from about 0.19 to 0.47 dB; per-device copy deleted (D552), replaced by Fig. 11 reads m10 / m11"
+- id: cmp_lit_sacher2019_mmi_1x2_w3_d1-m1
+  why: "As w1_d1-m1 (p.12 family range, D552); replaced by Fig. 11(c) reads m10 / m11"
+- id: cmp_lit_sacher2019_mmi_1x2_w1_d2-m1
+  why: "As w1_d1-m1 (p.12 family range, D552); replaced by Fig. 11(a) reads m10 / m11"
+- id: cmp_lit_sacher2019_mmi_1x2_w2_d3-m1
+  why: "As w1_d1-m1 (p.12 family range, D552); replaced by Fig. 11(b) reads m10 / m11"
+- id: cmp_lit_sacher2019_mmi_1x2_w1_d1-m2
+  why: "p.12 Sec. 3.3: 'bandwidths over which the excess loss is < 1 dB between 70-172 nm' summarizes all dividers and polarizations; per-device copy deleted (D552 / D254); range kept in component notes"
+- id: cmp_lit_sacher2019_mmi_1x2_w3_d1-m2
+  why: "As w1_d1-m2 (p.12 family range, D552)"
+- id: cmp_lit_sacher2019_mmi_1x2_w1_d2-m2
+  why: "As w1_d1-m2 (p.12 family range, D552)"
+- id: cmp_lit_sacher2019_mmi_1x2_w2_d3-m2
+  why: "As w1_d1-m2 (p.12 family range, D552)"
+add_metrics:
+- metric_id: cmp_lit_chen2006_plain_crossing-m3
+  component_id: cmp_lit_chen2006_plain_crossing
+  parameter: core_thickness_nm
+  value: 340
+  unit: nm
+  condition: SOI device layer
+  basis: design_target
+  locator: p.2 Sec. III
+  why: "Miss (D153 geometry, sibling stack rows D568): the plain crossing is on the same 340 nm SOI chip as the MMI crossings (p.2 Sec. III); the MMI row carries the stack"
+- metric_id: cmp_lit_chen2006_plain_crossing-m4
+  component_id: cmp_lit_chen2006_plain_crossing
+  parameter: slab_thickness_nm
+  value: 20
+  unit: nm
+  qualifier: approx
+  basis: derived
+  locator: p.2 Sec. III
+  notes: "Printed 'slab height ~0.02 um' (fabricated cross-section of the waveguides)."
+  why: "Miss (D153): p.2 Sec. III fabricated cross-section applies to all fabricated waveguides; um -> nm derived (D157)"
+- metric_id: cmp_lit_chen2006_plain_crossing-m5
+  component_id: cmp_lit_chen2006_plain_crossing
+  parameter: box_thickness_um
+  value: 1
+  unit: um
+  basis: design_target
+  locator: p.2 Sec. III
+  why: "Miss (D153): 1 um buried oxide of the SOI wafer (p.2 Sec. III)"
+- metric_id: cmp_lit_lu2024a_direct_crossing_design-m2
+  component_id: cmp_lit_lu2024a_direct_crossing_design
+  parameter: crosstalk_db
+  value: 37
+  value_max: 38
+  unit: dB
+  wavelength_nm: 1500
+  wavelength_max_nm: 1600
+  polarization: unspecified
+  condition: 3D FDTD; crosstalk = power at ports 2 and 4 over input (Eq. (4))
+  basis: simulated
+  locator: p.2 Fig. 2(d)
+  notes: "Read off the Fig. 2(d) crosstalk trace (about -38.2 dB at 1500 nm rising to about -36.8 dB at 1600 nm; reading uncertainty about 0.3 dB); consistent with the text, which puts the elliptical crossing's < -50 dB crosstalk 10 dB below the direct crossing (p.2). Simulated curve read off a plot stays simulated (D454)."
+  why: "Miss: the direct-crossing comparison row has only the 0.7 dB loss; p.2 states its crosstalk relative to the elliptical crossing and Fig. 2(d) plots it (embedded image of p.2, axis -35 / -39 / -43 dB)"
+- metric_id: cmp_lit_sacher2019_mmi_crossing_w1-m12
+  component_id: cmp_lit_sacher2019_mmi_crossing_w1
+  parameter: crossing_loss_db
+  value: 0.07
+  unit: dB
+  statistic: best
+  wavelength_nm: 486
+  polarization: te
+  scope: per_component
+  condition: minimum of the measured loss-per-crossing spectrum (cutback with 1, 15, 30 and 45 crossings), near 486 nm
+  method: cutback
+  basis: extracted_from_figure
+  locator: p.11 Fig. 8(a)
+  notes: "Pixel read of the cached embedded Fig. 8(a) raster: minimum 0.069 dB near 486 nm (reading uncertainty about 0.01 dB). Within the printed all-device range 0.07-0.09 dB (p.10)."
+  why: "Replaces the family envelope (Q1, D552): per-device, per-polarization minimum read from Fig. 8(a); the six reads span 0.066-0.085 dB, reproducing the printed 0.07-0.09 dB"
+- metric_id: cmp_lit_sacher2019_mmi_crossing_w1-m13
+  component_id: cmp_lit_sacher2019_mmi_crossing_w1
+  parameter: crossing_loss_db
+  value: 0.07
+  unit: dB
+  statistic: best
+  wavelength_nm: 586
+  polarization: tm
+  scope: per_component
+  condition: minimum of the measured loss-per-crossing spectrum (cutback with 1, 15, 30 and 45 crossings); TM trace flat near 0.07-0.09 dB from about 500 to 648 nm
+  method: cutback
+  basis: extracted_from_figure
+  locator: p.11 Fig. 8(a)
+  notes: "Pixel read of the cached embedded Fig. 8(a) raster: minimum 0.073 dB near 586 nm (reading uncertainty about 0.01 dB; the trace is flat, so the wavelength of the minimum is loose)."
+  why: "Replaces the family envelope (Q1, D552): Fig. 8(a) TM minimum"
+- metric_id: cmp_lit_sacher2019_mmi_crossing_w2-m12
+  component_id: cmp_lit_sacher2019_mmi_crossing_w2
+  parameter: crossing_loss_db
+  value: 0.07
+  unit: dB
+  statistic: best
+  wavelength_nm: 476
+  polarization: te
+  scope: per_component
+  condition: minimum of the measured loss-per-crossing spectrum (cutback with 1, 15, 30 and 45 crossings), near 476 nm
+  method: cutback
+  basis: extracted_from_figure
+  locator: p.11 Fig. 8(b)
+  notes: "Pixel read of the cached embedded Fig. 8(b) raster: minimum 0.066 dB near 476 nm (reading uncertainty about 0.01 dB); the lowest of the six reads, matching the printed lower end 0.07 dB (p.10)."
+  why: "Replaces the family envelope (Q1, D552): Fig. 8(b) TE minimum"
+- metric_id: cmp_lit_sacher2019_mmi_crossing_w2-m13
+  component_id: cmp_lit_sacher2019_mmi_crossing_w2
+  parameter: crossing_loss_db
+  value: 0.085
+  unit: dB
+  statistic: best
+  wavelength_nm: 498
+  polarization: tm
+  scope: per_component
+  condition: minimum of the measured loss-per-crossing spectrum (cutback with 1, 15, 30 and 45 crossings), near 498 nm
+  method: cutback
+  basis: extracted_from_figure
+  locator: p.11 Fig. 8(b)
+  notes: "Pixel read of the cached embedded Fig. 8(b) raster: minimum 0.085 dB near 498 nm (reading uncertainty about 0.01 dB); the highest of the six minima, matching the printed upper end 0.09 dB (p.10)."
+  why: "Replaces the family envelope (Q1, D552): Fig. 8(b) TM minimum"
+- metric_id: cmp_lit_sacher2019_mmi_crossing_w3-m12
+  component_id: cmp_lit_sacher2019_mmi_crossing_w3
+  parameter: crossing_loss_db
+  value: 0.07
+  unit: dB
+  statistic: best
+  wavelength_nm: 482
+  polarization: te
+  scope: per_component
+  condition: minimum of the measured loss-per-crossing spectrum (cutback with 1, 15, 30 and 45 crossings), near 482 nm
+  method: cutback
+  basis: extracted_from_figure
+  locator: p.11 Fig. 8(c)
+  notes: "Pixel read of the cached embedded Fig. 8(c) raster: minimum 0.070 dB near 482 nm (reading uncertainty about 0.01 dB)."
+  why: "Replaces the family envelope (Q1, D552): Fig. 8(c) TE minimum"
+- metric_id: cmp_lit_sacher2019_mmi_crossing_w3-m13
+  component_id: cmp_lit_sacher2019_mmi_crossing_w3
+  parameter: crossing_loss_db
+  value: 0.08
+  unit: dB
+  statistic: best
+  wavelength_nm: 520
+  polarization: tm
+  scope: per_component
+  condition: minimum of the measured loss-per-crossing spectrum (cutback with 1, 15, 30 and 45 crossings), near 520 nm
+  method: cutback
+  basis: extracted_from_figure
+  locator: p.11 Fig. 8(c)
+  notes: "Pixel read of the cached embedded Fig. 8(c) raster: minimum 0.077 dB near 520 nm (reading uncertainty about 0.01 dB)."
+  why: "Replaces the family envelope (Q1, D552): Fig. 8(c) TM minimum"
+- metric_id: cmp_lit_sacher2019_mmi_1x2_w1_d1-m10
+  component_id: cmp_lit_sacher2019_mmi_1x2_w1_d1
+  parameter: excess_loss_db
+  value: 0.25
+  unit: dB
+  statistic: best
+  wavelength_nm: 478
+  polarization: te
+  scope: per_component
+  excludes: 3-dB split
+  condition: minimum of the measured excess-loss spectrum (cutback with 0, 1, 3, 7 or 1, 3, 5, 7 dividers; loss of each output beyond 3 dB), near 478 nm
+  method: cutback
+  basis: extracted_from_figure
+  locator: p.13 Fig. 11(a)
+  notes: "Pixel read of the cached embedded Fig. 11(a) raster (Design 1, TE): minimum 0.25 dB near 478 nm (reading uncertainty about 0.03 dB). Within the printed all-device range 0.19-0.47 dB (p.12)."
+  why: "Replaces the family envelope (Q1, D552): per-device, per-polarization minimum from Fig. 11; the eight reads span 0.19-0.47 dB, reproducing the printed endpoints"
+- metric_id: cmp_lit_sacher2019_mmi_1x2_w1_d1-m11
+  component_id: cmp_lit_sacher2019_mmi_1x2_w1_d1
+  parameter: excess_loss_db
+  value: 0.36
+  unit: dB
+  statistic: best
+  wavelength_nm: 529
+  polarization: tm
+  scope: per_component
+  excludes: 3-dB split
+  condition: minimum of the measured excess-loss spectrum (divider cutback), near 529 nm
+  method: cutback
+  basis: extracted_from_figure
+  locator: p.13 Fig. 11(a)
+  notes: "Pixel read of the cached embedded Fig. 11(a) raster (Design 1, TM): minimum 0.36 dB near 529 nm (reading uncertainty about 0.03 dB; trace flat near 0.4 dB from about 470 to 540 nm)."
+  why: "Replaces the family envelope (Q1, D552): Fig. 11(a) Design 1 TM minimum"
+- metric_id: cmp_lit_sacher2019_mmi_1x2_w1_d2-m10
+  component_id: cmp_lit_sacher2019_mmi_1x2_w1_d2
+  parameter: excess_loss_db
+  value: 0.2
+  unit: dB
+  statistic: best
+  wavelength_nm: 564
+  polarization: te
+  scope: per_component
+  excludes: 3-dB split
+  condition: minimum of the measured excess-loss spectrum (divider cutback), near 564 nm
+  method: cutback
+  basis: extracted_from_figure
+  locator: p.13 Fig. 11(a)
+  notes: "Pixel read of the cached embedded Fig. 11(a) raster (Design 2, TE, dotted): minimum 0.20 dB near 564 nm (reading uncertainty about 0.03 dB)."
+  why: "Replaces the family envelope (Q1, D552): Fig. 11(a) Design 2 TE minimum"
+- metric_id: cmp_lit_sacher2019_mmi_1x2_w1_d2-m11
+  component_id: cmp_lit_sacher2019_mmi_1x2_w1_d2
+  parameter: excess_loss_db
+  value: 0.47
+  unit: dB
+  statistic: best
+  wavelength_nm: 592
+  polarization: tm
+  scope: per_component
+  excludes: 3-dB split
+  condition: minimum of the measured excess-loss spectrum (divider cutback), near 592 nm
+  method: cutback
+  basis: extracted_from_figure
+  locator: p.13 Fig. 11(a)
+  notes: "Pixel read of the cached embedded Fig. 11(a) raster (Design 2, TM, dotted): minimum 0.47 dB near 592 nm (reading uncertainty about 0.03 dB); the highest of the eight minima, matching the printed upper end 0.47 dB (p.12)."
+  why: "Replaces the family envelope (Q1, D552): Fig. 11(a) Design 2 TM minimum"
+- metric_id: cmp_lit_sacher2019_mmi_1x2_w2_d3-m10
+  component_id: cmp_lit_sacher2019_mmi_1x2_w2_d3
+  parameter: excess_loss_db
+  value: 0.19
+  unit: dB
+  statistic: best
+  wavelength_nm: 470
+  polarization: te
+  scope: per_component
+  excludes: 3-dB split
+  condition: minimum of the measured excess-loss spectrum (divider cutback), near 470 nm
+  method: cutback
+  basis: extracted_from_figure
+  locator: p.13 Fig. 11(b)
+  notes: "Pixel read of the cached embedded Fig. 11(b) raster (Design 3, TE): minimum 0.19 dB near 470 nm (reading uncertainty about 0.03 dB); the lowest of the eight minima, matching the printed lower end 0.19 dB (p.12)."
+  why: "Replaces the family envelope (Q1, D552): Fig. 11(b) Design 3 TE minimum"
+- metric_id: cmp_lit_sacher2019_mmi_1x2_w2_d3-m11
+  component_id: cmp_lit_sacher2019_mmi_1x2_w2_d3
+  parameter: excess_loss_db
+  value: 0.25
+  unit: dB
+  statistic: best
+  wavelength_nm: 478
+  polarization: tm
+  scope: per_component
+  excludes: 3-dB split
+  condition: minimum of the measured excess-loss spectrum (divider cutback), near 478 nm
+  method: cutback
+  basis: extracted_from_figure
+  locator: p.13 Fig. 11(b)
+  notes: "Pixel read of the cached embedded Fig. 11(b) raster (Design 3, TM): minimum 0.25 dB near 478 nm (reading uncertainty about 0.03 dB)."
+  why: "Replaces the family envelope (Q1, D552): Fig. 11(b) Design 3 TM minimum"
+- metric_id: cmp_lit_sacher2019_mmi_1x2_w3_d1-m10
+  component_id: cmp_lit_sacher2019_mmi_1x2_w3_d1
+  parameter: excess_loss_db
+  value: 0.23
+  unit: dB
+  statistic: best
+  wavelength_nm: 469
+  polarization: te
+  scope: per_component
+  excludes: 3-dB split
+  condition: minimum of the measured excess-loss spectrum (divider cutback), near 469 nm
+  method: cutback
+  basis: extracted_from_figure
+  locator: p.13 Fig. 11(c)
+  notes: "Pixel read of the cached embedded Fig. 11(c) raster (Design 1, TE): minimum 0.23 dB near 469 nm (reading uncertainty about 0.03 dB)."
+  why: "Replaces the family envelope (Q1, D552): Fig. 11(c) Design 1 TE minimum"
+- metric_id: cmp_lit_sacher2019_mmi_1x2_w3_d1-m11
+  component_id: cmp_lit_sacher2019_mmi_1x2_w3_d1
+  parameter: excess_loss_db
+  value: 0.39
+  unit: dB
+  statistic: best
+  wavelength_nm: 501
+  polarization: tm
+  scope: per_component
+  excludes: 3-dB split
+  condition: minimum of the measured excess-loss spectrum (divider cutback), near 501 nm
+  method: cutback
+  basis: extracted_from_figure
+  locator: p.13 Fig. 11(c)
+  notes: "Pixel read of the cached embedded Fig. 11(c) raster (Design 1, TM): minimum 0.39 dB near 501 nm (reading uncertainty about 0.03 dB)."
+  why: "Replaces the family envelope (Q1, D552): Fig. 11(c) Design 1 TM minimum"

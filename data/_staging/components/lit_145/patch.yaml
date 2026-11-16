@@ -1,0 +1,145 @@
+# Audit patch lit_145 (fresh-context audit 2026-11-15, DevLog/audits/2026-11-15-lit_145-audit.md).
+# 133 metrics: 122 ok / 10 imprecise / 1 wrong; 22 components: 15 ok / 7 imprecise; 0 deleted; 7 misses added
+# (6 fard2017 intrinsic widths, D153 geometry; 1 poot2014 figure-read phase shift).
+# Coordinator rulings open (audit Q1-Q7); none of them needs an op here unless the coordinator rules against the recommendation:
+# Q1 shu2026 PZT tuner pm/V and rise / fall times: keep on the tuner row (no op). To apply rule 2 strictly instead:
+#    delete_metrics cmp_lit_shu2026_pzt_mrr_tuner-m1 / -m2 / -m3 (values to component notes).
+# Q2 shu2026 WSS and weight-matrix values as conditions on the one switch_fabric.other row: keep (no op).
+# Q3 shu2026 Hangzhou Institute for Advanced Study, UCAS: org round first, then a fab fix on the 3 rows (no op here).
+# Q4 fard2017 CMC "contributions and technical support": not a fab org (no op; simard2015 precedent).
+# Q5 sun2018 0.8 mA/cm2 kept out (D159) and device C 0.76 A/W kept (figure label) (no op).
+# Q6 sun2018 responsivity rows stay on the 30 um rows with a diameter note (notes ops below).
+# Q7 poot2014 Vpi ~10 V author_estimate (D435) (no op).
+components:
+  cmp_lit_fard2017_pd1_gc_wi5um:
+    process_name: "0.12 um SOI, 0.22 um thickness"
+    why: "process_name as printed (p.11 Table 1 'Technol.' column for this work: 0.12 um, SOI, 0.22 um thickness); the value carried '(IME, Table 1)', a locator and an org that belong in notes / fab_org_ids, not in the tooltip text (Contract v7: as printed)"
+  cmp_lit_fard2017_pd1_nogc:
+    process_name: "0.12 um SOI, 0.22 um thickness"
+    why: "process_name as printed (p.11 Table 1); locator and org removed from the field (Contract v7)"
+  cmp_lit_fard2017_pd2_gc_wi2um:
+    process_name: "0.12 um SOI, 0.22 um thickness"
+    why: "process_name as printed (p.11 Table 1); locator and org removed from the field (Contract v7)"
+  cmp_lit_fard2017_pd3_gc_wi1um_3finger:
+    process_name: "0.12 um SOI, 0.22 um thickness"
+    why: "process_name as printed (p.11 Table 1); locator and org removed from the field (Contract v7)"
+  cmp_lit_fard2017_pd3_nogc:
+    process_name: "0.12 um SOI, 0.22 um thickness"
+    why: "process_name as printed (p.11 Table 1); locator and org removed from the field (Contract v7)"
+  cmp_lit_fard2017_pd4_fgc_wi0p3um:
+    process_name: "0.12 um SOI, 0.22 um thickness"
+    why: "process_name as printed (p.11 Table 1); locator and org removed from the field (Contract v7)"
+  cmp_lit_fard2017_gc_850_straight:
+    process_name: "0.12 um SOI, 0.22 um thickness"
+    why: "process_name as printed (p.11 Table 1); locator and org removed from the field (Contract v7)"
+metrics:
+  cmp_lit_shu2026_pzt_mrr_test_ring-m1:
+    band: c_band
+    wavelength_inferred: 'true'
+    notes: "Printed '~2.5 nm' for the test MRR (p.5); the matrix MRRs carry the same 'FSR ~ 2.5 nm' label in Fig. 3(c)-(d). No wavelength stated with the value; C band inferred from the Fig. 2(c) spectra (1551-1553.5 nm axis) and the Fig. 3(c)-(d) axes (1550-1560 nm)."
+    why: "rule 8: FSR is a spectral value with no stated wavelength; the measured spectra of the test MRR (p.5 Fig. 2(c), 1551-1553.5 nm) and of the matrix MRRs (p.7 Fig. 3(c)-(d), 1550-1560 nm) place it in the C band (inferred from the axes, lit_139 precedent)"
+  cmp_lit_shu2026_pzt_mrr_test_ring-m2:
+    band: c_band
+    wavelength_inferred: 'true'
+    notes: "Printed 'as large as an FSR (~2.5 nm)'. Monotonic red shift with Vset from 10 to 25 V. No wavelength stated with the value; C band inferred from the Fig. 2(c) axis (1551-1553.5 nm)."
+    why: "rule 8: the trimming range is read on the p.5 Fig. 2(c) spectra (1551-1553.5 nm axis); the text states no wavelength"
+  cmp_lit_shu2026_pzt_mrr_tuner-m1:
+    band: c_band
+    wavelength_inferred: 'true'
+    notes: "Printed 'up to 17.7 pm/V' (p.6), '~17.7 pm/V' (p.4, Fig. 2(d) label) and '17.7 pm/V' (p.14). Kept on this tuner row only (the ring row carries the trimming range and FSR, D396). No wavelength stated; C band inferred (same test MRR as the Fig. 2(c) spectra, 1551-1553.5 nm)."
+    why: "rule 8: p.5 Fig. 2(d) has no wavelength axis; the shifted resonance belongs to the test MRR whose spectra (Fig. 2(c)) lie at 1551-1553.5 nm"
+  cmp_lit_shu2026_matrix_4x4-m5:
+    band: c_band
+    wavelength_inferred: 'true'
+    notes: "Printed 'high ERs of ~40 dB'; no wavelength stated with the value; C band inferred from the Fig. 3(d) axis (1550-1560 nm)."
+    why: "rule 8: the through-port notch depth is read on p.7 Fig. 3(d), whose axis spans 1550-1560 nm; the text states no wavelength"
+  cmp_lit_sun2018_dev_a_mutc_si_d30-m1:
+    notes: "Figure label of the fitted slope. Mesa diameter of the Fig. 6 devices not stated (Sec. 3 states 30 um for the dark current, S11 and bandwidth data and 40 um for the RF saturation data); entered on the 30 um row by device letter."
+    why: "p.5 'The responsivity of the PDs were measured at 1550 nm' and p.6 Fig. 6 name the device letters only; the row's diameter assignment is an inference and the note now says so"
+  cmp_lit_sun2018_dev_b_mutc_inp_d30-m1:
+    notes: "Figure label of the fitted slope. Mesa diameter of the Fig. 6 devices not stated (Sec. 3 states 30 um for the dark current, S11 and bandwidth data and 40 um for the RF saturation data); entered on the 30 um row by device letter."
+    why: "p.5 and p.6 Fig. 6 name the device letters only; diameter assignment inferred, now noted"
+  cmp_lit_sun2018_dev_c_pin_si_d30-m1:
+    notes: "Figure label 0.76 A/W for device C (blue arrow to the device C line); the text (p.5) prints 0.79 A/W for both C and D (conflict noted, D417; the device-specific label is entered). Mesa diameter of the Fig. 6 devices not stated (Sec. 3 states 30 um for the dark current, S11 and bandwidth data and 40 um for the RF saturation data); entered on the 30 um row by device letter."
+    why: "p.5 and p.6 Fig. 6 name the device letters only; diameter assignment inferred, now noted (label assignment confirmed on the render: 0.76 blue arrow to C, 0.79 magenta arrow to D)"
+  cmp_lit_sun2018_dev_d_pin_inp_d30-m1:
+    notes: "Figure label (magenta arrow to the device D line); text p.5 prints 0.79 A/W for devices C and D. Mesa diameter of the Fig. 6 devices not stated (Sec. 3 states 30 um for the dark current, S11 and bandwidth data and 40 um for the RF saturation data); entered on the 30 um row by device letter."
+    why: "p.5 and p.6 Fig. 6 name the device letters only; diameter assignment inferred, now noted"
+  cmp_lit_sun2018_dev_e_pin2_si_d30-m1:
+    notes: "Figure label of the fitted slope. Mesa diameter of the Fig. 6 devices not stated (Sec. 3 states 30 um for the dark current data; device E was excluded from the RF tests); entered on the 30 um row by device letter."
+    why: "p.5 and p.6 Fig. 6 name the device letters only; diameter assignment inferred, now noted"
+  cmp_lit_poot2014_hres_dopt125_delec175-m7:
+    notes: "Printed 'more than 90 deg' for 'a single device' (deg -> pi, D256); assigned to this device: the sentence follows its > 3 nm shift and only its curve passes 90 deg on the Fig. 2(c) right axis (lowest point at -6 V about 3.2 nm below the curve's 0 V position, about 92 deg; the curves are offset for clarity)."
+    why: "p.3 Fig. 2(c) pixel read of the cached render (37.7 px/nm; curve vertex at -1.07 nm, lowest point at -6.0 V at about -4.3 nm): about 3.2 nm / 92 deg, not 3.35 nm / 96 deg as the note said; value > 0.5 pi unchanged"
+  cmp_lit_poot2014_hres_dopt158_delec225-m7:
+    value: "0.25"
+    condition: "static actuation at +/-10 V; wavelength shift about 1.55 nm converted with the 12.6 nm mean fringe period (Fig. 2(c) right axis)"
+    notes: "Read about -1.55 nm (+/-0.1 nm) at -10 V and +10 V on the top curve (not offset, vertex at 0 nm), about 44 deg (+/-3 deg) on the right axis; = 0.25 pi (+/-0.02 pi). The right axis uses the 12.6 nm mean fringe period; the caption says all periods deviate less than 10 % from it."
+    why: "wrong reading. p.3 Fig. 2(c) pixel read of the cached render: axis ticks 0 / -1 / -2 nm at y 192.5 / 230 / 268 (37.7 px/nm), -10 / 0 / 10 V at x 837 / 980 / 1124; the 158 / 225 nm data and fit reach y about 250-254 at x 837-842 and about 247-251 at x 1118-1124, i.e. -1.5 to -1.6 nm at +/-10 V. The -1 nm level is crossed near -8.4 V, so the row's 1.0 nm / 29 deg / 0.16 pi reading was taken off the wrong point"
+add_metrics:
+- metric_id: cmp_lit_fard2017_pd1_gc_wi5um-m12
+  component_id: cmp_lit_fard2017_pd1_gc_wi5um
+  parameter: absorber_width_um
+  value: 5
+  unit: um
+  condition: intrinsic-region width of the lateral p-i-n diode
+  basis: design_target
+  locator: p.5 Sec. 2.1; p.4 Fig. 2(b)
+  why: "Miss (D153 geometry; chatterjee2019 precedent for the intrinsic width of a lateral Si p-i-n PD as absorber_width_um). p.5: 'the intrinsic width is 5 um'; Fig. 2(b) label 5 um; the defining design dimension (in the row label)"
+- metric_id: cmp_lit_fard2017_pd1_nogc-m2
+  component_id: cmp_lit_fard2017_pd1_nogc
+  parameter: absorber_width_um
+  value: 5
+  unit: um
+  condition: intrinsic-region width of the lateral p-i-n diode (same structure as Si-PD no. 1 without the grating coupler)
+  basis: design_target
+  locator: p.6 Sec. 2.2; p.7 Sec. 3
+  why: "Miss (D153 geometry). p.6: Si-PDs 'similar to the grating-assisted Si-PDs no. 1 and no. 3 but without grating coupler'; p.7 'the same structure as the grating-assisted Si-PD no. 1'; no. 1 intrinsic width 5 um (p.5)"
+- metric_id: cmp_lit_fard2017_pd2_gc_wi2um-m11
+  component_id: cmp_lit_fard2017_pd2_gc_wi2um
+  parameter: absorber_width_um
+  value: 2
+  unit: um
+  condition: intrinsic-region width of the lateral p-i-n diode
+  basis: design_target
+  locator: p.5 Sec. 2.2; p.6 Fig. 4(a)
+  why: "Miss (D153 geometry). p.5: Si-PD no. 2 'with an intrinsic width of 2 um'"
+- metric_id: cmp_lit_fard2017_pd3_gc_wi1um_3finger-m11
+  component_id: cmp_lit_fard2017_pd3_gc_wi1um_3finger
+  parameter: absorber_width_um
+  value: 1
+  unit: um
+  condition: intrinsic-region width of each of the three p-i-n diode fingers
+  basis: design_target
+  locator: p.6 Sec. 2.2; p.6 Fig. 4(b)
+  why: "Miss (D153 geometry). p.6: Si-PD no. 3 reduces 'the intrinsic width to 1 um', three small PDs combined"
+- metric_id: cmp_lit_fard2017_pd3_nogc-m2
+  component_id: cmp_lit_fard2017_pd3_nogc
+  parameter: absorber_width_um
+  value: 1
+  unit: um
+  condition: intrinsic-region width of each of the three p-i-n diode fingers (same structure as Si-PD no. 3 without the grating coupler)
+  basis: design_target
+  locator: p.6 Sec. 2.2; p.7 Sec. 3
+  why: "Miss (D153 geometry). p.7: 'a Si-PD with the same structure as Si-PD no. 3 but without the grating coupler'; no. 3 intrinsic width 1 um (p.6)"
+- metric_id: cmp_lit_fard2017_pd4_fgc_wi0p3um-m11
+  component_id: cmp_lit_fard2017_pd4_fgc_wi0p3um
+  parameter: absorber_width_um
+  value: 0.3
+  unit: um
+  condition: intrinsic-region width of the lateral p-i-n diode in the 500 nm rib
+  basis: design_target
+  locator: p.6 Sec. 2.2; p.6 Fig. 4(c)
+  why: "Miss (D153 geometry). p.6: the focusing GC couples into 'a 500 nm width rib waveguide with 0.3 um intrinsic width'"
+- metric_id: cmp_lit_poot2014_hres_dopt125_delec225-m10
+  component_id: cmp_lit_poot2014_hres_dopt125_delec225
+  parameter: phase_shift_pi
+  value: 0.23
+  unit: pi
+  qualifier: approx
+  condition: "static actuation at -5 V and +5 V (ends of this device's data); wavelength shift about 1.45 nm from the curve's 0 V vertex, converted with the 12.6 nm mean fringe period"
+  method: direct
+  basis: extracted_from_figure
+  locator: p.3 Fig. 2(c)
+  notes: "Read about 1.45 nm (+/-0.1 nm) below the 0 V vertex of the offset curve (vertex about -0.49 nm, ends about -1.92 to -1.97 nm at +/-5 V), about 41 deg; = 0.23 pi (+/-0.02 pi). The right axis uses the 12.6 nm mean fringe period (periods within 10 %, caption). Same device as the Fig. 3 dynamic data (static 5 V)."
+  why: "Miss. The 158 / 225 nm row carries its Fig. 2(c) read; the 125 / 225 nm curve is also measured (p.3 Fig. 2(c), labelled 125 nm / 225 nm, data -5 to 5 V) and was not read. Pixel read of the cached render: vertex y 211, ends y 265-267 (37.7 px/nm)"

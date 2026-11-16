@@ -1,0 +1,335 @@
+# Audit patch lit_153 (fresh-context audit 2026-11-15, DevLog/audits/2026-11-15-lit_153-audit.md).
+# 306 metrics: 256 ok / 50 imprecise / 0 wrong; 47 components: 47 ok / 0 imprecise / 0 wrong (5 note syncs); 0 deleted;
+# 5 misses added (pathak2012a Fig. 11 phase-error crosstalk of the 44 / 47 / 50 / 53-waveguide devices, sciancalepore2014
+# PCG BOX 0.8 um). All 50 imprecise rows are rule-8 wavelength conditions (band / wavelength missing on values whose
+# operating band or sibling-row wavelength is stated). After the patch: 47 components, 311 metrics.
+# Coordinator rulings proposed (audit Q1-Q6), no op unless noted: Q1 pathak2012a 17.0 / 19.5 dB stay out (D408 / D424),
+# the Fig. 11 56-waveguide point with them (component note op only); Q2 wang2024c on-chip IL author_estimate and fab empty
+# kept; Q3 yi2022 band nir_above_u inferred kept (bandwidth rows aligned, ops); Q4 qiu2018 tuning stays on the heater row;
+# Q5 sciancalepore2014 wafer statistics / 60 pm/C stay in notes (D159); Q6 ePIXfab / WNF: fab / facility empty until the
+# org round (already queued since D422 / D579).
+'components':
+  'cmp_lit_pathak2012a_mmi_awg_12x400_44wg':
+    'notes': 'Member of the array-size series 44 / 47 / 50 / 53 / 56 waveguides, all with the 5 um x 15 um MMI aperture (p.5 Sec. V-B, Fig. 9-11); the 56-waveguide device is cmp_lit_pathak2012a_mmi_awg_12x400_56wg. Normalized 1-dB / 10-dB passband widths (Fig. 10(a)) have no registry parameter; the Fig. 9 transmission peaks (channel not identified) are not entered; the measured phase-error crosstalk point of Fig. 11 (red) is entered as crosstalk_db (audit 2026-11-15). Fab: ''The experimental AWG devices were fabricated through ePIXfab'' (p.7 Acknowledgment): MPW access service named for fabrication (D398, Contract v7); the foundry behind it is not named in the paper. All authors at Ghent University - IMEC (no first-person fabrication sentence). ePIXfab is not in the registry: fab empty until the org round (reported).'
+    'why': 'Note sync with the added Fig. 11 phase-error crosstalk row (p.5)'
+  'cmp_lit_pathak2012a_mmi_awg_12x400_47wg':
+    'notes': 'Member of the array-size series 44 / 47 / 50 / 53 / 56 waveguides, all with the 5 um x 15 um MMI aperture (p.5 Sec. V-B, Fig. 9-11); the 56-waveguide device is cmp_lit_pathak2012a_mmi_awg_12x400_56wg. Normalized 1-dB / 10-dB passband widths (Fig. 10(a)) have no registry parameter; the Fig. 9 transmission peaks (channel not identified) are not entered; the measured phase-error crosstalk point of Fig. 11 (red) is entered as crosstalk_db (audit 2026-11-15). Fab: ''The experimental AWG devices were fabricated through ePIXfab'' (p.7 Acknowledgment): MPW access service named for fabrication (D398, Contract v7); the foundry behind it is not named in the paper. All authors at Ghent University - IMEC (no first-person fabrication sentence). ePIXfab is not in the registry: fab empty until the org round (reported).'
+    'why': 'Note sync with the added Fig. 11 phase-error crosstalk row (p.5)'
+  'cmp_lit_pathak2012a_mmi_awg_12x400_50wg':
+    'notes': 'Member of the array-size series 44 / 47 / 50 / 53 / 56 waveguides, all with the 5 um x 15 um MMI aperture (p.5 Sec. V-B, Fig. 9-11); the 56-waveguide device is cmp_lit_pathak2012a_mmi_awg_12x400_56wg. Normalized 1-dB / 10-dB passband widths (Fig. 10(a)) have no registry parameter; the Fig. 9 transmission peaks (channel not identified) are not entered; the measured phase-error crosstalk point of Fig. 11 (red) is entered as crosstalk_db (audit 2026-11-15). Fab: ''The experimental AWG devices were fabricated through ePIXfab'' (p.7 Acknowledgment): MPW access service named for fabrication (D398, Contract v7); the foundry behind it is not named in the paper. All authors at Ghent University - IMEC (no first-person fabrication sentence). ePIXfab is not in the registry: fab empty until the org round (reported).'
+    'why': 'Note sync with the added Fig. 11 phase-error crosstalk row (p.5)'
+  'cmp_lit_pathak2012a_mmi_awg_12x400_53wg':
+    'notes': 'Member of the array-size series 44 / 47 / 50 / 53 / 56 waveguides, all with the 5 um x 15 um MMI aperture (p.5 Sec. V-B, Fig. 9-11); the 56-waveguide device is cmp_lit_pathak2012a_mmi_awg_12x400_56wg. Normalized 1-dB / 10-dB passband widths (Fig. 10(a)) have no registry parameter; the Fig. 9 transmission peaks (channel not identified) are not entered; the measured phase-error crosstalk point of Fig. 11 (red) is entered as crosstalk_db (audit 2026-11-15). Fab: ''The experimental AWG devices were fabricated through ePIXfab'' (p.7 Acknowledgment): MPW access service named for fabrication (D398, Contract v7); the foundry behind it is not named in the paper. All authors at Ghent University - IMEC (no first-person fabrication sentence). ePIXfab is not in the registry: fab empty until the org round (reported).'
+    'why': 'Note sync with the added Fig. 11 phase-error crosstalk row (p.5)'
+  'cmp_lit_pathak2012a_mmi_awg_12x400_56wg':
+    'notes': 'Optimized device of the paper (p.5 Sec. V-C): input aperture = 42 um long, 4 um wide shallow taper plus 5 um wide, 15 um long MMI; array waveguides tapered to 2 um at the star couplers with 0.2 um separation; output apertures 2 um, 25 um adiabatic taper to a 450 nm wire (p.2). Spectra de-embedded by subtracting the transmission of a reference waveguide with identical grating couplers (p.4 Sec. V). Grating couplers about 30 % efficient per ref. [15] (cited, not entered). Fab: ''The experimental AWG devices were fabricated through ePIXfab'' (p.7 Acknowledgment): MPW access service named for fabrication (D398, Contract v7); the foundry behind it is not named in the paper. All authors at Ghent University - IMEC (no first-person fabrication sentence). ePIXfab is not in the registry: fab empty until the org round (reported). Not entered: measured crosstalk 17.0 dB and simulated 19.5 dB (p.5-6): the value sentence carries the authors'' own GFP 2011 paper [16] (''crosstalk of 17.0 dB [16]''), D408 / D424 pathak2012 precedent (the loss and non-uniformity in the same sentence carry no citation); aspect ratio (1-dB / 10-dB passband) 0.52 measured (p.7) and 0.49 simulated, 0.33 for a conventional AWG (p.5; no registry parameter); 1-dB / 3-dB / 10-dB bandwidth non-uniformity 0.23 / 0.17 / 0.15 nm (p.6-7; the ranges are in the bandwidth rows); channel spacing per channel pair about 360-419 GHz (Fig. 16). The Fig. 11 points of this 56-waveguide device (measured phase-error crosstalk about -16.8 dB read off the figure; neighbouring-channel crosstalk hidden in that floor, p.5) are the quantity the p.6 sentence attributes to [16]: not entered either (audit 2026-11-15).'
+    'why': 'Record that the Fig. 11 56-waveguide point is the [16]-attributed 17.0 dB value (D408 / D424), kept out with it'
+'metrics':
+  'cmp_lit_naghdi2016_cdc_lc50_g100-m1':
+    'band': 'c_band'
+    'wavelength_inferred': 'true'
+    'notes': 'read off Fig. 5(a); reading uncertainty about +/-0.3 nm. Band c_band inferred (rule 8): the period-378 nm series is characterized ''for C-band operation'' (p.7), lambda_C near 1558 nm (Table 1).'
+    'why': 'rule 8: no wavelength printed with the value; p.7 fixes the period-378 nm series ''for C-band operation'' (lambda_C 1557.88 nm, Table 1), and the family IL row already carries c_band inferred'
+  'cmp_lit_naghdi2016_cdc_lc50_g100-m2':
+    'band': 'c_band'
+    'wavelength_inferred': 'true'
+    'notes': 'read off Fig. 6(a); reading uncertainty about +/-1 dB. Band c_band inferred (rule 8): the period-378 nm series is characterized ''for C-band operation'' (p.7), lambda_C near 1558 nm (Table 1).'
+    'why': 'rule 8: no wavelength printed with the value; p.7 fixes the period-378 nm series ''for C-band operation'' (lambda_C 1557.88 nm, Table 1), and the family IL row already carries c_band inferred'
+  'cmp_lit_naghdi2016_cdc_lc50_g150-m1':
+    'band': 'c_band'
+    'wavelength_inferred': 'true'
+    'notes': 'read off Fig. 5(a); reading uncertainty about +/-0.3 nm. Band c_band inferred (rule 8): the period-378 nm series is characterized ''for C-band operation'' (p.7), lambda_C near 1558 nm (Table 1).'
+    'why': 'rule 8: no wavelength printed with the value; p.7 fixes the period-378 nm series ''for C-band operation'' (lambda_C 1557.88 nm, Table 1), and the family IL row already carries c_band inferred'
+  'cmp_lit_naghdi2016_cdc_lc50_g150-m2':
+    'band': 'c_band'
+    'wavelength_inferred': 'true'
+    'notes': 'read off Fig. 6(a); reading uncertainty about +/-1 dB. Band c_band inferred (rule 8): the period-378 nm series is characterized ''for C-band operation'' (p.7), lambda_C near 1558 nm (Table 1).'
+    'why': 'rule 8: no wavelength printed with the value; p.7 fixes the period-378 nm series ''for C-band operation'' (lambda_C 1557.88 nm, Table 1), and the family IL row already carries c_band inferred'
+  'cmp_lit_naghdi2016_cdc_lc100_g100-m1':
+    'band': 'c_band'
+    'wavelength_inferred': 'true'
+    'notes': 'read off Fig. 5(a); reading uncertainty about +/-0.3 nm. Band c_band inferred (rule 8): the period-378 nm series is characterized ''for C-band operation'' (p.7), lambda_C near 1558 nm (Table 1).'
+    'why': 'rule 8: no wavelength printed with the value; p.7 fixes the period-378 nm series ''for C-band operation'' (lambda_C 1557.88 nm, Table 1), and the family IL row already carries c_band inferred'
+  'cmp_lit_naghdi2016_cdc_lc100_g100-m2':
+    'band': 'c_band'
+    'wavelength_inferred': 'true'
+    'notes': 'read off Fig. 6(a); reading uncertainty about +/-1 dB. Band c_band inferred (rule 8): the period-378 nm series is characterized ''for C-band operation'' (p.7), lambda_C near 1558 nm (Table 1).'
+    'why': 'rule 8: no wavelength printed with the value; p.7 fixes the period-378 nm series ''for C-band operation'' (lambda_C 1557.88 nm, Table 1), and the family IL row already carries c_band inferred'
+  'cmp_lit_naghdi2016_cdc_lc100_g150-m1':
+    'band': 'c_band'
+    'wavelength_inferred': 'true'
+    'notes': 'read off Fig. 5(a); reading uncertainty about +/-0.3 nm. Band c_band inferred (rule 8): the period-378 nm series is characterized ''for C-band operation'' (p.7), lambda_C near 1558 nm (Table 1).'
+    'why': 'rule 8: no wavelength printed with the value; p.7 fixes the period-378 nm series ''for C-band operation'' (lambda_C 1557.88 nm, Table 1), and the family IL row already carries c_band inferred'
+  'cmp_lit_naghdi2016_cdc_lc100_g150-m2':
+    'band': 'c_band'
+    'wavelength_inferred': 'true'
+    'notes': 'read off Fig. 6(a); reading uncertainty about +/-1 dB. Band c_band inferred (rule 8): the period-378 nm series is characterized ''for C-band operation'' (p.7), lambda_C near 1558 nm (Table 1).'
+    'why': 'rule 8: no wavelength printed with the value; p.7 fixes the period-378 nm series ''for C-band operation'' (lambda_C 1557.88 nm, Table 1), and the family IL row already carries c_band inferred'
+  'cmp_lit_naghdi2016_cdc_lc100_g200-m1':
+    'band': 'c_band'
+    'wavelength_inferred': 'true'
+    'notes': 'read off Fig. 5(a); reading uncertainty about +/-0.3 nm. Band c_band inferred (rule 8): the period-378 nm series is characterized ''for C-band operation'' (p.7), lambda_C near 1558 nm (Table 1).'
+    'why': 'rule 8: no wavelength printed with the value; p.7 fixes the period-378 nm series ''for C-band operation'' (lambda_C 1557.88 nm, Table 1), and the family IL row already carries c_band inferred'
+  'cmp_lit_naghdi2016_cdc_lc100_g200-m2':
+    'band': 'c_band'
+    'wavelength_inferred': 'true'
+    'notes': 'read off Fig. 6(a); reading uncertainty about +/-1 dB. Band c_band inferred (rule 8): the period-378 nm series is characterized ''for C-band operation'' (p.7), lambda_C near 1558 nm (Table 1).'
+    'why': 'rule 8: no wavelength printed with the value; p.7 fixes the period-378 nm series ''for C-band operation'' (lambda_C 1557.88 nm, Table 1), and the family IL row already carries c_band inferred'
+  'cmp_lit_naghdi2016_cdc_lc100_g250-m1':
+    'band': 'c_band'
+    'wavelength_inferred': 'true'
+    'notes': 'read off Fig. 5(a); reading uncertainty about +/-0.3 nm. Band c_band inferred (rule 8): the period-378 nm series is characterized ''for C-band operation'' (p.7), lambda_C near 1558 nm (Table 1).'
+    'why': 'rule 8: no wavelength printed with the value; p.7 fixes the period-378 nm series ''for C-band operation'' (lambda_C 1557.88 nm, Table 1), and the family IL row already carries c_band inferred'
+  'cmp_lit_naghdi2016_cdc_lc100_g250-m2':
+    'band': 'c_band'
+    'wavelength_inferred': 'true'
+    'notes': 'read off Fig. 6(a); reading uncertainty about +/-1 dB. Band c_band inferred (rule 8): the period-378 nm series is characterized ''for C-band operation'' (p.7), lambda_C near 1558 nm (Table 1).'
+    'why': 'rule 8: no wavelength printed with the value; p.7 fixes the period-378 nm series ''for C-band operation'' (lambda_C 1557.88 nm, Table 1), and the family IL row already carries c_band inferred'
+  'cmp_lit_naghdi2016_cdc_lc200_g100-m1':
+    'band': 'c_band'
+    'wavelength_inferred': 'true'
+    'notes': 'abstract ''changing the gap distance from 100 nm up to 500 nm allows for bandwidths from 18.2 nm down to 0.9 nm''; tied to LC = 200 um at g = 100 nm by Fig. 5(a) (LC 50 / 100 um points there read about 21 / 19.5 nm). Band c_band inferred (rule 8): the period-378 nm series is characterized ''for C-band operation'' (p.7), lambda_C near 1558 nm (Table 1).'
+    'why': 'rule 8: no wavelength printed with the value; p.7 fixes the period-378 nm series ''for C-band operation'' (lambda_C 1557.88 nm, Table 1), and the family IL row already carries c_band inferred'
+  'cmp_lit_naghdi2016_cdc_lc200_g100-m2':
+    'band': 'c_band'
+    'wavelength_inferred': 'true'
+    'notes': 'read off Fig. 6(a); reading uncertainty about +/-1 dB. Band c_band inferred (rule 8): the period-378 nm series is characterized ''for C-band operation'' (p.7), lambda_C near 1558 nm (Table 1).'
+    'why': 'rule 8: no wavelength printed with the value; p.7 fixes the period-378 nm series ''for C-band operation'' (lambda_C 1557.88 nm, Table 1), and the family IL row already carries c_band inferred'
+  'cmp_lit_naghdi2016_cdc_lc200_g150-m1':
+    'band': 'c_band'
+    'wavelength_inferred': 'true'
+    'notes': 'read off Fig. 5(a); reading uncertainty about +/-0.3 nm. Band c_band inferred (rule 8): the period-378 nm series is characterized ''for C-band operation'' (p.7), lambda_C near 1558 nm (Table 1).'
+    'why': 'rule 8: no wavelength printed with the value; p.7 fixes the period-378 nm series ''for C-band operation'' (lambda_C 1557.88 nm, Table 1), and the family IL row already carries c_band inferred'
+  'cmp_lit_naghdi2016_cdc_lc200_g150-m2':
+    'band': 'c_band'
+    'wavelength_inferred': 'true'
+    'notes': 'read off Fig. 6(a); reading uncertainty about +/-1 dB. Band c_band inferred (rule 8): the period-378 nm series is characterized ''for C-band operation'' (p.7), lambda_C near 1558 nm (Table 1).'
+    'why': 'rule 8: no wavelength printed with the value; p.7 fixes the period-378 nm series ''for C-band operation'' (lambda_C 1557.88 nm, Table 1), and the family IL row already carries c_band inferred'
+  'cmp_lit_naghdi2016_cdc_lc200_g200-m1':
+    'band': 'c_band'
+    'wavelength_inferred': 'true'
+    'notes': 'read off Fig. 5(a); reading uncertainty about +/-0.3 nm. Band c_band inferred (rule 8): the period-378 nm series is characterized ''for C-band operation'' (p.7), lambda_C near 1558 nm (Table 1).'
+    'why': 'rule 8: no wavelength printed with the value; p.7 fixes the period-378 nm series ''for C-band operation'' (lambda_C 1557.88 nm, Table 1), and the family IL row already carries c_band inferred'
+  'cmp_lit_naghdi2016_cdc_lc200_g200-m2':
+    'band': 'c_band'
+    'wavelength_inferred': 'true'
+    'notes': 'read off Fig. 6(a); reading uncertainty about +/-1 dB. Band c_band inferred (rule 8): the period-378 nm series is characterized ''for C-band operation'' (p.7), lambda_C near 1558 nm (Table 1).'
+    'why': 'rule 8: no wavelength printed with the value; p.7 fixes the period-378 nm series ''for C-band operation'' (lambda_C 1557.88 nm, Table 1), and the family IL row already carries c_band inferred'
+  'cmp_lit_naghdi2016_cdc_lc200_g250-m1':
+    'band': 'c_band'
+    'wavelength_inferred': 'true'
+    'notes': 'read off Fig. 5(a); reading uncertainty about +/-0.3 nm. Band c_band inferred (rule 8): the period-378 nm series is characterized ''for C-band operation'' (p.7), lambda_C near 1558 nm (Table 1).'
+    'why': 'rule 8: no wavelength printed with the value; p.7 fixes the period-378 nm series ''for C-band operation'' (lambda_C 1557.88 nm, Table 1), and the family IL row already carries c_band inferred'
+  'cmp_lit_naghdi2016_cdc_lc200_g250-m2':
+    'band': 'c_band'
+    'wavelength_inferred': 'true'
+    'notes': 'read off Fig. 6(a); reading uncertainty about +/-1 dB. Band c_band inferred (rule 8): the period-378 nm series is characterized ''for C-band operation'' (p.7), lambda_C near 1558 nm (Table 1).'
+    'why': 'rule 8: no wavelength printed with the value; p.7 fixes the period-378 nm series ''for C-band operation'' (lambda_C 1557.88 nm, Table 1), and the family IL row already carries c_band inferred'
+  'cmp_lit_naghdi2016_cdc_lc200_g250-m3':
+    'band': 'c_band'
+    'wavelength_inferred': 'true'
+    'notes': '''over 35 dB suppression of codirectional coupling'' shown on this device (''a typical add-port spectral response'', dashed -35 dB line); stored as suppression magnitude. Band c_band inferred (rule 8): the period-378 nm series is characterized ''for C-band operation'' (p.7), lambda_C near 1558 nm (Table 1).'
+    'why': 'rule 8: no wavelength printed with the value; p.7 fixes the period-378 nm series ''for C-band operation'' (lambda_C 1557.88 nm, Table 1), and the family IL row already carries c_band inferred'
+  'cmp_lit_naghdi2016_cdc_lc200_g300-m1':
+    'band': 'c_band'
+    'wavelength_inferred': 'true'
+    'notes': 'read off Fig. 5(a); reading uncertainty about +/-0.3 nm. Band c_band inferred (rule 8): the period-378 nm series is characterized ''for C-band operation'' (p.7), lambda_C near 1558 nm (Table 1).'
+    'why': 'rule 8: no wavelength printed with the value; p.7 fixes the period-378 nm series ''for C-band operation'' (lambda_C 1557.88 nm, Table 1), and the family IL row already carries c_band inferred'
+  'cmp_lit_naghdi2016_cdc_lc200_g300-m2':
+    'band': 'c_band'
+    'wavelength_inferred': 'true'
+    'notes': 'read off Fig. 6(a); reading uncertainty about +/-1 dB. Band c_band inferred (rule 8): the period-378 nm series is characterized ''for C-band operation'' (p.7), lambda_C near 1558 nm (Table 1).'
+    'why': 'rule 8: no wavelength printed with the value; p.7 fixes the period-378 nm series ''for C-band operation'' (lambda_C 1557.88 nm, Table 1), and the family IL row already carries c_band inferred'
+  'cmp_lit_naghdi2016_cdc_lc400_g250-m1':
+    'band': 'c_band'
+    'wavelength_inferred': 'true'
+    'notes': 'read off Fig. 5(a); reading uncertainty about +/-0.3 nm. Band c_band inferred (rule 8): the period-378 nm series is characterized ''for C-band operation'' (p.7), lambda_C near 1558 nm (Table 1).'
+    'why': 'rule 8: no wavelength printed with the value; p.7 fixes the period-378 nm series ''for C-band operation'' (lambda_C 1557.88 nm, Table 1), and the family IL row already carries c_band inferred'
+  'cmp_lit_naghdi2016_cdc_lc400_g250-m2':
+    'band': 'c_band'
+    'wavelength_inferred': 'true'
+    'notes': 'read off Fig. 6(a); reading uncertainty about +/-1 dB. Band c_band inferred (rule 8): the period-378 nm series is characterized ''for C-band operation'' (p.7), lambda_C near 1558 nm (Table 1).'
+    'why': 'rule 8: no wavelength printed with the value; p.7 fixes the period-378 nm series ''for C-band operation'' (lambda_C 1557.88 nm, Table 1), and the family IL row already carries c_band inferred'
+  'cmp_lit_naghdi2016_cdc_lc400_g300-m1':
+    'band': 'c_band'
+    'wavelength_inferred': 'true'
+    'notes': 'read off Fig. 5(a); reading uncertainty about +/-0.3 nm. Band c_band inferred (rule 8): the period-378 nm series is characterized ''for C-band operation'' (p.7), lambda_C near 1558 nm (Table 1).'
+    'why': 'rule 8: no wavelength printed with the value; p.7 fixes the period-378 nm series ''for C-band operation'' (lambda_C 1557.88 nm, Table 1), and the family IL row already carries c_band inferred'
+  'cmp_lit_naghdi2016_cdc_lc400_g300-m2':
+    'band': 'c_band'
+    'wavelength_inferred': 'true'
+    'notes': 'read off Fig. 6(a); reading uncertainty about +/-1 dB. Band c_band inferred (rule 8): the period-378 nm series is characterized ''for C-band operation'' (p.7), lambda_C near 1558 nm (Table 1).'
+    'why': 'rule 8: no wavelength printed with the value; p.7 fixes the period-378 nm series ''for C-band operation'' (lambda_C 1557.88 nm, Table 1), and the family IL row already carries c_band inferred'
+  'cmp_lit_naghdi2016_cdc_lc400_g400-m1':
+    'band': 'c_band'
+    'wavelength_inferred': 'true'
+    'notes': 'read off Fig. 5(a); reading uncertainty about +/-0.3 nm. Band c_band inferred (rule 8): the period-378 nm series is characterized ''for C-band operation'' (p.7), lambda_C near 1558 nm (Table 1).'
+    'why': 'rule 8: no wavelength printed with the value; p.7 fixes the period-378 nm series ''for C-band operation'' (lambda_C 1557.88 nm, Table 1), and the family IL row already carries c_band inferred'
+  'cmp_lit_naghdi2016_cdc_lc400_g400-m2':
+    'band': 'c_band'
+    'wavelength_inferred': 'true'
+    'notes': 'read off Fig. 6(a); reading uncertainty about +/-1 dB. Band c_band inferred (rule 8): the period-378 nm series is characterized ''for C-band operation'' (p.7), lambda_C near 1558 nm (Table 1).'
+    'why': 'rule 8: no wavelength printed with the value; p.7 fixes the period-378 nm series ''for C-band operation'' (lambda_C 1557.88 nm, Table 1), and the family IL row already carries c_band inferred'
+  'cmp_lit_naghdi2016_cdc_lc400_g500-m1':
+    'band': 'c_band'
+    'wavelength_inferred': 'true'
+    'notes': 'abstract ''bandwidths from 18.2 nm down to 0.9 nm''; g = 500 nm is plotted only for LC = 400 um (Fig. 5(a)). Band c_band inferred (rule 8): the period-378 nm series is characterized ''for C-band operation'' (p.7), lambda_C near 1558 nm (Table 1).'
+    'why': 'rule 8: no wavelength printed with the value; p.7 fixes the period-378 nm series ''for C-band operation'' (lambda_C 1557.88 nm, Table 1), and the family IL row already carries c_band inferred'
+  'cmp_lit_naghdi2016_cdc_lc400_g500-m2':
+    'band': 'c_band'
+    'wavelength_inferred': 'true'
+    'notes': 'read off Fig. 6(a); reading uncertainty about +/-1 dB. Band c_band inferred (rule 8): the period-378 nm series is characterized ''for C-band operation'' (p.7), lambda_C near 1558 nm (Table 1).'
+    'why': 'rule 8: no wavelength printed with the value; p.7 fixes the period-378 nm series ''for C-band operation'' (lambda_C 1557.88 nm, Table 1), and the family IL row already carries c_band inferred'
+  'cmp_lit_naghdi2016_vgc_test_pair-m2':
+    'band': 'c_band'
+    'wavelength_inferred': 'true'
+    'notes': 'Band c_band inferred as m1 (C-band devices characterized with the pair).'
+    'why': 'rule 8: sibling m1 (same test-pair spectrum, p.6) carries c_band inferred; the 30 nm FWHM had no band'
+  'cmp_lit_wang2024c_awg_8ch-m4':
+    'wavelength_nm': '1543'
+    'wavelength_max_nm': '1558'
+    'wavelength_inferred': 'true'
+    'notes': 'printed ''below -15 dB'' (abstract) / ''less than -15 dB'' (p.7); wavelength range not stated with this value. Range 1543-1558 nm inferred from the adjacent-crosstalk clause of the same abstract sentence (p.1).'
+    'why': 'rule 8: p.1 / p.3 state the crosstalk pair (adjacent, non-adjacent) in one sentence for 1543-1558 nm; the non-adjacent row carried no wavelength'
+  'cmp_lit_yi2022_cmzi_8ch_2um-m17':
+    'band': 'nir_above_u'
+    'wavelength_inferred': 'true'
+    'notes': 'Band nir_above_u inferred (operating range 1955-1985 nm, p.1-2), as the Table 3 rows.'
+    'why': 'rule 8: passband widths of the 1955-1985 nm device carried no band while the Table 3 IL / crosstalk rows carry nir_above_u inferred'
+  'cmp_lit_yi2022_cmzi_8ch_2um-m18':
+    'band': 'nir_above_u'
+    'wavelength_inferred': 'true'
+    'notes': 'Band nir_above_u inferred (operating range 1955-1985 nm, p.1-2), as the Table 3 rows.'
+    'why': 'rule 8: passband widths of the 1955-1985 nm device carried no band while the Table 3 IL / crosstalk rows carry nir_above_u inferred'
+  'cmp_lit_yi2022_gc_2um-m2':
+    'band': 'nir_above_u'
+    'wavelength_inferred': 'true'
+    'notes': '1-dB width of the Fig. 5(e) curve (about 1971-2022 nm); reading uncertainty about +/-4 nm. Band nir_above_u inferred (Fig. 5(e) axis 1940-2040 nm). Audit re-read on the p.6 render: peak -7.2 dB near 1996 nm, 1-dB points about 1972 / 2022 nm, 3-dB points about 1949 / 2038 nm.'
+    'why': 'rule 8: the Fig. 5(e) widths carried no band; the curve spans 1940-2040 nm (m1 at the about 1996 nm peak, inferred)'
+  'cmp_lit_yi2022_gc_2um-m3':
+    'band': 'nir_above_u'
+    'wavelength_inferred': 'true'
+    'notes': '3-dB width of the Fig. 5(e) curve (about 1949-2038 nm); reading uncertainty about +/-5 nm. Band nir_above_u inferred (Fig. 5(e) axis 1940-2040 nm). Audit re-read on the p.6 render: peak -7.2 dB near 1996 nm, 1-dB points about 1972 / 2022 nm, 3-dB points about 1949 / 2038 nm.'
+    'why': 'rule 8: the Fig. 5(e) widths carried no band; the curve spans 1940-2040 nm (m1 at the about 1996 nm peak, inferred)'
+  'cmp_lit_pathak2012a_mmi_awg_12x400_56wg-m2':
+    'wavelength_nm': '1502.6'
+    'wavelength_max_nm': '1535.7'
+    'wavelength_inferred': 'true'
+    'notes': 'Wavelength span = the 12 measured channel peaks of Fig. 13 (1502.6-1535.7 nm), inferred.'
+    'why': 'rule 8: channel-set values (12 channels of Fig. 13 / Fig. 15) carried no wavelength while m1 / m7 carry the Fig. 13 channel span'
+  'cmp_lit_pathak2012a_mmi_awg_12x400_56wg-m8':
+    'wavelength_nm': '1502.6'
+    'wavelength_max_nm': '1535.7'
+    'wavelength_inferred': 'true'
+    'notes': 'spread of the 12 channel 1-dB widths read off Fig. 15 (+/-0.03 nm); printed non-uniformity 0.23 nm matches. Wavelength span = the 12 measured channel peaks of Fig. 13 (1502.6-1535.7 nm), inferred.'
+    'why': 'rule 8: channel-set values (12 channels of Fig. 13 / Fig. 15) carried no wavelength while m1 / m7 carry the Fig. 13 channel span'
+  'cmp_lit_pathak2012a_mmi_awg_12x400_56wg-m9':
+    'wavelength_nm': '1502.6'
+    'wavelength_max_nm': '1535.7'
+    'wavelength_inferred': 'true'
+    'notes': 'spread of the 12 channel 3-dB widths read off Fig. 15 (+/-0.03 nm); printed non-uniformity 0.17 nm matches. Wavelength span = the 12 measured channel peaks of Fig. 13 (1502.6-1535.7 nm), inferred.'
+    'why': 'rule 8: channel-set values (12 channels of Fig. 13 / Fig. 15) carried no wavelength while m1 / m7 carry the Fig. 13 channel span'
+  'cmp_lit_pathak2012a_mmi_awg_12x400_56wg-m10':
+    'wavelength_nm': '1502.6'
+    'wavelength_max_nm': '1535.7'
+    'wavelength_inferred': 'true'
+    'notes': 'spread of the 12 channel 10-dB widths read off Fig. 15 (+/-0.03 nm); printed non-uniformity 0.15 nm matches. Wavelength span = the 12 measured channel peaks of Fig. 13 (1502.6-1535.7 nm), inferred.'
+    'why': 'rule 8: channel-set values (12 channels of Fig. 13 / Fig. 15) carried no wavelength while m1 / m7 carry the Fig. 13 channel span'
+  'cmp_lit_pathak2012a_mmi_awg_12x400_56wg-m4':
+    'wavelength_nm': '1501.0'
+    'wavelength_max_nm': '1535.5'
+    'wavelength_inferred': 'true'
+    'notes': 'Wavelength span = the 12 simulated channel peaks labelled in Fig. 12 (1501.0-1535.5 nm), inferred.'
+    'why': 'rule 8: simulated channel-set value carried no wavelength while m3 carries the Fig. 12 labels'
+  'cmp_lit_qiu2018_cdc_a_dwb35_g300_l495-m3':
+    'wavelength_nm': '1572.8'
+    'wavelength_inferred': 'true'
+    'notes': 'Wavelength 1572.8 nm inferred: central wavelength 1572.8 nm printed for the same Fig. 5(a) spectrum (p.3).'
+    'why': 'rule 8: passband value of a spectrum whose centre wavelength the row''s IL sibling carries; the row had no wavelength'
+  'cmp_lit_qiu2018_cdc_a_dwb35_g300_l495-m4':
+    'wavelength_nm': '1572.8'
+    'wavelength_inferred': 'true'
+    'notes': 'SLSR as labelled in the figure / printed in the text. Wavelength 1572.8 nm inferred: central wavelength 1572.8 nm printed for the same Fig. 5(a) spectrum (p.3).'
+    'why': 'rule 8: passband value of a spectrum whose centre wavelength the row''s IL sibling carries; the row had no wavelength'
+  'cmp_lit_qiu2018_cdc_b_dwb40_g315_l495-m2':
+    'wavelength_nm': '1570.7'
+    'wavelength_inferred': 'true'
+    'notes': 'SLSR as labelled in the figure / printed in the text. Wavelength 1570.7 nm inferred: drop-band peak of Fig. 5(b) as on m1 (figure read, +/-0.5 nm).'
+    'why': 'rule 8: passband value of a spectrum whose centre wavelength the row''s IL sibling carries; the row had no wavelength'
+  'cmp_lit_qiu2018_cdc_c_dwb40_g300_l990-m2':
+    'wavelength_nm': '1571.2'
+    'wavelength_inferred': 'true'
+    'notes': 'SLSR as labelled in the figure / printed in the text. Wavelength 1571.2 nm inferred: drop-band peak of Fig. 5(c) as on m1 (figure read, +/-0.5 nm).'
+    'why': 'rule 8: passband value of a spectrum whose centre wavelength the row''s IL sibling carries; the row had no wavelength'
+  'cmp_lit_qiu2018_dual_stage_cdc-m3':
+    'wavelength_nm': '1542.5'
+    'wavelength_inferred': 'true'
+    'notes': 'Wavelength 1542.5 nm inferred: IL wavelength 1542.5 nm printed for the same Fig. 8 spectrum (p.4).'
+    'why': 'rule 8: passband value of a spectrum whose centre wavelength the row''s IL sibling carries; the row had no wavelength'
+  'cmp_lit_qiu2018_dual_stage_cdc-m4':
+    'wavelength_nm': '1542.5'
+    'wavelength_inferred': 'true'
+    'notes': 'Wavelength 1542.5 nm inferred: IL wavelength 1542.5 nm printed for the same Fig. 8 spectrum (p.4).'
+    'why': 'rule 8: passband value of a spectrum whose centre wavelength the row''s IL sibling carries; the row had no wavelength'
+  'cmp_lit_sciancalepore2014_tpsg_eg-m2':
+    'wavelength_nm': '1310'
+    'notes': 'printed ''0.8 dB channel-to-channel uniformity''; abstract prints 0.7 dB (D417). 1310 nm as m1 (Fig. 3(a) caption ''around 1.31 um'', D393).'
+    'why': 'rule 8: same Fig. 3(a) channel set as m1 / m3 (1310 nm, ''around 1.31 um'', D393); the row had no wavelength'
+  'cmp_lit_sciancalepore2014_pcg_mmi_eg-m2':
+    'wavelength_nm': '1310'
+    'notes': 'printed ''flat pass-band of 2.3 nm at -1 dB of the channel peak transmitted power''. 1310 nm as m1 (designs ''optimized for 4 x 800 GHz WDM at 1.31 um'', p.2; D393).'
+    'why': 'rule 8: same Fig. 3(b) spectrum as m1 / m3 (1310 nm design, D393); the row had no wavelength'
+'add_metrics':
+- 'metric_id': 'cmp_lit_pathak2012a_mmi_awg_12x400_44wg-m5'
+  'component_id': 'cmp_lit_pathak2012a_mmi_awg_12x400_44wg'
+  'parameter': 'crosstalk_db'
+  'value': '27.0'
+  'unit': 'dB'
+  'qualifier': 'approx'
+  'condition': 'measured phase-error crosstalk (crosstalk floor set by array phase errors, Fig. 2 definition)'
+  'basis': 'extracted_from_figure'
+  'locator': 'p.5 Fig. 11'
+  'notes': 'read off Fig. 11 (red points ''Measured Phase Error Crosstalk'', plotted negative; axis ticks -10 / -35 dB); reading uncertainty about +/-0.3 dB. Neighbouring-channel crosstalk of the same device is m1.'
+  'why': 'Miss. p.5 Fig. 11 plots the measured phase-error crosstalk of each array-size device (own measurement, caption uncited); the batch entered only the neighbouring-channel points'
+- 'metric_id': 'cmp_lit_pathak2012a_mmi_awg_12x400_47wg-m5'
+  'component_id': 'cmp_lit_pathak2012a_mmi_awg_12x400_47wg'
+  'parameter': 'crosstalk_db'
+  'value': '28.6'
+  'unit': 'dB'
+  'qualifier': 'approx'
+  'condition': 'measured phase-error crosstalk (crosstalk floor set by array phase errors, Fig. 2 definition)'
+  'basis': 'extracted_from_figure'
+  'locator': 'p.5 Fig. 11'
+  'notes': 'read off Fig. 11 (red points ''Measured Phase Error Crosstalk'', plotted negative; axis ticks -10 / -35 dB); reading uncertainty about +/-0.3 dB. Neighbouring-channel crosstalk of the same device is m1.'
+  'why': 'Miss. p.5 Fig. 11 plots the measured phase-error crosstalk of each array-size device (own measurement, caption uncited); the batch entered only the neighbouring-channel points'
+- 'metric_id': 'cmp_lit_pathak2012a_mmi_awg_12x400_50wg-m5'
+  'component_id': 'cmp_lit_pathak2012a_mmi_awg_12x400_50wg'
+  'parameter': 'crosstalk_db'
+  'value': '21.0'
+  'unit': 'dB'
+  'qualifier': 'approx'
+  'condition': 'measured phase-error crosstalk (crosstalk floor set by array phase errors, Fig. 2 definition)'
+  'basis': 'extracted_from_figure'
+  'locator': 'p.5 Fig. 11'
+  'notes': 'read off Fig. 11 (red points ''Measured Phase Error Crosstalk'', plotted negative; axis ticks -10 / -35 dB); reading uncertainty about +/-0.3 dB. Neighbouring-channel crosstalk of the same device is m1.'
+  'why': 'Miss. p.5 Fig. 11 plots the measured phase-error crosstalk of each array-size device (own measurement, caption uncited); the batch entered only the neighbouring-channel points'
+- 'metric_id': 'cmp_lit_pathak2012a_mmi_awg_12x400_53wg-m5'
+  'component_id': 'cmp_lit_pathak2012a_mmi_awg_12x400_53wg'
+  'parameter': 'crosstalk_db'
+  'value': '17.9'
+  'unit': 'dB'
+  'qualifier': 'approx'
+  'condition': 'measured phase-error crosstalk (crosstalk floor set by array phase errors, Fig. 2 definition)'
+  'basis': 'extracted_from_figure'
+  'locator': 'p.5 Fig. 11'
+  'notes': 'read off Fig. 11 (red points ''Measured Phase Error Crosstalk'', plotted negative; axis ticks -10 / -35 dB); reading uncertainty about +/-0.3 dB. Neighbouring-channel crosstalk of the same device is m1.'
+  'why': 'Miss. p.5 Fig. 11 plots the measured phase-error crosstalk of each array-size device (own measurement, caption uncited); the batch entered only the neighbouring-channel points'
+- 'metric_id': 'cmp_lit_sciancalepore2014_pcg_mmi_eg-m10'
+  'component_id': 'cmp_lit_sciancalepore2014_pcg_mmi_eg'
+  'parameter': 'box_thickness_um'
+  'value': '0.8'
+  'unit': 'um'
+  'basis': 'derived'
+  'locator': 'p.3 Sec. III'
+  'notes': 'printed 800 nm (D157); same wafer as the TPSG.'
+  'why': 'Miss (D153 geometry). p.3 Sec. III gives one SOI stack (310 nm Si over 800 nm BOX) for all gratings; the TPSG row carries it, the PCG row did not'

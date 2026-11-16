@@ -1,0 +1,33 @@
+# Audit patch lit_144 (fresh-context audit 2026-11-15, DevLog/audits/2026-11-15-lit_144-audit.md).
+# 47 metrics: 43 ok / 4 imprecise / 0 wrong; 5 components: 4 ok / 1 imprecise / 0 wrong; 0 deleted; 0 misses.
+# Coordinator rulings open (audit Q1-Q5), all with no op unless noted: Q1 riedhauser2025 kappa_0 measured (note op on m1 only),
+# Q2 riedhauser2025 ridge height / top width measured (no op; to design_target, set basis design_target on
+# cmp_lit_riedhauser2025_bto_ring_r100-m11), Q3 xiang2022 0.93 A/W measured (no op; to derived, set basis derived on
+# cmp_lit_xiang2022_lateral_rt_ge_si_apd-m1), Q4 xiang2022 fab empty + process_name (no op beyond the note fix below),
+# Q5 runge2015 fab empty (no op).
+components:
+  cmp_lit_xiang2022_lateral_rt_ge_si_apd:
+    notes: "Fab: p.6 Sec. 4 'the present waveguide Ge/Si APD was fabricated with a standard 180 nm MPW processes provided by silicon photonics foundry' (passive, no org named); p.3 Sec. 2 says only that the APD 'can be fabricated by using a standard 180 nm MPW (Multi-Project Wafer) process provided by silicon photonics foundries'; p.2 cites a 'foundry manual' for the Ge index and the < 50 nm overlay misalignment (foundry not named); no facility acknowledged (funding list only) -> fab empty, process_name as printed (D536). Light enters through a grating coupler (cmp_lit_xiang2022_gc); responsivities exclude its loss. Not entered (no registry parameter): receiver sensitivity at KP4-FEC BER 2.4e-4 -21.3 / -17.8 / -12.6 dBm for 50 / 80 / 100 Gbps NRZ at -13.5 V and -13.2 / -11.3 dBm for 25 / 50 Gbaud PAM4 at -12.5 V (p.5-6, Fig. 7), 7.6 dB improvement over the reference PIN PD (-13.7 dBm at 50 Gbps, -4 V); eye-diagram SNRs and 2.99 dB TDECQ (p.4-5, Fig. 6). Simulated (3D-FDTD) Ge absorption 93.3 % at L_Ge 5 um, 97.7 % at 8.6 um, TM0 89.8 % (p.2, Fig. 1(d)): absorption efficiency, not a QE, not entered. Doping-region widths w_P+ 1.22 um, w_N+ 0.95 um, w_P 0.15 um, offset w_o 0.07 um (p.3) have no parameter. Bandwidth above 30 GHz for |Vbias| > 10.5 V (gain > 4) is a range statement, Fig. 5(b) holds the curve; not entered. Table 1 rows other than 'This' are cited works (rule 3). The reference PIN PD on the same chip has no own performance value besides the sensitivity: no row."
+    why: "p.3 Sec. 2 (last sentence) is a capability statement ('can be fabricated by using ... foundries'); only p.6 Sec. 4 says 'was fabricated with'. The note quoted both pages with the p.6 wording; the p.2 'foundry manual' mentions were not recorded"
+metrics:
+  cmp_lit_riedhauser2025_bto_ring_r100-m1:
+    notes: "Range of the eight device medians as printed. Coupling regime: every resonance is fitted with the coupled-mode doublet model Eq. (S5) (kappa_ex, kappa_0 and backscatter rate mu free; p.11-12 Supp. Sec. 1), whose dip depth is not symmetric under swapping kappa_0 and kappa_ex when the doublet is resolved (D465 ji2024 / D455 precedent) -> measured; Fig. S2 example kappa_ex 822 > kappa_0 314 MHz with mu 998 MHz. Caveat: the text says 'most' resonances are split (p.2-3), so unsplit resonances, where the lineshape does not fix the regime, may sit in the per-device medians; non-converged fits were discarded (p.13 Supp. Sec. 2). Table S5 (p.19) lists per-device kappa_0 of the pump resonances (373-1060 MHz), not the medians."
+    why: "p.2-3 'Most resonances are split' and p.13 'fit did not converge were discarded': the D465 regime argument holds for resolved doublets only; the note did not record that limit"
+  cmp_lit_riedhauser2025_bto_ring_r100-m6:
+    wavelength_nm: 1550.32
+    wavelength_max_nm: ""
+    wavelength_inferred: ""
+    mode: TE00
+    notes: "Fig. S2 typical resonance; doublet dips at about 1550.317 and 1550.333 nm read off the Fig. S2 wavelength axis (ticks 1550.28 / 1550.32 / 1550.36 nm; reading uncertainty about +/- 0.01 nm); the resonance wavelength is not printed in the text"
+    why: "p.12 Supp. Fig. S2: the wavelength axis (1550.28-1550.36 nm) places the resonance at about 1550.32 nm; the row carried an inferred 1500-1600 nm span and said the wavelength was not stated"
+  cmp_lit_riedhauser2025_bto_ring_r100-m7:
+    wavelength_nm: 1550.32
+    wavelength_max_nm: ""
+    wavelength_inferred: ""
+    mode: TE00
+    notes: "single resonance (Fig. S2), below the range of per-device medians (430-870 MHz); doublet dips at about 1550.317 and 1550.333 nm read off the Fig. S2 wavelength axis (reading uncertainty about +/- 0.01 nm); the resonance wavelength is not printed in the text. Regime fixed by the resolved doublet (see m1)"
+    why: "p.12 Supp. Fig. S2: the wavelength axis (1550.28-1550.36 nm) places the resonance at about 1550.32 nm; the row carried an inferred 1500-1600 nm span and said the wavelength was not stated"
+  cmp_lit_xiang2022_lateral_rt_ge_si_apd-m13:
+    basis: derived
+    notes: "printed '~615 GHz' (abstract) and 615 GHz (p.4, p.6, Table 1); GBP = gain x bandwidth of the paper's own values, 12.8 x 48 GHz = 614.4 GHz ('The corresponding GBP is also shown in Fig. 5(b)', p.4); Fig. 5(b) top point at gain 12.8 reads about 615 GHz (srinivasan2020 m19 / xue2026 / yanikgonul2021 precedent: product of own gain and bandwidth -> derived)"
+    why: "p.4 Sec. 3.B and p.1 abstract: the GBP is the product of the measured gain 12.8 and bandwidth 48 GHz (Contract v4: explicit arithmetic -> derived); merged gbp_ghz rows computed as a product are derived (11 of 16)"

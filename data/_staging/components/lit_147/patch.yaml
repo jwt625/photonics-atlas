@@ -1,0 +1,43 @@
+# Audit patch lit_147 (fresh-context audit 2026-11-15, DevLog/audits/2026-11-15-lit_147-audit.md).
+# 165 metrics: 162 ok / 3 imprecise / 0 wrong; 20 components: 20 ok / 0 imprecise / 0 wrong; 0 deleted; 2 misses added (fiber MFD specification).
+# Coordinator rulings open (audit Q1-Q7), all recommended as distilled (no op):
+# Q1 liu2020b alpha ~1 dB/m kept as author_estimate (D80i borderline, D578 rees2020 precedent). To drop: delete_metrics cmp_lit_liu2020b_ring_20ghz-m6.
+# Q2 liu2020b 38 mW / 7 mW on-chip powers kept derived (D394 / D166). 7 mW reference plane follows the sentence (bus waveguide), not printed separately.
+# Q3 liu2023a IL < 0.22 dB kept as excess_loss_db; +/- deviations kept as coupling_variation (lu2015a D539 / cheung2019 precedent; D401 does not apply).
+# Q4 li2022a fab empty on both rows; org_cornerstone stays in notes (it made only the SiN receiver chip; D515 / D463 per component).
+# Q5 krasnokutska2019 R30 printed TM Q ~9000, TE Q ~1200, TM FSR 5.7 nm kept as printed with the figure reads in notes (D417).
+# Q6 krasnokutska2019 3 pm/V kept on the R70 ring row (no EO-atlas row; registry definition names Pockels bias; li2024 PSBG precedent).
+# Q7 krasnokutska2019 fab: RMIT University qualifies under D84a ("fabricated by the process developed and described in our previous work"); org round.
+metrics:
+  cmp_lit_krasnokutska2019_rib_waveguide-m2:
+    wavelength_inferred: 'true'
+    notes: "Paper: deviation from the measured FSRs below 2 % (p.5). Wavelength not stated with the group indices (p.4); the waveguide was designed single-mode at 1550 nm with the mode solver (p.2 Sec. II, Fig. 1(b)) and the mode-solver field plots are at 1550 nm (p.4), so 1550 nm inferred."
+    why: "p.4: 'n_g^TM = 2.33 and n_g^TE = 2.38' are printed without a wavelength; 1550 nm comes from the design statement (p.2) and the neighbouring field-plot sentence, so rule 8 applies (wavelength_inferred true with the reason)"
+  cmp_lit_krasnokutska2019_rib_waveguide-m3:
+    wavelength_inferred: 'true'
+    notes: "Wavelength not stated with the group indices (p.4); the waveguide was designed single-mode at 1550 nm with the mode solver (p.2 Sec. II, Fig. 1(b)) and the mode-solver field plots are at 1550 nm (p.4), so 1550 nm inferred."
+    why: "p.4: group indices printed without a wavelength; same rule 8 fix as m2"
+  cmp_lit_liu2023a_adc_90_10-m3:
+    notes: "Printed as IL < 0.22 dB; stored as excess_loss_db (loss beyond the ideal split, skill rule 6). Cascade-slope fit of own data = measured (D80a); method cutback as papadovasilakis2023 (D559). Fig. 9: the bound matches the regression curves; the 90:10 regression peaks near 0.225 dB at about 1592 nm and the raw 90:10 measurement trace exceeds 0.22 dB at many points above about 1540 nm (spikes to about 0.38 dB near 1588 nm)."
+    why: "p.8 Fig. 9 (embedded image): the 90:10 measurement trace (teal) lies above 0.22 dB over much of 1540-1600 nm and the regression (red) peaks at about 0.225 dB; the printed bound holds only for the regression, which the row did not say"
+add_metrics:
+- metric_id: cmp_lit_krasnokutska2019_inverse_taper-m4
+  component_id: cmp_lit_krasnokutska2019_inverse_taper
+  parameter: mfd_fiber_um
+  value: 2
+  unit: um
+  condition: PM lensed fiber used for butt coupling (input and output)
+  basis: specification
+  locator: p.2 Sec. III
+  notes: "Fiber specification as printed (polarization-maintaining lensed fibers with a 2 um mode field diameter); the inverse taper is stated to improve mode matching to this fiber."
+  why: "Miss. p.2 Sec. III: 'PM lensed fibers with a mode field diameter of 2 um' couple into the tapered waveguide; skill rule 4 names the MFD of the fiber a coupler is designed for as specification (he2019 / lu2025a lensed-fiber precedents)"
+- metric_id: cmp_lit_krasnokutska2019_untapered_facet-m2
+  component_id: cmp_lit_krasnokutska2019_untapered_facet
+  parameter: mfd_fiber_um
+  value: 2
+  unit: um
+  condition: PM lensed fiber used for butt coupling (input and output)
+  basis: specification
+  locator: p.2 Sec. III
+  notes: "Fiber specification as printed (polarization-maintaining lensed fibers with a 2 um mode field diameter); same fibers as the tapered comparison (p.2) and the ring bus waveguides (p.2)."
+  why: "Miss. p.2 Sec. III: the 15 dB untapered comparison uses the same 2 um MFD PM lensed fibers; rule 4 specification"
