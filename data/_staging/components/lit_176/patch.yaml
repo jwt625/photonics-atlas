@@ -1,0 +1,81 @@
+# Audit patch lit_176 (fresh-context audit 2026-11-16, DevLog/audits/2026-11-16-lit_176-audit.md).
+# 110 metrics: 108 ok / 2 imprecise / 0 wrong; 18 components: 17 ok / 1 imprecise (note) / 0 wrong; 0 deleted; 4 misses added.
+# After the patch: 18 components, 114 metrics.
+# Coordinator rulings asked (audit Q1-Q5): Q1 chen2010 1.2 dB loopback_half measured (D167 / D452), 75.8 % derived, fill factor
+# as tooth fraction (registry def), uniform reference 3.4 dB figure read, fab empty (no op beyond m2 statistic); Q2 laere2007 69 %
+# per_coupler measured, design row, figure-peak wavelengths, fab empty (no op); Q3 bozzola2015 design rows, tolerances out (D159),
+# 420 nm / 84 % out, 340 nm uniform 66 % kept with cross-note (patched); Q4 liu2022e tracking time kept with a registry-definition
+# widening proposal, PSR / TiN author_estimate, fab HUST (no op); Q5 optional bozzola2015 apod_unconstrained BOX / offset (no op).
+components:
+  cmp_lit_bozzola2015_gc_340_uniform:
+    notes: 'Design-only paper (2D FDTD, Lumerical; n_Si 3.47, n_SiO2 1.44; semi-infinite top oxide; TE from SMF at 10 deg). No fabrication.
+      Uniform reference of the Fig. 6 field-map comparison. Etch, BOX and period not stated for this design. The uniform curve of Fig. 5(a)
+      is attributed to the authors'' ref. [21] (p.9) and its 340 nm point reads about 66 %, the same as the p.11 value; the 66 % is kept
+      because the p.11 sentence carries no citation and the Fig. 6 comparison (field maps, 41 nm 1-dB bandwidth, 13.4 % reflection) is
+      this paper''s own (D408); the 420 nm 73.1 % maximum of that curve is not entered (D259). Transmission losses 18.5 % (power not
+      coupled, p.11) have no registry parameter.'
+    why: 'p.9 Sec. 3 / p.10 Fig. 5(a) vs p.11 Sec. 3: the 66 % coincides with the [21]-attributed curve; relation recorded, value kept (D408)'
+metrics:
+  cmp_lit_chen2010_apodized_gc_340nm-m2:
+    statistic: best
+    why: 'p.2 Sec. II / p.3 Fig. 3 caption: 75.8 % is the conversion of the same "Up to -1.2 dB" peak value that m1 carries as best;
+      pair kept consistent (marchetti2017 m1 / m2 precedent)'
+  cmp_lit_bozzola2015_gc_340_uniform-m1:
+    wavelength_inferred: ''
+    locator: 'p.11 Sec. 3; p.10 Fig. 5(a)'
+    notes: 'printed maximum CE of the uniform grating 66 % (p.11). 1550 nm stated: every design''s period is tuned to put the CE maximum
+      at 1550 nm (p.6 method) and Fig. 5(a) plots CE @ 1550 nm, where the 340 nm uniform point reads about 66 % (+/- 1 %). See the
+      component notes for the ref. [21] attribution of that curve.'
+    why: 'p.6 Sec. 2 (period tuned to the 1550 nm target) and p.10 Fig. 5(a) axis "CE @ 1550 nm": the wavelength is stated, not inferred
+      (skill rule 8)'
+add_metrics:
+- metric_id: cmp_lit_laere2007_soi_gc_bonded_nomirror-m6
+  component_id: cmp_lit_laere2007_soi_gc_bonded_nomirror
+  parameter: coupling_efficiency_pct
+  value: '26'
+  unit: '%'
+  wavelength_nm: '1567'
+  wavelength_inferred: 'true'
+  polarization: te
+  scope: per_coupler
+  condition: 'CAMFR eigenmode expansion; bonded SOI grating without bottom mirror; CE = upward power x overlap with fiber mode; fiber 10 deg'
+  basis: simulated
+  locator: 'p.3 Fig. 6'
+  verified_on: '2026-11-16'
+  notes: 'read off the Fig. 6 "bonded without gold bottom mirror" simulated curve: peak about 0.26 (+/- 0.01) near 1567 nm (+/- 3 nm);
+    no value printed in the text (simulated curve read off a plot stays simulated, D454)'
+  why: 'Miss: Fig. 6 (p.3) plots this paper''s own simulation of the bonded no-mirror grating next to the two simulated curves already
+    entered (72 % mirror, 30 % regular); value read on the render (img_p03_1)'
+- metric_id: cmp_lit_laere2007_soi_gc_bonded_nomirror-m7
+  component_id: cmp_lit_laere2007_soi_gc_bonded_nomirror
+  parameter: fill_factor
+  value: '0.5'
+  unit: '1'
+  basis: derived
+  locator: 'p.2 Sec. II.A.1'
+  verified_on: '2026-11-16'
+  notes: 'printed duty cycle 50 % of the used grating (definition not printed; 0.5 either way); percent to fraction (D253). Same grating as
+    the Au-mirror GC; only the mirror differs (p.3 Sec. II.C).'
+  why: 'Miss (D153): the reference structures use the same 610 nm / 50 nm / 50 % / 20-period grating (p.2 Sec. II.A.1, p.3 Sec. II.C);
+    entered on the mirror and regular rows but not here'
+- metric_id: cmp_lit_laere2007_soi_gc_bonded_nomirror-m8
+  component_id: cmp_lit_laere2007_soi_gc_bonded_nomirror
+  parameter: n_periods
+  value: '20'
+  unit: count
+  basis: design_target
+  locator: 'p.2 Sec. II.A.1'
+  verified_on: '2026-11-16'
+  notes: 'same grating as the Au-mirror GC (20 periods)'
+  why: 'Miss (D153): grating period count stated for the used grating (p.2 Sec. II.A.1); entered on the sibling rows only'
+- metric_id: cmp_lit_laere2007_soi_gc_bonded_nomirror-m9
+  component_id: cmp_lit_laere2007_soi_gc_bonded_nomirror
+  parameter: cladding_thickness_um
+  value: '1'
+  unit: um
+  basis: design_target
+  locator: 'p.2 Sec. II.A.2; p.3 Sec. II.B'
+  verified_on: '2026-11-16'
+  notes: 'the 1 um SOI buried oxide remains as the top layer after substrate removal of the bonded die (the reference structures are on
+    the same bonded sample, p.3 Sec. II.C)'
+  why: 'Miss (D153): top-cladding thickness of the bonded die stated (p.2 Sec. II.A.2, p.3 Sec. II.B); entered on the mirror row only'

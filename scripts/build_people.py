@@ -173,6 +173,9 @@ def main() -> int:
             orphans = []
         for pid in orphans:
             people_rows[pid]["visibility"] = "review"  # kept without records (D65): nothing to show
+            if people_rows[pid]["orcid"]:
+                people_rows[pid]["orcid"] = ""  # derived from records (D65); a redirected id holds none (D630)
+                refreshed["orcid"] += 1
         redirects = P.same_as_redirects(people_rows, orphans, old_obs, {r["obs_id"]: r["person_id"] for r in obs_rows})
         for pid, row in people_rows.items():
             new = redirects.get(pid, "")

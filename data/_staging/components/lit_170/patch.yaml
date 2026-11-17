@@ -1,0 +1,36 @@
+# Audit patch lit_170 (fresh-context audit 2026-11-16, DevLog/audits/2026-11-16-lit_170-audit.md).
+# 152 metrics: 149 ok / 1 imprecise / 2 wrong; 20 components: 18 ok / 2 imprecise (note follow-up of the wrong rows) / 0 wrong;
+# 2 metrics deleted (yang2024b R_eff stored as min_bend_radius_um), 1 miss added (patel2014 P_pi 25 mW derived).
+# After the patch: 20 components, 151 metrics.
+# Coordinator rulings asked (audit Q1-Q6): Q1 fard2016 one row per Table 3 design, inductor as condition, CMC not fab,
+# capacitances out (no op); Q2 chen2016c 14 um device out, GC author_estimate, fab imec (no op); Q3 isti2025 platform
+# bto_on_oxide_substrate, fab empty, UDNF borderline facility after the org round (no op here); Q4 yang2024b fab BUPT,
+# Table 1 BW out (no op); Q5 patel2014 IME + CMC (no op); Q6 patel2014 P_pi add (alternative: drop the add).
+components:
+  cmp_lit_yang2024b_euler_bend_w400:
+    notes: "Fab org_beijing_university_of_posts_and_telecommunications: 'We fabricate the device on a silicon-on-insulator (SOI) substrate using e-beam lithography' (p.2), all authors at BUPT; flow EBL, PECVD oxide, e-beam evaporated TiW heaters and Al routing (p.5 Sec. 3); no named process, process_name empty. SOI thickness and etch depth are not printed in the main text (Supplement 1 not cached). Bend design used in cmp_lit_yang2024b_spiral_tops (R1 = R2 = 6 um, rho = 0.4, p.4). Only simulated values (fabricated part, D80e). Designs with R_eff 3 / 9 um (Fig. 3(b), (d)) are design studies not used on the chip: not entered. The 90-degree geometry is from Fig. 3(a) and Fig. 4(b), (c). R_eff 6 um is the effective radius of the hybrid Euler bend (Fig. 3(a): the Euler sections curve tighter than R_eff), not its minimum curvature radius, which the paper does not print: no min_bend_radius_um row (merged Euler bends store R_min, cherchi2013 / liu2024); R_eff stays in the label and the bend-loss conditions."
+    why: "follow-up of the deleted m2 (min_bend_radius_um 6 = R_eff, p.4 Sec. 2, Fig. 3(a))"
+  cmp_lit_yang2024b_euler_bend_w550:
+    notes: "Fab org_beijing_university_of_posts_and_telecommunications: 'We fabricate the device on a silicon-on-insulator (SOI) substrate using e-beam lithography' (p.2), all authors at BUPT; flow EBL, PECVD oxide, e-beam evaporated TiW heaters and Al routing (p.5 Sec. 3); no named process, process_name empty. SOI thickness and etch depth are not printed in the main text (Supplement 1 not cached). Bend design used in cmp_lit_yang2024b_spiral_tops (R1 = R2 = 6 um, rho = 0.4, p.4). Only simulated values (fabricated part, D80e). Designs with R_eff 3 / 9 um (Fig. 3(b), (d)) are design studies not used on the chip: not entered. The 90-degree geometry is from Fig. 3(a) and Fig. 4(b), (c). R_eff 6 um is the effective radius of the hybrid Euler bend (Fig. 3(a): the Euler sections curve tighter than R_eff), not its minimum curvature radius, which the paper does not print: no min_bend_radius_um row (merged Euler bends store R_min, cherchi2013 / liu2024); R_eff stays in the label and the bend-loss conditions."
+    why: "follow-up of the deleted m3 (min_bend_radius_um 6 = R_eff, p.4 Sec. 2, Fig. 3(a))"
+metrics:
+  cmp_lit_patel2014_mzi_2x2_switch-m3:
+    wavelength_nm: '1550'
+    why: "p.2 Sec. III: the 1.8 dB imbalance is read from the Fig. 3 transmission 'with input at a wavelength of 1550 nm'; the condition said 1550 nm but wavelength_nm was empty"
+delete_metrics:
+- id: cmp_lit_yang2024b_euler_bend_w400-m2
+  why: "min_bend_radius_um ('smallest bend radius used or stated') holds the effective radius R_eff = 6 um (p.4 Sec. 2); in a hybrid Euler bend (Fig. 3(a)) the Euler sections reach a curvature radius below R_eff, which is not printed. Merged Euler rows store R_min (cherchi2013 reff75 m2 = 40 um, liu2024 reff30 m2 = 16.5 um). R_eff stays in label / condition"
+- id: cmp_lit_yang2024b_euler_bend_w550-m3
+  why: "as euler_bend_w400-m2 (p.4 Sec. 2, Fig. 3(a))"
+add_metrics:
+- metric_id: cmp_lit_patel2014_mzi_2x2_switch-m11
+  component_id: cmp_lit_patel2014_mzi_2x2_switch
+  parameter: p_pi_mw
+  value: '25'
+  unit: mW
+  wavelength_nm: '1550'
+  condition: "electrical power difference between state 1 (16 mW) and state 2 (41 mW), powers from current measurements; single cell, 1550 nm input"
+  basis: derived
+  locator: 'p.2 Sec. III; p.2 Fig. 3'
+  notes: "41 - 16 = 25 mW (derived; the paper prints the two state powers, not a P_pi). State 1 and state 2 are the adjacent extinction points of output 1 and output 2 in Fig. 3, i.e. a pi phase difference between the arms; Fig. 3 shows the output-1 minima at about 16 and 66 mW (about 50 mW per 2 pi, reading +/- 2 mW), consistent with 25 mW per pi. Total consumption at each state includes the random fabrication phase offset (p.2), so the state powers themselves are on m6 / m7."
+  why: "Miss: arithmetic on the paper's own measured state powers (rule 4 derived; p_pi_mw allowed on switch_fabric); yang2024b in this batch keeps the measured P_pi on the switch row"

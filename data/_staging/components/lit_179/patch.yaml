@@ -1,0 +1,26 @@
+# Audit patch lit_179 (fresh-context audit 2026-11-16, DevLog/audits/2026-11-16-lit_179-audit.md).
+# 103 metrics: 99 ok / 2 imprecise / 0 wrong, plus 2 deleted on the Q1 judgment (wang2014a "< 3 dB" IL bounds);
+# 6 components: 6 ok (2 notes extended as a consequence of Q1); 0 misses added. After the patch: 6 components, 101 metrics.
+# Coordinator rulings asked (audit Q1-Q6): Q1 drop the two "< 3 dB" rows (ops below; to keep them instead, remove the
+# delete_metrics block and the two component-note ops); Q2 "2 to 4 dB for each input" stays in notes (no op); Q3 wang2014a
+# fab empty, process_name kept (no op); Q4 AWG #4 inherits the Sec. 2 optimization geometry (no op); Q5 nielson2005 split
+# switch_fabric.mems + wdm.mrr kept (no op); Q6 nielson2005 borderline fab org_mit, 1 uW and FSR author_estimate kept (no op).
+components:
+  cmp_lit_wang2014a_awg2:
+    notes: "Optimization of the arrayed waveguides only (1 um straight sections, 450 nm at 5 um bends; p.3 Sec. 2). Fab: 'fabricated with a 130 nm CMOS process' (p.3 Sec. 2), passive, no org named; authors at SIMIT, Grace Semiconductor Manufacturing and Purdue: fab empty (D80b, sheng2012 precedent). Spectra normalized to a reference waveguide (grating-coupler I/O, p.4). Not entered: the joint statement 'low insertion loss of < 3 dB' for AWGs #2 and #3 (p.5 Sec. 2): every AWG #2 channel in the paper's own extraction (Fig. 2(d)) is about 3.1-4.8 dB, so the bound describes no measured channel of this device; the Fig. 2(d) range (m17) is entered. The '< -17 dB' crosstalk of the same sentence agrees with Fig. 2(e) and is kept (m20)."
+    why: "Consequence of deleting m19 (audit Q1): record the printed bound and why it is not a row. p.5 Fig. 2(d) zoomed render: AWG #2 lowest channel (ch 6) about 3.13 dB (4 dB tick at 152 px, 2 dB at 326 px, point at 228 px on a 2x zoom)"
+  cmp_lit_wang2014a_awg3:
+    notes: "Comprehensive optimal design: 1 um arrayed waveguides plus 20 um bi-level (70 nm shallow-etched) tapers 2.5 to 0.45 um between FPR and array (p.3 Sec. 2). Fab: 'fabricated with a 130 nm CMOS process' (p.3 Sec. 2), passive, no org named; authors at SIMIT, Grace Semiconductor Manufacturing and Purdue: fab empty (D80b, sheng2012 precedent). Spectra normalized to a reference waveguide (grating-coupler I/O, p.4). Not entered: the joint statement 'low insertion loss of < 3 dB' for AWGs #2 and #3 (p.5 Sec. 2): no statistic or channel is named, Fig. 2(d) channels 1-3 of this AWG are about 3.7-4.7 dB and the best channel is already entered as 2.32 dB (m20), the range as m21; the '< -17 dB' crosstalk of the same sentence agrees with Fig. 2(e) and is kept (m24). 'insertion loss ranges from 2 dB to 4 dB' for each input channel (p.6 Sec. 4): the sentence does not identify the input / device set and conflicts with Fig. 2(d), Fig. 3(c) and the Fig. 4 colour scale (up to 6-7 dB); central-wavelength fluctuation 'several nanometers' and ~5 % channel-spacing deviation (p.7, no value in nm). System test (p.8 Sec. 5): BER / eye diagrams only, no AWG metric."
+    why: "Consequence of deleting m23 (audit Q1): record the printed bound and why it is not a row (p.5 Sec. 2; p.5 Fig. 2(d))"
+metrics:
+  cmp_lit_wang2014a_awg1-m4:
+    notes: "design value; the p.7 statement of a ~5 % deviation of the actual channel spacing from the target is made for AWGs #3 / #4 only, not for this device"
+    why: "p.7 Sec. 4: the ~5 % channel-spacing deviation is stated for AWGs (#3, #4); the note read as if it applied to AWG #1"
+  cmp_lit_wang2014a_awg2-m4:
+    notes: "design value; the p.7 statement of a ~5 % deviation of the actual channel spacing from the target is made for AWGs #3 / #4 only, not for this device"
+    why: "p.7 Sec. 4: the ~5 % channel-spacing deviation is stated for AWGs (#3, #4); the note read as if it applied to AWG #2"
+delete_metrics:
+- id: cmp_lit_wang2014a_awg2-m19
+  why: "Audit Q1. p.5 Sec. 2 'low insertion loss of < 3 dB' is one sentence for AWGs #2 and #3 with no channel or statistic; the paper's own per-channel extraction (p.5 Fig. 2(d)) puts every AWG #2 channel above it (about 3.13 dB at best, ch 6, zoomed render). An lt-3 row would rank AWG #2 below its measured best; the measured range m17 (3.1-4.8 dB) carries the device. Unlike tossoun2024 (D417, a dimension stated twice and used in the paper's own arithmetic) the bound has no channel it can belong to (D159 analogue)"
+- id: cmp_lit_wang2014a_awg3-m23
+  why: "Audit Q1. Same joint '< 3 dB' sentence (p.5 Sec. 2); for AWG #3 it holds only for channels 4-8 of Fig. 2(d) (channels 1-3 about 3.7-4.7 dB) and adds nothing to the printed best 2.32 dB (m20) and the figure range m21 (2.32-4.7 dB)"

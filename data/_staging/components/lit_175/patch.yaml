@@ -1,0 +1,109 @@
+# Audit patch lit_175 (fresh-context audit 2026-11-16, DevLog/audits/2026-11-16-lit_175-audit.md).
+# 169 metrics: 152 ok / 17 imprecise / 0 wrong; 20 components: 20 ok / 0 imprecise / 0 wrong; 0 deleted; 1 miss added.
+# After the patch: 20 components, 170 metrics.
+# Ops: li2013b R240 Q_i 18 M basis measured -> author_estimate (dip ~11 dB, D403); Fig. 2(b) notch depths re-read
+# (1.5 -> 1.8 dB, 11 -> 12 dB); doublet-depth and Fig. 3 notes; pure unit rescales -> derived (D157: 5 ring widths,
+# 1 access width, cherchi2014 I/O gap); cherchi2014 MMI length 112 um -> design_target (dimension, D82a; the 10
+# per-device rows already carry design_target); 1 miss: li2013b R240 extinction of the 18 M resonance (Fig. 4 inset).
+# Coordinator questions in the audit (Q1-Q6); every op below is applied as recommended there.
+metrics:
+  cmp_lit_li2013b_sin_ring_r240_sio2-m1:
+    basis: author_estimate
+    notes: 'Inset (p.7 Fig. 4, 1567.4072-1567.4077 nm) dips to ~0.07 on a ~0.92 baseline (~11 dB, T/T0 ~0.08): the dip is
+      not at zero, and the two coupling-regime branches differ by a factor ~1.8 in Q_i (2 Q_L / (1 -/+ 0.28)); regime
+      not determined from the data (D403; the D463 critical-coupling case needs a dip to about zero). Wavelength from the
+      inset axis.'
+    why: 'p.7 Fig. 4 inset render: minimum ~0.07, baseline 0.91-0.93; D403 author_estimate unless the regime is determined
+      from the data; distiller basis measured relied on a near-zero dip that the render does not show'
+  cmp_lit_li2013b_sin_ring_r240_sio2-m3:
+    notes: 'Doublet dips to ~0.28 on a ~0.69 baseline (p.7 Fig. 4 inset, axis 0.3-0.7); regime not determined from the
+      data (D403). Wavelength from the inset axis. Conclusion and abstract quote ~2e7 for 240 um.'
+    why: 'p.7 Fig. 4 inset render: both dips sit below the 0.3 tick (~0.28), baseline 0.68-0.70; note read corrected'
+  cmp_lit_li2013b_sin_ring_r240_sio2-m5:
+    notes: 'Doublet dips to ~0.45 and ~0.49 on a ~0.85 baseline (p.13 Fig. 10(a) inset); regime not determined from the
+      data (D403).'
+    why: 'p.13 Fig. 10(a) inset render: right dip ~0.45, left ~0.49 (ticks 0.6 / 0.8); note read corrected'
+  cmp_lit_li2013b_sin_ring_r240_sio2-m8:
+    notes: 'Read off Fig. 3 (p.6), reading +/-0.2 M; intrinsic-Q extraction (coupling regime) not described (D403), basis
+      kept as author_estimate. The 20 / 18 / 17 M circles coincide with the Fig. 4 labels of one ring (p.7), two of which
+      Fig. 4 assigns to the 2nd-order radial mode, while the Fig. 3 caption says fundamental radial mode and
+      independently fabricated rings (printed conflict, D417 note). Resonance wavelengths not printed: range =
+      tunable-laser span 1460-1580 nm (p.11 Appendix A).'
+    why: 'p.6 Fig. 3 vs p.7 Fig. 4: the R = 240 um circles at 20 / 18 / 17 M equal the Fig. 4 resonance labels (2nd /
+      2nd / 1st radial order); record the caption conflict'
+  cmp_lit_li2013b_sin_ring_r60_sio2-m1:
+    notes: 'Fig. 2(b) upper inset (1530.23-1530.25 nm), shallow dip (~1.8 dB); coupling regime not determined from the
+      data (D403).'
+    why: 'p.5 Fig. 2(b) render: dip ~-3.8 dB on a ~-2.0 dB baseline; note read corrected (see m5)'
+  cmp_lit_li2013b_sin_ring_r60_sio2-m3:
+    notes: 'Fig. 2(b) lower inset at ~1530.245 nm, dip ~12 dB below the baseline: coupling regime not determined from the
+      data (D403).'
+    why: 'p.5 Fig. 2(b) render: dip ~-26.8 dB on a ~-14.5 dB baseline; note read corrected (see m6)'
+  cmp_lit_li2013b_sin_ring_r60_sio2-m5:
+    value: 1.8
+    notes: 'Upper inset: baseline ~-2.0 dB (right shoulder; the left side rises toward -1.5 dB), dip ~-3.8 dB; reading
+      +/-0.2 dB.'
+    why: 'p.5 Fig. 2(b) render calibrated on the -2 / -2.5 / -3 / -3.5 dB labels: dip bottom ~-3.8 dB, not ~-3.6 dB;
+      1.5 dB lies outside the stated +/-0.2 dB reading'
+  cmp_lit_li2013b_sin_ring_r60_sio2-m6:
+    value: 12
+    notes: 'Lower inset: baseline ~-14.4 dB (left) to ~-14.7 dB (right), dip ~-26.8 dB (curve shifted down by 15 dB in
+      Fig. 2(a)); reading +/-0.5 dB; the sampled minimum may understate the true depth.'
+    why: 'p.5 Fig. 2(b) render calibrated on the -15 / -20 / -25 dB labels: dip ~-26.8 dB, baseline ~-14.5 dB -> ~12 dB'
+  cmp_lit_li2013b_sin_ring_r20_sio2-m3:
+    basis: derived
+    notes: 'Ring width printed 8 um (Fig. 3 caption, kept the same for all radii), converted to nm (D157).'
+    why: 'D157 / D610: a pure unit rescale of a printed dimension is derived (the paper prints only 8 um)'
+  cmp_lit_li2013b_sin_ring_r40_sio2-m3:
+    basis: derived
+    notes: 'Ring width printed 8 um (Fig. 3 caption, kept the same for all radii), converted to nm (D157).'
+    why: 'D157 / D610: a pure unit rescale of a printed dimension is derived (the paper prints only 8 um)'
+  cmp_lit_li2013b_sin_ring_r60_sio2-m10:
+    basis: derived
+    notes: 'Ring width printed 8 um (p.4, Fig. 1(b) caption), converted to nm (D157).'
+    why: 'D157 / D610: a pure unit rescale of a printed dimension is derived'
+  cmp_lit_li2013b_sin_ring_r60_sio2-m11:
+    basis: derived
+    notes: 'Access waveguide width printed 1.2 um (p.4; Fig. 1(a) SEM of a 1.2 um x 400 nm waveguide), converted to nm
+      (D157).'
+    why: 'D157 / D610: a pure unit rescale of a printed dimension is derived'
+  cmp_lit_li2013b_sin_ring_r120_sio2-m3:
+    basis: derived
+    notes: 'Ring width printed 8 um (Fig. 3 caption, kept the same for all radii), converted to nm (D157).'
+    why: 'D157 / D610: a pure unit rescale of a printed dimension is derived (the paper prints only 8 um)'
+  cmp_lit_li2013b_sin_ring_r240_sio2-m10:
+    basis: derived
+    notes: 'Ring width printed 8 um (Fig. 4 caption), converted to nm (D157).'
+    why: 'D157 / D610: a pure unit rescale of a printed dimension is derived'
+  cmp_lit_cherchi2014_mmi_2x2_5um-m5:
+    basis: derived
+    notes: 'Gap between the I/O waveguides printed 1.25 um, converted to nm (D157).'
+    why: 'D157 / D610: a pure unit rescale of a printed dimension is derived (p.3 prints only 1.25 um)'
+  cmp_lit_cherchi2014_mmi_2x2_5um-m3:
+    basis: design_target
+    notes: 'Designed MMI length: the optimal length at 1.55 um was simulated to be 112 um (p.3) and used in the 259.5 um
+      total length; a dimension, so design_target (D82a), as on the ten fabricated double-MMI rows.'
+    why: 'p.3: 112 um is the chosen design dimension; D82a keeps simulated for performance values only; aligns with the
+      per-device mmi_length_um rows (design_target)'
+  cmp_lit_cherchi2014_double_mmi_l35p5_design-m9:
+    basis: design_target
+    notes: 'Designed MMI length: the optimal length at 1.55 um was simulated to be 112 um (p.3); a dimension, so
+      design_target (D82a).'
+    why: 'p.3: 112 um is the chosen design dimension (D82a); same fix as cmp_lit_cherchi2014_mmi_2x2_5um-m3'
+add_metrics:
+- metric_id: cmp_lit_li2013b_sin_ring_r240_sio2-m12
+  component_id: cmp_lit_li2013b_sin_ring_r240_sio2
+  parameter: extinction_db
+  value: '11'
+  unit: dB
+  qualifier: approx
+  wavelength_nm: '1567.41'
+  wavelength_inferred: 'true'
+  mode: 2nd-order radial
+  condition: Fig. 4 ring; resonance labelled 'Qi ~ 18 million'
+  basis: extracted_from_figure
+  locator: p.7 Fig. 4
+  notes: 'Inset: baseline ~0.91-0.93, dip ~0.07 (linear transmission) -> ~11 dB; reading +/-1 dB. Wavelength from the
+    inset axis (1567.4072-1567.4077 nm).'
+  why: 'Miss: notch depth of the one undoubled Fig. 4 resonance is readable (p.7 inset render) and documents the D403 basis
+    of m1; the batch entered the same kind of figure-read notch depths for the R60 and SOI rings'

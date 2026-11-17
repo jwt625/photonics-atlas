@@ -1,0 +1,408 @@
+# lit_h50 author / affiliation headers (DevLog-011; contract data/_staging/people/lit_headers/CONTRACT.md)
+# names, markers and org / unit / city / country as printed; no contact, street or postal text
+
+- source_id: lit:burla2015
+  status: ok
+  slots_from_header: true
+  note: "no author list in the literature cache (slots from the header, D352); conference paper; the hash mark on author 1 points to the contact line; block 1 prints the INRS centre name after the institute (unit) and a street address before the city; provinces and postal codes not recorded"
+  affiliations:
+    - {marker: "1", basis: printed, org: "Institut National de la Recherche Scientifique", unit: "Énergie, Matériaux et Télécommunications (INRS-EMT)", locality: "Varennes", country: "CA"}
+    - {marker: "2", basis: printed, org: "University of British Columbia", unit: "Department of Electrical and Computer Engineering", locality: "Vancouver", country: "CA"}
+  authors:
+    - {name: "Maurizio Burla", markers: ["1"], dropped_markers: [{marker: "#", reason: "contact footnote"}]}
+    - {name: "Benjamin Crockett", markers: ["1"]}
+    - {name: "Lukas Chrostowski", markers: ["2"]}
+    - {name: "José Azaña", markers: ["1"]}
+
+- source_id: lit:guillentorres2014
+  status: ok
+  slots_from_header: true
+  note: "no author list in the literature cache (slots from the header, D352); conference paper; single unmarked block; author 1 printed with a detached accent in the text layer (written Guillén-Torres, D282)"
+  affiliations:
+    - {marker: "", basis: single, org: "University of British Columbia", unit: "Department of Electrical and Computer Engineering", locality: "Vancouver", country: "CA"}
+  authors:
+    - {name: "Miguel A. Guillén-Torres", markers: []}
+    - {name: "Michael Caverley", markers: []}
+    - {name: "Edmond Cretu", markers: []}
+    - {name: "Nicolas A. F. Jaeger", markers: []}
+    - {name: "Lukas Chrostowski", markers: []}
+
+- source_id: lit:chen2015
+  status: ok
+  note: "single unmarked block; asterisk marks the corresponding author; province and postal code not recorded"
+  affiliations:
+    - {marker: "", basis: single, org: "University of British Columbia", unit: "Department of Electrical and Computer Engineering", locality: "Vancouver", country: "CA"}
+  authors:
+    - {name: "Zhitian Chen", markers: []}
+    - {name: "Jonas Flueckiger", markers: []}
+    - {name: "Xu Wang", markers: []}
+    - {name: "Fan Zhang", markers: []}
+    - {name: "Han Yun", markers: []}
+    - {name: "Zeqin Lu", markers: []}
+    - {name: "Michael Caverley", markers: []}
+    - {name: "Yun Wang", markers: []}
+    - {name: "Nicolas A. F. Jaeger", markers: []}
+    - {name: "Lukas Chrostowski", markers: []}
+
+- source_id: lit:chauhan2022
+  status: ok
+  note: "author line printed in capitals; asterisk marks the corresponding author; block 1 prints University of California, Santa Barbara (campus); author 7 printed C. W. HOYT, author list Chad Hoyt (missing middle initial, distinctive family name: explicit slot, D287 / D369); states and postal codes not recorded"
+  affiliations:
+    - {marker: "1", basis: printed, org: "University of California", campus: "Santa Barbara", unit: "Department of Electrical and Computer Engineering", locality: "Santa Barbara", country: "US"}
+    - {marker: "2", basis: printed, org: "Honeywell Aerospace", locality: "Plymouth", country: "US"}
+  authors:
+    - {name: "NITESH CHAUHAN", markers: ["1"]}
+    - {name: "JIAWEI WANG", markers: ["1"]}
+    - {name: "DEBAPAM BOSE", markers: ["1"]}
+    - {name: "KAIKAI LIU", markers: ["1"]}
+    - {name: "R. L. COMPTON", markers: ["2"]}
+    - {name: "C. FERTIG", markers: ["2"]}
+    - {name: "C. W. HOYT", markers: ["2"], slot: 7}
+    - {name: "DANIEL J. BLUMENTHAL", markers: ["1"]}
+
+- source_id: lit:liu2020d
+  status: ok
+  note: "affiliations printed as one footnote statement for all authors (prose); the national engineering laboratory and the school printed before Huazhong University of Science and Technology (unit chain); membership designation in the author line; postal code not recorded"
+  affiliations:
+    - {marker: "P1", basis: prose, org: "Huazhong University of Science and Technology", unit: "Next Generation Internet Access National Engineering Laboratory, School of Optical and Electronic Information", locality: "Wuhan", country: "CN", locator: "p.1 footnote"}
+  authors:
+    - {name: "Renfu Liu", markers: ["P1"]}
+    - {name: "Longhui Lu", markers: ["P1"]}
+    - {name: "Peijie Zhang", markers: ["P1"]}
+    - {name: "Weijie Chang", markers: ["P1"]}
+    - {name: "Deming Liu", markers: ["P1"]}
+    - {name: "Minming Zhang", markers: ["P1"]}
+
+- source_id: lit:adar1994
+  status: partial
+  slots_from_header: true
+  note: "no author list in the literature cache (slots from the header, D352); scanned 1994 paper, OCR text in both layers; affiliations printed as footnote statements (prose) whose lines are interleaved with the next column: statement 1 (Adar, Mizrahi) country printed only after the interleaved line (outside the statement, country empty); statement 2 (Serbin) prints the organization as ATkT Bell Laboratories and the country as IJSA (OCR garble of AT and T and USA): block kept as printed so the statement stays consistent, author 2 unreadable (no rows); states and postal codes not recorded"
+  affiliations:
+    - {marker: "P1", basis: prose, org: "AT&T Bell Laboratories", locality: "Murray Hill", country: "", locator: "p.1 footnote"}
+    - {marker: "P2", basis: prose, org: "ATkT Bell Laboratories", locality: "Breinigsville", country: "", locator: "p.1 footnote"}
+  authors:
+    - {name: "R. Adar", markers: ["P1"]}
+    - {name: "M. R. Serbin", markers: ["P2"], unreadable: true}
+    - {name: "Victor Mizrahi", markers: ["P1"]}
+
+- source_id: lit:li2013b
+  status: ok
+  note: "single unmarked block; asterisk marks the corresponding author; street address, state and postal code not recorded"
+  affiliations:
+    - {marker: "", basis: single, org: "Georgia Institute of Technology", unit: "School of Electrical and Computer Engineering", locality: "Atlanta", country: "US"}
+  authors:
+    - {name: "Qing Li", markers: []}
+    - {name: "Ali A. Eftekhar", markers: []}
+    - {name: "Majid Sodagar", markers: []}
+    - {name: "Zhixuan Xia", markers: []}
+    - {name: "Amir H. Atabaki", markers: []}
+    - {name: "Ali Adibi", markers: []}
+
+- source_id: lit:cherchi2014
+  status: ok
+  slots_from_header: true
+  note: "no author list in the literature cache (slots from the header, D352); single unmarked block; asterisk marks the corresponding author; postal code not recorded"
+  affiliations:
+    - {marker: "", basis: single, org: "VTT Technical Research Centre of Finland", locality: "Espoo", country: "FI"}
+  authors:
+    - {name: "Matteo Cherchi", markers: []}
+    - {name: "Sami Ylinen", markers: []}
+    - {name: "Mikko Harjanne", markers: []}
+    - {name: "Markku Kapulainen", markers: []}
+    - {name: "Tapani Vehmas", markers: []}
+    - {name: "Timo Aalto", markers: []}
+
+- source_id: lit:gondarenko2009
+  status: ok
+  note: "block markers printed with a period; both blocks print no country (country empty); states and postal codes not recorded"
+  affiliations:
+    - {marker: "1", basis: printed, org: "Cornell University", unit: "School of Applied and Engineering Physics", locality: "Ithaca", country: ""}
+    - {marker: "2", basis: printed, org: "Cornell University", unit: "School of Electrical and Computer Engineering", locality: "Ithaca", country: ""}
+  authors:
+    - {name: "Alexander Gondarenko", markers: ["1"]}
+    - {name: "Jacob S. Levy", markers: ["2"]}
+    - {name: "Michal Lipson", markers: ["2"]}
+
+- source_id: lit:zhou2024a
+  status: ok
+  note: "affiliations printed as one footnote statement for all authors (prose) with three also with clauses (clause blocks); clause 1 prints the key laboratory with Beijing Institute of Technology in parentheses (key laboratory as unit) and the parent ministry after it (not copied); clause 3 Chongqing key laboratory recorded as its own organization (D461); membership designation in the author line; postal codes not recorded"
+  affiliations:
+    - {marker: "P1", basis: prose, org: "Beijing Institute of Technology", unit: "Radar Technology Research Institute, School of Information and Electronics", locality: "Beijing", country: "CN", locator: "p.1 footnote"}
+    - {marker: "P2", basis: prose, clause: true, org: "Beijing Institute of Technology", unit: "Key Laboratory of Electronic and Information Technology in Satellite Navigation", locality: "Beijing", country: "CN", locator: "p.1 footnote"}
+    - {marker: "P3", basis: prose, clause: true, org: "Beijing Institute of Technology", unit: "Chongqing Innovation Center", locality: "Chongqing", country: "CN", locator: "p.1 footnote"}
+    - {marker: "P4", basis: prose, clause: true, org: "Chongqing Key Laboratory of Novel Civilian Radar", locality: "Chongqing", country: "CN", locator: "p.1 footnote"}
+  authors:
+    - {name: "Lang Zhou", markers: ["P1", "P2", "P3", "P4"]}
+    - {name: "Yihao Cheng", markers: ["P1", "P2", "P3", "P4"]}
+    - {name: "Xu Hong", markers: ["P1", "P2", "P3", "P4"]}
+    - {name: "Bin Wang", markers: ["P1", "P2", "P3", "P4"]}
+    - {name: "Weifeng Zhang", markers: ["P1", "P2", "P3", "P4"]}
+
+- source_id: lit:bozzola2015
+  status: ok
+  note: "markers 4, 5 and 6 point to contact lines; block 2 prints a building name between Tyndall National Institute and the city (not recorded); street addresses and postal codes not recorded"
+  affiliations:
+    - {marker: "1", basis: printed, org: "University of Pavia", unit: "Physics Department", locality: "Pavia", country: "IT"}
+    - {marker: "2", basis: printed, org: "Tyndall National Institute", locality: "Cork", country: "IE"}
+    - {marker: "3", basis: printed, org: "University of Pavia", unit: "Department of Electrical, Computer and Biomedical Engineering", locality: "Pavia", country: "IT"}
+  authors:
+    - {name: "Angelo Bozzola", markers: ["1"], dropped_markers: [{marker: "4", reason: "contact footnote"}]}
+    - {name: "Lee Carroll", markers: ["2"], dropped_markers: [{marker: "6", reason: "contact footnote"}]}
+    - {name: "Dario Gerace", markers: ["1"]}
+    - {name: "Ilaria Cristiani", markers: ["3"]}
+    - {name: "Lucio Claudio Andreani", markers: ["1"], dropped_markers: [{marker: "5", reason: "contact footnote"}]}
+
+- source_id: lit:liu2022e
+  status: ok
+  note: "affiliations printed as one footnote statement for all authors (prose); the Wuhan National Laboratory for Optoelectronics printed before Huazhong University of Science and Technology (unit, majority form D572); membership designations in the author line; province and postal code not recorded"
+  affiliations:
+    - {marker: "P1", basis: prose, org: "Huazhong University of Science and Technology", unit: "Wuhan National Laboratory for Optoelectronics", locality: "Wuhan", country: "CN", locator: "p.1 footnote"}
+  authors:
+    - {name: "Wei Liu", markers: ["P1"]}
+    - {name: "Jiawen Liao", markers: ["P1"]}
+    - {name: "Hongjun Cai", markers: ["P1"]}
+    - {name: "Yu Yu", markers: ["P1"]}
+    - {name: "Xinliang Zhang", markers: ["P1"]}
+
+- source_id: lit:laere2007
+  status: ok
+  note: "affiliations printed as footnote statements (prose); statement 1 prints the dash-joined Ghent University-Interuniversity Microelectronics Center (IMEC) kept whole as printed (D426); membership designations in the author line; postal codes not recorded"
+  affiliations:
+    - {marker: "P1", basis: prose, org: "Ghent University-Interuniversity Microelectronics Center (IMEC)", unit: "Department of Information Technology (INTEC)", locality: "Ghent", country: "BE", locator: "p.1 footnote"}
+    - {marker: "P2", basis: prose, org: "University of St. Andrews", unit: "School of Physics and Astronomy", locality: "St. Andrews", country: "GB", locator: "p.1 footnote"}
+  authors:
+    - {name: "Frederik Van Laere", markers: ["P1"]}
+    - {name: "Günther Roelkens", markers: ["P1"]}
+    - {name: "Melanie Ayre", markers: ["P2"]}
+    - {name: "Jonathan Schrauwen", markers: ["P1"]}
+    - {name: "Dirk Taillaert", markers: ["P1"]}
+    - {name: "Dries Van Thourhout", markers: ["P1"]}
+    - {name: "Thomas F. Krauss", markers: ["P2"]}
+    - {name: "Roel Baets", markers: ["P1"]}
+
+- source_id: lit:chen2010
+  status: ok
+  note: "affiliations printed as one footnote statement for all authors (prose); the statement prints the district Shatin before Hong Kong (locality Hong Kong, D366); membership designations in the author line"
+  affiliations:
+    - {marker: "P1", basis: prose, org: "The Chinese University of Hong Kong", unit: "Department of Electronic Engineering", locality: "Hong Kong", country: "HK", locator: "p.1 footnote"}
+  authors:
+    - {name: "Xia Chen", markers: ["P1"]}
+    - {name: "Chao Li", markers: ["P1"]}
+    - {name: "Christy K. Y. Fung", markers: ["P1"]}
+    - {name: "Stanley M. G. Lo", markers: ["P1"]}
+    - {name: "Hon K. Tsang", markers: ["P1"]}
+
+- source_id: lit:bundalo2022
+  status: partial
+  author_list_differs: true
+  note: "page 1 refers to the authors' affiliations section of the acknowledgment on page 9 (prose statements, locator p.9 affiliations); the author line prints 32 names, the author list stops at 30: Martin Zoldak and Peter O'Brien slot 0 (D412 list, chowdhury2022 precedent); author 19 printed Tienforti Marcello, author list Marcello Tienforti (name-order swap, explicit slot 19, D426 review list); was with = the affiliation of the work, He is now with = present address; imec/Ghent University kept whole as printed (D426 / D466 joined form); author 29 (Wuytens) was with imec / Ghent University (no place printed: locality and country empty) and He is now with Ligentec SA (Ecublens, CH): the checker does not take the period after University as a sentence end, so the pronoun statement's subject is not resolved (checker gap): both blocks kept, author 29 unreadable (no rows); author 7 (Lee Carrol) present address continues on the next line printed without word spaces (show masks that line; both source layers print it in full, lit_h26 marinins2022 precedent, D521): organization and city recorded, the address span between them not recorded; Eircodes, street and building names and postal codes not recorded"
+  affiliations:
+    - {marker: "P1", basis: prose, org: "Tyndall National Institute", unit: "Photonics Packaging and Integration Group", locality: "Cork", country: "IE", locator: "p.9 affiliations"}
+    - {marker: "P2", basis: prose, role: present_address, org: "CSEM S.E.", locality: "Alpnach", country: "CH", locator: "p.9 affiliations"}
+    - {marker: "P3", basis: prose, org: "Tyndall National Institute", unit: "Photonics Packaging and Integration group", locality: "Cork", country: "IE", locator: "p.9 affiliations"}
+    - {marker: "P4", basis: prose, org: "Cordon Electronics Italy", locality: "Agrate Brianza", country: "IT", locator: "p.9 affiliations"}
+    - {marker: "P5", basis: prose, role: present_address, org: "STMicroelectronics s.r.l.", locality: "Agrate Brianza", country: "IT", locator: "p.9 affiliations"}
+    - {marker: "P6", basis: prose, org: "imec/Ghent University", locality: "Ghent", country: "BE", locator: "p.9 affiliations"}
+    - {marker: "P7", basis: prose, org: "imec / Ghent University", locality: "", country: "", locator: "p.9 affiliations"}
+    - {marker: "P8", basis: prose, role: present_address, org: "Ligentec SA", locality: "Ecublens", country: "CH", locator: "p.9 affiliations"}
+    - {marker: "P9", basis: prose, org: "III-V labs", locality: "Palaiseau", country: "FR", locator: "p.9 affiliations"}
+    - {marker: "P10", basis: prose, org: "Tyndall National Institute", unit: "Photonics Packaging and Integration Group", locality: "Cork", country: "IE", locator: "p.9 affiliations"}
+    - {marker: "P11", basis: prose, role: present_address, org: "Sustainable Energy Authority Ireland", locality: "Dublin", country: "IE", locator: "p.9 affiliations"}
+    - {marker: "P12", basis: prose, org: "KIT", locality: "Karlsruhe", country: "DE", locator: "p.9 affiliations"}
+    - {marker: "P13", basis: prose, role: present_address, org: "Vanguard Photonics GmbH", locality: "Karlsruhe", country: "DE", locator: "p.9 affiliations"}
+    - {marker: "P14", basis: prose, org: "Argotech a.s.", locality: "Náchod", country: "CZ", locator: "p.9 affiliations"}
+    - {marker: "P15", basis: prose, org: "VTT", locality: "Oulu", country: "FI", locator: "p.9 affiliations"}
+    - {marker: "P16", basis: prose, org: "Eblana Photonics", locality: "Dublin", country: "IE", locator: "p.9 affiliations"}
+    - {marker: "P17", basis: prose, org: "Karlsruhe Institute of Technology (KIT)", unit: "Institute of Photonics and Quantum Electronics", locality: "Karlsruhe", country: "DE", locator: "p.9 affiliations"}
+    - {marker: "P18", basis: prose, org: "Cordon Electronics Italy", locality: "Agrate Brianza", country: "IT", locator: "p.9 affiliations"}
+    - {marker: "P19", basis: prose, role: present_address, org: "Metallux SA", locality: "Mendrisio", country: "CH", locator: "p.9 affiliations"}
+    - {marker: "P20", basis: prose, org: "Cordon Electronics Italy", locality: "Agrate Brianza", country: "IT", locator: "p.9 affiliations"}
+    - {marker: "P21", basis: prose, org: "imec/Ghent University", locality: "Ghent", country: "BE", locator: "p.9 affiliations"}
+    - {marker: "P22", basis: prose, role: present_address, org: "VLAIO", locality: "Brussel", country: "BE", locator: "p.9 affiliations"}
+    - {marker: "P23", basis: prose, org: "Cordon Electronics Italy", locality: "Agrate Brianza", country: "IT", locator: "p.9 affiliations"}
+    - {marker: "P24", basis: prose, role: present_address, org: "Evoelectronics s.r.l", locality: "Pomezia", country: "IT", locator: "p.9 affiliations"}
+  authors:
+    - {name: "Ivan-Lazar Bundalo", markers: ["P1", "P2"]}
+    - {name: "Padraic E. Morrissey", markers: ["P3"]}
+    - {name: "Andrea Annoni", markers: ["P4", "P5"]}
+    - {name: "Roel Baets", markers: ["P6"]}
+    - {name: "Fabrice Blache", markers: ["P9"]}
+    - {name: "Laurens Breyne", markers: ["P6"]}
+    - {name: "Lee Carrol", markers: ["P10", "P11"]}
+    - {name: "Sean Collins", markers: ["P3"]}
+    - {name: "Philipp-Immanuel Dietrich", markers: ["P12", "P13"]}
+    - {name: "Leos Halmo", markers: ["P14"]}
+    - {name: "Filipe Jorge", markers: ["P9"]}
+    - {name: "Mikko Karppinen", markers: ["P15"]}
+    - {name: "Mikko Kaunisto", markers: ["P15"]}
+    - {name: "Brian Kelly", markers: ["P16"]}
+    - {name: "Joris Van Kerrebrouck", markers: ["P6"]}
+    - {name: "Christian Koos", markers: ["P17"]}
+    - {name: "Markku Lahti", markers: ["P15"]}
+    - {name: "Joris Lambrecht", markers: ["P6"]}
+    - {name: "Tienforti Marcello", markers: ["P18", "P19"], slot: 19}
+    - {name: "Junsu Su Lee", markers: ["P3"]}
+    - {name: "Jeroen Missinne", markers: ["P6"]}
+    - {name: "Peter Ossieur", markers: ["P6"]}
+    - {name: "Roberto Pessina", markers: ["P20"]}
+    - {name: "Tom Sterken", markers: ["P21", "P22"]}
+    - {name: "Geert Van Steenberge", markers: ["P6"]}
+    - {name: "Antonello Vannucci", markers: ["P23", "P24"]}
+    - {name: "Alessandro Vannucchi", markers: ["P20"]}
+    - {name: "Rik Verplancke", markers: ["P6"]}
+    - {name: "Pieter Wuytens", markers: ["P7", "P8"], unreadable: true}
+    - {name: "Yilin Xu", markers: ["P17"]}
+    - {name: "Martin Zoldak", markers: ["P14"], slot: 0}
+    - {name: "Peter O’Brien", markers: ["P3"], slot: 0}
+
+- source_id: lit:zhong2014
+  status: ok
+  note: "asterisk marks the corresponding author; block 3 is a present address (Currently with) of author 4, who also carries block 1; provinces, states and postal codes not recorded"
+  affiliations:
+    - {marker: "1", basis: printed, org: "McGill University", unit: "Department of Electrical and Computer Engineering", locality: "Montreal", country: "CA"}
+    - {marker: "2", basis: printed, org: "University of British Columbia", unit: "Department of Electrical and Computer Engineering", locality: "Vancouver", country: "CA"}
+    - {marker: "3", basis: printed, role: present_address, org: "Université Laval", unit: "Department of Electrical and Computer Engineering", locality: "Québec", country: "CA"}
+    - {marker: "4", basis: printed, org: "University of Washington", unit: "Washington Nanofabrication Facility", locality: "Seattle", country: "US"}
+  authors:
+    - {name: "Qiuhang Zhong", markers: ["1"]}
+    - {name: "Venkat Veerasubramanian", markers: ["1"]}
+    - {name: "Yun Wang", markers: ["2"]}
+    - {name: "Wei Shi", markers: ["1", "3"]}
+    - {name: "David Patel", markers: ["1"]}
+    - {name: "Samir Ghosh", markers: ["1"]}
+    - {name: "Alireza Samani", markers: ["1"]}
+    - {name: "Lukas Chrostowski", markers: ["2"]}
+    - {name: "Richard Bojko", markers: ["4"]}
+    - {name: "David V. Plant", markers: ["1"]}
+
+- source_id: lit:gui2021
+  status: ok
+  note: "affiliations printed as footnote statements (prose); statement 2 prints the Wuhan National Laboratory for Optoelectronics, the national engineering laboratory and the school before Huazhong University of Science and Technology (unit chain, D572), its last line printed without word spaces; membership designation in the author line; postal codes not recorded"
+  affiliations:
+    - {marker: "P1", basis: prose, org: "Huawei Technologies", unit: "Transmission & Access Research Department", locality: "Shenzhen", country: "CN", locator: "p.1 footnote"}
+    - {marker: "P2", basis: prose, org: "Huazhong University of Science and Technology", unit: "Wuhan National Laboratory for Optoelectronics and National Engineering Laboratory for Next Generation Internet Access System, School of Optical and Electronic Information", locality: "Wuhan", country: "CN", locator: "p.1 footnote"}
+  authors:
+    - {name: "Tao Gui", markers: ["P1"]}
+    - {name: "Xuefeng Wang", markers: ["P2"]}
+    - {name: "Ming Tang", markers: ["P2"]}
+    - {name: "Yi Yu", markers: ["P1"]}
+    - {name: "Yanzhao Lu", markers: ["P1"]}
+    - {name: "Liangchuan Li", markers: ["P1"]}
+
+- source_id: lit:larrea2018
+  status: ok
+  note: "affiliations printed as one footnote statement for all authors (prose); the university printed as Universitat Politècnica València (as printed); postal code not recorded"
+  affiliations:
+    - {marker: "P1", basis: prose, org: "Universitat Politècnica València", unit: "Nanophotonics Technology Center", locality: "València", country: "ES", locator: "p.1 footnote"}
+  authors:
+    - {name: "Roberto Larrea", markers: ["P1"]}
+    - {name: "Ana M. Gutierrez", markers: ["P1"]}
+    - {name: "Amadeu Griol", markers: ["P1"]}
+    - {name: "Antoine Brimont", markers: ["P1"]}
+    - {name: "Pablo Sanchis", markers: ["P1"]}
+
+- source_id: lit:doerr2010
+  status: ok
+  note: "affiliations printed as footnote statements (prose); both statements print Bell Laboratories before Alcatel-Lucent (Bell Laboratories as unit, Nokia / Bell Labs precedent); membership designations absent; states and postal codes not recorded"
+  affiliations:
+    - {marker: "P1", basis: prose, org: "Alcatel-Lucent", unit: "Bell Laboratories", locality: "Holmdel", country: "US", locator: "p.1 footnote"}
+    - {marker: "P2", basis: prose, org: "Alcatel-Lucent", unit: "Bell Laboratories", locality: "Murray Hill", country: "US", locator: "p.1 footnote"}
+  authors:
+    - {name: "Christopher R. Doerr", markers: ["P1"]}
+    - {name: "Long Chen", markers: ["P1"]}
+    - {name: "Young-Kai Chen", markers: ["P2"]}
+    - {name: "Larry L. Buhl", markers: ["P1"]}
+
+- source_id: lit:sacher2014b
+  status: ok
+  note: "asterisk marks the corresponding author; block 2 prints the parent A*STAR with its expansion after the institute (not copied); street addresses, province and postal codes not recorded"
+  affiliations:
+    - {marker: "1", basis: printed, org: "University of Toronto", unit: "Department of Electrical and Computer Engineering", locality: "Toronto", country: "CA"}
+    - {marker: "2", basis: printed, org: "Institute of Microelectronics", locality: "Singapore", country: "SG"}
+  authors:
+    - {name: "Wesley D. Sacher", markers: ["1"]}
+    - {name: "Ying Huang", markers: ["2"]}
+    - {name: "Liang Ding", markers: ["2"]}
+    - {name: "Benjamin J. F. Taylor", markers: ["1"]}
+    - {name: "Hasitha Jayatilleka", markers: ["1"]}
+    - {name: "Guo-Qiang Lo", markers: ["2"]}
+    - {name: "Joyce K. S. Poon", markers: ["1"]}
+
+- source_id: lit:chang2023
+  status: ok
+  note: "affiliations printed as footnote statements (prose); statement 2 prints University of California, Davis (campus); membership designations in the author line; states and postal codes not recorded"
+  affiliations:
+    - {marker: "P1", basis: prose, org: "Texas A&M University", unit: "Analog and Mixed-Signal Center", locality: "College Station", country: "US", locator: "p.1 footnote"}
+    - {marker: "P2", basis: prose, org: "University of California", campus: "Davis", unit: "Department of Electrical and Computer Engineering", locality: "Davis", country: "US", locator: "p.1 footnote"}
+  authors:
+    - {name: "Po-Hsuan Chang", markers: ["P1"]}
+    - {name: "Mingye Fu", markers: ["P2"]}
+    - {name: "Peng Yan", markers: ["P1"]}
+    - {name: "Anirban Samanta", markers: ["P2"]}
+    - {name: "Mehmet Berkay On", markers: ["P2"]}
+    - {name: "Yuanming Zhu", markers: ["P1"]}
+    - {name: "S. J. Ben Yoo", markers: ["P2"]}
+    - {name: "Samuel Palermo", markers: ["P1"]}
+
+- source_id: lit:li2013a
+  status: ok
+  note: "single unmarked block; the block prints the parent A*STAR with its expansion after the institute (not copied); asterisk marks the corresponding author; street address and postal code not recorded"
+  affiliations:
+    - {marker: "", basis: single, org: "Institute of Microelectronics", locality: "Singapore", country: "SG"}
+  authors:
+    - {name: "Chao Li", markers: []}
+    - {name: "Huijuan Zhang", markers: []}
+    - {name: "Mingbin Yu", markers: []}
+    - {name: "G. Q. Lo", markers: []}
+
+- source_id: lit:wan2019
+  status: ok
+  note: "affiliations printed as one footnote statement for all authors (prose); membership designations in the author line; state and postal code not recorded"
+  affiliations:
+    - {marker: "P1", basis: prose, org: "Georgia Institute of Technology", unit: "School of Electrical and Computer Engineering", locality: "Atlanta", country: "US", locator: "p.1 footnote"}
+  authors:
+    - {name: "Congshan Wan", markers: ["P1"]}
+    - {name: "Joe L. Gonzalez", markers: ["P1"]}
+    - {name: "Tianren Fan", markers: ["P1"]}
+    - {name: "Ali Adibi", markers: ["P1"]}
+    - {name: "Thomas K. Gaylord", markers: ["P1"]}
+    - {name: "Muhannad S. Bakir", markers: ["P1"]}
+
+- source_id: lit:wang2014a
+  status: ok
+  slots_from_header: true
+  note: "no author list in the literature cache (slots from the header, D352); asterisk marks the corresponding author; block 1 prints the institute with Chinese Academy of Sciences (one name, majority form); block 3 prints the school and the Birck centre before Purdue University (unit chain); state and postal codes not recorded"
+  affiliations:
+    - {marker: "1", basis: printed, org: "Shanghai Institute of Microsystem and Information Technology, Chinese Academy of Sciences", unit: "State Key Laboratory of Functional Materials for Informatics", locality: "Shanghai", country: "CN"}
+    - {marker: "2", basis: printed, org: "Grace Semiconductor Manufacturing Corporation", locality: "Shanghai", country: "CN"}
+    - {marker: "3", basis: printed, org: "Purdue University", unit: "School of Electrical and Computer Engineering, and Birck Nano-technology Center", locality: "West Lafayette", country: "US"}
+  authors:
+    - {name: "Jing Wang", markers: ["1", "3"]}
+    - {name: "Zhen Sheng", markers: ["1"]}
+    - {name: "Le Li", markers: ["2"]}
+    - {name: "Albert Pang", markers: ["2"]}
+    - {name: "Aimin Wu", markers: ["1"]}
+    - {name: "Wei Li", markers: ["1"]}
+    - {name: "Xi Wang", markers: ["1"]}
+    - {name: "Shichang Zou", markers: ["1", "2"]}
+    - {name: "Minghao Qi", markers: ["3"]}
+    - {name: "Fuwan Gan", markers: ["1"]}
+
+- source_id: lit:nielson2005
+  status: ok
+  note: "affiliations printed as footnote statements (prose); statement 4 (author 7, deceased) was with = the affiliation of the work (recorded), the deceased remark is not a block; membership designations in the author line; states and postal codes not recorded"
+  affiliations:
+    - {marker: "P1", basis: prose, org: "Sandia National Laboratories", locality: "Albuquerque", country: "US", locator: "p.1 footnote"}
+    - {marker: "P2", basis: prose, org: "Massachusetts Institute of Technology", locality: "Cambridge", country: "US", locator: "p.1 footnote"}
+    - {marker: "P3", basis: prose, org: "Pirelli Laboratories", locality: "Milan", country: "IT", locator: "p.1 footnote"}
+    - {marker: "P4", basis: prose, org: "Massachusetts Institute of Technology", locality: "Cambridge", country: "US", locator: "p.1 footnote"}
+  authors:
+    - {name: "Gregory N. Nielson", markers: ["P1"]}
+    - {name: "Dilan Seneviratne", markers: ["P2"]}
+    - {name: "Francisco Lopez-Royo", markers: ["P3"]}
+    - {name: "Peter T. Rakich", markers: ["P2"]}
+    - {name: "Ytshak Avrahami", markers: ["P2"]}
+    - {name: "Michael R. Watts", markers: ["P2"]}
+    - {name: "Hermann A. Haus", markers: ["P4"]}
+    - {name: "Harry L. Tuller", markers: ["P2"]}
+    - {name: "George Barbastathis", markers: ["P2"]}

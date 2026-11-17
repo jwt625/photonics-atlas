@@ -1,0 +1,138 @@
+# Audit patch lit_162 (fresh-context audit 2026-11-16, DevLog/audits/2026-11-16-lit_162-audit.md).
+# 126 metrics: 115 ok / 11 imprecise / 0 wrong; 18 components: 18 ok / 0 imprecise / 0 wrong; 0 deleted;
+# 9 misses added (1 peng2024 APD core thickness, 8 chatterjee2020 detector absorber thicknesses). After the patch: 18 components, 135 metrics.
+# Coordinator rulings asked (audit Q1-Q6): Q1 zhou2020a 0 rows, resolver mismatch (no op); Q2 peng2024 one APD row + wdm.mrr D396
+# cross-row + org_amf kept (no op); Q3 chatterjee2020 0.45 / FWHM bandwidths stay derived, responsivities author_estimate, fab /
+# facility empty (no op; 4 note ops drop an unprinted 'Gaussian assumption'); Q4 Table 1 vs Fig. 8(a) dark-current conflict kept
+# (D417, no op; alternative: delete rcpd_lw6_gw150 m1-m3); Q5 ring_msm_fig7 stays a separate row (no op; alternative merge listed in
+# the audit); Q6 Table 2 'This work' and abstract 0.81 A/W stay out (D159, no op).
+metrics:
+  cmp_lit_peng2024_rx_8ch-m6:
+    notes: 'Printed ''less than -50 dB over all frequencies'' (p.7) and ''< -50 dB'' (abstract, Table 1); sign as printed (-50 dB), stored as a suppression magnitude. Fig. 3(b) labels the gap ''Avg~ -50dB'' (an average over 0-50 GHz): read off the embedded figure, the channel-4 trace (about -38 to -43 dBm) sits about 54 dB above the +/-1.07 nm traces (about -92 dBm) at low frequency and about 42-45 dB above them (about -85 dBm) at 35-50 GHz (+/-2 dB reading), so the figure supports about 50 dB on average, not at every frequency; kept as printed (D417 note). O band inferred (1310 nm laser).'
+    why: 'p.6 Fig. 3(b) render and embedded image: the annotation is an average and the traces converge above about 35 GHz; the note quoted the annotation without saying it contradicts the ''over all frequencies'' wording'
+  cmp_lit_chatterjee2020_wgpd_l6-m4:
+    qualifier: ''
+    notes: 'Printed ''lower dark current of approx. 0.8 nA compared to 10 nA measured at -5 V bias for a WGPD of same detector dimension'' (p.5; the approx sign belongs to the RCPD value only); Fig. 8(a) (Lp 6 um) WGPD dark trace about 9-10 nA at -5 V. IV asymmetric (asymmetric contacts).'
+    why: 'p.5 Sec. 4.1: the approximation sign is printed before 0.8 nA only; ''10 nA measured'' carries no qualifier (rule 7)'
+  cmp_lit_chatterjee2020_wgpd_l6-m5:
+    condition: 'LED source 860-900 nm; power reference as calculated by the authors (''from the power coupling'', p.6; the WGPD procedure is not detailed: the RCPD procedure starts from the bus-waveguide power after deducting the fiber-to-grating loss)'
+    why: 'p.6 Sec. 4.2 details the procedure for the RCPD only; the condition stated the WGPD reference plane as fact'
+  cmp_lit_chatterjee2020_wgpd_l6-m6:
+    condition: 'LED source 860-900 nm; power reference as calculated by the authors (''from the power coupling'', p.6; the WGPD procedure is not detailed: the RCPD procedure starts from the bus-waveguide power after deducting the fiber-to-grating loss)'
+    why: 'as wgpd_l6-m5 (p.6 Sec. 4.2)'
+  cmp_lit_chatterjee2020_wgpd_l6-m7:
+    condition: 'LED source 860-900 nm; power reference as calculated by the authors (''from the power coupling'', p.6; the WGPD procedure is not detailed: the RCPD procedure starts from the bus-waveguide power after deducting the fiber-to-grating loss)'
+    why: 'as wgpd_l6-m5 (p.6 Sec. 4.2)'
+  cmp_lit_chatterjee2020_rcpd_lw5_gw150-m7:
+    notes: 'Pulse-response FWHM 73 ps (Fig. 10 legend, coupling length Lc 5 um = Lw); f3dB = 0.45 / FWHM (paper Eq. 1, p.7, cited to ref. [7]; pulse shape not stated) = 6.16 GHz (not printed).'
+    why: 'p.7 Eq. 1 gives 0.45 / FWHM with a citation only; the note attributed a Gaussian assumption the paper does not state'
+  cmp_lit_chatterjee2020_rcpd_lw6_gw150-m7:
+    notes: 'Pulse-response FWHM 80 ps (Fig. 10 legend, coupling length Lc 6 um = Lw); f3dB = 0.45 / FWHM (paper Eq. 1, p.7, cited to ref. [7]; pulse shape not stated) = 5.62 GHz (not printed).'
+    why: 'as rcpd_lw5_gw150-m7 (p.7 Eq. 1)'
+  cmp_lit_chatterjee2020_rcpd_lw5_gw200-m7:
+    notes: 'Pulse-response FWHM 60 ps (Fig. 10 legend, coupling length Lc 5 um = Lw); f3dB = 0.45 / FWHM (paper Eq. 1, p.7, cited to ref. [7]; pulse shape not stated) printed as 7.5 GHz (abstract, conclusion, Table 2).'
+    why: 'as rcpd_lw5_gw150-m7 (p.7 Eq. 1)'
+  cmp_lit_chatterjee2020_rcpd_lw6_gw200-m7:
+    notes: 'Pulse-response FWHM 77 ps (Fig. 10 legend, coupling length Lc 6 um = Lw); f3dB = 0.45 / FWHM (paper Eq. 1, p.7, cited to ref. [7]; pulse shape not stated) = 5.84 GHz (not printed).'
+    why: 'as rcpd_lw5_gw150-m7 (p.7 Eq. 1)'
+  cmp_lit_chatterjee2020_ring_no_msm-m3:
+    wavelength_nm: '877.93'
+    wavelength_inferred: 'true'
+    notes: 'Fig. 7(a) label ''Extinction 14 dB''. Wavelength read off the Fig. 7(a) axis (dip near 877.93 nm, +/-0.02 nm), as m1 / m2 / m4.'
+    why: 'p.6 Fig. 7(a): the extinction belongs to the same resonance as the Q / FWHM / IL rows, which carry the read wavelength; this row had none'
+  cmp_lit_chatterjee2020_ring_msm_fig7-m3:
+    wavelength_nm: '878.52'
+    wavelength_inferred: 'true'
+    notes: 'Fig. 7(b) label ''Extinction 6 dB''. Wavelength read off the Fig. 7(b) axis (dip near 878.52 nm, +/-0.02 nm), as m1 / m2 / m4.'
+    why: 'as ring_no_msm-m3 (p.6 Fig. 7(b))'
+add_metrics:
+- metric_id: cmp_lit_peng2024_double_mrr_apd-m22
+  component_id: cmp_lit_peng2024_double_mrr_apd
+  parameter: core_thickness_nm
+  value: '220'
+  unit: nm
+  basis: design_target
+  locator: 'p.4 Sec. Device design; p.4 Fig. 1(b)'
+  verified_on: '2026-11-16'
+  notes: 'Printed bus waveguide height 220 nm (p.4); the Fig. 1(b) labels of the PIN ring (130 nm rib on a 90 nm slab) add up to the same 220 nm Si layer.'
+  why: 'Miss (D153): the ge_pd layout template (applies to photodetector.apd) requires core_thickness_nm; the value is printed (p.4) and was entered only on the wdm.mrr cross-row'
+- metric_id: cmp_lit_chatterjee2020_rcpd_lw5_gw150-m12
+  component_id: cmp_lit_chatterjee2020_rcpd_lw5_gw150
+  parameter: absorber_thickness_nm
+  value: '220'
+  unit: nm
+  basis: design_target
+  locator: 'p.3 Sec. 3'
+  verified_on: '2026-11-16'
+  notes: 'Si-MSM island patterned from the 220 nm Si device layer of the SOI wafer (p.3; Table 2 also prints Si MSM 220 nm); purchased-wafer thickness (D402).'
+  why: 'Miss (D153): absorber thickness stated (p.3 Sec. 3); entered on the same group''s chatterjee2019 detector rows'
+- metric_id: cmp_lit_chatterjee2020_rcpd_lw6_gw150-m10
+  component_id: cmp_lit_chatterjee2020_rcpd_lw6_gw150
+  parameter: absorber_thickness_nm
+  value: '220'
+  unit: nm
+  basis: design_target
+  locator: 'p.3 Sec. 3'
+  verified_on: '2026-11-16'
+  notes: 'Si-MSM island patterned from the 220 nm Si device layer of the SOI wafer (p.3; Table 2 also prints Si MSM 220 nm); purchased-wafer thickness (D402).'
+  why: 'Miss (D153), as rcpd_lw5_gw150-m12 (p.3 Sec. 3)'
+- metric_id: cmp_lit_chatterjee2020_rcpd_lw5_gw200-m9
+  component_id: cmp_lit_chatterjee2020_rcpd_lw5_gw200
+  parameter: absorber_thickness_nm
+  value: '220'
+  unit: nm
+  basis: design_target
+  locator: 'p.3 Sec. 3'
+  verified_on: '2026-11-16'
+  notes: 'Si-MSM island patterned from the 220 nm Si device layer of the SOI wafer (p.3; Table 2 also prints Si MSM 220 nm); purchased-wafer thickness (D402).'
+  why: 'Miss (D153), as rcpd_lw5_gw150-m12 (p.3 Sec. 3)'
+- metric_id: cmp_lit_chatterjee2020_rcpd_lw6_gw200-m9
+  component_id: cmp_lit_chatterjee2020_rcpd_lw6_gw200
+  parameter: absorber_thickness_nm
+  value: '220'
+  unit: nm
+  basis: design_target
+  locator: 'p.3 Sec. 3'
+  verified_on: '2026-11-16'
+  notes: 'Si-MSM island patterned from the 220 nm Si device layer of the SOI wafer (p.3; Table 2 also prints Si MSM 220 nm); purchased-wafer thickness (D402).'
+  why: 'Miss (D153), as rcpd_lw5_gw150-m12 (p.3 Sec. 3)'
+- metric_id: cmp_lit_chatterjee2020_wgpd_l3-m4
+  component_id: cmp_lit_chatterjee2020_wgpd_l3
+  parameter: absorber_thickness_nm
+  value: '220'
+  unit: nm
+  basis: design_target
+  locator: 'p.3 Sec. 3'
+  verified_on: '2026-11-16'
+  notes: 'Si-MSM island patterned from the 220 nm Si device layer of the SOI wafer (p.3); purchased-wafer thickness (D402).'
+  why: 'Miss (D153), as rcpd_lw5_gw150-m12 (p.3 Sec. 3)'
+- metric_id: cmp_lit_chatterjee2020_wgpd_l5-m4
+  component_id: cmp_lit_chatterjee2020_wgpd_l5
+  parameter: absorber_thickness_nm
+  value: '220'
+  unit: nm
+  basis: design_target
+  locator: 'p.3 Sec. 3'
+  verified_on: '2026-11-16'
+  notes: 'Si-MSM island patterned from the 220 nm Si device layer of the SOI wafer (p.3); purchased-wafer thickness (D402).'
+  why: 'Miss (D153), as rcpd_lw5_gw150-m12 (p.3 Sec. 3)'
+- metric_id: cmp_lit_chatterjee2020_wgpd_l6-m9
+  component_id: cmp_lit_chatterjee2020_wgpd_l6
+  parameter: absorber_thickness_nm
+  value: '220'
+  unit: nm
+  basis: design_target
+  locator: 'p.3 Sec. 3'
+  verified_on: '2026-11-16'
+  notes: 'Si-MSM island patterned from the 220 nm Si device layer of the SOI wafer (p.3); purchased-wafer thickness (D402).'
+  why: 'Miss (D153), as rcpd_lw5_gw150-m12 (p.3 Sec. 3)'
+- metric_id: cmp_lit_chatterjee2020_wgpd_l15-m4
+  component_id: cmp_lit_chatterjee2020_wgpd_l15
+  parameter: absorber_thickness_nm
+  value: '220'
+  unit: nm
+  basis: design_target
+  locator: 'p.3 Sec. 3'
+  verified_on: '2026-11-16'
+  notes: 'Si-MSM island patterned from the 220 nm Si device layer of the SOI wafer (p.3); purchased-wafer thickness (D402).'
+  why: 'Miss (D153), as rcpd_lw5_gw150-m12 (p.3 Sec. 3)'

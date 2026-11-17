@@ -1,0 +1,139 @@
+# Audit patch lit_161 (fresh-context audit, DevLog/audits/2026-11-16-lit_161-audit.md).
+# 89 metrics: 85 ok / 4 imprecise / 0 wrong; 12 components: 12 ok / 0 imprecise / 0 wrong; 0 deleted; 10 misses added
+# (chen2023c shared device stack on the MZI switch, the asymmetric DC and the MMI rows: D153 geometry, lit_141 / D579
+# precedent that added the chen2022c stack to its switch rows).
+# Imprecise: chen2023c ring_r30-m4 c-state notch depth read at the wrong notch (9.0 -> 9.5 dB at 1343.65 nm);
+# trim_mzi_40um-m1 wavelength (Fig. 6(b) arrow at ~1310 nm, not just O band); adc-m5 state not named (Fig. S9(c) is the
+# c-Sb2S3 cross state); adc_ps-m2 condition misses the Fig. 4 contrast labels (25 dB cross port, 16 dB bar port).
+# Coordinator rulings open (audit Q1-Q7); all recommendations are "keep" (no op) except where noted:
+# Q1 adc as splitter.directional_coupler (no op).
+# Q2 trim_mzi_40um as phase_shifter.phase_change (no op).
+# Q3 switching events halved to cycles (no op here); follow-up on merged chen2024a rows recommended in the audit.
+# Q4 MZI c-state condition follows Fig. 2(f) (no op).
+# Q5 SNSF facility on every chen2023c row (no op).
+# Q6 fab org_university_washington (no op).
+# Q7 shahin2025a Fig. 4 ranges and process_name (no op).
+metrics:
+  cmp_lit_chen2023c_ring_r30-m4:
+    value: 9.5
+    notes: "read +/- 1 dB from the averaged trace at the right-hand c-Sb2S3 notch (1343.65 nm, minimum about -9.5 dB, shaded band to about -10.4 dB); the left-hand c-Sb2S3 notch near 1341.2 nm is about -9.0 dB; wavelength read off the axis"
+    why: "Figure re-read on the p.4 render (Fig. 1(d), 600 dpi): the 1343.65 nm orange notch bottoms at about -9.5 dB; 9.0 dB is the depth of the other c-state notch (1341.2 nm)"
+  cmp_lit_chen2023c_trim_mzi_40um-m1:
+    band: ""
+    wavelength_nm: 1310
+    wavelength_inferred: 'true'
+    notes: "printed 24 dB (p.13) and ~24 dB (caption); the Fig. 6(b) double arrow that marks it sits at about 1310 nm (+/- 2 nm read off the axis) and is labelled ~25 dB (D417 note); Fig. 6(c) time traces at 1340 nm reach a bar minimum of about -23 to -24 dB (caption ~-24 dB)"
+    why: "Rule 8: the value has a figure-marked wavelength (p.14 Fig. 6(b): arrow at ~1310 nm between the cross and bar traces), more specific than o_band"
+  cmp_lit_chen2023c_adc-m5:
+    condition: "c-Sb2S3 cross state (cross port high in Fig. S9(c)), after 1,150 cycles (2,300 switching events); insertion-loss degradation < 1 dB"
+    why: "State not named: p.33 Fig. S9(c) shows the cross port near 0 dB and the bar port at about -10 to -16 dB at cycle 1,150 (c-Sb2S3 phase-matched cross state)"
+  cmp_lit_chen2023c_adc_ps-m2:
+    condition: "> 1,600 switching events, three-pulse scheme (RESET 3 x 9.6 V 500 ns, SET 3 x 2.7 V 200 ms), no significant insertion-loss or performance degradation; cross port (events 0 to ~950, Fig. 4(a)) and bar port (events 1,000-1,600, Fig. 4(b)) measured separately; Fig. 4 labels a- / c-state contrast 25 dB (cross port) and 16 dB (bar port)"
+    why: "Contrast during cycling printed in the figure (p.10 Fig. 4(a) '25dB', Fig. 4(b) '16dB'); chen2024a qc_dc_pcm-m1 precedent keeps the cycling contrast in the endurance condition"
+add_metrics:
+# --- chen2023c: shared device stack (p.3 Results, p.15 Methods; MMI p.29 S2.4) on the device rows that lack it
+- metric_id: cmp_lit_chen2023c_mzi_switch_30um-m7
+  component_id: cmp_lit_chen2023c_mzi_switch_30um
+  parameter: width_nm
+  value: 500
+  unit: nm
+  condition: "Si rib waveguide width (all devices of Fig. 1-3)"
+  basis: design_target
+  locator: "p.3"
+  verified_on: "2026-11-16"
+  why: "Miss (D153 geometry; lit_141 / D579 precedent): p.3 'The 500-nm-wide waveguides are fabricated by partially etching 120-nm silicon' covers the Fig. 2 MZI"
+- metric_id: cmp_lit_chen2023c_mzi_switch_30um-m8
+  component_id: cmp_lit_chen2023c_mzi_switch_30um
+  parameter: core_thickness_nm
+  value: 220
+  unit: nm
+  condition: "SOI device layer"
+  basis: design_target
+  locator: "p.3; p.15"
+  notes: "commercial SOI wafer thickness (D402)"
+  verified_on: "2026-11-16"
+  why: "Miss (D153 geometry; D579 precedent): p.3 / p.15 220 nm Si on 2 um SiO2 for the Fig. 1-3 devices"
+- metric_id: cmp_lit_chen2023c_mzi_switch_30um-m9
+  component_id: cmp_lit_chen2023c_mzi_switch_30um
+  parameter: etch_depth_nm
+  value: 120
+  unit: nm
+  qualifier: approx
+  condition: "partial etch of the Si rib"
+  basis: design_target
+  locator: "p.3; p.15"
+  notes: "printed '~120 nm' (p.15) and '120-nm' (p.3)"
+  verified_on: "2026-11-16"
+  why: "Miss (D153 geometry; D579 precedent): shared stack, as ring_r30-m9"
+- metric_id: cmp_lit_chen2023c_mzi_switch_30um-m10
+  component_id: cmp_lit_chen2023c_mzi_switch_30um
+  parameter: box_thickness_um
+  value: 2
+  unit: um
+  basis: design_target
+  locator: "p.3; p.15"
+  verified_on: "2026-11-16"
+  why: "Miss (D153 geometry; D579 precedent): shared stack, as ring_r30-m11"
+- metric_id: cmp_lit_chen2023c_adc-m15
+  component_id: cmp_lit_chen2023c_adc
+  parameter: core_thickness_nm
+  value: 220
+  unit: nm
+  condition: "SOI device layer"
+  basis: design_target
+  locator: "p.3; p.15"
+  notes: "commercial SOI wafer thickness (D402)"
+  verified_on: "2026-11-16"
+  why: "Miss (D153 geometry; D579 precedent): p.3 / p.15 stack of the Fig. 1-3 devices (the DC widths 409 / 450 nm are m13 / m14)"
+- metric_id: cmp_lit_chen2023c_adc-m16
+  component_id: cmp_lit_chen2023c_adc
+  parameter: etch_depth_nm
+  value: 120
+  unit: nm
+  qualifier: approx
+  condition: "partial etch of the Si rib"
+  basis: design_target
+  locator: "p.3; p.15"
+  notes: "printed '~120 nm' (p.15) and '120-nm' (p.3)"
+  verified_on: "2026-11-16"
+  why: "Miss (D153 geometry; D579 precedent): shared stack, as ring_r30-m9"
+- metric_id: cmp_lit_chen2023c_adc-m17
+  component_id: cmp_lit_chen2023c_adc
+  parameter: box_thickness_um
+  value: 2
+  unit: um
+  basis: design_target
+  locator: "p.3; p.15"
+  verified_on: "2026-11-16"
+  why: "Miss (D153 geometry; D579 precedent): shared stack, as ring_r30-m11"
+- metric_id: cmp_lit_chen2023c_mmi_50_50-m8
+  component_id: cmp_lit_chen2023c_mmi_50_50
+  parameter: core_thickness_nm
+  value: 220
+  unit: nm
+  condition: "SOI device layer"
+  basis: design_target
+  locator: "p.3; p.15"
+  notes: "commercial SOI wafer thickness (D402)"
+  verified_on: "2026-11-16"
+  why: "Miss (D153 geometry; mmi template cross-section): p.3 / p.15 stack; the MMI is part of the Fig. 2 MZI"
+- metric_id: cmp_lit_chen2023c_mmi_50_50-m9
+  component_id: cmp_lit_chen2023c_mmi_50_50
+  parameter: etch_depth_nm
+  value: 120
+  unit: nm
+  condition: "partial etch of the MMI and access tapers"
+  basis: design_target
+  locator: "p.29 Supp. Sec. S2.4; p.3"
+  notes: "printed 'A 120-nm partially etched MMI' (p.29); '~120 nm' for all devices in Methods (p.15)"
+  verified_on: "2026-11-16"
+  why: "Miss (D153 geometry): p.29 S2.4 states the MMI etch explicitly"
+- metric_id: cmp_lit_chen2023c_mmi_50_50-m10
+  component_id: cmp_lit_chen2023c_mmi_50_50
+  parameter: box_thickness_um
+  value: 2
+  unit: um
+  basis: design_target
+  locator: "p.3; p.15"
+  verified_on: "2026-11-16"
+  why: "Miss (D153 geometry): shared stack, as ring_r30-m11"

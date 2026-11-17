@@ -1,0 +1,127 @@
+# Audit patch lit_157 (fresh-context audit 2026-11-16, DevLog/audits/2026-11-16-lit_157-audit.md).
+# 153 metrics: 147 ok / 4 imprecise / 2 wrong; 22 components: 22 ok / 0 imprecise / 0 wrong; 0 deleted; 8 misses added
+# (6 D153 cross-section rows on the chen2021b / yan2021 ring, facet and grating rows; 2 mean fiber-to-fiber losses on the
+# chen2023d population row). After the patch: 22 components, 161 metrics.
+# Coordinator rulings open (audit Q1-Q6):
+# Q1 chen2021b FP-fringe 1.13 dB/cm -> author_estimate (op below; to keep measured as a D394 analogue, drop the m1 op).
+#    Gain rows stay author_estimate (D403 chain; no op).
+# Q2 yan2021 printed 40 nm gain bandwidth kept with the D417 note (no op); fab SJTU kept (no op).
+# Q3 hickstein2019 poling_period_um for the self-organized grating, figure-read efficiencies and fab NIST kept (no op).
+# Q4 du2024 loopback_half + cutback and BOX 3 um kept (no op).
+# Q5 chen2023d population row stays author_estimate (no op); two mean fiber-to-fiber rows added (to skip, drop
+#    cmp_lit_chen2023d_tfln_shg_population-m2 / -m3 from add_metrics).
+# Q6 chen2021b signal-enhancement span 50 nm measured -> derived (op below).
+metrics:
+  cmp_lit_chen2021b_er_lnoi_wg_5mm-m1:
+    basis: author_estimate
+    method: direct
+    notes: 'Printed ~1.13 dB/cm ''estimated propagation loss'' from the ~13 % fringe contrast of Fig. 2(e) with numerically simulated facet reflection coefficients as the model input (method of ref. 30). The paper itself flags the possible difference between simulated and actual facet reflectivity and discards this value for the conservative ring estimate (p.3). Calculated facet reflectivity flagged by the authors as the uncertainty -> author_estimate (merged dagostino2015 Fabry-Perot rows); D394 (measured) covers a bulk Fresnel reflectance the paper does not question. Wavelength span from the Fig. 2(e) axis.'
+    why: 'p.3: the loss rests on a simulated facet reflectance that the authors themselves call uncertain and do not use; merged precedent dagostino2015 (calculated facet reflectivity flagged by the paper -> author_estimate, 5 rows); FP fringe method on one waveguide is method direct in the merged FP rows (20 of 27 measured rows)'
+  cmp_lit_chen2021b_er_lnoi_amp_5mm-m8:
+    basis: derived
+    notes: 'signal enhancement, not net gain; 1570 - 1520 nm from the printed span ''over the entire 1520 - 1570 nm range'' (value not printed); ge because the span is the measured range. Fig. 2(b) render: every point from 1520 to 1570 nm lies above 0 dB'
+    why: 'p.3: the 50 nm is arithmetic on the printed span endpoints; merged gain_bandwidth_nm rows from printed spans are derived (tao2024, zhang2026, foster2006, lorenzen2026; Contract v4 "any value that differs from the printed number")'
+  cmp_lit_chen2021b_er_lnoi_amp_5mm-m7:
+    wavelength_nm: '1531.6'
+    wavelength_inferred: 'true'
+    notes: 'printed ''up to 0.2%'' (p.4); p.1 names it the ''980-to-1530'' power conversion efficiency; same Fig. 4 signal-power series as m5 (signal wavelength not printed on p.4; 1531.6 nm inferred as for m5, the 1530 nm signal of the paper); on-chip powers rest on the coupling-loss split built on the estimated internal loss'
+    why: 'p.1 Sec. intro ''measured 980-to-1530 power conversion efficiencies up to 0.2%'' states the signal band; m5 and m7 are read from the same Fig. 4 series and should carry the same wavelength'
+  cmp_lit_chen2023d_tfln_shg_adapted_21mm-m2:
+    value: '4.30'
+    value_max: '4.375'
+    notes: 'range of the plotted poling-period trace (green, right axis 4.30-4.39 um) read off the Fig. 2(g) inset render, reading uncertainty about +/- 0.003 um; the trace touches the 4.30 um axis limit near 21 mm, so the lower end may be clipped'
+    why: 'p.4 Fig. 2(g) inset render: right axis 4.39 um at the top frame, 4.30 um at the bottom frame; the green trace spans about 4.375 um (near 9 mm) down to the 4.30 um frame (21 mm). The batch range 4.31-4.355 um lies outside its own +/- 0.005 um uncertainty at both ends'
+  cmp_lit_chen2023d_tfln_shg_periodic_21mm-m2:
+    value: '4.34'
+    notes: 'constant period line (red, right axis) read off the Fig. 2(f) inset render, about 4.342 um, reading uncertainty about +/- 0.003 um; differs from the 3 mm periodic device (about 4.35 um, Fig. 2(d)), consistent with its shorter peak wavelength (about 1506 nm vs 1525 nm)'
+    why: 'p.4 Fig. 2(f) inset render: the red line sits at about 4.342 um (between the 4.36 and 4.33 ticks, 60 % of the way down), not 4.35 um; the batch value is off by more than its stated +/- 0.005 um'
+  cmp_lit_yan2021_er_lnoi_spiral_amp_5p3mm-m3:
+    notes: 'read off Fig. 5(b) (-5.1 dBm series, last point at 10.7 mW), reading uncertainty about +/- 0.1 dB; rests on the ring-derived loss. Internal conflict (D417): Fig. 5(c) (same 1530 nm signal, 10.78 mW pump) shows about 7.87 dB at about 310 uW (= -5.1 dBm) and about 8.18 dB at 135 uW (= -8.7 dBm, Fig. 5(b) about 7.68 dB); the two panels differ by about 0.5 dB at the same operating point'
+    why: 'p.3 Fig. 5(b) vs 5(c) renders: the same operating point (-5.1 dBm, 10.78 mW) reads about 7.33 dB in 5(b) and about 7.87 dB in 5(c); the row note claimed no conflict'
+add_metrics:
+- metric_id: cmp_lit_chen2021b_er_lnoi_ring_r100-m5
+  component_id: cmp_lit_chen2021b_er_lnoi_ring_r100
+  parameter: width_nm
+  value: '1200'
+  unit: nm
+  basis: derived
+  locator: 'p.3; p.2'
+  notes: 'ring ''fabricated on the same Er:LNOI chip with the same waveguide parameters'' (p.3); printed top width 1.2 um (p.2), D157'
+  why: 'Miss (D153; ring_bus cross-section requires width_nm). p.3 ties the ring to the amplifier waveguide parameters, p.2 prints the 1.2 um top width'
+- metric_id: cmp_lit_chen2021b_er_lnoi_ring_r100-m6
+  component_id: cmp_lit_chen2021b_er_lnoi_ring_r100
+  parameter: core_thickness_nm
+  value: '700'
+  unit: nm
+  basis: design_target
+  locator: 'p.2; p.3'
+  notes: 'Er:LN film of the ion-sliced wafer (D402), same chip as the amplifier (p.3); printed rib height + slab is 320 + 340 nm (see component notes)'
+  why: 'Miss (D153; ring_bus cross-section requires core_thickness_nm); same value as the amplifier and waveguide rows'
+- metric_id: cmp_lit_chen2021b_lensed_fiber_facet-m5
+  component_id: cmp_lit_chen2021b_lensed_fiber_facet
+  parameter: width_nm
+  value: '1200'
+  unit: nm
+  basis: derived
+  locator: 'p.2'
+  notes: 'top width of the 5 mm rib at the polished facet (no taper described); printed 1.2 um, D157'
+  why: 'Miss (D153; edge_taper template; the facet is the end of the 1.2 um rib, p.2)'
+- metric_id: cmp_lit_chen2021b_lensed_fiber_facet-m6
+  component_id: cmp_lit_chen2021b_lensed_fiber_facet
+  parameter: core_thickness_nm
+  value: '700'
+  unit: nm
+  basis: design_target
+  locator: 'p.2'
+  notes: 'Er:LN film of the ion-sliced wafer (D402)'
+  why: 'Miss (D153; edge_taper cross-section requires core_thickness_nm)'
+- metric_id: cmp_lit_yan2021_er_lnoi_ring_r30-m6
+  component_id: cmp_lit_yan2021_er_lnoi_ring_r30
+  parameter: core_thickness_nm
+  value: '600'
+  unit: nm
+  basis: design_target
+  locator: 'p.1'
+  notes: 'Er:LN film of the Er:LNOI wafer (D402); the printed ''thickness of 350-nm'' of the fabricated waveguides is not entered (layer role not stated)'
+  why: 'Miss (D153; ring_bus cross-section requires core_thickness_nm); same film as the spiral amplifier row m9'
+- metric_id: cmp_lit_yan2021_dual_period_gc-m7
+  component_id: cmp_lit_yan2021_dual_period_gc
+  parameter: core_thickness_nm
+  value: '600'
+  unit: nm
+  basis: design_target
+  locator: 'p.1'
+  notes: 'Er:LN film of the Er:LNOI wafer (D402); grating etch depth not printed'
+  why: 'Miss (D153; gc_1d cross-section requires core_thickness_nm)'
+- metric_id: cmp_lit_chen2023d_tfln_shg_population-m2
+  component_id: cmp_lit_chen2023d_tfln_shg_population
+  parameter: insertion_loss_db
+  value: '10.71'
+  unit: dB
+  statistic: mean
+  wavelength_nm: '1550'
+  polarization: te
+  scope: fiber_to_fiber
+  includes: 'both lensed-fiber couplings and waveguide propagation (stated, p.7)'
+  condition: 'mean transmission of the measured waveguides at the fundamental wavelength (around 1550 nm), lensed fibers in and out; waveguide lengths 3-21 mm'
+  method: direct
+  basis: derived
+  locator: 'p.7 Methods'
+  notes: 'printed Tf,mean = 0.085; -10 log10(0.085) = 10.71 dB; used to calibrate on-chip powers of all efficiency rows; per-waveguide transmissions and n not printed'
+  why: 'Miss. p.7 prints the mean waveguide transmission with fiber coupling and propagation loss both included: a measured fiber-to-fiber loss of the population (yang2026 transmission precedent, D452); dB conversion derived'
+- metric_id: cmp_lit_chen2023d_tfln_shg_population-m3
+  component_id: cmp_lit_chen2023d_tfln_shg_population
+  parameter: insertion_loss_db
+  value: '13.98'
+  unit: dB
+  statistic: mean
+  wavelength_nm: '775'
+  polarization: te
+  scope: fiber_to_fiber
+  includes: 'both lensed-fiber couplings and waveguide propagation (stated, p.7)'
+  condition: 'mean transmission of the measured waveguides at the second-harmonic wavelength (around 775 nm), lensed fibers in and out; waveguide lengths 3-21 mm'
+  method: direct
+  basis: derived
+  locator: 'p.7 Methods'
+  notes: 'printed Tsh,mean = 0.040; -10 log10(0.040) = 13.98 dB; per-waveguide transmissions and n not printed'
+  why: 'Miss, as m2 (p.7 Methods, Tsh,mean)'

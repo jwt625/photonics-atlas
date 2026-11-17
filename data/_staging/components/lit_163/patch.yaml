@@ -1,0 +1,65 @@
+# Audit patch lit_163 (fresh-context audit 2026-11-16, DevLog/audits/2026-11-16-lit_163-audit.md).
+# 56 metrics: 49 ok / 7 imprecise / 0 wrong; 7 components: 5 ok / 2 imprecise / 0 wrong; 0 deleted; 0 misses added.
+# After the patch: 7 components, 56 metrics.
+# Coordinator rulings asked (audit Q1-Q4): Q1 feldmann2019 mux Q / IL author_estimate, 0.23 dB crossing out, fab empty (no op);
+# Q2 zhang2019e Table 1 rows + separate Fig. 5 row, 10.39 dB kept (note reworded), abstract 'over 20 dB' out, fab SJTU +
+# facility AEMD (no op beyond the rule-8 wavelength span); Q3 jiang2018 in scope, band unspecified, room-temperature rows keep
+# temperature_k empty (qi2024 printed '300 K', this paper does not: no alignment needed), fab empty (no op);
+# Q4 CETC No.44 Research Institute missing from the registry (org round only if a fab is ever assigned).
+components:
+  cmp_lit_feldmann2019_neuron_ring:
+    notes: 'Neuronal ring of the single-neuron neurosynaptic system (Fig. 1(d), Fig. 2(b)): the combined (multiplexed) input pulses reach the GST cell through a waveguide that crosses the ring; a probe on the bus below the ring is transmitted (output spike) only when the cell is amorphized. Write pulses: maximum 710 pJ with 200 ns optical pulses (p.7); output generated if the switching energy ''exceeds 430 pJ'' (p.5-6; Supp. Sec. 9 not cached) / above 60 % of the maximum pulse energy (p.7, Fig. 2(d)): no switching-energy parameter (registry gap). The crossing under the PCM cell is ''specially designed for low optical losses (0.23 dB)'' with a citation to the authors'' earlier paper (ref. 29): not entered (rule 3, D259). Resonance shifts to shorter wavelength on amorphization (Fig. 2(c)); shift not stated. No phase_shifter.phase_change row for the cell: its only values are switching energies (no parameter) and geometry (rule 9). Fab empty: the Methods fabrication text is passive (''are realized using electron-beam lithography'', p.14) and names no org; authors at University of Muenster, University of Oxford and University of Exeter (D80b). Wafer supplier Rogue Valley Microdevices (p.14, note only). No acknowledgment section in the cached arXiv copy. The cached text is the arXiv version (2102.09360) of the Nature paper.'
+    why: 'p.5-6: printed ''exceeds 430 pJ'' with no approximation; the note added ''about'''
+  cmp_lit_zhang2019e_gst_mmi_d1:
+    notes: 'One of the three GST-size devices of Table 1 (p.10-11; same Write and Erase pulses for all). Device of the Fig. 3 erase study (p.7: ''1-um-diameter GST''): crystallization above 4.5 V at 100 ns and above 140 ns (full above 180 ns) at 3.5 V; thermal recovery about 100 ns for sub-threshold pulses (heat out-diffusion); no threshold or switching-time parameter. Printed tension (D417): Fig. 3(b) / (d) saturate at a maximum Delta T / T0 of about 3.9 (about 6.9 dB as a contrast under the p.7 definition Delta T / T0 = (T - T0) / T0), while Table 1 prints 10.39 dB for this diameter; the probe wavelength of the time-domain data and the wavelength of the Table 1 values are not stated, so the difference may be spectral rather than a contradiction; Table 1 kept as printed. The Fig. 3(a) readout traces (a.u.) fall from about 0.95 to about 0.05 at 6 V, a ratio that matches neither number unless the a.u. axis carries an offset; not used. Fab: author contributions (p.15) say H. Zhang designed, fabricated and characterized the devices and J. Xu contributed to device fabrication, both at Shanghai Jiao Tong University (affiliation 1): fab SJTU (D395 / D439). AEMD of SJTU thanked for support in device fabrication (p.16): facility (cai2021 / zhang2016 precedent). Fabrication flow in Supp. S1, not cached. Class phase_shifter.phase_change: amplitude-only non-volatile 1x1 switch (D155; chen2022c wg_switch_1x1 precedent). Not entered (no parameter on phase_shifter): MMI 12 x 2 um, taper 4 um / 1.2 um, crossed strip 1.7 um, GST and ITO 30 nm. The cached text is the arXiv preprint (1905.03163) of the ACS Photonics paper; the journal version was not read.'
+    why: 'p.7 definition, p.8 Fig. 3(a)-(d) renders, p.11 Table 1: neither the time-domain probe wavelength nor the Table 1 wavelength is printed; the note called the difference a conflict without that caveat'
+metrics:
+  cmp_lit_zhang2019e_gst_mmi_d0p75-m1:
+    band: ''
+    wavelength_nm: '1500'
+    wavelength_max_nm: '1600'
+    wavelength_inferred: 'true'
+    notes: 'Table 1 prints 0.62 +/- 0.044 dB (meaning of +/- and sample count not stated); wavelength of the value not stated: span inferred from the stated operating range (bandwidth ''more than 100 nm'', p.10-11; ''1,500 to 1,600 nm'', p.15; spectra in Supp. S3, not cached), rule 8'
+    why: 'Rule 8: the value has no stated wavelength but the device''s operating range is stated (p.10-11 ''more than 100 nm''; p.15 ''1,500 to 1,600 nm''); merged precedent churaev2023 (span of the measurement range, inferred)'
+  cmp_lit_zhang2019e_gst_mmi_d0p75-m2:
+    band: ''
+    wavelength_nm: '1500'
+    wavelength_max_nm: '1600'
+    wavelength_inferred: 'true'
+    notes: 'Table 1 ''transmission contrast'' 2.92 +/- 0.021 dB (meaning of +/- not stated); wavelength of the value not stated: span inferred from the stated operating range (bandwidth ''more than 100 nm'', p.10-11; ''1,500 to 1,600 nm'', p.15; spectra in Supp. S3, not cached), rule 8'
+    why: 'Rule 8: the value has no stated wavelength but the device''s operating range is stated (p.10-11 ''more than 100 nm''; p.15 ''1,500 to 1,600 nm''); merged precedent churaev2023 (span of the measurement range, inferred)'
+  cmp_lit_zhang2019e_gst_mmi_d1-m1:
+    band: ''
+    wavelength_nm: '1500'
+    wavelength_max_nm: '1600'
+    wavelength_inferred: 'true'
+    notes: 'Table 1 prints 0.98 +/- 0.048 dB (meaning of +/- and sample count not stated); wavelength of the value not stated: span inferred from the stated operating range (bandwidth ''more than 100 nm'', p.10-11; ''1,500 to 1,600 nm'', p.15; spectra in Supp. S3, not cached), rule 8'
+    why: 'Rule 8: the value has no stated wavelength but the device''s operating range is stated (p.10-11 ''more than 100 nm''; p.15 ''1,500 to 1,600 nm''); merged precedent churaev2023 (span of the measurement range, inferred)'
+  cmp_lit_zhang2019e_gst_mmi_d1-m2:
+    band: ''
+    wavelength_nm: '1500'
+    wavelength_max_nm: '1600'
+    wavelength_inferred: 'true'
+    notes: 'Table 1 ''transmission contrast'' 10.39 +/- 0.045 dB (meaning of +/- not stated); wavelength of the value not stated: span inferred from the stated operating range (bandwidth ''more than 100 nm'', p.10-11; ''1,500 to 1,600 nm'', p.15; spectra in Supp. S3, not cached), rule 8'
+    why: 'Rule 8: the value has no stated wavelength but the device''s operating range is stated (p.10-11 ''more than 100 nm''; p.15 ''1,500 to 1,600 nm''); merged precedent churaev2023 (span of the measurement range, inferred)'
+  cmp_lit_zhang2019e_gst_mmi_d1p2-m1:
+    band: ''
+    wavelength_nm: '1500'
+    wavelength_max_nm: '1600'
+    wavelength_inferred: 'true'
+    notes: 'Table 1 prints 4.03 +/- 0.019 dB (meaning of +/- and sample count not stated); wavelength of the value not stated: span inferred from the stated operating range (bandwidth ''more than 100 nm'', p.10-11; ''1,500 to 1,600 nm'', p.15; spectra in Supp. S3, not cached), rule 8'
+    why: 'Rule 8: the value has no stated wavelength but the device''s operating range is stated (p.10-11 ''more than 100 nm''; p.15 ''1,500 to 1,600 nm''); merged precedent churaev2023 (span of the measurement range, inferred)'
+  cmp_lit_zhang2019e_gst_mmi_d1p2-m2:
+    band: ''
+    wavelength_nm: '1500'
+    wavelength_max_nm: '1600'
+    wavelength_inferred: 'true'
+    notes: 'Table 1 ''transmission contrast'' 18.59 +/- 0.15 dB (meaning of +/- not stated); wavelength of the value not stated: span inferred from the stated operating range (bandwidth ''more than 100 nm'', p.10-11; ''1,500 to 1,600 nm'', p.15; spectra in Supp. S3, not cached), rule 8'
+    why: 'Rule 8: the value has no stated wavelength but the device''s operating range is stated (p.10-11 ''more than 100 nm''; p.15 ''1,500 to 1,600 nm''); merged precedent churaev2023 (span of the measurement range, inferred)'
+  cmp_lit_zhang2019e_gst_mmi_switching_demo-m3:
+    band: ''
+    wavelength_nm: '1500'
+    wavelength_max_nm: '1600'
+    wavelength_inferred: 'true'
+    notes: 'read off Fig. 5(a)-(b): amorphous Delta T / T0 about 285-310 %, crystalline about 0-25 %; contrast 10 log10((1 + a) / (1 + c)) = about 4.9-6.1 dB (reading +/- 0.3 dB); wavelength of the value not stated: span inferred from the stated operating range (bandwidth ''more than 100 nm'', p.10-11; ''1,500 to 1,600 nm'', p.15; spectra in Supp. S3, not cached), rule 8'
+    why: 'Rule 8: the value has no stated wavelength but the device''s operating range is stated (p.10-11 ''more than 100 nm''; p.15 ''1,500 to 1,600 nm''); merged precedent churaev2023 (span of the measurement range, inferred)'

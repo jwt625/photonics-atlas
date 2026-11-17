@@ -1,0 +1,29 @@
+# Audit patch lit_168 (fresh-context audit 2026-11-16, DevLog/audits/2026-11-16-lit_168-audit.md).
+# 66 metrics: 62 ok / 4 imprecise / 0 wrong; 16 components: 16 ok / 0 imprecise / 0 wrong; 0 deleted; 0 misses added.
+# After the patch: 16 components, 66 metrics. All ops are note-only (no value, basis, class or org change).
+# Coordinator rulings asked (audit Q1-Q5): Q1 liu2022d P_pi ~124 mW / ~47 us kept author_estimate with a guo2021 cross-note
+# (D408 / D80i; patched here, revert = drop the two notes); Q2 liu2022d org_ligentec + "LIGENTEC MPW" on the Si3N4-chip rows only,
+# guo2021 fab empty (no op); Q3 guo2021 Table 1 120 mW derived, ~2 dB author_estimate, 17 mW figure read (no op); Q4 kobayashi2014
+# loop reflector / butt coupling author_estimate, fab empty (no op); Q5 fan2016 single laser row (no op).
+metrics:
+  cmp_lit_liu2022d_phase_shifter-m1:
+    notes: 'Origin not stated (no measurement or simulation shown; the p.2 sentence carries no citation, so D259 / D408 are not
+      triggered). Cross-note: the same group''s lit:guo2021 prints a simulated ~122 mW per pi for the same 800 nm x 1 um Si3N4 / Al-heater
+      cross-section (guo2021 p.7 Sec. 3.3, Fig. 4(a)); the printed 124 mW differs, and guo2021 is cited here only in the introduction
+      (ref. [21]); kept as author_estimate (D80i borderline). Wavelength not stated, C-band laser.'
+    why: 'p.2 Sec. II.A: value uncited; guo2021 p.7 prints 122 mW simulated for the same cross-section; record the relation instead
+      of deleting (D408: the value sentence does not attribute the value to the earlier paper)'
+  cmp_lit_liu2022d_phase_shifter-m2:
+    notes: 'Origin not stated (no measurement or simulation shown; no citation in the p.2 sentence). Cross-note: lit:guo2021 prints
+      simulated 10-90 % rise and 90-10 % fall times both around 47 us for the same cross-section (guo2021 p.7 Sec. 3.3, Fig. 4(b));
+      kept as author_estimate (D80i borderline, D408 not triggered).'
+    why: 'p.2 Sec. II.A: same value as the guo2021 simulated transient (p.7); relation recorded, value kept (D408)'
+  cmp_lit_liu2022d_sin_wg-m2:
+    notes: 'Origin (simulated or measured) not stated; wavelength not stated, C-band laser. Cross-note: lit:guo2021 uses the same
+      2.117 as the Si3N4 waveguide group index of its cavity simulation (guo2021 p.5 Sec. 3.1, design parameter).'
+    why: 'p.2 Sec. II.A vs guo2021 p.5: same printed value in the same group''s earlier paper; relation recorded (D408 not triggered,
+      no citation on the p.2 sentence)'
+  cmp_lit_fan2016_hybrid_laser-m5:
+    notes: 'Printed smaller than 1 MHz (MHz -> Hz). Fig. 2 (p.2) puts four of its about 13 points at about 1000 kHz (near 1550, 1561,
+      1575 and 1582 nm; reading uncertainty about +/- 50 kHz), so the bound is reached rather than cleared at those wavelengths.'
+    why: 'p.2 Fig. 2 lower panel: several linewidth points sit on the 1000 kHz grid line; printed bound kept (D417 style note)'

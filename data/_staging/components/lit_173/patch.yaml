@@ -1,0 +1,115 @@
+# Audit patch lit_173 (fresh-context audit 2026-11-16, DevLog/audits/2026-11-16-lit_173-audit.md).
+# 85 metrics: 81 ok / 4 imprecise / 0 wrong; 13 components: 13 ok / 0 imprecise / 0 wrong; 0 deleted; 8 misses added (geometry, D153).
+# After the patch: 13 components, 93 metrics.
+# Coordinator rulings asked (audit Q1-Q6): Q1 lu2018 loss / Q_i author_estimate kept (D403); Q2 lu2018 edge coupler >= 40 %
+# device_total kept; Q3 lu2018 DC 50/50 series row kept measured; Q4 luke2013 TM Q kept q_loaded, fab Cornell kept; Q5 burla2015
+# fab UW kept, facility to the org round, process_name empty; Q6 guillentorres2014 0.07 dB derived, 20 dB unspecified, IME fab,
+# process_name empty (Contract v7 / D536). No op depends on a ruling except where stated.
+metrics:
+  cmp_lit_lu2018_ring_r40_sion-m3:
+    basis: derived
+    notes: 'Printed n_g 2.45 ''measured experimentally from the FSR of the ring'' via Eq. (3), n_g = lambda^2 / (FSR L) with L the
+      round-trip length: explicit arithmetic by the authors on their own measured FSR, so derived (D80a; golshani2021 / kervazo2025
+      group-index precedents). FSR of this ring not printed, so the arithmetic cannot be reproduced here.'
+    why: 'p.10 Sec. 4.2 Eq. (3): n_g is computed from the measured FSR and the ring length (D80a: explicit arithmetic on own measurements
+      is derived whether the batch or the authors did it; merged group-index-from-FSR rows are derived)'
+  cmp_lit_lu2018_ring_r50_pmma-m4:
+    basis: derived
+    notes: 'Printed n_g 2.15 ''measured experimentally from the FSR of the 50 um radius ring'' (Eq. (3), n_g = lambda^2 / (FSR L)):
+      explicit arithmetic by the authors on their own measured FSR, so derived (D80a). FSR value not printed.'
+    why: 'p.10 Sec. 4.2: same Eq. (3) computation as ring_r40_sion-m3 (D80a)'
+  cmp_lit_lu2018_ring_r40_sion-m5:
+    value: '73000'
+    wavelength_nm: '468'
+    notes: 'Highest OSA data point read off Fig. 4(c): about 7.3e4 (+/- 0.2e4) at about 468 nm (+/- 2 nm; wavelength from the plot
+      axis, the point sits at the left edge of the cluster near 470 nm). Points come from
+      several 40 um rings. Unqualified Q (q_loaded).'
+    why: 'p.9 Fig. 4(c) render: x-axis 360-480 nm at about 9 px/nm, the top OSA point lies at about 468 nm (not 474 nm) and at about
+      7.3e4 on the 0-8e4 axis'
+  cmp_lit_lu2018_gc_red-m2:
+    value: '24'
+    notes: 'Peak of the simulated curve read off Fig. 3(c): about 24 % (+/- 0.5 %) near 610 nm (+/- 2 nm); right axis 0-25 %, the
+      curve peak sits about 1 % below the 25 % tick (5 % per tick).'
+    why: 'p.8 Fig. 3(c) render: the simulated peak reads 23.9-24.0 % (25 % tick at the frame top, 20 % tick one division lower), not
+      24.5 %'
+add_metrics:
+- metric_id: cmp_lit_lu2018_gc_green-m5
+  component_id: cmp_lit_lu2018_gc_green
+  parameter: core_thickness_nm
+  value: '200'
+  unit: nm
+  basis: design_target
+  locator: 'p.4 Sec. 2; p.8 Sec. 4.1'
+  notes: 'Purchased film 200 +/- 10 nm (D402); the grating is fully etched through the 200 nm AlN (p.8).'
+  why: 'Miss (D153 geometry): the film thickness is entered on the ring, DBR and DC rows of the same chip but not on the grating couplers'
+- metric_id: cmp_lit_lu2018_gc_green-m6
+  component_id: cmp_lit_lu2018_gc_green
+  parameter: cladding_thickness_um
+  value: '2'
+  unit: um
+  qualifier: approx
+  basis: design_target
+  locator: 'p.7 Sec. 3; p.8 Sec. 4.1'
+  condition: spin-coated PMMA
+  notes: 'Printed ''approximately 2 microns of PMMA'' (p.7); the grating couplers are designed for PMMA cladding (p.8).'
+  why: 'Miss (D153 geometry): PMMA thickness stated for the visible devices (p.7), entered on the 50 um ring only'
+- metric_id: cmp_lit_lu2018_gc_red-m5
+  component_id: cmp_lit_lu2018_gc_red
+  parameter: core_thickness_nm
+  value: '200'
+  unit: nm
+  basis: design_target
+  locator: 'p.4 Sec. 2; p.8 Sec. 4.1'
+  notes: 'Purchased film 200 +/- 10 nm (D402); the grating is fully etched through the 200 nm AlN (p.8).'
+  why: 'Miss (D153 geometry): same as gc_green-m5'
+- metric_id: cmp_lit_lu2018_gc_red-m6
+  component_id: cmp_lit_lu2018_gc_red
+  parameter: cladding_thickness_um
+  value: '2'
+  unit: um
+  qualifier: approx
+  basis: design_target
+  locator: 'p.7 Sec. 3; p.8 Sec. 4.1'
+  condition: spin-coated PMMA
+  notes: 'Printed ''approximately 2 microns of PMMA'' (p.7); the grating couplers are designed for PMMA cladding (p.8).'
+  why: 'Miss (D153 geometry): same as gc_green-m6'
+- metric_id: cmp_lit_lu2018_edge_coupler_uv-m3
+  component_id: cmp_lit_lu2018_edge_coupler_uv
+  parameter: core_thickness_nm
+  value: '200'
+  unit: nm
+  basis: design_target
+  locator: 'p.4 Sec. 2'
+  notes: 'Purchased film 200 +/- 10 nm (D402).'
+  why: 'Miss (D153 geometry): film thickness of the inverse-taper edge coupler, entered on the other rows of the chip'
+- metric_id: cmp_lit_lu2018_dbr_532-m7
+  component_id: cmp_lit_lu2018_dbr_532
+  parameter: cladding_thickness_um
+  value: '2'
+  unit: um
+  qualifier: approx
+  basis: design_target
+  locator: 'p.7 Sec. 3'
+  condition: spin-coated PMMA
+  notes: 'Printed ''approximately 2 microns of PMMA''; PMMA is the cladding of all 500-700 nm devices (p.7), the DBR works at 532 nm.'
+  why: 'Miss (D153 geometry): the component row names PMMA cladding (p.7) but no thickness row'
+- metric_id: cmp_lit_lu2018_dc_637-m5
+  component_id: cmp_lit_lu2018_dc_637
+  parameter: cladding_thickness_um
+  value: '2'
+  unit: um
+  qualifier: approx
+  basis: design_target
+  locator: 'p.7 Sec. 3; p.12 Sec. 4.4'
+  condition: spin-coated PMMA
+  notes: 'Printed ''approximately 2 microns of PMMA'' (p.7); the directional coupler is intended for PMMA cladding (p.12).'
+  why: 'Miss (D153 geometry): the component row names PMMA cladding (p.12) but no thickness row'
+- metric_id: cmp_lit_guillentorres2014_ring_37p7mm-m6
+  component_id: cmp_lit_guillentorres2014_ring_37p7mm
+  parameter: core_thickness_nm
+  value: '220'
+  unit: nm
+  basis: design_target
+  locator: 'p.1 Sec. II'
+  notes: 'SMWG and MMWG strips both 220 nm high (p.1); the MMWG slab is 90 nm (row cmp_lit_guillentorres2014_mmwg_rib).'
+  why: 'Miss (D153 geometry): the ring row holds only its length; the 220 nm Si height is unambiguous for every section of the ring'

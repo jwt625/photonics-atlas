@@ -1,0 +1,89 @@
+# Audit patch lit_155 (fresh-context audit 2026-11-16, DevLog/audits/2026-11-16-lit_155-audit.md).
+# 78 metrics: 77 ok / 1 imprecise / 0 wrong (+2 note syncs); 14 components: 9 ok / 5 imprecise (4 fab, 1 note) / 0 wrong;
+# 0 deleted; 1 miss added (bao2024 3 dB off-chip gain). After the patch: 14 components, 79 metrics.
+# Coordinator questions (audit Q1-Q4): Q1 liu2010a fab org_ibm_watson (4 component ops; to keep org_ibm drop them);
+# Q2 bao2024 on-chip author_estimate and fab ECNU kept (no op); Q3 luo2021 gains author_estimate and both values kept (no op);
+# Q4 bruch2018 1590 nm row kept separate, fab empty (note op only).
+components:
+  cmp_lit_liu2010a_si_midir_opa_4mm:
+    fab_org_ids: org_ibm_watson
+    notes: 'Fab org_ibm_watson: ''fabricated at the IBM Microelectronics Research Laboratory'' (p.8 Methods; p.15 Acknowledgements, staff of the same lab thanked); the IBM co-authors are printed at IBM
+      Thomas J. Watson Research Center (p.1), so the lab is their own org (D395); merged barwicz2017 / barwicz2018 / campenhout2009 / mcnab2003 rows place the same lab at Watson. Printed lab name has no
+      alias in the registry (org round). Own lab of the IBM co-authors, not a shared facility (D404). SOI wafers from SOITEC: supplier note only. Text is the arXiv preprint (1001.1533) of the Nature Photonics
+      paper; journal version unread. On-chip gain = peak output signal power over the cw input signal power, the input taken from the pump-off output corrected by the measured propagation loss of the 4
+      mm guide (p.10 Methods): derived (D166). Same waveguide as the frequency_converter row (D396); cutback waveguides and facet coupling are separate rows. Not entered (no parameter): simulated D = 1000
+      ps/nm/km at 2170 nm, zero-dispersion 2260 nm, gamma = 110 /W/m (p.3, Fig. 1(b)); linear dynamic range > 30 dB (Fig. 2(a)); gain-saturation onset at Pp ~19 W with signal / idler gain > 20 dB (p.5,
+      Fig. 2(b)); fitted beta_TPA 0.106 cm/GW and 3PA 0.025 cm3/GW2 (model fit, p.5). Core dimensions from the SEM-image caption and the design statement (Supp. Fig. 1 ''design ultimately fabricated'');
+      entered as design_target.'
+    why: 'p.8 Methods / p.15 Acknowledgements name the IBM Microelectronics Research Laboratory as the fabrication place; the IBM co-authors'' printed org is IBM Thomas J. Watson Research Center (p.1):
+      D395 (fab = org of the authors the sentence names), consistent with the merged barwicz2017 / barwicz2018 / campenhout2009 / mcnab2003 rows for the same lab (coordinator Q1; to keep org_ibm, drop this
+      op)'
+  cmp_lit_liu2010a_si_midir_fwm_wc_4mm:
+    fab_org_ids: org_ibm_watson
+    notes: 'Fab org_ibm_watson: ''fabricated at the IBM Microelectronics Research Laboratory'' (p.8 Methods; p.15 Acknowledgements, staff of the same lab thanked); the IBM co-authors are printed at IBM
+      Thomas J. Watson Research Center (p.1), so the lab is their own org (D395); merged barwicz2017 / barwicz2018 / campenhout2009 / mcnab2003 rows place the same lab at Watson. Printed lab name has no
+      alias in the registry (org round). Own lab of the IBM co-authors, not a shared facility (D404). SOI wafers from SOITEC: supplier note only. Text is the arXiv preprint (1001.1533) of the Nature Photonics
+      paper; journal version unread. Same waveguide as the amplifier.parametric row (D396). Idler conversion gain = peak output idler power over the input cw signal power (p.10 Methods), stored as power_conversion_efficiency_pct
+      (foster2006 / kuyken2011 precedent). Not entered: Table 1 rows other than the dominant term (p.16).'
+    why: 'p.8 Methods / p.15 Acknowledgements name the IBM Microelectronics Research Laboratory as the fabrication place; the IBM co-authors'' printed org is IBM Thomas J. Watson Research Center (p.1):
+      D395 (fab = org of the authors the sentence names), consistent with the merged barwicz2017 / barwicz2018 / campenhout2009 / mcnab2003 rows for the same lab (coordinator Q1; to keep org_ibm, drop this
+      op)'
+  cmp_lit_liu2010a_si_wire_700x425:
+    fab_org_ids: org_ibm_watson
+    notes: 'Fab org_ibm_watson: ''fabricated at the IBM Microelectronics Research Laboratory'' (p.8 Methods; p.15 Acknowledgements, staff of the same lab thanked); the IBM co-authors are printed at IBM
+      Thomas J. Watson Research Center (p.1), so the lab is their own org (D395); merged barwicz2017 / barwicz2018 / campenhout2009 / mcnab2003 rows place the same lab at Watson. Printed lab name has no
+      alias in the registry (org round). Own lab of the IBM co-authors, not a shared facility (D404). SOI wafers from SOITEC: supplier note only. Text is the arXiv preprint (1001.1533) of the Nature Photonics
+      paper; journal version unread. Cutback over waveguides 4-45 mm long with unpolarized ASE of the tunable mid-IR laser below threshold, lensed tapered fibres, OSA at 1 nm resolution (p.9). The cutback
+      waveguides are taken as the OPA cross-section (not restated in the cutback paragraph); geometry on the OPA row. Mode / polarization in the cutback not stated.'
+    why: 'p.8 Methods / p.15 Acknowledgements name the IBM Microelectronics Research Laboratory as the fabrication place; the IBM co-authors'' printed org is IBM Thomas J. Watson Research Center (p.1):
+      D395 (fab = org of the authors the sentence names), consistent with the merged barwicz2017 / barwicz2018 / campenhout2009 / mcnab2003 rows for the same lab (coordinator Q1; to keep org_ibm, drop this
+      op)'
+  cmp_lit_liu2010a_lensed_fiber_cleaved_facet:
+    fab_org_ids: org_ibm_watson
+    notes: 'Fab org_ibm_watson: ''fabricated at the IBM Microelectronics Research Laboratory'' (p.8 Methods; p.15 Acknowledgements, staff of the same lab thanked); the IBM co-authors are printed at IBM
+      Thomas J. Watson Research Center (p.1), so the lab is their own org (D395); merged barwicz2017 / barwicz2018 / campenhout2009 / mcnab2003 rows place the same lab at Watson. Printed lab name has no
+      alias in the registry (org round). Own lab of the IBM co-authors, not a shared facility (D404). SOI wafers from SOITEC: supplier note only. Text is the arXiv preprint (1001.1533) of the Nature Photonics
+      paper; journal version unread. Facets cleaved through the waveguides (p.9); no taper or spot-size converter described.'
+    why: 'p.8 Methods / p.15 Acknowledgements name the IBM Microelectronics Research Laboratory as the fabrication place; the IBM co-authors'' printed org is IBM Thomas J. Watson Research Center (p.1):
+      D395 (fab = org of the authors the sentence names), consistent with the merged barwicz2017 / barwicz2018 / campenhout2009 / mcnab2003 rows for the same lab (coordinator Q1; to keep org_ibm, drop this
+      op)'
+  cmp_lit_bruch2018_aln_ring_shg_1590nm:
+    notes: 'Fab empty: first-person fabrication (''we demonstrate a fabrication process'', ''our 100 kV electron-beam lithography process'', p.1-2) by authors at Yale University and the Institute of Semiconductors,
+      CAS (p.1); the paper does not say which org grew the film or processed the chip (D154 / D80b). No facility acknowledged (funding only, p.4). Platform other (AlN on sapphire, no enum value; D515).
+      Cached text is arXiv v3 (1807.09638) of the Applied Physics Letters paper; journal version unread. Seven rings share one IR bus (900 nm) and one wrap-around visible extraction waveguide (tapered 175
+      -> 125 nm at constant gap), on-chip IR / visible WDM (p.2). Ring radius not printed (30 um appears only in the radiation-loss simulation example, p.2). Headline device of the paper; the text does
+      not give its ring width or gap. Taken as a separate ring from the 1556 nm (1.24 um width) row: the paper''s own Fig. 2(a) sets the phase-matched SHG wavelength by the ring width (1480-1640 nm over
+      widths 1.2-1.3 um, p.3), and Fig. 3(b) tunes the chip by only +/-10 C; the paper does not identify the 1590 nm device (not stated). Fig. 3(a) contour (simulated 20,000 %/W at critical coupling) not
+      entered.'
+    why: 'p.3 Fig. 2(a): the phase-matching wavelength is set by the ring width within the paper''s own data; the batch argument rested on an unstated thermal tuning rate (coordinator Q4, row kept)'
+metrics:
+  cmp_lit_bao2024_er_tfln_lma_edwa_7cm-m7:
+    condition: 'on-chip net gain vs input signal power, highest point of the sweep (input about -48 dBm, axis reference plane not stated); in the parasitic-lasing regime (gain > 28 dB); pump not stated;
+      on-chip powers = fiber powers corrected by an assumed equal 6.5 dB per facet coupling loss (p.5, p.8): author_estimate (equal-facet assumption, D462 / D514)'
+    notes: 'read off Fig. 4(b): highest point about 35.5-35.7 dB at about -48 dBm input, +/-1 dB; no value printed in the text; the paper marks the point inside the parasitic-lasing regime (gain > 28 dB
+      at 1531.5 nm, p.9)'
+    why: 'p.9 Fig. 4(b) render: the first triangle sits just right of the -50 dBm tick (about -48 dBm), not -46 dBm'
+  cmp_lit_bao2024_er_tfln_lma_edwa_7cm-m4:
+    notes: 'printed 110 mW; 10 log10(110) = 20.41 dBm (D256a: basis stays author_estimate) Fig. 3(b) 12.5 mW trace of the folded chip and Fig. 2(b) 9 um straight-waveguide trace coincide point by point
+      (read off both renders, p.6 / p.7); the paper attributes them to different devices and prints 110 mW vs 113 mW; values kept as printed.'
+    why: 'p.6 Fig. 2(b) and p.7 Fig. 3(b) renders: identical point sets (55 / 85 / 135 / 165 / 215 mW pump -> about 30 / 39 / 56 / 77 / 113 mW); cross-note only'
+  cmp_lit_bao2024_er_tfln_straight_w9um_6cm-m1:
+    notes: printed 113 mW; 10 log10(113) = 20.53 dBm (D256a); output rises quasi-linearly with pump up to 210 mW Fig. 3(b) 12.5 mW trace of the folded chip and Fig. 2(b) 9 um straight-waveguide trace coincide
+      point by point (read off both renders, p.6 / p.7); the paper attributes them to different devices and prints 110 mW vs 113 mW; values kept as printed.
+    why: 'p.6 Fig. 2(b) and p.7 Fig. 3(b) renders: identical point sets (55 / 85 / 135 / 165 / 215 mW pump -> about 30 / 39 / 56 / 77 / 113 mW); cross-note only'
+add_metrics:
+- metric_id: cmp_lit_bao2024_er_tfln_lma_edwa_7cm-m13
+  component_id: cmp_lit_bao2024_er_tfln_lma_edwa_7cm
+  parameter: gain_db
+  value: '3'
+  unit: dB
+  wavelength_nm: '1552'
+  polarization: te
+  ref_plane: fiber
+  condition: 'off-chip (fiber-to-fiber) net gain of the noise-figure measurement: about 11 dBm in the input fiber, 14 dBm in the output fiber (Fig. 3(c) labels 11.03 / 14.049 dBm); pump power not stated;
+    lensed fibers'
+  method: direct
+  basis: measured
+  locator: p.8; p.7 Fig. 3(c)
+  notes: printed '3 dB off-chip gain (16 dB on-chip gain)' (p.8); both powers measured in the fibers; labels give 3.02 dB
+  why: Miss. p.8 prints the off-chip gain of the NF operating point (measured in the fibers); the batch entered the 16 dB on-chip and 14.049 dBm values of the same measurement but not the 3 dB

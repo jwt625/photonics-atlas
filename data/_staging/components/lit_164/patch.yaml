@@ -1,0 +1,55 @@
+# Audit patch lit_164 (fresh-context audit 2026-11-16, DevLog/audits/2026-11-16-lit_164-audit.md).
+# 36 metrics: 31 ok / 5 imprecise / 0 wrong; 10 components: 8 ok / 2 imprecise (notes) / 0 wrong;
+# 0 deleted; 2 misses added (schuler2016 drain-source separation L = 4 um as absorber_width_um on both samples, D153,
+# same convention as youngblood2014 m6). After the patch: 10 components, 38 metrics.
+# Coordinator rulings asked (audit Q1-Q6): Q1 schuler2016 65 GHz stays on sample B (no op; to apply D159 strictly,
+# delete cmp_lit_schuler2016_pd_sample_b-m3 and move the value to component notes); Q2 youngblood2014 57 mA/W stays on
+# the one design row (component note op only); Q3 youngblood2014 GC ~20 % stays author_estimate (no op); Q4 youngblood2014
+# bare MZI ER kept as splitter.other (no op; to drop, delete_components cmp_lit_youngblood2014_mzi); Q5 shiue2015
+# responsivities author_estimate (m1 / m2 ops; to keep the batch basis, drop those two ops); Q6 orgs for the org round
+# (no op).
+components:
+  cmp_lit_youngblood2014_graphene_pd:
+    notes: "Cached copy is the arXiv version (1402.7127) with the journal title; values as it reports them. One design; m1 / m2 from the main device (Fig. 3(a)-(b)), m3 from 'a different device' (Fig. 3(c)-(e), p.7), m4 from 'the device' of Fig. 4 (sample not named; the paper's multifunctional device); condition says which. The geometry rows (90 um length, p.4; 2.5 um channel, p.6) are stated for the main device; the paper does not give the geometry of the second device or say that it differs in design. Modulator side (gate-tuned absorption 0.2 -> 0.15 dB/um, 64 % modulation depth, 2.5 GHz modulation bandwidth, 18 dB added loss in the device arm at V_g = 0) not entered: EO-atlas candidate (rule 2). Not entered: CNP +33 V, hole density 1.4e13 cm-2, mobility 1150 cm2/Vs (Fig. 2(a)); model bandwidths ~6 / ~9 GHz (p.7). Fab: author contributions (p.10) 'N.Y. fabricated the devices', all authors at the University of Minnesota -> fab = University of Minnesota (D72 / D80b), missing from the registry (report); facilities 'University of Minnesota Nanofabrication Center' and 'Characterization Facility' (p.10, 'Parts of this work was carried out in'), missing from the registry. SOI wafer SOITEC Corp., CVD graphene purchased from Graphene Square Inc. (material suppliers, p.8)."
+    why: "p.4 (90 um, Fig. 2 modulation device) and p.6 (2.5 um channel, QE of the main device) tie the geometry to the main device; p.7 / Fig. 3(c) caption give no geometry for 'a different device' (audit Q2)"
+  cmp_lit_shiue2015_sin_mode_converter_link:
+    notes: "Cached copy is the arXiv version (1507.00426v3) with the journal title; values as it reports them (no supporting information in the cached file). Only the fiber-to-fiber transmission of this chip is printed; per-coupler loss not separated. No fab org: the SOI PIC 'was fabricated in a CMOS-compatible process' (p.2), no org or place named for the PIC; authors at MIT, Columbia, IBM T. J. Watson and ICFO (D154). No facility on this row: the Brookhaven Center for Functional Nanomaterials acknowledgment (p.9-10) names 'Device fabrication' (the hBN/SLG/hBN detector built in the BEOL step, p.2), not the PIC or its SiN converters (Contract v7: fab / facility per component)."
+    why: "p.2 separates the authors' BEOL 2D-heterostructure step from the PIC 'fabricated in a CMOS-compatible process'; p.9-10 CFN acknowledgment says 'Device fabrication was partly carried out', so the facility belongs on the detector row only (Contract v7 per-component rule, D515 / D463)"
+metrics:
+  cmp_lit_schuler2016_strip_slot_converter-m1:
+    value_max: 98.8
+    notes: "read off the Fig. S1 plateau (about 98-98.8 % between 5 and 10 um, reading +/- 0.3 %); efficiency falls to about 82 % at 1 um; simulation wavelength not printed (device operated at 1550-1560 nm): C band inferred; fabricated converter length not printed (Fig. 1(b) inset label 10 um, meaning not stated)"
+    why: "p.12 Supp. Fig. S1 render: plateau points between 5 and 10 um lie at about 98.0-98.8 %, none reaches 99 %; value_max 99 contradicted the row's own reading"
+  cmp_lit_youngblood2014_graphene_pd-m1:
+    notes: "printed 3.6 mA/W (mA/W -> A/W); author_estimate: input-power reference rests on a ~20 % coupler efficiency of unstated origin; wavelength of the photocurrent measurements not printed; 1.55 um (0.8 eV) is the stated operating point (p.5): C band inferred. Audit check: Fig. 3(a) peak photocurrent about 1.0 uA (render, +/-0.05 uA) at the stated ~1 mW in the waveguide (p.5) gives about 1 mA/W; the paper does not show how 3.6 mA/W follows from it (value kept as printed, D417 style)"
+    why: "p.13 Fig. 3(a) render: zero-bias photocurrent peaks at about 1.0 uA with 12 dBm input / ~1 mW in the waveguide (p.5); the printed 3.6 mA/W is not reproduced and the row did not record it"
+  cmp_lit_youngblood2014_graphene_pd-m2:
+    notes: "printed 'maximal total quantum efficiency of 0.25%' (p.6 and Fig. 3 caption; Methods calls it internal QE; Fig. 3(b) 'calculated quantum efficiency'); the Fig. 3(b) curve peaks at about 0.22-0.23 % on the render; same P0 reference as m1 (~20 % coupler of unstated origin); wavelength of the photocurrent measurements not printed; 1.55 um (0.8 eV) is the stated operating point (p.5): C band inferred"
+    why: "p.13 Fig. 3(b) render: maximum of the plotted QE curve about 0.22-0.23 %, below the printed 0.25 %; printed value kept, difference noted"
+  cmp_lit_shiue2015_hbn_slg_pd-m1:
+    basis: author_estimate
+    notes: "printed 'maximum of 0.36 A/W'; R = I_ph / P_in with P_in the optical power in the waveguide (p.5), but the paper does not state how P_in was obtained from the fiber power (the lensed-fiber / SiN-converter loss is not split per facet; the 11 dB is a fiber-to-fiber total, p.4): input-power reference of unstated origin (rule 4; derose2011 / hu2023 precedents); responsivity wavelength not printed; transmission characterized at 1550 nm and c.w. spectral response 1510-1570 nm (p.4, p.7): C band inferred"
+    why: "p.5 defines R against the in-waveguide power without saying how that power was derived; p.4 gives only the 11 dB fiber-to-fiber total; a loss-budget term of unstated origin makes the value author_estimate (skill rule 4), consistent with youngblood2014 m1 and schuler2016 m1 in this batch (audit Q5)"
+  cmp_lit_shiue2015_hbn_slg_pd-m2:
+    basis: author_estimate
+    notes: "printed 78 mA/W (text p.7 and Fig. 3(b) label; mA/W -> A/W, kept author_estimate per D256a); same in-waveguide power reference of unstated origin as m1 (rule 4); responsivity wavelength not printed; transmission characterized at 1550 nm and c.w. spectral response 1510-1570 nm (p.4, p.7): C band inferred"
+    why: "same power reference as m1 (Fig. 3(b) x axis is in-waveguide power, origin not stated); D256a keeps author_estimate after the unit conversion (audit Q5)"
+add_metrics:
+- metric_id: cmp_lit_schuler2016_pd_sample_b-m6
+  component_id: cmp_lit_schuler2016_pd_sample_b
+  parameter: absorber_width_um
+  value: 4
+  unit: um
+  basis: design_target
+  locator: "p.3; p.2 Fig. 1(a)"
+  notes: "printed 'L = 4 um drain-source separation' (graphene channel between the contacts across the slot waveguide, Fig. 1(a) L); unit checked on the p.3 page render (the text layer prints the micro sign as 'P'); same convention as youngblood2014 absorber_width_um (2.5 um channel)"
+  why: "Miss (D153 geometry): p.3 states the drain-source separation for the fabricated contacts of both samples; the batch kept it only in core_material while youngblood2014 in the same batch enters its source-drain channel as absorber_width_um"
+- metric_id: cmp_lit_schuler2016_pd_sample_a-m6
+  component_id: cmp_lit_schuler2016_pd_sample_a
+  parameter: absorber_width_um
+  value: 4
+  unit: um
+  basis: design_target
+  locator: "p.3; p.2 Fig. 1(a)"
+  notes: "printed 'L = 4 um drain-source separation' (graphene channel between the contacts across the slot waveguide, Fig. 1(a) L); unit checked on the p.3 page render (the text layer prints the micro sign as 'P'); same convention as youngblood2014 absorber_width_um (2.5 um channel)"
+  why: "Miss (D153 geometry): p.3 states the drain-source separation for the fabricated contacts of both samples; the batch kept it only in core_material while youngblood2014 in the same batch enters its source-drain channel as absorber_width_um"

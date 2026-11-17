@@ -1,0 +1,110 @@
+# Audit patch lit_156 (fresh-context audit 2026-11-16, DevLog/audits/2026-11-16-lit_156-audit.md).
+# 76 metrics: 73 ok / 3 imprecise / 0 wrong; 12 components: 8 ok / 4 imprecise (cladding text) / 0 wrong;
+# 0 deleted; 6 misses added (core_thickness_nm rows the dc / edge_taper layout templates require, D153).
+# After the patch: 12 components, 82 metrics.
+# Coordinator rulings asked (audit Q1-Q4): Q1 luo2018 4.7 %/W -> measured (zhao2026 / wang2018 / zhao2025a precedents;
+# to keep author_estimate, drop the cmp_lit_luo2018_zcut_ln_shg_wg_8mm-m1 op); Q2 zhao2020 kept as distilled (no op);
+# Q3 hwang2023 coupler / Q_i / on-chip rows kept as distilled, Q-range wavelength narrowed to the stated 1550 nm (ops on m3 / m5);
+# Q4 gaafar2024 loopback_half and per-part fab kept (no op).
+components:
+  cmp_lit_hwang2023_lnos_pump_enhanced_sro:
+    cladding: air (Ext. Data Fig. 1(a) label)
+    why: 'p.15 Ext. Data Fig. 1(a) labels air above the LN ridge (with LN / sapphire); the batch text "air (not stated otherwise)" reads as a default, while cladding is entered only if stated (skill workflow step 3)'
+  cmp_lit_hwang2023_straight_ppln_opa_wg:
+    cladding: air (Ext. Data Fig. 1(a) label)
+    why: 'as cmp_lit_hwang2023_lnos_pump_enhanced_sro (p.15 Ext. Data Fig. 1(a); same chip and etch)'
+  cmp_lit_hwang2023_output_dc:
+    cladding: air (Ext. Data Fig. 1(a) label)
+    why: 'as cmp_lit_hwang2023_lnos_pump_enhanced_sro (p.15 Ext. Data Fig. 1(a); same chip and etch)'
+  cmp_lit_hwang2023_intracavity_adiabatic_coupler:
+    cladding: air (Ext. Data Fig. 1(a) label)
+    why: 'as cmp_lit_hwang2023_lnos_pump_enhanced_sro (p.15 Ext. Data Fig. 1(a); same chip and etch)'
+metrics:
+  cmp_lit_luo2018_zcut_ln_shg_wg_8mm-m1:
+    basis: measured
+    notes: 'Paper: ''Fitting the experimental data, we obtained an on-chip conversion efficiency of 4.7% W-1'' (p.3); Fig. 3(c) quadratic fit of SH power vs pump power (both axes in dBm; the top point, about -67 dBm SH at about -11.5 dBm pump (read), gives about 4 %/W, consistent with on-chip-referred axes). The coupling corrections are not printed: the telecom side matches the own cutback value (about 5 dB/facet, p.3), the visible output coupling loss is never stated. Standard fit of own data (D80a), entered measured as the merged on-chip SHG rows whose coupling correction is not printed (zhao2026 m1, wang2018, zhao2025a); author_estimate would apply if the paper called the correction estimated or assumed (chang2018a). 18.7 C printed; 291.85 K converted.'
+    why: 'coordinator Q1: p.3 ''on-chip conversion efficiency'' from a quadratic fit of own data (D80a); no assumed or cited input is named, only an unprinted visible coupling correction; merged precedents with unprinted coupling corrections are measured (zhao2026 m1 ''Coupling correction values not printed'', lit_62 audit; wang2018 / zhao2025a, lit_85 audit)'
+  cmp_lit_hwang2023_lnos_pump_enhanced_sro-m3:
+    wavelength_nm: '1550'
+    wavelength_max_nm: ''
+    condition: 'total Q of the signal (telecom) cavity modes near 1550 nm, cold cavity, Lorentzian fits; telecom laser sweep'
+    notes: 'Printed Q_tot = 1.3-1.6 x 10^6 citing Fig. 1(c) (p.2-3), whose caption gives ''signal wavelengths near 1550 nm'' (plot axis 1558-1558.5 nm; D393, stated). The next sentence says high Q extends over the whole 1500-1640 nm laser range (Ext. Data Fig. 3(b), p.16, 2621 fitted modes, 174 poor fits excluded) without restating the range for that span; p.16 render not cached, so the range is not extended to 1500-1640 nm. The p.11 pump model uses 1.5e6 and the p.4 OPO model 1.6e6.'
+    why: 'p.2-3 the 1.3-1.6e6 range is printed with Fig. 1(c) (caption p.2: modes near 1550 nm); the batch set 1500-1640 nm from the ''High Q-factors extend over...'' sentence, which does not state that range for the full span'
+  cmp_lit_hwang2023_lnos_pump_enhanced_sro-m5:
+    wavelength_nm: '1550'
+    wavelength_max_nm: ''
+    condition: 'signal cavity modes near 1550 nm, extracted for the undercoupled cavity (Q_ex about 20e6)'
+    notes: 'D403: the undercoupled regime is stated (design ~1 % extraction), not determined from the data. Wavelength as the Q_tot range it is extracted from (Fig. 1(c), near 1550 nm, p.2-3).'
+    why: 'as m3: the Q_i range is extracted from the Q_tot range printed with Fig. 1(c) (near 1550 nm, p.2-3)'
+add_metrics:
+- metric_id: cmp_lit_hwang2023_output_dc-m6
+  component_id: cmp_lit_hwang2023_output_dc
+  source_id: lit:hwang2023
+  parameter: core_thickness_nm
+  value: '878'
+  unit: nm
+  condition: LN film (chip-wide)
+  basis: design_target
+  locator: p.2
+  verified_on: '2026-11-16'
+  notes: 'Chosen 878 nm LN film (p.2); the simulations use a nominal 875 nm (p.12, Ext. Data Fig. 1(a)). Same film as the OPO row.'
+  why: 'D153 / dc layout template requires core_thickness_nm; film thickness stated p.2'
+- metric_id: cmp_lit_hwang2023_intracavity_adiabatic_coupler-m7
+  component_id: cmp_lit_hwang2023_intracavity_adiabatic_coupler
+  source_id: lit:hwang2023
+  parameter: core_thickness_nm
+  value: '878'
+  unit: nm
+  condition: LN film (chip-wide)
+  basis: design_target
+  locator: p.2
+  verified_on: '2026-11-16'
+  notes: 'Chosen 878 nm LN film (p.2); the simulations use a nominal 875 nm (p.12, Ext. Data Fig. 1(a)). Same film as the OPO row.'
+  why: 'D153 / dc layout template requires core_thickness_nm; film thickness stated p.2'
+- metric_id: cmp_lit_hwang2023_stealth_diced_facet-m4
+  component_id: cmp_lit_hwang2023_stealth_diced_facet
+  source_id: lit:hwang2023
+  parameter: core_thickness_nm
+  value: '878'
+  unit: nm
+  condition: LN film (chip-wide)
+  basis: design_target
+  locator: p.2
+  verified_on: '2026-11-16'
+  notes: 'Chosen 878 nm LN film (p.2); the simulations use a nominal 875 nm (p.12). Same film as the OPO row.'
+  why: 'D153 / edge_taper layout template xsec requires core_thickness_nm; film thickness stated p.2'
+- metric_id: cmp_lit_gaafar2024_sin_inverse_taper_facet-m3
+  component_id: cmp_lit_gaafar2024_sin_inverse_taper_facet
+  source_id: lit:gaafar2024
+  parameter: core_thickness_nm
+  value: '800'
+  unit: nm
+  condition: Si3N4 layer
+  basis: design_target
+  locator: p.2; p.6
+  verified_on: '2026-11-16'
+  notes: '800 nm-thick Si3N4 waveguide platform of the LIGENTEC chip (p.2 Results, p.6 Methods); foundry stack (D402).'
+  why: 'D153 / edge_taper layout template xsec requires core_thickness_nm; stated p.2 and p.6 (the amplifier row carries it, the coupler row did not)'
+- metric_id: cmp_lit_zhao2020_diced_facet_lensed_pm_fiber-m5
+  component_id: cmp_lit_zhao2020_diced_facet_lensed_pm_fiber
+  source_id: lit:zhao2020
+  parameter: core_thickness_nm
+  value: '300'
+  unit: nm
+  basis: design_target
+  locator: p.1
+  verified_on: '2026-11-16'
+  notes: 'Purchased 300 nm MgO:LN film (D402); ridge etch 50 nm (p.1).'
+  why: 'D153 / edge_taper layout template xsec requires core_thickness_nm; stated p.1 (on the SHG row only)'
+- metric_id: cmp_lit_luo2018_polished_facet_lensed_fiber-m2
+  component_id: cmp_lit_luo2018_polished_facet_lensed_fiber
+  source_id: lit:luo2018
+  parameter: core_thickness_nm
+  value: '560'
+  unit: nm
+  qualifier: approx
+  basis: design_target
+  locator: p.2
+  verified_on: '2026-11-16'
+  notes: 'LN thin film ''~560 nm'' of the purchased wafer (D402); equals h1 + h2 of the design.'
+  why: 'D153 / edge_taper layout template xsec requires core_thickness_nm; stated p.2 (on the SHG and cutback rows only)'

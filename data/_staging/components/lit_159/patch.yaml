@@ -1,0 +1,46 @@
+# Audit patch lit_159 (fresh-context audit 2026-11-16, DevLog/audits/2026-11-16-lit_159-audit.md).
+# 58 metrics: 51 ok / 3 imprecise / 4 wrong; 10 components: 8 ok / 2 imprecise (facility) / 0 wrong; 0 misses added.
+# After the patch: 10 components, 54 metrics (16 changes on a scratchpad copy, re-apply 0, merge dry-run 0 errors).
+# Wrong (4): herrmann2022 frequency-channel isolation rows m1 / m3 / m6 / m7 deleted from isolation_db (D581 / D419 / D513:
+# a forward / reverse frequency-conversion contrast, not same-frequency isolation; values kept in the component notes for
+# conversion_contrast_db). Imprecise (3): herrmann2022 circulator m2 Supp. locator (p.4 -> p.10) and condition; racetrack m3
+# GHz -> MHz basis derived (D256); che2024 background loss band (rule 8). Components (2): herrmann2022 facility
+# org_nano_stanford added for the printed "nano@stanford labs" (p.6).
+# Coordinator rulings proposed (audit Q1-Q6): Q1 isolation rows out (ops below; if conversion_contrast_db lands before the
+# merge, replace the 4 delete ops by parameter changes); Q2 printed "nearly 40 dB" kept as the headline with the Fig. 2
+# 35 dB read in notes (D417); Q3 lnos_rib kept; Q4 org_nano_stanford added (ops below); Q5 che2024 fab empty / process_name /
+# author_estimate kept; Q6 poulvellarie2021 bounds / estimates / fab empty kept; Q7 javid2021 single facet row kept;
+# Q8 racetrack 2 / 3 total rates stay linewidth_mhz (note op only).
+'components':
+  'cmp_lit_herrmann2022_freq_circulator':
+    'facility_org_ids': 'org_stanford_nano_shared_facilities;org_nano_stanford'
+    'notes': 'Ports are three frequency channels (dressed modes w1-w3) of one bus waveguide. The paper''s isolation parameter I_ij = |S_ij|^2 / |S_ji|^2 compares forward and reverse frequency conversion between two channels, both measured with light input from the left waveguide; mirror symmetry (right-to-left input) checked in Supp. Fig. S5 (no number). Not entered as isolation_db (D581 / D419 / D513: conversion contrast, not same-frequency isolation; the feed-through |S_kk|^2 0.19-0.29 at the operating point, Supp. Eq. (12) p.10, is not suppressed, p.4-5): I31 nearly 40 dB printed (p.1 abstract, p.2, p.6) at P1 73.2 mW / P2 59.0 mW, 1543.6 nm, while the Fig. 2(b) / 2(c) I31 curve at the same powers peaks at about 35 dB (+/- 1 dB, D417); I31 > 25 dB at P1 7.32 mW / P2 0.74 mW (p.6); Fig. 2(c) peaks I23 about 26 dB and I12 about 27 dB (+/- 1 dB, p.3). Enter these as conversion_contrast_db when that parameter exists (audit 2026-11-16). D396: resonator data on cmp_lit_herrmann2022_triple_racetrack. Fab Stanford: author contributions (p.6) ''J.F.H. fabricated the device'', all authors at Stanford (D395). Facility: ''Part of this work was performed at the Stanford Nano Shared Facilities (SNSF)'' and ''Work was performed in part in the nano@stanford labs'' (NNCI site, p.6); the second is the printed name of registry org_nano_stanford (audit 2026-11-16). Platform lnos_rib: LN on sapphire is stated, rib vs fully etched is not (only LN-on-sapphire platform value). Cached text is arXiv v1 (2021-09-28) of the Nature Photonics 2022 paper; journal version unread.'
+    'why': 'Q1 / Q4: isolation values moved to notes after the delete ops (D581); facility org_nano_stanford for the printed ''nano@stanford labs'' (p.6 Acknowledgements), which names the registry org itself, so the D80d time-aware rule (printed SNSF / SNF not re-pointed) does not apply'
+  'cmp_lit_herrmann2022_triple_racetrack':
+    'facility_org_ids': 'org_stanford_nano_shared_facilities;org_nano_stanford'
+    'notes': 'D396: same physical device as cmp_lit_herrmann2022_freq_circulator (circulator metrics and film thickness there). Rates from a bootstrap fit of the VNA phase trace (Supp. Table S1, 95 % confidence intervals in metric notes). Ring coupling rates mu12/2pi 1.864 GHz and mu23/2pi 1.861 GHz (Table S1) have no registry parameter. Racetracks 2 and 3 have no waveguide coupling term in the model (Supp. Eqs. 1b / 1c), so their printed total loss rates (linewidth_mhz rows) carry no external part. Fab Stanford: author contributions (p.6) ''J.F.H. fabricated the device'', all authors at Stanford (D395). Facility: ''Part of this work was performed at the Stanford Nano Shared Facilities (SNSF)'' and ''Work was performed in part in the nano@stanford labs'' (NNCI site, p.6); the second is the printed name of registry org_nano_stanford (audit 2026-11-16). Platform lnos_rib: LN on sapphire is stated, rib vs fully etched is not (only LN-on-sapphire platform value). Cached text is arXiv v1 (2021-09-28) of the Nature Photonics 2022 paper; journal version unread.'
+    'why': 'Q4: facility org_nano_stanford for the printed ''nano@stanford labs'' (p.6 Acknowledgements); note on the bare-mode total rates of racetracks 2 / 3 (audit Q8)'
+'metrics':
+  'cmp_lit_herrmann2022_freq_circulator-m2':
+    'condition': 'w1 -> w3 conversion at the peak-isolation operating point of Fig. 2(b) (P1 73.2 mW, P2 59.0 mW, phase condition about pi/2; printed I31 nearly 40 dB, Fig. 2(b) peak about 35 dB)'
+    'locator': 'p.6; p.10 Supp. Eq. (12)'
+    'notes': 'Printed 4.4 dB with the nearly-40 dB isolation (p.6); Supp. Eq. (12) |S31|^2 = 0.36 (= 4.4 dB); Fig. 2(b) |S31|^2 peak about -4.4 dB.'
+    'why': 'Supp. Eq. (12) is on text page 10 (S3), not p.4; condition no longer points at the deleted isolation row (Q1)'
+  'cmp_lit_herrmann2022_triple_racetrack-m3':
+    'basis': 'derived'
+    'notes': 'Printed 1.251 GHz (95 % CI 1.247-1.254 GHz); GHz -> MHz, derived (D256: the MHz form of kappa_1 is not printed).'
+    'why': 'D256: unit conversion of a value printed only in GHz (Supp. Table S1, p.10) is derived; m4 / m5 are printed in MHz and stay measured'
+  'cmp_lit_che2024_er_sin_waveguide-m1':
+    'band': 'c_band'
+    'wavelength_inferred': 'true'
+    'notes': 'Printed ''minimum background loss below 5 dB/m'' (TE); dB/m -> dB/cm (D256a). Origin not stated, no citation in the sentence (D80i borderline); the passive process ''can attain losses below 3 dB/m'' (p.3, ref. 17) is cited and not entered. Wavelength not stated: c_band inferred (rule 8), the EDWA is characterized and used in the C band (p.4-6, Methods p.8).'
+    'why': 'rule 8: no wavelength printed, the operating band of the gain waveguide (C band) is stated (p.3, p.5, Methods p.8)'
+'delete_metrics':
+  - 'id': 'cmp_lit_herrmann2022_freq_circulator-m1'
+    'why': 'Q1, D581 (dostart2020a) / D419 / D513: I31 = |S31|^2 / |S13|^2 is a forward / reverse frequency-conversion contrast between channels, not same-frequency isolation (feed-through |S_kk|^2 0.19-0.29 not suppressed, Supp. Eq. (12) p.10; the paper proposes an extra filter resonator, p.5); value in component notes for conversion_contrast_db (p.6, p.1, p.2)'
+  - 'id': 'cmp_lit_herrmann2022_freq_circulator-m3'
+    'why': 'Q1, D581: same quantity (I31 > 25 dB at P1 7.32 / P2 0.74 mW, p.6); value in component notes'
+  - 'id': 'cmp_lit_herrmann2022_freq_circulator-m6'
+    'why': 'Q1, D581: same quantity (I23 about 26 dB, Fig. 2(c) p.3); value in component notes'
+  - 'id': 'cmp_lit_herrmann2022_freq_circulator-m7'
+    'why': 'Q1, D581: same quantity (I12 about 27 dB, Fig. 2(c) p.3); value in component notes'

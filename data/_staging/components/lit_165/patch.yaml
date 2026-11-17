@@ -1,0 +1,96 @@
+# Audit patch lit_165 (fresh-context audit 2026-11-16, DevLog/audits/2026-11-16-lit_165-audit.md).
+# 72 metrics: 69 ok / 2 imprecise / 1 wrong (deleted); 17 components: 9 ok / 8 imprecise / 0 wrong; 4 misses added
+# (arianfard2020 1-dB BW of the 50 / 200 GHz interleavers, Table III). After the patch: 17 components, 75 metrics.
+# Coordinator rulings asked (audit Q1-Q5): Q1 arianfard2020 comparison designs kept (notes only); Q2 Fano device stays
+# resonator.other (no op); Q3 thermal drift deleted (rule 3; reversal = drop the delete op); Q4 yang2018a KNI facility removed
+# (D80c / D83e; reversal = drop the 4 component ops' facility change); Q5 lake2016 both maxima + platform other kept (no op).
+components:
+  cmp_lit_yang2018a_ridge_ring_d4p3mm:
+    facility_org_ids: ''
+    notes: 'Source text is the arXiv preprint 1702.05076v3 (2017-09-17) of the Nature Photonics paper; values as the preprint reports them (journal version not read). Fab org_caltech: p.6 Author contributions state that KYY, DYO and SHL fabricated and tested the resonator structures (all authors Caltech; D395 / D80b). Facility empty: the p.6 Acknowledgment names the Kavli Nanoscience Institute only together with the DARPA DODOS award (''gratefully acknowledge ... and the Kavli Nanoscience Institute''), with no use, place or fabrication-support wording (program-style acknowledgement, D80c / D83e). Staff thanks for PECVD / ALD / SEM help not used. Class: the paper calls it a ridge ring / ridge resonator (annular silica ridge after the ring-aperture undercut), entered as resonator.ring (judgment; lee2012 wedge disks are resonator.disk). Measured devices: FSR about 15 GHz, diameter about 4.3 mm; the Fig. 2 scans used a pulley waveguide (straight and pulley versions made, p.2-3). Fiber coupling to the SiN bus: row sin_bus_facet. The same resonator design hosts the soliton comb (row soliton_comb_15ghz; D396 cross-note). Not entered: D2/2pi = 6.4 kHz second-order dispersion (no registry parameter; D81), single-mode cutoff width about 1200 nm (simulated, Fig. 6), deposited SiN 500 nm before etch.'
+    why: 'p.6 Acknowledgment: KNI is named only in the sentence that acknowledges the DARPA award, with no ''performed at'' / ''made use of'' / fabrication-support wording; rule 12 and D80c / D83e (a facility named only in a funding acknowledgement is a program acknowledgement)'
+  cmp_lit_yang2018a_soliton_comb_15ghz:
+    facility_org_ids: ''
+    notes: 'Source text is the arXiv preprint 1702.05076v3 (2017-09-17) of the Nature Photonics paper; values as the preprint reports them (journal version not read). Fab org_caltech: p.6 Author contributions state that KYY, DYO and SHL fabricated and tested the resonator structures (all authors Caltech; D395 / D80b). Facility empty: the p.6 Acknowledgment names the Kavli Nanoscience Institute only together with the DARPA DODOS award (''gratefully acknowledge ... and the Kavli Nanoscience Institute''), with no use, place or fabrication-support wording (program-style acknowledgement, D80c / D83e). Staff thanks for PECVD / ALD / SEM help not used. Cross-note: soliton generation in the 4.3 mm resonator design of row ridge_ring_d4p3mm (D396); resonator designed to minimize avoided mode crossings. Solitons triggered with power kick and capture-lock (p.5). FROG shows a pulse period of 66.5 ps (round-trip time, Fig. 3(c)); pulse width not stated. Not entered: pump power as low as 61 mW for stable soliton operation (p.5; no registry parameter for a soliton-operation pump power; not a threshold).'
+    why: as cmp_lit_yang2018a_ridge_ring_d4p3mm (p.6 Acknowledgment; D80c / D83e)
+  cmp_lit_yang2018a_brillouin_laser_d6mm:
+    facility_org_ids: ''
+    notes: 'Source text is the arXiv preprint 1702.05076v3 (2017-09-17) of the Nature Photonics paper; values as the preprint reports them (journal version not read). Fab org_caltech: p.6 Author contributions state that KYY, DYO and SHL fabricated and tested the resonator structures (all authors Caltech; D395 / D80b). Facility empty: the p.6 Acknowledgment names the Kavli Nanoscience Institute only together with the DARPA DODOS award (''gratefully acknowledge ... and the Kavli Nanoscience Institute''), with no use, place or fabrication-support wording (program-style acknowledgement, D80c / D83e). Staff thanks for PECVD / ALD / SEM help not used. Separate design: diameter about 6.0 mm, chosen to phase match the Brillouin process for pumping near 1550 nm (p.5). Lasing Stokes wave collected counter-propagating to the pump. Not entered: ''Hertz-level'' short-term fundamental linewidth (no number), first-Stokes power (inset of Fig. 4 only, clamped by second-Stokes oscillation), pump-Stokes beat note near 10.88 GHz (axis label, no registry parameter), Q of the 6 mm devices (not reported).'
+    why: as cmp_lit_yang2018a_ridge_ring_d4p3mm (p.6 Acknowledgment; D80c / D83e)
+  cmp_lit_yang2018a_sin_bus_facet:
+    facility_org_ids: ''
+    notes: 'Source text is the arXiv preprint 1702.05076v3 (2017-09-17) of the Nature Photonics paper; values as the preprint reports them (journal version not read). Fab org_caltech: p.6 Author contributions state that KYY, DYO and SHL fabricated and tested the resonator structures (all authors Caltech; D395 / D80b). Facility empty: the p.6 Acknowledgment names the Kavli Nanoscience Institute only together with the DARPA DODOS award (''gratefully acknowledge ... and the Kavli Nanoscience Institute''), with no use, place or fabrication-support wording (program-style acknowledgement, D80c / D83e). Staff thanks for PECVD / ALD / SEM help not used. End-fire coupling from a lensed fiber; no attempt to improve coupling (a tapered waveguide end is proposed as future work, p.3). Bus of row ridge_ring_d4p3mm.'
+    why: as cmp_lit_yang2018a_ridge_ring_d4p3mm (p.6 Acknowledgment; D80c / D83e)
+  cmp_lit_arianfard2020_bpf_cmp_1mrr:
+    notes: 'Theory-only paper: cached arXiv text 2102.04049v1 is titled ''Design of Photonic Filters based on Integrated Coupled Sagnac Loop Reflectors'' (registry title is the JLT title; same DOI / arXiv id), values as this text reports them. Scattering-matrix model; lossless directional couplers assumed; model inputs n_g 4.3350 (TE) and alpha 55 m^-1 (2.4 dB/cm) taken from the authors'' earlier fabricated SOI devices (refs. 33, 40; cited, not entered). No fabrication; fab / facility empty. Comparison BPF: architecture of refs. [77, 78], designed and simulated by the authors in this paper on the same SOI wire model with the same ER and FSR as the zig-zag MC-SLR BPF (row zigzag_mcslr_bpf; p.15); no value is taken from the cited work (rule 3 / D259 do not apply); ring / loop dimensions and coupling coefficients not stated. Only the 3-dB BW is printed.'
+    why: 'p.15 Sec. V: the comparison architectures are attributed to refs. [77, 78], [41], [33]; the note did not say where the architecture comes from or why its re-simulated 3-dB BW is not a cited value'
+  cmp_lit_arianfard2020_bpf_cmp_2cslr:
+    notes: 'Theory-only paper: cached arXiv text 2102.04049v1 is titled ''Design of Photonic Filters based on Integrated Coupled Sagnac Loop Reflectors'' (registry title is the JLT title; same DOI / arXiv id), values as this text reports them. Scattering-matrix model; lossless directional couplers assumed; model inputs n_g 4.3350 (TE) and alpha 55 m^-1 (2.4 dB/cm) taken from the authors'' earlier fabricated SOI devices (refs. 33, 40; cited, not entered). No fabrication; fab / facility empty. Comparison BPF: architecture of ref. [41], designed and simulated by the authors in this paper on the same SOI wire model with the same ER and FSR as the zig-zag MC-SLR BPF (row zigzag_mcslr_bpf; p.15); no value is taken from the cited work (rule 3 / D259 do not apply); ring / loop dimensions and coupling coefficients not stated. Only the 3-dB BW is printed.'
+    why: as cmp_lit_arianfard2020_bpf_cmp_1mrr (p.15 Sec. V)
+  cmp_lit_arianfard2020_bpf_cmp_3cslr:
+    notes: 'Theory-only paper: cached arXiv text 2102.04049v1 is titled ''Design of Photonic Filters based on Integrated Coupled Sagnac Loop Reflectors'' (registry title is the JLT title; same DOI / arXiv id), values as this text reports them. Scattering-matrix model; lossless directional couplers assumed; model inputs n_g 4.3350 (TE) and alpha 55 m^-1 (2.4 dB/cm) taken from the authors'' earlier fabricated SOI devices (refs. 33, 40; cited, not entered). No fabrication; fab / facility empty. Comparison BPF: the authors'' own earlier CSLR architecture (ref. [33]), designed and simulated by the authors in this paper on the same SOI wire model with the same ER and FSR as the zig-zag MC-SLR BPF (row zigzag_mcslr_bpf; p.15); no value is taken from the cited work (rule 3 / D259 do not apply); ring / loop dimensions and coupling coefficients not stated. Only the 3-dB BW is printed.'
+    why: as cmp_lit_arianfard2020_bpf_cmp_1mrr (p.15 Sec. V)
+  cmp_lit_arianfard2020_bpf_cmp_2mrr:
+    notes: 'Theory-only paper: cached arXiv text 2102.04049v1 is titled ''Design of Photonic Filters based on Integrated Coupled Sagnac Loop Reflectors'' (registry title is the JLT title; same DOI / arXiv id), values as this text reports them. Scattering-matrix model; lossless directional couplers assumed; model inputs n_g 4.3350 (TE) and alpha 55 m^-1 (2.4 dB/cm) taken from the authors'' earlier fabricated SOI devices (refs. 33, 40; cited, not entered). No fabrication; fab / facility empty. Comparison BPF: architecture of refs. [77, 78], designed and simulated by the authors in this paper on the same SOI wire model with the same ER and FSR as the zig-zag MC-SLR BPF (row zigzag_mcslr_bpf; p.15); no value is taken from the cited work (rule 3 / D259 do not apply); ring / loop dimensions and coupling coefficients not stated. Only the 3-dB BW is printed.'
+    why: as cmp_lit_arianfard2020_bpf_cmp_1mrr (p.15 Sec. V)
+metrics:
+  cmp_lit_arianfard2020_parallel_mcslr_fano-m1:
+    wavelength_nm: '1550.0'
+    wavelength_max_nm: '1550.6'
+    notes: Printed ~13.9 dB. Wavelength = the Fig. 2(b) zoom window (1550.0-1550.6 nm), as m2 / m3.
+    why: 'p.5 / p.6 Fig. 2(b): the ER belongs to the same Fano resonance as the Q (m2) and IL (m3) rows, which carry the zoom window; this row had none'
+  cmp_lit_yang2018a_brillouin_laser_d6mm-m1:
+    notes: Printed as approximately 800 uW in the waveguide; inset dashed line near 0.7-0.8 mW input pump. Wavelength 1550 nm is the printed design statement 'pumped near 1550 nm' (p.5, D393); the Fig. 4 spectrum of the measured laser shows the reflected pump and first Stokes near 1555.7 nm (+/-0.1 nm axis read).
+    why: 'p.4 Fig. 4: the measured pump / Stokes peaks sit near 1555.7 nm, not at the 1550 nm design wording; value and condition kept, note added'
+delete_metrics:
+- id: cmp_lit_arianfard2020_parallel_mcslr_il_100ghz-m10
+  why: 'Rule 3 (values computed from cited inputs): the Fig. 8(c) line (p.13; 1549.4938 -> 1550.2945 nm over about 12.5 K = 64 pm/K) equals lambda x dn/dT / n_g = 1549.49 nm x 1.8e-4 / 4.3350 = 64.3 pm/K, i.e. only the cited Si dn/dT (p.12, ref. [76]) and the cited n_g (p.5, refs. [33, 40]); it carries no information on the MC-SLR design and is not printed as a number'
+add_metrics:
+- metric_id: cmp_lit_arianfard2020_parallel_mcslr_il_50ghz-m8
+  component_id: cmp_lit_arianfard2020_parallel_mcslr_il_50ghz
+  parameter: bw_1db_ghz
+  value: '33.867'
+  unit: GHz
+  polarization: te
+  condition: Port 1 to Port 3; scattering-matrix simulation, n_g 4.3350, alpha 55 m^-1 (2.4 dB/cm), lossless couplers
+  basis: simulated
+  locator: p.11 Table III
+  verified_on: '2026-11-16'
+  notes: Table III prints 1-dB BW / CS = 0.6773; x CS 50.0025 GHz (arithmetic on simulated values stays simulated, D83f), as the 3-dB BW rows.
+  why: 'Miss: Table III prints the 1-dB BW / CS ratio for every design; the 3-dB BW of these designs was entered the same way and BATCH_REPORT says the 1-dB BW was entered too, but no row exists'
+- metric_id: cmp_lit_arianfard2020_parallel_mcslr_il_50ghz-m9
+  component_id: cmp_lit_arianfard2020_parallel_mcslr_il_50ghz
+  parameter: bw_1db_ghz
+  value: '30.387'
+  unit: GHz
+  polarization: te
+  condition: Port 1 to Port 4; scattering-matrix simulation, n_g 4.3350, alpha 55 m^-1 (2.4 dB/cm), lossless couplers
+  basis: simulated
+  locator: p.11 Table III
+  verified_on: '2026-11-16'
+  notes: Table III prints 1-dB BW / CS = 0.6077; x CS 50.0025 GHz (arithmetic on simulated values stays simulated, D83f), as the 3-dB BW rows.
+  why: as cmp_lit_arianfard2020_parallel_mcslr_il_50ghz-m8 (p.11 Table III)
+- metric_id: cmp_lit_arianfard2020_parallel_mcslr_il_200ghz-m8
+  component_id: cmp_lit_arianfard2020_parallel_mcslr_il_200ghz
+  parameter: bw_1db_ghz
+  value: '135.608'
+  unit: GHz
+  polarization: te
+  condition: Port 1 to Port 3; scattering-matrix simulation, n_g 4.3350, alpha 55 m^-1 (2.4 dB/cm), lossless couplers
+  basis: simulated
+  locator: p.11 Table III
+  verified_on: '2026-11-16'
+  notes: Table III prints 1-dB BW / CS = 0.6780; x CS 200.0122 GHz (arithmetic on simulated values stays simulated, D83f), as the 3-dB BW rows.
+  why: as cmp_lit_arianfard2020_parallel_mcslr_il_50ghz-m8 (p.11 Table III)
+- metric_id: cmp_lit_arianfard2020_parallel_mcslr_il_200ghz-m9
+  component_id: cmp_lit_arianfard2020_parallel_mcslr_il_200ghz
+  parameter: bw_1db_ghz
+  value: '121.647'
+  unit: GHz
+  polarization: te
+  condition: Port 1 to Port 4; scattering-matrix simulation, n_g 4.3350, alpha 55 m^-1 (2.4 dB/cm), lossless couplers
+  basis: simulated
+  locator: p.11 Table III
+  verified_on: '2026-11-16'
+  notes: Table III prints 1-dB BW / CS = 0.6082; x CS 200.0122 GHz (arithmetic on simulated values stays simulated, D83f), as the 3-dB BW rows.
+  why: as cmp_lit_arianfard2020_parallel_mcslr_il_50ghz-m8 (p.11 Table III)

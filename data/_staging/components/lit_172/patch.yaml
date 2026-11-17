@@ -1,0 +1,231 @@
+# Audit patch lit_172 (fresh-context audit 2026-11-16, DevLog/audits/2026-11-16-lit_172-audit.md).
+# 200 metrics: 169 ok / 30 imprecise / 1 wrong; 33 components: 28 ok / 5 imprecise / 0 wrong; 1 metric deleted; 3 misses added.
+# After the patch: 33 components, 202 metrics.
+# Coordinator rulings asked (audit Q1-Q6): Q1 xuan2016 D403 split, comb rows, Purdue fab, Birck only on the Purdue-film row,
+# Noel note (no op); Q2 quack2019 imec + EPFL fab and CMi facility also on the GC (no op), in-plane 0.55 pi figure read (no op);
+# Q3 nedeljkovic2014 3.5 dB/cm deleted (D259 / D80i; revert = drop the delete op and the rib_wg notes op); Q4 sun2010 fab empty
+# (no op); Q5 espinola2003 1/e rise as thermal_time_constant_us (no op); Q6 D157 unit rescales on 22 geometry rows (patched).
+components:
+  cmp_lit_xuan2016_ring_t800_w3:
+    cladding: ''
+    notes: '800 nm film ring of p.9 Sec. 5 (not a Table 1 entry): only film thickness, ring width and radius are printed; film source,
+      cladding and annealing are not stated for these rings (Table 1 lists process variations, its default is the foundry film).
+      Fab Purdue: first-person account of the process (''the process steps and variations we have attempted'', ''we follow the
+      procedure in Ref. [34] and performed high-temperature annealing'', p.2-3); all authors at Purdue (School of ECE and Birck
+      Nanotechnology Center; one author also at Universidad Tecnologica de Pereira) -> org_purdue_university. Birck Nanotechnology
+      Center is named only for the Purdue-grown films (p.2): facility only on the purdue_film row.'
+    why: 'p.9 Sec. 5 prints only 800 nm film, 3 um width, 100 um radius and Q_i 5.9e6 for this ring; the cladding text (3 um LTO,
+      1150-1200 C anneal) and the foundry-film note were not stated for it (cladding only if stated)'
+  cmp_lit_xuan2016_ring_t800_w5:
+    cladding: ''
+    notes: '800 nm film ring of p.9 Sec. 5 (not a Table 1 entry): only film thickness, ring width and radius are printed; film source,
+      cladding and annealing are not stated for these rings (Table 1 lists process variations, its default is the foundry film).
+      Fab Purdue: first-person account of the process (''the process steps and variations we have attempted'', ''we follow the
+      procedure in Ref. [34] and performed high-temperature annealing'', p.2-3); all authors at Purdue (School of ECE and Birck
+      Nanotechnology Center; one author also at Universidad Tecnologica de Pereira) -> org_purdue_university. Birck Nanotechnology
+      Center is named only for the Purdue-grown films (p.2): facility only on the purdue_film row.'
+    why: 'p.9 Sec. 5 prints only 800 nm film, 5 um width, 100 um radius and Q_i 7.7e6 for this ring; cladding / anneal not stated
+      for it (cladding only if stated)'
+  cmp_lit_xuan2016_ring_t750_w2_pieces:
+    core_material: 'LPCVD stoichiometric Si3N4 750 nm, 2 um wide (film source not stated: Table 1 default is the foundry film, but
+      the Birck furnace also grew films on cleaved wafer pieces, p.2)'
+    why: 'p.2: the Purdue ProTemp furnace grew films on patterned 4 inch wafers and cleaved wafer pieces, Noel on patterned 4 inch
+      wafers; Table 1 ''Fabricated on wafer pieces'' does not say where the 750 nm film was grown, so ''(foundry film)'' is not
+      stated; facility left empty (ambiguous)'
+  cmp_lit_xuan2016_edge_coupler:
+    core_material: 'LPCVD stoichiometric Si3N4 600 nm (foundry-grown film, Noel Technologies), inverse nanotaper (tip width and taper
+      length not stated), HSQ / EBL, CHF3/O2 ICP etch'
+    why: 'p.4 Sec. 3 / Fig. 4: the coupler is an inverse nanotaper; the copied ''3 um wide'' is the resonator waveguide width, not a
+      coupler dimension'
+  cmp_lit_nedeljkovic2014_rib_wg:
+    notes: 'Waveguide of the modulators. Not entered (D259 / D80i): ''Waveguides with these dimensions, characterized using the
+      cut-back method, showed a propagation loss of 3.5 dB/cm'' (p.1 Sec. II) sits in the design section directly after ''In [4] we
+      showed that MMIs fabricated according to the same design and using the same fabrication process exhibited ...''; the paper
+      describes no cutback structure or measurement on this chip, and its only other loss statement (1.5 dB/cm for W = 1350 nm,
+      p.3 / p.4) is ''previously shown'' in ref. [4]. 1.5 dB/cm and the MMI 0.10 +/- 0.01 dB: cited (rule 3). Fab: ''Chip fabrication
+      was carried out at the Southampton Nanofabricaton Centre [sic], University of Southampton'' (p.2 Sec. III); all authors at the
+      Optoelectronics Research Centre, University of Southampton -> org_university_of_southampton (bucio2017 precedent). The
+      Southampton Nanofabrication Centre is not in the registry (reported as a missing facility). EBL + ICP Si etch, PECVD SiO2,
+      sputtered Al patterned by contact lithography and ICP metal etch (p.2).'
+    why: 'metric m1 deleted (D259 / D80i, audit Q3); the 3.5 dB/cm sentence is the design-section restatement of the authors'' ref. [4]
+      characterization, not a measurement on this chip'
+metrics:
+  cmp_lit_xuan2016_resonator_a-m7:
+    band: c_band
+    wavelength_inferred: 'true'
+    notes: 'TM resonance wavelength not stated; C band inferred from the paper''s scans of resonator A at 1553-1565 nm (rule 8)'
+    why: 'p.7 Sec. 3: no wavelength printed with the TM FSRs; rule 8 (band inferred), as on m25 / m26'
+  cmp_lit_xuan2016_resonator_a-m8:
+    band: c_band
+    wavelength_inferred: 'true'
+    notes: 'TM resonance wavelength not stated; C band inferred from the paper''s scans of resonator A at 1553-1565 nm (rule 8)'
+    why: 'p.7 Sec. 3: rule 8'
+  cmp_lit_xuan2016_resonator_a-m9:
+    band: c_band
+    wavelength_inferred: 'true'
+    notes: 'TM resonance wavelength not stated; C band inferred from the paper''s scans of resonator A at 1553-1565 nm (rule 8)'
+    why: 'p.7 Sec. 3: rule 8'
+  cmp_lit_xuan2016_resonator_a-m27:
+    band: c_band
+    wavelength_inferred: 'true'
+    notes: 'printed ''on-resonance attenuation of 3.9 dB'' for the highest-loaded-Q TM resonance; wavelength not stated, C band
+      inferred as for m25 (rule 8)'
+    why: 'p.7 Sec. 3: rule 8, same resonance as m25 / m26 which carry the inferred band'
+  cmp_lit_xuan2016_resonator_b_comb-m1:
+    band: c_band
+    wavelength_inferred: 'true'
+    notes: 'pump wavelength not printed; the Fig. 11 spectra span 1520-1600 nm (inset 1562-1576 nm); C band inferred (rule 8)'
+    why: 'p.8 Sec. 4 / Fig. 11: no wavelength or band on the row; rule 8'
+  cmp_lit_xuan2016_ring_t800_w3-m1:
+    notes: 'p.9 Sec. 5 prints an intrinsic Q of 5.9 x 10^6 for a 3 um wide, 100 um radius ring in 800 nm film (not a Table 1 entry);
+      extraction regime and wavelength not stated (D403 -> author_estimate); C band inferred from the paper''s TE scans at 1553-1565 nm.'
+    why: 'p.9 Sec. 5: the copied note said ''Table 1 highest observed intrinsic Q''; the value is from the p.9 text'
+  cmp_lit_xuan2016_ring_t800_w5-m1:
+    notes: 'p.9 Sec. 5 prints an intrinsic Q of 7.7 x 10^6 for a 5 um wide, 100 um radius ring in 800 nm film (not a Table 1 entry);
+      extraction regime and wavelength not stated (D403 -> author_estimate); C band inferred from the paper''s TE scans at 1553-1565 nm.'
+    why: 'p.9 Sec. 5: the copied note said ''Table 1 highest observed intrinsic Q''; the value is from the p.9 text'
+  cmp_lit_xuan2016_resonator_a-m30:
+    basis: derived
+    notes: 'printed ''3 um wide'' (Table 1) / ''3 um x 600 nm'' (p.3-4); um -> nm (D157)'
+    why: 'D157 / D256: unit rescale of a printed dimension; 3000 nm is not printed anywhere'
+  cmp_lit_xuan2016_ring_r100_w3-m3:
+    basis: derived
+    notes: 'printed ''3 um wide'' (Table 1); um -> nm (D157)'
+    why: 'D157 / D256: unit rescale'
+  cmp_lit_xuan2016_racetrack_no_upper_clad-m3:
+    basis: derived
+    notes: 'printed ''3 um wide'' (Table 1); um -> nm (D157)'
+    why: 'D157 / D256: unit rescale'
+  cmp_lit_xuan2016_ring_t300_unannealed-m2:
+    basis: derived
+    notes: 'printed ''0.3 um thick'' (Table 1) and ''0.3 um x 3 um'' (p.3); um -> nm (D157)'
+    why: 'D157 / D256: unit rescale; 300 nm is not printed for this film'
+  cmp_lit_xuan2016_ring_t300_unannealed-m3:
+    basis: derived
+    notes: 'printed ''3 um wide'' (Table 1; p.3 ''0.3 um x 3 um''); um -> nm (D157)'
+    why: 'D157 / D256: unit rescale'
+  cmp_lit_xuan2016_ring_t750_w2_pieces-m2:
+    basis: derived
+    notes: 'printed ''0.75 um thick'' (Table 1); um -> nm (D157)'
+    why: 'D157 / D256: unit rescale (the p.9 ''750 nm or larger'' is a general statement, not this film)'
+  cmp_lit_xuan2016_ring_t750_w2_pieces-m3:
+    basis: derived
+    notes: 'printed ''2 um wide'' (Table 1); um -> nm (D157)'
+    why: 'D157 / D256: unit rescale'
+  cmp_lit_xuan2016_ring_r100_w5_purdue_film-m3:
+    basis: derived
+    notes: 'printed ''5 um wide'' (Table 1; p.2 ''0.6 um x 5 um''); um -> nm (D157)'
+    why: 'D157 / D256: unit rescale'
+  cmp_lit_xuan2016_ring_t800_w3-m3:
+    basis: derived
+    notes: 'printed ''ring width of 3 um'' (p.9); um -> nm (D157)'
+    why: 'D157 / D256: unit rescale'
+  cmp_lit_xuan2016_ring_t800_w5-m3:
+    basis: derived
+    notes: 'printed ''ring width of 5 um'' (p.9); um -> nm (D157)'
+    why: 'D157 / D256: unit rescale'
+  cmp_lit_nedeljkovic2014_straight_w10_l2250-m4:
+    basis: derived
+    notes: 'printed ''LH = 2.25 mm'' (p.3; Fig. 8 caption ''2.25 mm long heaters''); mm -> um (D157)'
+    why: 'D157 / D256: unit rescale of a printed dimension'
+  cmp_lit_nedeljkovic2014_straight_w10_l3000-m3:
+    basis: derived
+    notes: 'printed ''3.0 mm'' (p.3); mm -> um (D157)'
+    why: 'D157 / D256: unit rescale'
+  cmp_lit_nedeljkovic2014_straight_w15_l2250-m3:
+    basis: derived
+    notes: 'printed ''2.25 mm'' (p.3); mm -> um (D157)'
+    why: 'D157 / D256: unit rescale'
+  cmp_lit_nedeljkovic2014_straight_w15_l3000-m3:
+    basis: derived
+    notes: 'printed ''3.0 mm'' (p.3); mm -> um (D157)'
+    why: 'D157 / D256: unit rescale'
+  cmp_lit_nedeljkovic2014_spiral_r27p5_n2-m3:
+    basis: derived
+    notes: 'printed ''spiral length of 1.77 mm'' (p.3, Fig. 6 caption); mm -> um (D157)'
+    why: 'D157 / D256: unit rescale'
+  cmp_lit_espinola2003_mzi_switch-m4:
+    basis: derived
+    notes: 'printed ''0.6-um single-mode waveguide'' (p.1; Fig. 1 label 0.6 um); um -> nm (D157)'
+    why: 'D157 / D256: unit rescale; 600 nm is not printed'
+  cmp_lit_espinola2003_heater_ps-m8:
+    basis: derived
+    notes: 'printed ''0.1-um-thick Cr-Au (20 nm/80 nm)'' (p.1; Fig. 1 label 0.1 um); um -> nm (D157)'
+    why: 'D157 / D256: unit rescale (100 nm only as the 20 + 80 nm sum, not printed)'
+  cmp_lit_espinola2003_heater_ps-m11:
+    basis: derived
+    notes: 'printed 0.6 um (p.1; Fig. 1); um -> nm (D157)'
+    why: 'D157 / D256: unit rescale'
+  cmp_lit_espinola2003_heater_ps-m12:
+    basis: derived
+    notes: 'printed ''0.26-um-thick silicon top layer'' (p.1; Fig. 1 label 0.26 um); um -> nm (D157)'
+    why: 'D157 / D256: unit rescale'
+  cmp_lit_espinola2003_si_strip_wg-m2:
+    basis: derived
+    notes: 'printed 0.6 um (p.1; Fig. 1); um -> nm (D157)'
+    why: 'D157 / D256: unit rescale'
+  cmp_lit_espinola2003_si_strip_wg-m3:
+    basis: derived
+    notes: 'printed ''0.26-um-thick silicon top layer'' (p.1); um -> nm (D157)'
+    why: 'D157 / D256: unit rescale'
+  cmp_lit_espinola2003_si_strip_wg-m4:
+    basis: derived
+    notes: 'printed ''etch the unmasked top silicon layer to a depth of 0.26 um'' (p.1, full etch); um -> nm (D157)'
+    why: 'D157 / D256: unit rescale'
+  cmp_lit_espinola2003_heater_ps-m1:
+    notes: 'printed ''switching power was measured to be 50 mW'' (p.2; abstract). Fig. 3 sin^2 fits read about 60 mW for TE (maximum
+      near 0.092 W to minimum near 0.152 W) and about 55 mW for TM (minimum near 0.047 W to maximum near 0.100 W) per half period
+      (+/-5 mW); printed value kept (D417)'
+    why: 'p.2 Fig. 3 render: the plotted half periods are larger than the printed 50 mW; conflict noted, value unchanged'
+delete_metrics:
+  - id: cmp_lit_nedeljkovic2014_rib_wg-m1
+    why: 'p.1 Sec. II: the 3.5 dB/cm cut-back value is stated in the design section right after ''In [4] we showed that MMIs fabricated
+      according to the same design and using the same fabrication process ...''; no cutback structure or measurement on this chip
+      is described, and the conclusion attributes the waveguide-loss data to ref. [4] (''previously been shown''); D259 / D80i (values
+      the authors restate from their own earlier paper are removed); value kept in the component notes (audit Q3)'
+add_metrics:
+  - metric_id: cmp_lit_xuan2016_resonator_a-m36
+    component_id: cmp_lit_xuan2016_resonator_a
+    parameter: linewidth_mhz
+    value: '23'
+    unit: MHz
+    qualifier: approx
+    wavelength_nm: '1553.8958'
+    polarization: te
+    mode: TE00
+    condition: 'loaded resonance full width, Lorentzian fit (critically coupled resonance)'
+    method: direct
+    basis: measured
+    locator: 'p.5 Fig. 5(b)'
+    notes: 'figure label ''~23 MHz''; consistent with Q_L 8.33e6 (m10)'
+    why: 'miss: p.5 Fig. 5(b) labels the fitted width; resonator_b-m2 enters the same kind of label (~24 MHz)'
+  - metric_id: cmp_lit_xuan2016_resonator_a-m37
+    component_id: cmp_lit_xuan2016_resonator_a
+    parameter: linewidth_mhz
+    value: '14'
+    unit: MHz
+    qualifier: approx
+    wavelength_nm: '1556.6858'
+    polarization: te
+    mode: TE00
+    condition: 'loaded resonance full width, Lorentzian fit (under-coupled resonance)'
+    method: direct
+    basis: measured
+    locator: 'p.6 Fig. 7(a)'
+    notes: 'figure label ''~14 MHz''; consistent with Q_L 13.9e6 (m13)'
+    why: 'miss: p.6 Fig. 7(a) labels the fitted width'
+  - metric_id: cmp_lit_xuan2016_resonator_a-m38
+    component_id: cmp_lit_xuan2016_resonator_a
+    parameter: linewidth_mhz
+    value: '28'
+    unit: MHz
+    qualifier: approx
+    wavelength_nm: '1553.697'
+    polarization: te
+    mode: TE00
+    condition: 'loaded resonance full width, Lorentzian fit (near-critical resonance)'
+    method: direct
+    basis: measured
+    locator: 'p.6 Fig. 7(b)'
+    notes: 'figure label ''~28 MHz''; consistent with Q_L 6.9e6 (m16)'
+    why: 'miss: p.6 Fig. 7(b) labels the fitted width'

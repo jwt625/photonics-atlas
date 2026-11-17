@@ -1,0 +1,51 @@
+# Audit patch lit_167 (fresh-context audit 2026-11-16, DevLog/audits/2026-11-16-lit_167-audit.md).
+# 47 metrics: 44 ok / 3 imprecise / 0 wrong; 9 components: 8 ok / 1 imprecise / 0 wrong; 0 deleted; 0 misses added.
+# After the patch: 9 components, 47 metrics.
+# Coordinator rulings asked (audit Q1-Q6): Q1 catalalahoz2026a foundry-specification rows kept (no op; benchmark basis filter
+# drops `specification`); Q2 TBU reclassed switch_fabric.mzi_mesh (D158; patched here, revert = drop that op); Q3 Vernier rows
+# identified by Table 1 ring lengths (no op); Q4 zheng2024 fab empty (no op, wang2024c precedent); Q5 process_name 'PLACE' kept,
+# follow-up sweep on merged PLACE rows; Q6 zheng2024 3.1 dB author_estimate, modulator values and 3 kHz out (no op).
+components:
+  cmp_lit_catalalahoz2026a_tbu:
+    class: switch_fabric.mzi_mesh
+    notes: 'Unit cell of the fabricated non-uniform programmable hexagonal waveguide mesh: 21 TBUs in a flattened four-cell hexagonal
+      layout, two cells split by an internal TBU into defect cells (one hexagon into two 4-MZI cells, one into 3- and 5-MZI cells),
+      24 edge couplers with alignment loops, 42 DC channels wire-bonded to a PCB, chip 2.8 x 4.3 mm2 incl. pads and edge couplers (p.5,
+      p.10; Fig. 3(b) labels 3.9 mm x 2.1 mm for the imaged area). No separate mesh row: the paper prints no mesh-level performance
+      value (geometry-only, rule 9); the circuits programmed on it are the three Vernier rows. TBUs not perfectly balanced (fabrication
+      deviations); each TBU calibrated with a polynomial theta(I) fit (p.6, Supp. Note 4). Class switch_fabric.mzi_mesh (D158: a cell
+      characterized as part of a mesh): both performance values come from TBUs inside the fabricated mesh (0.48 dB ''per MZI'' of the
+      mesh rings, p.7 / p.10; Supp. Fig. 16 MZI ''PUC 21 - PS 34'' characterized in place, p.21-23), not from a stand-alone test cell
+      (the catalalahoz2026 nv_puc row, switch_fabric.other, is a separate test structure; ribeiro2016 mzi_cell precedent). MMI and heater
+      are rows cmp_lit_catalalahoz2026a_mmi and cmp_lit_catalalahoz2026a_heater_ps. Fab: ''fabricated by Advanced Micro Foundry using
+      a standard silicon on insulator process'' (p.10 Sec. 6.1; also p.5 ''silicon on insulator platform from Advanced Micro Foundry'')
+      -> org_amf; process_name empty (no named PDK or node, printed wording only). No facility acknowledged. Same group as lit:catalalahoz2026
+      (non-volatile Si-BTO FPPGA, CEA-Leti / Lumiphase chip); this paper''s chip is a different, AMF-fabricated thermo-optic SOI mesh,
+      so no component or value is shared with the 11 merged catalalahoz2026 rows. Not entered: ~0.08 dB per TBU and ~100 um TBU projections
+      (cited refs. 45, 46, p.10).'
+    why: 'D158: mzi_mesh for ''a cell characterized as part of one''; both TBU values (p.7 / p.10 0.48 dB per MZI of the mesh; p.23
+      Supp. Fig. 16 PUC 21 measured in place, p.21 Supp. Note 4) are in-mesh characterizations, not a stand-alone 2x2 test element;
+      the distiller''s catalalahoz2026 nv_puc precedent is a separate test structure (test_structure true); ribeiro2016 mzi_cell precedent'
+metrics:
+  cmp_lit_catalalahoz2026a_tbu-m1:
+    notes: 'Printed ''total losses per MZI are approximately 0.48 dB'' (p.7; ''about 0.48 dB per TBU'', p.10), with the implied ring
+      loss factor alpha = 0.85 for a hexagonal ring; how the value was obtained is not stated (origin not stated). Consistency check:
+      six TBUs x 0.48 dB per hexagonal round trip give a half-round-trip field factor 10^(-1.44/20) = 0.847, the Table 1 alpha of the
+      5.4 mm ring (0.8478), so the number is the loss figure of the ring model used for Fig. 5 / Table 1. Wavelength not printed with
+      the value: the ring spectra come from the tunable-laser set-up (p.6, p.11; frequency axes normalized); 1550 nm inferred as the
+      only wavelength the paper states for this chip (foundry specifications p.5, MZI calibration laser p.10 / p.21).'
+    why: 'p.7 Sec. 4 / p.9 Table 1: the 0.48 dB belongs to the ring-spectrum model (6 x 0.48 dB reproduces alpha 0.8478); the note tied
+      the inferred 1550 nm to the fixed-laser MZI calibration, which is not the measurement behind this value'
+  cmp_lit_catalalahoz2026a_edge_coupler-m1:
+    notes: 'Printed ''a 7 dB loss is measured for the loop ports''. Wavelength not printed with the value: the loop loss comes from
+      the fiber-array alignment of the spectral set-up (tunable laser + component tester, p.11 Sec. 6.2, p.24 Supp. Note 5), whose wavelength
+      is not stated (frequency axes normalized); 1550 nm inferred as the only wavelength the paper states for this chip (foundry specifications
+      p.5, MZI calibration laser p.10 / p.21).'
+    why: 'p.11 Sec. 6.2 / p.24 Supp. Note 5: the loop loss is measured during fiber-array alignment in the tunable-laser spectral set-up,
+      not with the fixed 1550 nm calibration laser the note cited; value and inferred 1550 nm kept'
+  cmp_lit_catalalahoz2026a_edge_coupler-m2:
+    notes: 'Printed ''3.5 dB loss per input'', i.e. 7 dB / 2 as stated by the authors (halving: derived). Wavelength not printed with
+      the value: the loop loss comes from the fiber-array alignment of the spectral set-up (tunable laser + component tester, p.11 Sec.
+      6.2, p.24 Supp. Note 5), whose wavelength is not stated (frequency axes normalized); 1550 nm inferred as the only wavelength the
+      paper states for this chip (foundry specifications p.5, MZI calibration laser p.10 / p.21).'
+    why: 'p.11 Sec. 6.2 / p.24 Supp. Note 5: same note fix as edge_coupler-m1'

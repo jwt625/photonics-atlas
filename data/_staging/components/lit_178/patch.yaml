@@ -1,0 +1,67 @@
+# Audit patch lit_178 (fresh-context audit 2026-11-16, DevLog/audits/2026-11-16-lit_178-audit.md).
+# 81 metrics: 74 ok / 7 imprecise / 0 wrong; 9 components: 8 ok / 1 imprecise / 0 wrong; 0 deleted; 1 miss added.
+# After the patch: 9 components, 82 metrics.
+# Coordinator rulings asked (audit Q1-Q5): Q1 sacher2014b demux fab org_astar_ime kept (no op); Q2 sacher2014b process_name
+# empty, sacher2014a unchanged (no op); Q3 chang2023 process_name to the printed form (patched, revert = restore the long form);
+# Q4 li2013a fiber_angle_deg 10 from the measurement tilt (added, revert = drop the add); Q5 sacher2014b back-reflection basis
+# derived (patched, revert = author_estimate).
+components:
+  cmp_lit_chang2023_pol_tracker:
+    process_name: GlobalFoundries 90WG Technology
+    why: 'Contract v7 process_name as printed: p.5 Sec. III prints "GlobalFoundries 90WG Technology" (FSM standard cells); p.9
+      acknowledgment "90WG university program" stays in notes; the parenthetical "(90 nm SOI CMOS-photonic process)" was a
+      composed paraphrase'
+metrics:
+  cmp_lit_sacher2014b_dual_level_gc-m5:
+    basis: derived
+    notes: 'Printed worst-case on-chip reflectivity of a single GC -16 dB over the 1-dB bandwidth (sign as printed), calculated
+      by the authors from the Fabry-Perot ripple of their own two-GC spectrum with the method of ref. [5], assuming all
+      reflections are GC back-reflections; the assumption makes the number a conservative bound (ge), not an assumed input, so
+      derived (same method and ruling as merged cmp_lit_li2013_nonuniform_gc-m4, the paper of ref. [5]). Band edges read off
+      the Fig. 6 1-dB arrow (about 1496-1576 nm, +/- 2 nm), hence wavelength_inferred.'
+    why: 'p.8 Sec. 2.2: bound computed from own measured ripple with a pessimistic attribution (rule 4 derived; li2013 m4
+      precedent for the identical ref. [5] method); author_estimate is for assumed / nominal / cited inputs'
+  cmp_lit_sacher2014b_mrr_demux_1x4-m1:
+    wavelength_nm: '1510'
+    wavelength_max_nm: '1550'
+    condition: microring FSR over the 1510-1550 nm measurement span
+    why: 'p.10 Sec. 3, Fig. 8(a): thru-port spectra measured from 1510 to 1550 nm (stated span); rule 8, consistent with m3 / m4 / m7'
+  cmp_lit_sacher2014b_mrr_demux_1x4-m2:
+    wavelength_nm: '1510'
+    wavelength_max_nm: '1550'
+    why: 'p.10 Sec. 3, Fig. 8(a): channel grid over the stated 1510-1550 nm span (rule 8)'
+  cmp_lit_sacher2014b_mrr_demux_1x4-m6:
+    wavelength_nm: '1510'
+    wavelength_max_nm: '1550'
+    why: 'p.10 Sec. 3: "Over a wavelength range between 1510 and 1550 nm ... the 3-dB bandwidths ... were about 0.5 nm" (same
+      sentence as the q_loaded row m7, which carries the span)'
+  cmp_lit_chang2023_pol_tracker-m1:
+    locator: p.5, p.7 Sec. IV; p.6 Fig. 7(a)
+    notes: 'Printed: CW output maintained within -17 +/- 0.5 dBm with tracking on (sentence runs from p.5 to p.7; Fig. 7 is on
+      p.6); compensated output-power range entered as pdl_db (velha2016 precedent). Fiber-referred output including both edge
+      couplers. Fig. 7(a) plots the tracking-on points near -16 dBm (reading +/- 0.5 dB); printed level kept in the condition
+      (D417).'
+    why: 'locator: the -17 +/- 0.5 dBm sentence ends on p.7 and Fig. 7 is on p.6; figure level differs from the printed level by
+      about 1 dB (note only)'
+  cmp_lit_chang2023_pol_tracker-m2:
+    locator: p.7 Sec. IV; p.6 Fig. 7(c)
+    why: 'Fig. 7 is on p.6, the text on p.7'
+  cmp_lit_chang2023_pol_tracker-m3:
+    locator: p.9 Sec. IV; p.8 Fig. 10(b)
+    condition: longest stabilization time from 13 random initial SOPs to the maximized output power; Fig. 10(a) testbench with
+      the Newport TLM-8700 O-band laser (1310 nm is stated for the Fig. 6(c) testbench, p.5) and 100 MHz clock
+    why: 'Fig. 10 is on p.8; the Fig. 10(a) testbench names the O-band laser model but no wavelength (1310 nm is printed for the
+      p.5 testbench only)'
+add_metrics:
+  - metric_id: cmp_lit_li2013a_double_etch_gc-m22
+    component_id: cmp_lit_li2013a_double_etch_gc
+    parameter: fiber_angle_deg
+    value: '10'
+    unit: deg
+    condition: cleaved SMF tilt used in the measurement; the design angle theta is not printed
+    basis: design_target
+    locator: p.6 Sec. 4
+    notes: 'Printed "cleaved single mode fibers tilted at 10 deg" (p.6). Measurement angle entered as fiber_angle_deg design_target
+      as in merged arafat2024 gc_2um-m12 / aamer2012 te_focusing_gc-m5 (D153 geometry for the layout views).'
+    why: 'miss: p.6 Sec. 4 prints the 10 deg fiber tilt; merged precedents enter the measurement tilt as fiber_angle_deg when no
+      design angle is printed'

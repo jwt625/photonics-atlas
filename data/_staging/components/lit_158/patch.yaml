@@ -1,0 +1,64 @@
+# Audit patch lit_158 (fresh-context audit 2026-11-16, DevLog/audits/2026-11-16-lit_158-audit.md).
+# 58 metrics: 54 ok / 4 imprecise / 0 wrong (+2 note syncs); 9 components: 8 ok / 1 imprecise (note) / 0 wrong;
+# 0 deleted; 0 misses added. After the patch: 9 components, 58 metrics.
+# Coordinator rulings asked (audit Q1-Q6): Q1 lorenzen2025 stays at 0 rows (every device and value covered by
+# lit:lorenzen2026; version link outside this patch); Q2 timurdogan2017 DC Kerr MZI stays out (EO-atlas candidate),
+# fab and process_name stay empty (no op); Q3 yang2010a 14.4 dB / 4.1 cm kept as printed with the Fig. 2 conflict in
+# notes (component + m1 / m3 ops; to drop the flag, drop those three ops); Q4 yang2010a "additional" channel losses
+# stay out (no op); Q5 kasture2016 eta_norm stays author_estimate (notes only); Q6 xiong2011 inset geometry kept (no op).
+components:
+  cmp_lit_yang2010a_nd113_4p1cm:
+    notes: 'Internal net gain gamma = 10 log10(Ip / Iu) / l - alpha (Eq. (1), p.4): pumped / unpumped signal ratio minus the
+      background propagation and Nd absorption loss, so coupling losses drop out; basis derived (D166). Pump 802 nm (Ti:sapphire),
+      launched 45 mW, small signal typically 1-10 uW, free-space objective coupling (p.3-4). Broadest net-gain bandwidth 865-930
+      nm is stated across Fig. 4(b) and 4(c), several samples, not tied to one device (D159). Additional channel propagation
+      losses 0.6 / 0.3 / 0.15 dB/cm at 880 / 1064 / 1330 nm (p.3, CCD scattered-light method) not entered: ''additional''
+      leaves open whether they are the full channel loss or an excess over the slab loss, and the sample is not named. Nd
+      lifetime 325 us, cross sections and ETU parameters have no registry parameter. Table 2 lists ''thickness 2.0 um, width
+      0.6 um'', swapped against the text (600 nm layer, 2.0 um channel width, p.2): text values entered. Fab empty: passive
+      fabrication sentences, all authors University of Twente (D80b); no facility named. Sample identity conflict (D417, printed
+      values kept): the 1.13e20 length set is printed as 0.95, 1.30, 3.00 and 4.25 cm (p.6, Fig. 4(b) text), and the longest
+      1.13e20 points in Fig. 2(b-c) sit at about 4.25 cm; at 1064 nm that point reads about 15.0 dB, while the 14.4 dB of
+      the text matches the 1.68e20 point at about 4.1 cm (render, +/-0.2 dB, +/-0.05 cm). The 1330 nm 5.1 dB matches the 1.13e20
+      point.'
+    why: p.6 prints the 1.13e20 lengths 0.95 / 1.30 / 3.00 / 4.25 cm and the p.4 Fig. 2(b-c) render puts the longest 1.13e20
+      points at about 4.25 cm, with about 15.0 dB at 1064 nm; the 14.4 dB the text ties to 1.13e20 / 4.1 cm matches the 1.68e20
+      point at about 4.1 cm (coordinator Q3)
+metrics:
+  cmp_lit_yang2010a_nd113_4p1cm-m1:
+    notes: 'Printed maximum gain at 1064 nm (Nd:YAG signal), tied to 1.13e20 and 4.1 cm in Sec. 3.2 (p.4) and repeated in
+      the abstract and the conclusion. Fig. 2(b) render: the longest 1.13e20 point (circle) sits at about 4.25 cm and reads
+      about 15.0 dB, while the 1.68e20 point (triangle) at about 4.1 cm reads about 14.4 dB (+/-0.2 dB, +/-0.05 cm). Printed
+      value kept on the printed sample (D417); see component notes.'
+    why: 'p.4 Fig. 2(b) render (zoomed): circle at about 4.25 cm / 15.0 dB, triangle at about 4.1 cm / 14.4 dB; the note did
+      not record the conflict (coordinator Q3)'
+  cmp_lit_yang2010a_nd113_4p1cm-m2:
+    notes: 'Printed maximum gain at 1330 nm (emission cross section there 75 % of its 1340 nm peak, p.4). Fig. 2(c) render:
+      the longest 1.13e20 point (circle, about 4.25 cm) reads about 5.1 dB, consistent with the printed value.'
+    why: 'note sync: p.4 Fig. 2(c) render checked (circle at about 4.25 cm, about 5.08 dB)'
+  cmp_lit_yang2010a_nd113_4p1cm-m3:
+    notes: 'Printed 4.1 cm (D157) in the sentence that ties 14.4 / 5.1 dB to 1.13e20 (p.4 Sec. 3.2). The 1.13e20 sample lengths
+      are printed as 0.95, 1.30, 3.00 and 4.25 cm on p.6 (Fig. 4(b); text names 1.03e20, caption 1.13e20), and the longest
+      1.13e20 points of Fig. 2(b-c) sit at about 4.25 cm (+/-0.05 cm): printed 4.1 cm kept (D417).'
+    why: p.6 Sec. 3.3 prints 4.25 cm as the longest 1.13e20 sample and p.4 Fig. 2(b-c) plots the 1.13e20 points there; the
+      note did not record it (coordinator Q3)
+  cmp_lit_yang2010a_nd168_short-m3:
+    notes: 'Printed 1.4 cm in the abstract (D157); Sec. 3.2 gives the short 1064 / 1330 nm lengths as 1.30-1.65 cm. Fig. 2(b-c)
+      render: the first 1.68e20 point sits at about 1.40 cm and reads about 8.8 dB (1064 nm) and 2.7 dB (1330 nm), i.e. about
+      6.3 and 1.93 dB/cm, consistent with the 1.4 cm sample.'
+    why: 'note sync: p.4 Fig. 2(b-c) render ties the 6.3 / 1.93 dB/cm values to a sample at about 1.40 cm'
+  cmp_lit_kasture2016_rpe_ppln_sfg_dfg-m1:
+    notes: 'Rests on the 4.9 mm interaction length inferred from the SFG FWHM (not the 3 cm device length) and on internal
+      powers corrected for pump coupling, optics losses and Fresnel facet reflectances (17 % UV, 15 % pump) of unstated origin
+      (rule 4). The paper does not state the powers or temperature behind eta_norm; audit arithmetic on Fig. 4(a): the 135
+      C internal SFG point at full pump (about 850 nW, 1 mW coupled IR, 15.5 mW coupled pump) gives about 22.8 %/W/cm2 (the
+      fit line about 22.3), the 95 C internal point about 11 %/W/cm2 and the 135 C external point at most about 19 %/W/cm2,
+      so the printed value corresponds to internal powers at 135 C (inference, not a condition). Signal wavelength in wavelength_nm.'
+    why: 'p.4 Fig. 4(a) render and Eq. (3): the printed 22.4 %/W/cm2 is reproduced only by the 135 C internal curve with 15.5
+      mW coupled pump; the note said internal vs external was undetermined'
+  cmp_lit_kasture2016_rpe_ppln_sfg_dfg-m2:
+    notes: 'Same basis caveat as the SFG row (FWHM-inferred 4.9 mm interaction length, internal powers with corrections of
+      unstated origin). DFG was measured at 135 C only (p.4). Audit arithmetic on Fig. 4(b): about 1.35 nW IR from 30 uW coupled
+      UV at 15.5 mW coupled pump gives about 1.2 %/W/cm2, consistent with the printed value. Signal wavelength in wavelength_nm.'
+    why: 'p.4 Fig. 4(b) render and Eq. (3): printed 1.2 %/W/cm2 reproduced with the coupled pump (15.5 mW); note sync for
+      the internal-power basis'

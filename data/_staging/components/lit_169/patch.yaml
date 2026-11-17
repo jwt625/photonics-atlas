@@ -1,0 +1,35 @@
+# Audit patch lit_169 (fresh-context audit 2026-11-16, DevLog/audits/2026-11-16-lit_169-audit.md).
+# 39 metrics: 36 ok / 3 imprecise / 0 wrong; 12 components: 11 ok / 1 imprecise / 0 wrong; 0 deleted;
+# 1 miss added (liu2021b lens aperture area from the printed 30 um diameter). After the patch: 12 components, 40 metrics.
+# Coordinator rulings asked (audit Q1-Q6): Q1 zhang2025g in scope as phase_shifter.other with the simulated IL bound kept
+# (no op beyond the note); Q2 Henry Royce Institute as a borderline facility in the org round (no op here); Q3 zhou2022c /
+# liu2021b design rows in scope (no op); Q4 zhang2023f fab stays empty (no op); Q5 4.35 / 4.15 kHz kept on two rows (no op);
+# Q6 ring Q author_estimate and no PD row (no op).
+components:
+  cmp_lit_liu2021b_metalens_square_pillars:
+    notes: "Design only (RCWA meta-atom library, 3D FDTD), no fabrication; in scope as a chip-scale lens for an integrated optical antenna (D411; he2026 class precedent). Authors at C2N; no fab or facility. Platform as printed ('700-nm silicon-on-insulator platform', p.2). Steering and divergence values belong to this square-pillar design (Fig. 1(c)-(e) caption). Not entered (no registry parameter): focal distance 11.0 um to 9.8 um from 1500 to 1600 nm for this design (Fig. 1(h)); focal distance 10 um (no focal-length parameter on free_space_emitter). The 30 um diameter is entered as the circular aperture area (footprint_um2, m6). The achromatic rectangular-pillar design (constant 10 um focal distance over 1500-1600 nm, Fig. 1(g), (h)) has no row: no registry parameter for its only performance value."
+    why: "Cross-reference to the added footprint row m6 (p.1 Sec. II: 'diameter of 30 um'); the note said the diameter had no parameter, but footprint_um2 (classes '*') holds the aperture area as on zhou2022c steerer m7"
+metrics:
+  cmp_lit_zhang2023f_sld-m1:
+    condition: "end of the LI sweep (Fig. 1(e) inset), about 160 mA drive current"
+    notes: "Inset read on a zoomed page render: the trace ends at about 10.7 mW and about 161 mA (axis ticks 0 / 6 / 12 mW, 0 / 75 / 150 mA; the end point sits just right of the 150 mA tick); reading uncertainty about +/-0.3 mW and +/-3 mA. The spectra legend goes to 180 mA, beyond the plotted LI range. Reference plane not stated."
+    why: "p.2 Fig. 1(e) inset: x ticks 0 / 75 / 150 mA at 293.5 / 458.5 / 623.5 px (2.2 px per mA), trace end at x 648 px -> about 161 mA, y 140 px -> 10.69 mW; the 180 mA in condition came from the spectra legend, not the LI curve"
+  cmp_lit_zhang2023f_vernier_tunable_laser-m1:
+    wavelength_nm: '767'
+    wavelength_max_nm: '796'
+    notes: "Text: tunability around 18 nm or close to 10 THz with just two rings. Wavelength span = the Fig. 1(f) lasing peaks of both epitaxial stacks, about 767-796 nm (page render read, +/-0.5 nm); each stack covers 18 nm of it."
+    why: "p.2 Fig. 1(f): the lasing wavelengths are plotted (765-797 nm axis) but the row carried no wavelength fields; rule 8 wants the stated condition on the row"
+  cmp_lit_zhang2025g_lc_metasurface_phase_modulator-m5:
+    notes: "Printed reflectance above 60 % (simulation section p.5; the abstract repeats 'reflectance exceeding 60%'); -10 log10(0.60) = 2.22 dB; arithmetic on a simulated value stays simulated (D83f). Measured reflection is described only qualitatively in the text (p.9-10: 'relatively high', drop at 4-6 V). The measured Fig. 8(c) spectra (page render read, +/-0.02) dip to about 0.11 at 5 V near 1544.8 nm, about 0.08 at 6 V near 1547.7 nm and about 0.30 at 7 V near 1549.8 nm: the simulated bound does not hold for the fabricated device at every drive state."
+    why: "p.9 Fig. 8(c): measured reflectivity curves for 1-10 V fall to about 0.08-0.30 inside the 2 pi band; the note called the measurement qualitative without saying it contradicts the bound at some voltages"
+add_metrics:
+- metric_id: cmp_lit_liu2021b_metalens_square_pillars-m6
+  component_id: cmp_lit_liu2021b_metalens_square_pillars
+  parameter: footprint_um2
+  value: '706.86'
+  unit: um2
+  condition: "circular metalens aperture, diameter 30 um (square-pillar design simulated in Fig. 1(c)-(e))"
+  basis: derived
+  locator: "p.1 Sec. II; p.2 Fig. 1 caption"
+  notes: "Printed diameter 30 um (text p.1 and Fig. 1 caption); area pi x (15 um)^2 = 706.86 um2. Circular aperture from the radial phase profile phi(r) of Eq. (1)."
+  why: "Miss (D153 geometry): printed lens diameter with a registry parameter (footprint_um2, classes '*'); same treatment as the zhou2022c metasurface aperture (steerer m7)"

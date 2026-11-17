@@ -1,0 +1,175 @@
+# Audit patch lit_160 (fresh-context audit 2026-11-16, DevLog/audits/2026-11-16-lit_160-audit.md).
+# 126 metrics: 118 ok / 8 imprecise / 0 wrong; 29 components: 22 ok / 7 imprecise (Q2 facility) / 0 wrong
+# (1 note sync on edbr_8mm_piezo); 0 deleted; no misses added. After the patch: 29 components, 126 metrics.
+# Imprecise: 5 D157 length rescales (4 siddharth2024 grating lengths, wei2023 cavity length), siddharth2024 SIL
+# wavelength re-read (1559 -> 1559.4 nm), siddharth2024 heater tuning conflict note (Fig. 3(c) about 0.37 nm),
+# aflatouni2015 Fig. 4(c) curve is a typical modulator (statistic mean -> typical).
+# Coordinator questions (audit Q1-Q6): Q1 siddharth2024 kappa-unassigned row kept (note op only); Q2 Birck
+# facility dropped on the 7 EPFL-only rows (to keep Birck everywhere, drop those 7 component ops); Q3 OFDR
+# 0.01 / 0.02 dB/cm kept; Q4 wei2023 fab and 7.35 dB author_estimate kept; Q5 tang2021 fab empty and 0.297 nm
+# kept; Q6 aflatouni2015 fab IME + process_name kept, OpSIS to the org round, no OPA row.
+components:
+  cmp_lit_siddharth2024_grating_6p5mm_k0p6:
+    facility_org_ids: org_center_of_micronanotechnology
+    notes: 'Cached copy is arXiv 2306.03184v2 (preprint title ''Hertz-linewidth and frequency-agile photonic integrated extended-DBR
+      lasers'') of the listed Optica paper; values as the preprint reports them (D430 / D433). Mirror of the self-injection-locked
+      E-DBR laser (row edbr_sil_spiral). Not entered: the 10 GHz FWHM reflection bandwidth (p.6): reflector bandwidths are
+      registered in nm only and no wavelength is printed for this grating (registry gap). Fab EPFL only: no actuator is stated
+      for this chip. Fab: author contributions (p.7) name R.N.W. and Z.Q. (EPFL) as device fabricators and A.A. (Purdue) for
+      the integrated actuators; acknowledgments (p.8) place chip fabrication at the EPFL CMi and the Birck Nanotechnology
+      Center at Purdue University (liu2020a precedent). Facility CMi only on this row (audit 2026-11-16): the two printed
+      sites map to the two fabrication steps of the author contributions (EPFL Si3N4 device, Purdue actuators), and no actuator
+      is stated for this chip or part, so Birck follows the Purdue fab assignment and stays on the AlN-actuator chip rows.'
+    why: 'Q2 (D448 / D515 / D463): p.8 acknowledgment names CMi and Birck for ''the chip samples''; p.7 contributions tie
+      Purdue (Birck) to the integrated actuators only; fab here is org_epfl only, so Birck is dropped with Purdue (drop this
+      op to keep Birck on every row)'
+  cmp_lit_siddharth2024_spiral_800mhz:
+    facility_org_ids: org_center_of_micronanotechnology
+    notes: 'Cached copy is arXiv 2306.03184v2 (preprint title ''Hertz-linewidth and frequency-agile photonic integrated extended-DBR
+      lasers'') of the listed Optica paper; values as the preprint reports them (D430 / D433). Subtype other: closed spiral
+      resonator of three Archimedean spirals joined by spline bends (not a ring / racetrack). Kappa_0 histogram in Fig. 4(d)
+      (the caption calls it panel (b); caption letters are shifted by one). Histogram ''Max: 17 MHz'' label not entered (meaning
+      unclear). Number of resonances in the histogram not stated. Fab EPFL only. Fab: author contributions (p.7) name R.N.W.
+      and Z.Q. (EPFL) as device fabricators and A.A. (Purdue) for the integrated actuators; acknowledgments (p.8) place chip
+      fabrication at the EPFL CMi and the Birck Nanotechnology Center at Purdue University (liu2020a precedent). Facility
+      CMi only on this row (audit 2026-11-16): the two printed sites map to the two fabrication steps of the author contributions
+      (EPFL Si3N4 device, Purdue actuators), and no actuator is stated for this chip or part, so Birck follows the Purdue
+      fab assignment and stays on the AlN-actuator chip rows.'
+    why: 'Q2 (D448 / D515 / D463): p.8 acknowledgment names CMi and Birck for ''the chip samples''; p.7 contributions tie
+      Purdue (Birck) to the integrated actuators only; fab here is org_epfl only, so Birck is dropped with Purdue (drop this
+      op to keep Birck on every row)'
+  cmp_lit_siddharth2024_edbr_sil_spiral:
+    facility_org_ids: org_center_of_micronanotechnology
+    notes: 'Cached copy is arXiv 2306.03184v2 (preprint title ''Hertz-linewidth and frequency-agile photonic integrated extended-DBR
+      lasers'') of the listed Optica paper; values as the preprint reports them (D430 / D433). Platform other (hybrid). Locked
+      by tuning the RSOA current within the 10 GHz FWHM grating band. Not entered: frequency-noise reduction by more than
+      20 dB over the whole range and white noise floor below 1.5 Hz2/Hz (no registry parameter); the unlocked intrinsic linewidth
+      of this chip is not printed; p.6 says SIL raises the SMSR from 60 to 65 dB, but the 60 dB unlocked value is the Fig.
+      2(f) 8 mm chip, not this one (not entered here). Fab EPFL only (no actuator stated for this chip). Fab: author contributions
+      (p.7) name R.N.W. and Z.Q. (EPFL) as device fabricators and A.A. (Purdue) for the integrated actuators; acknowledgments
+      (p.8) place chip fabrication at the EPFL CMi and the Birck Nanotechnology Center at Purdue University (liu2020a precedent).
+      Facility CMi only on this row (audit 2026-11-16): the two printed sites map to the two fabrication steps of the author
+      contributions (EPFL Si3N4 device, Purdue actuators), and no actuator is stated for this chip or part, so Birck follows
+      the Purdue fab assignment and stays on the AlN-actuator chip rows.'
+    why: 'Q2 (D448 / D515 / D463): p.8 acknowledgment names CMi and Birck for ''the chip samples''; p.7 contributions tie
+      Purdue (Birck) to the integrated actuators only; fab here is org_epfl only, so Birck is dropped with Purdue (drop this
+      op to keep Birck on every row)'
+  cmp_lit_siddharth2024_edbr_heater:
+    facility_org_ids: org_center_of_micronanotechnology
+    notes: 'Cached copy is arXiv 2306.03184v2 (preprint title ''Hertz-linewidth and frequency-agile photonic integrated extended-DBR
+      lasers'') of the listed Optica paper; values as the preprint reports them (D430 / D433). Separate device from the piezo
+      chip (''The first laser grating is configured with Ti/Pt thermal heaters''; ''For fast frequency modulation, we fabricated
+      a Si3N4 gratings PIC with AlN piezoactuators'', p.5-6). Grating length not stated in Sec. IV; Table S1 (p.13) lists
+      the thermo-optic tuning under ''E-DBR (8 mm)''. Heater offset 2.5 um (no laser heater parameter). Fig. 3(c) spectra
+      lie at about 1548-1549 nm; single longitudinal mode across the range (p.6). Fab EPFL (who made the heaters is not stated).
+      Fab: author contributions (p.7) name R.N.W. and Z.Q. (EPFL) as device fabricators and A.A. (Purdue) for the integrated
+      actuators; acknowledgments (p.8) place chip fabrication at the EPFL CMi and the Birck Nanotechnology Center at Purdue
+      University (liu2020a precedent). Facility CMi only on this row (audit 2026-11-16): the two printed sites map to the
+      two fabrication steps of the author contributions (EPFL Si3N4 device, Purdue actuators), and no actuator is stated for
+      this chip or part, so Birck follows the Purdue fab assignment and stays on the AlN-actuator chip rows.'
+    why: 'Q2 (D448 / D515 / D463): p.8 acknowledgment names CMi and Birck for ''the chip samples''; p.7 contributions tie
+      Purdue (Birck) to the integrated actuators only; fab here is org_epfl only, so Birck is dropped with Purdue (drop this
+      op to keep Birck on every row)'
+  cmp_lit_siddharth2024_rsoa_horn_taper_butt:
+    facility_org_ids: org_center_of_micronanotechnology
+    notes: 'Cached copy is arXiv 2306.03184v2 (preprint title ''Hertz-linewidth and frequency-agile photonic integrated extended-DBR
+      lasers'') of the listed Optica paper; values as the preprint reports them (D430 / D433). Taper angle printed 12.4 deg
+      (p.3) and 12 deg (p.16), chosen to match the RSOA 6.8 deg waveguide angle and 19 deg free-space exit angle; SEM in Fig.
+      S6(c). Fab: taper on the EPFL Si3N4 chip; the coupling itself is an alignment on a 3D piezo stage (no assembly maker
+      named). Fab: author contributions (p.7) name R.N.W. and Z.Q. (EPFL) as device fabricators and A.A. (Purdue) for the
+      integrated actuators; acknowledgments (p.8) place chip fabrication at the EPFL CMi and the Birck Nanotechnology Center
+      at Purdue University (liu2020a precedent). Facility CMi only on this row (audit 2026-11-16): the two printed sites map
+      to the two fabrication steps of the author contributions (EPFL Si3N4 device, Purdue actuators), and no actuator is stated
+      for this chip or part, so Birck follows the Purdue fab assignment and stays on the AlN-actuator chip rows.'
+    why: 'Q2 (D448 / D515 / D463): p.8 acknowledgment names CMi and Birck for ''the chip samples''; p.7 contributions tie
+      Purdue (Birck) to the integrated actuators only; fab here is org_epfl only, so Birck is dropped with Purdue (drop this
+      op to keep Birck on every row)'
+  cmp_lit_siddharth2024_lensed_fiber_inverse_taper:
+    facility_org_ids: org_center_of_micronanotechnology
+    notes: 'Cached copy is arXiv 2306.03184v2 (preprint title ''Hertz-linewidth and frequency-agile photonic integrated extended-DBR
+      lasers'') of the listed Optica paper; values as the preprint reports them (D430 / D433). Fab: author contributions (p.7)
+      name R.N.W. and Z.Q. (EPFL) as device fabricators and A.A. (Purdue) for the integrated actuators; acknowledgments (p.8)
+      place chip fabrication at the EPFL CMi and the Birck Nanotechnology Center at Purdue University (liu2020a precedent).
+      Facility CMi only on this row (audit 2026-11-16): the two printed sites map to the two fabrication steps of the author
+      contributions (EPFL Si3N4 device, Purdue actuators), and no actuator is stated for this chip or part, so Birck follows
+      the Purdue fab assignment and stays on the AlN-actuator chip rows.'
+    why: 'Q2 (D448 / D515 / D463): p.8 acknowledgment names CMi and Birck for ''the chip samples''; p.7 contributions tie
+      Purdue (Birck) to the integrated actuators only; fab here is org_epfl only, so Birck is dropped with Purdue (drop this
+      op to keep Birck on every row)'
+  cmp_lit_siddharth2024_sin_200nm_spiral_wg:
+    facility_org_ids: org_center_of_micronanotechnology
+    notes: 'Cached copy is arXiv 2306.03184v2 (preprint title ''Hertz-linewidth and frequency-agile photonic integrated extended-DBR
+      lasers'') of the listed Optica paper; values as the preprint reports them (D430 / D433). Conflict (D417): the Supp.
+      text prints ''between 1 dB/cm at wavelength around 1600 nm rising to around 2 dB/cm at 1300 nm'', but the Fig. S5(c)
+      axis is Loss (dB/m) (0.5-3) and the main text gives 2.5 dB/m for the spiral resonator (p.6); the rows take the figure''s
+      unit (about 1 and 2 dB/m). Sample printed D116 1 F2 C8 1 in the text and D116_1_F2_C6_1 on the figure. Not entered:
+      normal dispersion 2000 fs/mm (no parameter); simulated metal-induced loss 0.1 dB/m with a 3 um cladding (Fig. S4(b),
+      a partial loss term); simulated bend losses (Fig. S4(a), no single value). Fab: author contributions (p.7) name R.N.W.
+      and Z.Q. (EPFL) as device fabricators and A.A. (Purdue) for the integrated actuators; acknowledgments (p.8) place chip
+      fabrication at the EPFL CMi and the Birck Nanotechnology Center at Purdue University (liu2020a precedent). Facility
+      CMi only on this row (audit 2026-11-16): the two printed sites map to the two fabrication steps of the author contributions
+      (EPFL Si3N4 device, Purdue actuators), and no actuator is stated for this chip or part, so Birck follows the Purdue
+      fab assignment and stays on the AlN-actuator chip rows.'
+    why: 'Q2 (D448 / D515 / D463): p.8 acknowledgment names CMi and Birck for ''the chip samples''; p.7 contributions tie
+      Purdue (Birck) to the integrated actuators only; fab here is org_epfl only, so Birck is dropped with Purdue (drop this
+      op to keep Birck on every row)'
+  cmp_lit_siddharth2024_edbr_8mm_piezo:
+    notes: 'Cached copy is arXiv 2306.03184v2 (preprint title ''Hertz-linewidth and frequency-agile photonic integrated extended-DBR
+      lasers'') of the listed Optica paper; values as the preprint reports them (D430 / D433). Platform other: hybrid III-V
+      RSOA + Si3N4 external cavity (primiani2019 precedent). Chip D116_02_F9_C9 (Fig. 2(a)) carries the AlN actuator. Sec.
+      III / Fig. 2(d), (f) and the Fig. 3(f) piezo-tuning measurements do not state which of the kappa 1 / 0.6 / 0.45 cm-1
+      gratings the measured laser uses, nor that the Sec. III values and the Fig. 3(f) chirps come from one and the same grating
+      of the chip, so this row is the 8 mm piezo E-DBR laser without a kappa assignment; the per-kappa intrinsic linewidths
+      are on the sibling rows edbr_8mm_k1 / edbr_8mm_k0p6 / edbr_8mm_k0p45, one of which may be the same physical device (D159
+      / D165 judgment call, see report). Not entered: intermediate mode hops at 110, 200, 240, 278 and 320 mA; Table S1 (p.13)
+      row for the 8 mm E-DBR (> 25 mW, intrinsic linewidth 1.5 x 10^3 Hz against 2.5 / 3.45 kHz in the text, > 0.5 nm thermo-optic
+      and < 1.5 GHz stress-optic tuning, actuation bandwidth < 0.01 / 10 MHz): summary table that conflicts with the text;
+      chirp RMS nonlinearity 3.04 MHz (0.33 %) at 10 kHz, 5.57 MHz (0.55 %) at 100 kHz, 7.94 MHz (1.09 %) at 500 kHz (Fig.
+      3(f); abstract: < 0.4 % at up to 1 MHz chirp rate), no registry parameter. Fab: author contributions (p.7) name R.N.W.
+      and Z.Q. (EPFL) as device fabricators and A.A. (Purdue) for the integrated actuators; acknowledgments (p.8) place chip
+      fabrication at the EPFL CMi and the Birck Nanotechnology Center at Purdue University (both facilities, liu2020a precedent).'
+    why: 'Q1 note sync: the row may combine values of more than one grating of chip D116_02_F9_C9 (p.3-4, p.6)'
+metrics:
+  cmp_lit_siddharth2024_grating_8mm_k1-m3:
+    basis: derived
+    notes: printed 8 mm (design length); mm -> um (D157)
+    why: 'D157 / D256: the stored um value is never printed; the source prints 8 mm (p.2 Sec. II, Fig. 2(a) / p.6 Sec. V,
+      Fig. 4(a))'
+  cmp_lit_siddharth2024_grating_8mm_k0p6-m3:
+    basis: derived
+    notes: printed 8 mm (design length); mm -> um (D157)
+    why: 'D157 / D256: the stored um value is never printed; the source prints 8 mm (p.2 Sec. II, Fig. 2(a) / p.6 Sec. V,
+      Fig. 4(a))'
+  cmp_lit_siddharth2024_grating_8mm_k0p45-m3:
+    basis: derived
+    notes: printed 8 mm (design length); mm -> um (D157)
+    why: 'D157 / D256: the stored um value is never printed; the source prints 8 mm (p.2 Sec. II, Fig. 2(a) / p.6 Sec. V,
+      Fig. 4(a))'
+  cmp_lit_siddharth2024_grating_6p5mm_k0p6-m2:
+    basis: derived
+    notes: printed 6.5 mm (design length); mm -> um (D157)
+    why: 'D157 / D256: the stored um value is never printed; the source prints 6.5 mm (p.2 Sec. II, Fig. 2(a) / p.6 Sec. V,
+      Fig. 4(a))'
+  cmp_lit_wei2023_qd_laser_si_wg_fib-m7:
+    basis: derived
+    notes: printed 3 mm (laser cavity length); mm -> um (D157)
+    why: 'D157 / D256: p.13 Methods prints ''The length of the laser cavity is 3 mm''; 3000 um is not printed'
+  cmp_lit_siddharth2024_edbr_sil_spiral-m6:
+    value: '1559.4'
+    notes: peak read off Fig. 4(e), about 1559.4 nm (+/- 0.1 nm; tick labels 1556 / 1558 / 1560 / 1562 nm at about 35 px per
+      nm on the p.5 render, peak about 3.4 nm right of the 1556 tick)
+    why: 'Figure re-read on the p.5 render: the SIL peak sits at about 1559.4 nm, not 1558.9 nm (row 1559, note 1558.9)'
+  cmp_lit_siddharth2024_edbr_heater-m1:
+    notes: printed 'up to 0.5 nm (> 40 GHz)'; Fig. 3(c) peaks span about 1548.25-1548.62 nm (about 0.37 nm, about 46 GHz)
+      from 6.28 to 446.3 mW, consistent with '> 40 GHz' but not with 0.5 nm (conflict kept as printed, D417)
+    why: 'D417 conflict note: p.4 Fig. 3(c) render shows about 0.37 nm of tuning against the printed 0.5 nm'
+  cmp_lit_aflatouni2015_pin_phase_shifter-m2:
+    statistic: typical
+    n_samples: ''
+    condition: current-induced excess attenuation of a typical p-i-n modulator at I_pi of about 10 mA; error bars = range
+      over the 16 modulators
+    notes: read off Fig. 4(c) at 10 mA (i_pi arrow), about 2.8 dB (+/- 0.2 dB); error bars (range of the measured insertion
+      loss of all 16 modulators at each current, p.7) about 1.6-4.0 dB; p.6 calls the curve the 'measured excess attenuation
+      of typical p-i-n modulator'; 1550 nm is the wavelength of all measurements (p.9)
+    why: 'p.6: the plotted curve is the ''typical p-i-n modulator'', the 16-modulator population is only the error-bar range
+      (p.7); statistic mean / n_samples 16 are not stated'

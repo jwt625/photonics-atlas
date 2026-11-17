@@ -1,0 +1,74 @@
+# Audit patch lit_177 (fresh-context audit 2026-11-16, DevLog/audits/2026-11-16-lit_177-audit.md).
+# 74 metrics: 72 ok / 2 imprecise / 0 wrong; 16 components: 14 ok / 2 imprecise (notes) / 0 wrong; 0 deleted;
+# 4 misses added (doerr2010 fiber MFD 11 um, bundalo2022 SMF28 MFD 9.2 um, larrea2018 overlay thickness 3.5 um and
+# simulated 1-dB longitudinal tolerance > 20 um). After the patch: 16 components, 78 metrics.
+# Coordinator rulings asked (audit Q1-Q6): Q1 doerr2010 derived loopback_half + borderline IME fab kept (no op);
+# Q2 larrea2018 ~2 dB author_estimate + borderline UPV fab kept (no op); Q3 zhong2014 measured loopback_half, UW fab,
+# design row kept (no op; variant note added); Q4 gui2021 band c_band inferred from Fig. 4 labels (patched);
+# Q5 bundalo2022 Table II / MOB / connector rows kept (no op); Q6 larrea2018 longitudinal-tolerance add (alternative: drop).
+components:
+  cmp_lit_gui2021_pt_icr_thermal_ps:
+    notes: "Two stages of heater phase shifters and 2x2 symmetric couplers form the LO polarization tracker integrated with the coherent receiver (2 PSRs, 2x8 90-degree hybrids, 4 balanced PDs; Fig. 3). Platform empty (only 'SiP' printed, D422 / D423). Fab empty (no fabrication statement; the chip is called a 'real product', authors at Huawei, D80b). No wavelength in the text; the Fig. 4 setup labels the two external lasers 1530-1540 nm and 1550-1560 nm (each PT-ICR receives the remote side's LO), and the Fig. 4 inset c spectrum spans 1533.5-1534.7 nm: C band. Tracker performance (up to 300 rad/s polarization rotation without penalty, Fig. 5) has no registry parameter (report); the ITLA and DFB lasers are external sources injected into the transceivers (rule 13)."
+    why: "p.5 Fig. 4 labels 'External Laser 1530~1540 nm' and '1550~1560nm' and inset c (1533.5-1534.7 nm axis): the note 'No wavelength is printed anywhere in the paper' is not correct"
+  cmp_lit_zhong2014_fc_swgc:
+    notes: "Fab: 'The devices were fabricated at the University of Washington - Washington Nanofabrication Facility (WNF)' (p.8 acknowledgment; co-author at WNF): org_university_washington (D448, lu2015a precedent); WNF facility not in the registry (report). EBL, single full etch. Design (2D FDTD + particle swarm optimization in Lumerical): effective indices 2.79 / 1.71 (high / low region) at 1550 nm, subwavelength fill factors 0.67 / 0.13 (no parameter; grating fill factor 0.5 entered). Geometry rows are the optimized design (p.3-4); 'multiple SWGCs with parameter variations around the optimal values were fabricated' (p.5) and the paper does not say which variant Fig. 4 (and Fig. 7, tapered row) shows. Curved lines are confocal ellipses (Eq. (4)). Test pair at 127 um pitch joined by a short strip waveguide. Fabry-Perot ripples with about 1.1 nm FSR (pair cavity about 295 um) and about 18 nm FSR (front / rear curves, about 18 um) reveal back reflection (not quantified). Straight-line SWGCs with similar parameters were also fabricated; no penalty from curving, values in the authors' OFC paper (ref. 20), not entered."
+    why: "p.5 Sec. 3: several parameter variants were fabricated and the measured device is 'a focusing-curved SWGC'; the design-geometry rows on this fabricated row need that caveat"
+metrics:
+  cmp_lit_gui2021_pt_icr_thermal_ps-m1:
+    band: c_band
+    wavelength_inferred: 'true'
+    notes: "Printed 'small insertion loss (<0.3dB)' for the thermal phase shifters; no measurement shown (origin not stated). No wavelength with the value: C band inferred from the Fig. 4 setup labels (external lasers 1530-1540 nm and 1550-1560 nm; inset c spectrum 1533.5-1534.7 nm), rule 8."
+    why: "rule 8: the device's operating band is stated in Fig. 4 (p.5), so band c_band with wavelength_inferred, not unspecified"
+  cmp_lit_bundalo2022_pluggable_microlens_connector-m2:
+    qualifier: ''
+    notes: "Printed 'expanded MFDs to 30 um at a distance of about 2 mm' (the 'about' qualifies the distance, not the 30 um); whether designed or measured is not stated (Fig. 8 is a photograph)."
+    why: "p.4 Sec. III-B prints 30 um without an approximation word; 'about' belongs to the 2 mm distance"
+add_metrics:
+- metric_id: cmp_lit_doerr2010_sin_gc_400nm-m19
+  component_id: cmp_lit_doerr2010_sin_gc_400nm
+  parameter: mfd_fiber_um
+  value: '11'
+  unit: um
+  condition: "SSMF mode width between 1/e2 points of the power, as used in the 2D FDTD design simulation"
+  basis: specification
+  locator: 'p.2 Sec. II'
+  verified_on: '2026-11-16'
+  notes: "Printed '11-um mode width between 1/e2 points of the power' for the SSMF the coupler is designed for (fiber of the test setup, p.2 Sec. III)."
+  why: "Miss: stated MFD of the fiber the coupler is designed for (rule 4 specification example; registry mfd_fiber_um on fiber_chip_coupler)"
+- metric_id: cmp_lit_bundalo2022_tx_output_gc-m4
+  component_id: cmp_lit_bundalo2022_tx_output_gc
+  parameter: mfd_fiber_um
+  value: '9.2'
+  unit: um
+  wavelength_nm: '1310'
+  condition: "SMF28 fiber chosen for coupling to the PIC GCs"
+  basis: specification
+  locator: 'p.3 Sec. III-B'
+  verified_on: '2026-11-16'
+  notes: "Printed 'The same MFD [9.2 um at 1310 nm] is on SMF28 fiber' (p.3); nominal value of the purchased fiber."
+  why: "Miss: stated fiber MFD at 1310 nm (p.3 Sec. III-B), registry mfd_fiber_um, basis specification"
+- metric_id: cmp_lit_larrea2018_parabolic_taper_ssc-m14
+  component_id: cmp_lit_larrea2018_parabolic_taper_ssc
+  parameter: overlay_thickness_um
+  value: '3.5'
+  unit: um
+  condition: "SiO2 cover (overlay) waveguide thickness, same layer as the 3.5 um PECVD upper cladding"
+  basis: design_target
+  locator: 'p.2 Sec. II, Fig. 2(b); p.3 Sec. III'
+  verified_on: '2026-11-16'
+  notes: "Design cover thickness 3.5 um with 8 um width (p.2); the deposited cladding is 3.5 um (p.3). Same value as m12 (cladding_thickness_um); entered in the role-specific overlay parameter of the edge_taper template (D153)."
+  why: "Miss (D153 geometry): the edge_taper template takes overlay_thickness_um next to overlay_width_um (m13); the 3.5 um cover thickness is printed on p.2"
+- metric_id: cmp_lit_larrea2018_parabolic_taper_ssc-m15
+  component_id: cmp_lit_larrea2018_parabolic_taper_ssc
+  parameter: tol_1db_longitudinal_um
+  value: '20'
+  unit: um
+  qualifier: gt
+  wavelength_nm: '1310'
+  polarization: te
+  condition: "fiber-to-SSC separation in air from contact; 3D-BPM, Wtip 70 nm, L 130 um, 3.5 x 8 um SiO2 cover, SMF"
+  basis: simulated
+  locator: 'p.3 Sec. II; p.2 Fig. 4(b)'
+  verified_on: '2026-11-16'
+  notes: "Printed: losses 'maintained below 1.5 dB when the separation between the SSC and the fiber is below 20 um' (p.3) against the 0.5 dB optimum at zero gap (p.2, Fig. 4(b) at 0 um), so the 1-dB excess point lies beyond 20 um. Fig. 4(b) reads about 1.4 dB at the 20 um end of the plotted range (+/- 0.05 dB). One-sided window from contact (no +/- span to halve). Arithmetic on simulated values stays simulated (D83f)."
+  why: "Miss: registry tol_1db_longitudinal_um; the printed 1.5 dB bound minus the printed 0.5 dB optimum gives a 1-dB tolerance > 20 um, confirmed on Fig. 4(b)"

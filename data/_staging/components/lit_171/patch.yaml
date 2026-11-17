@@ -1,0 +1,93 @@
+# Audit patch lit_171 (fresh-context audit 2026-11-16, DevLog/audits/2026-11-16-lit_171-audit.md).
+# 82 metrics: 78 ok / 4 imprecise / 0 wrong; 13 components: 10 ok / 3 imprecise / 0 wrong; 0 deleted; 1 miss added.
+# After the patch: 13 components, 83 metrics.
+# Coordinator rulings asked (audit Q1-Q6): Q1 acoleyen2011 / acoleyen2012 both kept, phase in pi derived, IL 5 dB kept with
+# scope unspecified (no op); Q2 acoleyen2011 process_name records the cited ePIXfab platform (patched here, revert = drop that
+# op), ePIXfab not a fab org on 2011, on 2012 after the org round; Q3 ciminelli2013 g4 Q 740,000 out, Q_i author_estimate, fab
+# empty (no op); Q4 mao2008 fab org_astar_ime borderline from the p.8 staff acknowledgment (patched here, revert = drop the two
+# component ops); Q5 mao2008 cladding 2 um kept (text + Fig. 2(a) label vs Table II); Q6 fang2011 fab, heater row and no-trench
+# row kept (no op).
+components:
+  cmp_lit_acoleyen2011_nems_slot_ps_9um:
+    process_name: (ePIXfab silicon photonics platform cited, ref. 7)
+    notes: 'Fab: ''fabricated on Silicon-On-Insulator (SOI) at imec, using standard CMOS compatible processes [7]'' (p.1 Sec.
+      II) -> org_imec; ref. [7] is the ePIXfab silicon photonics platform (p.3 References), cited for the process and not named
+      as the fabrication service, so ePIXfab is not a fab org here; process_name records the cited platform (Contract v7 cited-PDK
+      style; the text itself prints only ''standard CMOS compatible processes''). Underetch (contact-mask lithography + buffered
+      HF, about 8 min) is described passively (p.2); the acknowledgment thanks two named persons for help in the post-processing
+      without an org, so no second fab org (D84b / D543). Phase change measured from the Fabry-Perot peak shift under SLED excitation
+      and OSA readout (p.3 Sec. IV; Fig. 7 shows two measurement runs, meas. 1 / meas. 2). Not entered (simulated, no registry
+      parameter): figure of merit V_pi L_pi 96 / 68 / 52.5 V um for designed lengths 15 / 20 / 25 um and no pi phase reachable
+      for 10 um (p.2-3, Fig. 5); stable (pre-pull-in) solution up to 18 V for this device (p.2, Fig. 4). Grating couplers and Bragg
+      mirrors carry no reported values. Same group as lit:acoleyen2012 (cascade of three 5.8 um slots, a different device; that
+      paper cites this one as its ref. [10] proof of principle).'
+    why: 'p.1 Sec. II ''standard CMOS compatible processes [7]'' with [7] = ePIXfab, The silicon photonics platform (p.3 References):
+      a cited platform is recorded in process_name in the cited-PDK style (Contract v7; morichetti2021 / luquegonzalez2019 precedents);
+      fab org_imec unchanged'
+  cmp_lit_mao2008_pecvd_sin_wg_s5:
+    fab_org_ids: org_astar_ime
+    notes: 'Fab: no fabrication sentence names an org (passive ''were fabricated'' / ''selected to fabricate waveguides''; first
+      person only for dicing and facet polishing, p.4); the acknowledgment (p.8) thanks the staff of the SPT Laboratory of the Institute
+      of Microelectronics, Singapore, for assistance in sample preparation: borderline fab org_astar_ime kept with this note (D84b:
+      an org''s own staff thanked for help with fabrication; staff thanks never set a facility). Authors at IME A*STAR, NTU and
+      Xi''an Jiaotong University. Cladding thickness conflict: the p.3 process description and the Fig. 2(a) cross-section label
+      (p.4) give 2 um upper SiO2, Table II (p.7) prints ''3um SiO2'' (D417; 2 um entered). Cutback on waveguides 3.6-24 mm long
+      in 2.5 mm steps (p.4), lensed PM fibers with about 2.5 um spot, fiber-to-fiber insertion loss incl. coupling (p.4). The +/-0.2
+      dB/cm is the linear-fit uncertainty. Not entered: SiO2 roughness 2.13 / 0.18 nm before / after CMP (AFM, no parameter), film
+      refractive indices and H concentrations (material data), coupling loss (Fig. 6 intercept not printed), Table II values of
+      other works (rule 3). Headline device (abstract, Fig. 6). Sibling film row: cmp_lit_mao2008_pecvd_sin_wg_s4.'
+    why: 'p.8 Acknowledgement: staff of the SPT Laboratory of the Institute of Microelectronics thanked for assistance in sample
+      preparation (the waveguide samples of this paper); D84b places the fabrication at that org as a borderline fab with a note
+      (xie2024, bhasker2026, puckett2021 precedents); the distiller''s notes did not mention the acknowledgment'
+  cmp_lit_mao2008_pecvd_sin_wg_s4:
+    fab_org_ids: org_astar_ime
+    notes: 'Fab: no fabrication sentence names an org (passive ''were fabricated'' / ''selected to fabricate waveguides''; first
+      person only for dicing and facet polishing, p.4); the acknowledgment (p.8) thanks the staff of the SPT Laboratory of the Institute
+      of Microelectronics, Singapore, for assistance in sample preparation: borderline fab org_astar_ime kept with this note (D84b:
+      an org''s own staff thanked for help with fabrication; staff thanks never set a facility). Authors at IME A*STAR, NTU and
+      Xi''an Jiaotong University. Cladding thickness conflict: the p.3 process description and the Fig. 2(a) cross-section label
+      (p.4) give 2 um upper SiO2, Table II (p.7) prints ''3um SiO2'' (D417; 2 um entered). Cutback on waveguides 3.6-24 mm long
+      in 2.5 mm steps (p.4), lensed PM fibers with about 2.5 um spot, fiber-to-fiber insertion loss incl. coupling (p.4). The +/-0.2
+      dB/cm is the linear-fit uncertainty. Not entered: SiO2 roughness 2.13 / 0.18 nm before / after CMP (AFM, no parameter), film
+      refractive indices and H concentrations (material data), coupling loss (Fig. 6 intercept not printed), Table II values of
+      other works (rule 3). Cutback data not plotted (Fig. 6 shows sample 5 only). Sibling film row: cmp_lit_mao2008_pecvd_sin_wg_s5.'
+    why: 'p.8 Acknowledgement (same as the sample-5 row): D84b borderline fab org_astar_ime with a note'
+metrics:
+  cmp_lit_acoleyen2012_nems_slot_ps_3x5p8um-m1:
+    locator: p.2 Abstract; p.8 Sec. 5.2; p.10 Sec. 6; p.9 Fig. 12
+    why: 'text.md p.1 is the journal cover page; the abstract is on p.2, Fig. 12 (render) on p.9'
+  cmp_lit_ciminelli2013_inp_rib_wg-m5:
+    wavelength_inferred: 'true'
+    notes: 'printed range 0.45-1.0 dB/cm (estimated by the model); quasi-TM > 1 dB/cm (row m9). Wavelength not stated with the simulation:
+      1550 nm inferred from the stated operating wavelength 1.55 um of the device (p.3).'
+    why: 'p.4 Sec. 2 gives no wavelength for the volume-current-method estimate; 1550 nm comes from the gyro operating wavelength
+      on p.3, so the flag is true (rule 8), as on the bus_taper-m1 row with the same reasoning'
+  cmp_lit_mao2008_pecvd_sin_wg_s5-m5:
+    locator: p.3 Sec. 2; p.4 Fig. 2(a)
+    notes: 'printed 2 um upper cladding in the process description (p.3) and labelled 2 um in the Fig. 2(a) cross-section schematic
+      (p.4); Table II (p.7) prints 3 um top cladding (conflict, D417)'
+    why: 'p.4 Fig. 2(a) render labels the upper SiO2 2 um: a second in-paper source for the entered value against the Table II 3 um'
+  cmp_lit_mao2008_pecvd_sin_wg_s4-m5:
+    locator: p.3 Sec. 2; p.4 Fig. 2(a)
+    notes: 'printed 2 um upper cladding in the process description (p.3) and labelled 2 um in the Fig. 2(a) cross-section schematic
+      (p.4); Table II (p.7) prints 3 um top cladding (conflict, D417)'
+    why: 'p.4 Fig. 2(a) render: same evidence as s5-m5'
+add_metrics:
+- metric_id: cmp_lit_ciminelli2013_inp_rib_wg-m9
+  component_id: cmp_lit_ciminelli2013_inp_rib_wg
+  parameter: prop_loss_db_per_cm
+  value: '1'
+  unit: dB/cm
+  qualifier: gt
+  wavelength_nm: '1550'
+  wavelength_inferred: 'true'
+  polarization: tm
+  condition: fundamental quasi-TM mode of the single-mode rib waveguide (design estimate)
+  basis: simulated
+  locator: p.4 Sec. 2
+  notes: 'printed ''> 1 dB/cm'' in the sentence after the 3D volume-current-method estimate of the quasi-TE loss (ref. [25]); the
+    sentence does not repeat the method, read as the same model estimate. Wavelength not stated with the value: 1550 nm inferred from
+    the stated operating wavelength 1.55 um (p.3). The TM mode is not used further (p.4).'
+  verified_on: '2026-11-16'
+  why: 'miss: p.4 Sec. 2 quasi-TM propagation loss > 1 dB/cm is a stated simulated value of the same parameter as the entered quasi-TE
+    range (m5); it was left in notes only'
