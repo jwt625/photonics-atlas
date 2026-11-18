@@ -1,0 +1,28 @@
+# Audit patch lit_202 (fresh-context audit 2026-11-18, DevLog/audits/2026-11-18-lit_202-audit.md).
+# 26 metrics: 22 ok / 4 imprecise / 0 wrong; 2 components: 0 ok / 2 imprecise (note wording) / 0 wrong; 0 deletes, 0 misses added.
+# After the patch: 2 components, 26 metrics.
+# Coordinator rulings asked (audit Q1-Q6): Q1 wavelength_spread_nm kept on both rows (no op); Q2 Conservative 3 dB statistic
+# best -> empty and 0.5 dB il_nonuniformity kept with a conflict note (patched; revert = drop the m1 / m3 ops);
+# Q3 crosstalk_db kept (no op); Q4 theoretical IL simulated / device_total kept (no op); Q5 measured IL scope / band / TE kept
+# (no op); Q6 n_channels / spacing bases kept, fab org_ibm_watson kept, 2.6 um mode width stays a note (no op).
+components:
+  cmp_lit_horst2009_echelle_extreme:
+    notes: 'Fab: p.2 Sec. III-A ''wafers are processed on a standard 200-mm CMOS line at the IBM Watson Research Center'' -> org_ibm_watson. Process details cited to refs. [6], [7] (not entered). Cladding not stated. Design (p.1-2 Sec. II): two stigmatic (aberration-free) points on the output plane; 500 nm standard waveguides end directly in the free-space region (full divergence, no tapers); 20th order; 38 grating mirrors (each a retro-reflecting corner mirror with two 45 deg facets, p.2-3 Sec. III-B). Measured response Fig. 4 (p.3): noisier spectrum, peaks about -3.3 to -5 dB on the plot. Sibling of row echelle_conservative (same wafer, same channel grid). Device-to-device peak-wavelength difference below +/-0.2 nm is stated jointly for both layouts and other devices on the wafer (8 devices measured); entered on both rows.'
+    why: note called the 38 grating mirrors 'corner-mirror facets'; each grating mirror is a corner mirror with two 45 deg facets, and the paper uses 'facet' for one face (p.2 Sec. II-C '38 grating mirrors'; p.2-3 Sec. III-B 'reflecting twice under 45', 'each facet', 'incurred twice')
+  cmp_lit_horst2009_echelle_conservative:
+    notes: 'Fab: p.2 Sec. III-A ''wafers are processed on a standard 200-mm CMOS line at the IBM Watson Research Center'' -> org_ibm_watson. Process details cited to refs. [6], [7] (not entered). Cladding not stated. Design (p.2 Sec. II-C): tapers increase the mode width at the input and output waveguides to 2.6 um (printed as mode width, not a waveguide width: not entered as port_width_um); 20th order; 55 grating mirrors (each a retro-reflecting corner mirror with two 45 deg facets, p.2-3 Sec. III-B); ''about twice as large'' as the Extreme device. Measured response Fig. 5 (p.3): peaks about -2.7 to -3.6 dB on the plot; authors attribute the smaller-than-expected IL advantage to scattering at more, smaller mirrors. Corner mirrors visible in Fig. 3. Abstract ''channel-to-channel isolation 19 dB'' and ''minimum insertion loss 3 dB with channel-to-channel variation 0.5 dB'' match this layout (Sec. IV-B: 3 dB and 19 dB for Conservative vs 3.5 dB and 16 dB for Extreme); the abstract ''minimum'' most likely means the lower-loss of the two designs: Fig. 5 channel peaks read about 2.7-3.6 dB (mean about 3.2 dB), Fig. 4 about 3.3-4.9 dB (mean about 3.8 dB) (audit 2026-11-18, 400 dpi render of the PDF figure, trace centre, +/- 0.15 dB). Channel spacing not stated separately for this layout (same channel grid as Extreme per Sec. IV-A, not entered).'
+    why: same mirror / facet wording fix (p.2 Sec. II-C '55 grating mirrors'; p.2-3 Sec. III-B); abstract 'minimum' IL identity note extended with the Fig. 4 / Fig. 5 peak reads (p.1 Abstract; p.3 Sec. IV-B; p.3 Figs. 4-5)
+metrics:
+  cmp_lit_horst2009_echelle_extreme-m9:
+    condition: grating mirrors (retro-reflecting corner mirrors, two 45 deg facets each)
+    why: 'p.2 Sec. II-C ''38 grating mirrors''; p.2-3 Sec. III-B corner mirrors reflect twice under 45 deg: one grating mirror = two facets, so ''corner-mirror facets'' misstates the count (n_arms = echelle teeth)'
+  cmp_lit_horst2009_echelle_conservative-m9:
+    condition: grating mirrors (retro-reflecting corner mirrors, two 45 deg facets each)
+    why: p.2 Sec. II-C '55 grating mirrors'; same wording fix as the Extreme row
+  cmp_lit_horst2009_echelle_conservative-m1:
+    statistic: ''
+    notes: 'No wavelength stated with the value; C band inferred from the 1.5 um operating window (p.2 Sec. III-A) and the channel peaks at about 1530-1553 nm in Fig. 5. Sec. IV-B prints ''measured loss is 3 dB'' with no statistic. The abstract''s ''minimum insertion loss ... is 3 dB'' reads as the lower-loss of the two designs (3 vs 3.5 dB), not the best channel: Fig. 5 channel peaks read about 2.7-3.6 dB (mean about 3.2 dB; audit read of a 400 dpi render, trace centre, +/- 0.15 dB), so the best channel is below 3 dB and 3 dB sits near the channel mean.'
+    why: 'statistic best rested on the abstract word ''minimum'' (p.1); Sec. IV-B (p.3) prints 3 dB vs 3.5 dB per design with no statistic, and Fig. 5 (p.3) peaks read about 2.7-3.6 dB, mean about 3.2 dB: 3 dB is not the best channel. Same treatment as the Extreme 3.5 dB (no statistic)'
+  cmp_lit_horst2009_echelle_conservative-m3:
+    notes: 'Printed in the abstract with the 3 dB minimum IL, which Sec. IV-B assigns to the Conservative layout. Definition of ''variation'' not stated: Fig. 5 channel peaks read about 2.7-3.6 dB (max minus min about 0.9 dB; audit read, +/- 0.15 dB per peak), i.e. about 3.15 +/- 0.45 dB, so the printed 0.5 dB matches a +/- half-range better than a max-minus-min spread; Fig. 4 (Extreme) peaks span about 1.6 dB. Kept as printed (D417).'
+    why: note said the 0.5 dB is consistent with the Fig. 5 peaks; the Fig. 5 max-minus-min spread reads about 0.9 dB (p.3 Fig. 5; p.1 Abstract), so the note now states the conflict with the parameter definition (max minus min)

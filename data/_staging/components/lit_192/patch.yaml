@@ -1,0 +1,105 @@
+# Audit patch lit_192 (fresh-context audit 2026-11-18, DevLog/audits/2026-11-18-lit_192-audit.md).
+# 102 metrics: 96 ok / 6 imprecise / 0 wrong; 24 components: 22 ok / 2 imprecise (notes follow-up of the moved rows) / 0 wrong;
+# 3 metrics moved (delete + add) from the acoleyen2011a shared grating to the order-150 scanner, 3 metric note / condition fixes,
+# 0 misses added. After the patch: 24 components, 102 metrics.
+# Coordinator rulings asked (audit Q1-Q7): Q1 chang2020 metalens class / orgs / C band (no op); Q2 yokota2022 0 rows (no op);
+# Q3 hu2017 linewidth definition (patched here); Q4 zhang2014a facet halves kept (no op); Q5 zhang2014a mirror basis kept (no op);
+# Q6 acoleyen2011a theta rows moved to the order-150 scanner (patched here; revert = drop the delete / add / component ops);
+# Q7 chang2020 steering power on the switch-network row (no op).
+components:
+  cmp_lit_acoleyen2011a_outcoupling_grating:
+    notes: 'Fab: ''fabricated on SOI at imec, using standard CMOS (Complementary Metal Oxide Semiconductor) processes [7]''
+      (p.1 Sec. II) -> org_imec; ref. [7] is the ePIXfab silicon photonics platform, cited for the process, not named as the
+      fabrication service (acoleyen2011 precedent, D616). The basic principles and results were first shown in the authors''
+      Group IV Photonics 2010 paper [4]; this journal letter extends it (D408: no value sentence cites [4], values kept).
+      Same grating design in all five scanners (only the AWG order differs, p.2); the measured theta-direction values (0.148
+      deg/nm, theta0 2.9 deg at 1550 nm, about 15 deg over 1500-1600 nm; p.2-3, Figs. 3-4) are on cmp_lit_acoleyen2011a_scanner_q150,
+      the device they were measured on (acoleyen2009 precedent: measured theta steering on the system row); they hold for
+      the grating, which is identical in all five scanners. Not entered: simulated dispersion factor dn_eff,gr/dlambda about
+      -8.9e-4 /nm and n_eff 2.65 (no parameters); 16-waveguide spacing 2 um at the star coupler (whether it is the grating-array
+      pitch is not stated).'
+    why: 'follow-up of the moved theta-direction rows (p.2 Sec. III, p.3 Fig. 4: measured on the order-150 scanner)'
+  cmp_lit_acoleyen2011a_scanner_q150:
+    notes: 'Fab: ''fabricated on SOI at imec, using standard CMOS (Complementary Metal Oxide Semiconductor) processes [7]''
+      (p.1 Sec. II) -> org_imec; ref. [7] is the ePIXfab silicon photonics platform, cited for the process, not named as the
+      fabrication service (acoleyen2011 precedent, D616). The basic principles and results were first shown in the authors''
+      Group IV Photonics 2010 paper [4]; this journal letter extends it (D408: no value sentence cites [4], values kept).
+      Device of Figs. 2-4; also holds the measured theta-direction values (grating dispersion), which belong to the shared
+      grating cmp_lit_acoleyen2011a_outcoupling_grating (same design in all five scanners). Table I also prints the theoretical
+      phi steering speed -6.4 deg/nm and the AWG FSR 7.7 nm (whether computed or measured not stated; fsr_nm is not allowed
+      for free_space_emitter). Parts: cmp_lit_acoleyen2011a_star_coupler, cmp_lit_acoleyen2011a_outcoupling_grating. Family
+      statement (not entered, D254): input-waveguide-to-free-space efficiency measured roughly 10-13 % around 1550 nm when
+      both output orders are captured (phi = 23 deg case), attributed vs the simulation to the star-coupler loss (~1.5 dB)
+      and waveguide loss (~1 dB) (p.3); the scanner is not named.'
+    why: follow-up of the moved theta-direction rows (p.2 Sec. III, p.3 Fig. 4)
+metrics:
+  cmp_lit_hu2017_ecl_tunable_laser-m6:
+    condition: linewidth as printed ('linewidth less than 130 kHz', abstract p.1; 'about 130KHZ', conclusion p.7); delayed
+      self-heterodyne, 10 km delay fiber, LiNbO3 intensity modulator shifting the carrier by 200 MHz; p.6 calls the value
+      the 20-dB spectral width, but the Fig. 6(b) -20 dB markers span about 2.3 MHz, so the bound matches the 20-dB width
+      divided by 20 (Lorentzian-equivalent FWHM); wavelength of the measurement not stated
+    notes: 'printed ''< 130 kHz'' (kHz -> Hz, D256). Fig. 6(b) re-read on the cached image (frame 195-213 MHz): -20 dB markers
+      at about 202.8 / 205.1 MHz (span 2.33 +/- 0.1 MHz), dashed level about 19 dB below the lobe peak (about -55 dBm at 204
+      MHz); 2.33 MHz / 19.9 = 117 kHz, inside the < 130 kHz bound read as a Lorentzian-equivalent linewidth (mao2024 precedent:
+      -20 dB width / 20). The p.6 sentence ''the 20-dB spectra width is less than 130 kHz'' conflicts with the paper''s own
+      figure: value kept as printed, conflict flagged (D417)'
+    why: p.6 Sec. 3 prints '20-dB spectra width is less than 130 kHz', but Fig. 6(b) (p.7) marks the -20 dB width at about
+      2.3 MHz; the old condition stated the 20-dB-width definition as fact, which would read the row 20x too narrow
+  cmp_lit_hu2017_ecl_tunable_laser-m4:
+    notes: printed 'about 65 mA' (p.6) kept; Fig. 6(a) L-I curve leaves the zero-power floor at about 72-75 mA (re-read on
+      the cached image, axis ticks 0-400 mA; linear extrapolation of the 100-330 mA segment gives about 72 mA); conflict flagged
+      (D417)
+    why: p.7 Fig. 6(a) knee about 72-75 mA against the printed about 65 mA (p.6 Sec. 3)
+  cmp_lit_chang2020_beam_steerer_4x4-m3:
+    notes: wavelength not printed (C band inferred); also the summary sentence 'a beam divergence of 0.9 deg' (p.5); the +/-
+      0.2 deg spread is not defined as a standard deviation
+    why: the 0.9 deg summary sentence is on p.5, not in the abstract (p.1 abstract names only FOV and power)
+delete_metrics:
+- id: cmp_lit_acoleyen2011a_outcoupling_grating-m1
+  why: 'moved to cmp_lit_acoleyen2011a_scanner_q150-m5: measured on the order-150 scanner (p.2 Sec. III, p.3 Fig. 4, p.3 Sec.
+    IV); acoleyen2009 precedent keeps measured theta steering on the system row'
+- id: cmp_lit_acoleyen2011a_outcoupling_grating-m2
+  why: 'moved to cmp_lit_acoleyen2011a_scanner_q150-m6: measured on the order-150 scanner (p.2 Sec. III, p.3 Fig. 4, p.3 Sec.
+    IV); acoleyen2009 precedent keeps measured theta steering on the system row'
+- id: cmp_lit_acoleyen2011a_outcoupling_grating-m3
+  why: 'moved to cmp_lit_acoleyen2011a_scanner_q150-m7: measured on the order-150 scanner (p.2 Sec. III, p.3 Fig. 4, p.3 Sec.
+    IV); acoleyen2009 precedent keeps measured theta steering on the system row'
+add_metrics:
+- metric_id: cmp_lit_acoleyen2011a_scanner_q150-m5
+  component_id: cmp_lit_acoleyen2011a_scanner_q150
+  parameter: steering_efficiency_deg_per_nm
+  value: '0.148'
+  unit: deg/nm
+  qualifier: approx
+  condition: theta direction (along the grating, grating dispersion), 1500-1600 nm
+  basis: measured
+  locator: p.2 Sec. III; p.3 Fig. 4
+  notes: theta steering is set by the shared out-coupling grating (cmp_lit_acoleyen2011a_outcoupling_grating), same in all
+    five scanners
+  why: 'moved from cmp_lit_acoleyen2011a_outcoupling_grating-m1: measured on this device (p.2 Sec. III, p.3 Fig. 4)'
+- metric_id: cmp_lit_acoleyen2011a_scanner_q150-m6
+  component_id: cmp_lit_acoleyen2011a_scanner_q150
+  parameter: emission_angle_deg
+  value: '2.9'
+  unit: deg
+  wavelength_nm: '1550'
+  condition: mean out-coupling angle theta0 in air
+  basis: measured
+  locator: p.2 Sec. III; p.2 Fig. 3(a)
+  notes: theta steering is set by the shared out-coupling grating (cmp_lit_acoleyen2011a_outcoupling_grating), same in all
+    five scanners
+  why: 'moved from cmp_lit_acoleyen2011a_outcoupling_grating-m2: measured on this device (p.2 Sec. III, p.3 Fig. 4)'
+- metric_id: cmp_lit_acoleyen2011a_scanner_q150-m7
+  component_id: cmp_lit_acoleyen2011a_scanner_q150
+  parameter: steering_range_deg
+  value: '15'
+  unit: deg
+  qualifier: approx
+  wavelength_nm: '1500'
+  wavelength_max_nm: '1600'
+  condition: theta direction over a 100 nm wavelength shift
+  basis: measured
+  locator: p.3 Sec. IV; p.3 Fig. 4
+  notes: conclusion 'about 15 deg in the theta-direction'; Fig. 4 is the order-150 scanner; theta steering is set by the shared
+    out-coupling grating (cmp_lit_acoleyen2011a_outcoupling_grating), same in all five scanners
+  why: 'moved from cmp_lit_acoleyen2011a_outcoupling_grating-m3: measured on this device (p.2 Sec. III, p.3 Fig. 4)'

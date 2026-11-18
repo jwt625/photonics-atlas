@@ -1,0 +1,161 @@
+# Audit patch lit_196 (fresh-context audit 2026-11-18, DevLog/audits/2026-11-18-lit_196-audit.md).
+# 189 metrics: 169 ok / 20 imprecise / 0 wrong; 25 components: 21 ok / 4 imprecise / 0 wrong; 0 deletes, 0 misses added.
+# All 20 imprecise rows are wavelength conditions: zhu2020 Table II rows (16) carried c_band although Fig. 7 prints each
+# resonance on its wavelength axis; chen2025b Fano Q (1) carried c_band for a resonance at about 1529 nm (Fig. 13(g));
+# liu2021c excess-loss rows (3) carried 1550 nm although Fig. 6(b) / Fig. 7 print the device passbands (1526-1579 nm).
+# After the patch: 25 components, 189 metrics.
+# Coordinator rulings asked (audit Q1-Q7): Q1 chen2025b Lg series from Fig. 14 (no op); Q2 Table II on the Ld 0 device
+# (patched wavelength only); Q3 GC / waveguide measured (no op); Q4-Q5 xiang2018 as distilled (no op); Q6 zhu2020
+# (patched wavelengths); Q7 liu2021c figure wavelengths (patched; revert = drop the three liu2021c metric ops).
+components:
+  cmp_lit_zhu2020_chg_microdisk_etch0min:
+    notes: 'Unsuspended reference sample (etching time 0 min, Fig. 7(a), Table II). Gap 340 nm and access width 500 nm stated for the characterized set (p.6); the gap was designed 310-380 nm in 10 nm steps across eight samples (p.2). Table II ER is a linear dip fraction (0.72 / 0.92 / 0.7 / 0.3; 0.92 called near critical coupling) with no definition: not entered (no linear notch-depth parameter; a dB conversion would assume the definition). Table II Q_s (scattering Q) and alpha_s (scattering share of alpha) have no registry parameter. Q_i is ''calculated following the formula described in Ref. [30]'' from Q_L and ER with no stated coupling regime (D403), and alpha from Q_i with the estimated FSR 2.7 nm (Eq. (2)): both author_estimate. Resonance wavelength not printed in the text; the Fig. 7(a) spectrum, which carries this sample''s Table II FWHM and Q_L labels, puts the dip at about 1543.805 nm (wavelength axis, +/-0.002 nm): Table II rows carry 1543.81 nm with wavelength_inferred. The estimated FSR 2.7 nm keeps c_band inferred. Fab empty: first-person fabrication (''we have fabricated various samples'', p.5) by authors at Sun Yat-Sen University and Jinan University (D154, D395); no acknowledgment. Lensed-fiber input (2.5 um spot) into 2 um-wide input waveguides, tunable laser, polarization controller, 0 dBm (p.2).'
+    why: 'follow-up of the wavelength fix: Fig. 7(a) axis prints the resonance (p.5)'
+  cmp_lit_zhu2020_chg_microdisk_etch15min:
+    notes: 'Suspended sample, 1 % BHF release for 15 min (Fig. 7, Table II); horizontal / vertical SiO2 etch ratio about 60 (p.4-5); support strips hold the suspended access waveguide. Radius not printed per sample (Fig. 5 shows a suspended R = 60 um device; not entered here). Gap 340 nm and access width 500 nm stated for the characterized set (p.6); the gap was designed 310-380 nm in 10 nm steps across eight samples (p.2). Table II ER is a linear dip fraction (0.72 / 0.92 / 0.7 / 0.3; 0.92 called near critical coupling) with no definition: not entered (no linear notch-depth parameter; a dB conversion would assume the definition). Table II Q_s (scattering Q) and alpha_s (scattering share of alpha) have no registry parameter. Q_i is ''calculated following the formula described in Ref. [30]'' from Q_L and ER with no stated coupling regime (D403), and alpha from Q_i with the estimated FSR 2.7 nm (Eq. (2)): both author_estimate. Resonance wavelength not printed in the text; the Fig. 7(b) spectrum, which carries this sample''s Table II FWHM and Q_L labels, puts the dip at about 1552.322 nm (wavelength axis, +/-0.002 nm): Table II rows carry 1552.32 nm with wavelength_inferred. The estimated FSR 2.7 nm keeps c_band inferred. Fab empty: first-person fabrication (''we have fabricated various samples'', p.5) by authors at Sun Yat-Sen University and Jinan University (D154, D395); no acknowledgment. Lensed-fiber input (2.5 um spot) into 2 um-wide input waveguides, tunable laser, polarization controller, 0 dBm (p.2).'
+    why: 'follow-up of the wavelength fix: Fig. 7(b) axis prints the resonance (p.5)'
+  cmp_lit_zhu2020_chg_microdisk_etch20min:
+    notes: 'Suspended sample, 1 % BHF release for 20 min (Fig. 7, Table II); horizontal / vertical SiO2 etch ratio about 60 (p.4-5); support strips hold the suspended access waveguide. Radius not printed per sample (Fig. 5 shows a suspended R = 60 um device; not entered here). Gap 340 nm and access width 500 nm stated for the characterized set (p.6); the gap was designed 310-380 nm in 10 nm steps across eight samples (p.2). Table II ER is a linear dip fraction (0.72 / 0.92 / 0.7 / 0.3; 0.92 called near critical coupling) with no definition: not entered (no linear notch-depth parameter; a dB conversion would assume the definition). Table II Q_s (scattering Q) and alpha_s (scattering share of alpha) have no registry parameter. Q_i is ''calculated following the formula described in Ref. [30]'' from Q_L and ER with no stated coupling regime (D403), and alpha from Q_i with the estimated FSR 2.7 nm (Eq. (2)): both author_estimate. Resonance wavelength not printed in the text; the Fig. 7(c) spectrum, which carries this sample''s Table II FWHM and Q_L labels, puts the dip at about 1542.485 nm (wavelength axis, +/-0.002 nm): Table II rows carry 1542.49 nm with wavelength_inferred. The estimated FSR 2.7 nm keeps c_band inferred. Fab empty: first-person fabrication (''we have fabricated various samples'', p.5) by authors at Sun Yat-Sen University and Jinan University (D154, D395); no acknowledgment. Lensed-fiber input (2.5 um spot) into 2 um-wide input waveguides, tunable laser, polarization controller, 0 dBm (p.2).'
+    why: 'follow-up of the wavelength fix: Fig. 7(c) axis prints the resonance (p.5)'
+  cmp_lit_zhu2020_chg_microdisk_etch25min:
+    notes: 'Suspended sample, 1 % BHF release for 25 min (Fig. 7, Table II); horizontal / vertical SiO2 etch ratio about 60 (p.4-5); support strips hold the suspended access waveguide. Radius not printed per sample (Fig. 5 shows a suspended R = 60 um device; not entered here). Gap 340 nm and access width 500 nm stated for the characterized set (p.6); the gap was designed 310-380 nm in 10 nm steps across eight samples (p.2). Table II ER is a linear dip fraction (0.72 / 0.92 / 0.7 / 0.3; 0.92 called near critical coupling) with no definition: not entered (no linear notch-depth parameter; a dB conversion would assume the definition). Table II Q_s (scattering Q) and alpha_s (scattering share of alpha) have no registry parameter. Q_i is ''calculated following the formula described in Ref. [30]'' from Q_L and ER with no stated coupling regime (D403), and alpha from Q_i with the estimated FSR 2.7 nm (Eq. (2)): both author_estimate. Resonance wavelength not printed in the text; the Fig. 7(d) spectrum, which carries this sample''s Table II FWHM and Q_L labels, puts the dip at about 1546.846 nm (wavelength axis, +/-0.002 nm): Table II rows carry 1546.85 nm with wavelength_inferred. The estimated FSR 2.7 nm keeps c_band inferred. Fab empty: first-person fabrication (''we have fabricated various samples'', p.5) by authors at Sun Yat-Sen University and Jinan University (D154, D395); no acknowledgment. Lensed-fiber input (2.5 um spot) into 2 um-wide input waveguides, tunable laser, polarization controller, 0 dBm (p.2).'
+    why: 'follow-up of the wavelength fix: Fig. 7(d) axis prints the resonance (p.5)'
+metrics:
+  cmp_lit_zhu2020_chg_microdisk_etch0min-m1:
+    wavelength_nm: '1543.81'
+    band: ''
+    wavelength_inferred: 'true'
+    notes: wavelength read off the Fig. 7(a) axis, about 1543.805 nm (component notes)
+    locator: p.6 Sec. III-B, Table II; p.5 Fig. 7(a)
+    why: c_band inferred although the resonance is printed on the Fig. 7(a) wavelength axis (p.5; dip about 1543.805 nm, the spectrum labelled with this sample's Table II FWHM / Q_L)
+  cmp_lit_zhu2020_chg_microdisk_etch0min-m2:
+    wavelength_nm: '1543.81'
+    band: ''
+    wavelength_inferred: 'true'
+    notes: wavelength read off the Fig. 7(a) axis, about 1543.805 nm (component notes)
+    locator: p.6 Sec. III-B, Table II; p.5 Fig. 7(a)
+    why: c_band inferred although the resonance is printed on the Fig. 7(a) wavelength axis (p.5; dip about 1543.805 nm, the spectrum labelled with this sample's Table II FWHM / Q_L)
+  cmp_lit_zhu2020_chg_microdisk_etch0min-m3:
+    wavelength_nm: '1543.81'
+    band: ''
+    wavelength_inferred: 'true'
+    notes: computed from Q_L and ER with the model of ref. [30]; coupling regime not stated (D403); wavelength read off the Fig. 7(a) axis, about 1543.805 nm (component notes)
+    locator: p.6 Sec. III-B, Table II; p.5 Fig. 7(a)
+    why: c_band inferred although the resonance is printed on the Fig. 7(a) wavelength axis (p.5; dip about 1543.805 nm, the spectrum labelled with this sample's Table II FWHM / Q_L)
+  cmp_lit_zhu2020_chg_microdisk_etch0min-m4:
+    wavelength_nm: '1543.81'
+    band: ''
+    wavelength_inferred: 'true'
+    notes: rests on the author_estimate Q_i and an estimated FSR; wavelength read off the Fig. 7(a) axis, about 1543.805 nm (component notes)
+    locator: p.6 Sec. III-B, Table II; p.5 Fig. 7(a)
+    why: c_band inferred although the resonance is printed on the Fig. 7(a) wavelength axis (p.5; dip about 1543.805 nm, the spectrum labelled with this sample's Table II FWHM / Q_L)
+  cmp_lit_zhu2020_chg_microdisk_etch15min-m1:
+    wavelength_nm: '1552.32'
+    band: ''
+    wavelength_inferred: 'true'
+    notes: wavelength read off the Fig. 7(b) axis, about 1552.322 nm (component notes)
+    locator: p.6 Sec. III-B, Table II; p.5 Fig. 7(b)
+    why: c_band inferred although the resonance is printed on the Fig. 7(b) wavelength axis (p.5; dip about 1552.322 nm, the spectrum labelled with this sample's Table II FWHM / Q_L)
+  cmp_lit_zhu2020_chg_microdisk_etch15min-m2:
+    wavelength_nm: '1552.32'
+    band: ''
+    wavelength_inferred: 'true'
+    notes: wavelength read off the Fig. 7(b) axis, about 1552.322 nm (component notes)
+    locator: p.6 Sec. III-B, Table II; p.5 Fig. 7(b)
+    why: c_band inferred although the resonance is printed on the Fig. 7(b) wavelength axis (p.5; dip about 1552.322 nm, the spectrum labelled with this sample's Table II FWHM / Q_L)
+  cmp_lit_zhu2020_chg_microdisk_etch15min-m3:
+    wavelength_nm: '1552.32'
+    band: ''
+    wavelength_inferred: 'true'
+    notes: computed from Q_L and ER with the model of ref. [30]; coupling regime not stated (D403); wavelength read off the Fig. 7(b) axis, about 1552.322 nm (component notes)
+    locator: p.6 Sec. III-B, Table II; p.5 Fig. 7(b)
+    why: c_band inferred although the resonance is printed on the Fig. 7(b) wavelength axis (p.5; dip about 1552.322 nm, the spectrum labelled with this sample's Table II FWHM / Q_L)
+  cmp_lit_zhu2020_chg_microdisk_etch15min-m4:
+    wavelength_nm: '1552.32'
+    band: ''
+    wavelength_inferred: 'true'
+    notes: rests on the author_estimate Q_i and an estimated FSR; wavelength read off the Fig. 7(b) axis, about 1552.322 nm (component notes)
+    locator: p.6 Sec. III-B, Table II; p.5 Fig. 7(b)
+    why: c_band inferred although the resonance is printed on the Fig. 7(b) wavelength axis (p.5; dip about 1552.322 nm, the spectrum labelled with this sample's Table II FWHM / Q_L)
+  cmp_lit_zhu2020_chg_microdisk_etch20min-m1:
+    wavelength_nm: '1542.49'
+    band: ''
+    wavelength_inferred: 'true'
+    notes: wavelength read off the Fig. 7(c) axis, about 1542.485 nm (component notes)
+    locator: p.6 Sec. III-B, Table II; p.5 Fig. 7(c)
+    why: c_band inferred although the resonance is printed on the Fig. 7(c) wavelength axis (p.5; dip about 1542.485 nm, the spectrum labelled with this sample's Table II FWHM / Q_L)
+  cmp_lit_zhu2020_chg_microdisk_etch20min-m2:
+    wavelength_nm: '1542.49'
+    band: ''
+    wavelength_inferred: 'true'
+    notes: wavelength read off the Fig. 7(c) axis, about 1542.485 nm (component notes)
+    locator: p.6 Sec. III-B, Table II; p.5 Fig. 7(c)
+    why: c_band inferred although the resonance is printed on the Fig. 7(c) wavelength axis (p.5; dip about 1542.485 nm, the spectrum labelled with this sample's Table II FWHM / Q_L)
+  cmp_lit_zhu2020_chg_microdisk_etch20min-m3:
+    wavelength_nm: '1542.49'
+    band: ''
+    wavelength_inferred: 'true'
+    notes: computed from Q_L and ER with the model of ref. [30]; coupling regime not stated (D403); wavelength read off the Fig. 7(c) axis, about 1542.485 nm (component notes)
+    locator: p.6 Sec. III-B, Table II; p.5 Fig. 7(c)
+    why: c_band inferred although the resonance is printed on the Fig. 7(c) wavelength axis (p.5; dip about 1542.485 nm, the spectrum labelled with this sample's Table II FWHM / Q_L)
+  cmp_lit_zhu2020_chg_microdisk_etch20min-m4:
+    wavelength_nm: '1542.49'
+    band: ''
+    wavelength_inferred: 'true'
+    notes: rests on the author_estimate Q_i and an estimated FSR; wavelength read off the Fig. 7(c) axis, about 1542.485 nm (component notes)
+    locator: p.6 Sec. III-B, Table II; p.5 Fig. 7(c)
+    why: c_band inferred although the resonance is printed on the Fig. 7(c) wavelength axis (p.5; dip about 1542.485 nm, the spectrum labelled with this sample's Table II FWHM / Q_L)
+  cmp_lit_zhu2020_chg_microdisk_etch25min-m1:
+    wavelength_nm: '1546.85'
+    band: ''
+    wavelength_inferred: 'true'
+    notes: wavelength read off the Fig. 7(d) axis, about 1546.846 nm (component notes)
+    locator: p.6 Sec. III-B, Table II; p.5 Fig. 7(d)
+    why: c_band inferred although the resonance is printed on the Fig. 7(d) wavelength axis (p.5; dip about 1546.846 nm, the spectrum labelled with this sample's Table II FWHM / Q_L)
+  cmp_lit_zhu2020_chg_microdisk_etch25min-m2:
+    wavelength_nm: '1546.85'
+    band: ''
+    wavelength_inferred: 'true'
+    notes: wavelength read off the Fig. 7(d) axis, about 1546.846 nm (component notes)
+    locator: p.6 Sec. III-B, Table II; p.5 Fig. 7(d)
+    why: c_band inferred although the resonance is printed on the Fig. 7(d) wavelength axis (p.5; dip about 1546.846 nm, the spectrum labelled with this sample's Table II FWHM / Q_L)
+  cmp_lit_zhu2020_chg_microdisk_etch25min-m3:
+    wavelength_nm: '1546.85'
+    band: ''
+    wavelength_inferred: 'true'
+    notes: computed from Q_L and ER with the model of ref. [30]; coupling regime not stated (D403); wavelength read off the Fig. 7(d) axis, about 1546.846 nm (component notes)
+    locator: p.6 Sec. III-B, Table II; p.5 Fig. 7(d)
+    why: c_band inferred although the resonance is printed on the Fig. 7(d) wavelength axis (p.5; dip about 1546.846 nm, the spectrum labelled with this sample's Table II FWHM / Q_L)
+  cmp_lit_zhu2020_chg_microdisk_etch25min-m4:
+    wavelength_nm: '1546.85'
+    band: ''
+    wavelength_inferred: 'true'
+    notes: rests on the author_estimate Q_i and an estimated FSR; wavelength read off the Fig. 7(d) axis, about 1546.846 nm (component notes)
+    locator: p.6 Sec. III-B, Table II; p.5 Fig. 7(d)
+    why: c_band inferred although the resonance is printed on the Fig. 7(d) wavelength axis (p.5; dip about 1546.846 nm, the spectrum labelled with this sample's Table II FWHM / Q_L)
+  cmp_lit_chen2025b_asbg_adf_fano_wg220_lg300_ld0-m3:
+    wavelength_nm: '1529'
+    band: ''
+    wavelength_inferred: 'true'
+    notes: printed 6x10^3; no wavelength printed with it; drop-port peak read off the Fig. 13(g) inset at about 1529.0 nm (+/-0.2 nm), just below the 1530 nm C-band edge, so no band label; 1529 nm / 0.25 nm gives about 6.1e3
+    locator: p.10 Table II; p.9 Fig. 13(g)
+    why: c_band label for a resonance the Fig. 13(g) inset places at about 1529 nm (p.9), outside the C band
+  cmp_lit_liu2021c_aem_filter_order2-m4:
+    wavelength_nm: '1557'
+    wavelength_inferred: 'true'
+    notes: no wavelength printed with the Table I value; passband centre read off the Fig. 7(a) zoom at about 1557.0 nm (+/-0.3 nm); the paper states operation 'around 1550 nm' (p.6)
+    locator: p.6 Table I; p.5 Fig. 7(a)
+    why: Fig. 7(a) zoom (p.5) prints the measured passband at about 1557 nm; 1550 nm is only the paper-level operating statement
+  cmp_lit_liu2021c_aem_filter_order3-m4:
+    wavelength_nm: '1526'
+    wavelength_inferred: 'true'
+    notes: no wavelength printed with the Table I value; passband centre read off the Fig. 7(b) zoom at about 1526.2 nm (+/-0.2 nm), 24 nm from the paper-level 'around 1550 nm' (p.6)
+    locator: p.6 Table I; p.5 Fig. 7(b)
+    why: Fig. 7(b) zoom (p.5) prints the measured passband at about 1526 nm, not 1550 nm
+  cmp_lit_liu2021c_aem_8ch_filter-m9:
+    wavelength_nm: '1557'
+    wavelength_max_nm: '1579'
+    wavelength_inferred: 'true'
+    notes: '''excess losses ... ~0.8 dB'' for the eight channels (p.5; Fig. 6(a) label 0.8dB); channel resonances 1557.2-1578.8 nm from the printed Fig. 6(b) fit y = 3.0869x + 1554.1 (channels 1-8); the paper states operation ''around 1550 nm'' (p.6)'
+    locator: p.5 Sec. III, Fig. 6(a), (b)
+    why: Fig. 6(b) (p.5) prints the eight channel wavelengths (1557-1579 nm); one value stated for all channels -> range (rule 7)

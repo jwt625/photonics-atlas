@@ -1,0 +1,141 @@
+# Audit patch lit_199 (fresh-context audit 2026-11-18, DevLog/audits/2026-11-18-lit_199-audit.md).
+# 69 metrics: 56 ok / 13 imprecise / 0 wrong; 10 components: 4 ok / 5 imprecise (notes) / 1 wrong (liang2005 fab empty
+# despite first-person fabrication statements); 1 miss added (liang2005 device length about 1 cm).
+# After the patch: 10 components, 70 metrics.
+# Coordinator questions (audit Q1-Q6): Q1 lu2017 measured ILs mean without qualifier (notes only); Q2 lu2017 5x5 length 5.41 um
+# kept (no op); Q3 lu2017 fab HUST restated as rule 12 first-person (notes only); Q4 tsarev2011 conversions and 180 nm gap kept
+# (no op); Q5 yamaguchi2022 rows kept in scope, conventional range max 3.35 -> 3.3; Q6 liang2005 fab CUHK, excess loss scope
+# per_component (revert = drop the m3 op), Fig. 5 series stays out.
+components:
+  cmp_lit_lu2017_star_4x4:
+    notes: 'Fab: p.7-8 Sec. 3 (EBL Vistec EBPG 5000 Plus, 330 nm ZEP-520A; ICP Plasmalab System100): the authors etched hole test chips themselves (first person ''did the etching processes'', p.7-8) and
+      used 1.6 x the full-etching time to fabricate the star-crossings at the 200 nm hole design depth (p.8); all authors at HUST (p.1) -> org_huazhong_university_of_science_and_technology (rule 12 first-person
+      statement, one institution). The acknowledgments (p.10) also thank named engineers of the Center of Micro-Fabrication and Characterization (CMFC) of Wuhan National Laboratory for Optoelectronics (WNLO)
+      for support in the EBL and ICP etching processes (D84b, xu2025 / D573 precedent); staff thanks do not set a facility. Design (p.4): 1/8 circular-symmetric hole arrangement, x1 = x2 = 160 nm, line
+      spacing y = 99.5 nm, 25 nm grey (unpatterned) wall, coupling region 5.33 um with 33 periods, hole radius 45 nm, DBS optimization (7 iterations at 200 nm depth, Fig. 6(a)); port density about 7.1 um2/port
+      (device area / port count; no registry parameter, footprint not computed). Hole radius, y and period count not entered (no registry parameter for crossing). Hole-radius series 39-51 nm (p.9: average
+      IL +0.6 / +0.9 dB for +/-2.5 / +/-5 nm) not entered: the text does not say which star-crossing was used and gives only increments. Polarization not stated. Cladding not stated.'
+    why: 'fab basis restated: p.7-8 Sec. 3 first-person etching (''did the etching processes'' on the hole test chips, then 1.6 x full-etching time for the star-crossings, p.8) with all authors at HUST
+      (p.1) is a rule 12 statement, not only the p.10 staff thanks; fab id unchanged'
+  cmp_lit_lu2017_star_5x5:
+    notes: 'Fab: p.7-8 Sec. 3 (EBL Vistec EBPG 5000 Plus, 330 nm ZEP-520A; ICP Plasmalab System100): the authors etched hole test chips themselves (first person ''did the etching processes'', p.7-8) and
+      used 1.6 x the full-etching time to fabricate the star-crossings at the 200 nm hole design depth (p.8); all authors at HUST (p.1) -> org_huazhong_university_of_science_and_technology (rule 12 first-person
+      statement, one institution). The acknowledgments (p.10) also thank named engineers of the Center of Micro-Fabrication and Characterization (CMFC) of Wuhan National Laboratory for Optoelectronics (WNLO)
+      for support in the EBL and ICP etching processes (D84b, xu2025 / D573 precedent); staff thanks do not set a facility. Design (p.7): 1/10 circular-symmetric arrangement, x1 = x2 = 200 nm, y = 97.5
+      nm, 5 nm grey wall, 9 DBS iterations; port density 5.83 um2/port. Hole radius and access-waveguide width not printed for this design. Length conflict (D417): p.3 prints 6.63 um for the 5 x 5 star-crossing,
+      p.7 prints a 5.41 um coupling region including the grey wall; the p.7 value is entered as the coupling-region length.'
+    why: 'fab basis restated: p.7-8 Sec. 3 first-person etching (''did the etching processes'' on the hole test chips, then 1.6 x full-etching time for the star-crossings, p.8) with all authors at HUST
+      (p.1) is a rule 12 statement, not only the p.10 staff thanks; fab id unchanged'
+  cmp_lit_lu2017_star_6x6:
+    notes: 'Fab: p.7-8 Sec. 3 (EBL Vistec EBPG 5000 Plus, 330 nm ZEP-520A; ICP Plasmalab System100): the authors etched hole test chips themselves (first person ''did the etching processes'', p.7-8) and
+      used 1.6 x the full-etching time to fabricate the star-crossings at the 200 nm hole design depth (p.8); all authors at HUST (p.1) -> org_huazhong_university_of_science_and_technology (rule 12 first-person
+      statement, one institution). The acknowledgments (p.10) also thank named engineers of the Center of Micro-Fabrication and Characterization (CMFC) of Wuhan National Laboratory for Optoelectronics (WNLO)
+      for support in the EBL and ICP etching processes (D84b, xu2025 / D573 precedent); staff thanks do not set a facility. Design (p.7): 1/12 circular-symmetric arrangement, x1 = 250 nm, x2 = 183.7 nm,
+      y = 92 nm, 50 nm grey wall, 7 DBS iterations; port density 7.3 um2/port. Hole radius and access-waveguide width not printed for this design. p.3 prints 6.61 um length, p.7 a 6.6 um coupling region
+      including the grey wall (consistent).'
+    why: 'fab basis restated: p.7-8 Sec. 3 first-person etching (''did the etching processes'' on the hole test chips, then 1.6 x full-etching time for the star-crossings, p.8) with all authors at HUST
+      (p.1) is a rule 12 statement, not only the p.10 staff thanks; fab id unchanged'
+  cmp_lit_yamaguchi2022_fifo_25mm_rotated:
+    notes: 'Polymer waveguide FIFO for a four-core MCF made by the Mosquito method (core monomer dispensed from a needle into a 500 um liquid cladding monomer on a glass substrate, then UV-cured; p.1 Sec.
+      II). Fab: ''fabricated applying the Mosquito method we developed [5]'' and passive fabrication sentences; authors at Keio University and Sumitomo Electric Industries: fab empty (D80b, D154), process_name
+      as printed (no foundry). New MCF-side arrangement: Ch. 3 / Ch. 4 dispensed above Ch. 1 / Ch. 2, the square rotated counter-clockwise by 30 deg so no two cores sit in one vertical row (p.2 Sec. III.A,
+      Fig. 4(a)); core bending not optimized. Measurement configuration and wavelength of Fig. 4(b) not stated (the preliminary straight-core study of Table 1 is at 1550 nm). Loss reduction 0.2-0.8 dB vs
+      the conventional arrangement (cmp_lit_yamaguchi2022_fifo_25mm_conventional) has no registry parameter. Fig. 4(b) and the printed 2 to 3 dB are attributed to the 25 mm FIFO with unoptimized core bending
+      (p.2 Sec. III.A); the same paragraph also says the cores of ''these waveguides'' (the rotated-structure study) are dispensed on straight paths before the 25 mm FIFOs are introduced, so the bend content
+      of the Fig. 4(b) samples is stated only through that attribution.'
+    why: 'p.2 Sec. III.A: the ''not bent ... straight path, as well'' sentence precedes the 25 mm FIFO sentence; the notes did not record it'
+  cmp_lit_yamaguchi2022_fifo_25mm_conventional:
+    notes: 'Polymer waveguide FIFO for a four-core MCF made by the Mosquito method (core monomer dispensed from a needle into a 500 um liquid cladding monomer on a glass substrate, then UV-cured; p.1 Sec.
+      II). Fab: ''fabricated applying the Mosquito method we developed [5]'' and passive fabrication sentences; authors at Keio University and Sumitomo Electric Industries: fab empty (D80b, D154), process_name
+      as printed (no foundry). Conventional MCF-side arrangement compared in Fig. 4(b) (cores stacked in vertical rows, the case Fig. 3 / Table 1 show to degrade the lower core); arrangement drawing not
+      printed for the FIFO itself. Only figure-read values exist; wavelength and measurement configuration not stated. Fig. 4(b) and the printed 2 to 3 dB are attributed to the 25 mm FIFO with unoptimized
+      core bending (p.2 Sec. III.A); the same paragraph also says the cores of ''these waveguides'' (the rotated-structure study) are dispensed on straight paths before the 25 mm FIFOs are introduced, so
+      the bend content of the Fig. 4(b) samples is stated only through that attribution.'
+    why: 'p.2 Sec. III.A: the ''not bent ... straight path, as well'' sentence precedes the 25 mm FIFO sentence; the notes did not record it'
+  cmp_lit_liang2005_mzi_pbs_w3p2_w2p5:
+    fab_org_ids: org_chinese_university_of_hong_kong
+    notes: 'Polarization splitting from the rib-width dependence of birefringence in two equal-length MZI arms of widths w1 / w2 between two 3-dB MMIs (p.1 Sec. II). Fab: first person ''We design, fabricate,
+      and test'' (p.1 abstract) and ''We have fabricated and tested'' (p.3 Sec. IV), both authors at the Department of Electronic Engineering, Chinese University of Hong Kong (p.1) -> org_chinese_university_of_hong_kong
+      (rule 12; D595 chen2023b precedent). Process (p.2 Sec. III): SOI wafer (supplier not named), photolithography, SF6 / C4F8 ICP etch, single etch step. Arm length conflict (D417): p.2 prints 6 mm MZI
+      arms in the fabricated samples, p.3 prints a 3 mm physical path length; arm length not entered (no arm-length parameter). The about 1 cm device length (36 um to 1 cm aspect ratio of the whole PBS,
+      p.2 Sec. III) is entered as length_um (approx); it matches 6 mm arms plus two 2000 um MMIs. MMI width 36 um and length 2000 um not entered (mmi_width_um / mmi_length_um not allowed on polarization;
+      registry gap). Fig. 5 width series at 1550 nm (w1 2.1-2.5 um with w2 = 3.5 um; w2 3.2-3.8 um with w1 = 2.5 um) not entered: the same nominal 2.5 / 3.5 um pair reads about -15.5 / -18 dB (TE / TM)
+      in Fig. 5(a) and about -14.5 / -16.5 dB in Fig. 5(b), the 3.2 / 2.5 um pair reads about -11 / -20 dB in Fig. 5(b) vs about -16.5 / -16 dB at 1550 nm in Fig. 4, and Fig. 5(b) plots 3.8 um outside the
+      printed 3.2-3.5 um range: sample identity per point not resolvable (D159). Fig. 2 computed birefringence (6.2e-4 at 2.1 um to 3.2e-4 at 2.6 um) has no registry parameter.'
+    why: 'p.1 abstract ''We design, fabricate, and test'' and p.3 Sec. IV ''We have fabricated and tested'' are first-person fabrication statements; both authors at CUHK (p.1): rule 12 own org (D595 chen2023b);
+      length note follows the added m9'
+metrics:
+  cmp_lit_lu2017_star_4x4-m3:
+    wavelength_inferred: ''
+    notes: 'Printed simulated average IL about 0.5 dB over 80 nm centred at 1550 nm (p.3); 1510-1590 nm is that stated span and the axis of Fig. 6(b) (D393: stated, not inferred).'
+    why: 'D393: the span is stated (''80 nm centred 1550 nm'', p.3 Sec. 1) and plotted (Fig. 3(e) / 6 axes 1.51-1.59 um, p.4 / p.7); wavelength_inferred applies only to unstated wavelengths'
+  cmp_lit_lu2017_star_4x4-m5:
+    wavelength_inferred: ''
+    notes: Printed 'less than -21 dB over 80 nm bandwidth' (sign quoted); 1510-1590 nm = the 80 nm design span centred at 1550 nm (p.3) and the Fig. 6(b) axis (D393).
+    why: 'D393: the span is stated (''80 nm centred 1550 nm'', p.3 Sec. 1) and plotted (Fig. 3(e) / 6 axes 1.51-1.59 um, p.4 / p.7); wavelength_inferred applies only to unstated wavelengths'
+  cmp_lit_lu2017_star_5x5-m3:
+    wavelength_inferred: ''
+    notes: Printed average IL 0.75 dB over 80 nm (p.7; p.3 'about 0.75 dB' over 80 nm centred at 1550 nm); 1510-1590 nm stated (p.3) and the Fig. 6(d) axis (D393).
+    why: 'D393: the span is stated (''80 nm centred 1550 nm'', p.3 Sec. 1) and plotted (Fig. 3(e) / 6 axes 1.51-1.59 um, p.4 / p.7); wavelength_inferred applies only to unstated wavelengths'
+  cmp_lit_lu2017_star_5x5-m4:
+    wavelength_inferred: ''
+    notes: Printed 'sub -20 dB over 80 nm bandwidth' (sign quoted); 1510-1590 nm = the 80 nm span centred at 1550 nm (p.3) and the Fig. 6(d) axis (D393).
+    why: 'D393: the span is stated (''80 nm centred 1550 nm'', p.3 Sec. 1) and plotted (Fig. 3(e) / 6 axes 1.51-1.59 um, p.4 / p.7); wavelength_inferred applies only to unstated wavelengths'
+  cmp_lit_lu2017_star_6x6-m3:
+    wavelength_inferred: ''
+    notes: Printed average IL 1.1 dB over 80 nm (p.7; p.3 also 1.1 dB over 80 nm centred at 1550 nm); 1510-1590 nm stated (p.3) and the Fig. 6(f) axis (D393).
+    why: 'D393: the span is stated (''80 nm centred 1550 nm'', p.3 Sec. 1) and plotted (Fig. 3(e) / 6 axes 1.51-1.59 um, p.4 / p.7); wavelength_inferred applies only to unstated wavelengths'
+  cmp_lit_lu2017_star_6x6-m4:
+    wavelength_inferred: ''
+    notes: Printed 'sub -16 dB' over 80 nm (sign quoted); 1510-1590 nm = the 80 nm span centred at 1550 nm (p.3) and the Fig. 6(f) axis (D393).
+    why: 'D393: the span is stated (''80 nm centred 1550 nm'', p.3 Sec. 1) and plotted (Fig. 3(e) / 6 axes 1.51-1.59 um, p.4 / p.7); wavelength_inferred applies only to unstated wavelengths'
+  cmp_lit_lu2017_star_4x4_140nm_design-m1:
+    wavelength_inferred: ''
+    notes: Printed 'average IL ... still up to 0.85 dB' (the text cites Fig. 3(c), the pattern; the transmittance is Fig. 3(e)); the FOM averages five wavelengths over 80 nm (p.5); 1510-1590 nm = the stated
+      80 nm span centred at 1550 nm (p.3) and the Fig. 3(e) axis (D393).
+    why: 'D393: the span is stated (''80 nm centred 1550 nm'', p.3 Sec. 1) and plotted (Fig. 3(e) / 6 axes 1.51-1.59 um, p.4 / p.7); wavelength_inferred applies only to unstated wavelengths'
+  cmp_lit_lu2017_star_4x4-m1:
+    notes: Printed 0.75 +/- 0.2 dB over about 60 nm (1520-1580 nm) in the results (p.8) and the conclusion ('measured average ILs', p.10); p.3 Sec. 1 and the abstract word it 'less than 0.75 +/- 0.2 dB'
+      / 'less than 0.75 dB', the results give no bound, so the value is a band mean without qualifier; +/- 0.2 dB kept here (not a std). Per-crossing value printed (single device and 5 crossings / 5, Fig.
+      8(a)), no cascade total or division shown (D167 / D452 / D567).
+    why: notes cite only the abstract 'less than'; p.3 Sec. 1 prints 'less than ... +/- 0.2 dB' as well, p.8 / p.10 print the plain mean
+  cmp_lit_lu2017_star_5x5-m1:
+    notes: Printed 0.9 +/- 0.2 dB over about 60 nm (1520-1580 nm) in the results (p.8) and the conclusion ('measured average ILs', p.10); p.3 Sec. 1 and the abstract word it 'less than 0.9 +/- 0.2 dB' /
+      'less than 0.9 dB', the results give no bound, so the value is a band mean without qualifier; +/- 0.2 dB kept here (not a std). Per-crossing value printed (single device and 5 crossings / 5, Fig.
+      8(c)), no cascade total or division shown (D167 / D452 / D567).
+    why: notes cite only the abstract 'less than'; p.3 Sec. 1 prints 'less than ... +/- 0.2 dB' as well, p.8 / p.10 print the plain mean
+  cmp_lit_lu2017_star_6x6-m1:
+    notes: Printed 1.5 +/- 0.2 dB over about 60 nm (1520-1580 nm) in the results (p.8) and the conclusion ('measured average ILs', p.10); p.3 Sec. 1 and the abstract word it 'less than 1.5 +/- 0.2 dB' /
+      'less than 1.5 dB', the results give no bound, so the value is a band mean without qualifier; +/- 0.2 dB kept here (not a std). Per-crossing value printed (single device and 5 crossings / 5, Fig.
+      8(e)), no cascade total or division shown (D167 / D452 / D567).
+    why: notes cite only the abstract 'less than'; p.3 Sec. 1 prints 'less than ... +/- 0.2 dB' as well, p.8 / p.10 print the plain mean
+  cmp_lit_tsarev2011_si_polymer_vertical_crossing-m4:
+    notes: 'Printed ''< 0.002 dB'' for the cross path (conclusion, p.6). p.6 Sec. 3 bounds the single crossing by the 16-wire value / 16 (''better than 99.9 %'', abstract 99.9 %), but the printed 16-wire
+      numbers do not give 0.002 dB exactly (0.04 dB / 16 = 0.0025 dB, 0.01 dB / 16 = 0.0006 dB, 99.9 % = 0.0043 dB): the conclusion value is kept as printed (D417).'
+    why: 'the old note implied the 16-wire / 16 arithmetic yields the printed bound; it does not (p.6 Sec. 3: 0.01 dB total, 0.04 dB error bound, 99.9 %)'
+  cmp_lit_yamaguchi2022_fifo_25mm_conventional-m1:
+    value_max: '3.3'
+    notes: 'Bar heights from the PDF vector data of Fig. 4(b) (gridlines every 0.5 dB, 0-5 dB): Ch. 1 2.89, Ch. 2 3.30, Ch. 3 2.70, Ch. 4 3.30 dB (+/-0.02 dB); the same read gives the new-structure bars
+      2.44 / 2.51 / 2.41 / 3.13 dB. Wavelength not stated.'
+    why: 'p.2 Fig. 4(b): Ch. 2 and Ch. 4 conventional bars end at 3.297 dB on the vector gridlines (bar tops 225.14 pt, 0 dB at 275.32 pt, 5 dB at 199.22 pt), not 3.35'
+  cmp_lit_liang2005_mzi_pbs_w3p2_w2p5-m3:
+    scope: per_component
+    notes: 'Paper term ''excess loss'', ''a total of 1.1 dB'' for the two MMIs and waveguide tapers (PBS excess as insertion_loss_db: polarization has no excess_loss_db; wu2017 / D595). Scope per_component:
+      a straight reference waveguide of the same cross section and length removes coupling, facet and propagation loss and isolates the splitter (rule 6; fukuda2006 and wu2017 PBS rows are per_component).
+      Wavelength not printed with the value; the loss measurements use the ASE source over 1520-1565 nm (inferred). Polarization not stated.'
+    why: p.2 Sec. III control measurement on a straight waveguide of the same cross section and length isolates one component (rule 6 per_component); the cited precedent wu2017 is per_component, as is fukuda2006
+      (reference_structure)
+add_metrics:
+- metric_id: cmp_lit_liang2005_mzi_pbs_w3p2_w2p5-m9
+  component_id: cmp_lit_liang2005_mzi_pbs_w3p2_w2p5
+  parameter: length_um
+  value: '10000'
+  unit: um
+  qualifier: approx
+  condition: whole polarization beam splitter (two MMIs, tapers and MZI arms)
+  basis: derived
+  locator: p.2 Sec. III
+  notes: Printed '1 cm' in the 36 um to 1 cm width-to-length aspect ratio of the whole PBS structure (D157 rescale); consistent with 6 mm arms (p.2 Sec. II) plus two 2000 um MMIs; p.3 prints a 3 mm path
+    length (conflict in component notes).
+  verified_on: '2026-11-18'
+  why: 'miss: p.2 Sec. III states the device length (36 um to 1 cm aspect ratio of the whole beam splitter); length_um is allowed on every class'

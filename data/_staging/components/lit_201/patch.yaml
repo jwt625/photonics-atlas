@@ -1,0 +1,59 @@
+# Audit patch lit_201 (fresh-context audit 2026-11-18, DevLog/audits/2026-11-18-lit_201-audit.md).
+# 91 metrics: 87 ok / 4 imprecise / 0 wrong; 14 components: 13 ok / 1 imprecise (note follow-up of the 2 added rows) / 0 wrong;
+# 2 misses added (cheng2023a mode (de)multiplexer measured worst-case mode crosstalk, Fig. 10(b)-(c)).
+# After the patch: 14 components, 93 metrics.
+# Coordinator rulings asked (audit Q1-Q8): Q1 ji2022 in scope, platform empty (no op); Q2 klaus2012 / lee2014 in scope,
+# platform other (no op); Q3 cheng2023a fab empty, HUST WNLO facility only (no op); Q4 klaus2012 7-channel conclusion
+# bounds kept as author_estimate / unspecified (no op); Q5 cheng2023a figure reads and GC scope unspecified (no op);
+# Q6 ji2022 / klaus2012 fab empty (no op); Q7 klaus2012 0.01 dB per_coupler (no op); Q8 the two added crosstalk rows
+# (revert = drop add_metrics and the component op).
+components:
+  cmp_lit_cheng2023a_te0_te1_mode_demux:
+    notes: "Fab empty: the fabrication sentence is passive ('is fabricated on a 220 nm thick commercially available SOI wafer', 100 keV EBL, p.5 Sec. III) and names no org; all authors at WNLO / HUST. The acknowledgment thanks the Center of Optoelectronic Micro&Nano Fabrication and Characterizing Facility, WNLO of HUST 'for the support in device fabrication' (p.7) -> facility_org_ids (rule 12, li2026aa precedent); borderline D448 fab candidate (org_huazhong_university_of_science_and_technology) for the audit. Commercial SOI wafer, vendor not stated. Separate test device with TE GCs (Fig. 10(a), p.7); the same design sits inside the PBS (cmp_lit_cheng2023a_masabg_pbs). Gaps Wg1 / Wg2 / Wg3 = 1.2 / 0.16 / 1.2 um (design, p.4) not entered (gap_nm not allowed for mode_converter; registry gap already listed in D533). Measured TE0-to-TE1 / TE1-to-TE0 leakage is described in the text only as 'low crosstalk' (p.7); the worst plotted points (about -14 dB near 1474 nm in both Fig. 10(b) and Fig. 10(c)) are entered as figure reads (m13 / m14); elsewhere the traces lie between about -17 dB and below the -30 dB axis limit. Measured IL normalization is not stated for this test device (scope unspecified)."
+    why: "follow-up of the two added crosstalk rows m13 / m14 (p.7 Fig. 10(b)-(c)); the old note said the leakage was not entered"
+metrics:
+  cmp_lit_ji2022_fifo_mcf1-m1:
+    qualifier: approx
+    why: "rule 7: printed 'the insertion losses were about 0.64 +/- 0.11 dB and 0.74 +/- 0.27 dB' (p.5 Sec. III); 'about' -> qualifier approx"
+  cmp_lit_ji2022_fifo_mcf2-m1:
+    qualifier: approx
+    why: "rule 7: same sentence, 'about ... 0.74 +/- 0.27 dB' (p.5 Sec. III) -> qualifier approx"
+  cmp_lit_klaus2012_mux_19ch-m8:
+    basis: specification
+    notes: "MFD of the MCF the 19-channel devices were designed for ('originally not designed for an MCF-MFD of 9.4 um but 7.8 um', p.4); mfd_fiber_um is a performance parameter, so design_target (dimensions only, D82a) does not apply; rule 4 names the MFD of the fiber a coupler is designed for as specification. The tested MCF had 9.4 um (measured, p.3)."
+    why: "basis design_target -> specification: rule 4 example (MFD of the fiber a coupler is designed for) and the registry note on mfd_fiber_um; D82a keeps design_target for dimensions (p.4 Sec. IV)"
+  cmp_lit_klaus2012_mux_19ch-m10:
+    basis: derived
+    notes: "printed 'approximately 0.5 mm' (p.2 Sec. III), stored as 500 um: unit conversion -> derived (D157 / D256; the source prints no um form); origin of the beam width not stated (design description of the 2 mm prism-array window)"
+    why: "D82d / D157 / D256: a mm -> um conversion of a printed value is derived unless the source prints the stored-unit form; p.2 prints only 'approximately 0.5 mm'"
+add_metrics:
+- metric_id: cmp_lit_cheng2023a_te0_te1_mode_demux-m13
+  component_id: cmp_lit_cheng2023a_te0_te1_mode_demux
+  parameter: crosstalk_db
+  value: '14'
+  unit: dB
+  qualifier: approx
+  wavelength_nm: '1474'
+  polarization: te
+  mode: TE0
+  condition: "TE0 input, power at the TE1 port (TE0 to TE1 trace); worst point (highest leakage) of the 1400-1700 nm measured span, GC1 at 8 deg fiber angle; three device sets with TE GCs centred at 1450 / 1550 / 1650 nm, two fiber angles each"
+  basis: extracted_from_figure
+  locator: p.7 Fig. 10(b); p.7 App. A
+  notes: "read off Fig. 10(b): TE0-to-TE1 trace peaks at about -13.9 dB near 1474 nm, reading +/- 0.5 dB / +/- 5 nm; text says only 'low crosstalk'; normalization of the plotted transmission not stated (as m1)"
+  verified_on: '2026-11-18'
+  why: "miss: measured mode crosstalk of the (de)multiplexer is plotted (Fig. 10(b), p.7) but not entered; figure-read performance values are entered as extracted_from_figure (D535 jung2018 precedent)"
+- metric_id: cmp_lit_cheng2023a_te0_te1_mode_demux-m14
+  component_id: cmp_lit_cheng2023a_te0_te1_mode_demux
+  parameter: crosstalk_db
+  value: '14'
+  unit: dB
+  qualifier: approx
+  wavelength_nm: '1474'
+  polarization: te
+  mode: TE1
+  condition: "TE1 input, power at the TE0 port (TE1 to TE0 trace); worst point (highest leakage) of the 1400-1700 nm measured span, GC1 at 8 deg fiber angle; three device sets with TE GCs centred at 1450 / 1550 / 1650 nm, two fiber angles each"
+  basis: extracted_from_figure
+  locator: p.7 Fig. 10(c); p.7 App. A
+  notes: "read off Fig. 10(c): TE1-to-TE0 trace peaks at about -13.9 dB near 1474 nm, reading +/- 0.5 dB / +/- 5 nm; text says only 'low crosstalk'; normalization of the plotted transmission not stated (as m2)"
+  verified_on: '2026-11-18'
+  why: "miss: measured mode crosstalk of the (de)multiplexer is plotted (Fig. 10(c), p.7) but not entered; figure-read performance values are entered as extracted_from_figure (D535 jung2018 precedent)"

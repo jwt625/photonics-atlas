@@ -1,0 +1,87 @@
+# Audit patch lit_193 (fresh-context audit 2026-11-18, DevLog/audits/2026-11-18-lit_193-audit.md).
+# 114 metrics: 109 ok / 5 imprecise / 0 wrong; 25 components: 21 ok / 4 imprecise / 0 wrong; 4 misses added.
+# After the patch: 25 components, 118 metrics.
+# Coordinator rulings asked (audit Q1-Q7): Q1 zhang2022c HUST fab extended to the laser and both mirror rows (patched here;
+# revert = drop the three component ops); Q2 zhang2022c SSC 64 / 44 % measured per_facet kept (no op); Q3 koscica2025
+# dual-core overlaps on one row kept (no op); Q4 koscica2025 / su2023 platforms, AIM / Ligentec / UCSB orgs kept, transition
+# rows proposed for benchmark exclude_values (config, no op); Q5 su2023 2.5 / 3 dB author_estimate kept (no op);
+# Q6 koscica2025 derived threshold kept with n_samples (patched) and 87 % / 1.1 THz / 30.5k author_estimate kept (no op);
+# Q7 feng2024 lasing range and libsch2006 Table 1 kept as distilled (no op).
+components:
+  cmp_lit_zhang2022c_dbr_soa_laser:
+    fab_org_ids: org_huazhong_university_of_science_and_technology
+    notes: "Device 3.65 mm x 0.25 mm: SOA 1000 um (tilted 7 deg, AR-coated cleaved exit facet), uniform-grating front mirror 38 um, gain 600 um, phase 150 um, sampled-grating back mirror ~980 um (31 bursts), monitor PD and an absorbing square waveguide at the rear (p.2). Chip on an AlN carrier on a Cu heat sink, TEC at 25 C (p.4). The LiDAR / linearization work uses the same laser in a 14-pin butterfly package (p.7); residual sweep nonlinearity 0.026 % / 0.02 % of the 24 GHz excursion (up / down ramp) has no registry parameter (report). Grating duty cycle 0.5 (p.3, SEM Fig. 4(b)) not tied to one mirror: in reflector notes. Fab HUST: first-person 'we fabricated a spot size converter (SSC) at the laser output port' (p.1 abstract) on a monolithic chip whose SSC and gratings are patterned in the same EBL / RIE step before the common regrowth (Sec. 2.2, p.3), so the statement covers the laser chip; all authors at HUST (WNLO and School of Optical and Electronic Information, p.1; rule 12)."
+    why: "rule 12 / D80b: the first-person SSC fabrication (p.1) is a step of the one monolithic flow that also patterns the gratings (p.3 Sec. 2.2: 'the SSC and gratings are pattered by EBL ... etched by RIE', then regrowth, ridge, contacts, cleave); the SSC cannot be made apart from the laser wafer, so per-component fab (D515 / D463: different flows or orgs) does not split it (audit Q1)"
+  cmp_lit_zhang2022c_front_mirror_uniform_grating:
+    fab_org_ids: org_huazhong_university_of_science_and_technology
+    notes: "Exists on the fabricated laser; only simulated performance reported (D80e). Grating duty cycle 0.5 is stated for 'the grating' with SEM Fig. 4(b) (p.3), not tied to the front or back mirror (D159): not entered. Fab HUST: the gratings are patterned in the same EBL / RIE step as the spot-size converter the authors state they fabricated (p.1 abstract, p.3 Sec. 2.2); all authors at HUST (rule 12)."
+    why: "same as the laser row (p.1 abstract; p.3 Sec. 2.2; audit Q1)"
+  cmp_lit_zhang2022c_back_mirror_sampled_grating:
+    fab_org_ids: org_huazhong_university_of_science_and_technology
+    notes: "Exists on the fabricated laser; only simulated performance reported (D80e). Measured supermode spacing 10.5 nm is on the laser row (fsr_nm, intracavity-filter condition). Tuned by current (back-mirror tuning range on the laser row). Grating duty cycle 0.5 not tied to one mirror (D159): not entered. Fab HUST: the gratings are patterned in the same EBL / RIE step as the spot-size converter the authors state they fabricated (p.1 abstract, p.3 Sec. 2.2); all authors at HUST (rule 12)."
+    why: "same as the laser row (p.1 abstract; p.3 Sec. 2.2; audit Q1)"
+  cmp_lit_koscica2025_laser_sin_coupling_1layer:
+    label: "Monolithic in-pocket QD laser facet to single-layer SiN input taper (3.7 um), etched gap (BCB fill per the process flow)"
+    core_material: "etched III-V laser facet (4 um ridge), etched gap (BCB gap-fill per the process flow, p.3; not restated for the Fig. 6(c) device; BCB n = 1.56 as cited), SiN 220 nm input taper 3.7 um tapered over 75 um to 1.2 um, on the same SOI die"
+    why: "p.5 Sec. V and Fig. 6(c) caption describe the 4 um x 4 mm device without naming its gap fill or gap size; BCB comes from the general flow (p.3 Sec. II), while the Fig. 3 integrated FP lasers of the same paper are air-gap devices (p.3), so the fill is not asserted as stated for this device"
+metrics:
+  cmp_lit_koscica2025_laser_sin_coupling_1layer-m1:
+    basis: measured
+    includes: "light escaping at the III-V facet / gap / SiN input-taper coupling region"
+    condition: "4 um x 4 mm integrated FP laser, perpendicular etched facets (p.3 Sec. III), 3.7 um SiN input tapers, 20 C; one-sided integrating-sphere output vs lensed-fiber output; gap fill and gap size not restated for this device (the process flow fills the etched gaps with BCB, p.3)"
+    notes: "printed 5.4 dB: the paper compares the sphere and fiber LI curves and subtracts the separately measured waveguide (0.075 dB/cm) and edge-coupler (3.6 dB) losses; no ratio printed, value entered as printed -> measured (D167, D448, D82d). Fig. 6(c) end points (about 32 / 4.5 mW at 800 mA) give about 5 dB after the subtraction, consistent. The paper notes (p.4) that integrating-sphere powers of etched-facet pocket lasers are relative values (>= 3 dB below cleaved-facet ones), so the number is the paper's loss metric, not an absolute coupling loss; band from the O-band lasing"
+    why: "p.5 Sec. V 'the coupling loss due to escaping light is 5.4 dB' is the paper's own de-embedded result with no shown arithmetic, the same treatment as the 3.6 dB edge coupler of this batch (reference_structure, measured) and zhang2022c 64 % (D167); BCB not stated for this device (component op)"
+  cmp_lit_koscica2025_fp_laser_cleaved-m1:
+    n_samples: '13'
+    condition: "initial threshold of the 2 mm aging batch (13 cleaved devices from the same chip area, Fig. 4); measurement temperature not stated (aging at 35 C)"
+    why: "p.4 Sec. III and Fig. 4 caption: the 'batch' whose average device the 250 mA aging current is compared with is the 13 cleaved-facet lasers"
+  cmp_lit_koscica2025_dbr_laser_simple-m2:
+    notes: "text prints 1307 nm (p.7); the Fig. 8(b) main peak sits at about 1308.7 nm (pixel read against the 1290-1320 nm axis, +/-0.2 nm; inset agrees): conflict noted (D417), printed value kept"
+    why: "p.7 Fig. 8(b) render: frame 1290-1320 nm, main lasing peak about 1308.7 nm vs the printed 1307 nm"
+  cmp_lit_su2023_sin_mrr-m3:
+    basis: measured
+    notes: "printed 5.2 x 10^5 (p.3, repeated in the Fig. 5 caption), the paper's conversion of its ~369 MHz through-port FWHM; value as printed (D82d), standard extraction from own data -> measured (D80a; lit_189 guarino2007 precedent)"
+    why: "p.3 Sec. II-A prints Q_Loaded = 5.2 x 10^5 from the measured FWHM; the stored value equals the printed one, so derived (a value that differs from the printed number) does not apply"
+  cmp_lit_su2023_sin_mrr-m4:
+    basis: measured
+    notes: "includes bending and parasitic coupling loss; the paper says the intrinsic loss is slightly lower. Standard add-drop model fit of own through / drop spectra (Eqs. 1-2, lossless coupling sections) -> measured (D80a, D634)"
+    why: "p.3 Sec. II-A: alpha = 0.15 dB/cm from fitting the measured spectra; D634 (li2017a TE 590 dB/cm derived -> measured, standard fit of own data)"
+add_metrics:
+- metric_id: cmp_lit_su2023_sin_waveguide-m2
+  component_id: cmp_lit_su2023_sin_waveguide
+  parameter: width_nm
+  value: '1000'
+  unit: nm
+  basis: derived
+  locator: p.2 Sec. II-A
+  notes: "printed 1 um; um -> nm (D157)"
+  why: "D153 geometry miss: p.2 states the chip waveguide width 1 um in the same sentence as the < 0.2 dB/cm loss; waveguide_xsec template needs it"
+- metric_id: cmp_lit_su2023_sin_waveguide-m3
+  component_id: cmp_lit_su2023_sin_waveguide
+  parameter: core_thickness_nm
+  value: '800'
+  unit: nm
+  basis: derived
+  locator: p.2 Sec. II-A
+  notes: "printed 0.8 um; um -> nm (D157); foundry layer thickness (D402)"
+  why: "D153 geometry miss: p.2 states thickness 0.8 um with the width and loss of the Ligentec AN800 waveguides"
+- metric_id: cmp_lit_koscica2025_sin_edge_coupler-m3
+  component_id: cmp_lit_koscica2025_sin_edge_coupler
+  parameter: core_thickness_nm
+  value: '220'
+  unit: nm
+  condition: "SiN layer of the output inverse taper"
+  basis: design_target
+  locator: p.4 Sec. IV
+  notes: "the SiN waveguides (of which the output couplers are inverse tapers) are made from a 220 nm SiN layer; foundry thickness (D402)"
+  why: "D153 / D579 shared-stack miss: p.4 'SiN waveguides and DBRs are fabricated from a 220 nm thick SiN layer' and the output couplers are inverse tapers of these waveguides; edge_taper template requires core_thickness_nm"
+- metric_id: cmp_lit_koscica2025_sin_dbr_801-m4
+  component_id: cmp_lit_koscica2025_sin_dbr_801
+  parameter: period_nm
+  value: '401'
+  unit: nm
+  condition: "DBR grating period, labelled '401 nm pitch' in the schematic"
+  basis: extracted_from_figure
+  locator: p.7 Fig. 8(a)
+  notes: "printed figure label (no reading uncertainty); consistent with first-order Bragg reflection at 1307 nm for an effective index near 1.63"
+  why: "D153 / Contract v5 miss: Fig. 8(a) labels the SiN DBR teeth '401 nm pitch' (p.7 render)"

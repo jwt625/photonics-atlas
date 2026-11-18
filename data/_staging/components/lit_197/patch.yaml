@@ -1,0 +1,79 @@
+# Audit patch lit_197 (fresh-context audit 2026-11-18, DevLog/audits/2026-11-18-lit_197-audit.md).
+# 82 metrics: 79 ok / 3 imprecise / 0 wrong; 13 components: 13 ok / 0 imprecise / 0 wrong; 4 rows added: 3 siblings
+# from the split zheng2017 range row (Fano ERs 13.05 / 14.50 / 17.65 dB) and 1 miss (zamek2011 design FSR 21 nm).
+# After the patch: 13 components, 86 metrics.
+# Coordinator questions (audit Q1-Q6): Q1 wang2018c imbalance / IL / fab kept (no op); Q2 zamek2011 Q / IL basis, abstract
+# 2100, fab / facility kept, UCSD Nano3 to the org round (no op); Q3 resonator classes kept (no op); Q4 zheng2017 ER range
+# row split into four rows (patched; revert = drop the m2 op and the three fano adds); Q5 chung2023 GC basis measured ->
+# author_estimate (patched; revert = drop the two GC ops, D167 reading); Q6 chung2023 bw_1db_nm and TSRI fab kept (no op).
+metrics:
+  cmp_lit_zheng2017_fano_mrr_slm_fp-m2:
+    value: 11.2
+    value_max: ""
+    statistic: ""
+    wavelength_nm: 1529.829
+    wavelength_max_nm: ""
+    condition: "MRR resonance left of the FP cavity peak, heater power 0 mW (MRR resonance 1529.829 nm); Fano line shape"
+    locator: "p.7 Sec. 4; p.6 Fig. 4(a),(b)"
+    notes: "printed ERs 11.20, 13.05, 14.50, 17.65 dB listed in the order of the heater powers 0 / 0.3 / 0.6 / 0.9 mW and MRR resonance wavelengths 1529.829 / 1529.891 / 1529.952 / 1530.016 nm (p.7); the pairing matches Fig. 4(b), where the dip deepens from the 0 mW (red) to the 0.9 mW (black) trace as the MRR line approaches the FP peak; wavelength = printed MRR resonance wavelength; slope rates almost unchanged, about 252 dB/nm (no parameter); siblings -m4 to -m6"
+    why: "Rule 7 / 9: four ERs at four heater powers and four printed wavelengths are four operating points, not one value over a range; the range row (11.20-17.65 dB over 1529.829-1530.016 nm) lost the pairing that p.7 prints in order and Fig. 4(b) confirms. Row kept for the 0 mW point, three siblings added"
+  cmp_lit_chung2023_te_gc-m1:
+    basis: author_estimate
+    notes: "printed 'a pair of grating couplers having a coupler efficiency of -3.93/-4.14 dB for the TE and TM polarizations' (p.5; sign as printed, TE = -3.93 dB): read as the per-coupler efficiency of the TE design ('coupler efficiency', singular). No measurement or calibration of the couplers is described and no method is given (the value may be the MPW grating-coupler figure): origin not stated, author_estimate (D44; velha2016 D544, liao2024 precedents; D167 covers a stated measurement such as shi2024's calibration). Peak vs band value and wavelength not stated, O band of the 1270-1340 nm measurement inferred"
+    why: "p.5 Sec. IV: the value is stated as a property of the couplers ('having a coupler efficiency of'), with no measurement, calibration or structure described, unlike D167 (shi2024 'we calibrate ... using a pair of lensed fibers'); D44 / D544 origin-not-stated rule"
+  cmp_lit_chung2023_tm_gc-m1:
+    basis: author_estimate
+    notes: "printed 'a pair of grating couplers having a coupler efficiency of -3.93/-4.14 dB for the TE and TM polarizations' (p.5; sign as printed, TM = -4.14 dB): read as the per-coupler efficiency of the TM design ('coupler efficiency', singular). No measurement or calibration of the couplers is described and no method is given (the value may be the MPW grating-coupler figure): origin not stated, author_estimate (D44; velha2016 D544, liao2024 precedents; D167 covers a stated measurement such as shi2024's calibration). Peak vs band value and wavelength not stated, O band of the 1270-1340 nm measurement inferred"
+    why: "p.5 Sec. IV: as the TE row; D44 / D544 origin-not-stated rule"
+add_metrics:
+- metric_id: cmp_lit_zheng2017_fano_mrr_slm_fp-m4
+  component_id: cmp_lit_zheng2017_fano_mrr_slm_fp
+  parameter: extinction_db
+  value: 13.05
+  unit: dB
+  wavelength_nm: 1529.891
+  polarization: te
+  condition: "MRR resonance left of the FP cavity peak, heater power 0.3 mW (MRR resonance 1529.891 nm); Fano line shape"
+  method: direct
+  basis: measured
+  locator: "p.7 Sec. 4; p.6 Fig. 4(a),(b)"
+  notes: "second of the printed ERs 11.20 / 13.05 / 14.50 / 17.65 dB (0 / 0.3 / 0.6 / 0.9 mW); pairing as in -m2 (Fig. 4(b) blue trace); slope rate about 252 dB/nm (no parameter)"
+  why: "Split of the former range row -m2 (rule 7 / 9). p.7 Sec. 4: 0.3 mW, 1529.891 nm, 13.05 dB"
+- metric_id: cmp_lit_zheng2017_fano_mrr_slm_fp-m5
+  component_id: cmp_lit_zheng2017_fano_mrr_slm_fp
+  parameter: extinction_db
+  value: 14.5
+  unit: dB
+  wavelength_nm: 1529.952
+  polarization: te
+  condition: "MRR resonance left of the FP cavity peak, heater power 0.6 mW (MRR resonance 1529.952 nm); Fano line shape"
+  method: direct
+  basis: measured
+  locator: "p.7 Sec. 4; p.6 Fig. 4(a),(b)"
+  notes: "third of the printed ERs 11.20 / 13.05 / 14.50 / 17.65 dB (0 / 0.3 / 0.6 / 0.9 mW); pairing as in -m2 (Fig. 4(b) green trace); slope rate about 252 dB/nm (no parameter)"
+  why: "Split of the former range row -m2 (rule 7 / 9). p.7 Sec. 4: 0.6 mW, 1529.952 nm, 14.50 dB"
+- metric_id: cmp_lit_zheng2017_fano_mrr_slm_fp-m6
+  component_id: cmp_lit_zheng2017_fano_mrr_slm_fp
+  parameter: extinction_db
+  value: 17.65
+  unit: dB
+  wavelength_nm: 1530.016
+  polarization: te
+  condition: "MRR resonance left of the FP cavity peak, heater power 0.9 mW (MRR resonance 1530.016 nm); Fano line shape"
+  method: direct
+  basis: measured
+  locator: "p.7 Sec. 4; p.6 Fig. 4(a),(b)"
+  notes: "fourth of the printed ERs 11.20 / 13.05 / 14.50 / 17.65 dB (0 / 0.3 / 0.6 / 0.9 mW); pairing as in -m2 (Fig. 4(b) black trace, deepest dip); slope rate about 252 dB/nm (no parameter)"
+  why: "Split of the former range row -m2 (rule 7 / 9). p.7 Sec. 4: 0.9 mW, 1530.016 nm, 17.65 dB"
+- metric_id: cmp_lit_zamek2011_au_mirror_fp_resonator-m19
+  component_id: cmp_lit_zamek2011_au_mirror_fp_resonator
+  parameter: fsr_nm
+  value: 21
+  unit: nm
+  wavelength_nm: 1550
+  polarization: te
+  condition: "design: FSR = lambda^2 / (2 Lr ng) with Lr = 13.4 um, ng = 4.27"
+  basis: simulated
+  locator: "p.7 Sec. 4"
+  notes: "design target listed with Q0 2100, QC 300 and ER 20 dB at 1.55 um (p.7), the other three of which are entered as simulated rows; 1550^2 / (2 x 13400 x 4.27) = 20.99 nm; the measured FSR (about 21 nm, p.8) is -m1"
+  why: "Miss: p.7 Sec. 4 'leading to FSR of 21 nm' and the design summary 'Q0 = 2100, QC = 300, FSR = 21nm, and ER = 20dB at the wavelength of 1.55um'; Q0 / QC / ER of that list are rows (-m7, -m8, -m3), the FSR was only in the -m1 note"

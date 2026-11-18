@@ -1,0 +1,46 @@
+# Audit patch lit_194 (fresh-context audit 2026-11-18, DevLog/audits/2026-11-18-lit_194-audit.md).
+# 71 metrics: 65 ok / 6 imprecise / 0 wrong; 12 components: 11 ok / 1 imprecise / 0 wrong; 1 miss added
+# (pruessner2016 "phase shifts as large as 3 pi", Fig. 4 caption). After the patch: 12 components, 72 metrics.
+# Coordinator rulings asked (audit Q1-Q8): all distiller judgment calls (a)-(h) kept as distilled (no op) except the notes
+# below; NRL fab and NRL Nanoscience Institute facility wait for the org round (no op here).
+components:
+  cmp_lit_li2025f_equalizer_8ch:
+    notes: "Fab org_zhejiang_university: 'we design and fabricate ... 2 x 1 and 2 x 2 multimode FP cavities' (p.8), all authors Zhejiang University (D80b first-person + one org). Platform empty: the guiding stack is not stated in the main text (D422 / D423). Input laser lines 1.6 nm apart, intentionally set with > 15 dB inter-channel variation (setup); channels equalized to 'sub-dB' variation (no number, not entered). Fig. 4 caption says the peaks are 'trimmed thermally' while the text says non-volatile trimming (D417 note). The 1x1 WSS of Fig. 5 (four 2x2 FP cavities, channels 1551.7 / 1553.3 / 1554.9 / 1556.5 nm, ~0.8 nm red shift to switch) has no printed performance value and no row. Same chip as the 40-channel array (abstract p.1 'the same chip is able to be configured as ...'; Fig. 4(a) draws the equalizer as one bus of that chip; cross-row cmp_lit_li2025f_dwdm_40ch_fp_array); whether it is bus 2 of the array (Fig. 3(e) 1544.93-1556.13 nm, same window as Fig. 4) is not stated."
+    why: "cross-note missing: p.1 abstract 'the same chip'; p.6 Fig. 4(a) shows the array chip with one bus boxed; Fig. 4(d) channels about 1545-1556 nm vs Fig. 3(e) bus 2 labels 1544.93-1556.13 nm (p.5)"
+metrics:
+  cmp_lit_pruessner2016_es_bridge_family-m1:
+    notes: "printed 'FOM = 0.75 dB/pi (1.5 dB/2pi in Fig. 4(d))' for the devices of Fig. 4(d). wavelength not printed for this value; 1490-1545 nm is the MZI fringe-shift span of the Fig. 3(a) inset (phase averaged over the wavelength scan, p.12 A3); all measurements TE (p.10). The FOM is the paper's single summary line (dashed -1.5 dB / 2 pi guides in Fig. 4(d)); the individual curves spread around it (reading of the render: L_MEMS = 120 um opposite about -3.8 dB near pi and about -3.9 dB near 2.3 pi; L_MEMS = 90 um opposite about -3.2 dB near 3 pi), so it is not a per-device bound."
+    why: "p.6 Fig. 4(d) render: per-device transmittance curves deviate from the printed FOM line (L = 120 um reaches about -3.8 dB before 2 pi); note needed so the n_samples 5 population row is not read as a bound on every device (D165)"
+  cmp_lit_ikeda2010_mems_delay_ps-m2:
+    notes: "printed 'roughly estimated to be -1dB from the intensity of scattered light in the IR image' (negative sign in the source; rule 5, stored positive; qualifier approx from 'roughly'); own IR-image reading, reference level and whether the input facet is included not stated (scope unspecified); wavelength not printed with the value, 1459 nm is the laser wavelength of the Sec. 4 IR-image measurements"
+    why: "p.6 Sec. 4 prints '-1dB' (U+2212 minus in the text layer and on the render), not '~1 dB': source sign must be quoted (skill rule 5)"
+  cmp_lit_ikeda2010_freestanding_si_wire-m1:
+    notes: "printed 'about -10dB/cm' (negative sign in the source; rule 5, stored positive); measurement method and wavelength not stated; 1500 nm inferred from the setup laser 'around 1.5 um' (p.4)"
+    why: "p.6 Sec. 4 prints 'about -10dB/cm' (U+2212 minus): source sign must be quoted (skill rule 5)"
+  cmp_lit_ikeda2010_elliptical_bridge-m1:
+    notes: "printed 'around -0.1dB' (negative sign in the source; rule 5, stored positive); origin not stated (no measurement or calculation shown); wavelength not stated, 1500 nm inferred from the setup laser 'around 1.5 um' (p.4)"
+    why: "p.6 Sec. 4 prints 'around -0.1dB' (U+2212 minus): source sign must be quoted (skill rule 5)"
+  cmp_lit_li2025f_fp2x1_cavity-m4:
+    notes: "printed 'maximally achievable wavelength detuning is up to 3.4 nm (Fig. S4 of Supplement 1)' (p.3) and Table 1 'Trimming Range 3.4' (p.8); the conclusion prints 'non-volatile wavelength-trimming over 3.4 nm' (p.8): wording conflict (D417), qualifier le from the p.3 sentence; supplement not cached"
+    why: "p.8 Sec. 3 'over 3.4 nm' conflicts with p.3 'up to 3.4 nm'; conflict note missing (D417)"
+  cmp_lit_li2025f_equalizer_8ch-m3:
+    notes: "printed 'more than 30 dB' (p.7; Fig. 4(e)(iii) label 30 dB); p.3 summary prints 'a dynamic attenuation range of up to 30 dB' for the same equalizer: wording conflict (D417), qualifier gt from the results sentence; Fig. 4 axis 1540-1560 nm"
+    why: "p.3 'up to 30 dB' conflicts with p.7 'more than 30 dB'; conflict note missing (D417)"
+add_metrics:
+  - metric_id: cmp_lit_pruessner2016_es_bridge_family-m9
+    component_id: cmp_lit_pruessner2016_es_bridge_family
+    parameter: phase_shift_pi
+    value: '3'
+    unit: pi
+    statistic: best
+    n_samples: '5'
+    wavelength_nm: '1490'
+    wavelength_max_nm: '1545'
+    wavelength_inferred: 'true'
+    polarization: te
+    condition: "largest induced phase shift among the five electrostatic devices of Fig. 4(d); unbalanced MZI (built-in 100 um arm imbalance), lensed fibers (2.0 um spot); bias on the lower side electrode, microbridge grounded; bias voltage not printed"
+    method: direct
+    basis: measured
+    locator: p.6 Fig. 4 caption, Fig. 4(d)
+    notes: "printed 'only modest losses are observed for phase shifts as large as 3pi' (Fig. 4 caption; 'as large as' -> statistic best, rule 7); on the render the L_MEMS = 90 um (opposite) device reaches the 3 pi guide line (about -3.2 dB), device not named in the text. wavelength not printed for this value; 1490-1545 nm is the MZI fringe-shift span of the Fig. 3(a) inset (phase averaged over the wavelength scan, p.12 A3); all measurements TE (p.10)"
+    why: "miss: stated measured performance 'phase shifts as large as 3pi' (p.6 Fig. 4 caption) not entered; only the L = 120 um '> 2 pi' row exists"

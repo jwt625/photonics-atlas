@@ -1,0 +1,108 @@
+# Audit patch lit_200 (fresh-context audit 2026-11-18, DevLog/audits/2026-11-18-lit_200-audit.md).
+# 113 metrics: 109 ok / 4 imprecise / 0 wrong; 24 components: 24 ok / 0 imprecise / 0 wrong;
+# 9 misses added (shang2015 vertical coupler upper-layer thickness; zhao2019 BOX and cladding on the 4 grating couplers, D153).
+# After the patch: 24 components, 122 metrics.
+# Coordinator rulings asked (audit Q1-Q7): Q1 shang2015 0.167 dB kept as printed + 0.01 dB derived (no op); Q2 crossing
+# siblings crosstalk only (no op); Q3 heater rows design (no op); Q4 fab UC Davis, facility Marvell, NCNC to the org round
+# (no op); Q5 zhao2019 PBS IL per_component / unspecified (no op; O-band ER conflict notes patched here); Q6 hwang2007 kept
+# in scope (no op; crosstalk note patched here); Q7 watanabe2013 author_estimate / specification kept (m1 conditions patched).
+metrics:
+  cmp_lit_zhao2019_pbs_tapered_bent_dc-m1:
+    condition: "TE input, O band; ER definition not stated (see notes)"
+    notes: "Minimum over the measured band (printed with >=; also abstract, p.3). ER definition not stated. Fig. 6(a) port contrast (thru minus cross, TE input) falls to about 9.4 dB near 1322 nm (thru about -1.3 dB, cross about -10.7 dB; +/-0.3 dB reading); the printed 10.94 dB matches instead the through-port TE / TM contrast of Fig. 6(a) and Fig. 6(c) near 1283 nm (about 10.9 dB). Printed value kept (D417)."
+    why: "imprecise: the condition asserted a port-contrast definition the paper does not state, and the Fig. 6(a) conflict was not noted (p.7 Fig. 6(a), Fig. 6(c) renders, pixel reads against the 0 / -30 dB frame)"
+  cmp_lit_zhao2019_pbs_tapered_bent_dc-m5:
+    condition: "TM input, O band; ER definition not stated (see notes)"
+    notes: "Minimum over the measured band (printed with >=; also abstract, p.3). ER definition not stated. Fig. 6(c) port contrast (cross minus thru, TM input) falls to about 10.5 dB near 1284 nm (thru about -12.5 dB, cross about -2.0 dB; +/-0.3 dB reading), and the cross-port TM / TE contrast of Fig. 6(c) and Fig. 6(a) to about 9.7 dB near 1322 nm; neither reproduces the printed 12.25 dB. Printed value kept (D417)."
+    why: "imprecise: the condition asserted a port-contrast definition the paper does not state, and the Fig. 6(c) conflict (about 1.7 dB) was not noted (p.7 Fig. 6(a), Fig. 6(c) renders)"
+  cmp_lit_hwang2007_vcsel_pd_link-m4:
+    notes: "Printed 'optical crosstalk less than -53 dB' between neighboring layers and channels (p.3 Sec. III). The sentence ties the result to the individual fiber arrays 'without cross-point of waveguides in [7]' and shows no data, figure or method: own claim in a sentence carrying a citation, kept as author_estimate (D80i; origin not stated)."
+    why: "imprecise note: the citation in the value sentence (p.3 Sec. III, ref. [7]) is the reason for author_estimate under D80i and was not recorded"
+  cmp_lit_watanabe2013_lpw_fanin_19core-m1:
+    polarization: ""
+    wavelength_inferred: "true"
+    notes: "Calculated from the measured LPW spot sizes (Table I) and offsets with the MCF MFD of unstated origin; Fig. 4 right axis (sum of spot-size mismatch and offset loss per core, core 12 lowest, core 17 highest). Abstract: 'less than 2.0 dB'. The spot sizes come from separate SMF offset-loss scans (p.2) whose source wavelength and polarization are not stated: 1550 nm taken from the Fig. 3 setup (wavelength_inferred), polarization left empty (the TM launch is stated for the insertion-loss measurement only)."
+    why: "imprecise conditions: TM / 1550 nm are stated for the insertion-loss setup (p.1-2 Sec. III, Fig. 3), not for the offset-loss scans the calculated coupling loss rests on (p.2)"
+add_metrics:
+- metric_id: cmp_lit_shang2015_vertical_coupler-m7
+  component_id: cmp_lit_shang2015_vertical_coupler
+  parameter: layer2_thickness_nm
+  value: '200'
+  unit: nm
+  condition: upper Si3N4 layer
+  basis: design_target
+  locator: p.2 Sec. 1
+  notes: "Platform core thickness 200 nm printed for the multilayer design (abstract p.1, p.2 Sec. 1), with the waveguides of both layers made in the same LPCVD Si3N4 / ICP flow (p.5 Sec. 4); no separate upper-layer value printed."
+  why: "miss (D153): waveguide_platform.transition layout needs layer2_thickness_nm in the cross-section; p.1 / p.2 state the 200 nm core of the two-layer platform"
+- metric_id: cmp_lit_zhao2019_gc_o_te-m7
+  component_id: cmp_lit_zhao2019_gc_o_te
+  parameter: box_thickness_um
+  value: '3'
+  unit: um
+  basis: design_target
+  locator: p.6 Sec. 3
+  notes: buried SiO2 of the SOI wafer (D402)
+  why: "miss (D153): grating-coupler cross-section dimension stated for the whole chip (p.6 Sec. 3), entered on the PBS row only"
+- metric_id: cmp_lit_zhao2019_gc_o_te-m8
+  component_id: cmp_lit_zhao2019_gc_o_te
+  parameter: cladding_thickness_um
+  value: '1'
+  unit: um
+  basis: design_target
+  locator: p.6 Sec. 3
+  notes: PECVD SiO2 upper cladding
+  why: "miss (D153): grating-coupler cross-section dimension stated for the whole chip (p.6 Sec. 3), entered on the PBS row only"
+- metric_id: cmp_lit_zhao2019_gc_o_tm-m7
+  component_id: cmp_lit_zhao2019_gc_o_tm
+  parameter: box_thickness_um
+  value: '3'
+  unit: um
+  basis: design_target
+  locator: p.6 Sec. 3
+  notes: buried SiO2 of the SOI wafer (D402)
+  why: "miss (D153): grating-coupler cross-section dimension stated for the whole chip (p.6 Sec. 3), entered on the PBS row only"
+- metric_id: cmp_lit_zhao2019_gc_o_tm-m8
+  component_id: cmp_lit_zhao2019_gc_o_tm
+  parameter: cladding_thickness_um
+  value: '1'
+  unit: um
+  basis: design_target
+  locator: p.6 Sec. 3
+  notes: PECVD SiO2 upper cladding
+  why: "miss (D153): grating-coupler cross-section dimension stated for the whole chip (p.6 Sec. 3), entered on the PBS row only"
+- metric_id: cmp_lit_zhao2019_gc_c_te-m7
+  component_id: cmp_lit_zhao2019_gc_c_te
+  parameter: box_thickness_um
+  value: '3'
+  unit: um
+  basis: design_target
+  locator: p.6 Sec. 3
+  notes: buried SiO2 of the SOI wafer (D402)
+  why: "miss (D153): grating-coupler cross-section dimension stated for the whole chip (p.6 Sec. 3), entered on the PBS row only"
+- metric_id: cmp_lit_zhao2019_gc_c_te-m8
+  component_id: cmp_lit_zhao2019_gc_c_te
+  parameter: cladding_thickness_um
+  value: '1'
+  unit: um
+  basis: design_target
+  locator: p.6 Sec. 3
+  notes: PECVD SiO2 upper cladding
+  why: "miss (D153): grating-coupler cross-section dimension stated for the whole chip (p.6 Sec. 3), entered on the PBS row only"
+- metric_id: cmp_lit_zhao2019_gc_c_tm-m7
+  component_id: cmp_lit_zhao2019_gc_c_tm
+  parameter: box_thickness_um
+  value: '3'
+  unit: um
+  basis: design_target
+  locator: p.6 Sec. 3
+  notes: buried SiO2 of the SOI wafer (D402)
+  why: "miss (D153): grating-coupler cross-section dimension stated for the whole chip (p.6 Sec. 3), entered on the PBS row only"
+- metric_id: cmp_lit_zhao2019_gc_c_tm-m8
+  component_id: cmp_lit_zhao2019_gc_c_tm
+  parameter: cladding_thickness_um
+  value: '1'
+  unit: um
+  basis: design_target
+  locator: p.6 Sec. 3
+  notes: PECVD SiO2 upper cladding
+  why: "miss (D153): grating-coupler cross-section dimension stated for the whole chip (p.6 Sec. 3), entered on the PBS row only"
