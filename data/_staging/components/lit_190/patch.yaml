@@ -1,0 +1,132 @@
+# lit_190 audit patch (2026-11-18), fresh-context audit DevLog/audits/2026-11-18-lit_190-audit.md
+# 5 metrics imprecise (fixed), 2 component notes synced, 9 misses added (2 xie2024a moving-average peaks, 7 pita2021 stack rows, D153).
+# Judgment calls (coordinator questions in the audit):
+#   Q4 xie2024a measured CE scope unspecified -> per_coupler, method unspecified (hung2020 precedent).
+#      To keep the distiller's reading: drop the scope ops on the two -m1 rows, the two component-note ops and the two
+#      added moving-average rows' scope (set unspecified there).
+#   Q5 xie2024a moving-average peaks added as their own rows; to keep them in notes only, drop inverse_gc-m17 and apod_chirp_gc-m14.
+components:
+  cmp_lit_xie2024a_inverse_gc:
+    notes: "Cached copy is the arXiv v1 preprint of the Applied Physics Letters paper (p.1). Fab empty: passive 'is fabricated' (p.5), no org named (D80b). Facility: 'This work was performed, in part, at the Center for Integrated Nanotechnologies' (p.7) - org missing from the registry (reported). LNOI chip from NanoLN (supplier, note). Test device: two identical GCs, two 300 um tapers (1.8 -> 12 um top width) and a 100 um straight waveguide (1.8 um top width) (p.5); cleaved SMF-28s on rotational stages, polarization controller, 1500-1640 nm sweep; the paper presents the per-GC coupling efficiency against the per-GC simulation (Fig. 4) but does not say how it is extracted from the device transmission (p.6: 'can be further extracted') or how the tapers and waveguide are treated, so measured CE rows carry scope per_coupler with method unspecified. Printed peaks (-3.8 / -6.33 dB) are maxima of the raw trace before moving average; the moving-average peaks are separate rows. Design and tolerance values from 2D FDTD (p.2). Platform lnoi_rib: 450 nm etch into the 700 nm film. Trench / pillar widths of all 15 periods in Table 2 (p.4; not entered individually), minimal feature 150 nm constraint (p.3). Random +/-5 % width variation costs about 0.3 dB peak efficiency and 8 nm 1-dB bandwidth (p.5; change values, not entered). The -6.3 dB / 40 nm / 90 nm thick-LNOI GC of ref. 20 (p.2) is cited, not entered."
+    why: "Note sync with the scope change on m1 and the added m17 (p.6 extraction sentence; p.6 Fig. 4(b) legend: raw vs moving-average traces)"
+  cmp_lit_xie2024a_apod_chirp_gc:
+    notes: "Cached copy is the arXiv v1 preprint of the Applied Physics Letters paper (p.1). Fab empty: passive 'is fabricated' (p.5), no org named (D80b). Facility: 'This work was performed, in part, at the Center for Integrated Nanotechnologies' (p.7) - org missing from the registry (reported). LNOI chip from NanoLN (supplier, note). Test device: two identical GCs, two 300 um tapers (1.8 -> 12 um top width) and a 100 um straight waveguide (1.8 um top width) (p.5); cleaved SMF-28s on rotational stages, polarization controller, 1500-1640 nm sweep; the paper presents the per-GC coupling efficiency against the per-GC simulation (Fig. 4) but does not say how it is extracted from the device transmission (p.6: 'can be further extracted') or how the tapers and waveguide are treated, so measured CE rows carry scope per_coupler with method unspecified. Printed peaks (-3.8 / -6.33 dB) are maxima of the raw trace before moving average; the moving-average peaks are separate rows. Design and tolerance values from 2D FDTD (p.2). Platform lnoi_rib: 450 nm etch into the 700 nm film. Comparison device on the same chip with the same waveguide and tapers (p.5); Table 1: a 1.75, b 0.02, R 0.01 /um, df 7 um, theta 6 deg; chirp formula with central wavelength 1575 nm (p.3). Measured peak about 2 dB below simulation, attributed to fabrication imperfection near the chip edge (p.6)."
+    why: "Note sync with the scope change on m1 and the added m14 (p.6 extraction sentence; p.6 Fig. 4(a) legend: raw vs moving-average traces)"
+metrics:
+  # --- badri2019
+  cmp_lit_badri2019_mfe_slot_crossing_3x3-m8:
+    qualifier: le
+    condition: 2-D FDTD; maximum in the O band, where the reflection reaches -7 dB
+    notes: "Printed 'the insertion loss increases to 1.9 dB' in the O band (p.6): the O-band maximum, not a band value; Fig. 6 transmission minimum about -1.9 to -2.0 dB near 1305-1330 nm, about -1.3 dB at 1260 nm."
+    why: "Rule 7: 'increases to' is the band maximum (p.6 Sec. 4; p.7 Fig. 6 transmission trace spans about 1.3-2.0 dB inside the O band), so the value is an upper bound for the O band"
+  # --- pita2021
+  cmp_lit_pita2021_dual_pol_2d_gc_mcf-m1:
+    includes: compact SPINS taper of the grating (in the light path between the feed waveguide and the 2D grating)
+    why: "Scope precision: each 2D grating is connected via its compact taper to the waveguide (p.2), so the de-embedded coupler value contains the taper (simulated 0.5 dB, spins_taper row)"
+  cmp_lit_pita2021_dual_pol_2d_gc_mcf-m2:
+    includes: compact SPINS taper of the grating (in the light path between the feed waveguide and the 2D grating)
+    why: "Scope precision as m1 (p.2)"
+  # --- xie2024a
+  cmp_lit_xie2024a_inverse_gc-m1:
+    scope: per_coupler
+    condition: two-GC test device (100 um waveguide, two 300 um tapers); cleaved SMF-28; peak of the raw trace before moving average
+    notes: "Printed peak coupling efficiency -3.8 dB at 1574.93 nm (abstract; 1574.9 nm on p.2 / p.7). It is the raw-trace maximum: p.7 prints '-4.5 +/- 0.7 dB from moving average process' beside it (row m17) and Fig. 4(b) shows the raw trace peaking near -3.8 dB with the moving-average curve near -4.5 dB. Presented as the per-GC efficiency against the per-GC simulation; extraction from the two-GC device and taper / waveguide handling not stated (p.6). Polarization set by a polarization controller (TE design), not stated for the measurement."
+    why: "Condition was wrong: -3.8 dB is not from the moving-average spectrum (p.7; p.6 Fig. 4(b) legend). Scope: the value is the per-GC efficiency the paper compares with its per-GC simulation; extraction not stated -> per_coupler + method unspecified (hung2020 m1 precedent; Q4)"
+  cmp_lit_xie2024a_apod_chirp_gc-m1:
+    scope: per_coupler
+    condition: two-GC test device (100 um waveguide, two 300 um tapers); cleaved SMF-28; peak of the raw trace before moving average; device close to the chip edge
+    notes: "Printed peak coupling efficiency -6.33 dB at 1569.3 nm, the raw-trace maximum: p.6 prints '-7.1 +/- 0.77 dB from moving average process' beside it (row m14) and Fig. 4(a) shows the raw trace peaking near -6.3 dB with the moving-average curve near -7.1 dB. Presented as the per-GC efficiency against the per-GC simulation; extraction from the two-GC device and taper / waveguide handling not stated (p.6)."
+    why: "As inverse_gc-m1 (p.6; p.6 Fig. 4(a) legend); Q4"
+add_metrics:
+# --- xie2024a: moving-average peaks printed beside the raw peaks (p.6 / p.7)
+- metric_id: cmp_lit_xie2024a_inverse_gc-m17
+  component_id: cmp_lit_xie2024a_inverse_gc
+  parameter: insertion_loss_db
+  value: '4.5'
+  unit: dB
+  wavelength_nm: '1500'
+  wavelength_max_nm: '1640'
+  wavelength_inferred: 'true'
+  scope: per_coupler
+  condition: two-GC test device (100 um waveguide, two 300 um tapers); cleaved SMF-28; peak of the moving-average trace
+  method: unspecified
+  basis: measured
+  locator: p.7 Sec. 3; p.6 Fig. 4(b)
+  notes: "Printed '-4.5 +/- 0.7 dB from moving average process' (p.7); the +/- term is not defined (ripple of the raw trace about the moving average, Fig. 4(b)). Peak wavelength not printed; wavelength set to the measured sweep 1500-1640 nm (p.6, inferred); the Fig. 4(b) moving-average maximum lies about 1570-1590 nm. Extraction from the two-GC device not stated (p.6). The 1-dB / 3-dB boundaries in Fig. 4(b) (about -5.5 / -7.5 dB) are referenced to this level."
+  why: "miss: printed measured peak efficiency of the smoothed spectrum (p.7), the level the paper's own 1-dB / 3-dB bandwidth lines refer to (p.6 Fig. 4(b) dashed / dotted lines)"
+- metric_id: cmp_lit_xie2024a_apod_chirp_gc-m14
+  component_id: cmp_lit_xie2024a_apod_chirp_gc
+  parameter: insertion_loss_db
+  value: '7.1'
+  unit: dB
+  wavelength_nm: '1500'
+  wavelength_max_nm: '1640'
+  wavelength_inferred: 'true'
+  scope: per_coupler
+  condition: two-GC test device (100 um waveguide, two 300 um tapers); cleaved SMF-28; peak of the moving-average trace; device close to the chip edge
+  method: unspecified
+  basis: measured
+  locator: p.6 Sec. 3; p.6 Fig. 4(a)
+  notes: "Printed '-7.1 +/- 0.77 dB from moving average process' (p.6); the +/- term is not defined (ripple of the raw trace about the moving average, Fig. 4(a)). Peak wavelength not printed; wavelength set to the measured sweep 1500-1640 nm (p.6, inferred); the Fig. 4(a) moving-average maximum lies about 1560-1575 nm. Extraction from the two-GC device not stated (p.6)."
+  why: "miss: printed measured peak efficiency of the smoothed spectrum (p.6), as inverse_gc-m17"
+# --- pita2021: stated stack on the calibration GC, the calibration waveguide and the taper (D153; all parts share the p.3 stack)
+- metric_id: cmp_lit_pita2021_focusing_gc_smf-m2
+  component_id: cmp_lit_pita2021_focusing_gc_smf
+  parameter: core_thickness_nm
+  value: '250'
+  unit: nm
+  basis: design_target
+  locator: p.3
+  notes: SOITEC SOI silicon layer 250 nm (purchased wafer, D402)
+  why: "miss (D153): p.3 states the 250 nm Si / 3 um BOX / 1 um PECVD SiO2 stack for the chip; the 2D GC row carries it, the calibration GC did not"
+- metric_id: cmp_lit_pita2021_focusing_gc_smf-m3
+  component_id: cmp_lit_pita2021_focusing_gc_smf
+  parameter: box_thickness_um
+  value: '3'
+  unit: um
+  basis: design_target
+  locator: p.3
+  why: "miss (D153): p.3 BOX 3 um"
+- metric_id: cmp_lit_pita2021_focusing_gc_smf-m4
+  component_id: cmp_lit_pita2021_focusing_gc_smf
+  parameter: cladding_thickness_um
+  value: '1'
+  unit: um
+  basis: design_target
+  locator: p.3
+  notes: 1 um PECVD SiO2 deposited as the final step.
+  why: "miss (D153): p.3 cladding 1 um"
+- metric_id: cmp_lit_pita2021_si_waveguide-m3
+  component_id: cmp_lit_pita2021_si_waveguide
+  parameter: box_thickness_um
+  value: '3'
+  unit: um
+  basis: design_target
+  locator: p.3
+  why: "miss (D153): p.3 BOX 3 um (waveguide cross-section)"
+- metric_id: cmp_lit_pita2021_si_waveguide-m4
+  component_id: cmp_lit_pita2021_si_waveguide
+  parameter: cladding_thickness_um
+  value: '1'
+  unit: um
+  basis: design_target
+  locator: p.3
+  notes: 1 um PECVD SiO2 deposited as the final step.
+  why: "miss (D153): p.3 cladding 1 um (waveguide cross-section)"
+- metric_id: cmp_lit_pita2021_spins_taper-m5
+  component_id: cmp_lit_pita2021_spins_taper
+  parameter: box_thickness_um
+  value: '3'
+  unit: um
+  basis: design_target
+  locator: p.3
+  why: "miss (D153): p.3 BOX 3 um"
+- metric_id: cmp_lit_pita2021_spins_taper-m6
+  component_id: cmp_lit_pita2021_spins_taper
+  parameter: cladding_thickness_um
+  value: '1'
+  unit: um
+  basis: design_target
+  locator: p.3
+  notes: 1 um PECVD SiO2 deposited as the final step.
+  why: "miss (D153): p.3 cladding 1 um"

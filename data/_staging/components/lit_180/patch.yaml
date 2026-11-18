@@ -1,0 +1,137 @@
+# Audit patch lit_180 (fresh-context audit 2026-11-18, DevLog/audits/2026-11-18-lit_180-audit.md).
+# 29 metrics: 24 ok / 5 imprecise / 0 wrong; 7 components: 3 ok / 4 imprecise (process_name); 0 misses added.
+# After the patch: 7 components, 29 metrics.
+# Coordinator rulings asked (audit Q1-Q7): Q1 bino2018 kept in scope (no op); Q2 bino2018 Q / IL / isolation conflicts and
+# circulator directivity / T13 kept (no op; circulator m1 basis measured is a D256 fix, not a judgment); Q3 zhou2023a
+# arXiv copy accepted, alpha rows author_estimate (ops below; to keep derived, remove the two triridge metric ops),
+# 59 GHz -> 0.462 nm kept; Q4 process_name set to the printed MESA wording (ops below; to keep it empty, remove the
+# four component ops), facility waits for the MESA org (D422 queue); Q5 AOM 62 % kept beside -2.08 dB (note op only);
+# Q6 multiplexer "< -20 dB" kept with a corrected figure note; Q7 46 GHz reverse window stays out (no op).
+components:
+  cmp_lit_zhou2023a_triridge_wg_loss:
+    process_name: Sandia MESA CMOS production and research facilities
+    notes: 'Losses are spatial decay rates alpha_1 / alpha_2 from the transfer-matrix fit of the Rabi-like exchange data of
+      device 2 (Fig. 2(f), (g); Supp. Table S1 footnote c), assumed constant along the whole 9.95 mm device, so bends, tapers,
+      suspended and unsuspended sections are averaged in. alpha is the power decay rate (Eq. (1)-(4): P ~ exp(-alpha L)).
+      Table S1 footnote calls them consistent with the authors'' earlier measurements (ref. [15]); the values entered are
+      this paper''s fit. Fit also uses COMSOL effective indices scaled by f_scaling = 1.017 (Supp. p.10). Group indices 3.7869
+      / 3.8959 are COMSOL values (Table S1 footnote e), not entered. Fab org_sandia_national_laboratories: Supp. Sec. I.A
+      (p.9) states the devices are fabricated on SOI wafers ''using Sandia''s ... (MESA) CMOS production and research facilities''
+      (p.1: ''AlN-on-SOI platform using a CMOS foundry process''); process_name as printed, ''Sandia MESA CMOS production
+      and research facilities'' (stanfield2019 precedent: ''Sandia MESA low-volume CMOS production facility''); the p.1 ''CMOS
+      foundry process'' alone would be generic. MESA is not in the registry (reported). JPL (''part of the research was carried
+      out at'', p.6) is an institution, not a shared facility (kittlaus2020a precedent). Cached text is the arXiv v1 preprint
+      2211.05864 (manuscript dated 2022-11-14, main text pp.1-8 and supplement pp.9-25) of the work listed in the source row
+      as CLEO 2023; the conference version was not read.'
+    why: Contract v7 process_name = process as printed; Supp. p.9 Sec. I.A names the line ('Sandia's Microsystems and Engineering,
+      Sciences and Applications (MESA) CMOS production and research facilities'); merged stanfield2019 rows carry the printed
+      MESA wording (audit Q4)
+  cmp_lit_zhou2023a_multipass_aom:
+    process_name: Sandia MESA CMOS production and research facilities
+    notes: 'Intermodal acousto-optic frequency shifter as mode_converter.converter (kittlaus2020a / cheng2025 precedent).
+      8 angled AlN IDT unit cells (pitch 1675 nm, angle 12.9871 deg, Table S1) drive a 3-pass spiral: 24 active segments of
+      149.07 um, phononic-crystal acoustic confinement (acoustic Q ~200, p.2), acoustic resonance 3.13 GHz, RF power for unity
+      conversion 22.16 dBm (Table S1). Directional-coupler mode multiplexers at both ends (row cmp_lit_zhou2023a_mode_mux).
+      Not entered (no parameter): carrier-suppression ratio 55.3 dB and single-sideband selectivity / suppression 32.1 dB
+      (p.4 Fig. 3(b)); P_pi/2 = 164.4 mW RF (Table S2 own row); 20.9 dB conversion-efficiency enhancement of the 24-pass device
+      1 over the single-pass reference (Fig. 2(e), theory 23.52 dB); ~2 dB efficiency drop at 100 mW on-chip optical power
+      (device 1, Supp. Fig. S1(c)). Loss budget of the -2.08 dB (p.4): 1.01 dB propagation, ~0.2 dB mode multiplexers, ~0.8
+      dB evanescent coupling between adjacent ridges. Simulated improvements (~5 nm / > 18 nm bandwidth, Supp. p.19) not entered.
+      Fab org_sandia_national_laboratories: Supp. Sec. I.A (p.9) states the devices are fabricated on SOI wafers ''using Sandia''s
+      ... (MESA) CMOS production and research facilities'' (p.1: ''AlN-on-SOI platform using a CMOS foundry process''); process_name
+      as printed, ''Sandia MESA CMOS production and research facilities'' (stanfield2019 precedent: ''Sandia MESA low-volume
+      CMOS production facility''); the p.1 ''CMOS foundry process'' alone would be generic. MESA is not in the registry (reported).
+      JPL (''part of the research was carried out at'', p.6) is an institution, not a shared facility (kittlaus2020a precedent).
+      Cached text is the arXiv v1 preprint 2211.05864 (manuscript dated 2022-11-14, main text pp.1-8 and supplement pp.9-25)
+      of the work listed in the source row as CLEO 2023; the conference version was not read.'
+    why: Contract v7 process_name = process as printed; Supp. p.9 Sec. I.A names the line ('Sandia's Microsystems and Engineering,
+      Sciences and Applications (MESA) CMOS production and research facilities'); merged stanfield2019 rows carry the printed
+      MESA wording (audit Q4)
+  cmp_lit_zhou2023a_ao_isolator:
+    process_name: Sandia MESA CMOS production and research facilities
+    notes: 'Direction-dependent phase matching of the intermodal Stokes / anti-Stokes scattering: backward symmetric-mode
+      light is converted to the anti-symmetric mode and dropped by the mode multiplexer. Device 3: IDT pitch 1750 nm, angle
+      13.5795 deg, acoustic resonance 3.02 GHz, RF power for unity conversion 29.49 dBm (Table S1); the drive of the Fig.
+      4(d) measurement is not printed with it. Total power measured with an optical power meter (no spectral filtering). Not
+      entered: reverse-direction 10-dB window of 46 GHz at omega_b (Fig. 4(d), centre wavelength not printed); > 40 dB transmission
+      contrast of the input tone from the heterodyne measurement ignoring cross-talk tones (p.6; Supp. p.24) - not a total-power
+      isolation (D419 / D602 form); simulated / projected values (30-50 dB, 12-25 nm, 20 dB over ~0.21 nm, 0.206 nm (26.3
+      GHz), > 6 nm practical bandwidth; p.5-6, Supp. p.20, p.24). Isolation limited by intermodal cross-talk at 16 straight-to-bend
+      transitions and evanescent coupling (p.6). Fab org_sandia_national_laboratories: Supp. Sec. I.A (p.9) states the devices
+      are fabricated on SOI wafers ''using Sandia''s ... (MESA) CMOS production and research facilities'' (p.1: ''AlN-on-SOI
+      platform using a CMOS foundry process''); process_name as printed, ''Sandia MESA CMOS production and research facilities''
+      (stanfield2019 precedent: ''Sandia MESA low-volume CMOS production facility''); the p.1 ''CMOS foundry process'' alone
+      would be generic. MESA is not in the registry (reported). JPL (''part of the research was carried out at'', p.6) is
+      an institution, not a shared facility (kittlaus2020a precedent). Cached text is the arXiv v1 preprint 2211.05864 (manuscript
+      dated 2022-11-14, main text pp.1-8 and supplement pp.9-25) of the work listed in the source row as CLEO 2023; the conference
+      version was not read.'
+    why: Contract v7 process_name = process as printed; Supp. p.9 Sec. I.A names the line ('Sandia's Microsystems and Engineering,
+      Sciences and Applications (MESA) CMOS production and research facilities'); merged stanfield2019 rows carry the printed
+      MESA wording (audit Q4)
+  cmp_lit_zhou2023a_mode_mux:
+    process_name: Sandia MESA CMOS production and research facilities
+    notes: 'Fundamental mode of the narrow guide phase-matched to the anti-symmetric mode of the wide guide (Supp. p.11).
+      Used at both ends of the AOM and isolator spirals. IL measured on a short reference device with two multiplexers (linear
+      loss neglected, Supp. p.11). Gap 0.3 um (Fig. S2(a) label) not entered: gap_nm is not allowed on mode_converter (reported).
+      Platform soi only: rib vs strip not stated for the multiplexer. Fab org_sandia_national_laboratories: Supp. Sec. I.A
+      (p.9) states the devices are fabricated on SOI wafers ''using Sandia''s ... (MESA) CMOS production and research facilities''
+      (p.1: ''AlN-on-SOI platform using a CMOS foundry process''); process_name as printed, ''Sandia MESA CMOS production
+      and research facilities'' (stanfield2019 precedent: ''Sandia MESA low-volume CMOS production facility''); the p.1 ''CMOS
+      foundry process'' alone would be generic. MESA is not in the registry (reported). JPL (''part of the research was carried
+      out at'', p.6) is an institution, not a shared facility (kittlaus2020a precedent). Cached text is the arXiv v1 preprint
+      2211.05864 (manuscript dated 2022-11-14, main text pp.1-8 and supplement pp.9-25) of the work listed in the source row
+      as CLEO 2023; the conference version was not read.'
+    why: Contract v7 process_name = process as printed; Supp. p.9 Sec. I.A names the line ('Sandia's Microsystems and Engineering,
+      Sciences and Applications (MESA) CMOS production and research facilities'); merged stanfield2019 rows carry the printed
+      MESA wording (audit Q4)
+metrics:
+  cmp_lit_zhou2023a_triridge_wg_loss-m1:
+    basis: author_estimate
+    notes: 'printed alpha_1 ~ 7.0 m^-1 (p.4; Table S1 7.00; power decay rate); 7.0 x 10 log10(e) / 100 = 0.304 dB/cm. author_estimate
+      (D454 wu2018 / yasui2026 precedent; D256a keeps it after the unit conversion): the rate is a transfer-matrix fit parameter
+      (Table S1 footnote c) retrieved from the zero-drive transmission of the single 9.95 mm device 2 (Fig. 2 caption), plotted
+      as normalized power whose reference is not stated (grating-coupler and multiplexer contributions not separated); the
+      fit assumes one constant decay rate over straight, bent, tapered, suspended and unsuspended sections and uses COMSOL
+      indices scaled by f_scaling = 1.017 (Supp. p.10). Wavelength not printed with the fit; device 2 operates around 1539.2
+      nm (Fig. 3) and the Fig. 2(f) data are the delta-lambda = 0 linecut at the conversion centre wavelength (Supp. p.10):
+      C band inferred. The p.4 AOM budget term ''1.01 dB of optical propagation loss'' exceeds alpha_2 x L_tot (0.86 dB) and
+      alpha_1 x L_tot (0.30 dB): not reproducible from these rates.'
+    why: 'Audit Q3. p.3 Fig. 2 caption: loss ''retrieved'' from the sqrt(P_RF) = 0 data of one device, normalized power of
+      unstated reference; p.12 Table S1 footnote c (fit). Same evidence class as wu2018 fit alpha (D454): author_estimate,
+      not derived'
+  cmp_lit_zhou2023a_triridge_wg_loss-m2:
+    basis: author_estimate
+    notes: 'printed alpha_2 ~ 20.0 m^-1 (p.4; Table S1 20.00; power decay rate); 20.0 x 10 log10(e) / 100 = 0.869 dB/cm. author_estimate
+      (D454 wu2018 / yasui2026 precedent; D256a keeps it after the unit conversion): the rate is a transfer-matrix fit parameter
+      (Table S1 footnote c) retrieved from the zero-drive transmission of the single 9.95 mm device 2 (Fig. 2 caption), plotted
+      as normalized power whose reference is not stated (grating-coupler and multiplexer contributions not separated); the
+      fit assumes one constant decay rate over straight, bent, tapered, suspended and unsuspended sections and uses COMSOL
+      indices scaled by f_scaling = 1.017 (Supp. p.10). Wavelength not printed with the fit; device 2 operates around 1539.2
+      nm (Fig. 3) and the Fig. 2(f) data are the delta-lambda = 0 linecut at the conversion centre wavelength (Supp. p.10):
+      C band inferred. The p.4 AOM budget term ''1.01 dB of optical propagation loss'' exceeds alpha_2 x L_tot (0.86 dB) and
+      alpha_1 x L_tot (0.30 dB): not reproducible from these rates.'
+    why: Audit Q3. p.3 Fig. 2 caption and p.12 Table S1 footnote c, as m1 (D454)
+  cmp_lit_zhou2023a_multipass_aom-m2:
+    notes: 'own ''This work'' row of the comparison Table S2 (62 %, 1539.2 nm, 3170 MHz, P_pi/2 164.4 mW); same operating
+      point as the printed -2.08 dB (m1): 10^(-0.208) = 0.62. Table S2 prints the modulation frequency as 3170 MHz against
+      3.13 GHz in the text (p.4) and Table S1 (conflict noted, D417). Kept next to m1 so the AOM is comparable with the linear-efficiency
+      rows of kittlaus2020a (audit Q5).'
+    why: p.25 Table S2 'This work' row prints 3170 MHz, p.4 and p.12 Table S1 print 3.13 GHz; the note did not record the
+      conflict or the identity with m1
+  cmp_lit_zhou2023a_mode_mux-m3:
+    notes: 'printed ''< -20 dB'' (p.12, sign as printed; Fig. S2 caption ''< 20 dB''). No wavelength stated: C band inferred
+      from the 1500-1580 nm plot. Fig. S2(b) read (0 / -25 / -50 dB ticks, about 8.6 px per dB on the embedded image, reading
+      +/- 1 dB): the 1 -> 2 trace stays at or below about -20 dB over the span (highest about -20.3 dB near 1558-1562 nm),
+      but the 2 -> 1 trace lies at about -15 to -20 dB over most of 1500-1580 nm (about -14.6 dB near 1508.5 nm, -15.6 dB
+      at 1580 nm, about -17.5 dB at 1539 nm) and drops below -20 dB only in dips (near 1503, 1514, 1519, 1532, 1565 and 1575
+      nm). The printed bound is kept as stated (D417); for the 2 -> 1 path it holds only in those windows (audit Q6).'
+    why: 'p.11 Fig. S2(b) embedded image: the 2 -> 1 (red) trace is above -20 dB over most of the span, not only near 1508
+      / 1580 nm as the note said'
+  cmp_lit_bino2018_kerr_circulator-m1:
+    basis: measured
+    notes: 'printed ''47 % transmission from port 1 to port 2 (corresponding to 3.3 dB insertion loss)'' (p.6): the paper
+      prints the dB form, so the basis stays measured (D256); 10 log10(0.47) = 3.28 dB. Fig. 3(b) T12 rises along the sweep
+      to about 0.46 at the end of the locked range (right axis, reading +/- 0.01). Wavelength not stated in the circulator
+      section; the setup laser is at 1550 nm (p.3): inferred'
+    why: 'p.6 prints ''3.3 dB insertion loss'' next to the 47 %; D256: a row keeps its basis when the source prints the stored-unit
+      form (derived only for the auditor''s own conversion)'

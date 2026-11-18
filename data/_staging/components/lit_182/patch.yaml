@@ -1,0 +1,19 @@
+# Audit patch lit_182 (fresh-context audit 2026-11-18, DevLog/audits/2026-11-18-lit_182-audit.md).
+# 66 metrics: 64 ok / 2 imprecise / 0 wrong; 12 components: 12 ok; 0 misses added. After the patch: 12 components,
+# 66 metrics. Both imprecise rows are castro2025 figure-read wavelength conditions (values unchanged).
+# Coordinator rulings asked (audit Q1-Q9) need no op if accepted as recommended: Q1 rueda2019 0 rows (D411); Q2
+# dmitriev2022 kappa_0 / kappa_c measured and Q-factor as q_intrinsic derived (alternative ops for the 150 GHz ring
+# listed in the audit); Q3 edge coupler 1.1 dB author_estimate; Q4 diode values and pump-to-comb efficiencies
+# author_estimate; Q5 Seminex fab on the FP diode row only after the org round; Q6 beat-note linewidths on the 150 GHz
+# comb row with the Fig. 2(e) locator; Q7 castro2025 1 W extrapolation, Sagnac 100 %, MMI 15 % and ring Q_i
+# author_estimate; Q8 UCSB Nanofabrication Facility on every castro2025 row; Q9 liu2019b fab empty.
+metrics:
+  cmp_lit_castro2025_vernier_laser-m7:
+    wavelength_nm: '776.74'
+    wavelength_max_nm: '776.96'
+    notes: "Printed 108 GHz (217 pm); pm -> nm (D256). Abstract / Fig. 3(c) '>= 100 GHz (200 pm)'. Wavelength span read off the Fig. 3(c) data points (first about 776.74 nm, last about 776.96 nm, +/-0.005 nm; the panel axis runs 776.70-777.00 nm); the read span (about 217 pm) matches the printed range."
+    why: "p.4 Fig. 3(c) (page render, 360 px per nm): the row stored the axis limits 776.70-777.00 nm (300 pm), wider than the 217 pm range it carries; the data run from about 776.74 to 776.96 nm"
+  cmp_lit_castro2025_vernier_laser-m10:
+    wavelength_nm: '773.29'
+    notes: "Fig. 3(a) label 11.1 pm; text '~11 pm'; pm -> nm (D256). Wavelength read off the Fig. 3(a) data: the 11.1 pm segment lies on the upper branch near 773.29 nm (+/-0.01 nm); the lower branch is near 772.62 nm and the 645 pm hop joins them."
+    why: "p.4 Fig. 3(a) (page render, about 134 px per nm): the 11.1 pm arrow sits on the upper wavelength branch at about 773.29 nm, not at 773.0 nm (the middle axis tick); upper minus lower branch about 0.67 nm, consistent with the printed 645 pm hop"

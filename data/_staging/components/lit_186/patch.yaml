@@ -1,0 +1,44 @@
+# Audit patch lit_186 (fresh-context audit 2026-11-18, DevLog/audits/2026-11-18-lit_186-audit.md).
+# 108 metrics: 103 ok / 5 imprecise / 0 wrong; 18 components: 18 ok / 0 imprecise / 0 wrong; 0 deleted; 1 miss added.
+# After the patch: 18 components, 109 metrics.
+# Coordinator rulings asked (audit Q1-Q6), recommended as entered except the note / condition fixes below:
+# Q1 ji2022a kappa_0 / Q0 / 2.4 dB/m stay author_estimate (D403; no doublet or other branch-fixing data, D465 Fig. 6 clause),
+# circular FSR kept measured; Q2 xu2021d as entered; Q3 gu2021 fab NPU (borderline D84b) + facility Analytical & Testing
+# Center of NPU once registered, same treatment for lit:gu2020 (lit_189); Q4 dong2019 30 nW stays tuning_power_mw
+# (dutta2025 / stanfield2019 / lihachev2024 precedents), liu2020a < 300 nW a follow-up miss; Q5 deotare2009 q_intrinsic kept;
+# Q6 dong2019 187 GHz FSR kept author_estimate with the Fig. 4 note.
+metrics:
+  cmp_lit_ji2022a_racetrack_euler_p1-m3:
+    notes: "Printed 2.4 dB/m, converted to dB/cm (D256a: author_estimate kept); computed from kappa_0 with a group index not printed (D76) and the D403 kappa_0. Printed values disagree (D417, kept as printed): kappa_0/2pi = 15.5 MHz gives about 2.8-3.0 dB/m for n_g 2.0-2.1 (alpha = n_g kappa_0 / c); the printed 19.81 GHz FSR with a round trip of at least 7000 um straight plus two pi-bends bounds n_g at about 2.1, and 2.4 dB/m would need n_g about 1.7 (audit check, p.5, p.4)."
+    why: "imprecise: the printed 2.4 dB/m does not follow from the printed 15.5 MHz with any group index consistent with the printed FSR and racetrack length (p.4 L = 3500 um, p.5 Fig. 3(a) D1/2pi = 19.81 GHz); D417 conflict note, value kept"
+  cmp_lit_gu2021_tpc_nanobeam-m3:
+    wavelength_nm: '1574.7'
+    wavelength_inferred: 'true'
+    notes: "Printed 'about 33 dB', limited by the photodiode detection limit (p.5; conclusion 'over 33 dB', abstract 'maximum extinction ratio of 33 dB'). Fano extinction ratio, not a Lorentzian notch. Wavelength: Fano lineshape of the 1574.7 nm topological boundary state (Fig. 3(c)); the Fig. 3(d) axis spans 1565-1585 nm and no dip wavelength is printed."
+    why: "imprecise (rule 8): no wavelength on the row although the lineshape belongs to the 1574.7 nm TBS (p.4-5, p.5 Fig. 3(c), (d))"
+  cmp_lit_gu2021_tpc_nanobeam-m4:
+    wavelength_nm: '1574.7'
+    wavelength_inferred: 'true'
+    notes: "Slope ratio 10.78 dB/nm. Wavelength: Fano lineshape of the 1574.7 nm topological boundary state (Fig. 3(c)); the Fig. 3(d) axis spans 1565-1585 nm and no dip wavelength is printed."
+    why: "imprecise (rule 8): no wavelength on the row although the lineshape belongs to the 1574.7 nm TBS (p.4-5, p.5 Fig. 3(c), (d))"
+  cmp_lit_gu2021_tpc_nanobeam-m5:
+    qualifier: ''
+    wavelength_nm: '1574.7'
+    wavelength_inferred: 'true'
+    notes: "Printed 'a similar ER of 21 dB' ('similar' compares with the 20.5 dB +Delta case; no approximation word), slope ratio 10.07 dB/nm. The text calls these the red lines; in the Fig. 3(d) legend both the blue and the red traces are -Delta (labels q = 3.79 and q = 8.52), so the trace is not identified. Wavelength: Fano lineshape of the 1574.7 nm topological boundary state (Fig. 3(c)); the Fig. 3(d) axis spans 1565-1585 nm."
+    why: "imprecise: 'similar ER of 21 dB' (p.5) is not an approximation qualifier; rule 8 wavelength missing as on m3 / m4"
+  cmp_lit_dong2019_sin_ring_r119-m8:
+    notes: "'A 187 GHz repetition rate silicon nitride comb wafer' (p.1); no FSR is stated for this ring (D82a design-stated value). Fig. 4 resonance spacings TE1-TE2 about 1.55 nm and TM1-TM2 about 1.52 nm (about 193 / 190 GHz) are not stated to be adjacent longitudinal modes and are not used."
+    why: "imprecise: the note said no FSR measurement is shown; Fig. 4 (p.3) shows several resonances whose spacing differs by about 2-3 % from 187 GHz, and the paper does not identify them as adjacent modes; the reader needs that the 187 GHz is a wafer-level label"
+add_metrics:
+- metric_id: cmp_lit_dong2019_sin_ring_r119-m9
+  component_id: cmp_lit_dong2019_sin_ring_r119
+  parameter: box_thickness_um
+  value: '3'
+  unit: um
+  condition: SiO2 below the Si3N4 core (released membrane; total oxide 5.8 um per the same figure)
+  basis: extracted_from_figure
+  locator: p.2 Fig. 2 (bottom)
+  notes: "Figure label '3um' on the arrow from the bottom of the Si3N4 core to the bottom of the oxide in the PORT cross-section sketch; the same sketch labels the total SiO2 5.8 um (Fig. 1 caption: 6 um oxide)."
+  verified_on: '2026-11-18'
+  why: "miss (D153, Contract v5): the Fig. 2 cross-section labels the lower oxide below the ring core (p.2); the batch entered the 0.8 x 1.8 um label of the same sketch but not this one"

@@ -1,0 +1,245 @@
+# Audit patch lit_188 (fresh-context audit 2026-11-18, DevLog/audits/2026-11-18-lit_188-audit.md).
+# 66 metrics: 47 ok / 8 imprecise / 0 wrong, plus 11 deleted with their component on the Q3 scope judgment
+# (fontaine2019; 8 of the 11 carry imprecise locators, moot once deleted); 28 components: 27 ok, 1 deleted (Q3).
+# 20 misses added (D153 geometry, yu2014). After the patch: 27 components, 75 metrics.
+# Ops: yu2014 Fig. 4 switch rows get the stated cavity wavelength (1556 / 1540 nm); deotare2009a resonance ranges
+# corrected from the figure reads (Fig. 1(c) 1524.2-1530.3 nm, Fig. 3(c) 1520.5-1541.6 nm) and unqualified-Q notes;
+# lu2019a test-ring unqualified-Q note; fontaine2019 free-space SLM mode sorter deleted (D411 / D424, audit Q3; to keep
+# it instead, remove the delete_components block and apply the locator ops listed in the audit, Q3 alternative);
+# yu2014 InP membrane thickness on the 15 cavity rows and the Fig. 1 lattice constant on the 5 Fig. 1 rows (D153).
+# Coordinator questions in the audit (Q1-Q6); every op below is applied as recommended there.
+metrics:
+  cmp_lit_yu2014_fano_switch_1556-m1:
+    wavelength_nm: '1556'
+    notes: "printed 'switching contrast of 14 dB'; same pump pulse energy as the Lorentzian structure; wavelength = cold-cavity resonance lambda0 = 1556 nm stated for this structure (p.6), pump tuned to it, CW probe 0.3-0.6 nm to the blue (Fig. 4 caption)"
+    why: "p.6: the Fano structure of the dynamics measurement is stated with lambda0 = 1556 nm; the spectral switching value had no wavelength (rule 7 / 8)"
+  cmp_lit_yu2014_fano_switch_1556-m2:
+    wavelength_nm: '1556'
+    notes: "printed 30 ps; ps -> us (D256); wavelength = cold-cavity resonance lambda0 = 1556 nm (p.6), probe 0.3-0.6 nm to the blue"
+    why: "p.6: lambda0 = 1556 nm stated for this structure; the row had no wavelength"
+  cmp_lit_yu2014_lorentz_switch_1540-m1:
+    wavelength_nm: '1540'
+    notes: "printed '80 ps and 4 dB for the Lorentzian structure'; wavelength = cold-cavity resonance lambda0 = 1540 nm stated for this structure (p.6), pump tuned to it, CW probe 0.3-0.6 nm to the blue (Fig. 4 caption)"
+    why: "p.6: the Lorentzian structure is stated with lambda0 = 1540 nm; the row had no wavelength"
+  cmp_lit_yu2014_lorentz_switch_1540-m2:
+    wavelength_nm: '1540'
+    notes: "printed 80 ps; ps -> us (D256); wavelength = cold-cavity resonance lambda0 = 1540 nm (p.6), probe 0.3-0.6 nm to the blue"
+    why: "p.6: lambda0 = 1540 nm stated for this structure; the row had no wavelength"
+  cmp_lit_deotare2009a_double_nanobeam_s146-m1:
+    wavelength_nm: '1524'
+    notes: "printed 'The Q factor varies between 1-2x10^5' (abstract: 'as high as 2x10^5'); unqualified Q -> q_loaded; resonances about 1524-1530 nm read from Fig. 1(c) (points at about 1530.3 / 1529.6 / 1524.2 nm for separations about 110 / 131 / 152 nm, +/-0.5 nm); inset spectrum of the 150 nm device at 1524.28 nm; Fig. 1(c) Q points about 1.0 / 2.1 / 1.9 x 10^5"
+    why: "p.1 Fig. 1(c) render read (right log axis calibrated on the 2 / 4 / 6 minor ticks, about 148 px per decade): lowest resonance 1524.2 nm, consistent with the printed inset 1524.28 nm; 1523 nm lay below every data point"
+  cmp_lit_deotare2009a_double_nanobeam_s136_onsub-m1:
+    notes: "printed 'measured Q factors of 1.5-2.0x10^4'; unqualified Q -> q_loaded; resonances about 1540-1562 nm read from Fig. 3(a) (+/-2 nm)"
+    why: "p.2: the paper prints an unqualified Q; the note convention (Common pitfalls) was missing"
+  cmp_lit_deotare2009a_double_nanobeam_s136_free-m1:
+    wavelength_max_nm: '1542'
+    notes: "unqualified Q -> q_loaded; four experimental points read off the log-scale Q axis at about 3.4, 4.0, 3.9, 3.7 x 10^4 (+/-0.3 x 10^4); resonances about 1520-1542 nm from Fig. 3(c) (+/-1 nm; inset 1541.0 nm); text: Q 'increased by a factor of ~2' vs on-substrate"
+    why: "p.3 Fig. 3(c) render read (1520 tick 497 px, 1540 tick 420 px): experiment points about 1541.6 / 1536.6 / 1531.7 / 1520.5 nm, inset 1541.0 nm; 1544 was above every point. Fig. 3(d) Q reads confirmed (frame 10^4 at 534.5 px, 10^5 at 42.5 px; marker centres 3.36 / 4.02 / 3.89 / 3.74 x 10^4)"
+  cmp_lit_lu2019a_mode_id_rings-m1:
+    notes: "printed 'still reasonably high (Q > 10^5)'; unqualified Q -> q_loaded; one value stated for the test rings in all three bands (signal ~663-668 nm, pump ~924-938 nm, telecom ~1535-1575 nm on the Fig. 3(c) axes): one row, band unspecified"
+    why: "p.4: the paper prints an unqualified Q; the note convention (Common pitfalls) was missing"
+delete_components:
+- id: cmp_lit_fontaine2019_mplc_lg_sorter_210
+  why: "Audit Q3, D411 / D424. A bench-top free-space multi-plane light converter: seven reflections between a purchased LCoS SLM and a silver mirror, f = 200 mm cylindrical lenses for HG-to-LG, built from 'standard items which can be purchased off-the-shelf without any custom fabrication' (p.3). Fiber array only at the input; the output is a free-space beam measured by off-axis holography on a camera, with the LG / HG side computed numerically (p.4-5). Not a chip-scale part and not a fiber-coupled passive part (D411); D424 keeps free-space switch fabrics with fiber I/O on lithographic MEMS / LCoS chips as switch_fabric, and this device has neither fiber output nor a switch function. Drops its 11 metric rows"
+add_metrics:
+- metric_id: cmp_lit_yu2014_sym_tb1_fig1-m3
+  component_id: cmp_lit_yu2014_sym_tb1_fig1
+  parameter: core_thickness_nm
+  value: '340'
+  unit: nm
+  condition: "InP membrane thickness h (air-embedded slab)"
+  basis: design_target
+  locator: p.3 Fig. 1(b) caption; p.11 Methods
+  notes: "h = 340 nm in the Fig. 1(b) caption; 340 nm InP layer of the wafer (p.11 Methods, D402)"
+  why: "D153 geometry miss: membrane thickness stated in the Fig. 1(b) caption and Methods, only in core_material"
+- metric_id: cmp_lit_yu2014_sym_tb1_fig1-m4
+  component_id: cmp_lit_yu2014_sym_tb1_fig1
+  parameter: period_nm
+  value: '447'
+  unit: nm
+  condition: "triangular-lattice constant a of the Fig. 1 set"
+  basis: design_target
+  locator: p.3 Fig. 1(b) caption
+  notes: "a = 447 nm printed with the SEM images of the Fig. 1 set (whether design or SEM-measured is not stated); the fabricated structures span a = 443-450 nm (p.11 Methods); hole radius R = 116 +/- 0.8 nm and cavity hole Rc = 0.85 R have no parameter; lattice constant as period_nm (asano2017 / ashida2017 precedent)"
+  why: "D153 geometry miss: lattice constant stated for this set in the Fig. 1(b) caption"
+- metric_id: cmp_lit_yu2014_sym_tb0p6_fig1-m2
+  component_id: cmp_lit_yu2014_sym_tb0p6_fig1
+  parameter: core_thickness_nm
+  value: '340'
+  unit: nm
+  condition: "InP membrane thickness h (air-embedded slab)"
+  basis: design_target
+  locator: p.3 Fig. 1(b) caption; p.11 Methods
+  notes: "h = 340 nm in the Fig. 1(b) caption; 340 nm InP layer of the wafer (p.11 Methods, D402)"
+  why: "D153 geometry miss: membrane thickness stated in the Fig. 1(b) caption and Methods, only in core_material"
+- metric_id: cmp_lit_yu2014_sym_tb0p6_fig1-m3
+  component_id: cmp_lit_yu2014_sym_tb0p6_fig1
+  parameter: period_nm
+  value: '447'
+  unit: nm
+  condition: "triangular-lattice constant a of the Fig. 1 set"
+  basis: design_target
+  locator: p.3 Fig. 1(b) caption
+  notes: "a = 447 nm printed with the SEM images of the Fig. 1 set (whether design or SEM-measured is not stated); the fabricated structures span a = 443-450 nm (p.11 Methods); hole radius R = 116 +/- 0.8 nm and cavity hole Rc = 0.85 R have no parameter; lattice constant as period_nm (asano2017 / ashida2017 precedent)"
+  why: "D153 geometry miss: lattice constant stated for this set in the Fig. 1(b) caption"
+- metric_id: cmp_lit_yu2014_sym_tb0p4_fig1-m2
+  component_id: cmp_lit_yu2014_sym_tb0p4_fig1
+  parameter: core_thickness_nm
+  value: '340'
+  unit: nm
+  condition: "InP membrane thickness h (air-embedded slab)"
+  basis: design_target
+  locator: p.3 Fig. 1(b) caption; p.11 Methods
+  notes: "h = 340 nm in the Fig. 1(b) caption; 340 nm InP layer of the wafer (p.11 Methods, D402)"
+  why: "D153 geometry miss: membrane thickness stated in the Fig. 1(b) caption and Methods, only in core_material"
+- metric_id: cmp_lit_yu2014_sym_tb0p4_fig1-m3
+  component_id: cmp_lit_yu2014_sym_tb0p4_fig1
+  parameter: period_nm
+  value: '447'
+  unit: nm
+  condition: "triangular-lattice constant a of the Fig. 1 set"
+  basis: design_target
+  locator: p.3 Fig. 1(b) caption
+  notes: "a = 447 nm printed with the SEM images of the Fig. 1 set (whether design or SEM-measured is not stated); the fabricated structures span a = 443-450 nm (p.11 Methods); hole radius R = 116 +/- 0.8 nm and cavity hole Rc = 0.85 R have no parameter; lattice constant as period_nm (asano2017 / ashida2017 precedent)"
+  why: "D153 geometry miss: lattice constant stated for this set in the Fig. 1(b) caption"
+- metric_id: cmp_lit_yu2014_sym_tb0p2_fig1-m2
+  component_id: cmp_lit_yu2014_sym_tb0p2_fig1
+  parameter: core_thickness_nm
+  value: '340'
+  unit: nm
+  condition: "InP membrane thickness h (air-embedded slab)"
+  basis: design_target
+  locator: p.3 Fig. 1(b) caption; p.11 Methods
+  notes: "h = 340 nm in the Fig. 1(b) caption; 340 nm InP layer of the wafer (p.11 Methods, D402)"
+  why: "D153 geometry miss: membrane thickness stated in the Fig. 1(b) caption and Methods, only in core_material"
+- metric_id: cmp_lit_yu2014_sym_tb0p2_fig1-m3
+  component_id: cmp_lit_yu2014_sym_tb0p2_fig1
+  parameter: period_nm
+  value: '447'
+  unit: nm
+  condition: "triangular-lattice constant a of the Fig. 1 set"
+  basis: design_target
+  locator: p.3 Fig. 1(b) caption
+  notes: "a = 447 nm printed with the SEM images of the Fig. 1 set (whether design or SEM-measured is not stated); the fabricated structures span a = 443-450 nm (p.11 Methods); hole radius R = 116 +/- 0.8 nm and cavity hole Rc = 0.85 R have no parameter; lattice constant as period_nm (asano2017 / ashida2017 precedent)"
+  why: "D153 geometry miss: lattice constant stated for this set in the Fig. 1(b) caption"
+- metric_id: cmp_lit_yu2014_sym_tb0_fig1-m2
+  component_id: cmp_lit_yu2014_sym_tb0_fig1
+  parameter: core_thickness_nm
+  value: '340'
+  unit: nm
+  condition: "InP membrane thickness h (air-embedded slab)"
+  basis: design_target
+  locator: p.3 Fig. 1(b) caption; p.11 Methods
+  notes: "h = 340 nm in the Fig. 1(b) caption; 340 nm InP layer of the wafer (p.11 Methods, D402)"
+  why: "D153 geometry miss: membrane thickness stated in the Fig. 1(b) caption and Methods, only in core_material"
+- metric_id: cmp_lit_yu2014_sym_tb0_fig1-m3
+  component_id: cmp_lit_yu2014_sym_tb0_fig1
+  parameter: period_nm
+  value: '447'
+  unit: nm
+  condition: "triangular-lattice constant a of the Fig. 1 set"
+  basis: design_target
+  locator: p.3 Fig. 1(b) caption
+  notes: "a = 447 nm printed with the SEM images of the Fig. 1 set (whether design or SEM-measured is not stated); the fabricated structures span a = 443-450 nm (p.11 Methods); hole radius R = 116 +/- 0.8 nm and cavity hole Rc = 0.85 R have no parameter; lattice constant as period_nm (asano2017 / ashida2017 precedent)"
+  why: "D153 geometry miss: lattice constant stated for this set in the Fig. 1(b) caption"
+- metric_id: cmp_lit_yu2014_asym_d0p5a_fig2-m2
+  component_id: cmp_lit_yu2014_asym_d0p5a_fig2
+  parameter: core_thickness_nm
+  value: '340'
+  unit: nm
+  condition: "InP membrane thickness (air-embedded slab)"
+  basis: design_target
+  locator: p.11 Methods
+  notes: "340 nm InP layer of the wafer (p.11 Methods, D402); all structures in the paper share the membrane"
+  why: "D153 geometry miss: membrane thickness stated in Methods, only in core_material"
+- metric_id: cmp_lit_yu2014_asym_d1a_fig2-m2
+  component_id: cmp_lit_yu2014_asym_d1a_fig2
+  parameter: core_thickness_nm
+  value: '340'
+  unit: nm
+  condition: "InP membrane thickness (air-embedded slab)"
+  basis: design_target
+  locator: p.11 Methods
+  notes: "340 nm InP layer of the wafer (p.11 Methods, D402); all structures in the paper share the membrane"
+  why: "D153 geometry miss: membrane thickness stated in Methods, only in core_material"
+- metric_id: cmp_lit_yu2014_asym_d2a_fig2-m2
+  component_id: cmp_lit_yu2014_asym_d2a_fig2
+  parameter: core_thickness_nm
+  value: '340'
+  unit: nm
+  condition: "InP membrane thickness (air-embedded slab)"
+  basis: design_target
+  locator: p.11 Methods
+  notes: "340 nm InP layer of the wafer (p.11 Methods, D402); all structures in the paper share the membrane"
+  why: "D153 geometry miss: membrane thickness stated in Methods, only in core_material"
+- metric_id: cmp_lit_yu2014_asym_d3a_fig2-m2
+  component_id: cmp_lit_yu2014_asym_d3a_fig2
+  parameter: core_thickness_nm
+  value: '340'
+  unit: nm
+  condition: "InP membrane thickness (air-embedded slab)"
+  basis: design_target
+  locator: p.11 Methods
+  notes: "340 nm InP layer of the wafer (p.11 Methods, D402); all structures in the paper share the membrane"
+  why: "D153 geometry miss: membrane thickness stated in Methods, only in core_material"
+- metric_id: cmp_lit_yu2014_sym_tb1_fig3-m3
+  component_id: cmp_lit_yu2014_sym_tb1_fig3
+  parameter: core_thickness_nm
+  value: '340'
+  unit: nm
+  condition: "InP membrane thickness (air-embedded slab)"
+  basis: design_target
+  locator: p.11 Methods
+  notes: "340 nm InP layer of the wafer (p.11 Methods, D402); all structures in the paper share the membrane"
+  why: "D153 geometry miss: membrane thickness stated in Methods, only in core_material"
+- metric_id: cmp_lit_yu2014_sym_tb0p1_fig3-m3
+  component_id: cmp_lit_yu2014_sym_tb0p1_fig3
+  parameter: core_thickness_nm
+  value: '340'
+  unit: nm
+  condition: "InP membrane thickness (air-embedded slab)"
+  basis: design_target
+  locator: p.11 Methods
+  notes: "340 nm InP layer of the wafer (p.11 Methods, D402); all structures in the paper share the membrane"
+  why: "D153 geometry miss: membrane thickness stated in Methods, only in core_material"
+- metric_id: cmp_lit_yu2014_sym_tb0_fig3-m3
+  component_id: cmp_lit_yu2014_sym_tb0_fig3
+  parameter: core_thickness_nm
+  value: '340'
+  unit: nm
+  condition: "InP membrane thickness (air-embedded slab)"
+  basis: design_target
+  locator: p.11 Methods
+  notes: "340 nm InP layer of the wafer (p.11 Methods, D402); all structures in the paper share the membrane"
+  why: "D153 geometry miss: membrane thickness stated in Methods, only in core_material"
+- metric_id: cmp_lit_yu2014_fano_cavity_1556-m2
+  component_id: cmp_lit_yu2014_fano_cavity_1556
+  parameter: core_thickness_nm
+  value: '340'
+  unit: nm
+  condition: "InP membrane thickness (air-embedded slab)"
+  basis: design_target
+  locator: p.11 Methods
+  notes: "340 nm InP layer of the wafer (p.11 Methods, D402); all structures in the paper share the membrane"
+  why: "D153 geometry miss: membrane thickness stated in Methods, only in core_material"
+- metric_id: cmp_lit_yu2014_lorentz_cavity_1540-m2
+  component_id: cmp_lit_yu2014_lorentz_cavity_1540
+  parameter: core_thickness_nm
+  value: '340'
+  unit: nm
+  condition: "InP membrane thickness (air-embedded slab)"
+  basis: design_target
+  locator: p.11 Methods
+  notes: "340 nm InP layer of the wafer (p.11 Methods, D402); all structures in the paper share the membrane"
+  why: "D153 geometry miss: membrane thickness stated in Methods, only in core_material"
+- metric_id: cmp_lit_yu2014_fano_cavity_ber-m2
+  component_id: cmp_lit_yu2014_fano_cavity_ber
+  parameter: core_thickness_nm
+  value: '340'
+  unit: nm
+  condition: "InP membrane thickness (air-embedded slab)"
+  basis: design_target
+  locator: p.11 Methods
+  notes: "340 nm InP layer of the wafer (p.11 Methods, D402); all structures in the paper share the membrane"
+  why: "D153 geometry miss: membrane thickness stated in Methods, only in core_material"

@@ -1,0 +1,67 @@
+# Audit patch lit_184 (fresh-context audit 2026-11-18, DevLog/audits/2026-11-18-lit_184-audit.md).
+# 53 metrics: 50 ok / 2 imprecise / 1 wrong; 14 components: 14 ok / 0 imprecise / 0 wrong; 0 deleted;
+# 4 misses added (li2017a R40 ring notch depth ~4.8 dB from Fig. S8(b); nejadriahi2021 rectangular-heater P_pi std
+# 0.25 mW, top cladding 1 um and 65 x 65 um2 spiral footprint). After the patch: 14 components, 57 metrics.
+# Coordinator rulings asked (audit Q1-Q5): Q1 li2017a Harvard not fab (no op); Q2 li2017a TE 590 dB/cm -> measured
+# (patched; alternative: keep derived), polarizer 0.8 / 23 dB derived (no op); Q3 switch split phase_shifter + resonator
+# kept (no op); Q4 Fig. 4(d) bias 1.5 V kept, modulator out as EO-atlas candidate (no op); Q5 nejadriahi2021 platform sin,
+# fab UCSD, no facility, 7 dB/cm and ~1.2 dB spiral bound out (no op).
+metrics:
+  cmp_lit_li2017a_graphene_ring_r40-m2:
+    value: '4.1'
+    condition: "graphene-embedded ring; dips near 1537.7 and 1541.8 nm"
+    notes: "Read between the two marked resonances of Fig. S8(b): dips at about 1537.7 and 1541.8 nm against the axis ticks (1536-1542 nm, about 34.8 px/nm on the page render), FSR about 4.1 nm (+/- 0.1 nm). Implied group index about 2.3 for L = 2 pi x 40 um. Polarization of the trace not stated (TM per the Sec. V purpose)."
+    why: "p.23 Fig. S8(b): the dips sit at about 1537.7 / 1541.8 nm on the tick positions (1536 / 1538 / 1540 / 1542 nm at page-render x = 859.5 / 929 / 998.5 / 1068), not 1537.6 / 1542.0; 4.4 nm is outside the stated +/- 0.1 nm and would imply a group index (~2.14) below the Ge23Sb7S70 material index 2.17 (p.33)"
+  cmp_lit_li2017a_graphene_sandwich_wg-m1:
+    basis: measured
+    notes: "MZI fringe ER converted to differential absorption with ER = ((1 + exp(-a dl/2)) / (1 - exp(-a dl/2)))^2 (Supp. Sec. V), then the slope of the absorption vs l1 - l2 (Fig. 2(g), linear fit); a standard fit of the paper's own length series (D80a), as merged fringe-extinction length-series rows (li2026, lucia2026). The paper contrasts the MZI method with the classical cut-back (immune to coupling variations, p.23); method cutback kept for the length-difference slope. Stated 'near 1550 nm' (D393)."
+    why: "rule 4 / D80a: the 590 dB/cm is the paper's own fit (ER model + slope) over its MZI length series with no external or assumed input; merged fringe-extinction extractions (cmp_lit_li2026_straight_wg-m1, cmp_lit_lucia2026_spiral_wg-m1) are measured. Audit Q2; the coordinator may keep derived"
+  cmp_lit_li2017a_midir_graphene_pd-m2:
+    basis: author_estimate
+    notes: "Fig. 4(c) read at +1.5 V: about 108 mA/W (+/- 3 mA/W). The responsivity is referred to the waveguide input power obtained by halving the loss of a reference waveguide between two identical aspheric lenses (equal-facet assumption, Supp. Sec. XV), as m1 (D462 / D514; figure-read value resting on an assumed input, ji2026 D520 precedent)."
+    why: "D462 / D514 / D520: the figure-read value rests on the same equal-facet input-power assumption as m1 (author_estimate); the basis column cannot carry both, and the assumed input decides it"
+add_metrics:
+- metric_id: cmp_lit_li2017a_graphene_ring_r40-m3
+  component_id: cmp_lit_li2017a_graphene_ring_r40
+  parameter: extinction_db
+  value: '4.8'
+  unit: dB
+  qualifier: approx
+  condition: "notch depth of the ER-marked resonance near 1541.8 nm of the graphene-embedded R 40 um ring (grating-coupler spectrum, LUNA OVA)"
+  basis: extracted_from_figure
+  locator: 'p.23 Supp. Sec. V, Fig. S8(b)'
+  notes: "Fig. S8(b) labels ER on the dip near 1541.8 nm: minimum about -31.9 dB against an off-resonance level of about -27.0 to -27.2 dB (y ticks -26 / -32 dB on the page render), about 4.8 dB (+/- 0.2 dB); the dip near 1537.7 nm reads about 4.5 dB. Q and FWHM not printed. Polarization of the trace not stated (TM per the Sec. V purpose)."
+  why: "Miss: the figure marks the ER the extraction uses (Fig. S8(b)); notch depths read off a labelled spectrum are entered as figure reads (D458 miller2017 / dutta2025, D626 li2013b)"
+- metric_id: cmp_lit_nejadriahi2021_ps_rectangular-m4
+  component_id: cmp_lit_nejadriahi2021_ps_rectangular
+  parameter: p_pi_mw
+  value: '0.25'
+  unit: mW
+  statistic: std
+  wavelength_nm: '1551.5'
+  wavelength_inferred: 'true'
+  polarization: te
+  condition: "standard deviation over more than 15 repeated measurements"
+  basis: measured
+  locator: 'p.3 Sec. 3'
+  notes: "Printed '~ 11.5 +/- 0.25 mW'; the p.3 sentence attributes the P_pi uncertainties to the standard deviation of over 15 repeated measurements. Wavelength inferred as on m1 ('the corresponding values')."
+  why: "Miss: the +/- 0.25 mW of the rectangular-heater P_pi is entered on the serpentine row (m2) but not here; same statement and rule (statistic std, D81)"
+- metric_id: cmp_lit_nejadriahi2021_ps_rectangular-m5
+  component_id: cmp_lit_nejadriahi2021_ps_rectangular
+  parameter: cladding_thickness_um
+  value: '1'
+  unit: um
+  basis: design_target
+  locator: 'p.2 Sec. 2B'
+  notes: "'the top cladding thickness is 1 um' for the fabrication of the thermo-optic phase shifters (both heater configurations)."
+  why: "Miss (D153 geometry): the 1 um top cladding is stated for the phase-shifter fabrication, not for one heater; entered on the serpentine row (m12) only"
+- metric_id: cmp_lit_nejadriahi2021_ps_rectangular-m6
+  component_id: cmp_lit_nejadriahi2021_ps_rectangular
+  parameter: footprint_um2
+  value: '4225'
+  unit: um2
+  condition: spiral area
+  basis: derived
+  locator: 'p.1; p.2 Sec. 2A'
+  notes: "65 x 65 um2 printed for the spiral; Fig. 2(b) shows the same spiral under the rectangular heater. Table 1 lists 0.0016 mm2 for this work (conflict noted on the component, D417)."
+  why: "Miss (D153 geometry): the same 1.2 mm / 65 x 65 um2 spiral carries both heaters (p.2, Fig. 2(a)-(b)); length is entered on both rows, the footprint only on the serpentine row (m9)"

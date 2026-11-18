@@ -1,7 +1,14 @@
 ---
 name: pic-component-distill
-description: Distill photonic integrated circuit component data (couplers, splitters, resonators, WDM filters, reflectors, polarization devices, phase shifters, photodetectors, lasers, amplifiers, isolators, waveguide loss and inter-layer transitions) from a paper into component rows and long-format metric rows with conditions, scope, basis and locator. Use when adding or auditing component data in this repo.
+description: Distill photonic integrated circuit component data (couplers, splitters, resonators, WDM filters, reflectors, polarization devices, phase shifters, photodetectors, lasers, amplifiers, isolators, waveguide loss and inter-layer transitions) from a paper into component rows and long-format metric rows with conditions, scope, basis and locator. Use when adding or auditing component data in this repo, and for the daily literature caching and ingestion run ("run today's caching and ingestion").
 ---
+
+## Daily caching and ingestion run
+
+For "run today's caching / ingestion", follow `daily-run.md` in this folder. It holds the standing owner
+authorization (no questions: open routes, IEEE with `--wait-login`, Optica OA runner all launched at once; publisher
+browser not run; no fetch dry run; ingestion only after all caching finishes; commit and push at the end), the exact
+commands, helper scripts in `scripts/`, and the five subagent brief templates.
 
 # PIC component distillation
 
@@ -214,8 +221,8 @@ Decision ids are one sequence across DevLogs: take the next free id in the lit-i
 to DevLog-013; `grep -ho '^| D5[0-9]*' DevLog/*.md | sort -V | tail -1`).
 
 1. New cached PDFs: `lit_extract.py --pending` (or `--paper-ids`), page-1 title / correction check,
-   `lit_register_sources.py`, `validate_db.py`. Another process may be fetching or extracting at the same time:
-   extract / register only what is on disk, and snapshot the paper list.
+   `lit_register_sources.py`, `validate_db.py`. Start only after every caching route of the run has finished (owner
+   2026-11-16); no ingestion waves overlapping a fetch. Snapshot the paper list.
 2. Batches `lit_NN` of <= 8-10 papers grouped by `primary_class` family (amplifier / frequency_converter /
    nonreciprocal; laser / chip_chip_coupler / micro_optics / free_space_emitter; phase_shifter / photodetector /
    waveguide_platform; resonator / splitter / mode_converter / reflector; crossing / fiber_chip_coupler /

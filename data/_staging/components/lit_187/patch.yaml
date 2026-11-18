@@ -1,0 +1,75 @@
+# Audit patch lit_187 (fresh-context audit 2026-11-18, DevLog/audits/2026-11-18-lit_187-audit.md).
+# 140 metrics: 136 ok / 4 imprecise / 0 wrong; 25 components: 21 ok / 4 imprecise (process_name); 4 misses added
+# (tabatabavakili2017 membrane thickness). After the patch: 25 components, 144 metrics.
+# Coordinator rulings asked (audit Q1-Q5): all recommendations are "keep" except the process_name wording (ops below).
+components:
+  cmp_lit_piggott2020_mode_mux:
+    process_name: "AIM Photonics 300 mm wafer multi-project wafer (MPW) run"
+    why: "Contract v7 process_name as printed (lit_178 audit Q3 precedent): the staged value composes p.12 'AIM Photonics 300 mm wafer multi-project wafer (MPW) run' with the Fig. 1 caption (p.4) 'water-immersion deep UV photolithography' and p.13 '193 nm immersion lithography'; the lithography stays in notes"
+  cmp_lit_piggott2020_wdm_3ch:
+    process_name: "AIM Photonics 300 mm wafer multi-project wafer (MPW) run"
+    why: "as mode_mux: printed process phrase p.12 Methods (Fabrication)"
+  cmp_lit_piggott2020_dc_2x2:
+    process_name: "AIM Photonics 300 mm wafer multi-project wafer (MPW) run"
+    why: "as mode_mux: printed process phrase p.12 Methods (Fabrication)"
+  cmp_lit_piggott2020_splitter_1x3:
+    process_name: "AIM Photonics 300 mm wafer multi-project wafer (MPW) run"
+    why: "as mode_mux: printed process phrase p.12 Methods (Fabrication)"
+metrics:
+  cmp_lit_cai2019_bend_r100_w2_box2-m1:
+    condition: "loss per length of the 100 um radius bends, extracted from the linear fit of racetrack intrinsic loss vs total length (Fig. 4(e)); resonances around 1550 nm"
+    notes: "Printed 1.1 +/- 0.1 dB/cm ('bending loss', p.6; Fig. 4(e) label). The paper does not print the formula; the value matches slope + intercept / (2 pi R) of the Fig. 4(e) fit (intercept about 0.045 dB), not the intercept alone. Basis author_estimate as the straight rows (coupling regime of the Lorentzian fits not stated, D403)."
+    why: "p.6 Fig. 4(e): the bend loss in dB/cm is not the intercept (about 0.045 dB, a per-round-trip loss) but needs the slope and intercept; condition read 'intercept of the fit'"
+  cmp_lit_cai2019_bend_r100_w1_box2-m1:
+    condition: "loss per length of the 100 um radius bends, extracted from the linear fit of racetrack intrinsic loss vs total length (Fig. 4(f)); resonances around 1550 nm"
+    notes: "Printed 1.55 +/- 0.3 dB/cm ('bending loss', p.6; Fig. 4(f) label). The paper does not print the formula; the value matches slope + intercept / (2 pi R) of the Fig. 4(f) fit (intercept about 0.05 dB), not the intercept alone. Basis author_estimate as the straight rows (coupling regime of the Lorentzian fits not stated, D403)."
+    why: "p.6 Fig. 4(f): as the W = 2 um bend row"
+  cmp_lit_tabatabavakili2017_l3_ra029-m1:
+    wavelength_nm: '335.5'
+    notes: "Read off Fig. 2(b) (dot centroid against the major ticks of the cached render: 42.7 px per nm, 0.429 px per unit Q; calibration reproduces the labelled r/a = 0.28 point at 337.05 nm / Q 1085): Q about 734, entered 735; wavelength about 335.5 nm. Reading uncertainty Q +/- 15, wavelength +/- 0.15 nm."
+    why: "p.3 Fig. 2(b): the red (r/a = 0.29) dot centroid sits at 335.54 nm (x 1032.8 px; ticks 334 nm at 967 px, 336 nm at 1053 px on img_p03_1), not 335.3; the same calibration returns 337.05 nm for the printed 337 nm point"
+  cmp_lit_tabatabavakili2017_l3_ra029-m2:
+    value: '335.5'
+    notes: "Read off Fig. 2(b) (dot centroid against the major ticks of the cached render, 42.7 px per nm; the calibration reproduces the labelled 337 nm point), +/- 0.15 nm."
+    why: "p.3 Fig. 2(b): red dot centroid 335.54 nm, staged 335.3 nm"
+add_metrics:
+  - metric_id: cmp_lit_tabatabavakili2017_l3_ra028-m5
+    component_id: cmp_lit_tabatabavakili2017_l3_ra028
+    parameter: core_thickness_nm
+    value: '81'
+    unit: nm
+    condition: suspended III-nitride membrane (Si substrate underetched)
+    basis: derived
+    locator: p.2; p.2 Fig. 1(a)
+    notes: "Sum of the printed growth layers: 50 nm AlN buffer + 5 x (1.2 nm GaN QW + 5 nm AlN) = 81 nm (p.2 text, Fig. 1(a) labels); total not printed. Nominal growth thicknesses, no measurement stated."
+    why: "miss (D153 geometry): the slab thickness of the PhC membrane follows from the printed layer stack (p.2; Fig. 1(a)); the XeF2 underetch removes only the Si substrate (p.2)"
+  - metric_id: cmp_lit_tabatabavakili2017_l3_ra029-m4
+    component_id: cmp_lit_tabatabavakili2017_l3_ra029
+    parameter: core_thickness_nm
+    value: '81'
+    unit: nm
+    condition: suspended III-nitride membrane (Si substrate underetched)
+    basis: derived
+    locator: p.2; p.2 Fig. 1(a)
+    notes: "Sum of the printed growth layers: 50 nm AlN buffer + 5 x (1.2 nm GaN QW + 5 nm AlN) = 81 nm (p.2 text, Fig. 1(a) labels); total not printed. Nominal growth thicknesses, no measurement stated."
+    why: "miss (D153 geometry): same sample as the r/a = 0.28 cavity (one investigated PhC sample, p.2)"
+  - metric_id: cmp_lit_tabatabavakili2017_l3_ra030-m4
+    component_id: cmp_lit_tabatabavakili2017_l3_ra030
+    parameter: core_thickness_nm
+    value: '81'
+    unit: nm
+    condition: suspended III-nitride membrane (Si substrate underetched)
+    basis: derived
+    locator: p.2; p.2 Fig. 1(a)
+    notes: "Sum of the printed growth layers: 50 nm AlN buffer + 5 x (1.2 nm GaN QW + 5 nm AlN) = 81 nm (p.2 text, Fig. 1(a) labels); total not printed. Nominal growth thicknesses, no measurement stated."
+    why: "miss (D153 geometry): same sample as the r/a = 0.28 cavity (one investigated PhC sample, p.2)"
+  - metric_id: cmp_lit_tabatabavakili2017_l3_ra031-m4
+    component_id: cmp_lit_tabatabavakili2017_l3_ra031
+    parameter: core_thickness_nm
+    value: '81'
+    unit: nm
+    condition: suspended III-nitride membrane (Si substrate underetched)
+    basis: derived
+    locator: p.2; p.2 Fig. 1(a)
+    notes: "Sum of the printed growth layers: 50 nm AlN buffer + 5 x (1.2 nm GaN QW + 5 nm AlN) = 81 nm (p.2 text, Fig. 1(a) labels); total not printed. Nominal growth thicknesses, no measurement stated."
+    why: "miss (D153 geometry): same sample as the r/a = 0.28 cavity (one investigated PhC sample, p.2)"

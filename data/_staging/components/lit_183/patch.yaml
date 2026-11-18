@@ -1,0 +1,142 @@
+# Audit patch lit_183 (fresh-context audit 2026-11-18, DevLog/audits/2026-11-18-lit_183-audit.md).
+# 95 metrics: 90 ok / 5 imprecise / 0 wrong; 17 components: 15 ok / 2 imprecise / 0 wrong; 0 deleted; 6 misses added.
+# After the patch: 17 components, 101 metrics.
+# Ops: helgason2021 Table S3 'Comb in Fig. S8' resolved to the device-2 comb at 1566 nm (Fig. S9 right panel prints
+# eta_meas = 0.46; text p.15 says Fig. 4 and Fig. S9 were analyzed): 46 % and the 1530 nm 32 % added, D159 note
+# replaced; device-2 Q_i wavelength from Table S1 (1550 nm stated, not inferred); pure unit rescales -> derived (D157 /
+# D256: xiang2019 spacer oxide 660 nm, liu2024c 82.2 kHz and 0.7 um); liu2024c '> 40 nm' condition (Fig. 3(D) 1540 /
+# 1590 nm are colour-bar ends, spectra span about 1548-1586 nm); xiang2019 ref. 25 note; D153 geometry misses
+# (xiang2019 gain section 1.5 mm, Si loop mirror 500 nm / 250 nm etch; liu2024c 0.2 m gain spiral).
+# Coordinator questions in the audit (Q1-Q6); every op below is applied as recommended there.
+components:
+  cmp_lit_helgason2021_device2_dks_comb:
+    notes: "Fab org_chalmers_university_of_technology (D84a, borderline): devices made with the authors' own subtractive
+      Si3N4 process (ref. 28, Ye / Twayana / Andrekson / Torres-Company, all co-authors) and the first-person 'we can
+      fabricate' (p.3); all authors at Chalmers (p.1); Supp. S2 states fabrication passively. No facility acknowledged
+      (C3SE / SNIC are computing resources). Cached copy is the arXiv v1 preprint (title 'Dissipative Kerr solitons in
+      photonic molecules') with its Supplementary Materials (p.7-15). Same chip as cmp_lit_helgason2021_device2_molecule
+      (D396). Table S3 column headed 'Comb in Fig. S8' (eta 0.46 at 17.8 mW) is the device-2 comb at 1566 nm: Fig. S8
+      shows no comb or efficiency, the text (p.15) says the combs of Fig. 4 and Fig. S9 were analyzed, and the Fig. S9
+      right panel prints eta_meas = 0.46 (header taken as a misprint, D417 note); entered as -m3. Its net conversion
+      efficiency 0.0789 over 71 lines (min line 0.0198 mW) not entered (no registry parameter)."
+    why: "p.13 Supp. S6, Fig. S9 right panel 'eta_meas = 0.46' (device 2, 1566 nm) and p.15 'we analyzed the microcomb
+      states presented in Fig. 4 and Fig. S9': the Table S3 comb is identified, D159 does not apply"
+  cmp_lit_xiang2019_iii_v_si_sin_dbr_laser:
+    notes: "Fab org_ucsb: author contributions name C.X. as leading the fabrication and J.P., M.J., W.J. as assisting
+      (p.9), all UCSB ECE (p.1); Methods describe the 100-mm process passively. No facility acknowledged. Cached copy is
+      the arXiv v1 preprint; the Supplementary Information (taper simulation, detuned-loading measurement) is not in the
+      cache. Output taken after the Si loop mirror. Not entered: the InP/Si extended-DBR comparison laser of Fig. 3(a)
+      (73.18 pm/C, 3.3 nm over 10-55 C) is a comparison device the sentence cites to ref. 25 (Huang et al., Optica 2019),
+      not this paper's laser (rule 3); 320 Hz butt-coupled Si3N4 DBR laser is ref. 18; hysteresis with phase-tuner current
+      (Fig. 2(c)) has no registry parameter. Laser mirrors: cmp_lit_xiang2019_sin_spiral_dbr,
+      cmp_lit_xiang2019_si_loop_mirror."
+    why: "p.4 'shown in Fig. 3a25': the comparison laser is attributed by reference number; the reference list names only
+      'Huang, D. et al.', so 'the authors' group laser' is not supported by the cached text; exclusion kept under rule 3"
+metrics:
+  cmp_lit_helgason2021_device2_molecule-m3:
+    wavelength_nm: '1550'
+    band: ''
+    wavelength_inferred: ''
+    notes: "Table S1 lists it for 'Device2 @ 1550 nm'; Fig. 3(B) / p.3 describe the mean as over multiple resonances in
+      the 1.5 um band of 3 devices (stated band, D393); regime assignment not shown from the data (D403)"
+    why: "p.8 Table S1 row label 'Device2 @ 1550 nm' and p.3 'in the 1.5 um band': the wavelength is stated, not inferred
+      (D393); consistent with -m1 / -m2 / -m4 from the same table row"
+  cmp_lit_xiang2019_sin_waveguide-m2:
+    basis: derived
+    notes: "printed 'about 660 nm' (nm -> um, D157 / D256); remaining spacer-oxide thickness after CMP (whether measured
+      over the Si3N4 core is not stated), the VIA oxide above it is not given; how the thickness was obtained is not
+      stated; thinner than designed (p.5)"
+    why: "D157 / D256: a pure unit rescale of a printed dimension is derived (the paper prints only 660 nm)"
+  cmp_lit_liu2024c_er_sin_vernier_laser-m3:
+    basis: derived
+    notes: "printed 82.2 kHz (kHz -> Hz, D256); reference ECDL 166.6 kHz, fiber laser 2.4 kHz (setup lasers, not entered);
+      device not named"
+    why: "D256: a prefix conversion is derived unless the source prints the Hz form; p.5 prints only 82.2 kHz"
+  cmp_lit_liu2024c_er_sin_vernier_laser-m11:
+    condition: "single-mode lasing over the C and L bands as stated in the abstract and the Fig. 3(D) caption"
+    notes: "abstract '> 40 nm within the C- and L-bands'; caption 'tuned over 40 nm'. The 1540 / 1590 nm labels in Fig.
+      3(D) are colour-bar ends; the plotted spectra span about 1548-1586 nm, matching the 1548.1-1585.8 nm range of -m10
+      (37.7 nm): printed claim kept with the conflict noted (D417)"
+    why: "p.5 Fig. 3(D) render: lasing peaks from about 1548 to 1586 nm; the old condition read the colour-bar labels as
+      spectra; p.4 text gives 1548.1-1585.8 nm"
+  cmp_lit_liu2024c_er_sin_vernier_laser-m16:
+    basis: derived
+    notes: "printed 0.7 x 2.1 um2 (um -> nm, D157); the cross-section is not labelled, 0.7 um taken as the thickness by
+      the printed order (same as -m17)"
+    why: "D157: a pure unit rescale of a printed dimension is derived; -m17 from the same printed pair is already derived"
+add_metrics:
+- metric_id: cmp_lit_helgason2021_device2_dks_comb-m3
+  component_id: cmp_lit_helgason2021_device2_dks_comb
+  parameter: pump_to_comb_efficiency_pct
+  value: '46'
+  unit: '%'
+  wavelength_nm: '1566'
+  ref_plane: on_chip
+  condition: "device-2 comb pumped at 1566 nm, input pump power 17.8 mW (Table S3); efficiency = on-chip output power
+    excluding the pump / input pump power (p.3-4)"
+  basis: measured
+  locator: p.13 Supp. S6, Fig. S9; p.15 Supp. S8, Table S3
+  notes: "Fig. S9 right panel eta_meas = 0.46 (model eta_sim = 0.44); Table S3 lists the same comb as 'Comb in Fig. S8'
+    (header misprint, see component notes)"
+  why: "p.13 Fig. S9 render: right panel (device 2, 1566 nm) prints eta_meas = 0.46; p.15 Table S3 0.46 at 17.8 mW;
+    distiller left it out under D159, but the comb is identified"
+- metric_id: cmp_lit_helgason2021_device2_dks_comb-m4
+  component_id: cmp_lit_helgason2021_device2_dks_comb
+  parameter: pump_to_comb_efficiency_pct
+  value: '32'
+  unit: '%'
+  wavelength_nm: '1530'
+  ref_plane: on_chip
+  condition: "device-2 comb pumped at 1530 nm; pump power of this trace not printed (p.3 gives 13 mW at the short end of
+    the Fig. 3 tuning)"
+  basis: measured
+  locator: p.13 Supp. S6, Fig. S9
+  notes: "Fig. S9 left panel eta_meas = 0.32 (model eta_sim = 0.31); equals the first Fig. 3(D) panel label, which has no
+    printed wavelength"
+  why: "p.13 Fig. S9 render: left panel (device 2, 1530 nm) prints eta_meas = 0.32; ties the low end of the -m2 range to
+    a stated wavelength"
+- metric_id: cmp_lit_xiang2019_iii_v_si_sin_dbr_laser-m10
+  component_id: cmp_lit_xiang2019_iii_v_si_sin_dbr_laser
+  parameter: length_um
+  value: '1500'
+  unit: um
+  condition: hybrid InP MQW on Si gain section length
+  basis: derived
+  locator: p.3
+  notes: printed '1.5 mm long hybrid section' (mm -> um, D157)
+  why: "D153 stated layout geometry: p.3 'A 1.5 mm long hybrid section with ... InP MQW on Si provides the optical gain'
+    (gain-section length_um precedent: davenport2016, cheung2015, chen2023)"
+- metric_id: cmp_lit_xiang2019_si_loop_mirror-m2
+  component_id: cmp_lit_xiang2019_si_loop_mirror
+  parameter: core_thickness_nm
+  value: '500'
+  unit: nm
+  condition: crystalline Si device layer of the bonded SOI piece
+  basis: design_target
+  locator: p.7 Methods
+  notes: "purchased SOI wafer layer thickness (D402); p.7-8 Methods restate the 500 nm Si layer for the simulation"
+  why: "D153 geometry: p.7 'A diced SOI wafer with 500 nm thick crystalline Si layer ... is bonded'; the component row
+    already names it in core_material"
+- metric_id: cmp_lit_xiang2019_si_loop_mirror-m3
+  component_id: cmp_lit_xiang2019_si_loop_mirror
+  parameter: etch_depth_nm
+  value: '250'
+  unit: nm
+  condition: shallow-etched single-mode Si ridge
+  basis: design_target
+  locator: p.8 Methods
+  notes: "stated in the simulation paragraph for the InP/Si hybrid section and all Si waveguides except the Si-Si3N4
+    taper; no measured etch depth printed"
+  why: "D153 geometry: p.7-8 'a shallow-etched Si single-mode ridge waveguide with 250 nm etching depth is used in ... all
+    Si waveguides except the Si-Si3N4 taper region'; the row's soi_rib platform rests on this sentence"
+- metric_id: cmp_lit_liu2024c_er_sin_vernier_laser-m18
+  component_id: cmp_lit_liu2024c_er_sin_vernier_laser
+  parameter: length_um
+  value: '200000'
+  unit: um
+  condition: Er-implanted Si3N4 spiral gain waveguide length
+  basis: derived
+  locator: p.2
+  notes: printed '0.2-m-long Erbium-doped Si3N4 spiral waveguide' (m -> um, D157)
+  why: "D153 stated layout geometry: p.2 gain spiral length (gain-section length_um precedent); the component label
+    already quotes 0.2 m"

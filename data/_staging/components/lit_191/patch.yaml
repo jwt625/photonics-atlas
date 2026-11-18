@@ -1,0 +1,13 @@
+# Audit patch lit_191 (fresh-context audit 2026-11-18, DevLog/audits/2026-11-18-lit_191-audit.md).
+# 26 metrics: 24 ok / 2 imprecise / 0 wrong; 6 components: 6 ok / 0 imprecise / 0 wrong; 0 deleted; 0 misses added.
+# After the patch: 6 components, 26 metrics.
+# Coordinator rulings asked (audit Q1-Q4), all recommended as no-op: Q1 switch_fabric.other with the crosstalk / IL rows
+# as staged; Q2 drive power and 10-90 % times derived (D256, ikeda2020 precedent); Q3 loss-budget terms author_estimate,
+# MMI halved (yang2024b precedent, D256a); Q4 fab SMIC with process_name as printed, cited refs. 7-15 values out.
+metrics:
+  cmp_lit_xing2015_mzi_switch_2x2-m1:
+    condition: "off state (phase mismatch 0), input port 1; leakage at output 1' (light routed to 2'), Fig. 4 blue 1-1' trace minimum at the Off marker; drive -0.97 V, -4 mA (3.88 mW) from the pi/2 pre-biased state"
+    why: "p.3 Fig. 4: the 24 dB crosstalk is the 1-1' leakage at the Off marker (1-2' near 0 dB); 'outputs 1' / 2'' did not say which port carries the leakage"
+  cmp_lit_xing2015_mzi_switch_2x2-m2:
+    condition: "on state (phase mismatch pi), input port 1; leakage at output 2' (light routed to 1'), Fig. 4 red 1-2' trace minimum at the On marker; drive 1.01 V, 7 mA (7.07 mW) from the pi/2 pre-biased state"
+    why: "p.3 Fig. 4: the 22 dB crosstalk is the 1-2' leakage at the On marker (1-1' near 0 dB); 'outputs 1' / 2'' did not say which port carries the leakage"

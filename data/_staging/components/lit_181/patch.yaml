@@ -1,0 +1,122 @@
+# Audit patch lit_181 (fresh-context audit 2026-11-18, DevLog/audits/2026-11-18-lit_181-audit.md).
+# 100 metrics: 96 ok / 3 imprecise / 1 wrong; 28 components: 24 ok / 4 imprecise; 3 misses added.
+# After the patch: 28 components, 103 metrics.
+# Coordinator rulings asked (audit Q1-Q9): Q1 kiewiet2025 fab as entered, process_name set on the 4 imec-platform rows
+# (ops below; to keep it empty as in kiewiet2026, remove the 4 component process_name ops); Q2 46.9 mA kept, 48 mA in
+# notes, '> 4 mW' kept on the 9.2 GHz row now tied by Supp. Fig. S8; Q3 simulated-only butt couplers kept (no op);
+# Q4 weng2021 vendor rows fab empty (no op; org round); Q5 pump_threshold_mw le rows kept (no op); Q6 MgF2 out (no op);
+# Q7 pfeifle2014 orgs kept (no op), ring_25ghz FSR added; Q8 wang2018d array bound kept (no op), slope / WPE facet
+# note fixed; Q9 xue2017 D408 values kept (no op).
+components:
+  cmp_lit_kiewiet2025_butt_coupler_imec:
+    process_name: imec 200 mm SiN platform
+    why: 'Contract v7 process_name as printed: p.5 ''made on the imec 200 mm SiN platform'' (also p.7 ''the 200 mm SiN
+      platform of imec'', Supp. p.10 ''imec 200-mm wafer-scale silicon nitride process''); fab org_imec already set from
+      the same sentence (audit Q1)'
+  cmp_lit_kiewiet2025_shallow_taper:
+    process_name: imec 200 mm SiN platform
+    why: 'Contract v7 process_name as printed (p.5; Supp. p.12 Note 2A: the shallow etch is used for the 200 mm platform);
+      audit Q1'
+  cmp_lit_kiewiet2025_mll_3p2ghz:
+    process_name: imec 200 mm SiN platform
+    why: 'Contract v7 process_name as printed: p.5 ''The 3.2 GHz and 9.2 GHz lasers are made on the imec 200 mm SiN
+      platform''; audit Q1'
+  cmp_lit_kiewiet2025_mll_9p2ghz:
+    process_name: imec 200 mm SiN platform
+    notes: 'arXiv preprint v1 (2025-04-23) of the Laser & Photonics Reviews paper; journal version unread. Supplementary
+      Material is in the cached text (pp.10-16) but Supp. Figs. S7-S9 have no page renders in figures/ (Supp. Fig. S8 was
+      checked on a PyMuPDF render of the cached PDF p.15 in the audit). Fab org_imec: the 3.2 and 9.2 GHz lasers ''are made
+      on the imec 200 mm SiN platform'' (p.5) and the imec co-authors ''developed imec''s 200 mm SiN photonics platform and
+      provided the wafer'' (p.9; D455, kiewiet2026 precedent); process_name as printed (p.5). Recess etch, BCB adhesion, printing,
+      BCB planarization and metallization follow on the die (Methods p.7, Supp. Note 1); their fabricator is not named separately.
+      Cavity: RSOA gold mirror + 75 % Sagnac loop mirror; SA section reverse biased for mode locking or forward biased in parallel
+      with the gain section for CW Fabry-Perot operation (p.5). Output through a grating coupler into a cleaved AR-coated 780HP
+      fiber; waveguide-coupled power = fiber power corrected by the grating-coupler loss from a cut-back structure (value not
+      printed; Methods p.7). Parts: cmp_lit_kiewiet2025_rsoa_coupon, cmp_lit_kiewiet2025_sagnac_mirror and the cmp_lit_kiewiet2025_butt_coupler_imec
+      coupler row. The p.5 sentence ''a fully-integrated butt-coupled extended-cavity laser with waveguide-coupled output powers
+      exceeding 4 mW and a threshold of 48 mA or 2.4 kA/cm2'' names no device, but Supp. Fig. S8 (p.15) shows that only the
+      9.2 GHz laser exceeds 4 mW (about 4.4 mW at 100 mA; 3.2 GHz and 7.5 GHz end near 1.6 mW), so the sentence describes
+      this laser; its 48 mA (the same pair of numbers as the coupon on p.4) conflicts with the Fig. 4(b) legend I_th = 46.9
+      mA, and only the legend value is entered (D417). Fig. 4(c): multimode FP spectrum at 100 mA. Projection of 50 mW waveguide-coupled
+      power not entered.'
+    why: 'Contract v7 process_name as printed (p.5); notes: p.15 Supp. Fig. S8 ties the p.5 ''> 4 mW / 48 mA'' sentence
+      to the 9.2 GHz laser (only trace above 4 mW), so the 48 / 46.9 mA pair is a D417 conflict on one device, not a D159
+      identity question (audit Q2)'
+metrics:
+  cmp_lit_kiewiet2025_mll_9p2ghz-m3:
+    locator: p.2 Sec. I; p.5 Sec. II-C; p.6 Fig. 4(b); p.15 Supp. Fig. S8; p.7 Methods
+    notes: 'printed ''waveguide-coupled output powers exceeding 4 mW'' (p.2, p.5; sentence names no device); Supp. Fig. S8
+      (p.15, read on a PyMuPDF render of the cached PDF) shows only the 9.2 GHz laser above 4 mW (about 4.4 mW at 100 mA),
+      and Fig. 4(b) (this laser) reaches about 4.3 mW at 100 mA; on-chip from fiber power and the cut-back grating-coupler
+      loss (D394)'
+    why: 'p.15 Supp. Fig. S8 resolves the device identity the distiller inferred from Fig. 4(b) alone (EBL 7.5 GHz and imec
+      3.2 GHz traces end near 1.6 mW)'
+  cmp_lit_weng2021_dm_laser-m5:
+    value: '1548.5'
+    notes: 'read at about 1548.5 nm (+/-0.1 nm) on the Fig. 1(c) right panel (ticks every 1 nm, peak 4.5 tick spacings
+      right of 1544 nm); the 165 GHz marker line sits at about 1549.85 nm, consistent with a 1548.5 nm peak (+1.32 nm);
+      not printed in the text'
+    why: 'p.2 Fig. 1(c) (render page_02.png, re-read at 400 dpi): the lasing peak is at about 1548.5 nm, outside the 1548.0
+      +/-0.3 nm reading entered'
+  cmp_lit_wang2018d_dfb_1mm-m2:
+    condition: at 49 mA, CW, room temperature; facet reference of the value not stated
+    notes: 'printed ''calculated to be 0.024 W/A'' at 49 mA (p.4). The Fig. 5(d) trace, which is power from one of the
+      two symmetric facets, rises from 0 at 12 mA to about 0.45 mW at 50 mA (about 0.012 W/A), so the printed slope matches
+      the two-facet sum (2 x 0.012); not stated in the text (D417 note)'
+    why: 'p.4 Fig. 5(d): single-facet L-I gives about 0.012 W/A; the condition ''power from one of the two symmetric facets''
+      attached to the value is not supported'
+  cmp_lit_wang2018d_dfb_1mm-m3:
+    condition: at 49 mA, CW, room temperature; facet reference of the value not stated
+    notes: 'printed ''calculated to be ... 0.5%'' at 49 mA (p.4). From Fig. 5(d): one facet about 0.44 mW at 49 mA and
+      bias about 3.4 V (I x V about 0.17 W) gives about 0.26 %; both facets about 0.52 %, so the printed value matches the
+      two-facet sum; not stated in the text (D417 note)'
+    why: 'p.4 Fig. 5(d) L-I-V: single-facet WPE about 0.26 %; the condition ''one facet'' attached to the value is not supported'
+add_metrics:
+  - metric_id: cmp_lit_kiewiet2025_mll_3p2ghz-m5
+    component_id: cmp_lit_kiewiet2025_mll_3p2ghz
+    parameter: output_power_mw
+    value: '1.6'
+    unit: mW
+    qualifier: approx
+    ref_plane: on_chip
+    condition: 'CW Fabry-Perot mode (SA forward biased in parallel with the gain section), waveguide-coupled, at about 80
+      mA (end of the trace)'
+    basis: extracted_from_figure
+    locator: p.15 Supp. Fig. S8
+    verified_on: '2026-11-18'
+    notes: 'read on a PyMuPDF render of the cached PDF p.15 (no page render in figures/): last point about 1.59 mW at about
+      79.8 mA (+/-0.05 mW, +/-1 mA); waveguide-coupled power = fiber power corrected by the cut-back grating-coupler loss
+      (Methods p.7). Threshold reads about 49-50 mA (not entered: +/-1.5 mA reading).'
+    why: 'miss: p.15 Supp. Fig. S8 plots the waveguide-coupled L-I of all three lasers (legend imec - 3.2 GHz); the distiller
+      had no render of p.15'
+  - metric_id: cmp_lit_kiewiet2025_mll_7p5ghz-m2
+    component_id: cmp_lit_kiewiet2025_mll_7p5ghz
+    parameter: output_power_mw
+    value: '1.6'
+    unit: mW
+    qualifier: approx
+    ref_plane: on_chip
+    condition: 'CW Fabry-Perot mode (SA forward biased in parallel with the gain section), waveguide-coupled, at about 97-100
+      mA'
+    basis: extracted_from_figure
+    locator: p.15 Supp. Fig. S8
+    verified_on: '2026-11-18'
+    notes: 'read on a PyMuPDF render of the cached PDF p.15 (no page render in figures/): trace (legend EBL - 7.5 GHZ) levels
+      at about 1.58 mW between about 97 and 100 mA (+/-0.05 mW); waveguide-coupled power = fiber power corrected by the cut-back
+      grating-coupler loss (Methods p.7). Threshold reads about 50 mA (not entered: +/-1.5 mA reading).'
+    why: 'miss: p.15 Supp. Fig. S8 plots the waveguide-coupled L-I of the EBL-platform laser; the row had only the repetition
+      rate'
+  - metric_id: cmp_lit_pfeifle2014_ring_25ghz-m2
+    component_id: cmp_lit_pfeifle2014_ring_25ghz
+    parameter: fsr_ghz
+    value: '25'
+    unit: GHz
+    method: unspecified
+    basis: measured
+    locator: p.9 Supp. Fig. 5 caption; p.6; p.7 Methods
+    verified_on: '2026-11-18'
+    notes: 'printed ''The resonator (inset 1) exhibits a FSR of 25 GHz'' (p.9) and ''a resonator with a FSR of 25 GHz''
+      (p.6, p.7); how the FSR was obtained is not stated; the comb line spacing deviates by less than 6 MHz from the designed
+      25 GHz (p.7; cmp_lit_pfeifle2014_comb_25ghz-m1). Same wording and treatment as cmp_lit_pfeifle2014_ring_17ghz-m1.'
+    why: 'miss: the 17 GHz ring row carries its printed FSR (''exhibits a free spectral range (FSR) of 17 GHz'', p.7);
+      the 25 GHz ring is printed with the same verb (p.9 Supp. Fig. 5 caption) but had no FSR row'

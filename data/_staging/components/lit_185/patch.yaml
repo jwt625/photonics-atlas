@@ -1,0 +1,12 @@
+# Audit patch lit_185 (fresh-context audit 2026-11-18, DevLog/audits/2026-11-18-lit_185-audit.md).
+# 85 metrics: 84 ok / 1 imprecise / 0 wrong; 23 components: 23 ok / 0 imprecise / 0 wrong; 0 deleted; 0 misses added.
+# After the patch: 23 components, 85 metrics.
+# Coordinator rulings asked (audit Q1-Q5), all recommended as no-op except the D256a note below: Q1 vogelbacher2019 TE
+# printed points measured, other Fig. 9 points extracted_from_figure, 180-deg sentence out, fab empty; Q2 facet losses
+# measured (D167 / D462); Q3 chang2020a Q_0 / 0.4 dB/cm author_estimate, threshold measured, comb spacings
+# author_estimate, fab org_ucsb; Q4 obrzud2021 nonlinear waveguide no row; Q5 vogelbacher2019 target-radius design
+# points (36 / 39 / 45 / 43 / 57 um) not added.
+metrics:
+  cmp_lit_chang2020a_comb_1thz-m2:
+    notes: "Printed '1 THz' (ring FSR, p.2, p.11; Fig. 4(a), (b) labels 'FSR = 1 THz'); THz -> GHz, author_estimate kept after the unit conversion (D256a). Round nominal device label, no measured spacing printed (D83b: Kerr comb line spacing, no pulse characterization)."
+    why: "D256 / D256a: the row stores 1000 GHz while the paper prints only '1 THz' (p.2, p.11, p.30 Fig. 4(a), (b)); the notes must carry the printed value and the conversion"
