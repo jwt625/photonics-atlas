@@ -1,0 +1,93 @@
+# Audit patch lit_209 (fresh-context audit 2026-11-18, DevLog/audits/2026-11-18-lit_209-audit.md).
+# 123 metrics: 113 ok / 10 imprecise / 0 wrong; 12 components: 6 ok / 6 imprecise / 0 wrong; 1 miss added
+# (goh1999 switching unit length 23 mm). Two xu2017 grating-coupler rows deleted on recommendation (Q7; revert = drop
+# the two delete ops and the triplexer notes op). After the patch: 10 components, 122 metrics.
+components:
+  cmp_lit_xu2017_adc_triplexer:
+    notes: 'Three cascaded ADC filters, each two single-mode waveguides with a multimode waveguide between them (TE0 to TE1 phase matching); ADC1 / ADC2 / ADC3 phase-matched at 1.49 / 1.55 / 1.31 um; outputs
+      O1 1.49 um, O2 1.55 um, O3 1.31 um (Fig. 3, Fig. 5). Each multimode waveguide ends in a 3 um taper that radiates the remaining TE1 mode. TE only (birefringence, p.4). Measured with focused grating
+      couplers, two copies of the triplexer with 1.31 um and 1.52 um gratings, normalized to straight waveguides with the same gratings (p.3); supercontinuum source + OSA. Abstract ''less than 1 dB for
+      all the three channels'' is the summary of the per-channel rows. Simulated 3D-FDTD values on this row are basis simulated (D80e). Fab empty: passive fabrication sentences only (p.3, D80b); both authors
+      at Zhejiang University; no facility named. Grating couplers (focused, design cited ref. [10]): the 1.31 um copy uses gratings centred at 1.31 um (bandwidth about 80 nm), the 1.49 / 1.55 um copy gratings
+      centred at 1.52 um (bandwidth about 100 nm); bandwidth definition not stated, no coupling efficiency printed (p.3); no grating-coupler rows (stated working wavelengths only).'
+    why: 'p.3 Sec. II: the two grating-coupler sets carry only stated working wavelengths (design cited, ref. [10]); their facts move here with the deletion of the two GC rows (audit Q7)'
+  cmp_lit_shi2009_dc_triplexer_design:
+    notes: 'Design-only paper (3D finite-difference BPM, grid 5 / 5 / 1 nm); no device fabricated. DC1 (w 500 nm, gap d1 120 nm, L 136.2 um) splits 1490 nm from 1310 + 1550 nm; DC2 (w 550 nm, gap d2 140
+      nm, L 48.2 um) separates 1310 and 1550 nm; DC3 (same w, d and L as DC1) filters the 1490 nm channel, leakage to an auxiliary port. Ports: #1 1550 nm, #2 1310 nm, #3 1490 nm (Fig. 1(a), Table II).
+      Table I (optimized lengths for other w / d1 pairs) and Fig. 3 (coupling length vs gap) are design exploration, not entered. Text summary: insertion loss around 0.5 dB TE and 0.1 dB TM at the three
+      central wavelengths (p.3); the Table II per-channel rows are entered instead. 3-dB widths 40 / 20 / 30 nm printed for ports #1 / #2 / #3 (p.3): Fig. 5 does not reproduce them (port #2 TE stays above
+      -3 dB over the whole 1280-1330 nm plot, port #1 TE above -3 dB from about 1520 nm to the 1570 nm plot edge, i.e. at least about 50 nm), kept as printed (D417). Fab: none (design).'
+    why: 'p.4 Fig. 5(b) re-read on the render: the port #1 TE (solid triangles) trace crosses -3 dB near 1520-1523 nm (about -4 dB at 1520 nm, about -2 dB at 1525 nm) and stays above it to 1570 nm'
+  cmp_lit_goh1999_double_mzi_unit:
+    notes: 'Cell characterized as part of the 8x8 matrix (D158). Two asymmetric MZIs (path difference designed 10 % longer than a half wavelength, bias on the shorter-arm heater) and an intersection; ON
+      = both MZIs cross, OFF = both bar (p.2, p.4). Switching unit length 23 mm (Table I ''Switching unit length''; p.3 ''One 23-mm long switching unit stage contains eight switching units''), entered as
+      length_um. Expected ON-state transmittance (4k(1-k))^2 with the coupling ratio k; loss penalty from k = 33 % estimated 1.1 dB (p.4, not entered). Fab org_ntt: first-person fabrication sentence (p.3
+      ''We fabricated this ... switch on a silicon wafer''), all authors at NTT Photonics Laboratories / NTT Network Innovation Laboratories (D154 parent, D72); staff also thanked for PLC fabrication help
+      (p.6).'
+    why: Table I (p.3) prints the switching unit length 23 mm; length_um is allowed on every class (miss added as m3)
+  cmp_lit_wenger1997_most:
+    notes: 'Four sections: fiber-matched rib, vertical taper, lateral taper, small-spot switch waveguide (p.5). Simulated loss budget for a 1 mm vertical and 500 um lateral taper: about 0.3 dB fiber / rib
+      mismatch, 0.6 dB vertical taper, 0.1 dB lateral taper, 0.1 dB at the ridge onset, overall slightly above 1 dB (p.5-6); the 0.6 dB holds for a spot-size change by a factor of 10; Fig. 8 loss vs vertical-taper
+      length not read. Measured MOST values (1.0 dB per tapered waveguide, 1-dB tolerances +/-2 um vertical / +/-3 um lateral) are in Sec. III-B, which the paper credits to ref. [17] (D259a, not entered);
+      the conclusion''s ''loss of only 1 dB'' is not tied to a new measurement (not entered). Facets SiN anti-reflection coated (Sec. III-B). Fab empty: first-person chip-process and assembly sentences
+      (p.7 Sec. III-C, p.9 Sec. V), all authors at Siemens units (printed Siemens HL, Siemens ZT, Siemens ON with an O-umlaut); Siemens is not in the registry (reported, D154 parent). Sec. III-A design
+      and simulation values carry no citation in their sentences; ref. [2] (the authors'' JLT 1994 MOST design-and-fabrication paper) is cited for the MOST concept (p.4) and for ion beam shadow etching
+      (p.7): values kept (D408 sentence-level scope).'
+    why: 'D408: record that ref. [2] is cited around Sec. III-A but not in the value sentences (p.4 end, p.5-6, p.7), as the matrix row records ref. [19]'
+metrics:
+  cmp_lit_xu2017_adc_triplexer-m13:
+    scope: per_component
+    notes: 3D-FDTD of the triplexer alone (no gratings or access waveguides); scope per_component as the measured rows m4-m6 and the merged simulated excess-loss rows (134 per_component, 0 device_total).
+    why: 'p.3 Sec. II: EL calculated for the cascaded-ADC triplexer by 3D-FDTD (Fig. 3(b)); the simulated device is one isolated component, not a device total with couplers'
+  cmp_lit_xu2017_adc_triplexer-m14:
+    scope: per_component
+    notes: 3D-FDTD of the triplexer alone (no gratings or access waveguides); scope per_component as the measured rows m4-m6 and the merged simulated excess-loss rows (134 per_component, 0 device_total).
+    why: 'p.3 Sec. II: EL calculated for the cascaded-ADC triplexer by 3D-FDTD (Fig. 3(b)); the simulated device is one isolated component, not a device total with couplers'
+  cmp_lit_xu2017_adc_triplexer-m15:
+    scope: per_component
+    notes: 3D-FDTD of the triplexer alone (no gratings or access waveguides); scope per_component as the measured rows m4-m6 and the merged simulated excess-loss rows (134 per_component, 0 device_total).
+    why: 'p.3 Sec. II: EL calculated for the cascaded-ADC triplexer by 3D-FDTD (Fig. 3(b)); the simulated device is one isolated component, not a device total with couplers'
+  cmp_lit_xu2017_adc_triplexer-m19:
+    band: unspecified
+    why: 'rule 8 / schema band: no wavelength stated for the 10 nm deviation statement (p.3 Sec. II); band unspecified with the existing note'
+  cmp_lit_goh1999_8x8_double_mzi_matrix-m12:
+    wavelength_nm: '1550'
+    wavelength_inferred: 'true'
+    notes: 'Printed -43.3 to -48.4 dB; model estimate with an assumption (rule 4); wavelength not stated for the MXR estimate: 1.55 um is the measurement wavelength of the Sec. IV-A-1 transmittances (Fig.
+      7) and the test-waveguide X that Eq. (1) uses (rule 8).'
+    why: 'rule 8: Eq. (1) uses the Sec. IV-A transmittances measured at 1.55 um (p.3) and X from test waveguides; the wavelength is inferred from that section, not stated with the MXR'
+  cmp_lit_goh1999_8x8_double_mzi_matrix-m13:
+    wavelength_nm: '1550'
+    wavelength_inferred: 'true'
+    notes: 'Printed -46.0 dB; wavelength not stated for the MXR estimate: 1.55 um is the measurement wavelength of the Sec. IV-A-1 transmittances (Fig. 7) and the test-waveguide X that Eq. (1) uses (rule
+      8).'
+    why: 'rule 8: Eq. (1) uses the Sec. IV-A transmittances measured at 1.55 um (p.3) and X from test waveguides; the wavelength is inferred from that section, not stated with the MXR'
+  cmp_lit_goh1999_8x8_double_mzi_matrix-m16:
+    notes: Printed 'was 16.0 W under usual operating conditions' (eight units ON, the others OFF; p.5). It equals 8 x 1.06 W + 56 x 0.134 W = 15.98 W from the average unit powers of the same paragraph,
+      so it may be a sum rather than a direct measurement; the paper does not say; basis kept as printed.
+    why: 'p.5 Sec. IV-A-4: the 16.0 W matches the sum of the printed average unit powers (8 x 1.06 + 56 x 0.134 = 15.98 W); how it was obtained is not stated (audit Q5)'
+  cmp_lit_wenger1997_selfaligned_fiber_array-m2:
+    notes: Loss-budget term, origin not stated; four interfaces per path = 2.0 dB (Table III; p.9 Sec. VI 'four fiber-to-fiber-matched-waveguide interfaces add up to about 2.0 dB'). Same 0.5 dB as the Sec.
+      IV typical array-coupling penalty (m1); the paper does not link the two, so the term may restate that measurement.
+    why: 'p.9 Table III / Sec. IV: the interface term equals the measured typical penalty of m1 and the text does not tie them; recorded so the two rows are not read as independent evidence'
+delete_components:
+- id: cmp_lit_xu2017_gc_1310
+  why: 'audit Q7 (recommendation, revert = drop this op): p.3 Sec. II states only the working centre wavelength of the measurement gratings (design cited, ref. [10]); no coupling efficiency, no defined
+    bandwidth, no spectrum; the single author_estimate centre-wavelength row is a design statement of a test fixture (merged centre-wavelength-only GC rows are all measured); facts kept in the triplexer
+    notes'
+- id: cmp_lit_xu2017_gc_1520
+  why: 'audit Q7 (recommendation, revert = drop this op): p.3 Sec. II states only the working centre wavelength of the measurement gratings (design cited, ref. [10]); no coupling efficiency, no defined
+    bandwidth, no spectrum; the single author_estimate centre-wavelength row is a design statement of a test fixture (merged centre-wavelength-only GC rows are all measured); facts kept in the triplexer
+    notes'
+add_metrics:
+- metric_id: cmp_lit_goh1999_double_mzi_unit-m3
+  component_id: cmp_lit_goh1999_double_mzi_unit
+  parameter: length_um
+  value: '23000'
+  unit: um
+  condition: switching unit length (one stage of eight units in parallel)
+  basis: derived
+  locator: p.3 Sec. III, Table I
+  notes: Printed 23 mm (Table I 'Switching unit length'; p.3 'One 23-mm long switching unit stage'), stored in um (D157).
+  verified_on: '2026-11-18'
+  why: 'miss: Table I (p.3) prints the switching unit length 23 mm; length_um is allowed on every class (the report said no parameter)'

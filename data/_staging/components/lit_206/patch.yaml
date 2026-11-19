@@ -1,0 +1,142 @@
+# Audit patch lit_206 (fresh-context audit 2026-11-18, DevLog/audits/2026-11-18-lit_206-audit.md).
+# 168 metrics: 150 ok / 17 imprecise / 1 wrong; 24 components: 20 ok / 4 imprecise / 0 wrong; 1 miss added
+# (cao2023 dark current 100 uA at -14.5 V). After the patch: 24 components, 168 metrics.
+# Coordinator questions (audit Q1-Q7): Q1 yanikgonul2022 responsivities measured -> derived (D394 analogue; revert = drop the
+# 12 responsivity ops), fab org_amf / edge coupler / transition kept; Q2 okimoto2023 AlInAs Fig. 5 values stay out; Q3 okimoto2023
+# fab stays empty until the registry links SEDI to SEI; Q4 figure-read biases kept, both re-read (-21.6 V, -9.9 V); Q5 okimoto2023
+# rows kept separate; Q6 cao2023 0.93 A/W on the reference PD and GBP author_estimate kept; Q7 yanikgonul2022 120 GHz kept on W1.1 L300.
+components:
+  cmp_lit_yanikgonul2022_apd_slab_w1p3_l300:
+    label: Baseline SiN-on-SOI APD with a 220 nm Si slab (no shallow rib) under the SiN waveguide, L = 300 um, 850 nm
+    notes: 'Comparison device of App. B (p.7): ''We also design and fabricate SiN-on-SOI APDs with slab geometry''; same AMF MPW run as the shallow-rib devices (p.3) -> org_amf. Only the 4 V primary
+      responsivity is printed; Fig. 9 shows it rising to about 2 A/W near breakdown (not entered). Length from the Fig. 9 panel label ''L: 300 um'', which covers both traces; the intrinsic-region width
+      of the baseline is not stated (the p.7 text and Fig. 9 caption give L = 300 um, W = 1.3 um for the shallow-rib representative device only), so no width is entered.'
+    why: 'p.7 App. B and Fig. 9 caption attach (L = 300 um, W = 1.3 um) to the shallow-rib representative device; the baseline is described only as having a 220 nm Si slab; W not stated (rule 1)'
+  cmp_lit_yanikgonul2022_apd_w1p1_l300:
+    notes: 'Fab: p.3 Sec. II ''Our devices are fabricated using the standard MPW flow of Advanced Micro Foundry (AMF)'' -> org_amf; p.6 ''fabricated in a commercial SOI photonics platform via an MPW run''.
+      Separate absorption (lightly p-doped intrinsic region, 1e15 cm-3) and multiplication (n+, 3.5e18 cm-3) regions; p and n+ widths 1.15 / 1.05 / 0.95 um for W 1.1 / 1.3 / 1.5 um; p++ to n++ contact
+      spacing 3.4 um (p.3). Table I values are at VB = 0.9 x Vbr (p.5); Vbr is defined at Idark = 10 uA (p.4) but not printed per device. Reverse bias stored negative (Table I prints positive VB). Responsivity
+      uses P_in = 0.57 +/- 0.01 mW at the APD input, computed from the lensed-fiber power minus the measured cutback facet loss (7.00 dB) and SiN propagation loss (p.4). Gain = photocurrent normalized
+      to the photocurrent at the unity-gain voltage, taken as 4 V for all devices (measured range 2.4-4.4 V, p.8 App. D). Open eyes up to 40 Gbps for all variations (no parameter). 120 GHz GBP: p.5
+      ties it to the W = 1.1 um, 300 um devices (Fig. 5(b) peak about 120 GHz at gain about 11), while the p.6 conclusion attributes 120 GHz (G 10.9, 11.0 GHz at VB = 37 V) to ''L = 100 um and L =
+      1.3 um''; Table I prints 105.9 GHz for W 1.3 / L 100 at 41 V. Fig. 5 supports this row: the W 1.1 um trace has its GBP peak (about 120 GHz) at gain about 11 with about 11 GHz in Fig. 5(a), matching
+      the conclusion''s G 10.9 / 11.0 GHz, while W 1.3 / L 100 reaches only gain 8.0 at 41 V (Table I). The conclusion values (G 10.9, 11.0 GHz, 37 V) are not entered (conflicting attribution in the text).'
+    why: 'Fig. 5(a)/(b) (p.5) cross-check of the 120 GHz attribution recorded (coordinator point g); P_in wording ''computed'' aligned with the derived responsivity basis'
+  cmp_lit_cao2023_lrt_apd:
+    cladding: ''
+    notes: 'Fab empty: ''The devices were fabricated in a standard Multi-project-wafer (MPW) silicon photonics foundry'' (p.1) and ''fabricated in an standard 180nm MPW silicon photonics foundry'' (p.3)
+      name no org (D80b, Contract v7: process wording kept). Platform soi from the BOX labelled in Fig. 1(b); the upper cladding is drawn but not labelled or named (cladding empty). Measurement wavelength
+      not printed; the device is stated to operate at 1310 nm (p.1). Wo (light-P region to Ge distance) 70 nm and Wp (P region width) 150 nm (p.2; no parameter). Bi-level taper from the input strip
+      waveguide (p.2). The abstract ties gain 20.4 / about 45 GHz / 918 GHz to -14 V, the text puts the maximum gains and GBPs at about -14.5 V (p.2-3): the text bias is used. Gain uses the 0.93 A/W
+      of the separate reference PD as unity-gain responsivity (p.2). Dark current below 1 nA at low voltage (bias not printed, not entered). 50 Gbps NRZ eyes open down to -20 dBm at -14 V (p.3, no parameter).
+      The 0.93 A/W ''primary responsivity'' is on the reference PD row.'
+    why: 'Fig. 1(b) (p.1) labels only BOX and Substrate Si; the cladding material is not stated anywhere in the text (cladding only if stated)'
+  cmp_lit_cao2023_ref_pd:
+    notes: 'Fab empty: ''The devices were fabricated in a standard Multi-project-wafer (MPW) silicon photonics foundry'' (p.1) and ''fabricated in an standard 180nm MPW silicon photonics foundry'' (p.3)
+      name no org (D80b, Contract v7: process wording kept). Platform soi from the BOX labelled in Fig. 1(b). Measurement wavelength not printed; the device is stated to operate at 1310 nm (p.1). Used
+      as the unity-gain responsivity reference for the APD gain (p.2); the abstract / intro phrase it as the APD''s primary responsivity at unit gain. The merged rows of lit:xiang2022 (same group, lateral
+      reach-through Ge/Si APD, same Ge 0.5 x 5 um / 260 nm geometry) carry the same 0.93 A/W unity-gain reference; cao2023 does not cite that paper or attribute the value (its ref. [6] is a different
+      lateral SACM paper), so the value stays (D408 needs an attribution in the value sentence).'
+    why: 'cross-note: identical 0.93 A/W in merged lit:xiang2022 rows (cmp_lit_xiang2022_lateral_rt_ge_si_apd-m1); no attribution in cao2023 p.1-2, kept under D408'
+metrics:
+  cmp_lit_yanikgonul2022_apd_w1p1_l100-m2:
+    basis: derived
+    notes: Iph / P_in; P_in = 0.57 mW at the APD input computed by the authors from the lensed-fiber power minus the paper's own cutback facet loss (7.00 dB) and SiN propagation loss (p.4); de-embedded with
+      own measured losses -> derived (D394 analogue; anthony2019, morgan2021, wen2022, lischke2021a)
+    why: 'responsivity referenced to a P_in that is arithmetic on the paper''s own measured coupling and propagation losses (p.4, App. C): merged precedents anthony2019 / morgan2021 / wen2022 / lischke2021a
+      enter such values as derived (D394 analogue), not measured'
+  cmp_lit_yanikgonul2022_apd_w1p3_l100-m2:
+    basis: derived
+    notes: Iph / P_in; P_in = 0.57 mW at the APD input computed by the authors from the lensed-fiber power minus the paper's own cutback facet loss (7.00 dB) and SiN propagation loss (p.4); de-embedded with
+      own measured losses -> derived (D394 analogue; anthony2019, morgan2021, wen2022, lischke2021a)
+    why: 'responsivity referenced to a P_in that is arithmetic on the paper''s own measured losses (p.4): derived (D394 analogue), see apd_w1p1_l100-m2'
+  cmp_lit_yanikgonul2022_apd_w1p5_l100-m2:
+    basis: derived
+    notes: Iph / P_in; P_in = 0.57 mW at the APD input computed by the authors from the lensed-fiber power minus the paper's own cutback facet loss (7.00 dB) and SiN propagation loss (p.4); de-embedded with
+      own measured losses -> derived (D394 analogue; anthony2019, morgan2021, wen2022, lischke2021a)
+    why: 'responsivity referenced to a P_in that is arithmetic on the paper''s own measured losses (p.4): derived (D394 analogue), see apd_w1p1_l100-m2'
+  cmp_lit_yanikgonul2022_apd_w1p1_l300-m2:
+    basis: derived
+    notes: Iph / P_in; P_in = 0.57 mW at the APD input computed by the authors from the lensed-fiber power minus the paper's own cutback facet loss (7.00 dB) and SiN propagation loss (p.4); de-embedded with
+      own measured losses -> derived (D394 analogue; anthony2019, morgan2021, wen2022, lischke2021a)
+    why: 'responsivity referenced to a P_in that is arithmetic on the paper''s own measured losses (p.4): derived (D394 analogue), see apd_w1p1_l100-m2'
+  cmp_lit_yanikgonul2022_apd_w1p3_l300-m2:
+    basis: derived
+    notes: Iph / P_in; P_in = 0.57 mW at the APD input computed by the authors from the lensed-fiber power minus the paper's own cutback facet loss (7.00 dB) and SiN propagation loss (p.4); de-embedded with
+      own measured losses -> derived (D394 analogue; anthony2019, morgan2021, wen2022, lischke2021a)
+    why: 'responsivity referenced to a P_in that is arithmetic on the paper''s own measured losses (p.4): derived (D394 analogue), see apd_w1p1_l100-m2'
+  cmp_lit_yanikgonul2022_apd_w1p5_l300-m2:
+    basis: derived
+    notes: Iph / P_in; P_in = 0.57 mW at the APD input computed by the authors from the lensed-fiber power minus the paper's own cutback facet loss (7.00 dB) and SiN propagation loss (p.4); de-embedded with
+      own measured losses -> derived (D394 analogue; anthony2019, morgan2021, wen2022, lischke2021a)
+    why: 'responsivity referenced to a P_in that is arithmetic on the paper''s own measured losses (p.4): derived (D394 analogue), see apd_w1p1_l100-m2'
+  cmp_lit_yanikgonul2022_apd_w1p1_l500-m2:
+    basis: derived
+    notes: Iph / P_in; P_in = 0.57 mW at the APD input computed by the authors from the lensed-fiber power minus the paper's own cutback facet loss (7.00 dB) and SiN propagation loss (p.4); de-embedded with
+      own measured losses -> derived (D394 analogue; anthony2019, morgan2021, wen2022, lischke2021a)
+    why: 'responsivity referenced to a P_in that is arithmetic on the paper''s own measured losses (p.4): derived (D394 analogue), see apd_w1p1_l100-m2'
+  cmp_lit_yanikgonul2022_apd_w1p3_l500-m2:
+    basis: derived
+    notes: Iph / P_in; P_in = 0.57 mW at the APD input computed by the authors from the lensed-fiber power minus the paper's own cutback facet loss (7.00 dB) and SiN propagation loss (p.4); de-embedded with
+      own measured losses -> derived (D394 analogue; anthony2019, morgan2021, wen2022, lischke2021a)
+    why: 'responsivity referenced to a P_in that is arithmetic on the paper''s own measured losses (p.4): derived (D394 analogue), see apd_w1p1_l100-m2'
+  cmp_lit_yanikgonul2022_apd_w1p5_l500-m2:
+    basis: derived
+    notes: Iph / P_in; P_in = 0.57 mW at the APD input computed by the authors from the lensed-fiber power minus the paper's own cutback facet loss (7.00 dB) and SiN propagation loss (p.4); de-embedded with
+      own measured losses -> derived (D394 analogue; anthony2019, morgan2021, wen2022, lischke2021a)
+    why: 'responsivity referenced to a P_in that is arithmetic on the paper''s own measured losses (p.4): derived (D394 analogue), see apd_w1p1_l100-m2'
+  cmp_lit_yanikgonul2022_apd_w1p1_l300-m6:
+    basis: derived
+    notes: Printed 'exceeds 1.0 A/W for all 300 um-long device variations at near breakdown voltages' (p.4); Fig. 2(b) W 1.1 um trace maximum about 1.3 A/W (log-axis read on a 600 dpi render, +/- 0.05
+      A/W); P_in de-embedded with the paper's own measured losses -> derived (D394 analogue)
+    why: 'Fig. 2(b) (p.4) W 1.1 um (blue) trace peaks at about 1.29 A/W, not 1.5; basis derived as for the Table I responsivities (D394 analogue)'
+  cmp_lit_yanikgonul2022_apd_w1p3_l300-m6:
+    basis: derived
+    notes: Printed 'exceeds 1.0 A/W for all 300 um-long device variations at near breakdown voltages' (p.4); Fig. 2(b) W 1.3 um trace maximum about 1.5 A/W (log-axis read on a 600 dpi render, +/- 0.05
+      A/W); P_in de-embedded with the paper's own measured losses -> derived (D394 analogue)
+    why: 'Fig. 2(b) (p.4) W 1.3 um (red) trace peaks at about 1.50 A/W; basis derived as for the Table I responsivities (D394 analogue)'
+  cmp_lit_yanikgonul2022_apd_w1p5_l300-m6:
+    basis: derived
+    notes: Printed 'exceeds 1.0 A/W for all 300 um-long device variations at near breakdown voltages' (p.4); Fig. 2(b) W 1.5 um trace reaches about 1.6 A/W at its highest-bias end (log-axis read on a 600
+      dpi render, +/- 0.05 A/W); P_in de-embedded with the paper's own measured losses -> derived (D394 analogue)
+    why: 'Fig. 2(b) (p.4) W 1.5 um (green) trace ends at about 1.59 A/W; basis derived as for the Table I responsivities (D394 analogue)'
+  cmp_lit_yanikgonul2022_apd_w1p5_l300-m1:
+    basis: derived
+    locator: p.3 Table I
+    notes: printed 0.008 uA, converted to nA
+    why: 'D256: the p.6 ''3 to 8 nA'' range covers the 100 um-long devices only; Table I prints 0.008 uA for W 1.5 / L 300 and no nA form exists for this device'
+  cmp_lit_yanikgonul2022_apd_slab_w1p3_l300-m2:
+    locator: p.7 Fig. 9
+    notes: "Fig. 9 panel label 'L: 300 um' covers both traces (shallow rib and Si slab); the text gives L only for the representative shallow-rib device"
+    why: 'the length of the baseline comes from the Fig. 9 panel label, not from the p.7 text (whose parentheses describe the shallow-rib device)'
+  cmp_lit_yanikgonul2022_apd_w1p1_l300-m8:
+    notes: printed '120 Gbps' (unit slip; Fig. 5(b) axis GBP in GHz, peak about 120 GHz at gain about 11). p.5 ties 120 to the W = 1.1 um, 300 um devices; the p.6 conclusion attributes 120 GHz (G 10.9,
+      11.0 GHz at VB = 37 V) to 'L = 100 um and L = 1.3 um'. Fig. 5 supports this row (W 1.1 um trace peak about 120 GHz at gain about 11, Fig. 5(a) about 11 GHz there); W 1.3 / L 100 reaches only
+      gain 8.0 at 41 V (Table I). The conclusion values (G 10.9, 11.0 GHz, 37 V) are not entered.
+    why: 'Fig. 5(a)/(b) (p.5) cross-check recorded: the conclusion''s G 10.9 / 11.0 GHz / 120 GHz point lies on the W 1.1 um, L 300 um traces'
+  cmp_lit_okimoto2023_bj_apd_inp-m4:
+    bias_v: '-21.6'
+    notes: multiplication factor calculated from the I-V curves; bias not printed, read at the Fig. 4 peak of the red curve (about 21.6 V reverse, +/- 0.1 V; 600 dpi render calibrated on the 0 / 25 V
+      axes and the 5 V gridlines), equal to the printed Vbreak
+    why: 'p.3 Fig. 4 re-read: red peak at x = 1349 px with 0 V at 288 px and 25 V at 1516.5 px (49.1 px/V) -> 21.6 V, not 21.4 V'
+  cmp_lit_yuan2021_lr_apd-m3:
+    bias_v: '-9.9'
+    notes: '''high gain up to ~23.6''; bias not printed, read at the Fig. 4(a) gain peak (about -9.9 V, +/- 0.1 V; embedded figure image calibrated on the -11 / 0 V frame and 0.5 V ticks)'
+    why: 'p.3 Fig. 4(a) re-read on the embedded image: gain peak at x = 423.5 px with the -11 V frame at 294 px and 0 V at 1553 px (114.5 px/V) -> -9.87 V, not -10.1 V; peak height 23.8 matches the printed
+      23.6'
+delete_metrics:
+- id: cmp_lit_yanikgonul2022_apd_slab_w1p3_l300-m3
+  why: 'absorber_width_um 1.3 for the slab baseline is not stated: p.7 App. B and the Fig. 9 caption give (L = 300 um, W = 1.3 um) for the shallow-rib representative device only (rule 1)'
+add_metrics:
+- metric_id: cmp_lit_cao2023_lrt_apd-m21
+  component_id: cmp_lit_cao2023_lrt_apd
+  parameter: dark_current_na
+  value: '100000'
+  unit: nA
+  bias_v: '-14.5'
+  condition: dark current at the breakdown voltage (the breakdown criterion of the paper)
+  basis: derived
+  locator: p.2 Sec. III-A; p.2 Fig. 2(a)
+  notes: printed '100uA at -14.5V voltage', converted to nA (D256)
+  why: 'miss: p.2 Sec. III-A states the dark current at a stated bias (100 uA at -14.5 V); merged precedent cmp_lit_xiang2022_lateral_rt_ge_si_apd-m4 enters the breakdown-defining point as a dark_current_na
+    row'

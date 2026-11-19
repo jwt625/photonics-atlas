@@ -1,0 +1,52 @@
+# Audit patch lit_204 (fresh-context audit 2026-11-18, DevLog/audits/2026-11-18-lit_204-audit.md).
+# 74 metrics: 32 liu2022f rows ok at their locators but removed under D259 / D259a / D408 (Q1); of the 42 zhu2017 / zhang2022e
+# rows 37 ok / 5 imprecise / 0 wrong. 14 components: 6 zhu2017 / zhang2022e ok; 8 liu2022f deleted (Q1). No misses added.
+# After the patch: 6 components, 42 metrics.
+# Coordinator questions (audit Q1-Q6): Q1 liu2022f Table 3 [45] is a misprint for the authors' own ref. [49]; Table 3 then credits the
+# hybrid, folded and multi-pass CUMEC devices to [49], so D259 / D259a / D408 remove all 8 components (revert = drop
+# delete_components; the rows are otherwise correct). Q2 folded rows: moot after Q1. Q3 zhu2017 10 um projection stays out (no op).
+# Q4 zhu2017 coupler edge / author_estimate / fab IME kept (no op); lv / ll figure reads stay extracted_from_figure (no op).
+# Q5 wavelength conditions made consistent (hv_pd m3 / m4 inferred; hv_apd m2 / m3 band c_band; hv_apd m10 1553.3 nm stated).
+# Q6 zhang2022e platform other, bias -55.8 V, fab NUS kept (no op).
+metrics:
+  cmp_lit_zhu2017_hv_pd_3mm-m3:
+    wavelength_inferred: 'true'
+    notes: printed 3 mA/W (unit converted); rests on the estimated in-arm power (rule 4); 1550 nm is the laser setting of the Sec. III-A linearity test (p.3), not restated for the Sec. III-B / Fig. 2(d) responsivity (inferred, as on the L-V / L-L rows read off the same Fig. 2(d))
+    why: 'consistency: Sec. III-B (p.3) and Fig. 2(d) (p.2) state no wavelength; only Sec. III-A fixes 1550 nm; the L-V / L-L rows from the same Fig. 2(d) carry wavelength_inferred true'
+  cmp_lit_zhu2017_hv_pd_3mm-m4:
+    wavelength_inferred: 'true'
+    notes: printed 4.7 mA/W (unit converted; also p.6 Sec. V); rests on the estimated in-arm power (rule 4); 1550 nm is the laser setting of the Sec. III-A linearity test (p.3), not restated for the Sec. III-B / Fig. 2(d) responsivity (inferred, as on the L-V / L-L rows read off the same Fig. 2(d))
+    why: 'consistency: Sec. III-B (p.3) and Fig. 2(d) (p.2) state no wavelength; only Sec. III-A fixes 1550 nm; the L-V / L-L rows from the same Fig. 2(d) carry wavelength_inferred true'
+  cmp_lit_zhu2017_hv_apd_1mm-m2:
+    wavelength_nm: ''
+    band: c_band
+    notes: printed '~0.54 A/W at -9 V' (p.4 Sec. IV-A; also abstract and p.6 Sec. V); rests on the estimated in-arm power; test wavelength not stated in Sec. IV-A / IV-B; C band from the 1550 nm (Sec. III) and 1553.3 nm (Sec. IV-C) tests (rule 8, as on the bandwidth / gain / GBP rows)
+    why: 'rule 8: no wavelength is stated in Sec. IV-A (p.4); the row''s own notes and the sibling bw3db / gain / GBP rows use band c_band inferred, not an exact 1550 nm'
+  cmp_lit_zhu2017_hv_apd_1mm-m3:
+    wavelength_nm: ''
+    band: c_band
+    notes: printed 'lower than ~0.01 A/W' at -6.4 V (p.4 Sec. IV-A); rests on the estimated in-arm power; test wavelength not stated in Sec. IV-A / IV-B; C band from the 1550 nm (Sec. III) and 1553.3 nm (Sec. IV-C) tests (rule 8)
+    why: 'rule 8: no wavelength is stated in Sec. IV-A (p.4); band c_band inferred as on the sibling rows, not an exact 1550 nm'
+  cmp_lit_zhu2017_hv_apd_1mm-m10:
+    band: ''
+    wavelength_nm: '1553.3'
+    wavelength_inferred: ''
+    notes: printed 'a OE bandwidth of ~16 GHz' at -6.8 V in the link test (p.5 Sec. IV-C), whose wavelength is set to 1553.3 nm (p.5); same sentence as the gain-60 row (m12) and the 41.5 mA/W row (m4), which carry 1553.3 nm
+    why: 'p.5 Sec. IV-C states 1553.3 nm for the link experiment; the gain (m12) from the same sentence already carries 1553.3 nm; the c_band inferred condition contradicted that'
+delete_components:
+- id: cmp_lit_liu2022f_hybrid_tops
+  why: 'D259 / D259a / D408: Table 3 (p.18) credits the hybrid TOPS (18.61 mW/pi, 6.0 / 6.0 us) to ref. [45], a misprint for the authors'' own ref. [49] (Liu et al., 2020 symposium, CUMEC TOPS comparison): Table 3 tags the CUMEC silicide / TiN rows [45] with exactly the Table 1 [49] values (p.4) and the IMEC rows [46] with the Tables 1 / 2 [50] values (p.4, p.7), and [45] (Passaro 2005, p.20) cannot hold CUMEC data; the p.4 value 18.61 mW/pi equals that row'
+- id: cmp_lit_liu2022f_folded_tops_f01
+  why: 'D259 / D259a / D408: Table 3 (p.18) credits the folded-waveguide CUMEC TOPS to ref. [45] = the authors'' ref. [49] (misprint, see hybrid_tops); its 21.1 / 8.1 us heating / cooling times are the 21-fold point of Fig. 17(b) (p.13), so Fig. 17 reproduces the device series of the earlier paper'
+- id: cmp_lit_liu2022f_folded_tops_f05
+  why: 'D259 / D259a / D408: Fig. 17 (p.13) series credited in Table 3 (p.18) to ref. [45] = the authors'' ref. [49] (misprint); see folded_tops_f01'
+- id: cmp_lit_liu2022f_folded_tops_f09
+  why: 'D259 / D259a / D408: Fig. 17 (p.13) series credited in Table 3 (p.18) to ref. [45] = the authors'' ref. [49] (misprint); see folded_tops_f01'
+- id: cmp_lit_liu2022f_folded_tops_f13
+  why: 'D259 / D259a / D408: Fig. 17 (p.13) series credited in Table 3 (p.18) to ref. [45] = the authors'' ref. [49] (misprint); see folded_tops_f01'
+- id: cmp_lit_liu2022f_folded_tops_f17
+  why: 'D259 / D259a / D408: Fig. 17 (p.13) series credited in Table 3 (p.18) to ref. [45] = the authors'' ref. [49] (misprint); see folded_tops_f01'
+- id: cmp_lit_liu2022f_folded_tops_f21
+  why: 'D259 / D259a / D408: Fig. 17 (p.13) series credited in Table 3 (p.18) to ref. [45] = the authors'' ref. [49] (misprint); the 21-fold times 21.0 / 8.1 us (Fig. 17(b)) match the Table 3 row 21.1 / 8.1 us'
+- id: cmp_lit_liu2022f_multipass_grating_tops
+  why: 'D259 / D259a / D408: Table 3 (p.18) credits the multi-pass CUMEC TOPS (6.75 mW/pi) to ref. [45] = the authors'' ref. [49] (misprint, see hybrid_tops); the Fig. 21(c) fit 6.7501 mW/pi (p.15) is that value; the Fig. 21(d) readouts 7.100 / 9.667 us belong to the same device (D259a: values from figures of the earlier work removed with the device)'

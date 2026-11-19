@@ -1,0 +1,89 @@
+# Audit patch lit_203 (fresh-context audit 2026-11-18, DevLog/audits/2026-11-18-lit_203-audit.md).
+# 65 metrics: 59 ok / 6 imprecise / 0 wrong; 15 components: 15 ok / 0 imprecise / 0 wrong.
+# 5 misses added: ghosh1996 15 um lower cladding on amplifiers no. 2 / no. 3 and the amplifier-no.-1 waveguide row (judgment (f)
+# applied consistently); nykolak1993 Fig. 1 gain threshold about 48 mW (figure read); chrysostomidis2021 Si3N4 lower width 1.4 um
+# on the adiabatic coupler (vagionas2021 precedent). After the patch: 15 components, 70 metrics.
+# Coordinator questions (audit Q1-Q7) are recommendations; the ops below implement them.
+metrics:
+  cmp_lit_chrysostomidis2021_edwa_5p9cm-m2:
+    wavelength_inferred: 'true'
+    notes: same definition and estimated loss terms as m1; wavelength not printed for the -10 dBm spiral-input point (p.4 Sec. II); p.8 Sec. IV ties 1532 nm only to the -9.45 dBm chip-input
+      (-28 dBm spiral) case, so 1532 nm is inferred from that statement and the 1532-1565 nm static characterization (rule 8)
+    why: 'rule 8: 1532 nm is printed only for the -9.45 dBm chip-input case (p.8 Sec. IV, conclusion); the -10 dBm spiral-input point (p.4 Sec. II) has no printed wavelength'
+  cmp_lit_chrysostomidis2021_edwa_5p9cm-m4:
+    wavelength_inferred: 'true'
+    notes: printed 1.10 dB/cm = 6.5 / 5.9; follows m2 (author_estimate); 1532 nm inferred as for m2 (printed only for the -28 dBm spiral case, p.8 Sec. IV)
+    why: 'rule 8: same condition as m2; p.8 Sec. IV prints 1532 nm only with the 1.44 dB/cm case'
+  cmp_lit_chrysostomidis2021_edwa_5p9cm-m6:
+    wavelength_inferred: 'true'
+    notes: printed 'net losses of the chip were measured to 22.9 and 24.9 dB' (p.4 Sec. II); 1532 nm inferred as for m2 (printed only for the -28 dBm spiral case, p.8 Sec. IV)
+    why: 'rule 8: the 24.9 dB belongs to the -10 dBm spiral-input point, whose wavelength is not printed (p.4 Sec. II; p.8 Sec. IV covers only the -9.45 dBm chip-input case)'
+  cmp_lit_shimizu2024_ppln_opc-m1:
+    locator: p.4 Sec. II-B; p.4 Fig. 5
+    why: 'the abstract (p.1) prints only the over-15-dB conversion gain; the >5 dB operating point is printed on p.4 Sec. II-B and plotted in Fig. 5 (p.4)'
+  cmp_lit_shimizu2024_ppln_opc-m2:
+    locator: p.4 Sec. II-B; p.4 Fig. 5
+    why: 'the abstract (p.1) prints only the over-15-dB conversion gain; the >10 dB operating point is printed on p.4 Sec. II-B and plotted in Fig. 5 (p.4)'
+  cmp_lit_nykolak1993_er_powa_4p5cm-m1:
+    notes: 'printed ''approximately 15 dB of net gain'' (p.1) and ''15-dB net optical gain'' (p.3 summary); Fig. 1 last point about 15.5 dB at about 280 mW. D408 (borderline, kept): the preceding
+      device sentence cites the co-authors'' OFC''93 postdeadline paper (ref. [4], ''15 dB net gain demonstration''), but the value sentence carries no citation and points to Fig. 1; the Fig. 3 saturation
+      curve (p.2, the paper''s stated new measurement) shows about 15-16 dB small-signal net gain at the same 280 mW pump and 1537 nm; the authors'' later lit:ghosh1996 (p.1, its ref. [1]) attributes
+      the 15 dB in 4.5 cm at 280 mW to this paper.'
+    why: 'D408 support recorded: Fig. 3 (p.2) is this paper''s own saturation measurement at the same operating point (small-signal gain about 15-16 dB), and ghosh1996 p.1 cites this paper for the 15 dB'
+add_metrics:
+- metric_id: cmp_lit_ghosh1996_er_powa_amp2_6cm_9um-m6
+  component_id: cmp_lit_ghosh1996_er_powa_amp2_6cm_9um
+  parameter: box_thickness_um
+  value: '15'
+  unit: um
+  condition: high-pressure thermal oxide lower cladding (process paragraph of this letter)
+  basis: design_target
+  locator: p.1
+  notes: printed 15 um in the process paragraph (p.1); amplifiers no. 2 / no. 3 come from the reproducibility study of the same processing on other wafers (p.2), so the paragraph applies as it does for
+    the 1.4 um film (m5)
+  why: 'judgment (f) applied consistently: the 15 um lower cladding comes from the same p.1 process paragraph as the 1.4 um film already entered on this row (m5) and on amplifier no. 1 (m8 / m9)'
+- metric_id: cmp_lit_ghosh1996_er_powa_amp3_6cm_8um-m6
+  component_id: cmp_lit_ghosh1996_er_powa_amp3_6cm_8um
+  parameter: box_thickness_um
+  value: '15'
+  unit: um
+  condition: high-pressure thermal oxide lower cladding (process paragraph of this letter)
+  basis: design_target
+  locator: p.1
+  notes: printed 15 um in the process paragraph (p.1); amplifiers no. 2 / no. 3 come from the reproducibility study of the same processing on other wafers (p.2), so the paragraph applies as it does for
+    the 1.4 um film (m5)
+  why: 'judgment (f) applied consistently: the 15 um lower cladding comes from the same p.1 process paragraph as the 1.4 um film already entered on this row (m5) and on amplifier no. 1 (m8 / m9)'
+- metric_id: cmp_lit_ghosh1996_er_glass_wg_amp1-m6
+  component_id: cmp_lit_ghosh1996_er_glass_wg_amp1
+  parameter: box_thickness_um
+  value: '15'
+  unit: um
+  condition: high-pressure thermal oxide lower cladding
+  basis: design_target
+  locator: p.1
+  notes: printed 15 um (p.1); same value as the amplifier row cmp_lit_ghosh1996_er_powa_amp1_5p9cm-m9 (D396 cross-note)
+  why: 'D153 geometry: the waveguide row restates width and film thickness of amplifier no. 1 (m4 / m5) but not the 15 um lower cladding printed in the same p.1 paragraph'
+- metric_id: cmp_lit_nykolak1993_er_powa_4p5cm-m7
+  component_id: cmp_lit_nykolak1993_er_powa_4p5cm
+  parameter: pump_threshold_mw
+  value: '48'
+  unit: mW
+  qualifier: approx
+  wavelength_nm: '1537'
+  condition: gain threshold = pump power at which the net gain (input single-mode fiber to output multimode fiber) reaches 0 dB; 980 nm pump; input signal -40 dBm at 1537 nm
+  method: direct
+  basis: extracted_from_figure
+  locator: p.1 Fig. 1
+  notes: 'read off Fig. 1 (p.1 render); the curve crosses 0 dB between the 40 mW point (about -1.5 dB) and the 60 mW point (about +2 dB), about 48 mW; reading uncertainty +/- 3 mW; no value printed.
+    Same data set as m1; if the coordinator removes m1 under D408, this row goes with it'
+  why: 'miss: the primary amplifier metric is readable from the paper''s own Fig. 1 (p.1), as the distiller did for the ghosh1996 Fig. 2 38 mW gain'
+- metric_id: cmp_lit_chrysostomidis2021_si3n4_al2o3_vertical_adiabatic_coupler-m6
+  component_id: cmp_lit_chrysostomidis2021_si3n4_al2o3_vertical_adiabatic_coupler
+  parameter: lower_width_nm
+  value: '1400'
+  unit: nm
+  condition: lower layer, Si3N4 waveguide width (1.4 um x 200 nm cross-section)
+  basis: derived
+  locator: p.3
+  notes: printed 1.4 um (um -> nm, D157); whether the Si3N4 is also tapered laterally in the coupler is not stated (only the 200 -> 30 nm vertical taper)
+  why: 'D153 / Contract v5 transition_bilayer geometry: the 1.4 um Si3N4 width is printed on p.3; the merged vagionas2021 coupler row enters it as lower_width_nm (m5)'

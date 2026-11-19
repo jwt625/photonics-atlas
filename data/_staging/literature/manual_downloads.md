@@ -2,7 +2,7 @@
 
 Generated 2026-11-18 by `scripts/lit_manual_list.py` from `retrieval_queue.csv` and `logs/lit_fetch_status.jsonl`; papers already cached are left out. Save each PDF as `references/_inbox/<save_as>` (supplement: `<paper_id>_supplement.pdf`), then run `uv run python scripts/lit_ingest_inbox.py`.
 
-Total: 181
+Total: 195
 
 | # | day | class | save_as | year | venue | title | doi | reason |
 |---|---|---|---|---|---|---|---|---|
@@ -177,13 +177,27 @@ Total: 181
 | 169 | 203 | wdm | yin2023.pdf | 2023 | Photonics | A Silicon-Based On-Chip 64-Channel Hybrid Wavelength- and Mode-Division (de)Multiplexer | 10.3390/photonics10020183 | oa_publisher: blocked on 2026-11-18 |
 | 170 | 204 | crossing | dinh2023.pdf | 2023 | Laser & Photonics Review | Controlling the Modal Confinement in Silicon Nanophotonic Waveguides through Dual‐Metamaterial Engineering | 10.1002/lpor.202100305 | Wiley blocks the browser (D147) |
 | 171 | 204 | crossing | xu2018b.pdf | 2018 | Laser & Photonics Review | Ultra‐Sharp Multi‐Mode Waveguide Bending Assisted with Metamaterial‐Based Mode Converters (Laser Photonics Rev. 12(3)/2018) | 10.1002/lpor.201870019 | Wiley blocks the browser (D147) |
-| 172 | 204 | frequency_converter | placke2024.pdf | 2024 | Laser & Photonics Review | Telecom‐Band Spontaneous Parametric Down‐Conversion in AlGaAs‐on‐Insulator Waveguides | 10.1002/lpor.202301293 | Wiley blocks the browser (D147) |
-| 173 | 204 | phase_shifter | iseghem2025.pdf | 2025 | Advanced Optical Materials | Efficient Low‐Voltage Phase Shifter with Inkjet‐Printed Liquid Crystal on a Silicon on Insulator Platform | 10.1002/adom.202500186 | Wiley blocks the browser (D147) |
-| 174 | 205 | laser | cuyvers2021.pdf | 2021 | Laser & Photonics Review | Low Noise Heterogeneous III‐V‐on‐Silicon‐Nitride Mode‐Locked Comb Laser | 10.1002/lpor.202000485 | Wiley blocks the browser (D147) |
-| 175 | 205 | laser | wan2020.pdf | 2020 | Laser & Photonics Review | Quantum Dot Lasers: 1.3 µm Quantum Dot‐Distributed Feedback Lasers Directly Grown on (001) Si (Laser Photonics Rev. 14(7)/2020) | 10.1002/lpor.202070042 | Wiley blocks the browser (D147) |
-| 176 | 205 | mode_converter | yuan2025.pdf | 2025 | Laser & Photonics Review | Multichannel Parallel Mode Order Converter for On‐Chip Reconfigurable PDM‐MDM Transmission | 10.1002/lpor.202401689 | Wiley blocks the browser (D147) |
-| 177 | 205 | resonator | tang2023.pdf | 2023 | Laser & Photonics Review | High‐Resolution 2D Quasi‐Distributed Optical Sensing with On‐Chip Multiplexed FSR‐Free Nanobeam Cavity Array | 10.1002/lpor.202300828 | Wiley blocks the browser (D147) |
-| 178 | 205 | splitter | kim2022.pdf | 2022 | Nanophotonics | Experimental demonstration of inverse‐designed silicon integrated photonic power splitters | 10.1515/nanoph-2022-0443 | De Gruyter blocks the browser (D147) |
-| 179 | 205 | waveguide_platform | ginelmoreno2022.pdf | 2022 | Laser & Photonics Review | On‐Chip Metamaterial Antenna Array with Distributed Bragg Deflector for Generation of Collimated Steerable Beams | 10.1002/lpor.202200164 | Wiley blocks the browser (D147) |
-| 180 | 206 | fiber_chip_coupler | chen2024d.pdf | 2024 | APL Photonics | High-performance and fabrication-tolerant edge coupler on thin film lithium niobate based on a three-dimensional inverse taper | 10.1063/5.0224269 | AIP blocks the browser (D147) |
-| 181 | 206 | fiber_chip_coupler | liu2010b.pdf | 2010 | Applied Physics Letters | High-efficiency, large-bandwidth silicon-on-insulator grating coupler based on a fully-etched photonic crystal structure | 10.1063/1.3304791 | AIP blocks the browser (D147) |
+| 172 | 204 | fiber_chip_coupler | chen2022e.pdf | 2022 | APL Photonics | Low-loss fiber grating coupler on thin film lithium niobate platform | 10.1063/5.0093033 | oa_publisher: blocked on 2026-11-19 |
+| 173 | 204 | fiber_chip_coupler | lee2016.pdf | 2016 | Journal of the Optical Society of Korea | Comparative Study of Uniform and Nonuniform Grating Couplers for Optimized Fiber Coupling to Silicon Waveguides | 10.3807/josk.2016.20.2.291 | oa_publisher: blocked on 2026-11-19 |
+| 174 | 204 | fiber_chip_coupler | lin2020.pdf | 2020 | Journal of Nanophotonics | High coupling efficiency, passive alignment setup for visible-range fiber-to-waveguide edge coupling | 10.1117/1.jnp.14.046018 | oa_publisher: blocked on 2026-11-19 |
+| 175 | 204 | fiber_chip_coupler | liu2022g.pdf | 2022 | Advanced Photonics Nexus | Ultra-broadband and low-loss edge coupler for highly efficient second harmonic generation in thin-film lithium niobate | 10.1117/1.apn.1.1.016001 | oa_publisher: not_pdf on 2026-11-19 |
+| 176 | 204 | frequency_converter | placke2024.pdf | 2024 | Laser & Photonics Review | Telecom‐Band Spontaneous Parametric Down‐Conversion in AlGaAs‐on‐Insulator Waveguides | 10.1002/lpor.202301293 | Wiley blocks the browser (D147) |
+| 177 | 204 | phase_shifter | heck2016.pdf | 2016 | Nanophotonics | Highly integrated optical phased arrays: photonic integrated circuits for optical beam shaping and beam steering | 10.1515/nanoph-2015-0152 | oa_publisher: blocked on 2026-11-19 |
+| 178 | 204 | phase_shifter | iseghem2025.pdf | 2025 | Advanced Optical Materials | Efficient Low‐Voltage Phase Shifter with Inkjet‐Printed Liquid Crystal on a Silicon on Insulator Platform | 10.1002/adom.202500186 | Wiley blocks the browser (D147) |
+| 179 | 204 | phase_shifter | tong2022.pdf | 2022 | Photonics | The Design of a Low-Loss, Fast-Response, Metal Thermo-Optic Phase Shifter Based on Coupled-Mode Theory | 10.3390/photonics9070447 | oa_publisher: blocked on 2026-11-19 |
+| 180 | 204 | phase_shifter | wu2024a.pdf | 2024 | Photonics | Submilliwatt Silicon Nitride Thermo-Optic Modulator Operating at 532 nm | 10.3390/photonics11030213 | oa_publisher: blocked on 2026-11-19 |
+| 181 | 204 | phase_shifter | zhong2022.pdf | 2022 | Nanomaterials | Silicon Thermo-Optic Switches with Graphene Heaters Operating at Mid-Infrared Waveband | 10.3390/nano12071083 | oa_publisher: blocked on 2026-11-19 |
+| 182 | 204 | reflector | gryga2022.pdf | 2022 | Sensors | Distributed Bragg Reflectors Employed in Sensors and Filters Based on Cavity-Mode Spectral-Domain Resonances | 10.3390/s22103627 | oa_publisher: blocked on 2026-11-19 |
+| 183 | 204 | reflector | jiang2024a.pdf | 2024 | Micromachines | Sidewall Corrugation-Modulated Phase-Apodized Silicon Grating Filter | 10.3390/mi15060666 | oa_publisher: blocked on 2026-11-19 |
+| 184 | 204 | resonator | ling2011.pdf | 2011 | Applied Physics Letters | High-sensitivity and wide-directivity ultrasound detection using high Q polymer microring resonators | 10.1063/1.3589971 | oa_publisher: not_pdf on 2026-11-19 |
+| 185 | 204 | waveguide_platform | ji2019.pdf | 2019 | APL Photonics | On-chip tunable photonic delay line | 10.1063/1.5111164 | oa_publisher: blocked on 2026-11-19 |
+| 186 | 204 | waveguide_platform | tran2018.pdf | 2018 | Applied Sciences | Ultra-Low-Loss Silicon Waveguides for Heterogeneously Integrated Silicon/III-V Photonics | 10.3390/app8071139 | oa_publisher: blocked on 2026-11-19 |
+| 187 | 204 | waveguide_platform | zhang2024e.pdf | 2024 | Advanced Photonics Nexus | Hybrid silicon-barium-titanate tunable racetrack resonators based on chemical solution deposition | 10.1117/1.apn.3.6.066005 | oa_publisher: blocked on 2026-11-19 |
+| 188 | 205 | laser | cuyvers2021.pdf | 2021 | Laser & Photonics Review | Low Noise Heterogeneous III‐V‐on‐Silicon‐Nitride Mode‐Locked Comb Laser | 10.1002/lpor.202000485 | Wiley blocks the browser (D147) |
+| 189 | 205 | laser | wan2020.pdf | 2020 | Laser & Photonics Review | Quantum Dot Lasers: 1.3 µm Quantum Dot‐Distributed Feedback Lasers Directly Grown on (001) Si (Laser Photonics Rev. 14(7)/2020) | 10.1002/lpor.202070042 | Wiley blocks the browser (D147) |
+| 190 | 205 | mode_converter | yuan2025.pdf | 2025 | Laser & Photonics Review | Multichannel Parallel Mode Order Converter for On‐Chip Reconfigurable PDM‐MDM Transmission | 10.1002/lpor.202401689 | Wiley blocks the browser (D147) |
+| 191 | 205 | resonator | tang2023.pdf | 2023 | Laser & Photonics Review | High‐Resolution 2D Quasi‐Distributed Optical Sensing with On‐Chip Multiplexed FSR‐Free Nanobeam Cavity Array | 10.1002/lpor.202300828 | Wiley blocks the browser (D147) |
+| 192 | 205 | splitter | kim2022.pdf | 2022 | Nanophotonics | Experimental demonstration of inverse‐designed silicon integrated photonic power splitters | 10.1515/nanoph-2022-0443 | De Gruyter blocks the browser (D147) |
+| 193 | 205 | waveguide_platform | ginelmoreno2022.pdf | 2022 | Laser & Photonics Review | On‐Chip Metamaterial Antenna Array with Distributed Bragg Deflector for Generation of Collimated Steerable Beams | 10.1002/lpor.202200164 | Wiley blocks the browser (D147) |
+| 194 | 206 | fiber_chip_coupler | chen2024d.pdf | 2024 | APL Photonics | High-performance and fabrication-tolerant edge coupler on thin film lithium niobate based on a three-dimensional inverse taper | 10.1063/5.0224269 | AIP blocks the browser (D147) |
+| 195 | 206 | fiber_chip_coupler | liu2010b.pdf | 2010 | Applied Physics Letters | High-efficiency, large-bandwidth silicon-on-insulator grating coupler based on a fully-etched photonic crystal structure | 10.1063/1.3304791 | AIP blocks the browser (D147) |

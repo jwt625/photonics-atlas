@@ -1,0 +1,174 @@
+# Audit patch lit_210 (fresh-context audit 2026-11-18, DevLog/audits/2026-11-18-lit_210-audit.md).
+# 78 metrics: 69 ok / 8 imprecise (D157 basis) / 1 wrong (jeong2020 m7 TE-TM grid difference as wavelength_spread_nm);
+# 9 components: 1 ok / 8 imprecise (notes); 2 misses added (jeong2020 C-band chip length 2.8 mm, koyama2013 element
+# footprint ~2.0 mm2). After the patch: 9 components, 79 metrics.
+# Coordinator questions (audit Q1-Q5): Q1 guan2014b fab UC Davis + BAE (once registered) + Marvell facility (notes only);
+# Q2 guan2014b cited-figure exclusions and BOX / taper kept (no op); Q3 jeong2020 composite rows kept, m7 deleted
+# (revert = drop the delete op); Q4 koyama2013 Fig. 2 dimensions stay out on registry grounds (notes only), element
+# extinction reads confirmed; Q5 lu1994 0 rows confirmed.
+components:
+  cmp_lit_guan2014b_unit_cell_lattice_filter:
+    notes: 'Fab sentence (p.4 Sec. IV): devices ''fabricated in BAE Systems CMOS foundry and Microlab/Marvell Nanolab facilities,
+      University of California, Berkeley''; first-person process steps follow (p.4-5: second lithography for the heat-isolation
+      trenches, dry thermal oxidation, iterative process optimization for the 50/50 couplers, cladding densification with
+      dopant activation, AR coating), and an author biography (p.10) states that this author designed, fabricated and characterized
+      the reconfigurable lattice filters; all authors at UC Davis at the time of the work: fab = UC Davis (rule 12, D440 /
+      D419). The paper assigns no process step or layer to BAE Systems or to the Berkeley facility (the Fig. 6 flow, p.5,
+      is unattributed): BAE Systems is a fab org (foundry) for the whole chip once registered (open supply / org request,
+      same gap as lit:shi2013); ''Microlab/Marvell Nanolab'' -> org_marvell_nanofabrication_laboratory as facility (owner
+      UC Berkeley not entered, D634 / D653). Not entered: Q 2.7e5 and 13 mA per 2 pi (cited refs. [10], [13]); worst-case
+      round-trip loss 0.6 dB (assumption, no parameter); Fig. 10 pole magnitudes 0.11 / 0.87 (caption cites ref. [13]); reconfiguration
+      time < 16.67 ns and 30-50 ns settling, 15-30 mW heat load (Fig. 14, caption and sentences cite ref. [21], D259a); two-tone
+      SFDR 61.6 dB (p.7; conclusion p.9 prints 61.5 dB; no parameter); directional coupler < 3 % splitting error (cited ref.
+      [10]). Fig. 5(c) labels 13 mm / 6 mm are not tied to one device.'
+    why: 'fab basis: p.4-5 first-person steps plus the p.10 author biography (designed, fabricated and characterized the lattice
+      filters); the paper does not split the process between BAE Systems and the Berkeley facility (p.4 Sec. IV, Fig. 6 p.5);
+      fab / facility ids unchanged'
+  cmp_lit_guan2014b_four_cell_lattice_filter:
+    notes: 'Fab sentence (p.4 Sec. IV): devices ''fabricated in BAE Systems CMOS foundry and Microlab/Marvell Nanolab facilities,
+      University of California, Berkeley''; first-person process steps follow (p.4-5: second lithography for the heat-isolation
+      trenches, dry thermal oxidation, iterative process optimization for the 50/50 couplers, cladding densification with
+      dopant activation, AR coating), and an author biography (p.10) states that this author designed, fabricated and characterized
+      the reconfigurable lattice filters; all authors at UC Davis at the time of the work: fab = UC Davis (rule 12, D440 /
+      D419). The paper assigns no process step or layer to BAE Systems or to the Berkeley facility (the Fig. 6 flow, p.5,
+      is unattributed): BAE Systems is a fab org (foundry) for the whole chip once registered (open supply / org request,
+      same gap as lit:shi2013); ''Microlab/Marvell Nanolab'' -> org_marvell_nanofabrication_laboratory as facility (owner
+      UC Berkeley not entered, D634 / D653). Not entered: Fig. 11(a) bandpass state (-1 dB 600 MHz, -3 dB 1 GHz, -20 dB 2.8
+      GHz, > 30 dB extinction): the p.6 sentence attributes Fig. 11(a) to the authors'' ref. [13] (D259 / D408); Fig. 11(b)
+      -20 dB width 7.6 GHz (no parameter); Fig. 12 fourth-order Butterworth shape (no number). Same unit-cell design as cmp_lit_guan2014b_unit_cell_lattice_filter.'
+    why: 'fab basis: p.4-5 first-person steps plus the p.10 author biography (designed, fabricated and characterized the lattice
+      filters); the paper does not split the process between BAE Systems and the Berkeley facility (p.4 Sec. IV, Fig. 6 p.5);
+      fab / facility ids unchanged'
+  cmp_lit_guan2014b_rib_wg_0p5um:
+    notes: 'Fab sentence (p.4 Sec. IV): devices ''fabricated in BAE Systems CMOS foundry and Microlab/Marvell Nanolab facilities,
+      University of California, Berkeley''; first-person process steps follow (p.4-5: second lithography for the heat-isolation
+      trenches, dry thermal oxidation, iterative process optimization for the 50/50 couplers, cladding densification with
+      dopant activation, AR coating), and an author biography (p.10) states that this author designed, fabricated and characterized
+      the reconfigurable lattice filters; all authors at UC Davis at the time of the work: fab = UC Davis (rule 12, D440 /
+      D419). The paper assigns no process step or layer to BAE Systems or to the Berkeley facility (the Fig. 6 flow, p.5,
+      is unattributed): BAE Systems is a fab org (foundry) for the whole chip once registered (open supply / org request,
+      same gap as lit:shi2013); ''Microlab/Marvell Nanolab'' -> org_marvell_nanofabrication_laboratory as facility (owner
+      UC Berkeley not entered, D634 / D653). The 3.0 um rib is stated to have lower loss (no value).'
+    why: 'fab basis: p.4-5 first-person steps plus the p.10 author biography (designed, fabricated and characterized the lattice
+      filters); the paper does not split the process between BAE Systems and the Berkeley facility (p.4 Sec. IV, Fig. 6 p.5);
+      fab / facility ids unchanged'
+  cmp_lit_guan2014b_pin_phase_shifter:
+    notes: 'Fab sentence (p.4 Sec. IV): devices ''fabricated in BAE Systems CMOS foundry and Microlab/Marvell Nanolab facilities,
+      University of California, Berkeley''; first-person process steps follow (p.4-5: second lithography for the heat-isolation
+      trenches, dry thermal oxidation, iterative process optimization for the 50/50 couplers, cladding densification with
+      dopant activation, AR coating), and an author biography (p.10) states that this author designed, fabricated and characterized
+      the reconfigurable lattice filters; all authors at UC Davis at the time of the work: fab = UC Davis (rule 12, D440 /
+      D419). The paper assigns no process step or layer to BAE Systems or to the Berkeley facility (the Fig. 6 flow, p.5,
+      is unattributed): BAE Systems is a fab org (foundry) for the whole chip once registered (open supply / org request,
+      same gap as lit:shi2013); ''Microlab/Marvell Nanolab'' -> org_marvell_nanofabrication_laboratory as facility (owner
+      UC Berkeley not entered, D634 / D653). Not entered: 13 mA for 2 pi (sentence cites ref. [13]); p-i-n threshold voltage
+      0.85 V (p.6; forward_voltage_v not allowed for phase_shifter, registry gap); phase proportional to the square root of
+      the current (qualitative).'
+    why: 'fab basis: p.4-5 first-person steps plus the p.10 author biography (designed, fabricated and characterized the lattice
+      filters); the paper does not split the process between BAE Systems and the Berkeley facility (p.4 Sec. IV, Fig. 6 p.5);
+      fab / facility ids unchanged'
+  cmp_lit_guan2014b_polished_facet:
+    notes: 'Fab sentence (p.4 Sec. IV): devices ''fabricated in BAE Systems CMOS foundry and Microlab/Marvell Nanolab facilities,
+      University of California, Berkeley''; first-person process steps follow (p.4-5: second lithography for the heat-isolation
+      trenches, dry thermal oxidation, iterative process optimization for the 50/50 couplers, cladding densification with
+      dopant activation, AR coating), and an author biography (p.10) states that this author designed, fabricated and characterized
+      the reconfigurable lattice filters; all authors at UC Davis at the time of the work: fab = UC Davis (rule 12, D440 /
+      D419). The paper assigns no process step or layer to BAE Systems or to the Berkeley facility (the Fig. 6 flow, p.5,
+      is unattributed): BAE Systems is a fab org (foundry) for the whole chip once registered (open supply / org request,
+      same gap as lit:shi2013); ''Microlab/Marvell Nanolab'' -> org_marvell_nanofabrication_laboratory as facility (owner
+      UC Berkeley not entered, D634 / D653). Facet: diamond-saw dicing, polishing, anti-reflection coating (p.5).'
+    why: 'fab basis: p.4-5 first-person steps plus the p.10 author biography (designed, fabricated and characterized the lattice
+      filters); the paper does not split the process between BAE Systems and the Berkeley facility (p.4 Sec. IV, Fig. 6 p.5);
+      fab / facility ids unchanged'
+  cmp_lit_jeong2020_pd_demux_16ch_cband:
+    notes: 'Fabrication sentence (p.3 Sec. III) is passive (''was fabricated by ArF-immersion lithography technology on a
+      300-mm SOI wafer'', process cited to ref. [22]) and names no org: fab empty, process_name as printed. Chip 1.7 mm x
+      2.8 mm incl. PBS/PR, two interleavers, two AWGs and a crossing (p.3). Not entered: TE vs TM WDM grid wavelength difference
+      < 0.1 nm (p.4 Sec. III; polarization-dependent wavelength shift, no registry parameter); loss split 0.5 dB PBS/PR /
+      0.5 dB interleaver / 4.5 dB AWG and AWG 1.2 dB (attributed to refs. [9], [13], [14]); crossing < 0.1 dB / < -30 dB (ref.
+      [10]); waveguide < 0.5 dB/cm (ref. [22]); channel grid +/-< 5 GHz and die-to-die center-wavelength deviation +/-< 20
+      GHz (p.6; frequency spread, no GHz parameter); Table I effective index 2.3343 and kappa_DC 0.5 / 0.2 / 0.2 / 0.04 (no
+      parameter for wdm); 32 Gbps NRZ eye diagrams (system test); Fig. 8 Ch01 peak -13.7 dB (method check of the Table II
+      total); sigma = 120 GHz expectation (ref. [22]). Table I values are the parameters of the analytic calculation, which
+      the fabricated device used for its widths (p.3).'
+    why: records the deleted m7 value (TE vs TM grid difference < 0.1 nm, p.4 Sec. III) in notes
+  cmp_lit_koyama2013_mzos_4x4_fabric:
+    notes: 'Fabrication sentence (p.1 Sec. II) is passive and names no org (authors at Waseda University and Hitachi): fab
+      empty. Not entered: MMI 3-dB coupler 215 um and middle-mesa phase shifter 200 um (p.1 Fig. 2 labels; the p.1 sentence
+      says the element design of ref. [3] was used, so these are this fabric''s element dimensions under D80i borderline /
+      D578, but switch_fabric has no MMI-length or phase-shifter (active) length parameter: registry gap); about 5 mA / about
+      3 ns of the earlier 4x4 fabric (ref. [4]). Device 6 mm x 1 mm incl. I/O ports, access waveguides and six elements (p.1).
+      Fig. 7: input port 3, OS-3 or OS-4 modulated, other elements at adjusted bias currents; relative output powers only
+      (no absolute insertion loss). Crosstalk described as ''almost the same'' (no number).'
+    why: the element design credited to ref. [3] is reused in this fabric (p.1 Sec. II 'was used'); same reading as the guan2014b
+      3 um BOX / 200 um taper rows (D578); the values stay out only because no switch_fabric parameter exists (mmi_length_um
+      is splitter / crossing / wdm / mode_converter only)
+  cmp_lit_koyama2013_mzos_2x2_element:
+    notes: 'Fabrication sentence (p.1 Sec. II) is passive and names no org (authors at Waseda University and Hitachi): fab
+      empty. Not entered: MMI 3-dB coupler 215 um and middle-mesa phase shifter 200 um (p.1 Fig. 2 labels; the p.1 sentence
+      says the element design of ref. [3] was used, so these are this fabric''s element dimensions under D80i borderline /
+      D578, but switch_fabric has no MMI-length or phase-shifter (active) length parameter: registry gap); about 5 mA / about
+      3 ns of the earlier 4x4 fabric (ref. [4]). Needs an offset bias current of 6.5 mA for low off-state crosstalk (p.2).
+      Fig. 5(c) switching: port 2'' minimum near 6.5 mA, port 1'' minimum near 24-25 mA (no switching-current parameter).
+      Same element design as the six elements of cmp_lit_koyama2013_mzos_4x4_fabric. Fig. 5(b) labels about 4 mm length and
+      0.5 mm width (footprint entered as approx).'
+    why: the element design credited to ref. [3] is reused in this fabric (p.1 Sec. II 'was used'); same reading as the guan2014b
+      3 um BOX / 200 um taper rows (D578); the values stay out only because no switch_fabric parameter exists (mmi_length_um
+      is splitter / crossing / wdm / mode_converter only)
+metrics:
+  cmp_lit_guan2014b_unit_cell_lattice_filter-m4:
+    basis: derived
+    why: 'D157 / D256: pure um -> nm rescale; p.4 Sec. IV and Fig. 5(b) print 3.0 / 3 um only (locator p.4 Sec. IV; p.4 Fig.
+      5(a)(b))'
+  cmp_lit_guan2014b_unit_cell_lattice_filter-m5:
+    basis: derived
+    why: 'D157 / D256: pure um -> nm rescale; p.4 Sec. IV and Fig. 5(a) print 0.5 um only (locator p.4 Sec. IV; p.4 Fig. 5(a)(b))'
+  cmp_lit_guan2014b_four_cell_lattice_filter-m5:
+    basis: derived
+    why: 'D157 / D256: pure um -> nm rescale; p.4 Sec. IV and Fig. 5(b) print 3.0 / 3 um only (locator p.4 Sec. IV; p.4 Fig.
+      5(a)(b))'
+  cmp_lit_guan2014b_four_cell_lattice_filter-m6:
+    basis: derived
+    why: 'D157 / D256: pure um -> nm rescale; p.4 Sec. IV and Fig. 5(a) print 0.5 um only (locator p.4 Sec. IV; p.4 Fig. 5(a)(b))'
+  cmp_lit_guan2014b_rib_wg_0p5um-m2:
+    basis: derived
+    why: 'D157 / D256: pure um -> nm rescale; p.4 Sec. IV and Fig. 5(a) print 0.5 um only (locator p.4 Sec. IV)'
+  cmp_lit_guan2014b_pin_phase_shifter-m2:
+    basis: derived
+    why: 'D157 / D256: pure um -> nm rescale; p.4 Sec. IV prints 0.5 um only (locator p.4 Sec. IV)'
+  cmp_lit_guan2014b_polished_facet-m2:
+    basis: derived
+    why: 'D157 / D256: pure um -> nm rescale; p.4 Sec. IV and p.7 Sec. VI print 3.0 um only (locator p.7 Sec. VI; p.4 Sec.
+      IV)'
+  cmp_lit_jeong2020_pd_demux_16ch_cband-m23:
+    basis: derived
+    why: 'D157 / D256: pure um -> nm rescale; p.2 Sec. II prints 2-um, Table I 2.0 um; no nm form (locator p.2 Sec. II; p.2
+      Table I)'
+delete_metrics:
+- id: cmp_lit_jeong2020_pd_demux_16ch_cband-m7
+  why: 'parameter-definition mismatch: wavelength_spread_nm is the spread across chips or channels; the p.4 Sec. III ''almost
+    identical (<0.1 nm)'' is the TE vs TM grid difference of the same channels on one die (polarization-dependent wavelength
+    shift, no registry parameter); value moved to component notes, registry gap'
+add_metrics:
+- metric_id: cmp_lit_jeong2020_pd_demux_16ch_cband-m27
+  component_id: cmp_lit_jeong2020_pd_demux_16ch_cband
+  parameter: length_um
+  value: '2800'
+  unit: um
+  condition: chip incl. PBS/PR, two DMZI interleavers, two 8-lambda AWGs and the crossing
+  basis: derived
+  locator: p.3 Sec. III; p.3 Fig. 5
+  notes: printed '2.8-mm-long' (Fig. 5 label 2.8 mm); mm -> um (D157); width 1.7 mm is in the footprint row
+  why: 'miss (D153): p.3 Sec. III states the chip length, entered on the O-band sibling as length_um (Fig. 13); length_um
+    is allowed on every class'
+- metric_id: cmp_lit_koyama2013_mzos_2x2_element-m6
+  component_id: cmp_lit_koyama2013_mzos_2x2_element
+  parameter: footprint_um2
+  value: '2000000'
+  unit: um2
+  qualifier: approx
+  basis: derived
+  locator: p.2 Fig. 5(b)
+  notes: 'Fig. 5(b) labels ''~4mm'' length and ''0.5mm'' width: about 4 mm x 0.5 mm = 2.0 mm2; mm2 -> um2'
+  why: 'miss (D153): both element dimensions are figure labels (Fig. 5(b)); the fabric row carries its 6 mm x 1 mm footprint
+    the same way'

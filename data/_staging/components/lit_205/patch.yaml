@@ -1,0 +1,516 @@
+# Audit patch lit_205 (fresh-context audit 2026-11-18, DevLog/audits/2026-11-18-lit_205-audit.md).
+# 293 metrics: 286 ok / 7 imprecise / 0 wrong; 23 components: 5 ok / 18 imprecise (gundlapalli2022 notes sentence on the text layer) / 0 wrong.
+# Misses added: 1 component + 4 metrics (pfeiffer2018 wafer-1 1.5 um ring, printed ~100 MHz, p.6) and 15 metrics (gundlapalli2022 breakdown
+# voltages from the Fig. 3 vector data, 13 values + 2 lower bounds). After the patch: 24 components, 312 metrics.
+# Coordinator questions (audit Q1-Q8): Q1 pfeiffer2018 arXiv v1 kept with note (no op); Q2 wafer-6 headline kept, notes; Q3 Fig. 2(c) family not
+# entered beyond the p.6 wafer-1 value (revert = drop the wafer-1 add ops); Q4 gundlapalli2022 shared values on all 16 rows kept (no op);
+# Q5 absorber width 0.9 um kept (no op); Q6 coupler / transition cutback kept as this chip's (no op); Q7 breakdown adds (revert = drop the 15
+# breakdown add_metrics); Q8 cao2021 / rouvie2008 rulings (no op).
+components:
+  cmp_lit_gundlapalli2022_apd_w200_j200:
+    notes: 'Fab org_amf: p.2 Sec. II-A ''The devices were fabricated at Advanced Micro Foundry on an 8-inch silicon photonics platform'' (SOI with 340 nm Si thinned by etching; flow
+      otherwise as the authors'' ref. [26]). Values from the text layer (it keeps the minus signs, e.g. ''-49 dBm'', p.1 / p.3) and the page renders; Tables I-II are not in the text
+      layer and were read from the p.6 render; Figs. 3 and 6 are vector graphics in the PDF. One of 16 (w, j) variants (p.2 Sec. II); over 100 devices tested across all variants, all
+      working (p.2 Sec. II-A); which die each table value comes from is not stated. Breakdown voltage defined at I_dark = 0.1 mA (p.2); per-variant values are not printed and were read
+      from the Fig. 3 vector data in the audit (w = 600 / j = 400 nm not entered: its dark trace reaches 0.1 mA at the 26 V axis limit). Other Fig. 3 I-V values not read. Eye diagrams
+      open up to at least 25 Gb/s, not above 35 Gb/s, for all device types (p.5; no parameter). Highest input power: all devices tested up to P_in = 0 dBm; one device failed at about
+      7 dBm (p.7 App. B). Estimated minimum detectable power about -70 dBm (p.3; estimate, no parameter). Earlier PN devices (ref. [26]) and Table I rows of other works not entered (rule
+      3).'
+    why: 'the text layer keeps the minus signs (U+2212: p.1 abstract, p.3 Sec. III-A, p.5 Fig. 6 caption); the old sentence was wrong'
+  cmp_lit_gundlapalli2022_apd_w300_j200:
+    notes: 'Fab org_amf: p.2 Sec. II-A ''The devices were fabricated at Advanced Micro Foundry on an 8-inch silicon photonics platform'' (SOI with 340 nm Si thinned by etching; flow
+      otherwise as the authors'' ref. [26]). Values from the text layer (it keeps the minus signs, e.g. ''-49 dBm'', p.1 / p.3) and the page renders; Tables I-II are not in the text
+      layer and were read from the p.6 render; Figs. 3 and 6 are vector graphics in the PDF. One of 16 (w, j) variants (p.2 Sec. II); over 100 devices tested across all variants, all
+      working (p.2 Sec. II-A); which die each table value comes from is not stated. Breakdown voltage defined at I_dark = 0.1 mA (p.2); per-variant values are not printed and were read
+      from the Fig. 3 vector data in the audit (w = 600 / j = 400 nm not entered: its dark trace reaches 0.1 mA at the 26 V axis limit). Other Fig. 3 I-V values not read. Eye diagrams
+      open up to at least 25 Gb/s, not above 35 Gb/s, for all device types (p.5; no parameter). Highest input power: all devices tested up to P_in = 0 dBm; one device failed at about
+      7 dBm (p.7 App. B). Estimated minimum detectable power about -70 dBm (p.3; estimate, no parameter). Earlier PN devices (ref. [26]) and Table I rows of other works not entered (rule
+      3).'
+    why: 'the text layer keeps the minus signs (U+2212: p.1 abstract, p.3 Sec. III-A, p.5 Fig. 6 caption); the old sentence was wrong'
+  cmp_lit_gundlapalli2022_apd_w400_j200:
+    notes: 'Fab org_amf: p.2 Sec. II-A ''The devices were fabricated at Advanced Micro Foundry on an 8-inch silicon photonics platform'' (SOI with 340 nm Si thinned by etching; flow
+      otherwise as the authors'' ref. [26]). Values from the text layer (it keeps the minus signs, e.g. ''-49 dBm'', p.1 / p.3) and the page renders; Tables I-II are not in the text
+      layer and were read from the p.6 render; Figs. 3 and 6 are vector graphics in the PDF. One of 16 (w, j) variants (p.2 Sec. II); over 100 devices tested across all variants, all
+      working (p.2 Sec. II-A); which die each table value comes from is not stated. Breakdown voltage defined at I_dark = 0.1 mA (p.2); per-variant values are not printed and were read
+      from the Fig. 3 vector data in the audit (w = 600 / j = 400 nm not entered: its dark trace reaches 0.1 mA at the 26 V axis limit). Other Fig. 3 I-V values not read. Eye diagrams
+      open up to at least 25 Gb/s, not above 35 Gb/s, for all device types (p.5; no parameter). Highest input power: all devices tested up to P_in = 0 dBm; one device failed at about
+      7 dBm (p.7 App. B). Estimated minimum detectable power about -70 dBm (p.3; estimate, no parameter). Earlier PN devices (ref. [26]) and Table I rows of other works not entered (rule
+      3).'
+    why: 'the text layer keeps the minus signs (U+2212: p.1 abstract, p.3 Sec. III-A, p.5 Fig. 6 caption); the old sentence was wrong'
+  cmp_lit_gundlapalli2022_apd_w600_j200:
+    notes: 'Fab org_amf: p.2 Sec. II-A ''The devices were fabricated at Advanced Micro Foundry on an 8-inch silicon photonics platform'' (SOI with 340 nm Si thinned by etching; flow
+      otherwise as the authors'' ref. [26]). Values from the text layer (it keeps the minus signs, e.g. ''-49 dBm'', p.1 / p.3) and the page renders; Tables I-II are not in the text
+      layer and were read from the p.6 render; Figs. 3 and 6 are vector graphics in the PDF. One of 16 (w, j) variants (p.2 Sec. II); over 100 devices tested across all variants, all
+      working (p.2 Sec. II-A); which die each table value comes from is not stated. Breakdown voltage defined at I_dark = 0.1 mA (p.2); per-variant values are not printed and were read
+      from the Fig. 3 vector data in the audit (w = 600 / j = 400 nm not entered: its dark trace reaches 0.1 mA at the 26 V axis limit). Other Fig. 3 I-V values not read. Eye diagrams
+      open up to at least 25 Gb/s, not above 35 Gb/s, for all device types (p.5; no parameter). Highest input power: all devices tested up to P_in = 0 dBm; one device failed at about
+      7 dBm (p.7 App. B). Estimated minimum detectable power about -70 dBm (p.3; estimate, no parameter). Earlier PN devices (ref. [26]) and Table I rows of other works not entered (rule
+      3).'
+    why: 'the text layer keeps the minus signs (U+2212: p.1 abstract, p.3 Sec. III-A, p.5 Fig. 6 caption); the old sentence was wrong'
+  cmp_lit_gundlapalli2022_apd_w200_j300:
+    notes: 'Fab org_amf: p.2 Sec. II-A ''The devices were fabricated at Advanced Micro Foundry on an 8-inch silicon photonics platform'' (SOI with 340 nm Si thinned by etching; flow
+      otherwise as the authors'' ref. [26]). Values from the text layer (it keeps the minus signs, e.g. ''-49 dBm'', p.1 / p.3) and the page renders; Tables I-II are not in the text
+      layer and were read from the p.6 render; Figs. 3 and 6 are vector graphics in the PDF. One of 16 (w, j) variants (p.2 Sec. II); over 100 devices tested across all variants, all
+      working (p.2 Sec. II-A); which die each table value comes from is not stated. Breakdown voltage defined at I_dark = 0.1 mA (p.2); per-variant values are not printed and were read
+      from the Fig. 3 vector data in the audit (w = 600 / j = 400 nm not entered: its dark trace reaches 0.1 mA at the 26 V axis limit). Other Fig. 3 I-V values not read. Eye diagrams
+      open up to at least 25 Gb/s, not above 35 Gb/s, for all device types (p.5; no parameter). Highest input power: all devices tested up to P_in = 0 dBm; one device failed at about
+      7 dBm (p.7 App. B). Estimated minimum detectable power about -70 dBm (p.3; estimate, no parameter). Earlier PN devices (ref. [26]) and Table I rows of other works not entered (rule
+      3).'
+    why: 'the text layer keeps the minus signs (U+2212: p.1 abstract, p.3 Sec. III-A, p.5 Fig. 6 caption); the old sentence was wrong'
+  cmp_lit_gundlapalli2022_apd_w300_j300:
+    notes: 'Fab org_amf: p.2 Sec. II-A ''The devices were fabricated at Advanced Micro Foundry on an 8-inch silicon photonics platform'' (SOI with 340 nm Si thinned by etching; flow
+      otherwise as the authors'' ref. [26]). Values from the text layer (it keeps the minus signs, e.g. ''-49 dBm'', p.1 / p.3) and the page renders; Tables I-II are not in the text
+      layer and were read from the p.6 render; Figs. 3 and 6 are vector graphics in the PDF. One of 16 (w, j) variants (p.2 Sec. II); over 100 devices tested across all variants, all
+      working (p.2 Sec. II-A); which die each table value comes from is not stated. Breakdown voltage defined at I_dark = 0.1 mA (p.2); per-variant values are not printed and were read
+      from the Fig. 3 vector data in the audit (w = 600 / j = 400 nm not entered: its dark trace reaches 0.1 mA at the 26 V axis limit). Other Fig. 3 I-V values not read. Eye diagrams
+      open up to at least 25 Gb/s, not above 35 Gb/s, for all device types (p.5; no parameter). Highest input power: all devices tested up to P_in = 0 dBm; one device failed at about
+      7 dBm (p.7 App. B). Estimated minimum detectable power about -70 dBm (p.3; estimate, no parameter). Earlier PN devices (ref. [26]) and Table I rows of other works not entered (rule
+      3).'
+    why: 'the text layer keeps the minus signs (U+2212: p.1 abstract, p.3 Sec. III-A, p.5 Fig. 6 caption); the old sentence was wrong'
+  cmp_lit_gundlapalli2022_apd_w400_j300:
+    notes: 'Fab org_amf: p.2 Sec. II-A ''The devices were fabricated at Advanced Micro Foundry on an 8-inch silicon photonics platform'' (SOI with 340 nm Si thinned by etching; flow
+      otherwise as the authors'' ref. [26]). Values from the text layer (it keeps the minus signs, e.g. ''-49 dBm'', p.1 / p.3) and the page renders; Tables I-II are not in the text
+      layer and were read from the p.6 render; Figs. 3 and 6 are vector graphics in the PDF. One of 16 (w, j) variants (p.2 Sec. II); over 100 devices tested across all variants, all
+      working (p.2 Sec. II-A); which die each table value comes from is not stated. Breakdown voltage defined at I_dark = 0.1 mA (p.2); per-variant values are not printed and were read
+      from the Fig. 3 vector data in the audit (w = 600 / j = 400 nm not entered: its dark trace reaches 0.1 mA at the 26 V axis limit). Other Fig. 3 I-V values not read. Eye diagrams
+      open up to at least 25 Gb/s, not above 35 Gb/s, for all device types (p.5; no parameter). Highest input power: all devices tested up to P_in = 0 dBm; one device failed at about
+      7 dBm (p.7 App. B). Estimated minimum detectable power about -70 dBm (p.3; estimate, no parameter). Earlier PN devices (ref. [26]) and Table I rows of other works not entered (rule
+      3).'
+    why: 'the text layer keeps the minus signs (U+2212: p.1 abstract, p.3 Sec. III-A, p.5 Fig. 6 caption); the old sentence was wrong'
+  cmp_lit_gundlapalli2022_apd_w600_j300:
+    notes: 'Fab org_amf: p.2 Sec. II-A ''The devices were fabricated at Advanced Micro Foundry on an 8-inch silicon photonics platform'' (SOI with 340 nm Si thinned by etching; flow
+      otherwise as the authors'' ref. [26]). Values from the text layer (it keeps the minus signs, e.g. ''-49 dBm'', p.1 / p.3) and the page renders; Tables I-II are not in the text
+      layer and were read from the p.6 render; Figs. 3 and 6 are vector graphics in the PDF. One of 16 (w, j) variants (p.2 Sec. II); over 100 devices tested across all variants, all
+      working (p.2 Sec. II-A); which die each table value comes from is not stated. Breakdown voltage defined at I_dark = 0.1 mA (p.2); per-variant values are not printed and were read
+      from the Fig. 3 vector data in the audit (w = 600 / j = 400 nm not entered: its dark trace reaches 0.1 mA at the 26 V axis limit). Other Fig. 3 I-V values not read. Eye diagrams
+      open up to at least 25 Gb/s, not above 35 Gb/s, for all device types (p.5; no parameter). Highest input power: all devices tested up to P_in = 0 dBm; one device failed at about
+      7 dBm (p.7 App. B). Estimated minimum detectable power about -70 dBm (p.3; estimate, no parameter). Earlier PN devices (ref. [26]) and Table I rows of other works not entered (rule
+      3).'
+    why: 'the text layer keeps the minus signs (U+2212: p.1 abstract, p.3 Sec. III-A, p.5 Fig. 6 caption); the old sentence was wrong'
+  cmp_lit_gundlapalli2022_apd_w200_j400:
+    notes: 'Fab org_amf: p.2 Sec. II-A ''The devices were fabricated at Advanced Micro Foundry on an 8-inch silicon photonics platform'' (SOI with 340 nm Si thinned by etching; flow
+      otherwise as the authors'' ref. [26]). Values from the text layer (it keeps the minus signs, e.g. ''-49 dBm'', p.1 / p.3) and the page renders; Tables I-II are not in the text
+      layer and were read from the p.6 render; Figs. 3 and 6 are vector graphics in the PDF. One of 16 (w, j) variants (p.2 Sec. II); over 100 devices tested across all variants, all
+      working (p.2 Sec. II-A); which die each table value comes from is not stated. Breakdown voltage defined at I_dark = 0.1 mA (p.2); per-variant values are not printed and were read
+      from the Fig. 3 vector data in the audit (w = 600 / j = 400 nm not entered: its dark trace reaches 0.1 mA at the 26 V axis limit). Other Fig. 3 I-V values not read. Eye diagrams
+      open up to at least 25 Gb/s, not above 35 Gb/s, for all device types (p.5; no parameter). Highest input power: all devices tested up to P_in = 0 dBm; one device failed at about
+      7 dBm (p.7 App. B). Estimated minimum detectable power about -70 dBm (p.3; estimate, no parameter). Earlier PN devices (ref. [26]) and Table I rows of other works not entered (rule
+      3).'
+    why: 'the text layer keeps the minus signs (U+2212: p.1 abstract, p.3 Sec. III-A, p.5 Fig. 6 caption); the old sentence was wrong'
+  cmp_lit_gundlapalli2022_apd_w300_j400:
+    notes: 'Fab org_amf: p.2 Sec. II-A ''The devices were fabricated at Advanced Micro Foundry on an 8-inch silicon photonics platform'' (SOI with 340 nm Si thinned by etching; flow
+      otherwise as the authors'' ref. [26]). Values from the text layer (it keeps the minus signs, e.g. ''-49 dBm'', p.1 / p.3) and the page renders; Tables I-II are not in the text
+      layer and were read from the p.6 render; Figs. 3 and 6 are vector graphics in the PDF. One of 16 (w, j) variants (p.2 Sec. II); over 100 devices tested across all variants, all
+      working (p.2 Sec. II-A); which die each table value comes from is not stated. Breakdown voltage defined at I_dark = 0.1 mA (p.2); per-variant values are not printed and were read
+      from the Fig. 3 vector data in the audit (w = 600 / j = 400 nm not entered: its dark trace reaches 0.1 mA at the 26 V axis limit). Other Fig. 3 I-V values not read. Eye diagrams
+      open up to at least 25 Gb/s, not above 35 Gb/s, for all device types (p.5; no parameter). Highest input power: all devices tested up to P_in = 0 dBm; one device failed at about
+      7 dBm (p.7 App. B). Estimated minimum detectable power about -70 dBm (p.3; estimate, no parameter). Earlier PN devices (ref. [26]) and Table I rows of other works not entered (rule
+      3).'
+    why: 'the text layer keeps the minus signs (U+2212: p.1 abstract, p.3 Sec. III-A, p.5 Fig. 6 caption); the old sentence was wrong'
+  cmp_lit_gundlapalli2022_apd_w400_j400:
+    notes: 'Fab org_amf: p.2 Sec. II-A ''The devices were fabricated at Advanced Micro Foundry on an 8-inch silicon photonics platform'' (SOI with 340 nm Si thinned by etching; flow
+      otherwise as the authors'' ref. [26]). Values from the text layer (it keeps the minus signs, e.g. ''-49 dBm'', p.1 / p.3) and the page renders; Tables I-II are not in the text
+      layer and were read from the p.6 render; Figs. 3 and 6 are vector graphics in the PDF. One of 16 (w, j) variants (p.2 Sec. II); over 100 devices tested across all variants, all
+      working (p.2 Sec. II-A); which die each table value comes from is not stated. Breakdown voltage defined at I_dark = 0.1 mA (p.2); per-variant values are not printed and were read
+      from the Fig. 3 vector data in the audit (w = 600 / j = 400 nm not entered: its dark trace reaches 0.1 mA at the 26 V axis limit). Other Fig. 3 I-V values not read. Eye diagrams
+      open up to at least 25 Gb/s, not above 35 Gb/s, for all device types (p.5; no parameter). Highest input power: all devices tested up to P_in = 0 dBm; one device failed at about
+      7 dBm (p.7 App. B). Estimated minimum detectable power about -70 dBm (p.3; estimate, no parameter). Earlier PN devices (ref. [26]) and Table I rows of other works not entered (rule
+      3).'
+    why: 'the text layer keeps the minus signs (U+2212: p.1 abstract, p.3 Sec. III-A, p.5 Fig. 6 caption); the old sentence was wrong'
+  cmp_lit_gundlapalli2022_apd_w600_j400:
+    notes: 'Fab org_amf: p.2 Sec. II-A ''The devices were fabricated at Advanced Micro Foundry on an 8-inch silicon photonics platform'' (SOI with 340 nm Si thinned by etching; flow
+      otherwise as the authors'' ref. [26]). Values from the text layer (it keeps the minus signs, e.g. ''-49 dBm'', p.1 / p.3) and the page renders; Tables I-II are not in the text
+      layer and were read from the p.6 render; Figs. 3 and 6 are vector graphics in the PDF. One of 16 (w, j) variants (p.2 Sec. II); over 100 devices tested across all variants, all
+      working (p.2 Sec. II-A); which die each table value comes from is not stated. Breakdown voltage defined at I_dark = 0.1 mA (p.2); per-variant values are not printed and were read
+      from the Fig. 3 vector data in the audit (w = 600 / j = 400 nm not entered: its dark trace reaches 0.1 mA at the 26 V axis limit). Other Fig. 3 I-V values not read. Eye diagrams
+      open up to at least 25 Gb/s, not above 35 Gb/s, for all device types (p.5; no parameter). Highest input power: all devices tested up to P_in = 0 dBm; one device failed at about
+      7 dBm (p.7 App. B). Estimated minimum detectable power about -70 dBm (p.3; estimate, no parameter). Earlier PN devices (ref. [26]) and Table I rows of other works not entered (rule
+      3).'
+    why: 'the text layer keeps the minus signs (U+2212: p.1 abstract, p.3 Sec. III-A, p.5 Fig. 6 caption); the old sentence was wrong'
+  cmp_lit_gundlapalli2022_apd_w200_j600:
+    notes: 'Fab org_amf: p.2 Sec. II-A ''The devices were fabricated at Advanced Micro Foundry on an 8-inch silicon photonics platform'' (SOI with 340 nm Si thinned by etching; flow
+      otherwise as the authors'' ref. [26]). Values from the text layer (it keeps the minus signs, e.g. ''-49 dBm'', p.1 / p.3) and the page renders; Tables I-II are not in the text
+      layer and were read from the p.6 render; Figs. 3 and 6 are vector graphics in the PDF. One of 16 (w, j) variants (p.2 Sec. II); over 100 devices tested across all variants, all
+      working (p.2 Sec. II-A); which die each table value comes from is not stated. Breakdown voltage defined at I_dark = 0.1 mA (p.2); per-variant values are not printed and were read
+      from the Fig. 3 vector data in the audit (w = 600 / j = 400 nm not entered: its dark trace reaches 0.1 mA at the 26 V axis limit). Other Fig. 3 I-V values not read. Eye diagrams
+      open up to at least 25 Gb/s, not above 35 Gb/s, for all device types (p.5; no parameter). Highest input power: all devices tested up to P_in = 0 dBm; one device failed at about
+      7 dBm (p.7 App. B). Estimated minimum detectable power about -70 dBm (p.3; estimate, no parameter). Earlier PN devices (ref. [26]) and Table I rows of other works not entered (rule
+      3).'
+    why: 'the text layer keeps the minus signs (U+2212: p.1 abstract, p.3 Sec. III-A, p.5 Fig. 6 caption); the old sentence was wrong'
+  cmp_lit_gundlapalli2022_apd_w300_j600:
+    notes: 'Fab org_amf: p.2 Sec. II-A ''The devices were fabricated at Advanced Micro Foundry on an 8-inch silicon photonics platform'' (SOI with 340 nm Si thinned by etching; flow
+      otherwise as the authors'' ref. [26]). Values from the text layer (it keeps the minus signs, e.g. ''-49 dBm'', p.1 / p.3) and the page renders; Tables I-II are not in the text
+      layer and were read from the p.6 render; Figs. 3 and 6 are vector graphics in the PDF. One of 16 (w, j) variants (p.2 Sec. II); over 100 devices tested across all variants, all
+      working (p.2 Sec. II-A); which die each table value comes from is not stated. Breakdown voltage defined at I_dark = 0.1 mA (p.2); per-variant values are not printed and were read
+      from the Fig. 3 vector data in the audit (w = 600 / j = 400 nm not entered: its dark trace reaches 0.1 mA at the 26 V axis limit). Other Fig. 3 I-V values not read. Eye diagrams
+      open up to at least 25 Gb/s, not above 35 Gb/s, for all device types (p.5; no parameter). Highest input power: all devices tested up to P_in = 0 dBm; one device failed at about
+      7 dBm (p.7 App. B). Estimated minimum detectable power about -70 dBm (p.3; estimate, no parameter). Earlier PN devices (ref. [26]) and Table I rows of other works not entered (rule
+      3).'
+    why: 'the text layer keeps the minus signs (U+2212: p.1 abstract, p.3 Sec. III-A, p.5 Fig. 6 caption); the old sentence was wrong'
+  cmp_lit_gundlapalli2022_apd_w400_j600:
+    notes: 'Fab org_amf: p.2 Sec. II-A ''The devices were fabricated at Advanced Micro Foundry on an 8-inch silicon photonics platform'' (SOI with 340 nm Si thinned by etching; flow
+      otherwise as the authors'' ref. [26]). Values from the text layer (it keeps the minus signs, e.g. ''-49 dBm'', p.1 / p.3) and the page renders; Tables I-II are not in the text
+      layer and were read from the p.6 render; Figs. 3 and 6 are vector graphics in the PDF. One of 16 (w, j) variants (p.2 Sec. II); over 100 devices tested across all variants, all
+      working (p.2 Sec. II-A); which die each table value comes from is not stated. Breakdown voltage defined at I_dark = 0.1 mA (p.2); per-variant values are not printed and were read
+      from the Fig. 3 vector data in the audit (w = 600 / j = 400 nm not entered: its dark trace reaches 0.1 mA at the 26 V axis limit). Other Fig. 3 I-V values not read. Eye diagrams
+      open up to at least 25 Gb/s, not above 35 Gb/s, for all device types (p.5; no parameter). Highest input power: all devices tested up to P_in = 0 dBm; one device failed at about
+      7 dBm (p.7 App. B). Estimated minimum detectable power about -70 dBm (p.3; estimate, no parameter). Earlier PN devices (ref. [26]) and Table I rows of other works not entered (rule
+      3).'
+    why: 'the text layer keeps the minus signs (U+2212: p.1 abstract, p.3 Sec. III-A, p.5 Fig. 6 caption); the old sentence was wrong'
+  cmp_lit_gundlapalli2022_apd_w600_j600:
+    notes: 'Fab org_amf: p.2 Sec. II-A ''The devices were fabricated at Advanced Micro Foundry on an 8-inch silicon photonics platform'' (SOI with 340 nm Si thinned by etching; flow
+      otherwise as the authors'' ref. [26]). Values from the text layer (it keeps the minus signs, e.g. ''-49 dBm'', p.1 / p.3) and the page renders; Tables I-II are not in the text
+      layer and were read from the p.6 render; Figs. 3 and 6 are vector graphics in the PDF. One of 16 (w, j) variants (p.2 Sec. II); over 100 devices tested across all variants, all
+      working (p.2 Sec. II-A); which die each table value comes from is not stated. Breakdown voltage defined at I_dark = 0.1 mA (p.2); per-variant values are not printed and were read
+      from the Fig. 3 vector data in the audit (w = 600 / j = 400 nm not entered: its dark trace reaches 0.1 mA at the 26 V axis limit). Other Fig. 3 I-V values not read. Eye diagrams
+      open up to at least 25 Gb/s, not above 35 Gb/s, for all device types (p.5; no parameter). Highest input power: all devices tested up to P_in = 0 dBm; one device failed at about
+      7 dBm (p.7 App. B). Estimated minimum detectable power about -70 dBm (p.3; estimate, no parameter). Earlier PN devices (ref. [26]) and Table I rows of other works not entered (rule
+      3).'
+    why: 'the text layer keeps the minus signs (U+2212: p.1 abstract, p.3 Sec. III-A, p.5 Fig. 6 caption); the old sentence was wrong'
+  cmp_lit_gundlapalli2022_sin_edge_coupler:
+    notes: 'Fab org_amf: p.2 Sec. II-A ''The devices were fabricated at Advanced Micro Foundry on an 8-inch silicon photonics platform'' (SOI with 340 nm Si thinned by etching; flow
+      otherwise as the authors'' ref. [26]). Values from the text layer (it keeps the minus signs, e.g. ''-49 dBm'', p.1 / p.3) and the page renders; Tables I-II are not in the text
+      layer and were read from the p.6 render; Figs. 3 and 6 are vector graphics in the PDF. Loss chain from cutback (p.2 Sec. II-B): total insertion loss to the APD 3.1 +/- 0.2 dB =
+      fiber-waveguide coupling 1.3 +/- 0.1 dB + SiN waveguide propagation ~0.1 dB (length not stated; not entered) + SiN-Si end-fire 1.7 +/- 0.2 dB (row cmp_lit_gundlapalli2022_sin_si_endfire).
+      The sentence cites ref. [26] for the cutback method; the values differ from that work, so taken as this chip''s own measurement. Taper length not stated.'
+    why: 'the text layer keeps the minus signs (U+2212: p.1 abstract, p.3 Sec. III-A, p.5 Fig. 6 caption); the old sentence was wrong'
+  cmp_lit_gundlapalli2022_sin_si_endfire:
+    notes: 'Fab org_amf: p.2 Sec. II-A ''The devices were fabricated at Advanced Micro Foundry on an 8-inch silicon photonics platform'' (SOI with 340 nm Si thinned by etching; flow
+      otherwise as the authors'' ref. [26]). Values from the text layer (it keeps the minus signs, e.g. ''-49 dBm'', p.1 / p.3) and the page renders; Tables I-II are not in the text
+      layer and were read from the p.6 render; Figs. 3 and 6 are vector graphics in the PDF. Theoretical coupling loss ''< 1 dB, limited mostly by Fresnel reflection losses'' is in a
+      sentence citing ref. [34] (D80i; not entered). SEM of the interface in Fig. 1(b).'
+    why: 'the text layer keeps the minus signs (U+2212: p.1 abstract, p.3 Sec. III-A, p.5 Fig. 6 caption); the old sentence was wrong'
+metrics:
+  cmp_lit_pfeiffer2018_ring_w2um_wafer6_reflow_bhf-m1:
+    notes: 'Printed ''lowest mean linewidths, smaller than 35 MHz''. Lorentzian or doublet lineshape fits over up to 150 resonances per ring, 1500-1630 nm (p.3). Fig. 2(c) wafer-6 markers
+      (read from the PDF vector data, log axis calibrated on the 40-100 MHz labels, +/- 1 MHz): 2 um quasi-TM about 34.4 / 36.9 MHz, quasi-TE about 34.1 / 37.4 / 37.9 / 41.0 MHz; 1.5
+      um markers 42-55 MHz. ''Lowest mean linewidths'' are the lowest per-ring values (one marker per ring, the per-ring statistic of up to 150 resonances, p.3); only the lowest TE and
+      TM 2 um ring each fall below 35 MHz.'
+    why: 'p.4 Fig. 2(c) vector data: the printed < 35 MHz is met by the lowest 2 um wafer-6 ring per polarization, not by the wafer average; notes only'
+  cmp_lit_pfeiffer2018_ring_w2um_wafer6_reflow_bhf-m3:
+    notes: 'Printed ''~5 dB/m'', converted to dB/cm (D256a). alpha = n_eff kappa_0 / c as printed (p.3); n_eff not stated (D76: author_estimate).'
+    why: p.3 prints alpha = (n_eff kappa_0)/c, not n_g; basis unchanged
+  cmp_lit_pfeiffer2018_ring_w2um_wafer6_reflow_bhf-m4:
+    qualifier: approx
+    notes: Printed 'radius of ~230 um' (p.3).
+    why: p.3 prints 'a radius of ~230 um' (rule 7 approx)
+  cmp_lit_pfeiffer2018_ring_w2um_wafer3_reflow-m2:
+    qualifier: approx
+    notes: Printed 'radius of ~230 um' (p.3).
+    why: p.3 prints 'a radius of ~230 um' (rule 7 approx)
+  cmp_lit_pfeiffer2018_ring_w2um_wafer3_reflow-m1:
+    value: '48'
+    notes: 'Peak of the Burr-distribution fit (red arrow) read from the PDF vector data: the fit curve maximum and the arrow tip sit at 48.0 MHz (axis calibrated on the histogram bars,
+      centred on 40, 45, ... 100 MHz; +/- 1 MHz). Histogram in 5 MHz bins, 67 resonances (7 + 14 + 14 + 12 + 11 + 3 + 4 + 1 + 1 bars); wavelength range from the measurement span (p.3).
+      Fig. 2(c) wafer-3 2 um quasi-TM markers about 43 / 47 MHz (vector data).'
+    why: 'p.4 Fig. 2(b) vector data: Burr fit maximum and arrow at 48.0 MHz (bars centred on multiples of 5 MHz), not 47'
+  cmp_lit_gundlapalli2022_apd_w200_j300-m17:
+    notes: 'Table I prints 8.8 GHz at 18 V. Conflict (D417): in Fig. 6(a) (this device, p.5) the dashed 3-dB roll-off line of the 18 V trace sits at about 8.1 GHz and that of the 20
+      V trace at about 8.7 GHz; the Table I value is kept as printed.'
+    why: p.5 Fig. 6(a) roll-off markers (18 V about 8.1 GHz, 20 V about 8.7 GHz) disagree with the Table I bias; notes only
+  cmp_lit_gundlapalli2022_apd_w600_j200-m17:
+    value: '5.4'
+    notes: 'Read from the PDF vector data (marker centre at 24 V: 5.44 GHz; axis calibrated on the 1.5 GHz minor ticks, +/- 0.05 GHz); the paper notes the w = 400 / 600 nm curves have
+      not saturated at 20 / 25 V (p.5).'
+    why: 'p.5 Fig. 6(b) vector data: the 24 V marker of the w = 600 nm curve is at 5.44 GHz'
+add_components:
+- component_id: cmp_lit_pfeiffer2018_ring_w1p5um_wafer1_noreflow
+  source_id: lit:pfeiffer2018
+  class: resonator.ring
+  label: Si3N4 100-GHz-FSR microring, 1.5 um wide, e-beam lithography, no preform reflow, SiO2 clad (wafer 1)
+  row_kind: fabricated
+  host_device_ids: ''
+  platform: sin
+  core_material: 'LPCVD Si3N4 1.5 um wide (core height within the stated 0.6-0.85 um range; not stated per wafer), ring radius about 230 um; photonic Damascene process without the preform
+    reflow step; wet thermal SiO2 preform, CMP planarization; wafer 1: e-beam lithography, no reflow, no BHF dip, Si3N4 anneal 24 h N2 1200 C (Fig. 2(c) table)'
+  cladding: LTO SiO2 top cladding, annealed 3 h N2 1200 C (wafer 1, Fig. 2(c) table)
+  fab_org_ids: org_epfl
+  facility_org_ids: org_center_of_micronanotechnology
+  process_name: photonic Damascene process (no preform reflow)
+  test_structure: ''
+  tags: damascene
+  verified_on: '2026-11-18'
+  notes: 'Fab org_epfl and facility org_center_of_micronanotechnology: p.8 Acknowledgements ''Si3N4 microresonator samples were fabricated in the EPFL Center of MicroNanotechnology (CMi)''
+    (named place of fabrication, D448). Cached text is arXiv 1802.08315v1 (dated 2018-02-26 in the text, titled ''Probing the loss origins of ultra-smooth Si3N4 integrated photonic waveguides''),
+    the preprint of the Optica 2018 paper of the source row (D430 / D433); journal version unread; the Supplementary Information is not in the cached file. Audit addition: p.6 prints
+    for the non-reflowed 1.5 um wide wafer-1 microresonators an expected intrinsic linewidth kappa_0 / 2 pi of about 100 MHz (see Fig. 2(c,d)); Fig. 2(c) wafer-1 open (1.5 um) markers
+    read from the PDF vector data: quasi-TM about 106 / 108 / 108 MHz, quasi-TE about 97 / 101 MHz. Same 100-GHz FSR ring family as the other rows (p.3). Used in the doublet analysis
+    of Fig. 2(e-h) (blue), which has no registry parameter.'
+  why: 'miss: p.6 prints kappa_0 / 2 pi ~100 MHz for the identifiable non-reflowed 1.5 um wafer-1 rings (Fig. 2(c,d)); rule 9 sibling design'
+add_metrics:
+- metric_id: cmp_lit_pfeiffer2018_ring_w1p5um_wafer1_noreflow-m1
+  component_id: cmp_lit_pfeiffer2018_ring_w1p5um_wafer1_noreflow
+  parameter: kappa_intrinsic_mhz
+  value: '100'
+  unit: MHz
+  qualifier: approx
+  statistic: typical
+  wavelength_nm: '1500'
+  wavelength_max_nm: '1630'
+  polarization: unspecified
+  condition: expected (most probable) intrinsic linewidth of the non-reflowed 1.5 um wafer-1 under-coupled rings
+  method: ring_extraction
+  basis: measured
+  locator: p.6; p.4 Fig. 2(c,d)
+  notes: Printed 'expected intrinsic linewidth kappa_0/2pi ~100 MHz (see Figure 2c,d)' (p.6); per-ring values in component notes; wavelength range from the measurement span (p.3).
+  why: 'miss: p.6 printed value for the wafer-1 1.5 um rings'
+  verified_on: '2026-11-18'
+- metric_id: cmp_lit_pfeiffer2018_ring_w1p5um_wafer1_noreflow-m2
+  component_id: cmp_lit_pfeiffer2018_ring_w1p5um_wafer1_noreflow
+  parameter: radius_um
+  value: '230'
+  unit: um
+  qualifier: approx
+  condition: ring radius of the 100-GHz FSR microresonators
+  basis: design_target
+  locator: p.3
+  notes: Printed 'radius of ~230 um' (p.3).
+  why: geometry of the added wafer-1 row (D153)
+  verified_on: '2026-11-18'
+- metric_id: cmp_lit_pfeiffer2018_ring_w1p5um_wafer1_noreflow-m3
+  component_id: cmp_lit_pfeiffer2018_ring_w1p5um_wafer1_noreflow
+  parameter: fsr_ghz
+  value: '100'
+  unit: GHz
+  condition: nominal FSR of the analysed microresonators
+  basis: author_estimate
+  locator: p.3
+  notes: Design-stated FSR (D82a).
+  why: as on the other pfeiffer2018 rows
+  verified_on: '2026-11-18'
+- metric_id: cmp_lit_pfeiffer2018_ring_w1p5um_wafer1_noreflow-m4
+  component_id: cmp_lit_pfeiffer2018_ring_w1p5um_wafer1_noreflow
+  parameter: width_nm
+  value: '1500'
+  unit: nm
+  condition: Si3N4 core width
+  basis: derived
+  locator: p.6; p.3
+  notes: Printed '1.5 um', converted to nm (D157).
+  why: geometry of the added wafer-1 row (D153)
+  verified_on: '2026-11-18'
+- metric_id: cmp_lit_gundlapalli2022_apd_w200_j200-m26
+  component_id: cmp_lit_gundlapalli2022_apd_w200_j200
+  parameter: breakdown_voltage_v
+  value: '15.8'
+  unit: V
+  qualifier: ''
+  condition: reverse bias where I_dark reaches 0.1 mA (criterion defined p.2 Sec. III); dashed dark-current trace
+  method: direct
+  basis: extracted_from_figure
+  locator: p.4 Fig. 3(a); p.2 Sec. III
+  notes: 'Read from the PDF vector data: the dashed dark-current trace of Fig. 3(a) crosses the 1e-4 A top axis (= the 0.1 mA criterion) at 15.8 V (+/- 0.2 V, stroke width and dash gaps);
+    reverse bias, positive as plotted. One plotted device per variant (die not stated). The RF data of Fig. 6 reach 20 V (w = 200-400 nm) and 24 V (w = 600 nm), in part above these DC
+    values (bias drift and stabilization, p.7 App. B).'
+  why: 'miss: the paper defines the breakdown voltage (p.2) and plots it per variant in Fig. 3; vector-data read'
+  verified_on: '2026-11-18'
+- metric_id: cmp_lit_gundlapalli2022_apd_w200_j300-m19
+  component_id: cmp_lit_gundlapalli2022_apd_w200_j300
+  parameter: breakdown_voltage_v
+  value: '14.8'
+  unit: V
+  qualifier: ''
+  condition: reverse bias where I_dark reaches 0.1 mA (criterion defined p.2 Sec. III); dashed dark-current trace
+  method: direct
+  basis: extracted_from_figure
+  locator: p.4 Fig. 3(a); p.2 Sec. III
+  notes: 'Read from the PDF vector data: the dashed dark-current trace of Fig. 3(a) crosses the 1e-4 A top axis (= the 0.1 mA criterion) at 14.8 V (+/- 0.2 V, stroke width and dash gaps);
+    reverse bias, positive as plotted. One plotted device per variant (die not stated). The RF data of Fig. 6 reach 20 V (w = 200-400 nm) and 24 V (w = 600 nm), in part above these DC
+    values (bias drift and stabilization, p.7 App. B).'
+  why: 'miss: the paper defines the breakdown voltage (p.2) and plots it per variant in Fig. 3; vector-data read'
+  verified_on: '2026-11-18'
+- metric_id: cmp_lit_gundlapalli2022_apd_w200_j400-m16
+  component_id: cmp_lit_gundlapalli2022_apd_w200_j400
+  parameter: breakdown_voltage_v
+  value: '13.9'
+  unit: V
+  qualifier: ''
+  condition: reverse bias where I_dark reaches 0.1 mA (criterion defined p.2 Sec. III); dashed dark-current trace
+  method: direct
+  basis: extracted_from_figure
+  locator: p.4 Fig. 3(a); p.2 Sec. III
+  notes: 'Read from the PDF vector data: the dashed dark-current trace of Fig. 3(a) crosses the 1e-4 A top axis (= the 0.1 mA criterion) at 13.9 V (+/- 0.2 V, stroke width and dash gaps);
+    reverse bias, positive as plotted. One plotted device per variant (die not stated). The RF data of Fig. 6 reach 20 V (w = 200-400 nm) and 24 V (w = 600 nm), in part above these DC
+    values (bias drift and stabilization, p.7 App. B).'
+  why: 'miss: the paper defines the breakdown voltage (p.2) and plots it per variant in Fig. 3; vector-data read'
+  verified_on: '2026-11-18'
+- metric_id: cmp_lit_gundlapalli2022_apd_w200_j600-m16
+  component_id: cmp_lit_gundlapalli2022_apd_w200_j600
+  parameter: breakdown_voltage_v
+  value: '14.2'
+  unit: V
+  qualifier: ''
+  condition: reverse bias where I_dark reaches 0.1 mA (criterion defined p.2 Sec. III); dashed dark-current trace
+  method: direct
+  basis: extracted_from_figure
+  locator: p.4 Fig. 3(a); p.2 Sec. III
+  notes: 'Read from the PDF vector data: the dashed dark-current trace of Fig. 3(a) crosses the 1e-4 A top axis (= the 0.1 mA criterion) at 14.2 V (+/- 0.2 V, stroke width and dash gaps);
+    reverse bias, positive as plotted. One plotted device per variant (die not stated). The RF data of Fig. 6 reach 20 V (w = 200-400 nm) and 24 V (w = 600 nm), in part above these DC
+    values (bias drift and stabilization, p.7 App. B).'
+  why: 'miss: the paper defines the breakdown voltage (p.2) and plots it per variant in Fig. 3; vector-data read'
+  verified_on: '2026-11-18'
+- metric_id: cmp_lit_gundlapalli2022_apd_w300_j200-m17
+  component_id: cmp_lit_gundlapalli2022_apd_w300_j200
+  parameter: breakdown_voltage_v
+  value: '17.3'
+  unit: V
+  qualifier: ''
+  condition: reverse bias where I_dark reaches 0.1 mA (criterion defined p.2 Sec. III); dashed dark-current trace
+  method: direct
+  basis: extracted_from_figure
+  locator: p.4 Fig. 3(b); p.2 Sec. III
+  notes: 'Read from the PDF vector data: the dashed dark-current trace of Fig. 3(b) crosses the 1e-4 A top axis (= the 0.1 mA criterion) at 17.3 V (+/- 0.2 V, stroke width and dash gaps);
+    reverse bias, positive as plotted. One plotted device per variant (die not stated). The RF data of Fig. 6 reach 20 V (w = 200-400 nm) and 24 V (w = 600 nm), in part above these DC
+    values (bias drift and stabilization, p.7 App. B).'
+  why: 'miss: the paper defines the breakdown voltage (p.2) and plots it per variant in Fig. 3; vector-data read'
+  verified_on: '2026-11-18'
+- metric_id: cmp_lit_gundlapalli2022_apd_w300_j300-m17
+  component_id: cmp_lit_gundlapalli2022_apd_w300_j300
+  parameter: breakdown_voltage_v
+  value: '16.8'
+  unit: V
+  qualifier: ''
+  condition: reverse bias where I_dark reaches 0.1 mA (criterion defined p.2 Sec. III); dashed dark-current trace
+  method: direct
+  basis: extracted_from_figure
+  locator: p.4 Fig. 3(b); p.2 Sec. III
+  notes: 'Read from the PDF vector data: the dashed dark-current trace of Fig. 3(b) crosses the 1e-4 A top axis (= the 0.1 mA criterion) at 16.8 V (+/- 0.2 V, stroke width and dash gaps);
+    reverse bias, positive as plotted. One plotted device per variant (die not stated). The RF data of Fig. 6 reach 20 V (w = 200-400 nm) and 24 V (w = 600 nm), in part above these DC
+    values (bias drift and stabilization, p.7 App. B).'
+  why: 'miss: the paper defines the breakdown voltage (p.2) and plots it per variant in Fig. 3; vector-data read'
+  verified_on: '2026-11-18'
+- metric_id: cmp_lit_gundlapalli2022_apd_w300_j400-m16
+  component_id: cmp_lit_gundlapalli2022_apd_w300_j400
+  parameter: breakdown_voltage_v
+  value: '15.6'
+  unit: V
+  qualifier: ''
+  condition: reverse bias where I_dark reaches 0.1 mA (criterion defined p.2 Sec. III); dashed dark-current trace
+  method: direct
+  basis: extracted_from_figure
+  locator: p.4 Fig. 3(b); p.2 Sec. III
+  notes: 'Read from the PDF vector data: the dashed dark-current trace of Fig. 3(b) crosses the 1e-4 A top axis (= the 0.1 mA criterion) at 15.6 V (+/- 0.2 V, stroke width and dash gaps);
+    reverse bias, positive as plotted. One plotted device per variant (die not stated). The RF data of Fig. 6 reach 20 V (w = 200-400 nm) and 24 V (w = 600 nm), in part above these DC
+    values (bias drift and stabilization, p.7 App. B).'
+  why: 'miss: the paper defines the breakdown voltage (p.2) and plots it per variant in Fig. 3; vector-data read'
+  verified_on: '2026-11-18'
+- metric_id: cmp_lit_gundlapalli2022_apd_w300_j600-m16
+  component_id: cmp_lit_gundlapalli2022_apd_w300_j600
+  parameter: breakdown_voltage_v
+  value: '16.0'
+  unit: V
+  qualifier: ''
+  condition: reverse bias where I_dark reaches 0.1 mA (criterion defined p.2 Sec. III); dashed dark-current trace
+  method: direct
+  basis: extracted_from_figure
+  locator: p.4 Fig. 3(b); p.2 Sec. III
+  notes: 'Read from the PDF vector data: the dashed dark-current trace of Fig. 3(b) crosses the 1e-4 A top axis (= the 0.1 mA criterion) at 16.0 V (+/- 0.2 V, stroke width and dash gaps);
+    reverse bias, positive as plotted. One plotted device per variant (die not stated). The RF data of Fig. 6 reach 20 V (w = 200-400 nm) and 24 V (w = 600 nm), in part above these DC
+    values (bias drift and stabilization, p.7 App. B).'
+  why: 'miss: the paper defines the breakdown voltage (p.2) and plots it per variant in Fig. 3; vector-data read'
+  verified_on: '2026-11-18'
+- metric_id: cmp_lit_gundlapalli2022_apd_w400_j200-m17
+  component_id: cmp_lit_gundlapalli2022_apd_w400_j200
+  parameter: breakdown_voltage_v
+  value: '20.3'
+  unit: V
+  qualifier: ''
+  condition: reverse bias where I_dark reaches 0.1 mA (criterion defined p.2 Sec. III); dashed dark-current trace
+  method: direct
+  basis: extracted_from_figure
+  locator: p.4 Fig. 3(c); p.2 Sec. III
+  notes: 'Read from the PDF vector data: the dashed dark-current trace of Fig. 3(c) crosses the 1e-4 A top axis (= the 0.1 mA criterion) at 20.3 V (+/- 0.2 V, stroke width and dash gaps);
+    reverse bias, positive as plotted. One plotted device per variant (die not stated). The RF data of Fig. 6 reach 20 V (w = 200-400 nm) and 24 V (w = 600 nm), in part above these DC
+    values (bias drift and stabilization, p.7 App. B).'
+  why: 'miss: the paper defines the breakdown voltage (p.2) and plots it per variant in Fig. 3; vector-data read'
+  verified_on: '2026-11-18'
+- metric_id: cmp_lit_gundlapalli2022_apd_w400_j300-m17
+  component_id: cmp_lit_gundlapalli2022_apd_w400_j300
+  parameter: breakdown_voltage_v
+  value: '19.5'
+  unit: V
+  qualifier: ''
+  condition: reverse bias where I_dark reaches 0.1 mA (criterion defined p.2 Sec. III); dashed dark-current trace
+  method: direct
+  basis: extracted_from_figure
+  locator: p.4 Fig. 3(c); p.2 Sec. III
+  notes: 'Read from the PDF vector data: the dashed dark-current trace of Fig. 3(c) crosses the 1e-4 A top axis (= the 0.1 mA criterion) at 19.5 V (+/- 0.2 V, stroke width and dash gaps);
+    reverse bias, positive as plotted. One plotted device per variant (die not stated). The RF data of Fig. 6 reach 20 V (w = 200-400 nm) and 24 V (w = 600 nm), in part above these DC
+    values (bias drift and stabilization, p.7 App. B).'
+  why: 'miss: the paper defines the breakdown voltage (p.2) and plots it per variant in Fig. 3; vector-data read'
+  verified_on: '2026-11-18'
+- metric_id: cmp_lit_gundlapalli2022_apd_w400_j400-m16
+  component_id: cmp_lit_gundlapalli2022_apd_w400_j400
+  parameter: breakdown_voltage_v
+  value: '18.3'
+  unit: V
+  qualifier: ''
+  condition: reverse bias where I_dark reaches 0.1 mA (criterion defined p.2 Sec. III); dashed dark-current trace
+  method: direct
+  basis: extracted_from_figure
+  locator: p.4 Fig. 3(c); p.2 Sec. III
+  notes: 'Read from the PDF vector data: the dashed dark-current trace of Fig. 3(c) crosses the 1e-4 A top axis (= the 0.1 mA criterion) at 18.3 V (+/- 0.2 V, stroke width and dash gaps);
+    reverse bias, positive as plotted. One plotted device per variant (die not stated). The RF data of Fig. 6 reach 20 V (w = 200-400 nm) and 24 V (w = 600 nm), in part above these DC
+    values (bias drift and stabilization, p.7 App. B).'
+  why: 'miss: the paper defines the breakdown voltage (p.2) and plots it per variant in Fig. 3; vector-data read'
+  verified_on: '2026-11-18'
+- metric_id: cmp_lit_gundlapalli2022_apd_w400_j600-m16
+  component_id: cmp_lit_gundlapalli2022_apd_w400_j600
+  parameter: breakdown_voltage_v
+  value: '18.1'
+  unit: V
+  qualifier: ''
+  condition: reverse bias where I_dark reaches 0.1 mA (criterion defined p.2 Sec. III); dashed dark-current trace
+  method: direct
+  basis: extracted_from_figure
+  locator: p.4 Fig. 3(c); p.2 Sec. III
+  notes: 'Read from the PDF vector data: the dashed dark-current trace of Fig. 3(c) crosses the 1e-4 A top axis (= the 0.1 mA criterion) at 18.1 V (+/- 0.2 V, stroke width and dash gaps);
+    reverse bias, positive as plotted. One plotted device per variant (die not stated). The RF data of Fig. 6 reach 20 V (w = 200-400 nm) and 24 V (w = 600 nm), in part above these DC
+    values (bias drift and stabilization, p.7 App. B).'
+  why: 'miss: the paper defines the breakdown voltage (p.2) and plots it per variant in Fig. 3; vector-data read'
+  verified_on: '2026-11-18'
+- metric_id: cmp_lit_gundlapalli2022_apd_w600_j200-m18
+  component_id: cmp_lit_gundlapalli2022_apd_w600_j200
+  parameter: breakdown_voltage_v
+  value: '26'
+  unit: V
+  qualifier: gt
+  condition: reverse bias where I_dark reaches 0.1 mA (criterion defined p.2 Sec. III); dashed dark-current trace
+  method: direct
+  basis: extracted_from_figure
+  locator: p.4 Fig. 3(d); p.2 Sec. III
+  notes: 'Read from the PDF vector data: the dashed dark-current trace stays below 1e-4 A up to the 26 V right edge of Fig. 3(d), so the breakdown voltage (I_dark = 0.1 mA) is above
+    26 V; reverse bias, positive as plotted. One plotted device per variant (die not stated). The RF data of Fig. 6 reach 20 V (w = 200-400 nm) and 24 V (w = 600 nm), in part above these
+    DC values (bias drift and stabilization, p.7 App. B).'
+  why: 'miss: the paper defines the breakdown voltage (p.2) and plots it per variant in Fig. 3; vector-data read'
+  verified_on: '2026-11-18'
+- metric_id: cmp_lit_gundlapalli2022_apd_w600_j300-m17
+  component_id: cmp_lit_gundlapalli2022_apd_w600_j300
+  parameter: breakdown_voltage_v
+  value: '26'
+  unit: V
+  qualifier: gt
+  condition: reverse bias where I_dark reaches 0.1 mA (criterion defined p.2 Sec. III); dashed dark-current trace
+  method: direct
+  basis: extracted_from_figure
+  locator: p.4 Fig. 3(d); p.2 Sec. III
+  notes: 'Read from the PDF vector data: the dashed dark-current trace stays below 1e-4 A up to the 26 V right edge of Fig. 3(d), so the breakdown voltage (I_dark = 0.1 mA) is above
+    26 V; reverse bias, positive as plotted. One plotted device per variant (die not stated). The RF data of Fig. 6 reach 20 V (w = 200-400 nm) and 24 V (w = 600 nm), in part above these
+    DC values (bias drift and stabilization, p.7 App. B).'
+  why: 'miss: the paper defines the breakdown voltage (p.2) and plots it per variant in Fig. 3; vector-data read'
+  verified_on: '2026-11-18'
+- metric_id: cmp_lit_gundlapalli2022_apd_w600_j600-m16
+  component_id: cmp_lit_gundlapalli2022_apd_w600_j600
+  parameter: breakdown_voltage_v
+  value: '24.7'
+  unit: V
+  qualifier: ''
+  condition: reverse bias where I_dark reaches 0.1 mA (criterion defined p.2 Sec. III); dashed dark-current trace
+  method: direct
+  basis: extracted_from_figure
+  locator: p.4 Fig. 3(d); p.2 Sec. III
+  notes: 'Read from the PDF vector data: the dashed dark-current trace of Fig. 3(d) crosses the 1e-4 A top axis (= the 0.1 mA criterion) at 24.7 V (+/- 0.2 V, stroke width and dash gaps);
+    reverse bias, positive as plotted. One plotted device per variant (die not stated). The RF data of Fig. 6 reach 20 V (w = 200-400 nm) and 24 V (w = 600 nm), in part above these DC
+    values (bias drift and stabilization, p.7 App. B).'
+  why: 'miss: the paper defines the breakdown voltage (p.2) and plots it per variant in Fig. 3; vector-data read'
+  verified_on: '2026-11-18'

@@ -1,0 +1,26 @@
+# Audit patch lit_211 (fresh-context audit 2026-11-18, DevLog/audits/2026-11-18-lit_211-audit.md).
+# 98 metrics: 96 ok / 1 imprecise / 1 wrong; 15 components: 14 ok / 1 imprecise (notes, follows the deleted metric); 0 misses added.
+# After the patch: 15 components, 97 metrics.
+# Coordinator questions (audit Q1-Q8): Q1 suzuki2018 fab AIST kept; Q2 guo2017a SE switch_fabric.other kept; Q3 EO powers as
+# p_pi_mw kept; Q4 guo2017a 10.6 / 1.5 dB author_estimate and fab IME kept; Q5 suzuki2018 6.1 dB author_estimate kept;
+# Q6 shokraneh2020 21 mW / < 30 us and suzuki2018 ~30 kHz kept; Q7 shokraneh2020 DC row and IME + CMC fab kept, liu2017 kept;
+# Q8 shokraneh2020 "-35 dB crosstalk" deleted (absolute normalized leakage level, not a suppression ratio).
+components:
+  cmp_lit_shokraneh2020_mzi_mesh_4x4:
+    notes: 'Fab: ''fabricated using 193 nm DUV lithography at the Institute of Microelectronics (A*STAR IME) through a multi-project wafer (MPW) service managed by Canadian Microelectronic Corporation
+      (CMC)'' (p.5 Sec. III); acknowledgment of CMC for the subsidized MPW fabrication through A*STAR IME (p.10); CMC as MPW provider (D83d, D398). Designed for 1310 nm, TE0 (p.5); the input is a vertical
+      grating coupler (p.6, no value). Twelve MZIs (1)-(10), (S1), (S2) (p.6-7, Fig. 8). Table I cross / bar bias voltages (VC.S. 2.25-3.02 V, VB.S. 3.0-3.7 V) have no registry parameter. Path IL values
+      of Fig. 11 (I4-O3, I4-O2, I4-O1) are not printed in the text; not read off the noisy spectra. Printed ''crosstalk values between the output ports are lower than -35 dB'' (p.9 Sec. III, Fig. 11) not
+      entered: in Fig. 11 it is the absolute normalized power at the non-target outputs, not a ratio to the transmitted path (path I4-O2 near 1310 nm reads about -21 dB transmitted vs about -50 dB leakage,
+      about 29 dB, reading uncertainty about +/- 2 dB; path I4-O4 near 1280 nm about -7 vs -35 dB); same treatment as the suzuki2018 leakage level in this batch.'
+    why: 'records the deleted -35 dB statement with the Fig. 11 reading (p.9 Fig. 11(a), (c)); see delete_metrics'
+metrics:
+  cmp_lit_guo2017a_dr_mzi_se-m1:
+    wavelength_inferred: 'true'
+    notes: 'Printed on-off ER ''around 30 dB'' (p.5 Sec. IV-A) with no wavelength in that sentence; 1558.98 nm is the resonance wavelength of the cross-path dip printed in the preceding sentence (rule 8).'
+    why: 'p.5 Sec. IV-A: the ER sentence prints no wavelength; the 1558.98 nm belongs to the preceding dip sentence, so the wavelength is inferred'
+delete_metrics:
+  - id: cmp_lit_shokraneh2020_mzi_mesh_4x4-m1
+    why: 'p.9 Sec. III / Fig. 11: "lower than -35 dB" is the absolute normalized leakage power at the non-target outputs, not a suppression ratio (crosstalk_db definition); Fig. 11(c) path I4-O2 shows about
+      -21 dB transmitted vs about -50 dB leakage (about 29 dB) and Fig. 11(a) about -7 vs -35 dB near 1280 nm, so "> 35 dB" does not hold as a ratio; statement moved to component notes (suzuki2018 -30 dB
+      leakage precedent in this batch)'

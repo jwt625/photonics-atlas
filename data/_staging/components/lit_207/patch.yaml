@@ -1,0 +1,34 @@
+# Audit patch lit_207 (fresh-context audit 2026-11-18, DevLog/audits/2026-11-18-lit_207-audit.md).
+# 9 metrics: 3 ok / 5 imprecise / 1 wrong (m7 arm width from the 33 mm RSoft simulation model instead of the 1.00 mm
+# labelled on the Fig. 2 CAD model of the printed device); 1 component: imprecise (notes). No misses added.
+# After the patch: 1 component, 9 metrics.
+# Coordinator questions (audit Q1-Q5): Q1 scope kept (no op); Q2 excess loss device_total kept (no op); Q3 imbalance
+# derived range kept, D401 not applicable (no op); Q4 split_ratio_pct kept, port named in condition; Q5 arm width
+# 800 um -> 1.00 mm from the Fig. 2 label (revert = drop the m7 op and the component notes op).
+components:
+  cmp_lit_cezar2024_y_branch:
+    notes: 'Multimode guide (hundreds of modes, p.2 Sec. II). Printed device: 30 mm long, arms 2 mm apart (p.2 Sec. III, "as shown in Figure 2"); Fig. 2 (p.3) is the CAD model sliced for printing (p.2 Sec. III). Fig. 2 end view: the 2.00 label spans the two arm centres, the 1.00 label spans the edges of one output arm (arm width entered), the 0.50 label spans the substrate top to the start of the rounded arm top (straight sidewall height, not a core thickness; not entered). The RSoft 2D simulation model is 33 mm long with 800 um arms, 2 mm centre-to-centre arm separation and a 9.5 deg angle between the arms at the branch tip (p.2 Sec. II; angle has no splitter parameter); p.3 Sec. IV calls the input guide cross-section diameter about 1 mm. Core and cladding indices are cited from ref. [10] (notes only). Fab: first-person ''our fabrication process'' (p.2 Sec. III) with all authors at Fed. Univ. of Technology - Parana; that org is missing from the registry, so fab is empty (see report). Facility: use of the Multi-Foton facility of UTFPR acknowledged (p.4), missing from the registry. ITA / CTA thanked for the RSoft simulation package (not a fabrication facility). Not entered: expected minimum excess loss 6 dB for 30 mm (p.3-4; computed from the 0.1 dB/mm the authors cite from their ref. [10], rule 3); 6.8 dB of ref. [11] (other work); Fig. 1 BPM result (no number).'
+    why: 'p.3 Fig. 2 (img render): the 1.00 extension lines sit on the edges of the right output arm and the 2.00 extension lines on the two arm centres (1.00 / 2.00 drawn at the same scale), so the labels are tied to named dimensions; p.2 Sec. III states Fig. 2 is the CAD model sent to the printer. Notes said the labels were not tied to a dimension'
+metrics:
+  cmp_lit_cezar2024_y_branch-m3:
+    condition: 'right output port (Table I ''Coupling Ratio Right Port''); 635 nm laser through a single-mode fiber and a 40x objective, beam about 1 mm wide at the input port; output power measured with a beam profiler (Thorlabs BP-209 VIS); input / output faces polished; three samples from the same printing run'
+    why: 'split_ratio_pct is the power fraction to the stated port (component_parameters.yaml); m3 and m4 had identical conditions and named the port only in notes (p.4 Table I)'
+  cmp_lit_cezar2024_y_branch-m4:
+    condition: 'left output port (Table I ''Coupling Ratio Left Port''); 635 nm laser through a single-mode fiber and a 40x objective, beam about 1 mm wide at the input port; output power measured with a beam profiler (Thorlabs BP-209 VIS); input / output faces polished; three samples from the same printing run'
+    why: 'split_ratio_pct is the power fraction to the stated port (component_parameters.yaml); m3 and m4 had identical conditions and named the port only in notes (p.4 Table I)'
+  cmp_lit_cezar2024_y_branch-m6:
+    locator: p.2 Sec. II-III; p.3 Fig. 2
+    why: 'Fig. 2 is on p.3 of text.md (page 3 render); the locator read as Fig. 2 on p.2'
+  cmp_lit_cezar2024_y_branch-m7:
+    value: '1000000'
+    condition: output arm width of the printed-device CAD model (Fig. 2 end view)
+    basis: derived
+    locator: p.3 Fig. 2; p.2 Sec. III
+    notes: 'Fig. 2 label 1.00 (mm, caption: dimensions in millimetres); extension lines on the edges of the right output arm; printed label, no reading uncertainty; rescaled (D157). The RSoft 2D simulation model (33 mm long) uses 800 um arms (p.2 Sec. II); p.3 Sec. IV calls the input guide cross-section diameter about 1 mm'
+    why: 'the component is the printed 30 mm device (length m5 from the printed model, not the 33 mm RSoft model); p.2 Sec. III says Fig. 2 is the CAD model sliced for printing, and its 1.00 label spans one output arm (p.3 render), consistent with the about 1 mm input guide of p.3 Sec. IV; the 800 um belongs to the separate simulation model'
+  cmp_lit_cezar2024_y_branch-m8:
+    locator: p.2 Sec. II; p.3 Fig. 2
+    why: 'Fig. 2 is on p.3 of text.md (page 3 render); the locator read as Fig. 2 on p.2'
+  cmp_lit_cezar2024_y_branch-m9:
+    locator: p.2 Sec. II; p.3 Fig. 2
+    why: 'Fig. 2 is on p.3 of text.md (page 3 render); the locator read as Fig. 2 on p.2'
