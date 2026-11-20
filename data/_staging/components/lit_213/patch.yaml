@@ -1,0 +1,75 @@
+# Audit patch lit_213 (fresh-context audit 2026-11-20, DevLog/audits/2026-11-20-lit_213-audit.md).
+# 62 metrics: 53 ok / 4 imprecise / 5 wrong; 10 components: 7 ok / 3 imprecise (notes, process_name) / 0 wrong. No misses added.
+# Wrong (deleted, values moved to component notes): agazzi2010 amplifier m1-m4 (signal enhancement S = 10 log10(Ip / Iu) stored as gain_db)
+# and thomson2010 amplifier m6 (relative gain 63 dB stored as gain_db): for Er-doped waveguide amplifiers the pump-on / pump-off contrast
+# includes the bleached Er absorption and is kept out of gain_db in every merged EDWA row (vagionas2021, chrysostomidis2021, ronn2019,
+# cai2021, wang2023, zhang2026, bonneville2024, li2025); open registry gap signal_enhancement_db (lit_13, lit_122, lit_203 audits).
+# After the patch: 10 components, 57 metrics.
+# Coordinator questions (audit Q1-Q6): Q1 ePIXfab on the transition + 13.5 mm amplifier rows after the org round (process_name set on the
+# amplifier here; revert = drop that field); Q2 transition 2.5 dB author_estimate (revert = drop the basis field); Q3 deletions above;
+# Q4 thomson NF 1505 nm kept with note (no op); Q5 thomson threshold / bandwidth kept (no op); Q6 umeki rulings kept, SHG cross-note.
+components:
+  cmp_lit_agazzi2010_al2o3er_si_al2o3er_amp_13p5mm:
+    process_name: epixfab multi-user run, 200-mm CMOS pilot line, 193-nm deep UV lithography (Si wire and tapers)
+    notes: 'Signal enhancement only: no net gain was obtained because of about 2 dB extra loss per Si-Al2O3:Er3+ coupler from residual Si structures (p.7 Sec. 4). Signal enhancement S = 10 log10(Ip
+      / Iu) (pumped vs unpumped transmitted signal, includes the Er absorption; not a gain, no registry parameter, as in the merged EDWA rows; audit 2026-11-20): 7.2 dB at 1533 nm for 1 uW signal
+      and 53 mW launched 1480 nm pump, TE (p.7 Sec. 3, Fig. 5(a); abstract ''>7 dB''); Fig. 5 last points at about 53 mW (embedded raster, +/- 0.1 dB): about 5.3 dB at 1525 nm and 2.45 dB
+      at 1565 nm (1 uW signal, Fig. 5(a)), about 6.4 dB at 1533 nm for 100 uW signal (onset of saturation, Fig. 5(b)). The 7.62 +/- 0.48 dB calculated enhancement (p.8) uses a total loss
+      coefficient of 6.06 dB/cm extrapolated from ref. [25] (not entered, rule 3). Straight Al2O3:Er3+ reference channels without Si (p.5) carry no stated value of their own (no row). Si wire
+      loss 2.4 dB/cm is cited to ref. [2] (not entered). Coupler: cmp_lit_agazzi2010_si_al2o3er_inverse_taper; facet: cmp_lit_agazzi2010_fiber_al2o3er_butt_facet. Fab: SOI chips from a
+      multi-user run of the epixfab CMOS line (200-mm CMOS pilot line, 193-nm DUV; p.4 Sec. 2.2, p.5 Sec. 3); ePIXfab is not in the registry. The 13.5 mm structure is that foundry chip
+      with the Al2O3:Er3+ layer deposited and etched on it (foundry chip post-processed, D440), so the epixfab process is set on this row (Si wire and tapers). The org that deposited and
+      etched the Al2O3:Er3+ layer is not named (only ''our lithographic equipment'', p.5, with authors at two orgs), so no authors'' org is set.'
+    why: 'p.7 Sec. 3 / Fig. 5: the deleted signal-enhancement rows m1-m4 recorded in notes (EDWA precedent, registry gap); p.4-5: the amplifier contains the Si wire and tapers of the epixfab run
+      (D440 post-processed foundry chip), process_name set'
+  cmp_lit_thomson2010_er_bg_uli_amp_87mm:
+    notes: 'D396: same waveguide as cmp_lit_thomson2010_er_bg_uli_waveguide (passive view) and cmp_lit_thomson2010_fiber_butt_facet. Optimum waveguide of a pulse-energy / speed series (64-170
+      nJ, 1.0 / 2.0 mm/s; p.3). Pumping: up to 500 mW counter-propagating, additional pump co-propagating above 500 mW (Fig. 3, Fig. 4); input and output coupling re-optimized under maximum
+      pumping (p.5). PDL at 1533 nm under maximum pumping about 0.6 dB (p.5): pdl_db is not allowed for amplifier (registry gap). Maximum relative gain (change in transmission, pump on vs
+      zero pump) about 63.0 dB at 1533 nm (p.6, Fig. 4: about -47 dB fiber-to-fiber at 0 mW to 16.0 dB at 1050 mW): includes the bleached Er absorption, not a gain; not entered (no
+      signal-enhancement parameter, as in the merged EDWA rows; audit 2026-11-20). Zero-pump absorption at 1533 nm about 42.0 dB from the IL spectrum and population inversion about 75%
+      (p.6): no parameter, not entered. Waveguide multimode at the pump wavelength (p.7). Comparison values for refs. [6], [11] not entered. Fab empty: inscription is described in passive
+      voice (p.2-3) and all authors are at Heriot-Watt University (D80b). Er-BG glass supplied by Asahi Glass Company (material supplier, acknowledgement p.8); the inscription laser was
+      supplied by Fianium Ltd (setup).'
+    why: 'p.6 Fig. 4: the deleted relative-gain row m6 recorded in notes (EDWA precedent, registry gap)'
+  cmp_lit_umeki2011_ppln_shg_module:
+    notes: 'D396: same waveguide / module type as cmp_lit_umeki2011_ppln_dpa_module (module 2). The 5.0 dB module insertion loss for the 1.55 um (signal) path, stated once for the module
+      type (p.3), is entered on the DPA row; in this module the 1537.6 nm fundamental enters through that path, so the 23.4 % port-to-port conversion includes the module coupling. A 1 nm
+      band-pass filter between the EDFA and module 1 was used in some experiments (p.3). Fab org_ntt: first-person ''We fabricated 5-cm-long PPLN ridge waveguides using the direct bonding
+      method'' (p.2 Sec. 2) with all authors at NTT Corporation laboratories (p.1); module assembly is passive (p.3), assembler not named. SH conversion efficiency over 2000 %/W is cited to
+      the authors'' ref. [10] (not entered, rule 3).'
+    why: 'p.3 Sec. 2: the module IL is stated for the module type; cross-note to the row that holds it (D396)'
+metrics:
+  cmp_lit_agazzi2010_si_al2o3er_inverse_taper-m1:
+    basis: author_estimate
+    notes: 'Printed ''~2.5 dB per coupler'' (p.5 Sec. 3; also p.7 Sec. 4), from comparing the 1533 nm transmission of the Al2O3:Er3+-Si-Al2O3:Er3+ structures with straight Al2O3:Er3+ reference
+      channels (same design parameters, without Si features; p.5). Not stated: the reference length, the pump state, and how the Er absorption of the differing Er-doped length (9.5 mm in the
+      test structure) and the loss of the 4 mm Si wire (only a cited 2.4 dB/cm, ref. [2], is printed) were removed; no subtracted numbers printed. The per-coupler value rests on correction
+      terms of unstated origin (rule 4, khope2019 D440 precedent), so author_estimate.'
+    why: 'p.5 Sec. 3: a per-coupler loss from two path totals that differ in Er-doped length and a 4 mm Si wire needs correction terms the paper does not state (rule 4); the old note asserted a
+      13.5 mm reference length that is not printed'
+  cmp_lit_agazzi2010_si_al2o3er_inverse_taper-m2:
+    statistic: best
+    why: p.4 Sec. 2.2 'as low as 0.5 dB' (rule 7, statistic best)
+  cmp_lit_thomson2010_er_bg_uli_waveguide-m3:
+    condition: tunable laser at 1533 nm, all polarization states scanned; passive characterization (Sec. 3.1; the value under maximum pumping, about 0.6 dB, is in Sec. 3.2)
+    why: p.3 Sec. 3.1 is the passive characterization; the pumped PDL is printed separately on p.5
+  cmp_lit_umeki2011_ppln_dpa_module-m4:
+    condition: maximum PSA output signal power, in-phase; Fig. 4 last point at about 18.5 dBm input signal (PDF vector data, +/- 0.2 dB); SH pump power for Fig. 4 not stated; no secondary
+      wavelength conversion observed
+    notes: 'Printed ''maximum output power of 22 dBm'' (abstract, p.5, conclusion). Fig. 4 vector data: last marker at 18.45 dBm input / 22.0 dBm output (axes calibrated on the tick labels);
+      output linear in input below about 10 dBm input, pump depression above (p.5).'
+    why: 'p.5 Fig. 4 vector data: the 22 dBm point is at about 18.5 dBm input, not at the 20 dBm axis limit'
+delete_metrics:
+- id: cmp_lit_agazzi2010_al2o3er_si_al2o3er_amp_13p5mm-m1
+  why: 'p.7 Sec. 3: signal enhancement S = 10 log10(Ip / Iu) includes the bleached Er absorption and the paper states no net gain; EDWA signal enhancement is not entered as gain_db in any merged
+    row (vagionas2021, chrysostomidis2021, ronn2019, cai2021, wang2023, zhang2026, bonneville2024, li2025); value to component notes, registry gap signal_enhancement_db'
+- id: cmp_lit_agazzi2010_al2o3er_si_al2o3er_amp_13p5mm-m2
+  why: 'p.7 Fig. 5(a): signal enhancement at 1525 nm, same reason as m1; value to component notes'
+- id: cmp_lit_agazzi2010_al2o3er_si_al2o3er_amp_13p5mm-m3
+  why: 'p.7 Fig. 5(a): signal enhancement at 1565 nm, same reason as m1; value to component notes'
+- id: cmp_lit_agazzi2010_al2o3er_si_al2o3er_amp_13p5mm-m4
+  why: 'p.7 Fig. 5(b): signal enhancement for 100 uW signal, same reason as m1; value to component notes'
+- id: cmp_lit_thomson2010_er_bg_uli_amp_87mm-m6
+  why: 'p.6 Fig. 4: relative gain (pump on vs zero pump) 63 dB includes the 42 dB zero-pump Er absorption; EDWA pump-on / pump-off contrast is not gain_db in merged rows (bonneville2024 about
+    63 dB and li2025 78 dB kept in notes); value to component notes, registry gap signal_enhancement_db'

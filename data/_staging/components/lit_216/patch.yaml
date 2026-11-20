@@ -1,0 +1,208 @@
+# Audit patch lit_216 (fresh-context audit 2026-11-20, DevLog/audits/2026-11-20-lit_216-audit.md).
+# 58 metrics: 58 ok / 0 imprecise / 0 wrong; 14 components: 13 ok / 1 imprecise (clark2003 APD notes: Fig. 3 series misread) / 0 wrong.
+# Misses added: 13 metrics, no component. clark2003 Fig. 3 excess noise factor at M = 5 / 10 / 20 / 30 / 40 (5 rows; the "triangles"
+# are the arrowheads of the APD label) and dark current < 5 nA at M = 10 with the bias read off Fig. 2 (1 row; rouvie2008 precedent,
+# D671); kang2019 Fig. 2(a) simulated P_pi on the five sibling width rows (5 rows; same treatment as the 2.5 um row); joshi2008
+# Fig. 3 dark current at 3 V and 8 V (2 rows; the two markers between the entered ones). After the patch: 14 components, 71 metrics.
+# Coordinator questions (audit Q1-Q7): Q1 olivares2021 losses stay on the ring row (no op; registry widening proposed); Q2 platform
+# empty and |k| = 0.15 as 15 % author_estimate kept (no op); Q3 kang2019 2.9-3.2 dB range kept on the 2.5 um row (no op); Q4 rise /
+# fall kept on the 2.5 um row, phase_shifter.other kept (no op); Q5 joshi2008 split and saturation row kept (no op); Q6 clark2003
+# GBP `typical` kept (no op); Q7 clark2003 dark-current add (revert = drop add_metrics cmp_lit_clark2003_apd_20um-m14) and Fig. 3
+# adds (revert = drop -m9 ... -m13); registry year 1999 (registry follow-up, no op here).
+components:
+  cmp_lit_clark2003_apd_20um:
+    notes: 'Fab empty: the fabrication section is passive and the conclusion says ''have been fabricated'' with no org named (D80b); all authors are at Nortel (Advanced
+      Technology Lab and Nortel Optoelectronics). Discrete chip, not waveguide coupled (Fig. 1, light from the top); all opto-electronic measurements at 25 C with 1300 nm light
+      from a cleaved SMF, estimated spot diameter 15 um (p.1-2); Fig. 1 labels the light 1310 nm, the text says 1300 nm (rows use 1300 nm). Active diameter 20 um, guard ring 5
+      um wide (p.1): no diameter parameter. Fig. 3 excess-noise data are the filled square markers on the dashed line; the two filled triangles are the arrowheads of the
+      ''APD'' label (same arrow style as Fig. 4), not a second series (audit 2026-11-20); F at M = 10 read as about 4.4 is consistent with the printed k_eff = 0.31 (McIntyre).
+      Dark current < 5 nA at M = 10 entered with the bias read off Fig. 2 (m14). Not entered: gain ''more than 30'' before the dark current exceeds 20 nA (p.2; the 20 nA point
+      sits on the near-vertical breakdown part of Fig. 2 at about 27.3-27.5 V, and the gain there is a second read on a steep curve); effective ionization rate ratio k_eff =
+      0.31 at M = 10 from McIntyre analysis of the Fig. 3 noise data (registry gap); reliability: fewer than 1 failure per 1000 h on 40 APDs at 200 C with 100 uA or 2 mA
+      reverse current (failure = Id > 50 nA or Vbr shift > 0.5 V; p.2, Fig. 5; no parameter). Comparison values for InP (refs. 4, 5) and InAlAs (ref. 6) are cited, not
+      entered. Cross-notes: reference p-i-n cmp_lit_clark2003_pin_50um_ref, back-mirror version cmp_lit_clark2003_apd_back_mirror_rx.'
+    why: 'p.2 Fig. 3 (render and native scan): both APD arrows end in filled triangular arrowheads on the dashed line through the square markers, as the arrows of Fig. 4;
+      the D156 ambiguity in the old notes does not hold. Notes updated for the added m9-m14 rows and the Fig. 1 1310 nm label'
+add_metrics:
+- metric_id: cmp_lit_clark2003_apd_20um-m9
+  component_id: cmp_lit_clark2003_apd_20um
+  parameter: excess_noise_factor
+  value: '2.8'
+  unit: '1'
+  qualifier: approx
+  wavelength_nm: '1300'
+  temperature_k: '298.15'
+  condition: gain M = 5; noise versus gain measurement of the APD (Fig. 3 square markers)
+  basis: extracted_from_figure
+  locator: p.2 Fig. 3
+  notes: 'Read off the scanned Fig. 3 (axes calibrated on the plot frame: F 0-25, M 0-40; marker centre M 5.0, F 2.80, +/-0.2). The APD series is the square markers on
+    the dashed line; the filled triangles are the arrowheads of the APD label. Bias of the noise measurement not printed.'
+  why: 'miss: p.2 Fig. 3 APD excess noise factor; series identity is clear (arrowheads, not markers)'
+- metric_id: cmp_lit_clark2003_apd_20um-m10
+  component_id: cmp_lit_clark2003_apd_20um
+  parameter: excess_noise_factor
+  value: '4.4'
+  unit: '1'
+  qualifier: approx
+  wavelength_nm: '1300'
+  temperature_k: '298.15'
+  condition: gain M = 10; noise versus gain measurement of the APD (Fig. 3 square markers)
+  basis: extracted_from_figure
+  locator: p.2 Fig. 3
+  notes: 'Read off the scanned Fig. 3 (calibration as m9; marker centre M 9.9, F 4.40, +/-0.2). The paper states k_eff = 0.31 at M = 10 from these data (p.2); McIntyre
+    F(10, 0.31) = 4.41. Bias not printed.'
+  why: 'miss: p.2 Fig. 3 APD excess noise factor'
+- metric_id: cmp_lit_clark2003_apd_20um-m11
+  component_id: cmp_lit_clark2003_apd_20um
+  parameter: excess_noise_factor
+  value: '8.0'
+  unit: '1'
+  qualifier: approx
+  wavelength_nm: '1300'
+  temperature_k: '298.15'
+  condition: gain M = 20; noise versus gain measurement of the APD (Fig. 3 square markers)
+  basis: extracted_from_figure
+  locator: p.2 Fig. 3
+  notes: Read off the scanned Fig. 3 (calibration as m9; marker centre M 20.1, F 7.98, +/-0.2). Bias not printed.
+  why: 'miss: p.2 Fig. 3 APD excess noise factor'
+- metric_id: cmp_lit_clark2003_apd_20um-m12
+  component_id: cmp_lit_clark2003_apd_20um
+  parameter: excess_noise_factor
+  value: '11.7'
+  unit: '1'
+  qualifier: approx
+  wavelength_nm: '1300'
+  temperature_k: '298.15'
+  condition: gain M = 30; noise versus gain measurement of the APD (Fig. 3 square markers)
+  basis: extracted_from_figure
+  locator: p.2 Fig. 3
+  notes: Read off the scanned Fig. 3 (calibration as m9; marker centre M 30.0, F 11.72, +/-0.2). Bias not printed.
+  why: 'miss: p.2 Fig. 3 APD excess noise factor'
+- metric_id: cmp_lit_clark2003_apd_20um-m13
+  component_id: cmp_lit_clark2003_apd_20um
+  parameter: excess_noise_factor
+  value: '16.1'
+  unit: '1'
+  qualifier: approx
+  wavelength_nm: '1300'
+  temperature_k: '298.15'
+  condition: gain M = 40; noise versus gain measurement of the APD (Fig. 3 square markers)
+  basis: extracted_from_figure
+  locator: p.2 Fig. 3
+  notes: Read off the scanned Fig. 3 (calibration as m9; the marker sits on the right frame at M = 40, centre F 16.05, +/-0.2). Bias not printed.
+  why: 'miss: p.2 Fig. 3 APD excess noise factor'
+- metric_id: cmp_lit_clark2003_apd_20um-m14
+  component_id: cmp_lit_clark2003_apd_20um
+  parameter: dark_current_na
+  value: '5'
+  unit: nA
+  qualifier: lt
+  temperature_k: '298.15'
+  bias_v: '-25.4'
+  condition: total dark current at gain M = 10 (M = Iph / 0.7 uA, i.e. APD photocurrent 7 uA)
+  method: direct
+  basis: measured
+  locator: p.2 Sec. III; p.2 Fig. 2
+  notes: 'Printed ''At a gain of 10 the APD dark current was less than 5 nA''. Bias for M = 10 is not printed: bias_v read off Fig. 2 (scanned; log axis calibrated on the
+    decade gridlines, bias on the 0 / 30 V frame): the APD photocurrent markers bracket 7 uA at 24.9 V (5.6 uA, M 8.1) and 26.0 V (8.8 uA, M 12.6), log-interpolated
+    about 25.4 V (+/-0.3 V); the dark-current markers there read about 1.3-1.8 nA. Reverse bias printed as positive; stored negative (rouvie2008 precedent, D671).'
+  why: 'miss: p.2 Sec. III dark current at M = 10, a primary APD figure; the bias is a clean read on Fig. 2 (rouvie2008 M = 10 precedent, D671)'
+- metric_id: cmp_lit_kang2019_pin_ps_wi1-m2
+  component_id: cmp_lit_kang2019_pin_ps_wi1
+  parameter: p_pi_mw
+  value: '0.83'
+  unit: mW
+  qualifier: approx
+  wavelength_nm: '1550'
+  wavelength_inferred: 'true'
+  polarization: te
+  condition: Lumerical DEVICE + MODE, uniform 5e20 cm-3 doping; heating effect not included
+  basis: simulated
+  locator: p.2 Fig. 2(a)
+  notes: 'Read off Fig. 2(a) at Wi = 1 um (axis calibrated on the 1.0-2.5 mW/pi gridlines; +/-0.02 mW/pi). Simulation wavelength not printed, OPA designed for 1550 nm
+    (p.2). Same simulation as cmp_lit_kang2019_pin_ps_wi2p5-m2.'
+  why: 'miss: p.2 Fig. 2(a) simulated P_pi for the Wi = 1 um sibling, same treatment as the 2.5 um row'
+- metric_id: cmp_lit_kang2019_pin_ps_wi2-m2
+  component_id: cmp_lit_kang2019_pin_ps_wi2
+  parameter: p_pi_mw
+  value: '1.31'
+  unit: mW
+  qualifier: approx
+  wavelength_nm: '1550'
+  wavelength_inferred: 'true'
+  polarization: te
+  condition: Lumerical DEVICE + MODE, uniform 5e20 cm-3 doping; heating effect not included
+  basis: simulated
+  locator: p.2 Fig. 2(a)
+  notes: 'Read off Fig. 2(a) at Wi = 2 um (calibration as wi1-m2; +/-0.02 mW/pi). Simulation wavelength not printed, OPA designed for 1550 nm (p.2).'
+  why: 'miss: p.2 Fig. 2(a) simulated P_pi for the Wi = 2 um sibling'
+- metric_id: cmp_lit_kang2019_pin_ps_wi3-m2
+  component_id: cmp_lit_kang2019_pin_ps_wi3
+  parameter: p_pi_mw
+  value: '1.98'
+  unit: mW
+  qualifier: approx
+  wavelength_nm: '1550'
+  wavelength_inferred: 'true'
+  polarization: te
+  condition: Lumerical DEVICE + MODE, uniform 5e20 cm-3 doping; heating effect not included
+  basis: simulated
+  locator: p.2 Fig. 2(a)
+  notes: 'Read off Fig. 2(a) at Wi = 3 um (calibration as wi1-m2; +/-0.02 mW/pi). Simulation wavelength not printed, OPA designed for 1550 nm (p.2).'
+  why: 'miss: p.2 Fig. 2(a) simulated P_pi for the Wi = 3 um sibling'
+- metric_id: cmp_lit_kang2019_pin_ps_wi4-m2
+  component_id: cmp_lit_kang2019_pin_ps_wi4
+  parameter: p_pi_mw
+  value: '2.47'
+  unit: mW
+  qualifier: approx
+  wavelength_nm: '1550'
+  wavelength_inferred: 'true'
+  polarization: te
+  condition: Lumerical DEVICE + MODE, uniform 5e20 cm-3 doping; heating effect not included
+  basis: simulated
+  locator: p.2 Fig. 2(a)
+  notes: 'Read off Fig. 2(a) at Wi = 4 um (calibration as wi1-m2; +/-0.02 mW/pi). Simulation wavelength not printed, OPA designed for 1550 nm (p.2).'
+  why: 'miss: p.2 Fig. 2(a) simulated P_pi for the Wi = 4 um sibling'
+- metric_id: cmp_lit_kang2019_pin_ps_wi5-m2
+  component_id: cmp_lit_kang2019_pin_ps_wi5
+  parameter: p_pi_mw
+  value: '2.72'
+  unit: mW
+  qualifier: approx
+  wavelength_nm: '1550'
+  wavelength_inferred: 'true'
+  polarization: te
+  condition: Lumerical DEVICE + MODE, uniform 5e20 cm-3 doping; heating effect not included
+  basis: simulated
+  locator: p.2 Fig. 2(a)
+  notes: 'Read off Fig. 2(a) at Wi = 5 um (calibration as wi1-m2; +/-0.02 mW/pi). Simulation wavelength not printed, OPA designed for 1550 nm (p.2).'
+  why: 'miss: p.2 Fig. 2(a) simulated P_pi for the Wi = 5 um sibling'
+- metric_id: cmp_lit_joshi2008_ddr_pin_30um-m10
+  component_id: cmp_lit_joshi2008_ddr_pin_30um
+  parameter: dark_current_na
+  value: '200'
+  unit: nA
+  qualifier: approx
+  temperature_k: '300'
+  bias_v: '-3'
+  condition: dark current vs bias (Fig. 3 markers)
+  method: direct
+  basis: extracted_from_figure
+  locator: p.2 Fig. 3
+  notes: 'Read off Fig. 3 at the 3 V marker (linear uA axis; +/-0.05 uA); stored in nA. The 0 V marker (about 0.1 uA) is not entered.'
+  why: 'miss: p.2 Fig. 3 marker below the entered 5 V point'
+- metric_id: cmp_lit_joshi2008_ddr_pin_30um-m11
+  component_id: cmp_lit_joshi2008_ddr_pin_30um
+  parameter: dark_current_na
+  value: '700'
+  unit: nA
+  qualifier: approx
+  temperature_k: '300'
+  bias_v: '-8'
+  condition: dark current vs bias (Fig. 3 markers)
+  method: direct
+  basis: extracted_from_figure
+  locator: p.2 Fig. 3
+  notes: Read off Fig. 3 at the 8 V marker (linear uA axis; +/-0.05 uA); stored in nA.
+  why: 'miss: p.2 Fig. 3 marker between the entered 5 V and 10 V points'

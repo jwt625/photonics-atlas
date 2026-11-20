@@ -13,21 +13,22 @@ The daily run is pre-approved end to end. Do not ask about any of these; asking 
 | Open routes (arXiv, OA publisher) | Launch at once |
 | IEEE browser | Launch at once with `--wait-login`; tell the owner in one line that the window is open for sign-in. Do not ask |
 | Optica browser | Launch at once with `$SK/scripts/optica_runner.py <day>` (OE / Optica / OME DOIs only; probe 3, 11, 15 min pause, rest; stops and arms the breaker at the first non-ok row) |
+| Leftover breaker (Optica / IEEE) | Never ask (owner 2026-11-20). A breaker left from an earlier day: move it to `logs/lit_browser_blocked_<site>_cleared_<date>.json` and launch the route; the runner's 3-paper probe is the test. Skip the route for the day only if the probe stops again, and report it |
 | Publisher browser | Not run (day 202 pattern). Leave the rows queued and list them in the final report |
 | Fetch dry runs | None. The fetchers run directly (owner question 2026-11-15) |
 | Ingestion start | Only after every launched caching route has finished (owner 2026-11-16: "why are you ingesting before the caching is done?") |
 | Audit patches | Accept as the auditor recommends, record the ruling as a decision, merge. Items that change rows already merged go to the final report's owner list; never block the run on them |
 | Commit and push | When everything is merged and checked, commit to `main` and push without asking (owner 2026-11-16 and 2026-11-17) |
 
-Ask only on a real blocker: a breaker armed on IEEE or Optica, IEEE sign-in not done after 30 min, failing checks you
-cannot fix, or anything that would delete or overwrite owner data.
+Ask only on a real blocker: IEEE sign-in not done after 30 min, failing checks you cannot fix, or anything that would
+delete or overwrite owner data. A breaker is not a blocker: clear it, re-probe, skip only if the failure repeats.
 
 ## 1. Day number and queue
 
 - Day N = the last `Bench day N` commit + 1 (`git log --oneline -5`). Queue rows: `data/_staging/literature/retrieval_queue.csv`
   with `day == N`; route counts by `route` (arxiv, oa_publisher, ieee_browser, optica_browser, publisher_browser).
 - Breakers: `logs/.lit_blocked_<host>.json` and `logs/.lit_browser_blocked_*.json` (`until` epoch; expired ones are
-  ignored by the fetchers). An `optica` browser breaker that has not expired stops the Optica route: report it.
+  ignored by the fetchers). An `optica` / `ieee` browser breaker left from an earlier day is cleared and re-probed (table above), never asked about.
 
 ## 2. Caching (all three launched in the first minutes; separate tmux sessions)
 

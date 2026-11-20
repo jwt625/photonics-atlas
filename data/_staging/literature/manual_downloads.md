@@ -1,8 +1,8 @@
 # Manual downloads (DevLog-006 S7)
 
-Generated 2026-11-18 by `scripts/lit_manual_list.py` from `retrieval_queue.csv` and `logs/lit_fetch_status.jsonl`; papers already cached are left out. Save each PDF as `references/_inbox/<save_as>` (supplement: `<paper_id>_supplement.pdf`), then run `uv run python scripts/lit_ingest_inbox.py`.
+Generated 2026-11-20 by `scripts/lit_manual_list.py` from `retrieval_queue.csv` and `logs/lit_fetch_status.jsonl`; papers already cached are left out. Save each PDF as `references/_inbox/<save_as>` (supplement: `<paper_id>_supplement.pdf`), then run `uv run python scripts/lit_ingest_inbox.py`.
 
-Total: 195
+Total: 196
 
 | # | day | class | save_as | year | venue | title | doi | reason |
 |---|---|---|---|---|---|---|---|---|
@@ -195,9 +195,10 @@ Total: 195
 | 187 | 204 | waveguide_platform | zhang2024e.pdf | 2024 | Advanced Photonics Nexus | Hybrid silicon-barium-titanate tunable racetrack resonators based on chemical solution deposition | 10.1117/1.apn.3.6.066005 | oa_publisher: blocked on 2026-11-19 |
 | 188 | 205 | laser | cuyvers2021.pdf | 2021 | Laser & Photonics Review | Low Noise Heterogeneous III‐V‐on‐Silicon‐Nitride Mode‐Locked Comb Laser | 10.1002/lpor.202000485 | Wiley blocks the browser (D147) |
 | 189 | 205 | laser | wan2020.pdf | 2020 | Laser & Photonics Review | Quantum Dot Lasers: 1.3 µm Quantum Dot‐Distributed Feedback Lasers Directly Grown on (001) Si (Laser Photonics Rev. 14(7)/2020) | 10.1002/lpor.202070042 | Wiley blocks the browser (D147) |
-| 190 | 205 | mode_converter | yuan2025.pdf | 2025 | Laser & Photonics Review | Multichannel Parallel Mode Order Converter for On‐Chip Reconfigurable PDM‐MDM Transmission | 10.1002/lpor.202401689 | Wiley blocks the browser (D147) |
-| 191 | 205 | resonator | tang2023.pdf | 2023 | Laser & Photonics Review | High‐Resolution 2D Quasi‐Distributed Optical Sensing with On‐Chip Multiplexed FSR‐Free Nanobeam Cavity Array | 10.1002/lpor.202300828 | Wiley blocks the browser (D147) |
-| 192 | 205 | splitter | kim2022.pdf | 2022 | Nanophotonics | Experimental demonstration of inverse‐designed silicon integrated photonic power splitters | 10.1515/nanoph-2022-0443 | De Gruyter blocks the browser (D147) |
-| 193 | 205 | waveguide_platform | ginelmoreno2022.pdf | 2022 | Laser & Photonics Review | On‐Chip Metamaterial Antenna Array with Distributed Bragg Deflector for Generation of Collimated Steerable Beams | 10.1002/lpor.202200164 | Wiley blocks the browser (D147) |
-| 194 | 206 | fiber_chip_coupler | chen2024d.pdf | 2024 | APL Photonics | High-performance and fabrication-tolerant edge coupler on thin film lithium niobate based on a three-dimensional inverse taper | 10.1063/5.0224269 | AIP blocks the browser (D147) |
-| 195 | 206 | fiber_chip_coupler | liu2010b.pdf | 2010 | Applied Physics Letters | High-efficiency, large-bandwidth silicon-on-insulator grating coupler based on a fully-etched photonic crystal structure | 10.1063/1.3304791 | AIP blocks the browser (D147) |
+| 190 | 205 | laser | westbergh2009.pdf | 2009 | Electronics Letters | 32 Gbit/s multimode fibre transmission using high-speed, low current density 850 nm VCSEL | 10.1049/el.2009.0201 | ieee_search: no_ieee_copy on 2026-11-20 |
+| 191 | 205 | mode_converter | yuan2025.pdf | 2025 | Laser & Photonics Review | Multichannel Parallel Mode Order Converter for On‐Chip Reconfigurable PDM‐MDM Transmission | 10.1002/lpor.202401689 | Wiley blocks the browser (D147) |
+| 192 | 205 | resonator | tang2023.pdf | 2023 | Laser & Photonics Review | High‐Resolution 2D Quasi‐Distributed Optical Sensing with On‐Chip Multiplexed FSR‐Free Nanobeam Cavity Array | 10.1002/lpor.202300828 | Wiley blocks the browser (D147) |
+| 193 | 205 | splitter | kim2022.pdf | 2022 | Nanophotonics | Experimental demonstration of inverse‐designed silicon integrated photonic power splitters | 10.1515/nanoph-2022-0443 | De Gruyter blocks the browser (D147) |
+| 194 | 205 | waveguide_platform | ginelmoreno2022.pdf | 2022 | Laser & Photonics Review | On‐Chip Metamaterial Antenna Array with Distributed Bragg Deflector for Generation of Collimated Steerable Beams | 10.1002/lpor.202200164 | Wiley blocks the browser (D147) |
+| 195 | 206 | fiber_chip_coupler | chen2024d.pdf | 2024 | APL Photonics | High-performance and fabrication-tolerant edge coupler on thin film lithium niobate based on a three-dimensional inverse taper | 10.1063/5.0224269 | AIP blocks the browser (D147) |
+| 196 | 206 | fiber_chip_coupler | liu2010b.pdf | 2010 | Applied Physics Letters | High-efficiency, large-bandwidth silicon-on-insulator grating coupler based on a fully-etched photonic crystal structure | 10.1063/1.3304791 | AIP blocks the browser (D147) |

@@ -1,0 +1,239 @@
+# Audit patch lit_223 (fresh-context audit 2026-11-20, DevLog/audits/2026-11-20-lit_223-audit.md).
+# 101 metrics: 90 ok / 11 imprecise / 0 wrong; 19 components: 13 ok / 6 imprecise (notes, core_material) / 0 wrong.
+# Misses added: chen2015a bi-directional AWG element row (AWG-only estimate and AWG design geometry moved onto it, AWG-part
+# footprint and N = 9 added), PR cut-corner We / He, grating-coupler etch depth; kashyap1993 filter 1 nm band-pass width.
+# After the patch: 20 components, 111 metrics.
+components:
+  cmp_lit_chen2015a_hybrid_demux_awg:
+    notes: "Whole structure measured in Fig. 9: polarization beam combiner (PBC, added in front to launch TE and TM through two grating couplers, Fig. 8), PBS, PR and the bi-directional AWG; the TE group exits on one side, the TM group (rotated to TE) on the other (p.4, p.9). Spectra normalized by a straight waveguide with grating couplers on the same chip. Element rows: cmp_lit_chen2015a_bidir_awg (the 10 x 10 bi-directional AWG part: design geometry, AWG-part footprint, AWG-only 5~6 dB estimate), cmp_lit_chen2015a_pbs_bent_dc, cmp_lit_chen2015a_pr_cut_corner (same designs as test structures), grating couplers and waveguide cmp_lit_chen2015a_gc_te / _gc_tm / _si_nanowire. Fig. 9 places the central channel #6 at about 1548 nm while the conclusion prints '~1545nm' (p.10; D417 note on the 7 dB row). Not entered: polarization-diversity-circuit excess loss 1~2 dB (p.9-10, restates the PBS / PR test results); TM-group excess loss < 1 dB at 1530-1550 nm and 1~2 dB at 1550-1560 nm attributed to the PR (p.9); polarization-dependent wavelength 'nearly zero' (no value). Fab empty: fabrication is described in passive voice (p.5 Sec. 3: the process 'was started from a 220nm-thick SOI wafer', e-beam lithography with MA-N2403 and ICP etching, a second shallow etch for the grating couplers), no org named; all four authors at Zhejiang University (D80b). No facility acknowledged (funding only, p.10)."
+    why: "rule 9: the AWG-only estimate and the AWG design geometry move to the new element row cmp_lit_chen2015a_bidir_awg; p.10 Fig. 9 render: peak #6 at about 1548 nm (axis 1530-1560 nm), #5 at about 1545 nm"
+  cmp_lit_chen2015a_pr_cut_corner:
+    notes: "Pure polarization rotator (D404: polarization.psr). Test circuit: TM grating coupler, PR, then a bent-coupler PBS with a TE grating coupler at the through port and a TM grating coupler at the cross port (Fig. 4); Fig. 7 normalized by the transmission of a PBS with grating couplers (p.8). Same design as the PR in cmp_lit_chen2015a_hybrid_demux_awg. Dimensions chosen following the experimental results of ref. [26] (other authors; p.5). Cut corner: the Fig. 3 inset dimensions He from the top surface down to the floor of the cut and We as the cut width (p.5), and the text says the shallow-etched part has the grating-coupler etch depth: He = 70 nm entered as etch_depth_nm, We = 50 nm as width_nm. Not entered: TM-to-TE conversion efficiency about 85 % and residual TM about -8 dB relative to the input TM (p.8, p.10; no polarization-conversion-efficiency parameter, registry gap; the residual is referenced to the input power, not an output-port ratio, D424); 10 um linear width taper (no taper_length_um on polarization). Performance attributed to the control of the about 50 nm feature in an aligned second step (p.8). Fab empty: fabrication is described in passive voice (p.5 Sec. 3: the process 'was started from a 220nm-thick SOI wafer', e-beam lithography with MA-N2403 and ICP etching, a second shallow etch for the grating couplers), no org named; all four authors at Zhejiang University (D80b). No facility acknowledged (funding only, p.10)."
+    why: "p.5 Fig. 3 inset: He is drawn from the top surface to the floor of the cut corner, so it is the etch depth (the notes said its role was not stated); We / He now entered as rows"
+  cmp_lit_chen2015a_gc_te:
+    core_material: "Si 220 nm (SOI wafer), shallow-etched grating (second etch step, 70 nm: same depth as the PR cut corner He)"
+    notes: "Polarization-dependent grating couplers used at the inputs / outputs of every test structure and of the hybrid demux (p.5-6). Etch depth 70 nm from p.5: the PR's shallow-etched corner (He = 70 nm) 'has the same etch depth with the grating coupler'. Not entered: polarization extinction ratio 'more than 20dB' (cited to ref. [28], rule 3); peak wavelength and period not printed. Reproducibility on the same chip is referred to the authors' ref. [27]. Fab empty: fabrication is described in passive voice (p.5 Sec. 3: the process 'was started from a 220nm-thick SOI wafer', e-beam lithography with MA-N2403 and ICP etching, a second shallow etch for the grating couplers), no org named; all four authors at Zhejiang University (D80b). No facility acknowledged (funding only, p.10)."
+    why: "p.5 Sec. 2: the shallow-etched PR corner has the grating-coupler etch depth and He = 70 nm; notes said the GC etch depth was not printed"
+  cmp_lit_chen2015a_gc_tm:
+    core_material: "Si 220 nm (SOI wafer), shallow-etched grating (second etch step, 70 nm: same depth as the PR cut corner He)"
+    notes: "Polarization-dependent grating couplers used at the inputs / outputs of every test structure and of the hybrid demux (p.5-6). Etch depth 70 nm from p.5: the PR's shallow-etched corner (He = 70 nm) 'has the same etch depth with the grating coupler'. Not entered: polarization extinction ratio 'more than 20dB' (cited to ref. [28], rule 3); peak wavelength and period not printed. Reproducibility on the same chip is referred to the authors' ref. [27]. Fab empty: fabrication is described in passive voice (p.5 Sec. 3: the process 'was started from a 220nm-thick SOI wafer', e-beam lithography with MA-N2403 and ICP etching, a second shallow etch for the grating couplers), no org named; all four authors at Zhejiang University (D80b). No facility acknowledged (funding only, p.10)."
+    why: "p.5 Sec. 2: the shallow-etched PR corner has the grating-coupler etch depth and He = 70 nm; notes said the GC etch depth was not printed"
+  cmp_lit_kashyap1993_mzi_bragg_bandpass:
+    notes: "Several balanced MZIs with different coupler lengths on one substrate; the one with two identical 50-50 couplers at 1555 nm was selected (p.2). Gratings written by two-beam 244 nm UV interference into each arm close to one coupler (arms 10 mm long); one arm then re-exposed after the input coupler (2.4 s in total) to move the bandpass from Port 1 to the looped-through Port 2 (laser trimming, p.3, Fig. 2). Table I values are % of the power in the butt-coupling fiber at Port 1 (input coupling loss not removed; brackets: relative to the total power at Ports 3 and 4). ELED source around 1550 nm, OSA. Grating row cmp_lit_kashyap1993_uv_bragg_gratings (D396): the grating reflections read from the Port 3 dip (95.5 % before, 96.8 % after trimming) are on that row, the 13.5 dB rejection form here; the conclusion's '96% rejection within a band-stop of 1 nm' (p.3) is the same after-trimming measurement. Not entered: Port 1 bandpass reflection 54.3 % -> 9.8 % [64.7 -> 13.3] and Port 4 bandpass-through 4.8 % -> 2.6 %, Port 4 bandstop minimum 0.13 / 0.08 % (Table I; no parameter for unwanted-port levels); about 5 dB / more than 2 dB Port 1 reflection changes during trimming (Fig. 2); UV-induced index change about 4.4e-4 (estimate, p.3). The abstract text layer prints '135 dB' for the 1.35 dB loss (decimal point lost; body and Table I note print 1.35 dB). Page 1 of the cached text opens with the end of the preceding paper in the issue. Fab empty: the waveguides 'were manufactured using the flame hydrolysis technique' and the gratings 'were written' (p.2 Sec. II, passive); the acknowledgment thanks a named person for fabrication of the planar guides without naming an org (p.3; D84b needs the org); all three authors at BT Laboratories (p.1; the registry has org_bt_research and org_bt_group, no 'BT Laboratories' alias; only relevant if fab is set)."
+    why: "96.8 % row moved to the grating row (pairing as for the before-trimming 95.5 % / 13.5 dB); data/registry/organizations.csv has org_bt_research (BT Research), so 'not in the registry' was inaccurate"
+  cmp_lit_kashyap1993_uv_bragg_gratings:
+    notes: "Gratings of the four-port filter cmp_lit_kashyap1993_mzi_bragg_bandpass (D396: same physical gratings, reflector function). The paper takes the grating reflections from the extinction at Ports 3 and 4 (p.2): 95.5 % immediately after writing, 96.8 % after laser trimming (abstract 'reflection at the output port'; conclusion '96% rejection'). Grating length printed as 2 mm in the abstract (p.1) but 'around 3 mm' as typical lengths in Sec. II (p.2); the trimming exposure covered a 2 mm region (p.3): conflict noted (D417). Writing: two interfering 244 nm beams (over 100 mW) from an intracavity frequency-doubled argon-ion laser, cylindrical focusing. Fab empty: the waveguides 'were manufactured using the flame hydrolysis technique' and the gratings 'were written' (p.2 Sec. II, passive); the acknowledgment thanks a named person for fabrication of the planar guides without naming an org (p.3; D84b needs the org); all three authors at BT Laboratories (p.1; the registry has org_bt_research and org_bt_group, no 'BT Laboratories' alias; only relevant if fab is set)."
+    why: "after-trimming 96.8 % added on this row (m5); BT org note corrected (org_bt_research exists)"
+metrics:
+  cmp_lit_chen2015a_hybrid_demux_awg-m1:
+    notes: "Printed 'about 7dB for both polarizations' (also abstract, conclusion); wavelength '~1545nm' from the conclusion. Fig. 9 places channel #6 at about 1548 nm (#5 at about 1545 nm; reading +/- 0.5 nm), conflict noted (D417), printed wavelength kept."
+    why: "p.10 Fig. 9 render: x axis 1530-1560 nm, peak #6 at about 1548 nm; the row cites Fig. 9 without the conflict"
+  cmp_lit_chen2015a_pr_cut_corner-m1:
+    notes: "Printed 'insertion loss less than 1dB from TM mode to TE mode' for 1530-1550 nm (p.8). Fig. 7 TM-to-TE trace reads about -0.5 dB at 1530 nm, crosses -1 dB near 1547 nm and reads about -1.2 dB at 1550 nm (reading +/- 0.2 dB): the bound holds over most of the stated range, conflict at the long end noted (D417)."
+    why: "p.8 Fig. 7 render: the printed < 1 dB bound is exceeded near 1550 nm; note added, printed bound kept"
+  cmp_lit_suzuki2017_tin_heater-m1:
+    condition: "electric power to switch from the bar state to the cross state (pi phase shift), as printed in the double-MZ element section; for the asymmetric MZ switch the bar state is unheated and the cross state needs the pi shift"
+    notes: "Printed '≈40 mW' (p.4-5). Fig. 4 maps the element cross state to both MZ switches in bar (unheated) and the element bar state to both in cross, so a bar-to-cross pi shift is an MZ-switch (single-heater) transition; the p.4 budget 2 x 8 x 40 mW = 0.64 W is consistent with 40 mW per MZ switch (factors not explained in the text; suzuki2020 uses the same 2 x 8 x P_pi form). Wavelength not printed; C band inferred from the Fig. 4 band 1.53-1.57 um."
+    why: "p.3 Sec. 2 and p.5 Fig. 4: switching the double-MZ element from bar to cross means turning both heaters off, so the condition 'switch the double-MZ element from bar to cross' misread the sentence"
+  cmp_lit_kashyap1993_mzi_bragg_bandpass-m9:
+    basis: derived
+    notes: "Printed 1.5558 um only (p.1-3, Table I, Fig. 2); stored in nm (D157 / D256)."
+    why: "D256: unit conversion with no nm form printed for this quantity is derived"
+delete_metrics:
+  - id: cmp_lit_chen2015a_hybrid_demux_awg-m2
+    why: "moved to cmp_lit_chen2015a_bidir_awg-m1: the 5~6 dB is the AWG part only (p.9), a different physical scope from the whole-structure row"
+  - id: cmp_lit_chen2015a_hybrid_demux_awg-m10
+    why: "AWG design geometry moved to cmp_lit_chen2015a_bidir_awg (p.4 Sec. 2)"
+  - id: cmp_lit_chen2015a_hybrid_demux_awg-m11
+    why: "AWG design geometry moved to cmp_lit_chen2015a_bidir_awg (p.4 Sec. 2)"
+  - id: cmp_lit_chen2015a_hybrid_demux_awg-m12
+    why: "AWG design geometry moved to cmp_lit_chen2015a_bidir_awg (p.4 Sec. 2)"
+  - id: cmp_lit_chen2015a_hybrid_demux_awg-m13
+    why: "AWG design geometry moved to cmp_lit_chen2015a_bidir_awg (p.4 Sec. 2)"
+  - id: cmp_lit_chen2015a_hybrid_demux_awg-m14
+    why: "AWG design geometry moved to cmp_lit_chen2015a_bidir_awg (p.4 Sec. 2)"
+  - id: cmp_lit_kashyap1993_mzi_bragg_bandpass-m7
+    why: "moved to cmp_lit_kashyap1993_uv_bragg_gratings-m5: the abstract's 96.8 % 'reflection at the output port' is the grating reflection read from the Port 3 dip, the same quantity as the before-trimming 95.5 % already on the grating row"
+add_components:
+  - component_id: cmp_lit_chen2015a_bidir_awg
+    source_id: lit:chen2015a
+    class: wdm.awg
+    label: "10 x 10 bi-directional AWG part of the PDM-WDM hybrid (de)multiplexer (9 wavelengths, 3.2 nm / 400 GHz), SOI nanowire"
+    row_kind: fabricated
+    platform: soi
+    core_material: "Si 220 nm (SOI wafer), single-mode nanowire 500 x 220 nm; e-beam lithography, ICP etch"
+    cladding: "PMMA 300 nm (protection layer)"
+    tags: awg;bidirectional;c_band
+    verified_on: "2026-11-20"
+    notes: "AWG part of cmp_lit_chen2015a_hybrid_demux_awg (element row, rule 9): (N + 1) x (N + 1) = 10 x 10 bi-directional AWG, N = 9; on each side the inner-edge access waveguide is the input and the other nine are outputs; the TE group enters from one side and the PR-rotated TM group from the other (p.3-4, Fig. 1). Not measured on its own: its only performance value is the 5~6 dB excess-loss estimate the authors separate from the whole-structure measurement (p.9). The design channel spacing 3.2 nm / 400 GHz and the 18-channel count are on the hybrid row. Not entered: FSR printed 'about 29μm' (p.4; the context FSR > N x 3.2 nm implies nm, unit misprint, value left out); number of arrayed waveguides not stated. Fab empty: fabrication is described in passive voice (p.5 Sec. 3: the process 'was started from a 220nm-thick SOI wafer', e-beam lithography with MA-N2403 and ICP etching, a second shallow etch for the grating couplers), no org named; all four authors at Zhejiang University (D80b). No facility acknowledged (funding only, p.10)."
+    why: "rule 9: the bi-directional AWG is a separate physical design inside the hybrid with its own stated loss estimate (p.9), design geometry and footprint (p.4); one wdm.awg row should not carry two loss scopes"
+add_metrics:
+  - metric_id: cmp_lit_chen2015a_bidir_awg-m1
+    component_id: cmp_lit_chen2015a_bidir_awg
+    parameter: excess_loss_db
+    value: "5"
+    value_max: "6"
+    unit: dB
+    wavelength_nm: "1545"
+    scope: per_component
+    excludes: "polarization diversity circuit (PBC, PBS, PR) and grating couplers"
+    condition: "bi-directional AWG part only, central channel #6, estimated from the whole-structure measurement"
+    method: loss_breakdown
+    basis: author_estimate
+    locator: "p.9 Sec. 3"
+    notes: "Printed 'estimated to be about 5~6dB'; how the AWG share was separated from the about 7 dB total is not stated (origin not stated). Wavelength '~1545nm' as printed for the central channel (p.10)."
+    why: "moved from cmp_lit_chen2015a_hybrid_demux_awg-m2 (p.9)"
+  - metric_id: cmp_lit_chen2015a_bidir_awg-m2
+    component_id: cmp_lit_chen2015a_bidir_awg
+    parameter: diffraction_order
+    value: "30"
+    unit: count
+    basis: design_target
+    locator: "p.4 Sec. 2"
+    why: "moved from cmp_lit_chen2015a_hybrid_demux_awg-m10"
+  - metric_id: cmp_lit_chen2015a_bidir_awg-m3
+    component_id: cmp_lit_chen2015a_bidir_awg
+    parameter: arm_length_increment_um
+    value: "19.64"
+    unit: um
+    condition: "calculated as m lambda_c / n_eff"
+    basis: design_target
+    locator: "p.4 Sec. 2"
+    why: "moved from cmp_lit_chen2015a_hybrid_demux_awg-m11"
+  - metric_id: cmp_lit_chen2015a_bidir_awg-m4
+    component_id: cmp_lit_chen2015a_bidir_awg
+    parameter: fpr_length_um
+    value: "100"
+    unit: um
+    condition: "free-propagation region length Ra"
+    basis: design_target
+    locator: "p.4 Sec. 2"
+    why: "moved from cmp_lit_chen2015a_hybrid_demux_awg-m12"
+  - metric_id: cmp_lit_chen2015a_bidir_awg-m5
+    component_id: cmp_lit_chen2015a_bidir_awg
+    parameter: gap_nm
+    value: "300"
+    unit: nm
+    condition: "gap between adjacent arrayed waveguides at the FPR ends"
+    basis: design_target
+    locator: "p.4 Sec. 2"
+    why: "moved from cmp_lit_chen2015a_hybrid_demux_awg-m13"
+  - metric_id: cmp_lit_chen2015a_bidir_awg-m6
+    component_id: cmp_lit_chen2015a_bidir_awg
+    parameter: pitch_um
+    value: "3.69"
+    unit: um
+    qualifier: approx
+    condition: "end separation between the output waveguides"
+    basis: design_target
+    locator: "p.4 Sec. 2"
+    why: "moved from cmp_lit_chen2015a_hybrid_demux_awg-m14"
+  - metric_id: cmp_lit_chen2015a_bidir_awg-m7
+    component_id: cmp_lit_chen2015a_bidir_awg
+    parameter: n_channels
+    value: "9"
+    unit: count
+    condition: "wavelength channels N per input side of the 10 x 10 bi-directional AWG"
+    basis: design_target
+    locator: "p.4 Sec. 2; p.3 Sec. 1"
+    why: "D153 / awg layout template: N = 9 printed (p.4), not on any row"
+  - metric_id: cmp_lit_chen2015a_bidir_awg-m8
+    component_id: cmp_lit_chen2015a_bidir_awg
+    parameter: footprint_um2
+    value: "83600"
+    unit: um2
+    qualifier: approx
+    condition: "part including the arrayed waveguides and the two FPRs"
+    basis: derived
+    locator: "p.4 Sec. 2"
+    notes: "Printed 'about 440μm × 190μm' (product)."
+    why: "miss: AWG-part footprint printed on p.4, listed as not entered"
+  - metric_id: cmp_lit_chen2015a_bidir_awg-m9
+    component_id: cmp_lit_chen2015a_bidir_awg
+    parameter: width_nm
+    value: "500"
+    unit: nm
+    condition: "designed single-mode SOI nanowire (500 nm x 220 nm)"
+    basis: design_target
+    locator: "p.4 Sec. 2"
+    why: "D153 cross-section of the new AWG row (same nanowire as the hybrid row)"
+  - metric_id: cmp_lit_chen2015a_bidir_awg-m10
+    component_id: cmp_lit_chen2015a_bidir_awg
+    parameter: core_thickness_nm
+    value: "220"
+    unit: nm
+    basis: design_target
+    locator: "p.4 Sec. 2"
+    why: "D153 cross-section of the new AWG row"
+  - metric_id: cmp_lit_chen2015a_bidir_awg-m11
+    component_id: cmp_lit_chen2015a_bidir_awg
+    parameter: cladding_thickness_um
+    value: "0.3"
+    unit: um
+    condition: "PMMA protection layer"
+    basis: derived
+    locator: "p.5 Sec. 3"
+    notes: "Printed 300nm (unit conversion)."
+    why: "D153 cross-section of the new AWG row"
+  - metric_id: cmp_lit_chen2015a_pr_cut_corner-m8
+    component_id: cmp_lit_chen2015a_pr_cut_corner
+    parameter: width_nm
+    value: "50"
+    unit: nm
+    condition: "We, width of the cut corner in the rotation region"
+    basis: design_target
+    locator: "p.5 Sec. 2; p.5 Fig. 3 inset"
+    why: "D153 miss: We = 50 nm printed (p.5); width_nm covers a stated feature width"
+  - metric_id: cmp_lit_chen2015a_pr_cut_corner-m9
+    component_id: cmp_lit_chen2015a_pr_cut_corner
+    parameter: etch_depth_nm
+    value: "70"
+    unit: nm
+    condition: "He, depth of the shallow-etched cut corner (same etch as the grating couplers)"
+    basis: design_target
+    locator: "p.5 Sec. 2; p.5 Fig. 3 inset"
+    notes: "Fig. 3 inset dimensions He from the top surface down to the floor of the cut; the text says the shallow-etched part has the grating-coupler etch depth."
+    why: "D153 miss: He = 70 nm printed (p.5) and its role fixed by the Fig. 3 inset"
+  - metric_id: cmp_lit_chen2015a_gc_te-m3
+    component_id: cmp_lit_chen2015a_gc_te
+    parameter: etch_depth_nm
+    value: "70"
+    unit: nm
+    condition: "grating shallow etch"
+    basis: design_target
+    locator: "p.5 Sec. 2; p.5 Sec. 3"
+    notes: "Not printed for the grating directly: p.5 says the PR's shallow-etched part (He = 70 nm) has the same etch depth as the grating coupler."
+    why: "D153 miss: grating etch depth fixed by the p.5 same-etch-depth statement"
+  - metric_id: cmp_lit_chen2015a_gc_tm-m3
+    component_id: cmp_lit_chen2015a_gc_tm
+    parameter: etch_depth_nm
+    value: "70"
+    unit: nm
+    condition: "grating shallow etch"
+    basis: design_target
+    locator: "p.5 Sec. 2; p.5 Sec. 3"
+    notes: "Not printed for the grating directly: p.5 says the PR's shallow-etched part (He = 70 nm) has the same etch depth as the grating coupler."
+    why: "D153 miss: grating etch depth fixed by the p.5 same-etch-depth statement"
+  - metric_id: cmp_lit_kashyap1993_uv_bragg_gratings-m5
+    component_id: cmp_lit_kashyap1993_uv_bragg_gratings
+    parameter: reflectivity_pct
+    value: "96.8"
+    unit: "%"
+    wavelength_nm: "1555.8"
+    condition: "grating reflection from the Port 3 bandstop dip after laser trimming ('reflection at the output port', as printed)"
+    basis: measured
+    locator: "p.1 abstract; p.3 Sec. IV"
+    notes: "The conclusion prints '96% rejection within a band-stop of 1 nm' (p.3); Table I after trimming 2.2 % vs 70.7 % gives 96.9 %. Before trimming: m1 (95.5 %)."
+    why: "moved from cmp_lit_kashyap1993_mzi_bragg_bandpass-m7 (same quantity as the before-trimming m1)"
+  - metric_id: cmp_lit_kashyap1993_mzi_bragg_bandpass-m11
+    component_id: cmp_lit_kashyap1993_mzi_bragg_bandpass
+    parameter: bw_3db_nm
+    value: "1"
+    unit: nm
+    qualifier: approx
+    wavelength_nm: "1555.8"
+    condition: "looped-through Port 2 band-pass width after laser trimming; level not stated"
+    basis: measured
+    locator: "p.3 Sec. III; p.3 Sec. IV; p.1 abstract"
+    notes: "Printed 'approximately 1 nm, in good agreement with the calculation from the exposed lengths' for the band-stop / band-pass (p.3) and 'a looped through 1 nm band-pass' (p.3 Sec. IV); width level not stated: stored as bw_3db_nm under the unqualified-bandwidth convention (D675 xu2008, davis2020 / dumon2004; alternative bw_fwhm_nm). The same width is the stopband_width_nm row of cmp_lit_kashyap1993_uv_bragg_gratings."
+    why: "miss: the filter's 1 nm band-pass width is printed three times (p.1, p.3) and wdm takes unqualified widths as bw_3db_nm (D675)"

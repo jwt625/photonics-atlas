@@ -1,0 +1,37 @@
+# Audit patch lit_212 (fresh-context audit 2026-11-20, DevLog/audits/2026-11-20-lit_212-audit.md).
+# 60 metrics: 51 ok / 9 imprecise / 0 wrong; 16 components: 16 ok / 0 imprecise / 0 wrong. No misses added.
+# Fixes: ayan2023 Fig. 3(b) rows re-read on the PDF vector data (0.5 m / 1.7 W point -5.05 dB, others exact to 0.05 dB) with the
+# detuning provenance in notes; ayan2023 loss-range row polarization cleared (not stated with the value); lamont2008 gain-bandwidth
+# condition states what the 180 nm spans (signal tuning range plus the generated idlers) and that the gain level over it is simulated.
+# Coordinator questions (audit Q1-Q6): all distiller judgment calls kept (no op) except the notes / condition refinements above.
+metrics:
+  cmp_lit_ayan2023_sin_spiral_fwm_w2p5_l0p5m-m1:
+    value: '31.26'
+    notes: 'read off Fig. 3(b) (orange dot, 1.7 W); PDF vector marker centre -5.05 dB (y axis calibrated on the 5 dB tick lines, +/- 0.05 dB); 100 x 10^(-5.05/10) = 31.26 %; the 1.5 nm pump-signal detuning is stated for the Fig. 3(a) data set (p.6) and Fig. 3(b) plots the same length series at two pump powers (its caption does not restate the detuning); band inferred: pump wavelength not printed, Fig. 3(a) inset near 1536.5 nm, sources 1440-1660 nm'
+    why: 'p.6 Fig. 3(b) vector data: marker centre at -5.05 dB, not -5.0 dB (31.26 % vs 31.62 %); detuning provenance noted'
+  cmp_lit_ayan2023_sin_spiral_fwm_w2p5_l0p5m-m2:
+    notes: 'read off Fig. 3(b) (blue dot, 0.25 W); PDF vector marker centre -21.00 dB (+/- 0.05 dB); 100 x 10^(-21.0/10) = 0.794 %; detuning as for the 1.7 W point (stated for the Fig. 3(a) data set, p.6); band inferred as for the 1.7 W point'
+    why: 'p.6 Fig. 3(b) vector data confirm the value; reading uncertainty was given as +/- 0.3 dB; detuning provenance noted'
+  cmp_lit_ayan2023_sin_spiral_fwm_w2p5_l1m-m1:
+    notes: 'read off Fig. 3(b) (orange dot, 1.7 W); PDF vector marker centre -2.30 dB (y axis calibrated on the 5 dB tick lines, +/- 0.05 dB); 100 x 10^(-2.3/10) = 58.88 %; the 1.5 nm pump-signal detuning is stated for the Fig. 3(a) data set (p.6) and Fig. 3(b) plots the same length series at two pump powers; band inferred: pump wavelength not printed, Fig. 3(a) inset near 1536.5 nm, sources 1440-1660 nm'
+    why: 'p.6 Fig. 3(b) vector data confirm the value; reading uncertainty was given as +/- 0.3 dB; detuning provenance noted'
+  cmp_lit_ayan2023_sin_spiral_fwm_w2p5_l1m-m2:
+    notes: 'read off Fig. 3(b) (blue dot, 0.25 W); PDF vector marker centre -19.00 dB (+/- 0.05 dB); 100 x 10^(-19.0/10) = 1.259 %; detuning as for the 1.7 W point (stated for the Fig. 3(a) data set, p.6); band inferred as for the 1.7 W point'
+    why: 'p.6 Fig. 3(b) vector data confirm the value; reading uncertainty was given as +/- 0.3 dB; detuning provenance noted'
+  cmp_lit_ayan2023_sin_spiral_fwm_w2p5_l1p5m-m1:
+    notes: 'read off Fig. 3(b) (orange dot, 1.7 W); PDF vector marker centre +0.50 dB (y axis calibrated on the 5 dB tick lines, +/- 0.05 dB); 100 x 10^(0.5/10) = 112.2 %; the 1.5 nm pump-signal detuning is stated for the Fig. 3(a) data set (p.6) and Fig. 3(b) plots the same length series at two pump powers; band inferred: pump wavelength not printed, Fig. 3(a) inset near 1536.5 nm, sources 1440-1660 nm'
+    why: 'p.6 Fig. 3(b) vector data confirm the value; reading uncertainty was given as +/- 0.3 dB; detuning provenance noted'
+  cmp_lit_ayan2023_sin_spiral_fwm_w2p5_l1p5m-m2:
+    notes: 'read off Fig. 3(b) (blue dot, 0.25 W); PDF vector marker centre -17.00 dB (+/- 0.05 dB); 100 x 10^(-17.0/10) = 1.995 %; detuning as for the 1.7 W point (stated for the Fig. 3(a) data set, p.6); band inferred as for the 1.7 W point'
+    why: 'p.6 Fig. 3(b) vector data confirm the value; reading uncertainty was given as +/- 0.3 dB; detuning provenance noted'
+  cmp_lit_ayan2023_sin_spiral_fwm_w2p5_l2m-m2:
+    notes: 'read off Fig. 3(b) (blue dot, 0.25 W); PDF vector marker centre -14.00 dB (+/- 0.05 dB); 100 x 10^(-14.0/10) = 3.981 %; detuning as for the 1.7 W point (stated for the Fig. 3(a) data set, p.6); band inferred as for the 1.7 W point. The 1.7 W marker of this length sits at +3.00 dB, consistent with m1 (printed about 3 dB at 32 dBm)'
+    why: 'p.6 Fig. 3(b) vector data confirm the value and the m1 cross-check; reading uncertainty was given as +/- 0.3 dB'
+  cmp_lit_ayan2023_sin_damascene_spiral_loss-m1:
+    polarization: ''
+    notes: 'printed 2 to 4.7 dB/m; dB/m -> dB/cm (D82d); band inferred from the 1550 nm TE operation of the devices (wavelength not stated with the value); polarization not stated with the value (the devices are designed for TE operation, p.2, and all FWM sources are set to TE, p.3; the loss measurement itself is not described)'
+    why: 'p.4: the loss sentence states no polarization and no method; polarization has no inferred flag, so a TE entry reads as stated (rule 1)'
+  cmp_lit_lamont2008_as2s3_rib_opa_65mm-m3:
+    condition: 'criterion not printed: span of the recorded FWM output spectra with the CW signal tuned 1550-1630 nm, signal side plus the generated idlers (Fig. 5(a): idlers down to about 1445-1450 nm), i.e. two-sided around the pump; the gain level across the span is not measured (signal peak power not observable with the pulsed pump; gain values come from the NLSE simulation, Fig. 6(a)); pulsed pump 1530 nm (Fig. 5 caption; 1532 nm in Sec. 3), coupled peak 9.6 W'
+    notes: 'printed ''parametric gain bandwidth of 180 nm, spanning all of the C-band and most of the S- and L-bands'' (p.6), attributed to the recorded spectra of Fig. 5(a); introduction ''over 180 nm'' (p.3), conclusion 180 nm (p.8); Fig. 5 caption: simulations suggest over 180 nm. 1630 - 1450 nm = 180 nm matches the Fig. 5(a) span. Not a 3-dB width.'
+    why: 'p.6 Fig. 5(a) render: the 180 nm is the two-sided span of signal plus idler in the measured spectra; the condition did not say so or that the gain level is simulation-only'

@@ -1,0 +1,126 @@
+# Audit patch lit_217 (fresh-context audit 2026-11-20, DevLog/audits/2026-11-20-lit_217-audit.md).
+# 105 metrics: 92 ok / 8 imprecise / 5 wrong (the lit:tossoun2018a Sample A row: its Fig. 6 trace is lit:tossoun2018 Fig. 3 re-plotted, D259a);
+# 20 components: 12 ok / 7 imprecise (notes) / 1 wrong (deleted). Miss added: 1 metric (lit:tossoun2018 Fig. 5 300 K dark current of the 250 um PD).
+# After the patch: 19 components, 101 metrics. Coordinator questions in the audit (Q1-Q7); revert of the Fig. 5 add = drop the add_metrics op
+# and the ti_pd_d250 notes op.
+components:
+  cmp_lit_tossoun2018_wgpd_10x10:
+    notes: 'Evanescently coupled waveguide p-i-n PD (D152: InP-native waveguide PD -> photodetector.other). Fab empty: p.1-2 Sec. II uses passive ''were fabricated'' / ''was grown''
+      with no org named (D80b); authors at University of Virginia and University of New Mexico. No facility named. Same epitaxial design is ''Sample A'' of the authors'' later JLT paper
+      lit:tossoun2018a, which cites this letter for it and re-plots its Fig. 8 / Fig. 9 data (values kept here, the primary source). Fig. 3 trace (embedded image, axis calibrated on
+      the decade and 1 V ticks) reads about 100 nA at -2 V (marker centred on the 1E-7 line) and about 56 nA at -1 V: consistent with the printed ''< 100 nA at -2 V'' (no conflict).'
+    why: 'the stated D417 conflict is a misread: p.2 Fig. 3 (img_p02_3) 10 x 10 um marker at -2 V sits on the 1E-7 A gridline (about 100 nA), at -1 V about 56 nA'
+  cmp_lit_tossoun2018_wgpd_10x50:
+    notes: 'Evanescently coupled waveguide p-i-n PD (D152: InP-native waveguide PD -> photodetector.other). Fab empty: p.1-2 Sec. II uses passive ''were fabricated'' / ''was grown''
+      with no org named (D80b); authors at University of Virginia and University of New Mexico. No facility named. Same epitaxial design is ''Sample A'' of the authors'' later JLT paper
+      lit:tossoun2018a, which cites this letter for it and re-plots its Fig. 3 (10 x 50 um dark trace, as JLT Fig. 6 Sample A), Fig. 8 and Fig. 9 data (values kept here, the primary
+      source). Bandwidth device of Fig. 9; RC-limited bandwidth stated as 19 GHz (p.4; Cj / Rs not printed in this letter), not entered. Summary (p.4 Sec. IV) values ''100 nA dark current,
+      0.49 A/W internal responsivity'' name no device: 0.49 A/W not entered (D159).'
+    why: lit:tossoun2018a p.3 Fig. 6 Sample A trace equals p.2 Fig. 3 10 x 50 um trace (about 1.1e-7 / 2.7e-7 A at -1 / -3 V in both figures)
+  cmp_lit_tossoun2018a_sample_b_10x50:
+    notes: 'Light is fiber-coupled into the passive InGaAs waveguide core and coupled up into the MQW absorber (Fig. 2). D152: InP-native waveguide PD -> photodetector.other. Fab empty:
+      p.3 Sec. II-B describes the process passively with no org named; p.7 Conclusion ''we have designed and fabricated'' is first person but the authors sit at two unrelated institutions
+      (University of Virginia, University of New Mexico), so no unambiguous own org (rule 12, D80b, D154); acknowledgment thanks staff for clean-room assistance (no facility named, D72).
+      Authors at University of Virginia and University of New Mexico. p.5 states Rs = 33 ohm and Cj = 0.1 pF (RC-limited bandwidth about 19 GHz) ''for a 10 um x 50 um PD'' without naming
+      the sample: not entered (D159 / D254), in notes.'
+    why: p.7 Conclusion prints 'we have designed and fabricated photodiodes'; notes said only passive wording; fab stays empty (two institutions)
+  cmp_lit_tossoun2018a_sample_b_20x200:
+    notes: 'Light is fiber-coupled into the passive InGaAs waveguide core and coupled up into the MQW absorber (Fig. 2). D152: InP-native waveguide PD -> photodetector.other. Fab empty:
+      p.3 Sec. II-B describes the process passively with no org named; p.7 Conclusion ''we have designed and fabricated'' is first person but the authors sit at two unrelated institutions
+      (University of Virginia, University of New Mexico), so no unambiguous own org (rule 12, D80b, D154); acknowledgment thanks staff for clean-room assistance (no facility named, D72).
+      Authors at University of Virginia and University of New Mexico.'
+    why: p.7 Conclusion prints 'we have designed and fabricated photodiodes'; notes said only passive wording; fab stays empty (two institutions)
+  cmp_lit_tossoun2018a_sample_c_10x50:
+    notes: 'Light is fiber-coupled into the passive InGaAs waveguide core and coupled up into the MQW absorber (Fig. 2). D152: InP-native waveguide PD -> photodetector.other. Fab empty:
+      p.3 Sec. II-B describes the process passively with no org named; p.7 Conclusion ''we have designed and fabricated'' is first person but the authors sit at two unrelated institutions
+      (University of Virginia, University of New Mexico), so no unambiguous own org (rule 12, D80b, D154); acknowledgment thanks staff for clean-room assistance (no facility named, D72).
+      Authors at University of Virginia and University of New Mexico. p.5 states Rs = 33 ohm and Cj = 0.1 pF (RC-limited bandwidth about 19 GHz) ''for a 10 um x 50 um PD'' without naming
+      the sample: not entered (D159 / D254), in notes. 10 Gb/s eye diagrams at -8 V (Fig. 13) not entered (no registry parameter).'
+    why: p.7 Conclusion prints 'we have designed and fabricated photodiodes'; notes said only passive wording; fab stays empty (two institutions)
+  cmp_lit_tossoun2018a_sample_c_20x200:
+    notes: 'Light is fiber-coupled into the passive InGaAs waveguide core and coupled up into the MQW absorber (Fig. 2). D152: InP-native waveguide PD -> photodetector.other. Fab empty:
+      p.3 Sec. II-B describes the process passively with no org named; p.7 Conclusion ''we have designed and fabricated'' is first person but the authors sit at two unrelated institutions
+      (University of Virginia, University of New Mexico), so no unambiguous own org (rule 12, D80b, D154); acknowledgment thanks staff for clean-room assistance (no facility named, D72).
+      Authors at University of Virginia and University of New Mexico.'
+    why: p.7 Conclusion prints 'we have designed and fabricated photodiodes'; notes said only passive wording; fab stays empty (two institutions)
+  cmp_lit_tossoun2018a_input_facet_bc:
+    notes: 'One loss value stated for samples B and C (same waveguide-depletion layer design, two wafers), entered once here. p.2: simulated confinement factor 0.87 (no parameter). Reflection
+      could be reduced with an AR coating and coupling with a spot-size converter (p.4). Fab empty: p.3 Sec. II-B describes the process passively with no org named; p.7 Conclusion ''we
+      have designed and fabricated'' is first person but the authors sit at two unrelated institutions (University of Virginia, University of New Mexico), so no unambiguous own org (rule
+      12, D80b, D154); acknowledgment thanks staff for clean-room assistance (no facility named, D72). Authors at University of Virginia and University of New Mexico.'
+    why: p.7 Conclusion prints 'we have designed and fabricated photodiodes'; notes said only passive wording; fab stays empty (two institutions)
+  cmp_lit_tossoun2018_ti_pd_d250:
+    notes: 'Top-illuminated circular mesa (separate set from the waveguide PDs, p.2 Sec. II). Text p.3 names a 250 um diameter for the 0.3 / 0.05 A/W values; Fig. 6 caption shows measured
+      QE of a 500 um diameter top-illuminated PD at -5 V (reads about 0.255 at about 1545 nm and about 0.045 at 2000 nm): device identity differs, Fig. 6 points not entered (D159). Fig.
+      5 dark current vs temperature (250 um diameter, 77-300 K): the 300 K trace at -2 V entered in the audit (m5); the other temperatures not entered. The Fig. 5 currents (mA range
+      at -2 to -5 V) are far above the area scaling of the waveguide PDs of Fig. 4 (separate sample, p.2); plotted values kept as printed. Fab empty: p.1-2 Sec. II uses passive ''were
+      fabricated'' / ''was grown'' with no org named (D80b); authors at University of Virginia and University of New Mexico. No facility named.'
+    why: note updated for the added Fig. 5 row (audit miss)
+metrics:
+  cmp_lit_tossoun2018_wgpd_10x10-m4:
+    notes: 'printed ''less than 100 nA at -2V'' (abstract: ''as low as 100 nA at -2 V''); Fig. 3 10 x 10 um trace reads about 100 nA at -2 V (log axis, +/- 10 %), consistent with the
+      printed bound'
+    why: 'p.2 Fig. 3: the -2 V marker of the 10 x 10 um trace is centred on the 1E-7 A gridline, not about 160 nA; no D417 conflict'
+  cmp_lit_tossoun2018_wgpd_10x50-m4:
+    notes: 'printed at -0.3 V; lit:tossoun2018a (p.5) restates the same device (sample A) as 3.5 GHz maximum at -1 V and re-plots these data as its Fig. 11 (cross-note); Fig. 9 -0.3
+      V fitted curve falls 3 dB below its peak near 2.9 GHz (about 3.7 GHz relative to its 0.1 GHz value): printed value kept (D417)'
+    why: p.4 Fig. 9 (img_p04_2) -0.3 V polynomial fit read on the 0.5 GHz / 2 dB grid
+  cmp_lit_tossoun2018_wgpd_10x50-m5:
+    notes: 'Fig. 9 -7 V fitted curve falls 3 dB below its low-frequency level near 1.45 GHz, and lit:tossoun2018a Fig. 11 (same data, normalized) near 1.4-1.5 GHz, below the printed
+      2.2 GHz: printed value kept, conflict noted (D417)'
+    why: 'p.4 Fig. 9 (img_p04_2): -7 V curve starts at about -103.5 dBm at 0.13 GHz and reaches -106.5 dBm near 1.45 GHz; conflict not noted'
+  cmp_lit_tossoun2018_wgpd_10x50-m6:
+    notes: summary value ('3 GHz bandwidth under 2 um optical excitation at -3 V') names no device; assigned to this row because Fig. 9 (10 x 50 um, includes a -3 V trace) is the paper's
+      only bandwidth measurement; the Fig. 9 -3 V fitted curve falls 3 dB below its peak near 2.7 GHz (about 3.1 GHz relative to its 0.1 GHz value), consistent
+    why: 'p.4 Fig. 9 -3 V curve read: supports the assignment of the summary value to this device'
+  cmp_lit_tossoun2018a_sample_b_10x50-m7:
+    basis: author_estimate
+    notes: 'Fig. 8 point at -3 V, reading uncertainty about +/- 0.005 A/W; internal value rests on the calculated 7 dB loss (p.4); read off Fig. 8, basis author_estimate because the
+      internal value rests on the calculated loss (rule 4; as the printed 0.81 / 0.84 A/W rows; D454 analogue: a figure read keeps the basis of the plotted quantity)'
+    why: 'p.4: internal responsivity = measured photocurrent with the calculated 7 dB coupling + reflection loss removed; same basis as the printed internal values of this paper'
+  cmp_lit_tossoun2018a_sample_c_10x50-m7:
+    basis: author_estimate
+    notes: 'Fig. 8 point at -3 V, reading uncertainty about +/- 0.005 A/W; internal value rests on the calculated 7 dB loss (p.4); read off Fig. 8, basis author_estimate because the
+      internal value rests on the calculated loss (rule 4; as the printed 0.81 / 0.84 A/W rows; D454 analogue: a figure read keeps the basis of the plotted quantity)'
+    why: 'p.4: internal responsivity = measured photocurrent with the calculated 7 dB coupling + reflection loss removed; same basis as the printed internal values of this paper'
+  cmp_lit_kinsey2001_sacm_wgapd_10x10-m2:
+    band: unspecified
+    notes: fit of own data (D80a); wavelength of the Ti-sapphire source not printed
+    why: 'p.2: the bandwidth data behind the GBP come from the Ti-sapphire source whose wavelength is not printed; rule 8 band unspecified + note, as on m1'
+  cmp_lit_kinsey2001_sacm_wgapd_10x10-m3:
+    band: unspecified
+    notes: printed 'at least 320 GHz' (abstract 'over 320 GHz') after the three per-device fits 270 / 330 / 340 GHz; the arithmetic behind 320 is not shown; Fig. 3 draws the Gain-Bandwidth
+      = 320 GHz line; Ti-sapphire source wavelength not printed
+    why: 'p.2: the bandwidth data behind the GBP come from the Ti-sapphire source whose wavelength is not printed; rule 8 band unspecified + note, as on m1'
+delete_components:
+- id: cmp_lit_tossoun2018a_sample_a_10x50
+  why: 'p.3 Fig. 6 Sample A trace (about 1.12e-7 A at -1 V, 2.68e-7 A at -3 V) equals lit:tossoun2018 p.2 Fig. 3 10 x 50 um trace (1.13e-7 / 2.74e-7 A; the batch report''s 1.9e-7 / 3.8e-7
+    is a misread); p.3 attributes Sample A dark current to ref. [11] (= lit:tossoun2018). Reproduced data: removed (D259 / D259a); the row has no other performance metric (D49)'
+add_metrics:
+- metric_id: cmp_lit_tossoun2018_ti_pd_d250-m5
+  component_id: cmp_lit_tossoun2018_ti_pd_d250
+  parameter: dark_current_na
+  value: '570000'
+  value_max: ''
+  unit: nA
+  qualifier: approx
+  statistic: ''
+  n_samples: ''
+  wavelength_nm: ''
+  wavelength_max_nm: ''
+  band: ''
+  wavelength_inferred: ''
+  polarization: ''
+  mode: ''
+  temperature_k: '300'
+  bias_v: '-2'
+  ref_plane: ''
+  scope: ''
+  includes: ''
+  excludes: ''
+  condition: dark; Lakeshore cryogenic probe station temperature series, 300 K trace
+  method: ''
+  basis: extracted_from_figure
+  locator: p.3 Fig. 5
+  notes: 'read off the Fig. 5 300 K trace at -2 V (embedded image, log axis calibrated on the decade ticks): about 5.7e-4 A, +/- 15 %; other temperatures not entered'
+  why: 'miss: p.3 Fig. 5 (img_p03_4) gives the dark current of the named 250 um diameter top-illuminated PD; the 300 K trace is a room-temperature value of this row'

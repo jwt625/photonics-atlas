@@ -1,0 +1,42 @@
+# Audit patch lit_220 (fresh-context audit 2026-11-20, DevLog/audits/2026-11-20-lit_220-audit.md).
+# 168 metrics: 162 ok / 6 imprecise / 0 wrong; 27 components: 26 ok / 1 imprecise (notes); 1 miss added (wang2014b taper width).
+# After the patch: 27 components, 169 metrics.
+# Coordinator questions Q1-Q6 in the audit record: all distiller judgment calls (a)-(e) endorsed; no value removed.
+components:
+  cmp_lit_xu2008_plain_xconnect_filter:
+    notes: "Round-cornered square microring laterally coupled to a plain (direct) waveguide crossing (control cross-connect filter); throughput and drop spectra normalized to the lensed PM fiber output, end-fire into ~2.5 um tapered facets, TE (p.5). Control filter with bus waveguides and microring identical to the MMI filter (p.6); crossing: cmp_lit_xu2008_plain_crossing. Asymmetric (Fano-like) drop line shapes (Fig. 3(c)). Fab: p.5 'We design and fabricate ... to fabricate the devices', both authors at HKUST (one org). Process printed: i-line (365 nm) photolithography + reactive ion etching on a commercially available SOI wafer (340 nm Si / 1 um BOX) thinned to ~250 nm by wet etching (p.5); process_name left empty (no named process)."
+    why: "p.6 Fig. 3(c) / p.6 text: this is the control filter on the plain crossing; the copied notes said 'laterally coupled to an MMI crossing'"
+metrics:
+  cmp_lit_hoffman2019_lm_fom_1_1p5_design-m1:
+    condition: "through-power asymptote of the 2D (effective-index) optimization stage, worst case over the design wavelengths 1520, 1550 and 1580 nm"
+    notes: "printed through power asymptote -0.08 dB (p.9); the asymptote is reached in the > 600 2D iterations before the switch to 3D (p.8-9), so the value is not a 3D result; Fig. 5(a) LM upper envelope about -0.08 dB in the 2D stage and about -0.08 to -0.09 dB after the 3D restart (reading +/- 0.01 dB)"
+    why: "p.8-9: 'iterations are performed in 2D for >600 iterations until the asymptote is reached after which the simulations are performed in 3D'; the row condition said 3D FDTD (p.8 Fig. 5(a) render)"
+  cmp_lit_hoffman2019_gd_fom_1_1p5_design-m1:
+    condition: "through-power asymptote of the 2D (effective-index) optimization stage, worst case over the design wavelengths 1520, 1550 and 1580 nm"
+    notes: "printed through power asymptote -0.13 dB (p.9); the asymptote is reached in the > 600 2D iterations before the switch to 3D (p.8-9), so the value is not a 3D result; Fig. 5(a) GD trace about -0.135 to -0.15 dB in the 2D stage and about -0.14 to -0.15 dB after the 3D restart (reading +/- 0.01 dB)"
+    why: "p.8-9: the asymptote belongs to the 2D stage; the row condition said 3D FDTD (p.8 Fig. 5(a) render)"
+  cmp_lit_xu2008_xconnect_2x2_grid-m1:
+    notes: "printed 'second-order filtering bandwidth in port-D1 transmission is 0.09 nm' (p.8); width level not stated: stored as bw_3db_nm under the unqualified-bandwidth convention (davis2020 / dumon2004 precedent; alternative bw_fwhm_nm). Wavelength span = Fig. 5 axis."
+    why: "p.8 Sec. 3: the paper names no level; the note said '3-dB per the usual filter convention', which reads as a statement of the source"
+  cmp_lit_xu2008_mmi_crossing_notaper_design-m3:
+    basis: design_target
+    notes: "printed 'the optimized Lm shifts to ~4.7 um' (p.5), the optimum of the Fig. 2(d) Lm sweep without tapers; a design dimension, so design_target (D82a: simulated / author_estimate are for performance values)"
+    why: "p.5 Sec. 2: Lm is a dimension of this design row; D82a reserves design_target for dimensions"
+  cmp_lit_xiong2014_psr_he70_design-m5:
+    notes: "printed XT_TM < -15 dB (p.7 Table 3); p.7 text says XT_TM is 'below -20 dB' for He = 70 nm: conflict, the weaker Table bound is entered (it holds under both statements; D417 / tossoun2024 precedent, conflict also in component notes)"
+    why: "p.7 text vs p.7 Table 3: the conflict was recorded only in the component notes"
+  cmp_lit_wang2014b_strip_rib_bilevel_taper_design-m1:
+    value: '0.223'
+    notes: "printed transmission 'more than 0.95 in the 100 nm wavelength range' (p.6); stored as -10 log10(0.95) = 0.223 dB so the bound is not tighter than printed (0.22 lt claimed slightly more than T > 0.95); D83f: arithmetic on a simulated value stays simulated"
+    why: "p.6 Sec. 3: -10 log10(0.95) = 0.2228 dB; 0.22 with qualifier lt overstated the printed bound"
+add_metrics:
+  - metric_id: cmp_lit_wang2014b_strip_rib_bilevel_taper_design-m6
+    component_id: cmp_lit_wang2014b_strip_rib_bilevel_taper_design
+    parameter: width_nm
+    value: '500'
+    unit: nm
+    condition: "strip / rib core width of the bi-level taper (Fig. 6(a) label 500 nm; the PSR input rib W2 is also 500 nm, p.3)"
+    basis: extracted_from_figure
+    locator: p.6 Fig. 6(a)
+    notes: "figure-labelled dimension (Contract v5), read as printed on the label, no reading uncertainty; the text does not restate the taper width; the 250 nm and 50 nm labels of the same panel are already rows m4 / m5"
+    why: "D153 geometry miss: p.6 Fig. 6(a) labels the taper core width 500 nm; the component carried only Ltp, Wside, H and slab"

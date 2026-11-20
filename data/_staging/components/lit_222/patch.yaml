@@ -1,0 +1,223 @@
+# Audit patch lit_222 (fresh-context audit 2026-11-20, DevLog/audits/2026-11-20-lit_222-audit.md).
+# 120 metrics: 110 ok / 10 imprecise / 0 wrong; 18 components: 17 ok / 1 imprecise / 0 wrong.
+# Misses added: 9 metrics (zanzi2019 generation-2 switch 40 nm on-off-ratio bandwidth, p.8; 700 nm PECVD upper cladding on the 8
+# generation-1 rows, p.4, D153). After the patch: 18 components, 129 metrics.
+# Coordinator questions (audit Q1-Q6): Q1 zanzi2019 generations / fab / process kept (no op); Q2 MMI and taper loss-budget terms halved to
+# per_component (xing2015 / yang2024b / wolf2018a precedent; revert = drop the 4 value / scope ops), bends stay out; Q3 bw3db_khz kept (no op,
+# registry definition wording); Q4 0.6 Vpp assignment, rise = fall rows, VpiL / capacitance notes kept (no op); Q5 kumar2022b split kept (no op);
+# Q6 albert1999 class, PDL, worst-case crosstalk kept (PDL note added), Photonic Integration Research Inc. = fab candidate (org round).
+components:
+  cmp_lit_albert1999_plc_mzi_bragg_oadm:
+    notes: 'Balanced MZI, arms 250 um apart; two identical 3.8 mm Bragg gratings written through a phase mask (10 min, 193 nm, 100 pps, 200
+      mJ/cm2 per pulse, no hydrogen loading) and path length trimmed by uniform UV exposure (p.1-2 Sec. II). Fab empty for now: the
+      grating-writing sentences are passive (D80b) and the authors are at two orgs; the MZI itself is a commercial Ge-doped silica-on-silicon
+      PLC whose footnote names Photonic Integration Research Inc., Columbus OH, as the source (p.1 footnote 1), i.e. the vendor of the
+      purchased device the authors post-processed (rule 12, Contract v7): fab candidate once that org exists (org round). Not entered: ~3 dB
+      loss peak 1.2 nm short of the Bragg wavelength (cladding-mode-like, p.2); Port 1 return spectrum with losses as low as 10 dB (Fig. 2(d);
+      back_reflection_db not allowed for wdm); grating length 3.8 mm (grating_length_um not allowed for wdm); no BER power penalty at 2.5 Gb/s
+      with eight 200 GHz channels (system level).'
+    why: 'fab: the PLC vendor is a purchased-device vendor (rule 12), not a wafer supplier; recorded as fab candidate pending the org (p.1 footnote 1)'
+metrics:
+  cmp_lit_zanzi2019_g1_mmi-m1:
+    value: '0.8'
+    scope: per_component
+    condition: >-
+      loss-budget term of the 30 dB fiber-to-fiber loss of the 6 um junction switch, one of the two 2x2 MMIs of the MZI path
+    notes: >-
+      Printed 1.6 dB for 'the MMI losses' (plural); the 2x2 MZI path holds two MMIs (Fig. 3(e) GDS), halved assuming equal MMIs (1.6 / 2;
+      xing2015, yang2024b, wolf2018a precedent). Origin not stated. No wavelength stated for generation-1 values; Fig. 4 (same chip generation)
+      spans 1541.5-1543.5 nm.
+    why: 'p.6 Sec. 4.1: two MMIs per 2x2 MZI path; merged loss-budget precedent halves an MMI-pair term to per_component (xing2015 D638)'
+  cmp_lit_zanzi2019_g2_mmi-m1:
+    value: '0.3'
+    scope: per_component
+    band: ''
+    wavelength_nm: '1520'
+    wavelength_inferred: 'true'
+    condition: >-
+      loss-budget term of the about 20.5 dB fiber-to-fiber loss (Fig. 8), one of the two 2x2 MMIs of the MZI path
+    notes: >-
+      Printed 0.6 dB for 'the MMI losses' (plural); two MMIs per 2x2 MZI path, halved assuming equal MMIs (0.6 / 2; xing2015 precedent).
+      'Based on the experimental measurements' is stated for the budget as a whole; how this term was obtained is not stated. Wavelength
+      inferred: the budget splits the about 20.5 dB of Fig. 8, whose on-state maxima lie at about 1520 nm (reading +/- 5 nm); none printed.
+    why: 'p.11 Sec. 5.1: two MMIs per path (xing2015 precedent); p.9 Fig. 8 render: the on-state maxima sit at about 1520 nm, outside c_band'
+  cmp_lit_zanzi2019_g1_gc_taper-m1:
+    value: '0.25'
+    scope: per_component
+    condition: >-
+      loss-budget term of the 30 dB fiber-to-fiber loss of the 6 um junction switch, one of the two 12 um to 400 nm tapers of the path
+    notes: >-
+      Printed 0.5 dB for 'the 12 um to 400 nm tapers' (plural); one taper per I/O grating coupler, two in the path (the count used for
+      the halved 9 dB grating-coupler term), halved (0.5 / 2; wolf2018a converter-pair precedent). Origin not stated. No wavelength stated for
+      generation-1 values; Fig. 4 (same chip generation) spans 1541.5-1543.5 nm.
+    why: 'p.6 Sec. 4.1: the taper count follows the two I/O grating couplers already halved on g1_gc-m1; per_component as in the merged precedent'
+  cmp_lit_zanzi2019_g2_gc_taper-m1:
+    value: '0.1'
+    scope: per_component
+    band: ''
+    wavelength_nm: '1520'
+    wavelength_inferred: 'true'
+    condition: >-
+      loss-budget term of the about 20.5 dB fiber-to-fiber loss (Fig. 8), one of the two 12 um to 400 nm tapers of the path
+    notes: >-
+      Printed 0.2 dB for 'the 12 um to 400 nm tapers' (plural); one taper per I/O grating coupler, two in the path, halved (0.2 / 2).
+      How the term was obtained is not stated. Wavelength inferred: the budget splits the about 20.5 dB of Fig. 8, whose on-state maxima lie at
+      about 1520 nm (reading +/- 5 nm); none printed.
+    why: 'p.11 Sec. 5.1: same count as the halved grating-coupler term; p.9 Fig. 8 render: maxima at about 1520 nm'
+  cmp_lit_zanzi2019_g2_switch-m1:
+    band: ''
+    wavelength_nm: '1520'
+    wavelength_inferred: 'true'
+    notes: >-
+      Printed 'around 20.5 dB' ('Looking back at Fig. 8', p.11). The Fig. 8 on-state maxima (T11 / T22 bar, T12 / T21 cross) are about
+      -20.5 dBm at about 1520 nm (reading +/- 5 nm), so the wavelength is inferred from the figure; the text states none with the value.
+    why: 'p.9 Fig. 8 render (6x crop): the on-state maxima lie at about 1518-1525 nm, outside c_band (1530-1565 nm)'
+  cmp_lit_zanzi2019_g2_gc-m1:
+    band: ''
+    wavelength_nm: '1520'
+    wavelength_inferred: 'true'
+    notes: >-
+      Printed 9 dB 'from the I/O grating couplers' (two couplers), halved. How the term was obtained is not stated. Wavelength inferred:
+      the budget splits the about 20.5 dB of Fig. 8, whose on-state maxima lie at about 1520 nm (reading +/- 5 nm); none printed.
+    why: 'p.11 Sec. 5.1 budget of the Fig. 8 peak; p.9 Fig. 8 render: maxima at about 1520 nm'
+  cmp_lit_zanzi2019_g2_rib_wg-m1:
+    band: ''
+    wavelength_nm: '1520'
+    wavelength_inferred: 'true'
+    notes: >-
+      Origin not stated. Wavelength inferred: printed with the 0.45 dB term of the budget that splits the about 20.5 dB of Fig. 8, whose
+      on-state maxima lie at about 1520 nm (reading +/- 5 nm); none printed.
+    why: 'p.11 Sec. 5.1 budget of the Fig. 8 peak; p.9 Fig. 8 render: maxima at about 1520 nm'
+  cmp_lit_zanzi2019_g2_rib_wg-m2:
+    band: ''
+    wavelength_nm: '1520'
+    wavelength_inferred: 'true'
+    notes: >-
+      Path length not printed (0.45 dB at 2 dB/cm implies about 2.25 mm). Origin not stated. Wavelength inferred: the budget splits the
+      about 20.5 dB of Fig. 8, whose on-state maxima lie at about 1520 nm (reading +/- 5 nm); none printed.
+    why: 'p.11 Sec. 5.1 budget of the Fig. 8 peak; p.9 Fig. 8 render: maxima at about 1520 nm'
+  cmp_lit_kumar2022b_cdc1-m2:
+    locator: p.5 Fig. 2(b) caption; p.4 Sec. 2
+    notes: >-
+      Printed only in the Fig. 2(b) caption ('approximately 4.46 dB'); p.4 gives the further 6.71 dB after CDC2 and the 11.17 dB total
+      (11.17 - 6.71 = 4.46). The 4.46 dB on p.4 is the similar-CDC difference (8.43 - 3.97).
+    why: 'p.4 prints 4.46 dB for the similar-CDC cascade, not for the dissimilar CDC1; the value is in the p.5 caption'
+  cmp_lit_albert1999_plc_mzi_bragg_oadm-m11:
+    notes: >-
+      Port not stated (the sentence follows the through-port results). The drop-port losses at the Bragg wavelength are 1 dB TE / 0.7 dB
+      TM (p.2), a 0.3 dB difference above 0.07 dB, so the value is unlikely to be a drop-port PDL; the paper does not resolve it (kept as
+      printed, D417).
+    why: 'p.2 Sec. III: the drop-port TE / TM values conflict with a drop-port reading of the 0.07 dB PDL; note only'
+add_metrics:
+- metric_id: cmp_lit_zanzi2019_g2_switch-m19
+  component_id: cmp_lit_zanzi2019_g2_switch
+  parameter: xt_bandwidth_nm
+  value: '40'
+  unit: nm
+  qualifier: approx
+  condition: >-
+    on-off ratio > 10 dB for all four port combinations (T11, T12, T22, T21) with push-pull DC biases; window position not stated
+    (optimum biases exist for any wavelength from 1510 to 1560 nm, p.8)
+  method: direct
+  basis: measured
+  locator: p.8 Sec. 5.1; p.9 Fig. 8
+  notes: >-
+    Printed 'an approximately 40 nm-wide wavelength range'; the level is an on-off (extinction) ratio, as in the merged nikbakht2022 /
+    goh1999 rows.
+  why: 'miss: p.8 Sec. 5.1 stated switch bandwidth (xt_bandwidth_nm allowed for switch_fabric; nikbakht2022 precedent)'
+- metric_id: cmp_lit_zanzi2019_g1_asym_mzi_switch_pn6um-m9
+  component_id: cmp_lit_zanzi2019_g1_asym_mzi_switch_pn6um
+  parameter: cladding_thickness_um
+  value: '0.7'
+  unit: um
+  condition: >-
+    PECVD SiO2 upper cladding deposited before the contact-trench etch; over the active region it covers the 100 nm SiO2 spacer
+  basis: derived
+  locator: p.4 Sec. 3; p.4 Fig. 2(g)
+  notes: >-
+    printed '700 nm thick oxide (PECVD ...)'; nm -> um (D157), design value
+  why: 'miss (D153): stated upper-cladding thickness of the generation-1 stack'
+- metric_id: cmp_lit_zanzi2019_g1_switch_pn2um-m14
+  component_id: cmp_lit_zanzi2019_g1_switch_pn2um
+  parameter: cladding_thickness_um
+  value: '0.7'
+  unit: um
+  condition: >-
+    PECVD SiO2 upper cladding deposited before the contact-trench etch; over the active region it covers the 100 nm SiO2 spacer
+  basis: derived
+  locator: p.4 Sec. 3; p.4 Fig. 2(g)
+  notes: >-
+    printed '700 nm thick oxide (PECVD ...)'; nm -> um (D157), design value
+  why: 'miss (D153): stated upper-cladding thickness of the generation-1 stack'
+- metric_id: cmp_lit_zanzi2019_g1_ps_pn6um-m7
+  component_id: cmp_lit_zanzi2019_g1_ps_pn6um
+  parameter: cladding_thickness_um
+  value: '0.7'
+  unit: um
+  condition: >-
+    PECVD SiO2 upper cladding deposited before the contact-trench etch; over the active region it covers the 100 nm SiO2 spacer
+  basis: derived
+  locator: p.4 Sec. 3; p.4 Fig. 2(g)
+  notes: >-
+    printed '700 nm thick oxide (PECVD ...)'; nm -> um (D157), design value
+  why: 'miss (D153): stated upper-cladding thickness of the generation-1 stack'
+- metric_id: cmp_lit_zanzi2019_g1_ps_pn2um-m9
+  component_id: cmp_lit_zanzi2019_g1_ps_pn2um
+  parameter: cladding_thickness_um
+  value: '0.7'
+  unit: um
+  condition: >-
+    PECVD SiO2 upper cladding deposited before the contact-trench etch; over the active region it covers the 100 nm SiO2 spacer
+  basis: derived
+  locator: p.4 Sec. 3; p.4 Fig. 2(g)
+  notes: >-
+    printed '700 nm thick oxide (PECVD ...)'; nm -> um (D157), design value
+  why: 'miss (D153): stated upper-cladding thickness of the generation-1 stack'
+- metric_id: cmp_lit_zanzi2019_g1_mmi-m6
+  component_id: cmp_lit_zanzi2019_g1_mmi
+  parameter: cladding_thickness_um
+  value: '0.7'
+  unit: um
+  condition: >-
+    PECVD SiO2 upper cladding deposited before the contact-trench etch
+  basis: derived
+  locator: p.4 Sec. 3; p.4 Fig. 2(g)
+  notes: >-
+    printed '700 nm thick oxide (PECVD ...)'; nm -> um (D157), design value
+  why: 'miss (D153): stated upper-cladding thickness of the generation-1 stack'
+- metric_id: cmp_lit_zanzi2019_g1_gc-m6
+  component_id: cmp_lit_zanzi2019_g1_gc
+  parameter: cladding_thickness_um
+  value: '0.7'
+  unit: um
+  condition: >-
+    PECVD SiO2 upper cladding deposited before the contact-trench etch
+  basis: derived
+  locator: p.4 Sec. 3; p.4 Fig. 2(g)
+  notes: >-
+    printed '700 nm thick oxide (PECVD ...)'; nm -> um (D157), design value
+  why: 'miss (D153): stated upper-cladding thickness of the generation-1 stack'
+- metric_id: cmp_lit_zanzi2019_g1_gc_taper-m7
+  component_id: cmp_lit_zanzi2019_g1_gc_taper
+  parameter: cladding_thickness_um
+  value: '0.7'
+  unit: um
+  condition: >-
+    PECVD SiO2 upper cladding deposited before the contact-trench etch
+  basis: derived
+  locator: p.4 Sec. 3; p.4 Fig. 2(g)
+  notes: >-
+    printed '700 nm thick oxide (PECVD ...)'; nm -> um (D157), design value
+  why: 'miss (D153): stated upper-cladding thickness of the generation-1 stack'
+- metric_id: cmp_lit_zanzi2019_g1_rib_wg-m6
+  component_id: cmp_lit_zanzi2019_g1_rib_wg
+  parameter: cladding_thickness_um
+  value: '0.7'
+  unit: um
+  condition: >-
+    PECVD SiO2 upper cladding deposited before the contact-trench etch
+  basis: derived
+  locator: p.4 Sec. 3; p.4 Fig. 2(g)
+  notes: >-
+    printed '700 nm thick oxide (PECVD ...)'; nm -> um (D157), design value
+  why: 'miss (D153): stated upper-cladding thickness of the generation-1 stack'

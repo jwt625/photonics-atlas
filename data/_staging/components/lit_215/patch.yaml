@@ -1,0 +1,249 @@
+# Audit patch lit_215 (fresh-context audit 2026-11-20, DevLog/audits/2026-11-20-lit_215-audit.md).
+# 121 metrics: 104 ok / 17 imprecise / 0 wrong; 26 components: 11 ok / 15 imprecise / 0 wrong; 0 misses.
+# Value fixes: nishiyama2005 Fig. 7 lasing peaks (3), chaw2025 Fig. 5(b) lower bound; statistic best on 3 'as low as' rows;
+# chaw2025 population aperture span (label + 1 condition).
+# Coordinator questions: Q1 intrinsic (RC de-embedded) bandwidths -> derived on 9 rows (revert = drop the basis / notes
+# fields of the 9 bw3db_ghz ops; wu2025b m19 qualifier le stays either way); Q2 nishiyama2005 fab org_corning on the 12 VCSEL
+# + 2 bottom-DBR rows, top-DBR rows empty with a note (revert = drop the 16 nishiyama2005 component ops); Q3-Q6 no op.
+components:
+  cmp_lit_nishiyama2005_vcsel_1p55um_5um:
+    fab_org_ids: org_corning
+    notes: 'Fab org_corning (audit 2026-11-20, Q2): p.2 Sec. II first-person growth statement (''allow us to achieve such precise control'' of the AlGaInAs
+      / InP DBR layers grown in the multiple-wafer MOCVD reactor of the same section); all authors at Corning Inc. (D84a; same reading as the chaw2025 first-person
+      process sentences). The later processing steps are passive; the e-beam evaporated top DBR has no first-person statement (its own rows keep fab empty,
+      D515). Mesa (tunnel-junction aperture) diameter in the label (no registry parameter). Room temperature printed as about 20 C (p.3). Lasing up to 105
+      C (Fig. 6; no parameter). Aging: no degradation after 3000 h at 8 mA, 85 C (several devices; no parameter). Modulation device: 10 / 12 Gb/s eyes at
+      2.8 mA, 0.76 Vpp; error-free receiver power -16 / -9 dBm; chirp about 40 GHz peak-to-peak and linewidth enhancement factor about 2-3 (Fig. 14, device
+      assumed to be this one, no parameter); link results not entered.'
+    why: p.2 Sec. II 'Recent improvements in MOCVD ... allow us to achieve such precise control' is a first-person statement that the authors grew the DBR
+      / epitaxial layers; all authors at Corning Inc. (D84a; Q2)
+  cmp_lit_nishiyama2005_vcsel_1p55um_7um:
+    fab_org_ids: org_corning
+    notes: 'Fab org_corning (audit 2026-11-20, Q2): p.2 Sec. II first-person growth statement (''allow us to achieve such precise control'' of the AlGaInAs
+      / InP DBR layers grown in the multiple-wafer MOCVD reactor of the same section); all authors at Corning Inc. (D84a; same reading as the chaw2025 first-person
+      process sentences). The later processing steps are passive; the e-beam evaporated top DBR has no first-person statement (its own rows keep fab empty,
+      D515). Mesa (tunnel-junction aperture) diameter in the label (no registry parameter). Room temperature printed as about 20 C (p.3). Mode content of
+      the 7 um device not stated unambiguously (''apertures larger than 7 um'' are multimode).'
+    why: p.2 Sec. II 'Recent improvements in MOCVD ... allow us to achieve such precise control' is a first-person statement that the authors grew the DBR
+      / epitaxial layers; all authors at Corning Inc. (D84a; Q2)
+  cmp_lit_nishiyama2005_vcsel_1p55um_10um:
+    fab_org_ids: org_corning
+    notes: 'Fab org_corning (audit 2026-11-20, Q2): p.2 Sec. II first-person growth statement (''allow us to achieve such precise control'' of the AlGaInAs
+      / InP DBR layers grown in the multiple-wafer MOCVD reactor of the same section); all authors at Corning Inc. (D84a; same reading as the chaw2025 first-person
+      process sentences). The later processing steps are passive; the e-beam evaporated top DBR has no first-person statement (its own rows keep fab empty,
+      D515). Mesa (tunnel-junction aperture) diameter in the label (no registry parameter). Room temperature printed as about 20 C (p.3). Multi transverse
+      mode (apertures larger than 7 um, p.3 / p.4-5).'
+    why: p.2 Sec. II 'Recent improvements in MOCVD ... allow us to achieve such precise control' is a first-person statement that the authors grew the DBR
+      / epitaxial layers; all authors at Corning Inc. (D84a; Q2)
+  cmp_lit_nishiyama2005_vcsel_1p55um_12um:
+    fab_org_ids: org_corning
+    notes: 'Fab org_corning (audit 2026-11-20, Q2): p.2 Sec. II first-person growth statement (''allow us to achieve such precise control'' of the AlGaInAs
+      / InP DBR layers grown in the multiple-wafer MOCVD reactor of the same section); all authors at Corning Inc. (D84a; same reading as the chaw2025 first-person
+      process sentences). The later processing steps are passive; the e-beam evaporated top DBR has no first-person statement (its own rows keep fab empty,
+      D515). Mesa (tunnel-junction aperture) diameter in the label (no registry parameter). Room temperature printed as about 20 C (p.3). Multi transverse
+      mode (apertures larger than 7 um, p.3 / p.4-5).'
+    why: p.2 Sec. II 'Recent improvements in MOCVD ... allow us to achieve such precise control' is a first-person statement that the authors grew the DBR
+      / epitaxial layers; all authors at Corning Inc. (D84a; Q2)
+  cmp_lit_nishiyama2005_vcsel_1p3um_5um:
+    fab_org_ids: org_corning
+    notes: 'Fab org_corning (audit 2026-11-20, Q2): p.2 Sec. II first-person growth statement (''allow us to achieve such precise control'' of the AlGaInAs
+      / InP DBR layers grown in the multiple-wafer MOCVD reactor of the same section); all authors at Corning Inc. (D84a; same reading as the chaw2025 first-person
+      process sentences). The later processing steps are passive; the e-beam evaporated top DBR has no first-person statement (its own rows keep fab empty,
+      D515). Mesa (tunnel-junction aperture) diameter in the label (no registry parameter). Room temperature printed as about 20 C (p.3). Lasing up to 115
+      C (Fig. 10; no parameter); polarization-switching kinks at 55 / 65 C. Aging: no degradation after 2500 h at 8 mA, 85 C. 10 Gb/s eye at 3.0 mA, 0.8
+      Vpp (link results not entered).'
+    why: p.2 Sec. II 'Recent improvements in MOCVD ... allow us to achieve such precise control' is a first-person statement that the authors grew the DBR
+      / epitaxial layers; all authors at Corning Inc. (D84a; Q2)
+  cmp_lit_nishiyama2005_vcsel_1p3um_7um:
+    fab_org_ids: org_corning
+    notes: 'Fab org_corning (audit 2026-11-20, Q2): p.2 Sec. II first-person growth statement (''allow us to achieve such precise control'' of the AlGaInAs
+      / InP DBR layers grown in the multiple-wafer MOCVD reactor of the same section); all authors at Corning Inc. (D84a; same reading as the chaw2025 first-person
+      process sentences). The later processing steps are passive; the e-beam evaporated top DBR has no first-person statement (its own rows keep fab empty,
+      D515). Mesa (tunnel-junction aperture) diameter in the label (no registry parameter). Room temperature printed as about 20 C (p.3). Mode content of
+      the 7 um device not stated unambiguously (''apertures larger than 7 um'' are multimode).'
+    why: p.2 Sec. II 'Recent improvements in MOCVD ... allow us to achieve such precise control' is a first-person statement that the authors grew the DBR
+      / epitaxial layers; all authors at Corning Inc. (D84a; Q2)
+  cmp_lit_nishiyama2005_vcsel_1p3um_10um:
+    fab_org_ids: org_corning
+    notes: 'Fab org_corning (audit 2026-11-20, Q2): p.2 Sec. II first-person growth statement (''allow us to achieve such precise control'' of the AlGaInAs
+      / InP DBR layers grown in the multiple-wafer MOCVD reactor of the same section); all authors at Corning Inc. (D84a; same reading as the chaw2025 first-person
+      process sentences). The later processing steps are passive; the e-beam evaporated top DBR has no first-person statement (its own rows keep fab empty,
+      D515). Mesa (tunnel-junction aperture) diameter in the label (no registry parameter). Room temperature printed as about 20 C (p.3). Multi transverse
+      mode (apertures larger than 7 um, p.3 / p.4-5).'
+    why: p.2 Sec. II 'Recent improvements in MOCVD ... allow us to achieve such precise control' is a first-person statement that the authors grew the DBR
+      / epitaxial layers; all authors at Corning Inc. (D84a; Q2)
+  cmp_lit_nishiyama2005_vcsel_1p3um_12um:
+    fab_org_ids: org_corning
+    notes: 'Fab org_corning (audit 2026-11-20, Q2): p.2 Sec. II first-person growth statement (''allow us to achieve such precise control'' of the AlGaInAs
+      / InP DBR layers grown in the multiple-wafer MOCVD reactor of the same section); all authors at Corning Inc. (D84a; same reading as the chaw2025 first-person
+      process sentences). The later processing steps are passive; the e-beam evaporated top DBR has no first-person statement (its own rows keep fab empty,
+      D515). Mesa (tunnel-junction aperture) diameter in the label (no registry parameter). Room temperature printed as about 20 C (p.3). Multi transverse
+      mode (apertures larger than 7 um, p.3 / p.4-5).'
+    why: p.2 Sec. II 'Recent improvements in MOCVD ... allow us to achieve such precise control' is a first-person statement that the authors grew the DBR
+      / epitaxial layers; all authors at Corning Inc. (D84a; Q2)
+  cmp_lit_nishiyama2005_vcsel_1p55um_5um_zero_detuning:
+    fab_org_ids: org_corning
+    notes: 'Fab org_corning (audit 2026-11-20, Q2): p.2 Sec. II first-person growth statement (''allow us to achieve such precise control'' of the AlGaInAs
+      / InP DBR layers grown in the multiple-wafer MOCVD reactor of the same section); all authors at Corning Inc. (D84a; same reading as the chaw2025 first-person
+      process sentences). The later processing steps are passive; the e-beam evaporated top DBR has no first-person statement (its own rows keep fab empty,
+      D515). Mesa (tunnel-junction aperture) diameter in the label (no registry parameter). Room temperature printed as about 20 C (p.3). Sibling design
+      of the 5 um device with the lasing-to-gain-peak detuning set to zero (p.3); only the threshold is stated.'
+    why: p.2 Sec. II 'Recent improvements in MOCVD ... allow us to achieve such precise control' is a first-person statement that the authors grew the DBR
+      / epitaxial layers; all authors at Corning Inc. (D84a; Q2)
+  cmp_lit_nishiyama2005_vcsel_1p3um_5um_high_r_top_dbr:
+    fab_org_ids: org_corning
+    notes: 'Fab org_corning (audit 2026-11-20, Q2): p.2 Sec. II first-person growth statement (''allow us to achieve such precise control'' of the AlGaInAs
+      / InP DBR layers grown in the multiple-wafer MOCVD reactor of the same section); all authors at Corning Inc. (D84a; same reading as the chaw2025 first-person
+      process sentences). The later processing steps are passive; the e-beam evaporated top DBR has no first-person statement (its own rows keep fab empty,
+      D515). Mesa (tunnel-junction aperture) diameter in the label (no registry parameter). Room temperature printed as about 20 C (p.3). Top DBR reflectivity
+      higher than the 99.4 % standard top DBR (value not stated). Maximum lasing temperature 125 C, 10 C above the standard 1.3 um device (p.7; no parameter).'
+    why: p.2 Sec. II 'Recent improvements in MOCVD ... allow us to achieve such precise control' is a first-person statement that the authors grew the DBR
+      / epitaxial layers; all authors at Corning Inc. (D84a; Q2)
+  cmp_lit_nishiyama2005_vcsel_1p55um_family:
+    fab_org_ids: org_corning
+    notes: 'Array-level row (D165): maximum slope efficiency stated for the series without naming the aperture. Differential quantum efficiency about 50
+      % (no parameter). Fab org_corning (audit 2026-11-20, Q2): p.2 Sec. II first-person growth statement (''allow us to achieve such precise control''
+      of the AlGaInAs / InP DBR layers grown in the multiple-wafer MOCVD reactor of the same section); all authors at Corning Inc. (D84a; same reading as
+      the chaw2025 first-person process sentences). The later processing steps are passive; the e-beam evaporated top DBR has no first-person statement
+      (its own rows keep fab empty, D515). Mesa (tunnel-junction aperture) diameter in the label (no registry parameter). Room temperature printed as about
+      20 C (p.3).'
+    why: p.2 Sec. II 'Recent improvements in MOCVD ... allow us to achieve such precise control' is a first-person statement that the authors grew the DBR
+      / epitaxial layers; all authors at Corning Inc. (D84a; Q2)
+  cmp_lit_nishiyama2005_vcsel_1p3um_family:
+    fab_org_ids: org_corning
+    notes: 'Array-level row (D165): maximum slope efficiency stated for the series without naming the aperture. Differential quantum efficiency about 43
+      % (no parameter). Fab org_corning (audit 2026-11-20, Q2): p.2 Sec. II first-person growth statement (''allow us to achieve such precise control''
+      of the AlGaInAs / InP DBR layers grown in the multiple-wafer MOCVD reactor of the same section); all authors at Corning Inc. (D84a; same reading as
+      the chaw2025 first-person process sentences). The later processing steps are passive; the e-beam evaporated top DBR has no first-person statement
+      (its own rows keep fab empty, D515). Mesa (tunnel-junction aperture) diameter in the label (no registry parameter). Room temperature printed as about
+      20 C (p.3).'
+    why: p.2 Sec. II 'Recent improvements in MOCVD ... allow us to achieve such precise control' is a first-person statement that the authors grew the DBR
+      / epitaxial layers; all authors at Corning Inc. (D84a; Q2)
+  cmp_lit_nishiyama2005_bottom_dbr_1p3um:
+    fab_org_ids: org_corning
+    notes: 'Cross-note: bottom mirror of the 1.3 um VCSEL rows (D396). Fab org_corning (audit 2026-11-20, Q2): p.2 Sec. II first-person growth statement
+      (''allow us to achieve such precise control'' of the AlGaInAs / InP DBR layers grown in the multiple-wafer MOCVD reactor of the same section); all
+      authors at Corning Inc. (D84a; same reading as the chaw2025 first-person process sentences). The later processing steps are passive; the e-beam evaporated
+      top DBR has no first-person statement (its own rows keep fab empty, D515). Center-wavelength standard deviation < 1 % over a 2-inch wafer with a 4
+      mm edge exclusion, after thick DBR growth (p.2; no reflector parameter). The 1.3 um DBR has the narrower stopband (smaller index contrast, p.2).'
+    why: p.2 Sec. II 'Recent improvements in MOCVD ... allow us to achieve such precise control' is a first-person statement that the authors grew the DBR
+      / epitaxial layers; all authors at Corning Inc. (D84a; Q2)
+  cmp_lit_nishiyama2005_top_dbr_1p3um:
+    notes: 'Cross-note: top (output) mirror of the 1.3 um VCSEL rows (D396). Reflectivity intentionally below the bottom DBR to raise top output power (p.3).
+      How the Fig. 3 spectra were obtained is not stated: basis author_estimate (origin not stated). Number of pairs not stated. Fab empty: the e-beam evaporation
+      of the top DBR is in passive voice; the p.2 first-person growth statement (''allow us to achieve such precise control'') covers only the MOCVD-grown
+      epitaxial layers (org_corning on the VCSEL and bottom-DBR rows, D515; audit 2026-11-20, Q2).'
+    why: 'notes only: say why the top-DBR rows stay empty when the MOCVD-grown rows get org_corning (Q2, D515)'
+  cmp_lit_nishiyama2005_bottom_dbr_1p55um:
+    fab_org_ids: org_corning
+    notes: 'Cross-note: bottom mirror of the 1.55 um VCSEL rows (D396). Fab org_corning (audit 2026-11-20, Q2): p.2 Sec. II first-person growth statement
+      (''allow us to achieve such precise control'' of the AlGaInAs / InP DBR layers grown in the multiple-wafer MOCVD reactor of the same section); all
+      authors at Corning Inc. (D84a; same reading as the chaw2025 first-person process sentences). The later processing steps are passive; the e-beam evaporated
+      top DBR has no first-person statement (its own rows keep fab empty, D515). Center-wavelength standard deviation < 1 % over a 2-inch wafer with a 4
+      mm edge exclusion, after thick DBR growth (p.2; no reflector parameter). The 1.3 um DBR has the narrower stopband (smaller index contrast, p.2).'
+    why: p.2 Sec. II 'Recent improvements in MOCVD ... allow us to achieve such precise control' is a first-person statement that the authors grew the DBR
+      / epitaxial layers; all authors at Corning Inc. (D84a; Q2)
+  cmp_lit_nishiyama2005_top_dbr_1p55um:
+    notes: 'Cross-note: top (output) mirror of the 1.55 um VCSEL rows (D396). Reflectivity intentionally below the bottom DBR to raise top output power
+      (p.3). How the Fig. 3 spectra were obtained is not stated: basis author_estimate (origin not stated). Number of pairs not stated. Fab empty: the e-beam
+      evaporation of the top DBR is in passive voice; the p.2 first-person growth statement (''allow us to achieve such precise control'') covers only the
+      MOCVD-grown epitaxial layers (org_corning on the VCSEL and bottom-DBR rows, D515; audit 2026-11-20, Q2).'
+    why: 'notes only: say why the top-DBR rows stay empty when the MOCVD-grown rows get org_corning (Q2, D515)'
+  cmp_lit_chaw2025_vcsel_population:
+    label: Cryo-VCSEL aperture-scaling population (oxide apertures about 1.3-6.8 um, one process)
+    why: p.4 Fig. 5(a) leftmost markers sit at about 1.28 um (RT); Fig. 4(b) / 5(b) start at about 1.4 um
+metrics:
+  cmp_lit_nishiyama2005_vcsel_1p55um_5um-m5:
+    value: 1547.2
+    notes: Read off Fig. 7 with the x axis calibrated on the 1545 / 1550 nm tick marks (the frame runs from 1540 nm to about 1556 nm, not to 1555 nm); apex
+      of the main peak; reading uncertainty about +/-0.1 nm.
+    why: 'p.4 Fig. 7 (400 dpi render of the embedded image): ticks 1545 / 1550 nm at 258 px spacing put the apex at 1547.2 nm; the staged value was 1546.95
+      nm, outside its stated +/-0.1 nm'
+  cmp_lit_nishiyama2005_vcsel_1p55um_5um-m7:
+    value: 1550.6
+    notes: Read off Fig. 7 with the x axis calibrated on the 1545 / 1550 nm tick marks (the frame runs from 1540 nm to about 1556 nm, not to 1555 nm); apex
+      of the main peak; reading uncertainty about +/-0.1 nm.
+    why: 'p.4 Fig. 7 (400 dpi render of the embedded image): ticks 1545 / 1550 nm at 258 px spacing put the apex at 1550.6 nm; the staged value was 1550.28
+      nm, outside its stated +/-0.1 nm'
+  cmp_lit_nishiyama2005_vcsel_1p55um_5um-m9:
+    value: 1554.1
+    notes: Read off Fig. 7 with the x axis calibrated on the 1545 / 1550 nm tick marks (the frame runs from 1540 nm to about 1556 nm, not to 1555 nm); apex
+      of the main peak; reading uncertainty about +/-0.1 nm.
+    why: 'p.4 Fig. 7 (400 dpi render of the embedded image): ticks 1545 / 1550 nm at 258 px spacing put the apex at 1554.1 nm; the staged value was 1553.67
+      nm, outside its stated +/-0.1 nm'
+  cmp_lit_nishiyama2005_vcsel_1p55um_5um-m3:
+    statistic: best
+    why: p.3 Sec. III-A 'as low as 110 ohm' -> statistic best (rule 7)
+  cmp_lit_nishiyama2005_vcsel_1p3um_5um-m3:
+    statistic: best
+    why: p.4 Sec. III-B 'as low as 100 ohm' -> statistic best (rule 7)
+  cmp_lit_nishiyama2005_vcsel_1p3um_5um-m12:
+    statistic: best
+    why: p.5 Sec. III-B 'as low as 1 mA' at 85 C -> statistic best (rule 7)
+  cmp_lit_chaw2025_vcsel_population-m2:
+    condition: RT (293 K), devices with oxide apertures about 1.3-6.8 um
+    notes: Read off Fig. 5(a) (left axis), reading uncertainty about +/-0.1 mA; lowest point about 1.32 mA near 2.9 um, highest 4.2 mA at 6.8 um (Fig. 3(a)
+      labels a 6.8 um spectrum device at 4.63 mA); leftmost markers at about 1.28 um.
+    why: 'p.4 Fig. 5(a) render: leftmost black markers at about 1.28 um aperture, not 1.5 um'
+  cmp_lit_chaw2025_vcsel_population-m3:
+    value: 0.23
+    notes: 'Read off Fig. 5(b) (left axis, 3.0 mA full scale), reading uncertainty about +/-0.01 mA: marker centres 0.23 (near 1.6 um) to 0.27 mA (near
+      3.1 um), 13 markers; weak aperture dependence (p.4).'
+    why: 'p.4 Fig. 5(b) render (400 dpi, marker centres against the 0 / 3.0 mA frame): lowest marker about 0.229 mA, none near 0.20 mA'
+  cmp_lit_chaw2025_vcsel_2p9um-m6:
+    basis: derived
+    notes: 'Basis derived: the intrinsic response is the measured S11 / S21 of the VCSEL-PD link with the RC parasitics removed by the group''s Cryo-VCSEL
+      microwave model (ref. [18], p.6), as on the merged ofc2026 Th1A.3 Cryo-VCSEL rows.'
+    why: 'p.6 Sec. VI: values are extracted after model-based RC de-embedding of the measured S-parameters; same method and basis as merged cmp_ofc2026_th1a3_cryo_vcsel_4p5um-m2
+      / -m3 (Q1)'
+  cmp_lit_chaw2025_vcsel_2p9um-m7:
+    basis: derived
+    notes: 'Basis derived: the intrinsic response is the measured S11 / S21 of the VCSEL-PD link with the RC parasitics removed by the group''s Cryo-VCSEL
+      microwave model (ref. [18], p.6), as on the merged ofc2026 Th1A.3 Cryo-VCSEL rows.'
+    why: 'p.6 Sec. VI: values are extracted after model-based RC de-embedding of the measured S-parameters; same method and basis as merged cmp_ofc2026_th1a3_cryo_vcsel_4p5um-m2
+      / -m3 (Q1)'
+  cmp_lit_chaw2025_vcsel_2p9um-m8:
+    basis: derived
+    notes: '''exceeds 50 GHz''; 50 GHz is the measurement limit (p.7). Basis derived: the intrinsic response is the measured S11 / S21 of the VCSEL-PD link
+      with the RC parasitics removed by the group''s Cryo-VCSEL microwave model (ref. [18], p.6), as on the merged ofc2026 Th1A.3 Cryo-VCSEL rows.'
+    why: 'p.6 Sec. VI: values are extracted after model-based RC de-embedding of the measured S-parameters; same method and basis as merged cmp_ofc2026_th1a3_cryo_vcsel_4p5um-m2
+      / -m3 (Q1)'
+  cmp_lit_chaw2025_vcsel_1p8um-m11:
+    basis: derived
+    notes: '''exceeding 50 GHz''; 50 GHz is the measurement limit (p.7). Fig. 9(b) 1 mA trace stays above -3 dB to 50 GHz. Basis derived: the intrinsic
+      response is the measured S11 / S21 of the VCSEL-PD link with the RC parasitics removed by the group''s Cryo-VCSEL microwave model (ref. [18], p.6),
+      as on the merged ofc2026 Th1A.3 Cryo-VCSEL rows.'
+    why: 'p.6 Sec. VI: values are extracted after model-based RC de-embedding of the measured S-parameters; same method and basis as merged cmp_ofc2026_th1a3_cryo_vcsel_4p5um-m2
+      / -m3 (Q1)'
+  cmp_lit_chaw2025_vcsel_1p8um-m12:
+    basis: derived
+    notes: 'Basis derived: the intrinsic response is the measured S11 / S21 of the VCSEL-PD link with the RC parasitics removed by the group''s Cryo-VCSEL
+      microwave model (ref. [18], p.6), as on the merged ofc2026 Th1A.3 Cryo-VCSEL rows.'
+    why: 'p.6 Sec. VI: values are extracted after model-based RC de-embedding of the measured S-parameters; same method and basis as merged cmp_ofc2026_th1a3_cryo_vcsel_4p5um-m2
+      / -m3 (Q1)'
+  cmp_lit_chaw2025_vcsel_1p8um-m13:
+    basis: derived
+    notes: 'Basis derived: the intrinsic response is the measured S11 / S21 of the VCSEL-PD link with the RC parasitics removed by the group''s Cryo-VCSEL
+      microwave model (ref. [18], p.6), as on the merged ofc2026 Th1A.3 Cryo-VCSEL rows.'
+    why: 'p.6 Sec. VI: values are extracted after model-based RC de-embedding of the measured S-parameters; same method and basis as merged cmp_ofc2026_th1a3_cryo_vcsel_4p5um-m2
+      / -m3 (Q1)'
+  cmp_lit_wu2025b_vcsel_5um_half_lambda-m19:
+    basis: derived
+    notes: 'Printed ''up to 32.7 GHz'' near threshold: qualifier le (rule 7). Basis derived: intrinsic response from the measured two-port S-parameters
+      with the UIUC Cryo-VCSEL microwave model (ref. [25], p.4), as on the merged ofc2026 Th1A.3 Cryo-VCSEL rows.'
+    why: 'p.3 Fig. 6(a) caption / p.4 Sec. IV: ''measured and fitted intrinsic optical frequency response''; model-based de-embedding, same basis as merged
+      cmp_ofc2026_th1a3_cryo_vcsel_4p5um-m2 / -m3 (Q1); p.4 ''is up to 32.7 GHz'' -> qualifier le (rule 7, majority of merged ''up to'' rows)'
+    qualifier: le
+  cmp_lit_wu2025b_vcsel_5um_half_lambda-m20:
+    basis: derived
+    notes: 'Basis derived: intrinsic response from the measured two-port S-parameters with the UIUC Cryo-VCSEL microwave model (ref. [25], p.4), as on the
+      merged ofc2026 Th1A.3 Cryo-VCSEL rows.'
+    why: 'p.3 Fig. 6(a) caption / p.4 Sec. IV: ''measured and fitted intrinsic optical frequency response''; model-based de-embedding, same basis as merged
+      cmp_ofc2026_th1a3_cryo_vcsel_4p5um-m2 / -m3 (Q1)'
+  cmp_lit_wu2025b_vcsel_5um_half_lambda-m21:
+    basis: derived
+    notes: 'Intro p.1 says bias current down to about 2.5 mA; conclusion p.4 ''record low bias current of 2.5 mA (I/Ith = 1.5)''. Basis derived: intrinsic
+      response from the measured two-port S-parameters with the UIUC Cryo-VCSEL microwave model (ref. [25], p.4), as on the merged ofc2026 Th1A.3 Cryo-VCSEL
+      rows.'
+    why: 'p.3 Fig. 6(a) caption / p.4 Sec. IV: ''measured and fitted intrinsic optical frequency response''; model-based de-embedding, same basis as merged
+      cmp_ofc2026_th1a3_cryo_vcsel_4p5um-m2 / -m3 (Q1)'

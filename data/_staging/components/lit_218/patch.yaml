@@ -1,0 +1,540 @@
+# Audit patch lit_218 (fresh-context audit 2026-11-20, DevLog/audits/2026-11-20-lit_218-audit.md).
+# 135 metrics: 124 ok / 11 imprecise / 0 wrong; 26 components: 26 ok / 0 imprecise / 0 wrong (one campbell1988 notes op follows the added reads).
+# Misses added: 2 campbell1988 Fig. 3 reads (breakdown, dark current at ~90 % of breakdown) and 45 huang2016b stack-geometry rows
+# (400 nm Ge, 220 nm SOI, 3 um BOX on the 15 series APDs, D153). After the patch: 26 components, 182 metrics.
+# Coordinator questions (audit Q1-Q7): Q4 ye2015 'up to' qualifier dropped on 2 rows (revert = qualifier le on design1_d60-m1 /
+# design2_d50-m1); Q6 campbell1988 Fig. 3 adds (revert = drop the two campbell add_metrics and the component notes op); others no op.
+components:
+  cmp_lit_campbell1988_sagm_apd:
+    notes: 'Fab org_bell_labs, borderline: all four authors at AT&T Bell Laboratories (p.1 footnote; printed name maps to org_bell_labs as merged hayashi1970 / kogelnik1971 rows); first-person processing
+      ''by thinning the substrate to less than 25 um and depositing an AR coating ..., we have obtained'' (p.3) and thanks to a named person ''for assistance with device fabrication'' (p.5; D84b borderline);
+      growth by the authors'' own CBE system (p.1, design cited to ref. [16]). No facility. One row for the APDs of Figs. 3 and 5: the paper does not tie them to one absorber thickness (it says only that
+      the highest frequency response comes with ~2 um absorbers, p.3); the 3 um AR-coated Fig. 4 device is cmp_lit_campbell1988_sagm_apd_3um_ar. Dark current and breakdown of the Fig. 3 device are figure
+      reads (audit): breakdown about 64 V where the dashed dark-current curve turns vertical, and about 34 nA at about 57 V reverse (about 90 % of that breakdown). Not entered: the population statements
+      ''< 50 nA at 90 percent of breakdown'' (abstract) and ''typically in the range 5-150 nA'' total with 1.5-6 nA primary multiplied dark current at 90 % of breakdown (p.2): no breakdown voltage is printed
+      for them (dark_current_na needs a bias) and the two printed statements differ; the Fig. 3 read lies inside both. ''Multiplication values as high as 40'' (p.2-3; abstract ''M0 = 40''): bias not printed;
+      the Fig. 3 device reaches about 35 (entered from the figure). Calculated maximum field 6.2e5 V/cm and 1.0e5 V/cm at the InGaAsP/InGaAs interface at 50 V (M0 = 5, Fig. 2, p.2), substrate free-carrier
+      absorption about 95 /cm at 1.3 um (p.3), RC roll-off 11.5 GHz calculated with 70 ohm device-plus-load resistance (p.4), effective transit time 2.2 ps (p.4): no registry parameter or model values.
+      Ionization coefficients are cited (refs. [18], [19]).'
+    why: notes follow the two Fig. 3 figure reads added by the audit (breakdown, dark current at about 90 % of breakdown)
+metrics:
+  cmp_lit_campbell1988_sagm_apd-m5:
+    bias_v: '-63'
+    notes: 'Read off the right (log) gain axis of Fig. 3 (p.3 render at 10-80x; 24.5 pt per decade, 1.631 pt per volt from the 0 / 80 V frame and the 60 / 70 V ticks): the top data cluster holds a marker
+      at about 35 (63.2 V) and, overlapping the end of the calculated solid line, a feature at about 40 (63.7 V) that may be a further marker; entered as about 35 at about 63 V reverse (bias stored negative),
+      reading +/- 0.05 decade and +/- 0.5 V. The text states ''Multiplication values as high as 40 have been observed before breakdown'' (p.2-3; abstract ''M0 = 40'') without a bias; that 40 is not entered.'
+    why: 'p.3 Fig. 3: the top gain marker sits at 63.2 V reverse (x calibrated on the frame and the 60 / 70 V ticks), not 62 V; notes record the ambiguous ~40 feature at 63.7 V'
+  cmp_lit_lenox1999_rc_sacm_apd_m200-m2:
+    notes: 'Printed ''The dark currents were <10 nA biased at 90% of breakdown for these devices''. Breakdown not printed: bias_v = 0.9 x ~23.9 V read off Fig. 3 (gain and dark current diverge at about
+      23.8-24.0 V), stored negative; the Fig. 3 dotted dark-current curve reads about 8-9 nA at 21.5 V (dots at about 6.5 nA / 21.2 V and 10.6 nA / 21.7 V), consistent with the printed bound.'
+    why: 'p.2 Fig. 3 (6x render, 117 px per decade): the dark current at 21.5 V reads about 8.5 nA, not 1-2 nA as the notes said'
+  cmp_lit_ye2015_design1_d60-m1:
+    temperature_k: '293.15'
+    why: 'p.2 Sec. IV.A + Fig. 2(d): ''up to'' is the -10 V end of a rising sweep and bias_v -10 is set; qualifier le dropped (audit Q4); temperature as above'
+    qualifier: ''
+    notes: 'Printed ''up to 1.3 A/W (at -10 V)''. ''Up to'' names the end of the bias sweep: the Fig. 2(d) Design-1 D60 curve rises monotonically to about 1.30 A/W at -10 V, so the value is the point at
+      the stated bias and carries no bound qualifier (audit Q4).'
+  cmp_lit_ye2015_design1_d60-m2:
+    temperature_k: '293.15'
+    why: 'p.2 Sec. IV.A and Fig. 2 caption: I-V, dark current and responsivity at room temperature (20 C); temperature_k 293.15 as in the merged rows (20 C kept in condition)'
+  cmp_lit_ye2015_design1_d60-m3:
+    temperature_k: '293.15'
+    why: 'p.2 Sec. IV.A and Fig. 2 caption: I-V, dark current and responsivity at room temperature (20 C); temperature_k 293.15 as in the merged rows (20 C kept in condition)'
+  cmp_lit_ye2015_design1_d50-m1:
+    temperature_k: '293.15'
+    why: 'p.2 Sec. IV.A and Fig. 2 caption: I-V, dark current and responsivity at room temperature (20 C); temperature_k 293.15 as in the merged rows (20 C kept in condition)'
+  cmp_lit_ye2015_design2_d50-m1:
+    temperature_k: '293.15'
+    why: 'p.3 Sec. IV.A + p.2 Fig. 2(d): ''up to'' is the -10 V end of the sweep and bias_v -10 is set; qualifier le dropped (audit Q4); temperature as above'
+    qualifier: ''
+    notes: 'Printed ''up to 0.93 A/W'' at -10 V (p.3); abstract ''photoresponsivity of 0.93 A/W''. ''Up to'' names the end of the bias sweep: the Fig. 2(d) Design-2 D50 curve reads about 0.94 A/W at -9.5
+      V and 0.93 A/W at -10 V, so the value is the point at the stated bias and carries no bound qualifier (audit Q4).'
+  cmp_lit_ye2015_design2_d50-m2:
+    temperature_k: '293.15'
+    why: 'p.2 Sec. IV.A and Fig. 2 caption: I-V, dark current and responsivity at room temperature (20 C); temperature_k 293.15 as in the merged rows (20 C kept in condition)'
+  cmp_lit_ye2015_design2_d50-m3:
+    temperature_k: '293.15'
+    why: 'p.2 Sec. IV.A and Fig. 2 caption: I-V, dark current and responsivity at room temperature (20 C); temperature_k 293.15 as in the merged rows (20 C kept in condition)'
+  cmp_lit_ye2015_design2_d50-m4:
+    temperature_k: '293.15'
+    why: 'p.2 Sec. IV.A and Fig. 2 caption: I-V, dark current and responsivity at room temperature (20 C); temperature_k 293.15 as in the merged rows (20 C kept in condition)'
+  cmp_lit_ye2015_design2_d50-m5:
+    temperature_k: '293.15'
+    why: 'p.2 Sec. IV.A and Fig. 2 caption: I-V, dark current and responsivity at room temperature (20 C); temperature_k 293.15 as in the merged rows (20 C kept in condition)'
+add_metrics:
+- metric_id: cmp_lit_campbell1988_sagm_apd-m7
+  component_id: cmp_lit_campbell1988_sagm_apd
+  parameter: breakdown_voltage_v
+  value: '64'
+  unit: V
+  qualifier: approx
+  condition: 'Fig. 3 device: voltage where the dashed dark-current curve turns vertical; criterion not stated'
+  basis: extracted_from_figure
+  locator: p.3 Fig. 3
+  notes: 'Not printed in the text. Read off Fig. 3 (p.3 render at 10x): the dark-current rise is vertical at about 63.5-64 V (x calibrated on the 0 / 80 V frame, 1.631 pt per volt); voltage axis printed
+    positive, kept as printed (lenox1999 m4 practice).'
+  why: 'miss: Fig. 3 breakdown of the gain / dark-current device, entered as for lenox1999 (figure read, sign as printed)'
+- metric_id: cmp_lit_campbell1988_sagm_apd-m8
+  component_id: cmp_lit_campbell1988_sagm_apd
+  parameter: dark_current_na
+  value: '34'
+  unit: nA
+  qualifier: approx
+  bias_v: '-57.3'
+  condition: Fig. 3 device; total dark current at about 90 % of the ~64 V breakdown read off the same figure
+  basis: extracted_from_figure
+  locator: p.3 Fig. 3; p.2
+  notes: 'Read off the Fig. 3 dashed curve (p.3 render at 10x; log axis 15.33 pt per decade between the 1e-4 and 1e-10 A frame lines): about 3.4e-8 A at 57.3 V reverse (0.9 x 63.7 V), reading +/- 0.1 decade;
+    bias stored negative. The text gives ''typically in the range 5-150 nA'' total and 1.5-6 nA primary multiplied dark current at 90 % of breakdown (p.2) and ''< 50 nA'' (abstract) for the population;
+    this device lies inside both.'
+  why: 'miss: the Fig. 3 dark-current curve of the gain device gives a value at a known bias (the printed population values have none)'
+- metric_id: cmp_lit_huang2016b_apd_w4_l30-m6
+  component_id: cmp_lit_huang2016b_apd_w4_l30
+  parameter: absorber_thickness_nm
+  value: '400'
+  unit: nm
+  condition: selectively grown Ge, boron-implanted throughout
+  basis: design_target
+  locator: p.2 Sec. 2; p.3 Sec. 3C; p.3 Fig. 2(d)
+  notes: Stack stated once for all Si-Ge APDs of the paper (p.2 Sec. 2; 'In this work, we have deposited 400 nm germanium', p.3); copied as on the 4 x 10 / 4 x 50 um rows (D153).
+  why: 'D153 miss: stack geometry printed once for every APD (220 nm SOI, 3 um BOX, 400 nm Ge) is on 2 of the 17 APD rows only'
+- metric_id: cmp_lit_huang2016b_apd_w4_l30-m7
+  component_id: cmp_lit_huang2016b_apd_w4_l30
+  parameter: core_thickness_nm
+  value: '220'
+  unit: nm
+  condition: SOI Si device layer
+  basis: design_target
+  locator: p.2 Sec. 2
+  notes: Stack stated once for all Si-Ge APDs of the paper (p.2 Sec. 2; 'In this work, we have deposited 400 nm germanium', p.3); copied as on the 4 x 10 / 4 x 50 um rows (D153).
+  why: 'D153 miss: stack geometry printed once for every APD (220 nm SOI, 3 um BOX, 400 nm Ge) is on 2 of the 17 APD rows only'
+- metric_id: cmp_lit_huang2016b_apd_w4_l30-m8
+  component_id: cmp_lit_huang2016b_apd_w4_l30
+  parameter: box_thickness_um
+  value: '3'
+  unit: um
+  condition: buried oxide
+  basis: design_target
+  locator: p.2 Sec. 2
+  notes: Stack stated once for all Si-Ge APDs of the paper (p.2 Sec. 2; 'In this work, we have deposited 400 nm germanium', p.3); copied as on the 4 x 10 / 4 x 50 um rows (D153).
+  why: 'D153 miss: stack geometry printed once for every APD (220 nm SOI, 3 um BOX, 400 nm Ge) is on 2 of the 17 APD rows only'
+- metric_id: cmp_lit_huang2016b_apd_w4_l25-m5
+  component_id: cmp_lit_huang2016b_apd_w4_l25
+  parameter: absorber_thickness_nm
+  value: '400'
+  unit: nm
+  condition: selectively grown Ge, boron-implanted throughout
+  basis: design_target
+  locator: p.2 Sec. 2; p.3 Sec. 3C; p.3 Fig. 2(d)
+  notes: Stack stated once for all Si-Ge APDs of the paper (p.2 Sec. 2; 'In this work, we have deposited 400 nm germanium', p.3); copied as on the 4 x 10 / 4 x 50 um rows (D153).
+  why: 'D153 miss: stack geometry printed once for every APD (220 nm SOI, 3 um BOX, 400 nm Ge) is on 2 of the 17 APD rows only'
+- metric_id: cmp_lit_huang2016b_apd_w4_l25-m6
+  component_id: cmp_lit_huang2016b_apd_w4_l25
+  parameter: core_thickness_nm
+  value: '220'
+  unit: nm
+  condition: SOI Si device layer
+  basis: design_target
+  locator: p.2 Sec. 2
+  notes: Stack stated once for all Si-Ge APDs of the paper (p.2 Sec. 2; 'In this work, we have deposited 400 nm germanium', p.3); copied as on the 4 x 10 / 4 x 50 um rows (D153).
+  why: 'D153 miss: stack geometry printed once for every APD (220 nm SOI, 3 um BOX, 400 nm Ge) is on 2 of the 17 APD rows only'
+- metric_id: cmp_lit_huang2016b_apd_w4_l25-m7
+  component_id: cmp_lit_huang2016b_apd_w4_l25
+  parameter: box_thickness_um
+  value: '3'
+  unit: um
+  condition: buried oxide
+  basis: design_target
+  locator: p.2 Sec. 2
+  notes: Stack stated once for all Si-Ge APDs of the paper (p.2 Sec. 2; 'In this work, we have deposited 400 nm germanium', p.3); copied as on the 4 x 10 / 4 x 50 um rows (D153).
+  why: 'D153 miss: stack geometry printed once for every APD (220 nm SOI, 3 um BOX, 400 nm Ge) is on 2 of the 17 APD rows only'
+- metric_id: cmp_lit_huang2016b_apd_w4_l75-m5
+  component_id: cmp_lit_huang2016b_apd_w4_l75
+  parameter: absorber_thickness_nm
+  value: '400'
+  unit: nm
+  condition: selectively grown Ge, boron-implanted throughout
+  basis: design_target
+  locator: p.2 Sec. 2; p.3 Sec. 3C; p.3 Fig. 2(d)
+  notes: Stack stated once for all Si-Ge APDs of the paper (p.2 Sec. 2; 'In this work, we have deposited 400 nm germanium', p.3); copied as on the 4 x 10 / 4 x 50 um rows (D153).
+  why: 'D153 miss: stack geometry printed once for every APD (220 nm SOI, 3 um BOX, 400 nm Ge) is on 2 of the 17 APD rows only'
+- metric_id: cmp_lit_huang2016b_apd_w4_l75-m6
+  component_id: cmp_lit_huang2016b_apd_w4_l75
+  parameter: core_thickness_nm
+  value: '220'
+  unit: nm
+  condition: SOI Si device layer
+  basis: design_target
+  locator: p.2 Sec. 2
+  notes: Stack stated once for all Si-Ge APDs of the paper (p.2 Sec. 2; 'In this work, we have deposited 400 nm germanium', p.3); copied as on the 4 x 10 / 4 x 50 um rows (D153).
+  why: 'D153 miss: stack geometry printed once for every APD (220 nm SOI, 3 um BOX, 400 nm Ge) is on 2 of the 17 APD rows only'
+- metric_id: cmp_lit_huang2016b_apd_w4_l75-m7
+  component_id: cmp_lit_huang2016b_apd_w4_l75
+  parameter: box_thickness_um
+  value: '3'
+  unit: um
+  condition: buried oxide
+  basis: design_target
+  locator: p.2 Sec. 2
+  notes: Stack stated once for all Si-Ge APDs of the paper (p.2 Sec. 2; 'In this work, we have deposited 400 nm germanium', p.3); copied as on the 4 x 10 / 4 x 50 um rows (D153).
+  why: 'D153 miss: stack geometry printed once for every APD (220 nm SOI, 3 um BOX, 400 nm Ge) is on 2 of the 17 APD rows only'
+- metric_id: cmp_lit_huang2016b_apd_w4_l100-m5
+  component_id: cmp_lit_huang2016b_apd_w4_l100
+  parameter: absorber_thickness_nm
+  value: '400'
+  unit: nm
+  condition: selectively grown Ge, boron-implanted throughout
+  basis: design_target
+  locator: p.2 Sec. 2; p.3 Sec. 3C; p.3 Fig. 2(d)
+  notes: Stack stated once for all Si-Ge APDs of the paper (p.2 Sec. 2; 'In this work, we have deposited 400 nm germanium', p.3); copied as on the 4 x 10 / 4 x 50 um rows (D153).
+  why: 'D153 miss: stack geometry printed once for every APD (220 nm SOI, 3 um BOX, 400 nm Ge) is on 2 of the 17 APD rows only'
+- metric_id: cmp_lit_huang2016b_apd_w4_l100-m6
+  component_id: cmp_lit_huang2016b_apd_w4_l100
+  parameter: core_thickness_nm
+  value: '220'
+  unit: nm
+  condition: SOI Si device layer
+  basis: design_target
+  locator: p.2 Sec. 2
+  notes: Stack stated once for all Si-Ge APDs of the paper (p.2 Sec. 2; 'In this work, we have deposited 400 nm germanium', p.3); copied as on the 4 x 10 / 4 x 50 um rows (D153).
+  why: 'D153 miss: stack geometry printed once for every APD (220 nm SOI, 3 um BOX, 400 nm Ge) is on 2 of the 17 APD rows only'
+- metric_id: cmp_lit_huang2016b_apd_w4_l100-m7
+  component_id: cmp_lit_huang2016b_apd_w4_l100
+  parameter: box_thickness_um
+  value: '3'
+  unit: um
+  condition: buried oxide
+  basis: design_target
+  locator: p.2 Sec. 2
+  notes: Stack stated once for all Si-Ge APDs of the paper (p.2 Sec. 2; 'In this work, we have deposited 400 nm germanium', p.3); copied as on the 4 x 10 / 4 x 50 um rows (D153).
+  why: 'D153 miss: stack geometry printed once for every APD (220 nm SOI, 3 um BOX, 400 nm Ge) is on 2 of the 17 APD rows only'
+- metric_id: cmp_lit_huang2016b_apd_w4_l150-m4
+  component_id: cmp_lit_huang2016b_apd_w4_l150
+  parameter: absorber_thickness_nm
+  value: '400'
+  unit: nm
+  condition: selectively grown Ge, boron-implanted throughout
+  basis: design_target
+  locator: p.2 Sec. 2; p.3 Sec. 3C; p.3 Fig. 2(d)
+  notes: Stack stated once for all Si-Ge APDs of the paper (p.2 Sec. 2; 'In this work, we have deposited 400 nm germanium', p.3); copied as on the 4 x 10 / 4 x 50 um rows (D153).
+  why: 'D153 miss: stack geometry printed once for every APD (220 nm SOI, 3 um BOX, 400 nm Ge) is on 2 of the 17 APD rows only'
+- metric_id: cmp_lit_huang2016b_apd_w4_l150-m5
+  component_id: cmp_lit_huang2016b_apd_w4_l150
+  parameter: core_thickness_nm
+  value: '220'
+  unit: nm
+  condition: SOI Si device layer
+  basis: design_target
+  locator: p.2 Sec. 2
+  notes: Stack stated once for all Si-Ge APDs of the paper (p.2 Sec. 2; 'In this work, we have deposited 400 nm germanium', p.3); copied as on the 4 x 10 / 4 x 50 um rows (D153).
+  why: 'D153 miss: stack geometry printed once for every APD (220 nm SOI, 3 um BOX, 400 nm Ge) is on 2 of the 17 APD rows only'
+- metric_id: cmp_lit_huang2016b_apd_w4_l150-m6
+  component_id: cmp_lit_huang2016b_apd_w4_l150
+  parameter: box_thickness_um
+  value: '3'
+  unit: um
+  condition: buried oxide
+  basis: design_target
+  locator: p.2 Sec. 2
+  notes: Stack stated once for all Si-Ge APDs of the paper (p.2 Sec. 2; 'In this work, we have deposited 400 nm germanium', p.3); copied as on the 4 x 10 / 4 x 50 um rows (D153).
+  why: 'D153 miss: stack geometry printed once for every APD (220 nm SOI, 3 um BOX, 400 nm Ge) is on 2 of the 17 APD rows only'
+- metric_id: cmp_lit_huang2016b_apd_w6_l10-m4
+  component_id: cmp_lit_huang2016b_apd_w6_l10
+  parameter: absorber_thickness_nm
+  value: '400'
+  unit: nm
+  condition: selectively grown Ge, boron-implanted throughout
+  basis: design_target
+  locator: p.2 Sec. 2; p.3 Sec. 3C; p.3 Fig. 2(d)
+  notes: Stack stated once for all Si-Ge APDs of the paper (p.2 Sec. 2; 'In this work, we have deposited 400 nm germanium', p.3); copied as on the 4 x 10 / 4 x 50 um rows (D153).
+  why: 'D153 miss: stack geometry printed once for every APD (220 nm SOI, 3 um BOX, 400 nm Ge) is on 2 of the 17 APD rows only'
+- metric_id: cmp_lit_huang2016b_apd_w6_l10-m5
+  component_id: cmp_lit_huang2016b_apd_w6_l10
+  parameter: core_thickness_nm
+  value: '220'
+  unit: nm
+  condition: SOI Si device layer
+  basis: design_target
+  locator: p.2 Sec. 2
+  notes: Stack stated once for all Si-Ge APDs of the paper (p.2 Sec. 2; 'In this work, we have deposited 400 nm germanium', p.3); copied as on the 4 x 10 / 4 x 50 um rows (D153).
+  why: 'D153 miss: stack geometry printed once for every APD (220 nm SOI, 3 um BOX, 400 nm Ge) is on 2 of the 17 APD rows only'
+- metric_id: cmp_lit_huang2016b_apd_w6_l10-m6
+  component_id: cmp_lit_huang2016b_apd_w6_l10
+  parameter: box_thickness_um
+  value: '3'
+  unit: um
+  condition: buried oxide
+  basis: design_target
+  locator: p.2 Sec. 2
+  notes: Stack stated once for all Si-Ge APDs of the paper (p.2 Sec. 2; 'In this work, we have deposited 400 nm germanium', p.3); copied as on the 4 x 10 / 4 x 50 um rows (D153).
+  why: 'D153 miss: stack geometry printed once for every APD (220 nm SOI, 3 um BOX, 400 nm Ge) is on 2 of the 17 APD rows only'
+- metric_id: cmp_lit_huang2016b_apd_w6_l25-m4
+  component_id: cmp_lit_huang2016b_apd_w6_l25
+  parameter: absorber_thickness_nm
+  value: '400'
+  unit: nm
+  condition: selectively grown Ge, boron-implanted throughout
+  basis: design_target
+  locator: p.2 Sec. 2; p.3 Sec. 3C; p.3 Fig. 2(d)
+  notes: Stack stated once for all Si-Ge APDs of the paper (p.2 Sec. 2; 'In this work, we have deposited 400 nm germanium', p.3); copied as on the 4 x 10 / 4 x 50 um rows (D153).
+  why: 'D153 miss: stack geometry printed once for every APD (220 nm SOI, 3 um BOX, 400 nm Ge) is on 2 of the 17 APD rows only'
+- metric_id: cmp_lit_huang2016b_apd_w6_l25-m5
+  component_id: cmp_lit_huang2016b_apd_w6_l25
+  parameter: core_thickness_nm
+  value: '220'
+  unit: nm
+  condition: SOI Si device layer
+  basis: design_target
+  locator: p.2 Sec. 2
+  notes: Stack stated once for all Si-Ge APDs of the paper (p.2 Sec. 2; 'In this work, we have deposited 400 nm germanium', p.3); copied as on the 4 x 10 / 4 x 50 um rows (D153).
+  why: 'D153 miss: stack geometry printed once for every APD (220 nm SOI, 3 um BOX, 400 nm Ge) is on 2 of the 17 APD rows only'
+- metric_id: cmp_lit_huang2016b_apd_w6_l25-m6
+  component_id: cmp_lit_huang2016b_apd_w6_l25
+  parameter: box_thickness_um
+  value: '3'
+  unit: um
+  condition: buried oxide
+  basis: design_target
+  locator: p.2 Sec. 2
+  notes: Stack stated once for all Si-Ge APDs of the paper (p.2 Sec. 2; 'In this work, we have deposited 400 nm germanium', p.3); copied as on the 4 x 10 / 4 x 50 um rows (D153).
+  why: 'D153 miss: stack geometry printed once for every APD (220 nm SOI, 3 um BOX, 400 nm Ge) is on 2 of the 17 APD rows only'
+- metric_id: cmp_lit_huang2016b_apd_w6_l50-m4
+  component_id: cmp_lit_huang2016b_apd_w6_l50
+  parameter: absorber_thickness_nm
+  value: '400'
+  unit: nm
+  condition: selectively grown Ge, boron-implanted throughout
+  basis: design_target
+  locator: p.2 Sec. 2; p.3 Sec. 3C; p.3 Fig. 2(d)
+  notes: Stack stated once for all Si-Ge APDs of the paper (p.2 Sec. 2; 'In this work, we have deposited 400 nm germanium', p.3); copied as on the 4 x 10 / 4 x 50 um rows (D153).
+  why: 'D153 miss: stack geometry printed once for every APD (220 nm SOI, 3 um BOX, 400 nm Ge) is on 2 of the 17 APD rows only'
+- metric_id: cmp_lit_huang2016b_apd_w6_l50-m5
+  component_id: cmp_lit_huang2016b_apd_w6_l50
+  parameter: core_thickness_nm
+  value: '220'
+  unit: nm
+  condition: SOI Si device layer
+  basis: design_target
+  locator: p.2 Sec. 2
+  notes: Stack stated once for all Si-Ge APDs of the paper (p.2 Sec. 2; 'In this work, we have deposited 400 nm germanium', p.3); copied as on the 4 x 10 / 4 x 50 um rows (D153).
+  why: 'D153 miss: stack geometry printed once for every APD (220 nm SOI, 3 um BOX, 400 nm Ge) is on 2 of the 17 APD rows only'
+- metric_id: cmp_lit_huang2016b_apd_w6_l50-m6
+  component_id: cmp_lit_huang2016b_apd_w6_l50
+  parameter: box_thickness_um
+  value: '3'
+  unit: um
+  condition: buried oxide
+  basis: design_target
+  locator: p.2 Sec. 2
+  notes: Stack stated once for all Si-Ge APDs of the paper (p.2 Sec. 2; 'In this work, we have deposited 400 nm germanium', p.3); copied as on the 4 x 10 / 4 x 50 um rows (D153).
+  why: 'D153 miss: stack geometry printed once for every APD (220 nm SOI, 3 um BOX, 400 nm Ge) is on 2 of the 17 APD rows only'
+- metric_id: cmp_lit_huang2016b_apd_w6_l75-m4
+  component_id: cmp_lit_huang2016b_apd_w6_l75
+  parameter: absorber_thickness_nm
+  value: '400'
+  unit: nm
+  condition: selectively grown Ge, boron-implanted throughout
+  basis: design_target
+  locator: p.2 Sec. 2; p.3 Sec. 3C; p.3 Fig. 2(d)
+  notes: Stack stated once for all Si-Ge APDs of the paper (p.2 Sec. 2; 'In this work, we have deposited 400 nm germanium', p.3); copied as on the 4 x 10 / 4 x 50 um rows (D153).
+  why: 'D153 miss: stack geometry printed once for every APD (220 nm SOI, 3 um BOX, 400 nm Ge) is on 2 of the 17 APD rows only'
+- metric_id: cmp_lit_huang2016b_apd_w6_l75-m5
+  component_id: cmp_lit_huang2016b_apd_w6_l75
+  parameter: core_thickness_nm
+  value: '220'
+  unit: nm
+  condition: SOI Si device layer
+  basis: design_target
+  locator: p.2 Sec. 2
+  notes: Stack stated once for all Si-Ge APDs of the paper (p.2 Sec. 2; 'In this work, we have deposited 400 nm germanium', p.3); copied as on the 4 x 10 / 4 x 50 um rows (D153).
+  why: 'D153 miss: stack geometry printed once for every APD (220 nm SOI, 3 um BOX, 400 nm Ge) is on 2 of the 17 APD rows only'
+- metric_id: cmp_lit_huang2016b_apd_w6_l75-m6
+  component_id: cmp_lit_huang2016b_apd_w6_l75
+  parameter: box_thickness_um
+  value: '3'
+  unit: um
+  condition: buried oxide
+  basis: design_target
+  locator: p.2 Sec. 2
+  notes: Stack stated once for all Si-Ge APDs of the paper (p.2 Sec. 2; 'In this work, we have deposited 400 nm germanium', p.3); copied as on the 4 x 10 / 4 x 50 um rows (D153).
+  why: 'D153 miss: stack geometry printed once for every APD (220 nm SOI, 3 um BOX, 400 nm Ge) is on 2 of the 17 APD rows only'
+- metric_id: cmp_lit_huang2016b_apd_w6_l100-m4
+  component_id: cmp_lit_huang2016b_apd_w6_l100
+  parameter: absorber_thickness_nm
+  value: '400'
+  unit: nm
+  condition: selectively grown Ge, boron-implanted throughout
+  basis: design_target
+  locator: p.2 Sec. 2; p.3 Sec. 3C; p.3 Fig. 2(d)
+  notes: Stack stated once for all Si-Ge APDs of the paper (p.2 Sec. 2; 'In this work, we have deposited 400 nm germanium', p.3); copied as on the 4 x 10 / 4 x 50 um rows (D153).
+  why: 'D153 miss: stack geometry printed once for every APD (220 nm SOI, 3 um BOX, 400 nm Ge) is on 2 of the 17 APD rows only'
+- metric_id: cmp_lit_huang2016b_apd_w6_l100-m5
+  component_id: cmp_lit_huang2016b_apd_w6_l100
+  parameter: core_thickness_nm
+  value: '220'
+  unit: nm
+  condition: SOI Si device layer
+  basis: design_target
+  locator: p.2 Sec. 2
+  notes: Stack stated once for all Si-Ge APDs of the paper (p.2 Sec. 2; 'In this work, we have deposited 400 nm germanium', p.3); copied as on the 4 x 10 / 4 x 50 um rows (D153).
+  why: 'D153 miss: stack geometry printed once for every APD (220 nm SOI, 3 um BOX, 400 nm Ge) is on 2 of the 17 APD rows only'
+- metric_id: cmp_lit_huang2016b_apd_w6_l100-m6
+  component_id: cmp_lit_huang2016b_apd_w6_l100
+  parameter: box_thickness_um
+  value: '3'
+  unit: um
+  condition: buried oxide
+  basis: design_target
+  locator: p.2 Sec. 2
+  notes: Stack stated once for all Si-Ge APDs of the paper (p.2 Sec. 2; 'In this work, we have deposited 400 nm germanium', p.3); copied as on the 4 x 10 / 4 x 50 um rows (D153).
+  why: 'D153 miss: stack geometry printed once for every APD (220 nm SOI, 3 um BOX, 400 nm Ge) is on 2 of the 17 APD rows only'
+- metric_id: cmp_lit_huang2016b_apd_w8_l10-m4
+  component_id: cmp_lit_huang2016b_apd_w8_l10
+  parameter: absorber_thickness_nm
+  value: '400'
+  unit: nm
+  condition: selectively grown Ge, boron-implanted throughout
+  basis: design_target
+  locator: p.2 Sec. 2; p.3 Sec. 3C; p.3 Fig. 2(d)
+  notes: Stack stated once for all Si-Ge APDs of the paper (p.2 Sec. 2; 'In this work, we have deposited 400 nm germanium', p.3); copied as on the 4 x 10 / 4 x 50 um rows (D153).
+  why: 'D153 miss: stack geometry printed once for every APD (220 nm SOI, 3 um BOX, 400 nm Ge) is on 2 of the 17 APD rows only'
+- metric_id: cmp_lit_huang2016b_apd_w8_l10-m5
+  component_id: cmp_lit_huang2016b_apd_w8_l10
+  parameter: core_thickness_nm
+  value: '220'
+  unit: nm
+  condition: SOI Si device layer
+  basis: design_target
+  locator: p.2 Sec. 2
+  notes: Stack stated once for all Si-Ge APDs of the paper (p.2 Sec. 2; 'In this work, we have deposited 400 nm germanium', p.3); copied as on the 4 x 10 / 4 x 50 um rows (D153).
+  why: 'D153 miss: stack geometry printed once for every APD (220 nm SOI, 3 um BOX, 400 nm Ge) is on 2 of the 17 APD rows only'
+- metric_id: cmp_lit_huang2016b_apd_w8_l10-m6
+  component_id: cmp_lit_huang2016b_apd_w8_l10
+  parameter: box_thickness_um
+  value: '3'
+  unit: um
+  condition: buried oxide
+  basis: design_target
+  locator: p.2 Sec. 2
+  notes: Stack stated once for all Si-Ge APDs of the paper (p.2 Sec. 2; 'In this work, we have deposited 400 nm germanium', p.3); copied as on the 4 x 10 / 4 x 50 um rows (D153).
+  why: 'D153 miss: stack geometry printed once for every APD (220 nm SOI, 3 um BOX, 400 nm Ge) is on 2 of the 17 APD rows only'
+- metric_id: cmp_lit_huang2016b_apd_w8_l25-m4
+  component_id: cmp_lit_huang2016b_apd_w8_l25
+  parameter: absorber_thickness_nm
+  value: '400'
+  unit: nm
+  condition: selectively grown Ge, boron-implanted throughout
+  basis: design_target
+  locator: p.2 Sec. 2; p.3 Sec. 3C; p.3 Fig. 2(d)
+  notes: Stack stated once for all Si-Ge APDs of the paper (p.2 Sec. 2; 'In this work, we have deposited 400 nm germanium', p.3); copied as on the 4 x 10 / 4 x 50 um rows (D153).
+  why: 'D153 miss: stack geometry printed once for every APD (220 nm SOI, 3 um BOX, 400 nm Ge) is on 2 of the 17 APD rows only'
+- metric_id: cmp_lit_huang2016b_apd_w8_l25-m5
+  component_id: cmp_lit_huang2016b_apd_w8_l25
+  parameter: core_thickness_nm
+  value: '220'
+  unit: nm
+  condition: SOI Si device layer
+  basis: design_target
+  locator: p.2 Sec. 2
+  notes: Stack stated once for all Si-Ge APDs of the paper (p.2 Sec. 2; 'In this work, we have deposited 400 nm germanium', p.3); copied as on the 4 x 10 / 4 x 50 um rows (D153).
+  why: 'D153 miss: stack geometry printed once for every APD (220 nm SOI, 3 um BOX, 400 nm Ge) is on 2 of the 17 APD rows only'
+- metric_id: cmp_lit_huang2016b_apd_w8_l25-m6
+  component_id: cmp_lit_huang2016b_apd_w8_l25
+  parameter: box_thickness_um
+  value: '3'
+  unit: um
+  condition: buried oxide
+  basis: design_target
+  locator: p.2 Sec. 2
+  notes: Stack stated once for all Si-Ge APDs of the paper (p.2 Sec. 2; 'In this work, we have deposited 400 nm germanium', p.3); copied as on the 4 x 10 / 4 x 50 um rows (D153).
+  why: 'D153 miss: stack geometry printed once for every APD (220 nm SOI, 3 um BOX, 400 nm Ge) is on 2 of the 17 APD rows only'
+- metric_id: cmp_lit_huang2016b_apd_w8_l50-m4
+  component_id: cmp_lit_huang2016b_apd_w8_l50
+  parameter: absorber_thickness_nm
+  value: '400'
+  unit: nm
+  condition: selectively grown Ge, boron-implanted throughout
+  basis: design_target
+  locator: p.2 Sec. 2; p.3 Sec. 3C; p.3 Fig. 2(d)
+  notes: Stack stated once for all Si-Ge APDs of the paper (p.2 Sec. 2; 'In this work, we have deposited 400 nm germanium', p.3); copied as on the 4 x 10 / 4 x 50 um rows (D153).
+  why: 'D153 miss: stack geometry printed once for every APD (220 nm SOI, 3 um BOX, 400 nm Ge) is on 2 of the 17 APD rows only'
+- metric_id: cmp_lit_huang2016b_apd_w8_l50-m5
+  component_id: cmp_lit_huang2016b_apd_w8_l50
+  parameter: core_thickness_nm
+  value: '220'
+  unit: nm
+  condition: SOI Si device layer
+  basis: design_target
+  locator: p.2 Sec. 2
+  notes: Stack stated once for all Si-Ge APDs of the paper (p.2 Sec. 2; 'In this work, we have deposited 400 nm germanium', p.3); copied as on the 4 x 10 / 4 x 50 um rows (D153).
+  why: 'D153 miss: stack geometry printed once for every APD (220 nm SOI, 3 um BOX, 400 nm Ge) is on 2 of the 17 APD rows only'
+- metric_id: cmp_lit_huang2016b_apd_w8_l50-m6
+  component_id: cmp_lit_huang2016b_apd_w8_l50
+  parameter: box_thickness_um
+  value: '3'
+  unit: um
+  condition: buried oxide
+  basis: design_target
+  locator: p.2 Sec. 2
+  notes: Stack stated once for all Si-Ge APDs of the paper (p.2 Sec. 2; 'In this work, we have deposited 400 nm germanium', p.3); copied as on the 4 x 10 / 4 x 50 um rows (D153).
+  why: 'D153 miss: stack geometry printed once for every APD (220 nm SOI, 3 um BOX, 400 nm Ge) is on 2 of the 17 APD rows only'
+- metric_id: cmp_lit_huang2016b_apd_w8_l75-m4
+  component_id: cmp_lit_huang2016b_apd_w8_l75
+  parameter: absorber_thickness_nm
+  value: '400'
+  unit: nm
+  condition: selectively grown Ge, boron-implanted throughout
+  basis: design_target
+  locator: p.2 Sec. 2; p.3 Sec. 3C; p.3 Fig. 2(d)
+  notes: Stack stated once for all Si-Ge APDs of the paper (p.2 Sec. 2; 'In this work, we have deposited 400 nm germanium', p.3); copied as on the 4 x 10 / 4 x 50 um rows (D153).
+  why: 'D153 miss: stack geometry printed once for every APD (220 nm SOI, 3 um BOX, 400 nm Ge) is on 2 of the 17 APD rows only'
+- metric_id: cmp_lit_huang2016b_apd_w8_l75-m5
+  component_id: cmp_lit_huang2016b_apd_w8_l75
+  parameter: core_thickness_nm
+  value: '220'
+  unit: nm
+  condition: SOI Si device layer
+  basis: design_target
+  locator: p.2 Sec. 2
+  notes: Stack stated once for all Si-Ge APDs of the paper (p.2 Sec. 2; 'In this work, we have deposited 400 nm germanium', p.3); copied as on the 4 x 10 / 4 x 50 um rows (D153).
+  why: 'D153 miss: stack geometry printed once for every APD (220 nm SOI, 3 um BOX, 400 nm Ge) is on 2 of the 17 APD rows only'
+- metric_id: cmp_lit_huang2016b_apd_w8_l75-m6
+  component_id: cmp_lit_huang2016b_apd_w8_l75
+  parameter: box_thickness_um
+  value: '3'
+  unit: um
+  condition: buried oxide
+  basis: design_target
+  locator: p.2 Sec. 2
+  notes: Stack stated once for all Si-Ge APDs of the paper (p.2 Sec. 2; 'In this work, we have deposited 400 nm germanium', p.3); copied as on the 4 x 10 / 4 x 50 um rows (D153).
+  why: 'D153 miss: stack geometry printed once for every APD (220 nm SOI, 3 um BOX, 400 nm Ge) is on 2 of the 17 APD rows only'
+- metric_id: cmp_lit_huang2016b_apd_w8_l100-m4
+  component_id: cmp_lit_huang2016b_apd_w8_l100
+  parameter: absorber_thickness_nm
+  value: '400'
+  unit: nm
+  condition: selectively grown Ge, boron-implanted throughout
+  basis: design_target
+  locator: p.2 Sec. 2; p.3 Sec. 3C; p.3 Fig. 2(d)
+  notes: Stack stated once for all Si-Ge APDs of the paper (p.2 Sec. 2; 'In this work, we have deposited 400 nm germanium', p.3); copied as on the 4 x 10 / 4 x 50 um rows (D153).
+  why: 'D153 miss: stack geometry printed once for every APD (220 nm SOI, 3 um BOX, 400 nm Ge) is on 2 of the 17 APD rows only'
+- metric_id: cmp_lit_huang2016b_apd_w8_l100-m5
+  component_id: cmp_lit_huang2016b_apd_w8_l100
+  parameter: core_thickness_nm
+  value: '220'
+  unit: nm
+  condition: SOI Si device layer
+  basis: design_target
+  locator: p.2 Sec. 2
+  notes: Stack stated once for all Si-Ge APDs of the paper (p.2 Sec. 2; 'In this work, we have deposited 400 nm germanium', p.3); copied as on the 4 x 10 / 4 x 50 um rows (D153).
+  why: 'D153 miss: stack geometry printed once for every APD (220 nm SOI, 3 um BOX, 400 nm Ge) is on 2 of the 17 APD rows only'
+- metric_id: cmp_lit_huang2016b_apd_w8_l100-m6
+  component_id: cmp_lit_huang2016b_apd_w8_l100
+  parameter: box_thickness_um
+  value: '3'
+  unit: um
+  condition: buried oxide
+  basis: design_target
+  locator: p.2 Sec. 2
+  notes: Stack stated once for all Si-Ge APDs of the paper (p.2 Sec. 2; 'In this work, we have deposited 400 nm germanium', p.3); copied as on the 4 x 10 / 4 x 50 um rows (D153).
+  why: 'D153 miss: stack geometry printed once for every APD (220 nm SOI, 3 um BOX, 400 nm Ge) is on 2 of the 17 APD rows only'

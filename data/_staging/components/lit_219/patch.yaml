@@ -1,0 +1,63 @@
+# Audit patch lit_219 (fresh-context audit 2026-11-20, DevLog/audits/2026-11-20-lit_219-audit.md).
+# 88 metrics: 79 ok / 8 imprecise / 1 wrong; 16 components: 14 ok / 2 imprecise (notes) / 0 wrong.
+# Miss added: 1 metric (li2015 ring extinction 12 dB at reverse 1 V, Fig. 2(a) label). After the patch: 16 components, 89 metrics.
+# Coordinator questions (audit Q1-Q7): Q1 ye2014 laser S21 and waveguide PD values kept (no op); Q2 1x4 MMI author_estimate kept (notes only);
+# Q3 surface-normal PD split kept (no op); Q4 hybrid scope device_total -> on_chip_excess (lu2015a precedent); Q5 nakata2002 GBP kept
+# measured (no op); Q6 li2015 Rj and process_name kept (no op); Q7 duan2012 platform / fab kept (no op), duan2012 GBP -> derived,
+# hayashi1998 Fig. 3 biases re-read.
+components:
+  cmp_lit_ye2014_mmi_1x4:
+    notes: "Fab empty: the paper gives no fabrication statement naming an org (passive 'were fabricated' / 'were processed'); authors at Tyndall National Institute and Eblana Photonics (D80b). Dimensions not printed ('optimizing the structural dimensions'). Whether this 1x4 MMI was fabricated and measured or only designed is not stated (p.3 Sec. IV: 'designed in this waveguide structure', 'obtained by optimizing'); row_kind fabricated rests on p.3 'Passive functions such as ... splitters ... were developed' on the platform. 1x2 MMIs were also designed; no values, no row."
+    why: 'p.3 Sec. IV does not say the 1x4 MMI value is measured on a fabricated device; the uncertainty belongs in the notes (Q2)'
+  cmp_lit_ye2014_hybrid_32x1644:
+    notes: "Fab empty: the paper gives no fabrication statement naming an org (passive 'were fabricated' / 'were processed'); authors at Tyndall National Institute and Eblana Photonics (D80b). Journal extension of the authors' ECOC 2014 paper (ref. [24], cited only in the sentence on the missing polarization control, p.4), values kept (D408: the value sentences carry no citation). Fig. 5(a) labels the MMI '4 x 4' while the text says 2x4 (kept as text). Simulated optimum length for polarization independence 1629 um (p.3), fabricated lengths around it; 1644 um was the measured optimum. Not entered: common-mode rejection ratio >15.6 dB (no parameter; CMRR deferred in D81); FSR 512 GHz (6.82 nm) of the self-referencing 1x2 MZI delay line (test structure, not the hybrid)."
+    why: 'the ruling that keeps journal-extension values is D408 (D259 removes restated values); p.4 [24] sits on the polarization sentence only'
+metrics:
+  cmp_lit_duan2012_apd_d30-m11:
+    basis: derived
+    notes: "Printed 310 GHz; p.6 derives it in the text from the 8 GHz bandwidth at gain 39 ('This gives rise to a resulting gain-bandwidth product of 310 GHz'; 8 x 39 = 312 GHz). Author arithmetic on stated own values: derived (D80a; srinivasan2020 300 GHz = 11 x 27 GHz precedent); the gundlapalli2022 measured precedent applies only when the gain is not printed."
+    why: 'p.6 Sec. 3: the GBP is the product of the stated 8 GHz and gain 39 (D80a / D82d); gundlapalli2022 (D671) printed no gain'
+  cmp_lit_ye2014_dm_laser_600um-m1:
+    condition: small-signal S21 at 70 mA, temperatures 10-40 C (Fig. 2 legend)
+    notes: "Printed 'over 6 GHz'; the 40 C trace of Fig. 2 crosses the dashed -3 dB line at about 6.1-6.3 GHz, the 10 C trace at about 8.5 GHz (render read, +/-0.3 GHz). Emission 'at 2 um' (caption); exact wavelength not stated. The Fig. 2 caption cites ref. [18] only for the 10 Gb/s eye-diagram inset; the S21 sentence (p.2) carries no citation (D408)."
+    why: 'p.2 Fig. 2 render: 10 C trace meets the -3 dB line near 8.5 GHz, not 9 GHz; the legend gives temperatures, not heat-sink temperatures'
+  cmp_lit_ye2014_sn_pd_hs-m2:
+    wavelength_inferred: ''
+    notes: "Printed 'around 6 GHz' (p.3), measured with 'a 2 um laser' and Fig. 4 caption '2 um surface normal photodiode': a stated wavelength (D393). Device diameter not stated (component notes)."
+    why: 'D393: "tested with a 2 um laser" (p.3) is a stated wavelength'
+  cmp_lit_ye2014_dilute_wg-m2:
+    notes: Printed 4 um (design), converted to nm (D157). p.3 states the 4 um width for the platform waveguide (mode 3.0 x 3.6 um); the width of the straight waveguide used for the <5 dB/cm Fabry-Perot measurement is not restated.
+    why: 'p.3 Sec. IV: the loss sentence names only "a straight waveguide"'
+  cmp_lit_ye2014_hybrid_32x1644-m1:
+    scope: on_chip_excess
+    notes: "Printed 'an excess loss of 2.2 dB including the MZI structure' (p.4). Normalized to a straight waveguide and including the self-referencing 1x2 MZI test circuit: on_chip_excess, as the merged lu2015a MZI-test excess-loss rows. Wavelength span = Fig. 5(b) axis (1990-2010 nm); the value is not tied to a wavelength."
+    why: 'scope precedent: excess loss of a device measured inside its MZI test circuit and normalized to a reference waveguide is on_chip_excess (lu2015a)'
+  cmp_lit_li2015_mrr_apd-m1:
+    notes: "Printed 48 mA/W upon 8 V ('we estimated', p.2). It equals the Fig. 2(b) 8 V resonance peak (label 4.81 uA) divided by the ~0.1 mW bus power (48.1 mA/W); the Fig. 2(c) 8 V linear-fit slope reads about 31 mA/W (points about 5 / 51.5 uA at 0.1 / 1.6 mW; the x-axis 'Input Power' reference plane is not defined), so the value is not the Fig. 2(c) slope. Bus power from the authors' halving of the ~18 dB fiber-chip-fiber loss (~9 dB per side). Resonance fixed at 1550.59 nm from 7 to 8 V (p.2). Reverse bias printed as positive; stored negative."
+    why: 'p.2 Fig. 2(b)(c) render: 4.81 uA / 0.1 mW = 48 mA/W; the 8 V fit slope is about 31 mA/W, so the old note (slope of the Fig. 2(c) fits) was wrong'
+  cmp_lit_hayashi1998_sl_apd_lens-m1:
+    statistic: typical
+    notes: "Printed 'quantum efficiency for a 1.5-um wavelength light was 64%' (p.3) and labelled in Fig. 3 (lambda = 1.5 um, eta = 64%), the figure of the 'typical' device; type not stated; equal to back-illuminated simple SL-APDs with the same absorber [3] (comparison only)."
+    why: 'p.2 Fig. 3 carries the eta = 64% label: same typical device as the Vb / Id rows'
+  cmp_lit_hayashi1998_sl_apd_lens-m3:
+    bias_v: '-35.8'
+    notes: "Bias for M = 10 not printed: read off Fig. 3 (render) where the solid M = 10 marker lines meet the curves: photocurrent 1e-5 A and dark current 49 nA both at about 35.8 V (+/-0.3 V; x scale 30 / 35 / 40 V ticks). The dashed vertical at about 37.0 V belongs to the M = 20 markers (2e-5 A, 100 nA). Reverse bias printed as positive; stored negative."
+    why: 'p.2 Fig. 3 re-read: the M = 10 lines end at about 35.8 V; the old -37 V (36.5-37.5 V) is the M = 20 marker'
+  cmp_lit_hayashi1998_sl_apd_lens-m4:
+    bias_v: '-37.0'
+    notes: "Bias read off Fig. 3 (render): the dashed vertical joining the M = 20 photocurrent level (2e-5 A) and the 100 nA dark-current line is at about 37.0 V (+/-0.3 V). Reverse bias printed as positive; stored negative."
+    why: 'p.2 Fig. 3 re-read: dashed M = 20 vertical at about 37.0 V'
+add_metrics:
+- metric_id: cmp_lit_li2015_mrr_ring-m5
+  component_id: cmp_lit_li2015_mrr_ring
+  parameter: extinction_db
+  value: '12'
+  unit: dB
+  wavelength_nm: '1550.54'
+  bias_v: '-1'
+  condition: reverse bias 1 V (under-coupled); ~0.1 mW in the bus waveguide
+  basis: measured
+  locator: p.2 Fig. 2(a); p.2 Sec. III
+  notes: Fig. 2(a) label '12 dB' on the 1 V transmission dip (blue arrow and dashed line). Resonance wavelength read off Fig. 2(a) (about 1550.54 nm, +/-0.01 nm); not printed. Reverse bias printed as positive; stored negative.
+  why: 'miss: printed figure label for the 1 V extinction beside the ~16 dB (7-8 V) row'
+  verified_on: '2026-11-20'
