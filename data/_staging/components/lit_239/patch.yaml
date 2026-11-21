@@ -1,0 +1,74 @@
+# Audit patch lit_239 (fresh-context audit 2026-11-20, DevLog/audits/2026-11-20-lit_239-audit.md).
+# 64 metrics: 61 ok / 3 imprecise / 0 wrong; 15 components: 13 ok / 2 imprecise / 0 wrong. 4 misses added (wang2023f).
+# Fixes: wang2023f polymer modulator-array loss-budget term measured -> author_estimate (result of the p.6 characterization
+# not printed; D428 / D544 loss-budget rule, consistent with the 2 dB interface term); SiN-to-polymer die interface platform
+# sin -> other (D71; merged SiN / Si-to-polymer die couplers asch2025, dangel2018, mu2016, soganc2013 are all `other`);
+# fiber SSC 0.8 dB scope per_coupler -> per_facet (edge-coupler convention, edge_taper primary scope); SiN propagation loss
+# scope cleared (1310 merged prop_loss rows carry no scope). Misses: measured P_pi ~2.3 mW as author_estimate (D80i
+# borderline, audit Q1); fiber SSC cross-section 500 nm / 4 um BOX / 3.3 um cladding (D153, edge_taper xsec).
+components:
+  cmp_lit_wang2023f_ssc_sin_polymer:
+    platform: other
+    notes: 'Separate SiN splitter / emitter chips aligned and bonded to the polymer phase-modulator array with UV-curable epoxy (p.6). Fab empty: the bonding sentence is passive with no org (D450 / D399); the SiN taper side is on the Ligentec chip (cross-note cmp_lit_wang2023f_ssc_fiber, same SSC design, D396). The taper is designed to mimic the polymer waveguide MFD (p.2). Platform other: a SiN-to-polymer interface between separate dies (D71 hybrid rule; merged SiN / Si-to-polymer chip_chip_coupler rows asch2025, dangel2018, mu2016, soganc2013 use other); full stack in core_material.'
+    why: 'p.6: two separate dies (SiN chips and polymer chip) bonded with UV epoxy; rule 11 gives inter-material interfaces the hybrid value and D71 sends SiN / Si-polymer hybrids to other; every merged SiN- or Si-to-polymer chip_chip_coupler row is other'
+  cmp_lit_wang2023f_polymer_to_ps:
+    notes: 'Fab empty: ''The SiN and polymer devices ... were manufactured following a standard process for planar lightwave circuits'' (p.6; passive, no org). Polymer material vendor ChemOptics (LFR; supplier, note only). Array period 50 um (p.8; pitch_um is not allowed for phase_shifter). Polymer thermal conductivity 0.2 W/mK and TO coefficient -2.5e-4 /C (material properties, p.8). Measured P_pi ~2.3 mW (p.8) entered as author_estimate (m8): the sentence carries refs. [26]-[29], three of which ([26], [28], [29]) include authors of this paper, so it is not clearly this paper''s own result (D80i borderline).'
+    why: 'p.8 Appendix: note updated for the added m8 row; refs. [26], [28], [29] all list M.-C. Oh (and [26], [29] also E.-S. Lee and J. Jin), so three of the four cited works are the authors'' own, not two'
+metrics:
+  cmp_lit_wang2023f_polymer_to_ps-m2:
+    basis: author_estimate
+    notes: 'Loss-budget term of the p.7 breakdown; origin not stated. p.6 says only that the polymer modulator chip loss ''was characterized in a similar manner'' as the SiN chip; the result of that characterization is not printed and the breakdown term is not tied to it (the 2 dB splitter-to-modulator term rests on the same unprinted characterization at best). Method of the polymer-chip test not described.'
+    why: 'p.6-p.7: rule 4 / D428 / D544: a loss-budget term whose value is not printed as a measurement result is author_estimate; treating it as measured while the 2 dB interface term of the same breakdown is author_estimate would split one undocumented characterization two ways'
+  cmp_lit_wang2023f_ssc_fiber-m1:
+    scope: per_facet
+    why: 'p.6: one fiber-to-SSC edge facet isolated individually; edge couplers carry per_facet (421 merged fiber_chip_coupler.edge IL rows vs 55 per_coupler; edge_taper template primary scope per_facet)'
+  cmp_lit_wang2023f_sin_wg-m1:
+    scope: ''
+    why: 'p.6: propagation loss in dB/cm takes no scope (1310 merged prop_loss_db_per_cm rows empty, 4 unspecified, none per_component)'
+add_metrics:
+- metric_id: cmp_lit_wang2023f_polymer_to_ps-m8
+  component_id: cmp_lit_wang2023f_polymer_to_ps
+  source_id: lit:wang2023f
+  parameter: p_pi_mw
+  value: '2.3'
+  unit: mW
+  qualifier: approx
+  wavelength_nm: '1550'
+  wavelength_inferred: 'true'
+  condition: Mach-Zehnder interferometer test structure of the polymer TO phase modulator, Au heater 10 um x 3 mm
+  basis: author_estimate
+  locator: p.8 Appendix
+  notes: 'Printed ''measured to be ~2.3 mW'' in a sentence citing refs. [26]-[29]; [26], [28], [29] include authors of this paper, [27] is a review. The preceding sentence says the modulator was inspected with an MZI test structure, so the value may be this work''s, but the citation leaves it open (D80i borderline -> author_estimate). Simulated 2.1 mW on m1. Wavelength inferred: fixed operating wavelength 1550 nm (p.2); the measurement states none.'
+  verified_on: '2026-11-20'
+  why: 'miss (audit Q1): p.8 Appendix reports a measured P_pi of the MZI test structure; D80i: a borderline own-figure value in a citing sentence stays as author_estimate with a note (rees2020, hwang2007, moscosomartir2017 precedents); D259 removal needs the sentence to attribute the value to the earlier paper, which it does not do explicitly'
+- metric_id: cmp_lit_wang2023f_ssc_fiber-m4
+  component_id: cmp_lit_wang2023f_ssc_fiber
+  source_id: lit:wang2023f
+  parameter: core_thickness_nm
+  value: '500'
+  unit: nm
+  condition: LPCVD SiN film thickness of the SiN chip
+  basis: design_target
+  locator: p.6 Sec. III; p.2 Sec. II
+  verified_on: '2026-11-20'
+  why: 'miss (D153): edge_taper layout template requires core_thickness_nm; p.6 states the 500 nm SiN film of the SiN chips that carry the SSC'
+- metric_id: cmp_lit_wang2023f_ssc_fiber-m5
+  component_id: cmp_lit_wang2023f_ssc_fiber
+  source_id: lit:wang2023f
+  parameter: box_thickness_um
+  value: '4'
+  unit: um
+  basis: design_target
+  locator: p.6 Sec. III
+  verified_on: '2026-11-20'
+  why: 'miss (D153): p.6 4 um BOX of the SiN chips (edge_taper xsec optional dimension)'
+- metric_id: cmp_lit_wang2023f_ssc_fiber-m6
+  component_id: cmp_lit_wang2023f_ssc_fiber
+  source_id: lit:wang2023f
+  parameter: cladding_thickness_um
+  value: '3.3'
+  unit: um
+  basis: design_target
+  locator: p.6 Sec. III
+  verified_on: '2026-11-20'
+  why: 'miss (D153): p.6 3.3 um oxide top cladding of the SiN chips (edge_taper xsec optional dimension)'

@@ -1,0 +1,30 @@
+# Audit patch lit_241 (fresh-context audit 2026-11-20, DevLog/audits/2026-11-20-lit_241-audit.md).
+# 108 metrics: 108 ok / 0 imprecise / 0 wrong; 13 components: 11 ok / 2 imprecise / 0 wrong; 1 miss added.
+# Fixes: celo2014 grating-coupler loop and test-waveguide rows platform soi_strip -> soi (the single-etch, full-removal
+# statement on p.2 is made for the crossing area only; GC and test-waveguide etch not stated); chang2018b crossing-array
+# intersection spacing 3.25 um added as pitch_um (zhang2013 / nevlacsil2020 crossing-array precedent), notes updated.
+# Coordinator questions (audit Q1-Q8): all distiller judgment calls kept (no op).
+components:
+  cmp_lit_celo2014_gc_reference_loop:
+    platform: soi
+    notes: 'Ten-element near-vertical GC array optimized for TE at 1550 nm, PM fiber V-groove array probe; the loop connects the outermost GCs (p.2, Fig. 2(a)). Only the loop total is printed; no per-coupler value. GC geometry and GC etch not stated. Platform soi: the single-etch, silicon-completely-removed statement (p.2) is made for the waveguide crossing area, not for the grating couplers. Fab as the crossing (same CMC MPW chip, p.2).'
+    why: 'p.2: "silicon was completely removed outside the waveguide crossing area" describes the crossing only; GC etch not stated, so soi_strip was a guess (D422 / rule 11)'
+  cmp_lit_celo2014_test_waveguide:
+    platform: soi
+    notes: 'Waveguide width, etch and measurement method not stated; value used to correct the crossing spectra (p.2). Platform soi: the single-etch, full-removal statement (p.2) is made for the crossing area only.'
+    why: 'p.2: test-waveguide cross-section not stated; the full-etch statement covers the crossing area, so soi_strip was a guess (D422 / rule 11)'
+  cmp_lit_chang2018b_sw_yjunction_mm_crossing:
+    notes: 'Device: four inverse-designed (DBS) subwavelength asymmetric Y-junctions convert TE0 / TE1 / TE2 to three local TE0 waveguides that cross in a 3 x 3 single-mode MMI crossing array; mirrored Y-junctions reconvert (p.3-4, Fig. 1). Y-junction design method from the authors'' ref. [23]. Intersection centre spacing 3.25 um entered as pitch_um (m16). Array details not entered: taper end to first intersection 2.525 um, 5 um single-mode links, Y-branch gap 1.575 um (p.4; no role-specific crossing parameter); pixel 120 x 120 nm with 45 nm radius holes (in core_material). Fab: ''we also designed, fabricated and experimentally characterized three, five and seven cascaded crossings'' (p.7), all authors at HUST School of Optical and Electronic Information (p.2); EBL (Vistec EBPG 5000 Plus) + ICP (Plasmalab System100) flow on p.5. Platform soi: etch depth printed only for the Y-junction holes (220 nm), waveguide etch not stated. Test: single device with MUX / DEMUX and grating couplers (TE) on p.5-7; cascades of 1 / 3 / 5 / 7 crossings for the per-crossing loss (Fig. 5). Fabry-Perot fringes in the cascades (~9 nm spacing near 1550 nm, 34 um period, p.7) not entered. Abstract prints IL < 0.9 dB and CT < -24 dB over 1.52-1.60 um, which conflicts with the body (IL < 2 dB, cutback 1 / 1.42 / 1.92 dB per crossing, CT < -20 dB; p.3, p.7, p.8): abstract values not entered. Simulated hole-radius tolerance (ILs up about 1 dB, CT < -18 dB at 40 nm radius, Fig. 6, p.7-8) not entered (perturbed design, no wavelength).'
+    why: 'notes follow the added pitch_um row (m16); pixel geometry location stated'
+add_metrics:
+- metric_id: cmp_lit_chang2018b_sw_yjunction_mm_crossing-m16
+  component_id: cmp_lit_chang2018b_sw_yjunction_mm_crossing
+  parameter: pitch_um
+  value: '3.25'
+  unit: um
+  condition: centre-to-centre distance of adjacent waveguide intersections in the 3 x 3 single-mode MMI crossing array (spacing of the three local single-mode waveguides)
+  basis: design_target
+  locator: p.4 Sec. 2
+  notes: printed 'the distance between the two centers of the adjacent waveguide intersection is 3.25 um'
+  verified_on: '2026-11-20'
+  why: 'miss (D153): p.4 states the crossing-array pitch; pitch_um is allowed on crossing and holds the same quantity on merged crossing arrays (zhang2013 swn_mmi_crossing-m4 waveguide pitch of the cross grid, nevlacsil2020 distance between arrayed crossing points)'

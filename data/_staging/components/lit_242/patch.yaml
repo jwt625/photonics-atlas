@@ -1,0 +1,40 @@
+# Audit patch lit_242 (fresh-context audit 2026-11-20, DevLog/audits/2026-11-20-lit_242-audit.md).
+# 35 metrics: 29 ok / 6 imprecise / 0 wrong; 9 components: 6 ok / 3 imprecise / 0 wrong. No misses added.
+# Fixes: switch mean IL notes record the Fig. 11 by-eye mean (about 13 dB) against the printed 10 dB (D417); LWDM on/off
+# bound notes name the worst channel; 1x8 IL rows state that the external VOA is inside the value (deduced from Fig. 21
+# and the p.9 OSNR explanation) and get the p.10 Fig. 23 locator; 1x8 output-power conditions say where the -1.3 dBm input
+# and the VOA sit; crossing and edge-coupler rows flagged test_structure (values only from the wg c5 / wg c0 loops);
+# gate-SOA notes list the passive terms per MMI and per crossing.
+# Coordinator questions (audit Q1-Q8): all distiller judgment calls kept (no value or basis op).
+components:
+  cmp_lit_rombouts2024_shallow_crossing:
+    test_structure: 'true'
+    why: 'p.3 Sec. II, p.4 Sec. III-A: the only value (0.13 dB/crossing) comes from the dedicated wg c5 waveguide loop (schema: true when measured on a dedicated test structure)'
+  cmp_lit_rombouts2024_lensed_fiber_edge:
+    test_structure: 'true'
+    why: 'p.4 Sec. III-A: the 2.2 dB/facet is established on the dedicated wg c0 waveguide loop and then applied to all other structures'
+  cmp_lit_rombouts2024_gate_soa_600um:
+    notes: 'MQW active layer, gain mainly TE; TM not evaluated (p.3 Sec. II, Sec. III). Individual SOA results of the paper are for this SOA unless noted (p.4 Sec. III-B); gain values are SOA gain: measured output-input power difference plus the Sec. III-A passive losses of the i3o1 path (2.2 dB/facet coupling, 3.9 dB per MMI for the four MMIs, 0.13 dB per shuffle crossing, waveguide loss from mask length x specified 3 / 5 dB/cm; p.4, Fig. 11 caption). Cross-note cmp_lit_rombouts2024_switch_4x4 (D396). chuck 20 C, lensed fibers, quasi-TE, losses of 90/10 splitter, polarization controllers and fibers calibrated out (p.3 Sec. III). Not entered: OSNR 37.9-39 dB at 1285 nm (no registry parameter); gain drop 7.5 dB from 20 to 50 C on path i1o1 (Fig. 8; no registry parameter); ASE / gain peak blue-shift to 1285 nm (center_wavelength_nm not allowed for amplifier); gain and 3-dB bandwidth versus SOA length (Fig. 9, other SOAs, figure-only); saturation input power about -2 dBm (cited, ref. [41]). Fab: ''All growth and processing steps are performed by SMART Photonics'' (p.3 Sec. II); circuit integrated with the open-access SMART Photonics O-band PDK (p.3 Sec. II).'
+    why: 'p.4 Sec. III-B and p.6 Fig. 11 caption: the path has four MMIs at 3.9 dB each plus crossings and waveguides; the notes said "MMI (3.9 dB)" as if one term'
+metrics:
+  cmp_lit_rombouts2024_switch_4x4-m1:
+    notes: 'Printed ''average fiber-to-fiber insertion loss of 10 dB per optical path'' (abstract) and ''average fiber-to-fiber gain of -10 dB'' (Sec. I). No wavelength, drive current or input power with the value; O-band laser and O-band device. Conflict (D417): the Fig. 11 bars (1285 nm, 100 mA, -4.2 dBm input) give passive loss minus SOA gain of about 8.5-18 dB per SOA path, mean about 13 dB over the 14 SOA paths (by eye, +/- 1 dB); the conditions of the printed 10 dB are not identifiable. Printed value kept.'
+    why: 'p.6 Fig. 11 render: per-path passive bars about 22-23 dB minus SOA gain bars 4.1-13.5 dB give a mean near 13 dB; the distiller flagged this in the report but not in the row'
+  cmp_lit_rombouts2024_switch_4x4-m6:
+    notes: '-21 - (-50) = 29 dB, lower bound (off level printed as -50 dBm or lower). Worst channel: in the Fig. 18 render the SOA-off peaks are about -66, -73, -59 and -50 dBm for channels 1-4 (by eye, +/- 3 dB), so the -50 dBm level is the 1309.14 nm channel and the bound is set by it. The authors read the blocked level as the crosstalk of the gating SOAs. Polarization set per channel to maximize SOA-off absorption. Powers at the OSA via the 10 % tap; the ratio is plane-independent.'
+    why: 'p.8 Fig. 18 render: the -50 dBm off level belongs to the longest-wavelength channel only; the bound is far below the Fig. 12 single-channel on/off values, which the notes should explain'
+  cmp_lit_rombouts2024_test_1x8_path-m1:
+    locator: 'p.9 Sec. IV; p.10 Fig. 23'
+    notes: 'Printed ''insertion loss is measured to be -6.8 dB'' (negative sign as printed: net loss, entered positive). Wavelength from the Fig. 23 panel title (B-conf. at 1284 nm). The text calls it the fiber-to-fiber insertion loss of the PIC, but the external VOA (3 x 3.9 dB, 8x1 combiner emulation) is inside the value: the same on-chip circuit serves both configurations and only the VOA position changes (Fig. 21), and the p.9 explanation of the 8 dB OSNR difference (lower SOA input power in the pre-amp case) holds only if the stated input is taken before the VOA; the value is the net loss of the emulated 8x8 path (OSA power minus TL-side input).'
+    why: 'Fig. 23 is on p.10 (text on p.9); VOA inclusion follows from Fig. 21 and the p.9 OSNR sentence, so the row no longer needs the not-stated caveat'
+  cmp_lit_rombouts2024_test_1x8_path-m2:
+    locator: 'p.9 Sec. IV; p.10 Fig. 23'
+    notes: 'Printed ''-5.9 dB'' (negative sign as printed: net loss, entered positive). Wavelength from the Fig. 23 panel title (P-conf. at 1285 nm). External VOA (3 x 3.9 dB) inside the value, here before the chip, as on m1 (same circuit, only the VOA position changes; p.9 OSNR explanation).'
+    why: 'Fig. 23 is on p.10; VOA inclusion as on m1'
+  cmp_lit_rombouts2024_test_1x8_soas-m1:
+    condition: 'booster configuration (500 um SOA before the MMIs), both SOAs 100 mA, input -1.3 dBm (maximum; printed as PIC input power); output read at the OSA after the external VOA (3 x 3.9 dB) that follows the chip, i.e. the emulated 8x8 output, not the chip facet'
+    why: 'p.9 Sec. IV, Fig. 21 / Fig. 22: the OSA follows the VOA in the B configuration; the condition did not say so (only the notes)'
+  cmp_lit_rombouts2024_test_1x8_soas-m2:
+    condition: 'pre-amplifier configuration (450 um SOA after the MMIs), both SOAs 100 mA, input -1.3 dBm (maximum; printed as PIC input power) taken before the external VOA (3 x 3.9 dB) that precedes the chip, so the chip sees about 11.7 dB less; output at the chip output fiber (no VOA after the chip)'
+    notes: 'Wavelength from the Fig. 22 panel title (P-conf. at 1284 nm). The stated input must sit before the VOA: the on-chip circuit is the same in both configurations, and the p.9 OSNR difference (38.4 vs 46.4 dB) is explained by lower SOA input power in this configuration.'
+    why: 'p.9 Sec. IV, Fig. 21 / Fig. 22: with the VOA before the chip the printed -1.3 dBm cannot be the chip input; the row named neither the VOA position nor the input plane'

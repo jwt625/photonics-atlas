@@ -1,0 +1,14 @@
+# Audit patch lit_235 (fresh-context audit 2026-11-20, DevLog/audits/2026-11-20-lit_235-audit.md).
+# 51 metrics: 49 ok / 2 imprecise / 0 wrong; 8 components: 8 ok / 0 imprecise / 0 wrong. No misses added.
+# Fixes: bimberg2009 2 mm p-doped fiber-to-fiber gain locator (the value sentence runs p.1-2; the abstract prints only the chip gain);
+# bimberg2009 2 mm p-doped XGM row probe span starts at about 1285 nm on the Fig. 2(b) render, not at the 1290 nm tick.
+# Coordinator questions (audit Q1-Q6): all distiller judgment calls kept (no op).
+metrics:
+  cmp_lit_bimberg2009_qd_soa_pdoped_2mm-m1:
+    locator: 'p.1-2 Sec. 3.1'
+    why: 'p.1-2 Sec. 3.1: the 13 dB sentence starts on p.1 and ends on p.2; the p.1 Abstract prints only the 22 dB chip gain, not the fiber-to-fiber value'
+  cmp_lit_bimberg2009_qd_soa_pdoped_2mm-m5:
+    wavelength_nm: '1285'
+    condition: 'small-signal cross-gain modulation (XGM) bandwidth at 4.38 kA/cm2 (Fig. 2(b): 350 mA); pump 1311 nm, 6 dBm; probe -6 dBm swept about 1285-1330 nm; HP 8722C network analyzer 50 MHz-40 GHz, traces normalized to the pump response without the SOA'
+    notes: 'printed ''limited to 25 to 30 GHz'' across the detuning range except the gain-spectrum edges (p.2); abstract and conclusion print 25 GHz; -3 dB level as marked in Fig. 4(b) (p.3); probe span read off the Fig. 2(b) render: first point at about 1285 nm (+/- 1 nm, left of the 1290 nm tick), last at 1330 nm'
+    why: 'p.2 Fig. 2(b) render: the probe data start at about 1285 nm, not at the first labelled tick (1290 nm)'

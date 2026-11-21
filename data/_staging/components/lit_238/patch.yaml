@@ -1,0 +1,116 @@
+# Audit patch lit_238 (fresh-context audit 2026-11-20, DevLog/audits/2026-11-20-lit_238-audit.md).
+# 62 metrics: 59 ok / 3 imprecise / 0 wrong; 8 components: 8 ok / 0 imprecise / 0 wrong. 10 misses added (D153 stack geometry).
+# Fixes: matsuo2012 Fig. 4(a) peak wavelength re-read on marker centres (1559.55-1559.57 nm, not 1559.5 nm) on the linewidth and
+# center-wavelength rows; zhou2023b reference-MZI extinction gets the inferred band its p_pi sibling (same Fig. 4(a) curve) carries;
+# zhou2023b 220 nm Si / 3 um BOX (p.2) added on the templated part rows and the grating emitter (D153, lit_199 / lit_134 precedents).
+# Coordinator questions (audit Q1-Q6): all distiller judgment calls kept (no op).
+metrics:
+  cmp_lit_matsuo2012_leap_laser_lci-m5:
+    wavelength_nm: '1559.57'
+    notes: 'paper converts it to Q 44,600 (no laser Q parameter, D250); the 0.035 nm point of Fig. 4(a) is the 0.40 mA marker (left axis 0.0352 nm); its peak wavelength read off the right axis at the marker centre, 1559.57 nm (+/- 0.01 nm), not printed with the value'
+    why: 'p.6 Fig. 4(a) render, marker centres (right axis 1559.0-1560.0 nm on the frame, 385 px/nm): 0.39 mA 1559.59, 0.40 mA 1559.57, 0.41-0.45 mA 1559.55 nm; 1559.5 nm is outside the stated +/- 0.05 nm'
+  cmp_lit_matsuo2012_leap_laser_lci-m6:
+    value: '1559.55'
+    notes: 'read off the right axis at the marker centres, 1559.55-1559.57 nm over 0.40-0.45 mA (+/- 0.01 nm); about 1559.55-1559.62 nm over 0.40-0.60 mA'
+    why: 'p.6 Fig. 4(a) render, marker centres: 0.40 mA 1559.57, 0.41-0.45 mA 1559.55 nm; 1559.5 nm is outside the stated +/- 0.05 nm'
+  cmp_lit_zhou2023b_to_ps_folded-m2:
+    band: cl_band
+    wavelength_inferred: 'true'
+    notes: 'printed only as the Fig. 4(a) label ''ER > 24.7dB''; wavelength not stated with the value; OPA operated over 1530-1610 nm (C + L band inferred, as m1 from the same curve)'
+    why: 'rule 8: same reference-MZI curve (p.3 Fig. 4(a)) as m1, which carries the inferred band; the two rows were inconsistent'
+add_metrics:
+- metric_id: cmp_lit_zhou2023b_to_ps_folded-m10
+  component_id: cmp_lit_zhou2023b_to_ps_folded
+  parameter: core_thickness_nm
+  value: '220'
+  unit: nm
+  condition: top Si layer
+  basis: design_target
+  locator: p.2 Sec. II
+  notes: foundry wafer stack (D161, D402); stated once for the chip
+  why: 'D153 miss: heater_ps cross-section needs core_thickness_nm; p.2 states the 220 nm Si of the chip (entered only on the OPA row)'
+- metric_id: cmp_lit_zhou2023b_to_ps_folded-m11
+  component_id: cmp_lit_zhou2023b_to_ps_folded
+  parameter: box_thickness_um
+  value: '3'
+  unit: um
+  basis: design_target
+  locator: p.2 Sec. II
+  notes: foundry wafer stack (D161, D402); stated once for the chip
+  why: 'D153 miss: p.2 states the 3 um BOX of the chip (entered only on the OPA row)'
+- metric_id: cmp_lit_zhou2023b_mmi_tree_1x32-m4
+  component_id: cmp_lit_zhou2023b_mmi_tree_1x32
+  parameter: core_thickness_nm
+  value: '220'
+  unit: nm
+  condition: top Si layer
+  basis: design_target
+  locator: p.2 Sec. II
+  notes: foundry wafer stack (D161, D402); stated once for the chip
+  why: 'D153 miss: mmi cross-section needs core_thickness_nm; p.2 states the 220 nm Si of the chip (entered only on the OPA row)'
+- metric_id: cmp_lit_zhou2023b_mmi_tree_1x32-m5
+  component_id: cmp_lit_zhou2023b_mmi_tree_1x32
+  parameter: box_thickness_um
+  value: '3'
+  unit: um
+  basis: design_target
+  locator: p.2 Sec. II
+  notes: foundry wafer stack (D161, D402); stated once for the chip
+  why: 'D153 miss: p.2 states the 3 um BOX of the chip (entered only on the OPA row)'
+- metric_id: cmp_lit_zhou2023b_input_gc-m2
+  component_id: cmp_lit_zhou2023b_input_gc
+  parameter: core_thickness_nm
+  value: '220'
+  unit: nm
+  condition: top Si layer
+  basis: design_target
+  locator: p.2 Sec. II
+  notes: foundry wafer stack (D161, D402); stated once for the chip; grating etch depth not stated
+  why: 'D153 miss: gc_1d cross-section needs core_thickness_nm; p.2 states the 220 nm Si of the chip (entered only on the OPA row)'
+- metric_id: cmp_lit_zhou2023b_input_gc-m3
+  component_id: cmp_lit_zhou2023b_input_gc
+  parameter: box_thickness_um
+  value: '3'
+  unit: um
+  basis: design_target
+  locator: p.2 Sec. II
+  notes: foundry wafer stack (D161, D402); stated once for the chip
+  why: 'D153 miss: p.2 states the 3 um BOX of the chip (entered only on the OPA row; zhao2019 grating-coupler BOX precedent, D647)'
+- metric_id: cmp_lit_zhou2023b_gesi_pd-m4
+  component_id: cmp_lit_zhou2023b_gesi_pd
+  parameter: core_thickness_nm
+  value: '220'
+  unit: nm
+  condition: top Si layer (waveguide layer under the GeSi absorber)
+  basis: design_target
+  locator: p.2 Sec. II
+  notes: foundry wafer stack (D161, D402); stated once for the chip; absorber thickness not stated
+  why: 'D153 miss: ge_pd cross-section needs core_thickness_nm; p.2 states the 220 nm Si of the chip (entered only on the OPA row)'
+- metric_id: cmp_lit_zhou2023b_gesi_pd-m5
+  component_id: cmp_lit_zhou2023b_gesi_pd
+  parameter: box_thickness_um
+  value: '3'
+  unit: um
+  basis: design_target
+  locator: p.2 Sec. II
+  notes: foundry wafer stack (D161, D402); stated once for the chip
+  why: 'D153 miss: p.2 states the 3 um BOX of the chip (entered only on the OPA row)'
+- metric_id: cmp_lit_zhou2023b_grating_antenna-m7
+  component_id: cmp_lit_zhou2023b_grating_antenna
+  parameter: core_thickness_nm
+  value: '220'
+  unit: nm
+  condition: top Si layer (the 70 nm grooves are etched into it)
+  basis: design_target
+  locator: p.2 Sec. II
+  notes: foundry wafer stack (D161, D402); stated once for the chip
+  why: 'D153 miss: the emitter row carries its etch depth but not the stated 220 nm layer it is etched into (p.2; entered only on the OPA row)'
+- metric_id: cmp_lit_zhou2023b_grating_antenna-m8
+  component_id: cmp_lit_zhou2023b_grating_antenna
+  parameter: box_thickness_um
+  value: '3'
+  unit: um
+  basis: design_target
+  locator: p.2 Sec. II
+  notes: foundry wafer stack (D161, D402); stated once for the chip
+  why: 'D153 miss: p.2 states the 3 um BOX of the chip (entered only on the OPA row)'

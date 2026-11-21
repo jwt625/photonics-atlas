@@ -1,0 +1,21 @@
+# Audit patch lit_237 (fresh-context audit 2026-11-20, DevLog/audits/2026-11-20-lit_237-audit.md).
+# 106 metrics: 102 ok / 4 imprecise / 0 wrong; 14 components: 14 ok / 0 imprecise / 0 wrong. No misses added.
+# Fixes: barbarin2006 Fig. 5(d) output power re-read on the embedded figure (0.042 / 0.044 mW at the MLL / SP boundary, not 0.047);
+# zhang2022f grating duty cycle 41.8 % -> 0.418 is a unit conversion (derived, D253 / D157); xie2018 SLSR condition says the
+# grating lobes are not counted; xie2018 power note drops an inference about how the < 3 nW was obtained.
+# Coordinator questions (audit Q1-Q6): all distiller judgment calls kept (no op).
+metrics:
+  cmp_lit_barbarin2006_ring_mll_sa40-m13:
+    value: '0.043'
+    notes: 'read off Fig. 5(d) (embedded figure p.7; y axis calibrated on the 2e-5 W ticks, 58.6 px per 2e-5 W; x axis 300-460 mA): at the MLL / SP boundary line (about 407 mA, printed 408 mA, p.7) the two traces read 0.042 and 0.044 mW (reading +/- 0.002 mW); value = their mean. The traces are not labelled by arm. Fig. 5(d) title and caption print Vsa = -2.0 V, the text says -1.8 V (p.6)'
+    why: 'p.7 Fig. 5(d) pixel read: both traces 4.2-4.4e-5 W at the MLL / SP boundary, not 4.5-5e-5 W (0.047 mW)'
+  cmp_lit_zhang2022f_sin_assisted_grating-m3:
+    basis: derived
+    notes: 'printed duty cycle 41.8 %; % -> fraction is a unit conversion (D253 / D157); which part (tooth or groove) the duty cycle refers to is not stated (D253); minimum feature 250 nm (248 nm lithography)'
+    why: 'p.2 Sec. II prints 41.8 %; D253: a percentage stored as a fraction is derived'
+  cmp_lit_xie2018_opa_32ch-m3:
+    condition: 'far field after phase optimization (focus), lateral direction (psi); main lobe over the highest side lobe between the grating lobes (Fig. 3 render: the grating lobes near -22 / +23 deg reach about 0.72 / 0.83 of the main-lobe peak and are not counted)'
+    why: 'p.2 Fig. 3 render: the printed 16 dB holds only inside the grating-lobe-free range (~22 deg, same paragraph); the condition did not say so'
+  cmp_lit_xie2018_iii_v_si_phase_shifter-m4:
+    notes: 'printed ''less than 3 nW'' (abstract), ''< 3nW'' (conclusion) and ''on the order of few nanowatts'' (p.2); how the value was obtained is not stated (origin not stated, D76); nW -> mW (D256a)'
+    why: 'p.1 / p.2: the paper does not say how the power was obtained; the note''s link to the 3 nA dark current (at -2 V, not at the 0.9 V operating bias) was an inference'

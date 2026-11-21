@@ -2,7 +2,7 @@
 
 Generated 2026-11-20 by `scripts/lit_manual_list.py` from `retrieval_queue.csv` and `logs/lit_fetch_status.jsonl`; papers already cached are left out. Save each PDF as `references/_inbox/<save_as>` (supplement: `<paper_id>_supplement.pdf`), then run `uv run python scripts/lit_ingest_inbox.py`.
 
-Total: 198
+Total: 200
 
 | # | day | class | save_as | year | venue | title | doi | reason |
 |---|---|---|---|---|---|---|---|---|
@@ -204,3 +204,5 @@ Total: 198
 | 196 | 206 | fiber_chip_coupler | liu2010b.pdf | 2010 | Applied Physics Letters | High-efficiency, large-bandwidth silicon-on-insulator grating coupler based on a fully-etched photonic crystal structure | 10.1063/1.3304791 | AIP blocks the browser (D147) |
 | 197 | 206 | photodetector | xue2021.pdf | 2021 | Optica | High-performance III-V photodetectors on a monolithic InP/SOI platform | 10.1364/optica.431357 | optica_browser: no_access on 2026-11-21 |
 | 198 | 206 | photodetector | yang2013.pdf | 2013 | Electronics Letters | Butterfly packaged high‐speed and low leakage InGaAs quantum well photodiode for 2000nm wavelength systems | 10.1049/el.2012.4335 | ieee_search: no_ieee_copy on 2026-11-21 |
+| 199 | 207 | amplifier | park2007a.pdf | 2007 | Optics Express | A hybrid AlGaInAs-silicon evanescent preamplifier and photodetector | 10.1364/oe.15.013539 | optica_browser: no_access on 2026-11-21 |
+| 200 | 207 | crossing | shinobu2010.pdf | 2010 | Electronics Letters | Low-loss simple waveguide intersection in silicon photonics | 10.1049/el.2010.1224 | ieee_search: no_ieee_copy on 2026-11-21 |

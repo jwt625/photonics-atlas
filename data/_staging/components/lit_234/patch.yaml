@@ -1,0 +1,63 @@
+# Audit patch lit_234 (fresh-context audit 2026-11-20, DevLog/audits/2026-11-20-lit_234-audit.md).
+# 40 metrics: 36 ok / 4 imprecise / 0 wrong; 9 components: 7 ok / 2 imprecise (notes only) / 0 wrong; 1 miss added
+# (doerr2014a 2 dB waveguide-propagation budget term as a routing-waveguide row, xing2015 / bundalo2022 precedent).
+# Fixes: doerr2014a MMI and modulator budget terms divided per part (two 1x2 MMIs and two phase modulators in series in
+# each path; D682 / xing2015 / yang2024b), narrowband ~5 dB wavelength from the Fig. 7 laser line (D682 zanzi2019
+# precedent), akiyama2005 120 nm printed figure label basis measured (printed label, not a plot reading).
+components:
+  cmp_lit_doerr2014a_two_arm_isolator:
+    notes: "Fab empty: passive 'A two-arm version was made in silicon photonics' (p.4) names no fabricator; all authors at Acacia Communications (D80b). Platform empty: the paper says only 'silicon photonics', no SOI / BOX / layer stack (D422 / D423). Waveguide length between the modulator pairs 7.8 mm, ideal modulation frequency 2.4 GHz (p.5); driven at 2.0 GHz because the modulator bandwidth is 300 MHz; achieved modulation depth 'significantly less than the desired 138 deg' (p.5, no value). Modulation-off signal ~3 dB higher than the forward direction, attributed to residual amplitude modulation (p.5): no parameter, not entered. The 3 dB broadband isolation of the authors' ECOC 2013 postdeadline paper (ref. [9], p.2) and the 11 dB InP result of ref. [8] are cited, not entered (rule 3); this paper is the journal version and keeps its own values (D408). Loss-breakdown terms of the 11.1 dB (p.5) on the GC, MMI, modulator and routing-waveguide rows."
+    why: 'p.5 Sec. 3: the 2 dB waveguide-propagation budget term is now entered on cmp_lit_doerr2014a_routing_wg (audit miss), so the note no longer says it is not entered'
+  cmp_lit_doerr2014a_mmi_1x2:
+    notes: "Fab empty: passive 'A two-arm version was made in silicon photonics' (p.4) names no fabricator; all authors at Acacia Communications (D80b). Platform empty: the paper says only 'silicon photonics', no SOI / BOX / layer stack (D422 / D423). Only value: the author loss-breakdown term, divided over the two 1x2 MMIs of the two-arm interferometer (splitter and combiner, Fig. 1(b), Fig. 6(a)). MMI geometry not stated."
+    why: 'p.4 Fig. 1(b) and p.5 Fig. 6(a): a two-arm interferometer has one 1x2 splitter and one 1x2 combiner in every path; the MMI term is now per part'
+metrics:
+  cmp_lit_doerr2014a_two_arm_isolator-m2:
+    band: ''
+    wavelength_nm: '1556.1'
+    wavelength_inferred: 'true'
+    notes: "printed '~5 dB', limited by insufficient modulation amplitude; laser wavelength of the Fig. 7 measurement not printed: the reference, forward and backward lines of Fig. 7 peak at about 1556.1 nm (axis 1555.9-1556.3 nm, reading +/- 0.02 nm); the IL sentence before it says 1550 nm"
+    why: 'p.6 Fig. 7 render: the CW laser line sits at about 1556.1 nm; a figure-read wavelength replaces the band (D682 zanzi2019 precedent: figure-read wavelength with wavelength_inferred true)'
+  cmp_lit_doerr2014a_mmi_1x2-m1:
+    value: '0.5'
+    scope: per_component
+    includes: 'one of the two 1x2 MMIs (splitter, combiner) in each path of the two-arm interferometer'
+    notes: "printed '1 dB from the 1 x 2 multimode interference couplers' in 'the estimated loss breakdown' (origin not stated); the two-arm interferometer has two 1x2 MMIs in series in each path (Fig. 1(b), Fig. 6(a) schematic), halved assuming equal MMIs (1 / 2; xing2015, yang2024b, zanzi2019 D682 precedents); D256a keeps author_estimate; entered as excess loss (D43)"
+    why: 'p.5 Sec. 3 + Fig. 6(a): the count is fixed by the two-arm topology (split + combine); D682 halves budget terms to one part when the count is known'
+  cmp_lit_doerr2014a_pin_phase_modulator-m2:
+    value: '0.5'
+    scope: per_component
+    includes: 'one 600 um phase modulator; each interferometer path passes one phase modulator of pair #1 and one of pair #2'
+    notes: "printed '1 dB from the two modulators' in 'the estimated loss breakdown' (origin not stated); light in either arm crosses two phase modulators in series (one of each push-pull pair, Fig. 1(b), Fig. 6(a)), so whether 'two modulators' names the two pairs or the two phase modulators of a path, the term covers two phase-modulator passes; halved assuming equal modulators (1 / 2; D682 precedent); D256a keeps author_estimate"
+    why: 'p.5 Sec. 3 + Fig. 6(a): the budget is a series-path sum and each path holds two of the 600 um phase modulators; per-part division as for the MMI term (D682)'
+  cmp_lit_akiyama2005_qd_soa_6p15mm-m5:
+    basis: measured
+    notes: "printed '120 nm' dimension label in Fig. 2(a) with the light-gray criterion in the caption (a printed label, no reading uncertainty); not stated in the text; the title of the authors' OFC 2004 paper (ref. [18]) also names 120 nm, the figure here is this paper's own data (D408)"
+    why: 'p.2 Fig. 2: a printed figure label of a measured span is not a plot reading; printed labels take the basis of how the number was obtained (merged practice: 283 printed-label performance rows measured)'
+add_components:
+  - component_id: cmp_lit_doerr2014a_routing_wg
+    source_id: lit:doerr2014a
+    class: waveguide_platform.other
+    label: 'Si waveguide routing of the two-arm isolator (incl. 7.8 mm between the modulator pairs), silicon photonics'
+    row_kind: fabricated
+    platform: ''
+    core_material: 'Si (silicon photonics; layer stack and waveguide type not stated)'
+    tags: silicon_photonics
+    verified_on: '2026-11-20'
+    notes: "Fab empty: passive 'A two-arm version was made in silicon photonics' (p.4) names no fabricator; all authors at Acacia Communications (D80b). Platform empty: only 'silicon photonics' is printed (D422 / D423). Total waveguide length of the path not printed (7.8 mm between the modulator pairs, p.5), so no dB/cm. Only value: the author loss-breakdown term."
+    why: 'p.5 Sec. 3: the 2 dB waveguide-propagation term of the stated loss breakdown was not entered while the GC, MMI and modulator terms were; xing2015 / bundalo2022 routing-waveguide rows (device_total, loss_breakdown, author_estimate) are the precedent'
+add_metrics:
+  - metric_id: cmp_lit_doerr2014a_routing_wg-m1
+    component_id: cmp_lit_doerr2014a_routing_wg
+    parameter: insertion_loss_db
+    value: '2'
+    unit: dB
+    wavelength_nm: '1550'
+    scope: device_total
+    includes: 'waveguide propagation along the isolator path'
+    condition: 'loss breakdown of the 11.1 dB fiber-to-fiber isolator insertion loss at 1550 nm'
+    method: loss_breakdown
+    basis: author_estimate
+    locator: p.5 Sec. 3
+    notes: "printed '2 dB waveguide propagation loss' in 'the estimated loss breakdown' (origin not stated); path length not printed"
+    why: 'p.5 Sec. 3: stated budget term missed (xing2015 / bundalo2022 precedent)'

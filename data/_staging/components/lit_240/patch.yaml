@@ -1,0 +1,35 @@
+# Audit patch lit_240 (fresh-context audit 2026-11-20, DevLog/audits/2026-11-20-lit_240-audit.md).
+# 131 metrics: 131 ok / 0 imprecise / 0 wrong; 9 components: 7 ok / 2 imprecise (notes) / 0 wrong. 2 misses added
+# (jiang2021 TWC La / Lm coupling-section lengths, Table I with roles labelled in Fig. 1).
+# Coordinator questions (audit Q1-Q7): all distiller judgment calls kept (no op); the paredes2021 CTP facility goes to the
+# org round as a facility (not borderline).
+components:
+  cmp_lit_paredes2021_tapered_adc_two_mode_mdm_link:
+    notes: 'Measured as a back-to-back link (MUX + multimode bus + DEMUX of identical design, SEM Fig. 6); ch1 I1-O1 (TE0-TE1-TE0), ch2 I2-O2 (TE0-TE0); crosstalk at I1-O2 / I2-O1. Fiber butt coupling with an SMF-28 fiber array (127 um pitch), TE input set by an external polarizer (20 dB vs TM0). Design (p.4-5): access width Wa 500 nm; bus starts at 500 nm, 5 um taper to Wb1, then adiabatic taper Wb1 950 -> Wb2 1100 nm (phase-matched width 1025 nm); gap g 100 nm (gap_nm not allowed for mode_converter, report); coupling length L 70 um; overall length 75 um. Fab: ''fabricated using electron-beam lithography with plasma etching at Applied Nanotools (Canada)'' (p.5): org named with the process. Facility: the acknowledgment thanks the NYUAD Core Technology Platform Facility (CTP) for the analytical and material characterization (p.9): a shared facility credited for work performed there (not staff thanks; rule 12, gu2021 Analytical & Testing Center precedent D640), org not in the registry: facility to be set after the org round. Table 1 ''This work'' row (75 um, < 16 dB, < 1.2 dB) repeats the text values, not entered twice.'
+    why: 'p.9 Acknowledgment: the CTP is thanked as a facility for the characterization it performed (no staff named for it), which is a facility under rule 12 (D640 gu2021 NPU Analytical & Testing Center); the note called it borderline and left no follow-up'
+  cmp_lit_jiang2021_twc_mode_mux_demux_link:
+    notes: 'Separate test link on the same chip (Fig. 8 inset): mode MUX + mode DeMUX only. Design (Table I): access Wa 893 nm, middle guide Wm 893 nm, bus W 2 um, single-mode output Ws 400 nm, taper Lt 8.5 um; La 29.5 um = straight access-guide section beside the middle guide and Lm 46.25 um = middle-guide length (roles from the Fig. 1 dimension labels; entered as coupling_length_um); gap g 200 nm (gap_nm not allowed for mode_converter, report), S-bend offsets Sx1 x Sz1 2 x 5 um and Sx2 x Sz2 2 x 10 um. Normalization of the Fig. 8 spectra is not stated (Fig. 6 was normalized to the reference grating coupler; the I2-O2 trace sits near 0 dB): measured loss scope unspecified. Simulated single (De)MUX values are this paper''s 3D-FDTD optimization (p.3; not attributed to a reference). Fab / facility empty: passive ''was fabricated'' / ''patterned'', both authors at Nanjing University of Posts and Telecommunications (D80b); ''in-house testing-platform'' concerns measurement only. Etch depth of the device layer not stated: platform soi (D434 not applied).'
+    why: 'p.2 Fig. 1 labels La on the straight access-guide section and Lm on the middle guide, so the Table I roles are defined; the note said they were not'
+add_metrics:
+- metric_id: cmp_lit_jiang2021_twc_mode_mux_demux_link-m20
+  component_id: cmp_lit_jiang2021_twc_mode_mux_demux_link
+  parameter: coupling_length_um
+  value: '29.5'
+  unit: um
+  condition: La, straight section of the access guide beside the middle guide of the TWC (Fig. 1 label)
+  basis: design_target
+  locator: p.3 Table I; p.2 Fig. 1
+  notes: Table I value; role from the Fig. 1 dimension label (access-guide straight section opposite the middle guide)
+  verified_on: '2026-11-20'
+  why: 'miss (D153): Table I La 29.5 um with its role labelled in Fig. 1 (p.2); coupling_length_um is allowed for mode_converter'
+- metric_id: cmp_lit_jiang2021_twc_mode_mux_demux_link-m21
+  component_id: cmp_lit_jiang2021_twc_mode_mux_demux_link
+  parameter: coupling_length_um
+  value: '46.25'
+  unit: um
+  condition: Lm, length of the straight middle guide between access and bus guides of the TWC (Fig. 1 label)
+  basis: design_target
+  locator: p.3 Table I; p.2 Fig. 1
+  notes: Table I value; role from the Fig. 1 dimension label (full length of the middle guide, which couples to the bus guide)
+  verified_on: '2026-11-20'
+  why: 'miss (D153): Table I Lm 46.25 um with its role labelled in Fig. 1 (p.2); coupling_length_um is allowed for mode_converter'
