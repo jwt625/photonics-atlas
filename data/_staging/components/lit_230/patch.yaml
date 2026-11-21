@@ -1,0 +1,91 @@
+# Audit patch lit_230 (fresh-context audit 2026-11-20, DevLog/audits/2026-11-20-lit_230-audit.md).
+# 66 metrics: 56 ok / 10 imprecise / 0 wrong; 11 components: 10 ok / 1 imprecise / 0 wrong. 3 misses added.
+# Fixes: geng2014 NIPD 0.6 A/W kept with the Fig. 8(a) conflict noted (D417); geng2014 bandwidth rows get 1550 nm inferred
+# (rule 8, lit_61 reading); ozdemir2020 Fig. 3(b) medians extracted_from_figure -> author_estimate (figure-read estimate keeps its
+# origin basis, D80a / D454 analogue); bernard2021 responsivity 0.304 A/W from the Fig. 2(c) label (text prints about 0.3);
+# gao2025b cladding step reclassed waveguide_platform.other (one core layer, cladding change: quack2019 / xiao2022 precedent).
+# Misses: geng2014 printed active areas (footprint_um2, yuan2021 precedent); bernard2021 10 um epi absorber thickness (D153).
+components:
+  cmp_lit_gao2025b_cladding_step:
+    class: waveguide_platform.other
+    notes: 'Fab org_ligentec: ''The Si3N4/Si chip was fabricated by a foundry (LIGENTEC)'' (p.2). The cladding thinning is passive (''has been thinned'', p.1) with no org named; fab names the chip foundry only. Same Si3N4 core on both sides, only the SiO2 top cladding changes (6.3 um to about 100 nm at the bonding-window edge): an in-layer cladding transition, waveguide_platform.other (quack2019 air-clad to oxide-clad transition, xiao2022 / cheng2025 precedent, D417); authors expect lower loss with wider waveguides (p.1).'
+    why: 'p.1: one Si3N4 core, only the cladding changes; inter-layer / inter-material transitions are waveguide_platform.transition (rule 10), a cladding change within one core layer is waveguide_platform.other (merged cmp_lit_quack2019_air_oxide_transition; D417 xiao2022)'
+metrics:
+  cmp_lit_geng2014_nipd-m3:
+    notes: 'input-power reference plane not stated (optical input power of 1.8 mW illuminated at the top). Printed 0.6 A/W in the text (p.5) and Table II (p.6), said to be shown in Fig. 8(a); the Fig. 8(a) total-current curve at -1 V reads about 1.4e-4 A (log axis, +/- 0.1 decade), i.e. about 0.08 A/W at the stated 1.8 mW. Printed value kept, conflict flagged (D417); the WGPD panel (Fig. 8(b), about 2.5e-4 A at 12.5 mW, 0.02 A/W) agrees with its printed value'
+    why: 'p.5 Fig. 8(a) render: photocurrent at -1 V is about 1.4e-4 A with 1.8 mW input, a factor of about 8 below the printed 0.6 A/W; conflict not noted'
+  cmp_lit_geng2014_nipd-m4:
+    wavelength_nm: '1550'
+    wavelength_inferred: 'true'
+    notes: 'printed value; Fig. 9 panel readings conflict (see component notes). Wavelength not stated for the RF measurement; 1550 nm inferred from the DC characterization at 1550 nm (p.5) and the 1550 nm light through the same modulator for the eye diagrams (p.6)'
+    why: 'skill rule 8 (lit_61 reading, D436): no wavelength or band on the row while the operating wavelength is stated (p.5, p.6)'
+  cmp_lit_geng2014_nipd-m5:
+    wavelength_nm: '1550'
+    wavelength_inferred: 'true'
+    notes: 'printed value; Fig. 9 panel readings conflict (see component notes). Wavelength not stated for the RF measurement; 1550 nm inferred from the DC characterization at 1550 nm (p.5) and the 1550 nm light through the same modulator for the eye diagrams (p.6)'
+    why: 'skill rule 8 (lit_61 reading, D436): no wavelength or band on the row while the operating wavelength is stated (p.5, p.6)'
+  cmp_lit_geng2014_wgpd-m4:
+    wavelength_nm: '1550'
+    wavelength_inferred: 'true'
+    notes: 'printed value; Fig. 9 panel readings conflict (see component notes). Wavelength not stated for the RF measurement; 1550 nm inferred from the DC characterization at 1550 nm (p.5) and the 1550 nm light through the same modulator for the eye diagrams (p.6)'
+    why: 'skill rule 8 (lit_61 reading, D436): no wavelength or band on the row while the operating wavelength is stated (p.5, p.6)'
+  cmp_lit_geng2014_wgpd-m5:
+    wavelength_nm: '1550'
+    wavelength_inferred: 'true'
+    notes: 'printed value; Fig. 9 panel readings conflict (see component notes). Wavelength not stated for the RF measurement; 1550 nm inferred from the DC characterization at 1550 nm (p.5) and the 1550 nm light through the same modulator for the eye diagrams (p.6)'
+    why: 'skill rule 8 (lit_61 reading, D436): no wavelength or band on the row while the operating wavelength is stated (p.5, p.6)'
+  cmp_lit_ozdemir2020_nrwpd-m11:
+    basis: author_estimate
+    notes: 'median line of the Fig. 3(b) box plot read off the plot, +/- 0.02 A/W; internal responsivity resting on the simulated 0.175 fiber-to-ridge coupling efficiency (p.2 Eq.), so the origin basis stays author_estimate as for the printed -1 / -5 V medians (figure-read estimate, ahmadi2022 / bonneville2020 precedent, D454 analogue)'
+    why: 'p.2 Fig. 3(b): the plotted quantity is the internal responsivity computed with the simulated coupling efficiency (author_estimate); a figure-read value of it should not rank above the printed medians of the same quantity'
+  cmp_lit_ozdemir2020_nrwpd-m12:
+    basis: author_estimate
+    notes: 'median line of the Fig. 3(b) box plot read off the plot, +/- 0.02 A/W; internal responsivity resting on the simulated 0.175 fiber-to-ridge coupling efficiency (p.2 Eq.), so the origin basis stays author_estimate as for the printed -1 / -5 V medians (figure-read estimate, ahmadi2022 / bonneville2020 precedent, D454 analogue)'
+    why: 'p.2 Fig. 3(b): the plotted quantity is the internal responsivity computed with the simulated coupling efficiency (author_estimate); a figure-read value of it should not rank above the printed medians of the same quantity'
+  cmp_lit_ozdemir2020_nrwpd-m13:
+    basis: author_estimate
+    notes: 'median line of the Fig. 3(b) box plot read off the plot, +/- 0.02 A/W; internal responsivity resting on the simulated 0.175 fiber-to-ridge coupling efficiency (p.2 Eq.), so the origin basis stays author_estimate as for the printed -1 / -5 V medians (figure-read estimate, ahmadi2022 / bonneville2020 precedent, D454 analogue)'
+    why: 'p.2 Fig. 3(b): the plotted quantity is the internal responsivity computed with the simulated coupling efficiency (author_estimate); a figure-read value of it should not rank above the printed medians of the same quantity'
+  cmp_lit_bernard2021_substrate_pd-m1:
+    value: '0.304'
+    qualifier: ''
+    locator: p.2; p.2 Fig. 2(c) label
+    notes: 'Fig. 2(c) label prints R = 304 uA/mW (uA/mW -> A/W), the slope of photocurrent vs PIC optical power at -3 V; text prints R about 0.3 A/W (p.2). Input power from the 9.15 dB loss estimate built on the waveguide cutback data (component notes)'
+    why: 'p.2 Fig. 2(c): the figure prints R = 304 uA/mW next to QE = 44.3 % (0.304 A/W x 1239.8 / 850 nm = 44.3 %); the row held the rounded text value with qualifier approx'
+  cmp_lit_bernard2021_substrate_pd-m2:
+    locator: p.1 Abstract; p.1; p.2; p.2 Fig. 2(c) label
+    why: 'p.2 Fig. 2(c) label prints QE = 44.3 % with the fitted responsivity'
+add_metrics:
+- metric_id: cmp_lit_geng2014_nipd-m7
+  component_id: cmp_lit_geng2014_nipd
+  source_id: lit:geng2014
+  parameter: footprint_um2
+  value: '314'
+  unit: um2
+  basis: design_target
+  locator: p.5 Sec. IV.C; p.6 Table II
+  notes: active area as printed (314 um2, also Table II area column); design or measured not stated; shape not stated
+  verified_on: '2026-11-20'
+  why: 'miss (D153): printed active area of the NIPD (p.5, Table II); footprint_um2 holds PD mesa / active areas in merged rows (yuan2021, tzu2019)'
+- metric_id: cmp_lit_geng2014_wgpd-m7
+  component_id: cmp_lit_geng2014_wgpd
+  source_id: lit:geng2014
+  parameter: footprint_um2
+  value: '64'
+  unit: um2
+  basis: design_target
+  locator: p.5 Sec. IV.C; p.6 Table II
+  notes: active area as printed (64 um2, also Table II area column); design or measured not stated; shape not stated
+  verified_on: '2026-11-20'
+  why: 'miss (D153): printed active area of the WGPD (p.5, Table II); footprint_um2 holds PD mesa / active areas in merged rows (yuan2021, tzu2019)'
+- metric_id: cmp_lit_bernard2021_substrate_pd-m4
+  component_id: cmp_lit_bernard2021_substrate_pd
+  source_id: lit:bernard2021
+  parameter: absorber_thickness_nm
+  value: '10000'
+  unit: nm
+  basis: derived
+  locator: p.1
+  notes: printed 10 um thick p-doped epitaxial Si layer in which the detectors are implanted and the light is absorbed (um -> nm, D157); same thickness used in the 46 % simulation
+  verified_on: '2026-11-20'
+  why: 'miss (D153): the absorbing epi-Si thickness of the fabricated detector is stated (p.1, detectors realized in the 10 um thick epi-layer)'

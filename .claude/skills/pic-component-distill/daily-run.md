@@ -12,8 +12,8 @@ The daily run is pre-approved end to end. Do not ask about any of these; asking 
 |---|---|
 | Open routes (arXiv, OA publisher) | Launch at once |
 | IEEE browser | Launch at once with `--wait-login`; tell the owner in one line that the window is open for sign-in. Do not ask |
-| Optica browser | Launch at once with `$SK/scripts/optica_runner.py <day>` (OE / Optica / OME DOIs only; probe 3, 11, 15 min pause, rest; stops and arms the breaker at the first non-ok row) |
-| Leftover breaker (Optica / IEEE) | Never ask (owner 2026-11-20). A breaker left from an earlier day: move it to `logs/lit_browser_blocked_<site>_cleared_<date>.json` and launch the route; the runner's 3-paper probe is the test. Skip the route for the day only if the probe stops again, and report it |
+| Optica browser | Launch at once with `$SK/scripts/optica_runner.py <day>` (OE / Optica / OME DOIs only; probe 3, 11, 15 min pause, rest). It stops at the first non-ok row and logs the paper, status and page snapshot (`RATE_LIMIT` or `CHECK`); it writes no breaker file |
+| Stop on a non-ok row (Optica / IEEE) | Never ask, never leave a breaker (owner 2026-11-20: "remove the stupid breaker; whenever it breaks check manually; continue if the error is a standalone case"). Move any `logs/.lit_browser_blocked_<site>.json` aside to `logs/lit_browser_blocked_<site>_cleared_<stamp>.json`, then open the snapshot (`logs/lit_browser_<site>_<paper_id>_*.html`) and read it. Standalone case (that one article: no PDF, wrong article, paywalled item, one connection reset): relaunch the runner at once; saved papers are skipped. Rate-limit page (Optica: "downloading timeout based on heavy usage, try again in a few minutes"): wait 20 min, relaunch. Skip the route for the day only if the same rate limit or challenge comes back twice after waiting, and report it |
 | Publisher browser | Not run (day 202 pattern). Leave the rows queued and list them in the final report |
 | Fetch dry runs | None. The fetchers run directly (owner question 2026-11-15) |
 | Ingestion start | Only after every launched caching route has finished (owner 2026-11-16: "why are you ingesting before the caching is done?") |
@@ -21,14 +21,14 @@ The daily run is pre-approved end to end. Do not ask about any of these; asking 
 | Commit and push | When everything is merged and checked, commit to `main` and push without asking (owner 2026-11-16 and 2026-11-17) |
 
 Ask only on a real blocker: IEEE sign-in not done after 30 min, failing checks you cannot fix, or anything that would
-delete or overwrite owner data. A breaker is not a blocker: clear it, re-probe, skip only if the failure repeats.
+delete or overwrite owner data. A fetch stop or breaker is not a blocker: check the snapshot by hand, clear, continue (table above).
 
 ## 1. Day number and queue
 
 - Day N = the last `Bench day N` commit + 1 (`git log --oneline -5`). Queue rows: `data/_staging/literature/retrieval_queue.csv`
   with `day == N`; route counts by `route` (arxiv, oa_publisher, ieee_browser, optica_browser, publisher_browser).
 - Breakers: `logs/.lit_blocked_<host>.json` and `logs/.lit_browser_blocked_*.json` (`until` epoch; expired ones are
-  ignored by the fetchers). An `optica` / `ieee` browser breaker left from an earlier day is cleared and re-probed (table above), never asked about.
+  ignored by the fetchers). An `optica` / `ieee` browser breaker is moved aside before launch and the route run (table above), never asked about.
 
 ## 2. Caching (all three launched in the first minutes; separate tmux sessions)
 

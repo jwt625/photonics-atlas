@@ -1,0 +1,31 @@
+# Audit patch lit_231 (fresh-context audit 2026-11-20, DevLog/audits/2026-11-20-lit_231-audit.md).
+# 40 metrics: 39 ok / 1 imprecise / 0 wrong; 3 components: 0 ok / 3 imprecise (notes only) / 0 wrong; 1 miss added.
+# fontaine2022: 0 rows confirmed (review; every device value credited to cited work, mostly the authors' own, D259 / D259a).
+# Fixes: yi2024b simulated crosstalk row notes (Fig. 3 axis runs to about 2010 nm; the bound holds to 2000 nm only);
+# fab notes on the three rows close the borderline question with the D652 ruling (identical acknowledgment in cheng2023a);
+# miss: full-etch depth 220 nm on the MDM row (D153; a2013 precedent).
+components:
+  cmp_lit_yi2024b_adc_mdm_4mode:
+    notes: "Four input and four output ports; a mode MUX and a DEMUX with three tapered ADCs each (TE0 -> TE1 / TE2 / TE3), joined by a multimode bus (p.2 Sec. II, Fig. 1). Design: the coupling length equals one minimum coupling length at 1550 nm and five at 1970 nm (Eq. 4). Measured as the MUX + bus + DEMUX circuit; the two bands use replicated circuits with distinct TE GCs (p.3, Fig. 5(a)-(b)). Spectra extracted by removing the GC loss estimated at ~6 / 8 dB per facet (p.4): measured IL rows are author_estimate, method loss_breakdown, scope de_embedded (not halved per device; sun2025 precedent, D428). Abstract / conclusion maxima (< 2.2 dB, < -13.0 dB; < 3.1 dB, < -10.6 dB) are the Table II per-mode values, not entered twice. Access-bus gap g = 0.1 um for all three ADCs (Table I) not entered: gap_nm is not allowed for mode_converter (registry gap, D533). Phase-matching bus widths read from the n_eff curves (1.03 / 1.06, 1.56 / 1.63, 2.1 / 2.19 um at 1550 / 1970 nm, p.3) are design intermediates, not entered; the fabricated taper ends Wb1 / Wb2 are. Link results (4 x 114 Gb/s PAM8 at 1.55 um, 4 x 84 Gb/s at 2 um, ROP penalty < 1 / < 1.5 dB, p.5 Fig. 8) are system results, not component metrics. Earlier conference version by the authors is ref. [40] (ACP 2023); no value here is attributed to it (D408). Facility: the paper thanks the Center of Optoelectronic Micro&Nano Fabrication and Characterizing Facility, Wuhan National Laboratory for Optoelectronics of HUST for support in device fabrication (p.5 Acknowledgment). Fabrication sentence is passive ('The device is fabricated using electron beam lithography', p.3 Sec. III) with no org named: fab empty (D80b); HUST not entered as fab: the acknowledgment names the facility, not a place of processing (D652 ruling on the identical cheng2023a acknowledgment; D448, D634)."
+    why: 'notes left the fab question open (HUST "borderline candidate"); D652 already ruled on the identical acknowledgment wording (cheng2023a, same group): facility only. Gap registry note points to D533'
+  cmp_lit_yi2024b_gc_1p55um:
+    notes: "Input / output couplers of the 1.55 um replica of the MDM circuit (p.3 Sec. III, Fig. 5(a)); full-etched chirped subwavelength design, period values not printed. Facility: the paper thanks the Center of Optoelectronic Micro&Nano Fabrication and Characterizing Facility, Wuhan National Laboratory for Optoelectronics of HUST for support in device fabrication (p.5 Acknowledgment). Fabrication sentence is passive ('The device is fabricated using electron beam lithography', p.3 Sec. III) with no org named: fab empty (D80b); HUST not entered as fab: the acknowledgment names the facility, not a place of processing (D652 ruling on the identical cheng2023a acknowledgment; D448, D634)."
+    why: 'notes left the fab question open; closed with the D652 ruling (p.5 Acknowledgment, identical wording to cheng2023a)'
+  cmp_lit_yi2024b_gc_2um:
+    notes: "Input / output couplers of the 2 um replica of the MDM circuit (p.3 Sec. III, Fig. 5(b)); full-etched chirped subwavelength design with a different period from the 1.55 um coupler, period values not printed. Facility: the paper thanks the Center of Optoelectronic Micro&Nano Fabrication and Characterizing Facility, Wuhan National Laboratory for Optoelectronics of HUST for support in device fabrication (p.5 Acknowledgment). Fabrication sentence is passive ('The device is fabricated using electron beam lithography', p.3 Sec. III) with no org named: fab empty (D80b); HUST not entered as fab: the acknowledgment names the facility, not a place of processing (D652 ruling on the identical cheng2023a acknowledgment; D448, D634)."
+    why: 'notes left the fab question open; closed with the D652 ruling (p.5 Acknowledgment, identical wording to cheng2023a)'
+metrics:
+  cmp_lit_yi2024b_adc_mdm_4mode-m23:
+    notes: "printed CT < -18 dB 'in the operation wavelength range' (p.3); the range is not defined with the value. Fig. 3 axis runs from 1500 nm to about 2010 nm; the highest unwanted trace (TE3 - TE2, Fig. 3(c)) reads about -18 dB at 2000 nm and about -17.5 dB at the right axis end, so the bound holds on the plot over 1500-2000 nm (reading +/- 0.5 dB) and 2000 nm is the widest upper limit consistent with it; the other panels stay below about -19.5 dB (TE2 - TE1 at the axis end, Fig. 3(b))"
+    why: 'p.3 Fig. 3 render (img_p03_1): axis extends past 2000 nm and the TE3 - TE2 trace crosses -18 dB just above 2000 nm; notes said the axis is 1500-2000 nm'
+add_metrics:
+- metric_id: cmp_lit_yi2024b_adc_mdm_4mode-m39
+  component_id: cmp_lit_yi2024b_adc_mdm_4mode
+  parameter: etch_depth_nm
+  value: '220'
+  unit: nm
+  condition: full etch through the 220 nm Si device layer (SF6-C4F8 fully etching process)
+  basis: design_target
+  locator: p.3 Sec. III
+  notes: printed 'SF6-C4F8 fully etching process' on the 220 nm top Si (p.3); depth = the layer thickness (a2013 precedent)
+  why: 'miss (D153 geometry): full etch stated on p.3 Sec. III; merged a2013 ADC mode MUX carries the same row'

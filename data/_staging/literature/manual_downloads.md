@@ -2,7 +2,7 @@
 
 Generated 2026-11-20 by `scripts/lit_manual_list.py` from `retrieval_queue.csv` and `logs/lit_fetch_status.jsonl`; papers already cached are left out. Save each PDF as `references/_inbox/<save_as>` (supplement: `<paper_id>_supplement.pdf`), then run `uv run python scripts/lit_ingest_inbox.py`.
 
-Total: 196
+Total: 198
 
 | # | day | class | save_as | year | venue | title | doi | reason |
 |---|---|---|---|---|---|---|---|---|
@@ -202,3 +202,5 @@ Total: 196
 | 194 | 205 | waveguide_platform | ginelmoreno2022.pdf | 2022 | Laser & Photonics Review | On‐Chip Metamaterial Antenna Array with Distributed Bragg Deflector for Generation of Collimated Steerable Beams | 10.1002/lpor.202200164 | Wiley blocks the browser (D147) |
 | 195 | 206 | fiber_chip_coupler | chen2024d.pdf | 2024 | APL Photonics | High-performance and fabrication-tolerant edge coupler on thin film lithium niobate based on a three-dimensional inverse taper | 10.1063/5.0224269 | AIP blocks the browser (D147) |
 | 196 | 206 | fiber_chip_coupler | liu2010b.pdf | 2010 | Applied Physics Letters | High-efficiency, large-bandwidth silicon-on-insulator grating coupler based on a fully-etched photonic crystal structure | 10.1063/1.3304791 | AIP blocks the browser (D147) |
+| 197 | 206 | photodetector | xue2021.pdf | 2021 | Optica | High-performance III-V photodetectors on a monolithic InP/SOI platform | 10.1364/optica.431357 | optica_browser: no_access on 2026-11-21 |
+| 198 | 206 | photodetector | yang2013.pdf | 2013 | Electronics Letters | Butterfly packaged high‐speed and low leakage InGaAs quantum well photodiode for 2000nm wavelength systems | 10.1049/el.2012.4335 | ieee_search: no_ieee_copy on 2026-11-21 |

@@ -1,0 +1,72 @@
+# Audit patch lit_226 (fresh-context audit 2026-11-20, DevLog/audits/2026-11-20-lit_226-audit.md).
+# 92 metrics: 86 ok / 6 imprecise / 0 wrong; 15 components: 8 ok / 7 imprecise / 0 wrong. 2 misses added (cheung2010 SA and
+# SOA section lengths as length_um, D153; same convention as menezo1999 m14 / m15 in this batch and merged laser section-length rows).
+# Fixes: cheung2010 ~51 ps condition follows Fig. 4(a) label + Fig. 3 data (386 mA / 6.18 V), text values in the conflict note
+# (D417, sohn2021 precedent in D462); cao2014 laser B wavelength-drift range 280-330 K (Fig. 2(b) labels); komljenovic2015
+# Fig. 7(b) peak note; menezo1999 Fig. 3(a) power range note (lasers 5 and 6 included) and Fig. 4 output-port wording;
+# komljenovic2015 process_name to the printed wording with its reference (Contract v7, "(ref. N)" precedent rows).
+components:
+  cmp_lit_komljenovic2015_ec_laser:
+    process_name: heterogeneous photonic integration PDK and foundries developed under the DARPA EPHI program (ref. 27)
+    why: 'p.2 Sec. II-B prints "heterogeneous photonic integration process design kit (PDK) and foundries developed under the DARPA EPHI program [27]"; Contract v7 process_name as printed, cited-reference style of merged rows ("photonic damascene process (ref. 17)"); fab stays empty (no foundry named)'
+  cmp_lit_komljenovic2015_ref_laser_no_ec:
+    process_name: heterogeneous photonic integration PDK and foundries developed under the DARPA EPHI program (ref. 27)
+    why: 'p.2 Sec. II-B printed wording (Contract v7); same process as the external-cavity laser'
+  cmp_lit_komljenovic2015_vernier_rings:
+    process_name: heterogeneous photonic integration PDK and foundries developed under the DARPA EPHI program (ref. 27)
+    why: 'p.2 Sec. II-B printed wording (Contract v7)'
+  cmp_lit_komljenovic2015_front_loop_mirror:
+    process_name: heterogeneous photonic integration PDK and foundries developed under the DARPA EPHI program (ref. 27)
+    why: 'p.2 Sec. II-B printed wording (Contract v7)'
+  cmp_lit_komljenovic2015_back_loop_mirror:
+    process_name: heterogeneous photonic integration PDK and foundries developed under the DARPA EPHI program (ref. 27)
+    why: 'p.2 Sec. II-B printed wording (Contract v7)'
+  cmp_lit_komljenovic2015_si_spiral:
+    process_name: heterogeneous photonic integration PDK and foundries developed under the DARPA EPHI program (ref. 27)
+    why: 'p.2 Sec. II-B printed wording (Contract v7)'
+  cmp_lit_komljenovic2015_ext_phase_tuner:
+    process_name: heterogeneous photonic integration PDK and foundries developed under the DARPA EPHI program (ref. 27)
+    why: 'p.2 Sec. II-B printed wording (Contract v7)'
+metrics:
+  cmp_lit_cheung2010_hml_1ghz-m4:
+    condition: 'minimum pulse width at 7 C, 20 dBm RF at 1.0425 GHz; 386 mA gain current, SA reverse bias 6.18 V (Fig. 4(a) label, Fig. 3 386 mA curve); DCA trace'
+    notes: 'Printed about 51 ps (ps -> fs, D256). Conflict (D417): the text (p.2) prints 376 mA and 6.19 V; the Fig. 4(a) label prints 386 mA and -6.18 V, and in Fig. 3 the 386 mA curve (the one the inset arrow points to) reaches about 50 ps near 6.2 V while the 376 mA curve stays at about 58 ps or more. Condition follows the two figure sources (sohn2021 precedent, D462). Main peak followed by a satellite pulse.'
+    why: 'p.2 Fig. 3 render (cyan 386 mA curve minimum about 50 ps at 6.2 V, blue 376 mA minimum about 58 ps) and p.3 Fig. 4(a) label (Current = 386mA, Reverse Bias = -6.18V, T = 7 C) agree against the one text sentence'
+  cmp_lit_cao2014_laser_b_tri_qw-m8:
+    condition: 'average lasing-wavelength temperature coefficient, CW, 280-330 K (Fig. 2(b) spectra), 0.8 mm cavity'
+    why: 'p.2 Fig. 2(b) render: laser B spectra are labelled 280-330 K in 10 K steps (270 K only in Fig. 2(a), laser A)'
+  cmp_lit_komljenovic2015_ec_laser-m13:
+    notes: 'Read off Fig. 7(b), +/- 1 dB: the with-feedback trace peaks at about -146.5 dBc/Hz near 1.9 GHz; the trace without feedback peaks at about the same level, slightly broader; noise floor about -151 dBc/Hz.'
+    why: 'p.5 Fig. 7(b) render (10 dB grid): both traces peak at about -146.5 dBc/Hz; the note said the no-feedback trace peaks at about -145'
+  cmp_lit_menezo1999_dbr_array-m11:
+    condition: 'Bragg currents set for 200 GHz spacing, accuracy better than 25 GHz; each laser 120 mA active, one channel at a time, on the common PHASAR output collected 3 exits (4.8 nm) from the central port'
+    why: 'p.3 Sec. III: the Fig. 4 wavelengths are collected on an output 3 exits (4.8 nm) spaced from the central one'
+  cmp_lit_menezo1999_dbr_array-m12:
+    condition: 'coupled power on the common PHASAR output (3 exits, 4.8 nm, from the central port), all channels except 5 and 6, 120 mA active current each'
+    why: 'p.3 Sec. III: output port as printed (3 exits from the central one)'
+  cmp_lit_menezo1999_dbr_array-m13:
+    notes: 'Read off Fig. 3(a) at 120 mA (end of the sweep), +/- 0.5 mW; no output power printed in the text. The range covers all ten curves: lasers 5 and 6 (arrows; the two highest-threshold curves) end at about 10-11 mW, the other eight at about 11-15.5 mW.'
+    why: 'p.2 Fig. 3(a) render: the 10 mW lower end is the laser-5 / laser-6 pair the text excludes from the threshold range; the condition did not say so'
+add_metrics:
+  - metric_id: cmp_lit_cheung2010_hml_1ghz-m15
+    component_id: cmp_lit_cheung2010_hml_1ghz
+    parameter: length_um
+    value: '150'
+    unit: um
+    condition: saturable absorber section length (the SA length of the fabricated SA-length series that gave the best HML operation)
+    basis: design_target
+    locator: 'p.2 Sec. II; p.1 Fig. 1(a)'
+    verified_on: '2026-11-20'
+    notes: 'Printed SA length of 150 um (p.2); Fig. 1(a) label L = 150 um.'
+    why: 'D153 geometry miss: section lengths enter length_um with the section in condition (menezo1999 m14 / m15 in this batch; davenport2016, huang2019_edbr, hiratani2024 merged)'
+  - metric_id: cmp_lit_cheung2010_hml_1ghz-m16
+    component_id: cmp_lit_cheung2010_hml_1ghz
+    parameter: length_um
+    value: '4000'
+    unit: um
+    condition: SOA (quantum-well gain) section length (design schematic label)
+    basis: extracted_from_figure
+    locator: p.1 Fig. 1(a)
+    verified_on: '2026-11-20'
+    notes: 'Fig. 1(a) label L = 4000.0 um; not printed in the text.'
+    why: 'D153 geometry miss: figure-labelled dimension (Contract v5), as the 41195.13 um cavity length m13 of the same figure'

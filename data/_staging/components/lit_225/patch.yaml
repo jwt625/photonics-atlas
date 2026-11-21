@@ -1,0 +1,12 @@
+# Audit patch lit_225 (fresh-context audit 2026-11-20, DevLog/audits/2026-11-20-lit_225-audit.md).
+# 71 metrics: 69 ok / 2 imprecise / 0 wrong; 6 components: 6 ok / 0 imprecise / 0 wrong. No misses added.
+# Fixes: cheng2023b -25 C Ca row names the -25 C bias span (2.0-14.0 mA, not 14.7 mA); papatryfonos2014 Fig. 1 inset
+# wavelength-axis description re-read on the embedded image (major ticks 1.5-2.4 um, peak between the 1.9 and 2.0 um ticks).
+# Coordinator questions (audit Q1-Q6): all distiller judgment calls kept (no op).
+metrics:
+  cmp_lit_cheng2023b_subfreezing_vcsel_850-m7:
+    condition: 'Ca, combined depletion and oxide capacitance of the small-signal model; same value at all five -25 C biases (2.0-14.0 mA)'
+    why: 'p.9 Table 1 render: the -25 C block runs 2.0 / 4.2 / 8.4 / 12.6 / 14.0 mA; 14.7 mA is the top bias of the -50 C block only'
+  cmp_lit_papatryfonos2014_qdash_ridge_1150um-m5:
+    notes: 'Read off the Fig. 1 inset (embedded image; wavelength axis with major ticks 1.5 to 2.4 um every 0.1 um, labels blurred), peak between the 1.9 and 2.0 um ticks at about 1.98 um, reading uncertainty about +/-0.015 um (um -> nm). Caption: ''emitting at 2 um''.'
+    why: 'p.1 Fig. 1 embedded image: ten major ticks (frame edge plus nine) carry labels 1.5-2.4 um, not 1.6-2.4 um; peak pixel 156 between the 1.9 um (144) and 2.0 um (159) ticks confirms 1.98 um'

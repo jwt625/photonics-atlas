@@ -1,0 +1,48 @@
+# Audit patch lit_229 (fresh-context audit 2026-11-20, DevLog/audits/2026-11-20-lit_229-audit.md).
+# 71 metrics: 69 ok / 2 imprecise / 0 wrong; 10 components: 9 ok / 1 imprecise / 0 wrong. 2 misses added.
+# Fixes: hoessbacher2014 30 MHz condition states the +/-2 V drive amplitude printed in the render (text layer drops the sign);
+# interface simulation tool not restated in the paper; xu2019c no-saturation bound (> 5 dBm) and the Fig. 11 cross-check that
+# ties the Fig. 12 responsivities to the 40 um device; hoessbacher2014 Fig. 5 extinction at the end of the 2 V step.
+# Coordinator questions (audit Q1-Q7): all distiller judgment calls kept (no op).
+components:
+  cmp_lit_xu2019c_gesn_mqw_pd_d40:
+    notes: "Device of the Fig. 11 illuminated I-V curves (40 um chosen for fiber alignment to the surface window, p.11). Fig. 12 and its responsivity sentence (p.12) do not restate the diameter; they follow the Fig. 11 measurement in the same section with the same four wavelengths, and the Fig. 11 photocurrents at -1 V divided by the stated incident power reproduce them (Fig. 11(b), 3.6 dBm: about 0.10 / 0.064 / 0.034 mA, i.e. about 0.044 / 0.028 / 0.015 A/W at 1742 / 1877 / 2000 nm; Fig. 11(a), 0-5 dBm at 1550 nm: about 0.19-0.20 A/W; figure reads), so the values are entered on this row (sun2018 precedent). Photocurrent linear in incident power with no saturation up to 5 dBm at 1550 nm (bound entered as m7) and flat response down to 0 V (p.11, no value). Predicted absorption cut-off about 2.05 um (p.2, calculation, no parameter). Fab empty: growth ('The epitaxy ... was performed', p.1-3) and the double-mesa process (p.8) are passive, no org named; authors at NUS, Applied Materials and NTU (D80b). The acknowledgment thanks one Si-COE (NTU) staff member for help with the RF measurement: staff thanks, no facility (D72, D84b)."
+    why: "p.11 Fig. 11(a)-(b) render: photocurrent / Pin at -1 V reproduces the Fig. 12 responsivities (supports the row assignment); the no-saturation statement is an enterable bound (added as m7), not 'no value'"
+metrics:
+  cmp_lit_hoessbacher2014_memristor_l5-m5:
+    polarization: tm
+    condition: "sinusoidal modulation with +/-2 V amplitude (Fig. 7 blue triangles; +/-1 V and +/-1.5 V traces also shown, no bandwidth printed for them), photodiode and lock-in detection; 3-dB point relative to the amplitude at 40 kHz (response relatively flat from 40 kHz to 10 MHz)"
+    why: "p.4 render prints 'operation with +/-2 V' (the text layer drops the sign); TM as for the other rows of this device (TM grating couplers, p.2)"
+  cmp_lit_hoessbacher2014_si_hybrid_interface-m2:
+    condition: "simulated loss per interface between the Si photonic and the hybrid section (simulation tool not restated; the Fig. 1(b) mode simulation used CST Microwave Studio)"
+    why: "p.2: the 1.2 dB per interface is given as 'simulated' after the CST mode-profile sentence; the paper does not name the tool for the coupling-loss simulation"
+add_metrics:
+- metric_id: cmp_lit_xu2019c_gesn_mqw_pd_d40-m7
+  component_id: cmp_lit_xu2019c_gesn_mqw_pd_d40
+  parameter: saturation_power_dbm
+  value: '5'
+  unit: dBm
+  qualifier: gt
+  wavelength_nm: '1550'
+  ref_plane: fiber
+  condition: "no photocurrent saturation for incident power 0, 2 and 5 dBm (Fig. 11(a)), I-V swept from -1 to +1 V; surface (top-window) illumination from a single-mode fiber; bound set by the highest incident power used"
+  method: direct
+  basis: measured
+  locator: p.11 Sec. 3; p.11 Fig. 11(a)
+  notes: "printed: the photocurrent increases linearly with Pin and no current saturation is observed (p.11); 5 dBm is the highest incident power of Fig. 11(a), so the saturation input power lies above it"
+  why: "miss: stated no-saturation result with a bounded input power (p.11, Fig. 11(a)); entered as a lower bound as on the merged 'no saturation up to X' rows (zhu2017 hv_pd_3mm, ofc2026 Th3F.4)"
+- metric_id: cmp_lit_hoessbacher2014_memristor_l5-m11
+  component_id: cmp_lit_hoessbacher2014_memristor_l5
+  parameter: extinction_db
+  value: '9.2'
+  unit: dB
+  qualifier: approx
+  wavelength_nm: '1550'
+  wavelength_inferred: 'true'
+  polarization: tm
+  condition: "transmission drop at the end of the 2 V step (applied for about 5 min, power meter), before the voltage is switched off; not a latched state (latching extinction after switch-off: 3 dB, m3)"
+  method: direct
+  basis: extracted_from_figure
+  locator: p.4 Fig. 5
+  notes: "read off Fig. 5: minimum of the blue trace just before the 2 V step ends, about -9.2 dB (+/- 0.2 dB) relative to the initial 0 dB level; value not printed in the text; wavelength not restated for the dynamic tests, 1550 nm of the setup (p.2) inferred"
+  why: "miss: Fig. 5 (p.4) shows the extinction reached under a 5 min, 2 V hold, a distinct operating point from the quasi-static 6 dB (m1) and the latched 3 dB (m3)"

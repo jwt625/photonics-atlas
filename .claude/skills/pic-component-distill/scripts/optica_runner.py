@@ -1,7 +1,10 @@
 """Optica OA-journal runner for one queue day (OE / Optica / OME DOIs only). Probe 3, chunk 11, 15 min pause, rest.
 
-Kills the fetcher at the first status row that is not `ok` (no_access / challenge / error / not_pdf / ...) and
-arms the Optica breaker by hand, because the fetcher's is_challenge does not know the rate-limit page.
+Kills the fetcher at the first status row that is not `ok` (no_access / challenge / error / not_pdf / ...) and stops
+with the paper, status and newest page snapshot in the log. No breaker file (owner 2026-11-20): the coordinator
+checks the snapshot by hand. Optica's rate-limit page ("downloading timeout based on heavy usage") is named in the
+log as RATE_LIMIT; anything else is checked as a possible standalone case. A breaker the fetcher itself arms is moved
+aside to logs/lit_browser_blocked_optica_cleared_<stamp>.json.
 Run from the repo root in tmux: uv run python .claude/skills/pic-component-distill/scripts/optica_runner.py <day>
 """
 
@@ -25,7 +28,10 @@ LOG = LOGS / f"lit_optica_oa_d{DAY}_{STAMP}.log"
 _IDS = [
     r["paper_id"]
     for r in csv.DictReader((ROOT / "data/_staging/literature/retrieval_queue.csv").open())
-    if r["day"] == DAY and r["route"] == "optica_browser" and re.match(r"10\.1364/(oe|optica|ome)\.", r["doi"].lower())
+    if r["day"] == DAY
+    and r["route"] == "optica_browser"
+    and re.match(r"10\.1364/(oe|optica|ome)\.", r["doi"].lower())
+    and not (ROOT / "references" / r["paper_id"] / "source.pdf").exists()  # relaunch: saved papers skipped
 ]
 CHUNKS = [("probe", _IDS[:3]), ("daily", _IDS[3:14]), ("daily", _IDS[14:])]
 CHUNKS = [c for c in CHUNKS if c[1]]
@@ -53,22 +59,24 @@ def new_rows(offset: int, ids: set[str]) -> list[dict]:
         return out
 
 
-def arm(reason: str, pid: str) -> None:
-    rec = {
-        "at": dt.datetime.now(dt.UTC).isoformat(timespec="seconds"),
-        "site": "optica",
-        "host": None,
-        "reason": reason,
-        "paper_id": pid,
-    }
-    BREAKER.write_text(json.dumps(rec))
-    log(f"breaker armed: {rec}")
+def clear_breaker() -> None:
+    if BREAKER.exists():
+        dest = LOGS / f"lit_browser_blocked_optica_cleared_{dt.datetime.now():%Y%m%dT%H%M%S}.json"
+        BREAKER.rename(dest)
+        log(f"fetcher breaker moved aside: {dest.name}")
+
+
+def explain(pid: str) -> str:
+    snaps = sorted(LOGS.glob(f"lit_browser_optica_{pid}_*.html"))
+    if not snaps:
+        return "no snapshot"
+    text = snaps[-1].read_text(encoding="utf-8", errors="replace")
+    kind = "RATE_LIMIT" if re.search(r"downloading timeout|heavy usage", text, re.I) else "CHECK"
+    return f"{kind} snapshot {snaps[-1].name}"
 
 
 def main() -> int:
-    if BREAKER.exists():
-        log(f"breaker present, not starting: {BREAKER.read_text()}")
-        return 3
+    clear_breaker()
     for i, (kind, ids) in enumerate(CHUNKS):
         log(f"chunk {i} ({kind}): {','.join(ids)}")
         offset = STATUS.stat().st_size
@@ -109,13 +117,9 @@ def main() -> int:
         log(
             f"chunk {i} rc={proc.returncode} saved={len(saved)} {saved} other={[(r['paper_id'], r['status']) for r in rows if r.get('status') != 'ok']}"
         )
+        clear_breaker()
         if bad:
-            if not BREAKER.exists():
-                arm(f"runner stop: {bad['status']} {str(bad.get('detail', ''))[:200]}", bad["paper_id"])
-            log("stopped on non-ok row")
-            return 1
-        if BREAKER.exists():
-            log(f"breaker set by fetcher: {BREAKER.read_text()}")
+            log(f"stopped on non-ok row: {bad['paper_id']} {bad['status']} {explain(bad['paper_id'])}")
             return 1
         if not saved:
             log("chunk saved 0; stopping")

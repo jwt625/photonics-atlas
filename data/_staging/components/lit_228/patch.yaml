@@ -1,0 +1,57 @@
+# Audit patch lit_228 (fresh-context audit 2026-11-20, DevLog/audits/2026-11-20-lit_228-audit.md).
+# 113 metrics: 110 ok / 3 imprecise / 0 wrong; 17 components: 17 ok / 0 imprecise / 0 wrong. 3 misses added (figure reads).
+# Fixes: sato2008 5 nm threshold note gains the Fig. 9(b) cross-check; gopinath2007 Device B slope-efficiency condition carries the
+# same quasi-CW context as its threshold row; mason2000 SOA peak-gain wavelength marked inferred (1550 nm is printed for the
+# unity-gain current in the same sentence). Misses: alloush2021 PML lasing peak (Fig. 2 inset), gopinath2007 Device B mode-locked
+# spectral peak (Fig. 3), staring1996 lasing-channel span (Fig. 3).
+# Coordinator questions (audit Q1-Q7): all distiller judgment calls kept (no op).
+metrics:
+  cmp_lit_sato2008_ba_laser_inas5nm-m1:
+    notes: 'D431 precedent (Jth x stripe area); the paper does not state the area used for Jth. Fig. 9(b) 25 C knee reads about 560 mA (+/- 10 mA, 600 dpi render), about 2 % below the derived value; Fig. 10 25 C point about 1.6 kA/cm2, consistent.'
+    why: 'p.5 Fig. 9(b) render: 25 C curve (third from left, 25 C leader) knee near 560 mA; the 3 nm row already carries its Fig. 9(a) cross-check, the 5 nm row had none'
+  cmp_lit_gopinath2007_scowl_mll_b-m3:
+    condition: 'unbiased absorber; front facet; devices first characterized quasi-CW at 1 % duty cycle (100 Hz, 100 us), p.2; operating mode not restated in the threshold / slope sentence'
+    why: 'p.2 Sec. III: threshold and slope efficiency come from the same sentence; the threshold row (m2) carries the quasi-CW context, the slope row did not'
+  cmp_lit_mason2000_int_soa-m1:
+    wavelength_inferred: 'true'
+    notes: 'Rests on waveguide-loss terms of unstated origin (rule 4). Higher bias raised the output saturation power but not the gain (p.3). 1550 nm is printed for the unity-gain current in the same calculation sentence; the wavelength of the peak gain is not stated separately (inferred).'
+    why: 'p.2-3 Sec. III: "calculated the unity gain current at 1550 nm to be 14 mA and the peak gain to be 8.5 dB at 100 mA"; the wavelength binds to the unity-gain current'
+add_metrics:
+- metric_id: cmp_lit_alloush2021_mll_946mhz-m14
+  component_id: cmp_lit_alloush2021_mll_946mhz
+  parameter: center_wavelength_nm
+  value: '1560'
+  unit: nm
+  qualifier: approx
+  temperature_k: '290.15'
+  bias_v: '-3.7'
+  condition: passive mode locking, gain current 143 mA, absorber -3.7 V, booster 0 mA; dominant peak of the optical spectrum after the fiber SOA (Fig. 2 right inset)
+  basis: extracted_from_figure
+  locator: p.2 Fig. 2 right inset
+  notes: 'Read off the Fig. 2 right inset (axis 1545-1575 nm, gridlines at 1550 / 1560 / 1570 nm): dominant peak on the 1560 nm gridline (+/- 1 nm); a weaker peak near 1556 nm about 25 dB lower. Title and conclusion state 1550 nm as the nominal band. HML spectra (Fig. 5 inset) are multi-peaked and not entered.'
+  why: 'miss: the laser row had no wavelength; p.2 Fig. 2 right inset shows the PML spectrum at the stated operating point'
+- metric_id: cmp_lit_gopinath2007_scowl_mll_b-m11
+  component_id: cmp_lit_gopinath2007_scowl_mll_b
+  parameter: center_wavelength_nm
+  value: '977'
+  unit: nm
+  qualifier: approx
+  bias_v: '-0.56'
+  condition: mode-locked, gain current 1589 mA, absorber 0.56 V reverse bias; peak of the optical spectrum (Fig. 3)
+  basis: extracted_from_figure
+  locator: p.2 Fig. 3
+  notes: 'Read off Fig. 3 (axis ticks 972-984 nm every 3 nm): peak at about 977.0 nm (+/- 0.3 nm). Free-running wavelength 975 nm in m4; printed spectral width 0.96 nm not entered (registry gap).'
+  why: 'miss: p.2 Fig. 3 mode-locked spectrum of Device B at the record operating point'
+- metric_id: cmp_lit_staring1996_phasar_mwl_9ch-m12
+  component_id: cmp_lit_staring1996_phasar_mwl_9ch
+  parameter: center_wavelength_nm
+  value: '1535'
+  value_max: '1556'
+  unit: nm
+  statistic: range
+  n_samples: '8'
+  condition: lasing peaks of the eight addressable channels, each at 10 mA above threshold (Fig. 3); channel 1 shortest, channel 8 longest
+  basis: extracted_from_figure
+  locator: p.2 Fig. 3
+  notes: 'Read off the scanned Fig. 3 (axis 1530-1560 nm, about 27 px/nm on the page scan): strongest peaks channel 1 about 1534.9 nm, channel 8 about 1556.1 nm (+/- 0.5 nm; channels 7 and 8 doubly moded). The read peak spacing of channels 1-5 (about 3.0 nm, about 380 GHz) is below the printed 400 GHz grid with < 10 GHz deviation (p.2); printed value kept in m6, figure scale accuracy of the 1996 scan not known (D417 note). Channel 4 lies at about 1543.6-1544.5 nm over 100-250 mA (Fig. 2 inset).'
+  why: 'miss: the multiwavelength laser row had no wavelength; p.2 Fig. 3 shows all eight lasing channels'

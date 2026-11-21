@@ -1,0 +1,33 @@
+# Audit patch lit_224 (fresh-context audit 2026-11-20, DevLog/audits/2026-11-20-lit_224-audit.md).
+# 14 metrics: 11 ok / 3 imprecise / 0 wrong; 3 components: 2 ok / 1 imprecise / 0 wrong. 1 miss added (huang2016c isolator
+# diameter 70 um as length_um, bi2011 precedent, D153).
+# Fixes: vandekerckhove2023 2500 %/W/cm2 basis author_estimate -> measured (D606 luo2018 precedent: on-chip value from the
+# paper's own quadratic fit, no assumed / cited input printed); huang2016c 10 dB loss condition describes the reference-waveguide
+# comparison instead of the isolation condition; huang2016c simulated gap-tolerance row notes the Fig. 3 panel-label conflict;
+# vandekerckhove2023 component cross-note to the journal paper (D438).
+components:
+  cmp_lit_vandekerckhove2023_ppln_sin_shg_1mm:
+    notes: 'Fab: passive process description only (p.1); authors at Ghent University - imec and Universite Libre de Bruxelles: fab empty (D80b); no acknowledgment section. LN film supplier not named. Poled domains imaged by PFM (Fig. 1(b)); no duty cycle printed. Not entered: SHG spectral bandwidth (no frequency_converter bandwidth parameter, no printed value; Fig. 1(d) only), SH and pump powers of the Fig. 1(d) inset (up to about 4 uW SH at about 4 mW pump, read, no printed value). The 2500 %/W/cm2 comparison with etched LNOI cites ref. [2] (not entered). Cross-note (D438): the authors'' journal paper lit:vandekerckhove2025 (merged, cmp_lit_vandekerckhove2025_ppln_sin_shg_inhouse) reports the same 2500 %/W/cm2 at 1620 nm for a 1 mm transfer-printed PPLN on in-house SiN; this abstract does not state that it is the same device, so both rows are kept (no value taken from the journal paper, rule 1).'
+    why: 'D438 precedent (conference paper and journal extension both kept with cross-notes); the batch report names the overlap but the row did not'
+metrics:
+  cmp_lit_vandekerckhove2023_ppln_sin_shg_1mm-m1:
+    basis: measured
+    notes: 'printed ''measured to be 2500 %/Wcm2'' from the on-chip SH vs on-chip pump power quadratic fit (Fig. 1(d) inset); the coupling-loss correction to on-chip powers is not printed (no loss term, no method), basis measured as for an on-chip value from the paper''s own fit (D606 luo2018; zhao2026 m1, wang2018, zhao2025a precedents; lukin2019 / zhao2020 differ: correction described in an uncached SI / quantity labelled estimated); inset read: about 4 uW SH at about 4.3 mW pump, consistent with 2500 %/W/cm2 over 1 mm; polarization / mode not stated; Fig. 1(d) peak near 1617 nm (read), text prints 1620 nm'
+    why: 'p.1 text and Fig. 1(d) inset: own measurement and own fit with no printed assumed or cited input; D606 (lit_156 audit Q1) set measured for exactly this situation'
+  cmp_lit_huang2016c_ring_isolator_r35-m5:
+    condition: 'device transmission off resonance compared with a straight Si reference waveguide of the same dimensions without bonded Ce:YIG (Fig. 8, Si reference trace next to the +/-80 mA spectra); PM lensed fiber (2.5 um spot) rotated to TM (26 dB polarization extinction) in, SMF out, polished facets; temperature-controlled stage at 20 C'
+    why: 'p.5 Sec. IV-C: the 10 dB is the reference-waveguide comparison; the condition repeated the isolation (+80 vs -80 mA) definition of m1'
+  cmp_lit_huang2016c_ring_isolator_r35-m6:
+    notes: 'simulation wavelength not printed with the value; the mode analysis is set at 1550 nm (p.2). Fig. 3 panel labels in the render differ from the caption: the maximum-isolation vs power-coupling plot is printed as panel (b) and the RWS map as (c); the caption and text (p.3) call the isolation plot Fig. 3(c), locator follows the caption'
+    why: 'p.2 Fig. 3 render: panel letters swapped against the caption / text; locator kept, conflict noted (D417 style)'
+add_metrics:
+  - metric_id: cmp_lit_huang2016c_ring_isolator_r35-m10
+    component_id: cmp_lit_huang2016c_ring_isolator_r35
+    parameter: length_um
+    value: '70'
+    unit: um
+    condition: 'isolator diameter (microring R = 35 um with the microstrip loop following it)'
+    basis: design_target
+    locator: 'p.5 Sec. IV-C; p.2 Fig. 2(b) inset'
+    notes: 'printed ''the isolator (70 um diameter)'' (p.5); Fig. 2(b) inset labels 70 um across the microstrip loop; radius_um not allowed for nonreciprocal (registry gap), device-length convention as bi2011 racetrack isolator m3'
+    why: 'D153 geometry miss: printed device dimension, the only top-view size of the isolator the registry can hold'

@@ -1,0 +1,33 @@
+# Audit patch lit_233 (fresh-context audit 2026-11-20, DevLog/audits/2026-11-20-lit_233-audit.md).
+# 106 metrics: 101 ok / 5 imprecise / 0 wrong; 7 components: 5 ok / 2 imprecise / 0 wrong. No misses added, nothing deleted.
+# Fixes: zheng2023a VAC '< 0.2 dB' -> author_estimate (no VAC measurement in the letter, loss budget beside ref. [29]); LN etch depth
+# and sidewall -> design_target (model inputs 'according to our fabricated waveguide profiles', liu2024 precedent); Table II 8.9 dB
+# note (mean of the Fig. 4(c) peaks); LWDM fab note covers the conclusion's first-person sentence; doerr2005 5.5 dB scope
+# fiber_to_fiber (module level, circulator included); takiguchi1996 common dispersion_compensator tag.
+components:
+  cmp_lit_takiguchi1996_lattice_dge:
+    tags: dispersion_equalizer;dispersion_compensator;lattice_filter;programmable_filter;thermo_optic;silica_plc
+    why: 'consistency with cmp_lit_doerr2005_todc_4stage: both tunable dispersion compensators filed as wdm.cascaded_mzi (no dispersion-compensator class) carry one common tag so a later subtype / view sweep finds them (audit Q1)'
+  cmp_lit_zheng2023a_lwdm_8ch:
+    notes: 'Fab: ''An MPW foundry (CUMEC, China) was used for the SOI structure fabrication'' (p.3); LN bonding, LN etch, SiO2 overcladding and electrodes are passive steps with no org named; the conclusion''s first-person ''we have designed and fabricated'' (p.4) does not fix one org (authors at South China Normal University, Sun Yat-sen University and Zhejiang University; rule 12, D80b), so only CUMEC is set, for the Si part. Platform: light passes Si MMIs / delay arms and LN phase-shifter sections (hybrid value, as the Si-LN VAC precedents and the valdez2023 Si MMIs under bonded TFLN; Table II lists the platform as ''SOI/LN'', p.3). LN phase shifters: measured VpiL about 3 V.cm (DC) and simulated 2.32 V.cm at 1 GHz (p.3): no phase_shifter VpiL parameter (registry gap, D558), not entered; EO-atlas candidate. Not entered (rule 3 / not own): 0.98 dB/cm LN loss and 0.19 dB per VAC from the authors'' ref. [29], about 0.3 dB ''typical loss of the MMI splitter from the Si foundry'' and the derived 0.3 x 6 = 2 dB MMI share (p.4); Table II rows of refs. [26]-[28]. Spectra before correction (Fig. 4(b)) are qualitative only.'
+    why: 'p.4 Sec. IV: the conclusion says ''we have designed and fabricated''; the fab note claimed only passive steps. Outcome unchanged (three author orgs, no single org; rule 12). Platform evidence added (p.3 Table II ''SOI/LN'')'
+metrics:
+  cmp_lit_zheng2023a_vac_si_ln-m1:
+    basis: author_estimate
+    notes: 'Printed ''The measured loss for each VAC is normally less than 0.2 dB'' (p.3). No VAC test structure, cutback or extraction is described in this letter, and the loss discussion that follows cites the authors'' ref. [29] (He et al., Nature Photon. 2019: 0.19 dB per VAC) (p.4): origin of the bound not stated (rule 4), author_estimate. Statistic typical for ''normally''. Band: LWDM device in the O band (p.1).'
+    why: 'p.3-4: the sentence reports no method or structure of its own and sits in the loss budget next to the ref. [29] values; basis by how the number was obtained, not the verb (rule 4)'
+  cmp_lit_zheng2023a_vac_si_ln-m9:
+    basis: design_target
+    notes: LN waveguide model parameters (film 500 nm, W 2 um, h 250 nm, theta 60 deg) stated in the design section as the simulation cross-section 'according to our fabricated waveguide profiles' (p.3 Sec. II); no measurement method or measured value is reported. design_target as liu2024 m8 ('based on our fabricated waveguide profiles, the sidewall angle is set at 60 deg', lit_109 audit, D541).
+    why: 'p.3 Sec. II: a model input set from the fabricated profiles, not a reported measurement; liu2024 precedent (same wording, design_target)'
+  cmp_lit_zheng2023a_vac_si_ln-m10:
+    basis: design_target
+    notes: Stated with the film thickness, W and h as the simulation cross-section 'according to our fabricated waveguide profiles' (p.3 Sec. II); no measurement method or measured value is reported. design_target as liu2024 m8 (same wording, 60 deg, lit_109 audit, D541).
+    why: 'p.3 Sec. II: a model input set from the fabricated profiles, not a reported measurement; liu2024 precedent (same wording, design_target)'
+  cmp_lit_zheng2023a_lwdm_8ch-m6:
+    notes: Printed -8.9 dB; statistic not defined. Lies inside the 7.5-10.4 dB per-channel range and equals the mean of the eight Fig. 4(c) passband peaks read off the render (about 7.6 / 7.5 / 8.8 / 9.2 / 10.4 / 9.8 / 9.2 / 8.7 dB below 0 dB, +/- 0.3 dB; mean about 8.9 dB), so probably the channel average; statistic left empty because the paper does not say so. Band as the range row.
+    why: 'p.3 Fig. 4(c) render: the peak levels support reading 8.9 dB as the channel average; recorded in notes only'
+  cmp_lit_doerr2005_todc_4stage-m1:
+    scope: fiber_to_fiber
+    notes: 'Printed ''insertion loss, including the circulator, at the ITU grid locations is 5.5 dB'' (p.3); Fig. 4 caption: loss includes circulator and one connector. Module-level value of the reflective packaged unit (circulator in-fiber to out-fiber, chip double pass, quarter-wave plate and mirror): scope fiber_to_fiber with ref_plane module, as the merged module-level insertion-loss rows. Band: 100-GHz ITU grid, Fig. 4 axis 193.85-194 THz.'
+    why: 'p.3 / p.2 Fig. 4 caption: the value runs from the circulator input fiber to its output fiber; the 3 merged module-level insertion_loss_db rows (ref_plane module) all use fiber_to_fiber'
