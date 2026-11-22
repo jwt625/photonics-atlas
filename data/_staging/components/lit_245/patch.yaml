@@ -1,0 +1,101 @@
+# Audit patch lit_245 (fresh-context audit 2026-11-22, DevLog/audits/2026-11-22-lit_245-audit.md).
+# 92 metrics: 78 ok / 14 imprecise / 0 wrong; 16 components: 15 ok / 1 imprecise / 0 wrong. 3 misses added (D153 geometry).
+# Fixes: 10 unit / prefix conversions entered as measured -> derived (D256: kHz / MHz -> Hz, mW/mA -> W/A; no figure or text
+# prints the stored-unit form); faugeron2012 room-temperature RIN rows get the 25 C the Fig. 3 inset prints; okai1990 SMSR rows
+# lose a temperature stated only for the linewidth set-up; mathur2002 lensed-fiber coupler -> fiber_chip_coupler.edge, platform inp
+# (laser facet; merged facet-to-lensed-fiber precedents); mitsuhara1999 FP test-laser stripe widths (p.1 Sec. II).
+# Coordinator questions (audit Q1-Q10): all other distiller judgment calls kept (no op).
+components:
+  cmp_lit_mathur2002_dfb_lensed_smf:
+    class: fiber_chip_coupler.edge
+    platform: inp
+    notes: 'Authors at SDL Inc. (p.1). Fab empty: the structure ''We have developed'' and lasers ''were fabricated'' (p.1, passive; D80b). Laser row: cmp_lit_mathur2002_dfb_1000um. Platform inp: the coupler is the output facet of the AR/HR-coated InGaAsP/InP ridge DFB laser (p.1); edge class as the merged laser / SOA facet-to-lensed-fiber rows (e.g. andreou2019, bakonyi2003).'
+    why: 'p.1: the 53 % is facet-to-lensed-SMF coupling of the stated InGaAsP/InP ridge laser; merged facet-to-lensed-fiber rows of laser / SOA chips are fiber_chip_coupler.edge with the chip platform (andreou2019 inp, bakonyi2003 gaas, cao2025 gaas); D422 covers only an unstated platform'
+metrics:
+  cmp_lit_faugeron2012_dilute_dfb-m19:
+    temperature_k: '298.15'
+    condition: 'room temperature (Fig. 3 inset labelled 25 C), 550 mA, 0.08-2 GHz'
+    why: 'p.3 Fig. 3 inset label 25 C for the room-temperature RIN trace the p.2 text cites'
+  cmp_lit_faugeron2012_dilute_dfb-m20:
+    temperature_k: '298.15'
+    condition: 'room temperature (Fig. 3 inset labelled 25 C), 550 mA, whole 0.08-40 GHz range'
+    why: 'p.3 Fig. 3 inset label 25 C for the room-temperature RIN statement (p.2 Sec. III)'
+  cmp_lit_faugeron2012_dilute_dfb-m26:
+    basis: derived
+    notes: 'Printed 270 kHz FWHM (Lorentzian), minimum at 25 C; kHz -> Hz (D256; the Fig. 5 axis is in kHz).'
+    why: 'D256: kHz -> Hz conversion with no Hz form printed (p.3 text and Fig. 5 axis in kHz)'
+  cmp_lit_faugeron2012_dilute_dfb-m27:
+    basis: derived
+    notes: 'Printed 990 kHz FWHM (Gaussian), same operating point as the 270 kHz Lorentzian value; kHz -> Hz (D256; the Fig. 5 axis is in kHz).'
+    why: 'D256: kHz -> Hz conversion with no Hz form printed (p.3 text and Fig. 5 axis in kHz)'
+  cmp_lit_faugeron2012_dilute_dfb-m28:
+    basis: derived
+    notes: 'Printed ''below 500 kHz''; kHz -> Hz (D256; the Fig. 5 axis is in kHz).'
+    why: 'D256: kHz -> Hz conversion with no Hz form printed (p.3 text and Fig. 5 axis in kHz)'
+  cmp_lit_faugeron2012_dilute_dfb-m29:
+    basis: derived
+    notes: 'Printed ''below 500 kHz''; kHz -> Hz (D256; the Fig. 6 axis is in kHz).'
+    why: 'D256: kHz -> Hz conversion with no Hz form printed (p.3 text and Fig. 6 axis in kHz)'
+  cmp_lit_sugg2002_bw_dfb-m4:
+    basis: derived
+    notes: 'Printed 750 kHz; text and abstract give 73 mW, the Fig. 4 caption 72 mW. kHz -> Hz (D256; the Fig. 4 axis is in kHz). Linewidth method not stated.'
+    why: 'D256: kHz -> Hz conversion with no Hz form printed (p.3 text, Fig. 4 axis in kHz)'
+  cmp_lit_sugg2002_bw_dfb-m5:
+    basis: derived
+    notes: 'Printed 1 MHz; MHz -> Hz (D256; the Fig. 4 axis is in kHz). Linewidth method not stated.'
+    why: 'D256: MHz -> Hz conversion with no Hz form printed (p.3 text, Fig. 4 axis in kHz)'
+  cmp_lit_mathur2002_dfb_1000um-m4:
+    basis: derived
+    notes: 'Printed ''as low as 300 kHz''; kHz -> Hz (D256). Output power and temperature not stated.'
+    why: 'D256: kHz -> Hz conversion with no Hz form printed (p.1)'
+  cmp_lit_mathur2002_fp_500um-m1:
+    basis: derived
+    notes: 'Printed 0.48 mW/mA (mW/mA -> W/A, same number; D256). Temperature and facet not stated.'
+    why: 'D256 and merged precedent (boller2019, hu2017, song2025): mW/mA -> W/A is a unit conversion; p.1 prints only mW/mA'
+  cmp_lit_mathur2002_dfb_500um-m2:
+    basis: derived
+    notes: 'Printed 0.48 mW/mA (mW/mA -> W/A, same number; D256).'
+    why: 'D256 and merged precedent (boller2019, hu2017, song2025): mW/mA -> W/A is a unit conversion; p.1 prints only mW/mA'
+  cmp_lit_okai1990_cpm_mqw_dfb-m1:
+    basis: derived
+    notes: 'Printed 170 kHz (text and Fig. 3 label); kHz -> Hz (D256; the Fig. 3 axis is in MHz). No rebroadening at high output power (p.2).'
+    why: 'D256: kHz -> Hz conversion with no Hz form printed (p.1-2 text, Fig. 3 label in kHz, axis in MHz)'
+  cmp_lit_okai1990_cpm_mqw_dfb-m7:
+    temperature_k: ''
+    notes: 'Fig. 4 open circles lie at about 47-49 dB over about 2-28 mW. Temperature not stated for the SMSR spectra (the 25 +/- 0.01 C control is stated in the linewidth set-up paragraph, p.2).'
+    why: 'p.2: the 25 C control sentence belongs to the self-heterodyne linewidth set-up; the double-monochromator SMSR paragraph states no temperature'
+  cmp_lit_okai1990_l4_mqw_dfb_400um-m2:
+    temperature_k: ''
+    notes: 'Read off Fig. 4, about +/-1 dB; about 46 dB at the lowest powers. Temperature not stated for the SMSR spectra (25 C is stated for the linewidth set-up, p.2).'
+    why: 'p.2: the 25 C control sentence belongs to the self-heterodyne linewidth set-up; the double-monochromator SMSR paragraph states no temperature'
+add_metrics:
+  - metric_id: cmp_lit_mitsuhara1999_fp_ridge_2qw-m3
+    component_id: cmp_lit_mitsuhara1999_fp_ridge_2qw
+    parameter: ridge_width_um
+    value: '6'
+    unit: um
+    condition: ridge-waveguide stripe width
+    basis: design_target
+    locator: 'p.1 Sec. II'
+    notes: 'Printed stripe width of the ridge lasers (6 um).'
+    why: 'miss (D153): p.1 Sec. II prints the ridge-laser stripe width; the component label already carries it'
+  - metric_id: cmp_lit_mitsuhara1999_fp_ridge_3qw-m3
+    component_id: cmp_lit_mitsuhara1999_fp_ridge_3qw
+    parameter: ridge_width_um
+    value: '6'
+    unit: um
+    condition: ridge-waveguide stripe width
+    basis: design_target
+    locator: 'p.1 Sec. II'
+    notes: 'Printed stripe width of the ridge lasers (6 um).'
+    why: 'miss (D153): p.1 Sec. II prints the ridge-laser stripe width; the component label already carries it'
+  - metric_id: cmp_lit_mitsuhara1999_fp_bh_4qw-m4
+    component_id: cmp_lit_mitsuhara1999_fp_bh_4qw
+    parameter: ridge_width_um
+    value: '1.5'
+    unit: um
+    condition: BH active-region (stripe) width
+    basis: design_target
+    locator: 'p.1 Sec. II'
+    notes: 'Printed stripe width of the BH lasers (1.5 um); same convention as the DFB BH row m9.'
+    why: 'miss (D153): p.1 Sec. II prints the BH stripe width for the BH test lasers; the component label already carries it'

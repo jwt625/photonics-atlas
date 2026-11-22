@@ -1,0 +1,70 @@
+# Audit patch lit_253 (fresh-context audit 2026-11-22, DevLog/audits/2026-11-22-lit_253-audit.md).
+# 222 metrics: 204 ok / 18 imprecise / 0 wrong; 29 components: 29 ok / 0 imprecise / 0 wrong. No misses added.
+# Fixes: akca2018 polarization te on the 7 measured AWG rows (TE launch, p.3 Sec. III-A) and no approx qualifier on the two
+# printed layout sizes; liu2019c 2nd-lens Z tolerance locator (text only, not in Fig. 3(c)); pitris2018 wavelength spans of the
+# measured / simulated IL ranges from Tables 4 / 3 and Sec. 3 locators of the simulated rows; valicourt2015 VOA > 30 dB basis
+# measured (Fig. 3(b) is a measured curve; 'expected' quoted) and the AWG 'neighbor channel crosstalk' re-typed crosstalk_db
+# (conflicts with Fig. 5(c) and the '(4-5dB)' statement). Coordinator questions: audit Q1-Q9.
+metrics:
+  cmp_lit_akca2018_awg_conv_75ch-m1:
+    polarization: te
+    why: 'p.3 Sec. III-A: TE-polarized light launched through a PM fiber for every transmission measurement'
+  cmp_lit_akca2018_awg_conv_75ch-m2:
+    polarization: te
+    why: 'p.3 Sec. III-A: TE-polarized light launched through a PM fiber for every transmission measurement'
+  cmp_lit_akca2018_awg_conv_75ch-m3:
+    polarization: te
+    why: 'p.3 Sec. III-A: TE-polarized light launched through a PM fiber for every transmission measurement'
+  cmp_lit_akca2018_awg_conv_75ch-m4:
+    polarization: te
+    why: 'p.3 Sec. III-A: TE-polarized light launched through a PM fiber for every transmission measurement'
+  cmp_lit_akca2018_awg_interleaved_75ch-m1:
+    polarization: te
+    why: 'p.3 Sec. III-A: TE-polarized light launched through a PM fiber for every transmission measurement'
+  cmp_lit_akca2018_awg_interleaved_75ch-m2:
+    polarization: te
+    why: 'p.3 Sec. III-A: TE-polarized light launched through a PM fiber for every transmission measurement'
+  cmp_lit_akca2018_awg_interleaved_75ch-m3:
+    polarization: te
+    why: 'p.3 Sec. III-A: TE-polarized light launched through a PM fiber for every transmission measurement'
+  cmp_lit_akca2018_awg_conv_75ch-m17:
+    qualifier: ''
+    why: 'p.2 Sec. II-B and Fig. 2(a) label print 4cm x 3.5cm without an approximation sign (the ~ in the Fig. 2 caption is the size ratio); rule 7'
+  cmp_lit_akca2018_awg_interleaved_75ch-m8:
+    qualifier: ''
+    why: 'p.2 Sec. II-B and Fig. 2(b) label print 2cm x 1.5cm without an approximation sign (the ~ in the Fig. 2 caption is the size ratio); rule 7'
+  cmp_lit_liu2019c_ld_plc_two_lens-m3:
+    locator: 'p.6 Sec. 2'
+    why: 'p.6 Sec. 2: the 2nd-lens Z tolerance (> +/-20 um at a 25 um 1st-lens offset) is stated in the text only; Fig. 3(c) plots CE vs the 1st-lens Z offset and the 2nd-lens compensation position'
+  cmp_lit_pitris2018_awgr_8x8-m1:
+    wavelength_nm: '1260'
+    wavelength_max_nm: '1331.3'
+    notes: 'channel peaks of Table 4 span 1260.0-1331.3 nm (AWGR mean wavelengths 1260.15-1328.06 nm); standard uncertainty of the IL ~7.93 % (p.5)'
+    why: 'p.6 Table 4: the 64 measured channel peaks span 1260.0 (In1 Out4, In3 Out2, In5 Out8) to 1331.3 nm (In1 Out3); the row used the mean wavelengths, which are not where the peak IL values were read'
+  cmp_lit_pitris2018_awgr_8x8-m15:
+    wavelength_nm: '1260'
+    wavelength_max_nm: '1335'
+    locator: 'p.4 Sec. 3; p.5 Table 3, Fig. 2'
+    notes: 'simulated channel peaks of Table 3 span 1260-1335 nm (design peaks 1261-1331 nm, Table 2)'
+    why: 'p.5 Table 3: simulated peaks run 1260 (In8 Out5) to 1335 nm (In2 Out2, In3 Out1), not the design 1261-1331 nm; the simulation paragraph is Sec. 3 (p.4), not Sec. 2'
+  cmp_lit_pitris2018_awgr_8x8-m16:
+    locator: 'p.4 Sec. 3; p.5 Table 3'
+    why: 'p.4: the simulated non-uniformity sentence is in Sec. 3 (Simulation and experimental characterization), not Sec. 2'
+  cmp_lit_pitris2018_awgr_8x8-m17:
+    locator: 'p.4 Sec. 3; p.4 Table 2'
+    why: 'p.4: the simulated 5.7 nm sentence is in Sec. 3; Table 2 holds the 5.7 nm design target'
+  cmp_lit_pitris2018_awgr_8x8-m18:
+    locator: 'p.4 Sec. 3'
+    why: 'p.4: the simulated crosstalk > 20 dB sentence is in Sec. 3, not Sec. 2'
+  cmp_lit_valicourt2015_voa_pin-m1:
+    basis: measured
+    notes: 'printed ''Attenuation of more than 30 dB is expected for 100 um-long VOA at 8e-3 A/um2'' (word ''expected'' quoted; rule 4: basis by how obtained); Fig. 3(b) caption ''Measured attenuation'', the L = 100 um curve reaches about -30 dB at 8e-3 A/um2 inside its plotted range; wavelength not stated (C-band slot blocker, inferred)'
+    why: 'p.4 Fig. 3(b): the value sits on a measured curve inside its data range (not an extrapolation, D435 does not apply); rule 4 / D80a: the verb does not set the basis'
+  cmp_lit_valicourt2015_awg_200ghz-m2:
+    parameter: crosstalk_db
+    notes: 'printed ''Both type of AWGs show less than -18dB neighbor channel crosstalk'', stated once for both AWG types; the same paragraph then prints a cross-talk of > 15 dB (200 GHz) vs 4-5 dB (100 GHz), and in Fig. 5(c) adjacent 100 GHz passbands overlap far above -18 dB, so the -18 dB level matches the out-of-band floor of Fig. 5(b)-(c) rather than adjacent-channel suppression: type ambiguous'
+    why: 'p.4 Sec. III-C and p.5 Fig. 5(b)-(c): the ''neighbor channel'' label conflicts with the figure and with the next clause; crosstalk_db (type not stated) as for feng2011 m4'
+  cmp_lit_valicourt2015_awg_100ghz-m2:
+    parameter: crosstalk_db
+    notes: 'printed ''Both type of AWGs show less than -18dB neighbor channel crosstalk'', stated once for both AWG types; the same paragraph then prints a cross-talk of 4-5 dB for the 100 GHz AWG, and in Fig. 5(c) adjacent passbands overlap far above -18 dB, so the -18 dB level matches the out-of-band floor rather than adjacent-channel suppression: type ambiguous'
+    why: 'p.4 Sec. III-C and p.5 Fig. 5(c): adjacent 100 GHz passbands cross well above -18 dB below the peaks; crosstalk_adjacent_db > 18 contradicts the figure and the ''(4-5dB)'' clause; crosstalk_db (type not stated)'

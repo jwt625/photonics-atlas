@@ -1,0 +1,40 @@
+# Audit patch lit_246 (fresh-context audit 2026-11-22, DevLog/audits/2026-11-22-lit_246-audit.md).
+# 105 metrics: 97 ok / 7 imprecise / 1 wrong; 21 components: 20 ok / 0 imprecise / 1 wrong. No misses added.
+# Fixes: chung2019a 1.23 dB IL basis author_estimate (unstated ideal-splitter assumption), heater-resistance note arithmetic,
+# improved type-A U-turn design row deleted (value rests on ref. [57]); deng2016 L = 3 / 5 um TE0 figure reads, L = 2 / 3 / 5 um
+# lengths extracted_from_figure. Other distiller judgment calls kept (audit Q1-Q9).
+components:
+  cmp_lit_chung2019a_mcb180_type_a:
+    notes: 'Fabricated in the modulator (8 of the 14 U-turns, p.19); only simulated per-type values printed (D80e); measured average in cmp_lit_chung2019a_mcb180_avg. Each U-turn: Clothoid segments 1-2 (theta 105 deg, A 2.914 um, R(theta) 1.522 um, L 5.579 um), Clothoid segments 3-4 (theta 15 deg, A 2.719 um, R 1.968 um, L 3.758 um), linear taper segment 5 (2 um), straight segment 6 (6.268 um); bend height H 4 um, pitch g 1 um (p.19 Table 4; p.11 Fig. 5). The 2 um taper is stated as below 0.01 dB (p.15, p.19; origin not stated), not entered separately. Fab borderline (D84b): p.28 Acknowledgments thank named TowerJazz staff ''for the chip fabrication and technical support'' and TowerJazz, Inc. is listed under Funding; p.3 Sec. 2.1 says only ''implemented in a commercial foundry silicon photonics process'' (SOI, 2 um BOX, 220 nm Si). TowerJazz -> org_tower_semiconductor by alias (D912). process_name empty: no node or flow printed (Contract v7). Platform soi: etch depth of the waveguides not stated (D422). Fig. 6(c) also labels an improved type-A U-turn (varying inner-wall Clothoids, Appendix A-4) at 0.05 dB: not entered, the improvement rests on the authors'' ref. [57] (0.099 -> 0.048 dB, p.20; rule 3 / D259 / D408).'
+    why: 'p.17 Fig. 6(c) and p.20 Sec. A-4: the improved-bend design row is deleted (see delete_components); its value is kept here as a note'
+metrics:
+  cmp_lit_chung2019a_tops_n14-m2:
+    basis: author_estimate
+    notes: 'authors'' conversion of the extinction ratio to the loss of the modulator arm, formula not printed (p.7: ''corresponds to''); ER = ((1 + a) / (1 - a))^2 with a the arm amplitude transmission reproduces 1.23 dB only with ideal 50:50 splitting and a lossless reference arm, neither stated (assumed input, skill rule 4; D612 precedent)'
+    why: 'p.7 Sec. 2.3; p.8 Fig. 4(b): the 1.23 dB rests on an unstated ideal-splitter / lossless-reference assumption, not on arithmetic of measured values alone (rule 4 author_estimate)'
+  cmp_lit_chung2019a_tops_n14-m9:
+    notes: p.8 prints 'a temperature dependency of 0.61 %' for this change; the two printed resistances differ by 2.4 % (5.8 ohm); not reconciled
+    why: 'p.8 Sec. 2.3: 249.5 / 243.7 = 1.024, so the old note ''0.61 % rise from zero power'' misstated the arithmetic'
+  cmp_lit_deng2016_mmi_strip_slot_l3-m1:
+    value: '94.6'
+    notes: marker centre read on a 900 dpi render of Fig. 7(b) (100 / 90 / 80 % ticks; calibration reproduces the printed L = 4 um 95.9 / 96.6 %); the TE0 square (20 px tall) is partly behind the TM0 dot, centre taken from its unoccluded bottom edge; reading +/- 0.2 %
+    why: 'p.8 Fig. 7(b) render: the TE0 square centre sits at 94.6 % (old 94.3 % read the visible part of the occluded square)'
+  cmp_lit_deng2016_mmi_strip_slot_l5-m1:
+    value: '94.4'
+    notes: marker centre read on a 900 dpi render of Fig. 7(b) (100 / 90 / 80 % ticks; calibration reproduces the printed L = 4 um 95.9 / 96.6 %); the TE0 square (20 px tall) is partly behind the TM0 dot, centre taken from its unoccluded bottom edge; reading +/- 0.2 %
+    why: 'p.8 Fig. 7(b) render: the TE0 square centre sits at 94.4 % (old 93.9 % read the visible part of the occluded square)'
+  cmp_lit_deng2016_mmi_strip_slot_l2-m3:
+    basis: extracted_from_figure
+    notes: length read from the Fig. 7(b) measured-point x position (axis labelled every 2 um, minor ticks every 1 um); not printed in the text
+    why: 'p.8 Fig. 7(b): the length is only a plot position, not a stated design value (skill rule 4 / Contract v5: figure reads are extracted_from_figure)'
+  cmp_lit_deng2016_mmi_strip_slot_l3-m3:
+    basis: extracted_from_figure
+    notes: length read from the Fig. 7(b) measured-point x position (axis labelled every 2 um, minor ticks every 1 um); not printed in the text
+    why: 'p.8 Fig. 7(b): the length is only a plot position, not a stated design value (skill rule 4 / Contract v5: figure reads are extracted_from_figure)'
+  cmp_lit_deng2016_mmi_strip_slot_l5-m3:
+    basis: extracted_from_figure
+    notes: length read from the Fig. 7(b) measured-point x position (axis labelled every 2 um, minor ticks every 1 um); not printed in the text
+    why: 'p.8 Fig. 7(b): the length is only a plot position, not a stated design value (skill rule 4 / Contract v5: figure reads are extracted_from_figure)'
+delete_components:
+- id: cmp_lit_chung2019a_mcb180_type_a_improved_design
+  why: 'p.17 Fig. 6(c); p.20 Sec. A-4: the improved type-A U-turn is described only through the authors'' ref. [57] (0.099 -> 0.048 dB, and the 0.82 dB modulator projection ''our measurement results [57] predict''); the 0.05 dB label equals the ref. [57] value rounded and the paper states no own simulation of it (rule 3 / D259 / D408); no other metric (D49)'

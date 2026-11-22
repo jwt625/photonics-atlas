@@ -1,0 +1,46 @@
+# Audit patch lit_243 (fresh-context audit 2026-11-22, DevLog/audits/2026-11-22-lit_243-audit.md).
+# 45 metrics: 43 ok / 2 imprecise / 0 wrong; 7 components: 3 ok / 4 imprecise / 0 wrong. No misses added.
+# Fixes: nishi2017 Fig. 7 / Fig. 12 reading notes (crossing currents); cladding / substrate statements not printed
+# (menna2002 FP and DFB, oishi1997); tadokoro2009 decision reference D259 -> D408.
+# Distiller judgment calls (a)-(l): all kept as entered (no op); see audit questions.
+components:
+  cmp_lit_menna2002_fp_rwg_3mm:
+    cladding: ''
+    why: 'p.1 Laser structures: the FP wafer paragraph prints only the n-InP substrate and the strained InGaAsP QW active region; no
+      cladding layer is named for the FP structure (workflow step 3: cladding only if stated)'
+  cmp_lit_menna2002_dfb_3mm:
+    cladding: p-InP (regrown)
+    core_material: strained InGaAsP MQW active region with InGaAsP grating layer; two-step MOCVD growth (LP-MOCVD and the n-InP substrate
+      are printed for the FP wafer only); first-order Bragg grating by holographic lithography + RIE, regrowth of p-InP cladding and
+      p-InGaAs contact; dual-channel RWG; p-side down on T-cBN submount (AuSn)
+    why: 'p.1 Laser structures: the DFB paragraph names the regrown p-InP cladding and p-InGaAs contact but no substrate or lower cladding;
+      n-InP / LP-MOCVD are printed in the FP paragraph only (cladding only if stated)'
+  cmp_lit_oishi1997_dfb_bh_4qw:
+    cladding: p-InP (regrown)
+    core_material: four 9.3 nm compressively strained In0.75Ga0.25As QWs with 20 nm slightly tensile (0.2 %) InGaAsP (lambda_g 1.5 um)
+      barriers between 50 nm lower / 70 nm upper InGaAsP (lambda_g 1.15 um) SCH layers; MOVPE (substrate not printed); first-order grating
+      etched into the top SCH by EBL and wet etching; pn-blocking regrowth around a 1.5 um active stripe; p-InP / p+-InGaAs regrowth;
+      both facets AR coated (R = 10 %)
+    why: 'p.1 Sec. II (render): the wafers were grown by MOVPE with no substrate named; the only cladding printed is the regrown p-InP
+      cladding (p.1-2 Sec. II); lower InP cladding / InP substrate not stated'
+  cmp_lit_tadokoro2009_rwg_dfb:
+    notes: 'Fab org_ntt (borderline): first-person growth statement ''By controlling the doping profile precisely during the crystal
+      growth process, we obtained the low threshold current'' (p.1 Sec. II), all six authors at NTT Photonics Laboratories (alias to
+      request, BATCH_REPORT); processing sentences are passive; staff thanked for epitaxy / device processing without an org (p.3; D84b
+      not used). luo2015 / D704 precedent. Not entered: relaxation-oscillation slope (D factor) 3.3 / 2.5 / 2.1 GHz/mA^1/2 at 25 / 85
+      / 100 C, alpha parameter about 2.7 at 25 C (Fig. 4), Bragg-gain detuning about -5 nm at 25 C, 25 Gb/s NRZ eye / BER results (dynamic
+      ER 6 dB at 2.2 Vpp, error-free after 10 km SMF up to 85 C, max 2 dB penalty, ER changes 0.21 / 0.11 / 0.25 / -0.03 dB): no registry
+      parameters (BATCH_REPORT). Ref. [9] is the authors'' OFC 2009 version of this work (journal extension keeps its values, D408).'
+    why: 'decision reference: D408 is the rule that a journal extension of the authors'' own conference paper keeps its values; D259
+      is the removal rule'
+metrics:
+  cmp_lit_nishi2017_fp_qd_mass-m1:
+    notes: Measurement plane not stated (packaged lasers shown in Fig. 7); Fig. 7 curves reach 10 mW at about 48-65 mA (30 C leftmost,
+      100 C rightmost; read off the Fig. 7 raster, +/-2 mA).
+    why: 'p.3 Fig. 7 (embedded raster, tick-calibrated pixel read: 20 mA per 139 px): the four curves cross 9.9 mW at about 48 / 54
+      / 59 / 64 mA, not 70-80 mA as the note said; value unchanged'
+  cmp_lit_nishi2017_qd_13ch-m1:
+    notes: Printed 'around 300 mW optical output can be achieved from all channels'; Fig. 12 curves cross 300 mW at about 1.12 A (25
+      C), 1.21 A (50 C) and 1.45 A (70 C) (read off the Fig. 12 raster, +/-0.02 A); the 85 C curve stays below about 260 mW.
+    why: 'p.5 Fig. 12 (embedded raster, tick-calibrated pixel read: 100 mA per 62.3 px, 20 mW per 56.7 px): 300 mW crossings at about
+      1.12 / 1.21 / 1.45 A, not 1.2-1.4 A as the note said; value unchanged'

@@ -1,0 +1,105 @@
+# Audit patch lit_254 (fresh-context audit 2026-11-22, DevLog/audits/2026-11-22-lit_254-audit.md).
+# 141 metrics: 134 ok / 7 imprecise / 0 wrong; 19 components: 18 ok / 1 imprecise / 0 wrong. 3 misses added.
+# Fixes: stabile2016 output-4 extinction to the Table II value 14.4 dB; stabile2016 rise / fall criterion not stated;
+# park2011 IL scope note and SEM width note; alboresmejia2010 SOA electrical values are per two-gate electrode;
+# fan2021a test-temperature unit note. Misses: zhu2018 Fig. 4 input-2 cross-state ER; stabile2016 output 2 / 3 fiber-to-fiber path loss.
+# Distiller judgment calls (a)-(j) and the VpiL exclusion: kept (no op).
+components:
+  cmp_lit_fan2021a_cyclic_awgr_16x16:
+    notes: 'Fab: ''For the fabrication, we used conventional silica-based PLC technology'' (p.2 Sec. 3): first-person, but the authors sit at
+      Zhejiang University and Lightip Technologies (Hangzhou) and the site is not stated -> fab empty (D154 / D80b); process_name empty (generic
+      wording). No facility acknowledged. Constant d(sin theta) input / output waveguide distribution near the FPR (p.2); adiabatic tapers at
+      the FPR entrances; SSC with a segmented sub-wavelength grating designed for SMF coupling (p.2, no value). PLC chip attached to standard
+      SMFs and packaged in a module case with thermal control; Fig. 3 at a test temperature of 61 C to compensate fabrication-induced channel
+      deviation (p.2). Not entered: abstract ''worst crosstalk about 30 dB'', conclusion ''superior to -30 dB for most channels'' and Table 2
+      ''>30'' conflict with the printed edge-input non-adjacent worst level -28.28 dB (p.2; D417 note); polarization-dependent wavelength shift
+      < 0.03 nm (p.3, no parameter); Rowland circle radius 2912.99 um and arrayed-waveguide pitch 12 um (Table 1; fpr_length_um is not the Rowland
+      radius, pitch_um is the channel pitch); Table 2 rows of other AWGRs (rule 1). The test temperature is printed as 61 with a degree sign and
+      no unit letter (p.2); read as 61 C for temperature_k 334.15 on the Fig. 3 rows (unit not printed).'
+    why: p.2 Sec. 3 prints 'set at 61' with a degree sign and no C; the conversion to 334.15 K assumes Celsius, which the notes did not say
+metrics:
+  cmp_lit_stabile2016_ring_switch_4x4-m12:
+    value: '14.4'
+    notes: 'Table II prints 14.4 dB (on-state -27.1 dBm, off-state -41.5 dBm: difference 14.4 dB); the p.3 Sec. III-A text lists 14.5 dB for output
+      4 (table kept, D417 / D586 note); no wavelength printed; resonances near 1549.9 nm (Fig. 3)'
+    why: 'p.3 Table II render: Input 1 to Output 4 switching extinction 14.4 dB, consistent with its own peak powers; the row cited Table II but
+      carried the text value 14.5'
+  cmp_lit_stabile2016_switch_element-m6:
+    notes: 'abstract ''switching transients of under 10 ns'' (converted to us); p.4: ''a few nanoseconds'', limited by the electronic control
+      signaling; rise / fall criterion (10-90 % or other) not stated; Fig. 6 insets at 20 ns/div'
+    why: 'p.1 Abstract / p.4 Sec. III-B: no transition criterion printed; the parameter default is 10-90 %, so the notes must say it is not stated'
+  cmp_lit_stabile2016_switch_element-m7:
+    notes: see the rise-time row; rise / fall criterion (10-90 % or other) not stated; Fig. 6 insets at 20 ns/div
+    why: 'p.1 Abstract / p.4 Sec. III-B: no transition criterion printed; the parameter default is 10-90 %, so the notes must say it is not stated'
+  cmp_lit_park2011_mrr3_32ch-m9:
+    notes: no wavelength in Table 1; channels about 1530-1548 nm (Fig. 2(a) axis); lensed-fiber measurement with about 3 dB coupling loss per
+      facet (p.5); the ~5 dB is below the 2 x ~3 dB facet loss of that set-up, so it cannot be fiber-to-fiber, but how the facet loss was removed
+      is not stated (scope kept unspecified)
+    why: 'p.5 Sec. 3 (typical ~3 dB per facet) vs p.6 Table 1 (~5 dB): arithmetic on the paper''s own numbers excludes a fiber-to-fiber reading;
+      recorded so the unspecified scope is not later read as fiber-to-fiber'
+  cmp_lit_park2011_mrr3_32ch-m18:
+    notes: SEM label of Fig. 1(b); the arrow spans the trapezoidal core between its sidewalls, top or bottom width not stated
+    why: 'p.3 Fig. 1(b) render: the 984 nm arrow ends between the top and bottom corners of the trapezoid; ''top width'' was not supported'
+  cmp_lit_alboresmejia2010_soa_gate_1mm-m7:
+    condition: circuit electrodes except the faulty d, b, c; per circuit electrode, each driving two parallel 2 x 1000 um SOA gates (common cross
+      / bar electrode over an active island with two gates, p.2 Sec. II-B, Fig. 3; Table II footnote 1)
+    why: 'p.2 Sec. II-B and p.4 Table II footnote 1: each electrode biases two parallel SOA gates, so the series resistance is per electrode pair,
+      not per single gate'
+  cmp_lit_alboresmejia2010_soa_gate_1mm-m8:
+    condition: turn-on voltage at 1 mA, circuit electrodes; per circuit electrode, each driving two parallel 2 x 1000 um SOA gates (common cross
+      / bar electrode over an active island with two gates, p.2 Sec. II-B, Fig. 3; Table II footnote 1)
+    why: 'p.2 Sec. II-B and p.4 Table II footnote 1: each electrode biases two parallel SOA gates, so the turn-on voltage is per electrode pair,
+      not per single gate'
+add_metrics:
+- metric_id: cmp_lit_zhu2018_mzi_to_switch-m18
+  component_id: cmp_lit_zhu2018_mzi_to_switch
+  parameter: extinction_db
+  value: '32.3'
+  value_max: '33.4'
+  unit: dB
+  qualifier: approx
+  statistic: range
+  wavelength_nm: '1600'
+  wavelength_max_nm: '1630'
+  polarization: te
+  condition: cross port, input 2 (path 2->1), Fig. 4 batch statistics
+  method: direct
+  basis: extracted_from_figure
+  locator: p.5 Fig. 4
+  notes: Fig. 4 orange square markers 1600-1630 nm (lowest about 32.3 dB at 1630 nm, highest about 33.4 dB at 1600 nm), +/- 0.3 dB; error bars
+    about +/- 1.5 dB
+  why: 'miss: p.5 Fig. 4 plots the input-2 cross-state ER beside the input-1 cross state (m7); the fourth path was not entered'
+- metric_id: cmp_lit_stabile2016_ring_switch_4x4-m13
+  component_id: cmp_lit_stabile2016_ring_switch_4x4
+  parameter: insertion_loss_db
+  value: '23.1'
+  unit: dB
+  band: c_band
+  wavelength_inferred: 'true'
+  temperature_k: '293.15'
+  scope: fiber_to_fiber
+  condition: 'input 1 to output 2: 5.4 dBm in-fiber input, input SOA 39 mA, output SOAs 43 mA, on-state by forward bias under electrode 3 (up
+    to 35 mA), one off-state element in the path'
+  method: direct
+  basis: derived
+  locator: p.3 Table II; p.3 Sec. III-A
+  notes: 5.4 dBm in-fiber input minus the Table II on-state peak -17.7 dBm (the arithmetic behind the printed best / worst 17.9 / 32.5 dB); no
+    wavelength printed, resonances near 1549.9 nm (Fig. 3)
+  why: 'miss: p.3 Table II gives the output 2 on-state peak; the paper prints only the output 1 and output 4 path losses, computed the same way'
+- metric_id: cmp_lit_stabile2016_ring_switch_4x4-m14
+  component_id: cmp_lit_stabile2016_ring_switch_4x4
+  parameter: insertion_loss_db
+  value: '27.9'
+  unit: dB
+  band: c_band
+  wavelength_inferred: 'true'
+  temperature_k: '293.15'
+  scope: fiber_to_fiber
+  condition: 'input 1 to output 3: 5.4 dBm in-fiber input, input SOA 39 mA, output SOAs 43 mA, on-state by forward bias under electrode 3 (up
+    to 35 mA), two off-state elements in the path'
+  method: direct
+  basis: derived
+  locator: p.3 Table II; p.3 Sec. III-A
+  notes: 5.4 dBm in-fiber input minus the Table II on-state peak -22.5 dBm (the arithmetic behind the printed best / worst 17.9 / 32.5 dB); no
+    wavelength printed, resonances near 1549.9 nm (Fig. 3)
+  why: 'miss: p.3 Table II gives the output 3 on-state peak; the paper prints only the output 1 and output 4 path losses, computed the same way'

@@ -1,0 +1,29 @@
+# Audit patch lit_252 (fresh-context audit 2026-11-22, DevLog/audits/2026-11-22-lit_252-audit.md).
+# 133 metrics: 130 ok / 3 imprecise / 0 wrong; 21 components: 19 ok / 2 imprecise / 0 wrong. No misses added.
+# Fixes: zhang2019g microdisk platform emptied (SOI never stated; D422 / D423); tanaka2009a FFC note on the Fig. 7 test
+# samples (p.4: discrete passive samples with fan-outs and 8:1 coupler only, no butt-joint); guerber2017 standard AWG channel
+# IL band inferred (rule 8); dasmahapatra2014 on-state element loss `includes` the path waveguides (as the off-state row);
+# chen2015b in-demux MZI ~2 dB vs standalone ~1.0 dB conflict note (D417).
+# Coordinator questions (audit Q1-Q10): all distiller judgment calls kept (no op).
+components:
+  cmp_lit_zhang2019g_microdisk_thermal:
+    platform: ''
+    core_material: 'Si microdisk of the AIM Photonics PDK modulator element (layer stack not stated) with p-n diode and built-in heater'
+    notes: "Fab: laid out with the AIM Photonics PDK v2.0 and fabricated through an AIM Photonics MPW run (p.2 Sec. II); acknowledgment: active silicon device and optical interposer chip fabricated by AIM photonic MPW runs (p.8). Platform empty: the paper calls it a silicon microdisk on a SiPh chip but never states SOI, a buried oxide or an insulator (D422 / D423). Only the non-EO resonator values are entered; modulator ER > 20 dB and IL < 3 dB at 1 V swing (p.3 Sec. II-B, Fig. 6) are electro-optic modulator metrics (EO atlas scope, rule 2), not entered. Resonances of a 4-modulator group designed 800 GHz apart (p.3)."
+    why: 'p.1-8: SOI, a buried oxide or an insulator is never stated for the microdisk (only in a reference title, p.8 reference list); D422 / D423 leave an unstated platform empty; core_material named an SOI process the paper does not name'
+  cmp_lit_tanaka2009a_ffc_8to1:
+    notes: "Fab empty: 'was fabricated on an n-type InP substrate using MOVPE' (p.2 Sec. II-A) is passive with no org named, and 'we developed' does not qualify (D80b); all authors Fujitsu Laboratories. The first-person 'by fabricating two types of test waveguide samples' (p.3 Sec. II-C) covers only the test waveguides, which have no rows. Fabrication tolerance 50 um in coupler length, 'six times larger than' the previous design (p.4, ref. 13; no parameter). Fig. 7 test-waveguide losses (thick core about 24.5-28 dB, thin core about 29-45.5 dB, 1550 nm) are not entered: p.4 calls them discrete passive waveguide samples that only include the 8-ch fan-out waveguides (300 um bend radius) and an 8:1 coupler optimized for each core structure, but the fiber coupling and normalization of the plotted insertion loss are not described and it is not stated that the test coupler is the 250 um FFC, so scope and identity are not identifiable. Butt-joint reflectivity < 1e-5 (Fig. 6, test samples with the SOA junction) has no registry parameter (report)."
+    why: 'p.4 Sec. II-C: Fig. 7 losses are of discrete passive samples that only include the fan-out waveguides and the 8:1 coupler; the note said the plotted structure includes the SOA butt-joint (that is the Fig. 6 reflectivity sample)'
+metrics:
+  cmp_lit_guerber2017_awg_standard-m1:
+    wavelength_inferred: 'true'
+    notes: "Normalization reference (straight waveguide or raw) not stated; abstract prints 'below 2.3dB'. No wavelength with the value; band inferred from the O-band CWDM design (channel centres 1271-1331 nm, p.1 Sec. II-A; Fig. 2 axis 1260-1340 nm)."
+    why: 'p.2 Sec. III-A: the channel IL sentence states no wavelength; band from the stated O-band design needs wavelength_inferred (rule 8), as on the zhang2019g / chen2015b rows of this batch'
+  cmp_lit_dasmahapatra2014_switch_element-m2:
+    includes: 'waveguide propagation and any crossings of the input 1 to output 1 path (not separated by the fit)'
+    locator: 'p.7 Sec. V-C; p.4 Table II; p.1 Abstract'
+    notes: "Rests on the cited 2 x 6.0 dB grating-coupler loss (refs. 27-28; rule 4). Table II lists 2 dB as the on-state chip component loss, footnote 'as measured in Section V-C' (p.4)."
+    why: 'p.7 Sec. V-C: the 14.0 dB intercept is the shortest-path loss, which also carries the path waveguide loss (2.6 dB/cm) and any crossings; the off-state row m1 already states this; p.4 Table II prints the 2 dB'
+  cmp_lit_chen2015b_mzi_interleaver-m3:
+    notes: "Printed '~2' dB for the MZI 'according to our measurement results for them separately' (p.5); conclusion: the excess loss increases by 2 dB due to the cascaded MZI (p.6 Sec. IV). Conflict (D417): the only separately measured MZI shown is the standalone MZI on the same chip (Fig. 7), for which p.5 prints ~1.0 dB around 1550 nm (m2); the paper does not reconcile the two. Band from the 1535-1565 nm measurement band."
+    why: 'p.5 Sec. III: the ~2 dB is attributed to a separate MZI measurement, and the standalone MZI of Fig. 7 is printed at ~1.0 dB; both kept with a conflict note (D417)'

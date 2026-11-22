@@ -75,6 +75,11 @@ exclude_values:
   cmp_wu2025_ge_pd-m3: "figure reading conflicts with the stated > 0.8 A/W (text value used, D911)"
   cmp_wu2025_ge_pd-m4: "figure reading of the same curve (text value used, D911)"
   cmp_lit_kramnik2024_vgc_bilayer-m1: "45RFSOI grating coupler used from the back side after handle removal by XeF2 at a university lab: a post-processed device, not the foundry process as fabricated (D933)"
+  # D726: responsivities the paper attributes to avalanche multiplication above -5 V (p.6-7); 1.74 A/W is 140 percent of
+  # the 1550 nm unity-gain limit, so these are not unity-gain waveguide Ge PD responsivities
+  cmp_lit_zhang2014b_floating_ge_pd-m2: "1.20 A/W at -8 V includes avalanche multiplication (paper p.6-7), not a unity-gain responsivity (D726)"
+  cmp_lit_zhang2014b_floating_ge_pd-m3: "1.44 A/W at -12 V includes avalanche multiplication (paper p.6-7), not a unity-gain responsivity (D726)"
+  cmp_lit_zhang2014b_floating_ge_pd-m4: "1.74 A/W at -16 V includes avalanche multiplication (paper p.6-7), not a unity-gain responsivity (D726)"
 
 # Foundry by author affiliation (D925, owner 2026-11-07): when a publication names no candidate foundry as the fab, the
 # authors' affiliations (data/people/affiliation_observations.csv, plus source_affiliations below) decide, if exactly

@@ -1,0 +1,89 @@
+# Audit patch lit_244 (fresh-context audit 2026-11-22, DevLog/audits/2026-11-22-lit_244-audit.md).
+# 82 metrics: 80 ok / 2 imprecise / 0 wrong; 10 components: 9 ok / 1 imprecise / 0 wrong (chen2002 notes; sato2008a FP note synced with the added rows). 6 misses added.
+# Fixes: menna2001 section-A 370 mW row temperature from the Fig. 1 label (Tc = 18 C); menna2001 340 mW in-fiber row
+# `includes` the lens-fiber assembly (D437 launch-power precedent); chen2002 Fig. 3(a)-(c) wavelength labels are legible
+# on the page renders (misses added, component notes corrected); sato2008a FP peak wavelengths at 15 / 95 C (printed);
+# menna2001 section-B Fabry-Perot-regime lasing near 1525 nm (printed).
+# Coordinator questions (audit Q1-Q9): all distiller judgment calls kept (no op).
+components:
+  cmp_lit_chen2002_bh_dfb_1p3um_250um:
+    notes: "Fab empty: 'The lasers were fabricated by a hybrid LPE/MOCVD growth technique' is passive; all six authors at Ortel Corporation (D80b). Values come from several lasers of one design: room-temperature population (threshold and slope ranges), the 'very low threshold' laser of Fig. 1 (thresholds at 20 / 80 / 95 C), the laser of Figs. 2-3 (power, slope per temperature, SMSR, wavelengths); the laser of the RIN value is not stated. Not entered: single-mode operating range -50 to 110 C (no registry parameter); CSO better than -45 dB and CTB better than -65 dB (80 NTSC channels through 20 km fiber, -45 to 85 C) and SFDR better than 108 dB Hz^(2/3) (link-level). Emission wavelengths from the Fig. 3 OSA marker labels: 1.306200 / 1.307400 / 1.308800 / 1.310400 / 1.315400 um at -50 / -20 / 0 / 20 / 80 C (entered); the 110 C label prints 1.31800 um, one digit fewer than the other labels (not entered)."
+    why: 'p.2 Fig. 3(a)-(c) render (and the embedded page image): the -50 / -20 / 0 C marker labels read 1.306200 / 1.307400 / 1.308800 um; the note said they were not legible'
+  cmp_lit_sato2008a_bh_fp_2p33um:
+    notes: "Fab: first-person 'we fabricated' (p.1 Sec. I; p.1-2 Sec. III), all seven authors at NTT Photonics Laboratories, Nippon Telegraph and Telephone Corporation (rule 12; registry org_ntt, as in lit:sato2008). Process test of the BH structure for the DFB laser. Peak emission near threshold 2.26 um at 15 C to 2.34 um at 95 C (p.2, Fig. 1; entered as two center-wavelength rows and the thermal-drift row). Sibling DFB row: cmp_lit_sato2008a_bh_dfb_2p33um."
+    why: 'p.2 Sec. III: the printed 2.26 / 2.34 um end points are now entered as center_wavelength_nm rows (m7, m8)'
+metrics:
+  cmp_lit_menna2001_dfb_section_a-m2:
+    temperature_k: '291.15'
+    notes: 'Fig. 1 label Tc = 18 C, CW (the abstract 20 C belongs to the 440 / 340 mW Cu C-block values); the T-cBN submount adds about 10-15 C active-region heating (p.1-2).'
+    why: 'p.1 Fig. 1 label prints Tc = 18 C, CW for the T-cBN-mounted laser of the 370 mW value; the row had no temperature'
+  cmp_lit_menna2001_dfb_section_a-m3:
+    includes: 'standard lens-fiber coupling assembly (75-77 % coupling efficiency, cmp_lit_menna2001_dfb_lens_fiber)'
+    why: 'p.2: the 340 mW is measured after the lens-fiber assembly; launch powers through an assembly stay on the laser row with ref_plane fiber + includes (D437)'
+add_metrics:
+  - metric_id: cmp_lit_chen2002_bh_dfb_1p3um_250um-m18
+    component_id: cmp_lit_chen2002_bh_dfb_1p3um_250um
+    parameter: center_wavelength_nm
+    value: '1306.2'
+    unit: nm
+    temperature_k: '223.15'
+    condition: 'lasing wavelength (OSA marker), -50 C, laser of Fig. 2; drive current not stated'
+    basis: derived
+    locator: 'p.2 Fig. 3(a)'
+    notes: "Fig. 3(a) label 'lambda1 = 1.306200 um'; um -> nm (D256)."
+    why: 'miss: p.2 Fig. 3(a) marker label legible on the render'
+  - metric_id: cmp_lit_chen2002_bh_dfb_1p3um_250um-m19
+    component_id: cmp_lit_chen2002_bh_dfb_1p3um_250um
+    parameter: center_wavelength_nm
+    value: '1307.4'
+    unit: nm
+    temperature_k: '253.15'
+    condition: 'lasing wavelength (OSA marker), -20 C, laser of Fig. 2; drive current not stated'
+    basis: derived
+    locator: 'p.2 Fig. 3(b)'
+    notes: "Fig. 3(b) label 'lambda1 = 1.307400 um'; um -> nm (D256)."
+    why: 'miss: p.2 Fig. 3(b) marker label legible on the render'
+  - metric_id: cmp_lit_chen2002_bh_dfb_1p3um_250um-m20
+    component_id: cmp_lit_chen2002_bh_dfb_1p3um_250um
+    parameter: center_wavelength_nm
+    value: '1308.8'
+    unit: nm
+    temperature_k: '273.15'
+    condition: 'lasing wavelength (OSA marker), 0 C, laser of Fig. 2; drive current not stated'
+    basis: derived
+    locator: 'p.2 Fig. 3(c)'
+    notes: "Fig. 3(c) label 'lambda1 = 1.308800 um' (third decimal less sharp than the other labels; 8 fits the monotonic -20 / 20 C neighbours 1.3074 / 1.3104 um); um -> nm (D256)."
+    why: 'miss: p.2 Fig. 3(c) marker label legible on the render and the embedded page image'
+  - metric_id: cmp_lit_sato2008a_bh_fp_2p33um-m7
+    component_id: cmp_lit_sato2008a_bh_fp_2p33um
+    parameter: center_wavelength_nm
+    value: '2260'
+    unit: nm
+    temperature_k: '288.15'
+    condition: 'peak emission wavelength near the threshold current, CW, 15 C'
+    basis: derived
+    locator: 'p.2 Sec. III; p.2 Fig. 1'
+    notes: 'Printed 2.26 um; um -> nm (D256).'
+    why: 'miss: p.2 Sec. III prints the FP peak emission 2.26 um at 15 C (sato2007 FP peak entered the same way)'
+  - metric_id: cmp_lit_sato2008a_bh_fp_2p33um-m8
+    component_id: cmp_lit_sato2008a_bh_fp_2p33um
+    parameter: center_wavelength_nm
+    value: '2340'
+    unit: nm
+    temperature_k: '368.15'
+    condition: 'peak emission wavelength near the threshold current, CW, 95 C'
+    basis: derived
+    locator: 'p.2 Sec. III; p.2 Fig. 1'
+    notes: 'Printed 2.34 um; um -> nm (D256).'
+    why: 'miss: p.2 Sec. III prints the FP peak emission 2.34 um at 95 C'
+  - metric_id: cmp_lit_menna2001_dfb_section_b-m6
+    component_id: cmp_lit_menna2001_dfb_section_b
+    parameter: center_wavelength_nm
+    value: '1525'
+    unit: nm
+    qualifier: approx
+    condition: 'Fabry-Perot-regime lasing at modest current density, room temperature (before the switch to DFB above about 1 A and/or 35-40 C heatsink); Fig. 3 inset (1) at 800 mA, 20 C shows the FP line near 1.525 um next to the 1.578 um DFB line'
+    basis: measured
+    locator: 'p.2; p.2 Fig. 3 inset (1)'
+    notes: "Printed 'operated only in Fabry-Perot mode near 1525 nm at room temperature'."
+    why: 'miss: p.2 prints the section-B lasing wavelength in the Fabry-Perot regime'

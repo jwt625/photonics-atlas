@@ -1,0 +1,95 @@
+# Audit patch lit_247 (fresh-context audit 2026-11-22, DevLog/audits/2026-11-22-lit_247-audit.md).
+# 347 metrics: 345 ok / 1 imprecise / 1 wrong; 42 components: 39 ok / 3 imprecise / 0 wrong. 5 misses added
+# (zhang2014b absorber length; rosa2016 simulated trench-MMI insertion loss x3 and simulated heater crosstalk) and the
+# ahn2007 60 nA leakage moved from the impulse-response row to the Fig. 2 device. After the patch: 42 components, 352 metrics.
+components:
+  cmp_lit_virot2017_sigesi_pd_w1p0_family:
+    notes: "Fabricated in LETI's cleanroom facilities on 200 mm SOI (p.4): fab org_cea_leti. Light coupled from SMF-28 through TE surface grating couplers optimized at 1.55 um (p.6); grating-coupler loss not reported. Intrinsic width is the Ge cavity width (p.6). Population row (D165): the mean and standard deviation over the devices of one width with different lengths (p.6). The text says the current is normalized by the 'cross section (width by height)', but the printed mean is reproduced exactly by I_d / (L_Ge x 260 nm) over the four Table 1(a) cells of this width (the lateral junction area; 1.142 A/cm2); n_samples is that cell count. The printed standard deviation 0.669 A/cm2 is not reproduced: the same cells give a sample standard deviation of 0.699 A/cm2 (population 0.605), a likely digit transposition in Table 1(b); the printed value is kept (D417)."
+    why: 'p.6 Table 1(a)(b): W 1 um cells 6 / 18 / 74 / 207 nA at L 5 / 10 / 20 / 40 um give 0.462 / 0.692 / 1.423 / 1.990 A/cm2 with L x 260 nm; mean 1.142 matches, sample std 0.699 (not 0.669); the other three widths reproduce mean and std exactly, so the note''s "reproduced exactly" holds for W 0.3 / 0.5 / 0.8 only'
+  cmp_lit_zhang2014b_floating_ge_pd:
+    notes: "Fabricated in an OpSIS MPW run, fabrication at the Institute of Microelectronics, Singapore (p.5): fab org_astar_ime; OpSIS has no registry org id (batch report; MPW access provider, second fab after the org round, D398 / D458). Same process as the authors' baseline vertical p-i-n detector with 0.5 um Ge (ref. [21]); 248 nm lithography. Set B device (through port looped by a Y-junction mirror) used for the electrical results. Its Ge length is 16 um incl. 6 um of Ge tapers: p.5 names 'the 16 um long detector in device Set B', and the p.8 series-resistance estimate uses 16 um long slabs (m21). Set A transmission devices are 11 and 16 um long incl. 6 um of tapers (p.5). Not entered: 26 dB attenuation of the 16 um Ge strip at 1550 nm (Set A, Fig. 4; no registry parameter), 88 % simulated confinement, the 33.6 GHz transit-time and 36.8 GHz RC bandwidth estimates (model values), sensitivity gains vs the cited 0.75 A/W baseline, 40 Gb/s eyes. Fig. 4 legend colours of the 11 / 16 um traces cannot be tied to the curves (D156). Responsivity rises above -5 V from avalanche gain (p.6); no gain value printed."
+    why: 'p.5 Sec. 3.1: "the 16 um long detector in device Set B will be able to achieve almost 100% internal quantum efficiency" states the Set B detector length; the old note said it was not stated'
+  cmp_lit_ahn2007_ge_pd_impulse:
+    notes: "Bulk p+ Si substrate (not SOI). All authors at MIT; no fabrication statement naming an org; acknowledgment thanks BAE Systems staff for support of the CMP process (borderline fab, D84b; BAE Systems has no registry org id, batch report) and an individual for Ge growth support: fab empty. Responsivity defined at the detector input port (Eq. (1)): P_in from the reference-waveguide output and the cutback waveguide loss; includes the waveguide-to-PD coupling loss, excludes waveguide propagation and fiber coupling. Bias of the responsivity data not stated (photocurrent flat with bias, full at 0 V, p.4). Unnamed device (matsuo2013 precedent, D422): the speed device is not identified by size or waveguide; platform empty. Fig. 5(b) inset: about 6.6 / 7.2 / 7.2 / 7.2 / 7.4 / 7.5 GHz at 0 / 0.1 / 0.5 / 1 / 2 / 3 V. The conclusion's summary sentence (0.1 V, 60 nA, 1.08 A/W, 7.2 GHz; p.6) combines values of different measurements; its 60 nA leakage sits on the 7 x 10 um Fig. 2 row (the only device with a printed dark I-V), not here."
+    why: 'p.6: no dark current of the impulse-response device is printed; the 60 nA of the summary sentence matches the Fig. 2 dark trace of the 7 x 10 um device at -0.1 V (p.3 render, about 50 nA), so it moves to that row (same tie the distiller used for the 0.41 A/cm2 density)'
+  cmp_lit_ahn2007_ge_pd_7x10:
+    notes: "Bulk p+ Si substrate (not SOI). All authors at MIT; no fabrication statement naming an org; acknowledgment thanks BAE Systems staff for support of the CMP process (borderline fab, D84b; BAE Systems has no registry org id, batch report) and an individual for Ge growth support: fab empty. Responsivity defined at the detector input port (Eq. (1)): P_in from the reference-waveguide output and the cutback waveguide loss; includes the waveguide-to-PD coupling loss, excludes waveguide propagation and fiber coupling. Bias of the responsivity data not stated (photocurrent flat with bias, full at 0 V, p.4). Waveguide type (SiN or SiON) of this device not stated: platform empty (D422). The leakage density sentence sits in the Fig. 2 paragraph; 0.41 A/cm2 x 70 um2 = 0.29 uA matches the Fig. 2 dark trace at -0.5 V (~0.25-0.3 uA). The conclusion's 60 nA at 0.1 V (p.6, m5) is tied to this device the same way: the Fig. 2 dark trace reads about 50 nA at -0.1 V, and no other device has a printed dark I-V. Fig. 2 photocurrent at 65 uW (~70 uA) is not entered separately."
+    why: 'p.6 summary sentence + p.3 Fig. 2 render: added m5 (moved from the impulse row); note updated'
+metrics:
+  cmp_lit_zhang2014b_floating_ge_pd-m12:
+    qualifier: ''
+    notes: "Printed 'drops slightly to 30 GHz' (no 'about') with increasing avalanche gain; the Fig. 6 -16 V trace is noisy near its -3 dB point. Wavelength of the RF test not stated; the paper reports device performance at 1.55 um (p.4)."
+    why: 'p.7 Sec. 3.3: the value is printed without an approximation word (rule 7: qualifier only for a printed bound or approximation); the -4 V row keeps approx ("around 20 GHz")'
+delete_metrics:
+- id: cmp_lit_ahn2007_ge_pd_impulse-m5
+  why: 'p.6 Sec. 3 summary sentence: the 60 nA leakage is not tied to the impulse-response device (no dark data for it); the Fig. 2 7 x 10 um device dark trace gives about 50 nA at -0.1 V, so the value moves to cmp_lit_ahn2007_ge_pd_7x10-m5'
+add_metrics:
+- metric_id: cmp_lit_ahn2007_ge_pd_7x10-m5
+  component_id: cmp_lit_ahn2007_ge_pd_7x10
+  parameter: dark_current_na
+  value: '60'
+  unit: nA
+  bias_v: '-0.1'
+  condition: dark, 0.1 V reverse
+  basis: measured
+  locator: p.6 Sec. 3; p.3 Fig. 2
+  notes: "Printed in the summary sentence ('can be operated at a low reverse bias such as 0.1 V with a low absolute leakage current of 60 nA'), which names no device. Tied to the 7 x 10 um device: its Fig. 2 dark trace reads about 50 nA at -0.1 V (log scale, +/- 30 %), and it is the only device with a printed dark I-V."
+  why: 'moved from cmp_lit_ahn2007_ge_pd_impulse-m5 (see delete); p.3 Fig. 2 render: dark trace about 5e-8 A at -0.1 V, 2.9e-7 A at -0.5 V (= 0.41 A/cm2 x 70 um2), 9e-7 A at -1 V'
+- metric_id: cmp_lit_zhang2014b_floating_ge_pd-m21
+  component_id: cmp_lit_zhang2014b_floating_ge_pd
+  parameter: absorber_length_um
+  value: '16'
+  unit: um
+  condition: total Ge length of the Set B detector, incl. 6 um of Ge tapers (3 um taper 0.22 -> 1.5 um, p.4)
+  basis: design_target
+  locator: p.5 Sec. 3.1; p.8 Sec. 3.3
+  notes: "p.5: 'the 16 um long detector in device Set B'; p.8: the p+ / n+ slabs of the measured device are 16 um long. Set A also has an 11 um device (optical transmission only)."
+  why: 'miss (D153): p.5 Sec. 3.1 states the Set B detector length (16 um incl. 6 um tapers) and Set B is the electrically characterized structure (y-junction mirror, Fig. 2(b)); p.8 resistance estimate uses 16 um slabs'
+- metric_id: cmp_lit_rosa2016_mmi_switch_trench_flat_ti-m11
+  component_id: cmp_lit_rosa2016_mmi_switch_trench_flat_ti
+  parameter: insertion_loss_db
+  value: '0.5'
+  unit: dB
+  band: unspecified
+  scope: per_component
+  condition: simulated insertion loss of the MMI with the 50 x 2 um silica trench after lengthening L_MMI to 616 um (2 dB at 594.5 um)
+  basis: simulated
+  locator: p.4 Sec. 2, Fig. 3(b)
+  notes: No wavelength stated anywhere in the paper. Design value of the trench MMI shared by the three trench rows (each carries it); the measured insertion loss is not printed (only 'very small impact', p.7).
+  why: 'miss: p.4 prints the simulated trench-MMI insertion loss (2 -> 0.5 dB at 616 um); the trench rows already repeat the shared 616 um design length, so the shared design performance goes on each row the same way'
+- metric_id: cmp_lit_rosa2016_mmi_switch_trench_flat_cu-m12
+  component_id: cmp_lit_rosa2016_mmi_switch_trench_flat_cu
+  parameter: insertion_loss_db
+  value: '0.5'
+  unit: dB
+  band: unspecified
+  scope: per_component
+  condition: simulated insertion loss of the MMI with the 50 x 2 um silica trench after lengthening L_MMI to 616 um (2 dB at 594.5 um)
+  basis: simulated
+  locator: p.4 Sec. 2, Fig. 3(b)
+  notes: No wavelength stated anywhere in the paper. Design value of the trench MMI shared by the three trench rows (each carries it); the measured insertion loss is not printed (only 'very small impact', p.7).
+  why: 'miss: p.4 simulated trench-MMI insertion loss 0.5 dB (same MMI design as this row, 616 um)'
+- metric_id: cmp_lit_rosa2016_mmi_switch_trench_meander_cu-m12
+  component_id: cmp_lit_rosa2016_mmi_switch_trench_meander_cu
+  parameter: insertion_loss_db
+  value: '0.5'
+  unit: dB
+  band: unspecified
+  scope: per_component
+  condition: simulated insertion loss of the MMI with the 50 x 2 um silica trench after lengthening L_MMI to 616 um (2 dB at 594.5 um)
+  basis: simulated
+  locator: p.4 Sec. 2, Fig. 3(b)
+  notes: No wavelength stated anywhere in the paper. Design value of the trench MMI shared by the three trench rows (each carries it); the measured insertion loss is not printed (only 'very small impact', p.7).
+  why: 'miss: p.4 simulated trench-MMI insertion loss 0.5 dB (same MMI design as this row, 616 um)'
+- metric_id: cmp_lit_rosa2016_mmi_switch_notrench_flat_ti-m14
+  component_id: cmp_lit_rosa2016_mmi_switch_notrench_flat_ti
+  parameter: crosstalk_db
+  value: '20'
+  unit: dB
+  qualifier: gt
+  band: unspecified
+  condition: 3D BPM of the 594.5 x 9 um MMI with an 80 um long, 3.7 um wide flat heater region (switched state)
+  basis: simulated
+  locator: p.3 Sec. 2, Fig. 1(b)
+  notes: "Printed 'a heater width of 3.7 um is required to maximize the crosstalk above 20 dB'. No wavelength stated anywhere in the paper. Design of the conventional (no-trench) MMI in Sec. 2; not repeated on the trench rows (different MMI, 616 um)."
+  why: 'miss: p.3 Sec. 2 prints the simulated switch crosstalk bound of the flat-heater design on the conventional MMI; this row is the only fabricated no-trench flat-heater device'

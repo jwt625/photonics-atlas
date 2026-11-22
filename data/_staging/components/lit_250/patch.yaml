@@ -1,0 +1,103 @@
+# Audit patch lit_250 (fresh-context audit 2026-11-22, DevLog/audits/2026-11-22-lit_250-audit.md).
+# 152 metrics: 148 ok / 4 imprecise / 0 wrong; 25 components: 16 ok / 9 imprecise / 0 wrong. 6 misses added (footprints).
+# Fixes: xiao2013 MMI rows platform soi -> soi_strip (etch down to the BOX stated, D434 / D459); guo2023a design rows lose
+# fabrication-process words (PECVD, EBL + ICP-RIE); chen2015c three length locators and one tolerance-row condition.
+# Misses: footprint_um2 derived from the printed L x W footprints (guo2023a Table 2, five converters; xiao2013 abstract / conclusion).
+# Coordinator questions (audit Q1-Q13): distiller judgment calls kept (no op).
+components:
+  cmp_lit_xiao2013_compact_mmi_1x2:
+    platform: soi_strip
+    why: 'p.5 Sec. 4: two-step Si RIE "down to the BOX layer"; p.2 Fig. 1 / p.3: 500 x 300 nm channel waveguides; fully etched Si strip stated (D434, D459, lit_208 celo2017)'
+  cmp_lit_xiao2013_compact_mmi_1x2_wt500:
+    platform: soi_strip
+    why: 'p.5 Sec. 4: same splitter process, etched down to the BOX (D434, D459)'
+  cmp_lit_xiao2013_compact_mmi_1x2_wt580:
+    platform: soi_strip
+    why: 'p.5 Sec. 4: same splitter process, etched down to the BOX (D434, D459)'
+  cmp_lit_guo2023a_te2_te5:
+    core_material: 'Si 220 nm on 2 um BOX; input taper / SWG-wires region (pitch 250 nm, a1 125 nm) / output taper with five fully etched SWG arrays (pitch 200 nm, a2 100 nm, width 100 nm); one-step etch scheme (p.3)'
+    cladding: 'SiO2 2.2 um'
+    why: 'p.9 Sec. 3: TE2-TE5 is simulated only (not in the fabricated list, p.9 Sec. 4); EBL + ICP-RIE and PECVD describe the fabricated chip, not this design'
+  cmp_lit_guo2023a_te0_te1_no_swg_arrays:
+    cladding: 'SiO2 2.2 um'
+    why: 'p.9 Sec. 3: simulated ablation; the 2.2 um up-cladding is the design value (p.3 Sec. 2), PECVD is the fabrication step of the fabricated chip (p.9-10 Sec. 4)'
+  cmp_lit_guo2023a_te0_te2_no_swg_arrays:
+    cladding: 'SiO2 2.2 um'
+    why: 'p.9 Sec. 3: simulated ablation; 2.2 um up-cladding is the design value (p.3 Sec. 2), PECVD belongs to the fabricated chip'
+  cmp_lit_guo2023a_te0_te3_no_swg_arrays:
+    cladding: 'SiO2 2.2 um'
+    why: 'p.9 Sec. 3: simulated ablation; 2.2 um up-cladding is the design value (p.3 Sec. 2), PECVD belongs to the fabricated chip'
+  cmp_lit_guo2023a_te1_te2_no_swg_arrays:
+    cladding: 'SiO2 2.2 um'
+    why: 'p.9 Sec. 3: simulated ablation; 2.2 um up-cladding is the design value (p.3 Sec. 2), PECVD belongs to the fabricated chip'
+  cmp_lit_guo2023a_te1_te3_no_swg_arrays:
+    cladding: 'SiO2 2.2 um'
+    why: 'p.9 Sec. 3: simulated ablation; 2.2 um up-cladding is the design value (p.3 Sec. 2), PECVD belongs to the fabricated chip'
+metrics:
+  cmp_lit_chen2015c_te1_te0_initial-m2:
+    locator: 'p.4 Sec. 2; p.3 Fig. 1(a)'
+    why: 'the initial-design L1 / L2 / L3 (7051 / 5413 / 6152 nm) are printed in the p.4 text; Table 1 (p.5-6) lists the optimized design'
+  cmp_lit_chen2015c_te2_te0-m2:
+    locator: 'p.5-6 Table 1; p.5 Fig. 3(a)'
+    why: 'the TE2-TE0 L1 / L2 / L3 spans are drawn in Fig. 3(a) (p.5), not Fig. 1'
+  cmp_lit_chen2015c_te3_te0-m3:
+    locator: 'p.5-6 Table 1; p.5 Fig. 3(b)'
+    why: 'the TE3-TE0 vertices are drawn in Fig. 3(b) (p.5), not Fig. 1'
+  cmp_lit_chen2015c_te3_te0-m2:
+    condition: 'simulated average over 1520-1580 nm with waveguide width deviation within +/-50 nm (simulation method of the Fig. 6 tolerance study not stated)'
+    why: 'p.7 Sec. 3: the tolerance sweep says only "we simulate"; 3D FDTD is not stated for Fig. 6'
+add_metrics:
+  - metric_id: cmp_lit_guo2023a_te0_te1-m15
+    component_id: cmp_lit_guo2023a_te0_te1
+    parameter: footprint_um2
+    value: '5.154'
+    unit: um2
+    basis: derived
+    locator: 'p.12 Table 2'
+    notes: 'printed footprint 3.436 x 1.5 um2; product computed'
+    why: 'miss (D153): Table 2 footprint column, p.12'
+  - metric_id: cmp_lit_guo2023a_te0_te2-m16
+    component_id: cmp_lit_guo2023a_te0_te2
+    parameter: footprint_um2
+    value: '11.27'
+    unit: um2
+    basis: derived
+    locator: 'p.12 Table 2'
+    notes: 'printed footprint 4.9 x 2.3 um2; product computed'
+    why: 'miss (D153): Table 2 footprint column, p.12'
+  - metric_id: cmp_lit_guo2023a_te0_te3-m13
+    component_id: cmp_lit_guo2023a_te0_te3
+    parameter: footprint_um2
+    value: '23.13'
+    unit: um2
+    basis: derived
+    locator: 'p.12 Table 2'
+    notes: 'printed footprint 7.71 x 3 um2; product computed'
+    why: 'miss (D153): Table 2 footprint column, p.12'
+  - metric_id: cmp_lit_guo2023a_te1_te2-m13
+    component_id: cmp_lit_guo2023a_te1_te2
+    parameter: footprint_um2
+    value: '12.708'
+    unit: um2
+    basis: derived
+    locator: 'p.12 Table 2'
+    notes: 'printed footprint 5.295 x 2.4 um2; product computed'
+    why: 'miss (D153): Table 2 footprint column, p.12'
+  - metric_id: cmp_lit_guo2023a_te1_te3-m13
+    component_id: cmp_lit_guo2023a_te1_te3
+    parameter: footprint_um2
+    value: '24.7788'
+    unit: um2
+    basis: derived
+    locator: 'p.12 Table 2'
+    notes: 'printed footprint 6.883 x 3.6 um2; product computed'
+    why: 'miss (D153): Table 2 footprint column, p.12'
+  - metric_id: cmp_lit_xiao2013_compact_mmi_1x2-m13
+    component_id: cmp_lit_xiao2013_compact_mmi_1x2
+    parameter: footprint_um2
+    value: '2.7'
+    unit: um2
+    basis: derived
+    locator: 'p.1 abstract; p.6 Sec. 5'
+    notes: 'printed footprint 1.5 x 1.8 um2 (multimode section W_M x L_M); product computed'
+    why: 'miss (D153): footprint printed in the abstract and conclusion'

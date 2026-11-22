@@ -1,0 +1,144 @@
+# Audit patch lit_251 (fresh-context audit 2026-11-22, DevLog/audits/2026-11-22-lit_251-audit.md).
+# 103 metrics: 96 ok / 6 imprecise / 1 wrong; 14 components: 14 ok (2 han2020 notes extended to cross-reference the added misses). 6 metric misses added.
+# Fixes: gehl2017 inverse-taper 4-5 dB is the two-facet remainder of the fiber-to-fiber loss (scope fiber_to_fiber, conflict
+# with the 4 dB single-taper estimate noted on both rows); gehl2017 1.8 um doped-region distance heater_offset_um -> heater_gap_um;
+# stabile2013 router distribution peaks statistic typical (D434); stabile2013 13.5 dB two-facet coupling total scope fiber_to_fiber
+# (D467); han2020 conventional AWG printed 3.6 dB vs Fig. 6(b) about 4.4 dB conflict noted.
+# Misses: gehl2017 50 GHz AWG Fig. 3(b) peak transmission 8.3-10.8 dB; gehl2017 400 nm waveguide BOX; han2020 waveguide BOX /
+# cladding; han2020 Fig. 6 channel-peak spreads (il_nonuniformity_db) on both AWGs.
+components:
+  cmp_lit_han2020_sl_awg_1x8:
+    notes: 'I/O through grating couplers (p.3 Sec. III). Oxide cracks beside the waveguides from the unoptimized PECVD step cause excess loss (p.3). Not entered: inter-channel imbalance about 3 dB (p.3
+      Sec. III; stated once after the IL of both AWGs, device not named, D159 / D254; the spread of the Fig. 6 channel peaks is entered as a figure read, m23); loss from coupling into adjacent grating orders
+      estimated 2.24 dB and crosstalk contributions from phase errors and receiver crosstalk estimated about -21 dB each (p.3-p.4; budget terms, not device totals); arrayed-waveguide lengths 240 um to 11
+      mm (p.3). Fab: the acknowledgment thanks AEPONYX Inc. for fabricating the devices (p.4 Acknowledgment); AEPONYX is not in the org registry, fab left empty pending the org round. Core thickness set
+      by the process available at the commercial foundry (p.3 Sec. III); no process name printed.'
+    why: 'audit miss: the Fig. 6 channel-peak spread is entered as il_nonuniformity_db (m23); note cross-reference'
+  cmp_lit_han2020_conv_awg_1x8:
+    notes: 'I/O through grating couplers (p.3 Sec. III). Oxide cracks beside the waveguides from the unoptimized PECVD step cause excess loss (p.3). Not entered: inter-channel imbalance about 3 dB (p.3
+      Sec. III; stated once after the IL of both AWGs, device not named, D159 / D254; the spread of the Fig. 6 channel peaks is entered as a figure read, m20); loss from coupling into adjacent grating orders
+      estimated 2.24 dB and crosstalk contributions from phase errors and receiver crosstalk estimated about -21 dB each (p.3-p.4; budget terms, not device totals); arrayed-waveguide lengths 240 um to 11
+      mm (p.3). Fab: the acknowledgment thanks AEPONYX Inc. for fabricating the devices (p.4 Acknowledgment); AEPONYX is not in the org registry, fab left empty pending the org round. Core thickness set
+      by the process available at the commercial foundry (p.3 Sec. III); no process name printed. The 1x8 AWG of the authors'' earlier work (ref. [15], 10 um gaps, 4.7 mm x 1.4 mm) is cited, not entered.'
+    why: 'audit miss: the Fig. 6 channel-peak spread is entered as il_nonuniformity_db (m20); note cross-reference'
+metrics:
+  cmp_lit_gehl2017_inverse_taper-m2:
+    scope: fiber_to_fiber
+    ref_plane: fiber
+    includes: input and output fiber-to-chip coupling through the Si inverse tapers of one path (both facets)
+    condition: fiber-to-chip coupling share of the 10 GHz AWG fiber-to-fiber loss (input plus output)
+    notes: 'Printed: of the 7 to 8 dB fiber-to-fiber loss of the 10 GHz AWG, the AWG itself is estimated below 3 dB and the remaining 4 to 5 dB comes from fiber to chip coupling (p.11); reused as the assumed
+      coupling loss of the 1 GHz AWG (p.12: 17-22 dB minus 4-5 dB gives the printed 12-18 dB). As the remainder of a fiber-to-fiber loss it is the input plus output coupling of one path; per-facet split
+      not stated; origin of the split not stated. Conflict (D417, both rows kept as author_estimate): the 4 dB the paper estimates for one input taper (p.14, m1) would make the two-facet total about 8 dB,
+      more than the whole 7-8 dB path. Band inferred from the Fig. 7 axis (1539.5-1540.5 nm).'
+    why: 'p.11 Sec. 6 / p.12 Sec. 7: the 4-5 dB is the remainder of the 7-8 dB fiber-to-fiber loss, hence the coupling of both facets of one path (the 1 GHz arithmetic 17-22 minus 4-5 = 12-18 dB confirms
+      it); two-facet total scoped fiber_to_fiber with includes as merged feyisa2022 / rombouts2025 coupler rows (D467)'
+  cmp_lit_gehl2017_inverse_taper-m1:
+    notes: 'Printed: insertion loss of the inverse silicon taper estimated to be -4 dB (sign as printed), giving about 34 mW on chip from 85 mW before the chip (p.14; 85 / 34 = 3.98 dB); origin not stated.
+      Conflicts with the 4-5 dB two-facet coupling total of the 10 GHz AWG (p.11, m2; D417, both kept). The AWG used in this power test is not identified (D159, see the AWG rows). Band inferred from the
+      Fig. 11(b) peak frequency (about 195 THz).'
+    why: 'conflict cross-note: p.14 4 dB for one input taper vs p.11 4-5 dB for both facets of one path'
+  cmp_lit_gehl2017_doped_si_heater-m2:
+    parameter: heater_gap_um
+    condition: lateral distance from the waveguide centre to each of the two n+ doped slab regions (one on either side of the rib)
+    notes: 'Printed: doped regions located 1.8 um from the center of the waveguide on either side (p.4). The distance is measured from the waveguide centre to the doped region (its near edge by the field-decay
+      argument of the same paragraph, not stated), not to the centre of a heater, so heater_offset_um (heater-centre offset) does not fit; entered as heater_gap_um as stated with the reference points in
+      condition (doped-slab heater precedent: kim2019, jacques2019, fatemi2019).'
+    why: 'p.4 Sec. 2: heater_offset_um is defined as the heater-centre offset; the printed 1.8 um runs from the waveguide centre to the doped regions, not to their centre; merged doped-slab heaters carry
+      the lateral distance as heater_gap_um with the reference in condition'
+  cmp_lit_stabile2013_cyclic_router_8x8-m1:
+    statistic: typical
+    why: 'p.4 Sec. III-C, Fig. 6: 173 GHz is the maximum of the pass-band-width distribution; histogram peaks carry statistic typical (D434, girardi2025 precedent)'
+  cmp_lit_stabile2013_cyclic_router_8x8-m3:
+    statistic: typical
+    why: 'p.4 Sec. III-C, Fig. 6 inset: 400 GHz is the centre of the adjacent-channel-spacing distribution (histogram peak at the 400 GHz bin); statistic typical (D434)'
+  cmp_lit_stabile2013_lensed_fiber_facet-m1:
+    scope: fiber_to_fiber
+    ref_plane: fiber
+    includes: input and output fiber-to-chip coupling of one path (both facets)
+    notes: 'Printed 13.5 dB of total fiber-to-chip coupling losses, subtracted from the measured fiber-to-fiber loss to give the Table I on-chip loss (p.5; Table I footnote); assumed, origin not stated.
+      Per-facet split not stated (input through the fiber lens array; output coupling optics of Sec. IV not stated), so not halved. Two-facet total as its own coupler row: merged feyisa2022 / rombouts2025
+      precedent (D467).'
+    why: 'p.6 Table I footnote: the 13.5 dB is the total of input and output coupling of one path; scope fiber_to_fiber with includes, as the merged feyisa2022 / rombouts2025 two-facet coupler rows (D467),
+      instead of unspecified'
+  cmp_lit_han2020_conv_awg_1x8-m1:
+    notes: 'Printed ''minimum insertion loss'' around 3.6 dB (p.3) and 3.6 dB measured (p.4 Sec. IV). Conflict (D417, printed value kept): the best channel peak of Fig. 6(b) reads about -4.4 dB (+/-0.2
+      dB), while Fig. 6(a) reads about -3.6 dB against the printed 3.4 dB of the SL-AWG. Normalization reference of the Fig. 6 spectra not stated: scope unspecified. Wavelength not stated with the value;
+      C band inferred from the Fig. 6 axis (1546-1554 nm) and the 1550 nm design centre.'
+    why: 'p.4 Fig. 6(b) render: highest channel peak about -4.4 dB, about 0.8 dB below the printed 3.6 dB minimum IL; conflict noted (D417)'
+add_metrics:
+- metric_id: cmp_lit_gehl2017_awg_50ghz-m5
+  component_id: cmp_lit_gehl2017_awg_50ghz
+  parameter: insertion_loss_db
+  value: '8.3'
+  value_max: '10.8'
+  unit: dB
+  statistic: range
+  n_samples: '11'
+  wavelength_nm: '1550'
+  wavelength_max_nm: '1553.9'
+  polarization: te
+  ref_plane: unspecified
+  scope: unspecified
+  condition: peak transmission of the 11 channels after intensity-method phase correction (one iteration); edge-coupled through Si inverse tapers
+  method: direct
+  basis: extracted_from_figure
+  locator: p.7 Fig. 3(b)
+  notes: 'Read off the Fig. 3(b) render: channel peaks between about -8.3 and -10.8 dB (+/-0.3 dB; sign as plotted), peaks at about 1550.0-1553.9 nm. The plotted transmission is not normalized (Fig. 7 /
+    Fig. 8 are), but its reference plane is not stated: scope unspecified. Fig. 3(a): optimized peak near -8.5 dB at about 1552 nm, consistent with the printed 8.8 dB increase (p.7).'
+  why: 'audit miss: the only loss value of the 50 GHz AWG; Fig. 3(b) plots absolute (not normalized) transmission of all 11 channels'
+- metric_id: cmp_lit_gehl2017_wg_400nm-m5
+  component_id: cmp_lit_gehl2017_wg_400nm
+  parameter: box_thickness_um
+  value: '3'
+  unit: um
+  basis: design_target
+  locator: p.4 Sec. 2
+  notes: SOI buried oxide (D402); as wg_1um-m4.
+  why: 'audit miss (D153): p.4 Sec. 2 3 um BOX of the platform, entered on the sibling 1 um waveguide row only'
+- metric_id: cmp_lit_han2020_sin_wg-m3
+  component_id: cmp_lit_han2020_sin_wg
+  parameter: box_thickness_um
+  value: '3.2'
+  unit: um
+  basis: design_target
+  locator: p.3 Sec. III
+  notes: LPCVD SiO2 (TEOS) lower cladding.
+  why: 'audit miss (D153): p.3 Sec. III stack, entered on both AWG rows but not on the waveguide row'
+- metric_id: cmp_lit_han2020_sin_wg-m4
+  component_id: cmp_lit_han2020_sin_wg
+  parameter: cladding_thickness_um
+  value: '3.4'
+  unit: um
+  basis: design_target
+  locator: p.3 Sec. III
+  notes: PECVD SiO2 upper cladding.
+  why: 'audit miss (D153): p.3 Sec. III stack, as sin_wg-m3'
+- metric_id: cmp_lit_han2020_sl_awg_1x8-m23
+  component_id: cmp_lit_han2020_sl_awg_1x8
+  parameter: il_nonuniformity_db
+  value: '2.9'
+  unit: dB
+  qualifier: approx
+  n_samples: '8'
+  polarization: te
+  condition: max minus min channel peak transmission over the 8 channels (Fig. 6(a), 1546-1554 nm)
+  basis: extracted_from_figure
+  locator: p.4 Fig. 6(a); p.3 Sec. III
+  notes: 'Fig. 6(a) render: channel peaks from about -3.6 dB to -6.4 / -6.6 dB (the channel at the FSR edge appears in two orders, about 1546.8 and 1553.3 nm), spread 2.8-3.0 dB, reading +/-0.3 dB. Consistent
+    with the printed inter-channel imbalance of approximately 3 dB (p.3), a sentence that names no device (D159; component notes).'
+  why: 'audit miss: il_nonuniformity_db (wdm) read off the measured Fig. 6(a) spectra; independent of the unstated normalization'
+- metric_id: cmp_lit_han2020_conv_awg_1x8-m20
+  component_id: cmp_lit_han2020_conv_awg_1x8
+  parameter: il_nonuniformity_db
+  value: '4.2'
+  unit: dB
+  qualifier: approx
+  n_samples: '8'
+  polarization: te
+  condition: max minus min channel peak transmission over the 8 channels (Fig. 6(b), 1546-1554 nm)
+  basis: extracted_from_figure
+  locator: p.4 Fig. 6(b); p.3 Sec. III
+  notes: 'Fig. 6(b) render: channel peaks from about -4.4 dB to -8.4 / -8.7 dB (the channel at the FSR edge appears in two orders), spread 4.0-4.3 dB, reading +/-0.3 dB; larger than the printed inter-channel
+    imbalance of approximately 3 dB (p.3), a sentence that names no device (D159; component notes).'
+  why: 'audit miss: il_nonuniformity_db (wdm) read off the measured Fig. 6(b) spectra'

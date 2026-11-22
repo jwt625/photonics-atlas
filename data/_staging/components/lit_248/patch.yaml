@@ -1,0 +1,96 @@
+# Audit patch lit_248 (fresh-context audit 2026-11-22, DevLog/audits/2026-11-22-lit_248-audit.md).
+# 198 metrics: 187 ok / 11 imprecise / 0 wrong; 23 components: 21 ok / 2 imprecise (notes) / 0 wrong. 3 misses added
+# (microheater component notes updated for them). 29 changes; after the patch 23 components / 201 metrics.
+# Main fix: xu2007 Fig. 4 panels: (a) R = 50 um is the left panel on a 1482-1495 nm axis (about 1.3 nm FSR), (b) R = 5 um the
+# right panel on a 1470-1510 nm axis (about 9.5 nm resonance spacing); the batch swapped the two axes.
+# Coordinator questions (audit Q1-Q10): recommendations in the audit file; only Q3 (bistability onset qualifier) is applied here.
+components:
+  cmp_lit_xu2007_mmi_ring_r5:
+    notes: 'Fab: ''were fabricated on unibond SOI wafers'' (p.4), passive with no org named; all authors at the Institute for Microstructural Sciences, National Research Council Canada (D80b: fab empty). Process: EBL, cryogenic SF6/O2 ICP-RIE (p.5). Unibond SOI = wafer supplier wording as printed. Unqualified Q -> q_loaded. FWHM bandwidths stored in linewidth_pm (printed in nm, nm -> pm, D256). SEM of an R = 5 um MMI ring in Fig. 1(c)-(d); spectrum Fig. 4(b) (right panel, 1470-1510 nm axis, resonance spacing about 9.5 nm, ''fairly uniform resonances''). Bend loss ''found experimentally to be insignificant'' (p.6, no number).'
+    why: 'p.6 Fig. 4 render: panel (b) (R = 5 um) is the right panel with the 1470-1510 nm axis; the 1482-1494 nm axis belongs to panel (a) (R = 50 um, about 1.3 nm FSR)'
+  cmp_lit_priyadarshini2024_dbr_mirror_n101_wm1p5:
+    notes: 'Design-only mirror of the Fig. 7(a) length series (CMT-aided TMM with effective-medium unit cells, Lumerical MODE, TE, 1550 nm design; p.5-10); N = 101 is not in the fabricated set (Table 1, p.13). Same Wm 1.5 um, W0 450 nm, W''0 100 nm, h 150 nm, H 220 nm, period 292 nm as the fabricated N = 61 mirror (Fig. 7 caption). Series N = 61-101: stopband ''nearly unchanged (~80 nm)'' (p.9, stated once for the series, not entered). N = 71 / 81 mirrors (fabricated in D2 / D3) have no printed values.'
+    why: 'component notes said "DBR mirror of the fabricated cavities (D80e: fabricated ...)" on a row_kind design row; N = 101 is a calculation only (p.9-10 Fig. 7(a), Table 1 p.13)'
+  cmp_lit_priyadarshini2024_d1_microheater:
+    notes: 'Fab: ''we have fabricated devices using our in-house process technology developed at the Center for NEMS and Nanophotonics (CNNP), IIT Madras'' (p.13) and ''fabricated using in-house facilities at the Centre for NEMS and Nanophotonics (CNNP), IIT Madras'' (p.21): fab IIT Madras (first-person, all authors IIT Madras); CNNP is a named facility missing from the registry (reported). Same physical device as cmp_lit_priyadarshini2024_dbr_cavity_d1 (D396), which carries the 96 pm/mW tuning slope, 4.32 nm range and 46.75 mW. V-shaped heater, two arms of 2.5 um x 1 um (Fig. 10 labels), total ~5 um (Fig. 11(d) caption). Lateral heater-to-cavity distance as stated: 2.5 um design (p.13, Fig. 10 label) and ~3 um on the SEM (Fig. 11(d) caption and label), entered as heater_gap_um (apex-to-cavity, edge vs centre not stated; no heater_offset_um). Rise / fall ''closely following'' the authors'' earlier slab-heater work [28] (p.18): measured here, kept.'
+    why: 'notes updated for the two heater_gap_um rows added (p.13; p.14 Fig. 10 and Fig. 11(d))'
+metrics:
+  cmp_lit_xu2007_mmi_ring_r50-m5:
+    wavelength_nm: '1482'
+    wavelength_max_nm: '1495'
+    notes: 'Printed ''The resonance extinction is ~12 dB'' (Fig. 4(a)); conflicts with the ~15 dB uniform extinction stated for Fig. 3(b) (D417). Wavelength span from the Fig. 4(a) axis (left panel, 1482-1495 nm, about 1.3 nm FSR; dips about 23.5-25.5 dB below a -11.5 to -12 dB baseline on the render).'
+    why: 'p.6 Fig. 4 render: panel (a) (R = 50 um) is the left panel with the 1482-1494 nm ticks (axis ends near 1495 nm); 1470-1510 nm is the panel (b) axis (R = 5 um)'
+  cmp_lit_xu2007_mmi_ring_r50-m6:
+    wavelength_nm: '1482'
+    wavelength_max_nm: '1495'
+    notes: 'Printed ''the insertion loss is ~11 dB'' for the Fig. 4(a) resonator; about 5 mm total device length incl. access waveguides (p.5). Wavelength span from the Fig. 4(a) axis (left panel, 1482-1495 nm; off-resonance level about -11.5 to -12 dB on the render).'
+    why: 'p.6 Fig. 4 render: panel (a) spans 1482-1495 nm, not 1470-1510 nm (that is panel (b), R = 5 um)'
+  cmp_lit_xu2007_mmi_ring_r5-m1:
+    wavelength_max_nm: ''
+    notes: 'Printed ~2000; wavelength from the radius-comparison sentence, which continues the ''At 1470 nm'' values of the R = 50 um ring and is followed by ''This trend of increasing FWHM with wavelength applies to the resonators with other radii'' (p.6). The R = 5 um spectrum (Fig. 4(b), right panel) spans 1470-1510 nm.'
+    why: 'p.6 Fig. 4 render: the R = 5 um panel (b) spans 1470-1510 nm; the 1482-1494 nm axis used for the range is panel (a) (R = 50 um); same 1470 nm inference as the R = 20 um rows'
+  cmp_lit_xu2007_mmi_ring_r5-m2:
+    wavelength_max_nm: ''
+    notes: 'Printed FWHM 0.8 nm (nm -> pm); wavelength as the Q row (1470 nm, inferred from the radius-comparison sentence, p.6).'
+    why: 'p.6 Fig. 4 render: R = 5 um spectrum is the 1470-1510 nm panel; range end 1494 nm came from the swapped panel axes'
+  cmp_lit_xu2007_dc_ring_r50-m2:
+    wavelength_nm: '1528'
+    wavelength_max_nm: '1534'
+    notes: 'Printed ''Near the critical coupling ... a Q of ~10,000''; wavelength not printed: read off Fig. 3(a) where the dips are deepest (about 34-37.5 dB, 1527.7-1533.8 nm, +/- 0.5 nm) and the Q triangles sit at about 9,300-10,500.'
+    why: 'p.5 Fig. 3(a) render: the deepest dips (critical coupling) are at about 1528-1534 nm with Q triangles about 10,000; the 1520-1570 nm span was the whole axis (which starts near 1513 nm)'
+  cmp_lit_xu2007_dc_ring_r50-m3:
+    wavelength_nm: '1528'
+    wavelength_max_nm: '1534'
+    notes: 'Printed FWHM ~0.2 nm (nm -> pm); wavelength as the 10,000 Q row (deepest Fig. 3(a) dips, about 1528-1534 nm).'
+    why: 'p.5 Fig. 3(a) render: critical-coupling region about 1528-1534 nm (as m2)'
+  cmp_lit_priyadarshini2024_dbr_cavity_d1-m9:
+    qualifier: ''
+    condition: 'onset of optical bistability (reversible nonlinearity, not a damage level); laser power launched into the device, aligned to the resonance'
+    notes: 'Printed ''bistability sets in with a launched laser power level into the device of 0.5 mW'' (0.5 mW -> -3.0 dBm); the noise-suppression test was run below it; the authors note operation at higher power by controlling the bistability (ref. [29], not entered). Onset value without bound qualifier as the merged onset precedent cmp_ofc2026_tu2j2_spgc_si-m3.'
+    why: 'p.18 Sec. 4.3: the printed 0.5 mW is the onset itself, not a stated bound; merged onset row cmp_ofc2026_tu2j2_spgc_si-m3 stores the onset without lt; condition now says it is a reversible bistability onset (audit Q3)'
+  cmp_lit_priyadarshini2024_dbr_mirror_n61_wm1p5-m2:
+    qualifier: approx
+    why: 'p.9 and p.10 print "~64.46 dB" (tilde on both occurrences)'
+  cmp_lit_priyadarshini2024_dbr_mirror_n61_wm1p5-m3:
+    locator: 'p.9 Sec. 2; p.7 Fig. 5(b)'
+    why: 'kappa_m = 0.372 um^-1 is printed in the p.9 text (Fig. 7 discussion); Fig. 5(b) (kappa_m vs Wm) is on p.7'
+  cmp_lit_priyadarshini2024_dbr_mirror_n61_wm1p5-m4:
+    locator: 'p.1 abstract; p.15 Sec. 4.1; p.17 Fig. 13(a); p.21 Sec. 5'
+    why: 'the D1-D3 stopband sentence is on p.15 (text), Fig. 13(a) is on p.17, and p.21 repeats "entire stopband (~60 nm)"'
+  cmp_lit_priyadarshini2024_dbr_mirror_n61_wm1p0-m4:
+    locator: 'p.5; p.13 Sec. 3'
+    why: 'Table 1 (p.13) lists only Wm, Lc, Lg and N; the 292 nm period is printed on p.5, and p.13 states all other parameters as in Sec. 2'
+add_metrics:
+- metric_id: cmp_lit_priyadarshini2024_d1_microheater-m7
+  component_id: cmp_lit_priyadarshini2024_d1_microheater
+  parameter: heater_gap_um
+  value: '2.5'
+  unit: um
+  qualifier: approx
+  condition: 'lateral distance from the V-shaped slab-integrated heater apex to the cavity (design); edge vs centre not stated'
+  basis: design_target
+  locator: 'p.13 Sec. 3; p.14 Fig. 10'
+  notes: 'Printed ''~2.5 um laterally away from the cavity'' (p.13); Fig. 10 label 2.5 um from the heater apex to the grating. Lateral heater-to-waveguide distances are stored in heater_gap_um in merged rows (campenhout2010, chung2017).'
+  why: 'miss: p.13 and the p.14 Fig. 10 label give the heater-to-cavity distance; heater_gap_um ("as stated") holds lateral distances in merged rows, so the edge-vs-centre ambiguity that ruled out heater_offset_um does not block it'
+- metric_id: cmp_lit_priyadarshini2024_d1_microheater-m8
+  component_id: cmp_lit_priyadarshini2024_d1_microheater
+  parameter: heater_gap_um
+  value: '3'
+  unit: um
+  qualifier: approx
+  condition: 'SEM of the fabricated D1 heater: lateral distance from the heater apex to the cavity; edge vs centre not stated'
+  basis: measured
+  locator: 'p.14 Fig. 11(d)'
+  notes: 'Caption ''(~3 um away)'' and SEM label 3 um (Fig. 11(d)); design 2.5 um (m7).'
+  why: 'miss: p.14 Fig. 11(d) caption and label give the fabricated heater distance (~3 um), the SEM counterpart of the 2.5 um design'
+- metric_id: cmp_lit_yao2018_mmi_1x2_tilt8-m15
+  component_id: cmp_lit_yao2018_mmi_1x2_tilt8
+  parameter: etch_depth_nm
+  value: '7000'
+  unit: nm
+  qualifier: gt
+  condition: 'femtosecond-laser-ablated groove depth, set slightly larger than the ~7 um implanted index-change region; no rigorous depth control needed'
+  basis: derived
+  locator: 'p.3 Sec. 2; p.2 Fig. 1(b)'
+  notes: 'Printed: refractive index change restricted to depths below 7 um, groove depth set slightly larger (p.3); um -> nm (D157). Stated for the design family; entered on the main 8 deg design, which carries the other cross-section dimensions.'
+  why: 'miss (D153 geometry): p.3 states the groove depth as slightly larger than 7 um; the bound fits rule 7 (gt)'

@@ -1,0 +1,71 @@
+# Audit patch lit_249 (fresh-context audit 2026-11-22, DevLog/audits/2026-11-22-lit_249-audit.md).
+# 128 metrics: 126 ok / 2 imprecise / 0 wrong; 15 components: 15 ok / 0 imprecise / 0 wrong. 4 misses added.
+# Fixes: xiao2019 G12 transmission crosstalk rows (m9, m10) belong to Fig. 8(f), TE0 incident (mode / condition / locator).
+# Misses: xiao2019 G12 TE0 pass-through notch 0.4 dB near 1565 nm (p.8, Fig. 8(f) inset); xiao2019 fabricated row PMMA grating
+# depth ~120 nm (p.11, p.15; the m9 full-etch row gets a condition to tell the two depths apart); zou2014 apodized comb keeps
+# 5 / 11 passbands at the two smaller index changes (p.8 "remains the same").
+# Coordinator questions (audit Q1-Q8): all distiller judgment calls kept (no op). To skip the misses drop add_metrics and the
+# pmma m9 condition op.
+metrics:
+  cmp_lit_xiao2019_g12_sim-m9:
+    mode: TE0 (transmitted)
+    condition: '3D-FDTD; strip w 1200 nm, h 220 nm, surface grating depth 40 nm, cladding and BOX SiO2 assumed infinite; sine-shaped LFF apodization (Fig. 7(c)); transmission modal crosstalk from TE1, TE0 incident (printed ''about -18.0 dB'')'
+    locator: 'p.8 Sec. 3.2, Fig. 8(f)'
+    notes: 'sign quoted; the sentence follows the Fig. 8(e) results but describes the transmission spectra of G12 with TE0 incident (Fig. 8(f), caption mislabelled ''(d)''): the TE1 trace sits at about -18 dB across 1500-1600 nm'
+    why: 'p.7 Fig. 8(f) render: G12 with TE0 input, TE1 at about -18 dB and TE2 below -38 dB; TE0 is the transmitted mode (G12 must pass TE0 in the G01-G12 cascade, p.9), so mode "TE1 to TE2" and "incident mode not named" were imprecise'
+  cmp_lit_xiao2019_g12_sim-m10:
+    mode: TE0 (transmitted)
+    condition: '3D-FDTD; strip w 1200 nm, h 220 nm, surface grating depth 40 nm, cladding and BOX SiO2 assumed infinite; sine-shaped LFF apodization (Fig. 7(c)); transmission modal crosstalk to TE2 (as printed), TE0 incident'
+    locator: 'p.8 Sec. 3.2, Fig. 8(f)'
+    notes: 'printed lower than -38.0 dB (sign quoted); Fig. 8(f) (TE0 input) TE2 trace below about -37 dB'
+    why: 'p.7 Fig. 8(f) render: the -38 dB bound is the TE2 trace of the G12 transmission spectra with TE0 incident; as m9'
+  cmp_lit_xiao2019_pmma_g01_g02_te2_te1-m9:
+    condition: 'silicon waveguide layer, fully etched (waveguides and grating couplers); grating depth of the PMMA gratings in m10'
+    why: 'p.11 Sec. 4: two depths on one row after the m10 addition (Si full etch vs ~120 nm PMMA grating depth); condition separates them'
+add_metrics:
+- metric_id: cmp_lit_xiao2019_g12_sim-m11
+  component_id: cmp_lit_xiao2019_g12_sim
+  parameter: insertion_loss_db
+  value: '0.4'
+  unit: dB
+  qualifier: approx
+  wavelength_nm: '1565'
+  polarization: te
+  mode: TE0 (transmitted)
+  scope: per_component
+  condition: '3D-FDTD; strip w 1200 nm, h 220 nm, surface grating depth 40 nm, cladding and BOX SiO2 assumed infinite; sine-shaped LFF apodization (Fig. 7(c)); TE0 transmission through G12, TE0 incident: undesired notch from weak TE0-TM0 coupling'
+  basis: simulated
+  locator: 'p.8 Sec. 3.2, Fig. 8(f)'
+  notes: 'printed ''a small undesired notch about -0.4 dB of the TE0 near 1565.0 nm'' (sign quoted); the worst point of the TE0 pass-through, not a value at 1550 nm (Fig. 8(f) inset minimum about -0.35 to -0.4 dB near 1563 nm); same kind of pass-through row as G01 m9 / G02 m9'
+  why: 'miss: p.8 prints the TE0 pass-through notch of G12 with its wavelength; the G01 and G02 pass-through losses are entered (m9), the G12 one was left in the report as a parasitic feature'
+- metric_id: cmp_lit_xiao2019_pmma_g01_g02_te2_te1-m10
+  component_id: cmp_lit_xiao2019_pmma_g01_g02_te2_te1
+  parameter: etch_depth_nm
+  value: '120'
+  unit: nm
+  qualifier: approx
+  condition: 'grating depth of the G01 / G02 surface gratings = thickness of the patterned PMMA layer on the Si strip (not an etch into Si)'
+  basis: design_target
+  locator: 'p.11 Sec. 4; p.15 Sec. 5.2'
+  notes: 'printed ''The thickness of the PMMA layer is approximately 120 nm, which is considered as the grating depth'' (p.11) and ''grating depth d = 120.0 nm in the PMMA layer'' (p.15, parameters consistent with the experimental structures); the design rows carry their 40 nm grating depth in etch_depth_nm the same way'
+  why: 'miss (D153 geometry): the grating depth of the fabricated converter is printed and the simulated rows enter their grating depth as etch_depth_nm'
+- metric_id: cmp_lit_zou2014_comb_alcbg_pip-m6
+  component_id: cmp_lit_zou2014_comb_alcbg_pip
+  parameter: n_channels
+  value: '5'
+  unit: count
+  condition: 'comb passbands within the overlapped 1-dB reflection band; effective-index change 8e-4 on grating 2 (apodized gratings)'
+  basis: simulated
+  locator: 'p.8 Sec. 4.2, Fig. 4(c)'
+  notes: 'printed: the number of combs is reduced to 21 in Fig. 4(g) ''while it remains the same for the other two cases'', i.e. the 5 passbands of the unapodized design at 8e-4 (p.5)'
+  why: 'miss: p.8 states the apodized comb keeps the unapodized passband counts at the two smaller index changes; only the 21 at 3.2e-3 was entered'
+- metric_id: cmp_lit_zou2014_comb_alcbg_pip-m7
+  component_id: cmp_lit_zou2014_comb_alcbg_pip
+  parameter: n_channels
+  value: '11'
+  unit: count
+  condition: 'comb passbands within the overlapped 1-dB reflection band; effective-index change 1.6e-3 on grating 2 (apodized gratings)'
+  basis: simulated
+  locator: 'p.8 Sec. 4.2, Fig. 4(e)'
+  notes: 'printed ''remains the same'' as the 11 passbands of the unapodized design at 1.6e-3 (p.5)'
+  why: 'miss: as m6'
