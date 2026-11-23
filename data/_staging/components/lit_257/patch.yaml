@@ -1,0 +1,117 @@
+# Audit patch lit_257 (fresh-context audit 2026-11-23, DevLog/audits/2026-11-23-lit_257-audit.md).
+# 147 metrics: 121 ok / 26 imprecise / 0 wrong; 22 components: 19 ok / 3 imprecise / 0 wrong. No misses added.
+# Fixes: lin2024 switch extinction / insertion-loss rows get the stated device band (C band inferred, rule 8, as the
+# distiller's own P_pi rows); ahmad2002 simulated T-branch polarization TE was an assumption (-> unspecified);
+# blascosolvas2024 grating 11.7 dB rests on the stated no-adiabatic-loss taper term (-> author_estimate, D612 analogue);
+# su2022 core_material drops the 220 nm Si that belongs to the withheld ref. [29]-based cross-section; figure-page locators.
+# Coordinator questions (audit Q1-Q7): other distiller judgment calls kept (no op).
+components:
+  cmp_lit_su2022_ge_wpd_long_electrode:
+    core_material: 'Ge lateral p-i-n on a Si channel / slab waveguide, SOI (imec PDK cell; cross-section not supplied by the PDK; the p.2 220 nm Si / 2 um BOX description follows ref. [29], not entered)'
+    why: 'p.2 Sec. II-A: the 220 nm Si layer and 2000 nm BOX are stated in the paragraph that says the structure follows the design of ref. [29]; the same values are withheld as metric rows (rule 3), so the free-text field should not assert them'
+  cmp_lit_su2022_ge_wpd_short_electrode:
+    core_material: 'Ge lateral p-i-n on a Si channel / slab waveguide, SOI (imec PDK cell; cross-section not supplied by the PDK; the p.2 220 nm Si / 2 um BOX description follows ref. [29], not entered)'
+    why: 'p.2 Sec. II-A: 220 nm Si / 2000 nm BOX are part of the ref. [29]-based structure description withheld as metric rows (rule 3)'
+  cmp_lit_su2022_awg_4ch_oband:
+    core_material: 'Si waveguide, SOI (same chip as the Ge WPDs; the p.2 220 nm Si layer is part of the ref. [29]-based structure description, not entered)'
+    why: 'p.2 Sec. II-A: the only Si thickness printed sits in the ref. [29]-based structure paragraph (rule 3); the AWG geometry is not printed'
+metrics:
+  cmp_lit_ahmad2002_t_branch-m2:
+    polarization: unspecified
+    notes: "printed simulated loss '~0.5 dB'; simulation wavelength not printed (1.55 um test wavelength entered as inferred); polarization of the T-branch simulation not stated (Fig. 3 has one simulated curve; the TE-optimization sentence on p.3 refers to the mirrors)"
+    why: 'p.3 Sec. III, Fig. 3: no polarization is printed for the T-branch simulation; TE was an assumption (rule 1); the measured row m1 already carries unspecified'
+  cmp_lit_ahmad2002_t_branch_45deg_design-m1:
+    polarization: unspecified
+    notes: 'printed transmission 0.82; stored as 10 log10(1/0.82) = 0.86 dB (D83f); simulation wavelength and polarization not printed'
+    why: 'p.3 Sec. III: the 45-deg T-branch transmission 0.82 is printed without a polarization; TE was an assumption (rule 1)'
+  cmp_lit_ahmad2002_corner_mirror-m5:
+    locator: 'p.1 Sec. II; p.2 Fig. 1 inset'
+    why: 'Fig. 1 (SEM with the cross-section inset 0.34 um Si / 1 um SiO2) is on p.2 of text.md'
+  cmp_lit_ahmad2002_corner_mirror-m6:
+    locator: 'p.1 Sec. II; p.2 Fig. 1 inset'
+    why: 'Fig. 1 cross-section inset is on p.2'
+  cmp_lit_ahmad2002_double_mirror-m6:
+    locator: 'p.1 Sec. II; p.2 Fig. 1 inset'
+    why: 'Fig. 1 cross-section inset is on p.2'
+  cmp_lit_lin2024_switch_varsplit_spiral-m1:
+    band: c_band
+    wavelength_inferred: 'true'
+    notes: 'probe wavelength of the Fig. 5 sweeps not printed; device characterized over 1520-1580 nm (Fig. 6), C band entered as inferred (rule 8)'
+    why: 'rule 8: no wavelength printed with the value but the device band is stated (abstract, p.4 Fig. 6: 1520-1580 nm); same treatment as the distiller P_pi rows of this chip'
+  cmp_lit_lin2024_switch_varsplit_spiral-m2:
+    band: c_band
+    wavelength_inferred: 'true'
+    notes: 'probe wavelength of the Fig. 5 sweeps not printed; device characterized over 1520-1580 nm (Fig. 6), C band entered as inferred (rule 8)'
+    why: 'rule 8: device band stated (abstract, p.4 Fig. 6: 1520-1580 nm)'
+  cmp_lit_lin2024_switch_varsplit_spiral-m8:
+    band: c_band
+    wavelength_inferred: 'true'
+    notes: "printed 'about 13.8 dB' read by the authors from Fig. 5(d); wavelength not printed, C band (device band 1520-1580 nm, Fig. 6) entered as inferred (rule 8)"
+    why: 'rule 8: device band stated (abstract, p.4 Fig. 6: 1520-1580 nm)'
+  cmp_lit_lin2024_switch_varsplit_spiral-m9:
+    band: c_band
+    wavelength_inferred: 'true'
+    notes: "printed on-chip IL 'about 2.3 dB' = 13.8 - 11.5 dB; wavelength not printed, C band (device band 1520-1580 nm, Fig. 6) entered as inferred (rule 8)"
+    why: 'rule 8: device band stated (abstract, p.4 Fig. 6: 1520-1580 nm)'
+  cmp_lit_lin2024_switch_varsplit_spiral-m10:
+    locator: 'p.1 Sec. II; p.2 Fig. 2(a)'
+    why: 'Fig. 2 (structure of the proposed switch) is on p.2 of text.md'
+  cmp_lit_lin2024_switch_varsplit_spiral-m11:
+    locator: 'p.1 Sec. II; p.2 Fig. 2(a)'
+    why: 'Fig. 2 is on p.2'
+  cmp_lit_lin2024_switch_conventional-m1:
+    band: c_band
+    wavelength_inferred: 'true'
+    notes: 'maximum ER; low bar ER attributed to the MMI power imbalance; probe wavelength not printed, C band (device band 1520-1580 nm, Fig. 6) entered as inferred (rule 8)'
+    why: 'rule 8: device band stated (abstract, p.4 Fig. 6: 1520-1580 nm); same chip'
+  cmp_lit_lin2024_switch_conventional-m2:
+    band: c_band
+    wavelength_inferred: 'true'
+    notes: 'maximum ER; probe wavelength not printed, C band (device band 1520-1580 nm, Fig. 6) entered as inferred (rule 8)'
+    why: 'rule 8: device band stated (abstract, p.4 Fig. 6: 1520-1580 nm); same chip'
+  cmp_lit_lin2024_switch_conventional-m6:
+    band: c_band
+    wavelength_inferred: 'true'
+    notes: "printed 'about 12.5 dB' read by the authors from Fig. 5(a); wavelength not printed, C band (device band 1520-1580 nm, Fig. 6) entered as inferred (rule 8)"
+    why: 'rule 8: device band stated (abstract, p.4 Fig. 6: 1520-1580 nm); same chip'
+  cmp_lit_lin2024_switch_conventional-m7:
+    band: c_band
+    wavelength_inferred: 'true'
+    notes: "printed on-chip IL 'about 1 dB' = 12.5 - 11.5 dB; wavelength not printed, C band (device band 1520-1580 nm, Fig. 6) entered as inferred (rule 8)"
+    why: 'rule 8: device band stated (abstract, p.4 Fig. 6: 1520-1580 nm); same chip'
+  cmp_lit_lin2024_switch_conventional-m8:
+    locator: 'p.1 Sec. II; p.2 Fig. 1(a)'
+    why: 'Fig. 1 (structure of the conventional switch) is on p.2 of text.md'
+  cmp_lit_lin2024_switch_conventional-m9:
+    locator: 'p.1 Sec. II; p.2 Fig. 1(a)'
+    why: 'Fig. 1 is on p.2'
+  cmp_lit_lin2024_spiral_ps-m5:
+    band: c_band
+    wavelength_inferred: 'true'
+    notes: "printed 'the increased insertion loss of a single spiral waveguide is calculated to be about 0.25 dB' from the 1.3 dB IL increase of the proposed switch minus 0.3 dB of the additional MMI; the 0.3 dB term is a PDK value (rule 4) and the division by the spiral count is not printed; wavelength not printed, C band (device band 1520-1580 nm, Fig. 6) entered as inferred (rule 8)"
+    why: 'rule 8: device band stated (abstract, p.4 Fig. 6: 1520-1580 nm)'
+  cmp_lit_lin2024_spiral_ps-m9:
+    locator: 'p.2 Sec. II; p.3 Fig. 3(a)'
+    why: 'Fig. 3 (cross sections, thermal model) is on p.3 of text.md; the H_box value is printed on p.2'
+  cmp_lit_lin2024_spiral_ps-m10:
+    locator: 'p.2 Sec. II; p.3 Fig. 3(a)'
+    why: 'Fig. 3 is on p.3; H_cladding / H_overlay printed on p.2'
+  cmp_lit_pruessner2007_fp_cavity_w6-m1:
+    locator: 'p.2 Sec. 2; p.3 Fig. 1(b); p.4 Sec. 3.2, Fig. 4'
+    why: 'Fig. 1 (Q labels 2,626 / 4,584 / 4,417) is on p.3 of text.md; Fig. 4 on p.4 repeats Q = 4,584'
+  cmp_lit_pruessner2007_fp_cavity_w6-m4:
+    locator: 'p.2 Sec. 2; p.3 Fig. 1(b)'
+    why: 'Fig. 1 is on p.3'
+  cmp_lit_pruessner2007_fp_cavity_w5-m1:
+    locator: 'p.2 Sec. 2; p.3 Fig. 2(a)'
+    why: 'Fig. 2 (IR images, caption Q ~ 4,600 at 1614.5 nm) is on p.3'
+  cmp_lit_su2022_ge_wpd_long_electrode-m5:
+    locator: 'p.8 Sec. III-C; p.7 Fig. 9(c)'
+    why: 'the 17.2 GHz FFT value is printed on p.8; Fig. 9 is on p.7 of text.md (render page_07.png)'
+  cmp_lit_su2022_ge_wpd_short_electrode-m5:
+    locator: 'p.8 Sec. III-C; p.7 Fig. 9(c)'
+    why: 'the 20.3 GHz FFT value is printed on p.8; Fig. 9 is on p.7'
+  cmp_lit_blascosolvas2024_gc_633-m1:
+    basis: author_estimate
+    notes: '(27.06 - 3.2 - 0.5) / 2 = 11.68 dB per grating; the 0.5 dB taper term is 700 um x 3.6 dB/cm under the stated assumption that the adiabatic taper adds no loss (p.5), so the value rests on an assumed term (rule 4, D612 analogue); Table I 11.7 +/- 0.6 dB; abstract prints losses smaller than 11.7 dB'
+    why: 'p.5 Sec. IV: the subtracted taper term is not measured; it rests on the stated no-adiabatic-loss assumption (rule 4: assumed input -> author_estimate; D612 stated no-loss assumption precedent)'

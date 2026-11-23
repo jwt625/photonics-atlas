@@ -1,8 +1,8 @@
 # Manual downloads (DevLog-006 S7)
 
-Generated 2026-11-22 by `scripts/lit_manual_list.py` from `retrieval_queue.csv` and `logs/lit_fetch_status.jsonl`; papers already cached are left out. Save each PDF as `references/_inbox/<save_as>` (supplement: `<paper_id>_supplement.pdf`), then run `uv run python scripts/lit_ingest_inbox.py`.
+Generated 2026-11-23 by `scripts/lit_manual_list.py` from `retrieval_queue.csv` and `logs/lit_fetch_status.jsonl`; papers already cached are left out. Save each PDF as `references/_inbox/<save_as>` (supplement: `<paper_id>_supplement.pdf`), then run `uv run python scripts/lit_ingest_inbox.py`.
 
-Total: 200
+Total: 201
 
 | # | day | class | save_as | year | venue | title | doi | reason |
 |---|---|---|---|---|---|---|---|---|
@@ -206,3 +206,4 @@ Total: 200
 | 198 | 206 | photodetector | yang2013.pdf | 2013 | Electronics Letters | Butterfly packaged high‐speed and low leakage InGaAs quantum well photodiode for 2000nm wavelength systems | 10.1049/el.2012.4335 | ieee_search: no_ieee_copy on 2026-11-21 |
 | 199 | 207 | amplifier | park2007a.pdf | 2007 | Optics Express | A hybrid AlGaInAs-silicon evanescent preamplifier and photodetector | 10.1364/oe.15.013539 | optica_browser: no_access on 2026-11-21 |
 | 200 | 207 | crossing | shinobu2010.pdf | 2010 | Electronics Letters | Low-loss simple waveguide intersection in silicon photonics | 10.1049/el.2010.1224 | ieee_search: no_ieee_copy on 2026-11-21 |
+| 201 | 209 | wdm | takenobu2008.pdf | 2008 |  | All-polymer 8x8 AWG wavelength router using ultra low loss polymer optical waveguide material (CYTOPTM) | 10.1109/ofc.2008.4528185.2008 | ieee_browser: blocked on 2026-11-23 |

@@ -9,6 +9,14 @@ challenge); then the breaker file logs/.lit_browser_blocked_<site>.json is writt
 until it is removed by hand. Paywall / abstract-only answers are `no_access` (no breaker). Two consecutive
 unexplained HTML-instead-of-PDF answers: IEEE re-probes the session and stops if it is lost; Optica sets the breaker.
 
+Per-paper failures never end a run (owner 2026-11-23: a dead DOI stopped IEEE and cost a second sign-in): a DOI that
+doi.org does not know ("DOI Not Found"; that page embeds a Cloudflare Turnstile report form) or a 404 / 410 landing is
+status `bad_doi` (no retry, no breaker, next paper); an IEEE row first tries the Xplore exact-title search (as route
+ieee_search; a hit is saved with ieee_arnumber / match_score). IEEE: a challenge on one paper re-probes the session; with the
+session intact it is logged `blocked` for that paper only, a 3-6 min cool-down follows and the run continues; a second
+challenge in a row sets the breaker and stops. With --wait-login a lost session (after a challenge or two soft misses)
+waits for a sign-in in the same window (30 min) instead of exiting. Optica and publisher keep stop-at-first-challenge.
+
 --site ieee also takes queue route ieee_search (Optica conference papers whose Xplore copy has no IEEE DOI): a
 same-origin POST /rest/search from the signed-in Xplore page with the exact title in quotes (rowsPerPage 10); a hit
 needs normalized-title similarity >= 0.93 and a shared author surname (cache_list first_author / last_author), then
@@ -74,6 +82,9 @@ CAP = 60
 CAP_WINDOW_H = 2.0
 GAP_S = (60.0, 120.0)
 CHALLENGE_WAIT_S = 8.0
+BLOCK_COOLDOWN_S = (180.0, 360.0)  # IEEE: pause after a single-paper challenge with the session intact
+IEEE_MAX_CONSEC_BLOCKS = 2  # IEEE: challenges in a row that set the breaker and stop the run
+LOGIN_WAIT_S = 1800  # --wait-login: how long a sign-in is waited for (start of run or session lost mid-run)
 MIN_PDF_BYTES = 20000
 SAVED = ("ok", "saved")  # status values of a saved PDF in lit_fetch_status.jsonl ("ok" = stream R2 convention)
 NAV_TIMEOUT_MS = 90000
@@ -132,6 +143,8 @@ CHALLENGE_RE = re.compile(
 CAPTCHA_RE = re.compile(
     r"g-recaptcha|recaptcha/api|hcaptcha\.com|captcha[-_](?:container|form|image|challenge|box)|id=\"captcha", re.I
 )
+# doi.org "DOI Not Found" page (it embeds a cf-turnstile widget for its report form: not a challenge).
+DOI_NOT_FOUND_RE = re.compile(r"This DOI cannot be found in the DOI System|<title>[^<]*DOI Not Found", re.I)
 JSCHECK_RE = re.compile(r"checkjs\.cfm|<p>\s*Please wait\.\.\.\s*</p>", re.I)
 OPTICA_VIEWMEDIA_RE = re.compile(r'href="([^"]*viewmedia\.cfm\?[^"]*uri=[^"]*seq=0[^"]*)"', re.I)
 # Article pages: citation_* meta, or the IEEE Xplore document app (no citation meta; 2026-10-22 false positive).
@@ -233,9 +246,16 @@ def ieee_pdf_url(html: str, arnumber: str) -> str:
     return IEEE_BASE + src if src.startswith("/") else src
 
 
+def is_dead_link(html: str, status: int | None = None) -> bool:
+    """A landing that cannot lead to the paper: HTTP 404 / 410 or doi.org's "DOI Not Found" page."""
+    return status in (404, 410) or bool(DOI_NOT_FOUND_RE.search(html[:200000]))
+
+
 def is_challenge(html: str, status: int | None = None) -> bool:
     if status in (403, 429, 503):
         return True
+    if is_dead_link(html, status):
+        return False
     head = html[:200000]
     if ARTICLE_RE.search(head):
         return False
@@ -728,8 +748,11 @@ class Fetcher:
         time.sleep(wait)
 
     def page_with_retries(self, pid: str, url: str, ok_re: str | None = None) -> tuple[str, int | None, str]:
-        """('ok' | 'challenge', status, html) for an HTML page; retries only on challenge signatures."""
+        """('ok' | 'not_found' | 'challenge', status, html) for an HTML page; retries only on challenge signatures."""
         status, html = goto(self.page, url)
+        if is_dead_link(html, status):
+            snapshot(self.site, pid, html)
+            return "not_found", status, html
         for attempt in range(1, self.site.retries + 1):
             if (ok_re and re.search(ok_re, html)) or not is_challenge(html, status):
                 break
@@ -764,6 +787,31 @@ class Fetcher:
         if kind != "challenge":
             snapshot(self.site, pid, html)
         return kind, b"", detail
+
+    def ieee_session(self, wait_login: bool, why: str = "") -> dict[str, Any]:
+        """Open the Xplore home page in the tab and probe access; with wait_login, wait in this window for a
+        sign-in (probe every 15 s, LOGIN_WAIT_S) instead of giving up, so a run never needs a relaunch to log in."""
+        try:
+            self.page.goto(IEEE_BASE + "/Xplore/home.jsp", wait_until="domcontentloaded", timeout=NAV_TIMEOUT_MS)
+            self.page.wait_for_timeout(5000)
+        except Exception as exc:  # noqa: BLE001  navigation race; the probe below decides
+            self.rl.info(f"(home page: {str(exc)[:80]})")
+        st = ieee_access(self.ctx)
+        self.rl.info(f"access{' ' + why if why else ''} {st}")
+        if not st.get("ok") and wait_login:
+            print("Sign in (Institutional Sign In) in the opened window; access is probed every 15 s (30 min).")
+            deadline = time.monotonic() + LOGIN_WAIT_S
+            while not st.get("ok") and time.monotonic() < deadline:
+                self.page.wait_for_timeout(15000)
+                try:
+                    st = ieee_access(self.ctx)
+                except Exception as exc:  # noqa: BLE001  mid-navigation during SSO
+                    self.rl.info(f"(waiting: {str(exc)[:80]})")
+            self.rl.info(f"access after sign-in wait {st}")
+            if st.get("ok"):
+                self.rl.event("login", "detected", access=st)
+                self.page.wait_for_timeout(5000)
+        return st
 
     def fetch(self, t: dict[str, str]) -> tuple[str, bytes, str]:
         self.extra = {}
@@ -834,6 +882,16 @@ class Fetcher:
         an = arnumber_from_url(t.get("route_url") or "")
         if not an:
             st, status, html = self.page_with_retries(pid, f"https://doi.org/{t['doi']}")
+            if st == "not_found":
+                if t.get("title") and t.get("route") != SEARCH_ROUTE:
+                    # dead DOI (e.g. a trailing ".2008"): find the Xplore copy by exact title, as route ieee_search
+                    self.rl.info(f"{pid}: DOI {t['doi']} not found (status={status}); trying the Xplore title search")
+                    time.sleep(random.uniform(4.0, 8.0))
+                    kind, body, detail = self.fetch_ieee_search({**t, "route": SEARCH_ROUTE})
+                    if kind == "pdf":
+                        return kind, body, detail
+                    return (kind if kind == "blocked" else "bad_doi"), b"", f"dead DOI {t['doi']}; search: {detail}"
+                return "bad_doi", b"", f"DOI landing not found status={status} doi={t['doi']}"
             if st == "challenge":
                 return "blocked", b"", f"challenge on DOI landing status={status}"
             an = arnumber_from_url(self.page.url)
@@ -841,6 +899,8 @@ class Fetcher:
             return "no_arnumber", b"", f"landing {self.page.url[:120]}"
         stamp = f"{IEEE_BASE}/stamp/stamp.jsp?tp=&arnumber={an}"
         st, status, html = self.page_with_retries(pid, stamp, ok_re=r"getPDF")
+        if st == "not_found":
+            return "not_found", b"", f"stamp page arnumber={an} status={status}"
         if st == "challenge":
             return "blocked", b"", f"challenge on stamp page arnumber={an} status={status}"
         pdf_url = ieee_pdf_url(html, an)
@@ -860,6 +920,8 @@ class Fetcher:
         on_site = urlsplit(ru).netloc.endswith("opg.optica.org") and "viewmedia.cfm" not in ru
         landing = ru if on_site else f"https://doi.org/{t['doi']}"
         st, status, html = self.page_with_retries(pid, landing)
+        if st == "not_found":
+            return "bad_doi", b"", f"landing not found status={status} url={landing[:100]}"
         if st == "challenge":
             return "blocked", b"", f"challenge on landing status={status}"
         page_url = self.page.url
@@ -926,6 +988,9 @@ class Fetcher:
         """DOI landing -> citation_pdf_url or the publisher pattern -> open in the tab (viewer or download)."""
         pid = t["paper_id"]
         status, html = goto(self.page, f"https://doi.org/{t['doi']}")
+        if is_dead_link(html, status):
+            snapshot(self.site, pid, html)
+            return "bad_doi", b"", f"DOI landing not found status={status} doi={t['doi']}"
         html = self.settle(html)
         if is_challenge(html, status) or JSCHECK_RE.search(html):
             snapshot(self.site, pid, html)
@@ -1037,30 +1102,15 @@ def run(site: Site, a: argparse.Namespace) -> int:
             ctx = open_ctx(p, a.browser, site)
             f = Fetcher(ctx, site, rl)
             if site.name == "ieee":
-                f.page.goto(IEEE_BASE + "/Xplore/home.jsp", wait_until="domcontentloaded", timeout=NAV_TIMEOUT_MS)
-                f.page.wait_for_timeout(5000)
-                st = ieee_access(ctx)
-                rl.info(f"access {st}")
-                if not st.get("ok") and a.wait_login:
-                    # Institutional session cookies do not survive a context close, so sign in in this window.
-                    print("Sign in (Institutional Sign In) in the opened window; access is probed every 15 s (30 min).")
-                    deadline = time.monotonic() + 1800
-                    while not st.get("ok") and time.monotonic() < deadline:
-                        f.page.wait_for_timeout(15000)
-                        try:
-                            st = ieee_access(ctx)
-                        except Exception as exc:  # noqa: BLE001  mid-navigation during SSO
-                            rl.info(f"(waiting: {str(exc)[:80]})")
-                    rl.info(f"access after sign-in wait {st}")
-                    if st.get("ok"):
-                        rl.event("login", "detected", access=st)
-                        f.page.wait_for_timeout(5000)
+                # Institutional session cookies do not survive a context close, so sign in in this window.
+                st = f.ieee_session(a.wait_login)
                 if not st.get("ok"):
                     rl.info("NOT SIGNED IN: rerun with --wait-login and sign in in the window")
                     ctx.close()
                     return 2
             done = 0
             prev = ""
+            blocked_run = 0
             misses: dict[str | None, int] = {}
             counts: dict[str, int] = {}
             for t in todo:
@@ -1096,8 +1146,6 @@ def run(site: Site, a: argparse.Namespace) -> int:
                 if kind == "pdf" and pdf_title_match(body, t.get("title") or "") is False:
                     kind, body, detail = "wrong_pdf", b"", f"PDF pages 1-2 do not carry the title ({detail[:100]})"
                 res = save_pdf(t, site, body, detail, f.extra) if kind == "pdf" else kind
-                if res == "blocked":
-                    set_breaker(site, detail, pid, host)
                 prev = res
                 append_status(
                     pid, t["route"], res, body if res == "ok" else b"", "" if res == "ok" else detail, f.extra
@@ -1114,19 +1162,31 @@ def run(site: Site, a: argparse.Namespace) -> int:
                 rl.info(f"[{done}/{max_n}] {res} {pid} {detail[:140]}")
                 counts[res] = counts.get(res, 0) + 1
                 if res == "blocked":
+                    blocked_run += 1
+                    if site.name == "ieee" and blocked_run < IEEE_MAX_CONSEC_BLOCKS:
+                        st = f.ieee_session(a.wait_login, why=f"after challenge on {pid}")
+                        if st.get("ok"):
+                            cool = random.uniform(*BLOCK_COOLDOWN_S)
+                            rl.info(f"challenge on {pid} only, session ok: no breaker; {cool / 60:.1f} min cool-down")
+                            rl.event("single_block", "continue", paper_id=pid, cool_s=round(cool))
+                            time.sleep(cool)
+                            continue
+                    set_breaker(site, detail, pid, host)
                     rl.info(f"challenge: breaker {breaker_path(site, host)} set (manual reset)")
                     if host is None:
                         break
                     continue
+                blocked_run = 0
                 soft = ("not_pdf", "no_access") if site.name == "ieee" else ("not_pdf",)
                 misses[host] = misses.get(host, 0) + 1 if res in soft else 0
                 if misses[host] >= 2:
                     if site.name == "ieee":
-                        st = ieee_access(ctx)
+                        st = f.ieee_session(a.wait_login, why="after two soft misses")
                         if not st.get("ok"):
-                            rl.info(f"SESSION LOST {st}: stopping; run --login again")
+                            rl.info(f"SESSION LOST {st}: stopping; relaunch with --wait-login")
                             rl.event("session_lost", "stop", access=st)
                             break
+                        misses[host] = 0
                     else:
                         set_breaker(site, "two consecutive HTML-instead-of-PDF answers", pid, host)
                         rl.info(f"two consecutive HTML-instead-of-PDF answers: breaker {breaker_path(site, host)} set")

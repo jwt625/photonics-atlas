@@ -1,0 +1,40 @@
+# Audit patch lit_266 (fresh-context audit 2026-11-23, DevLog/audits/2026-11-23-lit_266-audit.md).
+# 102 metrics: 99 ok / 3 imprecise / 0 wrong; 9 components: 6 ok / 3 imprecise / 0 wrong. 1 miss added.
+# Fixes: zheng2013 4.13 mW/FSR basis measured -> derived (authors' arithmetic "corresponding to", D80a; oz2023 precedent);
+# yang2011 R = 150 um port-count locators drop the Fig. 3 caption (that caption names the R = 100 um device);
+# test_structure true on the cheung2014 750 nm loss waveguide and the yang2011 straight reference waveguide facet row.
+# Miss: yang2011 400 GHz output waveguide separation ~4.5 um -> pitch_um (a2011 / chen2015a / chen2015b "end separation" precedent).
+# Coordinator questions (audit Q1-Q7): other distiller judgment calls kept (no op).
+components:
+  cmp_lit_cheung2014_si_rib_w750:
+    test_structure: 'true'
+    why: 'p.4 Sec. IV: the 2.78 dB/cm is evaluated on a dedicated straight 750 nm wide waveguide (the AWG arms are 950 nm, p.3 Table II); merged cheung2015 loss waveguides of the same group carry test_structure true'
+  cmp_lit_yang2011_su8_facet_lensed:
+    test_structure: 'true'
+    why: 'p.2 Sec. III: both values come from the straight normalization waveguide of the device length (about 0.22 cm), a dedicated reference structure'
+  cmp_lit_yang2011_awg_400ghz_r1000:
+    notes: "Fig. 7 channels 13-23 from order m and 1-12 from order m + 1 (SLD bandwidth), spectra about 1537-1613 nm. Measured polarization-dependent wavelength 0.02 nm at 1559.6 nm (abstract; p.4, Fig. 6; theory 0.08 nm, birefringence 7.8e-5) not entered: no registry parameter (D667 gap). Not entered: thermo-optic coefficient about -1.21e-4 per C (material, no parameter). Output waveguide separation ~4.5 um (p.2) entered as pitch_um (m21). The normalization reference is described for the 100 GHz AWGs (p.2); Fig. 6 ('measured normalized spectral responses', p.4) and Fig. 7 are labelled normalized and the paper calls the value excess loss. Fab org_zhejiang_university (D72): 'we design and fabricate' (p.1 Sec. I) and all authors at the Centre for Optical and Electromagnetic Research, Zhejiang University (p.1). Process: 6 um PECVD SiO2 buffer on Si, spin-coated SU-8, direct UV lithography (p.2 Sec. II). No facility named; funding lines are grants."
+    why: 'p.2 Sec. II: the ~4.5 um output waveguide separation is now entered (m21, audit miss); notes updated; Fig. 6 normalization wording added (p.4 Sec. III)'
+metrics:
+  cmp_lit_zheng2013_ring_mux_1x8_substrate_removed-m1:
+    basis: derived
+    notes: "printed 4.13 mW/FSR, the authors' arithmetic from 1.46 mW for a 4.2 nm shift ('corresponding to', D80a; oz2023 precedent); with the Fig. 2(a) FSR label 12.4 nm the product is 1.46 x 12.4 / 4.2 = 4.31 mW (printed value kept, D417)"
+    why: 'p.2 Sec. 3: "With 1.46 mW ... a 4.2 nm resonance shift was achieved, corresponding to 4.13 mW/FSR": a conversion of a measured partial shift to a full FSR, not a full-FSR measurement (D80a: arithmetic by the authors is derived; merged oz2023 heater row)'
+  cmp_lit_yang2011_awg_100ghz_r150-m9:
+    locator: 'p.1 Abstract'
+    why: 'p.3 Fig. 3 caption names the R = 100 um device ("48 x 48 AWG device (R = 100 um)"); the 48 x 48 count of the 100 GHz design is printed in the abstract (p.1)'
+  cmp_lit_yang2011_awg_100ghz_r150-m10:
+    locator: 'p.1 Abstract'
+    why: 'p.3 Fig. 3 caption names the R = 100 um device; the 48 x 48 count is printed in the abstract (p.1)'
+add_metrics:
+  - metric_id: cmp_lit_yang2011_awg_400ghz_r1000-m21
+    component_id: cmp_lit_yang2011_awg_400ghz_r1000
+    parameter: pitch_um
+    value: '4.5'
+    unit: um
+    qualifier: approx
+    condition: "'separation between the adjacent output waveguide' (as printed), the stated reason for the small 400 GHz footprint"
+    basis: design_target
+    locator: 'p.2 Sec. II'
+    notes: "printed ~4.5 um; entered as pitch like the merged AWG 'end separation' rows (a2011, chen2015a, chen2015b)"
+    why: 'miss (D153): p.2 Sec. II prints the output waveguide separation of the 400 GHz design; the AWG separation D is the output channel pitch (precedent rows a2011-m17, chen2015a-m6, chen2015b-m9); no conflict with the 2.0 um core width'

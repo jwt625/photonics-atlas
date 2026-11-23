@@ -1,0 +1,73 @@
+# Audit patch lit_256 (fresh-context audit 2026-11-23, DevLog/audits/2026-11-23-lit_256-audit.md).
+# 175 metrics: 172 ok / 2 imprecise / 1 wrong; 31 components: 22 ok / 9 imprecise / 0 wrong. 3 misses added (song2016a platform-waveguide geometry).
+# Wrong: koos2007 COB R1 (mean radius of curvature) stored as min_bend_radius_um -> deleted (D619 yang2024b precedent).
+# Imprecise: atabaki2010 Fig. 4(a) reading in the w0p5 note (~1.3 nm shift, ~0.9 nm/mW, ~3.2x Fig. 5(a)) and ring Q_i wavelength 1551.6 -> 1551.5 nm;
+# yu2016a graphene-loss wavelength reason; song2016a conventional-bend rows tagged adiabatic_bend; koos2007 platform soi -> soi_strip ("SOI strip waveguides", air-clad).
+# Coordinator questions (audit Q1-Q12): distiller judgment calls kept (no op).
+components:
+  cmp_lit_atabaki2010_ni_heater_w0p5:
+    notes: "Fab: 'Here, we fabricated 20 um diameter microring resonators' (p.6 Sec. 3), all five authors at Georgia Tech (one affiliation printed) -> org_georgia_institute_of_technology (D72 / D80b); no facility named. Soitec SOI wafer (220 nm Si, 1 um BOX), EBL (ZEP) + Cl2/HBr ICP etch, 1 um PECVD SiO2, lift-off Ni heater with Au pads (Au removed over the device, p.6). Fig. 5(b) experiment markers at 0.5 um read ~4.27 us (rise) / ~4.65 us (fall); the text value 'around 4 us' (p.7) is entered. The Fig. 4(a) resonance shifts (~1.3 nm for 1.45 mW, linear over the five traces, ~0.87-0.91 nm/mW; the last axis label 1.5527 sits on an evenly spaced tick, so the tick step is 0.38-0.40 nm) and the Fig. 5(a) experimental temperature rise (~2.32 K/mW, right axis ~34.6 GHz/mW, ~0.28 nm/mW) disagree by ~3.2x for the same heater, so no tuning-efficiency row is entered (report, D159 spirit). Heater resistance rises ~linearly by 34 ohm/mW (0.36 K/ohm, thermistor use)."
+    why: 'p.7 Fig. 4(a) re-read at 600 dpi: dips at 0 / 0.38 / 0.77 / 1.1 / 1.45 mW fall on a line of ~458 px/mW with a ~201 px tick step (0.38-0.40 nm), i.e. ~1.3 nm total, not ~1.6 nm; the withholding decision is unchanged'
+  cmp_lit_song2016a_conventional_offset_638:
+    tags: 'bend;visible'
+    why: 'p.3 Sec. III: conventional (constant-width) bend with offsets; the adiabatic_bend tag belongs to the sinusoidal-profile rows only'
+  cmp_lit_song2016a_conventional_638:
+    tags: 'bend;visible'
+    why: 'p.3 Sec. III: conventional bend without offsets; not an adiabatic bend'
+  cmp_lit_song2016a_conventional_offset_r20_1550:
+    tags: 'bend;c_band'
+    why: 'p.4 Table III: conventional bend with 80 nm offset; not an adiabatic bend'
+  cmp_lit_song2016a_conventional_r20_1550:
+    tags: 'bend;c_band'
+    why: 'p.4 Table III: conventional bend without offset; not an adiabatic bend'
+  cmp_lit_koos2007_cob_r1p5:
+    platform: soi_strip
+    why: 'p.2 Sec. III: "overmoded SOI strip waveguides", Si ribs on 3 um SiO2 "surrounded by air"; p.3 Sec. IV RIE transfer into the Si layer; strip (fully etched, air-clad) stated (D434, D459)'
+  cmp_lit_koos2007_disc_taper_r1p5:
+    platform: soi_strip
+    why: 'p.2 Sec. III: same air-clad SOI strip waveguide system for all compared bends (D434, D459)'
+  cmp_lit_koos2007_offset_circular_r1p5:
+    platform: soi_strip
+    why: 'p.2 Sec. III: same air-clad SOI strip waveguide system for all compared bends (D434, D459)'
+  cmp_lit_koos2007_corner_mirrors_r1p5:
+    platform: soi_strip
+    why: 'p.2 Sec. III: same air-clad SOI strip waveguide system for all compared bends (D434, D459)'
+metrics:
+  cmp_lit_atabaki2010_ring_d20-m1:
+    wavelength_nm: '1551.5'
+    notes: "printed 'intrinsic Q ... around 60k'; extraction / coupling regime not described (D403). Wavelength: the 0 mW resonance of Fig. 4(a) is near 1551.5 nm (axis read, tick step 0.38-0.40 nm, +/-0.1 nm), not printed with the value"
+    why: 'p.7 Fig. 4(a) at 600 dpi: the 0 mW dip sits 0.77 tick steps right of the 1.5512 label, i.e. 1551.49-1551.51 nm'
+  cmp_lit_yu2016a_microdisk_rd5-m5:
+    notes: "printed ~0.00016 dB/um (conclusion '< 0.0002 dB/um'); dB/um -> dB/cm, stays simulated (D83f). No wavelength printed with the value or the Fig. 4 mode solution; C band inferred from the measured resonances of this disk (1543-1548 nm, p.3 Fig. 2(a)(c)); the p.1 '1.55 um' is the wavelength of the cited Si thermo-optic coefficient, not an operating band"
+    why: 'p.1 Sec. 1: "~1.8e-4/K at a wavelength of 1.55 um" qualifies the cited thermo-optic coefficient; the operating band of the device is shown by the p.3 Fig. 2 spectra (1540-1551 nm axis)'
+delete_metrics:
+  - id: cmp_lit_koos2007_cob_r1p5-m8
+    why: 'p.2 Sec. III: R1 is the "mean radius of curvature" (half the centre spacing of the straight waveguides, Fig. 2(a)); the optimized outer / inner contours curve more tightly than R1, so it is not a minimum bend radius (D619 yang2024b Euler R_eff precedent); R1 stays in the label of all four rows'
+add_metrics:
+  - metric_id: cmp_lit_song2016a_sin_wg_638-m3
+    component_id: cmp_lit_song2016a_sin_wg_638
+    parameter: width_nm
+    value: '450'
+    unit: nm
+    condition: 'channel waveguide width w0, single-mode at 638 nm'
+    basis: design_target
+    locator: 'p.2 Sec. II'
+    why: 'miss (D153): "We designed the channel waveguide with a 450nm-wide and 220nm-thick" (p.2 Sec. II); the bend rows carry it, the platform waveguide row did not'
+  - metric_id: cmp_lit_song2016a_sin_wg_638-m4
+    component_id: cmp_lit_song2016a_sin_wg_638
+    parameter: cladding_thickness_um
+    value: '2.0'
+    unit: um
+    condition: 'top oxide cladding'
+    basis: design_target
+    locator: 'p.3 Sec. III'
+    why: 'miss (D153): "The waveguide has 220nm-thick silicon nitride layer with the top and under cladding of 2.0um and 2.3um" (p.3), the sentence that follows the 1.0 dB/cm platform loss'
+  - metric_id: cmp_lit_song2016a_sin_wg_638-m5
+    component_id: cmp_lit_song2016a_sin_wg_638
+    parameter: box_thickness_um
+    value: '2.3'
+    unit: um
+    condition: 'under cladding (oxide)'
+    basis: design_target
+    locator: 'p.3 Sec. III'
+    why: 'miss (D153): under cladding 2.3 um (p.3), same convention as the bend rows of this paper'

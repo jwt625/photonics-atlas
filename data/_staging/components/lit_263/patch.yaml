@@ -1,0 +1,120 @@
+# Audit patch lit_263 (fresh-context audit 2026-11-23, DevLog/audits/2026-11-23-lit_263-audit.md).
+# 139 metrics: 134 ok / 5 imprecise / 0 wrong; 16 components: 15 ok / 1 imprecise / 0 wrong. 9 misses added.
+# Fixes: su2018 pass-through 0.08 dB scope per_coupler -> device_total (not a fiber-to-waveguide coupling loss);
+# su2018 polarization-insensitive GC notes (Sec. 3.2 has no stated design wavelength; Fig. 5(c) peaks read);
+# mak2018 median notes (printed medians differ from the median of the nine printed rows); antelius2011 Si wire
+# platform soi -> soi_strip (single lithography, etched through to the BOX); one evidence note (Fig. 4(a)).
+# Misses: antelius2011 2.2 um BOX apodized design etch depth, Si wire BOX, 10.4 um fiber Gaussian on the four GC rows,
+# fiber angle on the two periodic designs; mak2018 fiber angle 29 deg (Table 3; fiber array polished at 29 deg).
+# Coordinator questions (audit Q1-Q11): other distiller judgment calls kept (no op).
+components:
+  cmp_lit_antelius2011_si_wire_500nm:
+    platform: soi_strip
+    why: 'p.1 Abstract: grating etched completely through the Si device layer, permitting through-etched circuits in a single lithography step; p.2: depth set by the oxide etch stop; p.5 Sec. 3: one HSQ e-beam patterning and one dry etch for the test circuit (D434, D459)'
+metrics:
+  cmp_lit_su2018_passthrough_demux_gc-m2:
+    scope: device_total
+    notes: 'the pass-through loss of the receive wavelength; TE from the Fig. 7(e) field plot. Scope device_total: the 1490 nm path runs fiber -> through the grating -> detector behind the chip (Fig. 7(a)); it is not a fiber-to-waveguide coupling loss and stays out of per_coupler GC rankings'
+    why: 'p.11 Fig. 7(a) caption and text: the receiving wavelength passes through the grating to a photodetector behind the chip; per_coupler would rank 0.08 dB as a grating-coupler coupling loss'
+  cmp_lit_su2018_polinsens_gc_normal-m1:
+    notes: 'minimum insertion loss of the simulated spectrum; peak wavelength not printed. Sec. 3.2 prints no design wavelength (the 1550 nm of p.7 Sec. 3.1 covers the single-function couplers); Fig. 5(c) TE peak read at about 1553 nm (+/- 2 nm). paper: reported efficiencies are 2D coupling efficiencies; the 3D value depends on the coupler length in the third dimension (p.4)'
+    why: 'p.9-10 Sec. 3.2 / Fig. 5: the note cited the Sec. 3.1 design wavelength for a Sec. 3.2 device; Fig. 5(c) render supports the 1550 nm inference'
+  cmp_lit_su2018_polinsens_gc_normal-m2:
+    notes: 'minimum insertion loss of the simulated spectrum; peak wavelength not printed. Sec. 3.2 prints no design wavelength (the 1550 nm of p.7 Sec. 3.1 covers the single-function couplers); Fig. 5(c) TM peak read at about 1547 nm (+/- 2 nm). paper: reported efficiencies are 2D coupling efficiencies; the 3D value depends on the coupler length in the third dimension (p.4)'
+    why: 'p.9-10 Sec. 3.2 / Fig. 5: the note cited the Sec. 3.1 design wavelength for a Sec. 3.2 device; Fig. 5(c) render supports the 1550 nm inference'
+  cmp_lit_mak2018_focusing_bilayer_gc-m23:
+    notes: 'Table 2 prints 70.9 nm; abstract, p.2 and conclusion print 70.8 nm (conflict, table value kept); the median of the nine printed per-chip widths is 70.4 nm, so neither printed median follows from the rounded Table 2 rows (D417, kept as printed)'
+    why: 'p.8 Table 2: sorted widths 54.5 / 56.6 / 66.6 / 68.9 / 70.4 / 71.3 / 72.5 / 72.9 / 73.2 nm, fifth value 70.4 nm'
+  cmp_lit_mak2018_focusing_bilayer_gc-m24:
+    notes: 'printed median 1331.7 nm; the median of the nine printed per-chip center wavelengths is 1331.4 nm (D417, kept as printed)'
+    why: 'p.8 Table 2: sorted center wavelengths 1306.2 / 1316.6 / 1319.3 / 1319.6 / 1331.4 / 1332.0 / 1335.5 / 1337.7 / 1343.2 nm'
+  cmp_lit_antelius2011_periodic_gc_box2p2um-m1:
+    notes: 'printed ''from 51% to 72%'' for the apodization on 2.2 um BOX; Fig. 3(c) point label 0.53 (conflict); the Fig. 4(a) power-into-fiber trace starts at about 51 %, which supports the text value. paper: the 2D simplification overestimates coupled power by 3 % for similar structures (p.2, citing ref. [4])'
+    why: 'evidence for the text value (ok row): p.5 Fig. 4(a) render, starting value about 51 % before the apodization steps'
+add_metrics:
+  - metric_id: cmp_lit_antelius2011_apod_gc_box2p2um-m9
+    component_id: cmp_lit_antelius2011_apod_gc_box2p2um
+    parameter: etch_depth_nm
+    value: '220'
+    unit: nm
+    basis: design_target
+    locator: 'p.1 Abstract; p.5 Table 2'
+    notes: 'through-etched grating (etched completely through the 220 nm device layer); Table 2 lists both apodized through-etched designs'
+    why: 'miss (D153): sibling rows carry the 220 nm through-etch; Table 2 title "two apodized through-etched grating designs", p.5'
+  - metric_id: cmp_lit_antelius2011_apod_gc_box2p2um-m10
+    component_id: cmp_lit_antelius2011_apod_gc_box2p2um
+    parameter: mfd_fiber_um
+    value: '10.4'
+    unit: um
+    condition: 'Gaussian fiber profile of the CAMFR model, tilted 10 deg'
+    basis: specification
+    locator: 'p.3 Sec. 2'
+    notes: 'printed "10.4 um wide Gaussian profile (i.e. a single mode fiber)"; width definition not stated'
+    why: 'miss (D625 precedent: mfd_fiber_um of the fiber the coupler is designed for); p.3 model description'
+  - metric_id: cmp_lit_antelius2011_apod_gc_box2um-m15
+    component_id: cmp_lit_antelius2011_apod_gc_box2um
+    parameter: mfd_fiber_um
+    value: '10.4'
+    unit: um
+    condition: 'Gaussian fiber profile of the CAMFR model, tilted 10 deg; measurement used SMF-28 (p.5)'
+    basis: specification
+    locator: 'p.3 Sec. 2'
+    notes: 'printed "10.4 um wide Gaussian profile (i.e. a single mode fiber)"; width definition not stated'
+    why: 'miss (D625 precedent: mfd_fiber_um of the fiber the coupler is designed for); p.3 model description'
+  - metric_id: cmp_lit_antelius2011_periodic_gc_box2p2um-m8
+    component_id: cmp_lit_antelius2011_periodic_gc_box2p2um
+    parameter: mfd_fiber_um
+    value: '10.4'
+    unit: um
+    condition: 'Gaussian fiber profile of the CAMFR model, tilted 10 deg'
+    basis: specification
+    locator: 'p.3 Sec. 2'
+    notes: 'printed "10.4 um wide Gaussian profile (i.e. a single mode fiber)"; width definition not stated'
+    why: 'miss (D625 precedent): the exhaustive period / fill-factor search of Fig. 3 uses the p.3 model'
+  - metric_id: cmp_lit_antelius2011_periodic_gc_box2p2um-m9
+    component_id: cmp_lit_antelius2011_periodic_gc_box2p2um
+    parameter: fiber_angle_deg
+    value: '10'
+    unit: deg
+    basis: design_target
+    locator: 'p.3 Sec. 2'
+    notes: 'Gaussian fiber profile tilted 10 deg off the x-axis (the vertical axis of Fig. 2); same model as the apodized designs'
+    why: 'miss (D153): sibling apodized rows carry the 10 deg tilt; p.3 model description applies to the Fig. 3 search'
+  - metric_id: cmp_lit_antelius2011_periodic_gc_box2um-m8
+    component_id: cmp_lit_antelius2011_periodic_gc_box2um
+    parameter: mfd_fiber_um
+    value: '10.4'
+    unit: um
+    condition: 'Gaussian fiber profile of the CAMFR model, tilted 10 deg'
+    basis: specification
+    locator: 'p.3 Sec. 2'
+    notes: 'printed "10.4 um wide Gaussian profile (i.e. a single mode fiber)"; width definition not stated'
+    why: 'miss (D625 precedent): the exhaustive period / fill-factor search of Fig. 3 uses the p.3 model'
+  - metric_id: cmp_lit_antelius2011_periodic_gc_box2um-m9
+    component_id: cmp_lit_antelius2011_periodic_gc_box2um
+    parameter: fiber_angle_deg
+    value: '10'
+    unit: deg
+    basis: design_target
+    locator: 'p.3 Sec. 2'
+    notes: 'Gaussian fiber profile tilted 10 deg off the x-axis (the vertical axis of Fig. 2); same model as the apodized designs'
+    why: 'miss (D153): sibling apodized rows carry the 10 deg tilt; p.3 model description applies to the Fig. 3 search'
+  - metric_id: cmp_lit_antelius2011_si_wire_500nm-m4
+    component_id: cmp_lit_antelius2011_si_wire_500nm
+    parameter: box_thickness_um
+    value: '2'
+    unit: um
+    basis: design_target
+    locator: 'p.5 Sec. 3'
+    notes: 'SOI wafer with a 220 nm device layer and a 2 um BOX (purchased-wafer thickness, D402)'
+    why: 'miss (D153): waveguide cross-section; same wafer as the GC row (box_thickness_um 2 there)'
+  - metric_id: cmp_lit_mak2018_focusing_bilayer_gc-m35
+    component_id: cmp_lit_mak2018_focusing_bilayer_gc
+    parameter: fiber_angle_deg
+    value: '29'
+    unit: deg
+    condition: 'fiber array polished at 29 deg with index-matching fluid n = 1.5 (measurement)'
+    basis: design_target
+    locator: 'p.9 Table 3; p.8'
+    notes: 'Table 3 prints emission angle 29 deg for this work; the 1D design optimum was theta = 28 deg (p.6, on the 1D design row); sacher2014b precedent (polished fiber array angle as fiber_angle_deg, design_target)'
+    why: 'miss (D153): fiber angle of the fabricated GC printed in Table 3 (p.9) and the measurement setup (p.8)'

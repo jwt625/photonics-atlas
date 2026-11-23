@@ -1,0 +1,78 @@
+# Audit patch lit_261 (fresh-context audit 2026-11-23, DevLog/audits/2026-11-23-lit_261-audit.md).
+# 97 metrics: 95 ok / 2 imprecise / 0 wrong; 13 components: 12 ok / 1 imprecise / 0 wrong. 3 misses added.
+# Fixes: yu2023b 2 um DC measured EL wavelength span; zhang2020b 50 % excess-loss note (std bar) and family note (9 deg ratio).
+# Misses: zhang2020b footprint 360 um2 derived (family + 50 % rows); zhao2016a ring tuning_range_nm 1.148 nm measured.
+# Coordinator questions (audit Q1-Q12): distiller judgment calls kept (no op).
+components:
+  cmp_lit_zhang2020b_angled_pi_mmi_family:
+    notes: 'Fab: ''fabricated on SOI wafers ... using a commercial 180 nm foundry process'' (p.5 Sec. III): no foundry named, so fab stays empty and the printed process wording is kept (D536); no facility
+      or acknowledgment (DARPA program funding only, p.1). Family row (D165): 12 designs with bend angle theta 0-9 deg on each of five tiles across a wafer (p.5), each with four vertical GCs; values printed
+      for the whole family are entered here, the 50 % design is cmp_lit_zhang2020b_angled_pi_mmi_50. Paper''s ''insertion loss'' IL = -10 log((Pcross + Pbar) / Pin) (p.5) is the loss beyond the ideal split:
+      excess_loss_db (D43); the GC loss (7 dB) was de-embedded (cmp_lit_zhang2020b_vertical_gc). Table I geometry: theta_cut 75 deg corner trim and Ls 5 um straight segment in the beveled bend (no parameters).
+      TE0 design. ''Full coupling ratio range was attained within 9 deg bend angle'' (p.5; Fig. 8(a) reads about 100 % at 0 deg to about 1 % at 9 deg (model about 3 %)). Not entered: per-angle Fig. 8 /
+      Fig. 9 reads for the other 11 designs; measured-vs-model loss discrepancy < 0.4 dB (p.6); simulated conventional designs CON1 / CON2 and the 3.3x / 3x / factor-2 comparisons (Figs. 4-6, no values
+      printed); 1.17 % imaging-length change per 10 nm partial-etch shift (p.4, rib design not used).'
+    why: 'p.5 Fig. 8(a): the measured average at theta = 9 deg reads about 1 % (model point about 3 %), not about 2 %'
+  cmp_lit_zhao2016a_mrr_fcw_fano:
+    notes: 'Fab: ''The device is fabricated on silicon-on-insulator (SOI) wafer ... using the standard Complementary-Metal-Oxide-Semiconductor (CMOS) process'' (p.4 Sec. 2.1): passive, no org, node or flow
+      named, so fab and process_name stay empty (Contract v7); no facility or acknowledgment (funding only, p.9). Device: bus waveguide side-coupled to a 10 um MRR, then routed as a 642.3 um U-bend feedback-coupled
+      waveguide (FCW) that couples to the same MRR a second time before the output (Fig. 1(a)); 150 nm TiN heaters over the MRR (VR) and the FCW (VL), lateral p-i-n diode along the FCW (V). MRR element
+      on cmp_lit_zhao2016a_mrr_r10 (D396 cross-note). ER = peak-to-deepest-dip contrast of the Fano line shape as marked by the black (measured) labels in Figs. 4 and 5; dip wavelengths read off the plots
+      (fourth resonance of Fig. 4(a)). Light launched by a lensed fiber (p.6); output coupling and polarization not stated. Not entered: average slopes 101.3 dB/nm (p.6) and 226.5 dB/nm (p.9) (no parameter);
+      resonance red shift 0.260 nm at VR = 1.16 V (p.6; heater tuning given in volts only, no power, and tuning_efficiency_pm_per_v is for non-thermal actuators; the 1.148 nm shift at VR = 2.44 V is tuning_range_nm
+      on cmp_lit_zhao2016a_mrr_r10); simulated free-carrier concentration 3.45e18 cm-3 at V = 1.26 V (model of ref. [35]); model parameters alpha = 0.983, alpha_L = 0.65 / 0.61, Delta n and phase labels
+      (red, simulated) in Figs. 4-5; simulated MRR / RTR shift ratio 17.5 (p.5); Fig. 5(c) / 5(f) and Fig. 4(c) / 4(f) panels carry no ER label.'
+    why: follow-on of the added tuning_range_nm row (p.7 Sec. 3, Fig. 4(h)); not-entered list updated
+  cmp_lit_zhao2016a_mrr_r10:
+    notes: 'Fab: ''The device is fabricated on silicon-on-insulator (SOI) wafer ... using the standard Complementary-Metal-Oxide-Semiconductor (CMOS) process'' (p.4 Sec. 2.1): passive, no org, node or flow
+      named, so fab and process_name stay empty (Contract v7); no facility or acknowledgment (funding only, p.9). Ring element of cmp_lit_zhao2016a_mrr_fcw_fano (D396 cross-note); coupled twice to one waveguide
+      (input bus and the FCW return, two couplers assumed identical and lossless in the model, p.4). The 9.912 nm FSR is printed for the whole device spectrum and stated to equal the MRR FSR (p.6). Ring
+      round-trip amplitude factor alpha = 0.983 (model, p.6) not converted to a propagation loss (not printed). Resonance red shift 1.148 nm over VR 0 -> 2.44 V (MRR heater, one Fano tuning cycle, p.7)
+      entered as tuning_range_nm.'
+    why: follow-on of the added tuning_range_nm row (p.7 Sec. 3, Fig. 4(h))
+metrics:
+  cmp_lit_yu2023b_bent_dc_2000-m1:
+    wavelength_nm: '1900'
+    wavelength_max_nm: '2000'
+    notes: printed 'ELs less than 0.05 dB with bandwidths of 80/100 nm' (p.4) and Table I EL exp. < 0.05; the 100 nm measured bandwidth equals the measured span 1900-2000 nm (Fig. 4(b) axis), so the bound
+      is entered over that span (as on -m3)
+    why: 'p.4 Sec. III, Fig. 4(b): the bound is stated over the 100 nm measured bandwidth, which is the 1900-2000 nm span; a single 2000 nm point is the span edge, inconsistent with -m3 / -m8'
+  cmp_lit_zhang2020b_angled_pi_mmi_50-m2:
+    notes: read off Fig. 8(b) measured average (+/- 0.03 dB); standard-deviation bar about +/- 0.06 dB (about 0.57-0.69 dB)
+    why: 'p.5 Fig. 8(b) (embedded raster img_p05_1, about 700 px/dB): the green bar at 4.9 deg spans about 0.13 dB, i.e. +/- 0.06 dB, not +/- 0.04 dB'
+add_metrics:
+- metric_id: cmp_lit_zhang2020b_angled_pi_mmi_family-m13
+  component_id: cmp_lit_zhang2020b_angled_pi_mmi_family
+  parameter: footprint_um2
+  value: '360'
+  unit: um2
+  condition: test-device footprint 4.8 um x 75 um
+  basis: derived
+  locator: p.1 Abstract
+  notes: printed footprint 4.8 um x 75 um; product computed
+  why: 'miss (D153; lit_250 audit guo2023a / xiao2013 precedent): printed L x W footprint, p.1 Abstract'
+- metric_id: cmp_lit_zhang2020b_angled_pi_mmi_50-m13
+  component_id: cmp_lit_zhang2020b_angled_pi_mmi_50
+  parameter: footprint_um2
+  value: '360'
+  unit: um2
+  condition: test-device footprint 4.8 um x 75 um
+  basis: derived
+  locator: p.1 Abstract
+  notes: printed footprint 4.8 um x 75 um (all designs); product computed
+  why: 'miss (D153): printed footprint, p.1 Abstract; same geometry rows as the family row'
+- metric_id: cmp_lit_zhao2016a_mrr_r10-m10
+  component_id: cmp_lit_zhao2016a_mrr_r10
+  parameter: tuning_range_nm
+  value: '1.148'
+  unit: nm
+  wavelength_nm: '1554.97'
+  wavelength_max_nm: '1556.12'
+  wavelength_inferred: 'true'
+  condition: TiN heater on the MRR, VR 0 -> 2.44 V (largest VR shown; one Fano tuning cycle); red shift of the resonance in the device spectrum
+  method: direct
+  basis: measured
+  locator: p.7 Sec. 3; p.7 Fig. 4(b),(h)
+  notes: printed 'resonant wavelength red shift 1.148nm' at 2.44 V; the shift covered by the applied bias, not a heater limit; dip wavelengths read off Fig. 4(b) / 4(h) (+/- 0.05 nm); 0.260 nm at VR = 1.16
+    V (p.6) not entered; zheng2017 mrr_heater tuning_range_nm precedent (D651)
+  why: 'miss: printed measured resonance shift over the applied heater range (p.7 Sec. 3); tuning_range_nm exists for resonator (zheng2017 precedent)'

@@ -1,0 +1,81 @@
+# Audit patch lit_262 (fresh-context audit 2026-11-23, DevLog/audits/2026-11-23-lit_262-audit.md).
+# 145 metrics: 142 ok / 3 imprecise / 0 wrong; 19 components: 18 ok / 1 imprecise / 0 wrong. 4 misses added.
+# Fixes: wang2014c back reflections -16.2 / -20.8 dB author_estimate -> simulated (they are the Fig. 4 simulated reflection at
+# 1550 nm; the paper reports no measured reflection); maire2008 Fig. 3 note (the printed > 40 % bound vs the 1400 nm points);
+# zhu2017a reference-design core_material drops the unsupported "on the paper's stack".
+# Misses: maire2008 resonance angles of the two uncladded states (Fig. 2, extracted_from_figure); wang2014c TM centre
+# wavelength (Fig. 8(a) inset); ding2015 link WDL <= 1.5 dB over the C band (printed 1.5-dB bandwidth covering the C band).
+# Coordinator questions (audit Q1-Q9): other distiller judgment calls kept (no op).
+components:
+  cmp_lit_zhu2017a_gc_standard_reference_design:
+    core_material: 'SiN grating whose parameters are derived from a published design (ref. [5]); stack of this simulation not stated'
+    why: 'p.5 Sec. 2: only the grating parameters are said to come from ref. [5]; the paper does not say the reference grating was simulated on its own suspended / Al-mirror stack (the row notes already say the stack is not stated)'
+metrics:
+  cmp_lit_wang2014c_swg_gc_te-m5:
+    basis: simulated
+    condition: '2D FDTD, single GC, power reflected back into the waveguide (Fig. 4(a) Full-R)'
+    locator: 'p.1 Abstract; p.5 Fig. 4(a)'
+    notes: 'printed power reflection coefficient -16.2 dB in the abstract only, method not stated; the paper reports no measured reflection (only the measured ripple < 0.25 dB, p.9). The Fig. 4(a) simulated Full-R curve reads about -16 to -17 dB at 1550 nm (+/- 1 dB reading), so the value is the simulated reflection at the 1550 nm design wavelength (inferred, not printed)'
+    why: 'p.5 Fig. 4(a): the only reflection data in the paper are simulated and match the printed value at 1550 nm; author_estimate (origin not stated) understates what the figure shows (D454: simulated curve values stay simulated)'
+  cmp_lit_wang2014c_swg_gc_tm-m4:
+    basis: simulated
+    condition: '2D FDTD, single GC, power reflected back into the waveguide (Fig. 4(b) Full-R)'
+    locator: 'p.1 Abstract; p.5 Fig. 4(b)'
+    notes: 'printed power reflection coefficient -20.8 dB in the abstract only, method not stated; the paper reports no measured reflection. The Fig. 4(b) simulated Full-R curve reads about -20.5 to -21 dB around 1540-1555 nm (+/- 0.5 dB reading), so the value is the simulated reflection at the 1550 nm design wavelength (inferred, not printed)'
+    why: 'p.5 Fig. 4(b): the only reflection data in the paper are simulated and match the printed value at 1550 nm (D454)'
+  cmp_lit_maire2008_gc_partial_etch_clad-m2:
+    notes: 'printed ''higher than 40 % in the range from 1.25 um to 1.4 um''; Fig. 3 points read about 40 % at 1250 nm and about 33-34 % at 1400 nm (+/- 1 %), so the plotted data meet the bound only up to about 1390 nm; printed value kept'
+    why: 'p.5 Fig. 3 render: the two 1400 nm points sit near 33-34 %, below the printed bound; conflict recorded in notes'
+add_metrics:
+  - metric_id: cmp_lit_maire2008_gc_full_etch_noclad-m8
+    component_id: cmp_lit_maire2008_gc_full_etch_noclad
+    parameter: fiber_angle_deg
+    value: '10.3'
+    unit: deg
+    qualifier: approx
+    condition: 'resonant incidence angle of the free-space beam at 1310 nm before the top-cladding deposition (maximum of the fitted angular scan)'
+    basis: extracted_from_figure
+    locator: 'p.4 Fig. 2(a)'
+    notes: 'read off the Fig. 2(a) without-cladding fit: broad maximum about 23 % between about 10.0 and 10.7 deg (+/- 0.5 deg); best data point 24 % at 11 deg; free-space beam angle, not a fiber'
+    why: 'miss: resonance angle of the uncladded fully etched grating is plotted (Fig. 2(a)) though not printed in the text'
+  - metric_id: cmp_lit_maire2008_gc_partial_etch_noclad-m8
+    component_id: cmp_lit_maire2008_gc_partial_etch_noclad
+    parameter: fiber_angle_deg
+    value: '8'
+    unit: deg
+    qualifier: approx
+    condition: 'resonant incidence angle of the free-space beam at 1310 nm before the top-cladding deposition (maximum of the fitted angular scan)'
+    basis: extracted_from_figure
+    locator: 'p.4 Fig. 2(b)'
+    notes: 'read off the Fig. 2(b) without-cladding fit: maximum about 40 % at about 7.9 deg (+/- 0.3 deg); free-space beam angle, not a fiber'
+    why: 'miss: resonance angle of the uncladded partially etched grating is plotted (Fig. 2(b)) though not printed in the text'
+  - metric_id: cmp_lit_wang2014c_swg_gc_tm-m15
+    component_id: cmp_lit_wang2014c_swg_gc_tm
+    parameter: center_wavelength_nm
+    value: '1548'
+    unit: nm
+    qualifier: approx
+    statistic: typical
+    n_samples: '11'
+    polarization: tm
+    condition: 'peak of the measured transmission of the 11 standard devices (GC pair test structures)'
+    basis: extracted_from_figure
+    locator: 'p.10 Fig. 8(a) inset'
+    notes: 'read off the Fig. 8(a) inset: the 11 traces peak between about 1545 and 1551 nm (+/- 2 nm reading); the text prints no TM central wavelength (the TE value 1580 nm is printed, p.9)'
+    why: 'miss: measured TM centre wavelength is shown in Fig. 8(a); the TE row carries its printed centre wavelength'
+  - metric_id: cmp_lit_ding2015_mcf_fifo_7ch-m5
+    component_id: cmp_lit_ding2015_mcf_fifo_7ch
+    parameter: wdl_db
+    value: '1.5'
+    unit: dB
+    qualifier: le
+    statistic: best
+    wavelength_nm: '1530'
+    wavelength_max_nm: '1565'
+    band: c_band
+    polarization: te
+    condition: 'SSMF -> MCF core link of the best channel; printed 1.5-dB coupling bandwidth covering the whole C band'
+    basis: measured
+    locator: 'p.6; p.6 Fig. 7; p.1 Abstract; p.7 Conclusions'
+    notes: 'printed ''1.5 dB coupling bandwidth covering the whole C band'' restated as loss variation <= 1.5 dB over the C band; C-band edges 1530-1565 nm from the Fig. 7 shading; the constant 1.5 dB free-space demux term subtracted from the link loss (cited, ref. [14]) does not change a spread, but the demux spectral response is not removed'
+    why: 'miss: the 1.5-dB bandwidth statement is a stated performance value; bw parameters are not allowed on fiber_interface but wdl_db is'

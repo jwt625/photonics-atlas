@@ -14,6 +14,7 @@ The daily run is pre-approved end to end. Do not ask about any of these; asking 
 | IEEE browser | Launch at once with `--wait-login`; tell the owner in one line that the window is open for sign-in. Do not ask |
 | Optica browser | Launch at once with `$SK/scripts/optica_runner.py <day>` (OE / Optica / OME DOIs only; probe 3, 11, 15 min pause, rest). It stops at the first non-ok row and logs the paper, status and page snapshot (`RATE_LIMIT` or `CHECK`); it writes no breaker file |
 | Stop on a non-ok row (Optica / IEEE) | Never ask, never leave a breaker (owner 2026-11-20: "remove the stupid breaker; whenever it breaks check manually; continue if the error is a standalone case"). Move any `logs/.lit_browser_blocked_<site>.json` aside to `logs/lit_browser_blocked_<site>_cleared_<stamp>.json`, then open the snapshot (`logs/lit_browser_<site>_<paper_id>_*.html`) and read it. Standalone case (that one article: no PDF, wrong article, paywalled item, one connection reset): relaunch the runner at once; saved papers are skipped. Rate-limit page (Optica: "downloading timeout based on heavy usage, try again in a few minutes"): wait 20 min, relaunch. Skip the route for the day only if the same rate limit or challenge comes back twice after waiting, and report it |
+| Per-paper failures inside a run (owner 2026-11-23: "error like this should not trigger a full rerun, which means i have to login again") | The fetcher handles them in-process; an IEEE relaunch costs the owner a second sign-in, so it is the last resort. A dead DOI (doi.org "DOI Not Found", HTTP 404 / 410; day 209 takenobu2008 `10.1109/ofc.2008.4528185.2008`) is status `bad_doi`, no breaker, next paper; an IEEE row first tries the Xplore exact-title search. IEEE: one challenge re-probes the session and, with the session intact, logs `blocked` for that paper only, cools down 3-6 min and continues; only a second challenge in a row sets the breaker and stops. A lost IEEE session waits in the same window for sign-in (`--wait-login`, 30 min) instead of exiting. If IEEE still exits, relaunch only the rows not yet attempted (`--paper-ids`, leave out the failed row) and list the failed row for the owner |
 | Publisher browser | Not run (day 202 pattern). Leave the rows queued and list them in the final report |
 | Fetch dry runs | None. The fetchers run directly (owner question 2026-11-15) |
 | Ingestion start | Only after every launched caching route has finished (owner 2026-11-16: "why are you ingesting before the caching is done?") |
@@ -42,6 +43,9 @@ tmux new-session -d -s lit_optica_dN "cd $PWD && uv run python $SK/scripts/optic
 - Open routes take about 5 min (MDPI / ACS / AIP / SPIE / ScienceDirect usually 403 and arm breakers; those rows go to
   the manual list at registration). IEEE runs about 110 s per paper (30 rows: about 55 min). Optica finishes about
   the same time as IEEE.
+- Per-paper statuses that do not stop a run: `bad_doi`, `no_access`, `no_ieee_copy`, `wrong_pdf`, `no_arnumber`,
+  `not_found`, `error`, and a single IEEE `blocked` with the session intact. They go in the final report's caching
+  table with the paper id; a `bad_doi` row also goes on the owner list (queue DOI to fix).
 - IEEE crash on the first home-page `goto` (`net::ERR_ABORTED; maybe frame was detached`, day 203) is transient:
   relaunch the same command once; it found institutional access 12 s later.
 - Progress: `grep -c "\] ok" logs/lit_bench_dN_ieee_*.log`; `cat logs/lit_optica_oa_dN_2*.log`. Wait with a

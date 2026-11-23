@@ -1,0 +1,163 @@
+# Audit patch lit_255 (fresh-context audit 2026-11-23, DevLog/audits/2026-11-23-lit_255-audit.md).
+# 136 metrics: 125 ok / 11 imprecise / 0 wrong; 32 components: 32 ok / 0 imprecise / 0 wrong. 11 misses added.
+# Fixes: bogaerts2011 r 4.5 um / 45 deg Fig. 7 re-read (0.008 -> 0.007 dB) and Fig. 6 range note; gao2021a std rows cite the
+# printed "StDev" figure labels (Fig. 4(a)(b), Fig. 6(a)), Si-bend polarization cleared (TE stated only for the SiN bends) and
+# Si r 4 / r 5 notes corrected; acoleyen2011b TM per-taper loss basis measured (stated directly, arithmetic not shown, D167).
+# Misses: gao2021a SiN r 30 um medians (0.037 text + Fig. 4(a); 0.085 Fig. 4(b)); bogaerts2011 hybrid-bend wire width;
+# luyssaert2005 layer stack (0.22 um Si / 1.0 um silica) on the four design rows (D153).
+metrics:
+  cmp_lit_bogaerts2011_wire_bend_r4p5_a45-m1:
+    value: '0.007'
+    notes: 'read off Fig. 7 (centre of the magenta left-triangle at 4.5 um, about 0.0072 dB/90 deg), reading uncertainty about +/-0.002 dB; Fig. 7 wavelength not printed, C band inferred from the 1550 nm TE grating-coupler setup of the same spiral method (p.6)'
+    why: 'p.7 Fig. 7 (embedded raster): y axis 0-0.10 dB over 578 px; the 45 deg marker at 4.5 um spans px 539-557, centre 0.0072 dB, not 0.008'
+  cmp_lit_bogaerts2011_wire_wg_460-m2:
+    notes: "printed 'between 1.2 and 1.5 dB/cm over the measurement interval'; interval 1500-1580 nm from the Fig. 6 (left) axis; the Fig. 6 (left) trace rises to about 1.6 dB/cm near 1505 nm (printed range kept, D417 note)"
+    why: 'p.7 Fig. 6 (left): the loss trace peaks at about 1.6 dB/cm around 1505 nm, above the printed upper bound'
+  cmp_lit_gao2021a_sin_advanced_bend_r30-m3:
+    locator: 'p.3 Sec. IV; p.3 Fig. 4(a) label'
+    notes: 'Fig. 4(a) prints StDev = 0.0034 dB (Minitab summary, 54 dies); the text prints 0.037 +/- 0.0034 dB/90 deg'
+    why: 'p.3 Fig. 4(a) label "StDev = 0.0034 dB": the statistic is printed, not a judgment call'
+  cmp_lit_gao2021a_sin_normal_bend_r30-m3:
+    locator: 'p.3 Sec. IV; p.3 Fig. 4(b) label'
+    notes: 'Fig. 4(b) prints StDev = 0.0072 dB (Minitab summary, 54 dies); the text prints 0.087 +/- 0.0072 dB/90 deg'
+    why: 'p.3 Fig. 4(b) label "StDev = 0.0072 dB": the statistic is printed'
+  cmp_lit_gao2021a_si_advanced_bend_r3-m1:
+    polarization: ''
+    notes: 'Sec. V prints the value without a wavelength; 1550 nm inferred (the wafer test of the same design is at 1550 nm, median 0.0065 dB; the Fig. 5 trace reads about 0.0063-0.0065 dB at 1550 nm); polarization not stated for the Si bends (TE is stated only for the SiN measurement, p.2 Sec. IV)'
+    why: 'p.3-4 Sec. V: no polarization stated for the Si bends; TE-mode is printed only for the SiN bends (p.2 Sec. IV); not stated -> empty (rule 1)'
+  cmp_lit_gao2021a_si_advanced_bend_r3-m2:
+    polarization: ''
+    why: 'p.4 Sec. V / Fig. 6: polarization not stated for the Si wafer test'
+  cmp_lit_gao2021a_si_advanced_bend_r3-m3:
+    polarization: ''
+    locator: 'p.4 Sec. V; p.4 Fig. 6(a) label'
+    notes: 'Fig. 6(a) prints StDev = 0.00171 dB (25 selected dies); the text prints 0.0069 +/- 0.00171 dB/90 deg'
+    why: 'p.4 Fig. 6(a) label "StDev = 0.00171 dB": the statistic is printed; polarization not stated for the Si bends'
+  cmp_lit_gao2021a_si_advanced_bend_r3-m4:
+    polarization: ''
+    why: 'p.4 Sec. V / Fig. 6: polarization not stated for the Si wafer test'
+  cmp_lit_gao2021a_si_advanced_bend_r4-m1:
+    polarization: ''
+    notes: 'Sec. V prints the value without a wavelength; 1550 nm inferred (the Si wafer test is at 1550 nm; the Fig. 5 trace for R = 4 um reads about 0.0027 dB at 1550 nm); polarization not stated for the Si bends'
+    why: 'note named the r 3 um wafer median as if it were this design; polarization not stated for the Si bends (p.3-4 Sec. V)'
+  cmp_lit_gao2021a_si_normal_bend_r5-m1:
+    polarization: ''
+    notes: 'Sec. V prints the value without a wavelength; 1550 nm inferred (the Si wafer test is at 1550 nm; the Fig. 5 trace for R = 5 um reads about 0.012-0.013 dB at 1550 nm); polarization not stated for the Si bends'
+    why: 'note named the r 3 um wafer median as if it were this design; polarization not stated for the Si bends (p.3-4 Sec. V)'
+  cmp_lit_acoleyen2011b_lens_taper_tm_r6-m1:
+    basis: measured
+    notes: "printed 'loss per taper of about 4-5 dB' for a two-taper structure; the per-taper value is stated directly with no arithmetic shown (D167); the Fig. 6 traces lie between about -4 and -5.3 dB, so the plot appears per-taper normalized (normalization not stated); span 1500-1580 nm from the Fig. 6 axis"
+    why: 'p.3 Sec. III: per-taper loss stated directly without shown arithmetic -> measured (D167, per-facet precedent); p.3 Fig. 6 render: traces -4 to -5.3 dB'
+add_metrics:
+  - metric_id: cmp_lit_gao2021a_sin_advanced_bend_r30-m7
+    component_id: cmp_lit_gao2021a_sin_advanced_bend_r30
+    parameter: bend_loss_db_per_90
+    value: '0.037'
+    unit: dB
+    statistic: median
+    n_samples: '54'
+    wavelength_nm: '1550'
+    polarization: te
+    condition: wafer-level cutback over 54 dies of the 8-inch wafer
+    method: cutback
+    basis: measured
+    locator: 'p.3 Sec. IV; p.3 Fig. 4(a) label'
+    notes: 'printed -0.037 dB/90 deg (sign quoted); the text states mean and median are the same; Fig. 4(a) label Median = -0.037 dB'
+    why: 'miss: median printed in the text (p.3 Sec. IV) and in Fig. 4(a); the Si r 3 um median row of the same paper is entered'
+  - metric_id: cmp_lit_gao2021a_sin_normal_bend_r30-m7
+    component_id: cmp_lit_gao2021a_sin_normal_bend_r30
+    parameter: bend_loss_db_per_90
+    value: '0.085'
+    unit: dB
+    statistic: median
+    n_samples: '54'
+    wavelength_nm: '1550'
+    polarization: te
+    condition: wafer-level cutback over 54 dies of the 8-inch wafer
+    method: cutback
+    basis: measured
+    locator: 'p.3 Fig. 4(b) label'
+    notes: 'Fig. 4(b) label Median = -0.085 dB (sign quoted); histogram counts sum to 54'
+    why: 'miss: median printed in Fig. 4(b) (p.3)'
+  - metric_id: cmp_lit_bogaerts2011_hybrid_bend-m6
+    component_id: cmp_lit_bogaerts2011_hybrid_bend
+    parameter: width_nm
+    value: '460'
+    unit: nm
+    condition: deep-etched wire in the bend; straight rib sections 700 nm
+    basis: design_target
+    locator: 'p.8 Sec. 3.1'
+    notes: "'We expand the 460 nm wire to a 700 nm wide rib'; Fig. 8 label prints 450 nm; Table 1 dies 470 / 460 / 420 nm are the dose sweep"
+    why: 'miss (D153): wire width of the hybrid bend, p.8 Sec. 3.1'
+  - metric_id: cmp_lit_luyssaert2005_seg_taper_14sec_1p5um-m4
+    component_id: cmp_lit_luyssaert2005_seg_taper_14sec_1p5um
+    parameter: core_thickness_nm
+    value: '220'
+    unit: nm
+    basis: derived
+    locator: 'p.2 Sec. II'
+    notes: 'printed 0.22 um Si (SOI layer structure of the calculation); um -> nm rescale (D157)'
+    why: 'miss (D153): layer stack stated, p.2 Sec. II'
+  - metric_id: cmp_lit_luyssaert2005_seg_taper_14sec_1p5um-m5
+    component_id: cmp_lit_luyssaert2005_seg_taper_14sec_1p5um
+    parameter: box_thickness_um
+    value: '1.0'
+    unit: um
+    basis: design_target
+    locator: 'p.2 Sec. II'
+    notes: 'printed 1.0 um silica on Si substrate (SOI layer structure of the calculation)'
+    why: 'miss (D153): layer stack stated, p.2 Sec. II'
+  - metric_id: cmp_lit_luyssaert2005_linear_taper_1p5um-m3
+    component_id: cmp_lit_luyssaert2005_linear_taper_1p5um
+    parameter: core_thickness_nm
+    value: '220'
+    unit: nm
+    basis: derived
+    locator: 'p.2 Sec. II'
+    notes: 'printed 0.22 um Si (SOI layer structure of the calculation); um -> nm rescale (D157)'
+    why: 'miss (D153): layer stack stated, p.2 Sec. II'
+  - metric_id: cmp_lit_luyssaert2005_linear_taper_1p5um-m4
+    component_id: cmp_lit_luyssaert2005_linear_taper_1p5um
+    parameter: box_thickness_um
+    value: '1.0'
+    unit: um
+    basis: design_target
+    locator: 'p.2 Sec. II'
+    notes: 'printed 1.0 um silica on Si substrate (SOI layer structure of the calculation)'
+    why: 'miss (D153): layer stack stated, p.2 Sec. II'
+  - metric_id: cmp_lit_luyssaert2005_parabolic_taper_1p5um-m3
+    component_id: cmp_lit_luyssaert2005_parabolic_taper_1p5um
+    parameter: core_thickness_nm
+    value: '220'
+    unit: nm
+    basis: derived
+    locator: 'p.2 Sec. II'
+    notes: 'printed 0.22 um Si (SOI layer structure of the calculation); um -> nm rescale (D157)'
+    why: 'miss (D153): layer stack stated, p.2 Sec. II'
+  - metric_id: cmp_lit_luyssaert2005_parabolic_taper_1p5um-m4
+    component_id: cmp_lit_luyssaert2005_parabolic_taper_1p5um
+    parameter: box_thickness_um
+    value: '1.0'
+    unit: um
+    basis: design_target
+    locator: 'p.2 Sec. II'
+    notes: 'printed 1.0 um silica on Si substrate (SOI layer structure of the calculation)'
+    why: 'miss (D153): layer stack stated, p.2 Sec. II'
+  - metric_id: cmp_lit_luyssaert2005_spline_taper_3d_1um-m3
+    component_id: cmp_lit_luyssaert2005_spline_taper_3d_1um
+    parameter: core_thickness_nm
+    value: '220'
+    unit: nm
+    basis: derived
+    locator: 'p.2 Sec. II'
+    notes: 'printed 0.22 um Si (SOI layer structure stated for the calculations; the 3-D section does not restate it); um -> nm rescale (D157)'
+    why: 'miss (D153): layer stack stated, p.2 Sec. II'
+  - metric_id: cmp_lit_luyssaert2005_spline_taper_3d_1um-m4
+    component_id: cmp_lit_luyssaert2005_spline_taper_3d_1um
+    parameter: box_thickness_um
+    value: '1.0'
+    unit: um
+    basis: design_target
+    locator: 'p.2 Sec. II'
+    notes: 'printed 1.0 um silica on Si substrate (SOI layer structure stated for the calculations; the 3-D section does not restate it)'
+    why: 'miss (D153): layer stack stated, p.2 Sec. II'

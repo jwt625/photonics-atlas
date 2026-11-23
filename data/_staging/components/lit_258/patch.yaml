@@ -1,0 +1,146 @@
+# Audit patch lit_258 (fresh-context audit 2026-11-23, DevLog/audits/2026-11-23-lit_258-audit.md).
+# 129 metrics: 104 ok / 25 imprecise / 0 wrong; 26 components: 25 ok / 1 imprecise / 0 wrong. No misses.
+# Fixes: locators that cite the wrong page (prost2019 abstract is p.2, figures on other pages than the cited text in
+# lischke2019 / yan2018 / malik2014 / prost2019); stated measurement wavelengths moved from condition text into the
+# wavelength columns (steckler2024 bandwidths 1610 nm, yan2018 dips / probe, prost2019 wavelength scan, malik2014 ER);
+# lischke2019 bandwidth band o_band inferred (rule 8); yan2018 group index basis derived -> measured; malik2014 Ge-on-SOI
+# 210 um simulated P_pi from the printed Fig. 10(b) label instead of a Fig. 11 reading; lischke2019 SOI reference row
+# process_name and a copy-paste note. Notes-only additions (counted ok): steckler2024 dark-current-density area and the
+# per-variant zero-bias responsivities derivable from the printed increments.
+components:
+  cmp_lit_lischke2019_soi_ge_pd_reference:
+    process_name: 'IHP ePIC platform'
+    notes: "fab_org_ids IHP borderline (D84a / D84b): first-person process changes ('we introduced a CMP step after the deposition of the SiN layer', p.1-2) and the acknowledgment thanks IHP's cleanroom staff for support (p.2); 17 of 19 authors at IHP (others TU Berlin, IHP Solutions). process_name as printed: the reference PD comes 'from a recent ePIC lot' (Fig. 6 / Fig. 7 legends, p.3) and the 20 um Ge PD is 'the standard device in IHP's ePIC platform' (p.1 Sec. II). Reference device measured in this paper (Fig. 6 nine sites, Fig. 7 one device); its bandwidth and responsivity in Table 1 are cited from ref. [7] (D259, not entered)."
+    why: "p.3 Fig. 6 / Fig. 7 legends 'from a recent ePIC lot'; p.1 Sec. II 'standard device in IHP's ePIC platform': process printed for the SOI reference (Contract v7); the old note said 'no process name printed for this bulk-Si variant', copied from the bulk-Si rows"
+metrics:
+  cmp_lit_prost2019_trench_heater-m2:
+    locator: 'p.5 Sec. 2.2; p.7 Sec. 3'
+    why: 'the COMSOL 2 pi power study is on p.5 (Sec. 2.2 starts on p.4 with the phase-shifter choice only); 106 mW on p.7'
+  cmp_lit_prost2019_opa_12ch-m2:
+    locator: 'p.8 Sec. 3, Fig. 6(f); p.2 Abstract'
+    why: 'text.md p.1 is the journal cover page; the abstract is on p.2'
+  cmp_lit_prost2019_opa_12ch-m5:
+    locator: 'p.2 Abstract; p.9 Sec. 3, Fig. 7(b); p.9 Conclusion'
+    why: 'abstract on p.2 (p.1 is the cover page)'
+  cmp_lit_prost2019_opa_12ch-m6:
+    locator: 'p.2 Abstract; p.9 Sec. 3, Fig. 7(a)'
+    wavelength_nm: '4500'
+    wavelength_max_nm: '4650'
+    band: mid_ir
+    why: 'abstract on p.2 (p.1 is the cover page); wavelength scan 4500-4650 nm printed in the Fig. 7(a) caption (p.9), so the wavelength columns carry it (rule 8)'
+  cmp_lit_prost2019_opa_12ch-m8:
+    wavelength_nm: '4500'
+    wavelength_max_nm: '4650'
+    band: mid_ir
+    why: 'p.9 Sec. 3: 0.069 deg/nm found from the Fig. 7(a) scans, 4500-4650 nm (caption); wavelength columns were empty'
+  cmp_lit_malik2014_ge_soi_heater_210um-m2:
+    value: '49.3'
+    qualifier: ''
+    condition: 'COMSOL 3-D steady state, 210 um Ge-on-SOI heater without undercut, 100 mW dissipated'
+    locator: 'p.8 Fig. 10(b)'
+    notes: 'Fig. 10(b) label prints a total phase shift of 2.0291 pi at 100 mW for the 210 um heater: 100 / 2.0291 = 49.3 mW per pi (arithmetic on a simulated value stays simulated, D83f). The Fig. 11 simulated length series reads about 120 mW per 2 pi at 210 um (about 60 mW per pi), which conflicts with Fig. 10(b) (D417); the text says the Fig. 10(c) measurement matches Fig. 10(b). wavelength: the paper states the 5 um wavelength range (p.2, p.4); the typical MZI spectra of Fig. 2(b) span 5.25-5.35 um'
+    why: 'p.8: Fig. 10(b) prints the 210 um simulation result (2.0291 pi at 100 mW); a printed label beats a figure read of Fig. 11 (about 120 mW per 2 pi), and the two disagree'
+  cmp_lit_malik2014_amzi_test-m1:
+    locator: 'p.4 Sec. 2; p.3 Fig. 2(b)'
+    why: 'Fig. 2 is on p.3; the IL / ER sentence on p.4'
+  cmp_lit_malik2014_amzi_test-m2:
+    locator: 'p.4 Sec. 2; p.3 Fig. 2(b)'
+    wavelength_nm: '5250'
+    wavelength_max_nm: '5350'
+    band: mid_ir
+    wavelength_inferred: 'true'
+    notes: 'printed -19 dB; wavelength span = Fig. 2(b) axis (as the IL row m1)'
+    why: 'Fig. 2 is on p.3; the extinction is read from the same Fig. 2(b) spectrum as m1, wavelength columns aligned with m1'
+  cmp_lit_steckler2024_ge250_20-m5:
+    wavelength_nm: '1610'
+    band: l_band
+    why: 'p.3 Fig. 5 caption: frequency response at 1610 nm; the wavelength was only in the condition text (rule 8)'
+  cmp_lit_steckler2024_ge250_20-m6:
+    wavelength_nm: '1610'
+    band: l_band
+    why: 'p.3 Fig. 6 caption: lambda = 1610 nm, Vbias -4 V; wavelength columns were empty'
+  cmp_lit_steckler2024_ge400_20-m5:
+    wavelength_nm: '1610'
+    band: l_band
+    why: 'p.3 Fig. 5 caption: 1610 nm; wavelength columns were empty'
+  cmp_lit_steckler2024_ge550_20-m5:
+    wavelength_nm: '1610'
+    band: l_band
+    why: 'p.3 Fig. 5 caption: 1610 nm; wavelength columns were empty'
+  cmp_lit_steckler2024_ge550_20-m6:
+    wavelength_nm: '1610'
+    band: l_band
+    why: 'p.3 Fig. 6 caption (inset): lambda = 1610 nm, Vbias -4 V; wavelength columns were empty'
+  cmp_lit_steckler2024_ge250_20-m4:
+    notes: 'per-variant values not printed as such; the printed range holds for each variant. The p.3 increments (0 to -4 V at 1620 nm) give 0.71 - 0.16 = 0.55 A/W for this device (Fig. 4 0 V point about 0.56)'
+    why: 'notes only (counted ok): p.3 prints the 0.16 A/W increase from 0 V to -4 V for Ge250_20 and Table I 0.71 A/W at -4 V'
+  cmp_lit_steckler2024_ge550_20-m4:
+    notes: 'per-variant values not printed as such; the printed range holds for each variant. The p.3 increments (0 to -4 V) give 0.97 - 0.44 = 0.53 A/W for this device (Fig. 4 0 V point about 0.53)'
+    why: 'notes only (counted ok): p.3 prints the 0.44 A/W increase from 0 V to -4 V for Ge550_20 and Table I 0.97 A/W at -4 V'
+  cmp_lit_steckler2024_ge250_20-m9:
+    notes: 'printed jointly for all PDs; area not stated, but 200 nA / 2500 mA/cm2 (and 500 nA / 6250 mA/cm2) imply 8 um2 = 20 um length x about 0.4 um Ge height, the lateral junction sidewall, which is the same for the three widths'
+    why: 'notes only (counted ok): p.4 Sec. III values; implied area checked against p.1 Sec. II dimensions'
+  cmp_lit_steckler2024_ge250_20-m10:
+    notes: 'printed jointly for all PDs; area not stated, but 500 nA / 6250 mA/cm2 (and 200 nA / 2500 mA/cm2) imply 8 um2 = 20 um length x about 0.4 um Ge height, the lateral junction sidewall, which is the same for the three widths'
+    why: 'notes only (counted ok): p.4 Sec. III values; implied area checked against p.1 Sec. II dimensions'
+  cmp_lit_steckler2024_ge400_20-m8:
+    notes: 'printed jointly for all PDs; area not stated, but 200 nA / 2500 mA/cm2 (and 500 nA / 6250 mA/cm2) imply 8 um2 = 20 um length x about 0.4 um Ge height, the lateral junction sidewall, which is the same for the three widths'
+    why: 'notes only (counted ok): p.4 Sec. III values; implied area checked against p.1 Sec. II dimensions'
+  cmp_lit_steckler2024_ge400_20-m9:
+    notes: 'printed jointly for all PDs; area not stated, but 500 nA / 6250 mA/cm2 (and 200 nA / 2500 mA/cm2) imply 8 um2 = 20 um length x about 0.4 um Ge height, the lateral junction sidewall, which is the same for the three widths'
+    why: 'notes only (counted ok): p.4 Sec. III values; implied area checked against p.1 Sec. II dimensions'
+  cmp_lit_steckler2024_ge550_20-m9:
+    notes: 'printed jointly for all PDs; area not stated, but 200 nA / 2500 mA/cm2 (and 500 nA / 6250 mA/cm2) imply 8 um2 = 20 um length x about 0.4 um Ge height, the lateral junction sidewall, which is the same for the three widths'
+    why: 'notes only (counted ok): p.4 Sec. III values; implied area checked against p.1 Sec. II dimensions'
+  cmp_lit_steckler2024_ge550_20-m10:
+    notes: 'printed jointly for all PDs; area not stated, but 500 nA / 6250 mA/cm2 (and 200 nA / 2500 mA/cm2) imply 8 um2 = 20 um length x about 0.4 um Ge height, the lateral junction sidewall, which is the same for the three widths'
+    why: 'notes only (counted ok): p.4 Sec. III values; implied area checked against p.1 Sec. II dimensions'
+  cmp_lit_lischke2019_sin_ge_pd_bulk_si-m1:
+    locator: 'p.1 Abstract; p.2 Sec. III; p.3 Fig. 5; p.4 Table 1'
+    band: o_band
+    wavelength_inferred: 'true'
+    notes: 'measurement wavelength not printed for Fig. 5; O-band device (O-band responsivity at 1310 nm, p.1-2, Table 1), band inferred (rule 8)'
+    why: 'Fig. 5 is on p.3, not p.2; band was empty although the operating band is stated (rule 8)'
+  cmp_lit_lischke2019_sin_ge_pd_bulk_si-m2:
+    locator: 'p.2 Sec. III; p.3 Fig. 5'
+    band: o_band
+    wavelength_inferred: 'true'
+    notes: "printed 'nearly 40 GHz'; measurement wavelength not printed for Fig. 5; O-band device, band inferred (rule 8)"
+    why: 'Fig. 5 is on p.3, not p.2; band was empty although the operating band is stated (rule 8)'
+  cmp_lit_lischke2019_sin_ge_pd_bulk_si-m3:
+    locator: 'p.2 Sec. III; p.4 Fig. 8, Fig. 9, Table 1'
+    why: 'Fig. 8, Fig. 9 and Table 1 are on p.4; the text on p.2'
+  cmp_lit_yan2018_nicr_heater_10um-m2:
+    wavelength_nm: '1541.2'
+    band: c_band
+    why: 'p.3 Sec. III: efficiency of the dip at 1541.2 nm (slow-light region); wavelength was only in the condition text (rule 8)'
+  cmp_lit_yan2018_nicr_heater_10um-m3:
+    wavelength_nm: '1537.5'
+    band: c_band
+    why: 'p.3 Sec. III: efficiency of the dip at 1537.5 nm (outside the slow-light region); wavelength was only in the condition text (rule 8)'
+  cmp_lit_yan2018_nicr_heater_10um-m4:
+    wavelength_nm: '1539.2'
+    band: c_band
+    why: 'p.3 Sec. III: probe laser fixed at 1539.2 nm for the response measurement; wavelength columns were empty'
+  cmp_lit_yan2018_nicr_heater_10um-m5:
+    wavelength_nm: '1539.2'
+    band: c_band
+    why: 'p.3 Sec. III: probe laser fixed at 1539.2 nm for the response measurement; wavelength columns were empty'
+  cmp_lit_yan2018_nicr_heater_10um-m6:
+    locator: 'p.3 Sec. II; p.2 Fig. 2(b)'
+    why: 'Fig. 2 is on p.2; the 2.5 us sentence on p.3'
+  cmp_lit_yan2018_nicr_heater_20um-m3:
+    locator: 'p.4 Sec. IV; p.3 Fig. 5(d)'
+    why: 'Fig. 5 is on p.3; the 5 us / 6.5 us sentence on p.4'
+  cmp_lit_yan2018_nicr_heater_20um-m4:
+    locator: 'p.4 Sec. IV; p.3 Fig. 5(d)'
+    why: 'Fig. 5 is on p.3; the 5 us / 6.5 us sentence on p.4'
+  cmp_lit_yan2018_phcw_slow_light-m1:
+    basis: measured
+    notes: "printed 'measured group index ... around 35' (Fig. 1(d) blue circles): extracted from this device's own data with the method of the authors' ref. [15] (only the method is cited; standard extraction of own data -> measured, D80a)"
+    why: 'p.2 Sec. II: the paper calls it the measured group index of this PhCW; no arithmetic by the distiller, so not derived'
+  cmp_lit_yan2018_phcw_mzi-m1:
+    wavelength_nm: '1531'
+    wavelength_max_nm: '1541.3'
+    band: c_band
+    why: 'p.3 Sec. III: FSR measured from the dips between 1531 and 1541.3 nm; wavelength was only in the condition text (rule 8)'

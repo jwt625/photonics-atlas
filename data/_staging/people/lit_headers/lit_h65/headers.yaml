@@ -1,0 +1,396 @@
+# lit author affiliations, batch lit_h65 (DevLog-011). Contract: ../CONTRACT.md (+ ../../ofc_headers/CONTRACT.md).
+# Names and affiliation fields as printed; no contact data, no street address or postal code. Extracted 2026-11-23 by Claude.
+
+- source_id: lit:bogaerts2011
+  status: ok
+  slots_from_header: true
+  note: "no author list in the literature cache (slots from the header, D352); IEEE Photonics Journal: page 1 is a cover with the names only; the author line and the single unmarked block are on page 2 (D366); the block prints Ghent University and IMEC joined by a dash that both text layers extract as the letter V, so the joined form (D416) cannot be verified: recorded as Ghent University with IMEC in more_orgs (older split form); membership designations in the author line; postal code not recorded"
+  affiliations:
+    - {marker: "", basis: single, org: "Ghent University", more_orgs: ["IMEC"], unit: "Department of Information Technology, Photonics Research Group", locality: "Gent", country: "BE", locator: "p.2 header"}
+  authors:
+    - {name: "W. Bogaerts", markers: []}
+    - {name: "S. K. Selvaraja", markers: []}
+
+- source_id: lit:schall2016
+  status: ok
+  note: "asterisk marks the corresponding author; block 2 (author 3) is printed with the cue Current address (Centre for Advanced Photonics and Electronics, Department of Engineering, University of Cambridge, Cambridge, UK), which the checker does not accept as a present-address cue (D442): not recorded, marker kept under dropped_markers; block 1 prints the centre before the company; street addresses and postal codes not recorded"
+  affiliations:
+    - {marker: "1", basis: printed, org: "AMO GmbH", unit: "Advanced Microelectronic Center Aachen (AMICA)", locality: "Aachen", country: "DE"}
+  authors:
+    - {name: "Daniel Schall", markers: ["1"]}
+    - {name: "Muhammad Mohsin", markers: ["1"]}
+    - {name: "Abhay A. Sagade", markers: ["1"], dropped_markers: [{marker: "2", reason: "current address (cue not supported by the checker)"}]}
+    - {name: "Martin Otto", markers: ["1"]}
+    - {name: "Bartos Chmielak", markers: ["1"]}
+    - {name: "Stephan Suckow", markers: ["1"]}
+    - {name: "Anna Lena Giesecke", markers: ["1"]}
+    - {name: "Daniel Neumaier", markers: ["1"]}
+    - {name: "Heinrich Kurz", markers: ["1"]}
+
+- source_id: lit:luyssaert2005
+  status: ok
+  slots_from_header: true
+  note: "no author list in the literature cache (slots from the header, D352); affiliation printed as one first-page footnote statement for all authors (prose); Ghent University-IMEC kept as printed (D416); membership designations in the author line; postal code not recorded"
+  affiliations:
+    - {marker: "P1", basis: prose, org: "Ghent University-IMEC", unit: "Photonics Research Group, Department of Information Technology (INTEC)", locality: "Gent", country: "BE", locator: "p.1 footnote"}
+  authors:
+    - {name: "Bert Luyssaert", markers: ["P1"]}
+    - {name: "Peter Bienstman", markers: ["P1"]}
+    - {name: "Peter Vandersteegen", markers: ["P1"]}
+    - {name: "Pieter Dumon", markers: ["P1"]}
+    - {name: "Roel Baets", markers: ["P1"]}
+
+- source_id: lit:gao2021a
+  status: ok
+  note: "affiliation printed as one first-page footnote statement for all authors (prose); membership designation in the author line; postal code not recorded"
+  affiliations:
+    - {marker: "P1", basis: prose, org: "Advanced Micro Foundry Pte. Ltd.", locality: "Singapore", country: "SG", locator: "p.1 footnote"}
+  authors:
+    - {name: "F. Gao", markers: ["P1"]}
+    - {name: "W. Xie", markers: ["P1"]}
+    - {name: "B. Li", markers: ["P1"]}
+    - {name: "X. Bu", markers: ["P1"]}
+    - {name: "A. Song", markers: ["P1"]}
+    - {name: "X. Luo", markers: ["P1"]}
+    - {name: "G.-Q. Lo", markers: ["P1"]}
+
+- source_id: lit:acoleyen2011b
+  status: ok
+  slots_from_header: true
+  note: "no author list in the literature cache (slots from the header, D352); conference paper; single unmarked block, no city printed (locality empty); Ghent University - imec kept as printed (D416)"
+  affiliations:
+    - {marker: "", basis: single, org: "Ghent University - imec", unit: "Photonics Research Group, Department of Information Technology (INTEC)", locality: "", country: "BE"}
+  authors:
+    - {name: "Karel Van Acoleyen", markers: []}
+    - {name: "Roel Baets", markers: []}
+
+- source_id: lit:atabaki2010
+  status: ok
+  note: "single unmarked block; state and postal code not recorded"
+  affiliations:
+    - {marker: "", basis: single, org: "Georgia Institute of Technology", unit: "School of Electrical and Computer Engineering", locality: "Atlanta", country: "US"}
+  authors:
+    - {name: "A. H. Atabaki", markers: []}
+    - {name: "E. Shah Hosseini", markers: []}
+    - {name: "A. A. Eftekhar", markers: []}
+    - {name: "S. Yegnanarayanan", markers: []}
+    - {name: "A. Adibi", markers: []}
+
+- source_id: lit:yu2016a
+  status: ok
+  note: "author line printed in capitals; asterisk marks the corresponding author; marker 3 points to a contact line; block 1 prints the joint centre acronym JORCEP inside the unit chain and a campus site name before Hangzhou (not recorded); the author list form Daoxin Dai A is a list artefact (D412); postal codes not recorded"
+  affiliations:
+    - {marker: "1", basis: printed, org: "Zhejiang University", unit: "Centre for Optical and Electromagnetic Research, JORCEP, State Key Laboratory for Modern Optical Instrumentation, Zhejiang Provincial Key Laboratory for Sensing Technologies", locality: "Hangzhou", country: "CN"}
+    - {marker: "2", basis: printed, org: "Royal Institute of Technology", unit: "Department of Electromagnetic Engineering, School of Electrical Engineering", locality: "Stockholm", country: "SE"}
+  authors:
+    - {name: "LONGHAI YU", markers: ["1"]}
+    - {name: "YANLONG YIN", markers: ["1"]}
+    - {name: "YAOCHENG SHI", markers: ["1"]}
+    - {name: "DAOXIN DAI", markers: ["1"]}
+    - {name: "SAILING HE", markers: ["1", "2"], dropped_markers: [{marker: "3", reason: "contact footnote"}]}
+
+- source_id: lit:lin2022c
+  status: ok
+  note: "affiliation printed as one first-page footnote statement for all authors (prose); postal code not recorded"
+  affiliations:
+    - {marker: "P1", basis: prose, org: "Southeast University", unit: "Advanced Photonics Center", locality: "Nanjing", country: "CN", locator: "p.1 footnote"}
+  authors:
+    - {name: "Dongdong Lin", markers: ["P1"]}
+    - {name: "Wei Cheng", markers: ["P1"]}
+    - {name: "Shangqing Shi", markers: ["P1"]}
+    - {name: "Pengcheng Liu", markers: ["P1"]}
+    - {name: "Mengjia Lu", markers: ["P1"]}
+    - {name: "Tong Lin", markers: ["P1"]}
+    - {name: "Guohua Hu", markers: ["P1"]}
+    - {name: "Binfeng Yun", markers: ["P1"]}
+    - {name: "Yiping Cui", markers: ["P1"]}
+
+- source_id: lit:song2016a
+  status: ok
+  note: "affiliation printed as one first-page footnote statement for all authors (prose); postal code not recorded"
+  affiliations:
+    - {marker: "P1", basis: prose, org: "imec", locality: "Leuven", country: "BE", locator: "p.1 footnote"}
+  authors:
+    - {name: "Jeong Hwan Song", markers: ["P1"]}
+    - {name: "Tangla D. Kongnyuy", markers: ["P1"]}
+    - {name: "Andim Stassen", markers: ["P1"]}
+    - {name: "Vignesh Mukund", markers: ["P1"]}
+    - {name: "Xavier Rottenberg", markers: ["P1"]}
+
+- source_id: lit:koos2007
+  status: ok
+  slots_from_header: true
+  note: "no author list in the literature cache (slots from the header, D352); affiliations printed as first-page footnote statements (prose); statement 2 prints no country; statement 3 (author 3) prints a secretariat code between the unit and Technical University Berlin (verified skip_between, not stored, D380); membership designations in the author line; postal codes not recorded"
+  affiliations:
+    - {marker: "P1", basis: prose, org: "University of Karlsruhe", unit: "Institute of High-Frequency and Quantum Electronics (IHQ)", locality: "Karlsruhe", country: "DE", locator: "p.1 footnote"}
+    - {marker: "P2", basis: prose, org: "University of Erlangen-Nürnberg", unit: "Max-Planck Research Group for Optics, Information and Photonics", locality: "Erlangen", country: "", locator: "p.1 footnote"}
+    - {marker: "P3", basis: prose, org: "Technical University Berlin", unit: "Fachgebiet Hochfrequenztechnik/Photonik", skip_between: "HFT 4", locality: "Berlin", country: "DE", locator: "p.1 footnote"}
+  authors:
+    - {name: "Christian Koos", markers: ["P1"]}
+    - {name: "Christopher G. Poulton", markers: ["P2"]}
+    - {name: "Lars Zimmermann", markers: ["P3"]}
+    - {name: "Lenin Jacome", markers: ["P1"]}
+    - {name: "Juerg Leuthold", markers: ["P1"]}
+    - {name: "Wolfgang Freude", markers: ["P1"]}
+
+- source_id: lit:su2022
+  status: ok
+  note: "affiliations printed as first-page footnote statements (prose); author 5 printed as Cheng-Ting Tsai, author list C.S. Tsai (second initial differs; the checker matches the form to list slot 5 and rejects slot 0, D302: matched, for review); membership designations in the author line; postal codes not recorded"
+  affiliations:
+    - {marker: "P1", basis: prose, org: "National Taiwan University", unit: "Graduate Institute of Photonics and Optoelectronics and the Department of Electrical Engineering", locality: "Taipei", country: "TW", locator: "p.1 footnote"}
+    - {marker: "P2", basis: prose, org: "National Taiwan University", unit: "Graduate Institute of Electronics Engineering", locality: "Taipei", country: "TW", locator: "p.1 footnote"}
+    - {marker: "P3", basis: prose, org: "University of Tokyo", unit: "Research Center for Advanced Science and Technology", locality: "Tokyo", country: "JP", locator: "p.1 footnote"}
+    - {marker: "P4", basis: prose, org: "National Kaohsiung University of Applied Sciences", unit: "Department of Electronic Engineering", locality: "Kaohsiung", country: "TW", locator: "p.1 footnote"}
+  authors:
+    - {name: "Jyun-Yang Su", markers: ["P1"]}
+    - {name: "Kuo-Fang Chung", markers: ["P1"]}
+    - {name: "Shih-Chun Kao", markers: ["P1"]}
+    - {name: "Chih-Hsien Cheng", markers: ["P3"]}
+    - {name: "Cheng-Ting Tsai", markers: ["P1"]}
+    - {name: "Te-Hua Liu", markers: ["P1"]}
+    - {name: "Hao-Tien Cheng", markers: ["P2"]}
+    - {name: "Chao-Hsin Wu", markers: ["P1"]}
+    - {name: "Tien-Tsorng Shih", markers: ["P4"]}
+    - {name: "Ding-Wei Huang", markers: ["P1"]}
+    - {name: "Gong-Ru Lin", markers: ["P1"]}
+
+- source_id: lit:blascosolvas2024
+  status: ok
+  note: "affiliations printed as first-page footnote statements (prose); statement 1 prints the acronym IMB-CNM, the parent CSIC and a campus site name after the institute (not copied); author 7 printed as Carlos Domínguez-Horna, author list Carlos Domínguez (second family name dropped in the list, slot set, D287); postal codes not recorded"
+  affiliations:
+    - {marker: "P1", basis: prose, org: "Instituto de Microelectrónica de Barcelona", locality: "Barcelona", country: "ES", locator: "p.1 footnote"}
+    - {marker: "P2", basis: prose, org: "University of Oviedo", unit: "Physics Department", locality: "Oviedo", country: "ES", locator: "p.1 footnote"}
+    - {marker: "P3", basis: prose, org: "University of Southampton", unit: "Optoelectronics Research Centre", locality: "Southampton", country: "GB", locator: "p.1 footnote"}
+  authors:
+    - {name: "Marçal Blasco-Solvas", markers: ["P1"]}
+    - {name: "Berta Fernández-Vior", markers: ["P2"]}
+    - {name: "Jad Sabek", markers: ["P1"]}
+    - {name: "Adrián Fernández-Gávela", markers: ["P2"]}
+    - {name: "Thalía Domínguez-Bucio", markers: ["P3"]}
+    - {name: "Frederic Y. Gardes", markers: ["P3"]}
+    - {name: "Carlos Domínguez-Horna", markers: ["P1"], slot: 7}
+    - {name: "Joaquín Faneca", markers: ["P1"]}
+
+- source_id: lit:pruessner2007
+  status: ok
+  note: "single unmarked block, no country printed (D.C. printed after the city); asterisk marks the corresponding author; postal code not recorded"
+  affiliations:
+    - {marker: "", basis: single, org: "Naval Research Laboratory (NRL)", locality: "Washington", country: ""}
+  authors:
+    - {name: "Marcel W. Pruessner", markers: []}
+    - {name: "Todd H. Stievater", markers: []}
+    - {name: "Mike S. Ferraro", markers: []}
+    - {name: "William S. Rabinovich", markers: []}
+
+- source_id: lit:lin2024
+  status: ok
+  note: "affiliation printed as one first-page footnote statement for all authors (prose); membership designation in the author line; postal code not recorded"
+  affiliations:
+    - {marker: "P1", basis: prose, org: "Nanjing Normal University", unit: "Jiangsu Key Laboratory on Opto-Electronic Technology, School of Computer and Electronic Information", locality: "Nanjing", country: "CN", locator: "p.1 footnote"}
+  authors:
+    - {name: "Dongdong Lin", markers: ["P1"]}
+    - {name: "Zhiyao Yang", markers: ["P1"]}
+    - {name: "Qiang Liu", markers: ["P1"]}
+    - {name: "Dan Zhu", markers: ["P1"]}
+    - {name: "Jingzhan Shi", markers: ["P1"]}
+    - {name: "Yiping Wang", markers: ["P1"]}
+
+- source_id: lit:ahmad2002
+  status: ok
+  slots_from_header: true
+  note: "no author list in the literature cache (slots from the header, D352); affiliation printed as one first-page footnote statement for all authors (prose); membership designation in the author line; state and postal code not recorded"
+  affiliations:
+    - {marker: "P1", basis: prose, org: "Columbia University", unit: "Microelectronics Sciences Laboratories", locality: "New York", country: "US", locator: "p.1 footnote"}
+  authors:
+    - {name: "R. U. Ahmad", markers: ["P1"]}
+    - {name: "F. Pizzuto", markers: ["P1"]}
+    - {name: "G. S. Camarda", markers: ["P1"]}
+    - {name: "R. L. Espinola", markers: ["P1"]}
+    - {name: "H. Rao", markers: ["P1"]}
+    - {name: "R. M. Osgood Jr.", markers: ["P1"]}
+
+- source_id: lit:prost2019
+  status: ok
+  note: "IEEE Photonics Journal: page 1 is a cover with the names only; the author line and the single unmarked block are on page 2 (D366); the block prints the campus Davis after the university (campus, D301); state and postal code not recorded"
+  affiliations:
+    - {marker: "", basis: single, org: "University of California", campus: "Davis", unit: "Department of Electrical and Computer Engineering", locality: "Davis", country: "US", locator: "p.2 header"}
+  authors:
+    - {name: "Mathias Prost", markers: []}
+    - {name: "Yi-Chun Ling", markers: []}
+    - {name: "Semih Cakmakyapan", markers: []}
+    - {name: "Yu Zhang", markers: []}
+    - {name: "Kaiqi Zhang", markers: []}
+    - {name: "Junjie Hu", markers: []}
+    - {name: "Yichi Zhang", markers: []}
+    - {name: "S. J. Ben Yoo", markers: []}
+
+- source_id: lit:malik2014
+  status: ok
+  slots_from_header: true
+  note: "no author list in the literature cache (slots from the header, D352); asterisk marks the corresponding author; block 2 prints no city (locality empty); Ghent University-imec kept as printed (D416); street addresses, postal box and postal codes not recorded"
+  affiliations:
+    - {marker: "1", basis: printed, org: "Ghent University-imec", unit: "Photonics Research Group", locality: "Ghent", country: "BE"}
+    - {marker: "2", basis: printed, org: "Ghent University", unit: "Center for Nano- and Biophotonics", locality: "", country: "BE"}
+    - {marker: "3", basis: printed, org: "Eindhoven University of Technology", unit: "COBRA Research Institute", locality: "Eindhoven", country: "NL"}
+    - {marker: "4", basis: printed, org: "imec", locality: "Leuven", country: "BE"}
+    - {marker: "5", basis: printed, org: "KU Leuven", unit: "Instituut voor Kern- en Stralingsfysica", locality: "Leuven", country: "BE"}
+  authors:
+    - {name: "Aditya Malik", markers: ["1", "2"]}
+    - {name: "Sarvagya Dwivedi", markers: ["1", "2"]}
+    - {name: "Liesbet Van Landschoot", markers: ["1", "2"]}
+    - {name: "Muhammad Muneeb", markers: ["1", "2", "3"]}
+    - {name: "Yosuke Shimura", markers: ["4", "5"]}
+    - {name: "Guy Lepage", markers: ["4"]}
+    - {name: "Joris Van Campenhout", markers: ["4"]}
+    - {name: "Wendy Vanherle", markers: ["4"]}
+    - {name: "Tinneke Van Opstal", markers: ["4"]}
+    - {name: "Roger Loo", markers: ["4"]}
+    - {name: "Gunther Roelkens", markers: ["1", "2", "3"]}
+
+- source_id: lit:steckler2024
+  status: ok
+  note: "affiliations printed as first-page footnote statements (prose); statement 3 (author 6) has an and also with clause (Technische Universität Berlin, clause block P4); membership designation in the author line; postal codes not recorded"
+  affiliations:
+    - {marker: "P1", basis: prose, org: "IHP-Leibniz Institut für Innovative Mikroelektronik", locality: "Frankfurt (Oder)", country: "DE", locator: "p.1 footnote"}
+    - {marker: "P2", basis: prose, org: "Technische Universität Berlin", unit: "FG Silizium-Photonik", locality: "Berlin", country: "DE", locator: "p.1 footnote"}
+    - {marker: "P3", basis: prose, org: "IHP-Leibniz Institut für Innovative Mikroelektronik", locality: "Frankfurt (Oder)", country: "DE", locator: "p.1 footnote"}
+    - {marker: "P4", basis: prose, clause: true, org: "Technische Universität Berlin", unit: "FG Silizium-Photonik", locality: "Berlin", country: "DE", locator: "p.1 footnote"}
+  authors:
+    - {name: "Daniel Steckler", markers: ["P1"]}
+    - {name: "Stefan Lischke", markers: ["P1"]}
+    - {name: "Aleksandra Kroh", markers: ["P1"]}
+    - {name: "Anna Peczek", markers: ["P1"]}
+    - {name: "Galina Georgieva", markers: ["P2"]}
+    - {name: "Lars Zimmermann", markers: ["P3", "P4"]}
+
+- source_id: lit:lischke2019
+  status: ok
+  note: "block 2 prints the university before the institute; postal codes not recorded"
+  affiliations:
+    - {marker: "1", basis: printed, org: "IHP – Leibniz-Institut für innovative Mikroelektronik", locality: "Frankfurt (Oder)", country: "DE"}
+    - {marker: "2", basis: printed, org: "Technical University Berlin", unit: "Institut für HF- und HL-Systemtechnologien", locality: "Berlin", country: "DE"}
+    - {marker: "3", basis: printed, org: "IHP Solutions GmbH", locality: "Frankfurt (Oder)", country: "DE"}
+  authors:
+    - {name: "S. Lischke", markers: ["1"]}
+    - {name: "D. Knoll", markers: ["1"]}
+    - {name: "C. Mai", markers: ["1"]}
+    - {name: "A. Hesse", markers: ["1"]}
+    - {name: "G. Georgieva", markers: ["2"]}
+    - {name: "A. Peczek", markers: ["3"]}
+    - {name: "A. Kroh", markers: ["1"]}
+    - {name: "M. Lisker", markers: ["1"]}
+    - {name: "D. Schmidt", markers: ["1"]}
+    - {name: "M. Fraschke", markers: ["1"]}
+    - {name: "H. Richter", markers: ["1"]}
+    - {name: "A. Krüger", markers: ["1"]}
+    - {name: "U. Saarow", markers: ["1"]}
+    - {name: "P. Heinrich", markers: ["1"]}
+    - {name: "G. Winzer", markers: ["1"]}
+    - {name: "K. Schulz", markers: ["1"]}
+    - {name: "P. Kulse", markers: ["1"]}
+    - {name: "A. Trusch", markers: ["1"]}
+    - {name: "L. Zimmermann", markers: ["1", "2"]}
+
+- source_id: lit:yan2018
+  status: ok
+  note: "affiliations printed as first-page footnote statements (prose); membership designations in the author line; postal codes not recorded"
+  affiliations:
+    - {marker: "P1", basis: prose, org: "Huazhong University of Science and Technology", unit: "Wuhan National Laboratory for Optoelectronics", locality: "Wuhan", country: "CN", locator: "p.1 footnote"}
+    - {marker: "P2", basis: prose, org: "Sun Yat-sen University", unit: "State Key Laboratory of Optoelectronic Materials and Technologies", locality: "Guangzhou", country: "CN", locator: "p.1 footnote"}
+    - {marker: "P3", basis: prose, org: "Technical University of Denmark", unit: "Department of Photonics Engineering", locality: "Kongens Lyngby", country: "DK", locator: "p.1 footnote"}
+  authors:
+    - {name: "Siqi Yan", markers: ["P1"]}
+    - {name: "Hao Chen", markers: ["P1"]}
+    - {name: "Shengqian Gao", markers: ["P2"]}
+    - {name: "Feng Zhou", markers: ["P1"]}
+    - {name: "Sanshui Xiao", markers: ["P3"]}
+    - {name: "Yunhong Ding", markers: ["P3"]}
+    - {name: "Jianji Dong", markers: ["P1"]}
+    - {name: "Xinlun Cai", markers: ["P2"]}
+    - {name: "Xinliang Zhang", markers: ["P1"]}
+
+- source_id: lit:hao2019
+  status: ok
+  note: "IEEE Photonics Journal: page 1 is a cover with the names only; the author line and the single unmarked block are on page 2 (D366); the block prints four Nanjing University units before the university (unit chain); province and postal code not recorded"
+  affiliations:
+    - {marker: "", basis: single, org: "Nanjing University", unit: "Key Laboratory of Intelligent Optical Sensing and Manipulation of the Ministry of Education, and National Laboratory of Solid State Microstructures, and College of Engineering and Applied Sciences & Institute of Optical Communication Engineering", locality: "Nanjing", country: "CN", locator: "p.2 header"}
+  authors:
+    - {name: "Lijun Hao", markers: []}
+    - {name: "Rulei Xiao", markers: []}
+    - {name: "Yuechun Shi", markers: []}
+    - {name: "Pan Dai", markers: []}
+    - {name: "Yong Zhao", markers: []}
+    - {name: "Shengping Liu", markers: []}
+    - {name: "Jun Lu", markers: []}
+    - {name: "Xiangfei Chen", markers: []}
+
+- source_id: lit:gupta2017
+  status: ok
+  note: "affiliation printed as one first-page footnote statement for all authors (prose); membership designations in the author line; postal code not recorded"
+  affiliations:
+    - {marker: "P1", basis: prose, org: "Indian Institute of Technology Madras", unit: "Department of Electrical Engineering", locality: "Chennai", country: "IN", locator: "p.1 footnote"}
+  authors:
+    - {name: "Ramesh K. Gupta", markers: ["P1"]}
+    - {name: "Sujith Chandran", markers: ["P1"]}
+    - {name: "Bijoy Krishna Das", markers: ["P1"]}
+
+- source_id: lit:morino2014
+  status: ok
+  slots_from_header: true
+  note: "no author list in the literature cache (slots from the header, D352); affiliation printed as one first-page footnote statement for all authors (prose); membership designations in the author line; postal code not recorded"
+  affiliations:
+    - {marker: "P1", basis: prose, org: "Kanazawa University", unit: "Graduate School of Natural Science and Technology", locality: "Kanazawa", country: "JP", locator: "p.1 footnote"}
+  authors:
+    - {name: "Hisayasu Morino", markers: ["P1"]}
+    - {name: "Takeo Maruyama", markers: ["P1"]}
+    - {name: "Koichi Iiyama", markers: ["P1"]}
+
+- source_id: lit:abuelmaaty2018
+  status: ok
+  slots_from_header: true
+  note: "no author list in the literature cache (slots from the header, D352); block 4 prints the acronym IIITD after Delhi; postal codes not recorded"
+  affiliations:
+    - {marker: "1", basis: printed, org: "Egypt-Japan University of Science and Technology (E-JUST)", locality: "Alexandria", country: "EG"}
+    - {marker: "2", basis: printed, org: "Alexandria University", unit: "Electrical Engineering Department", locality: "Alexandria", country: "EG"}
+    - {marker: "3", basis: printed, org: "Kyushu University", unit: "Graduate School of Information Sci and Elect. Eng.", locality: "Fukuoka", country: "JP"}
+    - {marker: "4", basis: printed, org: "Indraprastha Institute of Information Technology", locality: "Delhi", country: "IN"}
+  authors:
+    - {name: "Basma E. Abu-elmaaty", markers: ["1"]}
+    - {name: "Mohammed S. Sayed", markers: ["1"]}
+    - {name: "Hossam M. H. Shalaby", markers: ["1", "2"]}
+    - {name: "Ramesh K. Pokharel", markers: ["3"]}
+    - {name: "Anand Srivastava", markers: ["4"]}
+
+- source_id: lit:guo2024a
+  status: ok
+  note: "affiliations printed as first-page footnote statements (prose); postal codes not recorded"
+  affiliations:
+    - {marker: "P1", basis: prose, org: "Fuzhou University", unit: "Institute of Micro/Nano Devices and Solar Cells, School of Physics and Information Engineering", locality: "Fuzhou", country: "CN", locator: "p.1 footnote"}
+    - {marker: "P2", basis: prose, org: "Hebei University", unit: "Photonics Information Innovation Center, Hebei Provincial Center for Optical Sensing Innovations, College of Physics Science and Technology", locality: "Baoding", country: "CN", locator: "p.1 footnote"}
+  authors:
+    - {name: "Zhenzhao Guo", markers: ["P1"]}
+    - {name: "Shengbao Wu", markers: ["P2"]}
+    - {name: "Yunfeng Lai", markers: ["P1"]}
+    - {name: "Shuying Cheng", markers: ["P1"]}
+
+- source_id: lit:chen2021c
+  status: ok
+  note: "IEEE Photonics Journal: page 1 is a cover with the names only; the marked author line and blocks are on page 2 (D366); province and postal codes not recorded"
+  affiliations:
+    - {marker: "1", basis: printed, org: "Nanjing University", unit: "National Laboratory of Solid State Microstructures and College of Engineering and Applied Sciences", locality: "Nanjing", country: "CN", locator: "p.2 header"}
+    - {marker: "2", basis: printed, org: "Nanjing University", unit: "Collaborative Innovation Center of Advanced Microstructures", locality: "Nanjing", country: "CN", locator: "p.2 header"}
+    - {marker: "3", basis: printed, org: "ShanghaiTech University", unit: "School of Physical Science and Technology", locality: "Shanghai", country: "CN", locator: "p.2 header"}
+  authors:
+    - {name: "Ze Chen", markers: ["1", "2"]}
+    - {name: "Tianying Lin", markers: ["1", "2"]}
+    - {name: "Xiaoping Liu", markers: ["3"]}
+    - {name: "Haibin Lv", markers: ["3"]}
+
+- source_id: lit:zhang2015a
+  status: ok
+  note: "affiliation printed as one first-page footnote statement for all authors (prose); membership designations in the author line; province and postal code not recorded"
+  affiliations:
+    - {marker: "P1", basis: prose, org: "University of Ottawa", unit: "Microwave Photonics Research Laboratory, School of Electrical Engineering and Computer Science", locality: "Ottawa", country: "CA", locator: "p.1 footnote"}
+  authors:
+    - {name: "Weifeng Zhang", markers: ["P1"]}
+    - {name: "Jianping Yao", markers: ["P1"]}

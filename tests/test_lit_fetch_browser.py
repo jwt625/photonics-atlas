@@ -426,3 +426,22 @@ def test_pdf_title_match() -> None:
     assert m.pdf_title_match(pdf, "Ultra-low-crosstalk waveguide crossings based on multimode interference") is False
     assert m.pdf_title_match(pdf, "") is None
     assert m.pdf_title_match(b"not a pdf", "Photonic integrated circuit") is None
+
+
+def test_doi_not_found_page_is_a_dead_link_not_a_challenge() -> None:
+    # doi.org error page (takenobu2008, 2026-11-23): its report form embeds a Cloudflare Turnstile widget
+    page = (
+        "<html><head><title>Error: DOI Not Found</title></head><body><h1>DOI Not Found</h1>"
+        "<p>10.1109/ofc.2008.4528185.2008</p><p>This DOI cannot be found in the DOI System.</p>"
+        '<div class="row"><div class="cf-turnstile" data-theme="light" data-sitekey="x"></div></div></body></html>'
+    )
+    assert m.is_dead_link(page, 404)
+    assert m.is_dead_link(page)
+    assert not m.is_challenge(page, 404)
+    assert not m.is_challenge(page)
+    assert m.classify_html(page) != "challenge"
+    assert m.is_dead_link("<html>gone</html>", 410)
+    assert not m.is_dead_link("<html>ok</html>", 200)
+    # a real challenge stays a challenge, also when the server answers 403 with a not-found phrase
+    assert m.is_challenge("<title>Just a moment...</title> cf_chl_opt", 200)
+    assert m.is_challenge("This DOI cannot be found in the DOI System", 403)

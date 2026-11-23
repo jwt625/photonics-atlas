@@ -1,0 +1,70 @@
+# Audit patch lit_259 (fresh-context audit 2026-11-23, DevLog/audits/2026-11-23-lit_259-audit.md).
+# 118 metrics: 112 ok / 6 imprecise / 0 wrong; 20 components: 19 ok / 1 imprecise / 0 wrong. 2 misses added.
+# Fixes: gupta2017 three figure reads re-read on the enlarged embedded rasters (Fig. 16(c) MZI cross-port dips, Fig. 17(c)
+# ring notch depth floor and resonance spacing); gupta2017 WIDC lDC 8 um deep-access row platform soi_rib -> soi (same mixed
+# rib + deep-etch stack as the 1x4 / MZI deep-access rows); abuelmaaty2018 3D TM converter values wavelength_inferred
+# (Sec. 3.2.1 prints no wavelength).
+# Misses: gupta2017 WIDC lDC 5 um split ratio (Fig. 13(b)); morino2014 curved DC temperature range (Fig. 7, simulated).
+# Coordinator questions (audit Q1-Q12): distiller judgment calls kept (no op).
+components:
+  cmp_lit_gupta2017_widc_deep_access_l8:
+    platform: soi
+    why: 'p.4 Fig. 10, p.6 Sec. III: shallow-etched rib WIDC section with the slab tapered to deeply etched access waveguides (depth of the second etch not stated); the distiller gave the same mixed stack `soi` on ps1x4_deep_access and umzi_deep_access, `soi_rib` is kept for the all-shallow rows (rule 11)'
+  cmp_lit_morino2014_curved_dc_r21:
+    notes: 'Simulation-only design paper (2D FDTD; no fabrication). Platform left empty: the paper describes Si wire waveguides buried in SiO2 and never states SOI or a buried oxide (D422 / D423). The -3 +/- 0.1 dB bandwidth is entered as split_ratio_pct 48.98-51.29 % (10^(-0.31) and 10^(-0.29) of the input, D83f: arithmetic on simulated values stays simulated); a criterion-bandwidth parameter would hold it directly (registry gap). Temperature: cross-port coupling efficiency varies less than 1.0 % over 0-200 C at ~1.55 um (p.4 Sec. III-D, Fig. 7); entered as the Fig. 7 split_ratio_pct range (m8, simulated, D454); a temperature-coupling-variation parameter would hold the printed < 1.0 % directly (registry gap). Fig. 4 / Fig. 5 coupling-angle series (theta 18.5-21.0 deg, LC 6.78-7.70 um; slopes -11.0 %/um and -0.035 um/um) and Fig. 8 width / gap tolerance curves: no rows (figure-only siblings, no allowed parameter for the slopes). Fig. 6 bending-radius series: only R = 26 um is printed (own row).'
+    why: 'component note updated for the added m8 (Fig. 7 curved-coupler range); previous text said the temperature value was not entered'
+metrics:
+  cmp_lit_gupta2017_umzi_shallow_access-m1:
+    value: '10.5'
+    notes: 'Fig. 16(c) reading (embedded raster enlarged): cross-port dips about -10.5 dB (shallowest, near 1574 and 1586 nm) to about -17 dB (deepest, near 1538 nm), most -12 to -15 dB; bar-port dips about -7 to -11 dB; reading uncertainty about +/-1 dB'
+    why: 'p.7 Fig. 16(c): several cross-port dips between 1570 and 1625 nm end at about -10.5 to -12 dB, so the 13 dB lower end of the range is too high'
+  cmp_lit_gupta2017_ring_r25_widc-m1:
+    value: '14'
+    notes: 'Fig. 17(c) reading (embedded raster enlarged, frame-calibrated): 22 notches between about 1529 and 1621 nm; shallowest about 14 dB (near 1545, 1589 and 1593 nm), most 17-22 dB, deepest about 33 dB near 1558 nm; uncertainty about +/-1.5 dB'
+    why: 'p.7 Fig. 17(c): the notches near 1545, 1589 and 1593 nm reach only about -14 dB'
+  cmp_lit_gupta2017_ring_r25_widc-m2:
+    value: '4.4'
+    notes: 'Fig. 17(c): 22 notches from about 1528.6 to 1620.8 nm (21 spacings; notch positions read against the 1525 / 1625 nm frame edges of the enlarged raster), about 4.4 nm; reading +/-0.1 nm'
+    why: 'p.7 Fig. 17(c): 22 notches (not 23) span about 92 nm, giving about 4.4 nm per spacing rather than 4.2 nm'
+  cmp_lit_abuelmaaty2018_pp_3d_tm_w1p5um-m1:
+    wavelength_inferred: 'true'
+    notes: 'printed insertion loss -2.58 dB (sign quoted); Sec. 3.2.1 prints no wavelength with the TM values; 1550 nm = the operating wavelength of the TE results (Sec. 3.2, abstract), and the Fig. 7 trace reads about -2.5 dB at 1550 nm'
+    why: 'p.3 Sec. 3.2.1: "Figure 7 shows ... an insertion loss of -2.58 dB" with no wavelength (rule 8)'
+  cmp_lit_abuelmaaty2018_pp_3d_tm_w1p5um-m2:
+    wavelength_inferred: 'true'
+    notes: 'printed -10.68 dB (sign quoted); Sec. 3.2.1 prints no wavelength; the Fig. 7 TM2 trace reads about -10.5 dB at 1550 nm'
+    why: 'p.3 Sec. 3.2.1: crosstalk values printed without a wavelength (rule 8)'
+  cmp_lit_abuelmaaty2018_pp_3d_tm_w1p5um-m3:
+    wavelength_inferred: 'true'
+    notes: 'printed -13.2 dB (sign quoted); Sec. 3.2.1 prints no wavelength; the Fig. 7 TM0 trace reads about -13.3 dB at 1550 nm'
+    why: 'p.3 Sec. 3.2.1: crosstalk values printed without a wavelength (rule 8)'
+add_metrics:
+  - metric_id: cmp_lit_gupta2017_widc_shallow_access-m12
+    component_id: cmp_lit_gupta2017_widc_shallow_access
+    parameter: split_ratio_pct
+    value: '47'
+    value_max: '52'
+    unit: '%'
+    statistic: range
+    wavelength_nm: '1525'
+    wavelength_max_nm: '1625'
+    polarization: te
+    condition: 'family member with lDC = 5 um (the experimental 3-dB length); cross-port output normalized to the reference waveguide'
+    basis: extracted_from_figure
+    locator: 'p.5 Fig. 13(b); p.6 Sec. III'
+    notes: 'Fig. 13(b) reading: cross-port trace about 0.47-0.52 (bar about 0.48-0.53) over 1525-1625 nm, reading +/-0.02; text calls Fig. 13(a)-(e) power splitting ratios and the lDC 5 um response nearly wavelength independent (p.5-6); ~2-5 % split-ratio uncertainty from fiber-GC coupling (p.6)'
+    why: 'miss: the headline measured performance of the WIDC family (wavelength-independent 3-dB splitting) is shown only in Fig. 13(b); figure reads are entered (Contract v6)'
+  - metric_id: cmp_lit_morino2014_curved_dc_r21-m8
+    component_id: cmp_lit_morino2014_curved_dc_r21
+    parameter: split_ratio_pct
+    value: '49.6'
+    value_max: '50.4'
+    unit: '%'
+    statistic: range
+    wavelength_nm: '1550'
+    polarization: te
+    condition: 'cross-port coupling efficiency over temperature 0-200 C (designed for 50 % at ~1.55 um and 25 C, R 21 um / LC 7.40 um); 2D FDTD with thermo-optic material dispersion'
+    basis: simulated
+    locator: 'p.4 Sec. III-D; p.4 Fig. 7'
+    notes: 'printed: coupling efficiency varies less than 1.0 % over 0-200 C (p.4) and less than 1 % for Delta T = 200 C (p.5 Sec. IV); range read off the Fig. 7 curved-coupler points (about 50.1 % at 0 C, peak about 50.4 % near 75 C, about 49.6 % at 200 C; reading +/-0.1 %); simulated curve read off a plot stays simulated (D454); wavelength printed as ~1.55 um (D393)'
+    why: 'miss: the curved-coupler counterpart of conventional_dc-m2 (same Fig. 7, same sentence); the printed < 1.0 % has no parameter, the plotted range has one'

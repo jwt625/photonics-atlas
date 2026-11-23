@@ -1,0 +1,149 @@
+# Audit patch lit_260 (fresh-context audit 2026-11-23, DevLog/audits/2026-11-23-lit_260-audit.md).
+# 118 metrics: 117 ok / 1 imprecise / 0 wrong; 11 components: 11 ok / 0 imprecise / 0 wrong. 15 misses added.
+# Fix: chen2021c mux bound note (Fig. 2(c) curve peaks near 3.0 dB, printed bound 3.69 dB kept; D417).
+# Misses: guo2024a Table I taper lengths LT1-LT4 (EXC01) and LT1-LT2 (EXC02) as taper_length_um (D153, cabo2024 precedent);
+# zhang2015a 500-600 / 500-650 test gratings get the shared duty cycle and rib stack (period 300 nm was already entered on them);
+# zhang2015a 500-550 simulated bandwidth 20 nm from the Fig. 4(b) delay window (same convention as judgment c; drop it if c is overruled).
+# Coordinator questions (audit Q1-Q7): distiller judgment calls kept (no op).
+metrics:
+  cmp_lit_chen2021c_te10_dc_mux-m1:
+    notes: "printed 'less than 3.69 dB' within 1500-1600 nm. The Fig. 2(c) curve peaks at about 3.0 dB (1500-1525 nm, reading +/- 0.1 dB) and falls to about 0.3 dB at 1600 nm, so the printed bound is loose; printed value kept (D417)."
+    why: 'p.6 Fig. 2(c) render: maximum of the plotted Lmux about 3.0 dB, below the printed 3.69 dB bound (p.5 Sec. 3); conflict noted'
+add_metrics:
+  - metric_id: cmp_lit_guo2024a_exc01-m30
+    component_id: cmp_lit_guo2024a_exc01
+    parameter: taper_length_um
+    value: '0.51'
+    unit: um
+    condition: 'taper LT1 (end width wT1 0.25 um), input mode-splitting Y-branch, Arm-S side (Fig. 1(b))'
+    basis: design_target
+    locator: 'p.5 Table I; p.2 Fig. 1(b)'
+    why: 'miss (D153): Table I prints LT1-LT4 for EXC01; taper_length_um is allowed for mode_converter (cabo2024 precedent)'
+  - metric_id: cmp_lit_guo2024a_exc01-m31
+    component_id: cmp_lit_guo2024a_exc01
+    parameter: taper_length_um
+    value: '1.49'
+    unit: um
+    condition: 'taper LT2 (end width wT2 0.145 um), input mode-splitting Y-branch, Arm-W side (Fig. 1(b))'
+    basis: design_target
+    locator: 'p.5 Table I; p.2 Fig. 1(b)'
+    why: 'miss (D153): Table I LT2, p.5'
+  - metric_id: cmp_lit_guo2024a_exc01-m32
+    component_id: cmp_lit_guo2024a_exc01
+    parameter: taper_length_um
+    value: '1.16'
+    unit: um
+    condition: 'taper LT3 (end width wT3 0.244 um), output mode-combining Y-branch, Arm-S side (Fig. 1(b))'
+    basis: design_target
+    locator: 'p.5 Table I; p.2 Fig. 1(b)'
+    why: 'miss (D153): Table I LT3, p.5'
+  - metric_id: cmp_lit_guo2024a_exc01-m33
+    component_id: cmp_lit_guo2024a_exc01
+    parameter: taper_length_um
+    value: '1.786'
+    unit: um
+    condition: 'taper LT4 (end width wT4 0.1 um), output mode-combining Y-branch, Arm-W side (Fig. 1(b))'
+    basis: design_target
+    locator: 'p.5 Table I; p.2 Fig. 1(b)'
+    why: 'miss (D153): Table I LT4, p.5'
+  - metric_id: cmp_lit_guo2024a_exc02-m23
+    component_id: cmp_lit_guo2024a_exc02
+    parameter: taper_length_um
+    value: '1.72'
+    unit: um
+    condition: 'taper LT1 (width wT1 0.307 um) on the outer arm at the mode-splitting Y-branch (Fig. 1(c)); device symmetric along z (p.3)'
+    basis: design_target
+    locator: 'p.5 Table I; p.2 Fig. 1(c)'
+    why: 'miss (D153): Table I prints LT1 / LT2 for EXC02'
+  - metric_id: cmp_lit_guo2024a_exc02-m24
+    component_id: cmp_lit_guo2024a_exc02
+    parameter: taper_length_um
+    value: '2.05'
+    unit: um
+    condition: 'taper labelled LT2 in Fig. 1(c) (arm taper next to the SWG phase-shifter section); device symmetric along z (p.3)'
+    basis: design_target
+    locator: 'p.5 Table I; p.2 Fig. 1(c)'
+    why: 'miss (D153): Table I LT2, p.5'
+  - metric_id: cmp_lit_zhang2015a_lcwbg_500_550-m9
+    component_id: cmp_lit_zhang2015a_lcwbg_500_550
+    parameter: stopband_width_nm
+    value: '20'
+    unit: nm
+    wavelength_nm: '1530'
+    wavelength_max_nm: '1550'
+    polarization: te
+    condition: 'simulated group-delay window 1530-1550 nm taken as the reflection bandwidth (same convention as the measured rows); level not stated'
+    basis: simulated
+    locator: 'p.3 Sec. II; p.3 Fig. 4(b)'
+    notes: '1550 - 1530 = 20 nm; arithmetic on a simulated value stays simulated (D83f). The paper derives 11 ps/nm = 220 ps / 20 nm and states that the measured bandwidth (11 nm) is smaller than this simulation (p.4); Fig. 4(b) reflection plateau about 1.530-1.550 um.'
+    why: 'miss, conditional on judgment (c): the simulated design grating has the same delay-window bandwidth as the measured rows (p.3, Fig. 4(b))'
+  - metric_id: cmp_lit_zhang2015a_lcwbg_500_600-m4
+    component_id: cmp_lit_zhang2015a_lcwbg_500_600
+    parameter: fill_factor
+    value: '0.5'
+    unit: '1'
+    condition: duty cycle
+    basis: derived
+    locator: 'p.3 Sec. II'
+    notes: 'printed duty cycle 50 % (tooth / gap definition not stated); same sentence as the 300 nm period already entered on this row'
+    why: 'miss (D153): the p.3 sentence gives period and duty cycle together; the period is on this row, the duty cycle was only on the 500-550 row'
+  - metric_id: cmp_lit_zhang2015a_lcwbg_500_600-m5
+    component_id: cmp_lit_zhang2015a_lcwbg_500_600
+    parameter: core_thickness_nm
+    value: '220'
+    unit: nm
+    condition: rib height
+    basis: design_target
+    locator: 'p.2 Sec. II'
+    why: 'miss (D153): rib waveguide design of the chip (p.2), stated in this row''s notes but not entered'
+  - metric_id: cmp_lit_zhang2015a_lcwbg_500_600-m6
+    component_id: cmp_lit_zhang2015a_lcwbg_500_600
+    parameter: slab_thickness_nm
+    value: '150'
+    unit: nm
+    basis: design_target
+    locator: 'p.2 Sec. II'
+    why: 'miss (D153): rib slab thickness, p.2'
+  - metric_id: cmp_lit_zhang2015a_lcwbg_500_600-m7
+    component_id: cmp_lit_zhang2015a_lcwbg_500_600
+    parameter: box_thickness_um
+    value: '2'
+    unit: um
+    basis: design_target
+    locator: 'p.2 Sec. II'
+    why: 'miss (D153): BOX thickness, p.2'
+  - metric_id: cmp_lit_zhang2015a_lcwbg_500_650-m4
+    component_id: cmp_lit_zhang2015a_lcwbg_500_650
+    parameter: fill_factor
+    value: '0.5'
+    unit: '1'
+    condition: duty cycle
+    basis: derived
+    locator: 'p.3 Sec. II'
+    notes: 'printed duty cycle 50 % (tooth / gap definition not stated); same sentence as the 300 nm period already entered on this row'
+    why: 'miss (D153): the p.3 sentence gives period and duty cycle together; the period is on this row, the duty cycle was only on the 500-550 row'
+  - metric_id: cmp_lit_zhang2015a_lcwbg_500_650-m5
+    component_id: cmp_lit_zhang2015a_lcwbg_500_650
+    parameter: core_thickness_nm
+    value: '220'
+    unit: nm
+    condition: rib height
+    basis: design_target
+    locator: 'p.2 Sec. II'
+    why: 'miss (D153): rib waveguide design of the chip (p.2), stated in this row''s notes but not entered'
+  - metric_id: cmp_lit_zhang2015a_lcwbg_500_650-m6
+    component_id: cmp_lit_zhang2015a_lcwbg_500_650
+    parameter: slab_thickness_nm
+    value: '150'
+    unit: nm
+    basis: design_target
+    locator: 'p.2 Sec. II'
+    why: 'miss (D153): rib slab thickness, p.2'
+  - metric_id: cmp_lit_zhang2015a_lcwbg_500_650-m7
+    component_id: cmp_lit_zhang2015a_lcwbg_500_650
+    parameter: box_thickness_um
+    value: '2'
+    unit: um
+    basis: design_target
+    locator: 'p.2 Sec. II'
+    why: 'miss (D153): BOX thickness, p.2'

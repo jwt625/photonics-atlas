@@ -1,0 +1,346 @@
+# Audit patch lit_264 (fresh-context audit 2026-11-23, DevLog/audits/2026-11-23-lit_264-audit.md).
+# 133 metrics: 115 ok / 9 imprecise / 9 wrong; 27 components: 16 ok / 11 imprecise / 0 wrong. 30 misses added.
+# Wrong: benedikovic2016 group back-reflection estimates copied onto 9 device rows (D254 / D552), moved to component notes.
+# Imprecise: wang2017b simulated conditions (values match the 2D curves of Fig. 4(a)), two Fig. 7 range notes; zou2015 Fig. 2(a) conflict note.
+# Misses: benedikovic2016 geometry on sibling rows (fill factor, grating width, waveguide width, fiber MFD, wafer stack, coupling angle);
+# zou2015 full-etch depths (3) and the 3 % back reflectivity on the P_GR 890 nm design (judgment f).
+components:
+  cmp_lit_benedikovic2016_uniform_lin:
+    notes: 'Layout: linear (straight-trench) grating with 500 um adiabatic taper to the 300 nm waveguide (p.8 Sec. 2.3). Paper headline: peak measured CE -2.7 dB (54 %) for the uniform and -2.5 dB (56 %) for the apodized couplers, stated over all three layouts (''impact of different coupler layout configurations ... negligible'', p.9); not tied to one layout or (apodized) to one apodization design, so not entered on any row (D159); per-layout figure reads instead. Measured spectra shifted ~40 nm to longer wavelengths, attributed to a ~40 nm fabrication bias (SEM, p.9, Fig. 9). Ripple 0.2-0.6 dB across geometries and layouts (p.10). Nominal 2D design values (F-EEM / FDTD, p.6-8) entered on this straight-trench row, the layout the 2D vertical-cross-section model describes; the focusing siblings carry only their own measured values. Fab empty: passive ''The structures were fabricated on an SOI wafer'' with EBL and ICP-RIE (p.8-9) names no org; authors at IEF Universite Paris Sud, NRC Canada, Universidad de Malaga and University of Zilina (D80b). SEM data bars print ''NRC'' (Figs. 6-8), not a fabrication statement. Fringe-based back-reflection estimate (p.10): about 6 % for the linear-taper group (Fig. 6(a)) and ~3 % for the curved (focusing) group (Figs. 7(a), 8(a)); stated per group, while the ripple differs inside a group (Fig. 6(a): about 0.4 dB peak-to-peak uniform, 0.25 dB two-step, 0.15 dB continuously apodized) and the paper maps ripple 0.2-0.6 dB to 3-6 %, so not entered per device (D254 / D552).'
+    why: 'p.10: back-reflection estimates are group statements; per-device rows deleted (D254 / D552), value kept in notes'
+  cmp_lit_benedikovic2016_uniform_foctap:
+    notes: 'Layout: focusing grating (confocal elliptical trenches) with 40 um non-adiabatic taper (p.8 Sec. 2.3). Paper headline: peak measured CE -2.7 dB (54 %) for the uniform and -2.5 dB (56 %) for the apodized couplers, stated over all three layouts (''impact of different coupler layout configurations ... negligible'', p.9); not tied to one layout or (apodized) to one apodization design, so not entered on any row (D159); per-layout figure reads instead. Measured spectra shifted ~40 nm to longer wavelengths, attributed to a ~40 nm fabrication bias (SEM, p.9, Fig. 9). Ripple 0.2-0.6 dB across geometries and layouts (p.10). Same nominal uniform grating design as cmp_lit_benedikovic2016_uniform_lin (Table 2 / p.6 geometry and the 2D simulated values are entered there); the focusing version follows confocal ellipses (p.8). Fab empty: passive ''The structures were fabricated on an SOI wafer'' with EBL and ICP-RIE (p.8-9) names no org; authors at IEF Universite Paris Sud, NRC Canada, Universidad de Malaga and University of Zilina (D80b). SEM data bars print ''NRC'' (Figs. 6-8), not a fabrication statement. Fringe-based back-reflection estimate (p.10): about 6 % for the linear-taper group (Fig. 6(a)) and ~3 % for the curved (focusing) group (Figs. 7(a), 8(a)); stated per group, while the ripple differs inside a group (Fig. 6(a): about 0.4 dB peak-to-peak uniform, 0.25 dB two-step, 0.15 dB continuously apodized) and the paper maps ripple 0.2-0.6 dB to 3-6 %, so not entered per device (D254 / D552).'
+    why: 'p.10: back-reflection estimates are group statements; per-device rows deleted (D254 / D552), value kept in notes'
+  cmp_lit_benedikovic2016_uniform_focfpr:
+    notes: 'Layout: focusing grating (confocal elliptical trenches) with 17 um free-propagation slab region (p.8 Sec. 2.3). Paper headline: peak measured CE -2.7 dB (54 %) for the uniform and -2.5 dB (56 %) for the apodized couplers, stated over all three layouts (''impact of different coupler layout configurations ... negligible'', p.9); not tied to one layout or (apodized) to one apodization design, so not entered on any row (D159); per-layout figure reads instead. Measured spectra shifted ~40 nm to longer wavelengths, attributed to a ~40 nm fabrication bias (SEM, p.9, Fig. 9). Ripple 0.2-0.6 dB across geometries and layouts (p.10). Same nominal uniform grating design as cmp_lit_benedikovic2016_uniform_lin (Table 2 / p.6 geometry and the 2D simulated values are entered there); the focusing version follows confocal ellipses (p.8). Fab empty: passive ''The structures were fabricated on an SOI wafer'' with EBL and ICP-RIE (p.8-9) names no org; authors at IEF Universite Paris Sud, NRC Canada, Universidad de Malaga and University of Zilina (D80b). SEM data bars print ''NRC'' (Figs. 6-8), not a fabrication statement. Fringe-based back-reflection estimate (p.10): about 6 % for the linear-taper group (Fig. 6(a)) and ~3 % for the curved (focusing) group (Figs. 7(a), 8(a)); stated per group, while the ripple differs inside a group (Fig. 6(a): about 0.4 dB peak-to-peak uniform, 0.25 dB two-step, 0.15 dB continuously apodized) and the paper maps ripple 0.2-0.6 dB to 3-6 %, so not entered per device (D254 / D552).'
+    why: 'p.10: back-reflection estimates are group statements; per-device rows deleted (D254 / D552), value kept in notes'
+  cmp_lit_benedikovic2016_twostep_lin:
+    notes: 'Layout: linear (straight-trench) grating with 500 um adiabatic taper to the 300 nm waveguide (p.8 Sec. 2.3). Paper headline: peak measured CE -2.7 dB (54 %) for the uniform and -2.5 dB (56 %) for the apodized couplers, stated over all three layouts (''impact of different coupler layout configurations ... negligible'', p.9); not tied to one layout or (apodized) to one apodization design, so not entered on any row (D159); per-layout figure reads instead. Measured spectra shifted ~40 nm to longer wavelengths, attributed to a ~40 nm fabrication bias (SEM, p.9, Fig. 9). Ripple 0.2-0.6 dB across geometries and layouts (p.10). Nominal 2D design values (F-EEM / FDTD, p.6-8) entered on this straight-trench row, the layout the 2D vertical-cross-section model describes; the focusing siblings carry only their own measured values. Fab empty: passive ''The structures were fabricated on an SOI wafer'' with EBL and ICP-RIE (p.8-9) names no org; authors at IEF Universite Paris Sud, NRC Canada, Universidad de Malaga and University of Zilina (D80b). SEM data bars print ''NRC'' (Figs. 6-8), not a fabrication statement. Fringe-based back-reflection estimate (p.10): about 6 % for the linear-taper group (Fig. 6(a)) and ~3 % for the curved (focusing) group (Figs. 7(a), 8(a)); stated per group, while the ripple differs inside a group (Fig. 6(a): about 0.4 dB peak-to-peak uniform, 0.25 dB two-step, 0.15 dB continuously apodized) and the paper maps ripple 0.2-0.6 dB to 3-6 %, so not entered per device (D254 / D552).'
+    why: 'p.10: back-reflection estimates are group statements; per-device rows deleted (D254 / D552), value kept in notes'
+  cmp_lit_benedikovic2016_twostep_foctap:
+    notes: 'Layout: focusing grating (confocal elliptical trenches) with 40 um non-adiabatic taper (p.8 Sec. 2.3). Paper headline: peak measured CE -2.7 dB (54 %) for the uniform and -2.5 dB (56 %) for the apodized couplers, stated over all three layouts (''impact of different coupler layout configurations ... negligible'', p.9); not tied to one layout or (apodized) to one apodization design, so not entered on any row (D159); per-layout figure reads instead. Measured spectra shifted ~40 nm to longer wavelengths, attributed to a ~40 nm fabrication bias (SEM, p.9, Fig. 9). Ripple 0.2-0.6 dB across geometries and layouts (p.10). Same nominal two-step apodized grating design as cmp_lit_benedikovic2016_twostep_lin (Table 1 / p.6 geometry and the 2D simulated values are entered there); the focusing version follows confocal ellipses (p.8). Fab empty: passive ''The structures were fabricated on an SOI wafer'' with EBL and ICP-RIE (p.8-9) names no org; authors at IEF Universite Paris Sud, NRC Canada, Universidad de Malaga and University of Zilina (D80b). SEM data bars print ''NRC'' (Figs. 6-8), not a fabrication statement. Fringe-based back-reflection estimate (p.10): about 6 % for the linear-taper group (Fig. 6(a)) and ~3 % for the curved (focusing) group (Figs. 7(a), 8(a)); stated per group, while the ripple differs inside a group (Fig. 6(a): about 0.4 dB peak-to-peak uniform, 0.25 dB two-step, 0.15 dB continuously apodized) and the paper maps ripple 0.2-0.6 dB to 3-6 %, so not entered per device (D254 / D552).'
+    why: 'p.10: back-reflection estimates are group statements; per-device rows deleted (D254 / D552), value kept in notes'
+  cmp_lit_benedikovic2016_twostep_focfpr:
+    notes: 'Layout: focusing grating (confocal elliptical trenches) with 17 um free-propagation slab region (p.8 Sec. 2.3). Paper headline: peak measured CE -2.7 dB (54 %) for the uniform and -2.5 dB (56 %) for the apodized couplers, stated over all three layouts (''impact of different coupler layout configurations ... negligible'', p.9); not tied to one layout or (apodized) to one apodization design, so not entered on any row (D159); per-layout figure reads instead. Measured spectra shifted ~40 nm to longer wavelengths, attributed to a ~40 nm fabrication bias (SEM, p.9, Fig. 9). Ripple 0.2-0.6 dB across geometries and layouts (p.10). Same nominal two-step apodized grating design as cmp_lit_benedikovic2016_twostep_lin (Table 1 / p.6 geometry and the 2D simulated values are entered there); the focusing version follows confocal ellipses (p.8). Fab empty: passive ''The structures were fabricated on an SOI wafer'' with EBL and ICP-RIE (p.8-9) names no org; authors at IEF Universite Paris Sud, NRC Canada, Universidad de Malaga and University of Zilina (D80b). SEM data bars print ''NRC'' (Figs. 6-8), not a fabrication statement. Fringe-based back-reflection estimate (p.10): about 6 % for the linear-taper group (Fig. 6(a)) and ~3 % for the curved (focusing) group (Figs. 7(a), 8(a)); stated per group, while the ripple differs inside a group (Fig. 6(a): about 0.4 dB peak-to-peak uniform, 0.25 dB two-step, 0.15 dB continuously apodized) and the paper maps ripple 0.2-0.6 dB to 3-6 %, so not entered per device (D254 / D552).'
+    why: 'p.10: back-reflection estimates are group statements; per-device rows deleted (D254 / D552), value kept in notes'
+  cmp_lit_benedikovic2016_contin_lin:
+    notes: 'Layout: linear (straight-trench) grating with 500 um adiabatic taper to the 300 nm waveguide (p.8 Sec. 2.3). Paper headline: peak measured CE -2.7 dB (54 %) for the uniform and -2.5 dB (56 %) for the apodized couplers, stated over all three layouts (''impact of different coupler layout configurations ... negligible'', p.9); not tied to one layout or (apodized) to one apodization design, so not entered on any row (D159); per-layout figure reads instead. Measured spectra shifted ~40 nm to longer wavelengths, attributed to a ~40 nm fabrication bias (SEM, p.9, Fig. 9). Ripple 0.2-0.6 dB across geometries and layouts (p.10). Nominal 2D design values (F-EEM / FDTD, p.6-8) entered on this straight-trench row, the layout the 2D vertical-cross-section model describes; the focusing siblings carry only their own measured values. Fab empty: passive ''The structures were fabricated on an SOI wafer'' with EBL and ICP-RIE (p.8-9) names no org; authors at IEF Universite Paris Sud, NRC Canada, Universidad de Malaga and University of Zilina (D80b). SEM data bars print ''NRC'' (Figs. 6-8), not a fabrication statement. Fringe-based back-reflection estimate (p.10): about 6 % for the linear-taper group (Fig. 6(a)) and ~3 % for the curved (focusing) group (Figs. 7(a), 8(a)); stated per group, while the ripple differs inside a group (Fig. 6(a): about 0.4 dB peak-to-peak uniform, 0.25 dB two-step, 0.15 dB continuously apodized) and the paper maps ripple 0.2-0.6 dB to 3-6 %, so not entered per device (D254 / D552).'
+    why: 'p.10: back-reflection estimates are group statements; per-device rows deleted (D254 / D552), value kept in notes'
+  cmp_lit_benedikovic2016_contin_foctap:
+    notes: 'Layout: focusing grating (confocal elliptical trenches) with 40 um non-adiabatic taper (p.8 Sec. 2.3). Paper headline: peak measured CE -2.7 dB (54 %) for the uniform and -2.5 dB (56 %) for the apodized couplers, stated over all three layouts (''impact of different coupler layout configurations ... negligible'', p.9); not tied to one layout or (apodized) to one apodization design, so not entered on any row (D159); per-layout figure reads instead. Measured spectra shifted ~40 nm to longer wavelengths, attributed to a ~40 nm fabrication bias (SEM, p.9, Fig. 9). Ripple 0.2-0.6 dB across geometries and layouts (p.10). Same nominal continuously apodized grating design as cmp_lit_benedikovic2016_contin_lin (Table 2 / p.6 geometry and the 2D simulated values are entered there); the focusing version follows confocal ellipses (p.8). Fab empty: passive ''The structures were fabricated on an SOI wafer'' with EBL and ICP-RIE (p.8-9) names no org; authors at IEF Universite Paris Sud, NRC Canada, Universidad de Malaga and University of Zilina (D80b). SEM data bars print ''NRC'' (Figs. 6-8), not a fabrication statement. Fringe-based back-reflection estimate (p.10): about 6 % for the linear-taper group (Fig. 6(a)) and ~3 % for the curved (focusing) group (Figs. 7(a), 8(a)); stated per group, while the ripple differs inside a group (Fig. 6(a): about 0.4 dB peak-to-peak uniform, 0.25 dB two-step, 0.15 dB continuously apodized) and the paper maps ripple 0.2-0.6 dB to 3-6 %, so not entered per device (D254 / D552).'
+    why: 'p.10: back-reflection estimates are group statements; per-device rows deleted (D254 / D552), value kept in notes'
+  cmp_lit_benedikovic2016_contin_focfpr:
+    notes: 'Layout: focusing grating (confocal elliptical trenches) with 17 um free-propagation slab region (p.8 Sec. 2.3). Paper headline: peak measured CE -2.7 dB (54 %) for the uniform and -2.5 dB (56 %) for the apodized couplers, stated over all three layouts (''impact of different coupler layout configurations ... negligible'', p.9); not tied to one layout or (apodized) to one apodization design, so not entered on any row (D159); per-layout figure reads instead. Measured spectra shifted ~40 nm to longer wavelengths, attributed to a ~40 nm fabrication bias (SEM, p.9, Fig. 9). Ripple 0.2-0.6 dB across geometries and layouts (p.10). Same nominal continuously apodized grating design as cmp_lit_benedikovic2016_contin_lin (Table 2 / p.6 geometry and the 2D simulated values are entered there); the focusing version follows confocal ellipses (p.8). Fab empty: passive ''The structures were fabricated on an SOI wafer'' with EBL and ICP-RIE (p.8-9) names no org; authors at IEF Universite Paris Sud, NRC Canada, Universidad de Malaga and University of Zilina (D80b). SEM data bars print ''NRC'' (Figs. 6-8), not a fabrication statement. Fringe-based back-reflection estimate (p.10): about 6 % for the linear-taper group (Fig. 6(a)) and ~3 % for the curved (focusing) group (Figs. 7(a), 8(a)); stated per group, while the ripple differs inside a group (Fig. 6(a): about 0.4 dB peak-to-peak uniform, 0.25 dB two-step, 0.15 dB continuously apodized) and the paper maps ripple 0.2-0.6 dB to 3-6 %, so not entered per device (D254 / D552).'
+    why: 'p.10: back-reflection estimates are group statements; per-device rows deleted (D254 / D552), value kept in notes'
+  cmp_lit_zou2015_sin_gc_apodized_si_gr:
+    notes: Apodized grating of Table 1, bottom Si GR with P_GR 870 nm (Fig. 4(b) green line). The back reflectivity 3 % printed for the CD 100 nm GC (p.6) is entered on the P_GR 890 nm final design (cmp_lit_zou2015_sin_gc_apodized_si_gr890), the design the sentence follows; not repeated here. Theoretical design only (2D FDTD, Lumerical, 20 nm grid, TE); no device fabricated (p.3, p.6 Sec. 3 describes a proposed process).
+    why: notes follow the audit placement of the 3 % back reflectivity (judgment f)
+  cmp_lit_zou2015_sin_gc_apodized_si_gr890:
+    notes: 'Headline design: GR period enlarged from 870 to 890 nm to compensate the tilted input (the GR was optimized at vertical incidence, p.6). 7 nm spectral shift for 20 nm groove change (Fig. 5(b), p.7); BOX 1 / 3 um have slight influence (Fig. 5(c)); not entered. Back reflectivity 3 % (CD 100 nm, p.6) entered here: it is printed with the 2 % of the CD 150 nm variant right after the -0.88 / -0.90 dB final designs. Theoretical design only (2D FDTD, Lumerical, 20 nm grid, TE); no device fabricated (p.3, p.6 Sec. 3 describes a proposed process).'
+    why: notes follow the audit placement of the 3 % back reflectivity (judgment f)
+metrics:
+  cmp_lit_zou2015_sin_gc_uniform_no_substrate-m1:
+    notes: Printed coupling loss -5.80 dB. Design peak wavelength 1550 nm (p.4); the loss is printed without a wavelength, the curve peaks near 1550 nm in the figure. Fig. 2(a) plots about -5.64 dB at W_GC = 550 nm (render, +/-0.03 dB) while the text and the Fig. 2(b) peak give -5.80 dB; printed value kept (D417).
+    why: 'p.4 Fig. 2(a) render: the 550 nm point sits near -5.64 dB, a printed conflict with the -5.80 dB text value'
+  cmp_lit_wang2017b_swgc_high_eff-m8:
+    condition: 'FDTD, 220 nm Si, 2 um BOX; the text does not say 2D or 3D, the printed peak and 3-dB width match the 2D curves of Fig. 4(a) (vector data, peak / 3-dB / 1-dB width: 2D -2.95 dB / 40.5 nm / 21.8 nm, 3D -3.15 dB / 36.8 nm / 18.4 nm)'
+    why: 'p.6 Fig. 4(a) vector paths: the printed -2.9 / -3.3 dB and 41 / 75 nm fit the 2D curves, not the 3D ones (judgment e)'
+  cmp_lit_wang2017b_swgc_high_eff-m9:
+    condition: 'FDTD, 220 nm Si, 2 um BOX; the text does not say 2D or 3D, the printed peak and 3-dB width match the 2D curves of Fig. 4(a) (vector data, peak / 3-dB / 1-dB width: 2D -2.95 dB / 40.5 nm / 21.8 nm, 3D -3.15 dB / 36.8 nm / 18.4 nm)'
+    why: 'p.6 Fig. 4(a) vector paths: the printed -2.9 / -3.3 dB and 41 / 75 nm fit the 2D curves, not the 3D ones (judgment e)'
+  cmp_lit_wang2017b_swgc_high_eff-m10:
+    condition: 'FDTD, 220 nm Si, 2 um BOX; the text does not say 2D or 3D, the printed peak and 3-dB width match the 2D curves of Fig. 4(a) (vector data, peak / 3-dB / 1-dB width: 2D -2.95 dB / 40.5 nm / 21.8 nm, 3D -3.15 dB / 36.8 nm / 18.4 nm)'
+    why: 'p.6 Fig. 4(a) vector paths: the printed -2.9 / -3.3 dB and 41 / 75 nm fit the 2D curves, not the 3D ones (judgment e)'
+  cmp_lit_wang2017b_swgc_broadband-m8:
+    condition: 'FDTD, 220 nm Si, 2 um BOX; the text does not say 2D or 3D, the printed peak and 3-dB width match the 2D curves of Fig. 4(a) (vector data, peak / 3-dB / 1-dB width: 2D -3.30 dB / 74.7 nm / 45.5 nm, 3D -3.50 dB / 73.7 nm / 45.5 nm)'
+    why: 'p.6 Fig. 4(a) vector paths: the printed -2.9 / -3.3 dB and 41 / 75 nm fit the 2D curves, not the 3D ones (judgment e)'
+  cmp_lit_wang2017b_swgc_broadband-m9:
+    condition: 'FDTD, 220 nm Si, 2 um BOX; the text does not say 2D or 3D, the printed peak and 3-dB width match the 2D curves of Fig. 4(a) (vector data, peak / 3-dB / 1-dB width: 2D -3.30 dB / 74.7 nm / 45.5 nm, 3D -3.50 dB / 73.7 nm / 45.5 nm)'
+    why: 'p.6 Fig. 4(a) vector paths: the printed -2.9 / -3.3 dB and 41 / 75 nm fit the 2D curves, not the 3D ones (judgment e)'
+  cmp_lit_wang2017b_swgc_broadband-m10:
+    condition: 'FDTD, 220 nm Si, 2 um BOX; the text does not say 2D or 3D, the printed peak and 3-dB width match the 2D curves of Fig. 4(a) (vector data, peak / 3-dB / 1-dB width: 2D -3.30 dB / 74.7 nm / 45.5 nm, 3D -3.50 dB / 73.7 nm / 45.5 nm)'
+    why: 'p.6 Fig. 4(a) vector paths: the printed -2.9 / -3.3 dB and 41 / 75 nm fit the 2D curves, not the 3D ones (judgment e)'
+  cmp_lit_wang2017b_swgc_high_eff-m4:
+    notes: Printed peak CE varying from -4.3 to -3.8 dB; n = 11 devices counted on the Fig. 7 Device-ID axis. Fig. 7(a) vector markers span -3.90 to -4.31 dB (the -3.8 dB maximum is the Fig. 6 device, vector peak -3.81 dB); printed range kept (D417).
+    why: 'p.8 Fig. 7(a) vector markers: the upper end of the printed range is not among the 11 markers'
+  cmp_lit_wang2017b_swgc_broadband-m5:
+    notes: n = 11 devices counted on the Fig. 7 Device-ID axis. Fig. 7(b) vector markers span about 63.7-70.9 nm against the printed 65-71 nm; printed range kept (D417).
+    why: 'p.8 Fig. 7(b) vector markers: lowest broadband 3-dB width about 64 nm'
+delete_metrics:
+- id: cmp_lit_benedikovic2016_uniform_lin-m2
+  why: 'p.10: ''~3 %'' (curved) / ''about 6 %'' (linear) stated per group; Fig. 6(a) ripple differs within the linear group (about 0.15-0.4 dB peak-to-peak) and the paper ties ripple magnitude to reflection; group value copied onto each device (D254 / D552 hu2020); moved to component notes'
+- id: cmp_lit_benedikovic2016_uniform_foctap-m2
+  why: 'p.10: ''~3 %'' (curved) / ''about 6 %'' (linear) stated per group; Fig. 6(a) ripple differs within the linear group (about 0.15-0.4 dB peak-to-peak) and the paper ties ripple magnitude to reflection; group value copied onto each device (D254 / D552 hu2020); moved to component notes'
+- id: cmp_lit_benedikovic2016_uniform_focfpr-m2
+  why: 'p.10: ''~3 %'' (curved) / ''about 6 %'' (linear) stated per group; Fig. 6(a) ripple differs within the linear group (about 0.15-0.4 dB peak-to-peak) and the paper ties ripple magnitude to reflection; group value copied onto each device (D254 / D552 hu2020); moved to component notes'
+- id: cmp_lit_benedikovic2016_twostep_lin-m2
+  why: 'p.10: ''~3 %'' (curved) / ''about 6 %'' (linear) stated per group; Fig. 6(a) ripple differs within the linear group (about 0.15-0.4 dB peak-to-peak) and the paper ties ripple magnitude to reflection; group value copied onto each device (D254 / D552 hu2020); moved to component notes'
+- id: cmp_lit_benedikovic2016_twostep_foctap-m2
+  why: 'p.10: ''~3 %'' (curved) / ''about 6 %'' (linear) stated per group; Fig. 6(a) ripple differs within the linear group (about 0.15-0.4 dB peak-to-peak) and the paper ties ripple magnitude to reflection; group value copied onto each device (D254 / D552 hu2020); moved to component notes'
+- id: cmp_lit_benedikovic2016_twostep_focfpr-m2
+  why: 'p.10: ''~3 %'' (curved) / ''about 6 %'' (linear) stated per group; Fig. 6(a) ripple differs within the linear group (about 0.15-0.4 dB peak-to-peak) and the paper ties ripple magnitude to reflection; group value copied onto each device (D254 / D552 hu2020); moved to component notes'
+- id: cmp_lit_benedikovic2016_contin_lin-m2
+  why: 'p.10: ''~3 %'' (curved) / ''about 6 %'' (linear) stated per group; Fig. 6(a) ripple differs within the linear group (about 0.15-0.4 dB peak-to-peak) and the paper ties ripple magnitude to reflection; group value copied onto each device (D254 / D552 hu2020); moved to component notes'
+- id: cmp_lit_benedikovic2016_contin_foctap-m2
+  why: 'p.10: ''~3 %'' (curved) / ''about 6 %'' (linear) stated per group; Fig. 6(a) ripple differs within the linear group (about 0.15-0.4 dB peak-to-peak) and the paper ties ripple magnitude to reflection; group value copied onto each device (D254 / D552 hu2020); moved to component notes'
+- id: cmp_lit_benedikovic2016_contin_focfpr-m2
+  why: 'p.10: ''~3 %'' (curved) / ''about 6 %'' (linear) stated per group; Fig. 6(a) ripple differs within the linear group (about 0.15-0.4 dB peak-to-peak) and the paper ties ripple magnitude to reflection; group value copied onto each device (D254 / D552 hu2020); moved to component notes'
+add_metrics:
+- metric_id: cmp_lit_benedikovic2016_twostep_lin-m12
+  component_id: cmp_lit_benedikovic2016_twostep_lin
+  parameter: fill_factor
+  value: '0.3'
+  unit: '1'
+  basis: derived
+  locator: p.7 Table 1
+  notes: L_Si / period = 197 / 658 = 0.299 and 243 / 811 = 0.300 in the two sections (Table 1); tooth fraction (D253), constant 0.30 over the grating
+  why: 'miss (D153): fill factor computable from the Table L_Si and period columns, as entered on uniform_lin (0.25)'
+- metric_id: cmp_lit_benedikovic2016_twostep_lin-m13
+  component_id: cmp_lit_benedikovic2016_twostep_lin
+  parameter: grating_width_um
+  value: '13.1'
+  unit: um
+  basis: design_target
+  locator: p.8 Sec. 2.3; p.4 Fig. 1(b)
+  why: 'miss (D153): 13.1 um grating width of the linear coupler layout (p.8, Fig. 1(b)), entered on uniform_lin only'
+- metric_id: cmp_lit_benedikovic2016_twostep_lin-m14
+  component_id: cmp_lit_benedikovic2016_twostep_lin
+  parameter: width_nm
+  value: '300'
+  unit: nm
+  basis: design_target
+  locator: p.8 Sec. 2.3; p.4 Fig. 1(b)
+  condition: interconnection waveguide width
+  why: 'miss (D153): 300 nm interconnection waveguide at the taper end, entered on uniform_lin only'
+- metric_id: cmp_lit_benedikovic2016_twostep_lin-m15
+  component_id: cmp_lit_benedikovic2016_twostep_lin
+  parameter: mfd_fiber_um
+  value: '9.2'
+  unit: um
+  basis: specification
+  locator: p.6 Sec. 2.1
+  condition: SMF-28, 1/e2 intensity, at 1.3 um
+  why: 'miss: SMF-28 MFD 9.2 um is the design target fiber of all three gratings (p.6), entered on uniform_lin only'
+- metric_id: cmp_lit_benedikovic2016_contin_lin-m12
+  component_id: cmp_lit_benedikovic2016_contin_lin
+  parameter: fill_factor
+  value: '0.3'
+  unit: '1'
+  basis: derived
+  locator: p.7 Table 2
+  notes: L_Si / period = 0.299-0.301 in every apodized period and 248 / 826 = 0.300 in the uniform section (Table 2); tooth fraction (D253), constant 0.30 over the grating
+  why: 'miss (D153): fill factor computable from the Table L_Si and period columns, as entered on uniform_lin (0.25)'
+- metric_id: cmp_lit_benedikovic2016_contin_lin-m13
+  component_id: cmp_lit_benedikovic2016_contin_lin
+  parameter: grating_width_um
+  value: '13.1'
+  unit: um
+  basis: design_target
+  locator: p.8 Sec. 2.3; p.4 Fig. 1(b)
+  why: 'miss (D153): 13.1 um grating width of the linear coupler layout (p.8, Fig. 1(b)), entered on uniform_lin only'
+- metric_id: cmp_lit_benedikovic2016_contin_lin-m14
+  component_id: cmp_lit_benedikovic2016_contin_lin
+  parameter: width_nm
+  value: '300'
+  unit: nm
+  basis: design_target
+  locator: p.8 Sec. 2.3; p.4 Fig. 1(b)
+  condition: interconnection waveguide width
+  why: 'miss (D153): 300 nm interconnection waveguide at the taper end, entered on uniform_lin only'
+- metric_id: cmp_lit_benedikovic2016_contin_lin-m15
+  component_id: cmp_lit_benedikovic2016_contin_lin
+  parameter: mfd_fiber_um
+  value: '9.2'
+  unit: um
+  basis: specification
+  locator: p.6 Sec. 2.1
+  condition: SMF-28, 1/e2 intensity, at 1.3 um
+  why: 'miss: SMF-28 MFD 9.2 um is the design target fiber of all three gratings (p.6), entered on uniform_lin only'
+- metric_id: cmp_lit_benedikovic2016_uniform_foctap-m4
+  component_id: cmp_lit_benedikovic2016_uniform_foctap
+  parameter: core_thickness_nm
+  value: '220'
+  unit: nm
+  basis: design_target
+  locator: p.8 Sec. 3
+  why: 'miss (D153 / D402): all structures fabricated on the 220 nm Si / 2 um BOX SOI wafer (p.8); entered on the linear rows only'
+- metric_id: cmp_lit_benedikovic2016_uniform_foctap-m5
+  component_id: cmp_lit_benedikovic2016_uniform_foctap
+  parameter: box_thickness_um
+  value: '2'
+  unit: um
+  basis: design_target
+  locator: p.8 Sec. 3
+  why: 'miss (D153 / D402): all structures fabricated on the 220 nm Si / 2 um BOX SOI wafer (p.8); entered on the linear rows only'
+- metric_id: cmp_lit_benedikovic2016_uniform_foctap-m6
+  component_id: cmp_lit_benedikovic2016_uniform_foctap
+  parameter: fiber_angle_deg
+  value: '33'
+  unit: deg
+  basis: design_target
+  locator: p.6 Sec. 2.2; p.9 Sec. 3
+  notes: Coupling angle in air; angle-polished PM fiber facets refract to 33 deg in the measurement (p.9).
+  why: 'miss: 33 deg coupling angle of every grating design (p.6) and of the measurement of every structure (p.9); entered on the linear rows only'
+- metric_id: cmp_lit_benedikovic2016_uniform_focfpr-m3
+  component_id: cmp_lit_benedikovic2016_uniform_focfpr
+  parameter: core_thickness_nm
+  value: '220'
+  unit: nm
+  basis: design_target
+  locator: p.8 Sec. 3
+  why: 'miss (D153 / D402): all structures fabricated on the 220 nm Si / 2 um BOX SOI wafer (p.8); entered on the linear rows only'
+- metric_id: cmp_lit_benedikovic2016_uniform_focfpr-m4
+  component_id: cmp_lit_benedikovic2016_uniform_focfpr
+  parameter: box_thickness_um
+  value: '2'
+  unit: um
+  basis: design_target
+  locator: p.8 Sec. 3
+  why: 'miss (D153 / D402): all structures fabricated on the 220 nm Si / 2 um BOX SOI wafer (p.8); entered on the linear rows only'
+- metric_id: cmp_lit_benedikovic2016_uniform_focfpr-m5
+  component_id: cmp_lit_benedikovic2016_uniform_focfpr
+  parameter: fiber_angle_deg
+  value: '33'
+  unit: deg
+  basis: design_target
+  locator: p.6 Sec. 2.2; p.9 Sec. 3
+  notes: Coupling angle in air; angle-polished PM fiber facets refract to 33 deg in the measurement (p.9).
+  why: 'miss: 33 deg coupling angle of every grating design (p.6) and of the measurement of every structure (p.9); entered on the linear rows only'
+- metric_id: cmp_lit_benedikovic2016_twostep_foctap-m4
+  component_id: cmp_lit_benedikovic2016_twostep_foctap
+  parameter: core_thickness_nm
+  value: '220'
+  unit: nm
+  basis: design_target
+  locator: p.8 Sec. 3
+  why: 'miss (D153 / D402): all structures fabricated on the 220 nm Si / 2 um BOX SOI wafer (p.8); entered on the linear rows only'
+- metric_id: cmp_lit_benedikovic2016_twostep_foctap-m5
+  component_id: cmp_lit_benedikovic2016_twostep_foctap
+  parameter: box_thickness_um
+  value: '2'
+  unit: um
+  basis: design_target
+  locator: p.8 Sec. 3
+  why: 'miss (D153 / D402): all structures fabricated on the 220 nm Si / 2 um BOX SOI wafer (p.8); entered on the linear rows only'
+- metric_id: cmp_lit_benedikovic2016_twostep_foctap-m6
+  component_id: cmp_lit_benedikovic2016_twostep_foctap
+  parameter: fiber_angle_deg
+  value: '33'
+  unit: deg
+  basis: design_target
+  locator: p.6 Sec. 2.2; p.9 Sec. 3
+  notes: Coupling angle in air; angle-polished PM fiber facets refract to 33 deg in the measurement (p.9).
+  why: 'miss: 33 deg coupling angle of every grating design (p.6) and of the measurement of every structure (p.9); entered on the linear rows only'
+- metric_id: cmp_lit_benedikovic2016_twostep_focfpr-m3
+  component_id: cmp_lit_benedikovic2016_twostep_focfpr
+  parameter: core_thickness_nm
+  value: '220'
+  unit: nm
+  basis: design_target
+  locator: p.8 Sec. 3
+  why: 'miss (D153 / D402): all structures fabricated on the 220 nm Si / 2 um BOX SOI wafer (p.8); entered on the linear rows only'
+- metric_id: cmp_lit_benedikovic2016_twostep_focfpr-m4
+  component_id: cmp_lit_benedikovic2016_twostep_focfpr
+  parameter: box_thickness_um
+  value: '2'
+  unit: um
+  basis: design_target
+  locator: p.8 Sec. 3
+  why: 'miss (D153 / D402): all structures fabricated on the 220 nm Si / 2 um BOX SOI wafer (p.8); entered on the linear rows only'
+- metric_id: cmp_lit_benedikovic2016_twostep_focfpr-m5
+  component_id: cmp_lit_benedikovic2016_twostep_focfpr
+  parameter: fiber_angle_deg
+  value: '33'
+  unit: deg
+  basis: design_target
+  locator: p.6 Sec. 2.2; p.9 Sec. 3
+  notes: Coupling angle in air; angle-polished PM fiber facets refract to 33 deg in the measurement (p.9).
+  why: 'miss: 33 deg coupling angle of every grating design (p.6) and of the measurement of every structure (p.9); entered on the linear rows only'
+- metric_id: cmp_lit_benedikovic2016_contin_foctap-m4
+  component_id: cmp_lit_benedikovic2016_contin_foctap
+  parameter: core_thickness_nm
+  value: '220'
+  unit: nm
+  basis: design_target
+  locator: p.8 Sec. 3
+  why: 'miss (D153 / D402): all structures fabricated on the 220 nm Si / 2 um BOX SOI wafer (p.8); entered on the linear rows only'
+- metric_id: cmp_lit_benedikovic2016_contin_foctap-m5
+  component_id: cmp_lit_benedikovic2016_contin_foctap
+  parameter: box_thickness_um
+  value: '2'
+  unit: um
+  basis: design_target
+  locator: p.8 Sec. 3
+  why: 'miss (D153 / D402): all structures fabricated on the 220 nm Si / 2 um BOX SOI wafer (p.8); entered on the linear rows only'
+- metric_id: cmp_lit_benedikovic2016_contin_foctap-m6
+  component_id: cmp_lit_benedikovic2016_contin_foctap
+  parameter: fiber_angle_deg
+  value: '33'
+  unit: deg
+  basis: design_target
+  locator: p.6 Sec. 2.2; p.9 Sec. 3
+  notes: Coupling angle in air; angle-polished PM fiber facets refract to 33 deg in the measurement (p.9).
+  why: 'miss: 33 deg coupling angle of every grating design (p.6) and of the measurement of every structure (p.9); entered on the linear rows only'
+- metric_id: cmp_lit_benedikovic2016_contin_focfpr-m3
+  component_id: cmp_lit_benedikovic2016_contin_focfpr
+  parameter: core_thickness_nm
+  value: '220'
+  unit: nm
+  basis: design_target
+  locator: p.8 Sec. 3
+  why: 'miss (D153 / D402): all structures fabricated on the 220 nm Si / 2 um BOX SOI wafer (p.8); entered on the linear rows only'
+- metric_id: cmp_lit_benedikovic2016_contin_focfpr-m4
+  component_id: cmp_lit_benedikovic2016_contin_focfpr
+  parameter: box_thickness_um
+  value: '2'
+  unit: um
+  basis: design_target
+  locator: p.8 Sec. 3
+  why: 'miss (D153 / D402): all structures fabricated on the 220 nm Si / 2 um BOX SOI wafer (p.8); entered on the linear rows only'
+- metric_id: cmp_lit_benedikovic2016_contin_focfpr-m5
+  component_id: cmp_lit_benedikovic2016_contin_focfpr
+  parameter: fiber_angle_deg
+  value: '33'
+  unit: deg
+  basis: design_target
+  locator: p.6 Sec. 2.2; p.9 Sec. 3
+  notes: Coupling angle in air; angle-polished PM fiber facets refract to 33 deg in the measurement (p.9).
+  why: 'miss: 33 deg coupling angle of every grating design (p.6) and of the measurement of every structure (p.9); entered on the linear rows only'
+- metric_id: cmp_lit_zou2015_sin_gc_uniform_si_gr-m10
+  component_id: cmp_lit_zou2015_sin_gc_uniform_si_gr
+  parameter: etch_depth_nm
+  value: '400'
+  unit: nm
+  basis: design_target
+  locator: p.3 Sec. 2
+  notes: Fully etched 400 nm Si3N4 grating (p.3).
+  why: 'miss (D153; lit_231 yi2024b precedent): the Si3N4 GC is fully etched through the 400 nm layer (p.3)'
+- metric_id: cmp_lit_zou2015_sin_gc_apodized_si_gr890-m9
+  component_id: cmp_lit_zou2015_sin_gc_apodized_si_gr890
+  parameter: etch_depth_nm
+  value: '400'
+  unit: nm
+  basis: design_target
+  locator: p.3 Sec. 2
+  notes: Fully etched 400 nm Si3N4 grating (p.3).
+  why: 'miss (D153; lit_231 yi2024b precedent): the Si3N4 GC is fully etched through the 400 nm layer (p.3)'
+- metric_id: cmp_lit_zou2015_si_grating_reflector-m5
+  component_id: cmp_lit_zou2015_si_grating_reflector
+  parameter: etch_depth_nm
+  value: '220'
+  unit: nm
+  basis: design_target
+  locator: p.3 Sec. 2; p.5 Sec. 2.2
+  notes: Fully etched 220 nm Si grating (p.3).
+  why: 'miss (D153): the Si GR is fully etched through the 220 nm top Si layer (p.3, p.5)'
+- metric_id: cmp_lit_zou2015_sin_gc_apodized_si_gr890-m10
+  component_id: cmp_lit_zou2015_sin_gc_apodized_si_gr890
+  parameter: back_reflection_db
+  value: '15.2'
+  unit: dB
+  basis: simulated
+  locator: p.6 Sec. 2.3
+  band: c_band
+  condition: 2D FDTD, TE, fiber tilt 8 deg, Gaussian source MFD 10.4 um
+  notes: Printed back reflectivity 3 % for the GC with critical dimension 100 nm, stated together with 2 % for the CD 150 nm design right after the -0.88 / -0.90 dB results (p.6); -10*log10(0.03) = 15.2 dB (D83f). The same Si3N4 grating with P_GR 870 nm (cmp_lit_zou2015_sin_gc_apodized_si_gr) has no separate value.
+  why: 'judgment (f): the 3 % / 2 % pair compares the two final designs printed just before it (-0.88 dB CD 100 nm with P_GR 890 nm, -0.90 dB CD 150 nm); the CD 150 row already carries 2 % by the same text order'

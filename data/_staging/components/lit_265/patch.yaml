@@ -1,0 +1,360 @@
+# Audit patch lit_265 (fresh-context audit 2026-11-23, DevLog/audits/2026-11-23-lit_265-audit.md).
+# 158 metrics: 139 ok / 19 imprecise / 0 wrong; 22 components: 22 ok. 29 misses added (1 figure-read performance value,
+# 1 measured fiber angle, 27 geometry / design-fiber rows, D153 / D625).
+# Fixes: rawat2023 figure-page locators (Fig. 12 p.9, Fig. 13 p.9, Fig. 14 p.10) and bend loss basis measured (rule 4,
+# D167); ruiz2021 3D grating-block wavelengths = Fig. 2(c) maxima, full-coupler method loss_breakdown (no reference
+# structure described); wang2017c polarization cleared on measured rows (not stated, D673), p474 peak at the printed
+# 1.327 um (D393); xue2019 taper / waveguide moved from excludes to includes (nothing subtracted), band-maximum PDLs le.
+metrics:
+  cmp_lit_rawat2023_asi_uniform_gc_p940-m1:
+    locator: 'p.7 Sec. 4; p.9 Fig. 12(a)'
+    why: 'Fig. 12 is on p.9 (render); the p.7 text prints the value'
+  cmp_lit_rawat2023_asi_uniform_gc_p950-m1:
+    locator: 'p.7 Sec. 4; p.9 Fig. 12(a)'
+    why: 'Fig. 12 is on p.9 (render); the p.7 text prints the value'
+  cmp_lit_rawat2023_asi_uniform_gc_p960-m1:
+    locator: 'p.7 Sec. 4; p.9 Fig. 12(a); p.1 Abstract'
+    why: 'Fig. 12 is on p.9 (render); the p.7 text prints the value'
+  cmp_lit_rawat2023_asi_apodized_gc_p890-m1:
+    locator: 'p.8 Sec. 4; p.10 Fig. 14(a)'
+    why: 'Fig. 14 is on p.10 (render); the p.8 text prints the value'
+  cmp_lit_rawat2023_tfsin_bend_r200-m1:
+    basis: measured
+    method: reference_structure
+    locator: 'p.8 Sec. 4; p.9 Fig. 13'
+    notes: 'printed "We estimate a bend loss of 0.14 dB/90 for a bend radius of 200 um" from the comparison of the patch / taper / bend test circuits (Fig. 13, 950 nm period); no arithmetic or input values printed (rule 4: "estimated" from test-structure measurements is measured; D167 / D452); no wavelength with the value, C-L band of the measurement (Fig. 13 spans 1520-1620 nm)'
+    why: 'rule 4 / D167: a value stated directly from own test structures without shown arithmetic is measured; reference circuits (patch, taper) named in the p.8 text; Fig. 13 is on p.9'
+  cmp_lit_ruiz2021_bidirectional_grating-m1:
+    wavelength_nm: '1557'
+    notes: 'printed coupling efficiency -2.5 dB (3D FDTD); no wavelength printed with the 3D values; the value is the Fig. 2(c) LP01x maximum near 1557 nm (+/-1 nm; embedded raster); at 1550 nm the curve reads about -4.8 dB'
+    why: 'p.4 Fig. 2(c) (img_p04_1 raster): the printed 3D values are the spectral maxima near 1557-1558 nm, not 1550 nm values'
+  cmp_lit_ruiz2021_bidirectional_grating-m2:
+    wavelength_nm: '1557'
+    notes: 'printed coupling efficiency -3.0 dB (3D FDTD); no wavelength printed with the 3D values; the value is the Fig. 2(c) LP11ax maximum near 1557 nm (+/-1 nm; embedded raster); at 1550 nm the curve reads about -5.3 dB'
+    why: 'p.4 Fig. 2(c) (img_p04_1 raster): the printed 3D values are the spectral maxima near 1557-1558 nm, not 1550 nm values'
+  cmp_lit_ruiz2021_bidirectional_grating-m3:
+    wavelength_nm: '1558'
+    notes: 'printed coupling efficiency -2.2 dB (3D FDTD); no wavelength printed with the 3D values; the value is the Fig. 2(c) LP11bx maximum near 1558 nm (+/-1 nm; embedded raster); at 1550 nm the curve reads about -3 dB'
+    why: 'p.4 Fig. 2(c) (img_p04_1 raster): the printed 3D values are the spectral maxima near 1557-1558 nm, not 1550 nm values'
+  cmp_lit_ruiz2021_trimodal_fmf_coupler-m1:
+    method: loss_breakdown
+    why: 'p.5 Sec. 3: the single-mode output-coupler loss is "discounted" (subtraction of a loss term); no reference structure is described, so reference_structure overstates the method; basis stays measured (D441 / D448: no subtracted number printed)'
+  cmp_lit_ruiz2021_trimodal_fmf_coupler-m2:
+    method: loss_breakdown
+    why: 'p.5 Sec. 3: the single-mode output-coupler loss is "discounted"; no reference structure described (D441 / D448)'
+  cmp_lit_ruiz2021_trimodal_fmf_coupler-m3:
+    method: loss_breakdown
+    why: 'p.5 Sec. 3: the single-mode output-coupler loss is "discounted"; no reference structure described (D441 / D448)'
+  cmp_lit_wang2017c_tilted_membrane_gc_p454-m1:
+    polarization: ''
+    why: 'p.6 Sec. 3: the measurement (SLED, cleaved SMFs, OSA) states no polarization; TE is stated only for the simulations (Fig. 1 caption) (D673)'
+  cmp_lit_wang2017c_tilted_membrane_gc_p454-m3:
+    polarization: ''
+    why: 'p.1 Abstract / p.6 Sec. 3: measured bandwidth, polarization not stated (D673)'
+  cmp_lit_wang2017c_tilted_membrane_gc_p474-m2:
+    polarization: ''
+    wavelength_nm: '1327'
+    wavelength_inferred: ''
+    notes: 'peak not printed; Fig. 7(a) dashed curve reads ~0.51 (+/-0.01) at its maximum; peak wavelength printed as 1.327 um (p.6)'
+    why: 'p.6 Sec. 3 prints the p = 474 nm peak at 1.327 um (stated wavelength, D393); polarization of the measurement not stated (D673)'
+  cmp_lit_wang2017c_tilted_membrane_gc_p454_oxide-m2:
+    polarization: ''
+    why: 'p.6 Sec. 3: measurement polarization not stated (D673)'
+  cmp_lit_xue2019_2dgc_elliptical-m2:
+    includes: '300 um tapers and 100 um single-mode waveguide (stated negligible)'
+    excludes: ''
+    why: 'p.4 Sec. 3: the tapers and waveguide are in the measured path with "negligible transmission losses"; nothing was subtracted (excludes = subtracted, rule 6)'
+  cmp_lit_xue2019_2dgc_conventional-m2:
+    includes: '300 um tapers and 100 um single-mode waveguide (stated negligible)'
+    excludes: ''
+    why: 'p.4 Sec. 3: same back-to-back arrangement; nothing subtracted (rule 6)'
+  cmp_lit_xue2019_2dgc_conventional-m1:
+    qualifier: le
+    why: 'p.5 Sec. 3 / Fig. 7(a)(b): 3.05 dB is the band maximum (Fig. 7(b) conventional trace peaks ~3.0 dB near 1550 nm, near 0 dB at ~1542 nm); without a qualifier the row reads as 3.05 dB over the whole 1525-1560 nm span'
+  cmp_lit_xue2019_2dgc_conventional-m4:
+    qualifier: le
+    why: 'p.3 Fig. 3: simulated conventional PDL reaches 2.6 dB at the band edges and ~0 dB near 1543 nm; 2.6 dB is the band maximum'
+add_metrics:
+  - metric_id: cmp_lit_rawat2023_asi_apodized_gc_p900-m10
+    component_id: cmp_lit_rawat2023_asi_apodized_gc_p900
+    parameter: insertion_loss_db
+    value: '2.65'
+    unit: dB
+    qualifier: approx
+    wavelength_nm: '1575'
+    wavelength_inferred: 'true'
+    scope: loopback_half
+    includes: 'taper, waveguide and bend loss'
+    condition: 'spectral maximum of the measured 900 nm apodized trace; two identical apodized gratings joined by tapers, waveguide and a C-bend (Fig. 9); fiber angle -6 deg; transmission normalized to the source spectrum'
+    method: loopback
+    basis: extracted_from_figure
+    locator: 'p.10 Fig. 14(a)'
+    notes: 'no printed value; Fig. 14(a) red (900 nm) trace maximum about -2.65 dB (+/-0.1 dB) near 1.575 um (+/-3 nm), read on the embedded raster img_p10_1; per-coupler normalization as for the printed 890 nm value (-2.12 dB, same figure); wavelength read off the plot'
+    why: 'miss: measured curve of the fabricated 900 nm apodized grating (D80e row had only simulated values); figure-read performance value (Contract v6)'
+  - metric_id: cmp_lit_rawat2023_asi_apodized_gc_p890-m9
+    component_id: cmp_lit_rawat2023_asi_apodized_gc_p890
+    parameter: fiber_angle_deg
+    value: '-6'
+    unit: deg
+    condition: 'fiber angle of the measured peak (angle sweep -5 / -6 / -7 deg)'
+    basis: measured
+    locator: 'p.8 Sec. 4; p.10 Fig. 14(b)'
+    notes: 'printed "a fibre angle theta of -6"; Fig. 14(b) -6 deg trace is the highest (about -2.1 dB) of the three angles; sign as printed'
+    why: 'miss (D153): operating fiber angle of the fabricated apodized grating, p.8'
+  - metric_id: cmp_lit_rawat2023_asi_apodized_gc_p890-m10
+    component_id: cmp_lit_rawat2023_asi_apodized_gc_p890
+    parameter: mfd_fiber_um
+    value: '10.4'
+    unit: um
+    condition: 'Gaussian source launched over the grating in the 2D FDTD design model'
+    basis: specification
+    locator: 'p.4 Sec. 2.2'
+    notes: 'printed "Gaussian mode with a 10.4 um mode-field diameter"; measurement used SMF (p.7)'
+    why: 'miss (D625 / D731 precedent: mfd_fiber_um of the fiber the coupler is designed for)'
+  - metric_id: cmp_lit_rawat2023_asi_apodized_gc_p900-m11
+    component_id: cmp_lit_rawat2023_asi_apodized_gc_p900
+    parameter: mfd_fiber_um
+    value: '10.4'
+    unit: um
+    condition: 'Gaussian source launched over the grating in the 2D FDTD design model'
+    basis: specification
+    locator: 'p.4 Sec. 2.2'
+    notes: 'printed "Gaussian mode with a 10.4 um mode-field diameter"'
+    why: 'miss (D625 / D731 precedent)'
+  - metric_id: cmp_lit_rawat2023_asi_uniform_gc_p970_design-m10
+    component_id: cmp_lit_rawat2023_asi_uniform_gc_p970_design
+    parameter: mfd_fiber_um
+    value: '10.4'
+    unit: um
+    condition: 'Gaussian source launched over the grating in the 2D FDTD design model'
+    basis: specification
+    locator: 'p.4 Sec. 2.2'
+    notes: 'printed "Gaussian mode with a 10.4 um mode-field diameter"'
+    why: 'miss (D625 / D731 precedent)'
+  - metric_id: cmp_lit_rawat2023_asi_uniform_gc_nodbr_design-m4
+    component_id: cmp_lit_rawat2023_asi_uniform_gc_nodbr_design
+    parameter: n_periods
+    value: '21'
+    unit: count
+    basis: design_target
+    locator: 'p.4 Sec. 2.2'
+    notes: 'optimum for the 70 nm a-Si grating without reflector (the DBR is introduced after this sentence, p.4-5)'
+    why: 'miss (D153): "no. of gratings N ... 21" printed for the 70 nm design, p.4'
+  - metric_id: cmp_lit_rawat2023_asi_uniform_gc_nodbr_design-m5
+    component_id: cmp_lit_rawat2023_asi_uniform_gc_nodbr_design
+    parameter: fill_factor
+    value: '0.4'
+    unit: '1'
+    basis: derived
+    locator: 'p.4 Sec. 2.2'
+    notes: 'printed "fill-factor ... 40 %" (a-Si strip fraction, Fu1; % -> fraction, D253)'
+    why: 'miss (D153): fill factor printed for the 70 nm design, p.4'
+  - metric_id: cmp_lit_rawat2023_asi_uniform_gc_nodbr_design-m6
+    component_id: cmp_lit_rawat2023_asi_uniform_gc_nodbr_design
+    parameter: fiber_angle_deg
+    value: '7'
+    unit: deg
+    basis: design_target
+    locator: 'p.4 Sec. 2.2'
+    notes: 'simulated peak angle of incidence for the 70 nm a-Si grating'
+    why: 'miss (D153): peak angle 7 deg printed for the 70 nm design, p.4'
+  - metric_id: cmp_lit_rawat2023_asi_uniform_gc_nodbr_design-m7
+    component_id: cmp_lit_rawat2023_asi_uniform_gc_nodbr_design
+    parameter: core_thickness_nm
+    value: '125'
+    unit: nm
+    basis: design_target
+    locator: 'p.3-4 Sec. 2.2'
+    notes: 'TFSiN thickness fixed at 125 nm in the grating simulations'
+    why: 'miss (D153)'
+  - metric_id: cmp_lit_rawat2023_asi_uniform_gc_nodbr_design-m8
+    component_id: cmp_lit_rawat2023_asi_uniform_gc_nodbr_design
+    parameter: mfd_fiber_um
+    value: '10.4'
+    unit: um
+    condition: 'Gaussian source launched over the grating in the 2D FDTD design model'
+    basis: specification
+    locator: 'p.4 Sec. 2.2'
+    notes: 'printed "Gaussian mode with a 10.4 um mode-field diameter"'
+    why: 'miss (D625 / D731 precedent)'
+  - metric_id: cmp_lit_rawat2023_sin_only_gc_design-m4
+    component_id: cmp_lit_rawat2023_sin_only_gc_design
+    parameter: mfd_fiber_um
+    value: '10.4'
+    unit: um
+    condition: 'Gaussian source launched over the grating in the 2D FDTD design model'
+    basis: specification
+    locator: 'p.4 Sec. 2.2'
+    notes: 'printed "Gaussian mode with a 10.4 um mode-field diameter"'
+    why: 'miss (D625 / D731 precedent)'
+  - metric_id: cmp_lit_rawat2023_asi_uniform_gc_p950-m8
+    component_id: cmp_lit_rawat2023_asi_uniform_gc_p950
+    parameter: mfd_fiber_um
+    value: '10.4'
+    unit: um
+    condition: 'Gaussian source of the 2D FDTD design model (Fig. 12 dashed simulated curves)'
+    basis: specification
+    locator: 'p.4 Sec. 2.2'
+    notes: 'printed "Gaussian mode with a 10.4 um mode-field diameter"; measurement used SMF (p.7)'
+    why: 'miss (D625 / D731 precedent)'
+  - metric_id: cmp_lit_rawat2023_asi_uniform_gc_p940-m4
+    component_id: cmp_lit_rawat2023_asi_uniform_gc_p940
+    parameter: core_thickness_nm
+    value: '125'
+    unit: nm
+    basis: design_target
+    locator: 'p.7 Sec. 4'
+    notes: SiN waveguide layer
+    why: 'miss (D153): same fabricated stack as the 950 nm sibling, which carries these rows (p.7)'
+  - metric_id: cmp_lit_rawat2023_asi_uniform_gc_p940-m5
+    component_id: cmp_lit_rawat2023_asi_uniform_gc_p940
+    parameter: layer2_thickness_nm
+    value: '70'
+    unit: nm
+    condition: 'a-Si grating strips, fully etched'
+    basis: design_target
+    locator: 'p.7 Sec. 4'
+    why: 'miss (D153): same fabricated stack as the 950 nm sibling (p.7)'
+  - metric_id: cmp_lit_rawat2023_asi_uniform_gc_p940-m6
+    component_id: cmp_lit_rawat2023_asi_uniform_gc_p940
+    parameter: box_thickness_um
+    value: '1.8'
+    unit: um
+    basis: design_target
+    locator: 'p.5 Sec. 2.2; p.7 Sec. 4'
+    notes: SiO2 between DBR and grating
+    why: 'miss (D153): same fabricated stack as the 950 nm sibling (p.7)'
+  - metric_id: cmp_lit_rawat2023_asi_uniform_gc_p940-m7
+    component_id: cmp_lit_rawat2023_asi_uniform_gc_p940
+    parameter: cladding_thickness_um
+    value: '1.9'
+    unit: um
+    basis: design_target
+    locator: 'p.7 Sec. 4'
+    notes: PECVD SiO2 top cladding
+    why: 'miss (D153): same fabricated stack as the 950 nm sibling (p.7)'
+  - metric_id: cmp_lit_rawat2023_asi_uniform_gc_p940-m8
+    component_id: cmp_lit_rawat2023_asi_uniform_gc_p940
+    parameter: mfd_fiber_um
+    value: '10.4'
+    unit: um
+    condition: 'Gaussian source of the 2D FDTD design model'
+    basis: specification
+    locator: 'p.4 Sec. 2.2'
+    notes: 'printed "Gaussian mode with a 10.4 um mode-field diameter"; measurement used SMF (p.7)'
+    why: 'miss (D625 / D731 precedent)'
+  - metric_id: cmp_lit_rawat2023_asi_uniform_gc_p960-m4
+    component_id: cmp_lit_rawat2023_asi_uniform_gc_p960
+    parameter: core_thickness_nm
+    value: '125'
+    unit: nm
+    basis: design_target
+    locator: 'p.7 Sec. 4'
+    notes: SiN waveguide layer
+    why: 'miss (D153): same fabricated stack as the 950 nm sibling (p.7)'
+  - metric_id: cmp_lit_rawat2023_asi_uniform_gc_p960-m5
+    component_id: cmp_lit_rawat2023_asi_uniform_gc_p960
+    parameter: layer2_thickness_nm
+    value: '70'
+    unit: nm
+    condition: 'a-Si grating strips, fully etched'
+    basis: design_target
+    locator: 'p.7 Sec. 4'
+    why: 'miss (D153): same fabricated stack as the 950 nm sibling (p.7)'
+  - metric_id: cmp_lit_rawat2023_asi_uniform_gc_p960-m6
+    component_id: cmp_lit_rawat2023_asi_uniform_gc_p960
+    parameter: box_thickness_um
+    value: '1.8'
+    unit: um
+    basis: design_target
+    locator: 'p.5 Sec. 2.2; p.7 Sec. 4'
+    notes: SiO2 between DBR and grating
+    why: 'miss (D153): same fabricated stack as the 950 nm sibling (p.7)'
+  - metric_id: cmp_lit_rawat2023_asi_uniform_gc_p960-m7
+    component_id: cmp_lit_rawat2023_asi_uniform_gc_p960
+    parameter: cladding_thickness_um
+    value: '1.9'
+    unit: um
+    basis: design_target
+    locator: 'p.7 Sec. 4'
+    notes: PECVD SiO2 top cladding
+    why: 'miss (D153): same fabricated stack as the 950 nm sibling (p.7)'
+  - metric_id: cmp_lit_rawat2023_asi_uniform_gc_p960-m8
+    component_id: cmp_lit_rawat2023_asi_uniform_gc_p960
+    parameter: mfd_fiber_um
+    value: '10.4'
+    unit: um
+    condition: 'Gaussian source of the 2D FDTD design model'
+    basis: specification
+    locator: 'p.4 Sec. 2.2'
+    notes: 'printed "Gaussian mode with a 10.4 um mode-field diameter"; measurement used SMF (p.7)'
+    why: 'miss (D625 / D731 precedent)'
+  - metric_id: cmp_lit_xue2019_2dgc_elliptical-m19
+    component_id: cmp_lit_xue2019_2dgc_elliptical
+    parameter: mfd_fiber_um
+    value: '10.2'
+    unit: um
+    condition: 'fiber mode of the 3D FDTD model, 12 deg'
+    basis: specification
+    locator: 'p.2 Sec. 2'
+    notes: 'printed "fiber mode with a mode field diameter of 10.2 um"'
+    why: 'miss (D625 / D731 precedent: mfd_fiber_um of the fiber the coupler is designed for)'
+  - metric_id: cmp_lit_xue2019_2dgc_conventional-m10
+    component_id: cmp_lit_xue2019_2dgc_conventional
+    parameter: mfd_fiber_um
+    value: '10.2'
+    unit: um
+    condition: 'fiber mode of the 3D FDTD model, 12 deg'
+    basis: specification
+    locator: 'p.2 Sec. 2'
+    notes: 'printed "fiber mode with a mode field diameter of 10.2 um"; the same model is used for the conventional and the proposed GC'
+    why: 'miss (D625 / D731 precedent)'
+  - metric_id: cmp_lit_xue2019_2dgc_conventional-m11
+    component_id: cmp_lit_xue2019_2dgc_conventional
+    parameter: cladding_thickness_um
+    value: '0.7'
+    unit: um
+    basis: derived
+    locator: 'p.4 Sec. 3'
+    notes: 'printed "700nm SiO2" deposited on the wafer (unit rescale, D157)'
+    why: 'miss (D153): same fabricated wafer as the proposed GC, which carries the row'
+  - metric_id: cmp_lit_xue2019_2dgc_conventional-m12
+    component_id: cmp_lit_xue2019_2dgc_conventional
+    parameter: grating_length_um
+    value: '11'
+    unit: um
+    basis: design_target
+    locator: 'p.2 Sec. 2'
+    notes: '2D GC size 11 um x 11 um (simulation model used for both GCs)'
+    why: 'miss (D153): the p.2 model size applies to the conventional optimization too'
+  - metric_id: cmp_lit_xue2019_2dgc_conventional-m13
+    component_id: cmp_lit_xue2019_2dgc_conventional
+    parameter: grating_width_um
+    value: '11'
+    unit: um
+    basis: design_target
+    locator: 'p.2 Sec. 2'
+    notes: '2D GC size 11 um x 11 um (simulation model used for both GCs)'
+    why: 'miss (D153): the p.2 model size applies to the conventional optimization too'
+  - metric_id: cmp_lit_watanabe2020_fm_2dgc_array-m17
+    component_id: cmp_lit_watanabe2020_fm_2dgc_array
+    parameter: mfd_fiber_um
+    value: '10.0'
+    unit: um
+    mode: LP01
+    condition: 'FMF assumed in the 3D FDTD optimization, vertical, centred on the array'
+    basis: specification
+    locator: 'p.3 Sec. 2.1'
+    notes: 'printed "FMF with mode field diameters of 10.0 um and 12.0 um for LP01 and LP11 modes"'
+    why: 'miss (D625 / D731 precedent: mfd_fiber_um of the fiber the coupler is designed for)'
+  - metric_id: cmp_lit_watanabe2020_fm_2dgc_array-m18
+    component_id: cmp_lit_watanabe2020_fm_2dgc_array
+    parameter: mfd_fiber_um
+    value: '12.0'
+    unit: um
+    mode: LP11
+    condition: 'FMF assumed in the 3D FDTD optimization, vertical, centred on the array'
+    basis: specification
+    locator: 'p.3 Sec. 2.1'
+    notes: 'printed "FMF with mode field diameters of 10.0 um and 12.0 um for LP01 and LP11 modes"'
+    why: 'miss (D625 / D731 precedent)'
