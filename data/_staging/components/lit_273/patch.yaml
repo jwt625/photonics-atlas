@@ -1,0 +1,205 @@
+# Audit patch lit_273 (fresh-context audit 2026-11-24, DevLog/audits/2026-11-24-lit_273-audit.md).
+# 139 metrics: 133 ok / 6 imprecise / 0 wrong; 19 components: 17 ok / 2 imprecise (notes). 18 misses added
+# (geometry / design-fiber rows, D153 / D625; no performance value missed).
+# Fixes: figure-page locators (tokushima2016 Fig. 8 p.8, zhao2015 Fig. 6 p.3, subramanian2012a Fig. 4 p.3); xu2017d
+# measured peaks at the Fig. 6 figure-read wavelengths, uniform -3.6 dB statistic best (best of three traces);
+# subramanian2012a abstract note (values swapped, not unmatched); zhao2015 strip width note.
+components:
+  cmp_lit_subramanian2012a_lgc_70nm:
+    notes: 'Fab borderline (D84b, golshani2021 / doerr2010 precedent): the acknowledgment thanks IMEC''s p-line and a named staff member ''for the fabrication of the Si3N4 waveguides'' (p.4); the process text is passive (p.2); one author at IMEC, the others at Ghent University: fab org_imec kept with this note. Waveguides and GCs were patterned in the same 193 nm lithography / RIE flow (p.2). Cladding of the GC samples not stated (some wafers got 1.5 um PECVD SiO2, p.2). Paper prints a per-GC efficiency ''determined from the fibre-to-fibre transmission'' (p.2) without the arithmetic or the handling of the connecting waveguide (4 mm LGC / 6 mm FGC at about 3 dB/cm): loopback_half, basis measured (D452 lorenzen2026 / D167). Input light unpolarized while the GC is designed for TE (p.1-2). Abstract prints ''efficiency of 5.7 and 6.5 dB and 1-dB bandwidth of 26 and 40 nm'' for the linear and focused GCs respectively: the two efficiencies are the Table I FGC 120 nm (-5.7 dB) and LGC 70 nm (-6.5 dB) values in swapped order, and 26 / 40 nm match no printed bandwidth; Table I / Sec. IV values entered (D417).'
+    why: 'p.1 Abstract vs p.3 Table I: -5.7 dB is the FGC 120 nm value and -6.5 dB the LGC 70 nm value, printed in swapped order (''linear and focused ... respectively''); only the 26 / 40 nm bandwidths match nothing. The batch note said the abstract matches neither (imprecise)'
+  cmp_lit_zhao2015_si3n4_strip_700nm:
+    notes: 'Fab borderline (D84b, xu2025 / lu2017 precedent): the fabrication section is passive (p.4 Sec. III); all authors at WNLO, HUST (p.1); the acknowledgment thanks the engineers of the Center of Micro-Fabrication and Characterization of WNLO for support in device fabrication (p.4-5): fab org_huazhong_university_of_science_and_technology kept with this note; staff thanks do not set facility_org_ids. The loss is printed only as the term subtracted from the GC pair measurement (400 um long interconnect); the measurement method is not stated. Width 900 nm is the strip width of the 3D-FDTD model (p.3), which the experiment keeps (''other parameters are the same as the 3D-FDTD simulation'', p.4).'
+    why: 'p.4 Sec. III: ''We = 4 um and Lt = 20 um are chosen for the experiment and other parameters are the same as the 3D-FDTD simulation''; the 900 nm strip width (p.3) therefore applies to the fabricated strip (width row added)'
+metrics:
+  cmp_lit_tokushima2016_dual_center_folded_gc_r11-m1:
+    locator: p.9 Sec. V-A; p.8 Sec. V-A (formula), Fig. 8
+    why: Fig. 8 is on p.8 (render); the -2.23 dB value is printed on p.9
+  cmp_lit_tokushima2016_dual_center_folded_gc_r11-m2:
+    locator: p.9 Sec. V-A; p.8 Fig. 8
+    why: Fig. 8 is on p.8 (render); the 89 nm value is printed on p.9
+  cmp_lit_zhao2015_inverse_taper_300_to_700nm-m1:
+    locator: p.4 Sec. II; p.3 Fig. 6(b)
+    why: Fig. 6 is on p.3 (render, img_p03_2); the -0.227 dB sentence continues Sec. II at the top of p.4
+  cmp_lit_subramanian2012a_lgc_140nm-m5:
+    locator: p.2 Sec. IV; p.3 Fig. 4
+    why: Fig. 4 is on p.3 (render); the 8 deg statement is on p.2
+  cmp_lit_xu2017d_apodized_sin_on_soi_gc-m1:
+    wavelength_nm: '1562'
+    wavelength_inferred: 'true'
+    band: ''
+    notes: 'Printed ''best peak coupling coefficient of -2.5 dB'' (sign as printed); de-embedding not described (D167 / D452; xie2024a / hung2020 precedent). Peak wavelength not printed: Fig. 6 highest measured apodized trace peaks about -2.47 dB (+/-0.05 dB) near 1562 nm (+/-2 nm), read on the embedded raster img_p03_2 (wavelength read off the plot). Polarization not stated for the measurement (TE design).'
+    why: 'p.3 Fig. 6 (img_p03_2): the printed -2.5 dB is the maximum of the highest of three measured apodized traces near 1562 nm; a figure-read peak wavelength replaces the C-band inference (lit_265 ruiz2021 precedent)'
+  cmp_lit_xu2017d_uniform_sin_on_soi_gc-m1:
+    wavelength_nm: '1553'
+    wavelength_inferred: 'true'
+    band: ''
+    statistic: best
+    notes: 'Printed ''peak coupling coefficient of -3.6 dB'' (sign as printed); de-embedding not described. Peak wavelength not printed: Fig. 6 shows three measured uniform traces; the highest peaks about -3.7 dB (+/-0.05 dB) near 1553 nm (+/-2 nm), the others about -4.1 and -4.4 dB (img_p03_2; wavelength read off the plot). The Fig. 6 caption says the best testing results are shown.'
+    why: 'p.3 Fig. 6 (img_p03_2) and caption: -3.6 dB is the best of three measured uniform traces (as the apodized -2.5 dB ''best''), at a figure-read peak near 1553 nm'
+add_metrics:
+- metric_id: cmp_lit_tokushima2016_dual_center_folded_gc_r5-m2
+  component_id: cmp_lit_tokushima2016_dual_center_folded_gc_r5
+  parameter: grating_length_um
+  value: '30.0'
+  unit: um
+  condition: L_G, each grating segment
+  basis: design_target
+  locator: p.4 Table I
+  why: 'miss (D153): GCR5 is ''nearly the same GC'' as GCR11 except the 5.0 um bends (p.8); the shared dual-center design value applies (GCR11 rows m11-m14 / design rows)'
+- metric_id: cmp_lit_tokushima2016_dual_center_folded_gc_r5-m3
+  component_id: cmp_lit_tokushima2016_dual_center_folded_gc_r5
+  parameter: grating_width_um
+  value: '5.0'
+  unit: um
+  condition: each grating segment (5.0 um grating inside a 5.2 um Si slab)
+  basis: design_target
+  locator: p.4 Sec. III
+  why: 'miss (D153): GCR5 is ''nearly the same GC'' as GCR11 except the 5.0 um bends (p.8); the shared dual-center design value applies (GCR11 rows m11-m14 / design rows)'
+- metric_id: cmp_lit_tokushima2016_dual_center_folded_gc_r5-m4
+  component_id: cmp_lit_tokushima2016_dual_center_folded_gc_r5
+  parameter: taper_length_um
+  value: '30.0'
+  unit: um
+  condition: L_TW1 and L_TW2,3 taper waveguides at the grating segment ends
+  basis: design_target
+  locator: p.4 Table I
+  why: 'miss (D153): GCR5 is ''nearly the same GC'' as GCR11 except the 5.0 um bends (p.8); the shared dual-center design value applies (GCR11 rows m11-m14 / design rows)'
+- metric_id: cmp_lit_tokushima2016_dual_center_folded_gc_r5-m5
+  component_id: cmp_lit_tokushima2016_dual_center_folded_gc_r5
+  parameter: width_nm
+  value: '340'
+  unit: nm
+  condition: single-mode Si connecting waveguide (200 nm thick)
+  basis: design_target
+  locator: p.5 Sec. III
+  why: 'miss (D153): GCR5 is ''nearly the same GC'' as GCR11 except the 5.0 um bends (p.8); the shared dual-center design value applies (GCR11 rows m11-m14 / design rows)'
+- metric_id: cmp_lit_tokushima2016_dual_center_folded_gc_r5-m6
+  component_id: cmp_lit_tokushima2016_dual_center_folded_gc_r5
+  parameter: core_thickness_nm
+  value: '200'
+  unit: nm
+  notes: design; STEM 198 nm of the wafer on the GCR11 row
+  basis: design_target
+  locator: p.4 Sec. III
+  why: 'miss (D153): GCR5 is ''nearly the same GC'' as GCR11 except the 5.0 um bends (p.8); the shared dual-center design value applies (GCR11 rows m11-m14 / design rows)'
+- metric_id: cmp_lit_tokushima2016_dual_center_folded_gc_r5-m7
+  component_id: cmp_lit_tokushima2016_dual_center_folded_gc_r5
+  parameter: box_thickness_um
+  value: '2.972'
+  unit: um
+  notes: design, printed 2972 nm (unit conversion, D157); STEM 3024 nm on the GCR11 row
+  basis: derived
+  locator: p.4 Sec. III
+  why: 'miss (D153): GCR5 is ''nearly the same GC'' as GCR11 except the 5.0 um bends (p.8); the shared dual-center design value applies (GCR11 rows m11-m14 / design rows)'
+- metric_id: cmp_lit_tokushima2016_dual_center_folded_gc_r5-m8
+  component_id: cmp_lit_tokushima2016_dual_center_folded_gc_r5
+  parameter: etch_depth_nm
+  value: '35'
+  unit: nm
+  notes: the folded GCs adopt the 35-nm-deep grating of Sec. II (p.4); STEM 36.2 nm on the GCR11 row
+  basis: design_target
+  locator: p.4 Sec. III; p.2 Sec. II
+  why: 'miss (D153): GCR5 is ''nearly the same GC'' as GCR11 except the 5.0 um bends (p.8); the shared dual-center design value applies (GCR11 rows m11-m14 / design rows)'
+- metric_id: cmp_lit_tokushima2016_dual_center_folded_gc_r5-m9
+  component_id: cmp_lit_tokushima2016_dual_center_folded_gc_r5
+  parameter: period_nm
+  value: '496'
+  unit: nm
+  notes: pitch of the adopted 35-nm-deep grating; STEM 503 nm on the GCR11 row
+  basis: design_target
+  locator: p.2 Sec. II; p.4 Sec. III
+  why: 'miss (D153): GCR5 is ''nearly the same GC'' as GCR11 except the 5.0 um bends (p.8); the shared dual-center design value applies (GCR11 rows m11-m14 / design rows)'
+- metric_id: cmp_lit_tokushima2016_dual_center_folded_gc_r5-m10
+  component_id: cmp_lit_tokushima2016_dual_center_folded_gc_r5
+  parameter: fill_factor
+  value: '0.399'
+  unit: '1'
+  notes: tooth fraction (496 - 298) / 496 from the printed design pitch and groove width (D253)
+  basis: derived
+  locator: p.2 Sec. II; p.4 Sec. III
+  why: 'miss (D153): GCR5 is ''nearly the same GC'' as GCR11 except the 5.0 um bends (p.8); the shared dual-center design value applies (GCR11 rows m11-m14 / design rows)'
+- metric_id: cmp_lit_tokushima2016_dual_center_folded_gc_r5-m11
+  component_id: cmp_lit_tokushima2016_dual_center_folded_gc_r5
+  parameter: fiber_angle_deg
+  value: '12.0'
+  unit: deg
+  condition: tilt of the non-angled SI50 MMF from the chip vertical, set to the anticipated 12.1 deg emission angle in air
+  basis: design_target
+  locator: p.8 Sec. V-A
+  why: 'miss (D153): the SI50 MMF tilt of 12.0 deg is set in the common test setup before the two test elements are introduced (p.8)'
+- metric_id: cmp_lit_zhao2015_focusing_gc_700nm_snoi-m13
+  component_id: cmp_lit_zhao2015_focusing_gc_700nm_snoi
+  parameter: mfd_fiber_um
+  value: '9.6'
+  unit: um
+  condition: fiber mode in the 2D FDTD design model
+  notes: printed 'fiber mode field diameter is 9.6 um'
+  basis: specification
+  locator: p.2 Sec. II
+  why: 'miss (D625 / D731 / D740 precedent): mfd_fiber_um of the fiber the coupler is designed for'
+- metric_id: cmp_lit_zhao2015_grating_geom_b_design-m4
+  component_id: cmp_lit_zhao2015_grating_geom_b_design
+  parameter: mfd_fiber_um
+  value: '9.6'
+  unit: um
+  condition: fiber mode in the 2D FDTD design model
+  notes: printed 'fiber mode field diameter is 9.6 um'
+  basis: specification
+  locator: p.2 Sec. II
+  why: 'miss (D625 / D731 / D740 precedent): same 2D FDTD fiber model as Geometry A'
+- metric_id: cmp_lit_zhao2015_si3n4_strip_700nm-m2
+  component_id: cmp_lit_zhao2015_si3n4_strip_700nm
+  parameter: width_nm
+  value: '900'
+  unit: nm
+  condition: strip waveguide width of the 3D-FDTD model, kept for the experiment (p.4)
+  basis: design_target
+  locator: p.3 Sec. II; p.4 Sec. III
+  why: 'miss (D153): p.4 keeps the 3D-FDTD parameters for the experiment, so the 900 nm strip width (p.3) is the fabricated design'
+- metric_id: cmp_lit_subramanian2012a_gc_dbr_design-m3
+  component_id: cmp_lit_subramanian2012a_gc_dbr_design
+  parameter: box_thickness_um
+  value: '2.1'
+  unit: um
+  condition: SiO2 buffer between the top DBR layer and the Si3N4 grating layer (on a three-pair DBR over 1.5 um SiO2 on Si)
+  basis: design_target
+  locator: p.4 Sec. IV, Fig. 8(a)
+  why: 'miss (D153): lower cladding of the DBR design; printed in the text, caption and drawing'
+- metric_id: cmp_lit_xu2017d_uniform_sin_on_soi_gc-m7
+  component_id: cmp_lit_xu2017d_uniform_sin_on_soi_gc
+  parameter: core_thickness_nm
+  value: '600'
+  unit: nm
+  condition: SiNx layer
+  basis: design_target
+  locator: p.2 Sec. II
+  why: 'miss (D153): same SiNx-on-SOI stack and single-step process as the apodized grating (p.2); the stack was entered on the apodized row only'
+- metric_id: cmp_lit_xu2017d_uniform_sin_on_soi_gc-m8
+  component_id: cmp_lit_xu2017d_uniform_sin_on_soi_gc
+  parameter: layer2_thickness_nm
+  value: '220'
+  unit: nm
+  condition: Si device layer of the SOI wafer
+  basis: design_target
+  locator: p.2 Sec. II
+  why: 'miss (D153): same SiNx-on-SOI stack and single-step process as the apodized grating (p.2); the stack was entered on the apodized row only'
+- metric_id: cmp_lit_xu2017d_uniform_sin_on_soi_gc-m9
+  component_id: cmp_lit_xu2017d_uniform_sin_on_soi_gc
+  parameter: box_thickness_um
+  value: '2'
+  unit: um
+  basis: design_target
+  locator: p.2 Sec. II
+  why: 'miss (D153): same SiNx-on-SOI stack and single-step process as the apodized grating (p.2); the stack was entered on the apodized row only'
+- metric_id: cmp_lit_xu2017d_uniform_sin_on_soi_gc-m10
+  component_id: cmp_lit_xu2017d_uniform_sin_on_soi_gc
+  parameter: fiber_angle_deg
+  value: '-8'
+  unit: deg
+  qualifier: approx
+  condition: measurement fiber tilt ('tilt angle near -8 degree')
+  notes: sign as printed
+  basis: design_target
+  locator: p.3 Sec. II, Fig. 6 caption
+  why: 'miss (D153): measured with the fiber tilted near -8 deg (p.3)'

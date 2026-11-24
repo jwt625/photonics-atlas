@@ -1,0 +1,670 @@
+# Audit patch lit_270 (fresh-context audit 2026-11-24, DevLog/audits/2026-11-24-lit_270-audit.md).
+# 165 metrics: 118 ok / 47 imprecise / 0 wrong; 28 components: 28 ok. Misses: 1 component + 18 metrics (samusenko2016
+# Fig. 11 coupling-length series) and 4 ring circumference rows (D153).
+# Fixes: samusenko2016 measured rows wavelength_inferred cleared (VCSEL 'around 850 nm' stated, D393 / D676); BS3
+# water resonance 849.52 nm; BS1 / BS2 bend-width locators (Fig. 5 is BS3 only); q_intrinsic regime notes; jin2017
+# full-FSR tuning note (data stop at 15 V).
+metrics:
+  cmp_lit_samusenko2016_wg_bs1_w900-m1:
+    wavelength_inferred: ''
+    notes: 'Wavelength: measured with the single-mode VCSEL tuned ''around 850 nm'' (849.03-850.64 nm tuning range, p.3; setup
+      p.4 Sec. IV), a stated measurement wavelength (D393; D676 ye2014).'
+    why: 'p.4 Sec. IV: every characterization used the VCSEL tuned ''around 850 nm'' (range 849.03-850.64 nm, p.3); a stated
+      measurement wavelength, not an inferred band (D393; D676 ye2014 ''tested with a 2 um laser''); the batch treats the
+      zhuang2011 1550 nm setup laser the same way'
+  cmp_lit_samusenko2016_wg_bs1_w900-m2:
+    wavelength_inferred: ''
+    notes: 'Wavelength: measured with the single-mode VCSEL tuned ''around 850 nm'' (849.03-850.64 nm tuning range, p.3; setup
+      p.4 Sec. IV), a stated measurement wavelength (D393; D676 ye2014).'
+    why: 'p.4 Sec. IV: every characterization used the VCSEL tuned ''around 850 nm'' (range 849.03-850.64 nm, p.3); a stated
+      measurement wavelength, not an inferred band (D393; D676 ye2014 ''tested with a 2 um laser''); the batch treats the
+      zhuang2011 1550 nm setup laser the same way'
+  cmp_lit_samusenko2016_bends_bs1_w900-m1:
+    wavelength_inferred: ''
+    notes: 'Wavelength: measured with the single-mode VCSEL tuned ''around 850 nm'' (849.03-850.64 nm tuning range, p.3; setup
+      p.4 Sec. IV), a stated measurement wavelength (D393; D676 ye2014). Table II footnote: errors below 0.08 dB.'
+    why: 'p.4 Sec. IV: every characterization used the VCSEL tuned ''around 850 nm'' (range 849.03-850.64 nm, p.3); a stated
+      measurement wavelength, not an inferred band (D393; D676 ye2014 ''tested with a 2 um laser''); the batch treats the
+      zhuang2011 1550 nm setup laser the same way'
+  cmp_lit_samusenko2016_bends_bs1_w900-m2:
+    wavelength_inferred: ''
+    notes: 'Wavelength: measured with the single-mode VCSEL tuned ''around 850 nm'' (849.03-850.64 nm tuning range, p.3; setup
+      p.4 Sec. IV), a stated measurement wavelength (D393; D676 ye2014). Table II footnote: errors below 0.08 dB.'
+    why: 'p.4 Sec. IV: every characterization used the VCSEL tuned ''around 850 nm'' (range 849.03-850.64 nm, p.3); a stated
+      measurement wavelength, not an inferred band (D393; D676 ye2014 ''tested with a 2 um laser''); the batch treats the
+      zhuang2011 1550 nm setup laser the same way'
+  cmp_lit_samusenko2016_wg_bs1_w1000-m1:
+    wavelength_inferred: ''
+    notes: 'Wavelength: measured with the single-mode VCSEL tuned ''around 850 nm'' (849.03-850.64 nm tuning range, p.3; setup
+      p.4 Sec. IV), a stated measurement wavelength (D393; D676 ye2014).'
+    why: 'p.4 Sec. IV: every characterization used the VCSEL tuned ''around 850 nm'' (range 849.03-850.64 nm, p.3); a stated
+      measurement wavelength, not an inferred band (D393; D676 ye2014 ''tested with a 2 um laser''); the batch treats the
+      zhuang2011 1550 nm setup laser the same way'
+  cmp_lit_samusenko2016_wg_bs1_w1000-m2:
+    wavelength_inferred: ''
+    notes: 'Wavelength: measured with the single-mode VCSEL tuned ''around 850 nm'' (849.03-850.64 nm tuning range, p.3; setup
+      p.4 Sec. IV), a stated measurement wavelength (D393; D676 ye2014).'
+    why: 'p.4 Sec. IV: every characterization used the VCSEL tuned ''around 850 nm'' (range 849.03-850.64 nm, p.3); a stated
+      measurement wavelength, not an inferred band (D393; D676 ye2014 ''tested with a 2 um laser''); the batch treats the
+      zhuang2011 1550 nm setup laser the same way'
+  cmp_lit_samusenko2016_bends_bs1_w1000-m1:
+    wavelength_inferred: ''
+    notes: 'Wavelength: measured with the single-mode VCSEL tuned ''around 850 nm'' (849.03-850.64 nm tuning range, p.3; setup
+      p.4 Sec. IV), a stated measurement wavelength (D393; D676 ye2014). Table II footnote: errors below 0.08 dB.'
+    why: 'p.4 Sec. IV: every characterization used the VCSEL tuned ''around 850 nm'' (range 849.03-850.64 nm, p.3); a stated
+      measurement wavelength, not an inferred band (D393; D676 ye2014 ''tested with a 2 um laser''); the batch treats the
+      zhuang2011 1550 nm setup laser the same way'
+  cmp_lit_samusenko2016_bends_bs1_w1000-m2:
+    wavelength_inferred: ''
+    notes: 'Wavelength: measured with the single-mode VCSEL tuned ''around 850 nm'' (849.03-850.64 nm tuning range, p.3; setup
+      p.4 Sec. IV), a stated measurement wavelength (D393; D676 ye2014). Table II footnote: errors below 0.08 dB.'
+    why: 'p.4 Sec. IV: every characterization used the VCSEL tuned ''around 850 nm'' (range 849.03-850.64 nm, p.3); a stated
+      measurement wavelength, not an inferred band (D393; D676 ye2014 ''tested with a 2 um laser''); the batch treats the
+      zhuang2011 1550 nm setup laser the same way'
+  cmp_lit_samusenko2016_wg_bs2_w900-m1:
+    wavelength_inferred: ''
+    notes: 'Wavelength: measured with the single-mode VCSEL tuned ''around 850 nm'' (849.03-850.64 nm tuning range, p.3; setup
+      p.4 Sec. IV), a stated measurement wavelength (D393; D676 ye2014).'
+    why: 'p.4 Sec. IV: every characterization used the VCSEL tuned ''around 850 nm'' (range 849.03-850.64 nm, p.3); a stated
+      measurement wavelength, not an inferred band (D393; D676 ye2014 ''tested with a 2 um laser''); the batch treats the
+      zhuang2011 1550 nm setup laser the same way'
+  cmp_lit_samusenko2016_wg_bs2_w900-m2:
+    wavelength_inferred: ''
+    notes: 'Wavelength: measured with the single-mode VCSEL tuned ''around 850 nm'' (849.03-850.64 nm tuning range, p.3; setup
+      p.4 Sec. IV), a stated measurement wavelength (D393; D676 ye2014).'
+    why: 'p.4 Sec. IV: every characterization used the VCSEL tuned ''around 850 nm'' (range 849.03-850.64 nm, p.3); a stated
+      measurement wavelength, not an inferred band (D393; D676 ye2014 ''tested with a 2 um laser''); the batch treats the
+      zhuang2011 1550 nm setup laser the same way'
+  cmp_lit_samusenko2016_bends_bs2_w900-m1:
+    wavelength_inferred: ''
+    notes: 'Wavelength: measured with the single-mode VCSEL tuned ''around 850 nm'' (849.03-850.64 nm tuning range, p.3; setup
+      p.4 Sec. IV), a stated measurement wavelength (D393; D676 ye2014). Table II footnote: errors below 0.08 dB.'
+    why: 'p.4 Sec. IV: every characterization used the VCSEL tuned ''around 850 nm'' (range 849.03-850.64 nm, p.3); a stated
+      measurement wavelength, not an inferred band (D393; D676 ye2014 ''tested with a 2 um laser''); the batch treats the
+      zhuang2011 1550 nm setup laser the same way'
+  cmp_lit_samusenko2016_bends_bs2_w900-m2:
+    wavelength_inferred: ''
+    notes: 'Wavelength: measured with the single-mode VCSEL tuned ''around 850 nm'' (849.03-850.64 nm tuning range, p.3; setup
+      p.4 Sec. IV), a stated measurement wavelength (D393; D676 ye2014). Table II footnote: errors below 0.08 dB.'
+    why: 'p.4 Sec. IV: every characterization used the VCSEL tuned ''around 850 nm'' (range 849.03-850.64 nm, p.3); a stated
+      measurement wavelength, not an inferred band (D393; D676 ye2014 ''tested with a 2 um laser''); the batch treats the
+      zhuang2011 1550 nm setup laser the same way'
+  cmp_lit_samusenko2016_wg_bs2_w1000-m1:
+    wavelength_inferred: ''
+    notes: 'Wavelength: measured with the single-mode VCSEL tuned ''around 850 nm'' (849.03-850.64 nm tuning range, p.3; setup
+      p.4 Sec. IV), a stated measurement wavelength (D393; D676 ye2014).'
+    why: 'p.4 Sec. IV: every characterization used the VCSEL tuned ''around 850 nm'' (range 849.03-850.64 nm, p.3); a stated
+      measurement wavelength, not an inferred band (D393; D676 ye2014 ''tested with a 2 um laser''); the batch treats the
+      zhuang2011 1550 nm setup laser the same way'
+  cmp_lit_samusenko2016_wg_bs2_w1000-m2:
+    wavelength_inferred: ''
+    notes: 'Wavelength: measured with the single-mode VCSEL tuned ''around 850 nm'' (849.03-850.64 nm tuning range, p.3; setup
+      p.4 Sec. IV), a stated measurement wavelength (D393; D676 ye2014).'
+    why: 'p.4 Sec. IV: every characterization used the VCSEL tuned ''around 850 nm'' (range 849.03-850.64 nm, p.3); a stated
+      measurement wavelength, not an inferred band (D393; D676 ye2014 ''tested with a 2 um laser''); the batch treats the
+      zhuang2011 1550 nm setup laser the same way'
+  cmp_lit_samusenko2016_bends_bs2_w1000-m1:
+    wavelength_inferred: ''
+    notes: 'Wavelength: measured with the single-mode VCSEL tuned ''around 850 nm'' (849.03-850.64 nm tuning range, p.3; setup
+      p.4 Sec. IV), a stated measurement wavelength (D393; D676 ye2014). Table II footnote: errors below 0.08 dB.'
+    why: 'p.4 Sec. IV: every characterization used the VCSEL tuned ''around 850 nm'' (range 849.03-850.64 nm, p.3); a stated
+      measurement wavelength, not an inferred band (D393; D676 ye2014 ''tested with a 2 um laser''); the batch treats the
+      zhuang2011 1550 nm setup laser the same way'
+  cmp_lit_samusenko2016_bends_bs2_w1000-m2:
+    wavelength_inferred: ''
+    notes: 'Wavelength: measured with the single-mode VCSEL tuned ''around 850 nm'' (849.03-850.64 nm tuning range, p.3; setup
+      p.4 Sec. IV), a stated measurement wavelength (D393; D676 ye2014). Table II footnote: errors below 0.08 dB.'
+    why: 'p.4 Sec. IV: every characterization used the VCSEL tuned ''around 850 nm'' (range 849.03-850.64 nm, p.3); a stated
+      measurement wavelength, not an inferred band (D393; D676 ye2014 ''tested with a 2 um laser''); the batch treats the
+      zhuang2011 1550 nm setup laser the same way'
+  cmp_lit_samusenko2016_wg_bs3_w900-m1:
+    wavelength_inferred: ''
+    notes: 'Wavelength: measured with the single-mode VCSEL tuned ''around 850 nm'' (849.03-850.64 nm tuning range, p.3; setup
+      p.4 Sec. IV), a stated measurement wavelength (D393; D676 ye2014).'
+    why: 'p.4 Sec. IV: every characterization used the VCSEL tuned ''around 850 nm'' (range 849.03-850.64 nm, p.3); a stated
+      measurement wavelength, not an inferred band (D393; D676 ye2014 ''tested with a 2 um laser''); the batch treats the
+      zhuang2011 1550 nm setup laser the same way'
+  cmp_lit_samusenko2016_wg_bs3_w900-m2:
+    wavelength_inferred: ''
+    notes: 'Wavelength: measured with the single-mode VCSEL tuned ''around 850 nm'' (849.03-850.64 nm tuning range, p.3; setup
+      p.4 Sec. IV), a stated measurement wavelength (D393; D676 ye2014).'
+    why: 'p.4 Sec. IV: every characterization used the VCSEL tuned ''around 850 nm'' (range 849.03-850.64 nm, p.3); a stated
+      measurement wavelength, not an inferred band (D393; D676 ye2014 ''tested with a 2 um laser''); the batch treats the
+      zhuang2011 1550 nm setup laser the same way'
+  cmp_lit_samusenko2016_bends_bs3_w900-m1:
+    wavelength_inferred: ''
+    notes: 'Wavelength: measured with the single-mode VCSEL tuned ''around 850 nm'' (849.03-850.64 nm tuning range, p.3; setup
+      p.4 Sec. IV), a stated measurement wavelength (D393; D676 ye2014). Table II footnote: errors below 0.08 dB.'
+    why: 'p.4 Sec. IV: every characterization used the VCSEL tuned ''around 850 nm'' (range 849.03-850.64 nm, p.3); a stated
+      measurement wavelength, not an inferred band (D393; D676 ye2014 ''tested with a 2 um laser''); the batch treats the
+      zhuang2011 1550 nm setup laser the same way'
+  cmp_lit_samusenko2016_bends_bs3_w900-m2:
+    wavelength_inferred: ''
+    notes: 'Wavelength: measured with the single-mode VCSEL tuned ''around 850 nm'' (849.03-850.64 nm tuning range, p.3; setup
+      p.4 Sec. IV), a stated measurement wavelength (D393; D676 ye2014). Table II footnote: errors below 0.08 dB.'
+    why: 'p.4 Sec. IV: every characterization used the VCSEL tuned ''around 850 nm'' (range 849.03-850.64 nm, p.3); a stated
+      measurement wavelength, not an inferred band (D393; D676 ye2014 ''tested with a 2 um laser''); the batch treats the
+      zhuang2011 1550 nm setup laser the same way'
+  cmp_lit_samusenko2016_wg_bs3_w1000-m1:
+    wavelength_inferred: ''
+    notes: 'Wavelength: measured with the single-mode VCSEL tuned ''around 850 nm'' (849.03-850.64 nm tuning range, p.3; setup
+      p.4 Sec. IV), a stated measurement wavelength (D393; D676 ye2014).'
+    why: 'p.4 Sec. IV: every characterization used the VCSEL tuned ''around 850 nm'' (range 849.03-850.64 nm, p.3); a stated
+      measurement wavelength, not an inferred band (D393; D676 ye2014 ''tested with a 2 um laser''); the batch treats the
+      zhuang2011 1550 nm setup laser the same way'
+  cmp_lit_samusenko2016_wg_bs3_w1000-m2:
+    wavelength_inferred: ''
+    notes: 'Wavelength: measured with the single-mode VCSEL tuned ''around 850 nm'' (849.03-850.64 nm tuning range, p.3; setup
+      p.4 Sec. IV), a stated measurement wavelength (D393; D676 ye2014).'
+    why: 'p.4 Sec. IV: every characterization used the VCSEL tuned ''around 850 nm'' (range 849.03-850.64 nm, p.3); a stated
+      measurement wavelength, not an inferred band (D393; D676 ye2014 ''tested with a 2 um laser''); the batch treats the
+      zhuang2011 1550 nm setup laser the same way'
+  cmp_lit_samusenko2016_bends_bs3_w1000-m1:
+    wavelength_inferred: ''
+    notes: 'Wavelength: measured with the single-mode VCSEL tuned ''around 850 nm'' (849.03-850.64 nm tuning range, p.3; setup
+      p.4 Sec. IV), a stated measurement wavelength (D393; D676 ye2014). Table II footnote: errors below 0.08 dB.'
+    why: 'p.4 Sec. IV: every characterization used the VCSEL tuned ''around 850 nm'' (range 849.03-850.64 nm, p.3); a stated
+      measurement wavelength, not an inferred band (D393; D676 ye2014 ''tested with a 2 um laser''); the batch treats the
+      zhuang2011 1550 nm setup laser the same way'
+  cmp_lit_samusenko2016_bends_bs3_w1000-m2:
+    wavelength_inferred: ''
+    notes: 'Wavelength: measured with the single-mode VCSEL tuned ''around 850 nm'' (849.03-850.64 nm tuning range, p.3; setup
+      p.4 Sec. IV), a stated measurement wavelength (D393; D676 ye2014). Table II footnote: errors below 0.08 dB.'
+    why: 'p.4 Sec. IV: every characterization used the VCSEL tuned ''around 850 nm'' (range 849.03-850.64 nm, p.3); a stated
+      measurement wavelength, not an inferred band (D393; D676 ye2014 ''tested with a 2 um laser''); the batch treats the
+      zhuang2011 1550 nm setup laser the same way'
+  cmp_lit_samusenko2016_bends_bs1_w1000-m3:
+    wavelength_inferred: ''
+    notes: 'Wavelength: measured with the single-mode VCSEL tuned ''around 850 nm'' (849.03-850.64 nm tuning range, p.3; setup
+      p.4 Sec. IV), a stated measurement wavelength (D393; D676 ye2014). Printed as the lowest R = 100 um values (W = 1000
+      nm, TE) of the multiple-bend test set.'
+    why: 'p.4 Sec. IV: every characterization used the VCSEL tuned ''around 850 nm'' (range 849.03-850.64 nm, p.3); a stated
+      measurement wavelength, not an inferred band (D393; D676 ye2014 ''tested with a 2 um laser''); the batch treats the
+      zhuang2011 1550 nm setup laser the same way'
+  cmp_lit_samusenko2016_bends_bs2_w1000-m3:
+    wavelength_inferred: ''
+    notes: 'Wavelength: measured with the single-mode VCSEL tuned ''around 850 nm'' (849.03-850.64 nm tuning range, p.3; setup
+      p.4 Sec. IV), a stated measurement wavelength (D393; D676 ye2014). Printed as the lowest R = 100 um values (W = 1000
+      nm, TE) of the multiple-bend test set.'
+    why: 'p.4 Sec. IV: every characterization used the VCSEL tuned ''around 850 nm'' (range 849.03-850.64 nm, p.3); a stated
+      measurement wavelength, not an inferred band (D393; D676 ye2014 ''tested with a 2 um laser''); the batch treats the
+      zhuang2011 1550 nm setup laser the same way'
+  cmp_lit_samusenko2016_bends_bs3_w1000-m3:
+    wavelength_inferred: ''
+    notes: 'Wavelength: measured with the single-mode VCSEL tuned ''around 850 nm'' (849.03-850.64 nm tuning range, p.3; setup
+      p.4 Sec. IV), a stated measurement wavelength (D393; D676 ye2014). Printed as the lowest R = 100 um values (W = 1000
+      nm, TE) of the multiple-bend test set.'
+    why: 'p.4 Sec. IV: every characterization used the VCSEL tuned ''around 850 nm'' (range 849.03-850.64 nm, p.3); a stated
+      measurement wavelength, not an inferred band (D393; D676 ye2014 ''tested with a 2 um laser''); the batch treats the
+      zhuang2011 1550 nm setup laser the same way'
+  cmp_lit_samusenko2016_bends_bs3_w900-m3:
+    wavelength_inferred: ''
+    notes: 'Wavelength: measured with the single-mode VCSEL tuned ''around 850 nm'' (849.03-850.64 nm tuning range, p.3; setup
+      p.4 Sec. IV), a stated measurement wavelength (D393; D676 ye2014). Read off Fig. 5 (BS3), reading uncertainty about
+      +/- 0.01 dB (error bars not read).'
+    why: 'p.4 Sec. IV: every characterization used the VCSEL tuned ''around 850 nm'' (range 849.03-850.64 nm, p.3); a stated
+      measurement wavelength, not an inferred band (D393; D676 ye2014 ''tested with a 2 um laser''); the batch treats the
+      zhuang2011 1550 nm setup laser the same way'
+  cmp_lit_samusenko2016_bends_bs3_w900-m4:
+    wavelength_inferred: ''
+    notes: 'Wavelength: measured with the single-mode VCSEL tuned ''around 850 nm'' (849.03-850.64 nm tuning range, p.3; setup
+      p.4 Sec. IV), a stated measurement wavelength (D393; D676 ye2014). Read off Fig. 5 (BS3), reading uncertainty about
+      +/- 0.01 dB (error bars not read).'
+    why: 'p.4 Sec. IV: every characterization used the VCSEL tuned ''around 850 nm'' (range 849.03-850.64 nm, p.3); a stated
+      measurement wavelength, not an inferred band (D393; D676 ye2014 ''tested with a 2 um laser''); the batch treats the
+      zhuang2011 1550 nm setup laser the same way'
+  cmp_lit_samusenko2016_bends_bs3_w900-m5:
+    wavelength_inferred: ''
+    notes: 'Wavelength: measured with the single-mode VCSEL tuned ''around 850 nm'' (849.03-850.64 nm tuning range, p.3; setup
+      p.4 Sec. IV), a stated measurement wavelength (D393; D676 ye2014). Read off Fig. 5 (BS3), reading uncertainty about
+      +/- 0.01 dB (error bars not read).'
+    why: 'p.4 Sec. IV: every characterization used the VCSEL tuned ''around 850 nm'' (range 849.03-850.64 nm, p.3); a stated
+      measurement wavelength, not an inferred band (D393; D676 ye2014 ''tested with a 2 um laser''); the batch treats the
+      zhuang2011 1550 nm setup laser the same way'
+  cmp_lit_samusenko2016_bends_bs3_w900-m6:
+    wavelength_inferred: ''
+    notes: 'Wavelength: measured with the single-mode VCSEL tuned ''around 850 nm'' (849.03-850.64 nm tuning range, p.3; setup
+      p.4 Sec. IV), a stated measurement wavelength (D393; D676 ye2014). Read off Fig. 5 (BS3), reading uncertainty about
+      +/- 0.01 dB (error bars not read).'
+    why: 'p.4 Sec. IV: every characterization used the VCSEL tuned ''around 850 nm'' (range 849.03-850.64 nm, p.3); a stated
+      measurement wavelength, not an inferred band (D393; D676 ye2014 ''tested with a 2 um laser''); the batch treats the
+      zhuang2011 1550 nm setup laser the same way'
+  cmp_lit_samusenko2016_bends_bs3_w900-m7:
+    wavelength_inferred: ''
+    notes: 'Wavelength: measured with the single-mode VCSEL tuned ''around 850 nm'' (849.03-850.64 nm tuning range, p.3; setup
+      p.4 Sec. IV), a stated measurement wavelength (D393; D676 ye2014). Read off Fig. 5 (BS3), reading uncertainty about
+      +/- 0.01 dB (error bars not read).'
+    why: 'p.4 Sec. IV: every characterization used the VCSEL tuned ''around 850 nm'' (range 849.03-850.64 nm, p.3); a stated
+      measurement wavelength, not an inferred band (D393; D676 ye2014 ''tested with a 2 um laser''); the batch treats the
+      zhuang2011 1550 nm setup laser the same way'
+  cmp_lit_samusenko2016_bends_bs3_w900-m8:
+    wavelength_inferred: ''
+    notes: 'Wavelength: measured with the single-mode VCSEL tuned ''around 850 nm'' (849.03-850.64 nm tuning range, p.3; setup
+      p.4 Sec. IV), a stated measurement wavelength (D393; D676 ye2014). Read off Fig. 5 (BS3), reading uncertainty about
+      +/- 0.01 dB (error bars not read).'
+    why: 'p.4 Sec. IV: every characterization used the VCSEL tuned ''around 850 nm'' (range 849.03-850.64 nm, p.3); a stated
+      measurement wavelength, not an inferred band (D393; D676 ye2014 ''tested with a 2 um laser''); the batch treats the
+      zhuang2011 1550 nm setup laser the same way'
+  cmp_lit_samusenko2016_bends_bs3_w1000-m4:
+    wavelength_inferred: ''
+    notes: 'Wavelength: measured with the single-mode VCSEL tuned ''around 850 nm'' (849.03-850.64 nm tuning range, p.3; setup
+      p.4 Sec. IV), a stated measurement wavelength (D393; D676 ye2014). Read off Fig. 5 (BS3), reading uncertainty about
+      +/- 0.01 dB (error bars not read).'
+    why: 'p.4 Sec. IV: every characterization used the VCSEL tuned ''around 850 nm'' (range 849.03-850.64 nm, p.3); a stated
+      measurement wavelength, not an inferred band (D393; D676 ye2014 ''tested with a 2 um laser''); the batch treats the
+      zhuang2011 1550 nm setup laser the same way'
+  cmp_lit_samusenko2016_bends_bs3_w1000-m5:
+    wavelength_inferred: ''
+    notes: 'Wavelength: measured with the single-mode VCSEL tuned ''around 850 nm'' (849.03-850.64 nm tuning range, p.3; setup
+      p.4 Sec. IV), a stated measurement wavelength (D393; D676 ye2014). Read off Fig. 5 (BS3), reading uncertainty about
+      +/- 0.01 dB (error bars not read).'
+    why: 'p.4 Sec. IV: every characterization used the VCSEL tuned ''around 850 nm'' (range 849.03-850.64 nm, p.3); a stated
+      measurement wavelength, not an inferred band (D393; D676 ye2014 ''tested with a 2 um laser''); the batch treats the
+      zhuang2011 1550 nm setup laser the same way'
+  cmp_lit_samusenko2016_bends_bs3_w1000-m6:
+    wavelength_inferred: ''
+    notes: 'Wavelength: measured with the single-mode VCSEL tuned ''around 850 nm'' (849.03-850.64 nm tuning range, p.3; setup
+      p.4 Sec. IV), a stated measurement wavelength (D393; D676 ye2014). Read off Fig. 5 (BS3), reading uncertainty about
+      +/- 0.01 dB (error bars not read).'
+    why: 'p.4 Sec. IV: every characterization used the VCSEL tuned ''around 850 nm'' (range 849.03-850.64 nm, p.3); a stated
+      measurement wavelength, not an inferred band (D393; D676 ye2014 ''tested with a 2 um laser''); the batch treats the
+      zhuang2011 1550 nm setup laser the same way'
+  cmp_lit_samusenko2016_bends_bs3_w1000-m7:
+    wavelength_inferred: ''
+    notes: 'Wavelength: measured with the single-mode VCSEL tuned ''around 850 nm'' (849.03-850.64 nm tuning range, p.3; setup
+      p.4 Sec. IV), a stated measurement wavelength (D393; D676 ye2014). Read off Fig. 5 (BS3), reading uncertainty about
+      +/- 0.01 dB (error bars not read).'
+    why: 'p.4 Sec. IV: every characterization used the VCSEL tuned ''around 850 nm'' (range 849.03-850.64 nm, p.3); a stated
+      measurement wavelength, not an inferred band (D393; D676 ye2014 ''tested with a 2 um laser''); the batch treats the
+      zhuang2011 1550 nm setup laser the same way'
+  cmp_lit_samusenko2016_bends_bs3_w1000-m8:
+    wavelength_inferred: ''
+    notes: 'Wavelength: measured with the single-mode VCSEL tuned ''around 850 nm'' (849.03-850.64 nm tuning range, p.3; setup
+      p.4 Sec. IV), a stated measurement wavelength (D393; D676 ye2014). Read off Fig. 5 (BS3), reading uncertainty about
+      +/- 0.01 dB (error bars not read).'
+    why: 'p.4 Sec. IV: every characterization used the VCSEL tuned ''around 850 nm'' (range 849.03-850.64 nm, p.3); a stated
+      measurement wavelength, not an inferred band (D393; D676 ye2014 ''tested with a 2 um laser''); the batch treats the
+      zhuang2011 1550 nm setup laser the same way'
+  cmp_lit_samusenko2016_dc_bs3_w1000_series-m1:
+    wavelength_inferred: ''
+    notes: 'Wavelength: measured with the single-mode VCSEL tuned ''around 850 nm'' (849.03-850.64 nm tuning range, p.3; setup
+      p.4 Sec. IV), a stated measurement wavelength (D393; D676 ye2014). Conclusion: 49/51 splitting ratio for the 65 um coupling
+      zone on 350 x 950 nm waveguides (BS3, nominal 1000 nm). Fig. 7 shows P1 (output that falls with length) at about 0.49-0.50.'
+    why: 'p.4 Sec. IV: every characterization used the VCSEL tuned ''around 850 nm'' (range 849.03-850.64 nm, p.3); a stated
+      measurement wavelength, not an inferred band (D393; D676 ye2014 ''tested with a 2 um laser''); the batch treats the
+      zhuang2011 1550 nm setup laser the same way'
+  cmp_lit_samusenko2016_dc_bs3_w900_series-m1:
+    wavelength_inferred: ''
+    notes: 'Wavelength: measured with the single-mode VCSEL tuned ''around 850 nm'' (849.03-850.64 nm tuning range, p.3; setup
+      p.4 Sec. IV), a stated measurement wavelength (D393; D676 ye2014). Read off Fig. 7 (BS3, 0.9 um, filled circle at 50
+      um), reading uncertainty about +/- 0.02; P2 about 0.58.'
+    why: 'p.4 Sec. IV: every characterization used the VCSEL tuned ''around 850 nm'' (range 849.03-850.64 nm, p.3); a stated
+      measurement wavelength, not an inferred band (D393; D676 ye2014 ''tested with a 2 um laser''); the batch treats the
+      zhuang2011 1550 nm setup laser the same way'
+  cmp_lit_samusenko2016_ring_bs3_water-m1:
+    wavelength_nm: '849.52'
+    notes: Unqualified Q of the Lorentzian fit (q_loaded). Wavelength read from the figure axis (resonance position, Fig.
+      10 BS3 dip about 849.52 nm, +/- 0.01 nm).
+    why: 'p.7 Fig. 10 (img_p07_2 raster): the BS3 water resonance dip sits right of the 849.5 nm tick, about 849.52 nm (849.49
+      was on the wrong side of the tick)'
+  cmp_lit_samusenko2016_ring_bs3_water-m2:
+    wavelength_nm: '849.52'
+    notes: Printed ER; stored as a positive magnitude.
+    why: 'p.7 Fig. 10 (img_p07_2 raster): the BS3 water resonance dip sits right of the 849.5 nm tick, about 849.52 nm (849.49
+      was on the wrong side of the tick)'
+  cmp_lit_samusenko2016_bends_bs1_w900-m3:
+    locator: p.2 Sec. II.A; p.5 Table II
+    why: Fig. 5 shows sample BS3 only (caption, p.5); the BS1 / BS2 widths are the Table II nominal columns
+  cmp_lit_samusenko2016_bends_bs1_w1000-m4:
+    locator: p.2 Sec. II.A; p.5 Table II
+    why: Fig. 5 shows sample BS3 only (caption, p.5); the BS1 / BS2 widths are the Table II nominal columns
+  cmp_lit_samusenko2016_bends_bs2_w900-m3:
+    locator: p.2 Sec. II.A; p.5 Table II
+    why: Fig. 5 shows sample BS3 only (caption, p.5); the BS1 / BS2 widths are the Table II nominal columns
+  cmp_lit_samusenko2016_bends_bs2_w1000-m4:
+    locator: p.2 Sec. II.A; p.5 Table II
+    why: Fig. 5 shows sample BS3 only (caption, p.5); the BS1 / BS2 widths are the Table II nominal columns
+  cmp_lit_samusenko2016_ring_bs3_teos-m2:
+    notes: 'Extracted intrinsic Q (printed 3.8e5). The over-coupled regime is determined from the paper''s own data: Fig.
+      11 places this ring (red labels: ER about -2.8 dB, Q 4.6e4 at 35 um) on the over-coupled side of the coupling-length
+      series, whose critical coupling lies at about 10-20 um (p.7); derived, not author_estimate (D403). Extraction formula
+      not printed; the over-coupled relation Q_i = 2 Q_L / (1 - sqrt(T_min)) with the Fig. 9 dip (T_min about 0.52) gives
+      about 3.3e5, the same order as the printed value (the fit includes a Fabry-Perot term).'
+    why: 'notes: record the regime evidence (Fig. 11 red labels = this BS3 ring) and the consistency check'
+  cmp_lit_samusenko2016_ring_bs2_teos-m2:
+    notes: 'Extracted intrinsic Q (printed 4.5e5). Regime evidence for BS2 is indirect: the Fig. 11 red labels are the BS3
+      circuit ring; the text calls the circuit resonators over-coupled because of the long 35 um coupling zone (p.7), and
+      the BS2 directional couplers are over-coupled at every tested length (Fig. 7, p.6). Kept derived (D403, regime from
+      the paper''s own data); author_estimate is the strict alternative. Extraction formula not printed; the over-coupled
+      relation Q_i = 2 Q_L / (1 - sqrt(T_min)) with the Fig. 9 dip (T_min about 0.66) reproduces about 4.6e5.'
+    why: 'notes: the Fig. 11 regime evidence covers the BS3 ring only; record the indirect BS2 evidence and the check'
+  cmp_lit_jin2017_sin_ring_r580-m2:
+    locator: p.1 Abstract; p.2 Conclusion; p.2 Fig. 3; p.2 Fig. 4
+    notes: 'Resonance ''tuned by a full FSR'' at 16 V (abstract, conclusion); value = the Fig. 3 FSR label 0.412 nm. Data
+      check: the Fig. 3 86 um points reach about -0.38 nm at 15 V/um and the Fig. 4 TM dip moves about 0.39 nm from 0 to 15
+      V (about 1550.07 -> 1549.68 nm); 16 V is not plotted, so the full FSR at 16 V rests on the text. The results text says
+      ''pi phase shift'' at 16 V (inconsistent; component notes).'
+    why: 'p.2 Fig. 3 / Fig. 4 renders: the plotted data stop at 15 V (0.38-0.39 nm, about 0.93 FSR); the note must say the
+      16 V full-FSR value comes from the text, not the figure'
+add_components:
+- component_id: cmp_lit_samusenko2016_ring_lc_series
+  source_id: lit:samusenko2016
+  class: resonator.ring
+  label: SiON racetrack ring series R 100 um, coupling length 0-54 um (coupling-regime test set), 850 nm
+  row_kind: fabricated
+  host_device_ids: ''
+  platform: sion
+  core_material: PECVD SiON, bulk index 1.66, RIE-patterned, annealed 1050 C 1.5 h, on 4 um thermal SiO2 on Si (p.4); wafer
+    (BS1 / BS2 / BS3) and cladding of the series not stated
+  cladding: ''
+  fab_org_ids: ''
+  facility_org_ids: ''
+  process_name: ''
+  test_structure: 'true'
+  tags: racetrack;coupling_series;biosensing
+  verified_on: '2026-11-24'
+  notes: '''several rings with the radius of curvature of 100 um and different coupling lengths'' characterized to find the
+    coupling regime (p.7, Fig. 11); critical coupling at about 10-20 um. Separate physical rings from the four circuit rings
+    (the BS3 circuit ring is the red label at 35 um, entered on cmp_lit_samusenko2016_ring_bs3_teos). Wafer, cladding (TEOS
+    or water) and polarization of the series not stated: values are attached to this set only, never to a BS row (D159). Q
+    is the unqualified ''Quality factor'' of the figure (q_loaded). Fab: passive ''The devices were fabricated'' (p.4 Sec.
+    III); acknowledgment thanks the ''MNF Facility of Fondazione Bruno Kessler, Centre for Materials and Microsystems, for
+    device fabrication'' (p.8), a stated place of fabrication (D448), but neither Fondazione Bruno Kessler nor its MNF facility
+    is in the registry: fab and facility empty, reported.'
+  why: 'miss: Fig. 11 (p.7) prints measured Q and ER for eight coupling lengths of a distinct, identifiable test set; the
+    series holds the paper''s highest measured Q (about 2.7e5 at 0 um); unknown wafer / cladding is a stack gap, not an ambiguity
+    between two components (D159 does not bite), recorded in notes'
+add_metrics:
+- metric_id: cmp_lit_samusenko2016_ring_lc_series-m1
+  component_id: cmp_lit_samusenko2016_ring_lc_series
+  parameter: q_loaded
+  value: '267000'
+  unit: '1'
+  qualifier: approx
+  wavelength_nm: '850'
+  wavelength_inferred: ''
+  condition: coupling length 0 um
+  basis: extracted_from_figure
+  locator: p.7 Fig. 11
+  notes: 'Fig. 11 black square at 0 um (x read +/- 0.3 um) read on the figure raster against the right axis, about 2.67e5
+    (+/- 0.03e5); unqualified ''Quality factor'' (q_loaded); wavelength: VCSEL tuned ''around 850 nm'' (p.4; D393)'
+  why: 'miss: Fig. 11 measured Q of the coupling-length series (p.7)'
+- metric_id: cmp_lit_samusenko2016_ring_lc_series-m2
+  component_id: cmp_lit_samusenko2016_ring_lc_series
+  parameter: q_loaded
+  value: '202000'
+  unit: '1'
+  qualifier: approx
+  wavelength_nm: '850'
+  wavelength_inferred: ''
+  condition: coupling length 1 um
+  basis: extracted_from_figure
+  locator: p.7 Fig. 11
+  notes: 'Fig. 11 black square at 1 um (x read +/- 0.3 um) read on the figure raster against the right axis, about 2.02e5
+    (+/- 0.03e5); unqualified ''Quality factor'' (q_loaded); wavelength: VCSEL tuned ''around 850 nm'' (p.4; D393)'
+  why: 'miss: Fig. 11 measured Q of the coupling-length series (p.7)'
+- metric_id: cmp_lit_samusenko2016_ring_lc_series-m3
+  component_id: cmp_lit_samusenko2016_ring_lc_series
+  parameter: q_loaded
+  value: '236000'
+  unit: '1'
+  qualifier: approx
+  wavelength_nm: '850'
+  wavelength_inferred: ''
+  condition: coupling length 2 um
+  basis: extracted_from_figure
+  locator: p.7 Fig. 11
+  notes: 'Fig. 11 black square at 2 um (x read +/- 0.3 um) read on the figure raster against the right axis, about 2.36e5
+    (+/- 0.03e5); unqualified ''Quality factor'' (q_loaded); wavelength: VCSEL tuned ''around 850 nm'' (p.4; D393)'
+  why: 'miss: Fig. 11 measured Q of the coupling-length series (p.7)'
+- metric_id: cmp_lit_samusenko2016_ring_lc_series-m4
+  component_id: cmp_lit_samusenko2016_ring_lc_series
+  parameter: q_loaded
+  value: '212000'
+  unit: '1'
+  qualifier: approx
+  wavelength_nm: '850'
+  wavelength_inferred: ''
+  condition: coupling length 4 um
+  basis: extracted_from_figure
+  locator: p.7 Fig. 11
+  notes: 'Fig. 11 black square at 4 um (x read +/- 0.3 um) read on the figure raster against the right axis, about 2.12e5
+    (+/- 0.03e5); unqualified ''Quality factor'' (q_loaded); wavelength: VCSEL tuned ''around 850 nm'' (p.4; D393)'
+  why: 'miss: Fig. 11 measured Q of the coupling-length series (p.7)'
+- metric_id: cmp_lit_samusenko2016_ring_lc_series-m5
+  component_id: cmp_lit_samusenko2016_ring_lc_series
+  parameter: q_loaded
+  value: '158000'
+  unit: '1'
+  qualifier: approx
+  wavelength_nm: '850'
+  wavelength_inferred: ''
+  condition: coupling length 8 um
+  basis: extracted_from_figure
+  locator: p.7 Fig. 11
+  notes: 'Fig. 11 black square at 8 um (x read +/- 0.3 um) read on the figure raster against the right axis, about 1.58e5
+    (+/- 0.03e5); unqualified ''Quality factor'' (q_loaded); wavelength: VCSEL tuned ''around 850 nm'' (p.4; D393)'
+  why: 'miss: Fig. 11 measured Q of the coupling-length series (p.7)'
+- metric_id: cmp_lit_samusenko2016_ring_lc_series-m6
+  component_id: cmp_lit_samusenko2016_ring_lc_series
+  parameter: q_loaded
+  value: '169000'
+  unit: '1'
+  qualifier: approx
+  wavelength_nm: '850'
+  wavelength_inferred: ''
+  condition: coupling length 16 um
+  basis: extracted_from_figure
+  locator: p.7 Fig. 11
+  notes: 'Fig. 11 black square at 16 um (x read +/- 0.3 um) read on the figure raster against the right axis, about 1.69e5
+    (+/- 0.03e5); unqualified ''Quality factor'' (q_loaded); wavelength: VCSEL tuned ''around 850 nm'' (p.4; D393)'
+  why: 'miss: Fig. 11 measured Q of the coupling-length series (p.7)'
+- metric_id: cmp_lit_samusenko2016_ring_lc_series-m7
+  component_id: cmp_lit_samusenko2016_ring_lc_series
+  parameter: q_loaded
+  value: '52000'
+  unit: '1'
+  qualifier: approx
+  wavelength_nm: '850'
+  wavelength_inferred: ''
+  condition: coupling length 32 um
+  basis: extracted_from_figure
+  locator: p.7 Fig. 11
+  notes: 'Fig. 11 black square at 32 um (x read +/- 0.3 um) read on the figure raster against the right axis, about 0.52e5
+    (+/- 0.03e5); unqualified ''Quality factor'' (q_loaded); wavelength: VCSEL tuned ''around 850 nm'' (p.4; D393)'
+  why: 'miss: Fig. 11 measured Q of the coupling-length series (p.7)'
+- metric_id: cmp_lit_samusenko2016_ring_lc_series-m8
+  component_id: cmp_lit_samusenko2016_ring_lc_series
+  parameter: q_loaded
+  value: '55000'
+  unit: '1'
+  qualifier: approx
+  wavelength_nm: '850'
+  wavelength_inferred: ''
+  condition: coupling length 54 um
+  basis: extracted_from_figure
+  locator: p.7 Fig. 11
+  notes: 'Fig. 11 black square at 54 um (x read +/- 0.3 um) read on the figure raster against the right axis, about 0.55e5
+    (+/- 0.03e5); unqualified ''Quality factor'' (q_loaded); wavelength: VCSEL tuned ''around 850 nm'' (p.4; D393)'
+  why: 'miss: Fig. 11 measured Q of the coupling-length series (p.7)'
+- metric_id: cmp_lit_samusenko2016_ring_lc_series-m9
+  component_id: cmp_lit_samusenko2016_ring_lc_series
+  parameter: extinction_db
+  value: '2.5'
+  unit: dB
+  qualifier: approx
+  wavelength_nm: '850'
+  wavelength_inferred: ''
+  condition: coupling length 0 um
+  basis: extracted_from_figure
+  locator: p.7 Fig. 11
+  notes: 'Fig. 11 blue circle at 0 um read on the figure raster, about -2.5 dB on the left axis (+/- 0.1 dB), stored as a
+    positive magnitude; wavelength: VCSEL tuned ''around 850 nm'' (p.4; D393)'
+  why: 'miss: Fig. 11 measured extinction ratio of the coupling-length series (p.7)'
+- metric_id: cmp_lit_samusenko2016_ring_lc_series-m10
+  component_id: cmp_lit_samusenko2016_ring_lc_series
+  parameter: extinction_db
+  value: '4.4'
+  unit: dB
+  qualifier: approx
+  wavelength_nm: '850'
+  wavelength_inferred: ''
+  condition: coupling length 1 um
+  basis: extracted_from_figure
+  locator: p.7 Fig. 11
+  notes: 'Fig. 11 blue circle at 1 um read on the figure raster, about -4.4 dB on the left axis (+/- 0.1 dB), stored as a
+    positive magnitude; wavelength: VCSEL tuned ''around 850 nm'' (p.4; D393)'
+  why: 'miss: Fig. 11 measured extinction ratio of the coupling-length series (p.7)'
+- metric_id: cmp_lit_samusenko2016_ring_lc_series-m11
+  component_id: cmp_lit_samusenko2016_ring_lc_series
+  parameter: extinction_db
+  value: '6.2'
+  unit: dB
+  qualifier: approx
+  wavelength_nm: '850'
+  wavelength_inferred: ''
+  condition: coupling length 2 um
+  basis: extracted_from_figure
+  locator: p.7 Fig. 11
+  notes: 'Fig. 11 blue circle at 2 um read on the figure raster, about -6.2 dB on the left axis (+/- 0.1 dB), stored as a
+    positive magnitude; wavelength: VCSEL tuned ''around 850 nm'' (p.4; D393)'
+  why: 'miss: Fig. 11 measured extinction ratio of the coupling-length series (p.7)'
+- metric_id: cmp_lit_samusenko2016_ring_lc_series-m12
+  component_id: cmp_lit_samusenko2016_ring_lc_series
+  parameter: extinction_db
+  value: '5.9'
+  unit: dB
+  qualifier: approx
+  wavelength_nm: '850'
+  wavelength_inferred: ''
+  condition: coupling length 4 um
+  basis: extracted_from_figure
+  locator: p.7 Fig. 11
+  notes: 'Fig. 11 blue circle at 4 um read on the figure raster, about -5.9 dB on the left axis (+/- 0.1 dB), stored as a
+    positive magnitude; wavelength: VCSEL tuned ''around 850 nm'' (p.4; D393)'
+  why: 'miss: Fig. 11 measured extinction ratio of the coupling-length series (p.7)'
+- metric_id: cmp_lit_samusenko2016_ring_lc_series-m13
+  component_id: cmp_lit_samusenko2016_ring_lc_series
+  parameter: extinction_db
+  value: '8.1'
+  unit: dB
+  qualifier: approx
+  wavelength_nm: '850'
+  wavelength_inferred: ''
+  condition: coupling length 8 um
+  basis: extracted_from_figure
+  locator: p.7 Fig. 11
+  notes: 'Fig. 11 blue circle at 8 um read on the figure raster, about -8.1 dB on the left axis (+/- 0.1 dB), stored as a
+    positive magnitude; wavelength: VCSEL tuned ''around 850 nm'' (p.4; D393)'
+  why: 'miss: Fig. 11 measured extinction ratio of the coupling-length series (p.7)'
+- metric_id: cmp_lit_samusenko2016_ring_lc_series-m14
+  component_id: cmp_lit_samusenko2016_ring_lc_series
+  parameter: extinction_db
+  value: '9.0'
+  unit: dB
+  qualifier: approx
+  wavelength_nm: '850'
+  wavelength_inferred: ''
+  condition: coupling length 16 um
+  basis: extracted_from_figure
+  locator: p.7 Fig. 11
+  notes: 'Fig. 11 blue circle at 16 um read on the figure raster, about -9.0 dB on the left axis (+/- 0.1 dB), stored as a
+    positive magnitude; wavelength: VCSEL tuned ''around 850 nm'' (p.4; D393)'
+  why: 'miss: Fig. 11 measured extinction ratio of the coupling-length series (p.7)'
+- metric_id: cmp_lit_samusenko2016_ring_lc_series-m15
+  component_id: cmp_lit_samusenko2016_ring_lc_series
+  parameter: extinction_db
+  value: '5.5'
+  unit: dB
+  qualifier: approx
+  wavelength_nm: '850'
+  wavelength_inferred: ''
+  condition: coupling length 32 um
+  basis: extracted_from_figure
+  locator: p.7 Fig. 11
+  notes: 'Fig. 11 blue circle at 32 um read on the figure raster, about -5.5 dB on the left axis (+/- 0.1 dB), stored as a
+    positive magnitude; wavelength: VCSEL tuned ''around 850 nm'' (p.4; D393)'
+  why: 'miss: Fig. 11 measured extinction ratio of the coupling-length series (p.7)'
+- metric_id: cmp_lit_samusenko2016_ring_lc_series-m16
+  component_id: cmp_lit_samusenko2016_ring_lc_series
+  parameter: extinction_db
+  value: '2.6'
+  unit: dB
+  qualifier: approx
+  wavelength_nm: '850'
+  wavelength_inferred: ''
+  condition: coupling length 54 um
+  basis: extracted_from_figure
+  locator: p.7 Fig. 11
+  notes: 'Fig. 11 blue circle at 54 um read on the figure raster, about -2.6 dB on the left axis (+/- 0.1 dB), stored as a
+    positive magnitude; wavelength: VCSEL tuned ''around 850 nm'' (p.4; D393)'
+  why: 'miss: Fig. 11 measured extinction ratio of the coupling-length series (p.7)'
+- metric_id: cmp_lit_samusenko2016_ring_lc_series-m17
+  component_id: cmp_lit_samusenko2016_ring_lc_series
+  parameter: radius_um
+  value: '100'
+  unit: um
+  basis: design_target
+  locator: p.7 Sec. IV.D
+  notes: '''several rings with the radius of curvature of 100 um'''
+  why: 'miss: geometry of the added series row (D153)'
+- metric_id: cmp_lit_samusenko2016_ring_lc_series-m18
+  component_id: cmp_lit_samusenko2016_ring_lc_series
+  parameter: coupling_length_um
+  value: '0'
+  value_max: '54'
+  unit: um
+  statistic: range
+  condition: coupling lengths of the series (0, 1, 2, 4, 8, 16, 32, 54 um)
+  basis: extracted_from_figure
+  locator: p.7 Fig. 11
+  notes: x positions of the Fig. 11 markers (+/- 0.3 um); no lengths printed in the text
+  why: 'miss: geometry of the added series row (D153)'
+- metric_id: cmp_lit_samusenko2016_ring_bs2_teos-m9
+  component_id: cmp_lit_samusenko2016_ring_bs2_teos
+  parameter: length_um
+  value: '700'
+  unit: um
+  qualifier: approx
+  condition: ring circumference
+  basis: design_target
+  locator: p.7 Sec. IV.D
+  notes: printed 'the ring with circumference of 700 um' (BS3 loss estimate); the four circuit rings share the R 100 um /
+    35 um coupling-zone design (2 pi R + 2 x 35 um = 698 um)
+  why: 'miss (D153): stated ring circumference, merged zhuang2011-style length_um on ring rows'
+- metric_id: cmp_lit_samusenko2016_ring_bs3_teos-m10
+  component_id: cmp_lit_samusenko2016_ring_bs3_teos
+  parameter: length_um
+  value: '700'
+  unit: um
+  qualifier: approx
+  condition: ring circumference
+  basis: design_target
+  locator: p.7 Sec. IV.D
+  notes: printed 'the ring with circumference of 700 um' (BS3 loss estimate); the four circuit rings share the R 100 um /
+    35 um coupling-zone design (2 pi R + 2 x 35 um = 698 um)
+  why: 'miss (D153): stated ring circumference, merged zhuang2011-style length_um on ring rows'
+- metric_id: cmp_lit_samusenko2016_ring_bs2_water-m8
+  component_id: cmp_lit_samusenko2016_ring_bs2_water
+  parameter: length_um
+  value: '700'
+  unit: um
+  qualifier: approx
+  condition: ring circumference
+  basis: design_target
+  locator: p.7 Sec. IV.D
+  notes: printed 'the ring with circumference of 700 um' (BS3 loss estimate); the four circuit rings share the R 100 um /
+    35 um coupling-zone design (2 pi R + 2 x 35 um = 698 um)
+  why: 'miss (D153): stated ring circumference, merged zhuang2011-style length_um on ring rows'
+- metric_id: cmp_lit_samusenko2016_ring_bs3_water-m8
+  component_id: cmp_lit_samusenko2016_ring_bs3_water
+  parameter: length_um
+  value: '700'
+  unit: um
+  qualifier: approx
+  condition: ring circumference
+  basis: design_target
+  locator: p.7 Sec. IV.D
+  notes: printed 'the ring with circumference of 700 um' (BS3 loss estimate); the four circuit rings share the R 100 um /
+    35 um coupling-zone design (2 pi R + 2 x 35 um = 698 um)
+  why: 'miss (D153): stated ring circumference, merged zhuang2011-style length_um on ring rows'

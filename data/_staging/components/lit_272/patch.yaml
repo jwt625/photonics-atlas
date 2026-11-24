@@ -1,0 +1,23 @@
+# Audit patch lit_272 (fresh-context audit 2026-11-24, DevLog/audits/2026-11-24-lit_272-audit.md).
+# 98 metrics: 94 ok / 4 imprecise / 0 wrong; 18 components: 18 ok. No misses added.
+# Fixes: pan2020 coupling-region length is a design dimension (design_target, not simulated); pan2020 arc-bend
+# mismatch loss wavelength marked inferred (the overlap sentence prints none); pan2020 Euler-bend locator on p.4
+# (text and Fig. 8 both on p.4); yang2025a pre-anneal extinction gets the printed resonance wavelength.
+# Note supplement (row ok): spencer2012 spiral OBR row, Fig. 3 first-panel reading supporting the inferred 1580 nm.
+metrics:
+  cmp_lit_pan2020_racetrack_reff18-m7:
+    basis: design_target
+    why: 'p.5 Sec. II: Ltt is the chosen design length of the coupling region (selected from the Fig. 10(d) simulated curves); a design dimension is design_target (rule 4, Contract v5), the simulated quantity is the coupling ratio'
+  cmp_lit_pan2020_arc_bend_r9p7-m1:
+    wavelength_inferred: 'true'
+    notes: 'printed "mode mismatch loss is up to 1.3 dB" at R 9.7 um from the 74 % overlap (Fig. 6(c), x-z plane); no wavelength printed with the overlap result, 1550 nm working wavelength of the design (p.2) entered as inferred'
+    why: 'p.4 Sec. II: the overlap / mismatch sentence prints no wavelength; 1550 nm comes from the design statement on p.2 (rule 8: inferred)'
+  cmp_lit_pan2020_euler_bend_180-m1:
+    locator: 'p.4 Sec. II, Fig. 8'
+    why: 'render p.4: the "less than 0.01 dB" sentence and Fig. 8 are both on p.4; nothing on p.5'
+  cmp_lit_yang2025a_ring_r150-m3:
+    wavelength_nm: '1550.655'
+    why: 'p.3 Sec. III: the ~6 dB ER is printed for the representative resonance at 1550.655 nm (Fig. 2(b)); the row carried the wavelength only in notes'
+  cmp_lit_spencer2012_spiral_100nm-m1:
+    notes: 'printed 2.5 dB/m (D256 conversion); no wavelength printed with it, taken as the 1580 nm of Table 1 for which it is the reference; Fig. 3 first panel (100 nm, embedded raster img_p02_1): the OBR curve falls from about 5.5 dB/m near 1545 nm to its minimum of about 2.5 dB/m (+/-0.3) near 1575-1585 nm, consistent with 1580 nm'
+    why: 'note supplement (row ok): the figure reading supports the inferred 1580 nm (audit judgment b)'

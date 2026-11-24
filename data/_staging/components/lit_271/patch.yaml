@@ -1,0 +1,65 @@
+# Audit patch lit_271 (fresh-context audit 2026-11-24, DevLog/audits/2026-11-24-lit_271-audit.md).
+# 159 metrics: 148 ok / 9 imprecise / 2 wrong; 20 components: 20 ok (2 notes extended). 1 miss added (wu2015 bus width).
+# Fixes: pernice2012a FSR 1.9 nm / ng 2.01 off the w900_g650 row (Fig. 4(b) dips ~2.28 nm apart; series value, D254 / D159),
+# visible FSR conflict note (Fig. 6(a) ~0.96 nm), 766-780 nm stated (p.2); wu2015 cutback slope conflict (Fig. 3(b) ~1.77 dB/cm);
+# siew2015 FSR / finesse wavelength conditions, Fabry-Perot dB/cm arithmetic note; sun2013b conversion wavelength 1290 nm.
+components:
+  cmp_lit_pernice2012a_nir_ring_w900_g650:
+    notes: 'Critically coupled device of Fig. 4(b): p.7 gives the 650 nm gap, p.8 states the widest critical gap (650 nm) belongs to the 900 nm wide waveguide, and in Fig. 5(b) only the 900 nm series peaks at 650 nm, so the Fig. 4(b) values are tied to this row. Fig. 5(a) reads Q ~9.5e4 for 900 nm (consistent with the text). Ring series of 200 um diameter at 1550 nm; input waveguide 1 um wide (Fig. 3 caption, Fig. 3(d)); simulated single-mode cutoff width 630 nm (p.7). Polarization of the NIR measurements not stated (TE-like mode profiles shown, Fig. 3(d)). AFM roughness 1.2 nm rms top, 3.5 nm sidewall (p.6, no parameter). fab: first-person fabrication (''To fabricate the devices ... we first develop AlN-on-insulator substrates'', p.3; ''we fabricate identical devices'', p.7), all three authors at Yale (W.H.P. Pernice current address KIT, not used); staff thanked for assistance in device fabrication (p.9) is not a facility. FSR 1.9 nm / group index 2.01 not entered on a row (D254 / D159):
+      p.7 states them for ''the device'' of the 200 um diameter series and p.8 restates FSR_IR 1.9 nm for the IR resonators in general; the Fig. 4(b) spectrum shows 22 dips between ~1520.6 and ~1568.4 nm (spacing ~2.28 nm, raster img_p06_1), so 1.9 nm is not the Fig. 4(b) device''s spacing and the device it belongs to is not identified.'
+    why: 'audit: FSR / ng moved from metric rows to notes (deleted m3 / m4, see delete_metrics); p.7, p.8, p.6 Fig. 4(b)'
+  cmp_lit_pernice2012a_nir_ring_g1000:
+    notes: 'Highest-Q device of the gap series (gap 200-1000 nm, p.7). Ring waveguide width of this device not stated (the width series of Fig. 5 spans 650-1200 nm); a separate row because the gap makes it a separate design. No resonance splitting observed in the zoom-in spectrum (p.7). A length-series (cutback) measurement is said to give comparable loss, no number printed (p.7). Ring series of 200 um diameter at 1550 nm; input waveguide 1 um wide (Fig. 3 caption, Fig. 3(d)); simulated single-mode cutoff width 630 nm (p.7). Polarization of the NIR measurements not stated (TE-like mode profiles shown, Fig. 3(d)). AFM roughness 1.2 nm rms top, 3.5 nm sidewall (p.6, no parameter). fab: first-person fabrication (''To fabricate the devices ... we first develop AlN-on-insulator substrates'', p.3; ''we fabricate identical devices'', p.7), all three authors at Yale (W.H.P. Pernice current address KIT, not used); staff thanked for assistance in device fabrication (p.9) is not a facility. FSR 1.9
+      nm / group index 2.01 not entered on a row (D254 / D159): p.7 states them for ''the device'' of the 200 um diameter series and p.8 restates FSR_IR 1.9 nm for the IR resonators in general; the Fig. 4(b) spectrum shows 22 dips between ~1520.6 and ~1568.4 nm (spacing ~2.28 nm, raster img_p06_1), so 1.9 nm is not the Fig. 4(b) device''s spacing and the device it belongs to is not identified.'
+    why: 'audit: series-level FSR / ng recorded in notes (D254); p.7, p.8'
+metrics:
+  cmp_lit_pernice2012a_vis_ring_g250-m3:
+    wavelength_inferred: ''
+    locator: p.8 Sec. 6; p.2; p.9 Fig. 6(a)
+    why: 'p.2 states the 766-780 nm visible range of the measured rings: a stated wavelength range, not inferred (rule 8, D393)'
+    notes: printed 'near 10 dB'; wavelength range stated for the visible rings ('visible regime (766 nm-780 nm)', p.2), equal to the Fig. 6(a) span
+  cmp_lit_pernice2012a_vis_ring_g250-m4:
+    why: 'p.9 Fig. 6(a): printed FSR does not match the plotted dip spacing; conflict note (D417)'
+    notes: printed 1.1 nm; the Fig. 6(a) dips read ~0.96 nm apart (14 dips 766.6-779.1 nm, raster img_p09_1, +/-0.02 nm), conflict kept as printed (D417)
+  cmp_lit_pernice2012a_vis_ring_g250-m5:
+    why: 'p.8 / p.9 Fig. 6(a): group index rests on the printed FSR that the figure does not reproduce (D417)'
+    notes: wavelength 'around 770 nm' (D393); the printed 1.1 nm FSR with R 40 um gives ~2.14; the Fig. 6(a) spacing (~0.96 nm) would give ~2.46 (D417)
+  cmp_lit_wu2015_channel_wg-m1:
+    why: 'p.6 Fig. 3(b): printed slope does not match the plotted data and fit line (~1.77 dB/cm); conflict note (D417)'
+    notes: 'printed -1.5 dB/cm (0.35 cm^-1); polarization of the cutback not stated; the authors attribute extra loss to ~50 nm e-beam stitching misalignment beyond 1 cm and expect < 1 dB/cm with better stitching (not entered); Fig. 3(b) points read -4.01 / -4.78 / -5.39 dB at 4.8 / 9 / 12.6 mm (page render, +/-0.05 dB) and the drawn fit line runs from ~-3.17 dB at 0 to ~-5.65 dB at 14 mm: slope ~1.77 dB/cm, not the printed 1.5 dB/cm (0.35 cm^-1 is itself 1.52 dB/cm); intercept 3.2 dB reproduces; value kept as printed (D417)'
+  cmp_lit_siew2015_rib_ring_r50-m3:
+    wavelength_nm: '1600'
+    wavelength_max_nm: '1620'
+    notes: Fig. 6(a) scan 1600-1620 nm stated in the text (p.2); some resonances not resolved due to noise
+    why: p.2 Sec. IV states the 1600-1620 nm span of the Fig. 6(a) measurement; rule 7 / 8 spectral condition
+  cmp_lit_siew2015_rib_ring_r50-m4:
+    wavelength_nm: '1606.9'
+    notes: from the 1606.9 nm resonance FWHM (0.57 nm) and the 3.2 nm FSR (1600-1620 nm scan)
+    why: 'p.3 Sec. IV: finesse computed from the 1606.9 nm resonance; wavelength condition was empty'
+  cmp_lit_siew2015_rib_wg-m2:
+    why: 'p.4 Sec. IV: the printed dB/cm does not follow from the printed 1.978 cm^-1; conflict note (D417)'
+    notes: 'printed alpha 1.978 cm^-1 = 8.3 dB/cm (D394); conclusion prints 8.48 dB/cm (D417); wavelength not stated, 1600 nm from the LiNbO3 index used for R (2.136 at 1600 nm); arithmetic check: 1.978 cm^-1 x 4.343 = 8.59 dB/cm (Eq. (2) with R 0.13, Pmin/Pmax 0.824, L 0.5 cm reproduces 1.978 cm^-1), so neither 8.3 (p.4) nor 8.48 (p.4 Conclusion) follows from the printed alpha; printed 8.3 kept (D417)'
+  cmp_lit_sun2013b_arm_filter_d6-m2:
+    wavelength_nm: '1290'
+    notes: printed 350 GHz, converted with lambda^2 / c at the ~1290 nm design wavelength (1 GHz ~ 5.55 pm); wavelength_nm = the stated design wavelength 'lambda~1290nm' (p.2, D393) used for the conversion
+    why: 'p.2 Sec. 2: the stored nm / pm value depends on the conversion wavelength, which the source states (~1290 nm); wavelength field was empty (rule 8, D393)'
+  cmp_lit_sun2013b_arm_filter_d6-m3:
+    wavelength_nm: '1290'
+    notes: 'printed 10-15 uW/GHz (inverse efficiency), converted to pm/mW with lambda^2 / c at ~1290 nm: 15 uW/GHz -> ~370, 10 uW/GHz -> ~555 pm/mW; wavelength_nm = the stated design wavelength ''lambda~1290nm'' (p.2, D393) used for the conversion'
+    why: 'p.2 Sec. 2: the stored nm / pm value depends on the conversion wavelength, which the source states (~1290 nm); wavelength field was empty (rule 8, D393)'
+delete_metrics:
+- id: cmp_lit_pernice2012a_nir_ring_w900_g650-m3
+  why: 'p.7 / p.8: FSR 1.9 nm is stated for the 200 um ring series (''the IR resonators have an FSR_IR of 1.9 nm'', p.8), not tied to the Fig. 4(b) device; p.6 Fig. 4(b) dips are ~2.28 nm apart (22 dips 1520.6-1568.4 nm, raster img_p06_1), contradicting the distiller''s ''Fig. 4(b) dips agree''; D254 family value / D159 identity -> component notes'
+- id: cmp_lit_pernice2012a_nir_ring_w900_g650-m4
+  why: 'p.7: ng 2.01 is the authors'' conversion of the series FSR 1.9 nm (with 200 um diameter: 1550^2 / (1.9 x 628.3 um) = 2.01); same identity problem as m3 (D254 / D159) -> component notes'
+add_metrics:
+- metric_id: cmp_lit_wu2015_ring_d200-m16
+  component_id: cmp_lit_wu2015_ring_d200
+  parameter: bus_width_nm
+  value: '700'
+  unit: nm
+  condition: bus waveguide width (700 x 400 nm2 bus, same as the ring)
+  basis: design_target
+  locator: p.4 Sec. 3-1; p.6 Sec. 3-3
+  notes: p.4 'core area of bus and ring cavity are set as the same dimension of 400nm x 700nm'; p.6 bus 700 x 400 nm2
+  why: 'miss (D153 / Contract v5 role-specific geometry): bus width stated separately from the ring width_nm (m11)'

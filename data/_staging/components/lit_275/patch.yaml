@@ -1,0 +1,59 @@
+# Audit patch lit_275 (fresh-context audit 2026-11-24, DevLog/audits/2026-11-24-lit_275-audit.md).
+# 300 metrics: 296 ok / 4 imprecise / 0 wrong; 38 components: 36 ok / 2 imprecise. 3 misses added (geometry).
+# Fixes: shi2014 Fig. 6 page locators (Fig. 6 is on p.3); fang2016 1-dB bandwidth bound measured (the band edges lie
+# outside the measured span with margin, so "> 100 nm" is read from the data, not extrapolated); fang2016 converter
+# platform silica (D82f, fiber-facing facet = suspended SiO2 waveguide); shi2014 uniform GC cladding (same wafer process).
+# Misses: buf2015 SMW TEM labels (Fig. 5: 0.32 um width, 306 nm height); shi2014 uniform GC 2.1 um cladding.
+components:
+  cmp_lit_fang2016_cantilever_ssc:
+    platform: silica
+    notes: "Fab empty: 'we optimized and fabricated' (p.1) with authors at Kunming University of Science and Technology, Jilin University and IME A*STAR (no fabricating org named; D154 / D80b); 'fabricated on a SOI wafer with an 8-inch diameter' (p.3) names no org. Process flow similar to the authors' ref. 14 (p.3). Platform silica (D82f: the fiber-facing facet is the suspended SiO2 waveguide, 8 x 12 um, p.2; jia2017 / su2026 / nauriyal2019 precedent); the Si nano-tapers and 220 nm SOI stack are in core_material. The authors' merged fang2010 suspended-SiO2 converter rows still carry soi (follow-up). Coupling dependent loss 'less than 1 dB' over 1520-1620 nm (p.4) not entered: the term is undefined (TE-TM difference or spectral variation, D156). SiO2 taper lengths kept in core_material (overlay tapers, fang2010 precedent)."
+    why: "D82f (DevLog-002): edge couplers / SSCs take the platform of the layer at the fiber-facing facet; here the cleaved fiber couples into the 8 um x 12 um suspended SiO2 waveguide of section 1 (p.2 Sec. II, Table I), so silica, not soi"
+  cmp_lit_shi2014_gc_uniform:
+    cladding: 'SiO2 2.1 um (deposited)'
+    why: "p.3 Sec. III: the wafer process ends with a 2.1 um SiO2 cladding deposition; the uniform design was 'also fabricated and measured' (p.4) and the batch already takes its 220 nm Si / 2 um BOX from the same Sec. III"
+metrics:
+  cmp_lit_shi2014_gc_nonuniform-m1:
+    locator: 'p.4 Sec. III; p.3 Fig. 6; p.1 Abstract'
+    why: 'Fig. 6 is on p.3 (render page_03); the p.4 text prints the value'
+  cmp_lit_shi2014_gc_nonuniform-m2:
+    locator: 'p.4 Sec. III; p.3 Fig. 6; p.1 Abstract'
+    why: 'Fig. 6 is on p.3 (render page_03); the p.4 text prints the value'
+  cmp_lit_shi2014_gc_nonuniform-m3:
+    locator: 'p.4 Sec. III; p.3 Fig. 6 inset; p.1 Abstract'
+    why: 'Fig. 6 (with the ripple inset) is on p.3 (render page_03); the p.4 text prints the value'
+  cmp_lit_fang2016_cantilever_ssc-m5:
+    basis: measured
+    notes: "printed '> 100 nm' (p.4, abstract, conclusion) for TE and TM; Fig. 5 (p.4) shows the per-facet loss within about 0.45 dB (TE, about 1.45-1.9 dB) and 0.75 dB (TM, about 2.1-2.85 dB) of its minimum over the whole 1520-1620 nm span, so both 1-dB edges lie beyond the measured span and the width exceeds 100 nm on the data alone (a bound read from the data, not a fit extended past it; D435 / D459 differ: there the printed bound exceeded the measured span)"
+    why: 'p.4 Fig. 5: the 1-dB criterion holds with margin at both ends of the measured 1520-1620 nm span, so the printed lower bound is a direct reading of the measurement (rule 4 measured); author_estimate (D435) is for values whose number lies beyond the data'
+add_components: []
+add_metrics:
+  - metric_id: cmp_lit_buf2015_smw_rib-m7
+    component_id: cmp_lit_buf2015_smw_rib
+    parameter: width_nm
+    value: '320'
+    unit: nm
+    condition: 'rib width on the TEM cross-section of the TE rib waveguide (300 mm SOI wafer)'
+    basis: derived
+    locator: 'p.4 Fig. 5'
+    notes: 'Fig. 5 TEM label 0.32 um across the rib top of the "TE Rib Waveguide" panel; um -> nm (D157 / D256); TEM-measured dimension'
+    why: 'miss (D153 / Contract v5 geometry): the only printed SMW width; figure-labelled TEM dimension'
+  - metric_id: cmp_lit_buf2015_smw_rib-m8
+    component_id: cmp_lit_buf2015_smw_rib
+    parameter: core_thickness_nm
+    value: '306'
+    unit: nm
+    condition: 'rib height on the TEM cross-section of the TE rib waveguide (300 mm SOI wafer)'
+    basis: measured
+    locator: 'p.4 Fig. 5'
+    notes: 'Fig. 5 TEM label 306 nm (rib height to the BOX); the nominal SOI thickness is 310 nm (p.3 Sec. III, m4); the same panel labels the slab 166 nm, equal to the Tslab target (m5)'
+    why: 'miss (D153): TEM-measured cross-section dimension printed as a figure label (merged TEM-labelled thickness rows are measured)'
+  - metric_id: cmp_lit_shi2014_gc_uniform-m8
+    component_id: cmp_lit_shi2014_gc_uniform
+    parameter: cladding_thickness_um
+    value: '2.1'
+    unit: um
+    basis: design_target
+    locator: 'p.3 Sec. III'
+    notes: 'deposited SiO2 cladding of the wafer process (p.3 Sec. III); the uniform design was also fabricated and measured (p.4), on the same process as the non-uniform GC (m10 there)'
+    why: 'miss: the batch takes the uniform GC stack (220 nm Si, 2 um BOX) from the same Sec. III but omitted the cladding'

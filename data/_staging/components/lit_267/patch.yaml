@@ -1,0 +1,284 @@
+# Audit patch lit_267 (fresh-context audit 2026-11-24, DevLog/audits/2026-11-24-lit_267-audit.md).
+# 97 metrics: 84 ok / 13 imprecise / 0 wrong; 22 components: 15 ok / 7 imprecise / 0 wrong. 10 misses added (geometry).
+# Fixes: dumon2004a fab org_imec emptied on 7 rows (two printed orgs, no named place; merged lit:dumon2004 precedent),
+# figure-label-only geometry -> extracted_from_figure (10 rows), FSR / finesse wavelength span as on the Q row;
+# orcutt2011 drop-loss wavelengths = Fig. 5(a) drop peaks. Misses: dumon2004a taper narrow-end widths, orcutt2011
+# test-ring poly thickness, sun2015a Fig. 4 poly thickness 230 nm / ridge slab 100 nm.
+components:
+  cmp_lit_dumon2004a_wire_w400:
+    fab_org_ids: ''
+    notes: 'Loss from a length series of Fabry-Perot cavities (two cleaved facets in a 3 um ridge, wire section in the middle
+      reached through adiabatic tapers): total cavity loss vs wire length, slope of the fitted line (p.1, Fig. 1). No sidewall
+      smoothing (no thermal oxidation). Fab empty: first-person ''We have fabricated photonic wires using deep UV lithography''
+      (p.1 Introduction, citing the authors'' process ref. [4]), but the authors sit at two printed orgs (Ghent University
+      - IMEC, Dept. of Information Technology; IMEC vzw, Silicon Process Technology Division) and no sentence names where
+      the wafers were processed (D80b / D154 unambiguity; same author group and split as the merged lit:dumon2004 rows, left
+      empty in the lit_25 audit). Same measurement series is also reported in lit:dumon2004 (journal paper; there the taper
+      length is 300 um). Lithography wavelength and process name not printed.'
+    why: 'D80b / D154: first-person fabrication but two printed orgs and no named place; consistency with the merged lit:dumon2004
+      rows (same authors, same affiliation split, fab empty) rather than pathak2014a (all authors at one printed org) or bogaerts2006
+      (imec processing named); p.1'
+  cmp_lit_dumon2004a_taper_3um_to_w400:
+    fab_org_ids: ''
+    notes: 'Taper in one Si layer between the 3 um cleaved-facet ridge and the photonic wire (single-layer width taper ->
+      waveguide_platform.other, D417 xiao2022 precedent). Upper bound from the intercept of the cavity-loss fit with the facet
+      reflection replaced by its theoretical value (p.1 Fig. 1 caption; p.2). Sibling of cmp_lit_dumon2004a_wire_w400. Taper
+      length not stated. Fab empty: first-person ''We have fabricated photonic wires using deep UV lithography'' (p.1 Introduction,
+      citing the authors'' process ref. [4]), but the authors sit at two printed orgs (Ghent University - IMEC, Dept. of Information
+      Technology; IMEC vzw, Silicon Process Technology Division) and no sentence names where the wafers were processed (D80b
+      / D154 unambiguity; same author group and split as the merged lit:dumon2004 rows, left empty in the lit_25 audit). Same
+      measurement series is also reported in lit:dumon2004 (journal paper; there the taper length is 300 um). Lithography
+      wavelength and process name not printed.'
+    why: 'D80b / D154: first-person fabrication but two printed orgs and no named place; consistency with the merged lit:dumon2004
+      rows (same authors, same affiliation split, fab empty) rather than pathak2014a (all authors at one printed org) or bogaerts2006
+      (imec processing named); p.1'
+  cmp_lit_dumon2004a_wire_w450:
+    fab_org_ids: ''
+    notes: 'Loss from a length series of Fabry-Perot cavities (two cleaved facets in a 3 um ridge, wire section in the middle
+      reached through adiabatic tapers): total cavity loss vs wire length, slope of the fitted line (p.1, Fig. 1). No sidewall
+      smoothing (no thermal oxidation). Fab empty: first-person ''We have fabricated photonic wires using deep UV lithography''
+      (p.1 Introduction, citing the authors'' process ref. [4]), but the authors sit at two printed orgs (Ghent University
+      - IMEC, Dept. of Information Technology; IMEC vzw, Silicon Process Technology Division) and no sentence names where
+      the wafers were processed (D80b / D154 unambiguity; same author group and split as the merged lit:dumon2004 rows, left
+      empty in the lit_25 audit). Same measurement series is also reported in lit:dumon2004 (journal paper; there the taper
+      length is 300 um). Lithography wavelength and process name not printed.'
+    why: 'D80b / D154: first-person fabrication but two printed orgs and no named place; consistency with the merged lit:dumon2004
+      rows (same authors, same affiliation split, fab empty) rather than pathak2014a (all authors at one printed org) or bogaerts2006
+      (imec processing named); p.1'
+  cmp_lit_dumon2004a_taper_3um_to_w450:
+    fab_org_ids: ''
+    notes: 'Taper in one Si layer between the 3 um cleaved-facet ridge and the photonic wire (single-layer width taper ->
+      waveguide_platform.other, D417 xiao2022 precedent). Upper bound from the intercept of the cavity-loss fit with the facet
+      reflection replaced by its theoretical value (p.1 Fig. 1 caption; p.2). Sibling of cmp_lit_dumon2004a_wire_w450. Taper
+      length not stated. Fab empty: first-person ''We have fabricated photonic wires using deep UV lithography'' (p.1 Introduction,
+      citing the authors'' process ref. [4]), but the authors sit at two printed orgs (Ghent University - IMEC, Dept. of Information
+      Technology; IMEC vzw, Silicon Process Technology Division) and no sentence names where the wafers were processed (D80b
+      / D154 unambiguity; same author group and split as the merged lit:dumon2004 rows, left empty in the lit_25 audit). Same
+      measurement series is also reported in lit:dumon2004 (journal paper; there the taper length is 300 um). Lithography
+      wavelength and process name not printed.'
+    why: 'D80b / D154: first-person fabrication but two printed orgs and no named place; consistency with the merged lit:dumon2004
+      rows (same authors, same affiliation split, fab empty) rather than pathak2014a (all authors at one printed org) or bogaerts2006
+      (imec processing named); p.1'
+  cmp_lit_dumon2004a_wire_w500:
+    fab_org_ids: ''
+    notes: 'Loss from a length series of Fabry-Perot cavities (two cleaved facets in a 3 um ridge, wire section in the middle
+      reached through adiabatic tapers): total cavity loss vs wire length, slope of the fitted line (p.1, Fig. 1). No sidewall
+      smoothing (no thermal oxidation). Fab empty: first-person ''We have fabricated photonic wires using deep UV lithography''
+      (p.1 Introduction, citing the authors'' process ref. [4]), but the authors sit at two printed orgs (Ghent University
+      - IMEC, Dept. of Information Technology; IMEC vzw, Silicon Process Technology Division) and no sentence names where
+      the wafers were processed (D80b / D154 unambiguity; same author group and split as the merged lit:dumon2004 rows, left
+      empty in the lit_25 audit). Same measurement series is also reported in lit:dumon2004 (journal paper; there the taper
+      length is 300 um). Lithography wavelength and process name not printed. The abstract text layer prints ''2.4dBkm'';
+      the page render and p.2 read 2.4 dB/cm. 500 nm wire still single-mode, 76 % of the light in the core (p.2).'
+    why: 'D80b / D154: first-person fabrication but two printed orgs and no named place; consistency with the merged lit:dumon2004
+      rows (same authors, same affiliation split, fab empty) rather than pathak2014a (all authors at one printed org) or bogaerts2006
+      (imec processing named); p.1'
+  cmp_lit_dumon2004a_taper_3um_to_w500:
+    fab_org_ids: ''
+    notes: 'Taper in one Si layer between the 3 um cleaved-facet ridge and the photonic wire (single-layer width taper ->
+      waveguide_platform.other, D417 xiao2022 precedent). Upper bound from the intercept of the cavity-loss fit with the facet
+      reflection replaced by its theoretical value (p.1 Fig. 1 caption; p.2). Sibling of cmp_lit_dumon2004a_wire_w500. Taper
+      length 200 um stated for this taper only (p.2). Fab empty: first-person ''We have fabricated photonic wires using deep
+      UV lithography'' (p.1 Introduction, citing the authors'' process ref. [4]), but the authors sit at two printed orgs
+      (Ghent University - IMEC, Dept. of Information Technology; IMEC vzw, Silicon Process Technology Division) and no sentence
+      names where the wafers were processed (D80b / D154 unambiguity; same author group and split as the merged lit:dumon2004
+      rows, left empty in the lit_25 audit). Same measurement series is also reported in lit:dumon2004 (journal paper; there
+      the taper length is 300 um). Lithography wavelength and process name not printed.'
+    why: 'D80b / D154: first-person fabrication but two printed orgs and no named place; consistency with the merged lit:dumon2004
+      rows (same authors, same affiliation split, fab empty) rather than pathak2014a (all authors at one printed org) or bogaerts2006
+      (imec processing named); p.1'
+  cmp_lit_dumon2004a_racetrack_r3:
+    fab_org_ids: ''
+    notes: 'Add-drop racetrack (pass and drop ports, Fig. 2); pass-port fluctuations come from the cleaved-facet Fabry-Perot
+      cavity (caption). Test resonator, not in a WDM path (D400). Fab empty: first-person ''We have fabricated photonic wires
+      using deep UV lithography'' (p.1 Introduction, citing the authors'' process ref. [4]), but the authors sit at two printed
+      orgs (Ghent University - IMEC, Dept. of Information Technology; IMEC vzw, Silicon Process Technology Division) and no
+      sentence names where the wafers were processed (D80b / D154 unambiguity; same author group and split as the merged lit:dumon2004
+      rows, left empty in the lit_25 audit). Same measurement series is also reported in lit:dumon2004 (journal paper; there
+      the taper length is 300 um). Lithography wavelength and process name not printed.'
+    why: 'D80b / D154: first-person fabrication but two printed orgs and no named place; consistency with the merged lit:dumon2004
+      rows (same authors, same affiliation split, fab empty) rather than pathak2014a (all authors at one printed org) or bogaerts2006
+      (imec processing named); p.1'
+metrics:
+  cmp_lit_dumon2004a_wire_w400-m3:
+    basis: extracted_from_figure
+    locator: p.1 Fig. 1
+    notes: '''220nm'' label on the Fig. 1 cross-section sketch (no text value)'
+    why: 'Contract v5 / v6: a dimension printed only as a figure label is extracted_from_figure (as on the merged lit:dumon2004
+      rows); p.1 Fig. 1 render'
+  cmp_lit_dumon2004a_wire_w400-m4:
+    basis: extracted_from_figure
+    locator: p.1 Fig. 1
+    notes: '''1um'' SiO2 label on the Fig. 1 cross-section sketch (no text value)'
+    why: 'Contract v5 / v6: figure-label-only dimension; p.1 Fig. 1 render'
+  cmp_lit_dumon2004a_wire_w450-m3:
+    basis: extracted_from_figure
+    locator: p.1 Fig. 1
+    notes: '''220nm'' label on the Fig. 1 cross-section sketch (no text value)'
+    why: 'Contract v5 / v6: a dimension printed only as a figure label is extracted_from_figure (as on the merged lit:dumon2004
+      rows); p.1 Fig. 1 render'
+  cmp_lit_dumon2004a_wire_w450-m4:
+    basis: extracted_from_figure
+    locator: p.1 Fig. 1
+    notes: '''1um'' SiO2 label on the Fig. 1 cross-section sketch (no text value)'
+    why: 'Contract v5 / v6: figure-label-only dimension; p.1 Fig. 1 render'
+  cmp_lit_dumon2004a_wire_w500-m3:
+    basis: extracted_from_figure
+    locator: p.1 Fig. 1
+    notes: '''220nm'' label on the Fig. 1 cross-section sketch (no text value)'
+    why: 'Contract v5 / v6: a dimension printed only as a figure label is extracted_from_figure (as on the merged lit:dumon2004
+      rows); p.1 Fig. 1 render'
+  cmp_lit_dumon2004a_wire_w500-m4:
+    basis: extracted_from_figure
+    locator: p.1 Fig. 1
+    notes: '''1um'' SiO2 label on the Fig. 1 cross-section sketch (no text value)'
+    why: 'Contract v5 / v6: figure-label-only dimension; p.1 Fig. 1 render'
+  cmp_lit_dumon2004a_racetrack_r3-m4:
+    basis: extracted_from_figure
+    notes: '''Wire width = 500nm'' label printed beside the SEM in Fig. 2 (no text value)'
+    why: 'Contract v5 / v6: figure-label-only dimension; p.2 Fig. 2 render'
+  cmp_lit_dumon2004a_racetrack_r3-m5:
+    basis: extracted_from_figure
+    notes: '''Gap width = 230nm'' label printed beside the SEM in Fig. 2 (no text value)'
+    why: 'Contract v5 / v6: figure-label-only dimension; p.2 Fig. 2 render'
+  cmp_lit_dumon2004a_racetrack_r3-m8:
+    basis: extracted_from_figure
+    notes: '''220nm'' label on the Fig. 1 cross-section sketch; same wafer stack as the wires'
+    why: 'Contract v5 / v6: figure-label-only dimension; p.1 Fig. 1 render'
+  cmp_lit_dumon2004a_racetrack_r3-m9:
+    basis: extracted_from_figure
+    notes: '''1um'' SiO2 label on the Fig. 1 cross-section sketch; same wafer stack as the wires'
+    why: 'Contract v5 / v6: figure-label-only dimension; p.1 Fig. 1 render'
+  cmp_lit_dumon2004a_racetrack_r3-m2:
+    wavelength_nm: '1500'
+    wavelength_max_nm: '1650'
+    wavelength_inferred: 'true'
+    notes: '''around 14nm''; wavelength not stated, Fig. 2 spectrum spans about 1500-1650 nm (axis), as on the Q row'
+    why: same spectrum as the Q row (m1), which carries the inferred 1500-1650 nm span; FSR / finesse rows had no wavelength
+      or band (rule 8); p.2 Fig. 2
+  cmp_lit_dumon2004a_racetrack_r3-m3:
+    wavelength_nm: '1500'
+    wavelength_max_nm: '1650'
+    wavelength_inferred: 'true'
+    notes: printed finesse 27; wavelength not stated, Fig. 2 spectrum spans about 1500-1650 nm (axis), as on the Q row
+    why: same spectrum as the Q row (m1), which carries the inferred 1500-1650 nm span; FSR / finesse rows had no wavelength
+      or band (rule 8); p.2 Fig. 2
+  cmp_lit_orcutt2011_filterbank_4ch-m1:
+    wavelength_nm: '1553'
+    wavelength_max_nm: '1556.1'
+    notes: '''drop-port insertion losses were below 5 dB'' (all four channels); Fig. 5(a) drop peaks D1-D4 read at about 1553.0
+      / 1553.9 / 1554.9 / 1556.1 nm (+/-0.1 nm) with peak levels about -3 to -4.2 dB'
+    why: the range was the Fig. 5(a) axis span (1552-1557 nm); the value holds at the four drop peaks; p.10 Fig. 5(a) render
+add_metrics:
+- metric_id: cmp_lit_dumon2004a_taper_3um_to_w400-m2
+  component_id: cmp_lit_dumon2004a_taper_3um_to_w400
+  parameter: width_nm
+  value: '400'
+  unit: nm
+  condition: narrow (wire) end; wide end 3 um ridge
+  basis: design_target
+  locator: p.1 Fig. 1 table
+  notes: wire width of the taper's narrow end (Fig. 1 table width column; p.2 text 'from 3um width down to a 500nm wide wire'
+    for the 500 nm taper)
+  why: miss (D153 geometry; merged lit:dumon2004 taper rows carry the same width_nm row)
+- metric_id: cmp_lit_dumon2004a_taper_3um_to_w450-m2
+  component_id: cmp_lit_dumon2004a_taper_3um_to_w450
+  parameter: width_nm
+  value: '450'
+  unit: nm
+  condition: narrow (wire) end; wide end 3 um ridge
+  basis: design_target
+  locator: p.1 Fig. 1 table
+  notes: wire width of the taper's narrow end (Fig. 1 table width column; p.2 text 'from 3um width down to a 500nm wide wire'
+    for the 500 nm taper)
+  why: miss (D153 geometry; merged lit:dumon2004 taper rows carry the same width_nm row)
+- metric_id: cmp_lit_dumon2004a_taper_3um_to_w500-m3
+  component_id: cmp_lit_dumon2004a_taper_3um_to_w500
+  parameter: width_nm
+  value: '500'
+  unit: nm
+  condition: narrow (wire) end; wide end 3 um ridge
+  basis: design_target
+  locator: p.1 Fig. 1 table; p.2
+  notes: wire width of the taper's narrow end (Fig. 1 table width column; p.2 text 'from 3um width down to a 500nm wide wire'
+    for the 500 nm taper)
+  why: miss (D153 geometry; merged lit:dumon2004 taper rows carry the same width_nm row)
+- metric_id: cmp_lit_orcutt2011_ring_r20-m4
+  component_id: cmp_lit_orcutt2011_ring_r20
+  parameter: core_thickness_nm
+  value: '80'
+  unit: nm
+  qualifier: approx
+  basis: design_target
+  locator: p.5 Sec. 2; p.8 Fig. 3(b) caption
+  notes: '''roughly 80 nm'' gate polysilicon layer (p.5); 670 x 80 nm core in the Fig. 3(b) caption; same layer as the ring
+    waveguide'
+  why: 'miss (D153 geometry): the waveguide and filter-bank rows carry the poly thickness, the test ring did not'
+- metric_id: cmp_lit_sun2015a_pd_ring_overcoupled-m6
+  component_id: cmp_lit_sun2015a_pd_ring_overcoupled
+  parameter: core_thickness_nm
+  value: '230'
+  unit: nm
+  basis: extracted_from_figure
+  locator: p.4 Fig. 4
+  notes: 'Fig. 4 platform cross-section labels: ''230nm'' arrow spans from the deep-trench surface to the top of the full-height
+    grating teeth / rectangular waveguide (poly layer thickness); ''100nm'' arrow spans from the trench surface to the top
+    of the partially etched ridge slab (label-to-feature identification on the render; drawing is a schematic, no text value)'
+  why: 'miss (D153 geometry; Contract v6 figure-labelled dimension): the poly thickness is printed only as the Fig. 4 label'
+- metric_id: cmp_lit_sun2015a_pd_ring_overcoupled-m7
+  component_id: cmp_lit_sun2015a_pd_ring_overcoupled
+  parameter: slab_thickness_nm
+  value: '100'
+  unit: nm
+  basis: extracted_from_figure
+  locator: p.4 Fig. 4
+  notes: 'Fig. 4 platform cross-section labels: ''230nm'' arrow spans from the deep-trench surface to the top of the full-height
+    grating teeth / rectangular waveguide (poly layer thickness); ''100nm'' arrow spans from the trench surface to the top
+    of the partially etched ridge slab (label-to-feature identification on the render; drawing is a schematic, no text value);
+    the PD is a ridge-waveguide microring formed by the partial poly etch (p.4)'
+  why: 'miss (D153 geometry; Contract v6 figure-labelled dimension): ridge slab of the PD microring'
+- metric_id: cmp_lit_sun2015a_pd_ring_critical-m5
+  component_id: cmp_lit_sun2015a_pd_ring_critical
+  parameter: core_thickness_nm
+  value: '230'
+  unit: nm
+  basis: extracted_from_figure
+  locator: p.4 Fig. 4
+  notes: 'Fig. 4 platform cross-section labels: ''230nm'' arrow spans from the deep-trench surface to the top of the full-height
+    grating teeth / rectangular waveguide (poly layer thickness); ''100nm'' arrow spans from the trench surface to the top
+    of the partially etched ridge slab (label-to-feature identification on the render; drawing is a schematic, no text value)'
+  why: 'miss (D153 geometry; Contract v6 figure-labelled dimension): the poly thickness is printed only as the Fig. 4 label'
+- metric_id: cmp_lit_sun2015a_pd_ring_critical-m6
+  component_id: cmp_lit_sun2015a_pd_ring_critical
+  parameter: slab_thickness_nm
+  value: '100'
+  unit: nm
+  basis: extracted_from_figure
+  locator: p.4 Fig. 4
+  notes: 'Fig. 4 platform cross-section labels: ''230nm'' arrow spans from the deep-trench surface to the top of the full-height
+    grating teeth / rectangular waveguide (poly layer thickness); ''100nm'' arrow spans from the trench surface to the top
+    of the partially etched ridge slab (label-to-feature identification on the render; drawing is a schematic, no text value);
+    the PD is a ridge-waveguide microring formed by the partial poly etch (p.4)'
+  why: 'miss (D153 geometry; Contract v6 figure-labelled dimension): ridge slab of the PD microring'
+- metric_id: cmp_lit_sun2015a_vgc_macro-m3
+  component_id: cmp_lit_sun2015a_vgc_macro
+  parameter: core_thickness_nm
+  value: '230'
+  unit: nm
+  basis: extracted_from_figure
+  locator: p.4 Fig. 4
+  notes: 'Fig. 4 platform cross-section labels: ''230nm'' arrow spans from the deep-trench surface to the top of the full-height
+    grating teeth / rectangular waveguide (poly layer thickness); ''100nm'' arrow spans from the trench surface to the top
+    of the partially etched ridge slab (label-to-feature identification on the render; drawing is a schematic, no text value)'
+  why: 'miss (D153 geometry; Contract v6 figure-labelled dimension): the poly thickness is printed only as the Fig. 4 label'
+- metric_id: cmp_lit_sun2015a_vgc_best-m3
+  component_id: cmp_lit_sun2015a_vgc_best
+  parameter: core_thickness_nm
+  value: '230'
+  unit: nm
+  basis: extracted_from_figure
+  locator: p.4 Fig. 4
+  notes: 'Fig. 4 platform cross-section labels: ''230nm'' arrow spans from the deep-trench surface to the top of the full-height
+    grating teeth / rectangular waveguide (poly layer thickness); ''100nm'' arrow spans from the trench surface to the top
+    of the partially etched ridge slab (label-to-feature identification on the render; drawing is a schematic, no text value)'
+  why: 'miss (D153 geometry; Contract v6 figure-labelled dimension): the poly thickness is printed only as the Fig. 4 label'

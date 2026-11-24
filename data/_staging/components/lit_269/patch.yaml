@@ -1,0 +1,241 @@
+# Audit patch lit_269 (fresh-context audit 2026-11-24, DevLog/audits/2026-11-24-lit_269-audit.md).
+# 142 metrics: 121 ok / 21 imprecise / 0 wrong; 25 components: 23 ok / 2 imprecise (notes). 9 misses added
+# (tien2011 Fig. 1 experimental crosses of the 2.8 um x 80 nm rings: R 2 mm loss on the add-drop row, two new ring rows
+# for R 1 mm and R 1.5 mm with loss + geometry).
+# Fixes: evans2015 rib width basis design_target (p.8 prints the 750 nm design width of the 633-850 nm rib data),
+# "as low as" channel losses statistic best (rule 7), ring polarization cleared (not stated for the ring measurements,
+# D673); qiu2018a gap-series widths moved to linewidth_mhz like the 460 nm device (same Fig. 6(b) quantity, "FWHM" in
+# text and axis); tien2011 1060 nm notch width note (Fig. 3(a) vector data about 22 MHz) and the 2.9 dB/m exclusion
+# re-argued from Fig. 1.
+components:
+  cmp_lit_tien2011_ring_r5mm_t40:
+    notes: "Fab empty: the acknowledgment thanks 'LioniX BV for fabrication' (p.6); LioniX BV (2011 entity) is not in the registry and is kept separate from org_lionix_international (D278, D545; bauters2013 / mu2016 / zhuang2016 precedent): reported as a missing fab org. All authors at UCSB; no facility named. Intrinsic Q and waveguide loss of Table 1 come from curve fits, the intrinsic Q 'by comparing the spectra of similar resonator structures with various power coupling ratios' (p.4), i.e. the coupling regime is fixed from data (D403 met, D425 lee2012 precedent); the coupling gaps are not stated, so all couplings of one R / t / w design share this row (rule 9). Input TE (p.3). Table 1: at 1310 nm 'High loss' (no resonance), at 1550 nm no transmitted power (substrate leakage). Same design used as the 1060 nm notch filter of Fig. 3(a) (p.5). Check (D417): f / 16 MHz at 1060 nm is about 17.7 M, i.e. the printed 16 MHz notch bandwidth equals the intrinsic linewidth of Q_i 18 M; the Fig. 3(a) vector trace gives a half-depth width of about 22 MHz at a 10.6 dB notch, which matches Q_i 18 M with 0.8 % coupling under-coupled (arithmetic check: about 24 MHz and 10.2 dB, group index about 1.47 from the Table 1 Q / loss pairs). The figure supports Q_i 18 M; the printed 16 MHz is the outlier and is kept as printed (m3 note)."
+    why: 'p.6 Fig. 3(a) vector data (half-depth width about 0.083 pm = 22 MHz, depth 10.6 dB) and p.5 Sec. 4: the earlier note did not say which printed number the figure supports'
+  cmp_lit_tien2011_adddrop_ring_r2mm_t80:
+    notes: "Fab empty: the acknowledgment thanks 'LioniX BV for fabrication' (p.6); LioniX BV (2011 entity) is not in the registry and is kept separate from org_lionix_international (D278, D545; bauters2013 / mu2016 / zhuang2016 precedent): reported as a missing fab org. All authors at UCSB; no facility named. Intrinsic Q and waveguide loss of Table 1 come from curve fits, the intrinsic Q 'by comparing the spectra of similar resonator structures with various power coupling ratios' (p.4), i.e. the coupling regime is fixed from data (D403 met, D425 lee2012 precedent); the coupling gaps are not stated, so all couplings of one R / t / w design share this row (rule 9). Input TE (p.3). Radius conflict (D417): Table 1 and p.5 text print 2 mm, the Fig. 3(c) caption 1.5 mm; 2 mm entered (printed twice; a ~1 % round-trip loss, Q_i 7 M and a ~300 MHz width with ~5 % per coupler are consistent with a 2 mm ring at a group index near 1.46 and not with 1.5 mm, arithmetic check only). Table 1 also lists 2.9 dB/m for this ring, but the p.5 sentence gives 2.9 dB/m as the loss of the 2.8 um x 80 nm waveguides of ref. [15] (the authors' earlier paper; also p.2-3) and the Fig. 1 experimental cross at R = 2 mm reads about 3.66 dB/m (entered as m9, consistent with Q_i 7 M): 2.9 dB/m not entered (rule 3, D80i, D259). Round-trip loss in the ring ~1 % from the fit (p.5): no registry parameter. Over-coupled by design to reduce the drop-port loss (p.5). Table 1: multimode at 1310 / 1060 nm. Sibling 80 nm rings of Fig. 1: cmp_lit_tien2011_ring_r1mm_t80, cmp_lit_tien2011_ring_r1p5mm_t80."
+    why: 'p.3 Fig. 1 (cross at R 2.0 mm, 3.66 dB/m, PDF vector data): the earlier group-index argument also fails for the entered 1550 nm 50 nm pair (Q 1 M / 20.8 dB/m implies ng about 1.18), so the exclusion rests on the ref. [15] attribution and Fig. 1'
+metrics:
+  cmp_lit_evans2015_rib_w750-m6:
+    basis: design_target
+    locator: 'p.8 Sec. 4; p.6 Fig. 3(c)'
+    notes: 'mask design width of the lift-off channel under the slab; p.8 names the 633-850 nm Fig. 3(c) measurements as taken "with a design-width of 750 nm" (only the rib markers exist at 633 and 850 nm, and the 5.6 dB/cm ring value falls between the 6.5 and 3.4 dB/cm rib points); the Fig. 3(c) colour key (750 nm) is on all five rib markers'
+    why: 'p.8 Sec. 4 prints the 750 nm design width of the rib measurements, so the dimension is stated (design_target), not only read from a colour key'
+  cmp_lit_evans2015_channel_w250-m1:
+    statistic: best
+    notes: "printed 7.5 dB/cm around 633 nm; abstract and p.9 'as low as' (rule 7 -> best); Fig. 3(c) marker about 7.48 with an error bar about +/-1.0 dB/cm"
+    why: "p.1 Abstract / p.9 Sec. 6: 'losses as low as 7.5 dB/cm around 633 nm' (rule 7: 'as low as' -> statistic best; the ring Q rows of the same abstract sentence carry best)"
+  cmp_lit_evans2015_channel_w1000-m1:
+    statistic: best
+    notes: "printed 1.2 dB/cm around 1550 nm; abstract and p.9 'as low as' (rule 7 -> best); Fig. 3(c) marker about 1.23 dB/cm (small error bar)"
+    why: "p.1 Abstract / p.9 Sec. 6: 'as low as ... 1.2 dB/cm around 1550 nm' (rule 7)"
+  cmp_lit_evans2015_ring_r150_w750-m1:
+    polarization: ''
+    why: 'p.7 Sec. 4: the ring transmission sweep states no polarization; TE is stated only for the cutback and prism-coupling measurements (p.5-6) (D673)'
+  cmp_lit_evans2015_ring_r150_w750-m2:
+    polarization: ''
+    why: 'p.7 Sec. 4: polarization of the ring measurement not stated (D673)'
+  cmp_lit_evans2015_ring_r150_w750-m3:
+    polarization: ''
+    why: 'p.7 Sec. 4: polarization of the ring measurement not stated (D673)'
+  cmp_lit_evans2015_ring_r150_w750-m4:
+    polarization: ''
+    why: 'p.7-8 Sec. 4: polarization of the ring measurement not stated (D673)'
+  cmp_lit_evans2015_ring_r150_w750-m5:
+    polarization: ''
+    why: 'p.8 Sec. 4: polarization of the ring measurement not stated (D673)'
+  cmp_lit_evans2015_ring_r150_w750-m6:
+    polarization: ''
+    why: 'p.8 Sec. 4: polarization of the ring measurement not stated (D673)'
+  cmp_lit_evans2015_ring_r150_w500-m1:
+    polarization: ''
+    notes: "'as high as 1.6e5' (Fig. 5(b) caption; abstract 'around 780 nm'); polarization not stated for the 780 nm top-view measurement"
+    why: 'p.7-8 Sec. 4: current-tuned DFB, top-view scattering; no polarization stated (D673)'
+  cmp_lit_evans2015_ring_r150_w500-m2:
+    polarization: ''
+    why: 'p.8 Sec. 4: polarization not stated (D673)'
+  cmp_lit_evans2015_ring_r150_w500-m3:
+    polarization: ''
+    why: 'p.8 Sec. 4: the simulated group index states no mode or polarization'
+  cmp_lit_evans2015_ring_r150_w500-m4:
+    polarization: ''
+    why: 'p.8 Sec. 4: polarization not stated (D673)'
+  cmp_lit_qiu2018a_mrr_gap250-m1:
+    parameter: linewidth_mhz
+    value: '1700'
+    unit: MHz
+    basis: derived
+    band: c_band
+    wavelength_inferred: 'true'
+    notes: "text: FWHM 'reduced from 1.7 GHz to 170 MHz' as the gap goes from 250 to 460 nm (printed 1.7 GHz, stored in MHz, D256); Fig. 6(b) point about 1.73 GHz; axis 'FWHM Bandwidth (GHz)', caption '3 dB bandwidth'; same quantity as the 460 nm device's 170 MHz (linewidth_mhz); band inferred: series wavelength not stated, same EDFA-based MPF setup as the 1549.96 nm resonance of the 460 nm device"
+    why: 'p.4 Sec. IV / Fig. 6(b): the gap series plots the same MPF FWHM as the 460 nm device (its m1 is linewidth_mhz 170); text and axis say FWHM; one parameter keeps the gap series comparable'
+  cmp_lit_qiu2018a_mrr_gap280-m1:
+    parameter: linewidth_mhz
+    value: '1300'
+    unit: MHz
+    band: c_band
+    wavelength_inferred: 'true'
+    notes: "read from the Fig. 6(b) right axis at gap 280 nm: about 1.30 GHz (+/-0.03 GHz), stored as MHz; axis 'FWHM Bandwidth (GHz)', caption '3 dB bandwidth'; band inferred (series wavelength not stated, same MPF setup as the 1549.96 nm resonance of the 460 nm device)"
+    why: 'p.4 Fig. 6(b): same MPF FWHM quantity as the 460 nm device row (linewidth_mhz); one parameter across the gap series'
+  cmp_lit_qiu2018a_mrr_gap310-m1:
+    parameter: linewidth_mhz
+    value: '760'
+    unit: MHz
+    band: c_band
+    wavelength_inferred: 'true'
+    notes: "read from the Fig. 6(b) right axis at gap 310 nm: about 0.76 GHz (+/-0.03 GHz), stored as MHz; axis 'FWHM Bandwidth (GHz)', caption '3 dB bandwidth'; band inferred (series wavelength not stated, same MPF setup as the 1549.96 nm resonance of the 460 nm device)"
+    why: 'p.4 Fig. 6(b): same MPF FWHM quantity as the 460 nm device row (linewidth_mhz); one parameter across the gap series'
+  cmp_lit_qiu2018a_mrr_gap340-m1:
+    parameter: linewidth_mhz
+    value: '620'
+    unit: MHz
+    band: c_band
+    wavelength_inferred: 'true'
+    notes: "read from the Fig. 6(b) right axis at gap 340 nm: about 0.62 GHz (+/-0.03 GHz), stored as MHz; axis 'FWHM Bandwidth (GHz)', caption '3 dB bandwidth'; band inferred (series wavelength not stated, same MPF setup as the 1549.96 nm resonance of the 460 nm device)"
+    why: 'p.4 Fig. 6(b): same MPF FWHM quantity as the 460 nm device row (linewidth_mhz); one parameter across the gap series'
+  cmp_lit_qiu2018a_mrr_gap370-m1:
+    parameter: linewidth_mhz
+    value: '390'
+    unit: MHz
+    band: c_band
+    wavelength_inferred: 'true'
+    notes: "read from the Fig. 6(b) right axis at gap 370 nm: about 0.39 GHz (+/-0.03 GHz), stored as MHz; axis 'FWHM Bandwidth (GHz)', caption '3 dB bandwidth'; band inferred (series wavelength not stated, same MPF setup as the 1549.96 nm resonance of the 460 nm device)"
+    why: 'p.4 Fig. 6(b): same MPF FWHM quantity as the 460 nm device row (linewidth_mhz); one parameter across the gap series'
+  cmp_lit_qiu2018a_mrr_gap400-m1:
+    parameter: linewidth_mhz
+    value: '390'
+    unit: MHz
+    band: c_band
+    wavelength_inferred: 'true'
+    notes: "read from the Fig. 6(b) right axis at gap 400 nm: about 0.39 GHz (+/-0.03 GHz), stored as MHz; axis 'FWHM Bandwidth (GHz)', caption '3 dB bandwidth'; band inferred (series wavelength not stated, same MPF setup as the 1549.96 nm resonance of the 460 nm device)"
+    why: 'p.4 Fig. 6(b): same MPF FWHM quantity as the 460 nm device row (linewidth_mhz); one parameter across the gap series'
+  cmp_lit_qiu2018a_mrr_gap430-m1:
+    parameter: linewidth_mhz
+    value: '380'
+    unit: MHz
+    band: c_band
+    wavelength_inferred: 'true'
+    notes: "read from the Fig. 6(b) right axis at gap 430 nm: about 0.38 GHz (+/-0.03 GHz), stored as MHz; axis 'FWHM Bandwidth (GHz)', caption '3 dB bandwidth'; band inferred (series wavelength not stated, same MPF setup as the 1549.96 nm resonance of the 460 nm device)"
+    why: 'p.4 Fig. 6(b): same MPF FWHM quantity as the 460 nm device row (linewidth_mhz); one parameter across the gap series'
+  cmp_lit_tien2011_ring_r5mm_t40-m3:
+    notes: "printed as the 'ultra-narrow bandwidth' of the notch filter; taken as the loaded resonance full width. Fig. 3(a) vector data: half-depth width about 22 MHz (0.083 pm, +/-3 MHz) at a 10.6 dB notch, which matches Q_i 18 M with 0.8 % coupling; the printed 16 MHz equals the intrinsic linewidth f / Q_i (D417, see component note)"
+    why: 'p.6 Fig. 3(a) vector data disagree with the printed 16 MHz by about 30 %; the note must say so before any ranking use'
+add_components:
+  - component_id: cmp_lit_tien2011_ring_r1mm_t80
+    source_id: lit:tien2011
+    class: resonator.ring
+    label: 'Si3N4 80 nm x 2.8 um ring, R 1 mm, planar directional coupler, 1550 nm (Fig. 1 data point)'
+    row_kind: fabricated
+    platform: sin
+    core_material: 'Si3N4 80 nm core, 2.8 um wide (high-aspect-ratio waveguide technology of ref. [15])'
+    cladding: "SiO2; p.4 prints '8-um-thick cladding' for the 80 nm cores (upper vs total not stated, not entered as a value)"
+    tags: radius_series
+    verified_on: '2026-11-24'
+    notes: "Fab empty: the acknowledgment thanks 'LioniX BV for fabrication' (p.6); LioniX BV (2011 entity) is not in the registry and is kept separate from org_lionix_international (D278, D545): reported as a missing fab org. All authors at UCSB; no facility named. One of the fabricated radii (1, 1.5, 2, 4, 5 mm; p.4); its only reported value is the Fig. 1 experimental cross (crosses = measured losses of the 2.8 um x 80 nm rings, p.3; losses from ring curve fits, p.4); no Q printed. Bending loss dominates at this radius (Fig. 1 model: negligible above 1.5 mm, p.3). Input TE (p.3). Radius-series sibling of cmp_lit_tien2011_adddrop_ring_r2mm_t80 (D400)."
+    why: 'miss: p.3 Fig. 1 shows the measured loss of a fabricated 80 nm ring at R 1 mm (cross, PDF vector data); a stated-performance figure value with no row'
+  - component_id: cmp_lit_tien2011_ring_r1p5mm_t80
+    source_id: lit:tien2011
+    class: resonator.ring
+    label: 'Si3N4 80 nm x 2.8 um ring, R 1.5 mm, planar directional coupler, 1550 nm (Fig. 1 data point)'
+    row_kind: fabricated
+    platform: sin
+    core_material: 'Si3N4 80 nm core, 2.8 um wide (high-aspect-ratio waveguide technology of ref. [15])'
+    cladding: "SiO2; p.4 prints '8-um-thick cladding' for the 80 nm cores (upper vs total not stated, not entered as a value)"
+    tags: radius_series
+    verified_on: '2026-11-24'
+    notes: "Fab empty: the acknowledgment thanks 'LioniX BV for fabrication' (p.6); LioniX BV (2011 entity) is not in the registry and is kept separate from org_lionix_international (D278, D545): reported as a missing fab org. All authors at UCSB; no facility named. One of the fabricated radii (1, 1.5, 2, 4, 5 mm; p.4); its only reported value is the Fig. 1 experimental cross (crosses = measured losses of the 2.8 um x 80 nm rings, p.3; losses from ring curve fits, p.4); no Q printed. The Fig. 3(c) caption gives 1.5 mm for the add-drop filter while Table 1 and the text give 2 mm (see cmp_lit_tien2011_adddrop_ring_r2mm_t80); the paper does not tie this cross to Fig. 3(c). A fourth cross at R 4 mm sits exactly on the 1060 nm 4 mm circle (3.5 dB/m) and is not entered (identity unclear, D159). Input TE (p.3). Radius-series sibling of cmp_lit_tien2011_adddrop_ring_r2mm_t80 (D400)."
+    why: 'miss: p.3 Fig. 1 shows the measured loss of a fabricated 80 nm ring at R 1.5 mm (cross, PDF vector data); a stated-performance figure value with no row'
+add_metrics:
+  - metric_id: cmp_lit_tien2011_adddrop_ring_r2mm_t80-m9
+    component_id: cmp_lit_tien2011_adddrop_ring_r2mm_t80
+    parameter: prop_loss_db_per_cm
+    value: '0.037'
+    unit: dB/cm
+    qualifier: approx
+    wavelength_nm: '1550'
+    polarization: te
+    condition: 'Fig. 1 experimental cross of the 2.8 um x 80 nm ring at R 2 mm; loss from the ring curve fit'
+    method: ring_extraction
+    basis: extracted_from_figure
+    locator: 'p.3 Fig. 1; p.4 Sec. 3.2'
+    notes: 'read from the PDF vector data of Fig. 1: cross at R 2.00 mm, 3.66 dB/m (+/-0.1 dB/m reading), converted to dB/cm; consistent with Q_i 7 M at a group index near 1.46 (arithmetic check); Table 1 lists 2.9 dB/m, the cited ref. [15] value (not entered)'
+    why: 'miss: p.3 Fig. 1 marks the measured loss of this ring (crosses = experimental data of the 2.8 um x 80 nm rings, p.3)'
+  - metric_id: cmp_lit_tien2011_ring_r1mm_t80-m1
+    component_id: cmp_lit_tien2011_ring_r1mm_t80
+    parameter: prop_loss_db_per_cm
+    value: '0.13'
+    unit: dB/cm
+    qualifier: approx
+    wavelength_nm: '1550'
+    polarization: te
+    condition: 'Fig. 1 experimental cross at R 1 mm (bend-loss dominated); loss from the ring curve fit'
+    method: ring_extraction
+    basis: extracted_from_figure
+    locator: 'p.3 Fig. 1; p.4 Sec. 3.2'
+    notes: 'read from the PDF vector data of Fig. 1: cross at R 1.00 mm, 13.0 dB/m (+/-0.2 dB/m reading), converted to dB/cm'
+    why: 'miss: p.3 Fig. 1 measured loss of the R 1 mm 80 nm ring'
+  - metric_id: cmp_lit_tien2011_ring_r1mm_t80-m2
+    component_id: cmp_lit_tien2011_ring_r1mm_t80
+    parameter: radius_um
+    value: '1000'
+    unit: um
+    basis: derived
+    locator: 'p.4 Sec. 3.2; p.3 Fig. 1'
+    notes: 'printed 1 mm in the list of fabricated radii (p.4), rescaled (D157); the Fig. 1 cross sits at 1.00 mm'
+    why: 'geometry of the added ring row (D153)'
+  - metric_id: cmp_lit_tien2011_ring_r1mm_t80-m3
+    component_id: cmp_lit_tien2011_ring_r1mm_t80
+    parameter: width_nm
+    value: '2800'
+    unit: nm
+    basis: derived
+    locator: 'p.3 Sec. 2; p.3 Fig. 1'
+    notes: 'printed 2.8 um, rescaled (D157)'
+    why: 'geometry of the added ring row (D153)'
+  - metric_id: cmp_lit_tien2011_ring_r1mm_t80-m4
+    component_id: cmp_lit_tien2011_ring_r1mm_t80
+    parameter: core_thickness_nm
+    value: '80'
+    unit: nm
+    basis: design_target
+    locator: 'p.3 Sec. 2; p.4 Sec. 3.2'
+    why: 'geometry of the added ring row (D153)'
+  - metric_id: cmp_lit_tien2011_ring_r1p5mm_t80-m1
+    component_id: cmp_lit_tien2011_ring_r1p5mm_t80
+    parameter: prop_loss_db_per_cm
+    value: '0.042'
+    unit: dB/cm
+    qualifier: approx
+    wavelength_nm: '1550'
+    polarization: te
+    condition: 'Fig. 1 experimental cross at R 1.5 mm; loss from the ring curve fit'
+    method: ring_extraction
+    basis: extracted_from_figure
+    locator: 'p.3 Fig. 1; p.4 Sec. 3.2'
+    notes: 'read from the PDF vector data of Fig. 1: cross at R 1.50 mm, 4.24 dB/m (+/-0.1 dB/m reading), converted to dB/cm'
+    why: 'miss: p.3 Fig. 1 measured loss of the R 1.5 mm 80 nm ring'
+  - metric_id: cmp_lit_tien2011_ring_r1p5mm_t80-m2
+    component_id: cmp_lit_tien2011_ring_r1p5mm_t80
+    parameter: radius_um
+    value: '1500'
+    unit: um
+    basis: derived
+    locator: 'p.4 Sec. 3.2; p.3 Fig. 1'
+    notes: 'printed 1.5 mm in the list of fabricated radii (p.4), rescaled (D157); the Fig. 1 cross sits at 1.50 mm'
+    why: 'geometry of the added ring row (D153)'
+  - metric_id: cmp_lit_tien2011_ring_r1p5mm_t80-m3
+    component_id: cmp_lit_tien2011_ring_r1p5mm_t80
+    parameter: width_nm
+    value: '2800'
+    unit: nm
+    basis: derived
+    locator: 'p.3 Sec. 2; p.3 Fig. 1'
+    notes: 'printed 2.8 um, rescaled (D157)'
+    why: 'geometry of the added ring row (D153)'
+  - metric_id: cmp_lit_tien2011_ring_r1p5mm_t80-m4
+    component_id: cmp_lit_tien2011_ring_r1p5mm_t80
+    parameter: core_thickness_nm
+    value: '80'
+    unit: nm
+    basis: design_target
+    locator: 'p.3 Sec. 2; p.4 Sec. 3.2'
+    why: 'geometry of the added ring row (D153)'

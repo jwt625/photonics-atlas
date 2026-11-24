@@ -1,0 +1,32 @@
+# Audit patch lit_274 (fresh-context audit 2026-11-24, DevLog/audits/2026-11-24-lit_274-audit.md).
+# 76 metrics: 70 ok / 6 imprecise / 0 wrong; 8 components: 7 ok / 1 imprecise. No misses added.
+# Fixes: watanabe2019 etch tool name as printed; wang2025d measured range row notes give the Fig. 4(a) reading (0.41 dB
+# is a single noisy dip near 1372 nm); xu2017c 3-dB width condition no longer asserts which spectrum the width was taken
+# on (not stated; Fig. 3 reading in notes); nambiar2017 measured rows polarization cleared (measurement polarization not
+# stated, D673) and the C-band peak wavelength read from Fig. 1(f) added to notes.
+components:
+  cmp_lit_watanabe2019_2dgc_vertical:
+    core_material: 'Si 220 nm on 3.0 um BOX (commercial SOI wafer); EBL (Vistec EBPG5200) + HBr ICP (Oxford Plasmofab System 100, as printed); 70 nm shallow etch, then full-etch holes and waveguides'
+    why: 'p.7 Sec. 3 (render): the etch tool is printed "Oxford Plasmofab System 100", not "Plasmalab"; text as printed'
+metrics:
+  cmp_lit_wang2025d_trident_grating_ec-m3:
+    notes: 'printed "varies from 0.41 to 1.36 dB/facet" over 1264-1620 nm (conclusion: lower than 1.36 dB/facet); Fig. 4(a) marks 0.41 and 1.36 as dashed levels. Fig. 4(a) raster (img_p03_4): the trace lies at about 0.7-1.05 dB over most of the band (+/-0.05 dB); 0.41 dB is reached only in a single noisy dip near 1372 nm (fringe region 1365-1380 nm), and the trace exceeds 1.36 dB only below about 1265 nm (spike to ~2 dB at 1260 nm). author_estimate: rests on the 0.12 dB/cm propagation loss printed in a sentence citing ref. [19] (another group''s Delta-n 2 % coupler paper; D80i borderline, rule 4); the subtraction is 0.06 dB per facet.'
+    why: 'p.3 Fig. 4(a) raster: the printed lower bound is a noise dip, not the typical level; the reading lets a user see the band-typical value (D417: printed range kept)'
+  cmp_lit_xu2017c_sin_gc_au_mirror-m2:
+    condition: '3-dB width as printed for the 1 um period grating pair measurement; whether taken on the pair transmittance T or on the per-grating sqrt(T) spectrum is not stated'
+    notes: 'printed 58 nm (p.2, abstract). Fig. 3 red trace (per-grating efficiency axis, peak ~0.22 near 1545 nm): the half-maximum level 0.11 is crossed only near 1588 nm, the trace starts at ~0.15 at 1520 nm (short edge outside the sweep, width > ~68 nm on that axis); a 3-dB width of T (eta = 0.156) reads about 47-51 nm. Neither reading reproduces 58 nm; printed value kept (D417).'
+    why: 'p.2 Sec. III / Fig. 3: the paper does not say on which spectrum the 58 nm was taken; the batch condition asserted the per-grating spectrum, which the Fig. 3 trace does not support'
+  cmp_lit_nambiar2017_dual_band_gc-m1:
+    polarization: ''
+    notes: 'printed ''peak coupling efficiency of 9.2 dB ... per coupler'' in the O band (unsigned; Fig. 1(g) axis in negative dB, 950 nm trace flat top about -9.0 to -9.8 dB between 1.31 and 1.36 um, +/-0.2 dB); how the per-coupler value was isolated is not stated (D167). Device designed for TE (title); polarization of the SLD measurement not stated (D673).'
+    why: 'p.1: SLD + OSA measurement, no polarization stated; TE is the design polarization only (D673; lit_265 audit wang2017c precedent)'
+  cmp_lit_nambiar2017_dual_band_gc-m2:
+    polarization: ''
+    notes: 'printed ''6.35 dB per coupler'' in the C band (unsigned); Fig. 1(f) 950 nm trace maximum about -6.4 dB near 1.515-1.52 um (+/-0.005 um), i.e. just below the 1530 nm C-band edge; band label kept as printed. Isolation method not stated (D167). Device designed for TE (title); polarization of the SLD measurement not stated (D673).'
+    why: 'p.1: measurement polarization not stated (D673); Fig. 1(f) (img_p01_1 / img_p01_2): the printed C-band peak sits near 1520 nm'
+  cmp_lit_nambiar2017_dual_band_gc-m3:
+    polarization: ''
+    why: 'p.1: measurement polarization not stated (D673)'
+  cmp_lit_nambiar2017_dual_band_gc-m4:
+    polarization: ''
+    why: 'p.1: measurement polarization not stated (D673)'

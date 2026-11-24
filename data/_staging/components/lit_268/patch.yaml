@@ -1,0 +1,100 @@
+# Audit patch lit_268 (fresh-context audit 2026-11-24, DevLog/audits/2026-11-24-lit_268-audit.md).
+# 108 metrics: 97 ok / 11 imprecise / 0 wrong; 21 components: 21 ok. 4 misses added (1 performance value, 3 geometry).
+# Fixes: um-printed widths stored in nm -> derived (D157 / D256: chrysostomidis2025 Winp, frigg2019 ring and bus widths);
+# frigg2019 core thickness cites the p.2 nm form (D256); chrysostomidis2025 simulated 1.65 dB locator (p.2 / p.6 print
+# 1.65, p.4 prints 1.66); frigg2019 single-mode 1580 nm loss = Table 1 1.1 dB/cm (Fig. 6(a) 1580 nm point agrees; the
+# introduction pair 1.3 dB/cm / Q_int 2.68e5 matches the Fig. 6(a) 1560 nm point), Q_int 2.68e5 kept with the conflict
+# note (D417); multi-mode ng printed precision 2.00.
+metrics:
+  cmp_lit_chrysostomidis2025_sin_bto_transition_atl70-m3:
+    basis: derived
+    notes: 'printed 2 um (Winp), um -> nm'
+    why: 'D157 / D256: the paper prints Winp only as 2 um (p.4, p.5); a unit rescaling is derived'
+  cmp_lit_chrysostomidis2025_sin_bto_transition_atl90-m3:
+    basis: derived
+    notes: 'printed 2 um (Winp), um -> nm'
+    why: 'D157 / D256: the paper prints Winp only as 2 um (p.4, p.5); a unit rescaling is derived'
+  cmp_lit_chrysostomidis2025_sin_bto_transition_atl90-m1:
+    locator: 'p.2 Sec. I; p.6 Sec. III-B; p.4 Sec. II-C; p.5 Fig. 3(c)'
+    notes: 'Overall TE transition loss by 3D-FDTD as printed on p.2 ("minimum coupling loss of 1.65 dB") and p.6 ("1.65 dB theoretical value"); p.4 prints 1.66 dB for this design (Winp 2 um, Wout 500 nm) at the Fig. 3(c) plateau beyond 90 um ATL. Simulation wavelength not stated; 1550 nm = design / measurement wavelength of the paper.'
+    why: 'the value 1.65 dB is printed on p.2 and p.6, not on p.4 (which prints 1.66 dB); locator and note now say which page prints which'
+  cmp_lit_frigg2019_ring_sm_w1000_r90-m12:
+    basis: derived
+    notes: 'printed 1.0 um x 0.4 um cross-section; um -> nm'
+    why: 'D157 / D256: width printed only in um (p.5, Fig. 4 caption)'
+  cmp_lit_frigg2019_ring_sm_w1000_r90-m13:
+    basis: derived
+    notes: 'bus "of the same dimensions" as the ring waveguide (Fig. 4(e) caption); printed 1.0 um; um -> nm'
+    why: 'D157 / D256: width printed only in um'
+  cmp_lit_frigg2019_ring_mm_w2000_r90-m13:
+    basis: derived
+    notes: 'printed 2.0 um x 0.4 um cross-section; um -> nm'
+    why: 'D157 / D256: width printed only in um (p.5, Fig. 4 caption)'
+  cmp_lit_frigg2019_ring_mm_w2000_r90-m14:
+    basis: derived
+    notes: 'bus "of the same dimensions" as the ring waveguide (Fig. 4(e) caption); printed 2.0 um; um -> nm'
+    why: 'D157 / D256: width printed only in um'
+  cmp_lit_frigg2019_ring_sm_w1000_r90-m14:
+    locator: 'p.2 Sec. 2.1; p.5 Sec. 3'
+    notes: 'film thickness printed as 400 nm (p.2); cross-section printed 0.4 um (p.5)'
+    why: 'D256: the stored-unit form (400 nm) is printed on p.2; cite that locator so the design_target basis stands'
+  cmp_lit_frigg2019_ring_mm_w2000_r90-m15:
+    locator: 'p.2 Sec. 2.1; p.5 Sec. 3'
+    notes: 'film thickness printed as 400 nm (p.2); cross-section printed 0.4 um (p.5)'
+    why: 'D256: the stored-unit form (400 nm) is printed on p.2; cite that locator so the design_target basis stands'
+  cmp_lit_frigg2019_ring_sm_w1000_r90-m8:
+    value: '1.1'
+    locator: 'p.8 Table 1; p.8 Fig. 6(a)'
+    notes: 'Table 1 "This work" 1.0 x 0.4 um row prints 1.1 dB/cm at 1580 nm; Fig. 6(a) 1580 nm point reads about 1.1 dB/cm (+/-0.05) with Q_int about 3.0e5. Conflict: the introduction (p.2) prints 1.3 dB/cm (Q_int 2.68e5) "at 1580 nm"; that pair equals the Fig. 6(a) 1560 nm point (about 1.30 dB/cm, Q_int about 2.68e5). Eq. (2) from Q_int (D403).'
+    why: 'two printed values for the same quantity (D417); Table 1 1.1 dB/cm is the one the Fig. 6(a) 1580 nm data support (raster img_p08_1), while the introduction pair sits on the 1560 nm point'
+  cmp_lit_frigg2019_ring_sm_w1000_r90-m6:
+    locator: 'p.2 Sec. 1; p.8 Fig. 6(a)'
+    notes: 'printed 2.68 x 10^5 at 1580 nm (introduction summary, with 1.3 dB/cm); D403. Conflict (D417): Fig. 6(a) reads Q_int about 3.0e5 at 1580 nm and about 2.68e5 (with about 1.30 dB/cm) at 1560 nm, so the printed wavelength of this pair may be off; Table 1 gives 1.1 dB/cm at 1580 nm (m8)'
+    why: 'Fig. 6(a) (raster img_p08_1) does not support Q_int 2.68e5 at 1580 nm; printed value kept with the conflict note (D417), coordinator question 3'
+  cmp_lit_frigg2019_ring_mm_w2000_r90-m11:
+    value: '2.00'
+    why: 'printed "2.00" (p.7); keep the printed precision'
+add_metrics:
+  - metric_id: cmp_lit_chrysostomidis2025_sin_bto_transition_atl70-m8
+    component_id: cmp_lit_chrysostomidis2025_sin_bto_transition_atl70
+    parameter: transition_loss_db
+    value: '1.18'
+    unit: dB
+    wavelength_nm: '1512'
+    scope: per_component
+    condition: 'MZI2 (ATL 70 um, Wout 500 nm, PS 0.7 mm) at its loss minimum; printed with "a total MZI loss of only 3 dB" (MZI2 minimum 3.00 dB at 1512.35 nm, p.6)'
+    method: loss_breakdown
+    basis: author_estimate
+    locator: 'p.2 Sec. I; p.6 Sec. III-C; p.6 Fig. 5(b)'
+    notes: 'printed "At 1512 nm, the interface loss was 1.18 dB for a total MZI loss of only 3 dB"; the breakdown inputs at 1512 nm are not printed (origin not stated); same assumptions as the 1550 nm extraction (nominal 0.22 dB PDK MMIs). (3.00 - 2 x 0.22 - 2 x 1.18) / 0.7 mm implies about 0.29 dB/mm PS loss at 1512 nm, which the paper does not state'
+    why: 'miss: printed interface value at a second wavelength; ties to the 70 um ATL design through MZI2 (only MZI2 has the 3.00 dB minimum); author_estimate per rule 4 (nominal input, origin not stated)'
+  - metric_id: cmp_lit_bucio2019_iammi_8ch-m11
+    component_id: cmp_lit_bucio2019_iammi_8ch
+    parameter: core_thickness_nm
+    value: '600'
+    unit: nm
+    condition: 'N-rich SiN film (n = 1.92)'
+    basis: design_target
+    locator: 'p.5 Sec. III'
+    notes: 'printed "thickness of 600 nm" and "fabricated on 600 nm N-rich SiN films"; deposited film thickness (D402)'
+    why: 'miss (D153 geometry): core thickness printed for the IAMMI devices'
+  - metric_id: cmp_lit_bucio2019_mzi_interleaver-m4
+    component_id: cmp_lit_bucio2019_mzi_interleaver
+    parameter: core_thickness_nm
+    value: '600'
+    unit: nm
+    condition: 'N-rich SiN film (n = 1.92)'
+    basis: design_target
+    locator: 'p.5 Sec. III'
+    notes: 'printed "fabricated on 600 nm N-rich SiN films" (Fig. 7(b) devices, which include the stand-alone MZI); D402'
+    why: 'miss (D153 geometry): core thickness printed for the devices of Fig. 7(b)'
+  - metric_id: cmp_lit_bucio2019_gst_mzi_switch-m5
+    component_id: cmp_lit_bucio2019_gst_mzi_switch
+    parameter: box_thickness_um
+    value: '2'
+    unit: um
+    condition: 'thermally grown SiO2 on 200 mm Si wafers'
+    basis: design_target
+    locator: 'p.9 Sec. VI'
+    notes: 'printed "2 um thermally grown SiO2 layer" (wafer stack, D402)'
+    why: 'miss (D153 geometry): lower cladding printed for the PCM device wafers'
