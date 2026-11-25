@@ -1,0 +1,439 @@
+# Audit patch lit_278 (fresh-context audit 2026-11-25, DevLog/audits/2026-11-25-lit_278-audit.md).
+# 57 metrics: 44 ok / 13 imprecise / 0 wrong; 14 components: 14 ok. Misses added: 1 metric (debevc2022 100 nm IL_sim)
+# plus the lee2014a block (4 components, 26 metrics) recommended in under the yang2024 / lai2025 / D618 precedent.
+# If the coordinator keeps lee2014a out (D411 / D642 reading of the distiller), drop the four lee2014a add_components
+# entries and every add_metrics entry whose metric_id starts with cmp_lit_lee2014a_ before applying.
+# Fixes: crossing_loss_db rows get scope per_component (merged practice, 449 of 465 rows); debevc2022 grating-coupler
+# peak losses scope per_coupler (the paper assigns them to the coupler; D566 / D167 practice, method stays unspecified);
+# rows with neither wavelength nor band get band unspecified or the inferred measurement range (rule 8);
+# shinobu2010 IME 0.12 dB wavelength marked inferred.
+metrics:
+  cmp_lit_debevc2022_pbs2_100nm-m1:
+    wavelength_nm: 1450
+    wavelength_max_nm: 1590
+    wavelength_inferred: 'true'
+    notes: 'Table 1 prints 32 with no bound sign; the 70 nm row''s 30 corresponds to the text''s ''ER > 30 dB''. Wavelength range inferred as on m2: the laser range of all measurements (1450-1590 nm, p.12) and BW_exp > 140 nm in Table 1; the 100 nm curves are in Supplement 1 (not cached).'
+    why: 'rule 8: the row had neither wavelength nor band; its sibling m2 (same Table 1 row) already carries the inferred 1450-1590 nm laser range (p.12 Sec. 4; p.14 Table 1 BW_exp > 140 nm)'
+  cmp_lit_debevc2022_te_polarizer_design-m2:
+    band: unspecified
+    why: 'rule 8: no wavelength range printed with the 17-28 dB (p.8 Sec. 3.1); the window is defined by the PBS TM IL < 1 dB criterion, already in the notes'
+  cmp_lit_debevc2022_swg_gc_te-m1:
+    scope: per_coupler
+    why: 'p.12 Sec. 4 prints the peak coupling efficiency of the TE grating coupler itself; merged practice for a per-coupler value whose isolation method is not stated is per_coupler + method unspecified (D566 wu2025, D167; 331 merged GC rows)'
+  cmp_lit_debevc2022_swg_gc_te-m3:
+    scope: per_coupler
+    why: 'p.12 Sec. 4: as m1 (12 deg tilt value of the same coupler); per_coupler + method unspecified (D566, D167)'
+  cmp_lit_debevc2022_swg_gc_tm-m1:
+    scope: per_coupler
+    why: 'p.12 Sec. 4: peak coupling efficiency of the TM grating coupler; per_coupler + method unspecified (D566, D167)'
+  cmp_lit_debevc2022_swg_gc_tm-m3:
+    scope: per_coupler
+    why: 'p.12 Sec. 4: as m1 (12 deg tilt); per_coupler + method unspecified (D566, D167)'
+  cmp_lit_ma2020_pol_receiver-m1:
+    band: unspecified
+    notes: 'Printed ''at least a ~30 dB power extinction ratio relative to the power at the output port''. No wavelength stated anywhere in the paper (as on m2); Fig. 6(b) feedback-port traces settle near -30 dB normalized.'
+    why: 'rule 8: no wavelength in the paper (checked p.1-11 and the Fig. 5 setup render, p.7); m2 already carries band unspecified'
+  cmp_lit_shinobu2010_ellipse_crossing_ntt-m1:
+    scope: per_component
+    why: 'p.2 / p.4 Fig. 3: loss per intersection from the cutback slope; per_component is the merged convention for crossing_loss_db (449 of 465 rows)'
+  cmp_lit_shinobu2010_ellipse_crossing_ntt-m2:
+    scope: per_component
+    why: 'p.2: FDTD loss per intersection; per_component (merged crossing_loss_db convention)'
+  cmp_lit_shinobu2010_ellipse_crossing_ime-m1:
+    scope: per_component
+    wavelength_inferred: 'true'
+    notes: 'Printed ''the lowest loss of 0.12 dB''; below the calculated value, attributed by the authors to end-point smoothing in optical lithography. Measured ''in the same way'' as the NTT-ATN samples (p.2): no wavelength or polarization printed with the 0.12 dB; 1550 nm / TE are those of the described cutback evaluation (p.1-2, Fig. 3 at 1.55 um, TE launch), entered as inferred.'
+    why: 'p.2: the 0.12 dB sentence prints no wavelength (rule 8, inferred from the referenced method); scope per_component (merged crossing_loss_db convention)'
+  cmp_lit_shinobu2010_ellipse_crossing_ime-m2:
+    scope: per_component
+    why: 'p.1: FDTD minimum loss per intersection; per_component (merged crossing_loss_db convention)'
+  cmp_lit_shinobu2010_ellipse_crossing_ime-m3:
+    scope: per_component
+    why: 'p.2: FDTD loss with end-point smoothing; per_component (merged crossing_loss_db convention)'
+  cmp_lit_shinobu2010_simple_crossing-m1:
+    scope: per_component
+    why: 'p.1: loss of one simple intersection; per_component (merged crossing_loss_db convention)'
+add_components:
+- component_id: cmp_lit_lee2014a_gmr_sin_pecvd
+  source_id: lit:lee2014a
+  class: polarization.other
+  label: 'Free-space guided-mode-resonance TM-pass polarizer, PECVD Si3N4 1-D grating on glass, normal incidence, 5 x 5 mm'
+  row_kind: fabricated
+  host_device_ids: ''
+  platform: other
+  core_material: 'PECVD Si3N4 single layer (n 1.80 at 1550 nm), partially etched 1-D grating on a glass substrate (n 1.50); AFM: period 1017 nm, grating depth d1 310 nm, ridge width 428 nm, fill factor 0.42; residual homogeneous layer d2 260 nm (design 1006 nm / 324 nm / 270 nm, F 0.43)'
+  cladding: air
+  fab_org_ids: ''
+  facility_org_ids: ''
+  process_name: ''
+  test_structure: ''
+  tags: gmr;free_space;normal_incidence;holographic_lithography
+  verified_on: '2026-11-25'
+  notes: 'Free-space transmissive guided-mode-resonance polarizer at normal incidence (supercontinuum source, collimating lens, Glan-Thompson polarizer, OSA; p.7). Nine 5 x 5 mm devices per 1-inch glass substrate, holographic DUV (266 nm) interference lithography and RIE (p.6). In scope as a lithographic chip-scale free-space polarization element (yang2024 / lai2025 precedents, D618). Fab empty: ''we fabricate'' (p.11) with authors at four orgs (D395); no facility named. RCWA design (Fig. 1, p.2-3): ~4 nm bandwidth (T > 97 % TM, < 3 % TE) and theoretical extinction ~7e6 at 1550 nm, not entered (design geometry differs from the fabricated one). Period, fill factor and residual layer: no period_nm / fill_factor on polarization rows.'
+  why: 'audit judgment (a): lee2014a ruled in (lithographic free-space polarizer, yang2024 metasurface PBS and lai2025 metasurface polarizer are merged in scope, D618); p.7-8 Sec. 4.1, Fig. 8'
+- component_id: cmp_lit_lee2014a_gmr_sin_sputtered
+  source_id: lit:lee2014a
+  class: polarization.other
+  label: 'Free-space guided-mode-resonance TM-pass polarizer, sputtered Si3N4 1-D grating on glass, normal incidence, 5 x 5 mm'
+  row_kind: fabricated
+  host_device_ids: ''
+  platform: other
+  core_material: 'Sputtered Si3N4 single layer (n 1.98 at 1550 nm), partially etched 1-D grating on a glass substrate (n 1.50); measured period 1021 nm, grating depth d1 302 nm, residual layer d2 155 nm, fill factor 0.45 (design 997 nm / 302 nm / 162 nm, F 0.45)'
+  cladding: air
+  fab_org_ids: ''
+  facility_org_ids: ''
+  process_name: ''
+  test_structure: ''
+  tags: gmr;free_space;normal_incidence;holographic_lithography
+  verified_on: '2026-11-25'
+  notes: 'Free-space transmissive GMR polarizer at normal incidence (p.7 setup; p.6 process). Fab empty (''we fabricate'', p.11, authors at four orgs, D395). The p.8 sentence assigns > 95 % to TE and < 3 % to TM; Fig. 9 (render p.8) shows the TM curve passing and the TE resonance at ~1584 nm, so the sentence swaps the polarization labels (rows follow the figure and the TM-pass design). Polarizing band ~9 nm (~1580-1589 nm, T > 95 % / < 3 %): no registry parameter for a criterion bandwidth on polarization rows (registry gap shared with debevc2022). RCWA design (Fig. 2, p.3; Table 1, p.4): ~9 nm bandwidth (9.1 nm at 1550.6 nm), theoretical extinction ~4e6, not entered (design geometry differs).'
+  why: 'audit judgment (a): lee2014a ruled in (yang2024 / lai2025, D618); p.8-9 Sec. 4.1, Fig. 9'
+- component_id: cmp_lit_lee2014a_gmr_tio2
+  source_id: lit:lee2014a
+  class: polarization.other
+  label: 'Free-space guided-mode-resonance TM-pass polarizer, sputtered TiO2 1-D grating on glass (under-etched), normal incidence, 5 x 5 mm'
+  row_kind: fabricated
+  host_device_ids: ''
+  platform: other
+  core_material: 'Sputtered TiO2 single layer (n 2.24), partially etched 1-D grating on a glass substrate (n 1.50); SEM: period 974 nm, grating depth d1 238 nm, residual layer d2 150 nm (design 994 nm / 300 nm, d2 83 nm in Fig. 4 and 89 nm in the p.9 text)'
+  cladding: air
+  fab_org_ids: ''
+  facility_org_ids: ''
+  process_name: ''
+  test_structure: ''
+  tags: gmr;free_space;normal_incidence;holographic_lithography
+  verified_on: '2026-11-25'
+  notes: 'Free-space transmissive GMR polarizer at normal incidence (p.7 setup; p.6 process). Fab empty (''we fabricate'', p.11, authors at four orgs, D395). Under-etched (thin photoresist mask, p.9): TE resonance moved to ~1711 nm. The device also acts as a TE-pass / TM-block polarizer near 1547 nm (Fig. 11, p.9-10); no value printed for that band. Design d2 printed as 83 nm (Fig. 4 caption, p.5) and 89 nm (p.9): conflict in the paper. RCWA design (Fig. 4): ~17 nm bandwidth, theoretical extinction ~2.9e5 at 1550 nm, not entered (design geometry differs).'
+  why: 'audit judgment (a): lee2014a ruled in (yang2024 / lai2025, D618); p.9-10 Sec. 4.2, Fig. 10-11'
+- component_id: cmp_lit_lee2014a_gmr_si_quartz
+  source_id: lit:lee2014a
+  class: polarization.other
+  label: 'Free-space broadband guided-mode-resonance TM-pass polarizer, conformal Si film on a patterned quartz grating, normal incidence'
+  row_kind: fabricated
+  host_device_ids: ''
+  platform: other
+  core_material: 'Sputtered Si thin film (n 3.48) conformal on an etched quartz grating (n 1.44); SEM: Si 117 nm on the quartz ridges (d1), 88 nm in the trenches (d3); AFM grating depth 256 nm before and 286 nm after Si deposition (design period 766 nm, d1 123 nm, d2 258 nm, d3 123 nm, Fig. 5)'
+  cladding: air
+  fab_org_ids: ''
+  facility_org_ids: ''
+  process_name: ''
+  test_structure: ''
+  tags: gmr;free_space;normal_incidence;holographic_lithography;broadband
+  verified_on: '2026-11-25'
+  notes: 'Free-space transmissive GMR polarizer at normal incidence (p.7 setup); quartz etched first, Si deposited on the patterned grating (p.6). Fab empty (''we fabricate'', p.11, authors at four orgs, D395). Measured T > 97 % (TM) over ~1445-1700 nm, T < 3 % (TE) over ~1415-1572 nm, overlap ~130 nm (~1445-1575 nm) (p.10): the overlap width has no registry parameter on polarization rows (criterion-bandwidth gap, as debevc2022). TE resonance ~1499 nm (text) / ~1500 nm (Fig. 12 caption), blue-shifted by the thin trench film. RCWA design (Fig. 5, p.5): ~200 nm bandwidth, theoretical extinction ~2.5e4 at 1550 nm, not entered.'
+  why: 'audit judgment (a): lee2014a ruled in (yang2024 / lai2025, D618); p.10-11 Sec. 4.3, Fig. 12-14'
+add_metrics:
+- metric_id: cmp_lit_debevc2022_pbs2_100nm-m5
+  component_id: cmp_lit_debevc2022_pbs2_100nm
+  parameter: insertion_loss_db
+  value: 1
+  unit: dB
+  qualifier: lt
+  band: unspecified
+  scope: per_component
+  condition: 'IL_sim column of Table 1 (IL bound over the simulated BW of 229 nm)'
+  basis: simulated
+  locator: 'p.14 Table 1'
+  notes: 'Table 1 prints IL_sim 1 for the 100 nm row as for the 70 nm row, whose text value is ''IL remained below 1 dB'' (p.11; entered there as < 1 dB, m4); wavelength range not in the cached text (Supplement 1 sec. 5).'
+  why: 'miss: Table 1 IL_sim of the 100 nm row is a printed simulated value of this component (the 70 nm row has its equivalent as m4)'
+- metric_id: cmp_lit_lee2014a_gmr_sin_pecvd-m1
+  component_id: cmp_lit_lee2014a_gmr_sin_pecvd
+  parameter: center_wavelength_nm
+  value: 1565
+  unit: nm
+  qualifier: approx
+  polarization: te
+  condition: 'TE transmittance minimum (resonance), normal incidence'
+  method: direct
+  basis: measured
+  locator: 'p.7 Sec. 4.1; p.8 Fig. 8'
+  notes: 'Printed lambda_c ~1565 nm (design 1550 nm; shift from the larger fabricated period).'
+  why: 'lee2014a block (judgment a)'
+- metric_id: cmp_lit_lee2014a_gmr_sin_pecvd-m2
+  component_id: cmp_lit_lee2014a_gmr_sin_pecvd
+  parameter: per_db
+  value: 16.9
+  unit: dB
+  qualifier: approx
+  wavelength_nm: 1565
+  condition: 'T_TM / T_TE at the TE resonance, normal incidence'
+  basis: derived
+  locator: 'p.7 Sec. 4.1; p.8 Fig. 8'
+  notes: '10 log10(97 / 2) from the printed ~97 % TM and ~2 % TE transmittance at 1565 nm; data corrected for a ~4 % substrate backside reflection (Fig. 8 caption). No extinction ratio printed for this device.'
+  why: 'lee2014a block (judgment a); unit conversion of printed transmittances, derived (D80a)'
+- metric_id: cmp_lit_lee2014a_gmr_sin_pecvd-m3
+  component_id: cmp_lit_lee2014a_gmr_sin_pecvd
+  parameter: insertion_loss_db
+  value: 0.13
+  unit: dB
+  qualifier: approx
+  wavelength_nm: 1565
+  polarization: tm
+  scope: per_component
+  excludes: 'substrate backside reflection (~4 %, data corrected)'
+  condition: 'TM (pass) transmittance at the TE resonance, normal incidence'
+  method: unspecified
+  basis: derived
+  locator: 'p.7 Sec. 4.1; p.8 Fig. 8'
+  notes: '-10 log10(0.97) from the printed ~97 % TM transmittance.'
+  why: 'lee2014a block (judgment a); % to dB, derived (yang2024 precedent)'
+- metric_id: cmp_lit_lee2014a_gmr_sin_pecvd-m4
+  component_id: cmp_lit_lee2014a_gmr_sin_pecvd
+  parameter: etch_depth_nm
+  value: 310
+  unit: nm
+  basis: measured
+  locator: 'p.7 Fig. 7; p.7 Sec. 4.1'
+  notes: 'Grating depth d1 from the AFM cross-section (design 324 nm).'
+  why: 'lee2014a block (judgment a); D153 geometry'
+- metric_id: cmp_lit_lee2014a_gmr_sin_pecvd-m5
+  component_id: cmp_lit_lee2014a_gmr_sin_pecvd
+  parameter: width_nm
+  value: 428
+  unit: nm
+  condition: 'grating ridge width'
+  basis: measured
+  locator: 'p.7 Fig. 7'
+  notes: 'AFM ridge width (design 433 nm, p.2); experimental fill factor 0.42.'
+  why: 'lee2014a block (judgment a); D153 geometry'
+- metric_id: cmp_lit_lee2014a_gmr_sin_pecvd-m6
+  component_id: cmp_lit_lee2014a_gmr_sin_pecvd
+  parameter: slab_thickness_nm
+  value: 260
+  unit: nm
+  condition: 'residual homogeneous Si3N4 layer d2 under the grating'
+  basis: measured
+  locator: 'p.7 Sec. 4.1'
+  notes: 'Printed as the measured d2 (design 270 nm); measurement method not stated.'
+  why: 'lee2014a block (judgment a); D153 geometry'
+- metric_id: cmp_lit_lee2014a_gmr_sin_pecvd-m7
+  component_id: cmp_lit_lee2014a_gmr_sin_pecvd
+  parameter: footprint_um2
+  value: 25000000
+  unit: um2
+  basis: derived
+  locator: 'p.6 Sec. 3, Fig. 6(b)'
+  notes: '5 x 5 mm device (nine per 1-inch substrate, Si3N4 / TiO2 process).'
+  why: 'lee2014a block (judgment a); mm2 to um2, derived'
+- metric_id: cmp_lit_lee2014a_gmr_sin_sputtered-m1
+  component_id: cmp_lit_lee2014a_gmr_sin_sputtered
+  parameter: center_wavelength_nm
+  value: 1584
+  unit: nm
+  qualifier: approx
+  polarization: te
+  condition: 'TE transmittance minimum (resonance), normal incidence'
+  method: direct
+  basis: measured
+  locator: 'p.8 Sec. 4.1; p.8 Fig. 9'
+  notes: 'Printed lambda_c ~1584 nm (design 1550 nm).'
+  why: 'lee2014a block (judgment a)'
+- metric_id: cmp_lit_lee2014a_gmr_sin_sputtered-m2
+  component_id: cmp_lit_lee2014a_gmr_sin_sputtered
+  parameter: per_db
+  value: 22.0
+  unit: dB
+  wavelength_nm: 1584
+  condition: 'experimental extinction ratio T_TM / T_TE at the TE resonance, normal incidence'
+  basis: derived
+  locator: 'p.9 Sec. 4.1'
+  notes: 'Printed 160:1 at 1584 nm; 10 log10(160) = 22.04 dB.'
+  why: 'lee2014a block (judgment a); linear ratio to dB, derived (D157 / D256)'
+- metric_id: cmp_lit_lee2014a_gmr_sin_sputtered-m3
+  component_id: cmp_lit_lee2014a_gmr_sin_sputtered
+  parameter: insertion_loss_db
+  value: 0.22
+  unit: dB
+  qualifier: lt
+  wavelength_nm: 1580
+  wavelength_max_nm: 1589
+  polarization: tm
+  scope: per_component
+  condition: 'TM (pass) transmittance over the polarizing band, normal incidence'
+  method: unspecified
+  basis: derived
+  locator: 'p.8 Sec. 4.1; p.8 Fig. 9'
+  notes: '-10 log10(0.95) from the printed T > 95 % over ~1580-1589 nm; the sentence labels this TE, Fig. 9 shows it is the TM curve (label swap, see component notes).'
+  why: 'lee2014a block (judgment a); % to dB, derived'
+- metric_id: cmp_lit_lee2014a_gmr_sin_sputtered-m4
+  component_id: cmp_lit_lee2014a_gmr_sin_sputtered
+  parameter: per_db
+  value: 15.0
+  unit: dB
+  qualifier: gt
+  wavelength_nm: 1580
+  wavelength_max_nm: 1589
+  condition: 'T_TM / T_TE over the polarizing band, normal incidence'
+  basis: derived
+  locator: 'p.8 Sec. 4.1; p.8 Fig. 9'
+  notes: '10 log10(95 / 3) = 15.0 dB from the printed bounds T > 95 % (pass) and T < 3 % (block) over ~1580-1589 nm (labels swapped in the sentence, Fig. 9).'
+  why: 'lee2014a block (judgment a); bound ratio of printed transmittances, derived'
+- metric_id: cmp_lit_lee2014a_gmr_sin_sputtered-m5
+  component_id: cmp_lit_lee2014a_gmr_sin_sputtered
+  parameter: etch_depth_nm
+  value: 302
+  unit: nm
+  basis: measured
+  locator: 'p.9 Sec. 4.1'
+  notes: 'Measured grating depth d1 (design 302 nm); measurement method not stated (AFM per the Fig. 9 caption).'
+  why: 'lee2014a block (judgment a); D153 geometry'
+- metric_id: cmp_lit_lee2014a_gmr_sin_sputtered-m6
+  component_id: cmp_lit_lee2014a_gmr_sin_sputtered
+  parameter: slab_thickness_nm
+  value: 155
+  unit: nm
+  condition: 'residual homogeneous Si3N4 layer d2 under the grating'
+  basis: measured
+  locator: 'p.9 Sec. 4.1'
+  notes: 'Measured d2 (design 162 nm).'
+  why: 'lee2014a block (judgment a); D153 geometry'
+- metric_id: cmp_lit_lee2014a_gmr_sin_sputtered-m7
+  component_id: cmp_lit_lee2014a_gmr_sin_sputtered
+  parameter: footprint_um2
+  value: 25000000
+  unit: um2
+  basis: derived
+  locator: 'p.6 Sec. 3, Fig. 6(b)'
+  notes: '5 x 5 mm device (Si3N4 / TiO2 process).'
+  why: 'lee2014a block (judgment a); mm2 to um2, derived'
+- metric_id: cmp_lit_lee2014a_gmr_tio2-m1
+  component_id: cmp_lit_lee2014a_gmr_tio2
+  parameter: center_wavelength_nm
+  value: 1711
+  unit: nm
+  qualifier: approx
+  polarization: te
+  condition: 'TE transmittance minimum (resonance), normal incidence'
+  method: direct
+  basis: measured
+  locator: 'p.9 Sec. 4.2; p.10 Fig. 11'
+  notes: 'Printed lambda_c ~1711 nm (design 1550 nm; shift from the under-etched, thicker residual layer).'
+  why: 'lee2014a block (judgment a)'
+- metric_id: cmp_lit_lee2014a_gmr_tio2-m2
+  component_id: cmp_lit_lee2014a_gmr_tio2
+  parameter: per_db
+  value: 19.3
+  unit: dB
+  qualifier: approx
+  wavelength_nm: 1711
+  condition: 'T_TM / T_TE at the TE resonance, normal incidence'
+  basis: derived
+  locator: 'p.9 Sec. 4.2; p.10 Fig. 11'
+  notes: '10 log10(86 / 1) from the printed ~86 % TM and ~1 % TE transmittance at 1711 nm. No extinction ratio printed for this device.'
+  why: 'lee2014a block (judgment a); unit conversion of printed transmittances, derived'
+- metric_id: cmp_lit_lee2014a_gmr_tio2-m3
+  component_id: cmp_lit_lee2014a_gmr_tio2
+  parameter: insertion_loss_db
+  value: 0.66
+  unit: dB
+  qualifier: approx
+  wavelength_nm: 1711
+  polarization: tm
+  scope: per_component
+  condition: 'TM (pass) transmittance at the TE resonance, normal incidence'
+  method: unspecified
+  basis: derived
+  locator: 'p.9 Sec. 4.2; p.10 Fig. 11'
+  notes: '-10 log10(0.86) from the printed ~86 % TM transmittance; substrate backside reflection correction not stated for this device.'
+  why: 'lee2014a block (judgment a); % to dB, derived'
+- metric_id: cmp_lit_lee2014a_gmr_tio2-m4
+  component_id: cmp_lit_lee2014a_gmr_tio2
+  parameter: etch_depth_nm
+  value: 238
+  unit: nm
+  basis: measured
+  locator: 'p.9 Sec. 4.2, Fig. 10'
+  notes: 'SEM grating depth d1 (design 300 nm); about 240 nm etched with ~60 nm photoresist left before stripping.'
+  why: 'lee2014a block (judgment a); D153 geometry'
+- metric_id: cmp_lit_lee2014a_gmr_tio2-m5
+  component_id: cmp_lit_lee2014a_gmr_tio2
+  parameter: slab_thickness_nm
+  value: 150
+  unit: nm
+  condition: 'residual homogeneous TiO2 layer d2 under the grating'
+  basis: measured
+  locator: 'p.9 Sec. 4.2'
+  notes: 'SEM d2 (design 83 nm in Fig. 4, 89 nm in the p.9 text).'
+  why: 'lee2014a block (judgment a); D153 geometry'
+- metric_id: cmp_lit_lee2014a_gmr_tio2-m6
+  component_id: cmp_lit_lee2014a_gmr_tio2
+  parameter: footprint_um2
+  value: 25000000
+  unit: um2
+  basis: derived
+  locator: 'p.6 Sec. 3, Fig. 6(b)'
+  notes: '5 x 5 mm device (Si3N4 / TiO2 process).'
+  why: 'lee2014a block (judgment a); mm2 to um2, derived'
+- metric_id: cmp_lit_lee2014a_gmr_si_quartz-m1
+  component_id: cmp_lit_lee2014a_gmr_si_quartz
+  parameter: center_wavelength_nm
+  value: 1499
+  unit: nm
+  qualifier: approx
+  polarization: te
+  condition: 'TE transmittance minimum (resonance), normal incidence'
+  method: direct
+  basis: measured
+  locator: 'p.10 Sec. 4.3; p.10 Fig. 12'
+  notes: 'Printed lambda_c ~1499 nm (Fig. 12 caption ~1500 nm; design 1550 nm).'
+  why: 'lee2014a block (judgment a)'
+- metric_id: cmp_lit_lee2014a_gmr_si_quartz-m2
+  component_id: cmp_lit_lee2014a_gmr_si_quartz
+  parameter: per_db
+  value: 25.6
+  unit: dB
+  wavelength_nm: 1499
+  condition: 'experimental extinction ratio T_TM / T_TE at the TE resonance, normal incidence'
+  basis: derived
+  locator: 'p.10 Sec. 4.3'
+  notes: 'Printed 360:1 at 1499 nm; 10 log10(360) = 25.56 dB.'
+  why: 'lee2014a block (judgment a); linear ratio to dB, derived (D157 / D256)'
+- metric_id: cmp_lit_lee2014a_gmr_si_quartz-m3
+  component_id: cmp_lit_lee2014a_gmr_si_quartz
+  parameter: per_db
+  value: 15.1
+  unit: dB
+  qualifier: gt
+  wavelength_nm: 1445
+  wavelength_max_nm: 1575
+  condition: 'T_TM / T_TE over the overlap band (T_TM > 97 %, T_TE < 3 %), normal incidence'
+  basis: derived
+  locator: 'p.10 Sec. 4.3; p.10 Fig. 12'
+  notes: '10 log10(97 / 3) = 15.1 dB from the printed bounds over the ~130 nm overlap (~1445-1575 nm).'
+  why: 'lee2014a block (judgment a); bound ratio of printed transmittances, derived'
+- metric_id: cmp_lit_lee2014a_gmr_si_quartz-m4
+  component_id: cmp_lit_lee2014a_gmr_si_quartz
+  parameter: insertion_loss_db
+  value: 0.13
+  unit: dB
+  qualifier: lt
+  wavelength_nm: 1445
+  wavelength_max_nm: 1700
+  polarization: tm
+  scope: per_component
+  condition: 'TM (pass) transmittance, normal incidence'
+  method: unspecified
+  basis: derived
+  locator: 'p.10 Sec. 4.3; p.10 Fig. 12'
+  notes: '-10 log10(0.97) from the printed T > 97 % over ~1445-1700 nm (~260 nm).'
+  why: 'lee2014a block (judgment a); % to dB, derived'
+- metric_id: cmp_lit_lee2014a_gmr_si_quartz-m5
+  component_id: cmp_lit_lee2014a_gmr_si_quartz
+  parameter: etch_depth_nm
+  value: 256
+  unit: nm
+  condition: 'quartz grating depth before Si deposition'
+  basis: measured
+  locator: 'p.10-11 Sec. 4.3, Fig. 13(a)'
+  notes: 'AFM; 286 nm after Si deposition (Fig. 13(b)).'
+  why: 'lee2014a block (judgment a); D153 geometry'
+- metric_id: cmp_lit_lee2014a_gmr_si_quartz-m6
+  component_id: cmp_lit_lee2014a_gmr_si_quartz
+  parameter: core_thickness_nm
+  value: 117
+  unit: nm
+  condition: 'Si film on top of the quartz ridges (d1)'
+  basis: measured
+  locator: 'p.11 Sec. 4.3, Fig. 14'
+  notes: 'SEM; 88 nm in the trenches (d3); design 123 nm for both (Fig. 5).'
+  why: 'lee2014a block (judgment a); D153 geometry'

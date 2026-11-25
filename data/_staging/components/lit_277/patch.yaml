@@ -1,0 +1,47 @@
+# Audit patch lit_277 (fresh-context audit 2026-11-25, DevLog/audits/2026-11-25-lit_277-audit.md).
+# 37 metrics: 33 ok / 4 imprecise / 0 wrong; 7 components: 7 ok (1 note updated for the added miss). 1 miss added.
+# Fixes: zheng2018 laser-reset attenuation wavelength marked inferred (no wavelength printed with 0.62 dB/um);
+# zheng2018 mode-mismatch term scoped device_total with both GST-section interfaces in `includes` (Eq. (1) intercept of
+# the ring round-trip loss, not one transition); colbourne2018 isolation and takenobu2008 crosstalk get the stated or
+# figure band (rule 8). Miss: zheng2018 ~7 dB/um after five set excitations at around 1551.5 nm (same footing as the
+# entered 0.62 dB/um laser-reset value).
+components:
+  cmp_lit_zheng2018_gst_hybrid_wg:
+    notes: "Attenuation coefficient of the GST-loaded section extracted from 40 R 20 um rings (cmp_lit_zheng2018_ring_r20_series) with GST lengths up to 10 um: GST-introduced ring loss from Q before vs after GST deposition (Eq. (1), ng from the FSR, intrinsic loss assumed unchanged), linear regression over GST length (Fig. 4(b)); the slope is the attenuation, the intercept the mode-mismatch term (cmp_lit_zheng2018_gst_mode_mismatch). Laser-switched states (m3 reset on a 4 um GST ring, m9 five set excitations on the 2 um GST ring of cmp_lit_zheng2018_ring_gst2um_switch) are single-device extractions. Stored as prop_loss_db_per_cm (blundell2025 hybrid-waveguide precedent); printed in dB/um. Not entered: simulated 7.7 / 0.08 dB/um (p.7), wavelength dependence 1525-1565 nm (Fig. 4(d), plot only), aGST-to-cGST attenuation modulation ~7.3 dB/um and resonance shift per GST length 0.444 / 1.14 nm/um (per-length phase-shifter quantities, D250 / D586), Fig. 6(c) intermediate points after 0-4 excitations (plot only). Switching: 532 nm 440 ps laser pulses, reset single ~31 mJ/cm2 pulse, set 450 pulses of ~10 mJ/cm2 at 50 kHz (p.9); equivalent pulse energies ~620 pJ (reset) / ~200 pJ (set) (no registry parameter). Fab: first-person 'We fabricated the hybrid platform' (p.4 Sec. 2) and the acknowledgment states that all fabrication processes were performed at the Washington Nanofabrication Facility (WNF) at the University of Washington (p.11): fab org_university_washington (D448 stated place); WNF (facility) is not in the registry, reported for the org round. SOI wafer supplier not named; GST target vendor printed (AJA International, note only)."
+    why: 'note follows the added m9 (~7 dB/um after five set excitations, p.10 Sec. 3, Fig. 6(c)), which the distiller note listed as not entered'
+metrics:
+  cmp_lit_zheng2018_gst_hybrid_wg-m3:
+    wavelength_inferred: 'true'
+    notes: 'printed 0.62 dB/um (single device, 4 um GST ring), converted to dB/cm; no wavelength printed with the value: 1550 nm entered as inferred from the paper''s extraction wavelength (near 1550 nm, p.7) and the Fig. 5(d) spectra (1525-1565 nm)'
+    why: 'p.9 Sec. 3: the 0.62 dB/um sentence prints no wavelength (the row note says so); rule 8: a wavelength taken from the device context is inferred'
+  cmp_lit_zheng2018_gst_mode_mismatch-m1:
+    scope: device_total
+    includes: 'both interfaces (entry and exit) of one GST section on the ring: intercept alpha_0 of the GST-introduced ring round-trip loss, Eq. (1)'
+    notes: 'printed "less than 0.5 dB in both states"; intercept of the loss vs GST length regression (model extraction, D80a); Eq. (1) writes the whole GST-introduced round-trip loss as alpha L + alpha_0, so alpha_0 covers the bare-to-hybrid and hybrid-to-bare interfaces together; the paper does not split it per interface; attenuation extracted near 1550 nm'
+    why: 'p.7 Eq. (1): Loss = alpha L + alpha_0 is the total ring round-trip loss added by one GST strip, so alpha_0 holds both transitions of the section; per_component reads as one transition (rule 6); not halved because the paper does not state equal interfaces and the value is a bound'
+  cmp_lit_colbourne2018_twin_wss_8x24-m2:
+    band: c_band
+    wavelength_inferred: 'true'
+    notes: 'printed "greater than 45 dB"; no wavelength printed with the value: C band of the device (p.2 Sec. 3) entered as inferred'
+    why: 'p.3 Sec. 3 prints no wavelength with the isolation; the device operates over the C band (p.2 Sec. 3): rule 8 band + inferred'
+  cmp_lit_takenobu2008_awg_8x8_pcy-m2:
+    wavelength_nm: '1546'
+    wavelength_max_nm: '1558'
+    wavelength_inferred: 'true'
+    notes: 'printed "well below -25 dB"; no wavelength printed: span of the Fig. 6 spectral response from which the crosstalk is read (as m1), router stated around 1550 nm (p.1)'
+    why: 'p.2 Sec. 3: crosstalk is read from the Fig. 6 spectrum (axis 1546-1558 nm, p.3); rule 8 wavelength inferred, consistent with the IL row m1'
+add_metrics:
+- metric_id: cmp_lit_zheng2018_gst_hybrid_wg-m9
+  component_id: cmp_lit_zheng2018_gst_hybrid_wg
+  parameter: prop_loss_db_per_cm
+  value: '70000'
+  unit: dB/cm
+  qualifier: approx
+  wavelength_nm: '1551.5'
+  polarization: te
+  condition: 'laser re-crystallized GST: 2 um GST strip on one R 20 um ring after a single reset pulse and five excitations of 25 set pulses (~10 mJ/cm2 each, 50 kHz, 532 nm 440 ps)'
+  method: ring_extraction
+  basis: derived
+  locator: 'p.10 Sec. 3, Fig. 6(c)'
+  notes: 'printed "gradually increased to ~7 dB/um" (extracted at around 1551.5 nm), converted to dB/cm; single device (cmp_lit_zheng2018_ring_gst2um_switch); the authors compare it with the fitted cGST value (m2); repeated on several other rings with similar qualitative behaviour but no quantitative match (p.10)'
+  why: 'miss: a stated extracted attenuation of the hybrid waveguide in a laser-switched state, on the same footing as the entered laser-reset value m3 (0.62 dB/um, p.9); the "consistency check" wording does not make it a cited or non-measured value'

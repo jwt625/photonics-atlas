@@ -1,0 +1,319 @@
+# lit author affiliations, batch lit_h69 (DevLog-011). Contract: ../CONTRACT.md (+ ../../ofc_headers/CONTRACT.md).
+# Names and affiliation fields as printed; no contact data, no street address or postal code. Extracted 2026-11-25 by Claude.
+
+- source_id: lit:clemmen2009
+  status: ok
+  note: "asterisk marks the corresponding author; blocks 1 and 4 print a postal box between the unit and the university (not recorded, D410); block 2 prints the department, Institut FEMTO-ST, CNRS with its joint-unit number and Universite de Franche-Comte (FEMTO-ST as org, CNRS and the university in more_orgs, D285; the unit number not recorded); block 3 prints Ghent University - IMEC as one joint name (D426); author 4 printed R. G. Baets, author list Roel Baets (distinctive family name, the printed form adds a middle initial: explicit slot, D287 / D369); street addresses and postal codes not recorded"
+  affiliations:
+    - {marker: "1", basis: printed, org: "Université Libre de Bruxelles (U.L.B.)", unit: "Laboratoire d’Information Quantique", skip_between: "<postal box>", locality: "Bruxelles", country: "BE"}
+    - {marker: "2", basis: printed, org: "Institut FEMTO-ST", more_orgs: ["Centre National de la Recherche Scientifique", "Université de Franche-Comté"], unit: "Département d’Optique P.M. Duffieux", locality: "Besançon", country: "FR"}
+    - {marker: "3", basis: printed, org: "Ghent University - IMEC", unit: "Department of Information Technology (INTEC)", locality: "Gent", country: "BE"}
+    - {marker: "4", basis: printed, org: "Université Libre de Bruxelles (U.L.B.)", unit: "Service OPERA-Photonique", skip_between: "<postal box>", locality: "Brussels", country: "BE"}
+  authors:
+    - {name: "S. Clemmen", markers: ["1"]}
+    - {name: "K. Phan Huy", markers: ["2"]}
+    - {name: "W. Bogaerts", markers: ["3"]}
+    - {name: "R. G. Baets", markers: ["3"], slot: 4}
+    - {name: "Ph. Emplit", markers: ["4"]}
+    - {name: "S. Massar", markers: ["1"]}
+
+- source_id: lit:foster2007
+  status: ok
+  slots_from_header: true
+  note: "no author list in the literature cache (slots from the header, D352); both blocks print the state and no country (country empty, D249); postal codes not recorded"
+  affiliations:
+    - {marker: "1", basis: printed, org: "Cornell University", unit: "School of Applied and Engineering Physics", locality: "Ithaca", country: ""}
+    - {marker: "2", basis: printed, org: "Cornell University", unit: "School of Electrical and Computer Engineering", locality: "Ithaca", country: ""}
+  authors:
+    - {name: "Mark A. Foster", markers: ["1"]}
+    - {name: "Amy C. Turner", markers: ["2"]}
+    - {name: "Reza Salem", markers: ["1"]}
+    - {name: "Michal Lipson", markers: ["2"]}
+    - {name: "Alexander L. Gaeta", markers: ["1"]}
+
+- source_id: lit:linnenbank2016
+  status: ok
+  note: "author line printed in capitals; single unmarked block; asterisk marks the corresponding author; postal code not recorded"
+  affiliations:
+    - {marker: "", basis: single, org: "University of Stuttgart", unit: "4th Physics Institute and Research Center SCOPE", locality: "Stuttgart", country: "DE"}
+  authors:
+    - {name: "HEIKO LINNENBANK", markers: []}
+    - {name: "TOBIAS STEINLE", markers: []}
+    - {name: "HARALD GIESSEN", markers: []}
+
+- source_id: lit:turnerfoster2010
+  status: ok
+  note: "asterisk marks the corresponding author; states and postal codes not recorded"
+  affiliations:
+    - {marker: "1", basis: printed, org: "Cornell University", unit: "School of Electrical and Computer Engineering", locality: "Ithaca", country: "US"}
+    - {marker: "2", basis: printed, org: "Cornell University", unit: "School of Applied and Engineering Physics", locality: "Ithaca", country: "US"}
+  authors:
+    - {name: "Amy C. Turner-Foster", markers: ["1"]}
+    - {name: "Mark A. Foster", markers: ["2"]}
+    - {name: "Reza Salem", markers: ["2"]}
+    - {name: "Alexander L. Gaeta", markers: ["2"]}
+    - {name: "Michal Lipson", markers: ["1"]}
+
+- source_id: lit:zheng2018
+  status: ok
+  note: "author line printed in capitals; asterisk marks the corresponding author; block 4 prints no city (locality empty); block 6 prints the directorate after the laboratory and the air force base as the place; block 8 prints University of California, San Diego (campus, D301) with the city La Jolla; author 10 printed Jonathan Doylend, author list J. K. Doylend (distinctive family name, explicit slot, D287 / D369); states and postal codes not recorded"
+  affiliations:
+    - {marker: "1", basis: printed, org: "University of Washington", unit: "Department of Electrical Engineering", locality: "Seattle", country: "US"}
+    - {marker: "2", basis: printed, org: "University of Washington", unit: "Department of Mechanical Engineering", locality: "Seattle", country: "US"}
+    - {marker: "3", basis: printed, org: "Ningbo University", unit: "Key Laboratory of Photoelectric Materials and Devices of Zhejiang Province", locality: "Ningbo", country: "CN"}
+    - {marker: "4", basis: printed, org: "Stanford University", unit: "Department of Electrical Engineering", locality: "", country: "US"}
+    - {marker: "5", basis: printed, org: "US Naval Research Lab", locality: "Washington", country: "US"}
+    - {marker: "6", basis: printed, org: "Air Force Research Laboratory", unit: "Sensors Directorate", locality: "Wright-Patterson Air Force Base", country: "US"}
+    - {marker: "7", basis: printed, org: "Intel Corporation", unit: "Silicon Photonic Products Division", locality: "Santa Clara", country: "US"}
+    - {marker: "8", basis: printed, org: "University of California", campus: "San Diego", unit: "Department of Mechanical and Aerospace Engineering", locality: "La Jolla", country: "US"}
+    - {marker: "9", basis: printed, org: "University of Washington", unit: "Department of Physics", locality: "Seattle", country: "US"}
+  authors:
+    - {name: "JIAJIU ZHENG", markers: ["1"]}
+    - {name: "AMEY KHANOLKAR", markers: ["2"]}
+    - {name: "PEIPENG XU", markers: ["1", "3"]}
+    - {name: "SHANE COLBURN", markers: ["1"]}
+    - {name: "SANCHIT DESHMUKH", markers: ["4"]}
+    - {name: "JASON MYERS", markers: ["5"]}
+    - {name: "JESSE FRANTZ", markers: ["5"]}
+    - {name: "ERIC POP", markers: ["4"]}
+    - {name: "JOSHUA HENDRICKSON", markers: ["6"]}
+    - {name: "JONATHAN DOYLEND", markers: ["7"], slot: 10}
+    - {name: "NICHOLAS BOECHLER", markers: ["8"]}
+    - {name: "ARKA MAJUMDAR", markers: ["1", "9"]}
+
+- source_id: lit:colbourne2018
+  status: ok
+  note: "OFC conference paper; single unmarked block; street address, province and postal code not recorded"
+  affiliations:
+    - {marker: "", basis: single, org: "Lumentum", locality: "Ottawa", country: "CA"}
+  authors:
+    - {name: "Paul D. Colbourne", markers: []}
+    - {name: "Sheldon McLaughlin", markers: []}
+    - {name: "Chester Murley", markers: []}
+    - {name: "Simon Gaudet", markers: []}
+    - {name: "Dan Burke", markers: []}
+
+- source_id: lit:takenobu2008
+  status: ok
+  slots_from_header: true
+  note: "no author list in the literature cache (slots from the header, D352); conference paper whose text layer starts with figure labels before the title; family names printed in capitals; block markers printed as 1: to 4:, markers 1 and 4 also start a contact line after their blocks; block 1 prints a town name before Yokohama and the prefecture after it, block 2 a district before Tokyo, block 3 the prefecture after Ichihara-shi (none recorded); street addresses and postal codes not recorded"
+  affiliations:
+    - {marker: "1", basis: printed, org: "Asahi Glass Co., Ltd.", locality: "Yokohama", country: "JP"}
+    - {marker: "2", basis: printed, org: "Asahi Glass Co., Ltd.", locality: "Tokyo", country: "JP"}
+    - {marker: "3", basis: printed, org: "Asahi Glass Co., Ltd.", locality: "Ichihara-shi", country: "JP"}
+    - {marker: "4", basis: printed, org: "Fraunhofer Institute for Telecommunications, Heinrich-Hertz-Institut", locality: "Berlin", country: "DE"}
+  authors:
+    - {name: "Shotaro TAKENOBU", markers: ["1"]}
+    - {name: "Yasuhiro KUWANA", markers: ["2"]}
+    - {name: "Kousuke TAKAYAMA", markers: ["1"]}
+    - {name: "Yoshihiko SAKANE", markers: ["1"]}
+    - {name: "Mitsufumi ONO", markers: ["3"]}
+    - {name: "Hideki SATO", markers: ["1"]}
+    - {name: "Norbert KEIL", markers: ["4"]}
+    - {name: "Walter BRINKER", markers: ["4"]}
+    - {name: "Huihai YAO", markers: ["4"]}
+    - {name: "Crispin ZAWADZKI", markers: ["4"]}
+    - {name: "Yoshitomi MORIZAWA", markers: ["1"]}
+    - {name: "Norbert GROTE", markers: ["4"]}
+
+- source_id: lit:debevc2022
+  status: ok
+  note: "author line printed in capitals with detached accents in the extraction; single unmarked block, org printed before the faculty; asterisk marks the corresponding author; street address and postal code not recorded"
+  affiliations:
+    - {marker: "", basis: single, org: "University of Ljubljana", unit: "Faculty of Electrical Engineering", locality: "Ljubljana", country: "SI"}
+  authors:
+    - {name: "ANDRAŽ DEBEVC", markers: []}
+    - {name: "MARKO TOPIČ", markers: []}
+    - {name: "JANEZ KRČ", markers: []}
+
+- source_id: lit:ma2020
+  status: ok
+  note: "author line printed in capitals; single unmarked block; asterisk marks the corresponding author; province and postal code not recorded"
+  affiliations:
+    - {marker: "", basis: single, org: "The University of British Columbia", unit: "Department of Electrical and Computer Engineering", locality: "Vancouver", country: "CA"}
+  authors:
+    - {name: "MINGLEI MA", markers: []}
+    - {name: "HOSSAM SHOMAN", markers: []}
+    - {name: "KEYI TANG", markers: []}
+    - {name: "SUDIP SHEKHAR", markers: []}
+    - {name: "NICOLAS A. F. JAEGER", markers: []}
+    - {name: "LUKAS CHROSTOWSKI", markers: []}
+
+- source_id: lit:lee2014a
+  status: ok
+  slots_from_header: true
+  note: "no author list in the literature cache (slots from the header, D352); asterisk marks the corresponding author; block 1 prints University of Texas at Arlington (org University of Texas, campus Arlington, D301 / lit_h67 orcutt2011 form) and a postal box after the university (not recorded); block 4 prints only the state, no city (locality empty); street address, states and postal codes not recorded"
+  affiliations:
+    - {marker: "1", basis: printed, org: "University of Texas", campus: "Arlington", unit: "Department of Electrical Engineering", locality: "Arlington", country: "US"}
+    - {marker: "2", basis: printed, org: "Stanford University", unit: "Department of Electrical Engineering", locality: "Stanford", country: "US"}
+    - {marker: "3", basis: printed, org: "Sikorsky Aircraft", locality: "Stratford", country: "US"}
+    - {marker: "4", basis: printed, org: "Clemson University", unit: "Department of Electrical & Computer Engineering", locality: "", country: "US"}
+  authors:
+    - {name: "Kyu J. Lee", markers: ["1"]}
+    - {name: "Jerry Giese", markers: ["1", "2"]}
+    - {name: "Laura Ajayi", markers: ["1", "3"]}
+    - {name: "Robert Magnusson", markers: ["1"]}
+    - {name: "Eric Johnson", markers: ["4"]}
+
+- source_id: lit:an2019
+  status: ok
+  note: "author line printed in capitals; single unmarked block, laboratory printed before the institute; asterisk marks the corresponding author; street address, a district before the city and postal code not recorded"
+  affiliations:
+    - {marker: "", basis: single, org: "Electronics and Telecommunications Research Institute (ETRI)", unit: "ICT Materials & Components Research Laboratory", locality: "Daejeon", country: "KR"}
+  authors:
+    - {name: "SHINMO AN", markers: []}
+    - {name: "O-KYUN KWON", markers: []}
+
+- source_id: lit:shinobu2010
+  status: ok
+  slots_from_header: true
+  note: "no author list in the literature cache (slots from the header, D352); Electronics Letters: no markers in the author line; the authors' affiliations section at the end of the letter on page 2 prints the three authors (initials) followed by one parenthesis holding the university block and a sentence that they also belong to CREST, Japan Science and Technology Agency (no city printed): read as one author group with two blocks (grouped, D368); names recorded as printed in the page-1 author line; street address, a district before Yokohama, prefecture and postal code not recorded"
+  affiliations:
+    - {marker: "G1", basis: grouped, org: "Yokohama National University", unit: "Department of Electrical and Computer Engineering", locality: "Yokohama", country: "JP", locator: "p.2 affiliations"}
+    - {marker: "G2", basis: grouped, org: "Japan Science and Technology Agency", unit: "CREST", locality: "", country: "JP", locator: "p.2 affiliations"}
+  authors:
+    - {name: "Fumihiro Shinobu", markers: ["G1", "G2"]}
+    - {name: "Yoshiki Arita", markers: ["G1", "G2"]}
+    - {name: "Toshihiko Baba", markers: ["G1", "G2"]}
+
+- source_id: lit:wu2021
+  status: ok
+  note: "author line printed in capitals; single unmarked block, the two centres and the college printed before Hebei University (unit chain); asterisk marks the corresponding author; postal code not recorded"
+  affiliations:
+    - {marker: "", basis: single, org: "Hebei University", unit: "Photonics Information Innovation Center and Hebei Provincial Center for Optical Sensing Innovations, College of Physics Science and Technology", locality: "Baoding", country: "CN"}
+  authors:
+    - {name: "SHENGBAO WU", markers: []}
+    - {name: "JINXIN HAO", markers: []}
+    - {name: "ZHICHENG ZHAO", markers: []}
+    - {name: "X. STEVE YAO", markers: []}
+
+- source_id: lit:wu2022a
+  status: ok
+  note: "author line printed in capitals; asterisk marks the corresponding author; block 1 prints the two centres and the college before Hebei University, block 2 the research center and the school before Southeast University (unit chains); postal codes not recorded"
+  affiliations:
+    - {marker: "1", basis: printed, org: "Hebei University", unit: "Photonics Information Innovation Center and Hebei Provincial Center for Optical Sensing Innovations, College of Physics Science and Technology", locality: "Baoding", country: "CN"}
+    - {marker: "2", basis: printed, org: "Southeast University", unit: "National Research Center for Optical Sensing/Communications Integrated Networking, School of Electronic Science and Engineering", locality: "Nanjing", country: "CN"}
+  authors:
+    - {name: "SHENGBAO WU", markers: ["1"]}
+    - {name: "ZHENZHAO GUO", markers: ["2"]}
+    - {name: "TING FENG", markers: ["1"]}
+    - {name: "JINBIAO XIAO", markers: ["2"]}
+    - {name: "X. STEVE YAO", markers: ["1"]}
+
+- source_id: lit:zafar2018
+  status: ok
+  note: "author line printed in capitals; asterisk marks the corresponding author; block 1 prints the department and Masdar Institute before Khalifa University of Science and Technology (unit chain); blocks 2 and 3 are present addresses (cue Currently with) of authors 5 and 6, both printed with the article the (copied, as earlier present-address entries); street address, state and postal codes not recorded"
+  affiliations:
+    - {marker: "1", basis: printed, org: "Khalifa University of Science and Technology", unit: "Electrical and Computer Engineering Department, Masdar Institute", locality: "Abu Dhabi", country: "AE"}
+    - {marker: "2", basis: printed, role: present_address, org: "the Interuniversity Microelectronics Center (imec)", locality: "Leuven", country: "BE"}
+    - {marker: "3", basis: printed, role: present_address, org: "Boston University", unit: "the Department of Electrical and Computer Engineering", locality: "Boston", country: "US"}
+  authors:
+    - {name: "HUMAIRA ZAFAR", markers: ["1"]}
+    - {name: "PAULO MOREIRA", markers: ["1"]}
+    - {name: "AYAT M. TAHA", markers: ["1"]}
+    - {name: "BRUNA PAREDES", markers: ["1"]}
+    - {name: "MARCUS S. DAHLEM", markers: ["1", "2"]}
+    - {name: "ANATOL KHILO", markers: ["1", "3"]}
+
+- source_id: lit:zhang2021d
+  status: ok
+  note: "author line printed in capitals; asterisk marks the corresponding author; provinces not recorded"
+  affiliations:
+    - {marker: "1", basis: printed, org: "McGill University", unit: "Photonics Systems Group, Department of Electrical and Computer Engineering", locality: "Montreal", country: "CA"}
+    - {marker: "2", basis: printed, org: "CMC Microsystems", locality: "Kingston", country: "CA"}
+    - {marker: "3", basis: printed, org: "Ericsson Canada", locality: "Montreal", country: "CA"}
+  authors:
+    - {name: "JINSONG ZHANG", markers: ["1"]}
+    - {name: "LUHUA XU", markers: ["1", "2"]}
+    - {name: "DENG MAO", markers: ["1"]}
+    - {name: "YANNICK D’MELLO", markers: ["1"]}
+    - {name: "WEIJIA LI", markers: ["1"]}
+    - {name: "STEPHANE LESSARD", markers: ["3"]}
+    - {name: "DAVID V. PLANT", markers: ["1"]}
+
+- source_id: lit:zhang2016a
+  status: ok
+  note: "asterisk marks the corresponding author; postal codes not recorded"
+  affiliations:
+    - {marker: "1", basis: printed, org: "Shanghai Jiao Tong University", unit: "State Key Lab of Advanced Optical Communication Systems and Networks, Department of Electronic Engineering", locality: "Shanghai", country: "CN"}
+    - {marker: "2", basis: printed, org: "Zhejiang University", unit: "Department of Information Science and Electronics Engineering", locality: "Hangzhou", country: "CN"}
+    - {marker: "3", basis: printed, org: "École de technologie supérieure", unit: "Laboratoire de Technologies de Réseaux", locality: "Montreal", country: "CA"}
+  authors:
+    - {name: "Yong Zhang", markers: ["1"]}
+    - {name: "Yu He", markers: ["1"]}
+    - {name: "Jiayang Wu", markers: ["1"]}
+    - {name: "Xinhong Jiang", markers: ["1"]}
+    - {name: "Ruili Liu", markers: ["1"]}
+    - {name: "Ciyuan Qiu", markers: ["1"]}
+    - {name: "Xiaoqing Jiang", markers: ["2"]}
+    - {name: "Jianyi Yang", markers: ["2"]}
+    - {name: "Christine Tremblay", markers: ["3"]}
+    - {name: "Yikai Su", markers: ["1"]}
+
+- source_id: lit:zhang2021c
+  status: ok
+  note: "author line printed in capitals; markers 5 and 6 point to the two contact lines; block 1 prints Mirco as printed (misprint kept) and only the province after Jiang Su University (locality empty); block 2 prints DTU Fotonik before the university (unit); block 4 prints AMS Beijing before the city Beijing (org copied as printed); postal codes not recorded"
+  affiliations:
+    - {marker: "1", basis: printed, org: "Jiang Su University", unit: "Institute of Mirco/Nano Optoelectronic and Terahertz Technology", locality: "", country: "CN"}
+    - {marker: "2", basis: printed, org: "Technical University of Denmark", unit: "DTU Fotonik", locality: "Lyngby", country: "DK"}
+    - {marker: "3", basis: printed, org: "National University of Defense Technology", unit: "Department of Physics", locality: "Changsha", country: "CN"}
+    - {marker: "4", basis: printed, org: "AMS Beijing", unit: "Institute of Systems Engineering", locality: "Beijing", country: "CN"}
+  authors:
+    - {name: "JINGJING ZHANG", markers: ["1"]}
+    - {name: "XIAODONG SHI", markers: ["2"]}
+    - {name: "ZHAOJIAN ZHANG", markers: ["3"]}
+    - {name: "KAI GUO", markers: ["4"], dropped_markers: [{marker: "5", reason: "contact footnote"}]}
+    - {name: "JUNBO YANG", markers: ["3"], dropped_markers: [{marker: "6", reason: "contact footnote"}]}
+
+- source_id: lit:kudalippalliyalil2020
+  status: ok
+  note: "author line printed in capitals; asterisk marks the corresponding author; block 1 prints University of Maryland, College Park (campus, D301); states and postal codes not recorded"
+  affiliations:
+    - {marker: "1", basis: printed, org: "University of Maryland", campus: "College Park", unit: "Institute for Research in Electronics & Applied Physics", locality: "College Park", country: "US"}
+    - {marker: "2", basis: printed, org: "Laboratory for Physical Sciences", locality: "College Park", country: "US"}
+  authors:
+    - {name: "RAMESH KUDALIPPALLIYALIL", markers: ["1", "2"]}
+    - {name: "THOMAS E. MURPHY", markers: ["1"]}
+    - {name: "KAREN E. GRUTTER", markers: ["2"]}
+
+- source_id: lit:lin2022b
+  status: ok
+  note: "author line printed in capitals; asterisk marks the corresponding author; block 1 prints the centre, the college and the state key laboratory before Zhejiang University (unit chain); block 2 prints a postal box after the university (not recorded); block 3 prints Shanghai Institute for Advanced Study of Zhejiang University as one name; postal codes not recorded"
+  affiliations:
+    - {marker: "1", basis: printed, org: "Zhejiang University", unit: "Centre for Optical and Electromagnetic Research, College of Optical Science and Engineering, State Key Laboratory of Modern Optical Instrumentation", locality: "Hangzhou", country: "CN"}
+    - {marker: "2", basis: printed, org: "Eindhoven University of Technology", unit: "Institute for Photonic Integration (IPI)", locality: "Eindhoven", country: "NL"}
+    - {marker: "3", basis: printed, org: "Shanghai Institute for Advanced Study of Zhejiang University", locality: "Shanghai", country: "CN"}
+  authors:
+    - {name: "ZONGXING LIN", markers: ["1"]}
+    - {name: "XIAO LI", markers: ["1", "2"]}
+    - {name: "SAILING HE", markers: ["1", "3"]}
+
+- source_id: lit:zhan2021
+  status: ok
+  note: "author line printed in capitals; asterisk marks the corresponding author; both blocks print University of Maryland, College Park (campus, D301); states and postal codes not recorded"
+  affiliations:
+    - {marker: "1", basis: printed, org: "University of Maryland", campus: "College Park", unit: "Department of Electrical and Computer Engineering", locality: "College Park", country: "US"}
+    - {marker: "2", basis: printed, org: "University of Maryland", campus: "College Park", unit: "Department of Astronomy", locality: "College Park", country: "US"}
+  authors:
+    - {name: "JIAHAO ZHAN", markers: ["1"]}
+    - {name: "JOSEPH BROCK", markers: ["1"]}
+    - {name: "SYLVAIN VEILLEUX", markers: ["2"]}
+    - {name: "MARIO DAGENAIS", markers: ["1"]}
+
+- source_id: lit:herrerobermello2020
+  status: ok
+  note: "author line printed in capitals; asterisk marks the corresponding author; block 1 prints the institute before CSIC (unit); block 3 prints the department and the school after Universidad de Malaga (unit chain) and a campus site name before the city (not recorded); block 5 is a present address (cue Currently with) of author 1; province and postal codes not recorded"
+  affiliations:
+    - {marker: "1", basis: printed, org: "Consejo Superior de Investigaciones Científicas", unit: "Instituto de Óptica", locality: "Madrid", country: "ES"}
+    - {marker: "2", basis: printed, org: "Alcyon Photonics S.L.", locality: "Madrid", country: "ES"}
+    - {marker: "3", basis: printed, org: "Universidad de Málaga", unit: "Depto. De Ingeniería de Comunicaciones, ETSI de Telecomunicación", locality: "Málaga", country: "ES"}
+    - {marker: "4", basis: printed, org: "National Research Council of Canada", locality: "Ottawa", country: "CA"}
+    - {marker: "5", basis: printed, role: present_address, org: "Alcyon Photonics S.L.", locality: "Madrid", country: "ES"}
+  authors:
+    - {name: "ALAINE HERRERO-BERMELLO", markers: ["1", "5"]}
+    - {name: "ANTONIO DIAS-PONTE", markers: ["2"]}
+    - {name: "JOSÉ MANUEL LUQUE-GONZÁLEZ", markers: ["3"]}
+    - {name: "ALEJANDRO ORTEGA-MOÑUX", markers: ["3"]}
+    - {name: "AITOR V. VELASCO", markers: ["1"]}
+    - {name: "PAVEL CHEBEN", markers: ["4"]}
+    - {name: "ROBERT HALIR", markers: ["3"]}

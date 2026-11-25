@@ -1,0 +1,108 @@
+# Audit patch lit_280 (fresh-context audit 2026-11-25, DevLog/audits/2026-11-25-lit_280-audit.md).
+# 127 metrics: 121 ok / 6 imprecise / 0 wrong; 17 components: 17 ok. 4 misses added (herrerobermello2020 thickness-tolerance
+# simulation). After the patch: 17 components, 131 metrics.
+# Fixes: zhang2021c Fig. 7(b) TM 35 dB is the simulated peak near 1.54 um, not a 1.55 um value; zhang2021c PER / IL
+# sentences that disagree with their own figures (Fig. 8(b) TM ~37 dB vs printed > 40 dB; Fig. 4(a) TM ~94 % vs printed
+# IL < 0.2 dB) get D417 conflict notes; zhang2021c Fig. 7 TE 45 dB wavelength marked inferred; kudalippalliyalil2020
+# cascade-slope IL fit is `measured` (D80a), not `derived`.
+# Note supplements (rows ok): herrerobermello2020 simulated 130 nm windows, Fig. 2(a) / 2(c) edge readings in notes.
+metrics:
+  cmp_lit_zhang2021c_am_pbs-m9:
+    wavelength_inferred: 'true'
+    notes: 'printed "The PER are 45dB and 35dB" (p.9) in the sentence after the 1.55 um transmission statement; no wavelength printed with the PER itself; Fig. 7(b) TE trace reads about 47 dB (+/- 1 dB) at 1.55 um and falls to 45 dB near 1.565 um'
+    why: 'p.9 Sec. 4: the PER sentence carries no wavelength; 1.55 um comes from the preceding transmission sentence (rule 8: inferred)'
+  cmp_lit_zhang2021c_am_pbs-m10:
+    wavelength_nm: '1540'
+    wavelength_inferred: 'true'
+    statistic: best
+    notes: 'printed "The PER are 45dB and 35dB" (p.9), no wavelength printed with the PER; Fig. 7(b) TM trace peaks at about 35.5 dB near 1.54 um (+/- 0.005 um) and reads only about 22 dB at 1.55 um, so the printed 35 dB is the TM peak, entered at the peak wavelength read off the figure'
+    why: 'render p.9 Fig. 7(b): the TM PER reaches 35 dB only at its peak near 1.54 um; at 1.55 um the curve reads about 22 dB, so wavelength 1550 misplaces the printed value'
+  cmp_lit_zhang2021c_am_pbs-m13:
+    notes: 'printed "high PER of > 40 dB for both polarizations" at the 3 um offset; wavelength of the offset sweep not printed, design centre wavelength 1.55 um (p.11). Conflict (D417): Fig. 8(b) at D = 3 um reads TE about 45 dB but TM about 37 dB (+/- 1 dB), below the printed 40 dB'
+    why: 'render p.10 Fig. 8(b): TM PER maximum at D = 3 um is about 37 dB, not > 40 dB; printed value kept with the conflict noted (D417)'
+  cmp_lit_zhang2021c_am_pbs_t100_design-m3:
+    notes: 'printed "insertion loss is < 0.2 dB for both polarizations" (p.5, twice); abstract prints "< 0.2 dB within a bandwidth of 70 nm" (bandwidth not shown in the body, D417); sweep wavelength not printed. Conflict (D417): the same paragraph prints TM transmission > 94 % (Fig. 4(a) TM output about 0.945 at Lc 14 um), i.e. about 0.25-0.27 dB, above the printed 0.2 dB'
+    why: 'p.5 Sec. 2 and render p.6 Fig. 4(a): 94 % TM transmission corresponds to about 0.27 dB, inconsistent with "< 0.2 dB"; printed value kept with the conflict noted (D417)'
+  cmp_lit_kudalippalliyalil2020_ammi_ps-m3:
+    basis: measured
+    notes: 'printed "IL_TE ranges between 0.6 dB and 0.85 dB across the C+L band"; per-device IL is the slope of a linear fit of IL vs number of cascaded PSs / PCs (Fig. 13(b) inset), the paper assuming identical IL for splitter and combiner (same structure used in reverse); cascade-slope fit of own data = measured (D80a, mao2021 precedent); span = Fig. 13(b) points 1520-1620 nm (TE points read about 0.64-0.84 dB)'
+    why: 'D80a: a cascade-slope fit of the source''s own data is measured; the identical-PS/PC assumption is the usual cutback identity assumption, not an assumed numeric input (so neither derived arithmetic nor author_estimate)'
+  cmp_lit_kudalippalliyalil2020_ammi_ps-m4:
+    basis: measured
+    notes: 'printed "IL_TM ranges between 0.74 dB and 0.92 dB across the C+L band"; per-device IL is the slope of a linear fit of IL vs number of cascaded PSs / PCs (Fig. 13(b) inset), the paper assuming identical IL for splitter and combiner (same structure used in reverse); cascade-slope fit of own data = measured (D80a, mao2021 precedent); span = Fig. 13(b) points 1520-1620 nm (TM points read about 0.76-0.90 dB)'
+    why: 'D80a: a cascade-slope fit of the source''s own data is measured; the identical-PS/PC assumption is the usual cutback identity assumption, not an assumed numeric input'
+  cmp_lit_herrerobermello2020_pbs_tilt15_n400-m3:
+    notes: 'band edges of the 130 nm window not printed; Fig. 2(c) reading (+/- 0.01 um): ER-TE above 20 dB from about 1.505 um, ER-TM above 20 dB up to about 1.635 um, IL of both below 1 dB about 1.50-1.66 um, i.e. a joint window of about 1.505-1.635 um'
+    why: 'note supplement (row ok): figure reading of the stated 130 nm window kept in notes; band stays unspecified (audit judgment f)'
+  cmp_lit_herrerobermello2020_pbs_tilt15_n400-m4:
+    notes: 'band edges of the 130 nm window not printed; Fig. 2(c) reading (+/- 0.01 um): IL of both polarizations below 1 dB about 1.50-1.66 um; joint ER > 20 dB / IL < 1 dB window about 1.505-1.635 um'
+    why: 'note supplement (row ok): figure reading of the stated 130 nm window kept in notes; band stays unspecified (audit judgment f)'
+  cmp_lit_herrerobermello2020_pbs_tilt7_n417-m2:
+    notes: 'band edges of the 130 nm window not printed; Fig. 2(a) reading (+/- 0.01 um): ER-TM above 20 dB about 1.485-1.625 um, ER-TE above 20 dB from 1.45 to about 1.66 um, IL below 1 dB from about 1.50 um to about 1.64 um (TE IL rises at long wavelengths), joint window about 1.50-1.625 um; the authors'' earlier theoretical paper (ref. [26]) reported 128 nm for this design (p.6), so this 130 nm simulation is this paper''s own'
+    why: 'note supplement (row ok): figure reading and the D408 basis for keeping the row (audit judgment f)'
+  cmp_lit_herrerobermello2020_pbs_tilt7_n417-m3:
+    notes: 'band edges of the 130 nm window not printed; Fig. 2(a) reading (+/- 0.01 um): ER-TM above 20 dB about 1.485-1.625 um, ER-TE above 20 dB from 1.45 to about 1.66 um; ref. [26] reported 128 nm for this design (p.6), so this 130 nm simulation is this paper''s own'
+    why: 'note supplement (row ok): figure reading and the D408 basis for keeping the row (audit judgment f)'
+add_metrics:
+- metric_id: cmp_lit_herrerobermello2020_pbs_tilt15_n400-m12
+  component_id: cmp_lit_herrerobermello2020_pbs_tilt15_n400
+  source_id: lit:herrerobermello2020
+  parameter: per_db
+  value: '20'
+  unit: dB
+  qualifier: gt
+  band: unspecified
+  polarization: te
+  condition: '3D FDTD of the entire device with silicon thickness varied by +/- 10 nm (grid 10 nm in y); holds over a 129 nm window for TE (band edges not printed)'
+  basis: simulated
+  locator: p.6 Sec. 3
+  notes: 'printed "ER greater than 20 dB and IL better than 1 dB in a bandwidth of 129 nm for TE polarization and 118 nm for the TM polarization" for thickness variations of +/- 10 nm; no figure'
+  verified_on: '2026-11-25'
+  why: 'miss: thickness-tolerance simulation values of this paper (p.6), parallel to the entered 130 nm simulated rows and the lin2022b tolerance rows; bandwidth itself has no polarization parameter (registry gap 4)'
+- metric_id: cmp_lit_herrerobermello2020_pbs_tilt15_n400-m13
+  component_id: cmp_lit_herrerobermello2020_pbs_tilt15_n400
+  source_id: lit:herrerobermello2020
+  parameter: insertion_loss_db
+  value: '1'
+  unit: dB
+  qualifier: lt
+  band: unspecified
+  polarization: te
+  scope: per_component
+  condition: '3D FDTD of the entire device with silicon thickness varied by +/- 10 nm (grid 10 nm in y); holds over a 129 nm window for TE (band edges not printed)'
+  basis: simulated
+  locator: p.6 Sec. 3
+  notes: 'printed "ER greater than 20 dB and IL better than 1 dB in a bandwidth of 129 nm for TE polarization and 118 nm for the TM polarization" for thickness variations of +/- 10 nm; no figure'
+  verified_on: '2026-11-25'
+  why: 'miss: thickness-tolerance simulation values of this paper (p.6)'
+- metric_id: cmp_lit_herrerobermello2020_pbs_tilt15_n400-m14
+  component_id: cmp_lit_herrerobermello2020_pbs_tilt15_n400
+  source_id: lit:herrerobermello2020
+  parameter: per_db
+  value: '20'
+  unit: dB
+  qualifier: gt
+  band: unspecified
+  polarization: tm
+  condition: '3D FDTD of the entire device with silicon thickness varied by +/- 10 nm (grid 10 nm in y); holds over a 118 nm window for TM (band edges not printed)'
+  basis: simulated
+  locator: p.6 Sec. 3
+  notes: 'printed "ER greater than 20 dB and IL better than 1 dB in a bandwidth of 129 nm for TE polarization and 118 nm for the TM polarization" for thickness variations of +/- 10 nm; no figure'
+  verified_on: '2026-11-25'
+  why: 'miss: thickness-tolerance simulation values of this paper (p.6)'
+- metric_id: cmp_lit_herrerobermello2020_pbs_tilt15_n400-m15
+  component_id: cmp_lit_herrerobermello2020_pbs_tilt15_n400
+  source_id: lit:herrerobermello2020
+  parameter: insertion_loss_db
+  value: '1'
+  unit: dB
+  qualifier: lt
+  band: unspecified
+  polarization: tm
+  scope: per_component
+  condition: '3D FDTD of the entire device with silicon thickness varied by +/- 10 nm (grid 10 nm in y); holds over a 118 nm window for TM (band edges not printed)'
+  basis: simulated
+  locator: p.6 Sec. 3
+  notes: 'printed "ER greater than 20 dB and IL better than 1 dB in a bandwidth of 129 nm for TE polarization and 118 nm for the TM polarization" for thickness variations of +/- 10 nm; no figure'
+  verified_on: '2026-11-25'
+  why: 'miss: thickness-tolerance simulation values of this paper (p.6)'

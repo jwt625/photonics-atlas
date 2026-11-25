@@ -1,0 +1,217 @@
+# Audit patch lit_279 (fresh-context audit 2026-11-25, DevLog/audits/2026-11-25-lit_279-audit.md).
+# 155 metrics: 148 ok / 7 imprecise / 0 wrong; 22 components: 16 ok / 6 notes updated (2 imprecise, 4 follow added rows).
+# 6 misses added: zafar2018 measured mean ER (derived, Table 1) on the three theta siblings and design A; wu2022a trident
+# splitter n_inputs / n_outputs. After the patch: 22 components, 161 metrics.
+# Fixes: zhang2016a GC loss band unspecified (no band stated; span 1510-1544 nm is mostly S band); zafar2018 measured ER
+# condition no longer implies a cascaded TM leg; zafar2018 constant-radius 30 dB ER targets ge (not approx).
+# Note supplement (row ok): wu2022a L2 6.825 um vs the p.5 length rule.
+components:
+  cmp_lit_zhang2016a_te_gc:
+    notes: 'Facility AEMD: authors thank the Center for Advanced Electronic Materials and Devices for support in device fabrication
+      (p.8 Acknowledgments). Fab empty: fabrication described with passive verbs (EBL on ZEP520A, ICP etch with SF6 / C4F8,
+      p.4) and no org named (D80b; hu2020 precedent). I/O coupler of the PBS test structures (p.4-5). Fill factor printed
+      50 % without a definition (D253, kept as printed). The ''central wavelength'' of the grating is not printed; band left
+      unspecified (the 1510-1544 nm measurement span straddles the S and C bands). Sentence before the values cites ref. [26]
+      for GC polarization dependence only; the losses are this paper''s.'
+    why: note follows the metric fix (band unspecified, p.4-5 Sec. 2)
+  cmp_lit_zhang2016a_tm_gc:
+    notes: 'Facility AEMD: authors thank the Center for Advanced Electronic Materials and Devices for support in device fabrication
+      (p.8 Acknowledgments). Fab empty: fabrication described with passive verbs (EBL on ZEP520A, ICP etch with SF6 / C4F8,
+      p.4) and no org named (D80b; hu2020 precedent). I/O coupler of the PBS test structures (p.4-5). Fill factor printed
+      48 % without a definition (D253, kept as printed). The ''central wavelength'' of the grating is not printed; band left
+      unspecified (the 1510-1544 nm measurement span straddles the S and C bands). Sentence before the values cites ref. [26]
+      for GC polarization dependence only; the losses are this paper''s.'
+    why: note follows the metric fix (band unspecified, p.4-5 Sec. 2)
+  cmp_lit_zafar2018_r1_n8_t30:
+    notes: 'Fab org_astar_ime: polarizers fabricated at the Institute of Microelectronics (Singapore) on 220 nm SOI with 2
+      um buffered oxide, 248 nm optical lithography, 2 um oxide overcladding (p.7 Sec. 4). Funding line names the Twinlab
+      project with A*STAR IME and GlobalFoundries (program, not fab). Sibling of design A (Rmin 1 um, N 8) with theta 30 deg
+      (Fig. 7(a), Table 1 row ''Rmin 1, N 8, 30 deg''); Rmin / theta / N not entered as metrics (min_bend_radius_um not allowed
+      on polarization, registry gap). TM loss of the rejected polarization (Table 1, p.8; no parameter on polarization; measured
+      mean ER = avg TM - avg TE entered as derived, audit 2026-11-25): simulated min / max 22.6 / 30.7 dB avg 28.2 dB; measured
+      min / max 22.3 / 33.8 dB avg 28.3 dB. Footprint not stated for this sibling.'
+    why: note follows the added derived mean-ER row (Table 1, p.8)
+  cmp_lit_zafar2018_r1_n8_t45:
+    notes: 'Fab org_astar_ime: polarizers fabricated at the Institute of Microelectronics (Singapore) on 220 nm SOI with 2
+      um buffered oxide, 248 nm optical lithography, 2 um oxide overcladding (p.7 Sec. 4). Funding line names the Twinlab
+      project with A*STAR IME and GlobalFoundries (program, not fab). Sibling of design A (Rmin 1 um, N 8) with theta 45 deg
+      (Fig. 7(b), Table 1 row ''Rmin 1, N 8, 45 deg''); Rmin / theta / N not entered as metrics (min_bend_radius_um not allowed
+      on polarization, registry gap). TM loss of the rejected polarization (Table 1, p.8; no parameter on polarization; measured
+      mean ER = avg TM - avg TE entered as derived, audit 2026-11-25): simulated min / max 23.7 / 35.1 dB avg 30.2 dB; measured
+      min / max 22.1 / 41.3 dB avg 29.7 dB. Footprint not stated for this sibling.'
+    why: note follows the added derived mean-ER row (Table 1, p.8)
+  cmp_lit_zafar2018_r1_n8_t90:
+    notes: 'Fab org_astar_ime: polarizers fabricated at the Institute of Microelectronics (Singapore) on 220 nm SOI with 2
+      um buffered oxide, 248 nm optical lithography, 2 um oxide overcladding (p.7 Sec. 4). Funding line names the Twinlab
+      project with A*STAR IME and GlobalFoundries (program, not fab). Sibling of design A (Rmin 1 um, N 8) with theta 90 deg
+      (Fig. 7(c), Table 1 row ''Rmin 1, N 8, 90 deg''); Rmin / theta / N not entered as metrics (min_bend_radius_um not allowed
+      on polarization, registry gap). TM loss of the rejected polarization (Table 1, p.8; no parameter on polarization; measured
+      mean ER = avg TM - avg TE entered as derived, audit 2026-11-25): simulated min / max 26.7 / 36.7 dB avg 30.9 dB; measured
+      min / max 19.0 / 40.7 dB avg 30.3 dB. Footprint not stated for this sibling.'
+    why: note follows the added derived mean-ER row (Table 1, p.8)
+  cmp_lit_zafar2018_design_a:
+    notes: 'Fab org_astar_ime: polarizers fabricated at the Institute of Microelectronics (Singapore) on 220 nm SOI with 2
+      um buffered oxide, 248 nm optical lithography, 2 um oxide overcladding (p.7 Sec. 4). Funding line names the Twinlab
+      project with A*STAR IME and GlobalFoundries (program, not fab). Design A = Rmin 1 um, theta 105 deg, N 8 (p.5 Sec. 3,
+      Table 2); Rmin / theta / N not entered as metrics (min_bend_radius_um not allowed on polarization, registry gap). TM
+      loss of the rejected polarization (Table 1, p.8; no parameter on polarization; measured mean ER = avg TM - avg TE entered
+      as derived, audit 2026-11-25): simulated min / max 31.9 / 43.0 dB avg 37.1 dB; measured min / max 28.9 / 44.5 dB avg
+      35.9 dB. Table 2 simulated IL <= 2.24 dB and measured <= 1.95 dB equal the Table 1 maxima (not duplicated); text peak
+      loss 2.24 dB (p.5). Measured vs simulated TE spectra shifted by about 12 nm (p.7). Effective width with 1 um keep-out
+      regions 8.5 um (p.6, not entered). Polygon coordinates in Design File 1.'
+    why: note follows the added derived mean-ER row (Table 1, p.8)
+metrics:
+  cmp_lit_zhang2016a_te_gc-m1:
+    band: unspecified
+    wavelength_inferred: ''
+    notes: printed coupling loss per port "at the central wavelengths of the gratings"; the centre wavelength is not printed
+      and no band is stated for the gratings; the PBS measurement span 1510-1544 nm (Fig. 4-6 axes) straddles the S and C
+      bands, so no band is inferred; how the loss was isolated is not stated
+    why: 'p.4-5 Sec. 2: no wavelength or band is printed for the GC loss; rule 8 infers a band only from a stated operating
+      band, and the 1510-1544 nm measurement span lies mostly in the S band (c_band was not supported)'
+  cmp_lit_zhang2016a_tm_gc-m1:
+    band: unspecified
+    wavelength_inferred: ''
+    notes: printed coupling loss per port "at the central wavelengths of the gratings"; the centre wavelength is not printed
+      and no band is stated for the gratings; the PBS measurement span 1510-1544 nm (Fig. 4-6 axes) straddles the S and C
+      bands, so no band is inferred; how the loss was isolated is not stated
+    why: 'p.4-5 Sec. 2: no wavelength or band is printed for the GC loss; rule 8 infers a band only from a stated operating
+      band, and the 1510-1544 nm measurement span lies mostly in the S band (c_band was not supported)'
+  cmp_lit_zafar2018_design_a-m6:
+    condition: TE loss per polarizer from 20-cascade test structures vs. mean of 4 identical straight reference waveguides;
+      TM loss per polarizer (test structure not stated; the 20-cascade is described for the insertion loss only); lensed-fiber
+      edge coupling through inverse-taper SSCs; tunable laser 1.5-1.6 um; ER = TM loss minus TE loss
+    why: 'p.7 Sec. 4: the 20 cascaded polarizers are used "to get a reliable measurement of the insertion loss" (TE); Table
+      1 TM losses of 28-45 dB per polarizer cannot come from a 20-cascade (hundreds of dB), so the ER condition no longer
+      implies the TM leg was cascaded'
+  cmp_lit_zafar2018_design_c-m6:
+    condition: TE loss per polarizer from 20-cascade test structures vs. mean of 4 identical straight reference waveguides;
+      TM loss per polarizer (test structure not stated; the 20-cascade is described for the insertion loss only); lensed-fiber
+      edge coupling through inverse-taper SSCs; tunable laser 1.5-1.6 um; ER = TM loss minus TE loss
+    why: 'p.7 Sec. 4: the 20 cascaded polarizers are used "to get a reliable measurement of the insertion loss" (TE); Table
+      1 TM losses of 28-45 dB per polarizer cannot come from a 20-cascade (hundreds of dB), so the ER condition no longer
+      implies the TM leg was cascaded'
+  cmp_lit_zafar2018_design_c-m7:
+    condition: TE loss per polarizer from 20-cascade test structures vs. mean of 4 identical straight reference waveguides;
+      TM loss per polarizer (test structure not stated; the 20-cascade is described for the insertion loss only); lensed-fiber
+      edge coupling through inverse-taper SSCs; tunable laser 1.5-1.6 um; ER = TM loss minus TE loss
+    why: 'p.7 Sec. 4: the 20 cascaded polarizers are used "to get a reliable measurement of the insertion loss" (TE); Table
+      1 TM losses of 28-45 dB per polarizer cannot come from a 20-cascade (hundreds of dB), so the ER condition no longer
+      implies the TM leg was cascaded'
+  cmp_lit_zafar2018_const_r2_n8-m2:
+    qualifier: ge
+    notes: 'printed "to achieve 30 dB extinction" with this number of bends; the design criterion is an ER of at least 30
+      dB over the band (p.5 Sec. 3); Fig. 5(a) check: the N 8 curve stays above about 33 dB over 1.5-1.6 um (+/-1 dB reading)'
+    why: 'p.5 / p.7 Sec. 3: 30 dB is the stated minimum-ER target, not an approximate value; Fig. 5(a) confirms the bound
+      (ge, rule 7)'
+  cmp_lit_zafar2018_const_r3_n10-m2:
+    qualifier: ge
+    notes: 'printed "to achieve 30 dB extinction" with this number of bends; the design criterion is an ER of at least 30
+      dB over the band (p.5 Sec. 3); Fig. 5(b) check: the N 10 curve stays above about 33 dB from 1.53 to 1.6 um and falls
+      to about 23 dB near 1.52 um (+/-1 dB reading)'
+    why: 'p.5 / p.7 Sec. 3: 30 dB is the stated minimum-ER target, not an approximate value; Fig. 5(b) confirms the bound
+      (ge, rule 7)'
+  cmp_lit_wu2022a_tm_pass_coupled_nanowire_polarizer-m11:
+    notes: printed L2 ~6.825 um for N2 = 20 (p.7); the p.5 rule L2 = N2 x period + a2 gives 7.175 um for N2 = 20 (and the
+      printed 6.475 um for N2 = 18), so 6.825 um corresponds to N2 = 19; the printed total 13.6 um = 2 x 3.4 + 6.825 um matches
+      the printed L2; kept as printed (approx)
+    why: 'note supplement (row ok): conflict between the printed L2 and the p.5 length rule'
+add_metrics:
+- metric_id: cmp_lit_zafar2018_r1_n8_t30-m9
+  component_id: cmp_lit_zafar2018_r1_n8_t30
+  parameter: per_db
+  value: '27'
+  unit: dB
+  statistic: mean
+  wavelength_nm: '1500'
+  wavelength_max_nm: '1600'
+  condition: TE loss per polarizer from 20-cascade test structures vs. mean of 4 identical straight reference waveguides;
+    TM loss per polarizer (test structure not stated; the 20-cascade is described for the insertion loss only); lensed-fiber
+    edge coupling through inverse-taper SSCs; tunable laser 1.5-1.6 um; ER = TM loss minus TE loss
+  basis: derived
+  locator: p.8 Table 1 (Fig. 7(a)); p.9 Sec. 4
+  notes: mean ER = Table 1 measured average TM loss 28.3 dB minus average TE loss 1.30 dB over 1.5-1.6 um (both averaged in
+    dB; the same arithmetic reproduces the printed design C average 36.0 dB = 36.1 - 0.12); p.9 reads Table 1 as giving the
+    measured average extinction ratios
+  why: 'miss (audit judgment c): p.9 Sec. 4 states that Table 1 gives the measured peak and average ERs and the paper''s own
+    design C average (36.0 dB, abstract) equals avg TM - avg TE; the mean ER is exact arithmetic on printed own measurements
+    (rule 4 derived, D80a); minima are not derivable (min TM and max TE fall at different wavelengths)'
+- metric_id: cmp_lit_zafar2018_r1_n8_t45-m9
+  component_id: cmp_lit_zafar2018_r1_n8_t45
+  parameter: per_db
+  value: '28.04'
+  unit: dB
+  statistic: mean
+  wavelength_nm: '1500'
+  wavelength_max_nm: '1600'
+  condition: TE loss per polarizer from 20-cascade test structures vs. mean of 4 identical straight reference waveguides;
+    TM loss per polarizer (test structure not stated; the 20-cascade is described for the insertion loss only); lensed-fiber
+    edge coupling through inverse-taper SSCs; tunable laser 1.5-1.6 um; ER = TM loss minus TE loss
+  basis: derived
+  locator: p.8 Table 1 (Fig. 7(b)); p.9 Sec. 4
+  notes: mean ER = Table 1 measured average TM loss 29.7 dB minus average TE loss 1.66 dB over 1.5-1.6 um (both averaged in
+    dB; the same arithmetic reproduces the printed design C average 36.0 dB = 36.1 - 0.12); p.9 reads Table 1 as giving the
+    measured average extinction ratios
+  why: 'miss (audit judgment c): p.9 Sec. 4 states that Table 1 gives the measured peak and average ERs and the paper''s own
+    design C average (36.0 dB, abstract) equals avg TM - avg TE; the mean ER is exact arithmetic on printed own measurements
+    (rule 4 derived, D80a); minima are not derivable (min TM and max TE fall at different wavelengths)'
+- metric_id: cmp_lit_zafar2018_r1_n8_t90-m9
+  component_id: cmp_lit_zafar2018_r1_n8_t90
+  parameter: per_db
+  value: '29.27'
+  unit: dB
+  statistic: mean
+  wavelength_nm: '1500'
+  wavelength_max_nm: '1600'
+  condition: TE loss per polarizer from 20-cascade test structures vs. mean of 4 identical straight reference waveguides;
+    TM loss per polarizer (test structure not stated; the 20-cascade is described for the insertion loss only); lensed-fiber
+    edge coupling through inverse-taper SSCs; tunable laser 1.5-1.6 um; ER = TM loss minus TE loss
+  basis: derived
+  locator: p.8 Table 1 (Fig. 7(c)); p.9 Sec. 4
+  notes: mean ER = Table 1 measured average TM loss 30.3 dB minus average TE loss 1.03 dB over 1.5-1.6 um (both averaged in
+    dB; the same arithmetic reproduces the printed design C average 36.0 dB = 36.1 - 0.12); p.9 reads Table 1 as giving the
+    measured average extinction ratios
+  why: 'miss (audit judgment c): p.9 Sec. 4 states that Table 1 gives the measured peak and average ERs and the paper''s own
+    design C average (36.0 dB, abstract) equals avg TM - avg TE; the mean ER is exact arithmetic on printed own measurements
+    (rule 4 derived, D80a); minima are not derivable (min TM and max TE fall at different wavelengths)'
+- metric_id: cmp_lit_zafar2018_design_a-m12
+  component_id: cmp_lit_zafar2018_design_a
+  parameter: per_db
+  value: '34.89'
+  unit: dB
+  statistic: mean
+  wavelength_nm: '1500'
+  wavelength_max_nm: '1600'
+  condition: TE loss per polarizer from 20-cascade test structures vs. mean of 4 identical straight reference waveguides;
+    TM loss per polarizer (test structure not stated; the 20-cascade is described for the insertion loss only); lensed-fiber
+    edge coupling through inverse-taper SSCs; tunable laser 1.5-1.6 um; ER = TM loss minus TE loss
+  basis: derived
+  locator: p.8 Table 1 (Fig. 7(d)); p.9 Sec. 4
+  notes: mean ER = Table 1 measured average TM loss 35.9 dB minus average TE loss 1.01 dB over 1.5-1.6 um (both averaged in
+    dB; the same arithmetic reproduces the printed design C average 36.0 dB = 36.1 - 0.12); p.9 reads Table 1 as giving the
+    measured average extinction ratios
+  why: 'miss (audit judgment c): p.9 Sec. 4 states that Table 1 gives the measured peak and average ERs and the paper''s own
+    design C average (36.0 dB, abstract) equals avg TM - avg TE; the mean ER is exact arithmetic on printed own measurements
+    (rule 4 derived, D80a); minima are not derivable (min TM and max TE fall at different wavelengths)'
+- metric_id: cmp_lit_wu2022a_swg_trident_splitter-m8
+  component_id: cmp_lit_wu2022a_swg_trident_splitter
+  parameter: n_inputs
+  value: '1'
+  unit: count
+  condition: input taper
+  basis: design_target
+  locator: p.3 Sec. 2; p.5 Sec. 3.2; p.6 Fig. 4 inset
+  notes: trident = one input taper and two symmetrically placed output inverse tapers (p.3); the stand-alone beam splitter
+    of Fig. 4 (inset) has one input and two output arms
+  why: 'miss (D153 geometry): n_inputs of the 1x2 trident beam splitter is stated (p.3) and shown (Fig. 4 inset)'
+- metric_id: cmp_lit_wu2022a_swg_trident_splitter-m9
+  component_id: cmp_lit_wu2022a_swg_trident_splitter
+  parameter: n_outputs
+  value: '2'
+  unit: count
+  condition: two symmetric output inverse tapers
+  basis: design_target
+  locator: p.3 Sec. 2; p.5 Sec. 3.2; p.6 Fig. 4 inset
+  notes: trident = one input taper and two symmetrically placed output inverse tapers (p.3); the stand-alone beam splitter
+    of Fig. 4 (inset) has one input and two output arms
+  why: 'miss (D153 geometry): n_outputs of the 1x2 trident beam splitter is stated (p.3) and shown (Fig. 4 inset)'

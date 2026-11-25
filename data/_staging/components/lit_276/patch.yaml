@@ -1,0 +1,22 @@
+# Audit patch lit_276 (fresh-context audit 2026-11-25, DevLog/audits/2026-11-25-lit_276-audit.md).
+# 51 metrics: 48 ok / 3 imprecise / 0 wrong; 12 components: 12 ok. No misses added; linnenbank2016 stop confirmed (D411).
+# Fixes: foster2007 edge-coupler row gets the subtracted propagation loss in `excludes` and the free-space output
+# collection in notes; turnerfoster2010 -18 dB saturation row marked wavelength_inferred (the sentence prints no pump
+# wavelength); clemmen2009 racetrack length note drops the unprinted "round trip" wording.
+# Note supplement (row ok): clemmen2009 grating-coupler 8 dB row, consistency arithmetic with the 20 dB fiber-to-fiber
+# transmission; scope stays unspecified.
+metrics:
+  cmp_lit_foster2007_inverse_taper_lensed_fiber-m1:
+    excludes: 'waveguide propagation loss (output power corrected for it)'
+    notes: 'printed coupling losses ''ranging from -7 dB to -13 dB'' (sign as loss), better for the larger waveguides; per facet or both facets not stated; input via tapered-lens fibre, output collimated, passed through a polarizer and collected with a single-mode fibre or a free-space power meter (p.7), so the output side is not a lensed-fibre coupling; wavelength not stated, band inferred from the C-band pump'
+    why: 'p.7 Sec. 4: the coupling loss is the low-power transmission with the output "corrected for the propagation loss", so propagation loss is what was subtracted (rule 6 excludes); the output collection path (collimation, polarizer, SMF or power meter) is printed in the same paragraph and bounds what the number includes'
+  cmp_lit_turnerfoster2010_si_rib_fwm_wc_w700-m1:
+    wavelength_inferred: 'true'
+    notes: 'printed ''saturates near -18 dB''; 100 x 10^(-1.8) = 1.58 %; attributed to the 3 ns free-carrier lifetime (p.5); the saturation sentence prints no pump wavelength: 1554 nm is the pump of the Fig. 2(b) / Fig. 3 discussion it follows (p.4), entered as inferred; Fig. 2(b) (110 mW, 1554 nm pump) reads about -15 to -22 dB over 1560-2078 nm converted wavelength'
+    why: 'p.4-5 Sec. 3: "As we increase the pump power, we find that the on-off conversion efficiency saturates near -18 dB" carries no wavelength; the 1554 nm pump comes from the surrounding Fig. 2(b) / Fig. 3 paragraph (rule 8: inferred, reason in notes)'
+  cmp_lit_clemmen2009_racetrack_l43-m4:
+    notes: 'racetrack cavity length printed 43 um (''cavity whose length is 43 um''); bend radius and coupling length not printed; with FSR 12 nm at 1540 nm this length implies a group index of about 4.6 (1540^2 / (12 x 43000)), consistent with a perimeter'
+    why: 'p.5 Sec. 3.3 prints "cavity whose length is 43 um" without "round trip"; note states only what is printed plus the FSR consistency check'
+  cmp_lit_clemmen2009_grating_coupler-m1:
+    notes: 'printed ''Loss due to in and out coupling were 8 +/- 1 (7.5 +/- 1) dB for straight waveguide and Sagnac Interferometer (ring)'': this row 8 +/- 1 dB; whether the number is per coupler or the in + out sum is not stated; wavelength not stated, band inferred from the pump (1539.6 / 1540 nm, p.6 Sec. 4). Audit check: 2 x 8 dB + 4 dB/cm x 1.13 cm = 20.5 dB matches the 20 dB fiber-to-fiber pump transmission (p.6-7), which fits a per-coupler reading, but the 20 dB is not tied to a named structure (D159), so the scope stays unspecified'
+    why: 'note supplement (row ok): arithmetic on the paper''s own printed values that bounds the scope question (audit judgment b); scope kept unspecified (rule 6, never a guess)'
