@@ -30,7 +30,7 @@ _IDS = [
     for r in csv.DictReader((ROOT / "data/_staging/literature/retrieval_queue.csv").open())
     if r["day"] == DAY
     and r["route"] == "optica_browser"
-    and re.match(r"10\.1364/(oe|optica|ome)\.", r["doi"].lower())
+    and re.match(r"10\.1364/(oe|opex|optica|ome)\.", r["doi"].lower())
     and not (ROOT / "references" / r["paper_id"] / "source.pdf").exists()  # relaunch: saved papers skipped
 ]
 CHUNKS = [("probe", _IDS[:3]), ("daily", _IDS[3:14]), ("daily", _IDS[14:])]

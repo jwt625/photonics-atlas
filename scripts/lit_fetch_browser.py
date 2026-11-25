@@ -11,8 +11,9 @@ unexplained HTML-instead-of-PDF answers: IEEE re-probes the session and stops if
 
 Per-paper failures never end a run (owner 2026-11-23: a dead DOI stopped IEEE and cost a second sign-in): a DOI that
 doi.org does not know ("DOI Not Found"; that page embeds a Cloudflare Turnstile report form) or a 404 / 410 landing is
-status `bad_doi` (no retry, no breaker, next paper); an IEEE row first tries the Xplore exact-title search (as route
-ieee_search; a hit is saved with ieee_arnumber / match_score). IEEE: a challenge on one paper re-probes the session; with the
+status `bad_doi` (no retry, no breaker, next paper; the coordinator confirms the DOI and fixes the queue row, owner
+2026-11-24: no automatic search). IEEE session cookies are saved while access is confirmed and restored at the next
+launch, so a relaunch reuses the sign-in. IEEE: a challenge on one paper re-probes the session; with the
 session intact it is logged `blocked` for that paper only, a 3-6 min cool-down follows and the run continues; a second
 challenge in a row sets the breaker and stops. With --wait-login a lost session (after a challenge or two soft misses)
 waits for a sign-in in the same window (30 min) instead of exiting. Optica and publisher keep stop-at-first-challenge.
@@ -76,6 +77,10 @@ CACHE_LIST = STAGING / "literature" / "cache_list.csv"
 STATUS = LOGS / "lit_fetch_status.jsonl"
 REFS = ROOT / "references"
 PROFILES = CACHE / "browser_profiles"
+# Institutional Xplore sign-in lives in session cookies, which a persistent context drops on close: they are saved
+# here (git-ignored, mode 600) while access is confirmed and restored at the next launch (owner 2026-11-24: three
+# sign-ins in 15 min).
+IEEE_COOKIES = PROFILES / "ieee_session_cookies.json"
 PW_CACHE = Path.home() / "Library" / "Caches" / "ms-playwright"
 
 CAP = 60
@@ -618,6 +623,32 @@ def goto(page: Any, url: str) -> tuple[int | None, str]:
     return (resp.status if resp else None), page.content()
 
 
+def save_ieee_cookies(ctx: Any, path: Path = IEEE_COOKIES) -> int:
+    """Write the context's cookies (session cookies included) for the next launch; returns the count."""
+    cookies = ctx.cookies()
+    path.parent.mkdir(parents=True, exist_ok=True)
+    tmp = path.with_suffix(".tmp")
+    tmp.write_text(json.dumps(cookies))
+    tmp.chmod(0o600)
+    tmp.replace(path)
+    return len(cookies)
+
+
+def restore_ieee_cookies(ctx: Any, path: Path = IEEE_COOKIES) -> int:
+    """Add the saved cookies to a fresh context (expired ones dropped); returns the count added."""
+    if not path.exists():
+        return 0
+    try:
+        cookies = json.loads(path.read_text())
+    except json.JSONDecodeError:
+        return 0
+    now = time.time()
+    keep = [c for c in cookies if c.get("expires", -1) in (-1, None) or c["expires"] > now]
+    if keep:
+        ctx.add_cookies(keep)
+    return len(keep)
+
+
 def ieee_access(ctx: Any, attempts: int = 3) -> dict[str, Any]:
     """Xplore userInfo for the signed-in state, tolerating pages that are mid-navigation (SSO redirects)."""
     last = ""
@@ -798,6 +829,8 @@ class Fetcher:
             self.rl.info(f"(home page: {str(exc)[:80]})")
         st = ieee_access(self.ctx)
         self.rl.info(f"access{' ' + why if why else ''} {st}")
+        if st.get("ok"):
+            save_ieee_cookies(self.ctx)
         if not st.get("ok") and wait_login:
             print("Sign in (Institutional Sign In) in the opened window; access is probed every 15 s (30 min).")
             deadline = time.monotonic() + LOGIN_WAIT_S
@@ -811,6 +844,7 @@ class Fetcher:
             if st.get("ok"):
                 self.rl.event("login", "detected", access=st)
                 self.page.wait_for_timeout(5000)
+                self.rl.info(f"session cookies saved ({save_ieee_cookies(self.ctx)}) for the next launch")
         return st
 
     def fetch(self, t: dict[str, str]) -> tuple[str, bytes, str]:
@@ -883,14 +917,7 @@ class Fetcher:
         if not an:
             st, status, html = self.page_with_retries(pid, f"https://doi.org/{t['doi']}")
             if st == "not_found":
-                if t.get("title") and t.get("route") != SEARCH_ROUTE:
-                    # dead DOI (e.g. a trailing ".2008"): find the Xplore copy by exact title, as route ieee_search
-                    self.rl.info(f"{pid}: DOI {t['doi']} not found (status={status}); trying the Xplore title search")
-                    time.sleep(random.uniform(4.0, 8.0))
-                    kind, body, detail = self.fetch_ieee_search({**t, "route": SEARCH_ROUTE})
-                    if kind == "pdf":
-                        return kind, body, detail
-                    return (kind if kind == "blocked" else "bad_doi"), b"", f"dead DOI {t['doi']}; search: {detail}"
+                # dead DOI (e.g. a trailing ".2008"): the coordinator confirms the DOI and fixes the queue row
                 return "bad_doi", b"", f"DOI landing not found status={status} doi={t['doi']}"
             if st == "challenge":
                 return "blocked", b"", f"challenge on DOI landing status={status}"
@@ -1102,7 +1129,8 @@ def run(site: Site, a: argparse.Namespace) -> int:
             ctx = open_ctx(p, a.browser, site)
             f = Fetcher(ctx, site, rl)
             if site.name == "ieee":
-                # Institutional session cookies do not survive a context close, so sign in in this window.
+                # Session cookies do not survive a context close: restore the ones saved by the last signed-in run.
+                rl.info(f"restored {restore_ieee_cookies(ctx)} saved cookies")
                 st = f.ieee_session(a.wait_login)
                 if not st.get("ok"):
                     rl.info("NOT SIGNED IN: rerun with --wait-login and sign in in the window")
@@ -1194,6 +1222,8 @@ def run(site: Site, a: argparse.Namespace) -> int:
                             break
             rl.info(f"summary {counts}")
             rl.event("summary", "ok", counts=counts)
+            if site.name == "ieee" and ieee_access(ctx).get("ok"):
+                save_ieee_cookies(ctx)
             ctx.close()
     return 0
 

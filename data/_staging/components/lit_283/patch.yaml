@@ -1,0 +1,84 @@
+# Audit patch lit_283 (fresh-context audit 2026-11-25, DevLog/audits/2026-11-25-lit_283-audit.md).
+# 132 metrics: 128 ok / 4 imprecise / 0 wrong; 30 components: 28 ok / 2 imprecise. 2 misses added
+# (shtyrkova2019 Euler-bend length from Table 3; wan2019a 11-channel ~7 nm span from the Fig. 6 annotation).
+# After the patch: 30 components, 134 metrics.
+# Fixes: zhang2017b heater resistances printed in kOhm stored in ohm -> derived (D256); wan2019a R1 FSR 0.7 nm is the
+# Eq. (1) computation -> simulated (Contract v4); wan2019a 45 dB minimum SMSR gets the Fig. 6 "~44 dB" conflict note
+# (D417); shtyrkova2019 FN-BN transition platform sin -> other (hybrid Al2O3:Tm-guided start mode, rule 11);
+# shtyrkova2019 NLI heater fab / process emptied (deposited after the chiplet-level gain film, site not named;
+# coordinator question 3).
+# Note supplements (rows ok): shtyrkova2019 Fig. 6(b) edge readings on the three grating rows; zhang2017b Fig. 5(a) /
+# 5(b) figure labels.
+components:
+  cmp_lit_shtyrkova2019_fn_bn_transition:
+    platform: other
+    notes: 'Two-stage adiabatic taper: segmented FN pieces merged into one wider FN piece, then FN narrowed while BN widens (p.7, Fig. 5(a)(b)). Platform other (rule 11 hybrid value): the start mode is the gain-waveguide mode, mostly in the Al2O3:Tm3+ film above the segmented FN Si3N4 (83 % / 79 % confinement in the gain material for the optimized gain waveguide, p.6; Fig. 5(a)), the end mode is confined in the BN Si3N4 layer (Fig. 5(b)); the gain rows of this paper are al2o3 and merged Si3N4-to-Al2O3 transitions are other (chrysostomidis2021, vagionas2021, garciablanco2025). Fab: all lasers and test structures except the rare-earth gain film were fabricated at the Colleges of Nanoscale Science and Engineering (CNSE) at SUNY Polytechnic Institute on a 65nm CMOS 300mm wafer platform (p.3 Sec. 2); printed plural form ''Colleges'' mapped to the registry CNSE org (alias gap in report).'
+    why: 'p.6-7 Sec. 3.2-3.3 and render p.8 Fig. 5(a)(b): the transition starts from a mode that sits mostly in the Al2O3:Tm3+ film (rows of that waveguide are al2o3) and ends in the BN Si3N4 layer, so it is a hybrid inter-material transition (rule 11), not a single-layer sin part'
+  cmp_lit_shtyrkova2019_nli_heater:
+    fab_org_ids: ''
+    process_name: ''
+    notes: 'Heaters deposited along both NLI arms after the gain-medium deposition (p.9); the gain film was deposited over individually diced chiplets at MIT''s Microsystems Technology Laboratories (p.3), and the paper does not name where the heaters were deposited. Fab and process left empty: the p.3 sentence places everything except the gain film at CNSE (65nm CMOS 300mm wafer platform), but the p.9 sequence puts the heater step after the chiplet-level gain-film deposition, so the two statements do not fix the heater''s fabricator (audit 2026-11-25; alternative: CNSE from the literal p.3 sentence). Biasing one heater selects pulsing; the opposite bias raises the threshold (p.13). Heater stack 150 nm Ti + 100 nm Au.'
+    why: 'p.3 Sec. 2 vs p.9 Sec. 3.5: the heater metal was deposited after the gain film, which was deposited on diced chiplets at MIT MTL; the CNSE 300 mm platform sentence does not state the site of this post-gain-film step (Contract v7: no guessed fab); coordinator question 3'
+metrics:
+  cmp_lit_zhang2017b_phase_heater-m1:
+    basis: derived
+    notes: 'printed 7 kOhm series resistance (p.6); stored in ohm, the paper prints no ohm form (D256: kOhm to ohm -> derived)'
+    why: 'D256: a prefix conversion is derived unless the source prints the stored-unit form somewhere; p.6 prints only 7 kOhm'
+  cmp_lit_zhang2017b_ring_heaters-m1:
+    basis: derived
+    notes: 'printed 5 kOhm series resistance for the ring micro-heaters (p.6); stored in ohm, the paper prints no ohm form (D256: kOhm to ohm -> derived)'
+    why: 'D256: a prefix conversion is derived unless the source prints the stored-unit form somewhere; p.6 prints only 5 kOhm'
+  cmp_lit_wan2019a_ring_r1-m1:
+    basis: simulated
+    notes: 'printed ''corresponding to an FSR_R1 of 0.7 nm'' (p.3) directly after Eq. (1) FSR_ring = c / (n_g L_r): a computed design value for the 583 um perimeter (Contract v4: computed design performance -> simulated; the 21 nm combined design FSR on the laser row is simulated on the same basis). No measured R1 FSR is printed'
+    why: 'p.3 Sec. 2: the 0.7 nm value is the Eq. (1) computation for the designed perimeter (Contract v4: design-stated performance that is computed is simulated, not author_estimate)'
+  cmp_lit_wan2019a_tunable_qd_laser-m6:
+    notes: 'printed ''11 lines with minimum SMSR of 45 dB'' (p.5) and Fig. 6 caption ''minimum SMSR of 45 dB''. Conflict (D417): the Fig. 6 annotation marks ~44 dB, and the Fig. 6 inset legend prints I_FP ~80 mA and I_r2 ~32 mA vs 79 / 30 mA in the text; printed text value kept'
+    why: 'render p.5 Fig. 6: the plotted SMSR annotation reads ~44 dB, below the printed minimum of 45 dB; printed value kept with the conflict noted (D417)'
+  cmp_lit_shtyrkova2019_chirped_grating_gdd46000-m1:
+    notes: 'printed: the two gratings with the highest anomalous dispersion reflect above 95 % across 100 nm; span taken as 1850-1950 nm from the 100 nm range centred at 1900 nm (p.8); Fig. 6(b) reading (+/- 0.5 %): about 97 % at 1.85 um and about 96-97 % at 1.95 um, peak about 99 % near 1.90 um'
+    why: 'note supplement (row ok): render p.9 / zoom of img_p09_1 Fig. 6(b) confirms the printed bound over the entered span'
+  cmp_lit_shtyrkova2019_chirped_grating_gdd38000-m1:
+    notes: 'printed: the two gratings with the highest anomalous dispersion reflect above 95 % across 100 nm; span taken as 1850-1950 nm from the 100 nm range centred at 1900 nm (p.8); Fig. 6(b) reading (+/- 0.5 %): about 94.5-95 % at 1.85 um and about 95 % at 1.95 um, peak about 98 % near 1.90 um, so the printed bound holds only marginally at the window edges'
+    why: 'note supplement (row ok): render p.9 / zoom of img_p09_1 Fig. 6(b); edge values sit at the printed bound within the reading uncertainty'
+  cmp_lit_shtyrkova2019_chirped_grating_gdd30000-m1:
+    notes: 'printed: the -30,000 fs2 grating reflects over 90 % across the same wavelength range; span taken as 1850-1950 nm from the 100 nm range centred at 1900 nm (p.8-9); Fig. 6(b) reading (+/- 0.5 %): about 90 % at 1.85 and 1.95 um, peak about 95 % near 1.90 um, so the printed bound holds only marginally at the window edges'
+    why: 'note supplement (row ok): render p.9 / zoom of img_p09_1 Fig. 6(b); edge values sit at the printed bound within the reading uncertainty'
+  cmp_lit_zhang2017b_vernier_ring_laser-m9:
+    notes: 'printed ''combined FSR of about 40 nm'' (p.5, Fig. 5(b) caption); the Fig. 5(b) annotation prints 40.87 nm between two coinciding resonances'
+    why: 'note supplement (row ok): render p.6 Fig. 5(b) label'
+  cmp_lit_zhang2017b_ring_r25um-m1:
+    notes: 'printed ''loaded Q-factor of ~17000'' for the rings; Fig. 5(a) labels one representative ring spectrum near 1561.8 nm with FWHM 92.6 pm and Q 16865 (which ring is not stated, D159: not entered as a separate value)'
+    why: 'note supplement (row ok): render p.6 Fig. 5(a) labels'
+  cmp_lit_zhang2017b_ring_r27um-m1:
+    notes: 'printed ''loaded Q-factor of ~17000'' for the rings; Fig. 5(a) labels one representative ring spectrum near 1561.8 nm with FWHM 92.6 pm and Q 16865 (which ring is not stated, D159: not entered as a separate value)'
+    why: 'note supplement (row ok): render p.6 Fig. 5(a) labels'
+add_metrics:
+- metric_id: cmp_lit_shtyrkova2019_euler_bend_180-m5
+  component_id: cmp_lit_shtyrkova2019_euler_bend_180
+  source_id: lit:shtyrkova2019
+  parameter: length_um
+  value: '600'
+  unit: um
+  condition: path length of one 180 deg Euler bend (BN, 2.5 um wide) in the cavity model
+  basis: derived
+  locator: p.11 Table 3
+  notes: 'Table 3 prints 0.6 mm for Euler bend 1 and Euler bend 2; mm to um (D256)'
+  verified_on: '2026-11-25'
+  why: 'miss (D153 geometry): Table 3 bend length, entered like the combiner length (m3 of the combiner row, same table)'
+- metric_id: cmp_lit_wan2019a_tunable_qd_laser-m18
+  component_id: cmp_lit_wan2019a_tunable_qd_laser
+  source_id: lit:wan2019a
+  parameter: tuning_range_nm
+  value: '7'
+  unit: nm
+  qualifier: approx
+  wavelength_nm: '1224'
+  wavelength_max_nm: '1231'
+  temperature_k: '293.15'
+  condition: 'TEC 20 C; 11-channel switching with the R1 current tuned only (Ic 67 mA, I_FP 79 mA, I_r2 30 mA)'
+  basis: extracted_from_figure
+  locator: p.5 Fig. 6
+  notes: 'Fig. 6 annotation ''~7 nm'' over the 11 superimposed lines; text prints 11 lines with uniform 0.75 nm spacing (p.5); channel span read about 1224-1231 nm (+/- 1 nm) from the Fig. 6 spectra and inset'
+  verified_on: '2026-11-25'
+  why: 'miss: the single-ring tuning mode has its own printed span (Fig. 6 annotation), an operating point distinct from the 16 nm two-ring range (m8)'

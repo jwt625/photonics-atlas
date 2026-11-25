@@ -445,3 +445,24 @@ def test_doi_not_found_page_is_a_dead_link_not_a_challenge() -> None:
     # a real challenge stays a challenge, also when the server answers 403 with a not-found phrase
     assert m.is_challenge("<title>Just a moment...</title> cf_chl_opt", 200)
     assert m.is_challenge("This DOI cannot be found in the DOI System", 403)
+
+
+def test_ieee_cookie_roundtrip(tmp_path: Any) -> None:
+    class Ctx:
+        def __init__(self, cookies: list[dict[str, Any]]) -> None:
+            self.jar = cookies
+
+        def cookies(self) -> list[dict[str, Any]]:
+            return self.jar
+
+        def add_cookies(self, cs: list[dict[str, Any]]) -> None:
+            self.jar.extend(cs)
+
+    path = tmp_path / "ieee_session_cookies.json"
+    session = {"name": "JSESSIONID", "value": "x", "domain": "ieeexplore.ieee.org", "path": "/", "expires": -1}
+    expired = {"name": "old", "value": "y", "domain": "ieeexplore.ieee.org", "path": "/", "expires": 1.0}
+    assert m.save_ieee_cookies(Ctx([session, expired]), path) == 2
+    assert oct(path.stat().st_mode & 0o777) == "0o600"
+    fresh = Ctx([])
+    assert m.restore_ieee_cookies(fresh, path) == 1 and fresh.jar == [session]
+    assert m.restore_ieee_cookies(Ctx([]), tmp_path / "missing.json") == 0

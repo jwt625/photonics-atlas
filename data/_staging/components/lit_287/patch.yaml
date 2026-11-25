@@ -1,0 +1,43 @@
+# Audit patch lit_287 (fresh-context audit 2026-11-25, DevLog/audits/2026-11-25-lit_287-audit.md).
+# 38 metrics: 37 ok / 1 imprecise / 0 wrong; 3 components: 2 ok / 1 imprecise / 0 wrong. 1 miss added.
+# After the patch: 3 components, 39 metrics.
+# Fixes: output power 3.4 dBm is the measured end point of the Fig. 6(b) sweep ("up to", D683), not a best-of-device
+# value (Fig. 8(b) reaches 4.8 dBm): statistic cleared. Miss: internal net gain 22.5 dB at the 14.5 dB external point
+# (14.5 + 2 x 4.0 dB; the paper prints the per-length form 4.1 dB/cm), derived (D166, D560 zhang2026). Amplifier notes:
+# the Fig. 6(a) tick marks are evenly spaced; the labels are integer-truncated values of a linear -13 to 13 dB axis.
+# Note supplements (rows ok): 11.9 dB pump / Fig. 7 link, NF figure reads, top-face widths of the STEM labels.
+metrics:
+  cmp_lit_jongebloed2026_nd_al2o3_spiral_amp_5p5cm-m2:
+    notes: 'pump power for this point not printed. Fig. 6(a) vector read: the -22.4 dBm trace ends at about 22.2 dBm incident pump and 11.86 dB on a linear -13 to 13 dB axis (inner tick labels integer-truncated, see component notes); Fig. 6(b) end point about -10.6 dBm (= -22.4 + 11.8). Fig. 7 shows the same 11.9 dB and is the spectrum marked for the NF calculation; the NF text pairs -22.4 dBm signal with 22 dBm pump (p.10), so this point and the 8.5 dB NF point likely coincide (not stated)'
+    why: 'p.8 Fig. 6(a)(b), p.9 Fig. 7, p.10 Sec. 4: note supplement (row ok); the printed gain reproduces on the vector data, and the pump / NF link is recorded without entering a pump value'
+  cmp_lit_jongebloed2026_nd_al2o3_spiral_amp_5p5cm-m8:
+    notes: 'abstract ties 8.5 dB to the -14.9 dBm / 14.5 dB point (''under those conditions''), but the body ties it to -22.4 dBm signal and 22 dBm pump: body conditions used. Fig. 9(a) vector read: the -22.4 dBm series reaches about 8.5 dB (8.46-8.48) at about 21.4 and 22.2 dBm pump (x labels 11, 12, 14, 15, ... are integer-truncated 1.5 dBm steps of a linear 11-23 dBm axis); Fig. 9(b) at -14.9 dBm signal and 23.2 dBm pump reads about 13.3 dB, so the abstract pairing conflicts with the figure (D417)'
+    why: 'p.10 Fig. 9(a)(b) vector data: the body conditions are supported by Fig. 9(a); the abstract pairing is contradicted by Fig. 9(b) (about 13.3 dB, not "about 13 dB"); note supplement (row ok)'
+  cmp_lit_jongebloed2026_nd_al2o3_spiral_amp_5p5cm-m10:
+    statistic: ''
+    notes: 'printed ''up to 3.4 dBm (2.2 mW)'' for the Fig. 6(b) pump sweep: the measured end point of the 0.1 dBm incident-signal trace (vector read about 3.35 dBm at about 22.2 dBm pump; 0.1 + 3.3 dB = 3.4), so no qualifier or statistic (D683); Fig. 8(b) at 23.2 dBm pump reaches about 4.8 dBm (psat_out_dbm row)'
+    why: 'p.9 Sec. 4 and p.8 Fig. 6(b): "up to" names the sweep end point (D683 ye2015), and statistic best is wrong for the device because Fig. 8(b) reaches 4.8 dBm off-chip; trace assignment confirmed by 0.1 + 3.3 = 3.4 dBm'
+  cmp_lit_jongebloed2026_nd_al2o3_spiral_amp_5p5cm-m14:
+    notes: 'printed approximately 1.04 um (STEM-measured); um -> nm (D157); the Fig. 4(c) 1.04 um bar spans the top face of the trapezoidal core (sidewall 81.3 deg), so this is the top width'
+    why: 'p.6 Fig. 4(c) render: the label bar runs across the top face, not the base; recorded for layout drawings (Contract v5); note supplement (row ok)'
+  cmp_lit_jongebloed2026_al2o3nd_inverse_taper_edge_coupler-m5:
+    notes: 'printed approximately 800 nm (STEM); design 800 nm (p.2); the Fig. 4(b) 800 nm bar spans the top face of the tip (sidewall 40 deg), so this is the top width'
+    why: 'p.6 Fig. 4(b) render: the label bar runs across the top face of the trapezoidal tip; recorded for layout drawings (Contract v5); note supplement (row ok)'
+components:
+  cmp_lit_jongebloed2026_nd_al2o3_spiral_amp_5p5cm:
+    notes: 'Fab: no fabrication statement naming a fabricator (passive verbs throughout Sec. 3, p.4-5; authors at University of Twente MESA+ and ALUVIA Photonics): fab empty (D80b). No shared facility named. Acknowledged CMAM (Universidad Autonoma de Madrid) beam time was for RBS of calibration samples, not fabrication: not a facility (garciablanco2025 / bonneville2024 precedent); FIB milling thanks to a named person (staff thanks, D84b). Headline device: fiber-to-fiber (external) net gain with PM780-XP butt-coupled fibers and index-matching gel; Ti:sapphire pump split 50:50 for bidirectional pumping; system losses (13.4 dB) and OSA losses calibrated out (Eq. (2), p.7). Spiral minimum bend radius 300 um (design, chosen from the Fig. 1(d) simulation, p.3) has no amplifier parameter: not entered. Nd3+ concentration about 2.2e20 ions/cm3 (p.4), PL spectrum and excited-state lifetime 184 us (Fig. 3, p.5), refractive index 1.733 +/- 0.003 at 1064 nm (VASE, p.4) have no registry parameter: not entered. Design sidewall angle 83 deg (Fig. 1(a) simulation label) noted only. Single-mode TE design (p.2); measurement polarization not stated (PM fibers). Internal net gain at the 14.5 dB external point (14.5 + 2 x 4.0 = 22.5 dB) is not printed; the paper prints its per-length form 4.1 dB/cm; entered as derived (m20, D166). Fig. 6(a): the y tick marks are evenly spaced and labelled 13, 9, 6, 3, 0, -3, -6, -9, -13; the labels are integer-truncated values of a linear -13 to 13 dB axis (ticks at +/-9.75, +/-6.5, +/-3.25), on which the printed 11.9 / 5.6 / 3.3 dB reproduce at the trace ends (vector read 11.86 / 5.64 / 3.28 dB); Fig. 9(a) x labels truncate 1.5 dBm steps the same way. Gain values from the text. Cited Er:Al2O3 / Nd:Al2O3 values of other works not entered.'
+    why: 'p.8 Fig. 6(a) render and vector data: the batch note said the tick labels are not uniformly spaced and the panel is unreliable; the ticks are uniform and the labels are truncated values of a linear axis on which the printed gains reproduce; internal-gain sentence updated for the added m20'
+add_metrics:
+- metric_id: cmp_lit_jongebloed2026_nd_al2o3_spiral_amp_5p5cm-m20
+  component_id: cmp_lit_jongebloed2026_nd_al2o3_spiral_amp_5p5cm
+  parameter: gain_db
+  value: '22.5'
+  unit: dB
+  statistic: best
+  wavelength_nm: '1064'
+  ref_plane: on_chip
+  condition: 'internal net gain at the 14.5 dB external-gain point: incident signal -14.9 dBm, incident pump 23.2 dBm; external gain plus the measured 4.0 dB per-facet coupling loss at both facets'
+  basis: derived
+  locator: p.9 Sec. 4; p.8 Sec. 4; p.11 Sec. 5
+  notes: '14.5 + 2 x 4.0 = 22.5 dB (D166), the arithmetic the paper prints for the 11.9 dB point (19.9 dB, p.8); not printed as dB for this point, the paper gives the per-length form 4.1 dB/cm (22.5 / 5.5 = 4.09, m7)'
+  why: 'miss: the highest internal net gain of the device follows from two measured values by the paper''s own conversion (p.8 "compensating for the fiber-to-chip coupling loss at the two end facets"); derived per rule 4 / D166, precedent D560 (zhang2026 internal net gain added as derived)'

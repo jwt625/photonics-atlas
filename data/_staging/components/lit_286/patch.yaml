@@ -1,0 +1,124 @@
+# Audit patch lit_286 (fresh-context audit 2026-11-25, DevLog/audits/2026-11-25-lit_286-audit.md).
+# 158 metrics: 132 ok / 25 imprecise / 1 wrong; 37 components: 34 ok / 2 imprecise / 1 wrong. 2 misses added.
+# After the patch: 36 components, 159 metrics.
+# Fixes: wang2013 Y-branch row deleted (the ~3 dB is the ideal 1x2 split of the extra reflection-path pass, no excess or
+# performance value; rule 9); wang2013 phase-shifted grating locators moved to p.11 (Fig. 11 is on page 11 of text.md);
+# jiang2018a / liu2017a grating-coupler-normalized filter IL scope de_embedded (rule 6); jiang2018a 40 mW/nm wavelength
+# tuning basis derived (the printed value is the authors' arithmetic on Fig. 7 data: 2 x 13^2 / 650 ohm over 13 nm);
+# jiang2018a fab notes cite the p.2 first-person sentence (fab stays empty: two unrelated author orgs);
+# liu2017a simulated IL locators (Fig. 2 is on p.4). Misses: jiang2018a centre wavelength 1575 / 1589 nm (Fig. 7 caption).
+components:
+  cmp_lit_jiang2018a_loop_maswbg_filter:
+    notes: 'MASWBG1 add-drop filter and MASWBG2 drop filter joined in a loop (Fig. 1). Spectra normalized to a pair of directly connected grating couplers on the same chip (p.5); later spectra ''normalized by the insertion loss of the grating coupler'' (p.6). Not entered: bandwidth tuning range ''about 12 nm (1.455 THz)'' (p.6) and ''over 1.455 THz'' (p.8) (no bandwidth-tuning-range parameter; tuning_range_nm is wavelength tuning); passband ripple ''less than 0.5 dB'' (p.8, no ripple parameter); heater resistance 650 ohm (p.7; heater_resistance_ohm not allowed for wdm); heater sheet resistance (printed 1.2 uOhm m, a resistivity unit; no parameter); ''almost no loss of spectral energy'' (qualitative). THz values printed beside the nm bandwidths are kept in notes only. Fab: first-person ''we designed and fabricated a broadband tunable filter'' (p.2 Sec. 1) and passive ''The devices were fabricated using electron-beam lithography on a standard commercial SOI wafer'' (p.5 Sec. 3), no org or place named; the authors sit at two unrelated institutions (eight at Zhejiang University, one at Longyan University), so the own org is not unambiguous (rule 12, D154): fab empty. No facility acknowledgment (Funding only, p.8).'
+    why: 'p.2 Sec. 1 ''we designed and fabricated'' was not cited; fab stays empty because the authors are at two unrelated orgs (D154, two-institution ''we have designed and fabricated'' precedent in DevLog-007), not because the wording is passive'
+  cmp_lit_jiang2018a_single_maswbg_sim:
+    notes: 'Only one filter was simulated (memory limit, p.4); the simulated period 296 nm differs from the fabricated 300 nm, so this is a design row (D80e). Fabricated chip: first-person ''we designed and fabricated'' (p.2) and passive EBL fabrication sentence (p.5), authors at two unrelated institutions (Zhejiang University, Longyan University): fab empty (rule 12, D154).'
+    why: 'same fab rationale correction as the loop filter row (p.2 first-person sentence; two unrelated author orgs)'
+metrics:
+  cmp_lit_wang2013_psbg_wg1_in20_n100-m2:
+    locator: 'p.11 Fig. 11(b) axis; p.5 Sec. 2.3'
+    why: 'Fig. 11 is on page 11 of text.md (page 10 holds Fig. 10 and Sec. 3.2 text); rule 14 locator page'
+  cmp_lit_wang2013_psbg_wg1_in20_n200-m2:
+    locator: 'p.11 Fig. 11(b) axis; p.5 Sec. 2.3'
+    why: 'Fig. 11 is on page 11 of text.md (page 10 holds Fig. 10 and Sec. 3.2 text); rule 14 locator page'
+  cmp_lit_wang2013_psbg_wg1_out40_n200-m2:
+    locator: 'p.11 Fig. 11(b) axis; p.5 Sec. 2.3'
+    why: 'Fig. 11 is on page 11 of text.md (page 10 holds Fig. 10 and Sec. 3.2 text); rule 14 locator page'
+  cmp_lit_wang2013_psbg_wg1_out40_n300-m2:
+    locator: 'p.11 Fig. 11(b) axis; p.5 Sec. 2.3'
+    why: 'Fig. 11 is on page 11 of text.md (page 10 holds Fig. 10 and Sec. 3.2 text); rule 14 locator page'
+  cmp_lit_wang2013_psbg_wg1_out40_n400-m2:
+    locator: 'p.11 Fig. 11(b) axis; p.5 Sec. 2.3'
+    why: 'Fig. 11 is on page 11 of text.md (page 10 holds Fig. 10 and Sec. 3.2 text); rule 14 locator page'
+  cmp_lit_wang2013_psbg_wg1_out40_n500-m2:
+    locator: 'p.11 Fig. 11(b) axis; p.5 Sec. 2.3'
+    why: 'Fig. 11 is on page 11 of text.md (page 10 holds Fig. 10 and Sec. 3.2 text); rule 14 locator page'
+  cmp_lit_wang2013_psbg_wg2_in40_n100-m2:
+    locator: 'p.11 Fig. 11(b) axis; p.5 Sec. 2.3'
+    why: 'Fig. 11 is on page 11 of text.md (page 10 holds Fig. 10 and Sec. 3.2 text); rule 14 locator page'
+  cmp_lit_wang2013_psbg_wg2_in40_n200-m2:
+    locator: 'p.11 Fig. 11(b) axis; p.5 Sec. 2.3'
+    why: 'Fig. 11 is on page 11 of text.md (page 10 holds Fig. 10 and Sec. 3.2 text); rule 14 locator page'
+  cmp_lit_wang2013_psbg_wg2_in40_n300-m2:
+    locator: 'p.11 Fig. 11(b) axis; p.5 Sec. 2.3'
+    why: 'Fig. 11 is on page 11 of text.md (page 10 holds Fig. 10 and Sec. 3.2 text); rule 14 locator page'
+  cmp_lit_wang2013_psbg_wg2_in40_n400-m2:
+    locator: 'p.11 Fig. 11(b) axis; p.5 Sec. 2.3'
+    why: 'Fig. 11 is on page 11 of text.md (page 10 holds Fig. 10 and Sec. 3.2 text); rule 14 locator page'
+  cmp_lit_wang2013_psbg_wg2_in40_n500-m2:
+    locator: 'p.11 Fig. 11(b) axis; p.5 Sec. 2.3'
+    why: 'Fig. 11 is on page 11 of text.md (page 10 holds Fig. 10 and Sec. 3.2 text); rule 14 locator page'
+  cmp_lit_wang2013_psbg_wg2_out40_n100-m2:
+    locator: 'p.11 Fig. 11(b) axis; p.5 Sec. 2.3'
+    why: 'Fig. 11 is on page 11 of text.md (page 10 holds Fig. 10 and Sec. 3.2 text); rule 14 locator page'
+  cmp_lit_wang2013_psbg_wg2_out40_n200-m2:
+    locator: 'p.11 Fig. 11(b) axis; p.5 Sec. 2.3'
+    why: 'Fig. 11 is on page 11 of text.md (page 10 holds Fig. 10 and Sec. 3.2 text); rule 14 locator page'
+  cmp_lit_wang2013_psbg_wg2_out40_n300-m2:
+    locator: 'p.11 Fig. 11(b) axis; p.5 Sec. 2.3'
+    why: 'Fig. 11 is on page 11 of text.md (page 10 holds Fig. 10 and Sec. 3.2 text); rule 14 locator page'
+  cmp_lit_wang2013_psbg_wg2_out40_n400-m2:
+    locator: 'p.11 Fig. 11(b) axis; p.5 Sec. 2.3'
+    why: 'Fig. 11 is on page 11 of text.md (page 10 holds Fig. 10 and Sec. 3.2 text); rule 14 locator page'
+  cmp_lit_wang2013_psbg_wg2_out40_n500-m2:
+    locator: 'p.11 Fig. 11(b) axis; p.5 Sec. 2.3'
+    why: 'Fig. 11 is on page 11 of text.md (page 10 holds Fig. 10 and Sec. 3.2 text); rule 14 locator page'
+  cmp_lit_wang2013_psbg_wg1_out40_n200-m1:
+    locator: 'p.10 Sec. 3.2; p.11 Fig. 11(a)(b)'
+    notes: '''the Q factor increases from 800 to 1.55x10^4'' as N goes from 200 to 500 (p.10). Fig. 11(b) vector data point: about 815. Unqualified ''Q factor'' entered as q_loaded. Resonance wavelength not stated per device: c_band inferred (rule 8) from the gratings'' design Bragg wavelength ''close to 1550 nm'' (p.4) and the Fig. 11(a) resonances near 1550 nm.'
+    why: 'Fig. 11 is on p.11 (rule 14); vector-data check of the printed value added to notes'
+  cmp_lit_wang2013_psbg_wg1_out40_n500-m1:
+    locator: 'p.10 Sec. 3.2; p.11 Fig. 11(a)(b)'
+    notes: '''the Q factor increases from 800 to 1.55x10^4'' as N goes from 200 to 500 (p.10). Fig. 11(b) vector data point: about 1.54e4. Unqualified ''Q factor'' entered as q_loaded. Resonance wavelength not stated per device: c_band inferred (rule 8) from the gratings'' design Bragg wavelength ''close to 1550 nm'' (p.4) and the Fig. 11(a) resonances near 1550 nm.'
+    why: 'Fig. 11 is on p.11 (rule 14); vector-data check of the printed value added to notes'
+  cmp_lit_wang2013_psbg_wg2_in40_n500-m1:
+    locator: 'p.10 Sec. 3.2; p.11 Fig. 11(b); p.1 Abstract; p.11 Sec. 4'
+    why: 'Fig. 11 is on p.11 (rule 14)'
+  cmp_lit_jiang2018a_loop_maswbg_filter-m5:
+    scope: de_embedded
+    why: 'rule 6: a device-level filter IL with the grating couplers removed by a reference GC pair is de_embedded (per_component is for one on-chip part isolated from a cascade / reference; merged wdm reference_structure IL rows: 140 de_embedded vs 19 per_component)'
+  cmp_lit_jiang2018a_loop_maswbg_filter-m6:
+    scope: de_embedded
+    why: 'rule 6: through-port IL of the whole loop filter normalized by the grating-coupler IL is de_embedded'
+  cmp_lit_jiang2018a_loop_maswbg_filter-m9:
+    notes: 'printed ''The resistor of the heater is 650 ohm. It''s easy to know that the power efficiency of the bandwidth tuning is about 20 mW/nm'' (p.7); check: 13 V on 650 ohm = 260 mW for the 13 to 1.0 nm bandwidth change (about 12 nm, p.6), i.e. about 20-22 mW/nm; the bandwidth change is the stop-band edge shift of the heated grating (Fig. 5: drop-port short-wavelength edge moves from about 1568 to about 1580 nm); stored as 1000 / 20 pm/mW (D82d, D256).'
+    why: 'note supplement (row ok): arithmetic check of the printed 20 mW/nm against the 650 ohm and 0-13 V data'
+  cmp_lit_jiang2018a_loop_maswbg_filter-m10:
+    basis: derived
+    notes: 'printed ''the power efficiency of the wavelength tuning is about 40 mW/nm, which is about twice the power consumption of the bandwidth tuning since two MASWBGs are heated simultaneously'' (p.7). The value is arithmetic on the paper''s own data, not an assumed input: Fig. 7 legend gives 0 / 9 / 12 / 13 V on both heaters, and 2 x 13^2 V^2 / 650 ohm = 520 mW over the ''over 13 nm'' centre shift (1575 to 1589 nm, Fig. 7 caption) gives 40 mW/nm; stored as 1000 / 40 pm/mW per mW of total heater power (D82d, D256: derived).'
+    why: 'rule 4 / D80a: the printed 40 mW/nm reproduces exactly from the measured Fig. 7 voltages, the stated 650 ohm and the measured 13 nm shift; the doubling sentence explains it rather than replacing data with an assumption; so derived (as m9), not author_estimate'
+  cmp_lit_liu2017a_cdc_a5_gmin230-m3:
+    scope: de_embedded
+    why: 'rule 6: drop-port IL of the whole contra-DC normalized to a strip waveguide with grating couplers (p.5-6) is de_embedded'
+  cmp_lit_liu2017a_cdc_a5_gmin200-m1:
+    locator: 'p.5 Sec. 3; p.4 Fig. 2(b)'
+    why: 'Fig. 2 (caption and panels) is on p.4 of text.md; the value sentence is on p.5 (rule 14)'
+  cmp_lit_liu2017a_cdc_a7_gmin200_design-m1:
+    locator: 'p.5 Sec. 3; p.4 Fig. 2(b)'
+    why: 'Fig. 2 (caption and panels) is on p.4 of text.md; the value sentence is on p.5 (rule 14)'
+delete_components:
+- id: cmp_lit_wang2013_y_branch
+  why: 'p.8 Sec. 3.1: the reflection peak ''about 3 dB below the transmission level, corresponding to the extra loss of the Y-branch'' is the ideal 1x2 split of the second Y-branch pass (reflection path passes the Y-branch twice, transmission path once); it carries no excess-loss or other performance value of the Y-branch and its attribution assumes full grating reflection. Stored as insertion_loss_db 3 dB per_component it would read as a 3 dB-loss Y-branch. Geometry-only otherwise (500 nm strip): rule 9, not a row; layout context stays in the grating notes'
+add_metrics:
+- metric_id: cmp_lit_jiang2018a_loop_maswbg_filter-m20
+  component_id: cmp_lit_jiang2018a_loop_maswbg_filter
+  source_id: lit:jiang2018a
+  parameter: 'center_wavelength_nm'
+  value: '1575'
+  unit: 'nm'
+  condition: 'drop-port passband centre without heating (0 V on both MASWBG heaters)'
+  basis: 'measured'
+  locator: 'p.7 Fig. 7 caption'
+  notes: 'printed ''the central wavelength is tuned from 1575 to 1589 nm continuously'' (Fig. 7 caption); the 0 V trace (Fig. 7, about 1568-1582 nm passband) and Fig. 4 (no heating) agree'
+  why: 'miss: stated centre wavelength of the filter (center_wavelength_nm allowed on wdm), p.7 Fig. 7 caption'
+- metric_id: cmp_lit_jiang2018a_loop_maswbg_filter-m21
+  component_id: cmp_lit_jiang2018a_loop_maswbg_filter
+  source_id: lit:jiang2018a
+  parameter: 'center_wavelength_nm'
+  value: '1589'
+  unit: 'nm'
+  condition: 'drop-port passband centre with 13 V on both MASWBG heaters (same temperature on both, Fig. 7 legend)'
+  basis: 'measured'
+  locator: 'p.7 Fig. 7 caption'
+  notes: 'printed end point of ''tuned from 1575 to 1589 nm'' (Fig. 7 caption); the 13 V trace is the longest-wavelength passband in Fig. 7 (about 1581-1597 nm); temperatures in the caption are calculated by comparison to simulation, the wavelengths are measured'
+  why: 'miss: stated tuned centre wavelength, p.7 Fig. 7 caption'

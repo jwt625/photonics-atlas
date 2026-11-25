@@ -1,0 +1,266 @@
+# Audit patch lit_281 (fresh-context audit 2026-11-25, DevLog/audits/2026-11-25-lit_281-audit.md).
+# 113 metrics: 101 ok / 11 imprecise / 1 wrong; 28 components: 18 ok / 10 imprecise (notes / fab). 12 misses added
+# (wang2017a sidewall angle 50 deg on 10 rows, two Fig. 4 inset theory peaks). After the patch: 28 components, 124 metrics.
+# Fixes: levy2011 batch-computed 0.101 %/W deleted (not printed, point-dependent), fab org_cornell_university (D84a);
+# wang2017a six figure-legend widths measured -> design_target; yu2005 internal 23 %/W derived -> author_estimate
+# (72 % SH out-coupling of unstated origin), Fig. 3(a) conflict notes, three inferred wavelengths;
+# porcel2017 fab basis restated (named process + D448), values unchanged.
+components:
+  cmp_lit_levy2011_sin_ring_shg:
+    fab_org_ids: org_cornell_university
+    notes: 'Interface-induced (surface) chi(2) SHG with modal phase matching: fundamental quasi-TE pump to the 6th-order SH mode (FDM mode solver, p.3 Fig. 1(b)); ring radius 116 um and coupling gap 350 nm (p.3) are not entered (radius_um / gap_nm not allowed for frequency_converter, registry gap). Fab org_cornell_university (D84a): ''We design silicon nitride ring resonators ... with the same fabrication process previously described [5, 14]'' (p.3), refs. 5 and 14 being the authors'' own earlier papers (Levy, Gondarenko, Lipson et al.), i.e. the device was made with the authors'' own process; all authors at Cornell University (p.1); stricter reading (no first-person fabrication, D80b) would leave fab empty. Facility org_cornell_nanoscale_facility: ''This work was performed in part at the Cornell NanoScale Facility'' (p.7 Acknowledgements). Not entered (no registry parameter): effective chi(2) up to 4e-14 m/V, range 3e-15 to 4e-14 m/V (p.6; rests on the assumed SH cavity enhancement 1 <= C_sh <= C_p and assumed ideal phase matching); pump circulating-power factor C_p about 156 (p.6); SH-vs-dropped-pump slope 1.9745 +/- 0.0225 (p.6, Fig. 5 label 1.97 +/- 0.02); SH detected for pump powers as low as 3 mW (p.3); third-harmonic output ''on the order of picowatts'' at up to 120 mW dropped, pump near 1560 nm (p.5, p.7; no definite number, no THG row). Normalized efficiency not entered: the paper prints no %/W value; P_SH / P_pump^2 depends on the Fig. 5 point (about 0.10 %/W at the 100 uW / 315 mW top point, about 0.18 %/W at the lowest point near 5.5 dBm / -46.5 dBm, reading +/- 0.5 dB), so a single computed value is not a reported quantity.'
+    why: 'p.3: the ring is made with ''the same fabrication process previously described [5, 14]'', the authors'' own earlier process papers (refs. 5, 14: Levy, Gondarenko, Lipson et al.): D84a (''following our previous process'' qualifies); facility CNF p.7 unchanged; note on the deleted computed %/W row'
+  cmp_lit_porcel2017_sin_shg_w0p9_l36:
+    notes: 'Best device: maximum SH output at L = 36 mm, 0.9 x 1 um2, horizontal pump (p.10). Not entered (no registry parameter): equivalent chi(2)_eq 3.7 +/- 0.2 pm/V (p.1, p.16 Fig. 10; assumes a pure E13 SH mode and ideal phase matching) and nonlinear coupling kappa (Fig. 10); SH output 53 uW (p.1, p.4). Dominant SH mode E13 is inferred from the far-field pattern of the 0.7 um waveguide (Fig. 6) and assumed for this waveguide in Eq. (9)-(10) (p.16). Fab org_lionix_international (not only staff thanks: the waveguides are ''based on the proprietary TripleX process from LioniX International'' (p.6), a named process with its org (Contract v7), and the acknowledgment names LioniX staff for the ''fabrication of the samples'', a stated place (D448)): the acknowledgment thanks two LioniX International staff for designing the lithography mask and ''for cleanroom processing and fabrication of the samples'' (p.17); manufacturing ''based on the proprietary TripleX process from LioniX International'' (p.6). Cladding: the paper describes the platform as Si3N4 ''embedded in a SiO2 cladding'' (p.4); the cladding of these samples is not restated. Photo-induced (coherent photogalvanic) chi(2) grating written by an optical initialization of minutes to hours (p.6-7); 1064 nm mode-locked Yb-fiber laser, 6.2 ps (abstract: 6 ps), 20 MHz; free-space aspheric-lens input (NA 0.68), microscope-objective output (NA 0.74). Waveguide-internal pump powers rest on the input-coupling estimate that assumes the cited 0.5 dB/cm propagation loss [13] (p.6).'
+    why: 'fab basis restated: p.6 names the process with its org and p.17 credits LioniX with fabricating the samples (D448), so the fab is not a D84b borderline case; value unchanged'
+  cmp_lit_porcel2017_sin_shg_w0p6_l36:
+    notes: 'Width series at L = 36 mm, 10 mW waveguide-internal pump (Fig. 7(a), p.10). Fab org_lionix_international (not only staff thanks: the waveguides are ''based on the proprietary TripleX process from LioniX International'' (p.6), a named process with its org (Contract v7), and the acknowledgment names LioniX staff for the ''fabrication of the samples'', a stated place (D448)): the acknowledgment thanks two LioniX International staff for designing the lithography mask and ''for cleanroom processing and fabrication of the samples'' (p.17); manufacturing ''based on the proprietary TripleX process from LioniX International'' (p.6). Cladding: the paper describes the platform as Si3N4 ''embedded in a SiO2 cladding'' (p.4); the cladding of these samples is not restated. Photo-induced (coherent photogalvanic) chi(2) grating written by an optical initialization of minutes to hours (p.6-7); 1064 nm mode-locked Yb-fiber laser, 6.2 ps (abstract: 6 ps), 20 MHz; free-space aspheric-lens input (NA 0.68), microscope-objective output (NA 0.74). Waveguide-internal pump powers rest on the input-coupling estimate that assumes the cited 0.5 dB/cm propagation loss [13] (p.6).'
+    why: 'fab basis restated: p.6 names the process with its org and p.17 credits LioniX with fabricating the samples (D448), so the fab is not a D84b borderline case; value unchanged'
+  cmp_lit_porcel2017_sin_shg_w0p7_l36:
+    notes: 'Width series at L = 36 mm, 10 mW waveguide-internal pump (Fig. 7(a), p.10). The 0.7 um x 36 mm waveguide is also the far-field mode-image device (Fig. 6: dominant E13 with small E21 / E31) and Fig. 9 discusses its QPM periods (simulated, not entered). Fab org_lionix_international (not only staff thanks: the waveguides are ''based on the proprietary TripleX process from LioniX International'' (p.6), a named process with its org (Contract v7), and the acknowledgment names LioniX staff for the ''fabrication of the samples'', a stated place (D448)): the acknowledgment thanks two LioniX International staff for designing the lithography mask and ''for cleanroom processing and fabrication of the samples'' (p.17); manufacturing ''based on the proprietary TripleX process from LioniX International'' (p.6). Cladding: the paper describes the platform as Si3N4 ''embedded in a SiO2 cladding'' (p.4); the cladding of these samples is not restated. Photo-induced (coherent photogalvanic) chi(2) grating written by an optical initialization of minutes to hours (p.6-7); 1064 nm mode-locked Yb-fiber laser, 6.2 ps (abstract: 6 ps), 20 MHz; free-space aspheric-lens input (NA 0.68), microscope-objective output (NA 0.74). Waveguide-internal pump powers rest on the input-coupling estimate that assumes the cited 0.5 dB/cm propagation loss [13] (p.6).'
+    why: 'fab basis restated: p.6 names the process with its org and p.17 credits LioniX with fabricating the samples (D448), so the fab is not a D84b borderline case; value unchanged'
+  cmp_lit_porcel2017_sin_shg_w1p1_l36:
+    notes: 'Width series at L = 36 mm, 10 mW waveguide-internal pump (Fig. 7(a), p.10). Fab org_lionix_international (not only staff thanks: the waveguides are ''based on the proprietary TripleX process from LioniX International'' (p.6), a named process with its org (Contract v7), and the acknowledgment names LioniX staff for the ''fabrication of the samples'', a stated place (D448)): the acknowledgment thanks two LioniX International staff for designing the lithography mask and ''for cleanroom processing and fabrication of the samples'' (p.17); manufacturing ''based on the proprietary TripleX process from LioniX International'' (p.6). Cladding: the paper describes the platform as Si3N4 ''embedded in a SiO2 cladding'' (p.4); the cladding of these samples is not restated. Photo-induced (coherent photogalvanic) chi(2) grating written by an optical initialization of minutes to hours (p.6-7); 1064 nm mode-locked Yb-fiber laser, 6.2 ps (abstract: 6 ps), 20 MHz; free-space aspheric-lens input (NA 0.68), microscope-objective output (NA 0.74). Waveguide-internal pump powers rest on the input-coupling estimate that assumes the cited 0.5 dB/cm propagation loss [13] (p.6).'
+    why: 'fab basis restated: p.6 names the process with its org and p.17 credits LioniX with fabricating the samples (D448), so the fab is not a D84b borderline case; value unchanged'
+  cmp_lit_porcel2017_sin_shg_w1p2_l36:
+    notes: 'Width series at L = 36 mm, 10 mW waveguide-internal pump (Fig. 7(a), p.10). Fab org_lionix_international (not only staff thanks: the waveguides are ''based on the proprietary TripleX process from LioniX International'' (p.6), a named process with its org (Contract v7), and the acknowledgment names LioniX staff for the ''fabrication of the samples'', a stated place (D448)): the acknowledgment thanks two LioniX International staff for designing the lithography mask and ''for cleanroom processing and fabrication of the samples'' (p.17); manufacturing ''based on the proprietary TripleX process from LioniX International'' (p.6). Cladding: the paper describes the platform as Si3N4 ''embedded in a SiO2 cladding'' (p.4); the cladding of these samples is not restated. Photo-induced (coherent photogalvanic) chi(2) grating written by an optical initialization of minutes to hours (p.6-7); 1064 nm mode-locked Yb-fiber laser, 6.2 ps (abstract: 6 ps), 20 MHz; free-space aspheric-lens input (NA 0.68), microscope-objective output (NA 0.74). Waveguide-internal pump powers rest on the input-coupling estimate that assumes the cited 0.5 dB/cm propagation loss [13] (p.6).'
+    why: 'fab basis restated: p.6 names the process with its org and p.17 credits LioniX with fabricating the samples (D448), so the fab is not a D84b borderline case; value unchanged'
+  cmp_lit_porcel2017_sin_shg_w0p9_l22:
+    notes: 'Length series at w = 0.9 um, 10 mW waveguide-internal pump (Fig. 7(b), p.10). Same geometry as the Fig. 4 quadratic-dependence device and the Fig. 3(a) initialization trace (SH ~5.5 uW at ~6.1 mW during initialization; trace values not entered). Fab org_lionix_international (not only staff thanks: the waveguides are ''based on the proprietary TripleX process from LioniX International'' (p.6), a named process with its org (Contract v7), and the acknowledgment names LioniX staff for the ''fabrication of the samples'', a stated place (D448)): the acknowledgment thanks two LioniX International staff for designing the lithography mask and ''for cleanroom processing and fabrication of the samples'' (p.17); manufacturing ''based on the proprietary TripleX process from LioniX International'' (p.6). Cladding: the paper describes the platform as Si3N4 ''embedded in a SiO2 cladding'' (p.4); the cladding of these samples is not restated. Photo-induced (coherent photogalvanic) chi(2) grating written by an optical initialization of minutes to hours (p.6-7); 1064 nm mode-locked Yb-fiber laser, 6.2 ps (abstract: 6 ps), 20 MHz; free-space aspheric-lens input (NA 0.68), microscope-objective output (NA 0.74). Waveguide-internal pump powers rest on the input-coupling estimate that assumes the cited 0.5 dB/cm propagation loss [13] (p.6).'
+    why: 'fab basis restated: p.6 names the process with its org and p.17 credits LioniX with fabricating the samples (D448), so the fab is not a D84b borderline case; value unchanged'
+  cmp_lit_porcel2017_sin_shg_w0p9_l60:
+    notes: 'Length series at w = 0.9 um, 10 mW waveguide-internal pump (Fig. 7(b), p.10). Fab org_lionix_international (not only staff thanks: the waveguides are ''based on the proprietary TripleX process from LioniX International'' (p.6), a named process with its org (Contract v7), and the acknowledgment names LioniX staff for the ''fabrication of the samples'', a stated place (D448)): the acknowledgment thanks two LioniX International staff for designing the lithography mask and ''for cleanroom processing and fabrication of the samples'' (p.17); manufacturing ''based on the proprietary TripleX process from LioniX International'' (p.6). Cladding: the paper describes the platform as Si3N4 ''embedded in a SiO2 cladding'' (p.4); the cladding of these samples is not restated. Photo-induced (coherent photogalvanic) chi(2) grating written by an optical initialization of minutes to hours (p.6-7); 1064 nm mode-locked Yb-fiber laser, 6.2 ps (abstract: 6 ps), 20 MHz; free-space aspheric-lens input (NA 0.68), microscope-objective output (NA 0.74). Waveguide-internal pump powers rest on the input-coupling estimate that assumes the cited 0.5 dB/cm propagation loss [13] (p.6).'
+    why: 'fab basis restated: p.6 names the process with its org and p.17 credits LioniX with fabricating the samples (D448), so the fab is not a D84b borderline case; value unchanged'
+  cmp_lit_porcel2017_sin_shg_w0p9_l74:
+    notes: 'Length series at w = 0.9 um, 10 mW waveguide-internal pump (Fig. 7(b), p.10). Same geometry as the Fig. 3(c) initialization trace (not entered). Fab org_lionix_international (not only staff thanks: the waveguides are ''based on the proprietary TripleX process from LioniX International'' (p.6), a named process with its org (Contract v7), and the acknowledgment names LioniX staff for the ''fabrication of the samples'', a stated place (D448)): the acknowledgment thanks two LioniX International staff for designing the lithography mask and ''for cleanroom processing and fabrication of the samples'' (p.17); manufacturing ''based on the proprietary TripleX process from LioniX International'' (p.6). Cladding: the paper describes the platform as Si3N4 ''embedded in a SiO2 cladding'' (p.4); the cladding of these samples is not restated. Photo-induced (coherent photogalvanic) chi(2) grating written by an optical initialization of minutes to hours (p.6-7); 1064 nm mode-locked Yb-fiber laser, 6.2 ps (abstract: 6 ps), 20 MHz; free-space aspheric-lens input (NA 0.68), microscope-objective output (NA 0.74). Waveguide-internal pump powers rest on the input-coupling estimate that assumes the cited 0.5 dB/cm propagation loss [13] (p.6).'
+    why: 'fab basis restated: p.6 names the process with its org and p.17 credits LioniX with fabricating the samples (D448), so the fab is not a D84b borderline case; value unchanged'
+  cmp_lit_porcel2017_sin_shg_population:
+    notes: 'Population row for statements that hold across the measured waveguides (D452 population precedent). Not entered: ''15% of the incoming power was coupled through the waveguide'' (p.1; not reconcilable with the ~75 % input-coupling loss without a definition); SH growth rate 1e-4 to 1e-2 s^-1 and delay of minutes to hours (p.1, Fig. 3; no parameter); no degradation after storage in darkness for at least a week, erasure by 254 nm UV in ten minutes (p.11; retention_time_s not allowed for frequency_converter); reproducibility across wafer sections ''within the experimental accuracy'' (p.11). Fab org_lionix_international (not only staff thanks: the waveguides are ''based on the proprietary TripleX process from LioniX International'' (p.6), a named process with its org (Contract v7), and the acknowledgment names LioniX staff for the ''fabrication of the samples'', a stated place (D448)): the acknowledgment thanks two LioniX International staff for designing the lithography mask and ''for cleanroom processing and fabrication of the samples'' (p.17); manufacturing ''based on the proprietary TripleX process from LioniX International'' (p.6). Cladding: the paper describes the platform as Si3N4 ''embedded in a SiO2 cladding'' (p.4); the cladding of these samples is not restated. Photo-induced (coherent photogalvanic) chi(2) grating written by an optical initialization of minutes to hours (p.6-7); 1064 nm mode-locked Yb-fiber laser, 6.2 ps (abstract: 6 ps), 20 MHz; free-space aspheric-lens input (NA 0.68), microscope-objective output (NA 0.74). Waveguide-internal pump powers rest on the input-coupling estimate that assumes the cited 0.5 dB/cm propagation loss [13] (p.6).'
+    why: 'fab basis restated: p.6 names the process with its org and p.17 credits LioniX with fabricating the samples (D448), so the fab is not a D84b borderline case; value unchanged'
+  cmp_lit_wang2017a_mpm_w630:
+    notes: 'Best uniform device (p.10). SH generated in the 3rd-order TE mode (three-lobe output, Fig. 4(f)). Not entered: SH output 1.38 pW at 18.3 uW in-coupled pump (no output-power parameter); input-output slope 1.99 +/- 0.01 (Fig. 4(e)); a 3 mm total waveguide length incl. coupling and bending sections is stated for the loss-extraction waveguide (p.8), the SHG length used for normalization is 1 mm. Fab org_harvard_university and facility org_center_for_nanoscale_systems: ''Device fabrication was performed at the Center for Nanoscale Systems (CNS) at Harvard University'' (p.11 Acknowledgments; stated place, D448). Simulation geometry uses t = 400 nm and theta = 40 deg ''taken from actual device dimensions'' (p.3); Fig. 1(a) draws theta from the vertical (dashed vertical line at the sidewall; consistent with wt 600 / wb 1270 / t 400 nm, p.5), so theta = 40 deg is stored in the registry convention (angle to the film plane) as sidewall_angle_deg 50 (90 - 40, derived) on the waveguide and converter rows.'
+    why: 'render p.4 Fig. 1(a): theta is drawn between the sidewall and a dashed vertical line; registry convention is the angle to the film plane, so the printed 40 deg converts to 50 deg (merged practice: soref1986, desiatov2019, pfeifle2014, 90 - printed angle, derived)'
+  cmp_lit_wang2017a_mpm_w580:
+    notes: 'Width-series sibling of cmp_lit_wang2017a_mpm_w630 on the same chip (Fig. 4(c)). Fab org_harvard_university and facility org_center_for_nanoscale_systems: ''Device fabrication was performed at the Center for Nanoscale Systems (CNS) at Harvard University'' (p.11 Acknowledgments; stated place, D448). Simulation geometry uses t = 400 nm and theta = 40 deg ''taken from actual device dimensions'' (p.3); Fig. 1(a) draws theta from the vertical (dashed vertical line at the sidewall; consistent with wt 600 / wb 1270 / t 400 nm, p.5), so theta = 40 deg is stored in the registry convention (angle to the film plane) as sidewall_angle_deg 50 (90 - 40, derived) on the waveguide and converter rows.'
+    why: 'render p.4 Fig. 1(a): theta is drawn between the sidewall and a dashed vertical line; registry convention is the angle to the film plane, so the printed 40 deg converts to 50 deg (merged practice: soref1986, desiatov2019, pfeifle2014, 90 - printed angle, derived)'
+  cmp_lit_wang2017a_mpm_w680:
+    notes: 'Width-series sibling of cmp_lit_wang2017a_mpm_w630 on the same chip (Fig. 4(c)). Fab org_harvard_university and facility org_center_for_nanoscale_systems: ''Device fabrication was performed at the Center for Nanoscale Systems (CNS) at Harvard University'' (p.11 Acknowledgments; stated place, D448). Simulation geometry uses t = 400 nm and theta = 40 deg ''taken from actual device dimensions'' (p.3); Fig. 1(a) draws theta from the vertical (dashed vertical line at the sidewall; consistent with wt 600 / wb 1270 / t 400 nm, p.5), so theta = 40 deg is stored in the registry convention (angle to the film plane) as sidewall_angle_deg 50 (90 - 40, derived) on the waveguide and converter rows.'
+    why: 'render p.4 Fig. 1(a): theta is drawn between the sidewall and a dashed vertical line; registry convention is the angle to the film plane, so the printed 40 deg converts to 50 deg (merged practice: soref1986, desiatov2019, pfeifle2014, 90 - printed angle, derived)'
+  cmp_lit_wang2017a_pgln_w670:
+    notes: 'Periodically grooved LN (PGLN): periodic width modulation (groove depth 80 nm in the design and the 500 um proof-of-concept choice, p.8) provides quasi-phase matching between the fundamental TE modes; SH in the fundamental mode (one-lobe output, Fig. 4(g)). The modulation period of the measured devices is not printed (a ''typical'' PGLN waveguide in Fig. 3(c) has period 2.77 um and groove depth 80 nm, p.7); no poling (poling_period_um not used). Simulated values for the same design (wt 670 / wb 1300 / t 400 nm, 80 nm grooves, 500 um) are on this row (D80e). Not entered: SH output 0.334 pW at 44.3 uW in-coupled pump; slope 1.99 +/- 0.01 (Fig. 4(e)); simulated Bloch-loss curves (Fig. 2(c)). Fab org_harvard_university and facility org_center_for_nanoscale_systems: ''Device fabrication was performed at the Center for Nanoscale Systems (CNS) at Harvard University'' (p.11 Acknowledgments; stated place, D448). Simulation geometry uses t = 400 nm and theta = 40 deg ''taken from actual device dimensions'' (p.3); Fig. 1(a) draws theta from the vertical (dashed vertical line at the sidewall; consistent with wt 600 / wb 1270 / t 400 nm, p.5), so theta = 40 deg is stored in the registry convention (angle to the film plane) as sidewall_angle_deg 50 (90 - 40, derived) on the waveguide and converter rows.'
+    why: 'render p.4 Fig. 1(a): theta is drawn between the sidewall and a dashed vertical line; registry convention is the angle to the film plane, so the printed 40 deg converts to 50 deg (merged practice: soref1986, desiatov2019, pfeifle2014, 90 - printed angle, derived)'
+  cmp_lit_wang2017a_pgln_w700:
+    notes: 'Width-series sibling of cmp_lit_wang2017a_pgln_w670 on the same chip (Fig. 4(d)). Periodically grooved LN (PGLN): periodic width modulation (groove depth 80 nm in the design and the 500 um proof-of-concept choice, p.8) provides quasi-phase matching between the fundamental TE modes; SH in the fundamental mode (one-lobe output, Fig. 4(g)). The modulation period of the measured devices is not printed (a ''typical'' PGLN waveguide in Fig. 3(c) has period 2.77 um and groove depth 80 nm, p.7); no poling (poling_period_um not used). Fab org_harvard_university and facility org_center_for_nanoscale_systems: ''Device fabrication was performed at the Center for Nanoscale Systems (CNS) at Harvard University'' (p.11 Acknowledgments; stated place, D448). Simulation geometry uses t = 400 nm and theta = 40 deg ''taken from actual device dimensions'' (p.3); Fig. 1(a) draws theta from the vertical (dashed vertical line at the sidewall; consistent with wt 600 / wb 1270 / t 400 nm, p.5), so theta = 40 deg is stored in the registry convention (angle to the film plane) as sidewall_angle_deg 50 (90 - 40, derived) on the waveguide and converter rows.'
+    why: 'render p.4 Fig. 1(a): theta is drawn between the sidewall and a dashed vertical line; registry convention is the angle to the film plane, so the printed 40 deg converts to 50 deg (merged practice: soref1986, desiatov2019, pfeifle2014, 90 - printed angle, derived)'
+  cmp_lit_wang2017a_pgln_w720:
+    notes: 'Width-series sibling of cmp_lit_wang2017a_pgln_w670 on the same chip (Fig. 4(d)). Periodically grooved LN (PGLN): periodic width modulation (groove depth 80 nm in the design and the 500 um proof-of-concept choice, p.8) provides quasi-phase matching between the fundamental TE modes; SH in the fundamental mode (one-lobe output, Fig. 4(g)). The modulation period of the measured devices is not printed (a ''typical'' PGLN waveguide in Fig. 3(c) has period 2.77 um and groove depth 80 nm, p.7); no poling (poling_period_um not used). Fab org_harvard_university and facility org_center_for_nanoscale_systems: ''Device fabrication was performed at the Center for Nanoscale Systems (CNS) at Harvard University'' (p.11 Acknowledgments; stated place, D448). Simulation geometry uses t = 400 nm and theta = 40 deg ''taken from actual device dimensions'' (p.3); Fig. 1(a) draws theta from the vertical (dashed vertical line at the sidewall; consistent with wt 600 / wb 1270 / t 400 nm, p.5), so theta = 40 deg is stored in the registry convention (angle to the film plane) as sidewall_angle_deg 50 (90 - 40, derived) on the waveguide and converter rows.'
+    why: 'render p.4 Fig. 1(a): theta is drawn between the sidewall and a dashed vertical line; registry convention is the angle to the film plane, so the printed 40 deg converts to 50 deg (merged practice: soref1986, desiatov2019, pfeifle2014, 90 - printed angle, derived)'
+  cmp_lit_wang2017a_pgln_w670_wg:
+    notes: 'D396 cross-class row of cmp_lit_wang2017a_pgln_w670 (same design): total loss = 3.0 dB/cm measured scattering (uniform waveguide) + FDTD Bloch / radiation loss of the leaky Bloch modes (p.6-8). Fab org_harvard_university and facility org_center_for_nanoscale_systems: ''Device fabrication was performed at the Center for Nanoscale Systems (CNS) at Harvard University'' (p.11 Acknowledgments; stated place, D448). Simulation geometry uses t = 400 nm and theta = 40 deg ''taken from actual device dimensions'' (p.3); Fig. 1(a) draws theta from the vertical (dashed vertical line at the sidewall; consistent with wt 600 / wb 1270 / t 400 nm, p.5), so theta = 40 deg is stored in the registry convention (angle to the film plane) as sidewall_angle_deg 50 (90 - 40, derived) on the waveguide and converter rows.'
+    why: 'render p.4 Fig. 1(a): theta is drawn between the sidewall and a dashed vertical line; registry convention is the angle to the film plane, so the printed 40 deg converts to 50 deg (merged practice: soref1986, desiatov2019, pfeifle2014, 90 - printed angle, derived)'
+  cmp_lit_wang2017a_tfln_wg_typical:
+    notes: 'Typical uniform waveguide of the SHG chip (Fig. 4(b)); width not stated. Aeff 0.52 um2 at telecom (p.8, no parameter). Facet coupling on cmp_lit_wang2017a_lensed_fiber_facet. Fab org_harvard_university and facility org_center_for_nanoscale_systems: ''Device fabrication was performed at the Center for Nanoscale Systems (CNS) at Harvard University'' (p.11 Acknowledgments; stated place, D448). Simulation geometry uses t = 400 nm and theta = 40 deg ''taken from actual device dimensions'' (p.3); Fig. 1(a) draws theta from the vertical (dashed vertical line at the sidewall; consistent with wt 600 / wb 1270 / t 400 nm, p.5), so theta = 40 deg is stored in the registry convention (angle to the film plane) as sidewall_angle_deg 50 (90 - 40, derived) on the waveguide and converter rows.'
+    why: 'render p.4 Fig. 1(a): theta is drawn between the sidewall and a dashed vertical line; registry convention is the angle to the film plane, so the printed 40 deg converts to 50 deg (merged practice: soref1986, desiatov2019, pfeifle2014, 90 - printed angle, derived)'
+  cmp_lit_wang2017a_lensed_fiber_facet:
+    notes: 'Per-facet value averaged over many waveguides on the SHG chip (p.9). ''< 0.5 dB with adiabatic mode transition using tapered fibers [39]'' is a cited prospect (not entered). Fab org_harvard_university and facility org_center_for_nanoscale_systems: ''Device fabrication was performed at the Center for Nanoscale Systems (CNS) at Harvard University'' (p.11 Acknowledgments; stated place, D448). Simulation geometry uses t = 400 nm and theta = 40 deg ''taken from actual device dimensions'' (p.3); Fig. 1(a) draws theta from the vertical (dashed vertical line at the sidewall; consistent with wt 600 / wb 1270 / t 400 nm, p.5), so theta = 40 deg is stored in the registry convention (angle to the film plane) as sidewall_angle_deg 50 (90 - 40, derived) on the waveguide and converter rows.'
+    why: 'render p.4 Fig. 1(a): theta is drawn between the sidewall and a dashed vertical line; registry convention is the angle to the film plane, so the printed 40 deg converts to 50 deg (merged practice: soref1986, desiatov2019, pfeifle2014, 90 - printed angle, derived)'
+metrics:
+  cmp_lit_wang2017a_mpm_w630-m3:
+    basis: design_target
+    notes: 'Fig. 4 legend ''Waveguide top width'' and caption ''(measured at the waveguide top)'' (p.9): the phrase says which width is given (top, not bottom); no SEM / AFM value is printed for these devices (Fig. 3 SEM images carry no widths), so the stated widths are design values (rule 4)'
+    why: 'rule 4 / Contract v5: dimensions are design_target unless SEM / AFM-measured; the caption phrase fixes the reference (top width), not a metrology result'
+  cmp_lit_wang2017a_mpm_w580-m2:
+    basis: design_target
+    notes: 'Fig. 4 legend ''Waveguide top width'' and caption ''(measured at the waveguide top)'' (p.9): the phrase says which width is given (top, not bottom); no SEM / AFM value is printed for these devices (Fig. 3 SEM images carry no widths), so the stated widths are design values (rule 4)'
+    why: 'rule 4 / Contract v5: dimensions are design_target unless SEM / AFM-measured; the caption phrase fixes the reference (top width), not a metrology result'
+  cmp_lit_wang2017a_mpm_w680-m2:
+    basis: design_target
+    notes: 'Fig. 4 legend ''Waveguide top width'' and caption ''(measured at the waveguide top)'' (p.9): the phrase says which width is given (top, not bottom); no SEM / AFM value is printed for these devices (Fig. 3 SEM images carry no widths), so the stated widths are design values (rule 4)'
+    why: 'rule 4 / Contract v5: dimensions are design_target unless SEM / AFM-measured; the caption phrase fixes the reference (top width), not a metrology result'
+  cmp_lit_wang2017a_pgln_w670-m6:
+    basis: design_target
+    notes: 'Fig. 4 legend ''Waveguide top width'' and caption ''(measured at the waveguide top)'' (p.9): the phrase says which width is given (top, not bottom); no SEM / AFM value is printed for these devices (Fig. 3 SEM images carry no widths), so the stated widths are design values (rule 4)'
+    why: 'rule 4 / Contract v5: dimensions are design_target unless SEM / AFM-measured; the caption phrase fixes the reference (top width), not a metrology result'
+  cmp_lit_wang2017a_pgln_w700-m2:
+    basis: design_target
+    notes: 'Fig. 4 legend ''Waveguide top width'' and caption ''(measured at the waveguide top)'' (p.9): the phrase says which width is given (top, not bottom); no SEM / AFM value is printed for these devices (Fig. 3 SEM images carry no widths), so the stated widths are design values (rule 4)'
+    why: 'rule 4 / Contract v5: dimensions are design_target unless SEM / AFM-measured; the caption phrase fixes the reference (top width), not a metrology result'
+  cmp_lit_wang2017a_pgln_w720-m2:
+    basis: design_target
+    notes: 'Fig. 4 legend ''Waveguide top width'' and caption ''(measured at the waveguide top)'' (p.9): the phrase says which width is given (top, not bottom); no SEM / AFM value is printed for these devices (Fig. 3 SEM images carry no widths), so the stated widths are design values (rule 4)'
+    why: 'rule 4 / Contract v5: dimensions are design_target unless SEM / AFM-measured; the caption phrase fixes the reference (top width), not a metrology result'
+  cmp_lit_yu2005_qpm_shg_5mm-m1:
+    basis: author_estimate
+    notes: 'printed 23 %W-1 (p.1, p.7); 0.85 uW / (1.91 mW)^2 = 23.3 %/W; 1.91 mW = 4.25 mW x the ~45 % input coupling measured on ~1 mm plain waveguides (own reference structure), 0.85 uW = 0.61 uW / the ~72 % SH out-coupling attributed to end-facet reflection at the SH wavelength, value origin (measured or calculated) not stated (rule 4: author_estimate); Fig. 3(a) (p.6) fit line reads about 0.2 uW at 1 mW and the top points about 1.7 uW at about 2.9 mW (both about 20 %/W); its power reference planes are not printed (D417 note: it matches the internal 23 %/W more closely than the external 3.4 %/W)'
+    why: 'rule 4: the internal value rests on the 72 % SH out-coupling term whose origin is not stated (D418 nader2025 ''origin not stated''); D394 (bulk Fresnel as a stated model input) does not apply because no reflectance or index is printed'
+  cmp_lit_yu2005_qpm_shg_5mm-m2:
+    notes: 'printed ~3.4 %W-1 ''based on Fig. 3'' (p.6); 0.61 uW / (4.25 mW)^2 = 3.38 %/W (Fig. 3(b) peak, Fabry-Perot enhancement removed); Fig. 3(a) (p.6) fit line reads about 0.2 uW at 1 mW and the top points about 1.7 uW at about 2.9 mW (both about 20 %/W); its power reference planes are not printed (D417 note: it matches the internal 23 %/W more closely than the external 3.4 %/W)'
+    why: 'render p.6 Fig. 3(a): the plotted SH vs pump data imply about 20 %/W, not 3.4 %/W; printed value kept with the conflict noted (D417)'
+  cmp_lit_yu2005_qpm_shg_5mm-m3:
+    wavelength_inferred: 'true'
+    notes: 'printed 125 %W-1 (p.7); wavelength = the measured device''s operating point; wavelength inferred: the simulated lossless value (p.7) prints no wavelength; 1559.1 nm is the measured tuning-curve peak of the same structure (p.6)'
+    why: 'rule 8 (D760 turnerfoster2010 precedent): the wavelength comes from another paragraph, not the value''s sentence'
+  cmp_lit_yu2005_qpm_shg_5mm-m4:
+    wavelength_inferred: 'true'
+    notes: 'printed 27 %W-1 (p.7); wavelength inferred: the simulated with-loss value (p.7) prints no wavelength; 1559.1 nm is the measured tuning-curve peak the fit was made to (p.6)'
+    why: 'rule 8 (D760 turnerfoster2010 precedent): the wavelength comes from another paragraph, not the value''s sentence'
+  cmp_lit_yu2005_qpm_shg_5mm-m5:
+    wavelength_inferred: 'true'
+    notes: 'printed input coupling coefficient ~45 % (p.7), obtained from the transmission of short (~1 mm) low-loss plain waveguides with the same widths and close to the theoretical calculation; 10 log10(1 / 0.45) = 3.47 dB; wavelength inferred: the input-coupling sentence (p.7) prints no wavelength; 1559.1 nm is the operating point where the authors apply it (p.6-7)'
+    why: 'rule 8 (D760 turnerfoster2010 precedent): the wavelength comes from another paragraph, not the value''s sentence'
+delete_metrics:
+- id: cmp_lit_levy2011_sin_ring_shg-m2
+  why: 'rule 1: no normalized (%/W) efficiency is printed; the batch-computed 0.101 %/W is one point of Fig. 5 (p.7), the top, thermally limited point; the same arithmetic on the lowest Fig. 5 point gives about 0.18 %/W, so the value is a choice of the distiller, not the paper''s result; values kept in component notes'
+add_metrics:
+- metric_id: cmp_lit_wang2017a_mpm_w630-m7
+  component_id: cmp_lit_wang2017a_mpm_w630
+  source_id: lit:wang2017a
+  parameter: sidewall_angle_deg
+  value: '50'
+  unit: deg
+  condition: etched LN sidewall (Ar+ dry etch)
+  basis: derived
+  locator: p.3; p.4 Fig. 1(a)
+  notes: 'printed theta = 40 deg ''taken from actual device dimensions'' and used in the mode simulations (p.3); Fig. 1(a) draws theta from the vertical; stored as the angle to the film plane: 90 - 40 = 50 deg; check: wt 600 / wb 1270 / t 400 nm (p.5) gives atan(400 / 335) = 50.1 deg'
+  verified_on: '2026-11-25'
+  why: 'miss (D153 / Contract v5 geometry): the printed sidewall angle was left out because of its reference direction; registry rule 5 + merged practice convert a from-vertical angle as 90 - angle, derived'
+- metric_id: cmp_lit_wang2017a_mpm_w580-m6
+  component_id: cmp_lit_wang2017a_mpm_w580
+  source_id: lit:wang2017a
+  parameter: sidewall_angle_deg
+  value: '50'
+  unit: deg
+  condition: etched LN sidewall (Ar+ dry etch)
+  basis: derived
+  locator: p.3; p.4 Fig. 1(a)
+  notes: 'printed theta = 40 deg ''taken from actual device dimensions'' and used in the mode simulations (p.3); Fig. 1(a) draws theta from the vertical; stored as the angle to the film plane: 90 - 40 = 50 deg; check: wt 600 / wb 1270 / t 400 nm (p.5) gives atan(400 / 335) = 50.1 deg'
+  verified_on: '2026-11-25'
+  why: 'miss (D153 / Contract v5 geometry): the printed sidewall angle was left out because of its reference direction; registry rule 5 + merged practice convert a from-vertical angle as 90 - angle, derived'
+- metric_id: cmp_lit_wang2017a_mpm_w680-m6
+  component_id: cmp_lit_wang2017a_mpm_w680
+  source_id: lit:wang2017a
+  parameter: sidewall_angle_deg
+  value: '50'
+  unit: deg
+  condition: etched LN sidewall (Ar+ dry etch)
+  basis: derived
+  locator: p.3; p.4 Fig. 1(a)
+  notes: 'printed theta = 40 deg ''taken from actual device dimensions'' and used in the mode simulations (p.3); Fig. 1(a) draws theta from the vertical; stored as the angle to the film plane: 90 - 40 = 50 deg; check: wt 600 / wb 1270 / t 400 nm (p.5) gives atan(400 / 335) = 50.1 deg'
+  verified_on: '2026-11-25'
+  why: 'miss (D153 / Contract v5 geometry): the printed sidewall angle was left out because of its reference direction; registry rule 5 + merged practice convert a from-vertical angle as 90 - angle, derived'
+- metric_id: cmp_lit_wang2017a_pgln_w670-m10
+  component_id: cmp_lit_wang2017a_pgln_w670
+  source_id: lit:wang2017a
+  parameter: sidewall_angle_deg
+  value: '50'
+  unit: deg
+  condition: etched LN sidewall (Ar+ dry etch)
+  basis: derived
+  locator: p.3; p.4 Fig. 1(a)
+  notes: 'printed theta = 40 deg ''taken from actual device dimensions'' and used in the mode simulations (p.3); Fig. 1(a) draws theta from the vertical; stored as the angle to the film plane: 90 - 40 = 50 deg; check: wt 600 / wb 1270 / t 400 nm (p.5) gives atan(400 / 335) = 50.1 deg'
+  verified_on: '2026-11-25'
+  why: 'miss (D153 / Contract v5 geometry): the printed sidewall angle was left out because of its reference direction; registry rule 5 + merged practice convert a from-vertical angle as 90 - angle, derived'
+- metric_id: cmp_lit_wang2017a_pgln_w700-m6
+  component_id: cmp_lit_wang2017a_pgln_w700
+  source_id: lit:wang2017a
+  parameter: sidewall_angle_deg
+  value: '50'
+  unit: deg
+  condition: etched LN sidewall (Ar+ dry etch)
+  basis: derived
+  locator: p.3; p.4 Fig. 1(a)
+  notes: 'printed theta = 40 deg ''taken from actual device dimensions'' and used in the mode simulations (p.3); Fig. 1(a) draws theta from the vertical; stored as the angle to the film plane: 90 - 40 = 50 deg; check: wt 600 / wb 1270 / t 400 nm (p.5) gives atan(400 / 335) = 50.1 deg'
+  verified_on: '2026-11-25'
+  why: 'miss (D153 / Contract v5 geometry): the printed sidewall angle was left out because of its reference direction; registry rule 5 + merged practice convert a from-vertical angle as 90 - angle, derived'
+- metric_id: cmp_lit_wang2017a_pgln_w720-m6
+  component_id: cmp_lit_wang2017a_pgln_w720
+  source_id: lit:wang2017a
+  parameter: sidewall_angle_deg
+  value: '50'
+  unit: deg
+  condition: etched LN sidewall (Ar+ dry etch)
+  basis: derived
+  locator: p.3; p.4 Fig. 1(a)
+  notes: 'printed theta = 40 deg ''taken from actual device dimensions'' and used in the mode simulations (p.3); Fig. 1(a) draws theta from the vertical; stored as the angle to the film plane: 90 - 40 = 50 deg; check: wt 600 / wb 1270 / t 400 nm (p.5) gives atan(400 / 335) = 50.1 deg'
+  verified_on: '2026-11-25'
+  why: 'miss (D153 / Contract v5 geometry): the printed sidewall angle was left out because of its reference direction; registry rule 5 + merged practice convert a from-vertical angle as 90 - angle, derived'
+- metric_id: cmp_lit_wang2017a_tfln_wg_typical-m3
+  component_id: cmp_lit_wang2017a_tfln_wg_typical
+  source_id: lit:wang2017a
+  parameter: sidewall_angle_deg
+  value: '50'
+  unit: deg
+  condition: etched LN sidewall (Ar+ dry etch)
+  basis: derived
+  locator: p.3; p.4 Fig. 1(a)
+  notes: 'printed theta = 40 deg ''taken from actual device dimensions'' and used in the mode simulations (p.3); Fig. 1(a) draws theta from the vertical; stored as the angle to the film plane: 90 - 40 = 50 deg; check: wt 600 / wb 1270 / t 400 nm (p.5) gives atan(400 / 335) = 50.1 deg'
+  verified_on: '2026-11-25'
+  why: 'miss (D153 / Contract v5 geometry): the printed sidewall angle was left out because of its reference direction; registry rule 5 + merged practice convert a from-vertical angle as 90 - angle, derived'
+- metric_id: cmp_lit_wang2017a_mpm_design_w600-m5
+  component_id: cmp_lit_wang2017a_mpm_design_w600
+  source_id: lit:wang2017a
+  parameter: sidewall_angle_deg
+  value: '50'
+  unit: deg
+  condition: etched LN sidewall (Ar+ dry etch)
+  basis: derived
+  locator: p.3; p.4 Fig. 1(a)
+  notes: 'printed theta = 40 deg ''taken from actual device dimensions'' and used in the mode simulations (p.3); Fig. 1(a) draws theta from the vertical; stored as the angle to the film plane: 90 - 40 = 50 deg; check: wt 600 / wb 1270 / t 400 nm (p.5) gives atan(400 / 335) = 50.1 deg; on this design row theta is the simulation input'
+  verified_on: '2026-11-25'
+  why: 'miss (D153 / Contract v5 geometry): the printed sidewall angle was left out because of its reference direction; registry rule 5 + merged practice convert a from-vertical angle as 90 - angle, derived'
+- metric_id: cmp_lit_wang2017a_pgln_design_22nm_11mm-m4
+  component_id: cmp_lit_wang2017a_pgln_design_22nm_11mm
+  source_id: lit:wang2017a
+  parameter: sidewall_angle_deg
+  value: '50'
+  unit: deg
+  condition: etched LN sidewall (Ar+ dry etch)
+  basis: derived
+  locator: p.3; p.4 Fig. 1(a)
+  notes: 'printed theta = 40 deg ''taken from actual device dimensions'' and used in the mode simulations (p.3); Fig. 1(a) draws theta from the vertical; stored as the angle to the film plane: 90 - 40 = 50 deg; check: wt 600 / wb 1270 / t 400 nm (p.5) gives atan(400 / 335) = 50.1 deg; on this design row theta is the simulation input'
+  verified_on: '2026-11-25'
+  why: 'miss (D153 / Contract v5 geometry): the printed sidewall angle was left out because of its reference direction; registry rule 5 + merged practice convert a from-vertical angle as 90 - angle, derived'
+- metric_id: cmp_lit_wang2017a_pgln_design_8nm_11cm-m4
+  component_id: cmp_lit_wang2017a_pgln_design_8nm_11cm
+  source_id: lit:wang2017a
+  parameter: sidewall_angle_deg
+  value: '50'
+  unit: deg
+  condition: etched LN sidewall (Ar+ dry etch)
+  basis: derived
+  locator: p.3; p.4 Fig. 1(a)
+  notes: 'printed theta = 40 deg ''taken from actual device dimensions'' and used in the mode simulations (p.3); Fig. 1(a) draws theta from the vertical; stored as the angle to the film plane: 90 - 40 = 50 deg; check: wt 600 / wb 1270 / t 400 nm (p.5) gives atan(400 / 335) = 50.1 deg; on this design row theta is the simulation input'
+  verified_on: '2026-11-25'
+  why: 'miss (D153 / Contract v5 geometry): the printed sidewall angle was left out because of its reference direction; registry rule 5 + merged practice convert a from-vertical angle as 90 - angle, derived'
+- metric_id: cmp_lit_wang2017a_mpm_w630-m8
+  component_id: cmp_lit_wang2017a_mpm_w630
+  source_id: lit:wang2017a
+  parameter: conversion_efficiency_pct_per_w
+  value: '0.70'
+  unit: '%/W'
+  wavelength_nm: '1576'
+  wavelength_inferred: 'true'
+  polarization: te
+  mode: TE1 pump -> TE3 SH
+  condition: theoretical SHG efficiency spectrum (dotted) for the 630 nm, 1 mm device, calculated with the methods of Sec. 2 (p.10); L = 1 mm
+  basis: simulated
+  locator: p.9 Fig. 4(c) inset; p.10
+  notes: 'read off the Fig. 4(c) inset theory curve: peak about 7.0e-3 W^-1 (+/- 0.2e-3) at SH about 787.8 nm (+/- 0.2 nm), x 100 = 0.70 %/W; wavelength = 2 x the SH peak (inferred); the measured peak is lower (about 4.0e-3 W^-1, row m2; p.10 ''slightly lower than theory''); dimensions and losses used for the curve not printed (D454)'
+  verified_on: '2026-11-25'
+  why: 'miss: the paper''s own simulated peak efficiency for the measured device, plotted against the measurement (D454: simulated curves read off a plot stay simulated)'
+- metric_id: cmp_lit_wang2017a_pgln_w670-m11
+  component_id: cmp_lit_wang2017a_pgln_w670
+  source_id: lit:wang2017a
+  parameter: conversion_efficiency_pct_per_w
+  value: '0.020'
+  unit: '%/W'
+  wavelength_nm: '1581'
+  wavelength_inferred: 'true'
+  polarization: te
+  mode: TE1 pump -> TE1 SH
+  condition: theoretical SHG efficiency spectrum (dotted) for the 670 nm, 0.5 mm PGLN device, calculated with the methods of Sec. 2 (p.10); L = 0.5 mm
+  basis: simulated
+  locator: p.9 Fig. 4(d) inset; p.10
+  notes: 'read off the Fig. 4(d) inset theory curve: peak about 0.204e-3 W^-1 (+/- 0.01e-3) at SH about 790.3 nm (+/- 0.3 nm), x 100 = 0.020 %/W; wavelength = 2 x the SH peak (inferred); conflict (D417): p.8 prints 0.012 %/W (row m5) for the 500 um, 80 nm-groove design with the simulated 13.5 / 63.5 dB/cm losses; the parameters of the inset curve are not printed (D454)'
+  verified_on: '2026-11-25'
+  why: 'miss: the paper''s own simulated peak efficiency for the measured PGLN device, plotted against the measurement (D454)'

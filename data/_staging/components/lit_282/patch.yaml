@@ -1,0 +1,44 @@
+# Audit patch lit_282 (fresh-context audit 2026-11-25, DevLog/audits/2026-11-25-lit_282-audit.md).
+# 67 metrics: 62 ok / 5 imprecise / 0 wrong; 13 components: 10 ok / 3 imprecise / 0 wrong. No misses added.
+# After the patch: 13 components, 67 metrics.
+# Fixes: osorniomartinez2025a NF minimum note misread Fig. 9(d) (the -20 dBm point at about 1566 nm reads about 5.5-5.6 dB,
+# matching the printed wavelength; series set); 0.09 dB/cm point plotted at about 3.5 dBm, not the printed 7 dBm (D417
+# note); Fig. 4(d) first point at about 1532 nm, not 1530 nm; rivoire2009 Fig. 3(b) Q is also from a "typical" spectrum;
+# chang2016 peak-of-spectrum efficiency is not a best-of-devices statistic; chang2016 first-person poling (p.3) with all
+# authors at UCSB -> fab org_ucsb on the PPLN SHG row only (coordinator question 4).
+# Note supplement (row ok): osorniomartinez2025a bend loss Fig. 1(d) marker reading.
+metrics:
+  cmp_lit_osorniomartinez2025a_edwa_30cm-m5:
+    condition: 'fiber-to-fiber noise figure vs signal wavelength; on-chip pump 25.8 dBm; incident signal -20 dBm (the Fig. 9(d) series that holds the 1566 nm minimum)'
+    notes: 'printed minimum 5.6 +/- 0.1 dB at 1566 nm (abstract, p.9 Sec. 5, p.9 Sec. 6). Fig. 9(d) render: the -20 dBm point at about 1566 nm reads about 5.5-5.6 dB (+/- 0.1 dB), the lowest C-band point, so the printed wavelength matches the figure; the -20 dBm points near 1590-1600 nm read about 5.6-5.7 dB (WDMs suboptimal beyond 1580 nm, p.9). Conflict (D417): p.2 prints 5.6 dB at 1556 nm, where the -20 dBm point reads about 5.8 dB'
+    why: 'renders p.10 Fig. 9(d) and img_p10_2 zoom: the batch note said the 1566 nm points read 6-7 dB and the lowest sit near 1590-1600 nm; the -20 dBm point at about 1566 nm is at about 5.5-5.6 dB, so the printed 1566 nm agrees with the figure and the series is identifiable'
+  cmp_lit_osorniomartinez2025a_al2o3er_waveguide-m2:
+    condition: 'total loss incl. Er3+ absorption, no pump; IR-camera scattered light along the spiral, linear fit; incident signal 7 dBm as printed (signal-induced inversion; Fig. 4(c) plots the point at about 3.5 dBm)'
+    notes: 'printed ''around 0.09 +/- 0.03 dB/cm'' for 7 dBm incident (p.5); below the stated ~0.1 dB/cm limit of the method. Conflict (D417): in Fig. 4(c) the 0.09 dB/cm point is the highest-power point at about 3.5 dBm incident (+/- 0.5 dB; x scale from the -35 to -5 dBm points at 5 dB steps), no point near 7 dBm; printed value and condition kept'
+    why: 'render p.6 Fig. 4(c) (img_p06_2 pixel read): the last point sits at about 3.5 dBm, not 7 dBm; printed value kept with the conflict noted (D417)'
+  cmp_lit_osorniomartinez2025a_al2o3er_waveguide-m4:
+    wavelength_nm: '1532'
+    notes: 'read off Fig. 4(d): first point at about 1532 nm (+/- 1 nm; x scale calibrated on the 1550 / 1560 / 1600 / 1620 nm points), about 1.8 dB/cm (+/- 0.1 dB/cm)'
+    why: 'img_p06_2 pixel read: error-bar centres at 730.5 / 792 / 826 / 963.5 / 1031.5 px give 3.42 px/nm, placing the first point at 1532.0 nm, not 1530 nm'
+  cmp_lit_osorniomartinez2025a_bend_r450-m1:
+    notes: 'printed ''below 0.01 dB/cm'' (p.3); simulation wavelength not stated (design single-mode at 1480 nm and 1520-1640 nm); the Fig. 1(d) marker at R = 450 um reads about 1.7e-3 dB/cm (log axis, +/- 0.3e-3), not entered separately'
+    why: 'note supplement (row ok): Fig. 1(d) marker reading (img_p03_2) recorded for a later simulated figure-read row (D454) if wanted'
+  cmp_lit_rivoire2009_gap_l3_phc_shg-m5:
+    statistic: typical
+    notes: 'text cites ''Fig. 3(c)'', the caption is Fig. 3(b); ''A typical spectrum of the second harmonic signal'' (p.5), the same wording that sets m4 typical; resonance read off the axis (~1485.5 nm, +/-0.05 nm), the same cavity as the Fig. 3(a) reflectivity spectrum (same resonance, Q compared in the text)'
+    why: 'p.5 Sec. 3: the 6000 Q comes from a spectrum the paper calls typical, as the 5600 Q on m4 (statistic typical); consistency'
+  cmp_lit_chang2016_sin_tfln_ppln_shg-m1:
+    statistic: ''
+    notes: 'printed ''~160% W-1 cm-2'' at 1530 nm, the peak of the normalized-efficiency spectrum (Fig. 4(a) top points about 158-160 at 1529.8-1530.3 nm), one device, not a best-of-devices statistic; Fig. 4(b) SH power vs pump power agrees with the S7 prediction for this value (-3 dBm pump -> about -41 dBm SH, the 80 nW / 0.5 mW point); powers are on-chip values corrected with the stated facet losses (p.4)'
+    why: 'p.3 Sec. 3 and render p.3 Fig. 4(a): "peak" is the spectral peak at the stated wavelength of a single 6.6 um device; statistic best is for "as low as" / best-of-set values (rule 7); merged frequency_converter efficiency rows leave it empty'
+components:
+  cmp_lit_chang2016_sin_tfln_ppln_shg:
+    fab_org_ids: org_ucsb
+    notes: 'Poling: Cr / Au electrodes, 20 um spacing, 30 um teeth, 25 % electrode duty cycle; 48 kV/mm, two 10 ms pulses 10 s apart; domain duty cycle 40 +/- 10 % with almost 100 % yield (p.3); fill_factor is not allowed for frequency_converter (not entered). Not entered: 3-dB width of the normalized-efficiency spectrum ~3 nm vs ~1 nm theory (p.4; bw_3db_nm not allowed for frequency_converter, registry gap); 80 nW SH at 0.5 mW pump (p.4; on-chip powers, no converter output-power parameter); shortest poling period achieved 2.4 um (another sample, p.2); 390 nm SiN loading-layer thickness (layer2_thickness_nm not allowed for frequency_converter). Waveguide loss: cmp_lit_chang2016_sin_tfln_waveguide; facets: cmp_lit_chang2016_lensed_fiber_facet (D396). Typical bulk PPLN 30-40 %/W/cm2 is cited (ref. 6). Fab: the poling that defines this converter is stated in first person (''we chose a relatively high electric field (48 kV/mm)'', ''We used 2 pulses'', p.3; ''limited by ... our lithography'', p.2) and all six authors print UCSB (one also XIOPM, CAS): fab org_ucsb (rule 12, D84a, D154); the SiN deposition / etch steps are passive (Sec. 2). Thanks to a person for help with processing is staff thanks (D84b, no facility). No facility named. LNOI supplier NANOLN is a material note (not a fab org, D428).'
+    why: 'p.2-3 Sec. 2: first-person poling statements plus "our lithography", all authors at one institution (UCSB; the second affiliation of one author does not split the group): rule 12 / D84a own-process clause; fab is per component, so only the PPLN row (coordinator question 4)'
+  cmp_lit_chang2016_sin_tfln_waveguide:
+    notes: 'Waveguide of the PPLN device (D396 cross-class row); geometry on the SHG row. Fab: the first-person statements (p.2-3) cover the poling only; the SiN deposition and ridge etch that form this waveguide are passive (Sec. 2): fab empty (D80b, per-component fab); authors at UCSB (one also XIOPM, CAS); thanks for help with processing is a person (staff thanks). No facility named. LNOI supplier NANOLN is a material note (not a fab org, D428).'
+    why: 'p.2-3: the batch note said "passive process description only", but p.3 has first-person poling statements; they belong to the SHG row, so fab stays empty here with the reason corrected'
+  cmp_lit_chang2016_lensed_fiber_facet:
+    notes: 'No taper at the facets; authors expect tapers or free-space coupling to reduce the loss (p.4). Facet preparation not stated. Fab: the first-person statements (p.2-3) cover the poling only; the waveguide steps are passive (Sec. 2): fab empty (D80b, per-component fab); authors at UCSB (one also XIOPM, CAS); thanks for help with processing is a person (staff thanks). No facility named. LNOI supplier NANOLN is a material note (not a fab org, D428).'
+    why: 'p.2-3: fab reason corrected as on the waveguide row (first-person poling belongs to the SHG row)'

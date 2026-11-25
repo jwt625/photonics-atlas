@@ -1,0 +1,86 @@
+# Audit patch lit_284 (fresh-context audit 2026-11-25, DevLog/audits/2026-11-25-lit_284-audit.md).
+# 116 metrics: 114 ok / 0 imprecise / 2 wrong; 18 components: 16 ok / 2 imprecise / 0 wrong. 2 misses added (li2018b
+# gain-waveguide lengths). After the patch: 18 components, 118 metrics.
+# Fixes: duprez2016 Fig. 7 FSR rows carried the Table 1 side names, but the figure's own brackets and arrows (and the
+# caption and p.8 text) put 6 nm on the left and 7.5 nm on the right mirror of laser 1; the laser notes claimed Fig. 7
+# agrees with Table 1. Side conflict now stated on every FSR row and mirror row (D417), values unchanged.
+# Note supplements (rows ok): duprez2016 Table 1 FSR rows and the four mirror rows (side conflict); auth2019 Table 2
+# power rows (per-point Fig. 2(a) readings).
+components:
+  cmp_lit_duprez2016_sgdbr_laser_1:
+    notes: 'Fab empty: fabrication described in the passive voice (''a 200-mm SOI wafer is processed'', ''the III-V heterostructure was grown'', p.6 Sec. 3; process ''similar to that explained in [4,13]''), authors at CEA-LETI and INL Lyon, no org named (D80b; ferrotti2016 precedent). Acknowledgment: staff thanked for help on device characterization; IRT Nanoelec is a funding program (D80c), not a facility. Sibling design of cmp_lit_duprez2016_sgdbr_laser_2. Parts: mirrors cmp_lit_duprez2016_sgdbr1_right_mirror / _left_mirror, mode transformer cmp_lit_duprez2016_iii_v_si_mode_transformer, output coupler cmp_lit_duprez2016_fiber_grating_coupler. Resistance attributed to over-etched MQWs (n-InP 125 / 100 nm instead of 150 nm), which also explains the high thresholds (p.7). LI curve kinks are mode hops (p.7). Mirror side conflict (D417): Table 1 lists FSR right / left 6 / 7.5 nm (laser 1) and 6 / 6.5 nm (laser 2), consistent through Eq. (1) with its own sampling periods (right 39.7 um, left 31.6 / 36.6 um); the Fig. 7 caption (FSRleft 6 nm / FSRright 7.5 nm), the Fig. 7 arrows (below-background dips labelled ''Right SGDBR peaks'', spaced about 7.5 nm; above-background peaks labelled ''Left SGDBR peaks'', spaced about 6 nm; the 6 nm bracket spans two above-background peaks, the 7.5 nm bracket two dips), the p.7-8 rule (right peaks below, left above the background) and the p.8 text (right mirror 6.5 nm for laser 2 vs 7.5 nm for laser 1) all assign the sides the other way round. Values entered as printed: Table 1 FSRs under the Table 1 side names, Fig. 7 spacings under the figure''s side names; mirror rows named by the Table 1 columns. Not entered: 0.8 nm-spaced set points across 1300-1330 nm at 130 mA (Fig. 9, a demonstration of set points, not a channel plan).'
+    why: 'render p.8 Fig. 7: the ''6 nm'' bracket spans above-background peaks (the comb the arrows and the p.7-8 text call left) and the ''7.5 nm'' bracket spans the dips labelled ''Right SGDBR peaks''; Fig. 7 agrees with the caption and p.8 text, not with Table 1, so the note''s claim that Fig. 7 matches Table 1 is wrong'
+  cmp_lit_duprez2016_sgdbr_laser_2:
+    notes: 'Fab empty: fabrication described in the passive voice (''a 200-mm SOI wafer is processed'', ''the III-V heterostructure was grown'', p.6 Sec. 3; process ''similar to that explained in [4,13]''), authors at CEA-LETI and INL Lyon, no org named (D80b; ferrotti2016 precedent). Acknowledgment: staff thanked for help on device characterization; IRT Nanoelec is a funding program (D80c), not a facility. Sibling design of cmp_lit_duprez2016_sgdbr_laser_1. Parts: mirrors cmp_lit_duprez2016_sgdbr2_right_mirror / _left_mirror, mode transformer cmp_lit_duprez2016_iii_v_si_mode_transformer, output coupler cmp_lit_duprez2016_fiber_grating_coupler. Resistance attributed to over-etched MQWs (n-InP 125 / 100 nm instead of 150 nm), which also explains the high thresholds (p.7). LI curve kinks are mode hops (p.7). Mirror side conflict (D417): Table 1 lists FSR right / left 6 / 7.5 nm (laser 1) and 6 / 6.5 nm (laser 2), consistent through Eq. (1) with its own sampling periods (right 39.7 um, left 31.6 / 36.6 um); the Fig. 7 caption (FSRleft 6 nm / FSRright 7.5 nm), the Fig. 7 arrows (below-background dips labelled ''Right SGDBR peaks'', spaced about 7.5 nm; above-background peaks labelled ''Left SGDBR peaks'', spaced about 6 nm; the 6 nm bracket spans two above-background peaks, the 7.5 nm bracket two dips), the p.7-8 rule (right peaks below, left above the background) and the p.8 text (right mirror 6.5 nm for laser 2 vs 7.5 nm for laser 1) all assign the sides the other way round. Values entered as printed: Table 1 FSRs under the Table 1 side names, Fig. 7 spacings under the figure''s side names; mirror rows named by the Table 1 columns.'
+    why: 'render p.8 Fig. 7: the ''6 nm'' bracket spans above-background peaks (the comb the arrows and the p.7-8 text call left) and the ''7.5 nm'' bracket spans the dips labelled ''Right SGDBR peaks''; Fig. 7 agrees with the caption and p.8 text, not with Table 1, so the note''s claim that Fig. 7 matches Table 1 is wrong'
+  cmp_lit_duprez2016_sgdbr1_right_mirror:
+    notes: 'Fab empty: fabrication described in the passive voice (''a 200-mm SOI wafer is processed'', ''the III-V heterostructure was grown'', p.6 Sec. 3; process ''similar to that explained in [4,13]''), authors at CEA-LETI and INL Lyon, no org named (D80b; ferrotti2016 precedent). Acknowledgment: staff thanked for help on device characterization; IRT Nanoelec is a funding program (D80c), not a facility. Mirror of cmp_lit_duprez2016_sgdbr_laser_1. Not entered (no parameter): sampling period a_sp 39.7 um and sampling filling factor DCsp 0.15 (Table 1); NiFe heater 250 nm thick and 6 um wide (p.6, Fig. 1(c) label; heater parameters are not allowed for reflectors). Comb FSR on the laser row (fsr_nm). Reflectivity is the design value from transfer-matrix modelling; no measured reflection spectrum. Side name follows the Table 1 columns (L, a_sp and FSR of the ''Right'' / ''Left'' SGDBR); the Fig. 7 caption, the Fig. 7 arrows and the p.8 text swap left and right relative to Table 1 (D417, see the laser row notes).'
+    why: 'note supplement (row ok): p.7 Table 1 vs p.8 Fig. 7 caption / arrows and p.8 text name the mirror sides the other way round (D417)'
+  cmp_lit_duprez2016_sgdbr1_left_mirror:
+    notes: 'Fab empty: fabrication described in the passive voice (''a 200-mm SOI wafer is processed'', ''the III-V heterostructure was grown'', p.6 Sec. 3; process ''similar to that explained in [4,13]''), authors at CEA-LETI and INL Lyon, no org named (D80b; ferrotti2016 precedent). Acknowledgment: staff thanked for help on device characterization; IRT Nanoelec is a funding program (D80c), not a facility. Mirror of cmp_lit_duprez2016_sgdbr_laser_1. Not entered (no parameter): sampling period a_sp 31.6 um and sampling filling factor DCsp 0.15 (Table 1); NiFe heater 250 nm thick and 6 um wide (p.6, Fig. 1(c) label; heater parameters are not allowed for reflectors). Comb FSR on the laser row (fsr_nm). Reflectivity is the design value from transfer-matrix modelling; no measured reflection spectrum. Side name follows the Table 1 columns (L, a_sp and FSR of the ''Right'' / ''Left'' SGDBR); the Fig. 7 caption, the Fig. 7 arrows and the p.8 text swap left and right relative to Table 1 (D417, see the laser row notes).'
+    why: 'note supplement (row ok): p.7 Table 1 vs p.8 Fig. 7 caption / arrows and p.8 text name the mirror sides the other way round (D417)'
+  cmp_lit_duprez2016_sgdbr2_right_mirror:
+    notes: 'Fab empty: fabrication described in the passive voice (''a 200-mm SOI wafer is processed'', ''the III-V heterostructure was grown'', p.6 Sec. 3; process ''similar to that explained in [4,13]''), authors at CEA-LETI and INL Lyon, no org named (D80b; ferrotti2016 precedent). Acknowledgment: staff thanked for help on device characterization; IRT Nanoelec is a funding program (D80c), not a facility. Mirror of cmp_lit_duprez2016_sgdbr_laser_2. Not entered (no parameter): sampling period a_sp 39.7 um and sampling filling factor DCsp 0.1 (Table 1); NiFe heater 250 nm thick and 6 um wide (p.6, Fig. 1(c) label; heater parameters are not allowed for reflectors). Comb FSR on the laser row (fsr_nm). Reflectivity is the design value from transfer-matrix modelling; no measured reflection spectrum. Side name follows the Table 1 columns (L, a_sp and FSR of the ''Right'' / ''Left'' SGDBR); the Fig. 7 caption, the Fig. 7 arrows and the p.8 text swap left and right relative to Table 1 (D417, see the laser row notes).'
+    why: 'note supplement (row ok): p.7 Table 1 vs p.8 Fig. 7 caption / arrows and p.8 text name the mirror sides the other way round (D417)'
+  cmp_lit_duprez2016_sgdbr2_left_mirror:
+    notes: 'Fab empty: fabrication described in the passive voice (''a 200-mm SOI wafer is processed'', ''the III-V heterostructure was grown'', p.6 Sec. 3; process ''similar to that explained in [4,13]''), authors at CEA-LETI and INL Lyon, no org named (D80b; ferrotti2016 precedent). Acknowledgment: staff thanked for help on device characterization; IRT Nanoelec is a funding program (D80c), not a facility. Mirror of cmp_lit_duprez2016_sgdbr_laser_2. Not entered (no parameter): sampling period a_sp 36.6 um and sampling filling factor DCsp 0.1 (Table 1); NiFe heater 250 nm thick and 6 um wide (p.6, Fig. 1(c) label; heater parameters are not allowed for reflectors). Comb FSR on the laser row (fsr_nm). Reflectivity is the design value from transfer-matrix modelling; no measured reflection spectrum. Side name follows the Table 1 columns (L, a_sp and FSR of the ''Right'' / ''Left'' SGDBR); the Fig. 7 caption, the Fig. 7 arrows and the p.8 text swap left and right relative to Table 1 (D417, see the laser row notes).'
+    why: 'note supplement (row ok): p.7 Table 1 vs p.8 Fig. 7 caption / arrows and p.8 text name the mirror sides the other way round (D417)'
+metrics:
+  cmp_lit_duprez2016_sgdbr_laser_1-m10:
+    condition: reflection-comb FSR of the SGDBR mirror listed as Right in Table 1 (a_sp 39.7 um, 635 um; intracavity filter), expected (design)
+    notes: Table 1 'expected' FSR (Eq. (1), transfer-matrix design), FSR_RightSGDBR column; the Fig. 7 caption, the Fig. 7 arrows and the p.8 text call the 6 nm comb the left mirror (D417, see component notes).
+    why: 'p.7 Table 1 vs p.8 Fig. 7 caption / arrows and p.8 text: side names conflict (D417); note made explicit'
+  cmp_lit_duprez2016_sgdbr_laser_1-m11:
+    condition: reflection-comb FSR of the SGDBR mirror listed as Left in Table 1 (a_sp 31.6 um, 602 um; intracavity filter), expected (design)
+    notes: Table 1 'expected' FSR, FSR_LeftSGDBR column; the Fig. 7 caption (FSRright = 7.5 nm), the Fig. 7 arrows and the p.8 text call the 7.5 nm comb the right mirror (D417, see component notes).
+    why: 'p.7 Table 1 vs p.8 Fig. 7 caption / arrows and p.8 text: side names conflict (D417); note made explicit'
+  cmp_lit_duprez2016_sgdbr_laser_1-m12:
+    condition: spacing of the measured peaks above the background curve (the comb the p.7-8 text and the Fig. 7 arrows assign to the left SGDBR), left / right heater 58 / 46 mA, 130 mA (figure label)
+    notes: 'Fig. 7 left panel: the ''6 nm'' bracket spans two above-background peaks near 1317 and 1323 nm; the arrows labelled ''Right SGDBR peaks'' point to the below-background dips (about 1304, 1319, 1326, 1334 nm), not to the bracketed peaks. Caption prints FSRleft = 6 nm. Table 1 lists 6 nm for the right mirror (D417 side conflict, see component notes).'
+    why: 'render p.8 Fig. 7 (zoomed): the 6 nm bracket is drawn between above-background peaks, which the p.7-8 text and the figure''s own arrows assign to the left SGDBR; the row said right mirror'
+  cmp_lit_duprez2016_sgdbr_laser_1-m13:
+    condition: spacing of the measured dips below the background curve (the comb the p.7-8 text and the Fig. 7 arrows assign to the right SGDBR), left / right heater 29 / 48 mA, 130 mA (figure label)
+    notes: 'Fig. 7 right panel: the ''7.5 nm'' bracket spans two below-background dips near 1304 and 1311.5 nm; the arrows labelled ''Left SGDBR peaks'' point to the above-background peaks (about 1301, 1307, 1313, 1325 nm, spaced about 6 nm). Caption prints FSRright = 7.5 nm. Table 1 lists 7.5 nm for the left mirror (D417 side conflict, see component notes).'
+    why: 'render p.8 Fig. 7 (zoomed): the 7.5 nm bracket is drawn between below-background dips, which the p.7-8 text and the left-panel arrows assign to the right SGDBR; the row said left mirror'
+  cmp_lit_duprez2016_sgdbr_laser_2-m8:
+    condition: reflection-comb FSR of the SGDBR mirror listed as Right in Table 1 (a_sp 39.7 um, 913 um; intracavity filter), expected (design)
+    notes: Table 1 'expected' FSR (Eq. (1), transfer-matrix design); the FSR_RightSGDBR and a_sp cells are shared by both lasers (merged cells). The p.8 text names the 6.5 nm comb the right mirror of laser 2 (D417, see component notes).
+    why: 'p.7 Table 1 vs p.8 Fig. 7 caption / arrows and p.8 text: side names conflict (D417); note made explicit'
+  cmp_lit_duprez2016_sgdbr_laser_2-m9:
+    condition: reflection-comb FSR of the SGDBR mirror listed as Left in Table 1 (a_sp 36.6 um, 915 um; intracavity filter), expected (design)
+    notes: Table 1 'expected' FSR, FSR_LeftSGDBR column; the p.8 text prints 'the FSR of the right mirror is 6.5 nm' for laser 2 (D417 side conflict, see component notes).
+    why: 'p.7 Table 1 vs p.8 Fig. 7 caption / arrows and p.8 text: side names conflict (D417); note made explicit'
+  cmp_lit_auth2019_qd_mll_9p4ghz-m14:
+    notes: 'Table 2 average output power of the mode-locked laser alone (before the booster; p.5 prints the 0.48 mW as the average power ''solely by the passively mode-locked laser''); reference plane and derivation not stated. The Fig. 2(a) fiber-coupled cell at the same bias reads about 0.17-0.20 mW (+/- 0.03 mW), 3.2-3.8x lower, i.e. close to a correction by the stated ''around 30 %'' fiber coupling, which the paper does not say: author_estimate, ref_plane unspecified.'
+    why: 'note supplement (row ok): render p.4 Fig. 2(a) cell readings per bias point (the batch note gave 0.15-0.25 mW / 3-4x for all three); p.5 wording quoted'
+  cmp_lit_auth2019_qd_mll_9p4ghz-m15:
+    notes: 'Table 2 average output power of the mode-locked laser alone (before the booster; p.5 prints the 0.48 mW as the average power ''solely by the passively mode-locked laser''); reference plane and derivation not stated. The Fig. 2(a) fiber-coupled cell at the same bias reads about 0.25-0.28 mW (+/- 0.03 mW), 3.2-3.6x lower, i.e. close to a correction by the stated ''around 30 %'' fiber coupling, which the paper does not say: author_estimate, ref_plane unspecified.'
+    why: 'note supplement (row ok): render p.4 Fig. 2(a) cell readings per bias point (the batch note gave 0.15-0.25 mW / 3-4x for all three); p.5 wording quoted'
+  cmp_lit_auth2019_qd_mll_9p4ghz-m16:
+    notes: 'Table 2 average output power of the mode-locked laser alone (before the booster; p.5 prints the 0.48 mW as the average power ''solely by the passively mode-locked laser''); reference plane and derivation not stated. The Fig. 2(a) fiber-coupled cell at the same bias reads about 0.15-0.18 mW (+/- 0.03 mW), 2.7-3.2x lower, i.e. close to a correction by the stated ''around 30 %'' fiber coupling, which the paper does not say: author_estimate, ref_plane unspecified.'
+    why: 'note supplement (row ok): render p.4 Fig. 2(a) cell readings per bias point (the batch note gave 0.15-0.25 mW / 3-4x for all three); p.5 wording quoted'
+add_metrics:
+- metric_id: cmp_lit_li2018b_er_vernier_laser_8p4cm-m3
+  component_id: cmp_lit_li2018b_er_vernier_laser_8p4cm
+  parameter: length_um
+  value: '84000'
+  source_id: lit:li2018b
+  unit: um
+  basis: derived
+  verified_on: '2026-11-25'
+  condition: Al2O3:Er3+ gain waveguide length
+  locator: p.7 Sec. 3
+  notes: Printed 8.4 cm, converted (D157); round-trip cavity length of this device not printed.
+  why: 'miss (D153 geometry): the gain-waveguide length that distinguishes the two sibling rows is printed (p.7) but was only in the label'
+- metric_id: cmp_lit_li2018b_er_vernier_laser_4p2cm-m4
+  component_id: cmp_lit_li2018b_er_vernier_laser_4p2cm
+  parameter: length_um
+  value: '42000'
+  source_id: lit:li2018b
+  unit: um
+  basis: derived
+  verified_on: '2026-11-25'
+  condition: Al2O3:Er3+ gain waveguide length (4.6 cm round-trip cavity)
+  locator: p.7 Sec. 3; p.8 Sec. 4
+  notes: Printed 4.2 cm, converted (D157); round-trip cavity 4.6 cm including the gain waveguide (p.8, p.10).
+  why: 'miss (D153 geometry): the gain-waveguide length that distinguishes the two sibling rows is printed (p.7, p.8) but was only in the label'
