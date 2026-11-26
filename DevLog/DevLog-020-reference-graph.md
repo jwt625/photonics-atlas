@@ -60,7 +60,9 @@ next batch."
 - [x] Pilot, thresholds (D1230-D1233)
 - [x] Full run, summary, top missing works by class (`cache/literature/refgraph/run_20261124/`)
 - [x] Audit (fresh context, [audit](audits/2026-11-24-refgraph-audit.md)); fixes D1234, re-run `run_20261124T235543`
-- [ ] Owner: how the missing list feeds the next queue (cut, routes)
+- [x] Owner: how the missing list feeds the next queue (cut, routes): all 2640 new works, ranked (2026-11-25, D1236)
+- [x] Stage 3: queue the list (`scripts/refgraph_queue.py`), day 212 IEEE run (D1236-D1237)
+- [ ] Unattended OA nights days 213-215 (2026-11-26 / -27 / -28 22:03; D1237-D1238)
 
 ## Decisions
 
@@ -72,6 +74,9 @@ next batch."
 | D1233 | Missing-work dedup = union-find over DOI, first quoted title and surname + year + first page (>= 3 digits); an entry with two or more quoted titles (several works) keys on its first title only; DOIs with a suffix under 6 characters (cut at a line break) are ignored. Dissimilar-title clusters 19 -> 4 of about 25.8k. Candidate order sorted, so runs are byte-identical across hash seeds | full-run inspection |
 | D1234 | ([audit](audits/2026-11-24-refgraph-audit.md)) Audit of run_20261124: precision about 97.3 % over 23,352 matched rows (doi 20 / 20, arxiv 10 / 10, title 1.0 54 / 55, title 0.90-0.99 15 / 20, title_short 43 / 45, title_author 20 / 40); recall about 87-88 % (12 of 92 real unmatched references were present: 3 corpus, 9 pool; 10 of them title-less APS / AIP / Optica entries); 9 / 12 papers split correctly; dedup 40 / 40 clusters clean, 5 pool / unresolved duplicate pairs in the top 300; no self-citation. Accepted recs 1, 2, 3, 4, 5, 6, 7, 8, 10, 12: latest `1` among runs within 85 % of the longest and section-like first entries rejected; glued `1M.`, `1 .` and lone-number styles; DOIs built from venue + volume + page (Optica legacy journals, APS) and a surname + year match with the page inside the candidate DOI for title-less entries; exact squashed quoted-title lookup and one shared bigram for short titles; "[Invited]" stripped; title_author >= 0.85 with the entry's first author; partial containment needs one block >= 60 % of the title; venue-named pool records dropped and authorless pool records not accepted on the year alone; earlier versions of the citing paper labelled `self_version`; IEEE running headers / "Authorized licensed use" / Nature page labels removed. Deferred: rec 9 (venue-type version preference), rec 11 beyond the latest-run rule (supplementary lists). Re-run (18 s; intermediate run since superseded by run_20261125T004100, D1235): papers with a list 1573 -> 1617, entries 48,086 -> 49,074, corpus matches 7466 -> 8206, pool 14,894 -> 16,718, unmatched 24,734 -> 23,014, self_version 35; missing works 25,848 -> 24,336, cited by 3+ 2623 -> 2824 (pool 1662, unresolved 1158, registry 4), 10+ 204 -> 261; spot check of the new rules 28 / 28 correct (built DOI 12, author + page 10, exact title 6). Dissimilar-title clusters 10 (was 4; rare, not chased). The 22-entry hand sample claim of "no missed corpus paper" was wrong (audit: 3 corpus misses in 92) | audit + coordinator |
 | D1235 | Stage 2 (`scripts/refgraph_prepare.py`, `data/_staging/literature/refgraph_cache_list.csv`). Crossref on the 675 unresolved clusters cited by 3+: 642 resolved (verify rule of bench_resolve: surname, year +/- 1, title / title words / page), 14 / 14 sampled correct; OpenAlex enrich 539 DOIs. Fixes found on the output: rows resolving to one DOI / arXiv id are merged (46 DOIs, a pool row plus a title-less cluster of the same paper; citing papers unioned); built-DOI parser fixes (volume must end at a non-digit, colon / comma-before-issue separators, spaced IEEE page numbers "17 106", Optics Express volumes 1-13 use `opex`, APS 6-digit article numbers since 2001 padded, a "volume" >= 1000 is a year), and DOIs that neither the pool nor OpenAlex knows go through Crossref on the cluster's entries. Final stage-1 run run_20261125T004100 (49,074 entries; corpus 8225, queued 1025, pool 16,725, unmatched 23,007; missing works 24,482, cited by 3+ 2799). Stage-2 list: 2750 works after the merge: new 2640 (routes: manual 890, IEEE browser 569, Optica OA 513, arXiv 285, publisher browser 175, OA publisher 175, IEEE search 33; tier 1 1312, tier 2 440, tier 3 888; types article 2423, conference paper 185, preprint 20), already in the library 47 (missed by the title matcher, caught by DOI), queued 1, not a paper (books) 12, DOI unverified 10, unresolved 40. Not queued yet | coordinator |
+| D1236 | Stage 3 queue (owner 2026-11-25: all 2640 new works, ranked; IEEE 30 today; about 50 open-access papers per night while away): `scripts/refgraph_queue.py` appended 2638 rows to `cache_list.csv` (`selection_reason = refgraph_cite`) and `retrieval_queue.csv` (2 errata / editorials left out; backup `cache/literature/backup/bench_queue_20261126T065838Z.zip`): manual 888 (day 200), ieee_browser 569 + ieee_search 33, optica_browser 513, arxiv 285, oa_publisher 175, publisher_browser 175. Caps per day: IEEE 30 from day 212, not on days 213-215 (owner away); optica 30 / arxiv 15 / oa_publisher 5 / publisher_browser 10 from day 213. Day 212 = the 30 most-cited IEEE works (many are reviews; distill rule 3 applies) | owner answers |
+| D1237 | Unattended nights 2026-11-26 / -27 / -28 22:03: launchd agent `com.photonics-atlas.night-oa` (plist in the user LaunchAgents folder, launcher in the user Application Support folder, both outside the repo) -> the running tmux server -> `scripts/night_oa_session.sh` -> interactive `claude --permission-mode auto` with the night brief (`daily-run.md`, "Unattended open-access night"). launchd itself cannot read the Documents folder (macOS privacy protection: first test "can't open input file"), the tmux server started from the terminal can; end-to-end test 2026-11-25 23:01 passed (tool call ran, file written). The launcher runs only on the three dates and moves its plist aside on 2026-11-28. Optica per night: `optica_overnight.py --max 30`, oldest uncached OA rows first (days 203 / 207 backlog, 27 rows, on night 1). Needs the Mac awake on AC power (sleep 0 on AC) and the tmux server alive | owner request + test |
+| D1238 | Fresh-context review of the night chain (2026-11-26 00:22), all fixes applied: (1) `plan_batches.py` takes a comma-separated day list, and the night brief plans the Optica backlog days with N plus a pre-run `lit` snapshot as exclude file (the day-N-only plan would have cached the backlog papers without ingesting them); (2) one run at a time: `night_oa_session.sh` waits while `logs/.night_oa_active` is younger than 20 h, writes it, and the run removes it after its push; (3) `optica_overnight.py` accepts days as one comma list or separate arguments and `--max N` / `--max=N` (the brief prints the literal command); (4) the skill edits are committed with day 212 and the night commit adds `.claude/skills`; (5) the launcher exits with a log line when no tmux server is running (a server started from launchd cannot read the repo) and moves its plist aside on 2026-11-28 only after a successful start; (6) the brief: a denied command is not retried in variants, it becomes an owner-list line; (7) brief wording matches the real script and session names; (8) the session log records claude's exit code. End-to-end test in test mode passed again (00:23) | review + coordinator |
 
 ## Results (run_20261124, 2026-11-24 23:35 PST, 35 s)
 
@@ -107,9 +112,31 @@ Owner: "let's do these 2623 papers next. Start preparing their metadata."
 6. Output `data/_staging/literature/refgraph_cache_list.csv` (not queued); queueing (days, caps) is the next step after
    the audit of stage 1.
 
+## Stage 3 plan: queue and caching schedule (owner 2026-11-25)
+
+Owner (2026-11-25): "run new day's caching and ingestion, and focus on new ieee ones (that i can help login)"; away
+2026-11-26 to 2026-11-28: a timer starts caching and ingestion of open-access papers (arXiv, Optica OA journals,
+other OA) at 22:00 on each of the three days, commit and push after each. Answers: IEEE 30 today; queue all 2640 new
+works ranked; about 50 open-access papers per night at most.
+
+1. `scripts/refgraph_queue.py` (pattern of `bench_prepare.py`): rows of `refgraph_cache_list.csv` with status `new`
+   (errata / editorials left out), rank = `n_citing` descending, route as stage 2 set it; `paper_id`
+   `firstauthorYEAR[a-z]` unique against references/, cache_list, queue and registry native ids; appended once to
+   `cache_list.csv` (`selection_reason = refgraph_cite`) and `retrieval_queue.csv`; zip backup first.
+   Per-day caps: ieee_browser + ieee_search 30 from day 212; optica_browser 30, arxiv 15, oa_publisher 5 (= 50
+   open-access per night) and publisher_browser 10 from day 213; manual rows day 200 (owner download list).
+2. Day 212 (2026-11-25): IEEE 30 (one session, owner sign-in), then the daily-run ingestion, commit, push.
+3. Nights 2026-11-26 / -27 / -28 22:00 (days 213-215): launchd agent -> tmux -> interactive `claude` session in auto
+   permission mode with the night brief (`daily-run.md`, "Unattended open-access night"). Open routes for the day;
+   Optica OA journals with `optica_overnight.py` over every day that still has uncached OA rows (oldest first:
+   days 203 / 207 backlog, 27 rows), at most 30 per night. No IEEE, no publisher browser. Ingestion after caching,
+   commit and push.
+
 ## Progress
 
 - 2026-11-24 23:25 PST plan written (day 211 Optica caching still running in parallel; this stream is offline).
 - 2026-11-24 23:35 PST pilot (2 rounds), fixes D1230-D1233, full run; fresh-context audit dispatched.
 - 2026-11-24 23:56 PST audit back; fixes D1234; re-run; stage 2 (metadata for 2824 works) next.
 - 2026-11-25 00:41 PST stage 2 done (D1235): `refgraph_cache_list.csv`, 2750 works, 2640 new; intermediate runs removed (kept: run_20261124 = audited baseline, run_20261125T004100 = final).
+- 2026-11-25 22:55 PST stage 3 plan written (owner answers recorded above); queue written (D1236); 22:58 day-212 IEEE launched, owner signed in 22:59; 23:01 night timer installed and tested (D1237).
+- 2026-11-26 00:30 PST day 212 ingested and closed (DevLog-007 D780-D791); night-chain review fixes D1238; test passed.

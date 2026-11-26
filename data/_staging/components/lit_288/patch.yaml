@@ -1,0 +1,155 @@
+# Audit patch lit_288 (fresh-context audit 2026-11-26, DevLog/audits/2026-11-26-lit_288-audit.md).
+# komljenovic2015a / komljenovic2018: 0 rows confirmed (every device value is attributed to a reference; no misses).
+# duan2014 94 metrics: 84 ok / 2 imprecise / 8 wrong; 15 components: 12 ok / 3 imprecise.
+# martin2018 20 metrics: 12 ok / 7 imprecise / 1 wrong; 5 components: 4 ok / 1 wrong. 8 misses added (D153 stack geometry).
+# After the patch: 19 components, 113 metrics.
+# Wrong (D408 / D429): duan2014 values the paper itself attributes to the authors' earlier papers in the introduction
+# (ref. [11]: tuning range > 45 nm and SMSR > 40 dB; refs. [15] / [16]: 392 GHz spacing and thresholds 38-42 mA) are
+# deleted from the body rows that restate them (tunable_laser-m6 / m7, awg_laser-m1..m5, m22). To keep them instead
+# (boller2019 reading), drop the delete_metrics entries and the three duan2014 component-note edits.
+# Wrong (rule 1): martin2018 grating-coupler row rests on one implied, never-printed 3 dB term: component deleted. To keep
+# it, drop the delete_components entry and the shunt-waveguide note edit.
+# Imprecise: duan2014 awg_laser-m23 basis (printed 1-3 mW does not follow from the stated arithmetic), ring-heater
+# tuning-efficiency condition, tunable_bragg note (Fig. 10 shows a separate output grating); martin2018 band column
+# empty on 7 rows whose notes say band unspecified.
+# Misses: martin2018 220 nm Si / 2 um BOX on the phase-shifter, switch and photodiode rows and the 70 nm partial etch
+# on the phase-shifter and switch rows (p.2, p.3, Fig. 4; D153, D583 / D703 precedent).
+metrics:
+  cmp_lit_duan2014_awg_laser-m23:
+    basis: author_estimate
+    notes: '''estimated to be in the range of 1-3 mW'' (p.7) from the Table I fiber powers and the measured 12-10 dB coupler loss; that arithmetic gives about 1.3-1.4 mW for all five channels (-8.6 dBm + 10 dB = 1.4 dBm at 1525.33 nm, -10.9 dBm + 12 dB = 1.1 dBm at 1513.33 nm, linear interpolation of the loss in between), so the printed 3 mW upper end rests on an input the paper does not state (rule 4); value as printed'
+    why: 'p.7 Sec. V-B, p.7 Table I: the batch called this derived (arithmetic on own measurements, D80a), but the stated inputs reproduce only about 1.3-1.4 mW, not the printed 1-3 mW range; author_estimate'
+  cmp_lit_duan2014_itlmz_ring_heater-m2:
+    condition: 'thermal tuning efficiency as printed; whether it is the ring-resonance or the lasing-wavelength shift is not stated (actuator: NiCr ring heater)'
+    notes: 'printed 0.15-0.4 nm/mW (nm -> pm, D256); population not stated. Fig. 22 (top) lasing-wavelength shift reaches about 8 nm at about 25 mW heater power (about 0.3 nm/mW on average, read by eye), inside the printed range'
+    why: 'p.9 Sec. VI-A: the batch condition said "ring resonance shift"; the sentence says only "thermal tuning efficiency" right after the ring-tuning sentence and the Fig. 22 lasing-wavelength plot, so the quantity is not fixed'
+  cmp_lit_duan2014_tunable_laser-m8:
+    notes: 'Fig. 15: heater 1 up to about 180 mW, heater 2 up to 194 mW. The range this power covers (over 45 nm with SMSR over 40 dB) is attributed by the introduction to ref. [11] (p.2) and is not entered (D408 / D429); the heater power itself is not named there'
+    why: 'p.6 Sec. IV-C, p.2 Sec. I: note update after the deletion of m6 / m7 (value ok)'
+  cmp_lit_martin2018_shunt_waveguide-m3:
+    band: unspecified
+    why: 'p.2-4 (no wavelength printed anywhere): notes say band unspecified (rule 8) but the band column was empty'
+  cmp_lit_martin2018_shunt_waveguide-m4:
+    band: unspecified
+    why: 'p.2-4 (no wavelength printed anywhere): notes say band unspecified (rule 8) but the band column was empty'
+  cmp_lit_martin2018_shunt_waveguide-m5:
+    band: unspecified
+    why: 'p.2-4 (no wavelength printed anywhere): notes say band unspecified (rule 8) but the band column was empty'
+  cmp_lit_martin2018_balanced_pd-m2:
+    band: unspecified
+    why: 'p.2-4 (no wavelength printed anywhere): notes say band unspecified (rule 8) but the band column was empty'
+  cmp_lit_martin2018_balanced_pd-m3:
+    band: unspecified
+    why: 'p.2-4 (no wavelength printed anywhere): notes say band unspecified (rule 8) but the band column was empty'
+  cmp_lit_martin2018_folded_heater_ps-m1:
+    band: unspecified
+    why: 'p.2-4 (no wavelength printed anywhere): notes say band unspecified (rule 8) but the band column was empty'
+  cmp_lit_martin2018_switch_1x8-m1:
+    band: unspecified
+    why: 'p.2-4 (no wavelength printed anywhere): notes say band unspecified (rule 8) but the band column was empty'
+components:
+  cmp_lit_duan2014_tunable_laser:
+    notes: 'Fab empty: the fabrication is described in passive voice (p.2 Sec. II-A, ''The fabrication starts with 200 mm SOI wafers''); authors at III-V Lab, CEA-Leti, Ghent University-IMEC, University of Southampton and Bell Labs (D80b, D154). Not entered: values the paper attributes to the authors'' earlier papers: ref. [11] tuning range over 45 nm with SMSR over 40 dB over the entire range (introduction, p.2), restated without citation in the abstract and the body (p.6, Fig. 15) and removed under D408 / D429 (the paper itself assigns these values to ref. [11]); ref. [22] 10 Gb/s direct modulation and coherent-receiver use (p.6). Body values not named in the introduction (threshold, SMSR at 80 mA, linewidth, combined heater power) cite nothing and are entered (D408). Rings: cmp_lit_duan2014_ring_r1 / _ring_r2; mirrors: cmp_lit_duan2014_tunable_bragg; output coupler: cmp_lit_duan2014_tunable_gc. No phase section. Output-power variation of 6 dB across the tuning range (gain curve and vertical-coupler spectrum, p.6) and a differential quantum efficiency of about 8 % are not entered (no matching parameter).'
+    why: 'p.2 Sec. I vs p.6 Sec. IV-C: note rewritten for the D408 / D429 deletion of m6 / m7'
+  cmp_lit_duan2014_awg_laser:
+    notes: 'Fab empty: the fabrication is described in passive voice (p.2 Sec. II-A, ''The fabrication starts with 200 mm SOI wafers''); authors at III-V Lab, CEA-Leti, Ghent University-IMEC, University of Southampton and Bell Labs (D80b, D154). Not entered: values the introduction attributes to the authors'' earlier papers (p.2): ref. [15] 5-channel AWG laser with 392 GHz separation, ref. [16] 4-channel 200 GHz AWG laser, thresholds 38 to 42 mA and fiber power -8.4 to -2.2 dBm for those lasers. The body repeats the 392 GHz average spacing (+/- 40 GHz deviation from Fabry-Perot mode selection, p.7) and the Table I thresholds 38 / 39 / 38 / 38 / 42 mA (the attributed 38-42 mA range): removed under D408 / D429. Other Table I columns (fiber power at 110 mA, lasing wavelength, SMSR) and the p.7-8 measurements are not named in the introduction (its fiber-power range differs) and are entered (D408). AWG: cmp_lit_duan2014_awg; mirrors _awg_bragg_r1 / _awg_bragg_r2; output coupler _awg_gc. Gain peak about 1535 nm; channels detuned (1513-1525 nm) because fabricated waveguide dimensions deviate from design (p.7). Differential quantum efficiency about 5 % (no parameter). Single mode (apart from mode hops) up to 200 mA and 60 C; two channels run simultaneously with negligible thermal cross-talk (Fig. 20).'
+    why: 'p.2 Sec. I vs p.7 Sec. V-B / Table I: note rewritten for the D408 / D429 deletion of m1-m5 and m22'
+  cmp_lit_duan2014_tunable_bragg:
+    notes: 'Fab empty: the fabrication is described in passive voice (p.2 Sec. II-A, ''The fabrication starts with 200 mm SOI wafers''); authors at III-V Lab, CEA-Leti, Ghent University-IMEC, University of Southampton and Bell Labs (D80b, D154). Mirrors of cmp_lit_duan2014_tunable_laser. Fig. 10 labels two Bragg reflectors and a separate ''Bragg grating for vertical light output'' (cmp_lit_duan2014_tunable_gc); the text''s ''Bragg gratings providing reflection and output fibre coupling'' (p.4-5) covers both kinds. Performance values are design statements (''designed to have'').'
+    why: 'p.5 Fig. 10 render: the batch note said one reflector also serves the output fiber coupling; the schematic shows a separate output grating after the R1 through port'
+  cmp_lit_martin2018_shunt_waveguide:
+    notes: 'Fab org_imec: ''fabricated within IMEC''s (Belgium) silicon photonics full platform (ISIPP25G) on 200 mm SOI wafers with 220 nm silicon on a 2 um buried oxide'' (p.2 Sec. III); chip designed at Thales Research and Technology. Shunt waveguide length not stated; transmission includes the input and output grating couplers. Shallow etch chosen to reduce nonlinear absorption and allow higher power (p.3). The 3 dB difference between the printed fiber-side and waveguide-input powers (22 vs 19 dBm; 25 vs 22 dBm, p.4) implies an input-coupling term that the paper never states as a grating-coupler loss: no coupler row (rule 1).'
+    why: 'p.4 Sec. III: note records the implied coupling term after the grating-coupler row deletion'
+delete_metrics:
+- id: cmp_lit_duan2014_tunable_laser-m6
+  why: 'p.2 Sec. I: "allows us to achieve a tuning range of more than 45 nm and a SMSR larger than 40 dB over the entire tuning range [11]"; the body (p.6, Fig. 15) restates the same values without a citation. The paper attributes the value to the authors'' own ref. [11] (title: 45 nm tuning range); D408 value attribution, D429 ahmadi2022 (values attributed to this device and to the authors'' own reference stay out). Ref. [11] is not in the corpus'
+- id: cmp_lit_duan2014_tunable_laser-m7
+  why: 'p.2 Sec. I: SMSR larger than 40 dB over the entire tuning range attributed to ref. [11] (same sentence as the 45 nm range); D408 / D429'
+- id: cmp_lit_duan2014_awg_laser-m1
+  why: 'p.2 Sec. I: "The threshold current ranged from 38 to 42 mA" for the AWG lasers of refs. [15] / [16]; Table I thresholds 38 / 39 / 38 / 38 / 42 mA are exactly that range (p.7 Table I, text "around 40 +/- 2 mA"); D408 / D429. Refs. [15] / [16] are not in the corpus'
+- id: cmp_lit_duan2014_awg_laser-m2
+  why: 'p.2 Sec. I vs p.7 Table I: threshold within the 38-42 mA range attributed to refs. [15] / [16]; D408 / D429'
+- id: cmp_lit_duan2014_awg_laser-m3
+  why: 'p.2 Sec. I vs p.7 Table I: threshold within the 38-42 mA range attributed to refs. [15] / [16]; D408 / D429'
+- id: cmp_lit_duan2014_awg_laser-m4
+  why: 'p.2 Sec. I vs p.7 Table I: threshold within the 38-42 mA range attributed to refs. [15] / [16]; D408 / D429'
+- id: cmp_lit_duan2014_awg_laser-m5
+  why: 'p.2 Sec. I vs p.7 Table I: threshold within the 38-42 mA range attributed to refs. [15] / [16]; D408 / D429'
+- id: cmp_lit_duan2014_awg_laser-m22
+  why: 'p.2 Sec. I: "We recently demonstrated a 5-channel AWG laser with 392 GHz separation [15]"; the body (p.7 Sec. V-B) repeats 392 GHz on average for the same 5-channel laser without a citation; D408 / D429'
+delete_components:
+- id: cmp_lit_martin2018_grating_coupler
+  why: 'p.4 Sec. III: no grating-coupler loss is printed; the only metric (3 dB per_coupler, author_estimate) is the difference of "22 dBm optical input power (19 dBm at waveguide input)", a conversion whose basis the paper never states. Rule 1 (a value comes from the source''s text, table or figure); D738 steckler2024 precedent (implied values in notes only). The implied term is recorded in the shunt-waveguide component notes'
+add_metrics:
+- metric_id: cmp_lit_martin2018_folded_heater_ps-m5
+  component_id: cmp_lit_martin2018_folded_heater_ps
+  parameter: core_thickness_nm
+  value: '220'
+  unit: nm
+  condition: SOI device layer (whole chip)
+  basis: design_target
+  locator: p.2 Sec. III
+  why: 'miss (D153): "200 mm SOI wafers with 220 nm silicon on a 2 um buried oxide" holds for the whole chip; the heater cross-section (Fig. 4) is in this layer; D583 / D703 precedent'
+- metric_id: cmp_lit_martin2018_folded_heater_ps-m6
+  component_id: cmp_lit_martin2018_folded_heater_ps
+  parameter: box_thickness_um
+  value: '2'
+  unit: um
+  condition: buried oxide
+  basis: design_target
+  locator: p.2 Sec. III; p.4 Fig. 4
+  why: 'miss (D153): 2 um buried oxide (p.2), shown as "Buried oxyde" in the Fig. 4 cross-section of the heater area'
+- metric_id: cmp_lit_martin2018_folded_heater_ps-m7
+  component_id: cmp_lit_martin2018_folded_heater_ps
+  parameter: etch_depth_nm
+  value: '70'
+  unit: nm
+  condition: partial etch of the waveguides in the heater area (Fig. 4 cross-section label 70 nm)
+  basis: design_target
+  locator: p.3 Sec. III; p.4 Fig. 4
+  why: 'miss (D153): "All the passive waveguides of the circuit were thus designed and fabricated in the 70 nm depth partial etch profile" (p.3); the Fig. 4 heater-area cross-section labels 70 nm'
+- metric_id: cmp_lit_martin2018_switch_1x8-m5
+  component_id: cmp_lit_martin2018_switch_1x8
+  parameter: core_thickness_nm
+  value: '220'
+  unit: nm
+  condition: SOI device layer (whole chip)
+  basis: design_target
+  locator: p.2 Sec. III
+  why: 'miss (D153): 220 nm silicon on 2 um BOX for the whole chip (p.2); D583 / D703 precedent'
+- metric_id: cmp_lit_martin2018_switch_1x8-m6
+  component_id: cmp_lit_martin2018_switch_1x8
+  parameter: box_thickness_um
+  value: '2'
+  unit: um
+  condition: buried oxide
+  basis: design_target
+  locator: p.2 Sec. III
+  why: 'miss (D153): 2 um buried oxide (p.2)'
+- metric_id: cmp_lit_martin2018_switch_1x8-m7
+  component_id: cmp_lit_martin2018_switch_1x8
+  parameter: etch_depth_nm
+  value: '70'
+  unit: nm
+  condition: partial etch of all passive waveguides of the chip, including the switch-cell arms
+  basis: design_target
+  locator: p.3 Sec. III; p.4 Fig. 4
+  why: 'miss (D153): 70 nm partial etch of all passive waveguides (p.3), labelled in the Fig. 4 switch-cell cross-section'
+- metric_id: cmp_lit_martin2018_balanced_pd-m4
+  component_id: cmp_lit_martin2018_balanced_pd
+  parameter: core_thickness_nm
+  value: '220'
+  unit: nm
+  condition: SOI device layer of the chip (the photodiode absorber is not named in the paper)
+  basis: design_target
+  locator: p.2 Sec. III
+  why: 'miss (D153): 220 nm silicon on 2 um BOX for the whole chip (p.2); D703 zhou2023b precedent added the stack to the PD row as well'
+- metric_id: cmp_lit_martin2018_balanced_pd-m5
+  component_id: cmp_lit_martin2018_balanced_pd
+  parameter: box_thickness_um
+  value: '2'
+  unit: um
+  condition: buried oxide
+  basis: design_target
+  locator: p.2 Sec. III
+  why: 'miss (D153): 2 um buried oxide (p.2)'

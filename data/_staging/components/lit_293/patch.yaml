@@ -1,0 +1,82 @@
+# Audit patch lit_293 (fresh-context audit 2026-11-26, DevLog/audits/2026-11-26-lit_293-audit.md).
+# 120 metrics: 117 ok / 3 imprecise / 0 wrong; 22 components: 20 ok / 2 imprecise / 0 wrong. 3 misses added.
+# After the patch: 22 components, 123 metrics.
+# Fixes: kopp2010 flipped-grating < 2.5 dB and tsuchizawa2005 SiON converter 0.5 / 2.5 dB are per-coupler values stated
+# directly from a two-coupler measurement with the extraction described but no total or subtracted number printed:
+# basis measured (D167 / D441 / D452); the two converter rows are halves of a two-connection measurement with the
+# propagation loss removed: scope loopback_half (jia2014 precedent). tsuchizawa2005 R = 5 um ring is presented as a
+# channel-dropping filter with filter metrics: wdm.mrr (skill rule 10; nielson2005 / liu2021c single-filter rows);
+# R = 10 um ring (Q only) stays resonator.ring with its own notes.
+# Misses: R = 5 um drop loss 2.4 dB (Fig. 14 label); fiber MFDs 4.3 / 9 um of the converter measurements (specification).
+# Note supplements (rows ok): Fig. 14 resonance wavelength vs the printed 1550 nm (D417); Fig. 8 per-bend reads;
+# kopp2010 Fig. 14 SEM date as evidence that the flipped grating is this paper's own result (D408).
+components:
+  cmp_lit_tsuchizawa2005_ring_r5:
+    class: wdm.mrr
+    notes: 'Fab org_ntt: first-person process description (''We start off with a 100-mm SOI wafer'', p.2 Sec. II-C-1; ''our fabrication process'', p.1; ''we fabricated functional devices'', p.4 Sec. III; ''the ring resonator we made'', p.5 Fig. 13 caption) and all authors at NTT Microsystem Integration Laboratories (D72, D84a). Process: EB lithography (EB-X3, ZEP-520) and ECR plasma etching (SF6-CF4) with an SiO2 hard mask on 100 mm unibond SOI (3 um BOX). Typed wdm.mrr: the paper presents the device as a channel-dropping filter made as an example of a practical device (p.5 Sec. III-B) and characterizes it by its drop-port spectrum (FSR, drop loss, 3-dB width; skill rule 10); the Q is also used to argue low propagation loss. The R = 10 um ring with a 350 nm gap is a separate row (resonator.ring, Q only). Fig. 14: the expanded resonance is at about 1534.25 nm, while the text gives the 3-dB width and Q at 1550 nm (D417, see m3 / m4). Ring Q values of other groups (below 10 000, refs. [6], [7]) not entered.'
+    why: 'p.5 Sec. III-B: "as an example of practical devices, we made a channel-dropping filter based on a ring resonator"; the metrics are drop-port filter metrics; skill rule 10 (a ring used as a channel filter is wdm.mrr); D400 targets intracavity and test / radius-series rings; single-filter precedents nielson2005 / liu2021c; notes rewritten for the class'
+  cmp_lit_tsuchizawa2005_ring_r10:
+    notes: 'Fab org_ntt: first-person process description (''We start off with a 100-mm SOI wafer'', p.2 Sec. II-C-1; ''our fabrication process'', p.1; ''we fabricated functional devices'', p.4 Sec. III) and all authors at NTT Microsystem Integration Laboratories (D72, D84a). Process: EB lithography (EB-X3, ZEP-520) and ECR plasma etching (SF6-CF4) with an SiO2 hard mask on 100 mm unibond SOI (3 um BOX). Only a Q of about 20 000 is reported for this ring (p.5 Sec. III-B), cited as evidence of low propagation loss; no filter characteristic is given, so resonator.ring (skill rule 10). Coupling configuration (all-pass or add-drop) not stated. The R = 5 um channel-dropping ring is the wdm.mrr row cmp_lit_tsuchizawa2005_ring_r5.'
+    why: 'p.5 Sec. III-B: the batch notes repeated the R = 5 um class rationale ("Paper calls the R = 5 um device a channel-dropping filter ..."); rewritten for this ring after the R = 5 um reclass'
+  cmp_lit_kopp2010_flipped_gc_si_mirror:
+    notes: 'Fab empty: no fabrication sentence names a fabricator; the Fig. 14 SEM data bar reads CEA-LETI-MINATEC (microscope image metadata, not a fabrication statement, D80b); the integration approach is ''developed at CEA-LETI and IMEC'' (p.2, D80b: developed is not fabricated). Authors at CEA-LETI, INL / INSA Lyon, austriamicrosystems, Photline and TU Berlin. The wafer-bonding-ready mirror approach is introduced with the authors'' SPIE 2010 paper (ref. [19]); the values below carry no citation and are presented as the authors'' own (''Experimentally, we have reached'', p.7), and the Fig. 14 SEM image of the flipped grating is dated 2010-05-21, 39 days before the manuscript was received (2010-06-29, p.1), so they are kept (D408). Fiber angle of the measurement not printed (14 deg is the FDTD optimum of the initial grating, on the design row).'
+    why: 'p.7 Fig. 14 render (SEM data bar 5/21/2010) and p.1 (received June 29, 2010): evidence for the D408 keep of the ref. [19]-linked values; note supplement (row ok)'
+metrics:
+  cmp_lit_kopp2010_flipped_gc_si_mirror-m1:
+    basis: measured
+    notes: 'printed ''less than 2.5 dB'' at 1550 nm, ''extracted from the measurement of the fiber-to-fiber transmission'' of the grating pair; no total is printed and the extraction arithmetic is not shown (D167 / D452), so measured; whether the wire loss was subtracted and the wire length are not printed; Fig. 15 marker at 1550 nm reads about -2.47 dB (minimum m2)'
+    why: 'p.7 Sec. III-B: per-coupler value stated directly with no printed total or arithmetic; D452 (lorenzen2026: loopback_half, measured when no total is printed), D167 / D441; the batch had derived (D80a needs shown arithmetic on stated measurements)'
+  cmp_lit_tsuchizawa2005_sion_ssc-m1:
+    scope: loopback_half
+    basis: measured
+    notes: 'printed 0.5 dB per connection, ''estimated'' by subtracting the Si wire propagation loss from the total insertion loss of a waveguide with a converter and a 4.3 um MFD fiber at each end (method of the polymer converter, refs. [4], [12]); no total, propagation term or wire length printed, so measured (D167 / D441 / D452); per connection = half of the two-connection remainder (loopback_half, jia2014 precedent); no wavelength printed with the value (the propagation-loss data, Fig. 6, are at 1550 nm)'
+    why: 'p.4 Sec. II-D-3: two connections per measured waveguide, propagation removed, value per connection -> loopback_half (rule 6; jia2014 merged precedent, excludes propagation); no subtracted number printed -> measured (D441 / D448 / D452); the batch had per_coupler / derived'
+  cmp_lit_tsuchizawa2005_sion_ssc-m2:
+    scope: loopback_half
+    basis: measured
+    notes: 'printed ''about 2.5 dB per connection'' with conventional 9 um MFD fibers; same subtraction method as m1, no total or subtracted number printed (D167 / D441); per connection = half of the two-connection remainder (loopback_half); wavelength as m1'
+    why: 'p.4 Sec. II-D-3: as m1 (loopback_half, measured)'
+  cmp_lit_tsuchizawa2005_ring_r5-m3:
+    notes: 'printed ''3-dB-down bandwidth ... less than 0.12 nm at a wavelength of 1550 nm''; Fig. 14 labels the same width (delta lambda = 0.12 nm) on an expanded resonance at about 1534.25 nm (upper-panel axis 1534.1-1534.4 nm, dashed arrow to the left resonance of the lower panel), not 1550 nm: printed wavelength kept, conflict noted (D417)'
+    why: 'p.5 Fig. 14 render (400 dpi zoom): the expanded resonance carrying the 0.12 nm label sits at about 1534.25 nm; note supplement (row ok)'
+  cmp_lit_tsuchizawa2005_ring_r5-m4:
+    notes: 'printed ''as large as 13 000'', from the 0.12 nm 3-dB bandwidth at 1550 nm (1550 / 0.12 = 12 900; since the width is a < bound, Q is in effect a lower bound); at the Fig. 14 resonance wavelength of about 1534.25 nm the same width gives about 12 800 (D417, see m3); unqualified Q stored as loaded'
+    why: 'p.5 Sec. III-B and Fig. 14: wavelength conflict recorded; note supplement (row ok)'
+  cmp_lit_tsuchizawa2005_bend_400x200-m1:
+    notes: 'printed ''the loss for one bend is only 0.15 dB''; per-bend value from the 24-bend total minus the large-radius level (Fig. 8); no wavelength printed for Fig. 8, 1550 nm as in the Fig. 6 measurements. Fig. 8 read (400 dpi): R = 2 um markers about 18-19.5 dB, curve start about 18.2 dB, large-radius level about 13.8-14.1 dB, i.e. about 0.17-0.2 dB per bend; printed value kept'
+    why: 'p.4 Fig. 8 render: the printed per-bend value is consistent with the plot within the reading; note supplement (row ok)'
+  cmp_lit_tsuchizawa2005_bend_300x300-m1:
+    notes: 'printed ''the loss for one bend is only 0.6 dB''; per-bend value from the 24-bend total minus the large-radius level (Fig. 8); no wavelength printed for Fig. 8, 1550 nm as in the Fig. 6 measurements. Fig. 8 read (400 dpi): R = 2 um markers about 30-31.5 dB, large-radius level about 14.1 dB, i.e. about 0.65-0.7 dB per bend, slightly above the printed 0.6 dB; printed value kept (D417)'
+    why: 'p.4 Fig. 8 render: plot reads about 0.65-0.7 dB per bend against the printed 0.6 dB; recorded, not changed; note supplement (row ok)'
+add_metrics:
+- metric_id: cmp_lit_tsuchizawa2005_ring_r5-m10
+  component_id: cmp_lit_tsuchizawa2005_ring_r5
+  parameter: drop_loss_db
+  value: '2.4'
+  unit: dB
+  wavelength_nm: '1534.25'
+  condition: 'drop port at the peak of the expanded resonance (Fig. 14 upper panel)'
+  basis: measured
+  locator: p.5 Fig. 14
+  notes: 'Fig. 14 label ''2.4dB'' at the expanded resonance peak (printed label, not a plot reading; D702 precedent); peak wavelength read off the expanded axis, about 1534.25 nm (+/-0.01 nm); the text gives below 3 dB (m2); the coarse lower-panel scan shows the second resonance near 1552 nm at about -5 dB (sampling not stated); polarization not stated for this measurement (p.4 Sec. III: most experiments TE)'
+  why: 'miss: Fig. 14 prints the drop loss of the expanded resonance as 2.4 dB; the batch entered only the text bound (< 3 dB)'
+- metric_id: cmp_lit_tsuchizawa2005_sion_ssc-m9
+  component_id: cmp_lit_tsuchizawa2005_sion_ssc
+  parameter: mfd_fiber_um
+  value: '4.3'
+  unit: um
+  condition: 'fibers at both ends of the waveguide for the 0.5 dB per-connection value (m1)'
+  basis: specification
+  locator: p.4 Sec. II-D-3
+  notes: 'printed mode field diameter 4.3 um of the two fibers'
+  why: 'miss: the fiber MFD the converter is measured with is stated (rule 4 specification; 163 merged mfd_fiber_um specification rows)'
+- metric_id: cmp_lit_tsuchizawa2005_sion_ssc-m10
+  component_id: cmp_lit_tsuchizawa2005_sion_ssc
+  parameter: mfd_fiber_um
+  value: '9'
+  unit: um
+  condition: 'conventional fiber for the about 2.5 dB per-connection value (m2)'
+  basis: specification
+  locator: p.4 Sec. II-D-3
+  notes: 'printed mode-field diameter of 9 um (conventional fiber)'
+  why: 'miss: as m9, for the 9 um MFD fiber of m2'

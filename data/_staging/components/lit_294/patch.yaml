@@ -1,0 +1,178 @@
+# Audit patch lit_294 (fresh-context audit 2026-11-26, DevLog/audits/2026-11-26-lit_294-audit.md).
+# 73 metrics: 71 ok / 2 imprecise / 0 wrong; 8 components: 8 ok / 0 imprecise / 0 wrong. 2 misses added (2 components,
+# 11 metrics). After the patch: 10 components, 84 metrics.
+# Fixes: bakir2010 < 0.25 dB at 1550 nm polarization unspecified -> both (Fig. 4(a): all ten polarizer-angle traces lie at
+# about 95-97 % at 1550 nm, i.e. 0.13-0.22 dB); snyder2013 -4.3 dB theoretical per-grating efficiency gets ref_plane fiber
+# like its measured siblings. Note supplements (rows ok): snyder2013 measured tolerance windows centred (Fig. 3(a)), sacher2015
+# FEOL Si3N4 loss trace matches the lit:huang2014 Fig. 2(b) "earlier runs" LPCVD trace (kept, D408).
+# Misses (D408: the value sentences carry no citation to refs. [20] / [22]): sacher2015 BEOL Si-SixNy transition simulated
+# < 0.1 dB for Lc > 40 um at 1550 nm (Fig. 4(b), new Lc sweep; only the BEOL measurements and SEMs are credited to ref. [20]);
+# sacher2015 Si3N4 3-dB MMI 0.1-0.2 dB per MMI from the polarization-controller loss budget (author_estimate, origin not
+# stated; not printed in lit:sacher2014a).
+metrics:
+  cmp_lit_bakir2010_siox_ssc-m3:
+    polarization: both
+    locator: p.3 Sec. III; p.3 Fig. 4(a)
+    notes: 'Printed ''less than 0.25-dB coupling losses were measured at 1550 nm'' in the paragraph that states the bandwidths ''for both TE/TM polarization states''; Fig. 4(a): all ten traces (polarizer 0 deg TE to 90 deg TM) lie at about 95-97 % per coupler at 1550 nm (about 0.13-0.22 dB), so the bound holds for both polarizations. Halving of the two-coupler transmission (D80a).'
+    why: 'p.3 Fig. 4(a) render: every polarizer-angle trace is below 0.25 dB at 1550 nm, and the value sentence follows the "both TE/TM" sentence on the same Fig. 4 data; polarization both instead of unspecified'
+  cmp_lit_snyder2013_gc_angle_polished-m3:
+    ref_plane: fiber
+    why: 'p.5 Sec. III-B: "theoretical maximum coupling efficiency of -4.3 dB per grating" is a fiber-to-waveguide grating efficiency, the same reference plane as the measured 4.5 dB row (m2) it is compared with; ref_plane was empty'
+  cmp_lit_snyder2013_gc_angle_polished-m4:
+    notes: 'Printed ''< 1 dB over a 5.5-um range'' in X; stored as the half-width (5.5 / 2) per the tol_1db_lateral_um definition (D469 caillaud2021 precedent). Fig. 3(a): the X and Y curves peak at about 0 um offset and are near-symmetric, so the window is centred on the optimum. Wavelength not stated.'
+    why: 'p.3 Fig. 3(a) render: centring of the measured window checked; note supplement (row ok)'
+  cmp_lit_snyder2013_gc_angle_polished-m5:
+    notes: 'Printed ''< 1 dB over a 5.2-um range'' in Y; stored as the half-width (5.2 / 2) per the tol_1db_lateral_um definition (D469 caillaud2021 precedent). Fig. 3(a): the X and Y curves peak at about 0 um offset and are near-symmetric, so the window is centred on the optimum. Wavelength not stated.'
+    why: 'p.3 Fig. 3(a) render: centring of the measured window checked; note supplement (row ok)'
+components:
+  cmp_lit_sacher2015_feol_sin_wg:
+    notes: 'Fab org_astar_ime: Sec. III ''SiN-on-SOI fabrication at IME'' (''At the Institute of Microelectronics, we have developed'' the FEOL / BEOL flows) and the reported devices ''were fabricated in a BEOL and a FEOL process'' (p.2); lit:sacher2014b / sacher2014a precedent. No PDK / process name beyond FEOL / BEOL, process_name empty (sacher2017 precedent). FEOL losses are stated as presented for the first time (p.3 Sec. IV). The 1.3 / 0.4 dB/cm values equal the LPCVD 400 nm entries of the authors'' lit:huang2014 Table 1 (from ''earlier runs''; 0.32 dB/cm at 1270 nm there vs 0.34 here), and the huang2014 Fig. 2(b) LPCVD trace (1530-1600 nm) has the same shape and values as Fig. 3(a) here (about 2.5 dB/cm at 1530 nm, 0.2-0.3 dB/cm at 1600 nm), so the two papers likely show the same wafer data; this paper extends the span to 1480 nm, gives the cross-section (900 x 400 nm on 150 nm Si, 2 um BOX) and credits no earlier paper for it: kept as this paper''s own FEOL result (D408).'
+    why: 'p.3 Fig. 3(a) vs lit:huang2014 p.4 Fig. 2(b) renders: the curve match is recorded; D408 keeps values whose sentence and figure carry no attribution to the earlier paper (judgment call b); note supplement (row ok)'
+add_components:
+- component_id: cmp_lit_sacher2015_trans_beol
+  source_id: lit:sacher2015
+  class: waveguide_platform.transition
+  label: BEOL Si-SixNy adiabatic interlayer transition, Si tip 200 nm, SixNy tip 300 nm, Lc 50 um (simulated)
+  row_kind: fabricated
+  host_device_ids: ''
+  platform: si_sin_multilayer
+  core_material: 'Si 220 nm strip (500 nm) tapering to 200 nm under PECVD SixNy 600 nm (1 um) tapering to 300 nm; BEOL stack (p.3, Fig. 2): 100 nm SiO2 spacer (Fig. 2 label), 3 um BOX'
+  cladding: SiO2
+  fab_org_ids: org_astar_ime
+  facility_org_ids: ''
+  process_name: ''
+  test_structure: 'true'
+  tags: si3n4_on_soi;beol;pecvd;interlayer_transition;adiabatic_taper
+  verified_on: '2026-11-26'
+  notes: 'Fab org_astar_ime: Sec. III ''SiN-on-SOI fabrication at IME'' and the BEOL process of p.2 (as the FEOL rows). Third transition geometry of p.4-5 (Lc = 50 um, fabricated in the BEOL process, D80e). Its measured loss (< 0.2 dB in the CL and O bands) and the tip SEMs are credited to ref. [20] (= lit:huang2014, cmp_lit_huang2014_si_sin_tc_lo50) and are not entered (D259); the 3D-FDTD sweep of Fig. 4(b) versus Lc is not attributed to ref. [20] (D408; huang2014 Fig. 4(b) sweeps the overlap length instead). The narrow-band low-loss point near Lc = 15 um in the Fig. 4(b) inset is mode beating (p.4), not entered.'
+  why: 'miss: p.4 Sec. IV-B "For the BEOL layer stack, a length of > 40 um is necessary to achieve a transition loss of < 0.1 dB in the adiabatic regime" (Fig. 4(b), lambda = 1550 nm, TE) is this paper''s own simulation; the batch entered the matching FEOL statement (trans_scl-m2) but not this one, and the report does not list it'
+- component_id: cmp_lit_sacher2015_mmi_3db
+  source_id: lit:sacher2015
+  class: splitter.mmi
+  label: FEOL Si3N4 3-dB MMI coupler of the polarization controller (loss-budget value)
+  row_kind: fabricated
+  host_device_ids: ''
+  platform: sin
+  core_material: 'LPCVD Si3N4 400 nm (FEOL stack, p.3 Fig. 2); MMI dimensions not printed'
+  cladding: SiO2
+  fab_org_ids: org_astar_ime
+  facility_org_ids: ''
+  process_name: ''
+  test_structure: ''
+  tags: si3n4_on_soi;feol;mmi;polarization_controller
+  verified_on: '2026-11-26'
+  notes: 'Fab org_astar_ime: Sec. III ''SiN-on-SOI fabrication at IME'' and the FEOL process of p.2 (as the other FEOL rows); Sec. V states the devices were realized in the FEOL stack. Four 3-dB MMIs in the Si3N4 layer of the polarization controller (p.8 Sec. V-B, Fig. 9); the controller, its < 4.5 dB insertion loss and Fig. 9 are from ref. [22] (= lit:sacher2014a, cmp_lit_sacher2014a_controller) and are not entered (D259), but the per-MMI loss term of the budget sentence is not printed in sacher2014a (its controller row notes that MMI performance is not printed) and the sentence carries no citation (D408). Other budget terms not entered: two PRSs about 3 dB (restates the ref. [22] PRS loss), ten transitions about 0.07 dB each (this paper''s measured transition rows), waveguide about 0.3 dB (no length).'
+  why: 'miss: p.8 Sec. V-B loss budget "4 MMIs (about 0.1-0.2 dB per MMI)" is a stated loss of an on-chip component of the paper''s FEOL chip; rule 4 loss-budget term with origin not stated -> author_estimate; not mentioned in the batch report'
+add_metrics:
+- metric_id: cmp_lit_sacher2015_trans_beol-m1
+  component_id: cmp_lit_sacher2015_trans_beol
+  parameter: transition_loss_db
+  value: '0.1'
+  unit: dB
+  qualifier: lt
+  wavelength_nm: '1550'
+  polarization: te
+  scope: per_component
+  condition: '3D-FDTD, BEOL stack, tips 200 nm Si / 300 nm SixNy, any Lc > 40 um (adiabatic regime)'
+  basis: simulated
+  locator: p.4 Sec. IV-B; p.4 Fig. 4(b)
+  notes: 'Printed ''a length of > 40 um is necessary to achieve a transition loss of < 0.1 dB in the adiabatic regime''; Fig. 4(b) is computed at 1550 nm for TE (caption, p.4); the Lc = 50 um point of the BEOL curve reads about -0.1 dB/transition in the inset.'
+  why: 'miss (see component): simulated bound of the BEOL transition, the FEOL counterpart is trans_scl-m2'
+- metric_id: cmp_lit_sacher2015_trans_beol-m2
+  component_id: cmp_lit_sacher2015_trans_beol
+  parameter: taper_length_um
+  value: '50'
+  unit: um
+  condition: transition length Lc
+  basis: design_target
+  locator: p.4-5 Sec. IV-B
+  why: 'D153 geometry of the added row: Lc = 50 um of the BEOL transition (p.4-5 item 3)'
+- metric_id: cmp_lit_sacher2015_trans_beol-m3
+  component_id: cmp_lit_sacher2015_trans_beol
+  parameter: lower_tip_width_nm
+  value: '200'
+  unit: nm
+  condition: Si blunt tip
+  basis: design_target
+  locator: p.4 Sec. IV-B; p.4 Fig. 4 caption
+  notes: 'Tip widths used in the BEOL simulation (p.4) and of the fabricated geometry (p.4-5 item 3); the Fig. 4(a) caption gives 200 nm as the nominal Si tip width.'
+  why: 'D153 geometry of the added row (Contract v5 role-specific: Si is the lower layer)'
+- metric_id: cmp_lit_sacher2015_trans_beol-m4
+  component_id: cmp_lit_sacher2015_trans_beol
+  parameter: tip_width_nm
+  value: '300'
+  unit: nm
+  condition: SixNy blunt tip
+  basis: design_target
+  locator: p.4 Sec. IV-B; p.4 Fig. 4 caption
+  why: 'D153 geometry of the added row (upper-layer tip)'
+- metric_id: cmp_lit_sacher2015_trans_beol-m5
+  component_id: cmp_lit_sacher2015_trans_beol
+  parameter: lower_width_nm
+  value: '500'
+  unit: nm
+  condition: Si waveguide (BEOL)
+  basis: design_target
+  locator: p.3 Sec. IV-A
+  why: 'D153 geometry of the added row: BEOL Si waveguides 220 nm x 500 nm (p.3)'
+- metric_id: cmp_lit_sacher2015_trans_beol-m6
+  component_id: cmp_lit_sacher2015_trans_beol
+  parameter: width_nm
+  value: '1000'
+  unit: nm
+  condition: PECVD SixNy waveguide (BEOL)
+  basis: derived
+  locator: p.3 Sec. IV-A
+  notes: 'Printed width of 1 um (unit rescale, D157).'
+  why: 'D153 geometry of the added row: BEOL SixNy waveguides 600 nm x 1 um (p.3)'
+- metric_id: cmp_lit_sacher2015_trans_beol-m7
+  component_id: cmp_lit_sacher2015_trans_beol
+  parameter: core_thickness_nm
+  value: '220'
+  unit: nm
+  condition: Si layer
+  basis: design_target
+  locator: p.3 Sec. IV-A; p.3 Fig. 2
+  why: 'D153 cross-section of the added row (transition_bilayer template requires core and layer2 thickness)'
+- metric_id: cmp_lit_sacher2015_trans_beol-m8
+  component_id: cmp_lit_sacher2015_trans_beol
+  parameter: layer2_thickness_nm
+  value: '600'
+  unit: nm
+  condition: PECVD SixNy
+  basis: design_target
+  locator: p.3 Sec. IV-A; p.3 Fig. 2
+  why: 'D153 cross-section of the added row'
+- metric_id: cmp_lit_sacher2015_trans_beol-m9
+  component_id: cmp_lit_sacher2015_trans_beol
+  parameter: gap_nm
+  value: '100'
+  unit: nm
+  condition: Si-SixNy SiO2 spacer (BEOL)
+  basis: extracted_from_figure
+  locator: p.3 Fig. 2
+  notes: 'Figure label 100 nm in the BEOL stack schematic; not printed in the text.'
+  why: 'D153 cross-section of the added row, as the FEOL rows'' 50 nm gap (Fig. 2 label)'
+- metric_id: cmp_lit_sacher2015_trans_beol-m10
+  component_id: cmp_lit_sacher2015_trans_beol
+  parameter: box_thickness_um
+  value: '3'
+  unit: um
+  basis: design_target
+  locator: p.3 Sec. III; p.3 Fig. 2
+  why: 'D153 cross-section of the added row: "The BEOL process used a 3 um thick BOX" (p.3)'
+- metric_id: cmp_lit_sacher2015_mmi_3db-m1
+  component_id: cmp_lit_sacher2015_mmi_3db
+  parameter: excess_loss_db
+  value: '0.1'
+  value_max: '0.2'
+  unit: dB
+  qualifier: approx
+  wavelength_nm: '1550'
+  scope: per_component
+  condition: 'loss-budget term per MMI of the polarization controller (< 4.5 dB insertion loss at 1550 nm; 4 MMIs)'
+  method: loss_breakdown
+  basis: author_estimate
+  locator: p.8 Sec. V-B
+  notes: 'Printed ''4 MMIs (about 0.1-0.2 dB per MMI)'' in the budget that accounts for the controller insertion loss at 1550 nm; origin not stated (rule 4). Loss beyond the ideal 3-dB split, so excess_loss_db. Polarization not stated (the PRS outputs feed TE0 to the MMI arms, p.7-8).'
+  why: 'miss (see component): rule 4 loss-budget term, author_estimate'

@@ -1,0 +1,53 @@
+# Audit patch lit_295 (fresh-context audit 2026-11-26, DevLog/audits/2026-11-26-lit_295-audit.md).
+# 43 metrics: 39 ok / 4 imprecise / 0 wrong; 9 components: 6 ok / 3 imprecise / 0 wrong. 1 miss added.
+# After the patch: 9 components, 44 metrics (selvaraja2009 4 / 26, selvaraja2009a 5 / 18, smit1996 0 / 0).
+# Fixes: selvaraja2009a Fig. 17 printed data labels (R 1 / 2 / 3 um) are measured, not extracted_from_figure (D702:
+# printed label, not a plot reading). selvaraja2009 AWG 0.57 nm condition no longer tied to the 17 AWGs of Fig. 12
+# (the text does not tie it). Component notes of the three 193 nm selvaraja2009 rows: the process metrology was not
+# stated to be on separate characterization wafers. Miss: Fig. 11 0.02 nm label of the RTR pair 25 um apart, entered
+# on the ring with the text / figure conflict noted (D417). Note supplement (row ok): AWG footprint conflict with the
+# companion overview.
+metrics:
+  cmp_lit_selvaraja2009a_bend_r1-m1:
+    basis: measured
+    notes: 'printed Fig. 17 data label 0.071 dB/90 deg: a printed label, not a plot reading, so measured (D702); error bar drawn, size not printed; no wavelength stated'
+    why: 'p.7 Fig. 17 render: the value is a printed data label beside the R 1 um point, not read off the axis; D702 (akiyama2005 printed figure label measured), merged selvaraja2014 ring_demux_1x4-m2 (Fig. 7 label, measured)'
+  cmp_lit_selvaraja2009a_bend_r2-m1:
+    basis: measured
+    notes: 'printed Fig. 17 data label 0.039 dB/90 deg: a printed label, not a plot reading, so measured (D702); error bar drawn, size not printed; no wavelength stated'
+    why: 'p.7 Fig. 17 render: printed data label beside the R 2 um point; D702'
+  cmp_lit_selvaraja2009a_bend_r3-m1:
+    basis: measured
+    notes: 'printed Fig. 17 data label 0.02 dB/90 deg: a printed label, not a plot reading, so measured (D702); error bar drawn, size not printed; no wavelength stated'
+    why: 'p.7 Fig. 17 render: printed data label beside the R 3 um point; D702'
+  cmp_lit_selvaraja2009_awg_8ch_400ghz-m3:
+    condition: 'average within-die nonuniformity of the AWG peak wavelength (kind of spread, device distance and number of dies not stated)'
+    locator: p.6 Sec. VI-A
+    notes: 'printed ''Within a die, we have measured an average nonuniformity of 0.57 nm''; not one of the Table III per-distance values (0.54 / 0.52 nm, mean per-die std at 275 / 770 um) and not their mean (0.53 nm); the next sentence on the 17 AWGs of Fig. 12 is a separate observation, so the value is not tied to that figure'
+    why: 'p.6 Sec. VI-A: the batch condition tied 0.57 nm to the 17 AWGs on one die of Fig. 12; the text states the value before and separately from the Fig. 12 sentence, and Fig. 12 prints no spread'
+  cmp_lit_selvaraja2009_awg_8ch_400ghz-m7:
+    notes: 'printed footprint 200 x 35 um2 (product). The companion overview lit:bogaerts2010 (same journal issue, same group and 193 nm process) prints 200 x 350 um2 for its 8-channel 400 GHz AWG; 35 may be a typo here; kept as printed (D417)'
+    why: 'p.6 Sec. V: note supplement (row ok); a 7000 um2 8 x 400 GHz AWG would be an outlier, and the companion paper prints ten times the area for the same channel plan'
+components:
+  cmp_lit_selvaraja2009_rtr_r4:
+    notes: 'Fab empty: the devices are ''fabricated using 193 nm optical lithography and dry etching in a 200 mm CMOS fabrication facility'' (p.1 Sec. I) with an ASML PAS5500/1100 scanner and a Lam Research Versys etch chamber; the facility is not named, all authors carry the joint affiliation Ghent University-IMEC (p.1), and the process details are cited to ref. [11] (p.3 Sec. IV), which is the authors'' companion paper (lit:selvaraja2009a names the IMEC pilot line); no acknowledgment names a processing line (p.8). Same reading as bogaerts2007 / brouckaert2007 (D80b, D433). Spectra: TE-polarized broadband source and spectrum analyzer (0.12 nm resolution), some devices with a tunable laser (20 pm), 1520-1600 nm, grating fiber couplers, temperature-controlled stage, low input power (p.6 Sec. VI). Process metrology (Table I: Si layer 219.1 nm wafer mean, 2 nm std by ellipsometry; BARC and resist thickness measured on bare Si wafers; Table II and Figs. 6-7: CD-SEM linewidth of a 450 nm test wire, characterized before the devices were fabricated, p.3-4) has no device parameter; whether the Si thickness map is the device wafer is not stated, so not entered on device rows. Placed in pairs 25 um apart at two die locations 1700 um apart (p.5 Sec. V, Fig. 9). Waveguide width not stated. Fig. 11 (two RTRs 25 um apart, 0.02 nm label) entered as m9; the text attributes ''a minimum variation of 20 pm (Fig. 11)'' to the MZIs 25 um apart (p.6 Sec. VI-A), while the caption and legend name RTRs (conflict noted on m9, D417). No Q or extinction values reported.'
+    why: 'p.3 Sec. IV and p.4 Sec. IV-A: the batch note said the metrology was done on characterization wafers; the paper says only that the litho / etch were characterized on a 450 nm test wire before device fabrication and that BARC / resist were coated on bare Si; Fig. 11 sentence updated for the added m9'
+  cmp_lit_selvaraja2009_mzi_193nm:
+    notes: 'Fab empty: the devices are ''fabricated using 193 nm optical lithography and dry etching in a 200 mm CMOS fabrication facility'' (p.1 Sec. I) with an ASML PAS5500/1100 scanner and a Lam Research Versys etch chamber; the facility is not named, all authors carry the joint affiliation Ghent University-IMEC (p.1), and the process details are cited to ref. [11] (p.3 Sec. IV), which is the authors'' companion paper (lit:selvaraja2009a names the IMEC pilot line); no acknowledgment names a processing line (p.8). Same reading as bogaerts2007 / brouckaert2007 (D80b, D433). Spectra: TE-polarized broadband source and spectrum analyzer (0.12 nm resolution), some devices with a tunable laser (20 pm), 1520-1600 nm, grating fiber couplers, temperature-controlled stage, low input power (p.6 Sec. VI). Process metrology (Table I: Si layer 219.1 nm wafer mean, 2 nm std by ellipsometry; BARC and resist thickness measured on bare Si wafers; Table II and Figs. 6-7: CD-SEM linewidth of a 450 nm test wire, characterized before the devices were fabricated, p.3-4) has no device parameter; whether the Si thickness map is the device wafer is not stated, so not entered on device rows. Class wdm.cascaded_mzi as the merged bogaerts2010 uniformity MZI set (single-stage MZI filter). Placed in pairs 25 um apart at two die locations 1700 um apart (p.5 Sec. V, Fig. 9); Fig. 10 shows four MZIs in one die. Same mask also processed with 248 nm lithography: cmp_lit_selvaraja2009_mzi_248nm. The ''minimum variation of 20 pm'' the text gives for the MZIs (p.6) cites Fig. 11, which shows two RTRs: entered on cmp_lit_selvaraja2009_rtr_r4 (m9) with the conflict noted. Summary ''<2 nm'' die-to-die for MZIs and AWGs (p.7, conclusion) not entered separately (Table IV values entered). Waveguide width not stated.'
+    why: 'p.3 Sec. IV and p.4 Sec. IV-A: metrology sentence corrected as on the ring row; 20 pm sentence updated for the added ring m9'
+  cmp_lit_selvaraja2009_awg_8ch_400ghz:
+    notes: 'Fab empty: the devices are ''fabricated using 193 nm optical lithography and dry etching in a 200 mm CMOS fabrication facility'' (p.1 Sec. I) with an ASML PAS5500/1100 scanner and a Lam Research Versys etch chamber; the facility is not named, all authors carry the joint affiliation Ghent University-IMEC (p.1), and the process details are cited to ref. [11] (p.3 Sec. IV), which is the authors'' companion paper (lit:selvaraja2009a names the IMEC pilot line); no acknowledgment names a processing line (p.8). Same reading as bogaerts2007 / brouckaert2007 (D80b, D433). Spectra: TE-polarized broadband source and spectrum analyzer (0.12 nm resolution), some devices with a tunable laser (20 pm), 1520-1600 nm, grating fiber couplers, temperature-controlled stage, low input power (p.6 Sec. VI). Process metrology (Table I: Si layer 219.1 nm wafer mean, 2 nm std by ellipsometry; BARC and resist thickness measured on bare Si wafers; Table II and Figs. 6-7: CD-SEM linewidth of a 450 nm test wire, characterized before the devices were fabricated, p.3-4) has no device parameter; whether the Si thickness map is the device wafer is not stated, so not entered on device rows. 18 AWGs per die in rows and columns over 0.7 x 6 mm2, nearest neighbour 250 um, farthest 4500 um (p.6 Sec. V). Fig. 12: one of the eight channels of 17 AWGs on one die, peaks near 1563-1565 nm; Fig. 16 die-to-die channel wavelengths 1563-1565 nm (not entered: figure-only, no stated value). Fig. 12 normalized transmission (reference not stated): no insertion loss or crosstalk entered. Array geometry not stated.'
+    why: 'p.3 Sec. IV and p.4 Sec. IV-A: metrology sentence corrected as on the ring row'
+add_metrics:
+- metric_id: cmp_lit_selvaraja2009_rtr_r4-m9
+  component_id: cmp_lit_selvaraja2009_rtr_r4
+  parameter: wavelength_spread_nm
+  value: '0.02'
+  unit: nm
+  polarization: te
+  condition: 'resonance-wavelength difference between the two RTRs of one pair 25 um apart within one die (Fig. 11 label)'
+  method: direct
+  basis: measured
+  locator: p.6 Fig. 11; p.6 Sec. VI-A
+  notes: 'printed figure label 0.02 nm (printed label, not a plot reading, D702); dips near 1555.6 nm. The text gives ''a minimum variation of 20 pm (Fig. 11)'' in the sentence on MZIs 25 um apart, while the Fig. 11 caption and legend name two RTRs: figure identity used, conflict noted (D417). One pair, so no statistic. 20 pm equals the stated tunable-laser resolution (p.6 Sec. VI); which instrument recorded Fig. 11 is not stated'
+  why: 'miss: Fig. 11 is a self-contained measurement of two RTRs 25 um apart (caption, legend Ring 1 / Ring 2, printed 0.02 nm label); the sample identity is fixed by the figure, only the text sentence names MZIs (D417 conflict note rather than D159); question 4 of the audit'

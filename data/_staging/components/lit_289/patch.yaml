@@ -1,0 +1,94 @@
+# Audit patch lit_289 (fresh-context audit 2026-11-26, DevLog/audits/2026-11-26-lit_289-audit.md).
+# 108 metrics: 102 ok / 6 imprecise / 0 wrong; 23 components: 21 ok / 2 imprecise (notes) / 0 wrong. 3 metrics added
+# (1 geometry miss, 2 from judgment (d)). After the patch: 23 components, 111 metrics.
+# Fixes: sacher2018 FEOL O-band transition values printed in mdB -> basis derived (D256, lit:sacher2017 precedent);
+# pfeiffer2018a gap-series polarization cleared (not stated for Fig. 10) and error-bar wording corrected.
+# Adds: sacher2018 BEOL crossing SiN2 width 740 nm (Fig. 3(c) BEOL panel); FEOL O-band overpass bound < 0.6 mdB on both
+# crossing rows (covers both Fig. 6(b) traces, not a D159 case).
+metrics:
+  cmp_lit_sacher2018_feol_trans_si_sin1-m1:
+    basis: derived
+    notes: Printed 302 mdB at 1310 nm (p.6); mdB -> dB (D256, as merged lit:sacher2017 rows). Cutback over hundreds of transitions, edge-coupled test structures (p.4-5).
+    why: 'p.6: the value is printed only in mdB and no figure shows the O-band Si-SiN1 transition alone; a prefix conversion makes the row derived (D256; lit:sacher2017 trans_si_sin1-m1 precedent)'
+  cmp_lit_sacher2018_feol_trans_sin1_sin2-m1:
+    basis: derived
+    notes: Printed 25 mdB at 1310 nm (p.6); mdB -> dB (D256, as merged lit:sacher2017 rows).
+    why: 'p.6: printed only in mdB; prefix conversion -> derived (D256)'
+  cmp_lit_sacher2018_feol_trans_trilayer-m1:
+    basis: derived
+    notes: 'Printed ''< 560 mdB'' over 1262-1360 nm (p.6); mdB -> dB (D256). The Fig. 6(a) axis is in dB/transition but the bound is printed only in mdB (lit:sacher2017 trans_si_sin1-m1 precedent: derived although its figure axis is in dB). Fig. 6(a) trace maximum about 0.54 dB near 1264 nm.'
+    why: 'p.6, p.7 Fig. 6(a): printed bound in mdB; the figure axis unit does not print the stored value; prefix conversion -> derived (D256)'
+  cmp_lit_pfeiffer2018a_ring_r230_gap_series-m1:
+    polarization: ''
+    mode: ''
+    notes: 'Printed ''~40 MHz'' (caption) and ''in average an intrinsic linewidth of 40 MHz can be achieved'' (p.8). Polarization of the Fig. 10 fits is not stated (the Fig. 9 ring of the same cross-section is quasi-TE, p.8, and the PM-fiber setup excites one polarization per measurement, p.8): left empty. Resonances recorded between 1500 and 1630 nm (p.8; ECDL 1500-1630 nm, Fig. 9(a)).'
+    why: 'p.8-9 Sec. III, Fig. 10: no polarization or mode family is stated for the gap series; rule 1 (empty = not reported), inference kept in notes'
+  cmp_lit_pfeiffer2018a_ring_r230_gap_series-m2:
+    polarization: ''
+    mode: ''
+    notes: 'Printed 6.7 dB/m, converted to dB/cm with the basis kept (D256a); computed with the unstated effective index (D76: author_estimate). Polarization not stated for Fig. 10 (see m1). Resonances recorded between 1500 and 1630 nm (p.8; ECDL 1500-1630 nm, Fig. 9(a)).'
+    why: 'p.9 Fig. 10 caption: polarization not stated (rule 1); D256a reference added to the conversion note'
+  cmp_lit_pfeiffer2018a_ring_r230_gap_series-m3:
+    polarization: ''
+    mode: ''
+    condition: spread of the per-device mean kappa_0/2pi over the six coupling gaps (error bars = standard deviation; their extents span about 20-84 MHz)
+    notes: Read off Fig. 10(b) markers, +/- 3 MHz (575 nm about 67, 650 nm 58, 725 nm 53, 800 nm 43, 875 nm 49, 950 nm 41 MHz); the mean decreases with increasing gap (p.8). Polarization not stated for Fig. 10 (see m1). Resonances recorded between 1500 and 1630 nm (p.8; ECDL 1500-1630 nm, Fig. 9(a)).
+    why: 'p.9 Fig. 10(b) zoom: error-bar extents run from about 20 MHz (800 nm lower end) to about 84 MHz (575 nm upper end), not 30-80 MHz; polarization not stated (rule 1)'
+components:
+  cmp_lit_sacher2018_feol_crossing_w0p9:
+    notes: 'Fab empty: the platforms ''were fabricated on 200-mm diameter SOI wafers using 193- and 248-nm DUV photolithography'' (p.2) with no fabricating org named (D80b); authors at University of Toronto, A*STAR IME and Huawei Canada. IME is named only for the Ge PD process (p.11), not for this component (Contract v7 per-component fab). The O-band data of Fig. 6 are not marked as reprinted (Fig. 5(a), (b), (d) are, from ref. [20]) and lit:sacher2017 (ref. [20]) holds only C-band rows. The text bound ''measured overpass loss is < 0.6 mdB with a 90 % confidence interval'' (p.6) refers to Fig. 6(b), where both SiN2 widths lie below it (0.9 um trace up to about 0.51 mdB; 1.5 um trace up to about 0.26 mdB): entered on both crossing rows as a derived bound (no D159 ambiguity, the bound holds for both samples); the Fig. 6(b) reads give the per-width spread. C-band overpass loss (< 2.6 mdB) and crosstalk (< -56 dB) rest on Fig. 5(b), (d), reprinted from ref. [20]: not entered. Whether the waveguide
+      loss between crossings is removed in Fig. 6(b) is not stated (the C-band Fig. 5(b) data were not de-embedded). Same designs as lit:sacher2017 crossing rows.'
+    why: 'p.6, p.7 Fig. 6(b) zoom: the < 0.6 mdB bound is stated for the Fig. 6(b) crossings and both traces lie below it, so it is not a D159 sample-identity case; note updated for the added m5'
+  cmp_lit_sacher2018_feol_crossing_w1p5:
+    notes: 'Fab empty: the platforms ''were fabricated on 200-mm diameter SOI wafers using 193- and 248-nm DUV photolithography'' (p.2) with no fabricating org named (D80b); authors at University of Toronto, A*STAR IME and Huawei Canada. IME is named only for the Ge PD process (p.11), not for this component (Contract v7 per-component fab). The O-band data of Fig. 6 are not marked as reprinted (Fig. 5(a), (b), (d) are, from ref. [20]) and lit:sacher2017 (ref. [20]) holds only C-band rows. The text bound ''measured overpass loss is < 0.6 mdB with a 90 % confidence interval'' (p.6) refers to Fig. 6(b), where both SiN2 widths lie below it (1.5 um trace up to about 0.26 mdB; 0.9 um trace up to about 0.51 mdB): entered on both crossing rows as a derived bound (no D159 ambiguity, the bound holds for both samples); the Fig. 6(b) reads give the per-width spread. C-band overpass loss (< 2.6 mdB) and crosstalk (< -56 dB) rest on Fig. 5(b), (d), reprinted from ref. [20]: not entered. Whether the waveguide
+      loss between crossings is removed in Fig. 6(b) is not stated (the C-band Fig. 5(b) data were not de-embedded). Same designs as lit:sacher2017 crossing rows.'
+    why: 'p.6, p.7 Fig. 6(b) zoom: as for the 0.9 um row; note updated for the added m4'
+  cmp_lit_sacher2018_beol_crossing:
+    notes: 'Fab empty: the platforms ''were fabricated on 200-mm diameter SOI wafers using 193- and 248-nm DUV photolithography'' (p.2) with no fabricating org named (D80b); authors at University of Toronto, A*STAR IME and Huawei Canada. IME is named only for the Ge PD process (p.11), not for this component (Contract v7 per-component fab). Measured BEOL crossing losses and crosstalk (< 3.4 +/- 0.9 / < 3.1 +/- 1.2 mdB, < -52 / < -58 dB, p.5) are from Fig. 4 ''as taken from [39]'': not entered (D259a). The paper attributes the measured-vs-simulated overpass gap to a roughly 15 % larger than designed Si-SiN2 spacing (p.5). Geometry from the BEOL panel of Fig. 3(c) (only the FEOL schematic of that panel is marked reprinted from ref. [20]): SiN2 width 740 nm (m3); the Si strip (underpass) width label 380 nm has no crossing parameter and is not entered.'
+    why: 'p.5 Fig. 3(c) BEOL panel (not marked reprinted, D408): geometry note for the added width row m3'
+add_metrics:
+- metric_id: cmp_lit_sacher2018_beol_crossing-m3
+  component_id: cmp_lit_sacher2018_beol_crossing
+  parameter: width_nm
+  value: '740'
+  unit: nm
+  condition: SiN2 overpass waveguide width
+  basis: extracted_from_figure
+  locator: p.5 Fig. 3(c)
+  notes: Fig. 3(c) BEOL panel label 740 nm (design dimension, single-mode fully etched SiN2 waveguide, p.4); the caption marks only the FEOL crossing schematic as reprinted from ref. [20].
+  verified_on: '2026-11-26'
+  why: 'miss (D153 geometry): the BEOL crossing has simulated performance rows from the unattributed Fig. 3(d) and its SiN2 width is labelled in the unattributed BEOL panel of Fig. 3(c) (D408); Contract v5 figure-labelled dimension'
+- metric_id: cmp_lit_sacher2018_feol_crossing_w0p9-m5
+  component_id: cmp_lit_sacher2018_feol_crossing_w0p9
+  parameter: crossing_loss_db
+  value: '0.0006'
+  qualifier: lt
+  wavelength_nm: '1262'
+  wavelength_max_nm: '1360'
+  polarization: te
+  scope: per_component
+  condition: overpass (light in SiN2), per crossing, TE; 90 % confidence bound
+  method: cutback
+  basis: derived
+  locator: p.6; p.7 Fig. 6(b)
+  notes: Printed 'measured overpass loss is < 0.6 mdB with a 90 % confidence interval' for the Fig. 6(b) crossings; mdB -> dB (D256). Both widths lie below it in Fig. 6(b); this trace reaches about 0.51 mdB at 1360 nm.
+  why: 'judgment (d): the printed bound covers both Fig. 6(b) traces (both below 0.6 mdB), so D159 does not apply; printed text values are entered next to figure reads (lit:sacher2017 crossing rows precedent)'
+  verified_on: '2026-11-26'
+  unit: dB
+- metric_id: cmp_lit_sacher2018_feol_crossing_w1p5-m4
+  component_id: cmp_lit_sacher2018_feol_crossing_w1p5
+  parameter: crossing_loss_db
+  value: '0.0006'
+  qualifier: lt
+  wavelength_nm: '1262'
+  wavelength_max_nm: '1360'
+  polarization: te
+  scope: per_component
+  condition: overpass (light in SiN2), per crossing, TE; 90 % confidence bound
+  method: cutback
+  basis: derived
+  locator: p.6; p.7 Fig. 6(b)
+  notes: Printed 'measured overpass loss is < 0.6 mdB with a 90 % confidence interval' for the Fig. 6(b) crossings; mdB -> dB (D256). Both widths lie below it in Fig. 6(b); this trace reaches about 0.26 mdB, so the bound is loose for this width.
+  why: 'judgment (d): as for the 0.9 um row'
+  verified_on: '2026-11-26'
+  unit: dB

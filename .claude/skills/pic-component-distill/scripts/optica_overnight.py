@@ -2,7 +2,8 @@
 overnight"). One paper per browser launch, 4-6 min apart; Optica's rate-limit page -> 30 min back-off and the same
 paper again; any other non-ok row (standalone case) is logged and skipped; stops when every paper is saved or after
 MAX_RL rate limits in a row. A breaker file the fetcher arms is moved aside (no breakers, owner 2026-11-20).
-Run from the repo root in tmux: uv run python .claude/skills/pic-component-distill/scripts/optica_overnight.py <day>[,<day>...]
+Run from the repo root in tmux: uv run python .claude/skills/pic-component-distill/scripts/optica_overnight.py <day>[,<day>...] [--max N]
+(--max: at most N papers attempted, in day order then queue order; unattended nights 2026-11-26..28 use --max 30)
 """
 
 import csv
@@ -16,7 +17,16 @@ import time
 from pathlib import Path
 
 ROOT = Path.cwd()
-DAYS = sys.argv[1].split(",")
+_MAX_ARG = next((a for a in sys.argv[1:] if a.startswith("--max=")), None)
+MAX = (
+    int(_MAX_ARG.split("=", 1)[1])
+    if _MAX_ARG
+    else int(sys.argv[sys.argv.index("--max") + 1])
+    if "--max" in sys.argv
+    else 0
+)
+_SKIP = {sys.argv.index("--max") + 1} if "--max" in sys.argv else set()
+DAYS = [d for i, a in enumerate(sys.argv[1:], 1) if i not in _SKIP and a[:1].isdigit() for d in a.split(",") if d]
 LOGS = ROOT / "logs"
 STATUS = LOGS / "lit_fetch_status.jsonl"
 BREAKER = LOGS / ".lit_browser_blocked_optica.json"
@@ -46,7 +56,8 @@ def todo() -> list[str]:
             and not (ROOT / "references" / r["paper_id"] / "source.pdf").exists()
         ):
             by_day[r["day"]].append(r["paper_id"])
-    return [p for d in DAYS for p in by_day[d]]
+    out = [p for d in DAYS for p in by_day[d]]
+    return out[:MAX] if MAX else out
 
 
 def clear_breaker() -> None:
@@ -67,9 +78,24 @@ def fetch_one(pid: str) -> str:
     offset = STATUS.stat().st_size
     with (LOGS / f"lit_optica_overnight_fetch_{STAMP}.log").open("a") as fl:
         subprocess.run(
-            ["uv", "run", "python", "scripts/lit_fetch_browser.py", "--site", "optica", "--run", "--paper-ids", pid,
-             "--max", "1"],
-            cwd=ROOT, stdout=fl, stderr=subprocess.STDOUT, check=False, timeout=900,
+            [
+                "uv",
+                "run",
+                "python",
+                "scripts/lit_fetch_browser.py",
+                "--site",
+                "optica",
+                "--run",
+                "--paper-ids",
+                pid,
+                "--max",
+                "1",
+            ],
+            cwd=ROOT,
+            stdout=fl,
+            stderr=subprocess.STDOUT,
+            check=False,
+            timeout=900,
         )
     status = "none"
     with STATUS.open("rb") as f:

@@ -1,0 +1,1117 @@
+# Audit patch lit_290 (fresh-context audit 2026-11-26, DevLog/audits/2026-11-26-lit_290-audit.md).
+# Batch: 10 components / 33 metrics, all from lit:subramanian2013; rahim2018, jalali2006, rahim2016: 0 rows (confirmed).
+# 33 metrics: 33 ok / 0 imprecise / 0 wrong; 10 components: 9 ok / 1 imprecise (wg180_clad_w400 single-mode note) / 0 wrong.
+# Ops, in groups the coordinator can drop separately:
+#  - notes / label edits on existing rows (wg180_clad_w400 fix; note supplements; gc_unclad-m1 basis note);
+#  - miss: BOX 2.43 um FIB/SEM label (wg220_unclad_w800-m9), 532 nm GC width 5 um (gc_unclad-m11);
+#  - judgment e (question 5): design film / BOX / top-cladding thickness on every waveguide and GC row (D153);
+#  - judgment f (question 6), "figure block": 16 extracted_from_figure loss points of Figs. 5-6 on 14 new
+#    per-width rows plus one existing row (wg220_unclad_w700-m3), each with its width and stack geometry.
+#    Dropping the figure block also needs the wg220_unclad_w700 / wg220_clad_w800 / wg180_unclad_sm /
+#    wg180_unclad_wide note edits reverted (they cross-reference the new rows).
+# After the full patch: 24 components, 33 + 87 = 120 metrics.
+components:
+  cmp_lit_subramanian2013_wg180_clad_w400:
+    notes: 'The paper calls the 400 nm clad wire single mode (p.7 Sec. 4.2), but its own simulated clad single-mode width at 532 nm is 380 nm (p.3 Sec. 2; the Fig. 6 dashed cut-off line sits near 390 nm), so by the simulation 400 nm is just above cut-off; label keeps the printed wording. Fig. 6 (532 nm series) point reads 0.94 dB/cm with a large error bar (about 0.37-1.51). Fab empty: the paper says only that the waveguides were fabricated ''in a CMOS pilot line'' / ''within a CMOS pilot line'' (p.2 abstract, p.9) and names no org; authors at Ghent University-IMEC and IMEC (D80b, Contract v7). Process as printed: 200 mm bare Si wafer, 2-2.4 um HDP-CVD SiO2, PECVD Si3N4 at 400 C (SiH4 / N2 / NH3), 193 nm optical lithography, fluorine ICP-RIE, no anneal (p.4 Sec. 3); process_name left empty (no node or named flow).'
+    why: 'p.3 Sec. 2 and p.8 Fig. 6: the batch note stated ''single mode'' next to a 380 nm simulated cut-off without saying that 400 nm lies above it; note corrected (D417-type internal inconsistency recorded)'
+  cmp_lit_subramanian2013_wg180_unclad_sm:
+    notes: 'Conclusion value for the unclad single-mode wires at 532 nm (p.9); the width is not printed with it. The simulated unclad single-mode width at 532 nm is 530 nm (p.3 Sec. 2; Fig. 5 dashed line), so the measured single-mode widths are 300, 400 and 500 nm; p.8 puts the single-mode regime at < 600 nm. Fig. 5 reads 7.32 / 3.22 dB/cm at 300 / 400 nm (rows cmp_lit_subramanian2013_wg180_unclad_w300 / _w400) and 2.39 dB/cm at 500 nm (green marker partly hidden behind the 780 nm marker; about +/-0.04), and the abstract''s 1-3 dB/cm range for single-mode unclad wires at 780 / 532 nm excludes 300 / 400 nm; so the value most likely belongs to the 500 nm wire, but the width is not entered and no separate 500 nm row is made (D159 / D156: identity not printed). The 780 nm marker at 500 nm reads 2.30 dB/cm, the printed number; the 532 nm marker is 0.09 dB/cm higher. Fab empty: the paper says only that the waveguides were fabricated ''in a CMOS pilot line'' / ''within a CMOS pilot line'' (p.2 abstract, p.9) and names no org; authors at Ghent University-IMEC and IMEC (D80b, Contract v7). Process as printed: 200 mm bare Si wafer, 2-2.4 um HDP-CVD SiO2, PECVD Si3N4 at 400 C (SiH4 / N2 / NH3), 193 nm optical lithography, fluorine ICP-RIE, no anneal (p.4 Sec. 3); process_name left empty (no node or named flow).'
+    why: 'p.7 Fig. 5 raster read, p.2 abstract, p.8 Sec. 4.2: note supplement for judgment a (question 1); records the 500 nm reading, the abstract range and the coincidence with the 780 nm series; cross-references the added 300 / 400 nm figure rows'
+  cmp_lit_subramanian2013_wg180_unclad_wide:
+    notes: 'Multimode widths: the text says the best 532 nm loss was reached ''for the waveguides wider than 800 nm'' (p.7); Fig. 5 shows 900 and 1000 nm points at 0.70 / 0.68 dB/cm (raster read, about +/-0.03), so this row stands for that width group (D165 population row), not one width; narrower widths have their own figure rows. Film thickness 9-point map on one test wafer of the lot: mean 178.9 nm, std 4.6 nm, min 174.2 / max 186.2 nm for a 180 nm target (p.5 Sec. 4.1); entered here only, the 180 nm design value is on every 180 nm row. Text: unclad widths > 700 nm show < 1 dB/cm at 532 and 900 nm; 500-700 nm 1-2 dB/cm at all three wavelengths (p.7; family statements, not entered). Fab empty: the paper says only that the waveguides were fabricated ''in a CMOS pilot line'' / ''within a CMOS pilot line'' (p.2 abstract, p.9) and names no org; authors at Ghent University-IMEC and IMEC (D80b, Contract v7). Process as printed: 200 mm bare Si wafer, 2-2.4 um HDP-CVD SiO2, PECVD Si3N4 at 400 C (SiH4 / N2 / NH3), 193 nm optical lithography, fluorine ICP-RIE, no anneal (p.4 Sec. 3); process_name left empty (no node or named flow).'
+    why: p.7 Fig. 5 raster read; note updated for the per-row geometry and figure rows (judgments b, e, f)
+  cmp_lit_subramanian2013_wg220_unclad_w700:
+    label: Unclad PECVD Si3N4 wire, 220 nm film, 700 nm wide (780 / 900 nm)
+    notes: 'Best of the four unclad widths measured at 780 nm (450, 500, 600, 700 nm; p.7); single mode at 780 nm (unclad single-mode width ~900 nm simulated, p.3). The 900 nm point of the same width (Fig. 5, 0.87 dB/cm) is entered as m3 (extracted_from_figure). Fab empty: the paper says only that the waveguides were fabricated ''in a CMOS pilot line'' / ''within a CMOS pilot line'' (p.2 abstract, p.9) and names no org; authors at Ghent University-IMEC and IMEC (D80b, Contract v7). Process as printed: 200 mm bare Si wafer, 2-2.4 um HDP-CVD SiO2, PECVD Si3N4 at 400 C (SiH4 / N2 / NH3), 193 nm optical lithography, fluorine ICP-RIE, no anneal (p.4 Sec. 3); process_name left empty (no node or named flow).'
+    why: 'judgment f: the 900 nm figure point of this design is added as m3; label and note follow (figure block)'
+  cmp_lit_subramanian2013_wg220_clad_w800:
+    notes: 'Best clad value at 900 nm (Fig. 6 point 0.31 dB/cm). Text: clad loss < 1 dB/cm over the whole range the paper calls single mode, 500-800 nm, at 900 nm (p.7; family statement; the simulated clad single-mode width at 900 nm is 770 nm, p.4); the 500-700 nm clad wires have figure rows (cmp_lit_subramanian2013_wg220_clad_w500 / _w600 / _w700). Fab empty: the paper says only that the waveguides were fabricated ''in a CMOS pilot line'' / ''within a CMOS pilot line'' (p.2 abstract, p.9) and names no org; authors at Ghent University-IMEC and IMEC (D80b, Contract v7). Process as printed: 200 mm bare Si wafer, 2-2.4 um HDP-CVD SiO2, PECVD Si3N4 at 400 C (SiH4 / N2 / NH3), 193 nm optical lithography, fluorine ICP-RIE, no anneal (p.4 Sec. 3); process_name left empty (no node or named flow).'
+    why: 'judgment f: cross-reference to the added clad 900 nm figure rows (figure block); 770 nm cut-off recorded'
+  cmp_lit_subramanian2013_gc_clad:
+    notes: 'Same GC designs as the unclad family row (cmp_lit_subramanian2013_gc_unclad) on the SiO2-clad samples (clad samples were measured at 532 and 900 nm, Fig. 6); the paper attributes the improvement to the reduced grating index and notes a slight blue shift of the peak wavelength (p.7). Period, etch depth, fill factor, film and BOX are on the unclad family row. Fab empty: the paper says only that the waveguides were fabricated ''in a CMOS pilot line'' / ''within a CMOS pilot line'' (p.2 abstract, p.9) and names no org; authors at Ghent University-IMEC and IMEC (D80b, Contract v7). Process as printed: 200 mm bare Si wafer, 2-2.4 um HDP-CVD SiO2, PECVD Si3N4 at 400 C (SiH4 / N2 / NH3), 193 nm optical lithography, fluorine ICP-RIE, no anneal (p.4 Sec. 3); process_name left empty (no node or named flow).'
+    why: 'judgment e: geometry cross-reference; cladding thickness added as m2'
+metrics:
+  cmp_lit_subramanian2013_wg220_unclad_w800-m8:
+    notes: 'target 2.4 um; FIB/SEM shows 2.43 um (Fig. 4(b) label, m9), text: ''found to be the same''; > 5 % variation across the wafer'
+    why: 'p.6 Fig. 4(b) render: the SEM label prints 2.43 um; note supplement (row ok), measured value added as m9'
+  cmp_lit_subramanian2013_gc_unclad-m1:
+    notes: '''Typical efficiency of these GCs were around ~7 dB/coupler'' (printed as an efficiency in dB, entered as loss); one value stated for three wavelengths (rule 7: band unspecified); the measurement is the fiber-GC-waveguide-GC-fiber transmission described on p.5 with GCs at both ends of 1-8 cm waveguides, but how the per-coupler value was isolated is not described (method unspecified); measured, not author_estimate: the paper''s own GCs in its described set-up (D167; unlike velha2016 / chung2023, D544 / D651, where no measurement was described)'
+    why: 'judgment c (question 3): basis kept measured; note records why D544 / D651 do not apply'
+add_components:
+- component_id: cmp_lit_subramanian2013_wg180_unclad_w300
+  source_id: lit:subramanian2013
+  class: waveguide_platform.straight
+  label: Unclad PECVD Si3N4 wire, 180 nm film, 300 nm wide (532 nm)
+  row_kind: fabricated
+  platform: sin
+  core_material: PECVD Si3N4 180 nm (target), fully etched strip
+  cladding: air (unclad); 2 um HDP-CVD SiO2 below
+  test_structure: 'true'
+  tags: pecvd;visible_nir;spiral_cutback
+  verified_on: '2026-11-26'
+  notes: 'Single mode at 532 nm (simulated unclad single-mode width 530 nm, p.3). Figure-only value; the text says widths < 500 nm show relatively higher loss (p.7). Fab empty: the paper says only that the waveguides were fabricated ''in a CMOS pilot line'' / ''within a CMOS pilot line'' (p.2 abstract, p.9) and names no org; authors at Ghent University-IMEC and IMEC (D80b, Contract v7). Process as printed: 200 mm bare Si wafer, 2-2.4 um HDP-CVD SiO2, PECVD Si3N4 at 400 C (SiH4 / N2 / NH3), 193 nm optical lithography, fluorine ICP-RIE, no anneal (p.4 Sec. 3); process_name left empty (no node or named flow).'
+  why: 'judgment f (question 6): figure-only point of the paper''s main loss-vs-width data with no text value for this width and wavelength; entered as extracted_from_figure per the per-width precedent (evans2015 channel_w500 / w750, D632 vogelbacher2019); drop this op with the rest of the figure block if the coordinator prefers notes only'
+- component_id: cmp_lit_subramanian2013_wg180_unclad_w400
+  source_id: lit:subramanian2013
+  class: waveguide_platform.straight
+  label: Unclad PECVD Si3N4 wire, 180 nm film, 400 nm wide (532 nm)
+  row_kind: fabricated
+  platform: sin
+  core_material: PECVD Si3N4 180 nm (target), fully etched strip
+  cladding: air (unclad); 2 um HDP-CVD SiO2 below
+  test_structure: 'true'
+  tags: pecvd;visible_nir;spiral_cutback
+  verified_on: '2026-11-26'
+  notes: 'Single mode at 532 nm (simulated unclad single-mode width 530 nm, p.3). Figure-only value; the text says widths < 500 nm show relatively higher loss (p.7). Fab empty: the paper says only that the waveguides were fabricated ''in a CMOS pilot line'' / ''within a CMOS pilot line'' (p.2 abstract, p.9) and names no org; authors at Ghent University-IMEC and IMEC (D80b, Contract v7). Process as printed: 200 mm bare Si wafer, 2-2.4 um HDP-CVD SiO2, PECVD Si3N4 at 400 C (SiH4 / N2 / NH3), 193 nm optical lithography, fluorine ICP-RIE, no anneal (p.4 Sec. 3); process_name left empty (no node or named flow).'
+  why: 'judgment f (question 6): figure-only point of the paper''s main loss-vs-width data with no text value for this width and wavelength; entered as extracted_from_figure per the per-width precedent (evans2015 channel_w500 / w750, D632 vogelbacher2019); drop this op with the rest of the figure block if the coordinator prefers notes only'
+- component_id: cmp_lit_subramanian2013_wg180_unclad_w600
+  source_id: lit:subramanian2013
+  class: waveguide_platform.straight
+  label: Unclad PECVD Si3N4 wire, 180 nm film, 600 nm wide (532 nm)
+  row_kind: fabricated
+  platform: sin
+  core_material: PECVD Si3N4 180 nm (target), fully etched strip
+  cladding: air (unclad); 2 um HDP-CVD SiO2 below
+  test_structure: 'true'
+  tags: pecvd;visible_nir;spiral_cutback
+  verified_on: '2026-11-26'
+  notes: 'Figure-only value; text family statement: 500-700 nm wires 1-2 dB/cm at all three wavelengths (p.7). Fab empty: the paper says only that the waveguides were fabricated ''in a CMOS pilot line'' / ''within a CMOS pilot line'' (p.2 abstract, p.9) and names no org; authors at Ghent University-IMEC and IMEC (D80b, Contract v7). Process as printed: 200 mm bare Si wafer, 2-2.4 um HDP-CVD SiO2, PECVD Si3N4 at 400 C (SiH4 / N2 / NH3), 193 nm optical lithography, fluorine ICP-RIE, no anneal (p.4 Sec. 3); process_name left empty (no node or named flow).'
+  why: 'judgment f (question 6): figure-only point of the paper''s main loss-vs-width data with no text value for this width and wavelength; entered as extracted_from_figure per the per-width precedent (evans2015 channel_w500 / w750, D632 vogelbacher2019); drop this op with the rest of the figure block if the coordinator prefers notes only'
+- component_id: cmp_lit_subramanian2013_wg180_unclad_w700
+  source_id: lit:subramanian2013
+  class: waveguide_platform.straight
+  label: Unclad PECVD Si3N4 wire, 180 nm film, 700 nm wide (532 nm)
+  row_kind: fabricated
+  platform: sin
+  core_material: PECVD Si3N4 180 nm (target), fully etched strip
+  cladding: air (unclad); 2 um HDP-CVD SiO2 below
+  test_structure: 'true'
+  tags: pecvd;visible_nir;spiral_cutback
+  verified_on: '2026-11-26'
+  notes: 'Figure-only value; the text puts 500-700 nm wires at 1-2 dB/cm (p.7), which this point (below 1 dB/cm) does not fit; figure value entered, text family statement not entered (D417-type note). Fab empty: the paper says only that the waveguides were fabricated ''in a CMOS pilot line'' / ''within a CMOS pilot line'' (p.2 abstract, p.9) and names no org; authors at Ghent University-IMEC and IMEC (D80b, Contract v7). Process as printed: 200 mm bare Si wafer, 2-2.4 um HDP-CVD SiO2, PECVD Si3N4 at 400 C (SiH4 / N2 / NH3), 193 nm optical lithography, fluorine ICP-RIE, no anneal (p.4 Sec. 3); process_name left empty (no node or named flow).'
+  why: 'judgment f (question 6): figure-only point of the paper''s main loss-vs-width data with no text value for this width and wavelength; entered as extracted_from_figure per the per-width precedent (evans2015 channel_w500 / w750, D632 vogelbacher2019); drop this op with the rest of the figure block if the coordinator prefers notes only'
+- component_id: cmp_lit_subramanian2013_wg180_unclad_w800
+  source_id: lit:subramanian2013
+  class: waveguide_platform.straight
+  label: Unclad PECVD Si3N4 wire, 180 nm film, 800 nm wide (532 nm)
+  row_kind: fabricated
+  platform: sin
+  core_material: PECVD Si3N4 180 nm (target), fully etched strip
+  cladding: air (unclad); 2 um HDP-CVD SiO2 below
+  test_structure: 'true'
+  tags: pecvd;visible_nir;spiral_cutback
+  verified_on: '2026-11-26'
+  notes: 'Figure-only value (the text''s ''wider than 800 nm'' best value 0.65 dB/cm excludes this width; population row cmp_lit_subramanian2013_wg180_unclad_wide). Fab empty: the paper says only that the waveguides were fabricated ''in a CMOS pilot line'' / ''within a CMOS pilot line'' (p.2 abstract, p.9) and names no org; authors at Ghent University-IMEC and IMEC (D80b, Contract v7). Process as printed: 200 mm bare Si wafer, 2-2.4 um HDP-CVD SiO2, PECVD Si3N4 at 400 C (SiH4 / N2 / NH3), 193 nm optical lithography, fluorine ICP-RIE, no anneal (p.4 Sec. 3); process_name left empty (no node or named flow).'
+  why: 'judgment f (question 6): figure-only point of the paper''s main loss-vs-width data with no text value for this width and wavelength; entered as extracted_from_figure per the per-width precedent (evans2015 channel_w500 / w750, D632 vogelbacher2019); drop this op with the rest of the figure block if the coordinator prefers notes only'
+- component_id: cmp_lit_subramanian2013_wg220_unclad_w450
+  source_id: lit:subramanian2013
+  class: waveguide_platform.straight
+  label: Unclad PECVD Si3N4 wire, 220 nm film, 450 nm wide (780 nm)
+  row_kind: fabricated
+  platform: sin
+  core_material: PECVD Si3N4 220 nm (target), fully etched strip
+  cladding: air (unclad); 2.4 um HDP-CVD SiO2 below
+  test_structure: 'true'
+  tags: pecvd;visible_nir;spiral_cutback
+  verified_on: '2026-11-26'
+  notes: 'Single mode at 780 nm (simulated unclad single-mode width 900 nm, p.3); close to cut-off, the paper attributes part of the loss to substrate leakage (p.8). Figure-only value. Fab empty: the paper says only that the waveguides were fabricated ''in a CMOS pilot line'' / ''within a CMOS pilot line'' (p.2 abstract, p.9) and names no org; authors at Ghent University-IMEC and IMEC (D80b, Contract v7). Process as printed: 200 mm bare Si wafer, 2-2.4 um HDP-CVD SiO2, PECVD Si3N4 at 400 C (SiH4 / N2 / NH3), 193 nm optical lithography, fluorine ICP-RIE, no anneal (p.4 Sec. 3); process_name left empty (no node or named flow).'
+  why: 'judgment f (question 6): figure-only point of the paper''s main loss-vs-width data with no text value for this width and wavelength; entered as extracted_from_figure per the per-width precedent (evans2015 channel_w500 / w750, D632 vogelbacher2019); drop this op with the rest of the figure block if the coordinator prefers notes only'
+- component_id: cmp_lit_subramanian2013_wg220_unclad_w500
+  source_id: lit:subramanian2013
+  class: waveguide_platform.straight
+  label: Unclad PECVD Si3N4 wire, 220 nm film, 500 nm wide (780 nm)
+  row_kind: fabricated
+  platform: sin
+  core_material: PECVD Si3N4 220 nm (target), fully etched strip
+  cladding: air (unclad); 2.4 um HDP-CVD SiO2 below
+  test_structure: 'true'
+  tags: pecvd;visible_nir;spiral_cutback
+  verified_on: '2026-11-26'
+  notes: 'Single mode at 780 nm. Figure-only value. At 900 nm this width is near cut-off and its loss is not plotted (''much higher transmission loss'', cutback not trusted, p.7): not entered. The FIB/SEM cross-section of Fig. 4(a) is a nominal 500 nm waveguide of this stack (485 +/- 25 nm measured, p.6), but whether it is this unclad wire or the clad one is not stated: width not entered as measured (D159). Fab empty: the paper says only that the waveguides were fabricated ''in a CMOS pilot line'' / ''within a CMOS pilot line'' (p.2 abstract, p.9) and names no org; authors at Ghent University-IMEC and IMEC (D80b, Contract v7). Process as printed: 200 mm bare Si wafer, 2-2.4 um HDP-CVD SiO2, PECVD Si3N4 at 400 C (SiH4 / N2 / NH3), 193 nm optical lithography, fluorine ICP-RIE, no anneal (p.4 Sec. 3); process_name left empty (no node or named flow).'
+  why: 'judgment f (question 6): figure-only point of the paper''s main loss-vs-width data with no text value for this width and wavelength; entered as extracted_from_figure per the per-width precedent (evans2015 channel_w500 / w750, D632 vogelbacher2019); drop this op with the rest of the figure block if the coordinator prefers notes only'
+- component_id: cmp_lit_subramanian2013_wg220_unclad_w600
+  source_id: lit:subramanian2013
+  class: waveguide_platform.straight
+  label: Unclad PECVD Si3N4 wire, 220 nm film, 600 nm wide (780 / 900 nm)
+  row_kind: fabricated
+  platform: sin
+  core_material: PECVD Si3N4 220 nm (target), fully etched strip
+  cladding: air (unclad); 2.4 um HDP-CVD SiO2 below
+  test_structure: 'true'
+  tags: pecvd;visible_nir;spiral_cutback
+  verified_on: '2026-11-26'
+  notes: 'Single mode at 780 and 900 nm. Figure-only values. Fab empty: the paper says only that the waveguides were fabricated ''in a CMOS pilot line'' / ''within a CMOS pilot line'' (p.2 abstract, p.9) and names no org; authors at Ghent University-IMEC and IMEC (D80b, Contract v7). Process as printed: 200 mm bare Si wafer, 2-2.4 um HDP-CVD SiO2, PECVD Si3N4 at 400 C (SiH4 / N2 / NH3), 193 nm optical lithography, fluorine ICP-RIE, no anneal (p.4 Sec. 3); process_name left empty (no node or named flow).'
+  why: 'judgment f (question 6): figure-only point of the paper''s main loss-vs-width data with no text value for this width and wavelength; entered as extracted_from_figure per the per-width precedent (evans2015 channel_w500 / w750, D632 vogelbacher2019); drop this op with the rest of the figure block if the coordinator prefers notes only'
+- component_id: cmp_lit_subramanian2013_wg180_clad_w500
+  source_id: lit:subramanian2013
+  class: waveguide_platform.straight
+  label: SiO2-clad PECVD Si3N4 wire, 180 nm film, 500 nm wide (532 nm)
+  row_kind: fabricated
+  platform: sin
+  core_material: PECVD Si3N4 180 nm (target), fully etched strip
+  cladding: 2 um PECVD SiO2 top; 2 um HDP-CVD SiO2 below
+  test_structure: 'true'
+  tags: pecvd;visible_nir;spiral_cutback
+  verified_on: '2026-11-26'
+  notes: 'Figure-only value (text: losses drop with width from < 1 dB/cm at 400 nm, p.7). Fab empty: the paper says only that the waveguides were fabricated ''in a CMOS pilot line'' / ''within a CMOS pilot line'' (p.2 abstract, p.9) and names no org; authors at Ghent University-IMEC and IMEC (D80b, Contract v7). Process as printed: 200 mm bare Si wafer, 2-2.4 um HDP-CVD SiO2, PECVD Si3N4 at 400 C (SiH4 / N2 / NH3), 193 nm optical lithography, fluorine ICP-RIE, no anneal (p.4 Sec. 3); process_name left empty (no node or named flow).'
+  why: 'judgment f (question 6): figure-only point of the paper''s main loss-vs-width data with no text value for this width and wavelength; entered as extracted_from_figure per the per-width precedent (evans2015 channel_w500 / w750, D632 vogelbacher2019); drop this op with the rest of the figure block if the coordinator prefers notes only'
+- component_id: cmp_lit_subramanian2013_wg180_clad_w600
+  source_id: lit:subramanian2013
+  class: waveguide_platform.straight
+  label: SiO2-clad PECVD Si3N4 wire, 180 nm film, 600 nm wide (532 nm)
+  row_kind: fabricated
+  platform: sin
+  core_material: PECVD Si3N4 180 nm (target), fully etched strip
+  cladding: 2 um PECVD SiO2 top; 2 um HDP-CVD SiO2 below
+  test_structure: 'true'
+  tags: pecvd;visible_nir;spiral_cutback
+  verified_on: '2026-11-26'
+  notes: 'Figure-only value. Fab empty: the paper says only that the waveguides were fabricated ''in a CMOS pilot line'' / ''within a CMOS pilot line'' (p.2 abstract, p.9) and names no org; authors at Ghent University-IMEC and IMEC (D80b, Contract v7). Process as printed: 200 mm bare Si wafer, 2-2.4 um HDP-CVD SiO2, PECVD Si3N4 at 400 C (SiH4 / N2 / NH3), 193 nm optical lithography, fluorine ICP-RIE, no anneal (p.4 Sec. 3); process_name left empty (no node or named flow).'
+  why: 'judgment f (question 6): figure-only point of the paper''s main loss-vs-width data with no text value for this width and wavelength; entered as extracted_from_figure per the per-width precedent (evans2015 channel_w500 / w750, D632 vogelbacher2019); drop this op with the rest of the figure block if the coordinator prefers notes only'
+- component_id: cmp_lit_subramanian2013_wg180_clad_w700
+  source_id: lit:subramanian2013
+  class: waveguide_platform.straight
+  label: SiO2-clad PECVD Si3N4 wire, 180 nm film, 700 nm wide (532 nm)
+  row_kind: fabricated
+  platform: sin
+  core_material: PECVD Si3N4 180 nm (target), fully etched strip
+  cladding: 2 um PECVD SiO2 top; 2 um HDP-CVD SiO2 below
+  test_structure: 'true'
+  tags: pecvd;visible_nir;spiral_cutback
+  verified_on: '2026-11-26'
+  notes: 'Figure-only value; wider clad wires (800-1000 nm) are below the set-up accuracy (population row cmp_lit_subramanian2013_wg180_clad_wide). Fab empty: the paper says only that the waveguides were fabricated ''in a CMOS pilot line'' / ''within a CMOS pilot line'' (p.2 abstract, p.9) and names no org; authors at Ghent University-IMEC and IMEC (D80b, Contract v7). Process as printed: 200 mm bare Si wafer, 2-2.4 um HDP-CVD SiO2, PECVD Si3N4 at 400 C (SiH4 / N2 / NH3), 193 nm optical lithography, fluorine ICP-RIE, no anneal (p.4 Sec. 3); process_name left empty (no node or named flow).'
+  why: 'judgment f (question 6): figure-only point of the paper''s main loss-vs-width data with no text value for this width and wavelength; entered as extracted_from_figure per the per-width precedent (evans2015 channel_w500 / w750, D632 vogelbacher2019); drop this op with the rest of the figure block if the coordinator prefers notes only'
+- component_id: cmp_lit_subramanian2013_wg220_clad_w500
+  source_id: lit:subramanian2013
+  class: waveguide_platform.straight
+  label: SiO2-clad PECVD Si3N4 wire, 220 nm film, 500 nm wide (900 nm)
+  row_kind: fabricated
+  platform: sin
+  core_material: PECVD Si3N4 220 nm (target), fully etched strip
+  cladding: 2 um PECVD SiO2 top; 2.4 um HDP-CVD SiO2 below
+  test_structure: 'true'
+  tags: pecvd;visible_nir;spiral_cutback
+  verified_on: '2026-11-26'
+  notes: 'Within the range the paper calls single mode at 900 nm (p.7); the paper notes that with the upper cladding the 500 nm wire also shows low loss (p.7). Figure-only value. Fab empty: the paper says only that the waveguides were fabricated ''in a CMOS pilot line'' / ''within a CMOS pilot line'' (p.2 abstract, p.9) and names no org; authors at Ghent University-IMEC and IMEC (D80b, Contract v7). Process as printed: 200 mm bare Si wafer, 2-2.4 um HDP-CVD SiO2, PECVD Si3N4 at 400 C (SiH4 / N2 / NH3), 193 nm optical lithography, fluorine ICP-RIE, no anneal (p.4 Sec. 3); process_name left empty (no node or named flow).'
+  why: 'judgment f (question 6): figure-only point of the paper''s main loss-vs-width data with no text value for this width and wavelength; entered as extracted_from_figure per the per-width precedent (evans2015 channel_w500 / w750, D632 vogelbacher2019); drop this op with the rest of the figure block if the coordinator prefers notes only'
+- component_id: cmp_lit_subramanian2013_wg220_clad_w600
+  source_id: lit:subramanian2013
+  class: waveguide_platform.straight
+  label: SiO2-clad PECVD Si3N4 wire, 220 nm film, 600 nm wide (900 nm)
+  row_kind: fabricated
+  platform: sin
+  core_material: PECVD Si3N4 220 nm (target), fully etched strip
+  cladding: 2 um PECVD SiO2 top; 2.4 um HDP-CVD SiO2 below
+  test_structure: 'true'
+  tags: pecvd;visible_nir;spiral_cutback
+  verified_on: '2026-11-26'
+  notes: 'Within the range the paper calls single mode at 900 nm (p.7). Figure-only value. Fab empty: the paper says only that the waveguides were fabricated ''in a CMOS pilot line'' / ''within a CMOS pilot line'' (p.2 abstract, p.9) and names no org; authors at Ghent University-IMEC and IMEC (D80b, Contract v7). Process as printed: 200 mm bare Si wafer, 2-2.4 um HDP-CVD SiO2, PECVD Si3N4 at 400 C (SiH4 / N2 / NH3), 193 nm optical lithography, fluorine ICP-RIE, no anneal (p.4 Sec. 3); process_name left empty (no node or named flow).'
+  why: 'judgment f (question 6): figure-only point of the paper''s main loss-vs-width data with no text value for this width and wavelength; entered as extracted_from_figure per the per-width precedent (evans2015 channel_w500 / w750, D632 vogelbacher2019); drop this op with the rest of the figure block if the coordinator prefers notes only'
+- component_id: cmp_lit_subramanian2013_wg220_clad_w700
+  source_id: lit:subramanian2013
+  class: waveguide_platform.straight
+  label: SiO2-clad PECVD Si3N4 wire, 220 nm film, 700 nm wide (900 nm)
+  row_kind: fabricated
+  platform: sin
+  core_material: PECVD Si3N4 220 nm (target), fully etched strip
+  cladding: 2 um PECVD SiO2 top; 2.4 um HDP-CVD SiO2 below
+  test_structure: 'true'
+  tags: pecvd;visible_nir;spiral_cutback
+  verified_on: '2026-11-26'
+  notes: 'Within the range the paper calls single mode at 900 nm (p.7). Figure-only value. Fab empty: the paper says only that the waveguides were fabricated ''in a CMOS pilot line'' / ''within a CMOS pilot line'' (p.2 abstract, p.9) and names no org; authors at Ghent University-IMEC and IMEC (D80b, Contract v7). Process as printed: 200 mm bare Si wafer, 2-2.4 um HDP-CVD SiO2, PECVD Si3N4 at 400 C (SiH4 / N2 / NH3), 193 nm optical lithography, fluorine ICP-RIE, no anneal (p.4 Sec. 3); process_name left empty (no node or named flow).'
+  why: 'judgment f (question 6): figure-only point of the paper''s main loss-vs-width data with no text value for this width and wavelength; entered as extracted_from_figure per the per-width precedent (evans2015 channel_w500 / w750, D632 vogelbacher2019); drop this op with the rest of the figure block if the coordinator prefers notes only'
+add_metrics:
+- metric_id: cmp_lit_subramanian2013_wg220_unclad_w800-m9
+  component_id: cmp_lit_subramanian2013_wg220_unclad_w800
+  parameter: box_thickness_um
+  value: '2.43'
+  unit: um
+  condition: FIB/SEM cross-section of a nominal 500 nm wide waveguide of the 220 nm stack
+  method: direct
+  basis: measured
+  locator: p.6 Fig. 4(b); p.6 Sec. 4.2
+  notes: 'Fig. 4(b) label 2.43 um; text: measured thickness the same as the 2.4 um target, > 5 % variation across the wafer; wafer-level value, not measured on the 800 nm wire'
+  why: 'miss: SEM-labelled BOX thickness (Fig. 4(b) prints 2.43 um; Contract v5, lit_287 STEM-label precedent: measured)'
+- metric_id: cmp_lit_subramanian2013_gc_unclad-m11
+  component_id: cmp_lit_subramanian2013_gc_unclad
+  parameter: grating_width_um
+  value: '5'
+  unit: um
+  wavelength_nm: '532'
+  condition: '532 nm GCs: 5 um wide waveguide with a 125 um taper'
+  basis: design_target
+  locator: p.6 Sec. 4.2
+  notes: width of the waveguide the GC is defined on; 780 / 900 nm GCs 8 um (m9)
+  why: 'miss: the 532 nm GC width is printed next to the 8 um of m9 (period rows are per wavelength, so the width is too)'
+- metric_id: cmp_lit_subramanian2013_gc_unclad-m12
+  component_id: cmp_lit_subramanian2013_gc_unclad
+  parameter: core_thickness_nm
+  value: '180'
+  unit: nm
+  wavelength_nm: '532'
+  condition: 532 nm GCs (180 nm stack)
+  basis: design_target
+  locator: p.4 Sec. 3; p.5 Sec. 4.2
+  why: 'judgment e (question 5): stack geometry on every waveguide / GC row (D153; D683 huang2016b, D740 rawat2023, D642 yu2014 precedents) instead of once per stack; design values, measured film values stay on the one row that carries them'
+- metric_id: cmp_lit_subramanian2013_gc_unclad-m13
+  component_id: cmp_lit_subramanian2013_gc_unclad
+  parameter: core_thickness_nm
+  value: '220'
+  unit: nm
+  condition: 780 and 900 nm GCs (220 nm stack)
+  basis: design_target
+  locator: p.4 Sec. 3; p.6 Sec. 4.2
+  why: 'judgment e (question 5): stack geometry on every waveguide / GC row (D153; D683 huang2016b, D740 rawat2023, D642 yu2014 precedents) instead of once per stack; design values, measured film values stay on the one row that carries them'
+- metric_id: cmp_lit_subramanian2013_gc_unclad-m14
+  component_id: cmp_lit_subramanian2013_gc_unclad
+  parameter: box_thickness_um
+  value: '2'
+  unit: um
+  wavelength_nm: '532'
+  condition: 532 nm GCs; bottom oxide chosen for the highest GC efficiency
+  basis: design_target
+  locator: p.5 Sec. 4.2
+  why: 'judgment e (question 5): stack geometry on every waveguide / GC row (D153; D683 huang2016b, D740 rawat2023, D642 yu2014 precedents) instead of once per stack; design values, measured film values stay on the one row that carries them'
+- metric_id: cmp_lit_subramanian2013_gc_unclad-m15
+  component_id: cmp_lit_subramanian2013_gc_unclad
+  parameter: box_thickness_um
+  value: '2.4'
+  unit: um
+  condition: 780 and 900 nm GCs
+  basis: design_target
+  locator: p.6 Sec. 4.2
+  why: 'judgment e (question 5): stack geometry on every waveguide / GC row (D153; D683 huang2016b, D740 rawat2023, D642 yu2014 precedents) instead of once per stack; design values, measured film values stay on the one row that carries them'
+- metric_id: cmp_lit_subramanian2013_gc_clad-m2
+  component_id: cmp_lit_subramanian2013_gc_clad
+  parameter: cladding_thickness_um
+  value: '2'
+  unit: um
+  condition: PECVD SiO2 top coating
+  basis: design_target
+  locator: p.3 Sec. 2; p.6 Sec. 4.2
+  why: 'judgment e (question 5): stack geometry on every waveguide / GC row (D153; D683 huang2016b, D740 rawat2023, D642 yu2014 precedents) instead of once per stack; design values, measured film values stay on the one row that carries them'
+- metric_id: cmp_lit_subramanian2013_wg180_unclad_wide-m4
+  component_id: cmp_lit_subramanian2013_wg180_unclad_wide
+  parameter: core_thickness_nm
+  value: '180'
+  unit: nm
+  condition: target Si3N4 thickness of the 532 nm stack
+  basis: design_target
+  locator: p.4 Sec. 3; p.5 Sec. 4.2
+  notes: '9-point ellipsometry mean 178.9 nm on one test wafer of the lot: cmp_lit_subramanian2013_wg180_unclad_wide-m2'
+  why: 'judgment e (question 5): stack geometry on every waveguide / GC row (D153; D683 huang2016b, D740 rawat2023, D642 yu2014 precedents) instead of once per stack; design values, measured film values stay on the one row that carries them'
+- metric_id: cmp_lit_subramanian2013_wg180_unclad_sm-m2
+  component_id: cmp_lit_subramanian2013_wg180_unclad_sm
+  parameter: core_thickness_nm
+  value: '180'
+  unit: nm
+  condition: target Si3N4 thickness of the 532 nm stack
+  basis: design_target
+  locator: p.4 Sec. 3; p.5 Sec. 4.2
+  notes: '9-point ellipsometry mean 178.9 nm on one test wafer of the lot: cmp_lit_subramanian2013_wg180_unclad_wide-m2'
+  why: 'judgment e (question 5): stack geometry on every waveguide / GC row (D153; D683 huang2016b, D740 rawat2023, D642 yu2014 precedents) instead of once per stack; design values, measured film values stay on the one row that carries them'
+- metric_id: cmp_lit_subramanian2013_wg180_unclad_sm-m3
+  component_id: cmp_lit_subramanian2013_wg180_unclad_sm
+  parameter: box_thickness_um
+  value: '2'
+  unit: um
+  condition: HDP-CVD SiO2 bottom cladding of the 532 nm test wafers, chosen for the highest GC efficiency
+  basis: design_target
+  locator: p.5 Sec. 4.2
+  notes: deposition range 2-2.4 um stated on p.4 Sec. 3
+  why: 'judgment e (question 5): stack geometry on every waveguide / GC row (D153; D683 huang2016b, D740 rawat2023, D642 yu2014 precedents) instead of once per stack; design values, measured film values stay on the one row that carries them'
+- metric_id: cmp_lit_subramanian2013_wg180_clad_w400-m4
+  component_id: cmp_lit_subramanian2013_wg180_clad_w400
+  parameter: core_thickness_nm
+  value: '180'
+  unit: nm
+  condition: target Si3N4 thickness of the 532 nm stack
+  basis: design_target
+  locator: p.4 Sec. 3; p.5 Sec. 4.2
+  notes: '9-point ellipsometry mean 178.9 nm on one test wafer of the lot: cmp_lit_subramanian2013_wg180_unclad_wide-m2'
+  why: 'judgment e (question 5): stack geometry on every waveguide / GC row (D153; D683 huang2016b, D740 rawat2023, D642 yu2014 precedents) instead of once per stack; design values, measured film values stay on the one row that carries them'
+- metric_id: cmp_lit_subramanian2013_wg180_clad_w400-m5
+  component_id: cmp_lit_subramanian2013_wg180_clad_w400
+  parameter: box_thickness_um
+  value: '2'
+  unit: um
+  condition: HDP-CVD SiO2 bottom cladding of the 532 nm test wafers, chosen for the highest GC efficiency
+  basis: design_target
+  locator: p.5 Sec. 4.2
+  notes: deposition range 2-2.4 um stated on p.4 Sec. 3
+  why: 'judgment e (question 5): stack geometry on every waveguide / GC row (D153; D683 huang2016b, D740 rawat2023, D642 yu2014 precedents) instead of once per stack; design values, measured film values stay on the one row that carries them'
+- metric_id: cmp_lit_subramanian2013_wg180_clad_wide-m2
+  component_id: cmp_lit_subramanian2013_wg180_clad_wide
+  parameter: core_thickness_nm
+  value: '180'
+  unit: nm
+  condition: target Si3N4 thickness of the 532 nm stack
+  basis: design_target
+  locator: p.4 Sec. 3; p.5 Sec. 4.2
+  notes: '9-point ellipsometry mean 178.9 nm on one test wafer of the lot: cmp_lit_subramanian2013_wg180_unclad_wide-m2'
+  why: 'judgment e (question 5): stack geometry on every waveguide / GC row (D153; D683 huang2016b, D740 rawat2023, D642 yu2014 precedents) instead of once per stack; design values, measured film values stay on the one row that carries them'
+- metric_id: cmp_lit_subramanian2013_wg180_clad_wide-m3
+  component_id: cmp_lit_subramanian2013_wg180_clad_wide
+  parameter: box_thickness_um
+  value: '2'
+  unit: um
+  condition: HDP-CVD SiO2 bottom cladding of the 532 nm test wafers, chosen for the highest GC efficiency
+  basis: design_target
+  locator: p.5 Sec. 4.2
+  notes: deposition range 2-2.4 um stated on p.4 Sec. 3
+  why: 'judgment e (question 5): stack geometry on every waveguide / GC row (D153; D683 huang2016b, D740 rawat2023, D642 yu2014 precedents) instead of once per stack; design values, measured film values stay on the one row that carries them'
+- metric_id: cmp_lit_subramanian2013_wg180_clad_wide-m4
+  component_id: cmp_lit_subramanian2013_wg180_clad_wide
+  parameter: cladding_thickness_um
+  value: '2'
+  unit: um
+  condition: PECVD SiO2 top coating
+  basis: design_target
+  locator: p.3 Sec. 2; p.6 Sec. 4.2
+  why: 'judgment e (question 5): stack geometry on every waveguide / GC row (D153; D683 huang2016b, D740 rawat2023, D642 yu2014 precedents) instead of once per stack; design values, measured film values stay on the one row that carries them'
+- metric_id: cmp_lit_subramanian2013_wg180_clad_w300-m3
+  component_id: cmp_lit_subramanian2013_wg180_clad_w300
+  parameter: core_thickness_nm
+  value: '180'
+  unit: nm
+  condition: target Si3N4 thickness of the 532 nm stack
+  basis: design_target
+  locator: p.4 Sec. 3; p.5 Sec. 4.2
+  notes: '9-point ellipsometry mean 178.9 nm on one test wafer of the lot: cmp_lit_subramanian2013_wg180_unclad_wide-m2'
+  why: 'judgment e (question 5): stack geometry on every waveguide / GC row (D153; D683 huang2016b, D740 rawat2023, D642 yu2014 precedents) instead of once per stack; design values, measured film values stay on the one row that carries them'
+- metric_id: cmp_lit_subramanian2013_wg180_clad_w300-m4
+  component_id: cmp_lit_subramanian2013_wg180_clad_w300
+  parameter: box_thickness_um
+  value: '2'
+  unit: um
+  condition: HDP-CVD SiO2 bottom cladding of the 532 nm test wafers, chosen for the highest GC efficiency
+  basis: design_target
+  locator: p.5 Sec. 4.2
+  notes: deposition range 2-2.4 um stated on p.4 Sec. 3
+  why: 'judgment e (question 5): stack geometry on every waveguide / GC row (D153; D683 huang2016b, D740 rawat2023, D642 yu2014 precedents) instead of once per stack; design values, measured film values stay on the one row that carries them'
+- metric_id: cmp_lit_subramanian2013_wg180_clad_w300-m5
+  component_id: cmp_lit_subramanian2013_wg180_clad_w300
+  parameter: cladding_thickness_um
+  value: '2'
+  unit: um
+  condition: PECVD SiO2 top coating
+  basis: design_target
+  locator: p.3 Sec. 2; p.6 Sec. 4.2
+  why: 'judgment e (question 5): stack geometry on every waveguide / GC row (D153; D683 huang2016b, D740 rawat2023, D642 yu2014 precedents) instead of once per stack; design values, measured film values stay on the one row that carries them'
+- metric_id: cmp_lit_subramanian2013_wg220_clad_w800-m3
+  component_id: cmp_lit_subramanian2013_wg220_clad_w800
+  parameter: core_thickness_nm
+  value: '220'
+  unit: nm
+  condition: target Si3N4 thickness of the 780 / 900 nm stack
+  basis: design_target
+  locator: p.4 Sec. 3; p.6 Sec. 4.2
+  notes: 'FIB/SEM 230 +/- 15 nm on a nominal 500 nm waveguide: cmp_lit_subramanian2013_wg220_unclad_w800-m7'
+  why: 'judgment e (question 5): stack geometry on every waveguide / GC row (D153; D683 huang2016b, D740 rawat2023, D642 yu2014 precedents) instead of once per stack; design values, measured film values stay on the one row that carries them'
+- metric_id: cmp_lit_subramanian2013_wg220_clad_w800-m4
+  component_id: cmp_lit_subramanian2013_wg220_clad_w800
+  parameter: box_thickness_um
+  value: '2.4'
+  unit: um
+  condition: HDP-CVD SiO2 bottom cladding of the 780 / 900 nm wafers
+  basis: design_target
+  locator: p.6 Sec. 4.2
+  notes: 'FIB/SEM 2.43 um (Fig. 4(b) label) on a nominal 500 nm waveguide, > 5 % across-wafer variation: cmp_lit_subramanian2013_wg220_unclad_w800-m9'
+  why: 'judgment e (question 5): stack geometry on every waveguide / GC row (D153; D683 huang2016b, D740 rawat2023, D642 yu2014 precedents) instead of once per stack; design values, measured film values stay on the one row that carries them'
+- metric_id: cmp_lit_subramanian2013_wg220_clad_w800-m5
+  component_id: cmp_lit_subramanian2013_wg220_clad_w800
+  parameter: cladding_thickness_um
+  value: '2'
+  unit: um
+  condition: PECVD SiO2 top coating
+  basis: design_target
+  locator: p.3 Sec. 2; p.6 Sec. 4.2
+  why: 'judgment e (question 5): stack geometry on every waveguide / GC row (D153; D683 huang2016b, D740 rawat2023, D642 yu2014 precedents) instead of once per stack; design values, measured film values stay on the one row that carries them'
+- metric_id: cmp_lit_subramanian2013_wg220_unclad_w700-m3
+  component_id: cmp_lit_subramanian2013_wg220_unclad_w700
+  parameter: prop_loss_db_per_cm
+  value: '0.87'
+  unit: dB/cm
+  wavelength_nm: '900'
+  polarization: te
+  condition: unclad; spiral / straight waveguides of 1, 2, 4 and 8 cm with grating couplers at each end (p.3 Sec. 2, p.4 Sec. 3)
+  method: cutback
+  basis: extracted_from_figure
+  locator: p.7 Fig. 5
+  notes: 900 nm series (triangle) at 700 nm. Fig. 5 marker centre read on the embedded raster (72.4 px per dB/cm; about +/-0.03 dB/cm, about +/-0.04 where the marker is partly hidden behind another series); error bar plotted, its meaning not stated
+  why: 'judgment f (question 6): figure-only point of the paper''s main loss-vs-width data with no text value for this width and wavelength; entered as extracted_from_figure per the per-width precedent (evans2015 channel_w500 / w750, D632 vogelbacher2019); drop this op with the rest of the figure block if the coordinator prefers notes only'
+- metric_id: cmp_lit_subramanian2013_wg220_unclad_w700-m4
+  component_id: cmp_lit_subramanian2013_wg220_unclad_w700
+  parameter: core_thickness_nm
+  value: '220'
+  unit: nm
+  condition: target Si3N4 thickness of the 780 / 900 nm stack
+  basis: design_target
+  locator: p.4 Sec. 3; p.6 Sec. 4.2
+  notes: 'FIB/SEM 230 +/- 15 nm on a nominal 500 nm waveguide: cmp_lit_subramanian2013_wg220_unclad_w800-m7'
+  why: 'judgment e (question 5): stack geometry on every waveguide / GC row (D153; D683 huang2016b, D740 rawat2023, D642 yu2014 precedents) instead of once per stack; design values, measured film values stay on the one row that carries them'
+- metric_id: cmp_lit_subramanian2013_wg220_unclad_w700-m5
+  component_id: cmp_lit_subramanian2013_wg220_unclad_w700
+  parameter: box_thickness_um
+  value: '2.4'
+  unit: um
+  condition: HDP-CVD SiO2 bottom cladding of the 780 / 900 nm wafers
+  basis: design_target
+  locator: p.6 Sec. 4.2
+  notes: 'FIB/SEM 2.43 um (Fig. 4(b) label) on a nominal 500 nm waveguide, > 5 % across-wafer variation: cmp_lit_subramanian2013_wg220_unclad_w800-m9'
+  why: 'judgment e (question 5): stack geometry on every waveguide / GC row (D153; D683 huang2016b, D740 rawat2023, D642 yu2014 precedents) instead of once per stack; design values, measured film values stay on the one row that carries them'
+- metric_id: cmp_lit_subramanian2013_wg180_unclad_w300-m1
+  component_id: cmp_lit_subramanian2013_wg180_unclad_w300
+  parameter: prop_loss_db_per_cm
+  value: '7.32'
+  unit: dB/cm
+  wavelength_nm: '532'
+  polarization: te
+  condition: unclad; spiral / straight waveguides of 1, 2, 4 and 8 cm with grating couplers at each end (p.3 Sec. 2, p.4 Sec. 3)
+  method: cutback
+  basis: extracted_from_figure
+  locator: p.7 Fig. 5
+  notes: 532 nm series (square) at 300 nm. Fig. 5 marker centre read on the embedded raster (72.4 px per dB/cm; about +/-0.03 dB/cm, about +/-0.04 where the marker is partly hidden behind another series); error bar plotted, its meaning not stated
+  why: 'judgment f (question 6): figure-only point of the paper''s main loss-vs-width data with no text value for this width and wavelength; entered as extracted_from_figure per the per-width precedent (evans2015 channel_w500 / w750, D632 vogelbacher2019); drop this op with the rest of the figure block if the coordinator prefers notes only'
+- metric_id: cmp_lit_subramanian2013_wg180_unclad_w300-m2
+  component_id: cmp_lit_subramanian2013_wg180_unclad_w300
+  parameter: width_nm
+  value: '300'
+  unit: nm
+  basis: design_target
+  locator: p.7 Fig. 5; p.5-6 Sec. 4.2
+  notes: mask width; x position in Fig. 5, within the printed 300-1000 nm mask range
+  why: 'judgment f (question 6): figure-only point of the paper''s main loss-vs-width data with no text value for this width and wavelength; entered as extracted_from_figure per the per-width precedent (evans2015 channel_w500 / w750, D632 vogelbacher2019); drop this op with the rest of the figure block if the coordinator prefers notes only'
+- metric_id: cmp_lit_subramanian2013_wg180_unclad_w300-m3
+  component_id: cmp_lit_subramanian2013_wg180_unclad_w300
+  parameter: core_thickness_nm
+  value: '180'
+  unit: nm
+  condition: target Si3N4 thickness of the 532 nm stack
+  basis: design_target
+  locator: p.4 Sec. 3; p.5 Sec. 4.2
+  notes: '9-point ellipsometry mean 178.9 nm on one test wafer of the lot: cmp_lit_subramanian2013_wg180_unclad_wide-m2'
+  why: 'judgment e (question 5): stack geometry on every waveguide / GC row (D153; D683 huang2016b, D740 rawat2023, D642 yu2014 precedents) instead of once per stack; design values, measured film values stay on the one row that carries them'
+- metric_id: cmp_lit_subramanian2013_wg180_unclad_w300-m4
+  component_id: cmp_lit_subramanian2013_wg180_unclad_w300
+  parameter: box_thickness_um
+  value: '2'
+  unit: um
+  condition: HDP-CVD SiO2 bottom cladding of the 532 nm test wafers, chosen for the highest GC efficiency
+  basis: design_target
+  locator: p.5 Sec. 4.2
+  notes: deposition range 2-2.4 um stated on p.4 Sec. 3
+  why: 'judgment e (question 5): stack geometry on every waveguide / GC row (D153; D683 huang2016b, D740 rawat2023, D642 yu2014 precedents) instead of once per stack; design values, measured film values stay on the one row that carries them'
+- metric_id: cmp_lit_subramanian2013_wg180_unclad_w400-m1
+  component_id: cmp_lit_subramanian2013_wg180_unclad_w400
+  parameter: prop_loss_db_per_cm
+  value: '3.22'
+  unit: dB/cm
+  wavelength_nm: '532'
+  polarization: te
+  condition: unclad; spiral / straight waveguides of 1, 2, 4 and 8 cm with grating couplers at each end (p.3 Sec. 2, p.4 Sec. 3)
+  method: cutback
+  basis: extracted_from_figure
+  locator: p.7 Fig. 5
+  notes: 532 nm series (square) at 400 nm. Fig. 5 marker centre read on the embedded raster (72.4 px per dB/cm; about +/-0.03 dB/cm, about +/-0.04 where the marker is partly hidden behind another series); error bar plotted, its meaning not stated
+  why: 'judgment f (question 6): figure-only point of the paper''s main loss-vs-width data with no text value for this width and wavelength; entered as extracted_from_figure per the per-width precedent (evans2015 channel_w500 / w750, D632 vogelbacher2019); drop this op with the rest of the figure block if the coordinator prefers notes only'
+- metric_id: cmp_lit_subramanian2013_wg180_unclad_w400-m2
+  component_id: cmp_lit_subramanian2013_wg180_unclad_w400
+  parameter: width_nm
+  value: '400'
+  unit: nm
+  basis: design_target
+  locator: p.7 Fig. 5; p.5-6 Sec. 4.2
+  notes: mask width; x position in Fig. 5, within the printed 300-1000 nm mask range
+  why: 'judgment f (question 6): figure-only point of the paper''s main loss-vs-width data with no text value for this width and wavelength; entered as extracted_from_figure per the per-width precedent (evans2015 channel_w500 / w750, D632 vogelbacher2019); drop this op with the rest of the figure block if the coordinator prefers notes only'
+- metric_id: cmp_lit_subramanian2013_wg180_unclad_w400-m3
+  component_id: cmp_lit_subramanian2013_wg180_unclad_w400
+  parameter: core_thickness_nm
+  value: '180'
+  unit: nm
+  condition: target Si3N4 thickness of the 532 nm stack
+  basis: design_target
+  locator: p.4 Sec. 3; p.5 Sec. 4.2
+  notes: '9-point ellipsometry mean 178.9 nm on one test wafer of the lot: cmp_lit_subramanian2013_wg180_unclad_wide-m2'
+  why: 'judgment e (question 5): stack geometry on every waveguide / GC row (D153; D683 huang2016b, D740 rawat2023, D642 yu2014 precedents) instead of once per stack; design values, measured film values stay on the one row that carries them'
+- metric_id: cmp_lit_subramanian2013_wg180_unclad_w400-m4
+  component_id: cmp_lit_subramanian2013_wg180_unclad_w400
+  parameter: box_thickness_um
+  value: '2'
+  unit: um
+  condition: HDP-CVD SiO2 bottom cladding of the 532 nm test wafers, chosen for the highest GC efficiency
+  basis: design_target
+  locator: p.5 Sec. 4.2
+  notes: deposition range 2-2.4 um stated on p.4 Sec. 3
+  why: 'judgment e (question 5): stack geometry on every waveguide / GC row (D153; D683 huang2016b, D740 rawat2023, D642 yu2014 precedents) instead of once per stack; design values, measured film values stay on the one row that carries them'
+- metric_id: cmp_lit_subramanian2013_wg180_unclad_w600-m1
+  component_id: cmp_lit_subramanian2013_wg180_unclad_w600
+  parameter: prop_loss_db_per_cm
+  value: '1.21'
+  unit: dB/cm
+  wavelength_nm: '532'
+  polarization: te
+  condition: unclad; spiral / straight waveguides of 1, 2, 4 and 8 cm with grating couplers at each end (p.3 Sec. 2, p.4 Sec. 3)
+  method: cutback
+  basis: extracted_from_figure
+  locator: p.7 Fig. 5
+  notes: 532 nm series (square) at 600 nm; marker partly hidden behind the 900 nm marker (bottom edge read). Fig. 5 marker centre read on the embedded raster (72.4 px per dB/cm; about +/-0.03 dB/cm, about +/-0.04 where the marker is partly hidden behind another series); error bar plotted, its meaning not stated
+  why: 'judgment f (question 6): figure-only point of the paper''s main loss-vs-width data with no text value for this width and wavelength; entered as extracted_from_figure per the per-width precedent (evans2015 channel_w500 / w750, D632 vogelbacher2019); drop this op with the rest of the figure block if the coordinator prefers notes only'
+- metric_id: cmp_lit_subramanian2013_wg180_unclad_w600-m2
+  component_id: cmp_lit_subramanian2013_wg180_unclad_w600
+  parameter: width_nm
+  value: '600'
+  unit: nm
+  basis: design_target
+  locator: p.7 Fig. 5; p.5-6 Sec. 4.2
+  notes: mask width; x position in Fig. 5, within the printed 300-1000 nm mask range
+  why: 'judgment f (question 6): figure-only point of the paper''s main loss-vs-width data with no text value for this width and wavelength; entered as extracted_from_figure per the per-width precedent (evans2015 channel_w500 / w750, D632 vogelbacher2019); drop this op with the rest of the figure block if the coordinator prefers notes only'
+- metric_id: cmp_lit_subramanian2013_wg180_unclad_w600-m3
+  component_id: cmp_lit_subramanian2013_wg180_unclad_w600
+  parameter: core_thickness_nm
+  value: '180'
+  unit: nm
+  condition: target Si3N4 thickness of the 532 nm stack
+  basis: design_target
+  locator: p.4 Sec. 3; p.5 Sec. 4.2
+  notes: '9-point ellipsometry mean 178.9 nm on one test wafer of the lot: cmp_lit_subramanian2013_wg180_unclad_wide-m2'
+  why: 'judgment e (question 5): stack geometry on every waveguide / GC row (D153; D683 huang2016b, D740 rawat2023, D642 yu2014 precedents) instead of once per stack; design values, measured film values stay on the one row that carries them'
+- metric_id: cmp_lit_subramanian2013_wg180_unclad_w600-m4
+  component_id: cmp_lit_subramanian2013_wg180_unclad_w600
+  parameter: box_thickness_um
+  value: '2'
+  unit: um
+  condition: HDP-CVD SiO2 bottom cladding of the 532 nm test wafers, chosen for the highest GC efficiency
+  basis: design_target
+  locator: p.5 Sec. 4.2
+  notes: deposition range 2-2.4 um stated on p.4 Sec. 3
+  why: 'judgment e (question 5): stack geometry on every waveguide / GC row (D153; D683 huang2016b, D740 rawat2023, D642 yu2014 precedents) instead of once per stack; design values, measured film values stay on the one row that carries them'
+- metric_id: cmp_lit_subramanian2013_wg180_unclad_w700-m1
+  component_id: cmp_lit_subramanian2013_wg180_unclad_w700
+  parameter: prop_loss_db_per_cm
+  value: '0.85'
+  unit: dB/cm
+  wavelength_nm: '532'
+  polarization: te
+  condition: unclad; spiral / straight waveguides of 1, 2, 4 and 8 cm with grating couplers at each end (p.3 Sec. 2, p.4 Sec. 3)
+  method: cutback
+  basis: extracted_from_figure
+  locator: p.7 Fig. 5
+  notes: 532 nm series (square) at 700 nm; marker partly hidden behind the 900 nm marker. Fig. 5 marker centre read on the embedded raster (72.4 px per dB/cm; about +/-0.03 dB/cm, about +/-0.04 where the marker is partly hidden behind another series); error bar plotted, its meaning not stated
+  why: 'judgment f (question 6): figure-only point of the paper''s main loss-vs-width data with no text value for this width and wavelength; entered as extracted_from_figure per the per-width precedent (evans2015 channel_w500 / w750, D632 vogelbacher2019); drop this op with the rest of the figure block if the coordinator prefers notes only'
+- metric_id: cmp_lit_subramanian2013_wg180_unclad_w700-m2
+  component_id: cmp_lit_subramanian2013_wg180_unclad_w700
+  parameter: width_nm
+  value: '700'
+  unit: nm
+  basis: design_target
+  locator: p.7 Fig. 5; p.5-6 Sec. 4.2
+  notes: mask width; x position in Fig. 5, within the printed 300-1000 nm mask range
+  why: 'judgment f (question 6): figure-only point of the paper''s main loss-vs-width data with no text value for this width and wavelength; entered as extracted_from_figure per the per-width precedent (evans2015 channel_w500 / w750, D632 vogelbacher2019); drop this op with the rest of the figure block if the coordinator prefers notes only'
+- metric_id: cmp_lit_subramanian2013_wg180_unclad_w700-m3
+  component_id: cmp_lit_subramanian2013_wg180_unclad_w700
+  parameter: core_thickness_nm
+  value: '180'
+  unit: nm
+  condition: target Si3N4 thickness of the 532 nm stack
+  basis: design_target
+  locator: p.4 Sec. 3; p.5 Sec. 4.2
+  notes: '9-point ellipsometry mean 178.9 nm on one test wafer of the lot: cmp_lit_subramanian2013_wg180_unclad_wide-m2'
+  why: 'judgment e (question 5): stack geometry on every waveguide / GC row (D153; D683 huang2016b, D740 rawat2023, D642 yu2014 precedents) instead of once per stack; design values, measured film values stay on the one row that carries them'
+- metric_id: cmp_lit_subramanian2013_wg180_unclad_w700-m4
+  component_id: cmp_lit_subramanian2013_wg180_unclad_w700
+  parameter: box_thickness_um
+  value: '2'
+  unit: um
+  condition: HDP-CVD SiO2 bottom cladding of the 532 nm test wafers, chosen for the highest GC efficiency
+  basis: design_target
+  locator: p.5 Sec. 4.2
+  notes: deposition range 2-2.4 um stated on p.4 Sec. 3
+  why: 'judgment e (question 5): stack geometry on every waveguide / GC row (D153; D683 huang2016b, D740 rawat2023, D642 yu2014 precedents) instead of once per stack; design values, measured film values stay on the one row that carries them'
+- metric_id: cmp_lit_subramanian2013_wg180_unclad_w800-m1
+  component_id: cmp_lit_subramanian2013_wg180_unclad_w800
+  parameter: prop_loss_db_per_cm
+  value: '0.73'
+  unit: dB/cm
+  wavelength_nm: '532'
+  polarization: te
+  condition: unclad; spiral / straight waveguides of 1, 2, 4 and 8 cm with grating couplers at each end (p.3 Sec. 2, p.4 Sec. 3)
+  method: cutback
+  basis: extracted_from_figure
+  locator: p.7 Fig. 5
+  notes: 532 nm series (square) at 800 nm; lower half hidden behind the 900 nm marker (top edge read). Fig. 5 marker centre read on the embedded raster (72.4 px per dB/cm; about +/-0.03 dB/cm, about +/-0.04 where the marker is partly hidden behind another series); error bar plotted, its meaning not stated
+  why: 'judgment f (question 6): figure-only point of the paper''s main loss-vs-width data with no text value for this width and wavelength; entered as extracted_from_figure per the per-width precedent (evans2015 channel_w500 / w750, D632 vogelbacher2019); drop this op with the rest of the figure block if the coordinator prefers notes only'
+- metric_id: cmp_lit_subramanian2013_wg180_unclad_w800-m2
+  component_id: cmp_lit_subramanian2013_wg180_unclad_w800
+  parameter: width_nm
+  value: '800'
+  unit: nm
+  basis: design_target
+  locator: p.7 Fig. 5; p.5-6 Sec. 4.2
+  notes: mask width; x position in Fig. 5, within the printed 300-1000 nm mask range
+  why: 'judgment f (question 6): figure-only point of the paper''s main loss-vs-width data with no text value for this width and wavelength; entered as extracted_from_figure per the per-width precedent (evans2015 channel_w500 / w750, D632 vogelbacher2019); drop this op with the rest of the figure block if the coordinator prefers notes only'
+- metric_id: cmp_lit_subramanian2013_wg180_unclad_w800-m3
+  component_id: cmp_lit_subramanian2013_wg180_unclad_w800
+  parameter: core_thickness_nm
+  value: '180'
+  unit: nm
+  condition: target Si3N4 thickness of the 532 nm stack
+  basis: design_target
+  locator: p.4 Sec. 3; p.5 Sec. 4.2
+  notes: '9-point ellipsometry mean 178.9 nm on one test wafer of the lot: cmp_lit_subramanian2013_wg180_unclad_wide-m2'
+  why: 'judgment e (question 5): stack geometry on every waveguide / GC row (D153; D683 huang2016b, D740 rawat2023, D642 yu2014 precedents) instead of once per stack; design values, measured film values stay on the one row that carries them'
+- metric_id: cmp_lit_subramanian2013_wg180_unclad_w800-m4
+  component_id: cmp_lit_subramanian2013_wg180_unclad_w800
+  parameter: box_thickness_um
+  value: '2'
+  unit: um
+  condition: HDP-CVD SiO2 bottom cladding of the 532 nm test wafers, chosen for the highest GC efficiency
+  basis: design_target
+  locator: p.5 Sec. 4.2
+  notes: deposition range 2-2.4 um stated on p.4 Sec. 3
+  why: 'judgment e (question 5): stack geometry on every waveguide / GC row (D153; D683 huang2016b, D740 rawat2023, D642 yu2014 precedents) instead of once per stack; design values, measured film values stay on the one row that carries them'
+- metric_id: cmp_lit_subramanian2013_wg220_unclad_w450-m1
+  component_id: cmp_lit_subramanian2013_wg220_unclad_w450
+  parameter: prop_loss_db_per_cm
+  value: '4.06'
+  unit: dB/cm
+  wavelength_nm: '780'
+  polarization: te
+  condition: unclad; spiral / straight waveguides of 1, 2, 4 and 8 cm with grating couplers at each end (p.3 Sec. 2, p.4 Sec. 3)
+  method: cutback
+  basis: extracted_from_figure
+  locator: p.7 Fig. 5
+  notes: 780 nm series (circle) at 450 nm. Fig. 5 marker centre read on the embedded raster (72.4 px per dB/cm; about +/-0.03 dB/cm, about +/-0.04 where the marker is partly hidden behind another series); error bar plotted, its meaning not stated
+  why: 'judgment f (question 6): figure-only point of the paper''s main loss-vs-width data with no text value for this width and wavelength; entered as extracted_from_figure per the per-width precedent (evans2015 channel_w500 / w750, D632 vogelbacher2019); drop this op with the rest of the figure block if the coordinator prefers notes only'
+- metric_id: cmp_lit_subramanian2013_wg220_unclad_w450-m2
+  component_id: cmp_lit_subramanian2013_wg220_unclad_w450
+  parameter: width_nm
+  value: '450'
+  unit: nm
+  basis: design_target
+  locator: p.7 Sec. 4.2
+  notes: mask width; printed width set at 780 nm (450, 500, 600, 700 nm)
+  why: 'judgment f (question 6): figure-only point of the paper''s main loss-vs-width data with no text value for this width and wavelength; entered as extracted_from_figure per the per-width precedent (evans2015 channel_w500 / w750, D632 vogelbacher2019); drop this op with the rest of the figure block if the coordinator prefers notes only'
+- metric_id: cmp_lit_subramanian2013_wg220_unclad_w450-m3
+  component_id: cmp_lit_subramanian2013_wg220_unclad_w450
+  parameter: core_thickness_nm
+  value: '220'
+  unit: nm
+  condition: target Si3N4 thickness of the 780 / 900 nm stack
+  basis: design_target
+  locator: p.4 Sec. 3; p.6 Sec. 4.2
+  notes: 'FIB/SEM 230 +/- 15 nm on a nominal 500 nm waveguide: cmp_lit_subramanian2013_wg220_unclad_w800-m7'
+  why: 'judgment e (question 5): stack geometry on every waveguide / GC row (D153; D683 huang2016b, D740 rawat2023, D642 yu2014 precedents) instead of once per stack; design values, measured film values stay on the one row that carries them'
+- metric_id: cmp_lit_subramanian2013_wg220_unclad_w450-m4
+  component_id: cmp_lit_subramanian2013_wg220_unclad_w450
+  parameter: box_thickness_um
+  value: '2.4'
+  unit: um
+  condition: HDP-CVD SiO2 bottom cladding of the 780 / 900 nm wafers
+  basis: design_target
+  locator: p.6 Sec. 4.2
+  notes: 'FIB/SEM 2.43 um (Fig. 4(b) label) on a nominal 500 nm waveguide, > 5 % across-wafer variation: cmp_lit_subramanian2013_wg220_unclad_w800-m9'
+  why: 'judgment e (question 5): stack geometry on every waveguide / GC row (D153; D683 huang2016b, D740 rawat2023, D642 yu2014 precedents) instead of once per stack; design values, measured film values stay on the one row that carries them'
+- metric_id: cmp_lit_subramanian2013_wg220_unclad_w500-m1
+  component_id: cmp_lit_subramanian2013_wg220_unclad_w500
+  parameter: prop_loss_db_per_cm
+  value: '2.30'
+  unit: dB/cm
+  wavelength_nm: '780'
+  polarization: te
+  condition: unclad; spiral / straight waveguides of 1, 2, 4 and 8 cm with grating couplers at each end (p.3 Sec. 2, p.4 Sec. 3)
+  method: cutback
+  basis: extracted_from_figure
+  locator: p.7 Fig. 5
+  notes: 780 nm series (circle) at 500 nm. Fig. 5 marker centre read on the embedded raster (72.4 px per dB/cm; about +/-0.03 dB/cm, about +/-0.04 where the marker is partly hidden behind another series); error bar plotted, its meaning not stated
+  why: 'judgment f (question 6): figure-only point of the paper''s main loss-vs-width data with no text value for this width and wavelength; entered as extracted_from_figure per the per-width precedent (evans2015 channel_w500 / w750, D632 vogelbacher2019); drop this op with the rest of the figure block if the coordinator prefers notes only'
+- metric_id: cmp_lit_subramanian2013_wg220_unclad_w500-m2
+  component_id: cmp_lit_subramanian2013_wg220_unclad_w500
+  parameter: width_nm
+  value: '500'
+  unit: nm
+  basis: design_target
+  locator: p.7 Sec. 4.2
+  notes: mask width; printed width set at 780 / 900 nm
+  why: 'judgment f (question 6): figure-only point of the paper''s main loss-vs-width data with no text value for this width and wavelength; entered as extracted_from_figure per the per-width precedent (evans2015 channel_w500 / w750, D632 vogelbacher2019); drop this op with the rest of the figure block if the coordinator prefers notes only'
+- metric_id: cmp_lit_subramanian2013_wg220_unclad_w500-m3
+  component_id: cmp_lit_subramanian2013_wg220_unclad_w500
+  parameter: core_thickness_nm
+  value: '220'
+  unit: nm
+  condition: target Si3N4 thickness of the 780 / 900 nm stack
+  basis: design_target
+  locator: p.4 Sec. 3; p.6 Sec. 4.2
+  notes: 'FIB/SEM 230 +/- 15 nm on a nominal 500 nm waveguide: cmp_lit_subramanian2013_wg220_unclad_w800-m7'
+  why: 'judgment e (question 5): stack geometry on every waveguide / GC row (D153; D683 huang2016b, D740 rawat2023, D642 yu2014 precedents) instead of once per stack; design values, measured film values stay on the one row that carries them'
+- metric_id: cmp_lit_subramanian2013_wg220_unclad_w500-m4
+  component_id: cmp_lit_subramanian2013_wg220_unclad_w500
+  parameter: box_thickness_um
+  value: '2.4'
+  unit: um
+  condition: HDP-CVD SiO2 bottom cladding of the 780 / 900 nm wafers
+  basis: design_target
+  locator: p.6 Sec. 4.2
+  notes: 'FIB/SEM 2.43 um (Fig. 4(b) label) on a nominal 500 nm waveguide, > 5 % across-wafer variation: cmp_lit_subramanian2013_wg220_unclad_w800-m9'
+  why: 'judgment e (question 5): stack geometry on every waveguide / GC row (D153; D683 huang2016b, D740 rawat2023, D642 yu2014 precedents) instead of once per stack; design values, measured film values stay on the one row that carries them'
+- metric_id: cmp_lit_subramanian2013_wg220_unclad_w600-m1
+  component_id: cmp_lit_subramanian2013_wg220_unclad_w600
+  parameter: prop_loss_db_per_cm
+  value: '1.66'
+  unit: dB/cm
+  wavelength_nm: '780'
+  polarization: te
+  condition: unclad; spiral / straight waveguides of 1, 2, 4 and 8 cm with grating couplers at each end (p.3 Sec. 2, p.4 Sec. 3)
+  method: cutback
+  basis: extracted_from_figure
+  locator: p.7 Fig. 5
+  notes: 780 nm series (circle) at 600 nm. Fig. 5 marker centre read on the embedded raster (72.4 px per dB/cm; about +/-0.03 dB/cm, about +/-0.04 where the marker is partly hidden behind another series); error bar plotted, its meaning not stated
+  why: 'judgment f (question 6): figure-only point of the paper''s main loss-vs-width data with no text value for this width and wavelength; entered as extracted_from_figure per the per-width precedent (evans2015 channel_w500 / w750, D632 vogelbacher2019); drop this op with the rest of the figure block if the coordinator prefers notes only'
+- metric_id: cmp_lit_subramanian2013_wg220_unclad_w600-m2
+  component_id: cmp_lit_subramanian2013_wg220_unclad_w600
+  parameter: prop_loss_db_per_cm
+  value: '1.30'
+  unit: dB/cm
+  wavelength_nm: '900'
+  polarization: te
+  condition: unclad; spiral / straight waveguides of 1, 2, 4 and 8 cm with grating couplers at each end (p.3 Sec. 2, p.4 Sec. 3)
+  method: cutback
+  basis: extracted_from_figure
+  locator: p.7 Fig. 5
+  notes: 900 nm series (triangle) at 600 nm; triangle centroid read. Fig. 5 marker centre read on the embedded raster (72.4 px per dB/cm; about +/-0.03 dB/cm, about +/-0.04 where the marker is partly hidden behind another series); error bar plotted, its meaning not stated
+  why: 'judgment f (question 6): figure-only point of the paper''s main loss-vs-width data with no text value for this width and wavelength; entered as extracted_from_figure per the per-width precedent (evans2015 channel_w500 / w750, D632 vogelbacher2019); drop this op with the rest of the figure block if the coordinator prefers notes only'
+- metric_id: cmp_lit_subramanian2013_wg220_unclad_w600-m3
+  component_id: cmp_lit_subramanian2013_wg220_unclad_w600
+  parameter: width_nm
+  value: '600'
+  unit: nm
+  basis: design_target
+  locator: p.7 Sec. 4.2
+  notes: mask width; printed width set at 780 / 900 nm
+  why: 'judgment f (question 6): figure-only point of the paper''s main loss-vs-width data with no text value for this width and wavelength; entered as extracted_from_figure per the per-width precedent (evans2015 channel_w500 / w750, D632 vogelbacher2019); drop this op with the rest of the figure block if the coordinator prefers notes only'
+- metric_id: cmp_lit_subramanian2013_wg220_unclad_w600-m4
+  component_id: cmp_lit_subramanian2013_wg220_unclad_w600
+  parameter: core_thickness_nm
+  value: '220'
+  unit: nm
+  condition: target Si3N4 thickness of the 780 / 900 nm stack
+  basis: design_target
+  locator: p.4 Sec. 3; p.6 Sec. 4.2
+  notes: 'FIB/SEM 230 +/- 15 nm on a nominal 500 nm waveguide: cmp_lit_subramanian2013_wg220_unclad_w800-m7'
+  why: 'judgment e (question 5): stack geometry on every waveguide / GC row (D153; D683 huang2016b, D740 rawat2023, D642 yu2014 precedents) instead of once per stack; design values, measured film values stay on the one row that carries them'
+- metric_id: cmp_lit_subramanian2013_wg220_unclad_w600-m5
+  component_id: cmp_lit_subramanian2013_wg220_unclad_w600
+  parameter: box_thickness_um
+  value: '2.4'
+  unit: um
+  condition: HDP-CVD SiO2 bottom cladding of the 780 / 900 nm wafers
+  basis: design_target
+  locator: p.6 Sec. 4.2
+  notes: 'FIB/SEM 2.43 um (Fig. 4(b) label) on a nominal 500 nm waveguide, > 5 % across-wafer variation: cmp_lit_subramanian2013_wg220_unclad_w800-m9'
+  why: 'judgment e (question 5): stack geometry on every waveguide / GC row (D153; D683 huang2016b, D740 rawat2023, D642 yu2014 precedents) instead of once per stack; design values, measured film values stay on the one row that carries them'
+- metric_id: cmp_lit_subramanian2013_wg180_clad_w500-m1
+  component_id: cmp_lit_subramanian2013_wg180_clad_w500
+  parameter: prop_loss_db_per_cm
+  value: '0.70'
+  unit: dB/cm
+  wavelength_nm: '532'
+  polarization: te
+  condition: 2 um PECVD SiO2 upper cladding; spiral / straight waveguides of 1, 2, 4 and 8 cm with grating couplers at each end (p.3 Sec. 2, p.4 Sec. 3)
+  method: cutback
+  basis: extracted_from_figure
+  locator: p.8 Fig. 6
+  notes: 532 nm series (square) at 500 nm. Fig. 6 marker centre read on the embedded raster (359 px per dB/cm; about +/-0.01 dB/cm); error bar plotted, its meaning not stated; the figure is one panel, the caption's (a) / (b) are the 532 / 900 nm series
+  why: 'judgment f (question 6): figure-only point of the paper''s main loss-vs-width data with no text value for this width and wavelength; entered as extracted_from_figure per the per-width precedent (evans2015 channel_w500 / w750, D632 vogelbacher2019); drop this op with the rest of the figure block if the coordinator prefers notes only'
+- metric_id: cmp_lit_subramanian2013_wg180_clad_w500-m2
+  component_id: cmp_lit_subramanian2013_wg180_clad_w500
+  parameter: width_nm
+  value: '500'
+  unit: nm
+  basis: design_target
+  locator: p.8 Fig. 6; p.5-6 Sec. 4.2
+  notes: mask width; x position in Fig. 6, within the printed 300-1000 nm mask range
+  why: 'judgment f (question 6): figure-only point of the paper''s main loss-vs-width data with no text value for this width and wavelength; entered as extracted_from_figure per the per-width precedent (evans2015 channel_w500 / w750, D632 vogelbacher2019); drop this op with the rest of the figure block if the coordinator prefers notes only'
+- metric_id: cmp_lit_subramanian2013_wg180_clad_w500-m3
+  component_id: cmp_lit_subramanian2013_wg180_clad_w500
+  parameter: core_thickness_nm
+  value: '180'
+  unit: nm
+  condition: target Si3N4 thickness of the 532 nm stack
+  basis: design_target
+  locator: p.4 Sec. 3; p.5 Sec. 4.2
+  notes: '9-point ellipsometry mean 178.9 nm on one test wafer of the lot: cmp_lit_subramanian2013_wg180_unclad_wide-m2'
+  why: 'judgment e (question 5): stack geometry on every waveguide / GC row (D153; D683 huang2016b, D740 rawat2023, D642 yu2014 precedents) instead of once per stack; design values, measured film values stay on the one row that carries them'
+- metric_id: cmp_lit_subramanian2013_wg180_clad_w500-m4
+  component_id: cmp_lit_subramanian2013_wg180_clad_w500
+  parameter: box_thickness_um
+  value: '2'
+  unit: um
+  condition: HDP-CVD SiO2 bottom cladding of the 532 nm test wafers, chosen for the highest GC efficiency
+  basis: design_target
+  locator: p.5 Sec. 4.2
+  notes: deposition range 2-2.4 um stated on p.4 Sec. 3
+  why: 'judgment e (question 5): stack geometry on every waveguide / GC row (D153; D683 huang2016b, D740 rawat2023, D642 yu2014 precedents) instead of once per stack; design values, measured film values stay on the one row that carries them'
+- metric_id: cmp_lit_subramanian2013_wg180_clad_w500-m5
+  component_id: cmp_lit_subramanian2013_wg180_clad_w500
+  parameter: cladding_thickness_um
+  value: '2'
+  unit: um
+  condition: PECVD SiO2 top coating
+  basis: design_target
+  locator: p.3 Sec. 2; p.6 Sec. 4.2
+  why: 'judgment e (question 5): stack geometry on every waveguide / GC row (D153; D683 huang2016b, D740 rawat2023, D642 yu2014 precedents) instead of once per stack; design values, measured film values stay on the one row that carries them'
+- metric_id: cmp_lit_subramanian2013_wg180_clad_w600-m1
+  component_id: cmp_lit_subramanian2013_wg180_clad_w600
+  parameter: prop_loss_db_per_cm
+  value: '0.63'
+  unit: dB/cm
+  wavelength_nm: '532'
+  polarization: te
+  condition: 2 um PECVD SiO2 upper cladding; spiral / straight waveguides of 1, 2, 4 and 8 cm with grating couplers at each end (p.3 Sec. 2, p.4 Sec. 3)
+  method: cutback
+  basis: extracted_from_figure
+  locator: p.8 Fig. 6
+  notes: 532 nm series (square) at 600 nm; partly hidden behind the 900 nm marker. Fig. 6 marker centre read on the embedded raster (359 px per dB/cm; about +/-0.01 dB/cm); error bar plotted, its meaning not stated; the figure is one panel, the caption's (a) / (b) are the 532 / 900 nm series
+  why: 'judgment f (question 6): figure-only point of the paper''s main loss-vs-width data with no text value for this width and wavelength; entered as extracted_from_figure per the per-width precedent (evans2015 channel_w500 / w750, D632 vogelbacher2019); drop this op with the rest of the figure block if the coordinator prefers notes only'
+- metric_id: cmp_lit_subramanian2013_wg180_clad_w600-m2
+  component_id: cmp_lit_subramanian2013_wg180_clad_w600
+  parameter: width_nm
+  value: '600'
+  unit: nm
+  basis: design_target
+  locator: p.8 Fig. 6; p.5-6 Sec. 4.2
+  notes: mask width; x position in Fig. 6, within the printed 300-1000 nm mask range
+  why: 'judgment f (question 6): figure-only point of the paper''s main loss-vs-width data with no text value for this width and wavelength; entered as extracted_from_figure per the per-width precedent (evans2015 channel_w500 / w750, D632 vogelbacher2019); drop this op with the rest of the figure block if the coordinator prefers notes only'
+- metric_id: cmp_lit_subramanian2013_wg180_clad_w600-m3
+  component_id: cmp_lit_subramanian2013_wg180_clad_w600
+  parameter: core_thickness_nm
+  value: '180'
+  unit: nm
+  condition: target Si3N4 thickness of the 532 nm stack
+  basis: design_target
+  locator: p.4 Sec. 3; p.5 Sec. 4.2
+  notes: '9-point ellipsometry mean 178.9 nm on one test wafer of the lot: cmp_lit_subramanian2013_wg180_unclad_wide-m2'
+  why: 'judgment e (question 5): stack geometry on every waveguide / GC row (D153; D683 huang2016b, D740 rawat2023, D642 yu2014 precedents) instead of once per stack; design values, measured film values stay on the one row that carries them'
+- metric_id: cmp_lit_subramanian2013_wg180_clad_w600-m4
+  component_id: cmp_lit_subramanian2013_wg180_clad_w600
+  parameter: box_thickness_um
+  value: '2'
+  unit: um
+  condition: HDP-CVD SiO2 bottom cladding of the 532 nm test wafers, chosen for the highest GC efficiency
+  basis: design_target
+  locator: p.5 Sec. 4.2
+  notes: deposition range 2-2.4 um stated on p.4 Sec. 3
+  why: 'judgment e (question 5): stack geometry on every waveguide / GC row (D153; D683 huang2016b, D740 rawat2023, D642 yu2014 precedents) instead of once per stack; design values, measured film values stay on the one row that carries them'
+- metric_id: cmp_lit_subramanian2013_wg180_clad_w600-m5
+  component_id: cmp_lit_subramanian2013_wg180_clad_w600
+  parameter: cladding_thickness_um
+  value: '2'
+  unit: um
+  condition: PECVD SiO2 top coating
+  basis: design_target
+  locator: p.3 Sec. 2; p.6 Sec. 4.2
+  why: 'judgment e (question 5): stack geometry on every waveguide / GC row (D153; D683 huang2016b, D740 rawat2023, D642 yu2014 precedents) instead of once per stack; design values, measured film values stay on the one row that carries them'
+- metric_id: cmp_lit_subramanian2013_wg180_clad_w700-m1
+  component_id: cmp_lit_subramanian2013_wg180_clad_w700
+  parameter: prop_loss_db_per_cm
+  value: '0.24'
+  unit: dB/cm
+  wavelength_nm: '532'
+  polarization: te
+  condition: 2 um PECVD SiO2 upper cladding; spiral / straight waveguides of 1, 2, 4 and 8 cm with grating couplers at each end (p.3 Sec. 2, p.4 Sec. 3)
+  method: cutback
+  basis: extracted_from_figure
+  locator: p.8 Fig. 6
+  notes: 532 nm series (square) at 700 nm. Fig. 6 marker centre read on the embedded raster (359 px per dB/cm; about +/-0.01 dB/cm); error bar plotted, its meaning not stated; the figure is one panel, the caption's (a) / (b) are the 532 / 900 nm series
+  why: 'judgment f (question 6): figure-only point of the paper''s main loss-vs-width data with no text value for this width and wavelength; entered as extracted_from_figure per the per-width precedent (evans2015 channel_w500 / w750, D632 vogelbacher2019); drop this op with the rest of the figure block if the coordinator prefers notes only'
+- metric_id: cmp_lit_subramanian2013_wg180_clad_w700-m2
+  component_id: cmp_lit_subramanian2013_wg180_clad_w700
+  parameter: width_nm
+  value: '700'
+  unit: nm
+  basis: design_target
+  locator: p.8 Fig. 6; p.5-6 Sec. 4.2
+  notes: mask width; x position in Fig. 6, within the printed 300-1000 nm mask range
+  why: 'judgment f (question 6): figure-only point of the paper''s main loss-vs-width data with no text value for this width and wavelength; entered as extracted_from_figure per the per-width precedent (evans2015 channel_w500 / w750, D632 vogelbacher2019); drop this op with the rest of the figure block if the coordinator prefers notes only'
+- metric_id: cmp_lit_subramanian2013_wg180_clad_w700-m3
+  component_id: cmp_lit_subramanian2013_wg180_clad_w700
+  parameter: core_thickness_nm
+  value: '180'
+  unit: nm
+  condition: target Si3N4 thickness of the 532 nm stack
+  basis: design_target
+  locator: p.4 Sec. 3; p.5 Sec. 4.2
+  notes: '9-point ellipsometry mean 178.9 nm on one test wafer of the lot: cmp_lit_subramanian2013_wg180_unclad_wide-m2'
+  why: 'judgment e (question 5): stack geometry on every waveguide / GC row (D153; D683 huang2016b, D740 rawat2023, D642 yu2014 precedents) instead of once per stack; design values, measured film values stay on the one row that carries them'
+- metric_id: cmp_lit_subramanian2013_wg180_clad_w700-m4
+  component_id: cmp_lit_subramanian2013_wg180_clad_w700
+  parameter: box_thickness_um
+  value: '2'
+  unit: um
+  condition: HDP-CVD SiO2 bottom cladding of the 532 nm test wafers, chosen for the highest GC efficiency
+  basis: design_target
+  locator: p.5 Sec. 4.2
+  notes: deposition range 2-2.4 um stated on p.4 Sec. 3
+  why: 'judgment e (question 5): stack geometry on every waveguide / GC row (D153; D683 huang2016b, D740 rawat2023, D642 yu2014 precedents) instead of once per stack; design values, measured film values stay on the one row that carries them'
+- metric_id: cmp_lit_subramanian2013_wg180_clad_w700-m5
+  component_id: cmp_lit_subramanian2013_wg180_clad_w700
+  parameter: cladding_thickness_um
+  value: '2'
+  unit: um
+  condition: PECVD SiO2 top coating
+  basis: design_target
+  locator: p.3 Sec. 2; p.6 Sec. 4.2
+  why: 'judgment e (question 5): stack geometry on every waveguide / GC row (D153; D683 huang2016b, D740 rawat2023, D642 yu2014 precedents) instead of once per stack; design values, measured film values stay on the one row that carries them'
+- metric_id: cmp_lit_subramanian2013_wg220_clad_w500-m1
+  component_id: cmp_lit_subramanian2013_wg220_clad_w500
+  parameter: prop_loss_db_per_cm
+  value: '0.74'
+  unit: dB/cm
+  wavelength_nm: '900'
+  polarization: te
+  condition: 2 um PECVD SiO2 upper cladding; spiral / straight waveguides of 1, 2, 4 and 8 cm with grating couplers at each end (p.3 Sec. 2, p.4 Sec. 3)
+  method: cutback
+  basis: extracted_from_figure
+  locator: p.8 Fig. 6
+  notes: 900 nm series (triangle) at 500 nm; triangle centroid read; large error bar, about 0.38-1.10. Fig. 6 marker centre read on the embedded raster (359 px per dB/cm; about +/-0.01 dB/cm); error bar plotted, its meaning not stated; the figure is one panel, the caption's (a) / (b) are the 532 / 900 nm series
+  why: 'judgment f (question 6): figure-only point of the paper''s main loss-vs-width data with no text value for this width and wavelength; entered as extracted_from_figure per the per-width precedent (evans2015 channel_w500 / w750, D632 vogelbacher2019); drop this op with the rest of the figure block if the coordinator prefers notes only'
+- metric_id: cmp_lit_subramanian2013_wg220_clad_w500-m2
+  component_id: cmp_lit_subramanian2013_wg220_clad_w500
+  parameter: width_nm
+  value: '500'
+  unit: nm
+  basis: design_target
+  locator: p.7 Sec. 4.2
+  notes: mask width; printed clad width range at 900 nm (500-800 nm)
+  why: 'judgment f (question 6): figure-only point of the paper''s main loss-vs-width data with no text value for this width and wavelength; entered as extracted_from_figure per the per-width precedent (evans2015 channel_w500 / w750, D632 vogelbacher2019); drop this op with the rest of the figure block if the coordinator prefers notes only'
+- metric_id: cmp_lit_subramanian2013_wg220_clad_w500-m3
+  component_id: cmp_lit_subramanian2013_wg220_clad_w500
+  parameter: core_thickness_nm
+  value: '220'
+  unit: nm
+  condition: target Si3N4 thickness of the 780 / 900 nm stack
+  basis: design_target
+  locator: p.4 Sec. 3; p.6 Sec. 4.2
+  notes: 'FIB/SEM 230 +/- 15 nm on a nominal 500 nm waveguide: cmp_lit_subramanian2013_wg220_unclad_w800-m7'
+  why: 'judgment e (question 5): stack geometry on every waveguide / GC row (D153; D683 huang2016b, D740 rawat2023, D642 yu2014 precedents) instead of once per stack; design values, measured film values stay on the one row that carries them'
+- metric_id: cmp_lit_subramanian2013_wg220_clad_w500-m4
+  component_id: cmp_lit_subramanian2013_wg220_clad_w500
+  parameter: box_thickness_um
+  value: '2.4'
+  unit: um
+  condition: HDP-CVD SiO2 bottom cladding of the 780 / 900 nm wafers
+  basis: design_target
+  locator: p.6 Sec. 4.2
+  notes: 'FIB/SEM 2.43 um (Fig. 4(b) label) on a nominal 500 nm waveguide, > 5 % across-wafer variation: cmp_lit_subramanian2013_wg220_unclad_w800-m9'
+  why: 'judgment e (question 5): stack geometry on every waveguide / GC row (D153; D683 huang2016b, D740 rawat2023, D642 yu2014 precedents) instead of once per stack; design values, measured film values stay on the one row that carries them'
+- metric_id: cmp_lit_subramanian2013_wg220_clad_w500-m5
+  component_id: cmp_lit_subramanian2013_wg220_clad_w500
+  parameter: cladding_thickness_um
+  value: '2'
+  unit: um
+  condition: PECVD SiO2 top coating
+  basis: design_target
+  locator: p.3 Sec. 2; p.6 Sec. 4.2
+  why: 'judgment e (question 5): stack geometry on every waveguide / GC row (D153; D683 huang2016b, D740 rawat2023, D642 yu2014 precedents) instead of once per stack; design values, measured film values stay on the one row that carries them'
+- metric_id: cmp_lit_subramanian2013_wg220_clad_w600-m1
+  component_id: cmp_lit_subramanian2013_wg220_clad_w600
+  parameter: prop_loss_db_per_cm
+  value: '0.61'
+  unit: dB/cm
+  wavelength_nm: '900'
+  polarization: te
+  condition: 2 um PECVD SiO2 upper cladding; spiral / straight waveguides of 1, 2, 4 and 8 cm with grating couplers at each end (p.3 Sec. 2, p.4 Sec. 3)
+  method: cutback
+  basis: extracted_from_figure
+  locator: p.8 Fig. 6
+  notes: 900 nm series (triangle) at 600 nm; triangle centroid read. Fig. 6 marker centre read on the embedded raster (359 px per dB/cm; about +/-0.01 dB/cm); error bar plotted, its meaning not stated; the figure is one panel, the caption's (a) / (b) are the 532 / 900 nm series
+  why: 'judgment f (question 6): figure-only point of the paper''s main loss-vs-width data with no text value for this width and wavelength; entered as extracted_from_figure per the per-width precedent (evans2015 channel_w500 / w750, D632 vogelbacher2019); drop this op with the rest of the figure block if the coordinator prefers notes only'
+- metric_id: cmp_lit_subramanian2013_wg220_clad_w600-m2
+  component_id: cmp_lit_subramanian2013_wg220_clad_w600
+  parameter: width_nm
+  value: '600'
+  unit: nm
+  basis: design_target
+  locator: p.7 Sec. 4.2
+  notes: mask width; printed clad width range at 900 nm (500-800 nm)
+  why: 'judgment f (question 6): figure-only point of the paper''s main loss-vs-width data with no text value for this width and wavelength; entered as extracted_from_figure per the per-width precedent (evans2015 channel_w500 / w750, D632 vogelbacher2019); drop this op with the rest of the figure block if the coordinator prefers notes only'
+- metric_id: cmp_lit_subramanian2013_wg220_clad_w600-m3
+  component_id: cmp_lit_subramanian2013_wg220_clad_w600
+  parameter: core_thickness_nm
+  value: '220'
+  unit: nm
+  condition: target Si3N4 thickness of the 780 / 900 nm stack
+  basis: design_target
+  locator: p.4 Sec. 3; p.6 Sec. 4.2
+  notes: 'FIB/SEM 230 +/- 15 nm on a nominal 500 nm waveguide: cmp_lit_subramanian2013_wg220_unclad_w800-m7'
+  why: 'judgment e (question 5): stack geometry on every waveguide / GC row (D153; D683 huang2016b, D740 rawat2023, D642 yu2014 precedents) instead of once per stack; design values, measured film values stay on the one row that carries them'
+- metric_id: cmp_lit_subramanian2013_wg220_clad_w600-m4
+  component_id: cmp_lit_subramanian2013_wg220_clad_w600
+  parameter: box_thickness_um
+  value: '2.4'
+  unit: um
+  condition: HDP-CVD SiO2 bottom cladding of the 780 / 900 nm wafers
+  basis: design_target
+  locator: p.6 Sec. 4.2
+  notes: 'FIB/SEM 2.43 um (Fig. 4(b) label) on a nominal 500 nm waveguide, > 5 % across-wafer variation: cmp_lit_subramanian2013_wg220_unclad_w800-m9'
+  why: 'judgment e (question 5): stack geometry on every waveguide / GC row (D153; D683 huang2016b, D740 rawat2023, D642 yu2014 precedents) instead of once per stack; design values, measured film values stay on the one row that carries them'
+- metric_id: cmp_lit_subramanian2013_wg220_clad_w600-m5
+  component_id: cmp_lit_subramanian2013_wg220_clad_w600
+  parameter: cladding_thickness_um
+  value: '2'
+  unit: um
+  condition: PECVD SiO2 top coating
+  basis: design_target
+  locator: p.3 Sec. 2; p.6 Sec. 4.2
+  why: 'judgment e (question 5): stack geometry on every waveguide / GC row (D153; D683 huang2016b, D740 rawat2023, D642 yu2014 precedents) instead of once per stack; design values, measured film values stay on the one row that carries them'
+- metric_id: cmp_lit_subramanian2013_wg220_clad_w700-m1
+  component_id: cmp_lit_subramanian2013_wg220_clad_w700
+  parameter: prop_loss_db_per_cm
+  value: '0.46'
+  unit: dB/cm
+  wavelength_nm: '900'
+  polarization: te
+  condition: 2 um PECVD SiO2 upper cladding; spiral / straight waveguides of 1, 2, 4 and 8 cm with grating couplers at each end (p.3 Sec. 2, p.4 Sec. 3)
+  method: cutback
+  basis: extracted_from_figure
+  locator: p.8 Fig. 6
+  notes: 900 nm series (triangle) at 700 nm; triangle centroid read. Fig. 6 marker centre read on the embedded raster (359 px per dB/cm; about +/-0.01 dB/cm); error bar plotted, its meaning not stated; the figure is one panel, the caption's (a) / (b) are the 532 / 900 nm series
+  why: 'judgment f (question 6): figure-only point of the paper''s main loss-vs-width data with no text value for this width and wavelength; entered as extracted_from_figure per the per-width precedent (evans2015 channel_w500 / w750, D632 vogelbacher2019); drop this op with the rest of the figure block if the coordinator prefers notes only'
+- metric_id: cmp_lit_subramanian2013_wg220_clad_w700-m2
+  component_id: cmp_lit_subramanian2013_wg220_clad_w700
+  parameter: width_nm
+  value: '700'
+  unit: nm
+  basis: design_target
+  locator: p.7 Sec. 4.2
+  notes: mask width; printed clad width range at 900 nm (500-800 nm)
+  why: 'judgment f (question 6): figure-only point of the paper''s main loss-vs-width data with no text value for this width and wavelength; entered as extracted_from_figure per the per-width precedent (evans2015 channel_w500 / w750, D632 vogelbacher2019); drop this op with the rest of the figure block if the coordinator prefers notes only'
+- metric_id: cmp_lit_subramanian2013_wg220_clad_w700-m3
+  component_id: cmp_lit_subramanian2013_wg220_clad_w700
+  parameter: core_thickness_nm
+  value: '220'
+  unit: nm
+  condition: target Si3N4 thickness of the 780 / 900 nm stack
+  basis: design_target
+  locator: p.4 Sec. 3; p.6 Sec. 4.2
+  notes: 'FIB/SEM 230 +/- 15 nm on a nominal 500 nm waveguide: cmp_lit_subramanian2013_wg220_unclad_w800-m7'
+  why: 'judgment e (question 5): stack geometry on every waveguide / GC row (D153; D683 huang2016b, D740 rawat2023, D642 yu2014 precedents) instead of once per stack; design values, measured film values stay on the one row that carries them'
+- metric_id: cmp_lit_subramanian2013_wg220_clad_w700-m4
+  component_id: cmp_lit_subramanian2013_wg220_clad_w700
+  parameter: box_thickness_um
+  value: '2.4'
+  unit: um
+  condition: HDP-CVD SiO2 bottom cladding of the 780 / 900 nm wafers
+  basis: design_target
+  locator: p.6 Sec. 4.2
+  notes: 'FIB/SEM 2.43 um (Fig. 4(b) label) on a nominal 500 nm waveguide, > 5 % across-wafer variation: cmp_lit_subramanian2013_wg220_unclad_w800-m9'
+  why: 'judgment e (question 5): stack geometry on every waveguide / GC row (D153; D683 huang2016b, D740 rawat2023, D642 yu2014 precedents) instead of once per stack; design values, measured film values stay on the one row that carries them'
+- metric_id: cmp_lit_subramanian2013_wg220_clad_w700-m5
+  component_id: cmp_lit_subramanian2013_wg220_clad_w700
+  parameter: cladding_thickness_um
+  value: '2'
+  unit: um
+  condition: PECVD SiO2 top coating
+  basis: design_target
+  locator: p.3 Sec. 2; p.6 Sec. 4.2
+  why: 'judgment e (question 5): stack geometry on every waveguide / GC row (D153; D683 huang2016b, D740 rawat2023, D642 yu2014 precedents) instead of once per stack; design values, measured film values stay on the one row that carries them'

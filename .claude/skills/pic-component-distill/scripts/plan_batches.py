@@ -1,4 +1,4 @@
-"""Plan lit_NN distill batches for one queue day: registered papers grouped by primary_class family, ~48 pages and
+"""Plan lit_NN distill batches for one queue day (or a comma-separated day list, e.g. 203,207,213): registered papers grouped by primary_class family, ~48 pages and
 <= --max papers (default 8) per batch. Usage (repo root): uv run python <skill>/scripts/plan_batches.py <day> <first NN>
 <out.json> [--max=N] [exclude.json ...]. Prints the batch table and writes {batch: [paper ids]}."""
 
@@ -13,7 +13,7 @@ day, start, out = args[0], int(args[1]), args[2]
 exclude = set()
 for f in args[3:]:
     exclude |= {c for v in json.load(open(f)).values() for c in v}
-q = [r for r in csv.DictReader(open("data/_staging/literature/retrieval_queue.csv")) if r["day"] == day]
+q = [r for r in csv.DictReader(open("data/_staging/literature/retrieval_queue.csv")) if r["day"] in day.split(",")]
 src = {r["native_id"] for r in csv.DictReader(open("data/registry/sources.csv")) if r["corpus"] == "lit"}
 cl = {r["paper_id"]: r for r in csv.DictReader(open("data/_staging/literature/cache_list.csv"))}
 FAM = {

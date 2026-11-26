@@ -162,3 +162,41 @@ Batch: data/_staging/supply/products/lit_NN (<k> candidates from <n> lit papers)
 
 No network, no git, no edits anywhere else, no emoji, no addresses or e-mails. Final message 5-10 lines: counts by decision, anything for the coordinator.
 ```
+
+## Unattended open-access night (owner away 2026-11-26 to 2026-11-28)
+
+Owner 2026-11-25: "setup timer to kick you off and run caching and ingestion for open access (arxiv, optica, optics
+express etc.) papers tomorrow and Friday and Saturday, at 10 pm. Follow the skill except for paper/journal type ...
+Cmt and push once done after each day's portion"; about 50 papers per night at most. Chain (DevLog-020 D1237): a
+launchd agent at 22:03 -> a launcher outside the repo -> the running tmux server -> `scripts/night_oa_session.sh run`
+-> interactive `claude` in auto permission mode (tmux session `lit_night_run_<stamp>`). The session script holds the
+lock `logs/.night_oa_active` while a run is active; the run removes it as its very last step.
+
+- Nobody is there to answer: never ask (no AskUserQuestion), never wait for input. A command the permission check
+  denies is not retried in variants: write an owner-list line in DevLog-007 and skip that step. A real blocker
+  (failing checks you cannot fix, anything that would delete or overwrite owner data) goes into DevLog-007 as an
+  owner-list line, then commit what is clean, push, and stop. Everything else follows the standing authorization
+  table above.
+- First `git status`: work left uncommitted by an earlier run (a merged batch, DevLog lines) is finished (checked,
+  committed, pushed) before this night's caching starts; never reset, revert or delete it.
+- Day N = last `Bench day N` commit + 1 (nights 2026-11-26 / -27 / -28 = days 213 / 214 / 215). Queue rows of days
+  213-215 come from the reference graph (DevLog-020 stage 3): per day arXiv 15, oa_publisher 5, optica_browser 30,
+  publisher_browser 10 (not run), no IEEE rows.
+- Snapshot before caching: `$S/pre_lit.json` = `{"pre": [every native_id of corpus lit in data/registry/sources.csv]}`.
+- Optica days D = every day with uncached OE / Optica / OME optica_browser rows up to N, oldest first (night 1:
+  203,207,213; the runner takes at most 30 papers in that order, so later nights start with the previous day's rest).
+  List them with a short script over `retrieval_queue.csv` (route optica_browser, doi `10.1364/(oe|opex|optica|ome).`,
+  no `references/<id>/source.pdf`).
+- Caching, launched together in tmux:
+  `uv run python scripts/lit_fetch_oa.py --day N 2>&1 | tee logs/lit_bench_dN_oa_$TS.log` (arXiv + open-access
+  publishers only) and `uv run python $SK/scripts/optica_overnight.py <D comma-separated> --max 30` (one paper per
+  browser launch, 4-6 min apart, 30-min back-off on Optica's rate-limit page; about 3 h). No IEEE (no sign-in
+  possible), no publisher browser. Wait for both with a background Monitor / until-loop; ingest only after both exit.
+- Ingestion = section 3 with these changes: extract with `lit_extract.py --pending`; title check with
+  `title_check.py` for N and for each Optica day in D; plan with
+  `plan_batches.py <D and N comma-separated, e.g. 203,207,213> <next lit_NN> $S/batches_dN.json --max=5 $S/pre_lit.json`
+  (the exclude snapshot keeps already-ingested papers of the backlog days out); header batches and vendor scan from
+  that batch file as usual.
+- Checks, DevLogs (DevLog-007 session with the caching table, decisions, owner list; DevLog-019 day line), then commit
+  and push (section 11, with `.claude/skills` added to the `git add` list). Last step after the push:
+  `rm logs/.night_oa_active`.
