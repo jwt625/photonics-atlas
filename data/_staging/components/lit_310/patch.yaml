@@ -1,0 +1,323 @@
+# Audit patch lit_310 (fresh-context audit 2026-11-27, DevLog/audits/2026-11-27-lit_310-audit.md).
+# 33 metrics: 33 ok / 0 imprecise / 0 wrong; 11 components: 11 ok / 0 imprecise / 0 wrong. 22 geometry misses added.
+# After the patch: 11 components, 55 metrics.
+# Note supplements on ok rows: dc_pbs m1-m3 Fig. 4 vector checks (bar-port TE trace about 0.8 dB vs printed < 0.5 dB, D417);
+# rotator 35 um m1 excess-loss arrow at about 1560 nm; rotator ER definition (-10 log10 cos^2 theta) on the seven Fig. 5(c) rows.
+# Misses: wafer cross-section (200 nm Si, 3 um BOX) on both ring-filter rows; Si core width / height and BOX on the six
+# sibling rotators (as on the 35 um row).
+components:
+  cmp_lit_fukuda2008_ring_filter_no_div:
+    notes: 'Reference filter of Fig. 7 (right panel): ring filter fed directly, TE vs TM input (p.7 Sec. 3.4). Ring radius
+      / gap are stated only for the ring inside the diversity circuit; this filter''s resonance sits near 1552.3 nm vs 1561
+      nm for the diversity circuit, so it is treated as a separate device and no ring geometry (radius, gap, width) is entered;
+      the 200 nm Si layer and 3 um BOX are the wafer values stated for all devices (p.5 Sec. 3.1, m2 / m3). 10 Gb/s eye diagrams
+      collapse without diversity (p.8, Fig. 8(c); no parameter). Fab: first-person fabrication statements (''we made spot-size
+      converters (SSCs) at the ends of the Si wires'', p.5 Sec. 3.1; ''we deposited silicon oxinitride film on fabricated
+      Si wires'', p.6-7; ''we also fabricated a polarization-independent wavelength filter'', p.7 Sec. 3.4; ''we fabricated
+      rotators with various offsets'', p.8 Sec. 4) with all authors at NTT Microsystem Integration Laboratories (p.1): fab
+      org_ntt (pre-2025 NTT papers map to org_ntt, fukuda2006 precedent). Process printed only as electron beam lithography
+      and ECR plasma etching on a 200 nm SOI / 3 um BOX wafer (p.5); no named process, process_name empty.'
+    why: notes updated for the added wafer cross-section rows (m2 / m3)
+metrics:
+  cmp_lit_fukuda2008_dc_pbs-m1:
+    notes: 'printed PER of the cross port in the C band; normalized to a plain Si wire of the same length Fig. 4(c) check
+      (PDF vector traces, 1530-1565 nm): cross-port TE about -10.3 to -13.3 dB against TM about 0 dB, consistent with the
+      printed 10 dB.'
+    why: p.5 Fig. 4(c) vector read supports the printed value; note supplement (row ok)
+  cmp_lit_fukuda2008_dc_pbs-m2:
+    notes: 'printed PER of the bar port in the C band Fig. 4(b) check (PDF vector traces, 1530-1565 nm): bar-port TM about
+      -12.2 to -18.7 dB against TE about -0.3 to -1.4 dB, consistent with the printed 13 dB.'
+    why: p.5 Fig. 4(b) vector read supports the printed value; note supplement (row ok)
+  cmp_lit_fukuda2008_dc_pbs-m3:
+    notes: 'printed ''excess loss for the pass light is less than 0.5 dB for each port''; no wavelength stated with this value,
+      C band = band of the PER sentence before it; polarization has no excess_loss_db Fig. 4 check (PDF vector traces, 1530-1565
+      nm): cross-port TM about -0.1 to +0.1 dB, bar-port TE about -0.3 to -1.4 dB (mean about -0.8 dB), so the bar trace sits
+      above the printed bound (D417: printed value kept). Same wording as lit:fukuda2006 p.5 (dc_pbs_single m5).'
+    why: 'p.5 Fig. 4(b): the bar-port TE trace reads about 0.8 dB mean in the C band against the printed < 0.5 dB; D417 note
+      (printed value kept, row ok)'
+  cmp_lit_fukuda2008_rotator_35um-m1:
+    notes: printed 'TE component is transmitted with an excess loss of about 1 dB'; wavelength range = Fig. 5(b) axis (1500-1600
+      nm), no wavelength stated with the value; normalization reference of Fig. 5(b) not stated Fig. 5(b) marks the excess
+      loss with an arrow at about 1560 nm, where the TE trace reads about -1.0 to -1.7 dB; the trace mean over 1500-1600 nm
+      is about -1.1 dB (PDF vector trace).
+    why: 'p.6 Fig. 5(b): arrow position and trace levels recorded; note supplement (row ok)'
+  cmp_lit_fukuda2008_rotator_35um-m2:
+    notes: 'printed ''maximum extinction ratio is about 11 dB when the rotator length is 35 um''; computed by the authors
+      from their measured rotation angle, formula not printed; WL range 1550-1560 nm printed in Fig. 5(c); the Fig. 5(c) vector
+      marker reads -10.6 dB (plotted as negative dB) Definition check (audit, PDF vector markers): all seven Fig. 5(c) angle
+      / ER pairs follow ER = -10 log10(cos^2 theta) within 0.1 dB (theta = rotation angle; 35 um marker 72.8 deg -> 10.6 dB;
+      the printed 72 deg gives 10.2 dB), i.e. the residual TM power relative to the input, not the TE / TM output ratio (20
+      log10 tan theta, 10.2 dB at 72.8 deg; the two differ strongly for small rotation, e.g. 45 um 4.4 vs 2.6 dB).'
+    why: 'p.6 Fig. 5(c): the plotted ER is -10 log10(cos^2 theta) of the plotted angle (seven pairs within 0.1 dB); definition
+      recorded for comparability with TE / TM PER rows (row ok, basis derived confirmed, D80a)'
+  cmp_lit_fukuda2008_rotator_30um-m1:
+    notes: 'read from the vector marker position of the blue (right-axis) series in Fig. 5(c), plotted as -9.8 dB; reading
+      uncertainty about +/-0.2 dB; WL range 1550-1560 nm printed in the figure; ER computed by the authors from the measured
+      rotation angle (formula not printed) Definition check (audit): the Fig. 5(c) pairs follow ER = -10 log10(cos^2 theta)
+      (residual TM power relative to the input); this marker pairs with a rotation angle of about 71.4 deg, for which the
+      TE / TM output ratio would be 9.4 dB.'
+    why: 'p.6 Fig. 5(c): reading confirmed by an independent vector-marker read (within 0.05 dB); ER definition recorded (row
+      ok)'
+  cmp_lit_fukuda2008_rotator_40um-m1:
+    notes: 'read from the vector marker position of the blue (right-axis) series in Fig. 5(c), plotted as -7.7 dB; reading
+      uncertainty about +/-0.2 dB; WL range 1550-1560 nm printed in the figure; ER computed by the authors from the measured
+      rotation angle (formula not printed) Definition check (audit): the Fig. 5(c) pairs follow ER = -10 log10(cos^2 theta)
+      (residual TM power relative to the input); this marker pairs with a rotation angle of about 65.9 deg, for which the
+      TE / TM output ratio would be 7.0 dB.'
+    why: 'p.6 Fig. 5(c): reading confirmed by an independent vector-marker read (within 0.05 dB); ER definition recorded (row
+      ok)'
+  cmp_lit_fukuda2008_rotator_45um-m1:
+    notes: 'read from the vector marker position of the blue (right-axis) series in Fig. 5(c), plotted as -4.4 dB; reading
+      uncertainty about +/-0.2 dB; WL range 1550-1560 nm printed in the figure; ER computed by the authors from the measured
+      rotation angle (formula not printed) Definition check (audit): the Fig. 5(c) pairs follow ER = -10 log10(cos^2 theta)
+      (residual TM power relative to the input); this marker pairs with a rotation angle of about 53.3 deg, for which the
+      TE / TM output ratio would be 2.6 dB.'
+    why: 'p.6 Fig. 5(c): reading confirmed by an independent vector-marker read (within 0.05 dB); ER definition recorded (row
+      ok)'
+  cmp_lit_fukuda2008_rotator_50um-m1:
+    notes: 'read from the vector marker position of the blue (right-axis) series in Fig. 5(c), plotted as -3.9 dB; reading
+      uncertainty about +/-0.2 dB; WL range 1550-1560 nm printed in the figure; ER computed by the authors from the measured
+      rotation angle (formula not printed) Definition check (audit): the Fig. 5(c) pairs follow ER = -10 log10(cos^2 theta)
+      (residual TM power relative to the input); this marker pairs with a rotation angle of about 50.8 deg, for which the
+      TE / TM output ratio would be 1.8 dB.'
+    why: 'p.6 Fig. 5(c): reading confirmed by an independent vector-marker read (within 0.05 dB); ER definition recorded (row
+      ok)'
+  cmp_lit_fukuda2008_rotator_55um-m1:
+    notes: 'read from the vector marker position of the blue (right-axis) series in Fig. 5(c), plotted as -2.2 dB; reading
+      uncertainty about +/-0.2 dB; WL range 1550-1560 nm printed in the figure; ER computed by the authors from the measured
+      rotation angle (formula not printed) Definition check (audit): the Fig. 5(c) pairs follow ER = -10 log10(cos^2 theta)
+      (residual TM power relative to the input); this marker pairs with a rotation angle of about 39.6 deg, for which the
+      TE / TM output ratio would be -1.7 dB, TM still dominant.'
+    why: 'p.6 Fig. 5(c): reading confirmed by an independent vector-marker read (within 0.05 dB); ER definition recorded (row
+      ok)'
+  cmp_lit_fukuda2008_rotator_60um-m1:
+    notes: 'read from the vector marker position of the blue (right-axis) series in Fig. 5(c), plotted as -0.5 dB; reading
+      uncertainty about +/-0.2 dB; WL range 1550-1560 nm printed in the figure; ER computed by the authors from the measured
+      rotation angle (formula not printed) Definition check (audit): the Fig. 5(c) pairs follow ER = -10 log10(cos^2 theta)
+      (residual TM power relative to the input); this marker pairs with a rotation angle of about 20.4 deg, for which the
+      TE / TM output ratio would be -8.6 dB, TM still dominant.'
+    why: 'p.6 Fig. 5(c): reading confirmed by an independent vector-marker read (within 0.05 dB); ER definition recorded (row
+      ok)'
+add_metrics:
+- metric_id: cmp_lit_fukuda2008_ring_filter_no_div-m2
+  component_id: cmp_lit_fukuda2008_ring_filter_no_div
+  parameter: core_thickness_nm
+  value: '200'
+  unit: nm
+  basis: design_target
+  locator: p.5 Sec. 3.1
+  notes: SOI Si layer 200 nm, wafer value for all devices (D402); ring waveguide width not stated
+  why: 'miss (D153): p.5 Sec. 3.1 states the 200 nm Si layer and 3 um BOX for all devices; ring_bus cross-section needs core_thickness_nm'
+- metric_id: cmp_lit_fukuda2008_ring_filter_no_div-m3
+  component_id: cmp_lit_fukuda2008_ring_filter_no_div
+  parameter: box_thickness_um
+  value: '3'
+  unit: um
+  basis: design_target
+  locator: p.5 Sec. 3.1
+  notes: 3 um SiO2 BOX, wafer value (D402)
+  why: 'miss (D153): p.5 Sec. 3.1 states the 200 nm Si layer and 3 um BOX for all devices; ring_bus cross-section needs core_thickness_nm'
+- metric_id: cmp_lit_fukuda2008_poldiv_ring_filter-m4
+  component_id: cmp_lit_fukuda2008_poldiv_ring_filter
+  parameter: core_thickness_nm
+  value: '200'
+  unit: nm
+  basis: design_target
+  locator: p.5 Sec. 3.1
+  notes: SOI Si layer 200 nm, wafer value for all devices (D402); ring waveguide width not stated (Si wires 400 nm wide)
+  why: 'miss (D153): p.5 Sec. 3.1 states the 200 nm Si layer and 3 um BOX for all devices; ring_bus cross-section needs core_thickness_nm'
+- metric_id: cmp_lit_fukuda2008_poldiv_ring_filter-m5
+  component_id: cmp_lit_fukuda2008_poldiv_ring_filter
+  parameter: box_thickness_um
+  value: '3'
+  unit: um
+  basis: design_target
+  locator: p.5 Sec. 3.1
+  notes: 3 um SiO2 BOX, wafer value (D402)
+  why: 'miss (D153): p.5 Sec. 3.1 states the 200 nm Si layer and 3 um BOX for all devices; ring_bus cross-section needs core_thickness_nm'
+- metric_id: cmp_lit_fukuda2008_rotator_30um-m3
+  component_id: cmp_lit_fukuda2008_rotator_30um
+  parameter: width_nm
+  value: '200'
+  unit: nm
+  basis: design_target
+  locator: p.6 Sec. 3.3; p.6 Fig. 5(a)
+  notes: Si core 200 nm square in the rotator section, same for the 30-60 um series (Fig. 5(a)); second core 840 nm square
+    not entered
+  why: 'miss (D153, series consistency): the Fig. 5(a) cross-section (200 nm square Si core) is drawn for the whole 30-60
+    um series; the 35 um row carries it, the siblings did not'
+- metric_id: cmp_lit_fukuda2008_rotator_30um-m4
+  component_id: cmp_lit_fukuda2008_rotator_30um
+  parameter: core_thickness_nm
+  value: '200'
+  unit: nm
+  basis: design_target
+  locator: p.5 Sec. 2.3; p.6 Sec. 3.3
+  notes: Si core height 200 nm (SOI layer)
+  why: 'miss (D153, series consistency): the Fig. 5(a) cross-section (200 nm square Si core) is drawn for the whole 30-60
+    um series; the 35 um row carries it, the siblings did not'
+- metric_id: cmp_lit_fukuda2008_rotator_30um-m5
+  component_id: cmp_lit_fukuda2008_rotator_30um
+  parameter: box_thickness_um
+  value: '3'
+  unit: um
+  basis: design_target
+  locator: p.5 Sec. 3.1
+  notes: 3 um SiO2 BOX (D402)
+  why: 'miss (D153, series consistency): the Fig. 5(a) cross-section (200 nm square Si core) is drawn for the whole 30-60
+    um series; the 35 um row carries it, the siblings did not'
+- metric_id: cmp_lit_fukuda2008_rotator_40um-m3
+  component_id: cmp_lit_fukuda2008_rotator_40um
+  parameter: width_nm
+  value: '200'
+  unit: nm
+  basis: design_target
+  locator: p.6 Sec. 3.3; p.6 Fig. 5(a)
+  notes: Si core 200 nm square in the rotator section, same for the 30-60 um series (Fig. 5(a)); second core 840 nm square
+    not entered
+  why: 'miss (D153, series consistency): the Fig. 5(a) cross-section (200 nm square Si core) is drawn for the whole 30-60
+    um series; the 35 um row carries it, the siblings did not'
+- metric_id: cmp_lit_fukuda2008_rotator_40um-m4
+  component_id: cmp_lit_fukuda2008_rotator_40um
+  parameter: core_thickness_nm
+  value: '200'
+  unit: nm
+  basis: design_target
+  locator: p.5 Sec. 2.3; p.6 Sec. 3.3
+  notes: Si core height 200 nm (SOI layer)
+  why: 'miss (D153, series consistency): the Fig. 5(a) cross-section (200 nm square Si core) is drawn for the whole 30-60
+    um series; the 35 um row carries it, the siblings did not'
+- metric_id: cmp_lit_fukuda2008_rotator_40um-m5
+  component_id: cmp_lit_fukuda2008_rotator_40um
+  parameter: box_thickness_um
+  value: '3'
+  unit: um
+  basis: design_target
+  locator: p.5 Sec. 3.1
+  notes: 3 um SiO2 BOX (D402)
+  why: 'miss (D153, series consistency): the Fig. 5(a) cross-section (200 nm square Si core) is drawn for the whole 30-60
+    um series; the 35 um row carries it, the siblings did not'
+- metric_id: cmp_lit_fukuda2008_rotator_45um-m3
+  component_id: cmp_lit_fukuda2008_rotator_45um
+  parameter: width_nm
+  value: '200'
+  unit: nm
+  basis: design_target
+  locator: p.6 Sec. 3.3; p.6 Fig. 5(a)
+  notes: Si core 200 nm square in the rotator section, same for the 30-60 um series (Fig. 5(a)); second core 840 nm square
+    not entered
+  why: 'miss (D153, series consistency): the Fig. 5(a) cross-section (200 nm square Si core) is drawn for the whole 30-60
+    um series; the 35 um row carries it, the siblings did not'
+- metric_id: cmp_lit_fukuda2008_rotator_45um-m4
+  component_id: cmp_lit_fukuda2008_rotator_45um
+  parameter: core_thickness_nm
+  value: '200'
+  unit: nm
+  basis: design_target
+  locator: p.5 Sec. 2.3; p.6 Sec. 3.3
+  notes: Si core height 200 nm (SOI layer)
+  why: 'miss (D153, series consistency): the Fig. 5(a) cross-section (200 nm square Si core) is drawn for the whole 30-60
+    um series; the 35 um row carries it, the siblings did not'
+- metric_id: cmp_lit_fukuda2008_rotator_45um-m5
+  component_id: cmp_lit_fukuda2008_rotator_45um
+  parameter: box_thickness_um
+  value: '3'
+  unit: um
+  basis: design_target
+  locator: p.5 Sec. 3.1
+  notes: 3 um SiO2 BOX (D402)
+  why: 'miss (D153, series consistency): the Fig. 5(a) cross-section (200 nm square Si core) is drawn for the whole 30-60
+    um series; the 35 um row carries it, the siblings did not'
+- metric_id: cmp_lit_fukuda2008_rotator_50um-m3
+  component_id: cmp_lit_fukuda2008_rotator_50um
+  parameter: width_nm
+  value: '200'
+  unit: nm
+  basis: design_target
+  locator: p.6 Sec. 3.3; p.6 Fig. 5(a)
+  notes: Si core 200 nm square in the rotator section, same for the 30-60 um series (Fig. 5(a)); second core 840 nm square
+    not entered
+  why: 'miss (D153, series consistency): the Fig. 5(a) cross-section (200 nm square Si core) is drawn for the whole 30-60
+    um series; the 35 um row carries it, the siblings did not'
+- metric_id: cmp_lit_fukuda2008_rotator_50um-m4
+  component_id: cmp_lit_fukuda2008_rotator_50um
+  parameter: core_thickness_nm
+  value: '200'
+  unit: nm
+  basis: design_target
+  locator: p.5 Sec. 2.3; p.6 Sec. 3.3
+  notes: Si core height 200 nm (SOI layer)
+  why: 'miss (D153, series consistency): the Fig. 5(a) cross-section (200 nm square Si core) is drawn for the whole 30-60
+    um series; the 35 um row carries it, the siblings did not'
+- metric_id: cmp_lit_fukuda2008_rotator_50um-m5
+  component_id: cmp_lit_fukuda2008_rotator_50um
+  parameter: box_thickness_um
+  value: '3'
+  unit: um
+  basis: design_target
+  locator: p.5 Sec. 3.1
+  notes: 3 um SiO2 BOX (D402)
+  why: 'miss (D153, series consistency): the Fig. 5(a) cross-section (200 nm square Si core) is drawn for the whole 30-60
+    um series; the 35 um row carries it, the siblings did not'
+- metric_id: cmp_lit_fukuda2008_rotator_55um-m3
+  component_id: cmp_lit_fukuda2008_rotator_55um
+  parameter: width_nm
+  value: '200'
+  unit: nm
+  basis: design_target
+  locator: p.6 Sec. 3.3; p.6 Fig. 5(a)
+  notes: Si core 200 nm square in the rotator section, same for the 30-60 um series (Fig. 5(a)); second core 840 nm square
+    not entered
+  why: 'miss (D153, series consistency): the Fig. 5(a) cross-section (200 nm square Si core) is drawn for the whole 30-60
+    um series; the 35 um row carries it, the siblings did not'
+- metric_id: cmp_lit_fukuda2008_rotator_55um-m4
+  component_id: cmp_lit_fukuda2008_rotator_55um
+  parameter: core_thickness_nm
+  value: '200'
+  unit: nm
+  basis: design_target
+  locator: p.5 Sec. 2.3; p.6 Sec. 3.3
+  notes: Si core height 200 nm (SOI layer)
+  why: 'miss (D153, series consistency): the Fig. 5(a) cross-section (200 nm square Si core) is drawn for the whole 30-60
+    um series; the 35 um row carries it, the siblings did not'
+- metric_id: cmp_lit_fukuda2008_rotator_55um-m5
+  component_id: cmp_lit_fukuda2008_rotator_55um
+  parameter: box_thickness_um
+  value: '3'
+  unit: um
+  basis: design_target
+  locator: p.5 Sec. 3.1
+  notes: 3 um SiO2 BOX (D402)
+  why: 'miss (D153, series consistency): the Fig. 5(a) cross-section (200 nm square Si core) is drawn for the whole 30-60
+    um series; the 35 um row carries it, the siblings did not'
+- metric_id: cmp_lit_fukuda2008_rotator_60um-m3
+  component_id: cmp_lit_fukuda2008_rotator_60um
+  parameter: width_nm
+  value: '200'
+  unit: nm
+  basis: design_target
+  locator: p.6 Sec. 3.3; p.6 Fig. 5(a)
+  notes: Si core 200 nm square in the rotator section, same for the 30-60 um series (Fig. 5(a)); second core 840 nm square
+    not entered
+  why: 'miss (D153, series consistency): the Fig. 5(a) cross-section (200 nm square Si core) is drawn for the whole 30-60
+    um series; the 35 um row carries it, the siblings did not'
+- metric_id: cmp_lit_fukuda2008_rotator_60um-m4
+  component_id: cmp_lit_fukuda2008_rotator_60um
+  parameter: core_thickness_nm
+  value: '200'
+  unit: nm
+  basis: design_target
+  locator: p.5 Sec. 2.3; p.6 Sec. 3.3
+  notes: Si core height 200 nm (SOI layer)
+  why: 'miss (D153, series consistency): the Fig. 5(a) cross-section (200 nm square Si core) is drawn for the whole 30-60
+    um series; the 35 um row carries it, the siblings did not'
+- metric_id: cmp_lit_fukuda2008_rotator_60um-m5
+  component_id: cmp_lit_fukuda2008_rotator_60um
+  parameter: box_thickness_um
+  value: '3'
+  unit: um
+  basis: design_target
+  locator: p.5 Sec. 3.1
+  notes: 3 um SiO2 BOX (D402)
+  why: 'miss (D153, series consistency): the Fig. 5(a) cross-section (200 nm square Si core) is drawn for the whole 30-60
+    um series; the 35 um row carries it, the siblings did not'

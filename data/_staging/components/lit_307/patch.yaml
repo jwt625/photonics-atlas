@@ -1,0 +1,88 @@
+# Audit patch lit_307 (fresh-context audit 2026-11-27, DevLog/audits/2026-11-27-lit_307-audit.md).
+# 53 metrics: 52 ok / 1 imprecise / 0 wrong; 7 components: 7 ok / 0 imprecise / 0 wrong. 7 misses added (stack geometry).
+# After the patch: 7 components, 60 metrics.
+# Fix: xu2013 simulated Qtot note (p.4 restates 3.73e6 for the PMMA-covered model; Fig. 1(e) puts the 1546.5 nm design
+# point at cover index 1.44). Note supplements on ok rows: he2018 extinction bounds vs Fig. 6 reads; xu2013 Qcoupling / Qrad.
+# Misses: he2018 BOX / cladding on the two mode (de)MUX rows and cladding on the grating coupler; xu2013 BOX / PMMA
+# cladding on the ridge-to-slot coupler.
+metrics:
+  cmp_lit_xu2013_slotted_nanobeam_cavity-m5:
+    notes: 'printed ''Qtot of 3.73 x 10^6'' at 1546.5 nm (p.3); p.4 restates Q-factor = 3.73 x 10^6 (with 437 nm/RIU) for the simulation model that is ''covered with a PMMA layer''; Fig. 1(e) (index sweep of the covering analyte) places 1546.5 nm and Q about 3.7e6 at a cover index of 1.44 (figure read, +/- 0.005 in index, +/- 0.1e6 in Q), so the design point is the covered model at index 1.44'
+    why: 'p.4 Sec. 2 and p.3 Fig. 1(e) (embedded image read): the note said whether the run includes the PMMA cover is not stated, but p.4 restates the same 3.73e6 in the PMMA-covered simulation paragraph and Fig. 1(e) shows the 1546.5 nm / ~3.7e6 point at index 1.44'
+  cmp_lit_xu2013_slotted_nanobeam_cavity-m6:
+    notes: 'printed ''8.883 x 10^6'' (p.3); same simulation run as the Qtot 3.73e6 design point, which p.4 restates for the PMMA-covered model (Fig. 1(e): cover index 1.44)'
+    why: 'p.3-4 Sec. 2, Fig. 1(e): note supplement, as m5 (row ok)'
+  cmp_lit_xu2013_slotted_nanobeam_cavity-m7:
+    notes: 'printed ''6.43 x 10^6'' (p.3); radiation-limited Q of the simulation (no material-loss term stated); same run as the Qtot 3.73e6 design point, which p.4 restates for the PMMA-covered model (Fig. 1(e): cover index 1.44)'
+    why: 'p.3-4 Sec. 2, Fig. 1(e): note supplement, as m5 (row ok)'
+  cmp_lit_he2018_te0_blocking_filter-m2:
+    notes: 'printed ''extinction ratio of >=21.0 dB'' (p.6); abstract ''crosstalk (<=21.0 dB)'', p.2 / p.7 ''crosstalk lower than / below -21.0 dB'' (sign quoted, rule 5). Fig. 6(a) read: the highest in-band TE0 transmission is about -22 dB near 1545 nm (+/- 0.5 dB), so the printed bound is consistent and slightly conservative; reference level of the ratio not defined in the text'
+    why: 'p.6 Fig. 6(a) (embedded image img_p06_2 read): bound checked against the trace; note supplement (row ok)'
+  cmp_lit_he2018_te1_blocking_filter-m3:
+    notes: 'p.6-7 prints ''blocked with an extinction ratio of 25.6 dB'' over 1540-1566 nm; p.2 / p.7 ''crosstalk is below -25.6 dB'' (sign quoted, rule 5): bound taken from the summary wording. Fig. 6(b) read: the highest in-band TE1 transmission is about -28 dB near 1552.5 nm (+/- 0.5 dB), so 25.6 dB is a conservative lower bound; reference level of the ratio not defined in the text; the plotted operation-band marker ends near 1565 nm'
+    why: 'p.6 Fig. 6(b) (embedded image img_p06_1 read): the printed 25.6 dB sits about 2 dB below the worst in-band read, consistent with a lower bound (gt kept); note supplement (row ok)'
+add_metrics:
+- metric_id: cmp_lit_he2018_te_grating_coupler-m7
+  component_id: cmp_lit_he2018_te_grating_coupler
+  parameter: cladding_thickness_um
+  value: '1'
+  unit: um
+  condition: PECVD SiO2 upper cladding
+  basis: design_target
+  locator: p.5 Sec. 3
+  why: 'miss (D153 geometry): ''A 1-um-thick SiO2 cladding layer was then deposited on top of the devices'' (p.5) covers the grating couplers too; the filter rows carry it, the GC row did not'
+- metric_id: cmp_lit_he2018_te1_mode_mux-m5
+  component_id: cmp_lit_he2018_te1_mode_mux
+  parameter: box_thickness_um
+  value: '3'
+  unit: um
+  basis: design_target
+  locator: p.5 Sec. 3
+  notes: silica buffer layer of the SOI wafer (D402)
+  why: 'miss (D153 geometry): 220 nm Si on a 3-um silica buffer (p.5) is the stack of every device on the chip; the filter rows carry it'
+- metric_id: cmp_lit_he2018_te1_mode_mux-m6
+  component_id: cmp_lit_he2018_te1_mode_mux
+  parameter: cladding_thickness_um
+  value: '1'
+  unit: um
+  condition: PECVD SiO2 upper cladding
+  basis: design_target
+  locator: p.5 Sec. 3
+  why: 'miss (D153 geometry): 1-um PECVD SiO2 cladding deposited on top of the devices (p.5)'
+- metric_id: cmp_lit_he2018_te2_mode_mux-m5
+  component_id: cmp_lit_he2018_te2_mode_mux
+  parameter: box_thickness_um
+  value: '3'
+  unit: um
+  basis: design_target
+  locator: p.5 Sec. 3
+  notes: silica buffer layer of the SOI wafer (D402)
+  why: 'miss (D153 geometry): 220 nm Si on a 3-um silica buffer (p.5); the filter rows carry it'
+- metric_id: cmp_lit_he2018_te2_mode_mux-m6
+  component_id: cmp_lit_he2018_te2_mode_mux
+  parameter: cladding_thickness_um
+  value: '1'
+  unit: um
+  condition: PECVD SiO2 upper cladding
+  basis: design_target
+  locator: p.5 Sec. 3
+  why: 'miss (D153 geometry): 1-um PECVD SiO2 cladding deposited on top of the devices (p.5)'
+- metric_id: cmp_lit_xu2013_ridge_slot_butt_coupler-m5
+  component_id: cmp_lit_xu2013_ridge_slot_butt_coupler
+  parameter: box_thickness_um
+  value: '2'
+  unit: um
+  basis: design_target
+  locator: p.3 Sec. 2; p.4 Sec. 3
+  notes: buried oxide of the SOITEC SOI wafer (D402)
+  why: 'miss (D153 geometry): SOI with a 2-um buried oxide (p.3, p.4); the cavity row carries it'
+- metric_id: cmp_lit_xu2013_ridge_slot_butt_coupler-m6
+  component_id: cmp_lit_xu2013_ridge_slot_butt_coupler
+  parameter: cladding_thickness_um
+  value: '0.5'
+  unit: um
+  condition: PMMA upper cladding (the sensing window is opened over the cavity only)
+  basis: derived
+  locator: p.4 Sec. 3
+  notes: printed '500 nm PMMA layer'; nm -> um (D157 / D256)
+  why: 'miss (D153 geometry): ''the whole device was covered by a 500 nm PMMA layer'' and only the cavity was opened (p.4), so the ridge-to-slot junction stays PMMA-clad; the component cladding field already says 500 nm PMMA'

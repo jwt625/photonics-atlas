@@ -1,0 +1,105 @@
+# Audit patch lit_301 (fresh-context audit 2026-11-27, DevLog/audits/2026-11-27-lit_301-audit.md).
+# 117 metrics: 116 ok / 1 imprecise / 0 wrong; 27 components: 26 ok / 1 imprecise / 0 wrong. 5 misses added.
+# After the patch: 27 components, 122 metrics.
+# Fixes: ye2023a antenna note said the SiN emitting-grating period and duty are not stated; Fig. 5(a) labels them
+# (1200 nm period, 600 nm teeth on the SiN layer, colours as the Fig. 1 legend), m3 condition clarified.
+# Misses: ye2023a SiN grating period (m6) and fill factor (m7); ye2023a 400 nm SiN core thickness on the edge coupler and
+# the MMI (D153, edge_taper / mmi templates); xiang2022a lasing wavelength about 1560.5 nm at 20 C, 300 mA (Fig. 7(b)).
+# Note supplements on ok rows: herr2012 200 MHz width (ref. [24] attaches to the platform name); ye2023a budget terms
+# sum exactly to the 12.66 dB total; ye2023a Fig. 5(b) axis reads Directionality; ashtiani2019 DC ratio-pair reading.
+components:
+  cmp_lit_ye2023a_antenna:
+    notes: 'Fab empty: ''The chip is fabricated on SOI wafer'' with 248 nm DUV lithography and ICP etching (p.7) is passive with no org named (D80b, D433); authors at China University of Geosciences and HUST WNLO. Element of cmp_lit_ye2023a_opa_64ch (64 units). Si reflector dual-layer offset 0.83 um (p.6; no registry parameter). SiN emitting grating: Fig. 5(a) labels a 1200 nm period and 600 nm teeth on the upper (SiN) layer and 600 nm teeth on the Si reflector (colours as the Fig. 1 legend: SiN green, Si blue), so both gratings share the 1.2 um period and 0.5 duty (m3 / m4 Si reflector from the text, m6 / m7 SiN grating from the figure labels). Antenna length not stated.'
+    why: 'p.5 Fig. 5(a) (embedded image read, Fig. 1 legend for the layer colours): the ''1200nm'' label spans the left edges of two adjacent SiN teeth and a ''600nm'' label spans one SiN tooth, so the SiN grating period and duty are stated by figure labels; the note said they were not stated'
+  cmp_lit_ashtiani2019_dc1:
+    notes: 'Fab org_astar_ime: ''fabricated in the IME 180 nm silicon-on-insulator (SOI) photonic process'' (p.4; Fig. 3 caption; Contract v7 named-process sentence, aflatouni2015 precedent). One of 7 sibling couplers per row / column of cmp_lit_ashtiani2019_opa_8x8, lengths and etch levels optimized for equal element power (p.6, Fig. 4(c) FDTD table). Ratio pair a/b printed without port labels; read as through / coupled from the p.6 order ''transmission and the coupling coefficients'' (the second number grows with length). Audit check of the reading (D156): the pair sums are 86-89 % (simulated excess about 11-14 %), the second number rises 5 -> 43 % along the row as an equal-power tap must (the last coupler near an even split, 46 / 43), and the reverse reading would send 81 % of the row power into the first element against the equal-power design (p.2, p.4 Sec. 3); the order matches the p.6 wording, so the tie is unambiguous.'
+    why: 'p.5 Fig. 4(c) render (embedded image): table values confirmed; note supplement recording why the unlabeled ratio pair is tied to through / coupled ports (judgment d, keep; row ok)'
+  cmp_lit_ashtiani2019_dc2:
+    notes: 'Fab org_astar_ime: ''fabricated in the IME 180 nm silicon-on-insulator (SOI) photonic process'' (p.4; Fig. 3 caption; Contract v7 named-process sentence, aflatouni2015 precedent). One of 7 sibling couplers per row / column of cmp_lit_ashtiani2019_opa_8x8, lengths and etch levels optimized for equal element power (p.6, Fig. 4(c) FDTD table). Ratio pair a/b printed without port labels; read as through / coupled from the p.6 order ''transmission and the coupling coefficients'' (the second number grows with length). Audit check of the reading (D156): the pair sums are 86-89 % (simulated excess about 11-14 %), the second number rises 5 -> 43 % along the row as an equal-power tap must (the last coupler near an even split, 46 / 43), and the reverse reading would send 81 % of the row power into the first element against the equal-power design (p.2, p.4 Sec. 3); the order matches the p.6 wording, so the tie is unambiguous.'
+    why: 'p.5 Fig. 4(c) render (embedded image): table values confirmed; note supplement recording why the unlabeled ratio pair is tied to through / coupled ports (judgment d, keep; row ok)'
+  cmp_lit_ashtiani2019_dc3:
+    notes: 'Fab org_astar_ime: ''fabricated in the IME 180 nm silicon-on-insulator (SOI) photonic process'' (p.4; Fig. 3 caption; Contract v7 named-process sentence, aflatouni2015 precedent). One of 7 sibling couplers per row / column of cmp_lit_ashtiani2019_opa_8x8, lengths and etch levels optimized for equal element power (p.6, Fig. 4(c) FDTD table). Ratio pair a/b printed without port labels; read as through / coupled from the p.6 order ''transmission and the coupling coefficients'' (the second number grows with length). Audit check of the reading (D156): the pair sums are 86-89 % (simulated excess about 11-14 %), the second number rises 5 -> 43 % along the row as an equal-power tap must (the last coupler near an even split, 46 / 43), and the reverse reading would send 81 % of the row power into the first element against the equal-power design (p.2, p.4 Sec. 3); the order matches the p.6 wording, so the tie is unambiguous.'
+    why: 'p.5 Fig. 4(c) render (embedded image): table values confirmed; note supplement recording why the unlabeled ratio pair is tied to through / coupled ports (judgment d, keep; row ok)'
+  cmp_lit_ashtiani2019_dc4:
+    notes: 'Fab org_astar_ime: ''fabricated in the IME 180 nm silicon-on-insulator (SOI) photonic process'' (p.4; Fig. 3 caption; Contract v7 named-process sentence, aflatouni2015 precedent). One of 7 sibling couplers per row / column of cmp_lit_ashtiani2019_opa_8x8, lengths and etch levels optimized for equal element power (p.6, Fig. 4(c) FDTD table). Ratio pair a/b printed without port labels; read as through / coupled from the p.6 order ''transmission and the coupling coefficients'' (the second number grows with length). Audit check of the reading (D156): the pair sums are 86-89 % (simulated excess about 11-14 %), the second number rises 5 -> 43 % along the row as an equal-power tap must (the last coupler near an even split, 46 / 43), and the reverse reading would send 81 % of the row power into the first element against the equal-power design (p.2, p.4 Sec. 3); the order matches the p.6 wording, so the tie is unambiguous.'
+    why: 'p.5 Fig. 4(c) render (embedded image): table values confirmed; note supplement recording why the unlabeled ratio pair is tied to through / coupled ports (judgment d, keep; row ok)'
+  cmp_lit_ashtiani2019_dc5:
+    notes: 'Fab org_astar_ime: ''fabricated in the IME 180 nm silicon-on-insulator (SOI) photonic process'' (p.4; Fig. 3 caption; Contract v7 named-process sentence, aflatouni2015 precedent). One of 7 sibling couplers per row / column of cmp_lit_ashtiani2019_opa_8x8, lengths and etch levels optimized for equal element power (p.6, Fig. 4(c) FDTD table). Ratio pair a/b printed without port labels; read as through / coupled from the p.6 order ''transmission and the coupling coefficients'' (the second number grows with length). Audit check of the reading (D156): the pair sums are 86-89 % (simulated excess about 11-14 %), the second number rises 5 -> 43 % along the row as an equal-power tap must (the last coupler near an even split, 46 / 43), and the reverse reading would send 81 % of the row power into the first element against the equal-power design (p.2, p.4 Sec. 3); the order matches the p.6 wording, so the tie is unambiguous.'
+    why: 'p.5 Fig. 4(c) render (embedded image): table values confirmed; note supplement recording why the unlabeled ratio pair is tied to through / coupled ports (judgment d, keep; row ok)'
+  cmp_lit_ashtiani2019_dc6:
+    notes: 'Fab org_astar_ime: ''fabricated in the IME 180 nm silicon-on-insulator (SOI) photonic process'' (p.4; Fig. 3 caption; Contract v7 named-process sentence, aflatouni2015 precedent). One of 7 sibling couplers per row / column of cmp_lit_ashtiani2019_opa_8x8, lengths and etch levels optimized for equal element power (p.6, Fig. 4(c) FDTD table). Ratio pair a/b printed without port labels; read as through / coupled from the p.6 order ''transmission and the coupling coefficients'' (the second number grows with length). Audit check of the reading (D156): the pair sums are 86-89 % (simulated excess about 11-14 %), the second number rises 5 -> 43 % along the row as an equal-power tap must (the last coupler near an even split, 46 / 43), and the reverse reading would send 81 % of the row power into the first element against the equal-power design (p.2, p.4 Sec. 3); the order matches the p.6 wording, so the tie is unambiguous.'
+    why: 'p.5 Fig. 4(c) render (embedded image): table values confirmed; note supplement recording why the unlabeled ratio pair is tied to through / coupled ports (judgment d, keep; row ok)'
+  cmp_lit_ashtiani2019_dc7:
+    notes: 'Fab org_astar_ime: ''fabricated in the IME 180 nm silicon-on-insulator (SOI) photonic process'' (p.4; Fig. 3 caption; Contract v7 named-process sentence, aflatouni2015 precedent). One of 7 sibling couplers per row / column of cmp_lit_ashtiani2019_opa_8x8, lengths and etch levels optimized for equal element power (p.6, Fig. 4(c) FDTD table). Ratio pair a/b printed without port labels; read as through / coupled from the p.6 order ''transmission and the coupling coefficients'' (the second number grows with length). Audit check of the reading (D156): the pair sums are 86-89 % (simulated excess about 11-14 %), the second number rises 5 -> 43 % along the row as an equal-power tap must (the last coupler near an even split, 46 / 43), and the reverse reading would send 81 % of the row power into the first element against the equal-power design (p.2, p.4 Sec. 3); the order matches the p.6 wording, so the tie is unambiguous.'
+    why: 'p.5 Fig. 4(c) render (embedded image): table values confirmed; note supplement recording why the unlabeled ratio pair is tied to through / coupled ports (judgment d, keep; row ok)'
+metrics:
+  cmp_lit_herr2012_sin_ring_76ghz-m1:
+    notes: 'unqualified width (loaded vs intrinsic not stated), stored as linewidth_mhz per its definition; band inferred: setup with CW pump laser + EDFA (p.2 refers to Fig. 3(g)) and the Fig. 1(a) spectrum centred near 1550 nm; no wavelength printed with the value; the p.2 citation [24] (Levy et al., Nature Photonics 2010) attaches to the platform name in parallel with ''MgF2 resonators [19-21]'', not to the width; the Fig. 1 caption restates 200 MHz for this resonator without a reference, and the SiN samples were fabricated at CMI-EPFL (p.9), so the value is this paper''s own (D259 / D408 test)'
+    why: 'p.2 Sec. II, p.3 Fig. 1 caption, p.14 ref. [24]: attribution check of the width (coordinator judgment a); note supplement, row ok'
+  cmp_lit_ye2023a_antenna-m1:
+    notes: 'Fig. 5(b) plots the simulated curve with the axis labelled ''Directionality (dB)'' (about -1.5 dB near 1545-1550 nm); the text calls the 1.487 dB value emission loss, i.e. the upward share of the emitted power'
+    why: 'p.5 Fig. 5(b) (embedded image read): axis title records what the 1.487 dB is; note supplement, row ok'
+  cmp_lit_ye2023a_antenna-m2:
+    notes: budget term, origin not stated; operating wavelength set to 1550 nm (p.5); the measurement wavelength of this value is not stated; the four printed terms sum exactly to the printed total (2.5 + 0.36 + 0.2 + 9.6 = 12.66 dB), so this term may be the remainder of the measured total; the side-lobe share is an array property entered on the element row (zhou2023b / poulton2016 budget-term precedent)
+    why: 'p.7 Sec. 3.1: arithmetic check of the budget (coordinator judgment b); supports author_estimate; note supplement, row ok'
+  cmp_lit_ye2023a_antenna-m3:
+    condition: period of the Si grating reflector below the SiN antenna (p.6 text); the SiN emitting grating has the same 1200 nm period (m6, Fig. 5(a) label)
+    why: 'p.5 Fig. 5(a): the old condition ''(not the SiN emitting grating)'' implied a different or unknown SiN period; the figure labels the same 1200 nm period on the SiN teeth'
+add_metrics:
+- metric_id: cmp_lit_ye2023a_antenna-m6
+  component_id: cmp_lit_ye2023a_antenna
+  parameter: period_nm
+  value: '1200'
+  unit: nm
+  condition: period of the fully etched SiN emitting grating (upper layer)
+  basis: extracted_from_figure
+  locator: p.5 Fig. 5(a)
+  notes: 'Figure label ''1200nm'' between the left edges of two adjacent SiN teeth (SiN green per the Fig. 1 legend); printed label, no reading uncertainty; same period as the Si reflector (m3)'
+  verified_on: '2026-11-27'
+  why: 'miss (D153 / Contract v5): the grating-emitter period is labelled in Fig. 5(a); the component note said it was not stated'
+- metric_id: cmp_lit_ye2023a_antenna-m7
+  component_id: cmp_lit_ye2023a_antenna
+  parameter: fill_factor
+  value: '0.5'
+  unit: '1'
+  condition: SiN emitting grating (upper layer)
+  basis: derived
+  locator: p.5 Fig. 5(a)
+  notes: '600 nm SiN tooth / 1200 nm period, both figure labels (tooth = unetched SiN, D253)'
+  verified_on: '2026-11-27'
+  why: 'miss (D153): SiN tooth width and period are labelled in Fig. 5(a); fill factor = tooth / period'
+- metric_id: cmp_lit_ye2023a_sin_edge_coupler-m4
+  component_id: cmp_lit_ye2023a_sin_edge_coupler
+  parameter: core_thickness_nm
+  value: '400'
+  unit: nm
+  condition: PECVD SiN layer
+  basis: design_target
+  locator: p.7 Sec. 3.1
+  notes: deposited film thickness as stated (D402)
+  verified_on: '2026-11-27'
+  why: 'miss (D153): core thickness is a required cross-section dimension of the edge_taper template and is stated (400 nm SiN layer, p.7); entered on the transition (m9) and antenna (m5) rows but not here'
+- metric_id: cmp_lit_ye2023a_sin_mmi_1x2-m4
+  component_id: cmp_lit_ye2023a_sin_mmi_1x2
+  parameter: core_thickness_nm
+  value: '400'
+  unit: nm
+  condition: PECVD SiN layer
+  basis: design_target
+  locator: p.7 Sec. 3.1
+  notes: deposited film thickness as stated (D402); MMI section width and length not stated separately (28.8 um x 7 um is printed as the splitter footprint, m2)
+  verified_on: '2026-11-27'
+  why: 'miss (D153): core thickness is a required cross-section dimension of the mmi template and is stated (400 nm SiN layer, p.7)'
+- metric_id: cmp_lit_xiang2022a_dfb_8um_800um-m24
+  component_id: cmp_lit_xiang2022a_dfb_8um_800um
+  parameter: center_wavelength_nm
+  value: '1560.5'
+  unit: nm
+  qualifier: approx
+  temperature_k: '293.15'
+  condition: lasing wavelength at 300 mA, 20 C chip temperature
+  basis: extracted_from_figure
+  locator: p.7 Fig. 7(b)
+  notes: 'Read off the Fig. 7(b) wavelength trace (right axis 1555-1570 nm) at 20 C; reading uncertainty about +/-0.3 nm. Validation: the same read gives about 1556.7 nm at -10 C and 1565.3 nm at 60 C, i.e. the printed 8.6 nm span; Fig. 7(a) T = 20 C peak near 1560.5 nm agrees. Text states only ''around 1550 nm'' (p.2)'
+  verified_on: '2026-11-27'
+  why: 'miss: the lasing wavelength of the main DFB is plotted (Fig. 7(b), lasing wavelengths vs temperature) but not entered; figure read validated on the printed 8.6 nm tuning span (DFB precedents aihara2026, chen2002)'

@@ -1,0 +1,161 @@
+# Audit patch lit_308 (fresh-context audit 2026-11-27, DevLog/audits/2026-11-27-lit_308-audit.md).
+# 95 metrics: 92 ok / 3 imprecise / 0 wrong; 16 components: 15 ok / 1 imprecise / 0 wrong. 1 miss added.
+# After the patch: 16 components, 96 metrics.
+# Fixes: chang2018c adiabatic DMC W0 / W1 roles (text contradicts Fig. 2(a)-(c); D417); seidler2013 9-hole
+# linewidth note (identity with the Fig. 7 device not excluded). Miss: singh2015 Fig. 2(a) FWHM 0.013 nm.
+# Note supplements on ok rows: seidler2013 sample identity (Fig. 8(a)), nozaki2013 Fig. 5(b) blue point,
+# chang2018c Fig. 6(e) / 6(h) band-edge reads, singh2015 Q wavelength.
+components:
+  cmp_lit_seidler2013_slot_nanobeam_n6:
+    notes: 'Series of fabricated devices differing only in the number of holes N on either side of the slot (p.7, p.10 Fig.
+      7); one row per N (rule 9, deotare2009 precedent). Fig. 8 shows measured devices from two samples (sample 1 l = 484
+      nm; sample 2 l = 470 / 486 / 500 nm); 7-, 9- and 10-hole points exist only for sample 1 and match the Fig. 7 Q labels
+      (about 1.0e4 / 5e4 / 1.4e5), so the Fig. 7 series is read as sample 1 (slot length about 484 nm, design 484.5 nm; inference
+      from Fig. 8(a), not stated in the text); the Figs. 10-11 devices are from the same sample (p.13); SEM: design dimensions
+      reproduced within typical deviations < 10 nm (p.7). Not entered: mode volume 0.0096 (lambda_vac/n)^3 (simulated) and
+      Q/V (no parameter). Fab borderline org_ibm_research_zurich (D84b, D715 analogue): fabrication is described in passive
+      voice (p.7 Sec. 3) and the acknowledgment thanks a staff member for assistance with the reactive ion etching (p.16);
+      all authors at IBM Research - Zurich (p.1). No shared facility named.'
+    why: 'p.11 Fig. 8(a) legend and markers (render read): only sample 1 (l = 484 nm) has 7-, 9- and 10-hole points, which
+      match the Fig. 7 labels (p.10); note supplement on the sample identity behind the per-N rows (row ok)'
+  cmp_lit_seidler2013_slot_nanobeam_n7:
+    notes: 'Series of fabricated devices differing only in the number of holes N on either side of the slot (p.7, p.10 Fig.
+      7); one row per N (rule 9, deotare2009 precedent). Fig. 8 shows measured devices from two samples (sample 1 l = 484
+      nm; sample 2 l = 470 / 486 / 500 nm); 7-, 9- and 10-hole points exist only for sample 1 and match the Fig. 7 Q labels
+      (about 1.0e4 / 5e4 / 1.4e5), so the Fig. 7 series is read as sample 1 (slot length about 484 nm, design 484.5 nm; inference
+      from Fig. 8(a), not stated in the text); the Figs. 10-11 devices are from the same sample (p.13); SEM: design dimensions
+      reproduced within typical deviations < 10 nm (p.7). Not entered: mode volume 0.0096 (lambda_vac/n)^3 (simulated) and
+      Q/V (no parameter). Fab borderline org_ibm_research_zurich (D84b, D715 analogue): fabrication is described in passive
+      voice (p.7 Sec. 3) and the acknowledgment thanks a staff member for assistance with the reactive ion etching (p.16);
+      all authors at IBM Research - Zurich (p.1). No shared facility named.'
+    why: 'p.11 Fig. 8(a) legend and markers (render read): only sample 1 (l = 484 nm) has 7-, 9- and 10-hole points, which
+      match the Fig. 7 labels (p.10); note supplement on the sample identity behind the per-N rows (row ok)'
+  cmp_lit_seidler2013_slot_nanobeam_n8:
+    notes: 'Series of fabricated devices differing only in the number of holes N on either side of the slot (p.7, p.10 Fig.
+      7); one row per N (rule 9, deotare2009 precedent). Fig. 8 shows measured devices from two samples (sample 1 l = 484
+      nm; sample 2 l = 470 / 486 / 500 nm); 7-, 9- and 10-hole points exist only for sample 1 and match the Fig. 7 Q labels
+      (about 1.0e4 / 5e4 / 1.4e5), so the Fig. 7 series is read as sample 1 (slot length about 484 nm, design 484.5 nm; inference
+      from Fig. 8(a), not stated in the text); the Figs. 10-11 devices are from the same sample (p.13); SEM: design dimensions
+      reproduced within typical deviations < 10 nm (p.7). Not entered: mode volume 0.0096 (lambda_vac/n)^3 (simulated) and
+      Q/V (no parameter). Fab borderline org_ibm_research_zurich (D84b, D715 analogue): fabrication is described in passive
+      voice (p.7 Sec. 3) and the acknowledgment thanks a staff member for assistance with the reactive ion etching (p.16);
+      all authors at IBM Research - Zurich (p.1). No shared facility named.'
+    why: 'p.11 Fig. 8(a) legend and markers (render read): only sample 1 (l = 484 nm) has 7-, 9- and 10-hole points, which
+      match the Fig. 7 labels (p.10); note supplement on the sample identity behind the per-N rows (row ok)'
+  cmp_lit_seidler2013_slot_nanobeam_n9:
+    notes: 'Series of fabricated devices differing only in the number of holes N on either side of the slot (p.7, p.10 Fig.
+      7); one row per N (rule 9, deotare2009 precedent). Fig. 8 shows measured devices from two samples (sample 1 l = 484
+      nm; sample 2 l = 470 / 486 / 500 nm); 7-, 9- and 10-hole points exist only for sample 1 and match the Fig. 7 Q labels
+      (about 1.0e4 / 5e4 / 1.4e5), so the Fig. 7 series is read as sample 1 (slot length about 484 nm, design 484.5 nm; inference
+      from Fig. 8(a), not stated in the text); the Figs. 10-11 devices are from the same sample (p.13); SEM: design dimensions
+      reproduced within typical deviations < 10 nm (p.7). Not entered: mode volume 0.0096 (lambda_vac/n)^3 (simulated) and
+      Q/V (no parameter). Fab borderline org_ibm_research_zurich (D84b, D715 analogue): fabrication is described in passive
+      voice (p.7 Sec. 3) and the acknowledgment thanks a staff member for assistance with the reactive ion etching (p.16);
+      all authors at IBM Research - Zurich (p.1). No shared facility named.'
+    why: 'p.11 Fig. 8(a) legend and markers (render read): only sample 1 (l = 484 nm) has 7-, 9- and 10-hole points, which
+      match the Fig. 7 labels (p.10); note supplement on the sample identity behind the per-N rows (row ok)'
+  cmp_lit_seidler2013_slot_nanobeam_n10:
+    notes: 'Series of fabricated devices differing only in the number of holes N on either side of the slot (p.7, p.10 Fig.
+      7); one row per N (rule 9, deotare2009 precedent). Fig. 8 shows measured devices from two samples (sample 1 l = 484
+      nm; sample 2 l = 470 / 486 / 500 nm); 7-, 9- and 10-hole points exist only for sample 1 and match the Fig. 7 Q labels
+      (about 1.0e4 / 5e4 / 1.4e5), so the Fig. 7 series is read as sample 1 (slot length about 484 nm, design 484.5 nm; inference
+      from Fig. 8(a), not stated in the text); the Figs. 10-11 devices are from the same sample (p.13); SEM: design dimensions
+      reproduced within typical deviations < 10 nm (p.7). Not entered: mode volume 0.0096 (lambda_vac/n)^3 (simulated) and
+      Q/V (no parameter). Measured Q/V up to 1.5e7 for the best 10-hole device (Fig. 8(c), measured Q with simulated V; no
+      parameter). Devices with more than 10 holes showed no detectable resonance (p.10). Fab borderline org_ibm_research_zurich
+      (D84b, D715 analogue): fabrication is described in passive voice (p.7 Sec. 3) and the acknowledgment thanks a staff
+      member for assistance with the reactive ion etching (p.16); all authors at IBM Research - Zurich (p.1). No shared facility
+      named.'
+    why: 'p.11 Fig. 8(a) legend and markers (render read): only sample 1 (l = 484 nm) has 7-, 9- and 10-hole points, which
+      match the Fig. 7 labels (p.10); note supplement on the sample identity behind the per-N rows (row ok)'
+  cmp_lit_chang2018c_dmc_adiabatic_design:
+    core_material: Si 220 nm SOI (dual-mode stem and three single-mode branches, W0 550 nm and W1 450 nm; W0 labels the middle
+      branch in Fig. 2(a), the text assigns W0 to the lateral branches; gap growing from 0 to Wgap > 1 um over the coupling
+      length L)
+    notes: 'Conventional-waveguide building block of the Fig. 1(a) splitter concept (p.2-3, Fig. 2); not fabricated (the fabricated
+      device is the subwavelength version). Simulated stem effective indices 2.6 (TE0) and 2.28 (TE1) not entered (no parameter).
+      Branch-role conflict (D417): p.3 says the lateral branches and the middle one are W0 and W1, respectively, but Fig.
+      2(a) labels W0 on the middle branch and W1 on a lateral branch, and Fig. 2(b)-(c) show the even supermode TSM0 (converted
+      to the middle-branch IFM, p.2-3) tuned by W0 and the odd TSM1 (lateral branches) by W1; figure and physics point to
+      W0 = middle (550 nm), W1 = lateral (450 nm).'
+    why: 'p.3 Sec. 2.1 vs p.3 Fig. 2(a)-(c) (embedded image read): the text''s W0 / W1 roles contradict the figure labels
+      and the supermode plots; the row stated the text roles as fact'
+metrics:
+  cmp_lit_seidler2013_slot_nanobeam_n9-m3:
+    notes: 'printed 4.55 GHz; GHz -> MHz (D256). Possibly the Fig. 7 9-hole device (not stated): its 20 C resonance in Fig.
+      11 (about 1524.6 nm) equals the Fig. 7 9-hole peak (about 1524.6 nm), and Fig. 8(a) shows a single 9-hole point (sample
+      1, l = 484 nm), the sample of the Figs. 10-11 devices (p.13)'
+    why: 'p.10 Fig. 7, p.11 Fig. 8(a), p.15 Fig. 11 (render reads): the note asserted this is not the Fig. 7 instance; the
+      resonance wavelength and the single 9-hole point of sample 1 suggest it may be the same device'
+  cmp_lit_seidler2013_slot_nanobeam_n8-m3:
+    notes: printed 4.25 GHz; GHz -> MHz (D256). Not the Fig. 7 instance of the 8-hole design. (Fig. 11 puts its 20 C resonance
+      at about 1523.2 nm vs the Fig. 7 8-hole peak at about 1524.3 nm; Fig. 8(a) shows two 8-hole points for sample 1)
+    why: 'p.10 Fig. 7, p.11 Fig. 8(a), p.15 Fig. 11 (render reads): evidence for the stated identity; note supplement (row
+      ok)'
+  cmp_lit_seidler2013_slot_nanobeam_n10-m1:
+    notes: printed 'maximum observed Q value is 1.4 x 10^5 measured for a 10-hole device'; unqualified Q -> q_loaded. Wavelength
+      from the Fig. 7 10-hole panel (label Q > 100,000, peak near 1528.2 nm); the text does not say that this panel is the
+      1.4e5 device (Fig. 8(a) shows two 10-hole points, about 1.4e5 and 8e4); the Fig. 7 label 'Q > 100,000' fits only the
+      1.4e5 point, which supports the wavelength assignment).
+    why: 'p.10 Fig. 7 and p.11 Fig. 8(a) (render reads): note supplement (row ok)'
+  cmp_lit_nozaki2013_fano_switch-m4:
+    notes: 'printed ''a contrast of 14 dB and a switching energy of 6 fJ for a bottom-to-peak wavelength shift''; wavelength
+      = probe wavelength of the device (p.5). Fig. 5(b) read: the blue marker at 0.8 nm detuning (caption: ''Blue plots denote
+      the experimental results'') sits at about 14 dB / 6 fJ, the black CMT curve at about 13 dB / 8 fJ (+/- 0.5 dB, +/- 1
+      fJ); the bottom-to-peak switching energy is a model quantity (measured pump-probe maximum 13.7 dB at about 2.3 fJ, Fig.
+      4(a)), so simulated is kept'
+    why: 'p.10 Fig. 5(b) (render read) vs p.9 text: the printed 14 dB / 6 fJ match the blue point the caption calls experimental;
+      note supplement on the basis choice (row ok)'
+  cmp_lit_chang2018c_ref_mdm_system-m2:
+    notes: 'printed ''lower than -24 dB'' (1.52-1.6 um). Fig. 6(e) read (embedded image): the 3-6 and 4-5 traces rise above
+      -24 dB at the 1.520-1.525 um edge (3-6 about -13 dB at 1.520 um) and touch about -24 dB near 1.537 and 1.59 um (+/-
+      1 dB); printed bound kept (D417 note)'
+    why: 'p.8 Fig. 6(e) (embedded image img_p08_1 read): band-edge excursions noted; note supplement (row ok)'
+  cmp_lit_chang2018c_dual_mode_splitter-m2:
+    notes: 'printed ''XTs ... lower than -20 dB''. Fig. 6(h) read (embedded image): all four traces lie at about -20 to -26
+      dB from about 1.523 to 1.58 um; they rise toward -4 dB at the 1.520 um edge and the 2-2 / 2-3 traces reach about -18
+      dB near 1.6 um (outside the stated range); printed bound kept (D417 note)'
+    why: 'p.8 Fig. 6(h) (embedded image img_p08_1 read): band-edge excursions noted; note supplement (row ok)'
+  cmp_lit_chang2018c_dmc_adiabatic_design-m3:
+    condition: branch width W0 (middle branch per the Fig. 2(a) label and Fig. 2(b); the text, p.3, calls W0 the lateral-branch
+      width)
+    locator: p.3 Sec. 2.1; p.3 Fig. 2(a)-(b)
+    notes: printed 'W0 and W1 are chosen to 550 nm and 450 nm'; branch-role conflict between text and figure (D417), see component
+      notes
+    why: 'p.3 Sec. 2.1 vs p.3 Fig. 2(a)-(c): the condition stated the text role (lateral) as fact; Fig. 2(a) labels W0 on
+      the middle branch and Fig. 2(b) tunes the even supermode TSM0 (middle-branch IFM) with W0'
+  cmp_lit_chang2018c_dmc_adiabatic_design-m4:
+    condition: branch width W1 (lateral branches per the Fig. 2(a) label and Fig. 2(c); the text, p.3, calls W1 the middle-branch
+      width)
+    locator: p.3 Sec. 2.1; p.3 Fig. 2(a), (c)
+    notes: printed 'W0 and W1 are chosen to 550 nm and 450 nm'; branch-role conflict between text and figure (D417), see component
+      notes
+    why: 'p.3 Sec. 2.1 vs p.3 Fig. 2(a)-(c): as m3; Fig. 2(a) labels W1 on a lateral branch and Fig. 2(c) tunes the odd supermode
+      TSM1 (lateral-branch IFMs) with W1'
+  cmp_lit_singh2015_amtir1_microdisk-m1:
+    notes: printed 'loaded quality factor of 1.2x10^5 at 1550nm (limited by the measuring instrument)'; swept wavelength system
+      resolution ~3 pm (p.4). Fig. 2(a) inset labels the fitted FWHM 0.013 nm (linewidth row m8; 1550 / 0.013 = 1.19e5); the
+      inset's zoom pointer sits near 1536.6 nm on the Fig. 2(a) axis (+/- 1 nm), while the abstract states 1550 nm for this
+      Q (D417 note; printed 1550 nm kept)
+    why: 'p.4 Fig. 2(a) (embedded image img_p04_1 read): note supplement linking the Q to the printed FWHM label and recording
+      the wavelength discrepancy (row ok)'
+delete_components: []
+delete_metrics: []
+add_metrics:
+- metric_id: cmp_lit_singh2015_amtir1_microdisk-m8
+  component_id: cmp_lit_singh2015_amtir1_microdisk
+  parameter: linewidth_pm
+  value: '13'
+  unit: pm
+  wavelength_nm: '1550'
+  polarization: te
+  mode: higher-order radial mode (radial order 13, azimuthal 362, COMSOL)
+  condition: silica fiber taper side-coupled and in contact with the disk rim; reference spectrum without the disk subtracted;
+    Lorentzian fit of the resonance dip
+  method: direct
+  basis: derived
+  locator: p.4 Fig. 2(a) inset
+  notes: printed Fig. 2(a) inset label '0.013 nm' (FWHM of the Lorentzian fit of the Q ~1.2e5 dip); nm -> pm (D256); wavelength
+    1550 nm as stated for this Q (abstract), the inset's zoom pointer sits near 1536.6 nm on the Fig. 2(a) axis (D417 note
+    on m1); SWS resolution ~3 pm (p.4)
+  why: 'miss: the Fig. 2(a) inset prints the resonance FWHM of the measured Q mode (p.4); linewidth_pm (resonator) holds it'

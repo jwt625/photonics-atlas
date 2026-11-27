@@ -1,0 +1,49 @@
+# Audit patch lit_302 (fresh-context audit 2026-11-27, DevLog/audits/2026-11-27-lit_302-audit.md).
+# 110 metrics: 104 ok / 3 imprecise / 3 wrong; 20 components: 18 ok / 1 imprecise / 1 wrong. 1 miss added.
+# After the patch: 19 components, 107 metrics.
+# Fixes: li2019a lens-based system row deleted (FOV 2.07 x 4.12 deg and 0.06 deg divergence are set by the off-chip
+# Thorlabs LA1116 bulk plano-convex lens, f 1.04 cm; D411 / D558 zhang2021a precedent); the remaining rows were geometry
+# only (16 channels duplicates the switch n_outputs; the 250 / 125 um array spacing moves to the grating-emitter row);
+# the dropped system values go to the grating-emitter notes. Miss: wang2021c OPA emission angle theta = -0.16 deg at
+# 1540 nm (p.7 Sec. 4).
+components:
+  cmp_lit_li2019a_grating_emitter:
+    notes: "Emitter size 'approximately 10 x 8 um2' (p.4) not entered: axes not assigned (grating_length / grating_width ambiguous). Near-field background suppression > 20 dB (p.4) is leakage from non-selected emitters: entered on cmp_lit_li2019a_switch_1x16. Emission spectrum filtering (21 nm output bandwidth of a 44 nm input pulse after the input grating coupler and emitter, p.12) is a pulse estimate, not an emitter bandwidth. Array: 4 x 4 emitters at 250 um (x) / 125 um (y) spacing (m10-m11, p.4), fed one at a time by cmp_lit_li2019a_switch_1x16. Lens-system values not entered (D411 / D558): the far-field FOV 2.07 x 4.12 deg (p.2, p.7-8 Sec. 4.1; Table 1 prints 2.16 x 4.29 deg, p.13) and the mean FWHM divergence 0.06 deg over 16 channels (p.6-7) are set by the off-chip Thorlabs LA1116 plano-convex glass lens (f 1.04 cm at 1550 nm, p.3, p.6), a purchased bulk optic, not by the chip. Fab empty: 'The device is manufactured on a silicon-nitride platform' (p.2) and 'fabricated on a 3 x 16-mm2 chip' (p.4) are passive with no org named (D80b); all authors at Shanghai Jiao Tong University."
+    why: "p.3 / p.6: the system row it pointed to is deleted (D411 / D558); its array spacing (p.4 Sec. 3) is re-homed here and the lens-defined system values are kept as notes"
+  cmp_lit_wang2021c_opa_1x64:
+    notes: "Fab empty: 'The OPA is fabricated on SOI integrated with silicon nitride' (p.2) is passive, no org named (D80b); authors at SIMIT (two also UCAS). Phase correction by a hill-climbing algorithm with InGaAs-camera feedback (p.6). Longitudinal beam direction theta = -0.16 deg at 1540 nm (m8, p.7; theta is set by the grating and wavelength, Eq. (2), not by the channel phases). Table 3 values of other OPAs not entered."
+    why: "p.7 Sec. 4: audit adds the measured emission angle at 1540 nm (miss m8); note updated"
+delete_components:
+  - id: cmp_lit_li2019a_beam_steerer_4x4
+    why: "p.3 Sec. 2, p.4 Sec. 3, p.6 Sec. 4.1: the device lens is an off-the-shelf Thorlabs LA1116 plano-convex glass lens (f 1.04 cm) installed above the chip; FOV (theta = tan-1(l/f), Eq. 4) and divergence (tan-1(w/f), Eq. 3, 0.056 deg theory) are set by it. D411 / D558 (zhang2021a 0.02 deg divergence of chip plus off-chip bulk lens deleted). chang2020 differs: its metalens is a fabricated chip-scale a-Si metasurface with its own row. Without m1-m3 the row is geometry only (rule 9): n_channels 16 duplicates cmp_lit_li2019a_switch_1x16-m5 (n_outputs 16), the 250 / 125 um spacing moves to the grating-emitter row (m10-m11)"
+add_metrics:
+  - metric_id: cmp_lit_li2019a_grating_emitter-m10
+    component_id: cmp_lit_li2019a_grating_emitter
+    parameter: pitch_um
+    value: '250'
+    unit: um
+    condition: spacing of the 4 x 4 grating-emitter array along x
+    basis: design_target
+    locator: p.4 Sec. 3
+    why: "p.4 Sec. 3 'the spacing between the emitters is 250 um along the x direction': re-homed from the deleted system row (beam_steerer_4x4-m5)"
+  - metric_id: cmp_lit_li2019a_grating_emitter-m11
+    component_id: cmp_lit_li2019a_grating_emitter
+    parameter: pitch_um
+    value: '125'
+    unit: um
+    condition: spacing of the 4 x 4 grating-emitter array along y
+    basis: design_target
+    locator: p.4 Sec. 3
+    why: "p.4 Sec. 3 '125 um along the y direction': re-homed from the deleted system row (beam_steerer_4x4-m6)"
+  - metric_id: cmp_lit_wang2021c_opa_1x64-m8
+    component_id: cmp_lit_wang2021c_opa_1x64
+    parameter: emission_angle_deg
+    value: '-0.16'
+    unit: deg
+    wavelength_nm: '1540'
+    condition: longitudinal (theta) beam direction at 1540 nm, beam condensed at Phi = 0 deg after phase correction, before the wavelength sweep; theta from the chip normal (Eq. (2))
+    method: direct
+    basis: measured
+    locator: p.7 Sec. 4
+    notes: printed 'condensed at Phi = 0 deg and theta = -0.16 deg at wavelength of 1540 nm'; sign as printed
+    why: "p.7 Sec. 4: measured far-field direction of the 1.5 mm double-layer grating emitters at 1540 nm not entered (miss)"

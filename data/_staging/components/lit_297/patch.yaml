@@ -1,0 +1,76 @@
+# Audit patch lit_297 (fresh-context audit 2026-11-27, DevLog/audits/2026-11-27-lit_297-audit.md).
+# 56 metrics: 53 ok / 2 imprecise / 1 wrong; 8 components: 7 ok / 1 imprecise / 0 wrong. 5 misses added (D153 geometry).
+# After the patch: 8 components, 60 metrics.
+# Wrong: woods2020 clad 3-4 dB/cm is the window the GNLSE free parameter was allowed to take (p.3 "we use ... between 3 and
+# 4 dB/cm", p.9), pinned at its 3 dB/cm lower edge in 7 of 9 Fig. 8-9 fits: a model input like the Fig. 7 2 dB/cm, deleted,
+# values moved to component notes. Imprecise: park2007a SOA gain locator (abstract does not print 9.5 dB; Fig. 5 read note), SOA ~60 nm 3-dB
+# width conflicts with Fig. 5(b) (D417 note), input facet platform soi -> soi_rib (0.3 um slab). Misses: input facet Si rib
+# geometry (core 700 nm, width 2 um, slab 300 nm, BOX 1 um); detector mesa width 3 um at the p cladding.
+components:
+  cmp_lit_woods2020_clad_wg_w3p2:
+    notes: 'Fab: first-person fabrication (''Our fabrication process begins with ...'', ''we deposit'', p.2 Sec. 2; ''waveguides that we have fabricated'', p.3 Fig. 1 caption); all authors at the University of Southampton (School of Physics and Astronomy; Optoelectronics Research Centre), parent org per D154. No facility acknowledged (funding statement only). Platform other: Ta2O5 core (no enum value; fan2021 precedent). Multimode at all pump wavelengths (p.2, p.6). Not entered: spectral broadening widths (about 500 nm at 900 nm pump, 200-300 nm above 1250 nm; p.9, no parameter); simulated dispersion / ZDW (TM00 about 1150 nm; p.6 Fig. 6(a); dispersion not in the registry, D81 / D250); the assumed about 12 dB coupling loss, 7.5 mW launched power and 2 dB/cm loss of the Fig. 7 simulations (p.7; model inputs, not results); the 3-4 dB/cm propagation-loss window of the GNLSE comparisons (p.3 ''During numerical modelling, we use propagation loss values between 3 and 4 dB/cm''; p.9 variable parameter ''between 3 dB/cm and 4 dB/cm''; per-fit values 3.00 / 3.00 / 3.25 dB/cm in Fig. 8 and 3 / 3 / 4 / 3 / 3 / 3 dB/cm in Fig. 9, i.e. at the lower edge of the window in 7 of 9 fits, with mode order and coupled power 1.5-12.1 mW also free and n2 from ref. [16]): a model-input window, not a determined loss (audit 2026-11-27). Coupling and propagation loss are not separated experimentally (p.6).'
+    why: 'p.3 Sec. 2, p.9 Sec. 4, p.8 Figs. 8-9: the deleted 3-4 dB/cm row (model-input window, see delete_metrics) is recorded in notes, as the Fig. 7 2 dB/cm input already is'
+  cmp_lit_park2007a_input_facet:
+    platform: soi_rib
+    why: 'p.3 Sec. 2: the passive Si waveguide at the facet is a rib (0.7 um high, 2 um wide, 0.3 um slab, 1 um BOX); p.4: light enters the silicon waveguide at the 10 deg Si facet (D82f: platform = layer at the fiber-facing facet; soi_rib per D434, kurczveil2013 angled Si facet precedent)'
+metrics:
+  cmp_lit_park2007a_hybrid_soa-m1:
+    locator: p.5 Sec. 3; p.5 Fig. 5(a); p.2 Sec. 1
+    notes: 'printed ''maximum chip gain is 9.5 dB at 300 mA for both wavelengths''; output power from the detector photocurrent and its QE-derived responsivity; rests on the 5 dB coupling term and the detector QE (park2007 precedent, D583). Fig. 5(a) / 5(b) 300 mA traces read about 9.2 dB at 1550 nm (about 9.5-9.6 dB at 1575 nm), reading uncertainty about +/- 0.1 dB; printed value kept (D417).'
+    why: 'p.1 Abstract prints only 1550 nm, 5.7 A/W and -17.5 dBm; the 9.5 dB amplifier gain is printed in the introduction (p.2 Sec. 1) and p.5 Sec. 3. Note: p.5 Fig. 5(b) pixel read of the 300 mA trace (53 px/dB, 9.65 px/nm from the axis ticks) gives about 9.2 dB at 1550 nm'
+  cmp_lit_park2007a_hybrid_soa-m3:
+    notes: 'printed ''3 dB gain bandwidth is ~60 nm at 300 mA''; a spectral width relative to the peak does not depend on the constant coupling-loss offset. Conflict with the figure (D417, printed value kept): on the Fig. 5(b) 300 mA trace the peak is about 9.9 dB near 1564 nm (text: gain peak at 1575 nm), the long-wavelength -3 dB point is near 1601 nm, and the trace is still about 7.65 dB (about 2.2 dB below the peak) at the 1530 nm plot edge, so the plotted -3 dB width exceeds about 70 nm and its short-wavelength edge is outside the measured range (reading uncertainty about +/- 2 nm, +/- 0.1 dB).'
+    why: 'p.5 Fig. 5(b), pixel read of the embedded figure (axis ticks 1540-1620 nm at 9.65 px/nm, 10 / 5 dB at 53 px/dB): the 300 mA trace does not fall 3 dB below its peak anywhere between 1530 nm and the peak, which is inconsistent with the printed ~60 nm; D417 conflict note, value kept as printed'
+add_metrics:
+- metric_id: cmp_lit_park2007a_input_facet-m2
+  component_id: cmp_lit_park2007a_input_facet
+  parameter: core_thickness_nm
+  value: '700'
+  unit: nm
+  includes: Si rib waveguide height at the facet
+  basis: derived
+  locator: p.3 Sec. 2
+  notes: printed 0.7 um (unit rescale, D157); the reference passive Si waveguide has 'the same dimensions' (p.4)
+  why: 'miss (D153 geometry; core_thickness_nm is required by the edge_taper cross-section): p.3 Sec. 2 gives the Si waveguide height 0.7 um, and the light is coupled into this silicon waveguide (p.4 Sec. 3)'
+- metric_id: cmp_lit_park2007a_input_facet-m3
+  component_id: cmp_lit_park2007a_input_facet
+  parameter: width_nm
+  value: '2000'
+  unit: nm
+  includes: Si rib waveguide width at the facet
+  basis: derived
+  locator: p.3 Sec. 2
+  notes: printed 2 um (unit rescale, D157); facet angled 10 deg (p.4)
+  why: 'miss (D153 geometry): p.3 Sec. 2 Si waveguide width 2 um, the guide whose facet is the coupler (p.4)'
+- metric_id: cmp_lit_park2007a_input_facet-m4
+  component_id: cmp_lit_park2007a_input_facet
+  parameter: slab_thickness_nm
+  value: '300'
+  unit: nm
+  includes: Si rib slab
+  basis: derived
+  locator: p.3 Sec. 2
+  notes: printed 0.3 um (unit rescale, D157)
+  why: 'miss (D153 geometry): p.3 Sec. 2 slab thickness 0.3 um of the Si rib at the facet'
+- metric_id: cmp_lit_park2007a_input_facet-m5
+  component_id: cmp_lit_park2007a_input_facet
+  parameter: box_thickness_um
+  value: '1'
+  unit: um
+  includes: buried oxide of the SOI wafer (D402)
+  basis: design_target
+  locator: p.3 Sec. 2
+  why: 'miss (D153 geometry): p.3 Sec. 2 SOI wafer with a 1 um buried oxide; same row form as the SOA / taper / PD rows of this batch'
+- metric_id: cmp_lit_park2007a_hybrid_pd-m16
+  component_id: cmp_lit_park2007a_hybrid_pd
+  parameter: ridge_width_um
+  value: '3'
+  unit: um
+  includes: III-V mesa width at the p cladding layer (2 um at the p-SCH and QW layers, absorber_width_um)
+  basis: design_target
+  locator: p.3 Sec. 2; p.3 Fig. 2(c)
+  notes: 'printed ''3 um at the p cladding layer and 2 um at the p-type SCH and the quantum well layers'' (p.3); Fig. 2(c) caption ''3 um wide III-V mesa of the detector'''
+  why: 'miss (D153 geometry): the detector mesa width at the p cladding is stated (p.3 Sec. 2) and ridge_width_um (ridge / mesa width of an active waveguide) allows photodetector; only the 2 um QW width was entered'
+delete_metrics:
+- id: cmp_lit_woods2020_clad_wg_w3p2-m3
+  why: 'p.3 Sec. 2 "During numerical modelling, we use propagation loss values between 3 and 4 dB/cm for the cladded waveguides" and p.9 Sec. 4 lists it as a variable parameter "(between 3 dB/cm and 4 dB/cm)": the range is the window the GNLSE free parameter was allowed to take, not a result; p.8 Figs. 8-9 per-fit values sit at the 3 dB/cm lower edge in 7 of 9 fits, with mode order and coupled power (1.5-12.1 mW) also free and n2 cited (ref. [16]). Same footing as the Fig. 7 2 dB/cm model input the batch already left out (D468 model-input precedent); values in component notes. The unclad 5-6.5 dB/cm row stays: p.3 states it as the outcome of matching ("revealed that the values ... were typically higher in order to achieve the closest matches")'

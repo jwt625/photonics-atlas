@@ -167,10 +167,11 @@ No network, no git, no edits anywhere else, no emoji, no addresses or e-mails. F
 
 Owner 2026-11-25: "setup timer to kick you off and run caching and ingestion for open access (arxiv, optica, optics
 express etc.) papers tomorrow and Friday and Saturday, at 10 pm. Follow the skill except for paper/journal type ...
-Cmt and push once done after each day's portion"; about 50 papers per night at most. Chain (DevLog-020 D1237): a
-launchd agent at 22:03 -> a launcher outside the repo -> the running tmux server -> `scripts/night_oa_session.sh run`
--> interactive `claude` in auto permission mode (tmux session `lit_night_run_<stamp>`). The session script holds the
-lock `logs/.night_oa_active` while a run is active; the run removes it as its very last step.
+Cmt and push once done after each day's portion"; about 50 papers per night at most. The nights run in the
+coordinator session itself (owner 2026-11-26: no new Claude session, no untested route): before leaving, that session
+schedules one one-shot CronCreate prompt per night (22:03, recurring false) naming the day and this section; the
+session must stay open and idle at fire time. No launchd agent, no tmux-launched claude, no lock file (DevLog-020
+D1239; the earlier launchd chain D1237 was dropped).
 
 - Nobody is there to answer: never ask (no AskUserQuestion), never wait for input. A command the permission check
   denies is not retried in variants: write an owner-list line in DevLog-007 and skip that step. A real blocker
@@ -198,5 +199,4 @@ lock `logs/.night_oa_active` while a run is active; the run removes it as its ve
   (the exclude snapshot keeps already-ingested papers of the backlog days out); header batches and vendor scan from
   that batch file as usual.
 - Checks, DevLogs (DevLog-007 session with the caching table, decisions, owner list; DevLog-019 day line), then commit
-  and push (section 11, with `.claude/skills` added to the `git add` list). Last step after the push:
-  `rm logs/.night_oa_active`.
+  and push (section 11, with `.claude/skills` added to the `git add` list). One day, then stop and report.

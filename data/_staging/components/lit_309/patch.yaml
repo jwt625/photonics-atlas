@@ -1,0 +1,218 @@
+# Audit patch lit_309 (fresh-context audit 2026-11-27, DevLog/audits/2026-11-27-lit_309-audit.md).
+# 80 metrics: 69 ok / 11 imprecise / 0 wrong; 8 components: 5 ok / 3 imprecise / 0 wrong. 3 misses added.
+# After the patch: 11 components, 82 metrics.
+# Fixes: bauters2011a ring points at R < 2 mm (bend radiation not negligible, p.9) moved from the three straight rows to three new
+# waveguide_platform.bend rows (D81; 7 metrics moved, values unchanged); 80 nm text row '3 dB/m at 2 mm' deleted as the rounded OFDR
+# 2.91 dB/m (note on -m1); misses: min_bend_radius_um 2 mm on the three straight rows. wang2019a pump rejection (measured 47 dB,
+# calculated 52 dB) -> crosstalk_nonadjacent_db. jiang2019 single-stage ER bound gets the Fig. 8(b) 1.2-1.8 um span.
+components:
+  cmp_lit_bauters2011a_sin_80nm:
+    notes: 'Fab empty: waveguides ''fabricated with TriPleX LPCVD Si3N4 technology [11]'' (p.3) names the process but no fabricating org (hosseini2015 / roeloffzen2018 precedent, Contract v7); authors at UCSB and LioniX BV (affiliation only). No facility acknowledged. Stoichiometric LPCVD Si3N4 core, annealed several hours above 1100 C (p.4). Fundamental TE mode only (TE / TM confinement ratio 7.6 for 80 nm). Straight row: the OFDR spiral (minimum bend radius 2 mm) and the ring points at R = 2 and 4 mm, where the paper states bend radiation loss is negligible (p.9 Sec. 3.1); the ring points at R < 2 mm are on cmp_lit_bauters2011a_sin_80nm_bend (waveguide_platform.bend, D81). Loss measured on test rings (R = 0.5, 1, 1.5, 2, 4 mm; single two-port bus, gap ~2 um, kappa ~0.01 targeted, three coupling lengths) and a 6 m OFDR spiral (minimum bend radius 2 mm). Not entered: conclusion values 5 / 3.5 dB/m at 1 / 1.5 mm bend radius (p.12; core thickness not stated, D159), fitted roughness (sigma, Lc) and model curves (Fig. 5(a), Fig. 7), model projections (~17 dB/m at 0.2 mm to ~1 dB/m at 10 mm; 0.1 dB/m at 7 mm with a sidewall roughness taken from ref. [15], p.11, rule 3). No 0.5 mm point is plotted for 80 nm (off scale).'
+    why: audit split of the bend-limited ring points (R < 2 mm) to cmp_lit_bauters2011a_sin_80nm_bend; p.9 Sec. 3.1 sets the 2 mm boundary
+  cmp_lit_bauters2011a_sin_90nm:
+    notes: 'Fab empty: waveguides ''fabricated with TriPleX LPCVD Si3N4 technology [11]'' (p.3) names the process but no fabricating org (hosseini2015 / roeloffzen2018 precedent, Contract v7); authors at UCSB and LioniX BV (affiliation only). No facility acknowledged. Stoichiometric LPCVD Si3N4 core, annealed several hours above 1100 C (p.4). Fundamental TE mode only (TE / TM confinement ratio 7.6 for 80 nm). Straight row: the OFDR spiral (minimum bend radius 2 mm) and the ring points at R = 2 and 4 mm, where the paper states bend radiation loss is negligible (p.9 Sec. 3.1); the ring points at R < 2 mm are on cmp_lit_bauters2011a_sin_90nm_bend (waveguide_platform.bend, D81). Loss measured on test rings (R = 0.5, 1, 1.5, 2, 4 mm; single two-port bus, gap ~2 um, kappa ~0.01 targeted, three coupling lengths) and a 6 m OFDR spiral (minimum bend radius 2 mm). Not entered: conclusion values 5 / 3.5 dB/m at 1 / 1.5 mm bend radius (p.12; core thickness not stated, D159), fitted roughness (sigma, Lc) and model curves (Fig. 5(a), Fig. 7), model projections (~17 dB/m at 0.2 mm to ~1 dB/m at 10 mm; 0.1 dB/m at 7 mm with a sidewall roughness taken from ref. [15], p.11, rule 3). Fig. 5(a) 0.5 mm point at the 25 dB/m plot edge (off scale): not entered.'
+    why: audit split of the bend-limited ring points (R < 2 mm) to cmp_lit_bauters2011a_sin_90nm_bend; p.9 Sec. 3.1 sets the 2 mm boundary
+  cmp_lit_bauters2011a_sin_100nm:
+    notes: 'Fab empty: waveguides ''fabricated with TriPleX LPCVD Si3N4 technology [11]'' (p.3) names the process but no fabricating org (hosseini2015 / roeloffzen2018 precedent, Contract v7); authors at UCSB and LioniX BV (affiliation only). No facility acknowledged. Stoichiometric LPCVD Si3N4 core, annealed several hours above 1100 C (p.4). Fundamental TE mode only (TE / TM confinement ratio 7.6 for 80 nm). Straight row: the OFDR spiral (minimum bend radius 2 mm) and the ring points at R = 2 and 4 mm, where the paper states bend radiation loss is negligible (p.9 Sec. 3.1); the ring points at R < 2 mm are on cmp_lit_bauters2011a_sin_100nm_bend (waveguide_platform.bend, D81). Loss measured on test rings (R = 0.5, 1, 1.5, 2, 4 mm; single two-port bus, gap ~2 um, kappa ~0.01 targeted, three coupling lengths) and a 6 m OFDR spiral (minimum bend radius 2 mm). Not entered: conclusion values 5 / 3.5 dB/m at 1 / 1.5 mm bend radius (p.12; core thickness not stated, D159), fitted roughness (sigma, Lc) and model curves (Fig. 5(a), Fig. 7), model projections (~17 dB/m at 0.2 mm to ~1 dB/m at 10 mm; 0.1 dB/m at 7 mm with a sidewall roughness taken from ref. [15], p.11, rule 3).'
+    why: audit split of the bend-limited ring points (R < 2 mm) to cmp_lit_bauters2011a_sin_100nm_bend; p.9 Sec. 3.1 sets the 2 mm boundary
+metrics:
+  cmp_lit_bauters2011a_sin_80nm-m1:
+    notes: printed 2.91 +/- 0.01 dB/m (dB/m -> dB/cm); OFDR wavelength not stated; design wavelength 1550 nm (p.3), Fig. 5 rings at ~1550 nm. Abstract and Sec. 4 (p.1, p.10-11) restate it as '3 dB/m ... at a 2 mm bend radius for an 80 nm core thickness' (separate text row removed in the audit)
+    why: p.1 / p.10-11 rounded restatement of this value (deleted -m2); note supplement
+  cmp_lit_wang2019a_eo_filter_ring-m2:
+    parameter: crosstalk_nonadjacent_db
+    notes: 'printed ''47 dB rejection of the pump power in the drop port'' (Fig. 3 caption ''47 dB suppression''); pump wavelength printed as ~1556 nm; Fig. 3(b-c) labels: -30 dB (target below pump, through port) and +17 dB (target above pump, drop port), together the 47 dB. Non-adjacent: the pump (~1556 nm) is about 60 nm, about 30 comb lines at the ~2 nm spacing, from the 1616 nm target line (audit arithmetic on p.2-3 values), so crosstalk_db (type not stated) does not apply'
+    why: 'p.3 / p.7 Supp. VI: the suppressed line''s position is stated (pump ~1556 nm vs target 1616 nm, 730 pm filter mismatch), so the type is known: crosstalk_nonadjacent_db per its definition; crosstalk_db is only for an unstated type'
+  cmp_lit_wang2019a_eo_filter_ring-m5:
+    parameter: crosstalk_nonadjacent_db
+    notes: 'numerically calculated pump suppression ratio. Non-adjacent: the pump (~1556 nm) is about 60 nm, about 30 comb lines at the ~2 nm spacing, from the 1616 nm target line (audit arithmetic on p.2-3 values), so crosstalk_db (type not stated) does not apply'
+    why: 'p.3 / p.7 Supp. VI: the suppressed line''s position is stated (pump ~1556 nm vs target 1616 nm, 730 pm filter mismatch), so the type is known: crosstalk_nonadjacent_db per its definition; crosstalk_db is only for an unstated type'
+  cmp_lit_jiang2019_tm1_pass_filter_1stage-m5:
+    band: ''
+    wavelength_nm: '1200'
+    wavelength_max_nm: '1800'
+    notes: printed 'lower than 3.4 dB for the simulated 600 nm bandwidth'; the span is the Fig. 8(b) wavelength axis 1.2-1.8 um, data points at both ends
+    why: 'p.9 Fig. 8(b): the simulated span is labelled on the wavelength axis (1.2-1.8 um, 600 nm as printed); band unspecified replaced by the range'
+delete_metrics:
+- id: cmp_lit_bauters2011a_sin_80nm-m3
+  why: moved to cmp_lit_bauters2011a_sin_80nm_bend-m1 (bend-limited ring point, R < 2 mm; p.9 Sec. 3.1, D81)
+- id: cmp_lit_bauters2011a_sin_80nm-m4
+  why: moved to cmp_lit_bauters2011a_sin_80nm_bend-m2 (bend-limited ring point, R < 2 mm; p.9 Sec. 3.1, D81)
+- id: cmp_lit_bauters2011a_sin_90nm-m2
+  why: moved to cmp_lit_bauters2011a_sin_90nm_bend-m1 (bend-limited ring point, R < 2 mm; p.9 Sec. 3.1, D81)
+- id: cmp_lit_bauters2011a_sin_90nm-m3
+  why: moved to cmp_lit_bauters2011a_sin_90nm_bend-m2 (bend-limited ring point, R < 2 mm; p.9 Sec. 3.1, D81)
+- id: cmp_lit_bauters2011a_sin_100nm-m2
+  why: moved to cmp_lit_bauters2011a_sin_100nm_bend-m1 (bend-limited ring point, R < 2 mm; p.9 Sec. 3.1, D81)
+- id: cmp_lit_bauters2011a_sin_100nm-m3
+  why: moved to cmp_lit_bauters2011a_sin_100nm_bend-m2 (bend-limited ring point, R < 2 mm; p.9 Sec. 3.1, D81)
+- id: cmp_lit_bauters2011a_sin_100nm-m4
+  why: moved to cmp_lit_bauters2011a_sin_100nm_bend-m3 (bend-limited ring point, R < 2 mm; p.9 Sec. 3.1, D81)
+- id: cmp_lit_bauters2011a_sin_80nm-m2
+  why: 'p.1 Abstract and p.10-11 Sec. 4 ''3 dB/m ... at a 2 mm bend radius for an 80 nm core thickness'' is the OFDR 2.91 +/- 0.01 dB/m (p.10; 6 m spiral, minimum bend radius 2 mm) rounded; the Fig. 5(a) 2 mm ring point reads 3.5 dB/m, so it is not the ring value. One measurement, one row: wording moved to the notes of -m1'
+add_components:
+- component_id: cmp_lit_bauters2011a_sin_80nm_bend
+  source_id: lit:bauters2011a
+  class: waveguide_platform.bend
+  label: Bent high-aspect-ratio Si3N4 waveguide, 80 nm x 2.8 um core, SiO2 clad (ring-resonator loss at R = 1 and 1.5 mm)
+  row_kind: fabricated
+  platform: sin
+  core_material: stoichiometric LPCVD Si3N4 80 nm x 2.8 um (TriPleX), n = 1.99
+  cladding: SiO2 (n = 1.45), 8 um lower / 7.5 um upper
+  process_name: TriPleX LPCVD Si3N4 technology
+  test_structure: 'true'
+  tags: ultra_low_loss;sin;ring_extraction;ofdr;bend
+  verified_on: '2026-11-27'
+  notes: 'Same waveguide cross-section as cmp_lit_bauters2011a_sin_80nm (geometry rows there): ring-resonator propagation loss at bend radii below 2 mm, where bend radiation adds to the scattering loss (p.9 Sec. 3.1: bend radiation negligible only for R >= 2 mm). Test rings with a single two-port bus, gap ~2 um, kappa ~0.01 targeted, three coupling lengths (p.9). Fab empty: waveguides ''fabricated with TriPleX LPCVD Si3N4 technology [11]'' (p.3) names the process but no fabricating org (Contract v7); authors at UCSB and LioniX BV (affiliation only). No facility acknowledged. Conclusion values 5 / 3.5 dB/m at 1 / 1.5 mm name no core thickness (p.12, D159; bounds in the straight-row notes).'
+  why: 'p.9 Sec. 3.1: ''At a bend radius of 2 mm, the loss of each core thickness has reached its minimum, indicating that bend radiation loss is negligible for a bend radius greater than or equal to 2 mm''; ring points at R < 2 mm include bend radiation, so they are in-bend loss per length, which D81 puts on waveguide_platform.bend rows with the radius in the condition (kim2025, cai2019, zhang2017a precedents); value, basis and locator unchanged'
+- component_id: cmp_lit_bauters2011a_sin_90nm_bend
+  source_id: lit:bauters2011a
+  class: waveguide_platform.bend
+  label: Bent high-aspect-ratio Si3N4 waveguide, 90 nm x 2.8 um core, SiO2 clad (ring-resonator loss at R = 1 and 1.5 mm)
+  row_kind: fabricated
+  platform: sin
+  core_material: stoichiometric LPCVD Si3N4 90 nm x 2.8 um (TriPleX), n = 1.99
+  cladding: SiO2 (n = 1.45), 8 um lower / 7.5 um upper
+  process_name: TriPleX LPCVD Si3N4 technology
+  test_structure: 'true'
+  tags: ultra_low_loss;sin;ring_extraction;ofdr;bend
+  verified_on: '2026-11-27'
+  notes: 'Same waveguide cross-section as cmp_lit_bauters2011a_sin_90nm (geometry rows there): ring-resonator propagation loss at bend radii below 2 mm, where bend radiation adds to the scattering loss (p.9 Sec. 3.1: bend radiation negligible only for R >= 2 mm). Test rings with a single two-port bus, gap ~2 um, kappa ~0.01 targeted, three coupling lengths (p.9). Fab empty: waveguides ''fabricated with TriPleX LPCVD Si3N4 technology [11]'' (p.3) names the process but no fabricating org (Contract v7); authors at UCSB and LioniX BV (affiliation only). No facility acknowledged. Conclusion values 5 / 3.5 dB/m at 1 / 1.5 mm name no core thickness (p.12, D159; bounds in the straight-row notes).'
+  why: 'p.9 Sec. 3.1: ''At a bend radius of 2 mm, the loss of each core thickness has reached its minimum, indicating that bend radiation loss is negligible for a bend radius greater than or equal to 2 mm''; ring points at R < 2 mm include bend radiation, so they are in-bend loss per length, which D81 puts on waveguide_platform.bend rows with the radius in the condition (kim2025, cai2019, zhang2017a precedents); value, basis and locator unchanged'
+- component_id: cmp_lit_bauters2011a_sin_100nm_bend
+  source_id: lit:bauters2011a
+  class: waveguide_platform.bend
+  label: Bent high-aspect-ratio Si3N4 waveguide, 100 nm x 2.8 um core, SiO2 clad (ring-resonator loss at R = 0.5, 1 and 1.5 mm)
+  row_kind: fabricated
+  platform: sin
+  core_material: stoichiometric LPCVD Si3N4 100 nm x 2.8 um (TriPleX), n = 1.99
+  cladding: SiO2 (n = 1.45), 8 um lower / 7.5 um upper
+  process_name: TriPleX LPCVD Si3N4 technology
+  test_structure: 'true'
+  tags: ultra_low_loss;sin;ring_extraction;ofdr;bend
+  verified_on: '2026-11-27'
+  notes: 'Same waveguide cross-section as cmp_lit_bauters2011a_sin_100nm (geometry rows there): ring-resonator propagation loss at bend radii below 2 mm, where bend radiation adds to the scattering loss (p.9 Sec. 3.1: bend radiation negligible only for R >= 2 mm). Test rings with a single two-port bus, gap ~2 um, kappa ~0.01 targeted, three coupling lengths (p.9). Fab empty: waveguides ''fabricated with TriPleX LPCVD Si3N4 technology [11]'' (p.3) names the process but no fabricating org (Contract v7); authors at UCSB and LioniX BV (affiliation only). No facility acknowledged. Conclusion values 5 / 3.5 dB/m at 1 / 1.5 mm name no core thickness (p.12, D159; bounds in the straight-row notes).'
+  why: 'p.9 Sec. 3.1: ''At a bend radius of 2 mm, the loss of each core thickness has reached its minimum, indicating that bend radiation loss is negligible for a bend radius greater than or equal to 2 mm''; ring points at R < 2 mm include bend radiation, so they are in-bend loss per length, which D81 puts on waveguide_platform.bend rows with the radius in the condition (kim2025, cai2019, zhang2017a precedents); value, basis and locator unchanged'
+add_metrics:
+- metric_id: cmp_lit_bauters2011a_sin_80nm_bend-m1
+  component_id: cmp_lit_bauters2011a_sin_80nm_bend
+  parameter: prop_loss_db_per_cm
+  value: '0.129'
+  unit: dB/cm
+  wavelength_nm: '1550'
+  polarization: te
+  condition: ring resonator, bend radius 1 mm
+  method: ring_extraction
+  basis: extracted_from_figure
+  locator: p.9 Fig. 5(a); p.8-9 Sec. 3.1
+  notes: 'read 12.9 +/- 0.3 dB/m off the Fig. 5(a) ring point (JPEG figure, error bars shown), dB/m -> dB/cm; caption: lambda ~1550 nm'
+  why: 'moved from cmp_lit_bauters2011a_sin_80nm-m3: p.9 Sec. 3.1: ''At a bend radius of 2 mm, the loss of each core thickness has reached its minimum, indicating that bend radiation loss is negligible for a bend radius greater than or equal to 2 mm''; ring points at R < 2 mm include bend radiation, so they are in-bend loss per length, which D81 puts on waveguide_platform.bend rows with the radius in the condition (kim2025, cai2019, zhang2017a precedents); value, basis and locator unchanged'
+- metric_id: cmp_lit_bauters2011a_sin_80nm_bend-m2
+  component_id: cmp_lit_bauters2011a_sin_80nm_bend
+  parameter: prop_loss_db_per_cm
+  value: '0.041'
+  unit: dB/cm
+  wavelength_nm: '1550'
+  polarization: te
+  condition: ring resonator, bend radius 1.5 mm
+  method: ring_extraction
+  basis: extracted_from_figure
+  locator: p.9 Fig. 5(a); p.8-9 Sec. 3.1
+  notes: 'read 4.1 +/- 0.3 dB/m off the Fig. 5(a) ring point (JPEG figure, error bars shown), dB/m -> dB/cm; caption: lambda ~1550 nm'
+  why: 'moved from cmp_lit_bauters2011a_sin_80nm-m4: p.9 Sec. 3.1: ''At a bend radius of 2 mm, the loss of each core thickness has reached its minimum, indicating that bend radiation loss is negligible for a bend radius greater than or equal to 2 mm''; ring points at R < 2 mm include bend radiation, so they are in-bend loss per length, which D81 puts on waveguide_platform.bend rows with the radius in the condition (kim2025, cai2019, zhang2017a precedents); value, basis and locator unchanged'
+- metric_id: cmp_lit_bauters2011a_sin_80nm-m13
+  component_id: cmp_lit_bauters2011a_sin_80nm
+  parameter: min_bend_radius_um
+  value: '2000'
+  unit: um
+  condition: minimum bend radius chosen for the fabrication run; S-bend at the centre of the 6 m OFDR spirals
+  basis: derived
+  locator: p.8 Sec. 2.3; p.10 Sec. 3.2
+  notes: printed 2 mm (mm -> um, D157); 'a minimum bend radius of 2 mm was chosen' (p.8) and the spirals 'have a minimum bend radius of 2 mm at the S-bend in the center' (p.10)
+  why: 'audit miss (D153 geometry): stated minimum bend radius of the straight-row structures (lit:bauters2011 min_bend_radius_um precedent)'
+- metric_id: cmp_lit_bauters2011a_sin_90nm_bend-m1
+  component_id: cmp_lit_bauters2011a_sin_90nm_bend
+  parameter: prop_loss_db_per_cm
+  value: '0.06'
+  unit: dB/cm
+  wavelength_nm: '1550'
+  polarization: te
+  condition: ring resonator, bend radius 1 mm
+  method: ring_extraction
+  basis: extracted_from_figure
+  locator: p.9 Fig. 5(a); p.8-9 Sec. 3.1
+  notes: 'read 6.0 +/- 0.3 dB/m off the Fig. 5(a) ring point (JPEG figure, error bars shown), dB/m -> dB/cm; caption: lambda ~1550 nm'
+  why: 'moved from cmp_lit_bauters2011a_sin_90nm-m2: p.9 Sec. 3.1: ''At a bend radius of 2 mm, the loss of each core thickness has reached its minimum, indicating that bend radiation loss is negligible for a bend radius greater than or equal to 2 mm''; ring points at R < 2 mm include bend radiation, so they are in-bend loss per length, which D81 puts on waveguide_platform.bend rows with the radius in the condition (kim2025, cai2019, zhang2017a precedents); value, basis and locator unchanged'
+- metric_id: cmp_lit_bauters2011a_sin_90nm_bend-m2
+  component_id: cmp_lit_bauters2011a_sin_90nm_bend
+  parameter: prop_loss_db_per_cm
+  value: '0.053'
+  unit: dB/cm
+  wavelength_nm: '1550'
+  polarization: te
+  condition: ring resonator, bend radius 1.5 mm
+  method: ring_extraction
+  basis: extracted_from_figure
+  locator: p.9 Fig. 5(a); p.8-9 Sec. 3.1
+  notes: 'read 5.3 +/- 0.3 dB/m off the Fig. 5(a) ring point (JPEG figure, error bars shown), dB/m -> dB/cm; caption: lambda ~1550 nm'
+  why: 'moved from cmp_lit_bauters2011a_sin_90nm-m3: p.9 Sec. 3.1: ''At a bend radius of 2 mm, the loss of each core thickness has reached its minimum, indicating that bend radiation loss is negligible for a bend radius greater than or equal to 2 mm''; ring points at R < 2 mm include bend radiation, so they are in-bend loss per length, which D81 puts on waveguide_platform.bend rows with the radius in the condition (kim2025, cai2019, zhang2017a precedents); value, basis and locator unchanged'
+- metric_id: cmp_lit_bauters2011a_sin_90nm-m12
+  component_id: cmp_lit_bauters2011a_sin_90nm
+  parameter: min_bend_radius_um
+  value: '2000'
+  unit: um
+  condition: minimum bend radius chosen for the fabrication run; S-bend at the centre of the 6 m OFDR spirals
+  basis: derived
+  locator: p.8 Sec. 2.3; p.10 Sec. 3.2
+  notes: printed 2 mm (mm -> um, D157); 'a minimum bend radius of 2 mm was chosen' (p.8) and the spirals 'have a minimum bend radius of 2 mm at the S-bend in the center' (p.10)
+  why: 'audit miss (D153 geometry): stated minimum bend radius of the straight-row structures (lit:bauters2011 min_bend_radius_um precedent)'
+- metric_id: cmp_lit_bauters2011a_sin_100nm_bend-m1
+  component_id: cmp_lit_bauters2011a_sin_100nm_bend
+  parameter: prop_loss_db_per_cm
+  value: '0.08'
+  value_max: '0.09'
+  unit: dB/cm
+  wavelength_nm: '1550'
+  polarization: te
+  condition: ring resonator, bend radius 0.5 mm
+  method: ring_extraction
+  basis: derived
+  locator: p.10 Sec. 4; p.1 Abstract; p.9 Fig. 5(a)
+  notes: 'printed ''8-9 dB/m at a 0.5 mm bend radius and for a 100 nm core thickness'' (dB/m -> dB/cm); Fig. 5(a) caption: lambda ~1550 nm'
+  why: 'moved from cmp_lit_bauters2011a_sin_100nm-m2: p.9 Sec. 3.1: ''At a bend radius of 2 mm, the loss of each core thickness has reached its minimum, indicating that bend radiation loss is negligible for a bend radius greater than or equal to 2 mm''; ring points at R < 2 mm include bend radiation, so they are in-bend loss per length, which D81 puts on waveguide_platform.bend rows with the radius in the condition (kim2025, cai2019, zhang2017a precedents); value, basis and locator unchanged'
+- metric_id: cmp_lit_bauters2011a_sin_100nm_bend-m2
+  component_id: cmp_lit_bauters2011a_sin_100nm_bend
+  parameter: prop_loss_db_per_cm
+  value: '0.053'
+  unit: dB/cm
+  wavelength_nm: '1550'
+  polarization: te
+  condition: ring resonator, bend radius 1 mm
+  method: ring_extraction
+  basis: extracted_from_figure
+  locator: p.9 Fig. 5(a); p.8-9 Sec. 3.1
+  notes: 'read 5.3 +/- 0.3 dB/m off the Fig. 5(a) ring point (JPEG figure, error bars shown), dB/m -> dB/cm; caption: lambda ~1550 nm'
+  why: 'moved from cmp_lit_bauters2011a_sin_100nm-m3: p.9 Sec. 3.1: ''At a bend radius of 2 mm, the loss of each core thickness has reached its minimum, indicating that bend radiation loss is negligible for a bend radius greater than or equal to 2 mm''; ring points at R < 2 mm include bend radiation, so they are in-bend loss per length, which D81 puts on waveguide_platform.bend rows with the radius in the condition (kim2025, cai2019, zhang2017a precedents); value, basis and locator unchanged'
+- metric_id: cmp_lit_bauters2011a_sin_100nm_bend-m3
+  component_id: cmp_lit_bauters2011a_sin_100nm_bend
+  parameter: prop_loss_db_per_cm
+  value: '0.054'
+  unit: dB/cm
+  wavelength_nm: '1550'
+  polarization: te
+  condition: ring resonator, bend radius 1.5 mm
+  method: ring_extraction
+  basis: extracted_from_figure
+  locator: p.9 Fig. 5(a); p.8-9 Sec. 3.1
+  notes: 'read 5.4 +/- 0.3 dB/m off the Fig. 5(a) ring point (JPEG figure, error bars shown), dB/m -> dB/cm; caption: lambda ~1550 nm'
+  why: 'moved from cmp_lit_bauters2011a_sin_100nm-m4: p.9 Sec. 3.1: ''At a bend radius of 2 mm, the loss of each core thickness has reached its minimum, indicating that bend radiation loss is negligible for a bend radius greater than or equal to 2 mm''; ring points at R < 2 mm include bend radiation, so they are in-bend loss per length, which D81 puts on waveguide_platform.bend rows with the radius in the condition (kim2025, cai2019, zhang2017a precedents); value, basis and locator unchanged'
+- metric_id: cmp_lit_bauters2011a_sin_100nm-m13
+  component_id: cmp_lit_bauters2011a_sin_100nm
+  parameter: min_bend_radius_um
+  value: '2000'
+  unit: um
+  condition: minimum bend radius chosen for the fabrication run; S-bend at the centre of the 6 m OFDR spirals
+  basis: derived
+  locator: p.8 Sec. 2.3; p.10 Sec. 3.2
+  notes: printed 2 mm (mm -> um, D157); 'a minimum bend radius of 2 mm was chosen' (p.8) and the spirals 'have a minimum bend radius of 2 mm at the S-bend in the center' (p.10)
+  why: 'audit miss (D153 geometry): stated minimum bend radius of the straight-row structures (lit:bauters2011 min_bend_radius_um precedent)'

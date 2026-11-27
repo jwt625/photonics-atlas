@@ -1,0 +1,83 @@
+# Audit patch lit_300 (fresh-context audit 2026-11-27, DevLog/audits/2026-11-27-lit_300-audit.md).
+# 92 metrics: 89 ok / 2 imprecise / 1 wrong; 16 components: 14 ok / 2 imprecise / 0 wrong. 4 misses added.
+# After the patch: 16 components, 95 metrics.
+# Wrong: riemensberger2020 FM-transduction cutoff (> 40 MHz) stored as laser bw3db_ghz: the parameter is the 3-dB
+# electrical / modulation (intensity) bandwidth of a laser; the printed quantity is the pump-to-comb-line FM transfer
+# cutoff of a passive soliton comb driven by an externally chirped pump. Deleted, value kept in component notes,
+# registry gap listed.
+# Imprecise: yoon2023 OPA total excludes "ideal 1:64 split" (an OPA does not lose the split: the channels recombine in
+# the far field and the six budget terms already give the main-beam power); yoon2023 radiator 4.6 deg row lacks its
+# printed 1525 nm wavelength (Fig. 3(d)-(f) labels).
+# Misses: kim2020 TOPM cross-section 4.0 x 3.0 um (heater_ps xsec; D153, D254 restated cross-section); yoon2023
+# radiator 220 nm top Si (D153, D402); liang2021 BOX 2 um (Fig. 1(b) label).
+# Note supplements on ok rows: kim2020 Fig. 7(a) reading; liang2021 7 mW symmetric-output wording; yoon2023 ref. [26]
+# = lit:kang2019 cross-note.
+components:
+  cmp_lit_riemensberger2020_soliton_comb_99ghz:
+    notes: 'Cached text is the arXiv v1 preprint (1912.11374, dated 2019-12-27) of the Nature 2020 paper; values from the preprint only (journal version not read). Fab org_epfl: author contributions (p.7) ''J.L fabricated the samples in the CMi'' (J.L at EPFL, like all authors; D83c, D395); facility org_center_of_micronanotechnology (CMi, same sentence). Same device as cmp_lit_riemensberger2020_ring_99ghz (D396). Pump: ECDL with single-sideband modulator, amplified to 1.7 W, piezo tuning into the single-soliton state (setup, p.9). Not entered: pump-to-comb-sideband FM transduction, printed lower bound of 40 MHz for the 3 dB modulation-frequency cutoff (p.3; Fig. 3(d) data flat to the end of the 10 kHz-10 MHz modulation range with harmonics 1-9; no parameter: laser bw3db_ghz is the electrical / intensity modulation bandwidth, registry gap); soliton existence range 1.2-2.9 GHz detuning, channel-dependent excursion slope 22.15 MHz per line, chirp nonlinearity below 1/500 of the excursion, 1.6e17 Hz2 chirp rate, 3 Mpixel/s and cm-level ranging precision (no parameter / system-level).'
+    why: 'p.3 and p.5 Fig. 3(d): the FM-transduction cutoff row (m6) is deleted (see delete_metrics); its value and locator move to notes'
+  cmp_lit_kim2020_topm:
+    notes: 'Fab empty: ''We designed and fabricated'' (p.1 Abstract; p.2) covers all authors, who sit at three orgs (Pusan National University, Kwangwoon University, Agency for Defense Development); site not stated (D154 / D395). Polymers from ChemOptics Co. (material supplier, note only, D428). Index assignment is printed both ways on p.2 (design paragraph: core 1.397 / cladding 1.372; fabrication paragraph: core 1.372 / cladding 1.397); core 1.397 recorded from the design paragraph (a guiding core needs the higher index). Measured on the 8-channel MZI device built from pairs of the 16 phase modulators, fabricated alongside the OPA on the same wafer (p.2, p.4). Waveguide cross-section (4.0 x 3.0 um core) restated from the OPA channel-waveguide design (p.2; same values as cmp_lit_kim2020_polymer_waveguide, D254). Heater metal Cr-Au ''deposited to a thickness of 10-100 nm'' (p.3): layer split not stated, not entered. Not entered: Table 1 multi-pole transfer functions and the slow viscoelastic drift over hundreds of seconds (no parameter).'
+    why: 'p.2 Sec. 2: cross-section rows added to the phase-shifter row (heater_ps template xsec needs core_thickness_nm and width_nm; D153, D254); index-order reason added'
+  cmp_lit_yoon2023_opa_1x64:
+    notes: 'Fab empty: ''manufactured using a CMOS-compatible process on an 8-inch silicon-on-insulator wafer'' (p.4), passive, no org named (D80b / D433); all authors KAIST; process_name empty (generic wording). Loss values are terms of the 38.6 dB OPA loss budget (p.6), origin not stated; the OPA was operated at 1525 and 1570 nm (p.4). Parts on their own rows: cmp_lit_yoon2023_input_gc, cmp_lit_yoon2023_mmi_tree_1x64, cmp_lit_yoon2023_pin_phase_shifter, cmp_lit_yoon2023_tunable_radiator. Not entered: steering ranges 45 deg transversal / 10 deg longitudinal (p.1 Abstract, p.4) credited to the authors'' earlier papers [22,26] (rule 3, D259; ref. [26] is lit:kang2019 in the atlas, ref. [22] the 2019 Opt. Lett. thermo-optic radiator paper); ''Si OPA has +/-22.5 deg of transversal steering angle'' (p.4, same work); footprint printed as ''5 um x 5 um'' (p.4), inconsistent with a 64 x 2 um array of 300 um radiators (D159, not entered); main-beam share 6.9 % (-11.6 dB) of the total radiated power (p.4, no parameter); 30 dBm launched power (operating point chosen for the EDFA and Si nonlinearity, not a stated limit).'
+    why: 'p.9 references [22], [26]: cross-note to the atlas source holding the credited 45 deg value (note supplement, row ok)'
+metrics:
+  cmp_lit_kim2020_topm-m8:
+    notes: 'Printed 37.9 Hz; Hz -> kHz (D256). Conflict (D417): the Fig. 7 caption places the primary single pole near 116 Hz (Table 1 one-pole H(s): pole 729.6 rad/s = 116 Hz); the paper also says the response below 10 Hz is not single-pole (viscoelastic slow response). Fig. 7(a) render: a vertical dashed line sits at about 38 Hz (the printed value) and the red asymptote breaks near 116 Hz; the measured points read about -0.8 dB at 10 Hz and -3.5 dB at 100 Hz (no point between, reading +/- 0.5 dB), so the data place the -3 dB crossing somewhere between 10 and 100 Hz and do not decide between 37.9 and 116 Hz. Printed value kept.'
+    why: 'p.6 Fig. 7(a) render (300 % zoom): figure markers and data points recorded next to the printed / caption conflict; note supplement (row ok)'
+  cmp_lit_yoon2023_opa_1x64-m10:
+    excludes: ''
+    notes: 'The six printed terms sum to 38.6 dB; whether the total was measured is not stated (origin not stated). There is no split term: the 64 channels recombine in the far-field main beam, and 30 dBm - 38.6 dB gives the printed main-beam power of about -8.6 dBm. Band inferred: no wavelength stated with the loss budget; the OPA was operated at 1525 and 1570 nm (p.4).'
+    why: 'p.6 Sec. 3: the budget runs from 30 dBm input to the -8.6 dBm main beam with no split term; an OPA does not lose the 1:64 split, so excludes "ideal 1:64 split" misdescribes the total'
+  cmp_lit_yoon2023_tunable_radiator-m2:
+    wavelength_nm: '1525'
+    condition: 'longitudinal (phi) steering by thermo-optic radiator tuning alone at 1525 nm: 7 deg at 0 W to 11.6 deg at 6.5 W total radiator power (9.3 deg at 3.6 W); at 1570 nm 2.4 to 4.7 deg at 3.6 W'
+    why: 'p.5 Fig. 3(c)-(f) labels: the 4.6 deg / 6.5 W span is the 1525 nm set (d)-(f); the 1570 nm set (b)-(c) reaches 2.3 deg at 3.6 W'
+  cmp_lit_liang2021_qd_dfb-m2:
+    notes: 'Rests on the GC loss value, whose origin is not stated (rule 4). The paper also applies the symmetric two-sided laser output; whether 7 mW is per output waveguide or both outputs together is not stated.'
+    why: 'p.1: wording "in the Si output waveguide ... after considering the symmetric laser output" leaves per-side vs total open; note supplement (row ok)'
+delete_metrics:
+- id: cmp_lit_riemensberger2020_soliton_comb_99ghz-m6
+  why: 'p.3 / p.5 Fig. 3(d): the printed 40 MHz is a lower bound on the pump-to-comb-line FM transduction cutoff of a comb driven by an externally chirped pump (SSB-modulated ECDL); bw3db_ghz on laser is the 3-dB electrical / modulation (intensity) bandwidth (component_parameters.yaml) and would sit with direct-modulation bandwidths of DFB / VCSEL rows. Value kept in component notes; registry gap (FM transfer bandwidth)'
+add_metrics:
+- metric_id: cmp_lit_kim2020_topm-m10
+  component_id: cmp_lit_kim2020_topm
+  parameter: width_nm
+  value: '4000'
+  unit: nm
+  condition: 'polymer channel-waveguide core width under the heater'
+  basis: derived
+  locator: p.2 Sec. 2; p.3 Sec. 2
+  notes: 'Printed core 4.0 x 3.0 um2 (p.2) and groove width 4 um (p.3); um -> nm (D256). Same value as cmp_lit_kim2020_polymer_waveguide-m3 (D254 cross-section restated on the phase-shifter row).'
+  why: 'p.2 Sec. 2: heater_ps layout cross-section needs width_nm on the phase-shifter row (D153, D254)'
+- metric_id: cmp_lit_kim2020_topm-m11
+  component_id: cmp_lit_kim2020_topm
+  parameter: core_thickness_nm
+  value: '3000'
+  unit: nm
+  condition: 'polymer channel-waveguide core height under the heater'
+  basis: derived
+  locator: p.2 Sec. 2; p.3 Sec. 2
+  notes: 'Printed 3.0 um core height (p.2) / 3 um groove depth (p.3); um -> nm (D256). Same value as cmp_lit_kim2020_polymer_waveguide-m4.'
+  why: 'p.2 Sec. 2: heater_ps layout cross-section needs core_thickness_nm on the phase-shifter row (D153, D254)'
+- metric_id: cmp_lit_yoon2023_tunable_radiator-m5
+  component_id: cmp_lit_yoon2023_tunable_radiator
+  parameter: core_thickness_nm
+  value: '220'
+  unit: nm
+  condition: 'top Si thickness of the 8-inch SOI wafer (shallow-etched grating; etch depth not stated)'
+  basis: design_target
+  locator: p.4
+  notes: 'Printed ''8-inch silicon-on-insulator wafer with 220 nm of top silicon thickness''; purchased-wafer thickness (D402).'
+  why: 'p.4: stated layer thickness of the radiator, geometry (D153, D402)'
+- metric_id: cmp_lit_liang2021_qd_dfb-m22
+  component_id: cmp_lit_liang2021_qd_dfb
+  parameter: box_thickness_um
+  value: '2'
+  unit: um
+  condition: 'buried oxide under the Si rib (Fig. 1(b) cross-section label ''BOX (2 um)'')'
+  basis: extracted_from_figure
+  locator: p.1 Fig. 1(b)
+  notes: 'Figure-labelled dimension of the schematic cross-section, not stated in the text; no reading uncertainty (printed label). Other Fig. 1 labels not entered: BCB ~3.5 um (reference surface of the thickness unclear), Al2O3 gate oxide ~23 nm (Fig. 1(e) TEM label, no parameter on laser).'
+  why: 'p.1 Fig. 1(b) render: labelled BOX thickness (Contract v5 figure-labelled dimension, D153)'

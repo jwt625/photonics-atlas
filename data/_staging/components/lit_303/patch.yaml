@@ -1,0 +1,91 @@
+# Audit patch lit_303 (fresh-context audit 2026-11-27, DevLog/audits/2026-11-27-lit_303-audit.md).
+# 83 metrics: 81 ok / 2 imprecise / 0 wrong; 20 components: 14 ok / 6 imprecise / 0 wrong. 0 misses added.
+# After the patch: 20 components, 83 metrics.
+# Fixes: tan2022 2 pi condition (5.84 V is the span between two MZI minima, not a bias from 0 V); zhang2019f 70 deg
+# locator / note (Fig. 2(a) is the sidelobe-free curve, 70 deg printed on p.2); zhang2019f test_structure true on
+# the MMI length sweep, the cascaded LOCOS tapers and the AMZI tuner; zhang2019f DBR-grating design row platform
+# emptied (simulated stack not stated, D422); suh2018 KNI facility removed (thanks without role, D80c / D611).
+components:
+  cmp_lit_zhang2019f_mmi_1x2:
+    test_structure: 'true'
+    notes: 'FDTD-optimized length (p.4). SEM of the imaged fabricated stage labels 16.49 um length (Fig. 5(a)); the lowest
+      measured point of Fig. 5(b) sits at the 16.5 um axis position while the text pairs 0.08 dB with L_MMI = 16 um (conflict
+      noted, text value entered). Splitting-network excess loss 0.6 dB is a term of the OPA loss breakdown (OPA row notes).
+      Text layer of this PDF is column-fragmented: values read from the page renders. ''We fabricated our devices using a
+      standard silicon photonic fabrication process'' (p.7 Sec. 3) with authors at UC Davis and Lockheed Martin: fab left
+      empty (fabricating org not unambiguous, D80b / D154); facilities from p.11 Acknowledgments (fabrication utilized the
+      facilities at the Marvell Nanofabrication Laboratory and the Center for Nano-Micro Manufacturing). Measured excess loss
+      comes from a series of fabricated MMI lengths (Fig. 5(b) measured points at 16.5-18.5 um): test_structure true.'
+    why: 'p.4 Sec. 2.2 and p.5 Fig. 5(b): the measured excess-loss curve is a length sweep of separate MMI structures (dedicated
+      test structures, schema test_structure)'
+  cmp_lit_zhang2019f_locos_taper:
+    test_structure: 'true'
+    notes: 'Previous work 0.6 dB per etched-taper transition is cited (ref. [13]), not entered. SEM labels in Fig. 6(a) (232.7,
+      241.3, 114.9, 571.6 nm) are not tied to named dimensions: not entered (D156). Text layer of this PDF is column-fragmented:
+      values read from the page renders. ''We fabricated our devices using a standard silicon photonic fabrication process''
+      (p.7 Sec. 3) with authors at UC Davis and Lockheed Martin: fab left empty (fabricating org not unambiguous, D80b / D154);
+      facilities from p.11 Acknowledgments (fabrication utilized the facilities at the Marvell Nanofabrication Laboratory
+      and the Center for Nano-Micro Manufacturing). Transition loss measured on cascaded transition structures (p.5): test_structure
+      true.'
+    why: 'p.5: ''measured the vertical taper transition loss using cascaded transition structures'' (dedicated test structures,
+      schema test_structure)'
+  cmp_lit_zhang2019f_to_tuner:
+    test_structure: 'true'
+    notes: 'Measured thermal crosstalk 5 % from an adjacent channel 38 um away (p.7, Fig. 11(b)): no registry parameter. Tuner
+      pitch fanned out to 38 um (p.7). Two tuners open-circuited after fabrication and one after wire bonding in the tested
+      24-element OPA (p.9-10). Text layer of this PDF is column-fragmented: values read from the page renders. ''We fabricated
+      our devices using a standard silicon photonic fabrication process'' (p.7 Sec. 3) with authors at UC Davis and Lockheed
+      Martin: fab left empty (fabricating org not unambiguous, D80b / D154); facilities from p.11 Acknowledgments (fabrication
+      utilized the facilities at the Marvell Nanofabrication Laboratory and the Center for Nano-Micro Manufacturing). Tuning
+      efficiency and thermal crosstalk measured on an asymmetric MZI structure (p.7, Fig. 11): test_structure true.'
+    why: 'p.7 Sec. 3: tuner efficiency characterized ''using an asymmetric Mach-Zehnder interferometer (AMZI) structure''
+      (p.8 Fig. 11(a)); the only metric comes from that dedicated structure'
+  cmp_lit_zhang2019f_grating_dbr_design:
+    platform: ''
+    core_material: waveguide grating in oxide cladding (grating layer stack of the simulation not stated; Fig. 8(a) shows
+      one grating layer) above a 2-pair a-Si / SiO2 DBR (108 / 269 nm); optimum oxide T_top 700 nm, T_bottom 800 nm
+    notes: 'Test structures for the upward-efficiency measurement ''currently in progress'' (p.6): row_kind design. Same simulation
+      without the DBR gives 46 % upward emission (Fig. 8(c)): baseline of another stack, not entered. Expected 3.2 dB grating
+      improvement from the DBR (p.8) not entered. Platform empty: the paper does not state the layer stack of the simulated
+      grating (the fabricated OPA grating is SiN-assisted on 300 nm Si, p.6), so neither soi nor si_sin_multilayer is stated
+      (D422).'
+    why: 'p.6 Fig. 8(a): the FDTD set-up shows a generic ''grating'' layer in oxide over the DBR; no Si (or SiN) grating stack
+      is printed for the simulation; platform soi was a default (D422 / Contract v7)'
+  cmp_lit_suh2018_wedge_disk_7mm:
+    facility_org_ids: ''
+    notes: 'Same device as the dual-soliton comb row (D396). arXiv v3 (2017-06-28) of the Science paper: values from the preprint
+      only, journal version not read. Fab: author contributions ''MGS fabricated devices'' (p.5), all authors at Caltech (D80b).
+      No facility: the p.5 Acknowledgments only ''thank the Kavli Nanoscience Institute'', with no performed-at, made-use-of
+      or fabrication-support wording (rule 12, D80c; yang2018a precedent, D611).'
+    why: 'p.5 Acknowledgments: ''The authors also thank the Kavli Nanoscience Institute'' states no use of the facility, no
+      place of work and no fabrication support; rule 12 / D80c need one of those; same ruling as yang2018a (KNI named without
+      a role, facility removed, D611)'
+  cmp_lit_suh2018_dual_soliton_comb:
+    facility_org_ids: ''
+    notes: 'Same device as the wedge-disk row (D396). Repetition-rate difference tunable with the pump offset up to about
+      20 kHz at about 3 MHz pump offset (AOM-limited, p.3 Fig. 1(e)); 5.685 kHz in the ranging run: no parameter. Ranging
+      results (200 nm precision at 500 ms, 26 km ambiguity range) are system-level: not entered. arXiv v3 (2017-06-28) of
+      the Science paper: values from the preprint only, journal version not read. Fab: author contributions ''MGS fabricated
+      devices'' (p.5), all authors at Caltech (D80b). No facility: the p.5 Acknowledgments only ''thank the Kavli Nanoscience
+      Institute'', with no performed-at, made-use-of or fabrication-support wording (rule 12, D80c; yang2018a precedent, D611).'
+    why: 'p.5 Acknowledgments: ''The authors also thank the Kavli Nanoscience Institute'' states no use of the facility, no
+      place of work and no fabrication support; rule 12 / D80c need one of those; same ruling as yang2018a (KNI named without
+      a role, facility removed, D611)'
+metrics:
+  cmp_lit_tan2022_eo_ps_3p5mm-m1:
+    condition: reverse-bias interval of 5.84 V between two adjacent transmission minima of an MZI test structure (one arm
+      biased; Fig. 7(a) minima at about -2.2 V and -8.1 V), TE
+    notes: printed '2 pi phase shift with 5.84 V reverse bias voltage' (p.7); Fig. 7(a) marks 5.84 V as the spacing of two
+      adjacent MZI minima (about -2.2 and -8.1 V), not a bias counted from 0 V (phase not linear in voltage, Fig. 2(b)); MZI
+      test wavelength not printed, the set-up laser is 1.55 um (p.9) and the V-I measurement used 1550 nm (p.8)
+    why: 'p.8 Fig. 7(a) render: the 5.84 V arrow spans the two transmission minima at about -2.2 V and -8.1 V; the condition
+      read as a bias of 5.84 V from zero'
+  cmp_lit_zhang2019f_opa_24el-m8:
+    locator: p.2; p.9 Sec. 4.2
+    notes: 'printed ''theoretically 70 deg'' field-of-regard (p.2) and a theoretical sidelobe-limited maximum steerable angle
+      of +/-35 deg for the 1.3 um pitch OPA (p.2, p.9); entered as printed (70 deg full span). Fig. 2(a) is not its source:
+      it plots the calculated sidelobe-free steering half angle vs pitch (roughly 8-12 deg at 1.3 um, about 33 deg at 1.0
+      um, read off the plot), a different quantity; the p.2 ''sidelobe-free lateral steering of +/-5 deg'' does not match
+      that reading and is not entered (D156)'
+    why: 'p.3 Fig. 2(a) render: the curve gives the sidelobe-free half angle, about 33 deg only near 1.0 um pitch, so it does
+      not support 70 deg at 1.3 um; the 70 deg is printed directly on p.2 (not a doubled value) and +/-35 deg on p.2 / p.9'

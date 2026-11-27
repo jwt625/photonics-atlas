@@ -1,0 +1,236 @@
+# Audit patch lit_299 (fresh-context audit 2026-11-27, DevLog/audits/2026-11-27-lit_299-audit.md).
+# Batch: xue2015 6 components / 28 metrics, dong2025 5 / 12, suh2016 2 / 4 (13 / 44; the batch report per-paper counts 31 / 11 are off).
+# Metrics 44: 39 ok / 5 imprecise / 0 wrong; components 13: 12 ok / 1 imprecise (dong2025 sil_dbr_4m notes) / 0 wrong.
+# Ops, in groups the coordinator can drop separately:
+#  - imprecise fixes: xue2015 ring_a_facet-m1 basis (question 3); dong2025 sil_dbr_4m-m2 / m4 notes, m3 statistic
+#    best, sin_spiral_4m-m1 qualifier; note supplements (question 1 identity evidence, question 5 suh2016 D408);
+#  - DBR block (question 2): new reflector row cmp_lit_dong2025_dbr with bw_3db_nm (simulated, GHz -> nm),
+#    period_nm and grating_length_um; deletion of cmp_lit_dong2025_sil_dbr_4m-m6 (period moved);
+#  - xue2015 model-parameter block (question 4): ring_a_heater-m12 q_intrinsic, -m13 / ring_b_drop-m9
+#    power_coupling_pct (drop together with the two component-note edits that cite them);
+#  - dong2025 misses: sil_dbr_4m-m7 linewidth < 1 Hz at -8.1 dB feedback, het_qw_dfb-m2 free-running ~70.7 kHz.
+# After the full patch: 14 components, 51 metrics.
+components:
+  cmp_lit_xue2015_ring_a_heater:
+    notes: 'Comb-generation ring of Fig. 1a (also the comb row ring_a_comb and the heater row ring_a_microheater, D396). Over-coupled
+      per the sideband phase-response measurement (p.27 Fig. S7b). Measured GVD beta2 = 190.7 +/- 8.4 ps2/km and D2 ~ -2pi
+      x 10 MHz (p.2) not entered (no dispersion parameter, D81). Supplement cavity parameters of this ring (p.24 Supp. Sec.
+      4.2, read on the page render: round-trip amplitude loss alpha = 3.3978e-3, coupling intensity loss theta = 5.3613e-3;
+      definitions p.19) give the derived intrinsic Q (m12) and the power coupling (m13). Fab Purdue: author contributions
+      ''Y.X. fabricated the microring'' (Y. Xuan, Purdue ECE and Birck Nanotechnology Center; all authors at Purdue). Facility
+      empty: Birck appears only as an affiliation, no statement that the work was performed there. Cached copy is the arXiv
+      preprint 1404.2865 (''Mode interaction aided excitation of dark solitons in microresonators constructed of normal dispersion
+      waveguides'') of the Nature Photonics paper; values from the preprint only, journal version unread. Text layer partly
+      garbled (equations): values read from clean passages and page renders (p.2, p.5 rendered).'
+    why: 'p.24 / p.19 page renders: the supplement prints this ring''s extracted cavity parameters with their definitions;
+      note updated for the added rows m12 / m13 (misses)'
+  cmp_lit_xue2015_ring_b_drop:
+    notes: 'Second microring ''fabricated with both through port and drop port [41]'' (p.5; ref. 41 is the authors'' 2013
+      drop-port study; the Q and dispersion here are reported as this paper''s measurements, Fig. 3b, so kept; D259 not triggered).
+      Waveguide ''nominally the same dimensions'' as Fig. 1a (p.5). Under-coupled per the phase response (p.27 Fig. S7c).
+      Measured beta2 = 186.9 +/- 7.3 ps2/km (p.5) not entered (no dispersion parameter). Mode 0 is the resonance around 1537.4
+      nm (p.15 Fig. 3 caption). Simulation inputs ''extracted by measuring the resonance width and the coupling condition''
+      (p.8 Methods, page render: round-trip loss alpha = 3.10e-3, bus coupling theta = 1.93e-3): theta entered as power_coupling_pct
+      (m9); no intrinsic Q, because the single-bus model of Fig. S2 puts the drop-port coupling (comparable to the through
+      port, p.27) into alpha. Also the comb row ring_b_comb (D396). Fab Purdue: author contributions ''Y.X. fabricated the
+      microring'' (Y. Xuan, Purdue ECE and Birck Nanotechnology Center; all authors at Purdue). Facility empty: Birck appears
+      only as an affiliation, no statement that the work was performed there. Cached copy is the arXiv preprint 1404.2865
+      (''Mode interaction aided excitation of dark solitons in microresonators constructed of normal dispersion waveguides'')
+      of the Nature Photonics paper; values from the preprint only, journal version unread. Text layer partly garbled (equations):
+      values read from clean passages and page renders (p.2, p.5 rendered).'
+    why: p.8 Methods page render; note updated for the added row m9 (miss)
+  cmp_lit_dong2025_sil_dbr_4m:
+    notes: 'The paper calls it the ''external-cavity locked (ECL) laser'' and ''our SIL-DBR laser'' (Fig. 3 caption): a DFB
+      locked by broadband DBR feedback through a meter-scale delay; class laser.sil. Sample identity of the Sec. 3 figures
+      (Fig. 2(b), (d), (f) say ''the ECL laser'' without the delay length): the paper defines its laser by the 4 m spiral
+      together with the 0.45 Hz result (p.2 Sec. 1), the Fig. 2(f) minimum is that 0.45 Hz value, the feedback result is placed
+      on ''a 4 m external cavity'' (p.8 Sec. 5) and the Fig. 4(c) DBR cavity is the 4 m spiral (p.7); the 0.7 m design appears
+      only in Fig. 2(c) and the Fig. 2(g) noise comparison; so these values are on this row. Fig. 2(b) reads about 1558.27
+      nm at 215 mA while the Fig. 2(d) spectrum at 215 mA peaks near 1558.40 nm (both inside the DBR band; not explained in
+      the text, noted). DBR: row cmp_lit_dong2025_dbr (D396). Not entered: external-cavity Q 5700 (design, p.2; no Q parameter
+      for reflector); noise reduction 51.3 dB (4 m) vs 38.5 dB (0.7 m) over 1 kHz-10 MHz (p.3; no parameter); feedback tolerance:
+      no instability up to -11.8 dB external feedback (p.5, Fig. 3(g); feedback tolerance is not a registry parameter, D77
+      / D81; the sub-hertz linewidth at -8.1 dB is m7); estimated laser-to-external-cavity coupling efficiency ~-34 dB (budget
+      of chip-to-chip loss, 0.17 dB/m propagation and the -3 dB directional coupler; not measurable in the setup, p.4); calculated
+      100 mHz / 58 dB NRF projections (p.4, p.7). Fab empty: no fabrication statement in the paper (authors at UCSB, KAUST,
+      Universite Laval and Sandia). Facility empty: the Center for Integrated Nanotechnologies appears only in the Sandia
+      management boilerplate of the acknowledgment (''and in part by''), with no statement that work was performed there (p.8).'
+    why: 'p.2, p.4 Fig. 2(b)/(d) pixel reads, p.7 Fig. 4(c) caption, p.8 Sec. 5: identity evidence for judgment (a) recorded;
+      the DBR is now its own row (bw_3db_nm covers reflector, D77); sub-hertz-under-feedback row m7 added'
+  cmp_lit_dong2025_het_qw_dfb:
+    notes: 'Operated at twice threshold. Not entered (no registry parameter): linewidth enhancement factor 2.3 at threshold
+      (Supplement Sec. 10); feedback regimes I < -65 dB, II -65 to -31 dB, III -31 to -24 dB, coherence collapse above the
+      critical level -24 dB; NRF 43.8 dB (p.5 Sec. 4). ''Homemade'' does not name the fabricating org; authors span UCSB,
+      KAUST, Laval and Sandia, so fab empty (D80b). Facility empty. Free-running linewidth derived from the printed E-DBR
+      comparison (m2).'
+    why: 'p.5 Sec. 4: cross-note for the added row m2 (miss)'
+  cmp_lit_suh2016_wedge_disk_3mm:
+    notes: 'Two disks of this design (repetition rates differ by about 2.6 MHz through the etching time, p.4) pumped through
+      tapered fibers (p.3). The Q statement covers both devices. Fab Caltech: author contributions ''KYY fabricated devices''
+      (all authors at the Caltech T. J. Watson Laboratory of Applied Physics). Facility empty: the Kavli Nanoscience Institute
+      is named only in the support list beside DARPA and NASA (D83e; yang2018a precedent). Cached copy is the arXiv preprint
+      1607.08222v1 of the Science paper; values from the preprint only, journal version unread. The Q sentence (p.4) follows
+      ''The high-Q resonators used in this work are described elsewhere'' (ref. 40 = lit:lee2012, co-author K. Y. Yang) but
+      states the Q of this work''s devices; lit:lee2012 prints 326-367 million for its own 3 mm wedges (merged row cmp_lit_lee2012_wedge_d3mm_27deg-m1),
+      so the value is kept as this paper''s author_estimate (D408 attribution test; flagged for the coordinator).'
+    why: 'p.4 and ref. 40: judgment (c), D259 / D408 borderline recorded'
+metrics:
+  cmp_lit_xue2015_ring_a_facet-m1:
+    basis: author_estimate
+    notes: 'printed ''the coupling loss per facet is around 3 dB'' (parenthetical in the 1.7 W pump sentence); no measurement
+      or method is described for it: author_estimate, origin not stated (rounded ''around'' value: D418 nader2025, D656 su2023,
+      D642 yu2014; D167 kept for specific per-facet values, e.g. lu2019a 3.9 / 2.3 / 4.2 dB); wavelength from the 1549.3 nm
+      pump of the same sentence'
+    why: 'p.2 page render: judgment (b); a rounded per-facet value with no measurement described follows the author_estimate
+      precedents, not D167 (question 3)'
+  cmp_lit_dong2025_sil_dbr_4m-m2:
+    notes: printed 'ranging from 0.45 to 10 Hz' within the -3 dB locking band; on the Fig. 2(f) render the squares between
+      the two simulated band-edge peaks (about 1557.98 and 1558.56 nm) read about 0.45-6.5 Hz and the squares outside them
+      about 8-30 Hz (1557.92, 1557.95, 1558.61, 1558.66 nm), so the printed range matches the in-band squares (the 'Locking'
+      shading spans the whole axis); minimum squares about 0.45-0.6 Hz near 1558.2-1558.45 nm
+    why: 'p.4 Fig. 2(f) render at 500 dpi: the batch note called the printed range a text-figure conflict (D417); the squares
+      above 10 Hz lie outside the simulated band edges, so there is no conflict'
+  cmp_lit_dong2025_sil_dbr_4m-m3:
+    statistic: best
+    notes: printed 'as high as 73 dB' (p.5; statistic best, rule 7); Fig. 2(d) label 73 dB, peak near 1558.40 nm
+    why: 'p.5 Sec. 3 ''as high as 73 dB'': rule 7 (''as low as'' -> best) applies; xiang2021a smsr ''as high as 54 dB'' precedent'
+  cmp_lit_dong2025_sil_dbr_4m-m4:
+    notes: 1558.5 - 1558 nm from the printed endpoints; on the Fig. 2(b) render (pixel read against the 1558.0-1558.6 nm ticks)
+      the wavelength curve starts at about 1558.0 nm (trace from about 40 mA) and ends at about 1558.47 nm at 300 mA, consistent
+      with the printed 0.5 nm
+    why: 'p.4 Fig. 2(b) render at 500 dpi: the curve ends near 1558.47 nm, not 1558.4 nm; the batch''s D417 note overstated
+      the difference'
+  cmp_lit_dong2025_sin_spiral_4m-m1:
+    qualifier: ''
+    notes: 'printed ''waveguide propagation loss of -0.17 dB/m'' (sign as printed; ''approximately'' in that sentence belongs
+      to the -34 dB estimate); dB/m -> dB/cm; origin not stated (budget input, measurement not shown); wavelength: the laser
+      operates at 1558 nm'
+    why: 'p.4 Sec. 3: the value is printed without an approximation word'
+  cmp_lit_suh2016_wedge_disk_3mm-m1:
+    notes: printed 'unloaded quality factor of the microresonators exceeds 300 million'; extraction method and coupling regime
+      not given (D403); wavelength not stated, C band inferred from the 1549.7-1549.9 nm pumps; the sentence follows a pointer
+      to ref. 40 (lit:lee2012) but speaks of this work's devices (D408), kept
+    why: 'p.4: note supplement for the D259 / D408 question'
+delete_metrics:
+- id: cmp_lit_dong2025_sil_dbr_4m-m6
+  why: 'DBR block (question 2): the 600 nm grating period moves to the new reflector row cmp_lit_dong2025_dbr (m2); drop this
+    op with the block'
+add_components:
+- component_id: cmp_lit_dong2025_dbr
+  source_id: lit:dong2025
+  class: reflector.bragg
+  label: Si3N4 DBR terminating the delay spiral (3.179 mm, 600 nm period, kappa L ~1; design)
+  row_kind: fabricated
+  platform: sin
+  core_material: Si3N4 (cross-section not stated)
+  test_structure: 'false'
+  tags: dbr;bragg;external_cavity;broadband_feedback
+  verified_on: '2026-11-27'
+  notes: 'Broadband DBR at the end of the delay spiral of the delayed-DBR external-cavity chip (p.2 Sec. 2; Fig. 1(a), Fig.
+    2(a)); feedback element of the laser row cmp_lit_dong2025_sil_dbr_4m, terminates the spiral row cmp_lit_dong2025_sin_spiral_4m
+    (D396). Design stated once (p.2): length 3.179 mm, period 600 nm, -3 dB reflection bandwidth 25.7 GHz around 1558 nm,
+    ''corresponding Q-factor'' 5700 (Q = lambda0 / delta-lambda, defined on p.2); kappa L designed to be 1 for both delay
+    lengths (p.3 Sec. 3). The printed Q 5700 implies a 0.273 nm width, not the 0.208 nm of 25.7 GHz (D417, noted; the GHz
+    value is entered). No measured reflection spectrum. Fab empty: no fabrication statement in the paper.'
+  why: 'miss (question 2): a fabricated part with a printed design performance (D80e); bw_3db_nm covers reflector (D77), so
+    the batch''s ''no parameter'' reason does not hold. DBR block: this row, its 3 metrics and the deletion of cmp_lit_dong2025_sil_dbr_4m-m6'
+add_metrics:
+- metric_id: cmp_lit_dong2025_dbr-m1
+  component_id: cmp_lit_dong2025_dbr
+  parameter: bw_3db_nm
+  value: '0.208'
+  unit: nm
+  qualifier: approx
+  wavelength_nm: '1558'
+  condition: -3 dB reflection bandwidth of the DBR design (3.179 mm, kappa L ~1)
+  basis: simulated
+  locator: p.2 Sec. 2; p.2 Fig. 1(d)
+  notes: printed '-3 dB reflection bandwidth of 25.7 GHz around 1558 nm'; converted with delta-lambda = lambda^2 x delta-nu
+    / c at 1558 nm = 0.208 nm (D256 unit conversion; arithmetic on a design value stays simulated, D83f); design calculation
+    (Fig. 1(d) calculated reflection bandwidth vs kappa L); the printed Q 5700 would give 0.273 nm (D417)
+  why: 'DBR block (question 2): design reflection bandwidth of the fabricated DBR'
+- metric_id: cmp_lit_dong2025_dbr-m2
+  component_id: cmp_lit_dong2025_dbr
+  parameter: period_nm
+  value: '600'
+  unit: nm
+  basis: design_target
+  locator: p.2 Sec. 2
+  notes: grating period of the DBR design (moved from cmp_lit_dong2025_sil_dbr_4m-m6)
+  why: 'DBR block (question 2): geometry on the reflector row'
+- metric_id: cmp_lit_dong2025_dbr-m3
+  component_id: cmp_lit_dong2025_dbr
+  parameter: grating_length_um
+  value: '3179'
+  unit: um
+  basis: derived
+  locator: p.2 Sec. 2
+  notes: printed 'length of 3.179 mm'; mm -> um (D157)
+  why: 'DBR block (question 2): geometry on the reflector row'
+- metric_id: cmp_lit_dong2025_sil_dbr_4m-m7
+  component_id: cmp_lit_dong2025_sil_dbr_4m
+  parameter: linewidth_hz
+  value: '1'
+  unit: Hz
+  qualifier: lt
+  condition: Lorentzian linewidth with -8.1 dB downstream on-chip external feedback (feedback level limited by chip-to-fiber
+    coupling losses), 4 m external cavity
+  basis: measured
+  locator: p.5 Sec. 4; p.6 Fig. 3(h); p.8 Sec. 5
+  notes: printed 'still maintains the sub-hertz linewidth, with no degradation' at -8.1 dB (Fig. 3(h) pink trace, eta_ext
+    = -8.1 dB); no number printed for the feedback cases; the feedback level is the condition (feedback tolerance has no registry
+    parameter, D77 / D81 / D250); 4 m cavity from p.8
+  why: 'miss: stated linewidth bound under external feedback, the paper''s isolator-free result, in an existing parameter'
+- metric_id: cmp_lit_dong2025_het_qw_dfb-m2
+  component_id: cmp_lit_dong2025_het_qw_dfb
+  parameter: linewidth_hz
+  value: '70700'
+  unit: Hz
+  qualifier: approx
+  condition: free-running linewidth (type not stated), 2 x threshold
+  basis: derived
+  locator: p.5 Sec. 4; p.6 Fig. 3(d)
+  notes: 'printed only as a comparison: the E-DBR free-running linewidth of 12 kHz is ''a 7.7 dB reduction compared to our
+    DFB laser'' (p.5); 12 kHz x 10^(7.7/10) = 70.7 kHz (arithmetic on the paper''s own measurements, rule 4 / D80a); the DFB
+    ran at 2 x and the E-DBR at 3 x threshold'
+  why: 'miss: the batch left the DFB free-running linewidth uncomputed; one-step arithmetic on two printed measurements'
+- metric_id: cmp_lit_xue2015_ring_a_heater-m12
+  component_id: cmp_lit_xue2015_ring_a_heater
+  parameter: q_intrinsic
+  value: '3700000'
+  unit: '1'
+  qualifier: approx
+  wavelength_nm: '1548.4'
+  condition: comb-generation mode; from the extracted cavity parameters of this ring (alpha = 3.3978e-3, theta = 5.3613e-3),
+    over-coupled
+  basis: derived
+  locator: p.24 Supp. Sec. 4.2; p.19 Supp. Sec. 2; p.26-27 Supp. Sec. 4.4, Fig. S7(b)
+  notes: 'alpha = (alpha_i + theta) / 2 is the round-trip amplitude loss (p.19), so alpha_i = 2 alpha - theta = 1.434e-3 per
+    round trip; Q_i = omega0 t_R / alpha_i with t_R = 1 / FSR (231.3 GHz) at 1548.4 nm = 3.67e6. Check: Q_L = omega0 t_R /
+    (2 alpha) = 7.74e5 reproduces the printed 7.7e5. alpha and theta were extracted from the measured loaded Q and through-port
+    extinction (Supp. Sec. 4.4) and the coupling regime was measured (sideband phase response, Fig. S7(b): over-coupled),
+    so derived, not author_estimate (D403, D80a). Values read on the p.24 / p.19 page renders (text layer garbled)'
+  why: 'miss (question 4): the supplement prints this ring''s extracted loss and coupling with their definitions; the intrinsic
+    Q follows by one formula and reproduces the printed loaded Q'
+- metric_id: cmp_lit_xue2015_ring_a_heater-m13
+  component_id: cmp_lit_xue2015_ring_a_heater
+  parameter: power_coupling_pct
+  value: '0.53613'
+  unit: '%'
+  condition: bus-ring coupling intensity loss per round trip (theta), comb-generation mode
+  basis: derived
+  locator: p.24 Supp. Sec. 4.2; p.19 Supp. Sec. 2
+  notes: printed theta = 5.3613e-3 (fraction) -> % (D256); model parameter extracted from the measured loaded Q, extinction
+    and coupling regime (Supp. Sec. 4.4, D80a); page render
+  why: 'miss (question 4): printed coupling of this ring'
+- metric_id: cmp_lit_xue2015_ring_b_drop-m9
+  component_id: cmp_lit_xue2015_ring_b_drop
+  parameter: power_coupling_pct
+  value: '0.193'
+  unit: '%'
+  condition: bus (through-port) waveguide coupling coefficient theta
+  basis: derived
+  locator: p.8 Methods; p.25 Supp. Sec. 4.3
+  notes: printed theta = 1.93e-3 ('bus waveguide coupling coefficient', p.8; 1.9327e-3 in the p.25 list) -> % (D256); 'extracted
+    by measuring the resonance width and the coupling condition' (D80a); page render
+  why: 'miss (question 4): printed coupling of this ring'

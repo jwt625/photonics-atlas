@@ -1,0 +1,8 @@
+# Audit patch lit_305 (fresh-context audit 2026-11-27, DevLog/audits/2026-11-27-lit_305-audit.md).
+# 19 metrics: 18 ok / 1 imprecise / 0 wrong; 6 components: 6 ok / 0 imprecise / 0 wrong. No misses.
+# After the patch: 6 components, 19 metrics (feldmann2021 6 / 19, bogaerts2020 0 / 0).
+# Fix: the per-crossing loss gets scope per_component like the merged crossing_loss_db rows (466 of 482 per_component).
+metrics:
+  cmp_lit_feldmann2021_matrix_crossing-m1:
+    scope: per_component
+    why: 'p.13 and p.34 Fig. 5(d) caption: the value is stated per crossing (one on-chip instance; "0.12 dB per crossing", "a crossing loss of 0.12 dB"); scope was empty while 466 of 482 merged crossing_loss_db rows carry per_component (skill rule 6, D43)'
