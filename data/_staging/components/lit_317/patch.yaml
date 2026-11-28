@@ -1,0 +1,97 @@
+# Audit patch lit_317 (fresh-context audit 2026-11-28, DevLog/audits/2026-11-28-lit_317-audit.md).
+# 69 metrics: 66 ok / 3 imprecise / 0 wrong; 22 components: 22 ok / 0 imprecise / 0 wrong. 6 misses added.
+# After the patch: 22 components, 75 metrics.
+# Fixes: hulme2015 0.127 deg/nm note (equals 4.4 deg / 34.5 nm and the design value; basis kept); hulme2015 OPA
+# 10 deg simulated SLSR rows note the -10 deg of the Fig. 4(c)-(d) captions. Misses: hulme2015 measured theta emission
+# angle endpoints read off Fig. 10(c) / 10(a) (2 rows); guan2018 220 nm SOI device layer on the two Vernier rings and the
+# two directional couplers (D153, D402; ring_bus / dc cross-sections).
+metrics:
+  cmp_lit_hulme2015_grating_emitter-m1:
+    notes: 'printed ''tuning efficiency of 0.127 deg/nm as designed and predicted in Section 3.2''; no fit or arithmetic shown,
+      basis kept measured (D167 analogue). Consistency: 4.4 deg / 34.5 nm = 0.1275 deg/nm (the two printed spans of Sec. 6.1),
+      and it equals the design value of p.5; 0.034 deg/mW / 0.28 nm/mW = 0.121 deg/nm (Fig. 10 caption values)'
+    why: 'p.9 Sec. 6.1: the printed value coincides with the ratio of the two printed spans and with the design value; the
+      note lets a reader see that it is not an independently shown slope fit'
+  cmp_lit_hulme2015_opa_uniform-m2:
+    notes: 'text prints ''at 10 deg ... SMSR of 0.5 dB'' (p.5); the Fig. 4(c)-(d) caption tunes the main lobe to -10 deg
+      (same calculation, sign convention of the figure)'
+    why: 'p.6 Fig. 4 caption: the steered case is drawn at -10 deg while the text says 10 deg; noted, value unchanged'
+  cmp_lit_hulme2015_opa_gaussian-m2:
+    notes: 'text prints ''45% at 10 deg with an SMSR of 8.2 dB'' (p.5); the Fig. 4(c)-(d) caption tunes the main lobe to -10 deg
+      (same calculation, sign convention of the figure)'
+    why: 'p.6 Fig. 4 caption: the steered case is drawn at -10 deg while the text says 10 deg; noted, value unchanged'
+add_metrics:
+- metric_id: cmp_lit_hulme2015_grating_emitter-m12
+  component_id: cmp_lit_hulme2015_grating_emitter
+  parameter: emission_angle_deg
+  value: '16.2'
+  unit: deg
+  qualifier: approx
+  wavelength_nm: '1565'
+  condition: theta-axis output angle at the short-wavelength end of the laser tuning (mirror-1 heater about 42 mW), laser gain
+    260 mA, pre-amplifier 180 mA; angle reference not printed on the axis (Eq. (1) gives the angle from the surface normal)
+  method: direct
+  basis: extracted_from_figure
+  locator: p.10 Fig. 10(c); p.10 Fig. 10(a)
+  notes: 'highest measured point of Fig. 10(c) read at about 16.2 deg (+/- 0.2 deg) at about 42 mW; the wavelength at the same
+    heater power read off Fig. 10(a) at about 1565 nm (+/- 1 nm). Measured span 11.8-16.2 deg matches the printed 4.4 deg (m2)'
+  why: 'p.10 Fig. 10(c): measured absolute emission angles of the emitter are plotted (only the span is entered); figure-read
+    performance value (skill Contract v6)'
+- metric_id: cmp_lit_hulme2015_grating_emitter-m13
+  component_id: cmp_lit_hulme2015_grating_emitter
+  parameter: emission_angle_deg
+  value: '11.8'
+  unit: deg
+  qualifier: approx
+  wavelength_nm: '1598'
+  condition: theta-axis output angle at the long-wavelength end of the laser tuning (mirror-1 heater about 37 mW), laser gain
+    260 mA, pre-amplifier 180 mA; angle reference not printed on the axis (Eq. (1) gives the angle from the surface normal)
+  method: direct
+  basis: extracted_from_figure
+  locator: p.10 Fig. 10(c); p.10 Fig. 10(a)
+  notes: 'lowest measured point of Fig. 10(c) read at about 11.8 deg (+/- 0.2 deg) at about 37 mW; the wavelength at the same
+    heater power read off Fig. 10(a) at about 1597.5-1599.5 nm (entered 1598 nm, +/- 1.5 nm)'
+  why: 'p.10 Fig. 10(c): measured absolute emission angles of the emitter are plotted (only the span is entered); figure-read
+    performance value (skill Contract v6)'
+- metric_id: cmp_lit_guan2018_ring_r1-m4
+  component_id: cmp_lit_guan2018_ring_r1
+  parameter: core_thickness_nm
+  value: '220'
+  unit: nm
+  condition: SOI device layer of the CMOS-foundry Si chip
+  basis: design_target
+  locator: p.7 Sec. 3
+  notes: 'printed ''an SOI wafer with a 220-nm device layer''; foundry / wafer thickness (D402). Ring waveguide width not stated.'
+  why: 'p.7 Sec. 3: stated layer thickness; ring_bus cross-section needs core_thickness_nm (D153, D402)'
+- metric_id: cmp_lit_guan2018_ring_r2-m4
+  component_id: cmp_lit_guan2018_ring_r2
+  parameter: core_thickness_nm
+  value: '220'
+  unit: nm
+  condition: SOI device layer of the CMOS-foundry Si chip
+  basis: design_target
+  locator: p.7 Sec. 3
+  notes: 'printed ''an SOI wafer with a 220-nm device layer''; foundry / wafer thickness (D402). Ring waveguide width not stated.'
+  why: 'p.7 Sec. 3: stated layer thickness; ring_bus cross-section needs core_thickness_nm (D153, D402)'
+- metric_id: cmp_lit_guan2018_output_dc-m2
+  component_id: cmp_lit_guan2018_output_dc
+  parameter: core_thickness_nm
+  value: '220'
+  unit: nm
+  condition: SOI device layer of the CMOS-foundry Si chip
+  basis: design_target
+  locator: p.7 Sec. 3
+  notes: 'printed ''an SOI wafer with a 220-nm device layer''; foundry / wafer thickness (D402). Coupler waveguide width and
+    gap not stated.'
+  why: 'p.7 Sec. 3: stated layer thickness; dc cross-section needs core_thickness_nm (D153, D402)'
+- metric_id: cmp_lit_guan2018_mpd_tap-m2
+  component_id: cmp_lit_guan2018_mpd_tap
+  parameter: core_thickness_nm
+  value: '220'
+  unit: nm
+  condition: SOI device layer of the CMOS-foundry Si chip
+  basis: design_target
+  locator: p.7 Sec. 3
+  notes: 'printed ''an SOI wafer with a 220-nm device layer''; foundry / wafer thickness (D402). Coupler waveguide width and
+    gap not stated.'
+  why: 'p.7 Sec. 3: stated layer thickness; dc cross-section needs core_thickness_nm (D153, D402)'

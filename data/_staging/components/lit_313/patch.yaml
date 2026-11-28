@@ -1,0 +1,44 @@
+# Audit patch lit_313 (fresh-context audit 2026-11-28, DevLog/audits/2026-11-28-lit_313-audit.md).
+# 52 metrics: 47 ok / 5 imprecise / 0 wrong; 9 components: 9 ok / 0 imprecise / 0 wrong. 0 misses added.
+# After the patch: 9 components, 52 metrics.
+# Fixes: xiong2012 visible-ring rows band nir_below_o -> visible (766-780 nm lies inside the 380-780 nm visible edge of
+# the band enum, validate.py BAND_EDGES_NM); xiong2012 20 dB/cm printed conflict noted (D417); lu2021 facet width
+# 4 um -> tip_width_nm (width at the facet of an expanding taper, edge_taper template; chen2021a / liu2026d precedent);
+# lu2021 threshold note / locator (Table I prints the mW form, so D256 is not the reason for derived; D394 is).
+metrics:
+  cmp_lit_xiong2012_aln_ring_d80_vis_near_critical-m1:
+    band: visible
+    notes: 'printed ''near critical coupling with measured quality factor of 12,000''. Resonance wavelength not printed;
+      the rings work at 766-780 nm (p.11), inside the visible band (380-780 nm edges of the band enum): band visible,
+      inferred.'
+    why: 'p.11: rings "working in the visible wavelength range from 766 nm to 780 nm"; the band enum edges (validate.py
+      BAND_EDGES_NM, ISO 20473) put 380-780 nm in visible, nir_below_o starts at 780 nm'
+  cmp_lit_xiong2012_aln_ring_d80_vis_weak-m1:
+    band: visible
+    notes: 'printed ''For weakly coupled microrings, the fitting reveals a quality factor of 20,000''. Resonance wavelength
+      not printed; the rings work at 766-780 nm (p.11), inside the visible band (380-780 nm edges of the band enum): band
+      visible, inferred.'
+    why: 'p.11 766-780 nm operating range; visible band is 380-780 nm in the band enum (validate.py BAND_EDGES_NM)'
+  cmp_lit_xiong2012_aln_ring_d80_vis_weak-m2:
+    band: visible
+    notes: 'printed ''corresponds to a propagation loss of 20 dB/cm''; the visible group index is not stated and the loaded
+      Q stands in for Q_int (D76, D403). Printed conflict (D417): the paper''s own expression (p.6) with Q 20,000 at 766-780
+      nm returns 20 dB/cm only for n_g of about 1.12-1.14, below the 1.46 index of the oxide; n_g 2.0 would give about 35
+      dB/cm. Printed value kept. Band visible, inferred as m1.'
+    why: 'p.12 value; p.6 loss expression alpha = 10 log10(e) 2 pi n_g / (Q_int lambda0): 20 dB/cm with Q 20,000 at 766-780
+      nm needs n_g about 1.12-1.14 (not physical for AlN on SiO2, n_o 2.12, n_SiO2 1.46, p.4); band visible as m1'
+  cmp_lit_lu2021_facet_taper-m3:
+    parameter: tip_width_nm
+    notes: 'width of the bus taper at the cleaved facet, printed ''tapered to a width of 4 um at both facets'' (um -> nm,
+      D157). Stored as tip_width_nm: facet-end width of an expanding taper (edge_taper template; chen2021a / liu2026d
+      precedent). Bus width away from the facet and taper length not printed.'
+    why: 'p.5 Methods: 4 um is the facet-end width of the taper; component_layouts.yaml edge_taper uses tip_width_nm for
+      the width at the facet and width_nm for the waveguide (Contract v5 role-specific geometry); merged LN expanding
+      tapers store the facet width as tip_width_nm (chen2021a edge_taper_5um-m2, liu2026d ec_*_expanding_taper-m1)'
+  cmp_lit_lu2021_ppln_microring_opo-m1:
+    locator: p.2; p.3 Fig. 2(a); p.1 Abstract; p.5 Table I
+    notes: 'printed ''~30 uW'' (p.2, abstract; ''as low as 30 uW'', p.1); Table I (p.5) prints 0.030 mW, so the stored mW
+      form is printed (D256 needs no conversion note). On-chip pump = fiber power minus the calibrated 11.1 dB near-visible
+      facet loss: derived (D394). Wavelength ''near 774.1 nm'' stated (D393).'
+    why: 'p.5 Table I "this work" row prints Pth 0.030 mW: D256 keeps the basis when the stored-unit form is printed; the
+      derived basis rests on the on-chip de-embedding (D394), not on a unit conversion'

@@ -1,0 +1,86 @@
+# Audit patch lit_320 (fresh-context audit 2026-11-28, DevLog/audits/2026-11-28-lit_320-audit.md).
+# 26 metrics: 24 ok / 2 imprecise / 0 wrong; 5 components: 4 ok / 1 imprecise / 0 wrong. 4 misses added
+# (maesenovo2013 3D design: core thickness and the three widths the 3D re-optimization did not adjust).
+# After the patch: 5 components, 30 metrics.
+# Fixes: roeloffzen2013 16x1 OBFN FSR basis measured -> author_estimate (origin not stated; same as the PM-IM row and the
+# merged majority); roeloffzen2013 20 W note carries the Fig. 8(a) element count that settles the 16x1 attribution;
+# herr2014a component note no longer takes the shape from the inset micrograph.
+components:
+  cmp_lit_herr2014a_sin_spiral_microresonator:
+    notes: 'Comparison measurement of the mode spectrum only (Fig. 2(b) inset, p.2): fundamental TM11 mode family, showing
+      signs of coupling to other mode families (avoided crossings), measured by frequency-comb-assisted diode laser spectroscopy
+      (method of ref. [29]). Resonator shape not stated in the text (''Si3N4 microresonator''): class resonator.other. The
+      Fig. 2(b) inset micrograph (1 mm scale bar) shows a multi-turn spiral-type pattern whose path length at that scale is hard
+      to reconcile with the printed ~76 GHz FSR, so the micrograph is not used to fix the shape. Fabrication, wafer, bus coupling and operating
+      wavelength of the Si3N4 device are not stated; no facility named. Values from the arXiv preprint 1311.1716v1 of the
+      listed PRL paper only.'
+    why: 'p.2 Fig. 2(b) caption and p.2 text name only a ''Si3N4 microresonator''; the inset shows a multi-turn spiral of
+      about 2.5 mm outer diameter at the 1 mm scale bar (outer turn alone several mm long), while a 76 GHz FSR needs a round
+      trip near 2 mm for any plausible group index of an 800 nm x 2 um Si3N4 guide: the shape cannot rest on the inset;
+      resonator.other kept (shape not stated)'
+metrics:
+  cmp_lit_roeloffzen2013_obfn16_rr_delay_lines-m1:
+    basis: author_estimate
+    notes: printed 'measured group delay responses over one FSR of 25 GHz' (p.14); how the FSR was obtained is not stated
+      (origin not stated); the Fig. 10 traces span -15 to +15 GHz and do not resolve the period; same basis as the PM-IM
+      ring row (cmp_lit_roeloffzen2013_pm_im_two_rr_cascade-m1)
+    why: 'p.14 Sec. 5.1 and p.15 Fig. 10: ''measured'' qualifies the group-delay responses, not the FSR; the plotted window
+      (30 GHz) shows one delay peak per panel and no second resonance, so 25 GHz is a stated device property of unstated origin
+      (rule 4; merged majority for unstated-origin FSR, e.g. xiao2008, morin2021, feldmann2021); keeps the two 25 GHz rows
+      of this paper consistent'
+  cmp_lit_roeloffzen2013_obfn16_rr_delay_lines-m4:
+    notes: 'printed 20 W (W -> mW, D256a); origin not stated (measured or estimated not said). The sentence (p.24-25) reads
+      ''the 16x1 OBFN chip, from Fig. 8'', but Fig. 8 is the 1x8 delay circuit of ref. [8]: entered on the 16x1 OBFN the sentence
+      names (Fig. 9). The heater count supports the 16x1 reading: the 16x1 chip has 40 RRs, each tunable in coupling and phase
+      (p.14), plus the 16x1 binary-tree combining circuit, the sideband filter and the carrier reinsertion circuit, while Fig. 8(a) labels
+      only 31 tuning elements (phi1-phi12, kappa1-kappa19); the figure number is read as a cross-reference slip (D417 conflict
+      note)'
+    why: 'p.13 Fig. 8(a) labels 12 rings (phi1-phi12, kappa1-kappa12) and 7 tree couplers (kappa13-kappa19); p.14 Sec. 5.1
+      and Fig. 9(a) give 40 RRs with tunable coupler and phase shifter each: 120 heaters fit only the 16x1 chip, so the device
+      identity is clear and D159 does not apply; the note now states the evidence'
+add_metrics:
+- metric_id: cmp_lit_maesenovo2013_swg_mmi_2x2_3d-m7
+  component_id: cmp_lit_maesenovo2013_swg_mmi_2x2_3d
+  parameter: core_thickness_nm
+  value: '260'
+  unit: nm
+  condition: nominal Si core thickness h of the waveguide cross-section used throughout the work
+  basis: design_target
+  locator: p.3 Sec. 1; p.4 Fig. 2(a)
+  notes: Fig. 2(a) caption 'silicon waveguide cross-section used throughout this work'; p.3 nominal geometry h = 260 nm
+  why: 'miss (D153 geometry): p.4 Fig. 2(a) caption fixes the 260 nm cross-section for the whole paper, including the 3D
+    FDTD design; the 2D sibling row carries it (m10)'
+- metric_id: cmp_lit_maesenovo2013_swg_mmi_2x2_3d-m8
+  component_id: cmp_lit_maesenovo2013_swg_mmi_2x2_3d
+  parameter: mmi_width_um
+  value: '6'
+  unit: um
+  condition: W_MMI of the 3D FDTD re-optimized design
+  basis: design_target
+  locator: p.7 Sec. 4; p.6 Sec. 3
+  notes: not restated for the 3D design; the 3D re-optimization kept the 50 % duty cycle and adjusted only the SWG pitch and
+    the MMI length around the 2D values (p.7), so W_MMI stays the 2D value 6 um (p.6, Fig. 3 caption)
+  why: 'miss (layout template mmi requires mmi_width_um): p.7 Sec. 4 names pitch and MMI length as the only parameters adjusted
+    in 3D; coordinator question 3'
+- metric_id: cmp_lit_maesenovo2013_swg_mmi_2x2_3d-m9
+  component_id: cmp_lit_maesenovo2013_swg_mmi_2x2_3d
+  parameter: port_width_um
+  value: '1.2'
+  unit: um
+  condition: SWG access waveguide width W_a of the 3D FDTD re-optimized design
+  basis: design_target
+  locator: p.7 Sec. 4; p.6 Sec. 3
+  notes: not restated for the 3D design; the 3D re-optimization adjusted only the SWG pitch and the MMI length (p.7), so W_a
+    stays the 2D value 1.2 um (p.6)
+  why: 'miss: p.7 Sec. 4 names pitch and MMI length as the only parameters adjusted in 3D; coordinator question 3'
+- metric_id: cmp_lit_maesenovo2013_swg_mmi_2x2_3d-m10
+  component_id: cmp_lit_maesenovo2013_swg_mmi_2x2_3d
+  parameter: width_nm
+  value: '450'
+  unit: nm
+  condition: interconnecting Si-wire waveguide width W_g of the 3D FDTD re-optimized design
+  basis: derived
+  locator: p.7 Sec. 4; p.6 Sec. 3
+  notes: printed W_g = 0.45 um for the design (p.6; um -> nm, D256); not restated for the 3D design, whose re-optimization
+    adjusted only the SWG pitch and the MMI length (p.7)
+  why: 'miss: p.7 Sec. 4 names pitch and MMI length as the only parameters adjusted in 3D; coordinator question 3'

@@ -1,0 +1,143 @@
+# Audit patch lit_318 (fresh-context audit 2026-11-28, DevLog/audits/2026-11-28-lit_318-audit.md).
+# 52 metrics: 47 ok / 5 imprecise / 0 wrong; 16 components: 9 ok / 7 imprecise / 0 wrong. 1 miss added.
+# After the patch: 16 components, 53 metrics.
+# Fixes: li2012 Kavli Nanoscience Institute facility removed on all 7 rows (bare thanks, D80c / D802); li2012 pump TE
+# polarization on the 4 threshold rows; ferdous2011 FSR row polarization TM; ferdous2011 ring extinction 10 dB added
+# (derived from the printed Delta T = 0.9).
+components:
+  cmp_lit_li2012_silica_disk_2mm:
+    facility_org_ids: ''
+    notes: 'Comb device of cmp_lit_li2012_comb_33ghz (D396 cross-note). Q up to 875 million and the surface roughness data
+      are cited from ref. [19] (authors'' earlier paper, D259): not entered. Mode area about 30 um2 (p.2) is a modelling input
+      with no parameter. Pump and comb coupled through a tapered fiber coupler; pump TE polarized, thermally locked (p.1).
+      Fab empty: ''a series of devices having a range of diameters were fabricated'' (p.3) is passive with no org (D80b).
+      No facility: the p.5 acknowledgment ends ''the authors thank the Kavli Nanoscience Institute (KNI)'' (the sentence is
+      also incomplete on the page render of the arXiv PDF), with no performed-at, made-use-of or fabrication-support wording
+      (rule 12, D80c; suh2018 and yang2018a precedents, D802 / D611). Cached copy: arXiv preprint (arXiv 1208.5256v1) of the
+      Phys. Rev. Lett. paper; values from the preprint only.'
+    why: 'p.5 page render: the acknowledgment is a bare ''thank the Kavli Nanoscience Institute (KNI)'' with no stated use
+      or support (D80c); same group and wording as suh2018, whose KNI facility was removed in D802 (yang2018a D611)'
+  cmp_lit_li2012_comb_33ghz:
+    facility_org_ids: ''
+    notes: 'Comb of cmp_lit_li2012_silica_disk_2mm (D396). Not entered: span 1320-1820 nm, about 62 THz, nearly half an octave
+      at 200 mW coupled pump (p.2, Fig. 1(e)): no comb-span parameter (D81 rejected). Initial Stokes / anti-Stokes lines at
+      37 times the native spacing (p.1) are a description with no parameter. Paper calls 33 GHz a repetition rate, so repetition_rate_ghz
+      (D83b). Pump and comb coupled through a tapered fiber coupler; pump TE polarized, thermally locked (p.1). Fab empty:
+      ''a series of devices having a range of diameters were fabricated'' (p.3) is passive with no org (D80b). No facility:
+      the p.5 acknowledgment ends ''the authors thank the Kavli Nanoscience Institute (KNI)'' (the sentence is also incomplete
+      on the page render of the arXiv PDF), with no performed-at, made-use-of or fabrication-support wording (rule 12, D80c;
+      suh2018 and yang2018a precedents, D802 / D611). Cached copy: arXiv preprint (arXiv 1208.5256v1) of the Phys. Rev. Lett.
+      paper; values from the preprint only.'
+    why: 'p.5 page render: the acknowledgment is a bare ''thank the Kavli Nanoscience Institute (KNI)'' with no stated use
+      or support (D80c); same group and wording as suh2018, whose KNI facility was removed in D802 (yang2018a D611)'
+  cmp_lit_li2012_comb_66ghz:
+    facility_org_ids: ''
+    notes: 'Not entered: continuous span 1180-2020 nm, 106 THz, 3/4 octave (p.2, Fig. 2(a)): no comb-span parameter (D81 rejected).
+      Disk diameter and pump power of this spectrum not printed. Pump and comb coupled through a tapered fiber coupler; pump
+      TE polarized, thermally locked (p.1). Fab empty: ''a series of devices having a range of diameters were fabricated''
+      (p.3) is passive with no org (D80b). No facility: the p.5 acknowledgment ends ''the authors thank the Kavli Nanoscience
+      Institute (KNI)'' (the sentence is also incomplete on the page render of the arXiv PDF), with no performed-at, made-use-of
+      or fabrication-support wording (rule 12, D80c; suh2018 and yang2018a precedents, D802 / D611). Cached copy: arXiv preprint
+      (arXiv 1208.5256v1) of the Phys. Rev. Lett. paper; values from the preprint only.'
+    why: 'p.5 page render: the acknowledgment is a bare ''thank the Kavli Nanoscience Institute (KNI)'' with no stated use
+      or support (D80c); same group and wording as suh2018, whose KNI facility was removed in D802 (yang2018a D611)'
+  cmp_lit_li2012_silica_disk_25mm:
+    facility_org_ids: ''
+    notes: 'Comb device of cmp_lit_li2012_comb_2p6ghz (D396). Q lowered by accidental contamination (p.3). Pump and comb coupled
+      through a tapered fiber coupler; pump TE polarized, thermally locked (p.1). Fab empty: ''a series of devices having
+      a range of diameters were fabricated'' (p.3) is passive with no org (D80b). No facility: the p.5 acknowledgment ends
+      ''the authors thank the Kavli Nanoscience Institute (KNI)'' (the sentence is also incomplete on the page render of the
+      arXiv PDF), with no performed-at, made-use-of or fabrication-support wording (rule 12, D80c; suh2018 and yang2018a precedents,
+      D802 / D611). Cached copy: arXiv preprint (arXiv 1208.5256v1) of the Phys. Rev. Lett. paper; values from the preprint
+      only.'
+    why: 'p.5 page render: the acknowledgment is a bare ''thank the Kavli Nanoscience Institute (KNI)'' with no stated use
+      or support (D80c); same group and wording as suh2018, whose KNI facility was removed in D802 (yang2018a D611)'
+  cmp_lit_li2012_comb_2p6ghz:
+    facility_org_ids: ''
+    notes: 'Comb of cmp_lit_li2012_silica_disk_25mm (D396). Lowest microcomb repetition rate of the paper (p.2, p.5). Pump
+      and comb coupled through a tapered fiber coupler; pump TE polarized, thermally locked (p.1). Fab empty: ''a series of
+      devices having a range of diameters were fabricated'' (p.3) is passive with no org (D80b). No facility: the p.5 acknowledgment
+      ends ''the authors thank the Kavli Nanoscience Institute (KNI)'' (the sentence is also incomplete on the page render
+      of the arXiv PDF), with no performed-at, made-use-of or fabrication-support wording (rule 12, D80c; suh2018 and yang2018a
+      precedents, D802 / D611). Cached copy: arXiv preprint (arXiv 1208.5256v1) of the Phys. Rev. Lett. paper; values from
+      the preprint only.'
+    why: 'p.5 page render: the acknowledgment is a bare ''thank the Kavli Nanoscience Institute (KNI)'' with no stated use
+      or support (D80c); same group and wording as suh2018, whose KNI facility was removed in D802 (yang2018a D611)'
+  cmp_lit_li2012_comb_22ghz:
+    facility_org_ids: ''
+    notes: 'Disk diameter not printed. Pump: CW fiber laser with effective linewidth about 1 kHz, 11 mW launched in the fiber
+      off resonance, 2.8 mW coupled in state I (p.4); primary combs at 2.5 nm spacing and subcombs at the native 22 GHz spacing
+      (p.4). Not entered: single-sideband phase noise -113 dBc/Hz at 10 kHz offset of the 21.953 GHz beat note in the phase-locked
+      state VII (p.4, Fig. 5) and the 20-30 dB phase-noise reduction versus unlocked states: no phase-noise parameter (registry
+      gap). Pump and comb coupled through a tapered fiber coupler; pump TE polarized, thermally locked (p.1). Fab empty: ''a
+      series of devices having a range of diameters were fabricated'' (p.3) is passive with no org (D80b). No facility: the
+      p.5 acknowledgment ends ''the authors thank the Kavli Nanoscience Institute (KNI)'' (the sentence is also incomplete
+      on the page render of the arXiv PDF), with no performed-at, made-use-of or fabrication-support wording (rule 12, D80c;
+      suh2018 and yang2018a precedents, D802 / D611). Cached copy: arXiv preprint (arXiv 1208.5256v1) of the Phys. Rev. Lett.
+      paper; values from the preprint only.'
+    why: 'p.5 page render: the acknowledgment is a bare ''thank the Kavli Nanoscience Institute (KNI)'' with no stated use
+      or support (D80c); same group and wording as suh2018, whose KNI facility was removed in D802 (yang2018a D611)'
+  cmp_lit_li2012_comb_diameter_series:
+    facility_org_ids: ''
+    notes: 'Family row for the Fig. 3 diameter series (D165 array-level row); members with own rows: cmp_lit_li2012_comb_33ghz
+      (2 mm), cmp_lit_li2012_comb_2p6ghz (25 mm). Fig. 3 shows several pump modes per device; the individual 0.3-15 mm points
+      are not entered (pump mode of each point not identified). Phase locking observed for repetition rates 4-26 GHz (p.3)
+      is a description with no parameter. Pump and comb coupled through a tapered fiber coupler; pump TE polarized, thermally
+      locked (p.1). Fab empty: ''a series of devices having a range of diameters were fabricated'' (p.3) is passive with no
+      org (D80b). No facility: the p.5 acknowledgment ends ''the authors thank the Kavli Nanoscience Institute (KNI)'' (the
+      sentence is also incomplete on the page render of the arXiv PDF), with no performed-at, made-use-of or fabrication-support
+      wording (rule 12, D80c; suh2018 and yang2018a precedents, D802 / D611). Cached copy: arXiv preprint (arXiv 1208.5256v1)
+      of the Phys. Rev. Lett. paper; values from the preprint only.'
+    why: 'p.5 page render: the acknowledgment is a bare ''thank the Kavli Nanoscience Institute (KNI)'' with no stated use
+      or support (D80c); same group and wording as suh2018, whose KNI facility was removed in D802 (yang2018a D611)'
+  cmp_lit_ferdous2011_sin_ring_r40:
+    notes: 'Comb-generating ring of cmp_lit_ferdous2011_kerr_comb (D396 cross-note: same physical device, resonator values
+      here, comb values there). Two TM mode families seen in Fig. 1(c); the values refer to the high-Q family (p.5). Transmission
+      contrast of the 1556.43 nm mode printed as Delta T = 0.9 (normalized-transmission minimum about 0.1 in Fig. 1(d)): entered
+      as extinction_db 10 dB, derived (m13). Performance degraded after months of air exposure (p.7; see the comb row). Fab:
+      borderline org_center_for_nanoscale_science_and_technology (D84b): first-person ''We fabricated silicon nitride ring
+      resonators'' (p.4) with authors at Purdue University (ECE, Birck Nanotechnology Center) and NIST CNST / Maryland NanoCenter
+      (p.1), so the authors'' own org is ambiguous (D154); the acknowledgment thanks the staff of the CNST Nanofab for assistance
+      with e-beam lithography (p.9), which places the fabrication at CNST (staff thanks: fab borderline, never a facility,
+      D84b / D72). Cached copy: arXiv preprint (arXiv 1103.2330, title ''Spectral line-by-line pulse shaping of an on-chip
+      microresonator frequency comb'') of the Nature Photonics paper; values from the preprint only.'
+    why: 'p.5 / p.14 Fig. 1(d): note follows the added extinction row m13'
+metrics:
+  cmp_lit_ferdous2011_sin_ring_r40-m4:
+    polarization: tm
+    why: 'p.5: the FSR is that of the high-Q mode series of the TM transmission spectrum (Fig. 1(c) shows the TM modes)'
+  cmp_lit_li2012_comb_33ghz-m1:
+    polarization: te
+    why: 'p.1 experimental set-up: ''The pump (TE polarized) is thermally-locked to the resonance'' (C-band ECDL + EDFA, the
+      pump of the threshold measurements; the 21.953 GHz fiber-laser pump has no stated polarization and is not touched)'
+  cmp_lit_li2012_comb_2p6ghz-m2:
+    polarization: te
+    why: 'p.1 experimental set-up: ''The pump (TE polarized) is thermally-locked to the resonance'' (C-band ECDL + EDFA, the
+      pump of the threshold measurements; the 21.953 GHz fiber-laser pump has no stated polarization and is not touched)'
+  cmp_lit_li2012_comb_diameter_series-m1:
+    polarization: te
+    why: 'p.1 experimental set-up: ''The pump (TE polarized) is thermally-locked to the resonance'' (C-band ECDL + EDFA, the
+      pump of the threshold measurements; the 21.953 GHz fiber-laser pump has no stated polarization and is not touched)'
+  cmp_lit_li2012_comb_diameter_series-m2:
+    polarization: te
+    why: 'p.1 experimental set-up: ''The pump (TE polarized) is thermally-locked to the resonance'' (C-band ECDL + EDFA, the
+      pump of the threshold measurements; the 21.953 GHz fiber-laser pump has no stated polarization and is not touched)'
+add_metrics:
+- metric_id: cmp_lit_ferdous2011_sin_ring_r40-m13
+  component_id: cmp_lit_ferdous2011_sin_ring_r40
+  source_id: lit:ferdous2011
+  parameter: extinction_db
+  value: '10'
+  unit: dB
+  wavelength_nm: '1556.43'
+  polarization: tm
+  condition: resonance transmission contrast of the high-Q TM mode (printed Delta T = 0.9, normalized transmission)
+  method: direct
+  basis: derived
+  locator: p.5; p.14 Fig. 1(d)
+  notes: printed linear contrast Delta T = 0.9; -10 log10(1 - 0.9) = 10 dB (unit conversion of the source's own value, D80a
+    / D256); Fig. 1(d) dip bottoms at about 0.1 of the normalized transmission, consistent; the same contrast is the input
+    of the q_intrinsic estimate (m3)
+  verified_on: '2026-11-28'
+  why: 'miss: p.5 prints the measured resonance contrast of the Fig. 1(d) mode; extinction_db covers resonator and a dB value
+    computed from a printed linear value is derived (skill workflow step 5)'

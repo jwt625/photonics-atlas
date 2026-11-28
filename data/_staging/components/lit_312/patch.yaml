@@ -1,0 +1,14 @@
+# Audit patch lit_312 (fresh-context audit 2026-11-28, DevLog/audits/2026-11-28-lit_312-audit.md).
+# 16 metrics: 15 ok / 1 imprecise / 0 wrong; 4 components: 4 ok / 0 imprecise / 0 wrong. 0 misses added.
+# After the patch: 4 components, 16 metrics.
+# Fix: luo2017 SHG efficiency condition gave the fundamental input range as "up to about 1.4 mW" (the Fig. 3(b) axis
+# limit); the data points run from about 0.26 to about 1.3 mW. Value, unit, basis and ref_plane unchanged.
+metrics:
+  cmp_lit_luo2017_ln_microdisk_shg-m1:
+    condition: pump in the 1549.32 nm quasi-TE mode (loaded Q 1.2e5), SH in the 774.66 nm quasi-TM mode (loaded Q 2.2e5);
+      tapered-fiber coupled, fundamental input about 0.26-1.3 mW (Fig. 3(b) data points); power reference plane not stated
+    notes: 'Printed SHG efficiency 3.6e-6 /mW from the quadratic fit of Fig. 3(b); 3.6e-6 /mW x 1000 mW/W x 100 % = 0.36 %/W
+      (unit conversion, D82d / D256). Consistency: 3.6e-6 /mW x (1.29 mW)^2 = 6.0 nW, the last Fig. 3(b) point (about 6 nW at
+      about 1.29 mW).'
+    why: 'p.6 Fig. 3(b): the eight data points span about 0.26-1.29 mW of fundamental input (axis runs to 1.4+ mW); the old
+      condition took the axis limit as the measured range'

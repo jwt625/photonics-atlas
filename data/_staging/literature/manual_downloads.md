@@ -1,8 +1,8 @@
 # Manual downloads (DevLog-006 S7)
 
-Generated 2026-11-27 by `scripts/lit_manual_list.py` from `retrieval_queue.csv` and `logs/lit_fetch_status.jsonl`; papers already cached are left out. Save each PDF as `references/_inbox/<save_as>` (supplement: `<paper_id>_supplement.pdf`), then run `uv run python scripts/lit_ingest_inbox.py`.
+Generated 2026-11-28 by `scripts/lit_manual_list.py` from `retrieval_queue.csv` and `logs/lit_fetch_status.jsonl`; papers already cached are left out. Save each PDF as `references/_inbox/<save_as>` (supplement: `<paper_id>_supplement.pdf`), then run `uv run python scripts/lit_ingest_inbox.py`.
 
-Total: 1129
+Total: 1133
 
 | # | day | class | save_as | year | venue | title | doi | reason |
 |---|---|---|---|---|---|---|---|---|
@@ -1100,38 +1100,42 @@ Total: 1129
 | 1092 | 213 | resonator | bogaerts2018.pdf | 2018 | Laser & Photonics Review | Silicon Photonics Circuit Design: Methods, Tools and Challenges | 10.1002/lpor.201700237 | Wiley blocks the browser (D147) |
 | 1093 | 213 | splitter | halir2014.pdf | 2014 | Laser & Photonics Review | Waveguide sub‐wavelength structures: a review of principles and applications | 10.1002/lpor.201400083 | oa_publisher: blocked on 2026-11-27 |
 | 1094 | 213 | wdm | dai2013.pdf | 2013 | Nanophotonics | Silicon‐based on‐chip multiplexing technologies and devices for Peta‐bit optical interconnects | 10.1515/nanoph-2013-0021 | De Gruyter blocks the browser (D147) |
-| 1095 | 214 | phase_shifter | delaney2020.pdf | 2020 | Advanced Functional Materials | A New Family of Ultralow Loss Reversible Phase‐Change Materials for Photonic Integrated Circuits: Sb 2 S 3 and Sb 2 Se 3 | 10.1002/adfm.202002447 | Wiley blocks the browser (D147) |
-| 1096 | 214 | phase_shifter | komma2012.pdf | 2012 | Applied Physics Letters | Thermo-optic coefficient of silicon at 1550 nm and cryogenic temperatures | 10.1063/1.4738989 | AIP blocks the browser (D147) |
-| 1097 | 215 | polarization | dong2014.pdf | 2014 | Nanophotonics | Silicon photonic devices and integrated circuits | 10.1515/nanoph-2013-0023 | De Gruyter blocks the browser (D147) |
-| 1098 | 215 | polarization | luquegonzalez2021.pdf | 2021 | Nanophotonics | A review of silicon subwavelength gratings: building break‐through devices with anisotropic metamaterials | 10.1515/nanoph-2021-0110 | De Gruyter blocks the browser (D147) |
-| 1099 | 216 | amplifier | qi2020.pdf | 2020 | Nanophotonics | Integrated lithium niobate photonics | 10.1515/nanoph-2020-0013 | De Gruyter blocks the browser (D147) |
-| 1100 | 216 | laser | roelkens2024.pdf | 2024 | APL Photonics | Present and future of micro-transfer printing for heterogeneous photonic integrated circuits | 10.1063/5.0181099 | AIP blocks the browser (D147) |
-| 1101 | 216 | mode_converter | li2018c.pdf | 2018 | Nanophotonics | Multimode silicon photonics | 10.1515/nanoph-2018-0161 | De Gruyter blocks the browser (D147) |
-| 1102 | 216 | phase_shifter | rude2013.pdf | 2013 | Applied Physics Letters | Optical switching at 1.55 μ m in silicon racetrack resonators using phase change materials | 10.1063/1.4824714 | AIP blocks the browser (D147) |
-| 1103 | 216 | waveguide_platform | reed2013.pdf | 2013 | Nanophotonics | Recent breakthroughs in carrier depletion based silicon optical modulators | 10.1515/nanoph-2013-0016 | De Gruyter blocks the browser (D147) |
-| 1104 | 217 | amplifier | wang2019b.pdf | 2019 | Quantum Engineering | Chemo‐mechanical polish lithography: A pathway to low loss large‐scale photonic integration on lithium niobate on insulator | 10.1002/que2.9 | Wiley blocks the browser (D147) |
-| 1105 | 218 | free_space_emitter | li2022c.pdf | 2022 | Laser & Photonics Review | A Progress Review on Solid‐State LiDAR and Nanophotonics‐Based LiDAR Sensors | 10.1002/lpor.202100511 | Wiley blocks the browser (D147) |
-| 1106 | 218 | laser | ling2023.pdf | 2023 | Laser & Photonics Review | Self‐Injection Locked Frequency Conversion Laser | 10.1002/lpor.202200663 | Wiley blocks the browser (D147) |
-| 1107 | 218 | photodetector | feng2009.pdf | 2009 | Applied Physics Letters | High-speed Ge photodetector monolithically integrated with large cross-section silicon-on-insulator waveguide | 10.1063/1.3279129 | AIP blocks the browser (D147) |
-| 1108 | 220 | chip_chip_coupler | dietrich2016.pdf | 2016 | Laser & Photonics Review | GaAs integrated quantum photonics: Towards compact and multi‐functional quantum photonic integrated circuits | 10.1002/lpor.201500321 | Wiley blocks the browser (D147) |
-| 1109 | 220 | crossing | sun2020.pdf | 2020 | Nanophotonics | Subwavelength structured silicon waveguides and photonic devices | 10.1515/nanoph-2020-0070 | De Gruyter blocks the browser (D147) |
-| 1110 | 220 | phase_shifter | lin2017.pdf | 2017 | Nanophotonics | Mid‐infrared integrated photonics on silicon: a perspective | 10.1515/nanoph-2017-0085 | De Gruyter blocks the browser (D147) |
-| 1111 | 220 | phase_shifter | wright2011.pdf | 2011 | Advanced Materials | Arithmetic and Biologically‐Inspired Computing Using Phase‐Change Materials | 10.1002/adma.201101060 | Wiley blocks the browser (D147) |
-| 1112 | 220 | photodetector | marrismorini2017.pdf | 2017 | Nanophotonics | Germanium‐based integrated photonics from near‐ to mid‐infrared applications | 10.1515/nanoph-2018-0113 | De Gruyter blocks the browser (D147) |
-| 1113 | 222 | laser | porter2023.pdf | 2023 | APL Photonics | Hybrid integrated chip-scale laser systems | 10.1063/5.0159527 | AIP blocks the browser (D147) |
-| 1114 | 222 | phase_shifter | padmaraju2013.pdf | 2013 | Nanophotonics | Resolving the thermal challenges for silicon microring resonator devices | 10.1515/nanoph-2013-0013 | De Gruyter blocks the browser (D147) |
-| 1115 | 222 | photodetector | benedikovic2020.pdf | 2020 | Nanophotonics | Silicon–germanium receivers for short‐wave‐infrared optoelectronics and communications | 10.1515/nanoph-2020-0547 | De Gruyter blocks the browser (D147) |
-| 1116 | 222 | resonator | vollmer2012.pdf | 2012 | Nanophotonics | Review Label‐free detection with high‐Q microcavities: a review of biosensing mechanisms for integrated devices | 10.1515/nanoph-2012-0021 | De Gruyter blocks the browser (D147) |
-| 1117 | 223 | frequency_converter | saravi2021.pdf | 2021 | Advanced Optical Materials | Lithium Niobate on Insulator: An Emerging Platform for Integrated Quantum Photonics | 10.1002/adom.202100789 | Wiley blocks the browser (D147) |
-| 1118 | 223 | polarization | shi2021.pdf | 2021 | Advanced Photonics Research | Thermal Behaviors and Optical Parametric Oscillation in 4H‐Silicon Carbide Integrated Platforms | 10.1002/adpr.202100068 | Wiley blocks the browser (D147) |
-| 1119 | 223 | reflector | homampour2009.pdf | 2009 | Physica status solidi. C, Conferences and critical reviews/Physica status solidi. C, Current topics in solid state physics | Thermal tuning of planar Bragg gratings in silicon‐on‐insulator rib waveguides | 10.1002/pssc.200881298 | Wiley blocks the browser (D147) |
-| 1120 | 223 | reflector | morichetti2011.pdf | 2011 | Laser & Photonics Review | The first decade of coupled resonator optical waveguides: bringing slow light to applications | 10.1002/lpor.201100018 | Wiley blocks the browser (D147) |
-| 1121 | 223 | waveguide_platform | smit2011.pdf | 2011 | Laser & Photonics Review | Moore's law in photonics | 10.1002/lpor.201100001 | Wiley blocks the browser (D147) |
-| 1122 | 228 | phase_shifter | fang2023.pdf | 2023 | APL Materials | Non-volatile materials for programmable photonics | 10.1063/5.0165309 | AIP blocks the browser (D147) |
-| 1123 | 228 | phase_shifter | malik2013a.pdf | 2013 | Applied Physics Letters | Germanium-on-silicon planar concave grating wavelength (de)multiplexers in the mid-infrared | 10.1063/1.4826114 | AIP blocks the browser (D147) |
-| 1124 | 228 | photodetector | ahn2011.pdf | 2011 | Journal of Applied Physics | Efficient evanescent wave coupling conditions for waveguide-integrated thin-film Si/Ge photodetectors on silicon-on-insulator/germanium-on-insulator substrates | 10.1063/1.3642943 | AIP blocks the browser (D147) |
-| 1125 | 228 | resonator | armand2023.pdf | 2023 | APL Photonics | Mid-infrared integrated silicon–germanium ring resonator with high Q-factor | 10.1063/5.0149324 | AIP blocks the browser (D147) |
-| 1126 | 230 | laser | kuyken2016.pdf | 2016 | Nanophotonics | Nonlinear optical interactions in silicon waveguides | 10.1515/nanoph-2016-0001 | De Gruyter blocks the browser (D147) |
-| 1127 | 230 | laser | yang2023a.pdf | 2023 | Nanophotonics | Advances in silicon‐based, integrated tunable semiconductor lasers | 10.1515/nanoph-2022-0699 | De Gruyter blocks the browser (D147) |
-| 1128 | 230 | polarization | zhou2018.pdf | 2018 | Nanophotonics | All‐in‐one silicon photonic polarization processor | 10.1515/nanoph-2019-0310 | De Gruyter blocks the browser (D147) |
-| 1129 | 230 | splitter | zhao2024.pdf | 2024 | Nanophotonics | Low sidelobe silicon optical phased array with Chebyshev amplitude distribution | 10.1515/nanoph-2023-0507 | De Gruyter blocks the browser (D147) |
+| 1095 | 214 | fiber_interface | carroll2016.pdf | 2016 | Applied Sciences | Photonic Packaging: Transforming Silicon Photonic Integrated Circuits into Photonic Devices | 10.3390/app6120426 | oa_publisher: blocked on 2026-11-28 |
+| 1096 | 214 | laser | gaeta2019.pdf | 2019 | Nature Photonics | Photonic-chip-based frequency combs | 10.1038/s41566-019-0358-x | oa_publisher: blocked on 2026-11-28 |
+| 1097 | 214 | laser | margalit2021.pdf | 2021 | Applied Physics Letters | Perspective on the future of silicon photonics and electronics | 10.1063/5.0050117 | oa_publisher: blocked on 2026-11-28 |
+| 1098 | 214 | phase_shifter | delaney2020.pdf | 2020 | Advanced Functional Materials | A New Family of Ultralow Loss Reversible Phase‐Change Materials for Photonic Integrated Circuits: Sb 2 S 3 and Sb 2 Se 3 | 10.1002/adfm.202002447 | Wiley blocks the browser (D147) |
+| 1099 | 214 | phase_shifter | komma2012.pdf | 2012 | Applied Physics Letters | Thermo-optic coefficient of silicon at 1550 nm and cryogenic temperatures | 10.1063/1.4738989 | AIP blocks the browser (D147) |
+| 1100 | 214 | waveguide_platform | munoz2017.pdf | 2017 | Sensors | Silicon Nitride Photonic Integration Platforms for Visible, Near-Infrared and Mid-Infrared Applications | 10.3390/s17092088 | oa_publisher: blocked on 2026-11-28 |
+| 1101 | 215 | polarization | dong2014.pdf | 2014 | Nanophotonics | Silicon photonic devices and integrated circuits | 10.1515/nanoph-2013-0023 | De Gruyter blocks the browser (D147) |
+| 1102 | 215 | polarization | luquegonzalez2021.pdf | 2021 | Nanophotonics | A review of silicon subwavelength gratings: building break‐through devices with anisotropic metamaterials | 10.1515/nanoph-2021-0110 | De Gruyter blocks the browser (D147) |
+| 1103 | 216 | amplifier | qi2020.pdf | 2020 | Nanophotonics | Integrated lithium niobate photonics | 10.1515/nanoph-2020-0013 | De Gruyter blocks the browser (D147) |
+| 1104 | 216 | laser | roelkens2024.pdf | 2024 | APL Photonics | Present and future of micro-transfer printing for heterogeneous photonic integrated circuits | 10.1063/5.0181099 | AIP blocks the browser (D147) |
+| 1105 | 216 | mode_converter | li2018c.pdf | 2018 | Nanophotonics | Multimode silicon photonics | 10.1515/nanoph-2018-0161 | De Gruyter blocks the browser (D147) |
+| 1106 | 216 | phase_shifter | rude2013.pdf | 2013 | Applied Physics Letters | Optical switching at 1.55 μ m in silicon racetrack resonators using phase change materials | 10.1063/1.4824714 | AIP blocks the browser (D147) |
+| 1107 | 216 | waveguide_platform | reed2013.pdf | 2013 | Nanophotonics | Recent breakthroughs in carrier depletion based silicon optical modulators | 10.1515/nanoph-2013-0016 | De Gruyter blocks the browser (D147) |
+| 1108 | 217 | amplifier | wang2019b.pdf | 2019 | Quantum Engineering | Chemo‐mechanical polish lithography: A pathway to low loss large‐scale photonic integration on lithium niobate on insulator | 10.1002/que2.9 | Wiley blocks the browser (D147) |
+| 1109 | 218 | free_space_emitter | li2022c.pdf | 2022 | Laser & Photonics Review | A Progress Review on Solid‐State LiDAR and Nanophotonics‐Based LiDAR Sensors | 10.1002/lpor.202100511 | Wiley blocks the browser (D147) |
+| 1110 | 218 | laser | ling2023.pdf | 2023 | Laser & Photonics Review | Self‐Injection Locked Frequency Conversion Laser | 10.1002/lpor.202200663 | Wiley blocks the browser (D147) |
+| 1111 | 218 | photodetector | feng2009.pdf | 2009 | Applied Physics Letters | High-speed Ge photodetector monolithically integrated with large cross-section silicon-on-insulator waveguide | 10.1063/1.3279129 | AIP blocks the browser (D147) |
+| 1112 | 220 | chip_chip_coupler | dietrich2016.pdf | 2016 | Laser & Photonics Review | GaAs integrated quantum photonics: Towards compact and multi‐functional quantum photonic integrated circuits | 10.1002/lpor.201500321 | Wiley blocks the browser (D147) |
+| 1113 | 220 | crossing | sun2020.pdf | 2020 | Nanophotonics | Subwavelength structured silicon waveguides and photonic devices | 10.1515/nanoph-2020-0070 | De Gruyter blocks the browser (D147) |
+| 1114 | 220 | phase_shifter | lin2017.pdf | 2017 | Nanophotonics | Mid‐infrared integrated photonics on silicon: a perspective | 10.1515/nanoph-2017-0085 | De Gruyter blocks the browser (D147) |
+| 1115 | 220 | phase_shifter | wright2011.pdf | 2011 | Advanced Materials | Arithmetic and Biologically‐Inspired Computing Using Phase‐Change Materials | 10.1002/adma.201101060 | Wiley blocks the browser (D147) |
+| 1116 | 220 | photodetector | marrismorini2017.pdf | 2017 | Nanophotonics | Germanium‐based integrated photonics from near‐ to mid‐infrared applications | 10.1515/nanoph-2018-0113 | De Gruyter blocks the browser (D147) |
+| 1117 | 222 | laser | porter2023.pdf | 2023 | APL Photonics | Hybrid integrated chip-scale laser systems | 10.1063/5.0159527 | AIP blocks the browser (D147) |
+| 1118 | 222 | phase_shifter | padmaraju2013.pdf | 2013 | Nanophotonics | Resolving the thermal challenges for silicon microring resonator devices | 10.1515/nanoph-2013-0013 | De Gruyter blocks the browser (D147) |
+| 1119 | 222 | photodetector | benedikovic2020.pdf | 2020 | Nanophotonics | Silicon–germanium receivers for short‐wave‐infrared optoelectronics and communications | 10.1515/nanoph-2020-0547 | De Gruyter blocks the browser (D147) |
+| 1120 | 222 | resonator | vollmer2012.pdf | 2012 | Nanophotonics | Review Label‐free detection with high‐Q microcavities: a review of biosensing mechanisms for integrated devices | 10.1515/nanoph-2012-0021 | De Gruyter blocks the browser (D147) |
+| 1121 | 223 | frequency_converter | saravi2021.pdf | 2021 | Advanced Optical Materials | Lithium Niobate on Insulator: An Emerging Platform for Integrated Quantum Photonics | 10.1002/adom.202100789 | Wiley blocks the browser (D147) |
+| 1122 | 223 | polarization | shi2021.pdf | 2021 | Advanced Photonics Research | Thermal Behaviors and Optical Parametric Oscillation in 4H‐Silicon Carbide Integrated Platforms | 10.1002/adpr.202100068 | Wiley blocks the browser (D147) |
+| 1123 | 223 | reflector | homampour2009.pdf | 2009 | Physica status solidi. C, Conferences and critical reviews/Physica status solidi. C, Current topics in solid state physics | Thermal tuning of planar Bragg gratings in silicon‐on‐insulator rib waveguides | 10.1002/pssc.200881298 | Wiley blocks the browser (D147) |
+| 1124 | 223 | reflector | morichetti2011.pdf | 2011 | Laser & Photonics Review | The first decade of coupled resonator optical waveguides: bringing slow light to applications | 10.1002/lpor.201100018 | Wiley blocks the browser (D147) |
+| 1125 | 223 | waveguide_platform | smit2011.pdf | 2011 | Laser & Photonics Review | Moore's law in photonics | 10.1002/lpor.201100001 | Wiley blocks the browser (D147) |
+| 1126 | 228 | phase_shifter | fang2023.pdf | 2023 | APL Materials | Non-volatile materials for programmable photonics | 10.1063/5.0165309 | AIP blocks the browser (D147) |
+| 1127 | 228 | phase_shifter | malik2013a.pdf | 2013 | Applied Physics Letters | Germanium-on-silicon planar concave grating wavelength (de)multiplexers in the mid-infrared | 10.1063/1.4826114 | AIP blocks the browser (D147) |
+| 1128 | 228 | photodetector | ahn2011.pdf | 2011 | Journal of Applied Physics | Efficient evanescent wave coupling conditions for waveguide-integrated thin-film Si/Ge photodetectors on silicon-on-insulator/germanium-on-insulator substrates | 10.1063/1.3642943 | AIP blocks the browser (D147) |
+| 1129 | 228 | resonator | armand2023.pdf | 2023 | APL Photonics | Mid-infrared integrated silicon–germanium ring resonator with high Q-factor | 10.1063/5.0149324 | AIP blocks the browser (D147) |
+| 1130 | 230 | laser | kuyken2016.pdf | 2016 | Nanophotonics | Nonlinear optical interactions in silicon waveguides | 10.1515/nanoph-2016-0001 | De Gruyter blocks the browser (D147) |
+| 1131 | 230 | laser | yang2023a.pdf | 2023 | Nanophotonics | Advances in silicon‐based, integrated tunable semiconductor lasers | 10.1515/nanoph-2022-0699 | De Gruyter blocks the browser (D147) |
+| 1132 | 230 | polarization | zhou2018.pdf | 2018 | Nanophotonics | All‐in‐one silicon photonic polarization processor | 10.1515/nanoph-2019-0310 | De Gruyter blocks the browser (D147) |
+| 1133 | 230 | splitter | zhao2024.pdf | 2024 | Nanophotonics | Low sidelobe silicon optical phased array with Chebyshev amplitude distribution | 10.1515/nanoph-2023-0507 | De Gruyter blocks the browser (D147) |

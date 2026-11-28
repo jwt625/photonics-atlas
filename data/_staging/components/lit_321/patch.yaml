@@ -1,0 +1,82 @@
+# Audit patch lit_321 (fresh-context audit 2026-11-28, DevLog/audits/2026-11-28-lit_321-audit.md).
+# Batch: guo2016b 2 components / 3 metrics, keraly2013 1 / 4, ikeda2008 7 / 29, obrzud2018 2 / 4, belt2017 3 / 23 (15 / 63).
+# Metrics 63: 63 ok / 0 imprecise / 0 wrong; components 15: 12 ok / 3 imprecise (two ikeda2008 kappa notes, obrzud2018 ring note) / 0 wrong.
+# Ops, in groups the coordinator can drop separately:
+#  - obrzud2018 ring note: coupling regime reworded (p.3);
+#  - ikeda2008 kappa block (question 3): adddrop_r20_g700-m8 power_coupling_pct 0.6 with its component-note edit
+#    (Eq. (1) reproduces M = 7.2); allpass_r20_g600-m8 power_coupling_pct 0.9 with its component-note edit
+#    (rests on the Eq. (5) kappa / 1 - kappa typo correction; drop both together if not accepted).
+# After the full patch: 15 components, 65 metrics.
+components:
+  cmp_lit_ikeda2008_adddrop_r20_g700:
+    notes: 'Fab org_university_of_california_san_diego: first-person fabrication account (''We begin with depositing ...'',
+      ''we fabricated'', p.3), all four authors at UCSD (p.1); no shared facility named (Oxford Plasmalab PECVD tool only).
+      Add-drop rings made ''using the same procedures'' as the waveguides (p.3); series r = 10 / 15 / 20 um with gaps 300
+      / 500 / 700 nm, Q stated only for the g = 700 nm devices (smaller gaps gave smaller Q, no values; those designs are
+      not rows). Device of the thermal-nonlinearity study (Sec. 3): resonance red shift with input power (Fig. 3(a)), bistable
+      response at 23 dBm input (Fig. 3(b)), probe modulation of 5.4 dB at 100 kHz pump modulation and none at 4 GHz (Fig.
+      3(c)), thermal response > 5 us vs < 1 us calculated with fused-silica constants; index change 1.5e-4 and the 0.9 W intracavity
+      power estimate are model quantities. None entered (no registry parameter for an optically induced shift or a thermal
+      response time stated as a rise time). The fitted coupling coefficient kappa = 0.006 (p.5) is a power coupling: Eq. (1)
+      (p.5 render) writes the bus self-coupling as sqrt(1 - kappa), and with alpha = 1.2 dB/mm and L = 2 pi x 20 um it gives
+      M = 7.25, the printed 7.2; entered as power_coupling_pct 0.6 (m8, author_estimate like alpha, same fit).'
+    why: 'p.5 Eq. (1) render: kappa is defined as a power coupling by the sqrt(1 - kappa) self-coupling term and reproduces
+      the printed M = 7.2; note corrected for the added row m8 (miss)'
+  cmp_lit_ikeda2008_allpass_r20_g600:
+    notes: 'Fab org_university_of_california_san_diego: first-person fabrication account (''We begin with depositing ...'',
+      ''we fabricated'', p.3), all four authors at UCSD (p.1); no shared facility named (Oxford Plasmalab PECVD tool only).
+      Improved device of the Kerr study (Sec. 4): negative resist as dry-etch mask, drop port removed, inverse tapers for
+      pump coupling (cmp_lit_ikeda2008_inverse_taper). Not entered: Kerr-induced probe modulation at 1 GHz (1.4 % depth, 0.001
+      nm shift, index change 1.2e-6), intracavity peak power 2.6 W and magnification M = 11.4 (model quantities), and the
+      SiN film n2 = 2.4e-15 cm2/W (material constant resting on the assumed 2.5 dB coupling loss and the fitted M; no registry
+      parameter, see BATCH_REPORT). The fitted kappa = 0.009 (p.7) is entered as power_coupling_pct 0.9 (m8, author_estimate
+      like alpha, same fit): Eq. (5) as printed (p.7 render) has kappa and 1 - kappa swapped (the literal form gives M = 1.15,
+      not 11.4); with the bus self-coupling sqrt(1 - kappa) of Eq. (1) and numerator kappa exp(-alpha L), kappa = 0.009 as
+      a power coupling and alpha = 1.6 dB/mm give M = 11.5, the printed 11.4 within the rounding of alpha.'
+    why: 'p.7 Eq. (5) render and p.5 Eq. (1): the printed Eq. (5) carries a kappa / (1 - kappa) swap; corrected form reproduces
+      M = 11.4 with kappa as a power coupling; note corrected for the added row m8 (miss, separable)'
+  cmp_lit_obrzud2018_sin_ring_23p7ghz:
+    notes: 'Cached text is the arXiv preprint 1712.09526v1 (dated 2017-12-29) of the Nature Photonics paper of the source
+      row (same title); values from the preprint only, journal version unread; locators are preprint pages. Fab empty: the
+      paper says only that the ring is ''fabricated on a silicon-nitride chip'' with a citation to ref. 37 (a platform review);
+      no sentence names who fabricated it (D80b, D433); authors at CSEM, University of Geneva, INAF, EPFL and Ligentec. No
+      facility named. Driven by 11.85 GHz (half the FSR) electro-optically modulated, chirped-FBG-compressed ps pulses from
+      a 1560 nm CW laser, about 1 W on chip (p.3); self-locks to the driving laser. Residual driving light is removed with
+      an FBG; the paper proposes a critically coupled microresonator, an adapted FBG or a drop port for future work to avoid
+      the resulting spectral hole (p.3); the coupling regime of this ring is not stated. Same device as the comb row cmp_lit_obrzud2018_soliton_comb
+      (D396).'
+    why: 'p.3: the paper does not state the coupling regime; it only suggests a critically coupled ring for future work (note
+      reworded from an inference stated as fact)'
+add_metrics:
+- metric_id: cmp_lit_ikeda2008_adddrop_r20_g700-m8
+  component_id: cmp_lit_ikeda2008_adddrop_r20_g700
+  parameter: power_coupling_pct
+  value: '0.6'
+  unit: '%'
+  wavelength_nm: '1548'
+  wavelength_inferred: 'true'
+  condition: bus-to-ring coupling coefficient kappa from the Fabry-Perot (ring) fit of the measured spectrum
+  method: ring_extraction
+  basis: author_estimate
+  locator: p.5 Sec. 3; p.5 Eq. (1)
+  notes: 'Printed ''kappa=0.006'' (fraction -> %); power coupling per Eq. (1) (self-coupling sqrt(1 - kappa); with alpha =
+    1.2 dB/mm and L = 2 pi x 20 um the formula gives M = 7.25 = printed 7.2). author_estimate like m7: alpha and kappa come
+    from one spectral fit whose loss / coupling regime is not shown to be determined by the data (D403 / D454). Wavelength
+    inferred from the analysed 1548 nm resonance.'
+  why: 'miss: p.5 fitted kappa, defined as a power coupling by Eq. (1) (render checked, M reproduced)'
+- metric_id: cmp_lit_ikeda2008_allpass_r20_g600-m8
+  component_id: cmp_lit_ikeda2008_allpass_r20_g600
+  parameter: power_coupling_pct
+  value: '0.9'
+  unit: '%'
+  band: c_band
+  wavelength_inferred: 'true'
+  condition: bus-to-ring coupling coefficient kappa from the all-pass ring fit (ref. 17) of the measured spectrum
+  method: ring_extraction
+  basis: author_estimate
+  locator: p.7 Sec. 4; p.7 Eq. (5)
+  notes: 'Printed ''kappa=0.009'' (fraction -> %). Eq. (5) as printed swaps kappa and 1 - kappa (literal M = 1.15); the corrected
+    form with kappa as a power coupling and alpha = 1.6 dB/mm gives M = 11.5 vs printed 11.4. author_estimate like m4: an
+    all-pass fit is symmetric in loss and coupling unless the regime is fixed by other data (D403 / D454). Fig. 5(a) spectrum
+    spans 1530-1570 nm, resonance of the fit not stated.'
+  why: 'miss (separable, question 3): p.7 fitted kappa; power-coupling reading rests on the Eq. (5) typo correction'

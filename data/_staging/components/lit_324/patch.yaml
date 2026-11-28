@@ -1,0 +1,75 @@
+# Audit patch lit_324 (fresh-context audit 2026-11-28, DevLog/audits/2026-11-28-lit_324-audit.md).
+# 91 metrics: 86 ok / 5 imprecise / 0 wrong; 14 components: 14 ok / 0 imprecise / 0 wrong. 3 misses added (D153).
+# After the patch: 14 components, 94 metrics.
+# Fixes: zortman2010 filtered-std notes (Fig. 1 caption also names W1 as the outlier wafer); zortman2010 105 GHz
+# condition / notes (Fig. 5(b) holds 39 points, wafer pooling not stated); chen2012a > 45 dB isolation window
+# (inferred 1525-1555 nm contradicted by Fig. 5(b)); chen2012a 70 mW note (48 x 1.5 mW = 72 mW); chen2012a 220 nm
+# Si layer on the ridge crossing, the 500 x 220 nm design crossing and the phase shifter (D153 / D402).
+metrics:
+  cmp_lit_zortman2010_microdisk_d6um-m2:
+    notes: 'printed TE Std 357 GHz; converted at the Table 1 TE mean 191.2 THz (d_lambda = c d_f / f^2). Table 1 caption
+      filters the first chip of W1, and the Fig. 1 caption also names the statistical outlier chip at the top of W1; the
+      p.4 text says the outlier chip from the top of W2 was filtered (text inconsistent with caption and table; Table 1
+      followed). Number of remaining devices not stated.'
+    why: 'p.4 Fig. 1 caption: "W1 had a statistical outlier chip at the top of the wafer" supports the Table 1 reading'
+  cmp_lit_zortman2010_microdisk_d6um-m5:
+    notes: 'printed TM Std 749 GHz; converted at the Table 1 TM mean 194.5 THz (d_lambda = c d_f / f^2). Table 1 caption
+      filters the first chip of W1, and the Fig. 1 caption also names the statistical outlier chip at the top of W1; the
+      p.4 text says the outlier chip from the top of W2 was filtered (text inconsistent with caption and table; Table 1
+      followed). Number of remaining devices not stated.'
+    why: 'p.4 Fig. 1 caption: "W1 had a statistical outlier chip at the top of the wafer" supports the Table 1 reading'
+  cmp_lit_zortman2010_microdisk_d6um-m11:
+    condition: 'within-die TE frequency range over five disks across 300 um, reconstituted with Eq. (1) from the
+      diameter-corrected dimensional data (residual analysis removes the die-to-die mask special cause); one outlier
+      excluded'
+    notes: 'printed 105 GHz (''the capability of our process''); converted at 191.6 THz. Model-based reconstruction from
+      own measurements with stated assumptions (derived, D80a). The text derives 40 within-die points per wafer for W1 and
+      W2 (p.6); the Fig. 5(b) histogram holds 39 counts (40 minus the outlier), and whether Fig. 5 pools or averages the
+      two wafers is not stated.'
+    why: 'p.6 Sec. 4 (forty points per wafer) vs p.8 Fig. 5(b) histogram bars 3+3+6+6+9+4+4+2+2 = 39: the old note
+      implied both wafers pooled, which the paper does not state'
+  cmp_lit_chen2012a_switch_8x8-m9:
+    wavelength_nm: ''
+    wavelength_max_nm: ''
+    wavelength_inferred: ''
+    band: unspecified
+    condition: 'port-to-port isolation: ON-ON minus OFF-OFF transmission, path I1-O1, "near the central 30 nm" of the
+      measured 1500-1580 nm span (window not located in the text)'
+    notes: 'printed ''above 45 dB near the central 30 nm''. Fig. 5(b): the OFF-OFF trace is deepest near 1530 nm; the
+      ON-ON minus OFF-OFF difference reaches about 45 dB roughly between 1520 and 1550 nm (noisy trace, reading about
+      +/-5 nm) and is about 36 dB at 1555 nm, so the arithmetic centre of the span (1525-1555 nm) is not used.'
+    why: 'p.7 Fig. 5(b): ON-ON about -11.5 dB, OFF-OFF about -48 dB at 1555 nm (about 36 dB isolation); the inferred
+      1525-1555 nm window contradicts the figure at its upper end'
+  cmp_lit_chen2012a_switch_8x8-m10:
+    notes: 'printed ''only 70 mW'' / ''less than 70 mW''; mW -> W (D256a). Estimate, not a measured chip power; it
+      assumes every one of the 48 tuned cells needs the < 1.5 mW measured on one cell (48 x 1.5 mW = 72 mW; printed 70 mW
+      kept).'
+    why: 'p.7 Sec. 4.3: 48 cells x < 1.5 mW is 72 mW, not 70 mW; record the rounding and the single-cell assumption'
+add_metrics:
+  - metric_id: cmp_lit_chen2012a_crossing_ridge_w6um-m4
+    component_id: cmp_lit_chen2012a_crossing_ridge_w6um
+    parameter: core_thickness_nm
+    value: '220'
+    unit: nm
+    basis: design_target
+    locator: p.3 Sec. 3; p.5 Sec. 3.2
+    notes: 'wafer Si layer (200-mm wafers with 220-nm-thick silicon, p.3; D402); shallow-etch depth hs not given.'
+    why: 'D153 stated layout geometry: the crossing is etched in the 220 nm Si layer (p.3 Sec. 3)'
+  - metric_id: cmp_lit_chen2012a_crossing_wire_500x220_design-m3
+    component_id: cmp_lit_chen2012a_crossing_wire_500x220_design
+    parameter: core_thickness_nm
+    value: '220'
+    unit: nm
+    basis: design_target
+    locator: p.5 Sec. 3.2
+    notes: 'printed 500x220 nm fully etched waveguide.'
+    why: 'D153 stated layout geometry: p.5 Sec. 3.2 prints the 500 x 220 nm cross-section; only the width was entered'
+  - metric_id: cmp_lit_chen2012a_to_phase_shifter-m2
+    component_id: cmp_lit_chen2012a_to_phase_shifter
+    parameter: core_thickness_nm
+    value: '220'
+    unit: nm
+    basis: design_target
+    locator: p.3 Sec. 3
+    notes: 'wafer Si layer (200-mm wafers with 220-nm-thick silicon; D402); ridge width and etch depth not given.'
+    why: 'D153 stated layout geometry: heater_ps template cross-section needs core_thickness_nm; 220 nm Si stated on p.3'

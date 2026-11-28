@@ -1,0 +1,72 @@
+# Audit patch lit_323 (fresh-context audit 2026-11-28, DevLog/audits/2026-11-28-lit_323-audit.md).
+# 63 metrics: 57 ok / 6 imprecise / 0 wrong; 6 components: 3 ok / 3 imprecise / 0 wrong. 0 misses added.
+# After the patch: 6 components, 63 metrics.
+# Fixes: papes2016 overall coupler efficiency / loss scope per_coupler -> per_facet (edge-coupler convention, D707;
+# edge_taper primary insertion_loss_db per_facet); dai2011a platform soi -> soi_strip (Fig. 3(a) full-height Si strips on
+# SiO2, "SOI nanowires"; lit_322 dai2011 and D434 / D663 / D816); dai2011a per_db lower band edge 1450 -> 1455 nm and
+# TE IL 0.15 -> 0.14 dB from the Fig. 6 vector data of the cached PDF (figure-read edges, inferred flag cleared, lit_322
+# convention); michaels2018 component notes carry the two design-unspecific bounds (D159).
+components:
+  cmp_lit_michaels2018_pvgc_ideal:
+    notes: 'Design-only (2D FDFD adjoint shape optimization, single wavelength 1550 nm); no fabrication. Starting structure
+      (both designs): uniform two-layer grating, period 586 nm, duty factor 80 %, top-bottom shift 160 nm, 48 % starting
+      efficiency (p.6). Period and duty factor chirped per period (Fig. 7), not entered. Fiber 2 um above the grating (p.7).
+      Optimized duty factors approach 100 %, i.e. features a few nm wide that DUV lithography cannot make (p.9). Bounds not
+      tied to one design (D159): back reflection "-20 dB bandwidth of only 8 nm" (p.12, paragraph on both designs; no
+      reflection-bandwidth parameter); Fig. 8 series of separately optimized designs keeps better than -0.5 dB out to a
+      minimum feature size over 130 nm (p.10).'
+    why: 'p.12 and p.10: values whose design identity is not fixed go into component notes (D159); the batch report listed
+      them but the rows did not carry them'
+  cmp_lit_michaels2018_pvgc_65nm:
+    notes: 'Design-only (2D FDFD adjoint shape optimization, single wavelength 1550 nm); no fabrication. Starting structure
+      (both designs): uniform two-layer grating, period 586 nm, duty factor 80 %, top-bottom shift 160 nm, 48 % starting
+      efficiency (p.6). Period and duty factor chirped per period (Fig. 7), not entered. Fiber 2 um above the grating (p.7).
+      Constrained re-optimization started from the unconstrained design (penalty on gap / tooth sizes below 65 nm, p.9-10).
+      Bounds not tied to one design (D159): back reflection "-20 dB bandwidth of only 8 nm" (p.12, paragraph on both designs;
+      no reflection-bandwidth parameter); Fig. 8 series of separately optimized designs keeps better than -0.5 dB out to a
+      minimum feature size over 130 nm (p.10).'
+    why: 'p.12 and p.10: values whose design identity is not fixed go into component notes (D159); the batch report listed
+      them but the rows did not carry them'
+  cmp_lit_dai2011a_bent_dc_pbs:
+    platform: soi_strip
+    why: 'p.4 Fig. 3(a): cross-section shows full-height Si strips (w1, wg, w2, hco) on SiO2; p.1 / p.3 "silicon-on-insulator
+      nanowires", 500 nm x 220 nm (p.4); same group and platform wording as lit_322 dai2011 (soi_strip); D434 / D663 / D816'
+metrics:
+  cmp_lit_papes2016_ec_hna_design1-m1:
+    scope: per_facet
+    why: 'p.9 Sec. 4.1: overall efficiency of one edge coupler (facet overlap x mode transformation); edge-coupler single-coupler
+      values are per_facet (D707; fang2010 / su2026 simulated design rows; edge_taper primary scope per_facet)'
+  cmp_lit_papes2016_ec_hna_design1-m2:
+    scope: per_facet
+    why: 'p.9 Sec. 4.1: overall coupling loss 0.42 dB of one edge coupler; edge-coupler convention per_facet (D707; edge_taper
+      primary insertion_loss_db per_facet)'
+  cmp_lit_papes2016_ec_smf28_design2-m1:
+    scope: per_facet
+    why: 'p.12 Sec. 4.2: overall efficiency 84 % of one edge coupler incl. facet overlap; edge-coupler convention per_facet
+      (D707)'
+  cmp_lit_papes2016_ec_smf28_design2-m2:
+    scope: per_facet
+    why: 'p.12 Sec. 4.2: overall coupling loss 0.75 dB of one edge coupler; edge-coupler convention per_facet (D707; edge_taper
+      primary insertion_loss_db per_facet)'
+  cmp_lit_dai2011a_bent_dc_pbs-m1:
+    wavelength_nm: '1455'
+    wavelength_inferred: ''
+    notes: printed bandwidth 'about 200nm for an extinction ratio of 10dB' (p.6) / '~200nm for an extinction ratio of >10dB'
+      (p.1, p.6). Band edges read from the Fig. 6 vector data of the cached PDF (axis ticks and curve paths); TM0 cross /
+      through ratio 9.4-9.5 dB at 1.45 um, 10 dB at about 1.454 um, 17 dB at 1.50 um, 19 dB at 1.65 um; TE0 ratio 20 dB at
+      1.45 um falling to 13 dB at 1.65 um. The upper edge is the end of the plotted range (1.65 um), so the band may extend
+      further; 1455-1650 nm (195 nm) is consistent with the printed 'about 200 nm'
+    why: 'p.6 Fig. 6(a): at 1.45 um the TM0 ratio is 0.80 / 0.09 (9.4 dB, below 10 dB); the curve paths cross 10 dB near
+      1.454 um; the row claimed > 10 dB from 1450 nm. Edges are figure-read, not inferred from an operating band (rule 8;
+      lit_322 dai2011 convention, no inferred flag on figure-read edges)'
+  cmp_lit_dai2011a_bent_dc_pbs-m2:
+    notes: 'read off the simulated curve (D454): Fig. 6(a) vector data at 1.55 um give cross-port power 0.984 (curve path) /
+      0.986 (marker) -> 0.06-0.07 dB; entered 0.07 dB (+/-0.01 dB)'
+    why: 'p.6 Fig. 6(a): value confirmed on the vector data of the cached PDF; note narrows the reading uncertainty'
+  cmp_lit_dai2011a_bent_dc_pbs-m3:
+    value: '0.14'
+    notes: 'read off the simulated curve (D454): Fig. 6(b) vector data at 1.55 um give through-port power 0.968 (curve path)
+      / 0.970 (marker) -> 0.13-0.14 dB; entered 0.14 dB (+/-0.01 dB). TE0 cross-port power at 1.55 um about 0.02 (ratio
+      about 16.5 dB, not entered as a separate row)'
+    why: 'p.6 Fig. 6(b): through-port curve at 1.55 um sits at 0.968 (y 234.48 pt between the 1.0 / 0.0 grid lines at 230.76
+      / 346.56 pt), not 0.965; -10 log10(0.968) = 0.14 dB'

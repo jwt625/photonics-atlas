@@ -1,0 +1,87 @@
+# Audit patch lit_322 (fresh-context audit 2026-11-28, DevLog/audits/2026-11-28-lit_322-audit.md).
+# Batch: dai2010 5 components / 28 metrics, dai2011 3 / 15, dai2012c 5 / 29 (13 / 72; batch report counts correct).
+# Metrics 72: 72 ok / 0 imprecise / 0 wrong; components 13: 12 ok / 1 imprecise (dai2010 design-row notes) / 0 wrong.
+# Ops, in groups the coordinator can drop separately:
+#  - dai2010 design TE loss (miss, question 1): design-m7 insertion_loss_db 0.012-0.044 dB read off Fig. 9 (simulated,
+#    D454) and the design-row note that said no design TE loss value exists;
+#  - dai2011 simulated PSR insertion loss at 1550 nm (misses, question 3): psr_ltp1_4um-m7 (TM0 cross) / -m8 (TE0 thru),
+#    psr_ltp1_10um-m5 (TM0 cross), read off Figs. 7 / 9(a), same convention as lit_323 dai2011a m2 / m3.
+# After the full patch: 13 components, 76 metrics (dai2010 29, dai2011 18, dai2012c 29).
+components:
+  cmp_lit_dai2010_polarizer_design_wtr3um_wco1p1um:
+    notes: 'Optimized design from the FV-FDM leakage-loss analysis (pp.8-9, Figs. 7-9) with the requirements L_TE < 0.1 dB
+      and l <= 1 mm (l = min(1 mm, 0.1/L_TE0)); not fabricated (the fabricated devices use wtr 2 um, Fig. 12). Leakage loss
+      from Lp = 20 log10[exp(-n_im k0 l0)] (p.2). Design TE loss is not printed in the text (only the 0.1 dB requirement);
+      the Fig. 9 TE leakage-loss curve of this design is entered as m7 (read off the simulated curve). p.8 also prints
+      ''over 60dB'' for the same design.'
+    why: 'p.9 Fig. 9: the lower panel plots the TE leakage loss of this design (about 0.012-0.044 dB over 1.45-1.65 um), so
+      the note that no design TE loss value exists is corrected; value added as m7'
+add_metrics:
+- metric_id: cmp_lit_dai2010_polarizer_design_wtr3um_wco1p1um-m7
+  component_id: cmp_lit_dai2010_polarizer_design_wtr3um_wco1p1um
+  parameter: insertion_loss_db
+  value: '0.012'
+  value_max: '0.044'
+  unit: dB
+  statistic: range
+  wavelength_nm: '1450'
+  wavelength_max_nm: '1650'
+  polarization: te
+  mode: TE0
+  scope: per_component
+  excludes: coupling; only the calculated leakage loss is modelled (no scattering or absorption)
+  condition: theoretical TE0 leakage loss of the designed 1 mm polarizer, FV-FDM with PML
+  basis: simulated
+  locator: p.9 Fig. 9
+  notes: 'read off the simulated TE curve of Fig. 9 (lower panel, linear axis 0-0.04 dB): about 0.012 dB at 1.45 um rising
+    to about 0.044 dB at 1.65 um (reading +/-0.002 dB), about 0.024 dB at 1.55 um (D454); meets the L_TE < 0.1 dB design
+    requirement (p.8-9)'
+  why: 'miss: Fig. 9 (p.9) plots the TE leakage loss of the designed polarizer; the batch report said no computed design TE
+    loss is printed'
+- metric_id: cmp_lit_dai2011_psr_ltp1_4um-m7
+  component_id: cmp_lit_dai2011_psr_ltp1_4um
+  parameter: insertion_loss_db
+  value: '0.27'
+  unit: dB
+  wavelength_nm: '1550'
+  polarization: tm
+  mode: TM0 input, TE0 output
+  scope: per_component
+  condition: TM0 input, cross-port (converted TE0) power; FIMMPROP
+  basis: simulated
+  locator: p.8 Fig. 7(a)
+  notes: 'read off the simulated curve: cross-port power about 0.94 (+/-0.01) at 1.55 um -> 0.27 dB (+/-0.05 dB) (D454;
+    arithmetic on a simulated value stays simulated, D83f); peak about 0.96 near 1.53 um; 1550 nm is the stated central
+    wavelength of the DC design (p.7)'
+  why: 'miss: Fig. 7(a) gives the TM-path transmission of the designed PSR; entered as lit_323 dai2011a m2 (same group,
+    same convention)'
+- metric_id: cmp_lit_dai2011_psr_ltp1_4um-m8
+  component_id: cmp_lit_dai2011_psr_ltp1_4um
+  parameter: insertion_loss_db
+  value: '0.05'
+  unit: dB
+  wavelength_nm: '1550'
+  polarization: te
+  mode: TE0
+  scope: per_component
+  condition: TE0 input, through-port power; FIMMPROP
+  basis: simulated
+  locator: p.8 Fig. 7(b)
+  notes: 'read off the simulated curve: through-port power about 0.99 (+/-0.01) at 1.55 um -> 0.05 dB (+/-0.05 dB) (D454,
+    D83f); the TE0 response is flat over 1.50-1.60 um (about 0.98-0.99)'
+  why: 'miss: Fig. 7(b) gives the TE-path transmission of the designed PSR; entered as lit_323 dai2011a m3'
+- metric_id: cmp_lit_dai2011_psr_ltp1_10um-m5
+  component_id: cmp_lit_dai2011_psr_ltp1_10um
+  parameter: insertion_loss_db
+  value: '0.24'
+  unit: dB
+  wavelength_nm: '1550'
+  polarization: tm
+  mode: TM0 input, TE0 output
+  scope: per_component
+  condition: TM0 input, cross-port (converted TE0) power; FIMMPROP
+  basis: simulated
+  locator: p.9 Fig. 9(a)
+  notes: 'read off the simulated curve: cross-port power about 0.945 (+/-0.01) at 1.55 um -> 0.24 dB (+/-0.05 dB) (D454,
+    D83f); only the TM0 input is shown for this design (p.9)'
+  why: 'miss: Fig. 9(a) gives the TM-path transmission of the longer-taper PSR design'

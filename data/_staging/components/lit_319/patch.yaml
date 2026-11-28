@@ -1,0 +1,62 @@
+# Audit patch lit_319 (fresh-context audit 2026-11-28, DevLog/audits/2026-11-28-lit_319-audit.md).
+# 107 metrics: 103 ok / 4 imprecise / 0 wrong; 13 components: 5 ok / 8 imprecise / 0 wrong. 0 misses added.
+# After the patch: 13 components, 107 metrics.
+# Fixes: densmore2009 platform soi -> soi_strip on all 6 rows (etched to the BOX, p.6; D434 / D459 / D716); xu2019b
+# platform soi -> soi_strip on both switch rows (paper names silicon strip waveguides, p.3 / p.14; lit_69 cherchi2013
+# precedent, D434); xu2019b calculated coupling lengths simulated -> design_target (a design dimension; chen2022c
+# precedent); densmore2009 Fabry-Perot loss method unspecified -> direct (merged Fabry-Perot rows); dong2010a 3-dB
+# bandwidth gets the inferred C band of its sibling FSR / Q rows.
+components:
+  cmp_lit_densmore2009_spiral_heater:
+    platform: soi_strip
+    why: 'p.6: the silicon layer was "etched to the underlying BOX layer" (full etch printed); soi_strip per D434 / D459 /
+      D716 (xiao2013 "down to the BOX")'
+  cmp_lit_densmore2009_spiral_mzi_switch:
+    platform: soi_strip
+    why: 'p.6: silicon layer "etched to the underlying BOX layer" (full etch printed); D434 / D459 / D716'
+  cmp_lit_densmore2009_straight_heater:
+    platform: soi_strip
+    why: 'p.6: silicon layer "etched to the underlying BOX layer" (full etch printed); D434 / D459 / D716'
+  cmp_lit_densmore2009_wire_wg:
+    platform: soi_strip
+    why: 'p.6: silicon layer "etched to the underlying BOX layer" (full etch printed); D434 / D459 / D716'
+  cmp_lit_densmore2009_spiral_bends:
+    platform: soi_strip
+    why: 'p.6: silicon layer "etched to the underlying BOX layer" (full etch printed); D434 / D459 / D716'
+  cmp_lit_densmore2009_inverse_taper:
+    platform: soi_strip
+    why: 'p.6: silicon layer "etched to the underlying BOX layer" (full etch printed); D434 / D459 / D716'
+  cmp_lit_xu2019b_dc_switch_1x2:
+    platform: soi_strip
+    why: 'p.3, p.14 Supp. S1: the paper names the Si waveguides "silicon strip waveguide (SW)" (220 nm Si, p.5); lit_69 audit
+      (D434) set soi_strip where the paper states strip (cherchi2013)'
+  cmp_lit_xu2019b_dc_switch_2x2:
+    platform: soi_strip
+    why: 'p.6, p.15 Supp. S2: "two identical silicon strip waveguides" around the hybrid waveguide; D434 (cherchi2013 strip
+      -> soi_strip)'
+metrics:
+  cmp_lit_xu2019b_dc_switch_1x2-m8:
+    basis: design_target
+    notes: 'COMSOL FEM supermode indices (p.3-4); the coupling length is the design dimension chosen from that calculation
+      (design_target, contract v5; chen2022c switch_1x2-m8 precedent). coupling_length_um is not allowed on switch_fabric;
+      length_um holds the coupling length (chen2022c precedent).'
+    why: 'p.4: Lc "calculated as compact as ~24 um" for the chosen gap is a device dimension set by design, not a simulated
+      performance value (rule 4 design dimensions design_target; merged chen2022c Lc from mode simulation stored design_target)'
+  cmp_lit_xu2019b_dc_switch_2x2-m8:
+    basis: design_target
+    notes: 'Calculated L_aGST (p.7, p.17 Supp. S2, Eq. S2); p.7 states the coupling length Lc is "designed for the maximum
+      transmission in the amorphous state, i.e. LaGST": design dimension (design_target, contract v5; chen2022c precedent).
+      coupling_length_um is not allowed on switch_fabric; length_um holds the coupling length (chen2022c precedent).'
+    why: 'p.7: "a specific coupling length (Lc, designed for the maximum transmission in the amorphous state, i.e. LaGST)"
+      - a design dimension (design_target), as merged chen2022c switch_1x2-m8'
+  cmp_lit_densmore2009_wire_wg-m1:
+    method: direct
+    why: 'p.6: loss "evaluated using a straight waveguide ... and the Fabry-Perot resonance technique" - method stated; merged
+      Fabry-Perot fringe rows use method direct (cheung2014, wang2017a, chen2021b); basis author_estimate unchanged (D608)'
+  cmp_lit_dong2010a_ring_mux_2ch-m3:
+    band: c_band
+    wavelength_inferred: 'true'
+    notes: 'Printed ''a 3dB bandwidth of ~0.2 nm'' next to the Q of ~8000. Band from the Fig. 4 axes (1535-1565 nm, inferred),
+      as on the FSR and Q rows.'
+    why: 'p.5: the 0.2 nm bandwidth is the same drop-port resonance as the Q of ~8000 (m2), which carries c_band inferred
+      from the Fig. 4 axes (1535 / 1540-1565 nm); same condition on the sibling row'

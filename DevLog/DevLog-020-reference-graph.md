@@ -143,3 +143,5 @@ works ranked; about 50 open-access papers per night at most.
 - 2026-11-26 00:30 PST day 212 ingested and closed (DevLog-007 D780-D791); night-chain review fixes D1238; test passed.
 - 2026-11-26 22:03 PST night 1 (day 213) started from the session's scheduled prompt (D1239).
 - 2026-11-27 01:30 PST night 1 (day 213) closed: 46 papers cached and ingested (DevLog-007 D792-D810).
+- 2026-11-27 22:03 PST night 2 (day 214) started from the session's scheduled prompt (D1239).
+- 2026-11-28 01:30 PST night 2 (day 214) closed: 46 papers cached and ingested (DevLog-007 D811-D827).

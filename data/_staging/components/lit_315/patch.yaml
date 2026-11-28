@@ -1,0 +1,75 @@
+# Audit patch lit_315 (fresh-context audit 2026-11-28, DevLog/audits/2026-11-28-lit_315-audit.md).
+# 18 metrics: 13 ok / 5 imprecise / 0 wrong; 5 components: 4 ok / 1 imprecise / 0 wrong. 1 miss added.
+# After the patch: 5 components, 19 metrics.
+# Fixes: the four per-polarization tuning slopes are printed shift at +60 V / 60 V (0 to +60 V only), not the
+# -60 to +60 V fit their condition named; sub-ns response row gets the abstract / p.4 locators and the Fig. 4(c)
+# evidence; Disk ring lower cladding 2.2 um added (5.4 - 2.4 - 0.8 um, consistent with the Fig. 1(b) 3 um label).
+components:
+  cmp_lit_tian2020_disk_ring:
+    notes: 'Cached copy is the arXiv v1 preprint (1907.10177, 41 p incl. Supplementary Material) of the Nature Communications
+      paper; values from the preprint only (D430 / D433). Fab: the acknowledgment states the samples were fabricated in the
+      EPFL CMi and the Birck Nanotechnology Center at Purdue University (p.16), a stated place (D448; liu2020a / siddharth2024
+      precedent), not split by part; Mo 100 nm and AlN 1 um sputtered ''through foundry services (OEM Group)'' (p.15 Methods;
+      film supplier, note only, D431). Si3N4 waveguides by a ''subtractive process'' cited to ref. 35 (p.5, p.15): process_name
+      empty (generic, cited). Optical cavity of the electro-acousto-optic (HBAR) Disk device of the main text (Supp. p.29:
+      ''the Disk device''); the actuator is cmp_lit_tian2020_disk_actuator (D396). Q values are not printed in the text; only
+      Fig. 13(e) shows them. Supp. p.29 states the TE Q is nearly two times the TM Q; Supp. p.35 attributes the lower TM Q to
+      absorption by the bottom metal. Lower cladding 2.2 um derived (m8): 5.4 um total SiO2 minus 2.4 um above the core minus
+      the 800 nm core; the Fig. 1(b) ''3um'' vertical label from the Si3N4 top to the Si substrate gives the same value.
+      Optical FSR not printed.'
+    why: 'p.5 (5.4 um cladding, 2.4 um SiO2 from the Mo layer, 800 nm height) and p.4 Fig. 1(b) (3 um from the Si3N4 top to the
+      Si): the lower cladding follows by arithmetic and both routes give 2.2 um, so the old note ''not printed; box_thickness_um
+      not entered'' is replaced'
+metrics:
+  cmp_lit_tian2020_disk_actuator-m2:
+    condition: 'DC bias, TE; average slope over 0 to +60 V from the printed shift at +60 V (Fig. label ''-11.5pm @60V TE'');
+      the slope of the -60 to +60 V linear fit (R2 > 99 %) is not printed'
+    notes: '-11.5 pm / 60 V (shift at +60 V relative to 0 V); slope not printed. The -60 V marker of Fig. 13(c) sits at about
+      +12.4 pm (PDF vector marker), so the -60 to +60 V chord is about -0.199 pm/V: this value covers the positive-bias half
+      only. Sign as printed.'
+    why: 'p.34 Supp. Fig. 13(c): the label gives the shift at +60 V only; the old condition named the -60 to +60 V fit, whose
+      slope differs (about -0.199 pm/V from the markers) and is not printed'
+  cmp_lit_tian2020_disk_actuator-m3:
+    condition: 'DC bias, TM; average slope over 0 to +60 V from the printed shift at +60 V (Fig. label ''-11.7pm @60V TM'');
+      the slope of the -60 to +60 V linear fit (R2 > 99 %) is not printed'
+    notes: '-11.7 pm / 60 V (shift at +60 V relative to 0 V); slope not printed. The -60 V marker of Fig. 13(c) sits at about
+      +11.8 pm (PDF vector marker), so the -60 to +60 V chord is about -0.197 pm/V: this value covers the positive-bias half
+      only. Sign as printed.'
+    why: 'p.34 Supp. Fig. 13(c): the label gives the shift at +60 V only; the old condition named the -60 to +60 V fit'
+  cmp_lit_tian2020_donut_actuator-m1:
+    condition: 'DC bias, TE; average slope over 0 to +60 V from the printed shift at +60 V (Fig. label ''1.63pm @60V TE'');
+      the slope of the -60 to +60 V linear fit (R2 > 99 %) is not printed'
+    notes: '1.63 pm / 60 V (shift at +60 V relative to 0 V); slope not printed. The -60 V marker of Fig. 13(d) sits at about
+      -1.9 pm (PDF vector marker), so the -60 to +60 V chord is about 0.029 pm/V: this value covers the positive-bias half
+      only. Sign as printed (red shift for positive voltage).'
+    why: 'p.34 Supp. Fig. 13(d): the label gives the shift at +60 V only; the response is asymmetric (about -1.9 pm at -60 V),
+      so the 0 to +60 V average and the full-range chord differ by about 7 %'
+  cmp_lit_tian2020_donut_actuator-m2:
+    condition: 'DC bias, TM; average slope over 0 to +60 V from the printed shift at +60 V (Fig. label ''5.66pm @60V TM'');
+      the slope of the -60 to +60 V linear fit (R2 > 99 %) is not printed'
+    notes: '5.66 pm / 60 V (shift at +60 V relative to 0 V; also printed on p.35); slope not printed. The -60 V marker of
+      Fig. 13(d) sits at about -6.2 pm (PDF vector marker), so the -60 to +60 V chord is about 0.098 pm/V: this value covers
+      the positive-bias half only. Sign as printed.'
+    why: 'p.34 Supp. Fig. 13(d) and p.35: the printed 5.66 pm is the shift at +60 V; the old condition named the -60 to +60 V
+      fit'
+  cmp_lit_tian2020_disk_actuator-m5:
+    locator: 'p.11; p.12 Fig. 4(b); p.1 abstract; p.4'
+    notes: 'ns -> us; the bound rests on the authors'' reading of the correlation, no edge time is shown (author_estimate).
+      The abstract prints ''sub-nanosecond transduction time'' and p.4 ''sub-nanosecond switching capability''. The 6 GHz
+      square-wave drive (7 Vpp) that still modulates the output (p.13, Fig. 4(c)) is the other evidence of actuation faster
+      than 1 ns; it gives no edge time either. 1 MHz, 2 Vpp square wave (0.4 pm shift) shows ringing from acoustic resonances
+      at the edges (Fig. 4(a)).'
+    why: 'p.1 and p.4 state the same sub-ns claim; p.13 Fig. 4(c) is the 6 GHz evidence the row did not cite'
+add_metrics:
+  - metric_id: cmp_lit_tian2020_disk_ring-m8
+    component_id: cmp_lit_tian2020_disk_ring
+    parameter: box_thickness_um
+    value: '2.2'
+    unit: um
+    condition: SiO2 between the Si3N4 core and the Si substrate
+    basis: derived
+    locator: 'p.5; p.4 Fig. 1(b)'
+    notes: '5.4 um total SiO2 cladding - 2.4 um SiO2 between the Mo layer and the Si3N4 - 0.8 um core height = 2.2 um (p.5);
+      the Fig. 1(b) ''3um'' label from the Si3N4 top to the Si minus the 800 nm core gives the same value.'
+    why: 'miss (D153 geometry): p.5 and the Fig. 1(b) label fix the lower cladding by arithmetic on printed values; both routes
+      agree (2.4 + 3 = 5.4 um)'

@@ -1,0 +1,89 @@
+# Audit patch lit_316 (fresh-context audit 2026-11-28, DevLog/audits/2026-11-28-lit_316-audit.md).
+# 92 metrics: 89 ok / 3 imprecise / 0 wrong; 19 components: 14 ok / 5 imprecise / 0 wrong. 2 geometry misses added.
+# After the patch: 19 components, 94 metrics.
+# Imprecise: hulme2013 vernier_ring_laser-m7 basis (on-chip power, D394); doylend2011 si_rib_wg-m1 method (Fabry-Perot
+# fringes = direct, merged precedent); rogers2021 rx_pixel-m1 qualifier (printed "bandwidths above 280 MHz"); rogers2021
+# process_name on 5 rows trimmed to the printed "CMS90WG" (merged form).
+# Note supplements on ok rows: hulme2013 si_rib_wg-m1 (D420 coefficient reading); doylend2011 opa_16ch-m4 (abstract axis order).
+# Misses: hulme2013 bus_width_nm 700 on both ring rows (rings and bus both 0.7 um, p.3); width_nm conditions narrowed.
+components:
+  cmp_lit_rogers2021_to_mzi_switch:
+    process_name: CMS90WG
+    why: 'process_name as printed (p.10 "GlobalFoundries'' CMS90WG 300 mm silicon photonics process"); the descriptive
+      parenthesis is not part of the printed name and the merged rows use "CMS90WG" (6 rows); description stays in notes'
+  cmp_lit_rogers2021_tx_switch_tree_1x16:
+    process_name: CMS90WG
+    why: 'process_name as printed (p.10); merged form "CMS90WG"'
+  cmp_lit_rogers2021_rx_lo_switch_tree_1x8:
+    process_name: CMS90WG
+    why: 'process_name as printed (p.10); merged form "CMS90WG"'
+  cmp_lit_rogers2021_tx_grating_coupler:
+    process_name: CMS90WG
+    why: 'process_name as printed (p.10); merged form "CMS90WG"'
+  cmp_lit_rogers2021_rx_pixel_balanced_ge_pd:
+    process_name: CMS90WG
+    why: 'process_name as printed (p.10); merged form "CMS90WG"'
+metrics:
+  cmp_lit_hulme2013_vernier_ring_laser-m7:
+    basis: derived
+    notes: Printed as on-chip output power (p.4, Fig. 5(c) caption context); the only correction the paper describes is subtracting
+      the measured coupling loss (p.4, stated for the 3.3 mW value), so derived as m5 (D394); the coupling loss of the tapered
+      fiber used for the tuning spectra is not restated.
+    why: 'D394: de-embedded on-chip output power (fiber power minus own measured coupling loss) is derived; m5 (3.3 mW, same
+      on-chip reference plane) is derived, m7 was measured'
+  cmp_lit_doylend2011_si_rib_wg-m1:
+    method: direct
+    notes: Printed 3.0 +/- 0.2 dB/cm from the Fabry-Perot transmission fringes of one straight test waveguide (p.10). Wavelength
+      not stated; band inferred from the 1525-1625 nm operation.
+    why: 'p.10: loss from Fabry-Perot fringes of a single straight waveguide; merged Fabry-Perot prop_loss rows use method
+      direct (47 of 67), not unspecified'
+  cmp_lit_rogers2021_rx_pixel_balanced_ge_pd-m1:
+    qualifier: gt
+    notes: Printed 'bandwidths above 280 MHz' at 20 kOhm gain (p.3); Fig. 3(a) 'f-3dB = 280 MHz' is the readout chain through
+      the packaged chip, and the simulated on-chip chain is 750 MHz, 'suggesting a bandwidth limitation in the test setup'
+      (p.11), so 280 MHz is a lower bound for the pixel. MHz -> GHz (D256).
+    why: 'rule 7: p.3 prints "bandwidths above 280 MHz"; p.11 states the 280 MHz measurement is setup-limited (simulated
+      750 MHz), so the pixel value is a bound'
+  cmp_lit_hulme2013_si_rib_wg-m1:
+    notes: Printed 0.58 cm-1, converted as a power attenuation coefficient (x 10 log10 e = 4.343), D420 precedent (sun2022,
+      coefficient definition not printed); the paper is internally consistent (ring losses printed in dB, 0.20 dB / 400 um
+      = 5.0 dB/cm, gain-section loss also in cm-1), unlike D643 guarino2007. A field-coefficient reading would give 5.04
+      dB/cm. Wavelength not stated; band inferred from the device's operating span (ring data 1550-1590 nm, laser 1556-1597
+      nm).
+    why: 'p.4: conversion basis kept (D420); interpretation and alternative recorded in notes (row ok)'
+  cmp_lit_doylend2011_opa_16ch-m4:
+    notes: 'Axis: the 1.6 deg is the psi FWHM (p.8), so 0.6 deg is theta. The abstract and p.2 list the field of view as 20
+      x 14 deg (psi x theta) but the beam width as 0.6 x 1.6 deg, i.e. in the opposite axis order; the axis follows p.8.
+      Conflict: p.10 gives 0.7 deg in the theta axis for the efficiency measurement (D417); width definition and wavelength
+      not stated. Not a test-grating value: the Fig. 6 single-grating far-field widths at 50 % duty cycle are about 0.48
+      deg.'
+    why: 'p.1 / p.2 / p.8 / p.6 Fig. 6: axis-order inconsistency of the abstract recorded; row ok'
+  cmp_lit_hulme2013_ring1_400um-m6:
+    condition: ring waveguide width (bus waveguide also 0.7 um, bus_width_nm row)
+    why: 'layout rule (Contract v5): ring width and bus width are separate parameters; bus row added'
+  cmp_lit_hulme2013_ring2_420um-m6:
+    condition: ring waveguide width (bus waveguide also 0.7 um, bus_width_nm row)
+    why: 'layout rule (Contract v5): ring width and bus width are separate parameters; bus row added'
+add_metrics:
+- metric_id: cmp_lit_hulme2013_ring1_400um-m10
+  component_id: cmp_lit_hulme2013_ring1_400um
+  parameter: bus_width_nm
+  value: '700'
+  unit: nm
+  condition: bus waveguide width
+  basis: derived
+  locator: p.3 Sec. 3
+  notes: Printed 0.7 um 'in the rings and bus waveguides' (D157).
+  verified_on: '2026-11-28'
+  why: 'miss (D153 / Contract v5): p.3 states 0.7 um for both rings and bus waveguides; only width_nm was entered'
+- metric_id: cmp_lit_hulme2013_ring2_420um-m10
+  component_id: cmp_lit_hulme2013_ring2_420um
+  parameter: bus_width_nm
+  value: '700'
+  unit: nm
+  condition: bus waveguide width
+  basis: derived
+  locator: p.3 Sec. 3
+  notes: Printed 0.7 um 'in the rings and bus waveguides' (D157).
+  verified_on: '2026-11-28'
+  why: 'miss (D153 / Contract v5): p.3 states 0.7 um for both rings and bus waveguides; only width_nm was entered'
